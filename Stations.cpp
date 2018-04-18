@@ -30,73 +30,184 @@ Stations::Stations() {
 Stations::~Stations() {
 }
 
-void 
-Stations::print(std::ostream & os) const {  
-    os << "[Stations] size: " << size() << std::endl;
-  std::ostream_iterator< Station > element_itr( os, "" );
-  copy( begin(), end(), element_itr );
+Station const & 
+Stations::operator [] ( int ID ) const {
+    
+    for ( Stations::const_iterator citer = begin() ;
+          citer != end() ;
+          citer++ ) {
+        
+        if ( citer->getID() == ID ) { return *citer; }
+    }
+    
+    return ( *end());
 }
 
-std::ostream& operator<<(std::ostream& os, Stations const & obj)
-{
+
+Station const & 
+Stations::operator [] ( Station const & station ) const {
+    Stations::const_iterator citer  = find(station)
+       
+    return  *citer; 
+}
+
+
+
+std::vector<int>
+Stations::getNearbyStations(Station const & station) const {
+
+    Stations::const_iterator citer = find(station);
+    std::vector<int> ret;
+
+    if (citer != end()) {
+
+        advance(citer, -1);
+        ret.push_back(citer->getID());
+        advance(citer, 1);
+        ret.push_back(citer->getID());
+
+        advance(citer, 1);
+        ret.push_back(citer->getID());
+
+    }
+
+    return (ret);
+}
+
+std::vector<int>
+Stations::getNearbyStations( int val ) const {
+
+    Station const & station = (*this)[val];
+    
+    return(getNearbyStations(station));
+}
+
+
+
+
+
+void
+Stations::print(std::ostream & os) const {
+    os << "[Stations] size: " << size() << std::endl;
+    std::ostream_iterator< Station > element_itr(os, "");
+    copy(begin(), end(), element_itr);
+}
+
+std::ostream& operator<<(std::ostream& os, Stations const & obj) {
     obj.print(os);
     return os;
 }
 
 
-
-
 /*  Station */
 
 
+unsigned int Station::_static_ID_ = 0;
+
 Station::Station() {
-    ID_ = -9999;
-    latitude_ = NAN;
-    longitude_ = NAN;
+    name_ = "NO NAME";
+    y_ = NAN;
+    x_ = NAN;
+
+    set_ID_();
 }
 
+Station::Station(Station const & rhs) {
+    *this = rhs;
+}
 
-Station::Station(int ID_, double longitude_, double latitude_) :
-ID_(ID_), longitude_(longitude_), latitude_(latitude_) {
+Station::Station(std::string name, double x, double y) :
+name_(name), x_(x), y_(y) {
+
+    set_ID_();
 }
 
 Station::~Station() {
 }
 
+Station &
+        Station::operator=(const Station & rhs) {
+    // Do not compare the internal IDs
 
-void
-Station::SetID(int ID) {
-    ID_ = ID;
+    if (this == &rhs) return *this;
+
+    name_ = rhs.getName();
+    x_ = rhs.getX();
+    y_ = rhs.getY();
+    ID_ = rhs.getID();
+
+
+    return *this;
+}
+
+bool
+Station::operator==(const Station & rhs) const {
+    // Do not compare the internal IDs
+
+    if (this == &rhs) return true;
+
+    if (name_ != rhs.getName()) {
+        return false;
+    }
+    if (x_ != rhs.getX()) {
+        return false;
+    }
+    if (y_ != rhs.getY()) {
+        return false;
+    }
+
+    return (true);
+}
+
+bool
+Station::operator<(const Station & rhs) const {
+    return ID_ < rhs.getID();
 }
 
 void
-Station::SetLatitude(double latitude) {
-    latitude_ = latitude;
+Station::set_ID_() {
+    ID_ = Station::_static_ID_;
+    Station::_static_ID_++;
 }
 
-void
-Station::SetLongitude(double longitude) {
-    longitude_ = longitude;
-}
+//void
+//Station::setName(std::string name) {
+//    name_ = name;
+//}
+//
+//void
+//Station::setY(double y) {
+//    y_ = y;
+//}
+//
+//void
+//Station::setX(double x) {
+//    x_ = x;
+//}
 
 int
-Station::GetID() const {
+Station::getID() const {
     return ID_;
 }
 
-double
-Station::GetLatitude() const {
-    return latitude_;
+std::string
+Station::getName() const {
+    return (name_);
 }
 
 double
-Station::GetLongitude() const {
-    return longitude_;
+Station::getY() const {
+    return y_;
+}
+
+double
+Station::getX() const {
+    return x_;
 }
 
 void
 Station::print(std::ostream &os) const {
-    os << "[Station] ID: " << ID_ << ", longitude: " << longitude_ << ", latitude: " << latitude_ << std::endl;
+    os << "[Station] ID: " << ID_ << ", Name: " << name_ << ", x: " << x_ << ", y: " << y_ << std::endl;
 }
 
 std::ostream&

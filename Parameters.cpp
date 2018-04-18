@@ -38,7 +38,8 @@ Parameters::print(std::ostream & os) const {
   copy( begin(), end(), element_itr );
 }
 
-std::ostream& operator<<(std::ostream& os, Parameters const & obj)
+std::ostream& 
+operator<<(std::ostream& os, Parameters const & obj)
 {
     obj.print(os);
     return os;
@@ -51,14 +52,14 @@ std::ostream& operator<<(std::ostream& os, Parameters const & obj)
 
 
 Parameter::Parameter() {
-    ID_ = "NOT DEFINED";
+    name_ = "NOT DEFINED";
     weight_ = NAN;
     circular_ = false;
 }
 
 
-Parameter::Parameter(std::string ID, double weight, bool circular) :
-ID_(ID), weight_(weight), circular_(circular) {
+Parameter::Parameter(std::string name, double weight, bool circular) :
+name_(name), weight_(weight), circular_(circular) {
 }
 
 
@@ -66,38 +67,38 @@ Parameter::~Parameter() {
 }
 
 void
-Parameter::SetID(std::string ID) {
-    ID_ = ID;
+Parameter::setName(std::string name) {
+    name_ = name;
 }
 
 void
-Parameter::SetWeight(double weight) {
+Parameter::setWeight(double weight) {
     weight_ = weight;
 }
 
 void
-Parameter::SetCircular(bool circular) {
+Parameter::setCircular(bool circular) {
     circular_ = circular;
 }
 
 std::string
-Parameter::GetID() const {
-    return ID_;
+Parameter::getName() const {
+    return name_;
 }
 
 double
-Parameter::GetWeight() const {
+Parameter::getWeight() const {
     return weight_;
 }
 
 bool
-Parameter::GetCircular() const {
+Parameter::getCircular() const {
     return circular_;
 }
 
 void
 Parameter::print(std::ostream &os) const {
-    os << "[Parameter] ID: " << ID_ << ", weight: " << weight_ << ", circular: " << circular_ << std::endl;
+    os << "[Parameter] Name: " << name_ << ", weight: " << weight_ << ", circular: " << circular_ << std::endl;
 }
 
 std::ostream&

@@ -13,6 +13,8 @@
 
 #include <vector>
 #include <iostream>
+#include <string>
+#include <set>
 
 #ifndef STATIONS_H
 #define STATIONS_H
@@ -20,41 +22,63 @@
 
 
 
-class Station {   
+class Station final {   
     
 public:
     Station(); 
-    Station(int, double, double);
-
-    virtual ~Station(); 
+    Station(std::string, double, double);
+    Station( Station const &);
     
-    void SetID(int);
-    void SetLatitude(double);
-    void SetLongitude(double);
+    virtual ~Station(); 
+
+    
+    Station & operator = ( const Station &);    
+    
+    bool operator == ( const Station &) const;
+    bool operator < ( const Station &) const;    
+    
+    //void setName( std::string );
+    //void setY(double);
+    //void setX(double);
    
-    int GetID() const;
-    double GetLatitude() const;
-    double GetLongitude() const;
+    int getID() const;
+    std::string getName() const;
+    double getY() const;
+    double getX() const;
 
     // Print stream
     void print(std::ostream &) const;
     friend std::ostream& operator<<(std::ostream&, Station const &);
 
 private:
-    int ID_;
-    double longitude_;
-    double latitude_;
+    void set_ID_();
     
+    // This is a unique identifier that is used to keep track of the stations
+    unsigned int ID_;
+    
+    std::string name_;
+    double x_;
+    double y_;
+    
+    
+    /// static variable for serial number identification 
+    static unsigned int _static_ID_;
 };
 
 
 
 
 
-class Stations : public std::vector <Station> {
+class Stations : public std::set <Station> {
 public:
     Stations();
     virtual ~Stations();
+    
+    Station const & operator [] ( int ) const;    
+    Station const & operator [] ( Station const &  ) const;    
+    
+    std::vector<int> getNearbyStations( Station const & ) const;   
+    std::vector<int> getNearbyStations( int ) const;   
     
     void print(std::ostream &) const;
     friend std::ostream& operator<<(std::ostream&, Stations const &);

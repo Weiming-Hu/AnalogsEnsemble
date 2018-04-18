@@ -78,27 +78,19 @@ Forecasts_array::~Forecasts_array() {
 
 bool 
 Forecasts_array::setValue(double value, int p, int s, int t, int f) {
-    
+    data_[p][s][t][f] = value;
     return(true);
 }
 
 double 
 Forecasts_array::getValue(int p, int s, int t, int f) const {
-    
-    return ( -9999 );
+    return( data_[p][s][t][f] );
 }
 
 
 void
 Forecasts_array::print(std::ostream &os) const {
-    os << "[Forecasts_array] size: [" << 
-            size_parameters_ << ", " <<
-            size_stations_ << ", " <<
-            size_time_ << ", " <<
-            size_flt_ << "]" << std::endl << std::endl;
-    os << parameters_ << std::endl;
-    os << stations_ << std::endl;
-    os << time_ << std::endl<< std::endl;
-    os << flt_ << std::endl;
+    Forecasts::print(os);
+    os << std::endl;
     os << data_ << endl;
 }

@@ -19,7 +19,7 @@
 #include <iostream>
 
 
-class Time : public std::vector <int> {
+class Time : public std::vector <double> {
 public:
     Time();
     virtual ~Time();
@@ -35,7 +35,7 @@ private:
 };
 
 
-class FLT : public std::vector <int> {
+class FLT : public std::vector <double> {
   public:
     FLT();
     virtual ~FLT();

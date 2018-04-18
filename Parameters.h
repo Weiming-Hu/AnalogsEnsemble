@@ -26,20 +26,20 @@ public:
  
     virtual ~Parameter(); 
   
-    void SetID(std::string);
-    void SetWeight(double);
-    void SetCircular(bool);
+    void setName(std::string);
+    void setWeight(double);
+    void setCircular(bool);
    
-    std::string GetID() const;
-    double GetWeight() const;
-    bool GetCircular() const;
+    std::string getName() const;
+    double getWeight() const;
+    bool getCircular() const;
 
     // Print stream
     void print(std::ostream &) const;
     friend std::ostream& operator<<(std::ostream&, Parameter const &);
 
 private:
-    std::string ID_;
+    std::string name_;
     double weight_;
     bool circular_;
     
