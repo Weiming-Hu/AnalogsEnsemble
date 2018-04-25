@@ -46,7 +46,7 @@ Stations::operator [] ( int ID ) const {
 
 Station const & 
 Stations::operator [] ( Station const & station ) const {
-    Stations::const_iterator citer  = find(station)
+    Stations::const_iterator citer  = find(station);
        
     return  *citer; 
 }

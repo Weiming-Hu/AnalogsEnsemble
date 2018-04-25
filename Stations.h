@@ -25,7 +25,7 @@
 class Station final {   
     
 public:
-    Station(); 
+    
     Station(std::string, double, double);
     Station( Station const &);
     
@@ -51,6 +51,7 @@ public:
     friend std::ostream& operator<<(std::ostream&, Station const &);
 
 private:
+    Station();  
     void set_ID_();
     
     // This is a unique identifier that is used to keep track of the stations
@@ -74,7 +75,7 @@ public:
     Stations();
     virtual ~Stations();
     
-    Station const & operator [] ( int ) const;    
+    Station const & operator [] ( int ) const;    // Return by ID
     Station const & operator [] ( Station const &  ) const;    
     
     std::vector<int> getNearbyStations( Station const & ) const;   
