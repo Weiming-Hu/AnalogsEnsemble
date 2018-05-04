@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /* 
  * File:   canalogs.cpp
  * Author: guido
@@ -14,7 +8,7 @@
 #include <cstdlib>
 #include "Stations.h"
 #include "Parameters.h"
-#include "Time.h"
+#include "Times.h"
 #include "Forecasts.h"
 #include <iostream>
 
@@ -55,7 +49,7 @@ int main(int argc, char** argv) {
     //parameters.push_back(p6);
     
     
-    Time ts;
+    Times ts;
     ts.push_back(1000);
     ts.push_back(2000);
     ts.push_back(3000);
@@ -63,7 +57,7 @@ int main(int argc, char** argv) {
     ts.push_back(5000);
     ts.push_back(6000);
        
-    FLT flt;
+    FLTs flt;
     flt.push_back(0);
     flt.push_back(100);
     flt.push_back(200);
@@ -71,8 +65,9 @@ int main(int argc, char** argv) {
     
     
     
-    
-    Forecasts_array forecasts(parameters, stations, ts, flt);
+    // polymorphism
+    Forecasts_array forecasts_array(parameters, stations, ts, flt);
+    Forecasts &forecasts = forecasts_array;
     
     forecasts.setValue(99.99,1,1,1,1);
     std::cout << forecasts << endl;

@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /* 
  * File:   Forecasts.cpp
  * Author: guido
@@ -23,16 +17,21 @@
 
 #include "Forecasts.h"
 
-Forecasts::Forecasts(Parameters parameters, Stations stations, Time time, FLT flt) :
+
+/*******************************************************************************
+ *                            Forecasts                                        *
+ ******************************************************************************/
+
+Forecasts::Forecasts(Parameters parameters, Stations stations, Times time, FLTs flt) :
 parameters_(parameters), 
 stations_(stations),
-time_(time), 
-flt_(flt)
+times_(time), 
+flts_(flt)
 {
     size_parameters_ = parameters_.size();
     size_stations_ = stations_.size();
-    size_time_ = time_.size();
-    size_flt_ = flt_.size();
+    size_time_ = times_.size();
+    size_flt_ = flts_.size();
             
 }
 
@@ -53,8 +52,8 @@ Forecasts::print(std::ostream &os) const {
             size_flt_ << "]" << std::endl << std::endl;
     os << parameters_ << std::endl;
     os << stations_ << std::endl;
-    os << time_ << std::endl<< std::endl;
-    os << flt_ << std::endl;
+    os << times_ << std::endl<< std::endl;
+    os << flts_ << std::endl;
 }
 
 std::ostream&
@@ -64,7 +63,12 @@ operator<<(std::ostream& os, Forecasts const & obj) {
 }
 
 
-Forecasts_array::Forecasts_array(Parameters parameters, Stations stations, Time time, FLT flt) :
+
+/*******************************************************************************
+ *                            Forecasts_array                                  *
+ ******************************************************************************/
+
+Forecasts_array::Forecasts_array(Parameters parameters, Stations stations, Times time, FLTs flt) :
 Forecasts(parameters, stations, time,flt) 
 {            
     data_.myresize(size_parameters_, size_stations_, size_time_, size_flt_);

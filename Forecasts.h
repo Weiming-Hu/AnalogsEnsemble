@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /* 
  * File:   Forecasts.h
  * Author: guido
@@ -16,12 +10,12 @@
 
 #include "Stations.h"
 #include "Parameters.h"
-#include "Time.h"
+#include "Times.h"
 #include "Array4D.h"
 
 class Forecasts {
 public:
-    Forecasts(Parameters, Stations, Time, FLT);
+    Forecasts(Parameters, Stations, Times, FLTs);
     Forecasts(const Forecasts& orig);
     virtual ~Forecasts();
     
@@ -37,8 +31,8 @@ protected:
     
     Parameters parameters_;
     Stations stations_;
-    Time time_;
-    FLT flt_;
+    Times times_;
+    FLTs flts_;
     
     int size_parameters_;
     int size_stations_;
@@ -50,13 +44,13 @@ protected:
 
 class Forecasts_array : public Forecasts {
 public:
-    Forecasts_array(Parameters, Stations, Time, FLT);    
+    Forecasts_array(Parameters, Stations, Times, FLTs);    
     virtual ~Forecasts_array();
     
-    bool setValue(double, int, int, int, int);
-    double getValue(int, int, int, int) const;
+    bool setValue(double, int, int, int, int) override;
+    double getValue(int, int, int, int) const override;
     
-    void print(std::ostream &) const;
+    void print(std::ostream &) const override;
     
 private:
     Forecasts_array();

@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /* 
  * File:   Time.cpp
  * Author: guido
@@ -21,21 +15,21 @@
  *        The Pennsylvania State University
  */
 
-#include "Time.h"
+#include "Times.h"
 
 
-Time::Time() {
+Times::Times() {
     origin_ = "1970-01-01";
     unit_ = "seconds";
 }
 
 
-Time::~Time() {
+Times::~Times() {
 }
 
 
 void
-Time::print(std::ostream &os) const {
+Times::print(std::ostream &os) const {
   os << "[Time] size: " << size() << std::endl;
   std::ostream_iterator< int > element_itr( os, ", " );
   copy( begin(), end(), element_itr );
@@ -43,23 +37,23 @@ Time::print(std::ostream &os) const {
 }
 
 std::ostream&
-operator<<(std::ostream& os, Time const & obj) {
+operator<<(std::ostream& os, Times const & obj) {
     obj.print(os);
     return os;
 }
 
 
-FLT::FLT() {
+FLTs::FLTs() {
     unit_ = "seconds";
 }
 
-FLT::~FLT() {
+FLTs::~FLTs() {
     
 }
 
 
 void
-FLT::print(std::ostream &os) const {
+FLTs::print(std::ostream &os) const {
   os << "[FLT] size: " << size() << std::endl;
   std::ostream_iterator< int > element_itr( os, ", " );
   copy( begin(), end(), element_itr );
@@ -67,7 +61,7 @@ FLT::print(std::ostream &os) const {
 }
 
 std::ostream&
-operator<<(std::ostream& os, FLT const & obj) {
+operator<<(std::ostream& os, FLTs const & obj) {
     obj.print(os);
     return os;
 }
