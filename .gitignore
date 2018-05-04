@@ -35,6 +35,11 @@
 *nbproject
 *dist
 *build
+*.mk
 
 # Mac
 *.DS_Store
+*.swp
+*/*.swp
+*.dep.inc
+*/*.dep.inc
