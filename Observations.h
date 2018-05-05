@@ -13,22 +13,29 @@
 #include "Parameters.h"
 #include "Stations.h"
 #include "Times.h"
-#include "boost/multi_array.hpp"
+#include <boost/multi_array.hpp>
 
 class Observations {
 public:
     Observations(Parameters, Stations, Times);
     virtual ~Observations();
 
-    virtual bool setValue(double, size_t, size_t, size_t) = 0;
     virtual double getValue(size_t, size_t, size_t) const = 0;
+    virtual bool setValue(double, size_t, size_t, size_t) = 0;
+    virtual bool setValues(double*) = 0;
 
     virtual void print(std::ostream &) const;
     friend std::ostream& operator<<(std::ostream&, const Observations&);
-    
-    
+
+
     Observations() = delete;
     Observations(const Observations& orig) = delete;
+
+    // A template function that deduces array size
+    template<typename T, size_t n>
+    size_t arraySize(const T(&)[n]) {
+        return n;
+    }
 
 protected:
 
@@ -47,8 +54,10 @@ public:
     Observations_array(Parameters, Stations, Times);
     virtual ~Observations_array();
 
-    bool setValue(double, size_t, size_t, size_t) override;
     double getValue(size_t, size_t, size_t) const override;
+    bool setValue(double, size_t, size_t, size_t) override;
+    bool setValues(double*) override;
+
 
     void print(std::ostream&) const override;
 
