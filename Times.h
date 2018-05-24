@@ -8,37 +8,43 @@
 #ifndef TIME_H
 #define TIME_H
 
-#include <vector>
+#include <set>
 #include <string>
 #include <iostream>
 
 
-class Times : public std::vector <double> {
+class Times : public std::set <double> 
+{
 public:
+    
+    /// Default Unit: Seconds, Default origin is null
     Times();
+    
+    /// Default origin is null
+    Times(std::string);
+        
+    /// Specify both unit and origin 
+    Times(std::string, std::string);
+    
     virtual ~Times();
+    
+    // We might want to add a convert function to change units and origin    
     
     void print(std::ostream &) const;
     friend std::ostream& operator<<(std::ostream&, Times const &);
     
-private:
-
-    std::string unit_;
-    std::string origin_;
+protected:
     
+    std::string unit_;
+    std::string origin_;    
 };
 
+class FLTs : public Times
+{
 
-class FLTs : public std::vector <double> {
-  public:
-    FLTs();
-    virtual ~FLTs();
-    
-    void print(std::ostream &) const;
-    friend std::ostream& operator<<(std::ostream&, FLTs const &);
-private:
-    std::string unit_;
+friend std::ostream& operator<<(std::ostream&, FLTs const &);
 };
+
 
 #endif /* TIME_H */
 

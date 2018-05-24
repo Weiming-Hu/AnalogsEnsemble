@@ -19,83 +19,90 @@ using namespace std;
  */
 int main(int argc, char** argv) {
 
-    Station s1("S1",-2, 3);
-    Station s2("S2",40,30);
-    Station s3("S3",40,30);
-    Station s4("S4",40,30);
-    Station s5("S5",40,30);
-        
+    Station s1("S1", 10, 5);
+    Station s2("S2", 12, 7);
+    Station s3("S3", 30, 30);
+
     Stations stations;
     stations.insert(s1);
     stations.insert(s2);
     stations.insert(s3);
-    stations.insert(s4);
-    stations.insert(s5);
-    
-    
+
+
     Parameter p1("Temperature", .1, false);
     Parameter p2 = p1;
     Parameter p3;
-    Parameter p4("Wind Direction",1,true);
-    Parameter p5("Wind Speed",1,false);
-    Parameter p6("Wind Gust",1,false);
-    
+    Parameter p4("Wind Direction", 1, true);
+
     Parameters parameters;
     parameters.push_back(p1);
     parameters.push_back(p2);
     parameters.push_back(p3);
     parameters.push_back(p4);
-    //parameters.push_back(p5);
-    //parameters.push_back(p6);
-    
-    
+
     Times ts;
-    ts.push_back(1000);
-    ts.push_back(2000);
-    ts.push_back(3000);
-    ts.push_back(4000);
-    ts.push_back(5000);
-    ts.push_back(6000);
-       
+    ts.insert(1000);
+    ts.insert(2000);
+    ts.insert(3000);
+    ts.insert(4000);
+
     FLTs flt;
-    flt.push_back(0);
-    flt.push_back(100);
-    flt.push_back(200);
-    flt.push_back(300);
-    
-    
-    
+    flt.insert(0);
+    flt.insert(100);
+    flt.insert(200);
+
+
+
     // polymorphism
-    Forecasts_array forecasts_array(parameters, stations, ts, flt);
-    Forecasts &forecasts = forecasts_array;
-    
-    forecasts.setValue(99.99,1,1,1,1);
+    Forecasts_array forecasts(parameters, stations, ts, flt);
+    //Forecasts &forecasts = forecasts_array;
+
+    forecasts.setValue(99.99, 1, 1, 1, 1);
+
+    std::cout << "TEST -- Print the forecast." << endl
+            << "There should be only one value" << endl;
+
     std::cout << forecasts << endl;
-        
-        
-    vector<int> ret = stations.getNearbyStations(s4) ;
-    
-    cout << ret[0] << endl;
-    cout << ret[1] << endl;
-    cout << ret[2] << endl;
-    
 
-    ret = stations.getNearbyStations(2) ;
-    
-    cout << ret[0] << endl;
-    cout << ret[1] << endl;
-    cout << ret[2] << endl;
 
+    std::cout << "TEST -- Reference station s1." << endl;
+    cout << stations[s1] << endl;
+    cout << endl;
     
-    Station sn1 = stations[20];
-    Station sn2 = stations[s4];
-    
-    cout << "Is " << sn1 << "smaller than " << sn2 << " == " << (sn1 < sn2) << endl;
-    
-    
-    
-    
-    
+    std::cout << "TEST -- Reference station 1." << endl;
+    cout << stations[1] << endl;
+    cout << endl;
+    std::cout << "TEST -- Reference station 10.  This should be true" << endl;
+    cout << (stations[10] == *stations.end()) << endl << endl;
+    cout << endl;
+
+
+    std::cout << "TEST -- Print the nearby stations for s1." << endl;
+    vector<int> ret = stations.getNearbyStations(s1);
+    copy(ret.begin(), ret.end(), ostream_iterator<int>(cout, "\n"));
+    cout << stations[ ret.front() ] << endl;
+    cout << endl;
+
+
+    std::cout << "TEST -- Print the nearby stations for s2." << endl;
+    ret = stations.getNearbyStations(2);
+    copy(ret.begin(), ret.end(), ostream_iterator<int>(cout, "\n"));
+
+    cout << stations[ret.front()] << endl;
+    cout << endl;
+
+    Station sn1 = stations[2];
+    Station sn2 = stations[s3];
+
+    cout << "TEST -- Is " << endl
+            << sn1 << endl
+            << "smaller than " << endl
+            << sn2 << endl
+            << ((sn1 < sn2) ? "YES" : "NO" ) << endl;
+    cout << endl;
+
+
+
     return 0;
 }
 

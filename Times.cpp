@@ -16,11 +16,23 @@
  */
 
 #include "Times.h"
+#include <iterator>
 
 
 Times::Times() {
     origin_ = "1970-01-01";
     unit_ = "seconds";
+}
+
+Times::Times(std::string unit) :
+unit_(unit)
+{
+    origin_ = "1970-01-01";
+}
+
+Times::Times(std::string unit, std::string origin) :
+unit_(unit), origin_(origin)
+{
 }
 
 
@@ -42,24 +54,24 @@ operator<<(std::ostream& os, Times const & obj) {
     return os;
 }
 
-
-FLTs::FLTs() {
-    unit_ = "seconds";
-}
-
-FLTs::~FLTs() {
-    
-}
-
-
-void
-FLTs::print(std::ostream &os) const {
-  os << "[FLT] size: " << size() << std::endl;
-  std::ostream_iterator< int > element_itr( os, ", " );
-  copy( begin(), end(), element_itr );
-
-}
-
+//
+//FLTs::FLTs() {
+//    unit_ = "seconds";
+//}
+//
+//FLTs::~FLTs() {
+//    
+//}
+//
+//
+//void
+//FLTs::print(std::ostream &os) const {
+//  os << "[FLT] size: " << size() << std::endl;
+//  std::ostream_iterator< int > element_itr( os, ", " );
+//  copy( begin(), end(), element_itr );
+//
+//}
+//
 std::ostream&
 operator<<(std::ostream& os, FLTs const & obj) {
     obj.print(os);

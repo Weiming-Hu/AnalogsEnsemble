@@ -16,9 +16,6 @@ Observations::Observations(
 parameters_(parameters_),
 stations_(stations_),
 times_(times_) {
-    size_parameters_ = parameters_.size();
-    size_stations_ = stations_.size();
-    size_times_ = times_.size();
 }
 
 Observations::~Observations() {
@@ -27,9 +24,9 @@ Observations::~Observations() {
 void
 Observations::print(std::ostream& os) const {
     os << "[Observations] size: [" <<
-            size_parameters_ << ", " <<
-            size_stations_ << ", " <<
-            size_times_ << "]" << std::endl << std::endl
+            parameters_.size() << ", " <<
+            stations_.size() << ", " <<
+            times_.size() << "]" << std::endl << std::endl
             << parameters_ << std::endl
             << stations_ << std::endl
             << times_ << std::endl;
@@ -54,11 +51,17 @@ Observations(parameters, stations, times) {
 
     // TODO: memory check
     data_.resize(boost::extents
-            [size_parameters_][size_stations_][size_times_]);
+            [parameters_.size()][stations_.size()][times_.size()]);
 }
 
 Observations_array::~Observations_array() {
 }
+
+bool 
+Observations_array::setValues( double* data ) {
+    return false;
+}
+
 
 bool
 Observations_array::setValue(double val, size_t i, size_t j, size_t k) {

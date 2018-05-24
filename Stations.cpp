@@ -17,6 +17,7 @@
 
 #include "Stations.h"
 #include <cmath>
+#include <iterator>
 
 Stations::Stations() {
 }
@@ -24,61 +25,54 @@ Stations::Stations() {
 Stations::~Stations() {
 }
 
-Station const & 
-Stations::operator [] ( int ID ) const {
-    
-    for ( Stations::const_iterator citer = begin() ;
-          citer != end() ;
-          citer++ ) {
-        
-        if ( citer->getID() == ID ) { return *citer; }
+Station const &
+Stations::operator[](int ID) const {
+
+    for (Stations::const_iterator citer = begin();
+            citer != end();
+            citer++) {
+
+        if (citer->getID() == ID) {
+            return *citer;
+        }
+    }
+
+    return ( *end() );
+}
+
+Station const &
+Stations::operator[](Station const & station) const {
+    Stations::const_iterator citer = find(station);
+
+    if ( citer == end() ) {
+        return *end();
     }
     
-    return ( *end());
+    return *citer;
 }
-
-
-Station const & 
-Stations::operator [] ( Station const & station ) const {
-    Stations::const_iterator citer  = find(station);
-       
-    return  *citer; 
-}
-
-
 
 std::vector<int>
 Stations::getNearbyStations(Station const & station) const {
 
+    // XXX This is just for a test -- it's not the real code
     Stations::const_iterator citer = find(station);
     std::vector<int> ret;
 
     if (citer != end()) {
 
-        advance(citer, -1);
         ret.push_back(citer->getID());
-        advance(citer, 1);
-        ret.push_back(citer->getID());
-
-        advance(citer, 1);
-        ret.push_back(citer->getID());
-
-    }
-
+    } 
+    
     return (ret);
 }
 
 std::vector<int>
-Stations::getNearbyStations( int val ) const {
+Stations::getNearbyStations(int val) const {
 
     Station const & station = (*this)[val];
-    
-    return(getNearbyStations(station));
+
+    return (getNearbyStations(station));
 }
-
-
-
-
 
 void
 Stations::print(std::ostream & os) const {
@@ -123,13 +117,12 @@ Station &
         Station::operator=(const Station & rhs) {
     // Do not compare the internal IDs
 
-    if (this == &rhs) return *this;
-
-    name_ = rhs.getName();
-    x_ = rhs.getX();
-    y_ = rhs.getY();
-    ID_ = rhs.getID();
-
+    if (this != &rhs) {
+        name_ = rhs.getName();
+        x_ = rhs.getX();
+        y_ = rhs.getY();
+        ID_ = rhs.getID();
+    }
 
     return *this;
 }
@@ -201,7 +194,7 @@ Station::getX() const {
 
 void
 Station::print(std::ostream &os) const {
-    os << "[Station] ID: " << ID_ << ", Name: " << name_ << ", x: " << x_ << ", y: " << y_ << std::endl;
+    os << "[Station] ID: " << ID_ << ", Name: " << name_ << ", x: " << x_ << ", y: " << y_;
 }
 
 std::ostream&
