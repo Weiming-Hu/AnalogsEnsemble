@@ -10,18 +10,37 @@
 
 #include <string>
 
+#include "Times.h"
+#include "Stations.h"
 #include "Observations.h"
 #include "Forecasts.h"
+
+#include <netcdf>
 
 class AnEnIO {
 public:
     AnEnIO();
-    virtual ~AnEnIO();
-    
-    virtual bool readObservations(std::string, Observations&) = 0;
-    virtual bool readForecasts(std::string, Forecasts&) = 0;
-
     AnEnIO(const AnEnIO& orig) = delete;
+    virtual ~AnEnIO();
+
+    int readObservations(std::string, Observations&) const;
+    int readForecasts(std::string, Forecasts&) const;
+    
+    int readParameters(std::string, Parameters &) const;
+    int readStations(std::string, Stations &) const;
+    int readTimes(std::string, Times &) const;
+
+protected:
+    int open_file_(std::string, NcFile &) const;
+
+    enum errorType {
+        FILE_NOT_FOUND = -1,
+        VAR_NAME_NOT_FOUND = -2,
+        WRONG_TYPE = -3,
+        INSUFFICIENT_MEMORY = -50,
+        UNKNOWN_ERROR = -100,
+        SUCCESS = 0
+    };
 
 };
 

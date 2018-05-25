@@ -10,6 +10,8 @@
 #include "Parameters.h"
 #include "Times.h"
 #include "Forecasts.h"
+#include "AnEnIO.h"
+
 #include <iostream>
 
 using namespace std;
@@ -17,7 +19,14 @@ using namespace std;
 /*
  * 
  */
+
 int main(int argc, char** argv) {
+    string file(argv[argc - 1]);
+    
+    Observations observations = AnEnIO::readObservations(file);
+}
+
+int main_old(int argc, char** argv) {
 
     Station s1("S1", 10, 5);
     Station s2("S2", 12, 7);
