@@ -6,6 +6,8 @@
  */
 
 #include <cstdlib>
+#include <string>
+
 #include "Stations.h"
 #include "Parameters.h"
 #include "Times.h"
@@ -22,8 +24,8 @@ using namespace std;
 
 int main(int argc, char** argv) {
     string file(argv[argc - 1]);
-    
-    Observations observations = AnEnIO::readObservations(file);
+    AnEnIO::checkForecasts("happy");
+    return (0);
 }
 
 int main_old(int argc, char** argv) {

@@ -8,6 +8,7 @@
 #ifndef ANENIO_H
 #define ANENIO_H
 
+#include <netcdf>
 #include <string>
 
 #include "Times.h"
@@ -15,36 +16,60 @@
 #include "Observations.h"
 #include "Forecasts.h"
 
-#include <netcdf>
-
 class AnEnIO {
 public:
     AnEnIO();
     AnEnIO(const AnEnIO& orig) = delete;
     virtual ~AnEnIO();
 
-    int readObservations(std::string, Observations&) const;
-    int readForecasts(std::string, Forecasts&) const;
-    
-    int readParameters(std::string, Parameters &) const;
-    int readStations(std::string, Stations &) const;
-    int readTimes(std::string, Times &) const;
+    static int checkForecasts(std::string);
+    static int checkObservations(std::string);
+
+    static int readForecasts(std::string, Forecasts&);
+    static int readObservations(std::string, Observations&);
+
+    static int readData(std::string, Times &);
+    static int readParameters(std::string, Parameters &);
+    static int readStations(std::string, Stations &);
+    static int readTimes(std::string, Times &);
+
+    static void handleError(int);
 
 protected:
-    int open_file_(std::string, NcFile &) const;
 
     enum errorType {
+        SUCCESS = 0,
         FILE_NOT_FOUND = -1,
         VAR_NAME_NOT_FOUND = -2,
         WRONG_TYPE = -3,
         INSUFFICIENT_MEMORY = -50,
-        UNKNOWN_ERROR = -100,
-        SUCCESS = 0
+        UNKNOWN_ERROR = -100
     };
+
+    int open_file_(std::string, netCDF::NcFile &) const;
+
+    int check_variables_exist_(std::string, netCDF::NcFile &) const;
+    int check_variables_shape_(std::string, netCDF::NcFile &) const;
+
+
+    /************************************************************************
+     *                      Template Functions                              *
+     ************************************************************************/
+
+    // Read variables as a vector. The variable to be read should be either one
+    // of the following cases:
+    //     1. The variable has only one dimensions;
+    //     2. The variable has two dimensions, and the variable type is char.
+    //        So this variable can be converted to a vector of string;
+    //
+
+    template<typename T>
+    int read_vector_(netCDF::NcFile nc, netCDF::NcVar,
+            std::vector<T> & vector) const {
+        return (0);
+    }
 
 };
 
-
-//class AnEnIO_ncdf_serial
 #endif /* ANENIO_H */
 
