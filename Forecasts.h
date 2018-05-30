@@ -8,6 +8,10 @@
 #ifndef FORECASTS_H
 #define FORECASTS_H
 
+#include <ostream>
+#include <cmath>
+#include <vector>
+
 #include "Stations.h"
 #include "Parameters.h"
 #include "Times.h"
@@ -15,74 +19,67 @@
 
 class Forecasts {
 public:
-    
-    Forecasts( Parameters, Stations, Times, FLTs );
-    Forecasts( Forecasts const & );
-    
+    Forecasts() = delete;
+    Forecasts(Forecasts const &) = delete;
+
+    Forecasts(Parameters, Stations, Times, FLTs);
     virtual ~Forecasts();
-    
-    Forecasts & operator = ( Forecasts const & );
-    
-    
-    virtual bool setValue( double, int, int, int, int ) = 0;
-    virtual double getValue( int, int, int, int ) const = 0;
-    
-    virtual size_t get_parameters_size() const = 0;
-    virtual size_t get_stations_size() const = 0;
-    virtual size_t get_times_size() const = 0;
-    virtual size_t get_flts_size() const = 0;
-    
+
+    virtual double getValue(std::size_t parameter_ID, std::size_t station_ID,
+            double timestamp, double flt) const = 0;
+    virtual bool setValue(double,
+            std::size_t parameter_ID, std::size_t station_ID,
+            double timestamp, double flt) = 0;
+
+    /**
+     * Sets data values from a vector.
+     * 
+     * @param vals An std::vector<double> object
+     * @return Returns true if succeed setting values.
+     */
+    virtual bool setValues(const std::vector<double> & vals) = 0;
+
+    std::size_t get_parameters_size() const;
+    std::size_t get_stations_size() const;
+    std::size_t get_times_size() const;
+    std::size_t get_flts_size() const;
+
     Parameters const & getParameters() const;
     Stations const & getStations() const;
-    Times const & getTime() const;
+    Times const & getTimes() const;
     FLTs const & getFLTs() const;
-    
-    
+
+
     virtual void print(std::ostream &) const;
-    friend std::ostream& operator<<(std::ostream&, Forecasts const &);   
-    
-protected:    
-    
-    Forecasts();  // I specifically do not want to allow using this!
-    
+    friend std::ostream& operator<<(std::ostream&, Forecasts const &);
+
+protected:
     Parameters parameters_;
     Stations stations_;
     Times times_;
     FLTs flts_;
-    
-    //int size_parameters_;
-    //int size_stations_;
-    //int size_time_;
-    //int size_flt_;
-    
 };
-
 
 class Forecasts_array : public Forecasts {
 public:
-    Forecasts_array(Parameters, Stations, Times, FLTs); 
-    Forecasts_array(const Forecasts_array & orig);
-    
+    Forecasts_array() = delete;
+    Forecasts_array(const Forecasts_array & rhs) = delete;
+
+    Forecasts_array(Parameters, Stations, Times, FLTs);
     virtual ~Forecasts_array();
-    
-    Forecasts_array & operator = ( Forecasts_array const & );
-    
-    bool setValue(double, int, int, int, int) override;
-    double getValue(int, int, int, int) const override;
-    
+
     Array4D const & getValues() const;
+    double getValue(std::size_t parameter_ID, std::size_t station_ID,
+            double timestamp, double flt) const override;
     
-    size_t get_parameters_size() const  override;
-    size_t get_stations_size() const override;
-    size_t get_times_size() const override;
-    size_t get_flts_size() const override;
-    
-    
+    bool setValue(double val, std::size_t parameter_ID, std::size_t station_ID,
+            double timestamp, double flt) override;
+    bool setValues(const std::vector<double>& vals) override;
+
     void print(std::ostream &) const override;
-    
+    friend std::ostream& operator<<(std::ostream&, const Forecasts_array&);
+
 private:
-    Forecasts_array();
-    
     Array4D data_;
 };
 

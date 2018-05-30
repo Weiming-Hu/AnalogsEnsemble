@@ -1,0 +1,174 @@
+\hypertarget{class_stations}{}\section{Stations Class Reference}
+\label{class_stations}\index{Stations@{Stations}}
+
+
+{\ttfamily \#include $<$Stations.\+h$>$}
+
+
+
+Inheritance diagram for Stations\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=195pt]{class_stations__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Stations\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=195pt]{class_stations__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_stations_a4e0f8fc4709bd680154b7be896ca2350}{Stations}} ()
+\item 
+virtual \mbox{\hyperlink{class_stations_a9d17c76f77babd7e88adf95112825b1d}{$\sim$\+Stations}} ()
+\item 
+std\+::vector$<$ std\+::size\+\_\+t $>$ \mbox{\hyperlink{class_stations_ac0438c6c8639d209dfc3937cfd993723}{get\+Nearby\+Stations}} (const \mbox{\hyperlink{class_station}{Station}} \&) const
+\item 
+std\+::vector$<$ std\+::size\+\_\+t $>$ \mbox{\hyperlink{class_stations_afebcca23df46c02b2d4dfe53da2f03d1}{get\+Nearby\+Stations}} (const std\+::size\+\_\+t \&) const
+\item 
+std\+::pair$<$ iterator, bool $>$ \mbox{\hyperlink{class_stations_abe1318af7b69c4eb586b099af6a1f6b8}{insert}} (const \mbox{\hyperlink{class_station}{Station}} \&station)
+\item 
+size\+\_\+t \mbox{\hyperlink{class_stations_ab6e3d3635fffe60f813b1fa7c28e4d8c}{size}} () const \+\_\+\+N\+O\+E\+X\+C\+E\+PT
+\item 
+void \mbox{\hyperlink{class_stations_ae75fd812e17138fec710fd1e75032239}{clear}} () \+\_\+\+N\+O\+E\+X\+C\+E\+PT
+\item 
+\mbox{\hyperlink{class_station}{Station}} \& \mbox{\hyperlink{class_stations_a1d2abb378db9aa8deb9f7b54aefac2dd}{at}} (const size\+\_\+t \&key)
+\item 
+\mbox{\hyperlink{class_station}{Station}} \& \mbox{\hyperlink{class_stations_a0db00fc62fdeebde93f2624477074087}{at}} (const \mbox{\hyperlink{class_station}{Station}} \&station)
+\item 
+const \mbox{\hyperlink{class_station}{Station}} \& \mbox{\hyperlink{class_stations_ab785e4995153a682ac3fd739b99e8db3}{at}} (const size\+\_\+t \&key) const
+\item 
+const \mbox{\hyperlink{class_station}{Station}} \& \mbox{\hyperlink{class_stations_a76175b88bafb7de42fae0a5d7518aac9}{at}} (const \mbox{\hyperlink{class_station}{Station}} \&station) const
+\item 
+void \mbox{\hyperlink{class_stations_ae62b158dedf5f15c385671d15b950dc5}{print}} (std\+::ostream \&) const
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+std\+::ostream \& \mbox{\hyperlink{class_stations_a6c2ba44849c083fa6d206d4573ea523e}{operator$<$$<$}} (std\+::ostream \&, \mbox{\hyperlink{class_stations}{Stations}} const \&)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\mbox{\hyperlink{class_stations}{Stations}} is a protected inheritance from std\+::unordered\+\_\+map$<$std\+::size\+\_\+t, Station$>$ because certain functions, like the insert function, have different behaviors. 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_stations_a4e0f8fc4709bd680154b7be896ca2350}\label{class_stations_a4e0f8fc4709bd680154b7be896ca2350}} 
+\index{Stations@{Stations}!Stations@{Stations}}
+\index{Stations@{Stations}!Stations@{Stations}}
+\subsubsection{\texorpdfstring{Stations()}{Stations()}}
+{\footnotesize\ttfamily Stations\+::\+Stations (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_stations_a9d17c76f77babd7e88adf95112825b1d}\label{class_stations_a9d17c76f77babd7e88adf95112825b1d}} 
+\index{Stations@{Stations}!````~Stations@{$\sim$\+Stations}}
+\index{````~Stations@{$\sim$\+Stations}!Stations@{Stations}}
+\subsubsection{\texorpdfstring{$\sim$\+Stations()}{~Stations()}}
+{\footnotesize\ttfamily Stations\+::$\sim$\+Stations (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_stations_a1d2abb378db9aa8deb9f7b54aefac2dd}\label{class_stations_a1d2abb378db9aa8deb9f7b54aefac2dd}} 
+\index{Stations@{Stations}!at@{at}}
+\index{at@{at}!Stations@{Stations}}
+\subsubsection{\texorpdfstring{at()}{at()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_station}{Station}} \& Stations\+::at (\begin{DoxyParamCaption}\item[{const size\+\_\+t \&}]{key }\end{DoxyParamCaption})}
+
+Gets the reference to the \mbox{\hyperlink{class_station}{Station}} based on the ID. If no such element exists, an exception of type std\+::out\+\_\+of\+\_\+range is thrown.
+
+
+\begin{DoxyParams}{Parameters}
+{\em key} & An size\+\_\+t key. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A reference to \mbox{\hyperlink{class_station}{Station}} object. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_stations_a0db00fc62fdeebde93f2624477074087}\label{class_stations_a0db00fc62fdeebde93f2624477074087}} 
+\index{Stations@{Stations}!at@{at}}
+\index{at@{at}!Stations@{Stations}}
+\subsubsection{\texorpdfstring{at()}{at()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_station}{Station}} \& Stations\+::at (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_station}{Station}} \&}]{station }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_stations_ab785e4995153a682ac3fd739b99e8db3}\label{class_stations_ab785e4995153a682ac3fd739b99e8db3}} 
+\index{Stations@{Stations}!at@{at}}
+\index{at@{at}!Stations@{Stations}}
+\subsubsection{\texorpdfstring{at()}{at()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{class_station}{Station}} \& Stations\+::at (\begin{DoxyParamCaption}\item[{const size\+\_\+t \&}]{key }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{class_stations_a76175b88bafb7de42fae0a5d7518aac9}\label{class_stations_a76175b88bafb7de42fae0a5d7518aac9}} 
+\index{Stations@{Stations}!at@{at}}
+\index{at@{at}!Stations@{Stations}}
+\subsubsection{\texorpdfstring{at()}{at()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{class_station}{Station}} \& Stations\+::at (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_station}{Station}} \&}]{station }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{class_stations_ae75fd812e17138fec710fd1e75032239}\label{class_stations_ae75fd812e17138fec710fd1e75032239}} 
+\index{Stations@{Stations}!clear@{clear}}
+\index{clear@{clear}!Stations@{Stations}}
+\subsubsection{\texorpdfstring{clear()}{clear()}}
+{\footnotesize\ttfamily void Stations\+::clear (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_stations_ac0438c6c8639d209dfc3937cfd993723}\label{class_stations_ac0438c6c8639d209dfc3937cfd993723}} 
+\index{Stations@{Stations}!get\+Nearby\+Stations@{get\+Nearby\+Stations}}
+\index{get\+Nearby\+Stations@{get\+Nearby\+Stations}!Stations@{Stations}}
+\subsubsection{\texorpdfstring{get\+Nearby\+Stations()}{getNearbyStations()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily vector$<$ size\+\_\+t $>$ Stations\+::get\+Nearby\+Stations (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_station}{Station}} \&}]{station }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{class_stations_afebcca23df46c02b2d4dfe53da2f03d1}\label{class_stations_afebcca23df46c02b2d4dfe53da2f03d1}} 
+\index{Stations@{Stations}!get\+Nearby\+Stations@{get\+Nearby\+Stations}}
+\index{get\+Nearby\+Stations@{get\+Nearby\+Stations}!Stations@{Stations}}
+\subsubsection{\texorpdfstring{get\+Nearby\+Stations()}{getNearbyStations()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily std\+::vector$<$std\+::size\+\_\+t$>$ Stations\+::get\+Nearby\+Stations (\begin{DoxyParamCaption}\item[{const std\+::size\+\_\+t \&}]{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{class_stations_abe1318af7b69c4eb586b099af6a1f6b8}\label{class_stations_abe1318af7b69c4eb586b099af6a1f6b8}} 
+\index{Stations@{Stations}!insert@{insert}}
+\index{insert@{insert}!Stations@{Stations}}
+\subsubsection{\texorpdfstring{insert()}{insert()}}
+{\footnotesize\ttfamily std\+::pair$<$iterator, bool$>$ Stations\+::insert (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_station}{Station}} \&}]{station }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Inserts a station into the map with the key set to its ID. By this way, it is ensured that stations are unique in the map with their ID as the key.
+
+
+\begin{DoxyParams}{Parameters}
+{\em station} & \mbox{\hyperlink{class_station}{Station}} object. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+std\+::pair$<$iterator, bool$>$ object consisting of an iterator to the inserted element (or to the element that prevented the insertion) and a bool denoting whether the insertion took place. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_stations_ae62b158dedf5f15c385671d15b950dc5}\label{class_stations_ae62b158dedf5f15c385671d15b950dc5}} 
+\index{Stations@{Stations}!print@{print}}
+\index{print@{print}!Stations@{Stations}}
+\subsubsection{\texorpdfstring{print()}{print()}}
+{\footnotesize\ttfamily void Stations\+::print (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{class_stations_ab6e3d3635fffe60f813b1fa7c28e4d8c}\label{class_stations_ab6e3d3635fffe60f813b1fa7c28e4d8c}} 
+\index{Stations@{Stations}!size@{size}}
+\index{size@{size}!Stations@{Stations}}
+\subsubsection{\texorpdfstring{size()}{size()}}
+{\footnotesize\ttfamily size\+\_\+t Stations\+::size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+\subsection{Friends And Related Function Documentation}
+\mbox{\Hypertarget{class_stations_a6c2ba44849c083fa6d206d4573ea523e}\label{class_stations_a6c2ba44849c083fa6d206d4573ea523e}} 
+\index{Stations@{Stations}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!Stations@{Stations}}
+\subsubsection{\texorpdfstring{operator$<$$<$}{operator<<}}
+{\footnotesize\ttfamily std\+::ostream\& operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{,  }\item[{\mbox{\hyperlink{class_stations}{Stations}} const \&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_stations_8h}{Stations.\+h}}\item 
+\mbox{\hyperlink{_stations_8cpp}{Stations.\+cpp}}\end{DoxyCompactItemize}

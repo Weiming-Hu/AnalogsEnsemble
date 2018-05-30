@@ -1,0 +1,247 @@
+\hypertarget{class_forecasts}{}\section{Forecasts Class Reference}
+\label{class_forecasts}\index{Forecasts@{Forecasts}}
+
+
+{\ttfamily \#include $<$Forecasts.\+h$>$}
+
+
+
+Inheritance diagram for Forecasts\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=205pt]{class_forecasts__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Forecasts\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_forecasts__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_forecasts_a0e602a4bb37b4d6092f475da8c20ed27}{Forecasts}} ()=delete
+\item 
+\mbox{\hyperlink{class_forecasts_a6f47e34b9ae9bb9496149208e3246d65}{Forecasts}} (\mbox{\hyperlink{class_forecasts}{Forecasts}} const \&)=delete
+\item 
+\mbox{\hyperlink{class_forecasts_a9a7ee86b148267a59aec821e44d5f7d9}{Forecasts}} (\mbox{\hyperlink{class_parameters}{Parameters}}, \mbox{\hyperlink{class_stations}{Stations}}, \mbox{\hyperlink{class_times}{Times}}, \mbox{\hyperlink{class_f_l_ts}{F\+L\+Ts}})
+\item 
+virtual \mbox{\hyperlink{class_forecasts_a340fd19812d62efc334fe4d23ff8dcd2}{$\sim$\+Forecasts}} ()
+\item 
+virtual double \mbox{\hyperlink{class_forecasts_a07a51e97b54a5c42d197fb4804ee43bc}{get\+Value}} (std\+::size\+\_\+t parameter\+\_\+\+ID, std\+::size\+\_\+t station\+\_\+\+ID, double timestamp, double flt) const =0
+\item 
+virtual bool \mbox{\hyperlink{class_forecasts_ac3ba966466c340deaecf83fa239bef6d}{set\+Value}} (double, std\+::size\+\_\+t parameter\+\_\+\+ID, std\+::size\+\_\+t station\+\_\+\+ID, double timestamp, double flt)=0
+\item 
+virtual bool \mbox{\hyperlink{class_forecasts_a2f249a4ec8571dcf2cfc23f06b942ad9}{set\+Values}} (const std\+::vector$<$ double $>$ \&vals)=0
+\item 
+std\+::size\+\_\+t \mbox{\hyperlink{class_forecasts_a445efc69dce930a1c308d17289466e68}{get\+\_\+parameters\+\_\+size}} () const
+\item 
+std\+::size\+\_\+t \mbox{\hyperlink{class_forecasts_abec05f11da96ef797e741178b2a7335c}{get\+\_\+stations\+\_\+size}} () const
+\item 
+std\+::size\+\_\+t \mbox{\hyperlink{class_forecasts_a267f33699ada17b57e2c05a25a01d1c3}{get\+\_\+times\+\_\+size}} () const
+\item 
+std\+::size\+\_\+t \mbox{\hyperlink{class_forecasts_a5cea0e9e7f39a95a26878fefc0c29b7b}{get\+\_\+flts\+\_\+size}} () const
+\item 
+\mbox{\hyperlink{class_parameters}{Parameters}} const  \& \mbox{\hyperlink{class_forecasts_a3f3bfa7ff06856f8e965fd440fa2f4ae}{get\+Parameters}} () const
+\item 
+\mbox{\hyperlink{class_stations}{Stations}} const  \& \mbox{\hyperlink{class_forecasts_a3db4c9546c88683586b606500a5e3c22}{get\+Stations}} () const
+\item 
+\mbox{\hyperlink{class_times}{Times}} const  \& \mbox{\hyperlink{class_forecasts_a269d0121cfb01a9f3299df572c7f83be}{get\+Times}} () const
+\item 
+\mbox{\hyperlink{class_f_l_ts}{F\+L\+Ts}} const  \& \mbox{\hyperlink{class_forecasts_aa791d0794da8090a572764665d43180f}{get\+F\+L\+Ts}} () const
+\item 
+virtual void \mbox{\hyperlink{class_forecasts_addb1f75f0dc6833c466453c51256812c}{print}} (std\+::ostream \&) const
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_parameters}{Parameters}} \mbox{\hyperlink{class_forecasts_a3705673d34a2f6468659955fb3d28abb}{parameters\+\_\+}}
+\item 
+\mbox{\hyperlink{class_stations}{Stations}} \mbox{\hyperlink{class_forecasts_a5557d3b6c0700d6da88d2610f95287ab}{stations\+\_\+}}
+\item 
+\mbox{\hyperlink{class_times}{Times}} \mbox{\hyperlink{class_forecasts_abe5747fb6460d05937ab95ff3b7f8b3f}{times\+\_\+}}
+\item 
+\mbox{\hyperlink{class_f_l_ts}{F\+L\+Ts}} \mbox{\hyperlink{class_forecasts_a5bbcb6eb5d291718f8f91e576827518b}{flts\+\_\+}}
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+std\+::ostream \& \mbox{\hyperlink{class_forecasts_a42c14120042eae287169092654f5b6c8}{operator$<$$<$}} (std\+::ostream \&, \mbox{\hyperlink{class_forecasts}{Forecasts}} const \&)
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_forecasts_a0e602a4bb37b4d6092f475da8c20ed27}\label{class_forecasts_a0e602a4bb37b4d6092f475da8c20ed27}} 
+\index{Forecasts@{Forecasts}!Forecasts@{Forecasts}}
+\index{Forecasts@{Forecasts}!Forecasts@{Forecasts}}
+\subsubsection{\texorpdfstring{Forecasts()}{Forecasts()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily Forecasts\+::\+Forecasts (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
+
+\mbox{\Hypertarget{class_forecasts_a6f47e34b9ae9bb9496149208e3246d65}\label{class_forecasts_a6f47e34b9ae9bb9496149208e3246d65}} 
+\index{Forecasts@{Forecasts}!Forecasts@{Forecasts}}
+\index{Forecasts@{Forecasts}!Forecasts@{Forecasts}}
+\subsubsection{\texorpdfstring{Forecasts()}{Forecasts()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily Forecasts\+::\+Forecasts (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_forecasts}{Forecasts}} const \&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
+
+\mbox{\Hypertarget{class_forecasts_a9a7ee86b148267a59aec821e44d5f7d9}\label{class_forecasts_a9a7ee86b148267a59aec821e44d5f7d9}} 
+\index{Forecasts@{Forecasts}!Forecasts@{Forecasts}}
+\index{Forecasts@{Forecasts}!Forecasts@{Forecasts}}
+\subsubsection{\texorpdfstring{Forecasts()}{Forecasts()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily Forecasts\+::\+Forecasts (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_parameters}{Parameters}}}]{parameters,  }\item[{\mbox{\hyperlink{class_stations}{Stations}}}]{stations,  }\item[{\mbox{\hyperlink{class_times}{Times}}}]{time,  }\item[{\mbox{\hyperlink{class_f_l_ts}{F\+L\+Ts}}}]{flt }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_forecasts_a340fd19812d62efc334fe4d23ff8dcd2}\label{class_forecasts_a340fd19812d62efc334fe4d23ff8dcd2}} 
+\index{Forecasts@{Forecasts}!````~Forecasts@{$\sim$\+Forecasts}}
+\index{````~Forecasts@{$\sim$\+Forecasts}!Forecasts@{Forecasts}}
+\subsubsection{\texorpdfstring{$\sim$\+Forecasts()}{~Forecasts()}}
+{\footnotesize\ttfamily Forecasts\+::$\sim$\+Forecasts (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_forecasts_a5cea0e9e7f39a95a26878fefc0c29b7b}\label{class_forecasts_a5cea0e9e7f39a95a26878fefc0c29b7b}} 
+\index{Forecasts@{Forecasts}!get\+\_\+flts\+\_\+size@{get\+\_\+flts\+\_\+size}}
+\index{get\+\_\+flts\+\_\+size@{get\+\_\+flts\+\_\+size}!Forecasts@{Forecasts}}
+\subsubsection{\texorpdfstring{get\+\_\+flts\+\_\+size()}{get\_flts\_size()}}
+{\footnotesize\ttfamily size\+\_\+t Forecasts\+::get\+\_\+flts\+\_\+size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{class_forecasts_a445efc69dce930a1c308d17289466e68}\label{class_forecasts_a445efc69dce930a1c308d17289466e68}} 
+\index{Forecasts@{Forecasts}!get\+\_\+parameters\+\_\+size@{get\+\_\+parameters\+\_\+size}}
+\index{get\+\_\+parameters\+\_\+size@{get\+\_\+parameters\+\_\+size}!Forecasts@{Forecasts}}
+\subsubsection{\texorpdfstring{get\+\_\+parameters\+\_\+size()}{get\_parameters\_size()}}
+{\footnotesize\ttfamily size\+\_\+t Forecasts\+::get\+\_\+parameters\+\_\+size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{class_forecasts_abec05f11da96ef797e741178b2a7335c}\label{class_forecasts_abec05f11da96ef797e741178b2a7335c}} 
+\index{Forecasts@{Forecasts}!get\+\_\+stations\+\_\+size@{get\+\_\+stations\+\_\+size}}
+\index{get\+\_\+stations\+\_\+size@{get\+\_\+stations\+\_\+size}!Forecasts@{Forecasts}}
+\subsubsection{\texorpdfstring{get\+\_\+stations\+\_\+size()}{get\_stations\_size()}}
+{\footnotesize\ttfamily size\+\_\+t Forecasts\+::get\+\_\+stations\+\_\+size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{class_forecasts_a267f33699ada17b57e2c05a25a01d1c3}\label{class_forecasts_a267f33699ada17b57e2c05a25a01d1c3}} 
+\index{Forecasts@{Forecasts}!get\+\_\+times\+\_\+size@{get\+\_\+times\+\_\+size}}
+\index{get\+\_\+times\+\_\+size@{get\+\_\+times\+\_\+size}!Forecasts@{Forecasts}}
+\subsubsection{\texorpdfstring{get\+\_\+times\+\_\+size()}{get\_times\_size()}}
+{\footnotesize\ttfamily size\+\_\+t Forecasts\+::get\+\_\+times\+\_\+size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{class_forecasts_aa791d0794da8090a572764665d43180f}\label{class_forecasts_aa791d0794da8090a572764665d43180f}} 
+\index{Forecasts@{Forecasts}!get\+F\+L\+Ts@{get\+F\+L\+Ts}}
+\index{get\+F\+L\+Ts@{get\+F\+L\+Ts}!Forecasts@{Forecasts}}
+\subsubsection{\texorpdfstring{get\+F\+L\+Ts()}{getFLTs()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_f_l_ts}{F\+L\+Ts}} const  \& Forecasts\+::get\+F\+L\+Ts (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{class_forecasts_a3f3bfa7ff06856f8e965fd440fa2f4ae}\label{class_forecasts_a3f3bfa7ff06856f8e965fd440fa2f4ae}} 
+\index{Forecasts@{Forecasts}!get\+Parameters@{get\+Parameters}}
+\index{get\+Parameters@{get\+Parameters}!Forecasts@{Forecasts}}
+\subsubsection{\texorpdfstring{get\+Parameters()}{getParameters()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_parameters}{Parameters}} const  \& Forecasts\+::get\+Parameters (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{class_forecasts_a3db4c9546c88683586b606500a5e3c22}\label{class_forecasts_a3db4c9546c88683586b606500a5e3c22}} 
+\index{Forecasts@{Forecasts}!get\+Stations@{get\+Stations}}
+\index{get\+Stations@{get\+Stations}!Forecasts@{Forecasts}}
+\subsubsection{\texorpdfstring{get\+Stations()}{getStations()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_stations}{Stations}} const  \& Forecasts\+::get\+Stations (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{class_forecasts_a269d0121cfb01a9f3299df572c7f83be}\label{class_forecasts_a269d0121cfb01a9f3299df572c7f83be}} 
+\index{Forecasts@{Forecasts}!get\+Times@{get\+Times}}
+\index{get\+Times@{get\+Times}!Forecasts@{Forecasts}}
+\subsubsection{\texorpdfstring{get\+Times()}{getTimes()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_times}{Times}} const  \& Forecasts\+::get\+Times (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{class_forecasts_a07a51e97b54a5c42d197fb4804ee43bc}\label{class_forecasts_a07a51e97b54a5c42d197fb4804ee43bc}} 
+\index{Forecasts@{Forecasts}!get\+Value@{get\+Value}}
+\index{get\+Value@{get\+Value}!Forecasts@{Forecasts}}
+\subsubsection{\texorpdfstring{get\+Value()}{getValue()}}
+{\footnotesize\ttfamily virtual double Forecasts\+::get\+Value (\begin{DoxyParamCaption}\item[{std\+::size\+\_\+t}]{parameter\+\_\+\+ID,  }\item[{std\+::size\+\_\+t}]{station\+\_\+\+ID,  }\item[{double}]{timestamp,  }\item[{double}]{flt }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \mbox{\hyperlink{class_forecasts__array_a38f7b890af0947e0d2022ce5bc5bb514}{Forecasts\+\_\+array}}.
+
+\mbox{\Hypertarget{class_forecasts_addb1f75f0dc6833c466453c51256812c}\label{class_forecasts_addb1f75f0dc6833c466453c51256812c}} 
+\index{Forecasts@{Forecasts}!print@{print}}
+\index{print@{print}!Forecasts@{Forecasts}}
+\subsubsection{\texorpdfstring{print()}{print()}}
+{\footnotesize\ttfamily void Forecasts\+::print (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Reimplemented in \mbox{\hyperlink{class_forecasts__array_a56985347f516340034b29dc4cdda87b1}{Forecasts\+\_\+array}}.
+
+\mbox{\Hypertarget{class_forecasts_ac3ba966466c340deaecf83fa239bef6d}\label{class_forecasts_ac3ba966466c340deaecf83fa239bef6d}} 
+\index{Forecasts@{Forecasts}!set\+Value@{set\+Value}}
+\index{set\+Value@{set\+Value}!Forecasts@{Forecasts}}
+\subsubsection{\texorpdfstring{set\+Value()}{setValue()}}
+{\footnotesize\ttfamily virtual bool Forecasts\+::set\+Value (\begin{DoxyParamCaption}\item[{double}]{,  }\item[{std\+::size\+\_\+t}]{parameter\+\_\+\+ID,  }\item[{std\+::size\+\_\+t}]{station\+\_\+\+ID,  }\item[{double}]{timestamp,  }\item[{double}]{flt }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \mbox{\hyperlink{class_forecasts__array_a3b5557b58352d846c4fddc095f87589d}{Forecasts\+\_\+array}}.
+
+\mbox{\Hypertarget{class_forecasts_a2f249a4ec8571dcf2cfc23f06b942ad9}\label{class_forecasts_a2f249a4ec8571dcf2cfc23f06b942ad9}} 
+\index{Forecasts@{Forecasts}!set\+Values@{set\+Values}}
+\index{set\+Values@{set\+Values}!Forecasts@{Forecasts}}
+\subsubsection{\texorpdfstring{set\+Values()}{setValues()}}
+{\footnotesize\ttfamily virtual bool Forecasts\+::set\+Values (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ double $>$ \&}]{vals }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+Sets data values from a vector.
+
+
+\begin{DoxyParams}{Parameters}
+{\em vals} & An std\+::vector$<$double$>$ object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns true if succeed setting values. 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{class_forecasts__array_aba3f3632244ddb18c0b8a3fa0ee86981}{Forecasts\+\_\+array}}.
+
+
+
+\subsection{Friends And Related Function Documentation}
+\mbox{\Hypertarget{class_forecasts_a42c14120042eae287169092654f5b6c8}\label{class_forecasts_a42c14120042eae287169092654f5b6c8}} 
+\index{Forecasts@{Forecasts}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!Forecasts@{Forecasts}}
+\subsubsection{\texorpdfstring{operator$<$$<$}{operator<<}}
+{\footnotesize\ttfamily std\+::ostream\& operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{,  }\item[{\mbox{\hyperlink{class_forecasts}{Forecasts}} const \&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{class_forecasts_a5bbcb6eb5d291718f8f91e576827518b}\label{class_forecasts_a5bbcb6eb5d291718f8f91e576827518b}} 
+\index{Forecasts@{Forecasts}!flts\+\_\+@{flts\+\_\+}}
+\index{flts\+\_\+@{flts\+\_\+}!Forecasts@{Forecasts}}
+\subsubsection{\texorpdfstring{flts\+\_\+}{flts\_}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_f_l_ts}{F\+L\+Ts}} Forecasts\+::flts\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{class_forecasts_a3705673d34a2f6468659955fb3d28abb}\label{class_forecasts_a3705673d34a2f6468659955fb3d28abb}} 
+\index{Forecasts@{Forecasts}!parameters\+\_\+@{parameters\+\_\+}}
+\index{parameters\+\_\+@{parameters\+\_\+}!Forecasts@{Forecasts}}
+\subsubsection{\texorpdfstring{parameters\+\_\+}{parameters\_}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_parameters}{Parameters}} Forecasts\+::parameters\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{class_forecasts_a5557d3b6c0700d6da88d2610f95287ab}\label{class_forecasts_a5557d3b6c0700d6da88d2610f95287ab}} 
+\index{Forecasts@{Forecasts}!stations\+\_\+@{stations\+\_\+}}
+\index{stations\+\_\+@{stations\+\_\+}!Forecasts@{Forecasts}}
+\subsubsection{\texorpdfstring{stations\+\_\+}{stations\_}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_stations}{Stations}} Forecasts\+::stations\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{class_forecasts_abe5747fb6460d05937ab95ff3b7f8b3f}\label{class_forecasts_abe5747fb6460d05937ab95ff3b7f8b3f}} 
+\index{Forecasts@{Forecasts}!times\+\_\+@{times\+\_\+}}
+\index{times\+\_\+@{times\+\_\+}!Forecasts@{Forecasts}}
+\subsubsection{\texorpdfstring{times\+\_\+}{times\_}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_times}{Times}} Forecasts\+::times\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_forecasts_8h}{Forecasts.\+h}}\item 
+\mbox{\hyperlink{_forecasts_8cpp}{Forecasts.\+cpp}}\end{DoxyCompactItemize}

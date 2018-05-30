@@ -9,6 +9,8 @@
 #define OBSERVATIONS_H
 
 #include <ostream>
+#include <vector>
+#include <cmath>
 
 #include "Parameters.h"
 #include "Stations.h"
@@ -17,65 +19,75 @@
 
 class Observations {
 public:
+    // Don't allow default constructor
     Observations() = delete;
-    Observations(const Observations& orig) = delete;
-    Observations(Parameters, Stations, Times);
 
+    // Delete copy constructor to avoid unexpected call to default constructor
+    Observations(const Observations& orig) = delete;
+
+    Observations(Parameters, Stations, Times);
     virtual ~Observations();
 
-    virtual double getValue( size_t, size_t, size_t ) const = 0;
-    virtual bool setValue( double, size_t, size_t, size_t ) = 0;
-    
-    /// This is needed because NetCDF only provides a C style pointer
-    virtual bool setValues( double* ) = 0;
+    virtual double getValue(std::size_t parameter_ID,
+            std::size_t station_ID, double timestamp) const = 0;
+    virtual bool setValue(double, std::size_t parameter_ID,
+            std::size_t station_ID, double timestamp) = 0;
 
-    virtual size_t get_parameters_size() const = 0;
-    virtual size_t get_stations_size() const = 0;
-    virtual size_t get_times_size() const = 0;
-    virtual size_t get_flts_size() const = 0;
-    
+    /**
+     * Sets data values from a vector.
+     * 
+     * @param vals An std::vector<double> object
+     * @return Returns true if succeed setting values.
+     */
+    virtual bool setValues(const std::vector<double> & vals) = 0;
+
+    std::size_t get_parameters_size() const;
+    std::size_t get_stations_size() const;
+    std::size_t get_times_size() const;
+
+    Parameters const & getParameters() const;
+    Stations const & getStations() const;
+    Times const & getTimes() const;
+
     virtual void print(std::ostream &) const;
     friend std::ostream& operator<<(std::ostream&, const Observations&);
 
-
-  
 protected:
-
     Parameters parameters_;
     Stations stations_;
     Times times_;
-
-    //size_t size_parameters_;
-    //size_t size_stations_;
-    //size_t size_times_;
- 
-      // A template function that deduces array size
-    template<typename T, size_t n>
-    size_t arraySize(const T(&)[n]) {
-        return n;
-    }
-
 };
 
 class Observations_array : public Observations {
 public:
-    Observations_array(Parameters, Stations, Times);
-    virtual ~Observations_array();
-
-    double getValue(size_t, size_t, size_t) const override;
-    bool setValue(double, size_t, size_t, size_t) override;
-    bool setValues(double*) override;
-
-
-    void print(std::ostream&) const override;
-
     Observations_array() = delete;
     Observations_array(const Observations_array& orig) = delete;
 
+    Observations_array(Parameters, Stations, Times);
+    virtual ~Observations_array();
+
+    double getValue(std::size_t parameter_ID,
+            std::size_t station_ID, double timestamp) const override;
+    
+    bool setValue(double val, std::size_t parameter_ID,
+            std::size_t station_ID, double timestamp) override;
+    bool setValues(const std::vector<double> & vals) override;
+
+    void print(std::ostream&) const override;
+    friend std::ostream& operator<<(std::ostream&, const Observations_array&);
 
 private:
-    boost::multi_array<double, 3> data_;
 
+    /**
+     * The private variable data_ is initialized with fortran storage order,
+     * a.k.a column-based order. This is because the values read from NetCDF
+     * are in column-based order.
+     */
+    boost::multi_array<double, 3> data_ =
+            boost::multi_array<double, 3> (
+            boost::extents[0][0][0],
+            boost::fortran_storage_order());
+    ;
 };
 
 #endif /* OBSERVATIONS_H */

@@ -8,41 +8,29 @@
 #ifndef TIME_H
 #define TIME_H
 
-#include <set>
+#include <unordered_set>
 #include <string>
 #include <iostream>
 
-
-class Times : public std::set <double> 
-{
+class Times : public std::unordered_set<double> {
 public:
-    
-    /// Default Unit: Seconds, Default origin is null
     Times();
-    
-    /// Default origin is null
-    Times(std::string);
-        
-    /// Specify both unit and origin 
-    Times(std::string, std::string);
-    
+    Times(std::string unit);
+    Times(std::string unit, std::string origin);
+
     virtual ~Times();
-    
-    // We might want to add a convert function to change units and origin    
-    
-    void print(std::ostream &) const;
-    friend std::ostream& operator<<(std::ostream&, Times const &);
-    
+
+    void print(std::ostream & os) const;
+    friend std::ostream& operator<<(std::ostream& os, Times const & obj);
+
 protected:
-    
-    std::string unit_;
-    std::string origin_;    
+    std::string unit_ = "seconds";
+    std::string origin_;
 };
 
-class FLTs : public Times
-{
-
-friend std::ostream& operator<<(std::ostream&, FLTs const &);
+class FLTs : public Times {
+    void print(std::ostream & os) const;
+    friend std::ostream& operator<<(std::ostream& os, FLTs const & obj);
 };
 
 

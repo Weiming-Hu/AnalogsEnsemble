@@ -26,7 +26,7 @@ Array4D::Array4D(size_t d1, size_t d2, size_t d3, size_t d4) {
     //cout << "Array4D Constructor: With Dimensions" << endl;
     try {
         resize(boost::extents[d1][d2][d3][d4]);
-    } catch (std::bad_alloc e) {
+    } catch (bad_alloc e) {
         cerr  << "ERROR: insufficient memory while resizing the array4D to hold "
                 << d1 * d2 * d3 * d4 << " double values"
                  << endl;
@@ -50,7 +50,7 @@ Array4D & Array4D::operator=(const Array4D &rhs) {
             resize(boost::extents
                     [rhs.shape()[0]][rhs.shape()[1]]
                     [rhs.shape()[2]][rhs.shape()[3]]);
-        } catch (std::bad_alloc e) {
+        } catch (bad_alloc e) {
             cerr  << "ERROR: insufficient memory while resizing the array4D to hold "
                     << rhs.shape()[0] * rhs.shape()[1] * rhs.shape()[2] * rhs.shape()[3] << " double values"
                      << endl;
@@ -74,7 +74,7 @@ Array4D::getDataFromVector(vector<double> const & data,
     // Resize the current array
     try {
         resize(boost::extents[M][N][O][P]);
-    } catch (std::bad_alloc e) {
+    } catch (bad_alloc e) {
         cerr  << "ERROR: insufficient memory while resizing the array4D to hold "
                 << M * N * O * P << " double values"
                  << endl;
@@ -124,7 +124,7 @@ bool
 Array4D::myresize(index d1, index d2, index d3, index d4) {
     try {
         resize(boost::extents[d1][d2][d3][d4]);
-    } catch (std::bad_alloc e) {
+    } catch (bad_alloc e) {
         cerr << "ERROR: insufficient memory while resizing the array4D to hold "
                 << d1 * d2 * d3 * d4 << " double values"
                  << endl;
@@ -206,8 +206,8 @@ Array4D::randomize() {
                         // pseudo-random is good enough
                         // no need to set seeds in each loop
                         //
-                        //std::srand(std::time(0));
-                        (*this)[m][n][o][p] = std::rand();
+                        //srand(time(0));
+                        (*this)[m][n][o][p] = rand();
                     }
                 }
             }
@@ -280,9 +280,7 @@ Array4D::print(ostream & os) const {
 
 ostream &
 operator<<(ostream & os, Array4D const & bv) {
-
     bv.print(os);
-
     return os;
 }
 

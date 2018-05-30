@@ -7,6 +7,8 @@
 
 #include "Observations.h"
 
+using namespace std;
+
 /*******************************************************************************
  *                               Observations                                  *
  ******************************************************************************/
@@ -21,24 +23,52 @@ times_(times_) {
 Observations::~Observations() {
 }
 
+size_t
+Observations::get_parameters_size() const {
+    return (parameters_.size());
+}
+
+size_t
+Observations::get_stations_size() const {
+    return (stations_.size());
+}
+
+size_t
+Observations::get_times_size() const {
+    return (times_.size());
+}
+
+Parameters const &
+Observations::getParameters() const {
+    return parameters_;
+}
+
+Stations const &
+Observations::getStations() const {
+    return stations_;
+}
+
+Times const &
+Observations::getTimes() const {
+    return times_;
+}
+
 void
-Observations::print(std::ostream& os) const {
+Observations::print(ostream& os) const {
     os << "[Observations] size: [" <<
             parameters_.size() << ", " <<
             stations_.size() << ", " <<
-            times_.size() << "]" << std::endl << std::endl
-            << parameters_ << std::endl
-            << stations_ << std::endl
-            << times_ << std::endl;
+            times_.size() << "]" << endl << endl
+            << parameters_ << endl
+            << stations_ << endl
+            << times_ << endl;
 }
 
-std::ostream &
-operator<<(std::ostream& os, Observations const & obj) {
+ostream &
+operator<<(ostream& os, const Observations & obj) {
     obj.print(os);
     return os;
 }
-
-
 
 /*******************************************************************************
  *                         Observations_array                                  *
@@ -49,55 +79,70 @@ Observations_array::Observations_array(
         Parameters parameters, Stations stations, Times times) :
 Observations(parameters, stations, times) {
 
-    // TODO: memory check
-    data_.resize(boost::extents
-            [parameters_.size()][stations_.size()][times_.size()]);
+    try {
+        data_.resize(boost::extents[parameters_.size()][stations_.size()][times_.size()]);
+    } catch (std::length_error & e) {
+        cout << e.what() << endl;
+        throw e;
+    } catch (std::bad_alloc & e) {
+        cout << e.what() << endl;
+        throw e;
+    }
 }
 
 Observations_array::~Observations_array() {
 }
 
-bool 
-Observations_array::setValues( double* data ) {
+double
+Observations_array::getValue(std::size_t parameter_ID, std::size_t station_ID, 
+        double timestamp) const {
+    //TODO
+    return NAN;
+}
+
+bool
+Observations_array::setValue(double val, std::size_t parameter_ID, 
+        std::size_t station_ID, double timestamp) {
+    // TODO
     return false;
 }
 
-
 bool
-Observations_array::setValue(double val, size_t i, size_t j, size_t k) {
-    data_[i][j][k] = val;
-    return (true);
-}
-
-double
-Observations_array::getValue(size_t i, size_t j, size_t k) const {
-    return (data_[i][j][k]);
+Observations_array::setValues(const vector<double> & data) {
+    
+    // Check the length of data
+    if (data_.num_elements() != data.size()) {
+        return false;
+    }
+    
+    data_.assign(data.begin(), data.end());
+    return true;
 }
 
 void
-Observations_array::print(std::ostream& os) const {
+Observations_array::print(ostream& os) const {
 
     // Base class print function
     Observations::print(os);
-    os << std::endl;
+    os << endl;
 
     // Print data in derived class
     os << "Array Shape = ";
     for (size_t i = 0; i < 3; i++) {
         os << "[" << data_.shape()[i] << "]";
     }
-    os << std::endl;
+    os << endl;
 
     auto sizes = data_.shape();
 
     for (size_t m = 0; m < sizes[0]; m++) {
 
-        os << "[ " << m << ", , ]" << std::endl;
+        os << "[ " << m << ", , ]" << endl;
 
         for (size_t p = 0; p < sizes[2]; p++) {
             os << "\t[,," << p << "]";
         }
-        os << std::endl;
+        os << endl;
 
         for (size_t o = 0; o < sizes[1]; o++) {
             os << "[," << o << ",]\t";
@@ -105,11 +150,17 @@ Observations_array::print(std::ostream& os) const {
             for (size_t p = 0; p < sizes[2]; p++) {
                 os << data_[m][o][p] << "\t";
             }
-            os << std::endl;
+            os << endl;
 
         }
-        os << std::endl;
+        os << endl;
 
     }
-    os << std::endl;
+    os << endl;
+}
+
+ostream &
+operator<<(std::ostream& os, const Observations_array& obj) {
+    obj.print(os);
+    return os;
 }

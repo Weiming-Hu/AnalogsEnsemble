@@ -16,98 +16,33 @@
  */
 
 #include "Stations.h"
-#include <cmath>
 #include <iterator>
+#include <algorithm>
 
-Stations::Stations() {
-}
+using namespace std;
 
-Stations::~Stations() {
-}
+/******************************************************************************
+ *                              Station                                       *
+ ******************************************************************************/
 
-Station const &
-Stations::operator[](int ID) const {
-
-    for (Stations::const_iterator citer = begin();
-            citer != end();
-            citer++) {
-
-        if (citer->getID() == ID) {
-            return *citer;
-        }
-    }
-
-    return ( *end() );
-}
-
-Station const &
-Stations::operator[](Station const & station) const {
-    Stations::const_iterator citer = find(station);
-
-    if ( citer == end() ) {
-        return *end();
-    }
-    
-    return *citer;
-}
-
-std::vector<int>
-Stations::getNearbyStations(Station const & station) const {
-
-    // XXX This is just for a test -- it's not the real code
-    Stations::const_iterator citer = find(station);
-    std::vector<int> ret;
-
-    if (citer != end()) {
-
-        ret.push_back(citer->getID());
-    } 
-    
-    return (ret);
-}
-
-std::vector<int>
-Stations::getNearbyStations(int val) const {
-
-    Station const & station = (*this)[val];
-
-    return (getNearbyStations(station));
-}
-
-void
-Stations::print(std::ostream & os) const {
-    os << "[Stations] size: " << size() << std::endl;
-    std::ostream_iterator< Station > element_itr(os, "");
-    copy(begin(), end(), element_itr);
-}
-
-std::ostream& operator<<(std::ostream& os, Stations const & obj) {
-    obj.print(os);
-    return os;
-}
-
-
-/*  Station */
-
-
-unsigned int Station::_static_ID_ = 0;
+size_t Station::_static_ID_ = 0;
 
 Station::Station() {
-    name_ = "NO NAME";
-    y_ = NAN;
-    x_ = NAN;
+    setID_();
+}
 
-    set_ID_();
+Station::Station(std::string name) :
+name_(name) {
+    setID_();
+}
+
+Station::Station(string name, double x, double y) :
+name_(name), x_(x), y_(y) {
+    setID_();
 }
 
 Station::Station(Station const & rhs) {
     *this = rhs;
-}
-
-Station::Station(std::string name, double x, double y) :
-name_(name), x_(x), y_(y) {
-
-    set_ID_();
 }
 
 Station::~Station() {
@@ -115,7 +50,6 @@ Station::~Station() {
 
 Station &
         Station::operator=(const Station & rhs) {
-    // Do not compare the internal IDs
 
     if (this != &rhs) {
         name_ = rhs.getName();
@@ -129,21 +63,7 @@ Station &
 
 bool
 Station::operator==(const Station & rhs) const {
-    // Do not compare the internal IDs
-
-    if (this == &rhs) return true;
-
-    if (name_ != rhs.getName()) {
-        return false;
-    }
-    if (x_ != rhs.getX()) {
-        return false;
-    }
-    if (y_ != rhs.getY()) {
-        return false;
-    }
-
-    return (true);
+    return (ID_ == rhs.getID());
 }
 
 bool
@@ -151,33 +71,28 @@ Station::operator<(const Station & rhs) const {
     return ID_ < rhs.getID();
 }
 
+bool
+Station::compare(const Station & rhs) const {
+    
+    if (name_ != rhs.getName()) return false;
+    if (x_ != rhs.getX()) return false;
+    if (y_ != rhs.getY()) return false;
+    
+    return true;
+}
+
 void
-Station::set_ID_() {
+Station::setID_() {
     ID_ = Station::_static_ID_;
     Station::_static_ID_++;
 }
 
-//void
-//Station::setName(std::string name) {
-//    name_ = name;
-//}
-//
-//void
-//Station::setY(double y) {
-//    y_ = y;
-//}
-//
-//void
-//Station::setX(double x) {
-//    x_ = x;
-//}
-
-int
+size_t
 Station::getID() const {
     return ID_;
 }
 
-std::string
+string
 Station::getName() const {
     return (name_);
 }
@@ -193,13 +108,103 @@ Station::getX() const {
 }
 
 void
-Station::print(std::ostream &os) const {
-    os << "[Station] ID: " << ID_ << ", Name: " << name_ << ", x: " << x_ << ", y: " << y_;
+Station::setName(string name) {
+    this->name_ = name;
 }
 
-std::ostream&
-operator<<(std::ostream& os, Station const & obj) {
+void
+Station::setX(double x) {
+    this->x_ = x;
+}
+
+void
+Station::setY(double y) {
+    this->y_ = y;
+}
+
+void
+Station::print(ostream &os) const {
+    os << "[Station] ID: " << ID_ << ", Name: " << name_
+            << ", x: " << x_ << ", y: " << y_
+            << endl;
+}
+
+ostream &
+operator<<(ostream& os, Station const & obj) {
     obj.print(os);
     return os;
 }
 
+/******************************************************************************
+ *                              Stations                                      *
+ ******************************************************************************/
+
+Stations::Stations() {
+}
+
+Stations::~Stations() {
+}
+
+vector<size_t>
+Stations::getNearbyStations(Station const & station) const {
+    size_t ID = station.getID();
+    return (getNearbyStations(ID));
+}
+
+vector<size_t>
+Stations::getNearbyStations(const size_t & ID) const {
+
+    vector<size_t> nearby_stations;
+
+    if (find(ID - 1) != end())
+        nearby_stations.push_back(ID - 1);
+    if (find(ID + 1) != end())
+        nearby_stations.push_back(ID + 1);
+
+    return (nearby_stations);
+}
+
+size_t
+Stations::size() const _NOEXCEPT {
+    return unordered_map<size_t, Station>::size();
+};
+
+void
+Stations::clear() _NOEXCEPT {
+    unordered_map<size_t, Station>::clear();
+}
+
+Station &
+Stations::at(const size_t& key) {
+    return (unordered_map<size_t, Station>::at(key));
+}
+
+Station &
+Stations::at(const Station& station) {
+    return (unordered_map<size_t, Station>::at(station.getID()));
+}
+
+const Station &
+Stations::at(const size_t& key) const {
+    return (unordered_map<size_t, Station>::at(key));
+}
+
+const Station &
+Stations::at(const Station& station) const {
+    return (unordered_map<size_t, Station>::at(station.getID()));
+}
+
+void
+Stations::print(ostream & os) const {
+    os << "[Stations] size: " << size() << endl;
+    for_each(begin(), end(), [&os](const pair<size_t, Station> & p) {
+        os << p.second;
+    });
+    return;
+}
+
+ostream &
+operator<<(ostream& os, Stations const & obj) {
+    obj.print(os);
+    return os;
+}

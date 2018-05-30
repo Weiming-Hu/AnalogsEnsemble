@@ -1,0 +1,5 @@
+<map id="Observations" name="Observations">
+<area shape="rect" id="node2" href="$class_times.html" title="{Times\n|# unit_\l# origin_\l|+ Times()\l+ Times()\l+ Times()\l+ ~Times()\l+ print()\l}" alt="" coords="41,181,126,321"/>
+<area shape="rect" id="node4" href="$class_stations.html" title="{Stations\n||+ Stations()\l+ ~Stations()\l+ getNearbyStations()\l+ getNearbyStations()\l+ insert()\l+ size()\l+ clear()\l+ at()\l+ at()\l+ at()\l+ at()\l+ print()\l}" alt="" coords="163,141,314,361"/>
+<area shape="rect" id="node6" href="$class_parameters.html" title="{Parameters\n||+ Parameters()\l+ ~Parameters()\l+ insert()\l+ size()\l+ clear()\l+ at()\l+ at()\l+ print()\l}" alt="" coords="352,168,471,335"/>
+</map>

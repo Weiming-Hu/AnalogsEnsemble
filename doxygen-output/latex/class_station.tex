@@ -1,0 +1,192 @@
+\hypertarget{class_station}{}\section{Station Class Reference}
+\label{class_station}\index{Station@{Station}}
+
+
+{\ttfamily \#include $<$Stations.\+h$>$}
+
+
+
+Collaboration diagram for Station\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=160pt]{class_station__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_station_a73d335726aad1d844d81cda6d9fd74e6}{Station}} ()
+\item 
+\mbox{\hyperlink{class_station_aeeba2cddaa328abff85cebfa5898b988}{Station}} (std\+::string)
+\item 
+\mbox{\hyperlink{class_station_a93320869206d6fdb35c6b314b03b9dd6}{Station}} (std\+::string, double, double)
+\item 
+\mbox{\hyperlink{class_station_aadb65bfb700ad2aee7dd4e7f62e40613}{Station}} (\mbox{\hyperlink{class_station}{Station}} const \&)
+\item 
+virtual \mbox{\hyperlink{class_station_a00434e79e8ee7f4ebd6d3b631dde5ac0}{$\sim$\+Station}} ()
+\item 
+\mbox{\hyperlink{class_station}{Station}} \& \mbox{\hyperlink{class_station_abaf887b87628c2bcd7e0af8626a4a1a4}{operator=}} (const \mbox{\hyperlink{class_station}{Station}} \&)
+\item 
+bool \mbox{\hyperlink{class_station_adae415f0267986c0056899ff4104cd5e}{operator==}} (const \mbox{\hyperlink{class_station}{Station}} \&) const
+\item 
+bool \mbox{\hyperlink{class_station_ad49b12012cb13c9f806587d9aa4c6fc9}{operator$<$}} (const \mbox{\hyperlink{class_station}{Station}} \&) const
+\item 
+bool \mbox{\hyperlink{class_station_a92f492a4766127e6ffbe993f0873708c}{compare}} (const \mbox{\hyperlink{class_station}{Station}} \&) const
+\item 
+std\+::string \mbox{\hyperlink{class_station_ac823ae175ec0e2baff462ed9612c7bae}{get\+Name}} () const
+\item 
+std\+::size\+\_\+t \mbox{\hyperlink{class_station_a69be6c90e4613e4166651ff6e67cfba2}{get\+ID}} () const
+\item 
+double \mbox{\hyperlink{class_station_aadddb2db193456d14bae16dbf2b8259f}{getY}} () const
+\item 
+double \mbox{\hyperlink{class_station_aa954dcd5d8f77ac9b91021b1e9c07735}{getX}} () const
+\item 
+void \mbox{\hyperlink{class_station_ad06d1756f0034a3f73ee1fe2993f87b9}{set\+Name}} (std\+::string name)
+\item 
+void \mbox{\hyperlink{class_station_ac9a83dadcfdcb36f477fed3c4586ff13}{setX}} (double x)
+\item 
+void \mbox{\hyperlink{class_station_a65a1d9f1121dc20515585594505e3a2e}{setY}} (double y)
+\item 
+void \mbox{\hyperlink{class_station_a1dfee264d3f636388b032675acb1302a}{print}} (std\+::ostream \&) const
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static std\+::size\+\_\+t \mbox{\hyperlink{class_station_a0507e4875711fa10696ab05ec8cbc215}{\+\_\+count\+I\+Ds}} ()
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+std\+::ostream \& \mbox{\hyperlink{class_station_a98b2219804f7e593b080d3c8dec80f0b}{operator$<$$<$}} (std\+::ostream \&, \mbox{\hyperlink{class_station}{Station}} const \&)
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_station_a73d335726aad1d844d81cda6d9fd74e6}\label{class_station_a73d335726aad1d844d81cda6d9fd74e6}} 
+\index{Station@{Station}!Station@{Station}}
+\index{Station@{Station}!Station@{Station}}
+\subsubsection{\texorpdfstring{Station()}{Station()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily Station\+::\+Station (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_station_aeeba2cddaa328abff85cebfa5898b988}\label{class_station_aeeba2cddaa328abff85cebfa5898b988}} 
+\index{Station@{Station}!Station@{Station}}
+\index{Station@{Station}!Station@{Station}}
+\subsubsection{\texorpdfstring{Station()}{Station()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily Station\+::\+Station (\begin{DoxyParamCaption}\item[{std\+::string}]{name }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_station_a93320869206d6fdb35c6b314b03b9dd6}\label{class_station_a93320869206d6fdb35c6b314b03b9dd6}} 
+\index{Station@{Station}!Station@{Station}}
+\index{Station@{Station}!Station@{Station}}
+\subsubsection{\texorpdfstring{Station()}{Station()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily Station\+::\+Station (\begin{DoxyParamCaption}\item[{std\+::string}]{,  }\item[{double}]{,  }\item[{double}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_station_aadb65bfb700ad2aee7dd4e7f62e40613}\label{class_station_aadb65bfb700ad2aee7dd4e7f62e40613}} 
+\index{Station@{Station}!Station@{Station}}
+\index{Station@{Station}!Station@{Station}}
+\subsubsection{\texorpdfstring{Station()}{Station()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily Station\+::\+Station (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_station}{Station}} const \&}]{rhs }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_station_a00434e79e8ee7f4ebd6d3b631dde5ac0}\label{class_station_a00434e79e8ee7f4ebd6d3b631dde5ac0}} 
+\index{Station@{Station}!````~Station@{$\sim$\+Station}}
+\index{````~Station@{$\sim$\+Station}!Station@{Station}}
+\subsubsection{\texorpdfstring{$\sim$\+Station()}{~Station()}}
+{\footnotesize\ttfamily Station\+::$\sim$\+Station (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_station_a0507e4875711fa10696ab05ec8cbc215}\label{class_station_a0507e4875711fa10696ab05ec8cbc215}} 
+\index{Station@{Station}!\+\_\+count\+I\+Ds@{\+\_\+count\+I\+Ds}}
+\index{\+\_\+count\+I\+Ds@{\+\_\+count\+I\+Ds}!Station@{Station}}
+\subsubsection{\texorpdfstring{\+\_\+count\+I\+Ds()}{\_countIDs()}}
+{\footnotesize\ttfamily static std\+::size\+\_\+t Station\+::\+\_\+count\+I\+Ds (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+\mbox{\Hypertarget{class_station_a92f492a4766127e6ffbe993f0873708c}\label{class_station_a92f492a4766127e6ffbe993f0873708c}} 
+\index{Station@{Station}!compare@{compare}}
+\index{compare@{compare}!Station@{Station}}
+\subsubsection{\texorpdfstring{compare()}{compare()}}
+{\footnotesize\ttfamily bool Station\+::compare (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_station}{Station}} \&}]{rhs }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{class_station_a69be6c90e4613e4166651ff6e67cfba2}\label{class_station_a69be6c90e4613e4166651ff6e67cfba2}} 
+\index{Station@{Station}!get\+ID@{get\+ID}}
+\index{get\+ID@{get\+ID}!Station@{Station}}
+\subsubsection{\texorpdfstring{get\+I\+D()}{getID()}}
+{\footnotesize\ttfamily size\+\_\+t Station\+::get\+ID (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{class_station_ac823ae175ec0e2baff462ed9612c7bae}\label{class_station_ac823ae175ec0e2baff462ed9612c7bae}} 
+\index{Station@{Station}!get\+Name@{get\+Name}}
+\index{get\+Name@{get\+Name}!Station@{Station}}
+\subsubsection{\texorpdfstring{get\+Name()}{getName()}}
+{\footnotesize\ttfamily string Station\+::get\+Name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{class_station_aa954dcd5d8f77ac9b91021b1e9c07735}\label{class_station_aa954dcd5d8f77ac9b91021b1e9c07735}} 
+\index{Station@{Station}!getX@{getX}}
+\index{getX@{getX}!Station@{Station}}
+\subsubsection{\texorpdfstring{get\+X()}{getX()}}
+{\footnotesize\ttfamily double Station\+::getX (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{class_station_aadddb2db193456d14bae16dbf2b8259f}\label{class_station_aadddb2db193456d14bae16dbf2b8259f}} 
+\index{Station@{Station}!getY@{getY}}
+\index{getY@{getY}!Station@{Station}}
+\subsubsection{\texorpdfstring{get\+Y()}{getY()}}
+{\footnotesize\ttfamily double Station\+::getY (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{class_station_ad49b12012cb13c9f806587d9aa4c6fc9}\label{class_station_ad49b12012cb13c9f806587d9aa4c6fc9}} 
+\index{Station@{Station}!operator$<$@{operator$<$}}
+\index{operator$<$@{operator$<$}!Station@{Station}}
+\subsubsection{\texorpdfstring{operator$<$()}{operator<()}}
+{\footnotesize\ttfamily bool Station\+::operator$<$ (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_station}{Station}} \&}]{rhs }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{class_station_abaf887b87628c2bcd7e0af8626a4a1a4}\label{class_station_abaf887b87628c2bcd7e0af8626a4a1a4}} 
+\index{Station@{Station}!operator=@{operator=}}
+\index{operator=@{operator=}!Station@{Station}}
+\subsubsection{\texorpdfstring{operator=()}{operator=()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_station}{Station}} \& Station\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_station}{Station}} \&}]{rhs }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_station_adae415f0267986c0056899ff4104cd5e}\label{class_station_adae415f0267986c0056899ff4104cd5e}} 
+\index{Station@{Station}!operator==@{operator==}}
+\index{operator==@{operator==}!Station@{Station}}
+\subsubsection{\texorpdfstring{operator==()}{operator==()}}
+{\footnotesize\ttfamily bool Station\+::operator== (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_station}{Station}} \&}]{rhs }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{class_station_a1dfee264d3f636388b032675acb1302a}\label{class_station_a1dfee264d3f636388b032675acb1302a}} 
+\index{Station@{Station}!print@{print}}
+\index{print@{print}!Station@{Station}}
+\subsubsection{\texorpdfstring{print()}{print()}}
+{\footnotesize\ttfamily void Station\+::print (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{class_station_ad06d1756f0034a3f73ee1fe2993f87b9}\label{class_station_ad06d1756f0034a3f73ee1fe2993f87b9}} 
+\index{Station@{Station}!set\+Name@{set\+Name}}
+\index{set\+Name@{set\+Name}!Station@{Station}}
+\subsubsection{\texorpdfstring{set\+Name()}{setName()}}
+{\footnotesize\ttfamily void Station\+::set\+Name (\begin{DoxyParamCaption}\item[{std\+::string}]{name }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_station_ac9a83dadcfdcb36f477fed3c4586ff13}\label{class_station_ac9a83dadcfdcb36f477fed3c4586ff13}} 
+\index{Station@{Station}!setX@{setX}}
+\index{setX@{setX}!Station@{Station}}
+\subsubsection{\texorpdfstring{set\+X()}{setX()}}
+{\footnotesize\ttfamily void Station\+::setX (\begin{DoxyParamCaption}\item[{double}]{x }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_station_a65a1d9f1121dc20515585594505e3a2e}\label{class_station_a65a1d9f1121dc20515585594505e3a2e}} 
+\index{Station@{Station}!setY@{setY}}
+\index{setY@{setY}!Station@{Station}}
+\subsubsection{\texorpdfstring{set\+Y()}{setY()}}
+{\footnotesize\ttfamily void Station\+::setY (\begin{DoxyParamCaption}\item[{double}]{y }\end{DoxyParamCaption})}
+
+
+
+\subsection{Friends And Related Function Documentation}
+\mbox{\Hypertarget{class_station_a98b2219804f7e593b080d3c8dec80f0b}\label{class_station_a98b2219804f7e593b080d3c8dec80f0b}} 
+\index{Station@{Station}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!Station@{Station}}
+\subsubsection{\texorpdfstring{operator$<$$<$}{operator<<}}
+{\footnotesize\ttfamily std\+::ostream\& operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{,  }\item[{\mbox{\hyperlink{class_station}{Station}} const \&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_stations_8h}{Stations.\+h}}\item 
+\mbox{\hyperlink{_stations_8cpp}{Stations.\+cpp}}\end{DoxyCompactItemize}

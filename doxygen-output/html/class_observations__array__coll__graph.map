@@ -1,0 +1,6 @@
+<map id="Observations_array" name="Observations_array">
+<area shape="rect" id="node2" href="$class_observations.html" title="{Observations\n||+ Observations()\l+ Observations()\l+ Observations()\l+ ~Observations()\l+ getValue()\l+ setValue()\l+ setValues()\l+ get_parameters_size()\l+ get_stations_size()\l+ get_times_size()\l+ getParameters()\l+ getStations()\l+ getTimes()\l+ print()\l}" alt="" coords="155,423,321,669"/>
+<area shape="rect" id="node3" href="$class_times.html" title="{Times\n|# unit_\l# origin_\l|+ Times()\l+ Times()\l+ Times()\l+ ~Times()\l+ print()\l}" alt="" coords="41,181,126,321"/>
+<area shape="rect" id="node5" href="$class_stations.html" title="{Stations\n||+ Stations()\l+ ~Stations()\l+ getNearbyStations()\l+ getNearbyStations()\l+ insert()\l+ size()\l+ clear()\l+ at()\l+ at()\l+ at()\l+ at()\l+ print()\l}" alt="" coords="163,141,314,361"/>
+<area shape="rect" id="node7" href="$class_parameters.html" title="{Parameters\n||+ Parameters()\l+ ~Parameters()\l+ insert()\l+ size()\l+ clear()\l+ at()\l+ at()\l+ print()\l}" alt="" coords="352,168,471,335"/>
+</map>

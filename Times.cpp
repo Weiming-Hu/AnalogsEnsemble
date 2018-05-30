@@ -18,62 +18,55 @@
 #include "Times.h"
 #include <iterator>
 
+using namespace std;
+
+/*******************************************************************************
+ *                                 Times                                       *
+ ******************************************************************************/
 
 Times::Times() {
     origin_ = "1970-01-01";
-    unit_ = "seconds";
 }
 
-Times::Times(std::string unit) :
-unit_(unit)
-{
+Times::Times(string unit) :
+unit_(unit) {
     origin_ = "1970-01-01";
 }
 
-Times::Times(std::string unit, std::string origin) :
-unit_(unit), origin_(origin)
-{
+Times::Times(string unit, string origin) :
+unit_(unit), origin_(origin) {
 }
-
 
 Times::~Times() {
 }
 
-
 void
-Times::print(std::ostream &os) const {
-  os << "[Time] size: " << size() << std::endl;
-  std::ostream_iterator< int > element_itr( os, ", " );
-  copy( begin(), end(), element_itr );
+Times::print(ostream &os) const {
+    os << "[Time] size: " << size() << endl;
+    ostream_iterator< int > element_itr(os, ", ");
+    copy(begin(), end(), element_itr);
 
 }
 
-std::ostream&
-operator<<(std::ostream& os, Times const & obj) {
+ostream&
+operator<<(ostream& os, Times const & obj) {
     obj.print(os);
     return os;
 }
 
-//
-//FLTs::FLTs() {
-//    unit_ = "seconds";
-//}
-//
-//FLTs::~FLTs() {
-//    
-//}
-//
-//
-//void
-//FLTs::print(std::ostream &os) const {
-//  os << "[FLT] size: " << size() << std::endl;
-//  std::ostream_iterator< int > element_itr( os, ", " );
-//  copy( begin(), end(), element_itr );
-//
-//}
-//
-std::ostream&
-operator<<(std::ostream& os, FLTs const & obj) {
+/*******************************************************************************
+ *                                   FLTs                                      *
+ ******************************************************************************/
+
+void
+FLTs::print(ostream &os) const {
+    os << "[FLT] size: " << size() << endl;
+    ostream_iterator< int > element_itr(os, ", ");
+    copy(begin(), end(), element_itr);
+}
+
+ostream&
+operator<<(ostream& os, FLTs const & obj) {
     obj.print(os);
     return os;
 }

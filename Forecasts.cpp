@@ -17,6 +17,8 @@
 
 #include "Forecasts.h"
 
+using namespace std;
+
 /*******************************************************************************
  *                            Forecasts                                        *
  ******************************************************************************/
@@ -26,69 +28,66 @@ parameters_(parameters),
 stations_(stations),
 times_(time),
 flts_(flt) {
-    //size_parameters_ = parameters_.size();
-    //size_stations_ = stations_.size();
-    //size_time_ = times_.size();
-    //size_flt_ = flts_.size();
-
-}
-
-Forecasts::Forecasts() {
-    std::cerr << "The default constructor of Forecasts should not be called!" << std::endl;
-}
-
-Forecasts::Forecasts(Forecasts const & rhs) {
-    *this = rhs;
 }
 
 Forecasts::~Forecasts() {
 }
 
-Forecasts &
-        Forecasts::operator=(Forecasts const & rhs) {
-
-    if (this != &rhs) {
-        parameters_ = rhs.parameters_;
-    }
-    return *this;
+size_t
+Forecasts::get_parameters_size() const {
+    return ( parameters_.size());
 }
 
-Parameters const & 
+size_t
+Forecasts::get_stations_size() const {
+    return ( stations_.size());
+}
+
+size_t
+Forecasts::get_times_size() const {
+    return ( times_.size());
+}
+
+size_t
+Forecasts::get_flts_size() const {
+    return ( flts_.size());
+}
+
+Parameters const &
 Forecasts::getParameters() const {
     return parameters_;
 }
 
-Stations const & 
+Stations const &
 Forecasts::getStations() const {
     return stations_;
 }
 
-Times const & 
-Forecasts::getTime() const {
+Times const &
+Forecasts::getTimes() const {
     return times_;
 }
 
-FLTs const & 
+FLTs const &
 Forecasts::getFLTs() const {
     return flts_;
 }
 
-
 void
-Forecasts::print(std::ostream &os) const {
+Forecasts::print(ostream &os) const {
     os << "[Forecasts] size: [" <<
             get_parameters_size() << ", " <<
             get_stations_size() << ", " <<
             get_times_size() << ", " <<
-            get_flts_size() << "]" << std::endl << std::endl;
-    os << parameters_ << std::endl;
-    os << stations_ << std::endl;
-    os << times_ << std::endl << std::endl;
-    os << flts_ << std::endl;
+            get_flts_size() << "]" << endl << endl;
+    os << parameters_ << endl;
+    os << stations_ << endl;
+    os << times_ << endl << endl;
+    os << flts_ << endl;
 }
 
-std::ostream&
-operator<<(std::ostream& os, Forecasts const & obj) {
+ostream&
+operator<<(ostream& os, Forecasts const & obj) {
     obj.print(os);
     return os;
 }
@@ -99,24 +98,21 @@ operator<<(std::ostream& os, Forecasts const & obj) {
 
 Forecasts_array::Forecasts_array(Parameters parameters, Stations stations, Times time, FLTs flt) :
 Forecasts(parameters, stations, time, flt) {
-    data_.myresize(get_parameters_size(), get_stations_size(), get_times_size(), get_flts_size());
 
-}
+    try {
+        data_.myresize(get_parameters_size(), get_stations_size(),
+                get_times_size(), get_flts_size());
+    } catch (std::length_error & e) {
+        cout << e.what() << endl;
+        throw e;
+    } catch (std::bad_alloc & e) {
+        cout << e.what() << endl;
+        throw e;
+    }
 
-Forecasts_array::Forecasts_array(Forecasts_array const & rhs) {
-    *this = rhs;
 }
 
 Forecasts_array::~Forecasts_array() {
-}
-
-Forecasts_array &
-        Forecasts_array::operator=(Forecasts_array const & rhs) {
-
-    if (this != &rhs) {
-        data_ = rhs.getValues();
-    }
-    return *this;
 }
 
 Array4D const &
@@ -124,40 +120,42 @@ Forecasts_array::getValues() const {
     return ( data_);
 }
 
-bool
-Forecasts_array::setValue(double value, int p, int s, int t, int f) {
-    data_[p][s][t][f] = value;
-    return (true);
-}
-
 double
-Forecasts_array::getValue(int p, int s, int t, int f) const {
-    return ( data_[p][s][t][f]);
+Forecasts_array::getValue(std::size_t parameter_ID, std::size_t station_ID,
+        double timestamp, double flt) const {
+    // TODO
+    return NAN;
 }
 
-size_t
-Forecasts_array::get_parameters_size() const {
-    return ( parameters_.size());
+bool
+Forecasts_array::setValue(double val, std::size_t parameter_ID, 
+        std::size_t station_ID, double timestamp, double flt) {
+    // TODO
+    return false;
 }
 
-size_t
-Forecasts_array::get_stations_size() const {
-    return ( stations_.size());
-}
+bool
+Forecasts_array::setValues(const vector<double> & data) {
 
-size_t
-Forecasts_array::get_times_size() const {
-    return ( times_.size());
-}
+    if (data_.num_elements() != data.size()) {
+        return false;
+    }
 
-size_t
-Forecasts_array::get_flts_size() const {
-    return ( flts_.size());
+    data_.getDataFromVector(data,
+            get_parameters_size(), get_stations_size(),
+            get_times_size(), get_flts_size());
+    return true;
 }
 
 void
-Forecasts_array::print(std::ostream &os) const {
+Forecasts_array::print(ostream &os) const {
     Forecasts::print(os);
-    os << std::endl;
+    os << endl;
     os << data_ << endl;
+}
+
+ostream &
+operator<<(ostream & os, const Forecasts_array& obj) {
+    obj.print(os);
+    return os;
 }
