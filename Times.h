@@ -12,7 +12,7 @@
 #include <string>
 #include <iostream>
 
-class Times : public std::unordered_set<double> {
+class Times : public std::set<double> {
 public:
     Times();
     Times(std::string unit);

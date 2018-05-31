@@ -92,8 +92,8 @@ public:
         return (std::unordered_map<std::size_t, Station>::insert(p));
     };
 
-    size_t size() const _NOEXCEPT;
-    void clear() _NOEXCEPT;
+    std::size_t size() const std::noexcept override;
+    void clear() std::noexcept override;
 
     /**
      * Gets the reference to the Station based on the ID. If no such 

@@ -17,7 +17,7 @@
 class Parameter {
 public:
     Parameter();
-    Parameter(std::string, double, bool);
+    Parameter(std::string, double, bool, unsigned int);
     Parameter(const Parameter& other);
 
     virtual ~Parameter();
@@ -90,8 +90,8 @@ public:
         return (std::unordered_map<std::size_t, Parameter>::insert(p));
     };
 
-    size_t size() const _NOEXCEPT;
-    void clear() _NOEXCEPT;
+    size_t size() const std::noexcept;
+    void clear() std::noexcept;
 
     /**
      * Gets the reference to the Parameter based on the ID. If no such 
