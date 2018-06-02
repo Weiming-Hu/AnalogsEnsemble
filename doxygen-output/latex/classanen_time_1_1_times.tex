@@ -1,0 +1,138 @@
+\hypertarget{classanen_time_1_1_times}{}\section{anen\+Time\+:\+:Times Class Reference}
+\label{classanen_time_1_1_times}\index{anen\+Time\+::\+Times@{anen\+Time\+::\+Times}}
+
+
+\mbox{\hyperlink{classanen_time_1_1_times}{Times}} class is used to store time information for predictions. By default this is the number of seconds from the origin January 1st, 1970. This can be customized by changing the default setting of origin and unit.  
+
+
+
+
+{\ttfamily \#include $<$Times.\+h$>$}
+
+
+
+Inheritance diagram for anen\+Time\+:\+:Times\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=173pt]{classanen_time_1_1_times__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for anen\+Time\+:\+:Times\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=173pt]{classanen_time_1_1_times__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classanen_time_1_1_times_a66161eb232f580fe090579b8e19e3618}{Times}} ()
+\item 
+\mbox{\hyperlink{classanen_time_1_1_times_a2bd2c89fd910120a72eab80017792125}{Times}} (std\+::string unit)
+\item 
+\mbox{\hyperlink{classanen_time_1_1_times_a73794184536377320073427409a63da6}{Times}} (std\+::string unit, std\+::string origin)
+\item 
+virtual \mbox{\hyperlink{classanen_time_1_1_times_abd871e7729adf2622a3e5ed41945aa3c}{$\sim$\+Times}} ()
+\item 
+std\+::size\+\_\+t \mbox{\hyperlink{classanen_time_1_1_times_a9df2a7b0c4211d262853b8facc3f4163}{get\+Time\+Index}} (double timestamp) const
+\item 
+void \mbox{\hyperlink{classanen_time_1_1_times_aec5c8186b68d51239dbee83a7303e5d0}{print}} (std\+::ostream \&os) const
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string \mbox{\hyperlink{classanen_time_1_1_times_a1bc1f74d961af9efa6462b2cbe5f3718}{unit\+\_\+}} = \char`\"{}seconds\char`\"{}
+\item 
+std\+::string \mbox{\hyperlink{classanen_time_1_1_times_a7e08602fb0628df1c5f1cccbb98baeb1}{origin\+\_\+}}
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+std\+::ostream \& \mbox{\hyperlink{classanen_time_1_1_times_a0c37c7d9833e9b02d1a219555f55fe34}{operator$<$$<$}} (std\+::ostream \&os, \mbox{\hyperlink{classanen_time_1_1_times}{Times}} const \&obj)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\mbox{\hyperlink{classanen_time_1_1_times}{Times}} class is used to store time information for predictions. By default this is the number of seconds from the origin January 1st, 1970. This can be customized by changing the default setting of origin and unit. 
+
+\mbox{\hyperlink{classanen_time_1_1_times}{Times}} class supports the following features\+:
+\begin{DoxyEnumerate}
+\item Timestamps are unique in \mbox{\hyperlink{classanen_time_1_1_times}{Times}};
+\item Timestamps are kept in sequence of insertion, and have random access;
+\item Timestamps are accessible via values. 
+\end{DoxyEnumerate}
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classanen_time_1_1_times_a66161eb232f580fe090579b8e19e3618}\label{classanen_time_1_1_times_a66161eb232f580fe090579b8e19e3618}} 
+\index{anen\+Time\+::\+Times@{anen\+Time\+::\+Times}!Times@{Times}}
+\index{Times@{Times}!anen\+Time\+::\+Times@{anen\+Time\+::\+Times}}
+\subsubsection{\texorpdfstring{Times()}{Times()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily anen\+Time\+::\+Times\+::\+Times (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classanen_time_1_1_times_a2bd2c89fd910120a72eab80017792125}\label{classanen_time_1_1_times_a2bd2c89fd910120a72eab80017792125}} 
+\index{anen\+Time\+::\+Times@{anen\+Time\+::\+Times}!Times@{Times}}
+\index{Times@{Times}!anen\+Time\+::\+Times@{anen\+Time\+::\+Times}}
+\subsubsection{\texorpdfstring{Times()}{Times()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily anen\+Time\+::\+Times\+::\+Times (\begin{DoxyParamCaption}\item[{std\+::string}]{unit }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classanen_time_1_1_times_a73794184536377320073427409a63da6}\label{classanen_time_1_1_times_a73794184536377320073427409a63da6}} 
+\index{anen\+Time\+::\+Times@{anen\+Time\+::\+Times}!Times@{Times}}
+\index{Times@{Times}!anen\+Time\+::\+Times@{anen\+Time\+::\+Times}}
+\subsubsection{\texorpdfstring{Times()}{Times()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily anen\+Time\+::\+Times\+::\+Times (\begin{DoxyParamCaption}\item[{std\+::string}]{unit,  }\item[{std\+::string}]{origin }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classanen_time_1_1_times_abd871e7729adf2622a3e5ed41945aa3c}\label{classanen_time_1_1_times_abd871e7729adf2622a3e5ed41945aa3c}} 
+\index{anen\+Time\+::\+Times@{anen\+Time\+::\+Times}!````~Times@{$\sim$\+Times}}
+\index{````~Times@{$\sim$\+Times}!anen\+Time\+::\+Times@{anen\+Time\+::\+Times}}
+\subsubsection{\texorpdfstring{$\sim$\+Times()}{~Times()}}
+{\footnotesize\ttfamily anen\+Time\+::\+Times\+::$\sim$\+Times (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classanen_time_1_1_times_a9df2a7b0c4211d262853b8facc3f4163}\label{classanen_time_1_1_times_a9df2a7b0c4211d262853b8facc3f4163}} 
+\index{anen\+Time\+::\+Times@{anen\+Time\+::\+Times}!get\+Time\+Index@{get\+Time\+Index}}
+\index{get\+Time\+Index@{get\+Time\+Index}!anen\+Time\+::\+Times@{anen\+Time\+::\+Times}}
+\subsubsection{\texorpdfstring{get\+Time\+Index()}{getTimeIndex()}}
+{\footnotesize\ttfamily size\+\_\+t anen\+Time\+::\+Times\+::get\+Time\+Index (\begin{DoxyParamCaption}\item[{double}]{timestamp }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classanen_time_1_1_times_aec5c8186b68d51239dbee83a7303e5d0}\label{classanen_time_1_1_times_aec5c8186b68d51239dbee83a7303e5d0}} 
+\index{anen\+Time\+::\+Times@{anen\+Time\+::\+Times}!print@{print}}
+\index{print@{print}!anen\+Time\+::\+Times@{anen\+Time\+::\+Times}}
+\subsubsection{\texorpdfstring{print()}{print()}}
+{\footnotesize\ttfamily void anen\+Time\+::\+Times\+::print (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{os }\end{DoxyParamCaption}) const}
+
+
+
+\subsection{Friends And Related Function Documentation}
+\mbox{\Hypertarget{classanen_time_1_1_times_a0c37c7d9833e9b02d1a219555f55fe34}\label{classanen_time_1_1_times_a0c37c7d9833e9b02d1a219555f55fe34}} 
+\index{anen\+Time\+::\+Times@{anen\+Time\+::\+Times}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!anen\+Time\+::\+Times@{anen\+Time\+::\+Times}}
+\subsubsection{\texorpdfstring{operator$<$$<$}{operator<<}}
+{\footnotesize\ttfamily std\+::ostream\& operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{os,  }\item[{\mbox{\hyperlink{classanen_time_1_1_times}{Times}} const \&}]{obj }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{classanen_time_1_1_times_a7e08602fb0628df1c5f1cccbb98baeb1}\label{classanen_time_1_1_times_a7e08602fb0628df1c5f1cccbb98baeb1}} 
+\index{anen\+Time\+::\+Times@{anen\+Time\+::\+Times}!origin\+\_\+@{origin\+\_\+}}
+\index{origin\+\_\+@{origin\+\_\+}!anen\+Time\+::\+Times@{anen\+Time\+::\+Times}}
+\subsubsection{\texorpdfstring{origin\+\_\+}{origin\_}}
+{\footnotesize\ttfamily std\+::string anen\+Time\+::\+Times\+::origin\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classanen_time_1_1_times_a1bc1f74d961af9efa6462b2cbe5f3718}\label{classanen_time_1_1_times_a1bc1f74d961af9efa6462b2cbe5f3718}} 
+\index{anen\+Time\+::\+Times@{anen\+Time\+::\+Times}!unit\+\_\+@{unit\+\_\+}}
+\index{unit\+\_\+@{unit\+\_\+}!anen\+Time\+::\+Times@{anen\+Time\+::\+Times}}
+\subsubsection{\texorpdfstring{unit\+\_\+}{unit\_}}
+{\footnotesize\ttfamily std\+::string anen\+Time\+::\+Times\+::unit\+\_\+ = \char`\"{}seconds\char`\"{}\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_times_8h}{Times.\+h}}\item 
+\mbox{\hyperlink{_times_8cpp}{Times.\+cpp}}\end{DoxyCompactItemize}

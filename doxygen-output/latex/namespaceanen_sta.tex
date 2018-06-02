@@ -1,0 +1,52 @@
+\hypertarget{namespaceanen_sta}{}\section{anen\+Sta Namespace Reference}
+\label{namespaceanen_sta}\index{anen\+Sta@{anen\+Sta}}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structanen_sta_1_1by___i_d}{by\+\_\+\+ID}}
+\item 
+struct \mbox{\hyperlink{structanen_sta_1_1by__insert}{by\+\_\+insert}}
+\item 
+class \mbox{\hyperlink{classanen_sta_1_1_station}{Station}}
+\begin{DoxyCompactList}\small\item\em Class \mbox{\hyperlink{classanen_sta_1_1_station}{Station}} stores station information including name, X, and Y. Each \mbox{\hyperlink{classanen_sta_1_1_station}{Station}} Object is assigned with an unique ID. This ID can be useful for station retrieval. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classanen_sta_1_1_stations}{Stations}}
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classanen_sta_1_1_stations}{Stations}} class stores \mbox{\hyperlink{classanen_sta_1_1_station}{Station}} objects. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{namespaceanen_sta_a913b335ef67a3eed40106e55b9a4582c}{multi\+Index\+Stations}} = boost\+::multi\+\_\+index\+\_\+container$<$ \mbox{\hyperlink{classanen_sta_1_1_station}{Station}}, boost\+::multi\+\_\+index\+::indexed\+\_\+by$<$ boost\+::multi\+\_\+index\+::random\+\_\+access$<$ boost\+::multi\+\_\+index\+::tag$<$ \mbox{\hyperlink{structanen_sta_1_1by__insert}{by\+\_\+insert}} $>$ $>$, boost\+::multi\+\_\+index\+::hashed\+\_\+unique$<$ boost\+::multi\+\_\+index\+::tag$<$ \mbox{\hyperlink{structanen_sta_1_1by___i_d}{by\+\_\+\+ID}} $>$, boost\+::multi\+\_\+index\+::const\+\_\+mem\+\_\+fun$<$ \mbox{\hyperlink{classanen_sta_1_1_station}{Station}}, std\+::size\+\_\+t, \&\mbox{\hyperlink{classanen_sta_1_1_station_a7da5e30ee0d25653333630aa61ca5257}{Station\+::get\+ID}} $>$ $>$ $>$ $>$
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+ostream \& \mbox{\hyperlink{namespaceanen_sta_abbe68650f0c5b4173991ed2220b3143f}{operator$<$$<$}} (ostream \&os, \mbox{\hyperlink{classanen_sta_1_1_station}{Station}} const \&obj)
+\item 
+ostream \& \mbox{\hyperlink{namespaceanen_sta_a08ae85128c31bfbd2999f821d7605eeb}{operator$<$$<$}} (ostream \&os, \mbox{\hyperlink{classanen_sta_1_1_stations}{Stations}} const \&obj)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The \mbox{\hyperlink{namespaceanen_sta}{anen\+Sta}} name space is created for classes \mbox{\hyperlink{classanen_sta_1_1_station}{Station}} and \mbox{\hyperlink{classanen_sta_1_1_stations}{Stations}}. 
+
+\subsection{Typedef Documentation}
+\mbox{\Hypertarget{namespaceanen_sta_a913b335ef67a3eed40106e55b9a4582c}\label{namespaceanen_sta_a913b335ef67a3eed40106e55b9a4582c}} 
+\index{anen\+Sta@{anen\+Sta}!multi\+Index\+Stations@{multi\+Index\+Stations}}
+\index{multi\+Index\+Stations@{multi\+Index\+Stations}!anen\+Sta@{anen\+Sta}}
+\subsubsection{\texorpdfstring{multi\+Index\+Stations}{multiIndexStations}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{namespaceanen_sta_a913b335ef67a3eed40106e55b9a4582c}{anen\+Sta\+::multi\+Index\+Stations}} = typedef boost\+::multi\+\_\+index\+\_\+container$<$ \mbox{\hyperlink{classanen_sta_1_1_station}{Station}}, boost\+::multi\+\_\+index\+::indexed\+\_\+by$<$ boost\+::multi\+\_\+index\+::random\+\_\+access$<$ boost\+::multi\+\_\+index\+::tag$<$\mbox{\hyperlink{structanen_sta_1_1by__insert}{by\+\_\+insert}}$>$ $>$, boost\+::multi\+\_\+index\+::hashed\+\_\+unique$<$ boost\+::multi\+\_\+index\+::tag$<$\mbox{\hyperlink{structanen_sta_1_1by___i_d}{by\+\_\+\+ID}}$>$, boost\+::multi\+\_\+index\+::const\+\_\+mem\+\_\+fun$<$ \mbox{\hyperlink{classanen_sta_1_1_station}{Station}}, std\+::size\+\_\+t, \&\mbox{\hyperlink{classanen_sta_1_1_station_a7da5e30ee0d25653333630aa61ca5257}{Station\+::get\+ID}}$>$ $>$ $>$ $>$}
+
+Base class for \mbox{\hyperlink{classanen_sta_1_1_stations}{Stations}} 
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{namespaceanen_sta_abbe68650f0c5b4173991ed2220b3143f}\label{namespaceanen_sta_abbe68650f0c5b4173991ed2220b3143f}} 
+\index{anen\+Sta@{anen\+Sta}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!anen\+Sta@{anen\+Sta}}
+\subsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily ostream\& anen\+Sta\+::operator$<$$<$ (\begin{DoxyParamCaption}\item[{ostream \&}]{os,  }\item[{\mbox{\hyperlink{classanen_sta_1_1_station}{Station}} const \&}]{obj }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceanen_sta_a08ae85128c31bfbd2999f821d7605eeb}\label{namespaceanen_sta_a08ae85128c31bfbd2999f821d7605eeb}} 
+\index{anen\+Sta@{anen\+Sta}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!anen\+Sta@{anen\+Sta}}
+\subsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily ostream\& anen\+Sta\+::operator$<$$<$ (\begin{DoxyParamCaption}\item[{ostream \&}]{os,  }\item[{\mbox{\hyperlink{classanen_sta_1_1_stations}{Stations}} const \&}]{obj }\end{DoxyParamCaption})}
+

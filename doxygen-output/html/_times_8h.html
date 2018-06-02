@@ -62,20 +62,25 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a>  </div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#typedef-members">Typedefs</a>  </div>
   <div class="headertitle">
 <div class="title">Times.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;unordered_set&gt;</code><br />
-<code>#include &lt;string&gt;</code><br />
+<div class="textblock"><code>#include &lt;string&gt;</code><br />
 <code>#include &lt;iostream&gt;</code><br />
+<code>#include &lt;boost/multi_index/tag.hpp&gt;</code><br />
+<code>#include &lt;boost/multi_index/mem_fun.hpp&gt;</code><br />
+<code>#include &lt;boost/multi_index_container.hpp&gt;</code><br />
+<code>#include &lt;boost/multi_index/identity.hpp&gt;</code><br />
+<code>#include &lt;boost/multi_index/hashed_index.hpp&gt;</code><br />
+<code>#include &lt;boost/multi_index/random_access_index.hpp&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for Times.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="_times_8h__incl.png" border="0" usemap="#_times_8h" alt=""/></div>
-<map name="_times_8h" id="_times_8h">
-</map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
@@ -83,13 +88,13 @@ This graph shows which files directly or indirectly include this file:</div>
 <div class="center"><img src="_times_8h__dep__incl.png" border="0" usemap="#_times_8hdep" alt=""/></div>
 <map name="_times_8hdep" id="_times_8hdep">
 <area shape="rect" id="node2" href="_an_en_i_o_8h.html" title="AnEnIO.h" alt="" coords="155,152,234,177"/>
-<area shape="rect" id="node4" href="canalogs_8cpp.html" title="canalogs.cpp" alt="" coords="243,225,343,251"/>
-<area shape="rect" id="node5" href="_observations_8h.html" title="Observations.h" alt="" coords="87,79,198,104"/>
-<area shape="rect" id="node7" href="_forecasts_8h.html" title="Forecasts.h" alt="" coords="273,79,364,104"/>
+<area shape="rect" id="node4" href="canalogs_8cpp.html" title="canalogs.cpp" alt="" coords="350,225,450,251"/>
+<area shape="rect" id="node5" href="_forecasts_8h.html" title="Forecasts.h" alt="" coords="293,79,384,104"/>
+<area shape="rect" id="node7" href="_observations_8h.html" title="Observations.h" alt="" coords="107,79,218,104"/>
 <area shape="rect" id="node9" href="_times_8cpp.html" title="Times.cpp" alt="" coords="488,79,570,104"/>
-<area shape="rect" id="node3" href="_an_en_i_o_8cpp.html" title="AnEnIO.cpp" alt="" coords="127,225,220,251"/>
-<area shape="rect" id="node6" href="_observations_8cpp.html" title="Observations.cpp" alt="" coords="5,152,130,177"/>
-<area shape="rect" id="node8" href="_forecasts_8cpp.html" title="Forecasts.cpp" alt="" coords="309,152,414,177"/>
+<area shape="rect" id="node3" href="_an_en_i_o_8cpp.html" title="AnEnIO.cpp" alt="" coords="148,225,241,251"/>
+<area shape="rect" id="node6" href="_forecasts_8cpp.html" title="Forecasts.cpp" alt="" coords="258,152,363,177"/>
+<area shape="rect" id="node8" href="_observations_8cpp.html" title="Observations.cpp" alt="" coords="5,152,130,177"/>
 </map>
 </div>
 </div>
@@ -97,10 +102,26 @@ This graph shows which files directly or indirectly include this file:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_times.html">Times</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structanen_time_1_1by__insert.html">anenTime::by_insert</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_f_l_ts.html">FLTs</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structanen_time_1_1by__value.html">anenTime::by_value</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classanen_time_1_1_times.html" title="Times class is used to store time information for predictions. By default this is the number of secon...">Times</a> class is used to store time information for predictions. By default this is the number of seconds from the origin January 1st, 1970. This can be customized by changing the default setting of origin and unit.  <a href="classanen_time_1_1_times.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classanen_time_1_1_f_l_ts.html">anenTime::FLTs</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classanen_time_1_1_f_l_ts.html" title="FLTs class is used to store time information for prediction forecast lead times (FLTs). If a temperature forecast on January 1st, 2028 contains predictions at 00h, 06h, 12h, 18h on that day, this forecast has 4 FLTs, which are 0, 6, 12, 18. ">FLTs</a> class is used to store time information for prediction forecast lead times (<a class="el" href="classanen_time_1_1_f_l_ts.html" title="FLTs class is used to store time information for prediction forecast lead times (FLTs). If a temperature forecast on January 1st, 2028 contains predictions at 00h, 06h, 12h, 18h on that day, this forecast has 4 FLTs, which are 0, 6, 12, 18. ">FLTs</a>). If a temperature forecast on January 1st, 2028 contains predictions at 00h, 06h, 12h, 18h on that day, this forecast has 4 <a class="el" href="classanen_time_1_1_f_l_ts.html" title="FLTs class is used to store time information for prediction forecast lead times (FLTs). If a temperature forecast on January 1st, 2028 contains predictions at 00h, 06h, 12h, 18h on that day, this forecast has 4 FLTs, which are 0, 6, 12, 18. ">FLTs</a>, which are 0, 6, 12, 18.  <a href="classanen_time_1_1_f_l_ts.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:namespaceanen_time"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceanen_time.html">anenTime</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:a235ffbd1f772e49b036a80c4bd766f90"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceanen_time.html#a235ffbd1f772e49b036a80c4bd766f90">anenTime::multiIndexTimes</a> = boost::multi_index_container&lt; std::size_t, boost::multi_index::indexed_by&lt; boost::multi_index::random_access&lt; boost::multi_index::tag&lt; by_insert &gt; &gt;, boost::multi_index::hashed_unique&lt; boost::multi_index::tag&lt; by_value &gt;, boost::multi_index::identity&lt; std::size_t &gt; &gt; &gt; &gt;</td></tr>
+<tr class="separator:a235ffbd1f772e49b036a80c4bd766f90"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 <!-- start footer part -->

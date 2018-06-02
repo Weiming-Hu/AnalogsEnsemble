@@ -7,7 +7,6 @@ var searchData=
   ['checkfiletype',['checkFileType',['../class_an_en_i_o.html#aa9b4700db58d0ef09af429d5d31ff55f',1,'AnEnIO']]],
   ['checkvariable',['checkVariable',['../class_an_en_i_o.html#ab7f3ba245b7acb11184e0a5b3490a84b',1,'AnEnIO']]],
   ['checkvariables',['checkVariables',['../class_an_en_i_o.html#a44347f497bdf775fcf214ec75d8b6470',1,'AnEnIO']]],
-  ['clear',['clear',['../class_parameters.html#aa28dc24da9d17a3c83069b3817246f8c',1,'Parameters::clear()'],['../class_stations.html#ae75fd812e17138fec710fd1e75032239',1,'Stations::clear()']]],
   ['colortexts_2eh',['colorTexts.h',['../color_texts_8h.html',1,'']]],
-  ['compare',['compare',['../class_parameter.html#adb0e139c6aeaedc4ee1e9432d464e9bc',1,'Parameter::compare()'],['../class_station.html#a92f492a4766127e6ffbe993f0873708c',1,'Station::compare()']]]
+  ['compare',['compare',['../classanen_par_1_1_parameter.html#ac7bf17c016c65c6eba495a75cacf5431',1,'anenPar::Parameter::compare()'],['../classanen_sta_1_1_station.html#a071a6c089a2c00a61606d7b4e2766194',1,'anenSta::Station::compare()']]]
 ];

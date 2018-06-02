@@ -4,18 +4,20 @@
 {\ttfamily \#include $<$string$>$}\newline
 {\ttfamily \#include $<$cmath$>$}\newline
 {\ttfamily \#include $<$iostream$>$}\newline
-{\ttfamily \#include $<$unordered\+\_\+map$>$}\newline
-{\ttfamily \#include $<$utility$>$}\newline
-Include dependency graph for Stations.\+h\+:
-\nopagebreak
+{\ttfamily \#include $<$boost/multi\+\_\+index\+\_\+container.\+hpp$>$}\newline
+{\ttfamily \#include $<$boost/multi\+\_\+index/random\+\_\+access\+\_\+index.\+hpp$>$}\newline
+{\ttfamily \#include $<$boost/multi\+\_\+index/identity.\+hpp$>$}\newline
+{\ttfamily \#include $<$boost/multi\+\_\+index/hashed\+\_\+index.\+hpp$>$}\newline
+{\ttfamily \#include $<$boost/multi\+\_\+index/tag.\+hpp$>$}\newline
+{\ttfamily \#include $<$boost/multi\+\_\+index/mem\+\_\+fun.\+hpp$>$}\newline
+Include dependency graph for Stations.\+h\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{_stations_8h__incl}
 \end{center}
 \end{figure}
-This graph shows which files directly or indirectly include this file\+:
-\nopagebreak
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -25,7 +27,21 @@ This graph shows which files directly or indirectly include this file\+:
 \subsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
-class \mbox{\hyperlink{class_station}{Station}}
+class \mbox{\hyperlink{classanen_sta_1_1_station}{anen\+Sta\+::\+Station}}
+\begin{DoxyCompactList}\small\item\em Class \mbox{\hyperlink{classanen_sta_1_1_station}{Station}} stores station information including name, X, and Y. Each \mbox{\hyperlink{classanen_sta_1_1_station}{Station}} Object is assigned with an unique ID. This ID can be useful for station retrieval. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structanen_sta_1_1by__insert}{anen\+Sta\+::by\+\_\+insert}}
 \item 
-class \mbox{\hyperlink{class_stations}{Stations}}
+struct \mbox{\hyperlink{structanen_sta_1_1by___i_d}{anen\+Sta\+::by\+\_\+\+ID}}
+\item 
+class \mbox{\hyperlink{classanen_sta_1_1_stations}{anen\+Sta\+::\+Stations}}
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classanen_sta_1_1_stations}{Stations}} class stores \mbox{\hyperlink{classanen_sta_1_1_station}{Station}} objects. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespaceanen_sta}{anen\+Sta}}
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{namespaceanen_sta_a913b335ef67a3eed40106e55b9a4582c}{anen\+Sta\+::multi\+Index\+Stations}} = boost\+::multi\+\_\+index\+\_\+container$<$ Station, boost\+::multi\+\_\+index\+::indexed\+\_\+by$<$ boost\+::multi\+\_\+index\+::random\+\_\+access$<$ boost\+::multi\+\_\+index\+::tag$<$ by\+\_\+insert $>$ $>$, boost\+::multi\+\_\+index\+::hashed\+\_\+unique$<$ boost\+::multi\+\_\+index\+::tag$<$ by\+\_\+\+ID $>$, boost\+::multi\+\_\+index\+::const\+\_\+mem\+\_\+fun$<$ Station, std\+::size\+\_\+t, \&Station\+::get\+ID $>$ $>$ $>$ $>$
 \end{DoxyCompactItemize}

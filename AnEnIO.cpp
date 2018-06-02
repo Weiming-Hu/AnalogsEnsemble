@@ -97,7 +97,7 @@ AnEnIO::checkFileType() const {
         var_names = {"Data"};
     } else {
         if (verbose_ >= 1) {
-            cout << BOLDRED << "Error: Unknown file type "
+            cout << BOLDRED << "Error: Unknown file type."
                     << file_type_ << RESET << endl;
         }
         return (UNKOWN_FILE_TYPE);
@@ -229,10 +229,10 @@ AnEnIO::checkDimensions() const {
 }
 
 errorType
-AnEnIO::readData(Observations & observations) {
+AnEnIO::readObservations(Observations & observations) {
 
     if (verbose_ >= 3) {
-        cout << "Reading variable (Data) ..." << endl;
+        cout << "Reading observation file ..." << endl;
     }
 
     if (file_type_.empty()) {
@@ -242,19 +242,32 @@ AnEnIO::readData(Observations & observations) {
         }
         return (UNKOWN_FILE_TYPE);
     }
+
+    anenPar::Parameters parameters;
+    anenSta::Stations stations;
+    anenTime::Times times;
+
+    handleError(readParameters(parameters));
+    handleError(readStations(stations));
+    handleError(readTimes(times));
 
     vector<double> vals;
     handleError(read_vector_("Data", vals));
+    
+    observations.setParameters(parameters);
+    observations.setStations(stations);
+    observations.setTimes(times);
+    observations.updateDataDims();
+    observations.setValues(vals);
 
-    if (observations.setValues(vals)) return (SUCCESS);
-    else return (ERROR_SETTING_VALUES);
+    return (SUCCESS);
 }
 
 errorType
-AnEnIO::readData(Forecasts & forecasts) {
+AnEnIO::readForecasts(Forecasts & forecasts) {
 
     if (verbose_ >= 3) {
-        cout << "Reading variable (Data) ..." << endl;
+        cout << "Reading forecast file ..." << endl;
     }
 
     if (file_type_.empty()) {
@@ -264,16 +277,32 @@ AnEnIO::readData(Forecasts & forecasts) {
         }
         return (UNKOWN_FILE_TYPE);
     }
+    
+    anenPar::Parameters parameters;
+    anenSta::Stations stations;
+    anenTime::Times times;
+    anenTime::FLTs flts;
+
+    handleError(readParameters(parameters));
+    handleError(readStations(stations));
+    handleError(readTimes(times));
+    handleError(readTimes(flts));
 
     vector<double> vals;
-    read_vector_("Data", vals);
+    handleError(read_vector_("Data", vals));
+    
+    forecasts.setParameters(parameters);
+    forecasts.setStations(stations);
+    forecasts.setTimes(times);
+    forecasts.setFlts(flts);
+    forecasts.updateDataDims();
+    forecasts.setValues(vals);
 
-    if (forecasts.setValues(vals)) return (SUCCESS);
-    else return (ERROR_SETTING_VALUES);
+    return (SUCCESS);
 }
 
 errorType
-AnEnIO::readFLTs(FLTs& flts) {
+AnEnIO::readFLTs(anenTime::FLTs& flts) {
 
     if (verbose_ >= 3) {
         cout << "Reading variable (FLTs) ..." << endl;
@@ -286,7 +315,8 @@ AnEnIO::readFLTs(FLTs& flts) {
     read_vector_(var_name, vec);
 
     // copy the vector to the set
-    copy(vec.begin(), vec.end(), inserter(flts, flts.end()));
+    flts.clear();
+    flts.insert(flts.end(), vec.begin(), vec.end());
 
     if (flts.size() != vec.size()) {
         if (verbose_ >= 1) {
@@ -300,7 +330,7 @@ AnEnIO::readFLTs(FLTs& flts) {
 }
 
 errorType
-AnEnIO::readParameters(Parameters & parameters) {
+AnEnIO::readParameters(anenPar::Parameters & parameters) {
 
     if (verbose_ >= 3) {
         cout << "Reading parameters from file (" << file_path_ << ") ..." << endl;
@@ -332,14 +362,14 @@ AnEnIO::readParameters(Parameters & parameters) {
         read_vector_("CircularParameters", circulars);
     }
 
-    // Construct Parameter objects and insert them into Parameters
+    // Construct anenPar::Parameter objects and insert them into anenPar::Parameters
     parameters.clear();
     for (size_t i = 0; i < dim_len; i++) {
 
-        Parameter parameter;
+        anenPar::Parameter parameter;
 
         if (with_names) {
-            // Set name
+
             string name = names.at(i);
             parameter.setName(name);
 
@@ -348,7 +378,8 @@ AnEnIO::readParameters(Parameters & parameters) {
             if (it_circular != circulars.end()) parameter.setCircular(true);
         }
 
-        if (!parameters.insert(parameter).second) {
+        if (!parameters.push_back(parameter).second) {
+
             if (verbose_ >= 1) {
                 cout << BOLDRED << "Error: Parameter (ID: " << parameter.getID()
                         << ") is duplicate!" << RESET << endl;
@@ -361,7 +392,7 @@ AnEnIO::readParameters(Parameters & parameters) {
 }
 
 errorType
-AnEnIO::readStations(Stations& stations) {
+AnEnIO::readStations(anenSta::Stations& stations) {
 
     if (verbose_ >= 3) {
         cout << "Reading stations from file (" << file_path_ << ") ..." << endl;
@@ -413,10 +444,10 @@ AnEnIO::readStations(Stations& stations) {
         }
     }
 
-    // Construct Station object and insert them into Stations
+    // Construct Station object and insert them into anenSta::Stations
     stations.clear();
     for (size_t i = 0; i < dim_len; i++) {
-        Station station;
+        anenSta::Station station;
 
         if (with_names) {
             station.setName(names.at(i));
@@ -427,7 +458,7 @@ AnEnIO::readStations(Stations& stations) {
             station.setY(ys.at(i));
         }
 
-        if (!stations.insert(station).second) {
+        if (!stations.push_back(station).second) {
             if (verbose_ >= 1) {
                 cout << BOLDRED << "Error: Station (ID: " << station.getID()
                         << ") is duplicate!" << RESET << endl;
@@ -440,7 +471,7 @@ AnEnIO::readStations(Stations& stations) {
 }
 
 errorType
-AnEnIO::readTimes(Times& times) {
+AnEnIO::readTimes(anenTime::Times& times) {
 
     if (verbose_ >= 3) {
         cout << "Reading variable (Times) ..." << endl;
@@ -453,7 +484,8 @@ AnEnIO::readTimes(Times& times) {
     read_vector_(var_name, vec);
 
     // copy the vector to the set
-    copy(vec.begin(), vec.end(), inserter(times, times.end()));
+    times.clear();
+    times.insert(times.end(), vec.begin(), vec.end());
 
     if (times.size() != vec.size()) {
         if (verbose_ >= 1) {

@@ -2,12 +2,16 @@
 \label{class_an_en_i_o}\index{An\+En\+IO@{An\+En\+IO}}
 
 
+\mbox{\hyperlink{class_an_en_i_o}{An\+En\+IO}} class provides interfaces for reading and writing Net\+C\+DF files in forecast, observation, and prediction format. These formats are predefined for generating predictions.  
+
+
+
+
 {\ttfamily \#include $<$An\+En\+I\+O.\+h$>$}
 
 
 
-Collaboration diagram for An\+En\+IO\+:
-\nopagebreak
+Collaboration diagram for An\+En\+IO\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -63,17 +67,17 @@ virtual \mbox{\hyperlink{class_an_en_i_o_a1e7aef95fd2a0c6aaef55998f48368f4}{$\si
 \item 
 \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} \mbox{\hyperlink{class_an_en_i_o_ab6cd06f6402655924002fec4f83195eb}{check\+Dimensions}} () const
 \item 
-\mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} \mbox{\hyperlink{class_an_en_i_o_a84b3e8dcfd3176b4ba20c5ff1b17ee85}{read\+Data}} (\mbox{\hyperlink{class_observations}{Observations}} \&observations)
+\mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} \mbox{\hyperlink{class_an_en_i_o_a41ebcc0c9edee123626bf6e606917a49}{read\+Observations}} (\mbox{\hyperlink{class_observations}{Observations}} \&observations)
 \item 
-\mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} \mbox{\hyperlink{class_an_en_i_o_aa00d954aadc03593981748c572010ffd}{read\+Data}} (\mbox{\hyperlink{class_forecasts}{Forecasts}} \&forecasts)
+\mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} \mbox{\hyperlink{class_an_en_i_o_a912e513e58fa258e1dce67ff161abab2}{read\+Forecasts}} (\mbox{\hyperlink{class_forecasts}{Forecasts}} \&forecasts)
 \item 
-\mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} \mbox{\hyperlink{class_an_en_i_o_a7fdb924e4990c113e2e897310f9ce57c}{read\+F\+L\+Ts}} (\mbox{\hyperlink{class_f_l_ts}{F\+L\+Ts}} \&flts)
+\mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} \mbox{\hyperlink{class_an_en_i_o_aa58735032dd6f54c83d6450842922d3f}{read\+F\+L\+Ts}} (\mbox{\hyperlink{classanen_time_1_1_f_l_ts}{anen\+Time\+::\+F\+L\+Ts}} \&flts)
 \item 
-\mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} \mbox{\hyperlink{class_an_en_i_o_a909adad6126ab91d304d8bcc46bd5783}{read\+Parameters}} (\mbox{\hyperlink{class_parameters}{Parameters}} \&parameters)
+\mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} \mbox{\hyperlink{class_an_en_i_o_a2b21ff04fcc0464017a5a717a6b19065}{read\+Parameters}} (\mbox{\hyperlink{classanen_par_1_1_parameters}{anen\+Par\+::\+Parameters}} \&parameters)
 \item 
-\mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} \mbox{\hyperlink{class_an_en_i_o_a39c40b1ffcd5b12fc8991a0c47346f00}{read\+Stations}} (\mbox{\hyperlink{class_stations}{Stations}} \&stations)
+\mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} \mbox{\hyperlink{class_an_en_i_o_aaec8b46a52f3d8ab904fd4229bd3b9e9}{read\+Stations}} (\mbox{\hyperlink{classanen_sta_1_1_stations}{anen\+Sta\+::\+Stations}} \&stations)
 \item 
-\mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} \mbox{\hyperlink{class_an_en_i_o_a5c513a7a23000ea12419dc7687285612}{read\+Times}} (\mbox{\hyperlink{class_times}{Times}} \&times)
+\mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} \mbox{\hyperlink{class_an_en_i_o_a19b454b0a9ecb5ecbc2cc2a9c139770b}{read\+Times}} (\mbox{\hyperlink{classanen_time_1_1_times}{anen\+Time\+::\+Times}} \&times)
 \item 
 \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} \mbox{\hyperlink{class_an_en_i_o_a5ca1c7df3da9720967d7ed06f2dfe09b}{read\+Dim\+Length}} (std\+::string dim\+\_\+name, std\+::size\+\_\+t \&len)
 \item 
@@ -128,6 +132,9 @@ std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{class_an_en_i_o_a43f82ffbafb
 std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{class_an_en_i_o_adf42061631c78508bde00de7d22a65b4}{required\+\_\+dimensions\+\_\+}}
 \end{DoxyCompactItemize}
 
+
+\subsection{Detailed Description}
+\mbox{\hyperlink{class_an_en_i_o}{An\+En\+IO}} class provides interfaces for reading and writing Net\+C\+DF files in forecast, observation, and prediction format. These formats are predefined for generating predictions. 
 
 \subsection{Member Enumeration Documentation}
 \mbox{\Hypertarget{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}\label{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}} 
@@ -278,6 +285,12 @@ Checks whether the Net\+C\+DF file exists.
 
 Checks whether the Net\+C\+DF file conforms with the file type.
 
+The supported file type are
+\begin{DoxyItemize}
+\item \mbox{\hyperlink{class_observations}{Observations}}
+\item \mbox{\hyperlink{class_forecasts}{Forecasts}}
+\end{DoxyItemize}
+
 \begin{DoxyReturn}{Returns}
 \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{An\+En\+I\+O\+::error\+Type}}. 
 \end{DoxyReturn}
@@ -398,47 +411,47 @@ Reads variables as a atomic vector.
 \begin{DoxyReturn}{Returns}
 \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{An\+En\+I\+O\+::error\+Type}}. 
 \end{DoxyReturn}
-\mbox{\Hypertarget{class_an_en_i_o_a84b3e8dcfd3176b4ba20c5ff1b17ee85}\label{class_an_en_i_o_a84b3e8dcfd3176b4ba20c5ff1b17ee85}} 
-\index{An\+En\+IO@{An\+En\+IO}!read\+Data@{read\+Data}}
-\index{read\+Data@{read\+Data}!An\+En\+IO@{An\+En\+IO}}
-\subsubsection{\texorpdfstring{read\+Data()}{readData()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
-{\footnotesize\ttfamily \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} An\+En\+I\+O\+::read\+Data (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_observations}{Observations}} \&}]{observations }\end{DoxyParamCaption})}
-
-\mbox{\Hypertarget{class_an_en_i_o_aa00d954aadc03593981748c572010ffd}\label{class_an_en_i_o_aa00d954aadc03593981748c572010ffd}} 
-\index{An\+En\+IO@{An\+En\+IO}!read\+Data@{read\+Data}}
-\index{read\+Data@{read\+Data}!An\+En\+IO@{An\+En\+IO}}
-\subsubsection{\texorpdfstring{read\+Data()}{readData()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
-{\footnotesize\ttfamily \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} An\+En\+I\+O\+::read\+Data (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_forecasts}{Forecasts}} \&}]{forecasts }\end{DoxyParamCaption})}
-
 \mbox{\Hypertarget{class_an_en_i_o_a5ca1c7df3da9720967d7ed06f2dfe09b}\label{class_an_en_i_o_a5ca1c7df3da9720967d7ed06f2dfe09b}} 
 \index{An\+En\+IO@{An\+En\+IO}!read\+Dim\+Length@{read\+Dim\+Length}}
 \index{read\+Dim\+Length@{read\+Dim\+Length}!An\+En\+IO@{An\+En\+IO}}
 \subsubsection{\texorpdfstring{read\+Dim\+Length()}{readDimLength()}}
 {\footnotesize\ttfamily \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} An\+En\+I\+O\+::read\+Dim\+Length (\begin{DoxyParamCaption}\item[{std\+::string}]{dim\+\_\+name,  }\item[{std\+::size\+\_\+t \&}]{len }\end{DoxyParamCaption})}
 
-\mbox{\Hypertarget{class_an_en_i_o_a7fdb924e4990c113e2e897310f9ce57c}\label{class_an_en_i_o_a7fdb924e4990c113e2e897310f9ce57c}} 
+\mbox{\Hypertarget{class_an_en_i_o_aa58735032dd6f54c83d6450842922d3f}\label{class_an_en_i_o_aa58735032dd6f54c83d6450842922d3f}} 
 \index{An\+En\+IO@{An\+En\+IO}!read\+F\+L\+Ts@{read\+F\+L\+Ts}}
 \index{read\+F\+L\+Ts@{read\+F\+L\+Ts}!An\+En\+IO@{An\+En\+IO}}
 \subsubsection{\texorpdfstring{read\+F\+L\+Ts()}{readFLTs()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} An\+En\+I\+O\+::read\+F\+L\+Ts (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_f_l_ts}{F\+L\+Ts}} \&}]{flts }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} An\+En\+I\+O\+::read\+F\+L\+Ts (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classanen_time_1_1_f_l_ts}{anen\+Time\+::\+F\+L\+Ts}} \&}]{flts }\end{DoxyParamCaption})}
 
-\mbox{\Hypertarget{class_an_en_i_o_a909adad6126ab91d304d8bcc46bd5783}\label{class_an_en_i_o_a909adad6126ab91d304d8bcc46bd5783}} 
+\mbox{\Hypertarget{class_an_en_i_o_a912e513e58fa258e1dce67ff161abab2}\label{class_an_en_i_o_a912e513e58fa258e1dce67ff161abab2}} 
+\index{An\+En\+IO@{An\+En\+IO}!read\+Forecasts@{read\+Forecasts}}
+\index{read\+Forecasts@{read\+Forecasts}!An\+En\+IO@{An\+En\+IO}}
+\subsubsection{\texorpdfstring{read\+Forecasts()}{readForecasts()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} An\+En\+I\+O\+::read\+Forecasts (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_forecasts}{Forecasts}} \&}]{forecasts }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_an_en_i_o_a41ebcc0c9edee123626bf6e606917a49}\label{class_an_en_i_o_a41ebcc0c9edee123626bf6e606917a49}} 
+\index{An\+En\+IO@{An\+En\+IO}!read\+Observations@{read\+Observations}}
+\index{read\+Observations@{read\+Observations}!An\+En\+IO@{An\+En\+IO}}
+\subsubsection{\texorpdfstring{read\+Observations()}{readObservations()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} An\+En\+I\+O\+::read\+Observations (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_observations}{Observations}} \&}]{observations }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_an_en_i_o_a2b21ff04fcc0464017a5a717a6b19065}\label{class_an_en_i_o_a2b21ff04fcc0464017a5a717a6b19065}} 
 \index{An\+En\+IO@{An\+En\+IO}!read\+Parameters@{read\+Parameters}}
 \index{read\+Parameters@{read\+Parameters}!An\+En\+IO@{An\+En\+IO}}
 \subsubsection{\texorpdfstring{read\+Parameters()}{readParameters()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} An\+En\+I\+O\+::read\+Parameters (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_parameters}{Parameters}} \&}]{parameters }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} An\+En\+I\+O\+::read\+Parameters (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classanen_par_1_1_parameters}{anen\+Par\+::\+Parameters}} \&}]{parameters }\end{DoxyParamCaption})}
 
-\mbox{\Hypertarget{class_an_en_i_o_a39c40b1ffcd5b12fc8991a0c47346f00}\label{class_an_en_i_o_a39c40b1ffcd5b12fc8991a0c47346f00}} 
+\mbox{\Hypertarget{class_an_en_i_o_aaec8b46a52f3d8ab904fd4229bd3b9e9}\label{class_an_en_i_o_aaec8b46a52f3d8ab904fd4229bd3b9e9}} 
 \index{An\+En\+IO@{An\+En\+IO}!read\+Stations@{read\+Stations}}
 \index{read\+Stations@{read\+Stations}!An\+En\+IO@{An\+En\+IO}}
 \subsubsection{\texorpdfstring{read\+Stations()}{readStations()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} An\+En\+I\+O\+::read\+Stations (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_stations}{Stations}} \&}]{stations }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} An\+En\+I\+O\+::read\+Stations (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classanen_sta_1_1_stations}{anen\+Sta\+::\+Stations}} \&}]{stations }\end{DoxyParamCaption})}
 
-\mbox{\Hypertarget{class_an_en_i_o_a5c513a7a23000ea12419dc7687285612}\label{class_an_en_i_o_a5c513a7a23000ea12419dc7687285612}} 
+\mbox{\Hypertarget{class_an_en_i_o_a19b454b0a9ecb5ecbc2cc2a9c139770b}\label{class_an_en_i_o_a19b454b0a9ecb5ecbc2cc2a9c139770b}} 
 \index{An\+En\+IO@{An\+En\+IO}!read\+Times@{read\+Times}}
 \index{read\+Times@{read\+Times}!An\+En\+IO@{An\+En\+IO}}
 \subsubsection{\texorpdfstring{read\+Times()}{readTimes()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} An\+En\+I\+O\+::read\+Times (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_times}{Times}} \&}]{times }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} An\+En\+I\+O\+::read\+Times (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classanen_time_1_1_times}{anen\+Time\+::\+Times}} \&}]{times }\end{DoxyParamCaption})}
 
 \mbox{\Hypertarget{class_an_en_i_o_a38bdc2d686737eba3812b3b41e073006}\label{class_an_en_i_o_a38bdc2d686737eba3812b3b41e073006}} 
 \index{An\+En\+IO@{An\+En\+IO}!set\+File\+Path@{set\+File\+Path}}

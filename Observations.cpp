@@ -7,21 +7,41 @@
 
 #include "Observations.h"
 
+#include <stdexcept>
+#include <algorithm>
+
 using namespace std;
 
 /*******************************************************************************
  *                               Observations                                  *
  ******************************************************************************/
+Observations::Observations() {
+}
 
-Observations::Observations(
-        Parameters parameters_, Stations stations_, Times times_) :
-parameters_(parameters_),
-stations_(stations_),
-times_(times_) {
+Observations::Observations(anenPar::Parameters parameters,
+        anenSta::Stations stations, anenTime::Times times) :
+parameters_(parameters),
+stations_(stations),
+times_(times) {
 }
 
 Observations::~Observations() {
 }
+
+size_t
+Observations::getParameterIndex(size_t parameter_ID) const {
+    return (parameters_.getParameterIndex(parameter_ID));
+}
+
+size_t
+Observations::getStationIndex(size_t station_ID) const {
+    return (stations_.getStationIndex(station_ID));
+}
+
+size_t
+Observations::getTimeIndex(double timestamp) const {
+    return (times_.getTimeIndex(timestamp));
+};
 
 size_t
 Observations::get_parameters_size() const {
@@ -38,19 +58,34 @@ Observations::get_times_size() const {
     return (times_.size());
 }
 
-Parameters const &
+anenPar::Parameters const &
 Observations::getParameters() const {
     return parameters_;
 }
 
-Stations const &
+anenSta::Stations const &
 Observations::getStations() const {
     return stations_;
 }
 
-Times const &
+anenTime::Times const &
 Observations::getTimes() const {
     return times_;
+}
+
+void
+Observations::setParameters(anenPar::Parameters parameters) {
+    this->parameters_ = parameters;
+}
+
+void
+Observations::setStations(anenSta::Stations stations) {
+    this->stations_ = stations;
+}
+
+void
+Observations::setTimes(anenTime::Times times) {
+    this->times_ = times;
 }
 
 void
@@ -74,49 +109,80 @@ operator<<(ostream& os, const Observations & obj) {
  *                         Observations_array                                  *
  ******************************************************************************/
 
+Observations_array::Observations_array() {
+}
+
+Observations_array::Observations_array(anenPar::Parameters parameters,
+        anenSta::Stations stations, anenTime::Times times) :
+Observations(parameters, stations, times) {
+    updateDataDims();
+}
 
 Observations_array::Observations_array(
-        Parameters parameters, Stations stations, Times times) :
+        anenPar::Parameters parameters, anenSta::Stations stations, anenTime::Times times,
+        const vector<double> & vals) :
 Observations(parameters, stations, times) {
-
-    try {
-        data_.resize(boost::extents[parameters_.size()][stations_.size()][times_.size()]);
-    } catch (std::length_error & e) {
-        cout << e.what() << endl;
-        throw e;
-    } catch (std::bad_alloc & e) {
-        cout << e.what() << endl;
-        throw e;
-    }
+    setValues(vals);
 }
 
 Observations_array::~Observations_array() {
 }
 
+boost::multi_array<double, 3> const &
+Observations_array::getValues() const {
+    return (data_);
+};
+
 double
-Observations_array::getValue(std::size_t parameter_ID, std::size_t station_ID, 
+Observations_array::getValue(size_t parameter_index,
+        size_t station_index, size_t time_index) const {
+    return (data_[parameter_index][station_index][time_index]);
+}
+
+double
+Observations_array::getValue(size_t parameter_ID, size_t station_ID,
         double timestamp) const {
-    //TODO
-    return NAN;
+    size_t parameter_index = parameters_.getParameterIndex(parameter_ID);
+    size_t station_index = stations_.getStationIndex(station_ID);
+    size_t time_index = times_.getTimeIndex(timestamp);
+    return (data_[parameter_index][station_index][time_index]);
 }
 
-bool
-Observations_array::setValue(double val, std::size_t parameter_ID, 
-        std::size_t station_ID, double timestamp) {
-    // TODO
-    return false;
+void
+Observations_array::setValue(double val, size_t parameter_index,
+        size_t station_index, size_t time_index) {
+    data_[parameter_index][station_index][time_index] = val;
 }
 
-bool
-Observations_array::setValues(const vector<double> & data) {
-    
+void
+Observations_array::setValue(double val, size_t parameter_ID,
+        size_t station_ID, double timestamp) {
+    size_t parameter_index = parameters_.getParameterIndex(parameter_ID);
+    size_t station_index = stations_.getStationIndex(station_ID);
+    size_t time_index = times_.getTimeIndex(timestamp);
+    data_[parameter_index][station_index][time_index] = val;
+}
+
+void
+Observations_array::setValues(const vector<double>& vals) {
+
     // Check the length of data
-    if (data_.num_elements() != data.size()) {
-        return false;
+    if (data_.num_elements() != vals.size()) {
+        string message = "length of observations container (";
+        message.append(to_string(data_.num_elements()));
+        message.append(") != length of input (");
+        message.append(to_string(vals.size()));
+        message.append(")!");
+        throw length_error(message);
     }
-    
-    data_.assign(data.begin(), data.end());
-    return true;
+
+    data_.assign(vals.begin(), vals.end());
+}
+
+void
+Observations_array::updateDataDims() {
+    data_.resize(boost::extents
+            [parameters_.size()][stations_.size()][times_.size()]);
 }
 
 void
@@ -160,7 +226,7 @@ Observations_array::print(ostream& os) const {
 }
 
 ostream &
-operator<<(std::ostream& os, const Observations_array& obj) {
+operator<<(ostream& os, const Observations_array& obj) {
     obj.print(os);
     return os;
 }

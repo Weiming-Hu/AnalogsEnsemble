@@ -1,0 +1,108 @@
+\hypertarget{classanen_sta_1_1_stations}{}\section{anen\+Sta\+:\+:Stations Class Reference}
+\label{classanen_sta_1_1_stations}\index{anen\+Sta\+::\+Stations@{anen\+Sta\+::\+Stations}}
+
+
+\mbox{\hyperlink{classanen_sta_1_1_stations}{Stations}} class stores \mbox{\hyperlink{classanen_sta_1_1_station}{Station}} objects.  
+
+
+
+
+{\ttfamily \#include $<$Stations.\+h$>$}
+
+
+
+Inheritance diagram for anen\+Sta\+:\+:Stations\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=204pt]{classanen_sta_1_1_stations__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for anen\+Sta\+:\+:Stations\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=204pt]{classanen_sta_1_1_stations__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classanen_sta_1_1_stations_aa7c7fcad8a25b1cd14244d5e97c3f4cc}{Stations}} ()
+\item 
+virtual \mbox{\hyperlink{classanen_sta_1_1_stations_a62d43a2fee0a6b2d9da86717938b383d}{$\sim$\+Stations}} ()
+\item 
+std\+::size\+\_\+t \mbox{\hyperlink{classanen_sta_1_1_stations_adfe7d2db9b2c39d1a1004c240c9a82dd}{get\+Station\+Index}} (std\+::size\+\_\+t station\+\_\+\+ID) const
+\item 
+std\+::vector$<$ std\+::size\+\_\+t $>$ \mbox{\hyperlink{classanen_sta_1_1_stations_ac7068f2f170eadf8e62d99f72e253965}{get\+Nearby\+Stations\+ID}} (const std\+::size\+\_\+t \&) const
+\item 
+void \mbox{\hyperlink{classanen_sta_1_1_stations_ad7e588bc0b3f01ec564109f72b544f12}{print}} (std\+::ostream \&) const
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+std\+::ostream \& \mbox{\hyperlink{classanen_sta_1_1_stations_a6c2ba44849c083fa6d206d4573ea523e}{operator$<$$<$}} (std\+::ostream \&, \mbox{\hyperlink{classanen_sta_1_1_stations}{Stations}} const \&)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\mbox{\hyperlink{classanen_sta_1_1_stations}{Stations}} class stores \mbox{\hyperlink{classanen_sta_1_1_station}{Station}} objects. 
+
+\mbox{\hyperlink{classanen_sta_1_1_stations}{Stations}} class support the following features\+:
+\begin{DoxyEnumerate}
+\item \mbox{\hyperlink{classanen_sta_1_1_station}{Station}} should be unique in \mbox{\hyperlink{classanen_sta_1_1_stations}{Stations}};
+\item \mbox{\hyperlink{classanen_sta_1_1_station}{Station}} objects are kept in sequence of insertion, and has random access;
+\item \mbox{\hyperlink{classanen_sta_1_1_station}{Station}} are accessible via \mbox{\hyperlink{classanen_sta_1_1_station}{Station}} ID. 
+\end{DoxyEnumerate}
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classanen_sta_1_1_stations_aa7c7fcad8a25b1cd14244d5e97c3f4cc}\label{classanen_sta_1_1_stations_aa7c7fcad8a25b1cd14244d5e97c3f4cc}} 
+\index{anen\+Sta\+::\+Stations@{anen\+Sta\+::\+Stations}!Stations@{Stations}}
+\index{Stations@{Stations}!anen\+Sta\+::\+Stations@{anen\+Sta\+::\+Stations}}
+\subsubsection{\texorpdfstring{Stations()}{Stations()}}
+{\footnotesize\ttfamily anen\+Sta\+::\+Stations\+::\+Stations (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classanen_sta_1_1_stations_a62d43a2fee0a6b2d9da86717938b383d}\label{classanen_sta_1_1_stations_a62d43a2fee0a6b2d9da86717938b383d}} 
+\index{anen\+Sta\+::\+Stations@{anen\+Sta\+::\+Stations}!````~Stations@{$\sim$\+Stations}}
+\index{````~Stations@{$\sim$\+Stations}!anen\+Sta\+::\+Stations@{anen\+Sta\+::\+Stations}}
+\subsubsection{\texorpdfstring{$\sim$\+Stations()}{~Stations()}}
+{\footnotesize\ttfamily anen\+Sta\+::\+Stations\+::$\sim$\+Stations (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classanen_sta_1_1_stations_ac7068f2f170eadf8e62d99f72e253965}\label{classanen_sta_1_1_stations_ac7068f2f170eadf8e62d99f72e253965}} 
+\index{anen\+Sta\+::\+Stations@{anen\+Sta\+::\+Stations}!get\+Nearby\+Stations\+ID@{get\+Nearby\+Stations\+ID}}
+\index{get\+Nearby\+Stations\+ID@{get\+Nearby\+Stations\+ID}!anen\+Sta\+::\+Stations@{anen\+Sta\+::\+Stations}}
+\subsubsection{\texorpdfstring{get\+Nearby\+Stations\+I\+D()}{getNearbyStationsID()}}
+{\footnotesize\ttfamily vector$<$ size\+\_\+t $>$ anen\+Sta\+::\+Stations\+::get\+Nearby\+Stations\+ID (\begin{DoxyParamCaption}\item[{const std\+::size\+\_\+t \&}]{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classanen_sta_1_1_stations_adfe7d2db9b2c39d1a1004c240c9a82dd}\label{classanen_sta_1_1_stations_adfe7d2db9b2c39d1a1004c240c9a82dd}} 
+\index{anen\+Sta\+::\+Stations@{anen\+Sta\+::\+Stations}!get\+Station\+Index@{get\+Station\+Index}}
+\index{get\+Station\+Index@{get\+Station\+Index}!anen\+Sta\+::\+Stations@{anen\+Sta\+::\+Stations}}
+\subsubsection{\texorpdfstring{get\+Station\+Index()}{getStationIndex()}}
+{\footnotesize\ttfamily size\+\_\+t anen\+Sta\+::\+Stations\+::get\+Station\+Index (\begin{DoxyParamCaption}\item[{std\+::size\+\_\+t}]{station\+\_\+\+ID }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classanen_sta_1_1_stations_ad7e588bc0b3f01ec564109f72b544f12}\label{classanen_sta_1_1_stations_ad7e588bc0b3f01ec564109f72b544f12}} 
+\index{anen\+Sta\+::\+Stations@{anen\+Sta\+::\+Stations}!print@{print}}
+\index{print@{print}!anen\+Sta\+::\+Stations@{anen\+Sta\+::\+Stations}}
+\subsubsection{\texorpdfstring{print()}{print()}}
+{\footnotesize\ttfamily void anen\+Sta\+::\+Stations\+::print (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{ }\end{DoxyParamCaption}) const}
+
+
+
+\subsection{Friends And Related Function Documentation}
+\mbox{\Hypertarget{classanen_sta_1_1_stations_a6c2ba44849c083fa6d206d4573ea523e}\label{classanen_sta_1_1_stations_a6c2ba44849c083fa6d206d4573ea523e}} 
+\index{anen\+Sta\+::\+Stations@{anen\+Sta\+::\+Stations}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!anen\+Sta\+::\+Stations@{anen\+Sta\+::\+Stations}}
+\subsubsection{\texorpdfstring{operator$<$$<$}{operator<<}}
+{\footnotesize\ttfamily std\+::ostream\& operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{,  }\item[{\mbox{\hyperlink{classanen_sta_1_1_stations}{Stations}} const \&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_stations_8h}{Stations.\+h}}\item 
+\mbox{\hyperlink{_stations_8cpp}{Stations.\+cpp}}\end{DoxyCompactItemize}

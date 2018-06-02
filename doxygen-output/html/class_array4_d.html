@@ -76,15 +76,11 @@ $(function() {
 Inheritance diagram for Array4D:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_array4_d__inherit__graph.png" border="0" usemap="#_array4_d_inherit__map" alt="Inheritance graph"/></div>
-<map name="_array4_d_inherit__map" id="_array4_d_inherit__map">
-</map>
 </div>
 <div class="dynheader">
 Collaboration diagram for Array4D:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_array4_d__coll__graph.png" border="0" usemap="#_array4_d_coll__map" alt="Collaboration graph"/></div>
-<map name="_array4_d_coll__map" id="_array4_d_coll__map">
-</map>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -186,7 +182,7 @@ Friends</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>GC: This is the basic data structure that is used to store the forecasts and the observations. Normally the data is stored in the following format:</p>
-<p>[<a class="el" href="class_parameter.html">Parameter</a>][<a class="el" href="class_station.html">Station</a>][Days][Forecast Lead Time]</p>
+<p>[Parameter][Station][Days][Forecast Lead Time]</p>
 <p>It is assumed that all the data is stored as double. It has not been templated for optimization purposes, but it should be rather trivial to make this class work with different data types.</p>
 <p>The class extends the functionality of the boost multidimensional array structure, which is used as the underlying container for the data. Although defining a built 4D array could lead to an increase in speed, it is not possible to use standard STL paradigm and algorithms. The boost library allows for a transparent integration with STL, and provides an optimized data structure bug free. The library is currently maintained and used worldwide. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>

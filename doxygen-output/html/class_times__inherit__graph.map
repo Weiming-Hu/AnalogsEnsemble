@@ -1,3 +1,3 @@
 <map id="Times" name="Times">
-<area shape="rect" id="node3" href="$class_f_l_ts.html" title="{FLTs\n||}" alt="" coords="47,328,96,401"/>
+<area shape="rect" id="node3" href="$class_f_l_ts.html" title="FLTs class is used to store time information for prediction Forecast Lead Times (FLTs). If a temperature forecast on January 1st, 2028 contains predictions at 00h, 06h, 12h, 18h on that day, this forecast has 4 FLTs, which are 0, 6, 12, 18. " alt="" coords="44,315,94,388"/>
 </map>

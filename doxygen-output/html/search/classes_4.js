@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['station',['Station',['../class_station.html',1,'']]],
-  ['stations',['Stations',['../class_stations.html',1,'']]]
+  ['parameter',['Parameter',['../classanen_par_1_1_parameter.html',1,'anenPar']]],
+  ['parameters',['Parameters',['../classanen_par_1_1_parameters.html',1,'anenPar']]]
 ];

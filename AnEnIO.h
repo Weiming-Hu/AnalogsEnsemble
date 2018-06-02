@@ -14,10 +14,19 @@
 
 #include "Times.h"
 #include "Stations.h"
-#include "Observations.h"
+#include "Parameters.h"
 #include "Forecasts.h"
+#include "Observations.h"
 #include "colorTexts.h"
 
+/**
+ * \class AnEnIO
+ * 
+ * \brief AnEnIO class provides interfaces for reading and writing NetCDF files
+ * in forecast, observation, and prediction format. These formats are predefined
+ * for generating predictions.
+ * 
+ */
 class AnEnIO {
 public:
     AnEnIO() = delete;
@@ -64,6 +73,10 @@ public:
     /**
      * Checks whether the NetCDF file conforms with the file type.
      * 
+     * The supported file type are
+     * - Observations
+     * - Forecasts
+     * 
      * @return AnEnIO::errorType.
      */
     errorType checkFileType() const;
@@ -96,12 +109,12 @@ public:
      */
     errorType checkDimensions() const;
 
-    errorType readData(Observations & observations);
-    errorType readData(Forecasts & forecasts);
-    errorType readFLTs(FLTs & flts);
-    errorType readParameters(Parameters & parameters);
-    errorType readStations(Stations & stations);
-    errorType readTimes(Times & times);
+    errorType readObservations(Observations & observations);
+    errorType readForecasts(Forecasts & forecasts);
+    errorType readFLTs(anenTime::FLTs & flts);
+    errorType readParameters(anenPar::Parameters & parameters);
+    errorType readStations(anenSta::Stations & stations);
+    errorType readTimes(anenTime::Times & times);
     errorType readDimLength(std::string dim_name, std::size_t & len);
 
     /**

@@ -2,6 +2,11 @@
 \label{class_f_l_ts}\index{F\+L\+Ts@{F\+L\+Ts}}
 
 
+\mbox{\hyperlink{class_f_l_ts}{F\+L\+Ts}} class is used to store time information for prediction Forecast Lead \mbox{\hyperlink{class_times}{Times}} (\mbox{\hyperlink{class_f_l_ts}{F\+L\+Ts}}). If a temperature forecast on January 1st, 2028 contains predictions at 00h, 06h, 12h, 18h on that day, this forecast has 4 \mbox{\hyperlink{class_f_l_ts}{F\+L\+Ts}}, which are 0, 6, 12, 18.  
+
+
+
+
 {\ttfamily \#include $<$Times.\+h$>$}
 
 
@@ -11,7 +16,7 @@ Inheritance diagram for F\+L\+Ts\+:
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=179pt]{class_f_l_ts__inherit__graph}
+\includegraphics[width=176pt]{class_f_l_ts__inherit__graph}
 \end{center}
 \end{figure}
 
@@ -21,7 +26,7 @@ Collaboration diagram for F\+L\+Ts\+:
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=179pt]{class_f_l_ts__coll__graph}
+\includegraphics[width=176pt]{class_f_l_ts__coll__graph}
 \end{center}
 \end{figure}
 \subsection*{Friends}
@@ -31,6 +36,15 @@ std\+::ostream \& \mbox{\hyperlink{class_f_l_ts_ae6eedde5f18b77e7a2922bc9a3f6b8b
 \end{DoxyCompactItemize}
 \subsection*{Additional Inherited Members}
 
+
+\subsection{Detailed Description}
+\mbox{\hyperlink{class_f_l_ts}{F\+L\+Ts}} class is used to store time information for prediction Forecast Lead \mbox{\hyperlink{class_times}{Times}} (\mbox{\hyperlink{class_f_l_ts}{F\+L\+Ts}}). If a temperature forecast on January 1st, 2028 contains predictions at 00h, 06h, 12h, 18h on that day, this forecast has 4 \mbox{\hyperlink{class_f_l_ts}{F\+L\+Ts}}, which are 0, 6, 12, 18. 
+
+\mbox{\hyperlink{class_f_l_ts}{F\+L\+Ts}} class supports the following features\+:
+\begin{DoxyEnumerate}
+\item F\+LT are unique in \mbox{\hyperlink{class_times}{Times}};
+\item Timestamps are kept in sequence of insertion, and accessible through random access; 
+\end{DoxyEnumerate}
 
 \subsection{Friends And Related Function Documentation}
 \mbox{\Hypertarget{class_f_l_ts_ae6eedde5f18b77e7a2922bc9a3f6b8bf}\label{class_f_l_ts_ae6eedde5f18b77e7a2922bc9a3f6b8bf}} 

@@ -22,6 +22,8 @@ class testStations : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST_SUITE(testStations);
 
     CPPUNIT_TEST(testUnique);
+    CPPUNIT_TEST(testMultiIndex);
+    CPPUNIT_TEST(testGetIndex);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -32,8 +34,9 @@ public:
     void tearDown();
 
 private:
-
     void testUnique();
+    void testMultiIndex();
+    void testGetIndex();
 };
 
 #endif /* TESTSTATIONS_H */

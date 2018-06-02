@@ -9,6 +9,7 @@
 
 #include <ostream>
 using namespace std;
+using namespace anenSta;
 
 CPPUNIT_TEST_SUITE_REGISTRATION(testStation);
 

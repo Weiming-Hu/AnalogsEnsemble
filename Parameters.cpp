@@ -18,157 +18,164 @@
 #include "Parameters.h"
 #include <iterator>
 
-using namespace std;
+namespace anenPar {
 
-/*******************************************************************************
- *                                Parameter                                    *
- ******************************************************************************/
+    using namespace std;
 
-size_t Parameter::_static_ID_ = 0;
+    /***************************************************************************
+     *                              Parameter                                  *
+     **************************************************************************/
 
-Parameter::Parameter() {
-    setID_();
-}
+    size_t Parameter::_static_ID_ = 0;
 
-Parameter::Parameter(string name, double weight, bool circular) :
-name_(name), weight_(weight), circular_(circular) {
-    setID_();
-}
-
-Parameter::Parameter(const Parameter& rhs) {
-    setID_();
-}
-
-Parameter::~Parameter() {
-}
-
-Parameter &
-        Parameter::operator=(const Parameter& rhs) {
-
-    if (this != &rhs) {
-        name_ = rhs.getName();
-        weight_ = rhs.getWeight();
-        circular_ = rhs.getCircular();
-        ID_ = rhs.getID();
+    Parameter::Parameter() {
+        setID_();
     }
 
-    return *this;
-}
+    Parameter::Parameter(string name, double weight, bool circular) :
+    name_(name), weight_(weight), circular_(circular) {
+        setID_();
+    }
 
-bool
-Parameter::operator==(const Parameter& right) const {
-    return (ID_ == right.getID());
-}
+    Parameter::Parameter(const Parameter& rhs) {
+        *this = rhs;
+    }
 
-bool
-Parameter::operator<(const Parameter& right) const {
-    return (ID_ < right.getID());
-}
+    Parameter::~Parameter() {
+    }
 
-bool
-Parameter::compare(const Parameter & rhs) const {
-    
-    if (name_ != rhs.getName()) return false;
-    if (weight_ != rhs.getWeight()) return false;
-    if (circular_ != rhs.getCircular()) return false;
-    
-    return true;
-}
+    Parameter &
+            Parameter::operator=(const Parameter& rhs) {
 
-void
-Parameter::setName(string name) {
-    name_ = name;
-}
+        if (this != &rhs) {
+            name_ = rhs.getName();
+            weight_ = rhs.getWeight();
+            circular_ = rhs.getCircular();
+            ID_ = rhs.getID();
+        }
 
-void
-Parameter::setWeight(double weight) {
-    weight_ = weight;
-}
+        return *this;
+    }
 
-void
-Parameter::setCircular(bool circular) {
-    circular_ = circular;
-}
+    bool
+    Parameter::operator==(const Parameter& right) const {
+        return (ID_ == right.getID());
+    }
 
-string
-Parameter::getName() const {
-    return name_;
-}
+    bool
+    Parameter::operator<(const Parameter& right) const {
+        return (ID_ < right.getID());
+    }
 
-double
-Parameter::getWeight() const {
-    return weight_;
-}
+    bool
+    Parameter::compare(const Parameter & rhs) const {
 
-bool
-Parameter::getCircular() const {
-    return circular_;
-}
+        if (name_ != rhs.getName()) return false;
+        if (weight_ != rhs.getWeight()) return false;
+        if (circular_ != rhs.getCircular()) return false;
 
-size_t
-Parameter::getID() const {
-    return ID_;
-}
+        return true;
+    }
 
-void
-Parameter::print(ostream &os) const {
-    os << "[Parameter] ID: " << ID_ << ", name: " << name_
-            << ", weight: " << weight_ << ", circular: " << circular_
-            << endl;
-}
+    void
+    Parameter::setName(string name) {
+        name_ = name;
+    }
 
-ostream&
-operator<<(ostream& os, Parameter const & obj) {
-    obj.print(os);
-    return os;
-}
+    void
+    Parameter::setWeight(double weight) {
+        weight_ = weight;
+    }
 
-void
-Parameter::setID_() {
-    ID_ = Parameter::_static_ID_;
-    Parameter::_static_ID_++;
-}
+    void
+    Parameter::setCircular(bool circular) {
+        circular_ = circular;
+    }
 
-/*******************************************************************************
- *                                Parameters                                   *
- ******************************************************************************/
+    string
+    Parameter::getName() const {
+        return name_;
+    }
 
-Parameters::Parameters() {
-}
+    double
+    Parameter::getWeight() const {
+        return weight_;
+    }
 
-Parameters::~Parameters() {
-}
+    bool
+    Parameter::getCircular() const {
+        return circular_;
+    }
 
-size_t
-Parameters::size() const _NOEXCEPT {
-    return unordered_map<size_t, Parameter>::size();
-}
+    size_t
+    Parameter::getID() const {
+        return ID_;
+    }
 
-void
-Parameters::clear() _NOEXCEPT {
-    unordered_map<size_t, Parameter>::clear();
-}
+    void
+    Parameter::print(ostream &os) const {
+        os << "[Parameter] ID: " << ID_ << ", name: " << name_
+                << ", weight: " << weight_ << ", circular: " << circular_
+                << endl;
+    }
 
-Parameter &
-Parameters::at(const size_t& key) {
-    return (unordered_map<size_t, Parameter>::at(key));
-}
+    ostream&
+    operator<<(ostream& os, Parameter const & obj) {
+        obj.print(os);
+        return os;
+    }
 
-const Parameter &
-Parameters::at(const size_t& key) const {
-    return (unordered_map<size_t, Parameter>::at(key));
-}
+    void
+    Parameter::setID_() {
+        ID_ = Parameter::_static_ID_;
+        Parameter::_static_ID_++;
+    }
 
-void
-Parameters::print(ostream & os) const {
-    os << "[Parameters] size: " << size() << endl;
-    for_each(begin(), end(), [&os](const pair<size_t, Parameter> & p) {
-        os << p.second;
-    });
-}
+    /***************************************************************************
+     *                              Parameters                                 *
+     **************************************************************************/
 
-ostream&
-operator<<(ostream& os, Parameters const & obj) {
-    obj.print(os);
-    return os;
+    Parameters::Parameters() {
+    }
+
+    Parameters::~Parameters() {
+    }
+
+    size_t
+    Parameters::getParameterIndex(size_t parameter_ID) const {
+
+        // Find the parameter ID in ID-based index
+        const multiIndexParameters::index<by_ID>::type &
+                parameters_by_ID = get<by_ID>();
+
+        auto it_ID = parameters_by_ID.find(parameter_ID);
+
+        if (it_ID != parameters_by_ID.end()) {
+
+            // Project the ID-based order to insertion sequence
+            auto it_insert = project<by_insert>(it_ID);
+
+            // Get the insertion sequence index iterator
+            const multiIndexParameters::index<by_insert>::type&
+                    parameters_by_insert = get<by_insert>();
+
+            // Compute the distance
+            return (distance(parameters_by_insert.begin(), it_insert));
+        } else {
+            throw out_of_range("Can't find the parameter IDs "
+                    + to_string(parameter_ID));
+        }
+    }
+
+    void
+    Parameters::print(ostream & os) const {
+        os << "[Parameters] size: " << size() << endl;
+        copy(begin(), end(), ostream_iterator<Parameter>(os));
+    }
+
+    ostream&
+    operator<<(ostream& os, Parameters const & obj) {
+        obj.print(os);
+        return os;
+    }
 }

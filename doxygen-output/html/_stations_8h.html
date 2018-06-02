@@ -62,7 +62,9 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a>  </div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#typedef-members">Typedefs</a>  </div>
   <div class="headertitle">
 <div class="title">Stations.h File Reference</div>  </div>
 </div><!--header-->
@@ -71,14 +73,16 @@ $(function() {
 <code>#include &lt;string&gt;</code><br />
 <code>#include &lt;cmath&gt;</code><br />
 <code>#include &lt;iostream&gt;</code><br />
-<code>#include &lt;unordered_map&gt;</code><br />
-<code>#include &lt;utility&gt;</code><br />
+<code>#include &lt;boost/multi_index_container.hpp&gt;</code><br />
+<code>#include &lt;boost/multi_index/random_access_index.hpp&gt;</code><br />
+<code>#include &lt;boost/multi_index/identity.hpp&gt;</code><br />
+<code>#include &lt;boost/multi_index/hashed_index.hpp&gt;</code><br />
+<code>#include &lt;boost/multi_index/tag.hpp&gt;</code><br />
+<code>#include &lt;boost/multi_index/mem_fun.hpp&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for Stations.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="_stations_8h__incl.png" border="0" usemap="#_stations_8h" alt=""/></div>
-<map name="_stations_8h" id="_stations_8h">
-</map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
@@ -86,13 +90,13 @@ This graph shows which files directly or indirectly include this file:</div>
 <div class="center"><img src="_stations_8h__dep__incl.png" border="0" usemap="#_stations_8hdep" alt=""/></div>
 <map name="_stations_8hdep" id="_stations_8hdep">
 <area shape="rect" id="node2" href="_an_en_i_o_8h.html" title="AnEnIO.h" alt="" coords="155,152,234,177"/>
-<area shape="rect" id="node4" href="canalogs_8cpp.html" title="canalogs.cpp" alt="" coords="243,225,343,251"/>
-<area shape="rect" id="node5" href="_observations_8h.html" title="Observations.h" alt="" coords="87,79,198,104"/>
-<area shape="rect" id="node7" href="_forecasts_8h.html" title="Forecasts.h" alt="" coords="273,79,364,104"/>
+<area shape="rect" id="node4" href="canalogs_8cpp.html" title="canalogs.cpp" alt="" coords="350,225,450,251"/>
+<area shape="rect" id="node5" href="_forecasts_8h.html" title="Forecasts.h" alt="" coords="293,79,384,104"/>
+<area shape="rect" id="node7" href="_observations_8h.html" title="Observations.h" alt="" coords="107,79,218,104"/>
 <area shape="rect" id="node9" href="_stations_8cpp.html" title="Stations.cpp" alt="" coords="489,79,583,104"/>
-<area shape="rect" id="node3" href="_an_en_i_o_8cpp.html" title="AnEnIO.cpp" alt="" coords="127,225,220,251"/>
-<area shape="rect" id="node6" href="_observations_8cpp.html" title="Observations.cpp" alt="" coords="5,152,130,177"/>
-<area shape="rect" id="node8" href="_forecasts_8cpp.html" title="Forecasts.cpp" alt="" coords="309,152,414,177"/>
+<area shape="rect" id="node3" href="_an_en_i_o_8cpp.html" title="AnEnIO.cpp" alt="" coords="148,225,241,251"/>
+<area shape="rect" id="node6" href="_forecasts_8cpp.html" title="Forecasts.cpp" alt="" coords="258,152,363,177"/>
+<area shape="rect" id="node8" href="_observations_8cpp.html" title="Observations.cpp" alt="" coords="5,152,130,177"/>
 </map>
 </div>
 </div>
@@ -100,10 +104,26 @@ This graph shows which files directly or indirectly include this file:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_station.html">Station</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classanen_sta_1_1_station.html">anenSta::Station</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class <a class="el" href="classanen_sta_1_1_station.html" title="Class Station stores station information including name, X, and Y. Each Station Object is assigned wi...">Station</a> stores station information including name, X, and Y. Each <a class="el" href="classanen_sta_1_1_station.html" title="Class Station stores station information including name, X, and Y. Each Station Object is assigned wi...">Station</a> Object is assigned with an unique ID. This ID can be useful for station retrieval.  <a href="classanen_sta_1_1_station.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_stations.html">Stations</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structanen_sta_1_1by__insert.html">anenSta::by_insert</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structanen_sta_1_1by___i_d.html">anenSta::by_ID</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classanen_sta_1_1_stations.html" title="Stations class stores Station objects. ">Stations</a> class stores <a class="el" href="classanen_sta_1_1_station.html" title="Class Station stores station information including name, X, and Y. Each Station Object is assigned wi...">Station</a> objects.  <a href="classanen_sta_1_1_stations.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:namespaceanen_sta"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceanen_sta.html">anenSta</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:a913b335ef67a3eed40106e55b9a4582c"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceanen_sta.html#a913b335ef67a3eed40106e55b9a4582c">anenSta::multiIndexStations</a> = boost::multi_index_container&lt; Station, boost::multi_index::indexed_by&lt; boost::multi_index::random_access&lt; boost::multi_index::tag&lt; by_insert &gt; &gt;, boost::multi_index::hashed_unique&lt; boost::multi_index::tag&lt; by_ID &gt;, boost::multi_index::const_mem_fun&lt; Station, std::size_t, &amp;Station::getID &gt; &gt; &gt; &gt;</td></tr>
+<tr class="separator:a913b335ef67a3eed40106e55b9a4582c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 <!-- start footer part -->

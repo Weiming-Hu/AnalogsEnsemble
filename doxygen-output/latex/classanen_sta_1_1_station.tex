@@ -1,0 +1,199 @@
+\hypertarget{classanen_sta_1_1_station}{}\section{anen\+Sta\+:\+:Station Class Reference}
+\label{classanen_sta_1_1_station}\index{anen\+Sta\+::\+Station@{anen\+Sta\+::\+Station}}
+
+
+Class \mbox{\hyperlink{classanen_sta_1_1_station}{Station}} stores station information including name, X, and Y. Each \mbox{\hyperlink{classanen_sta_1_1_station}{Station}} Object is assigned with an unique ID. This ID can be useful for station retrieval.  
+
+
+
+
+{\ttfamily \#include $<$Stations.\+h$>$}
+
+
+
+Collaboration diagram for anen\+Sta\+:\+:Station\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=170pt]{classanen_sta_1_1_station__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classanen_sta_1_1_station_afb64bb9d68c519a693cd10af5d783873}{Station}} ()
+\item 
+\mbox{\hyperlink{classanen_sta_1_1_station_a388a35801b1bc978ac07f7a27ffcbfad}{Station}} (std\+::string)
+\item 
+\mbox{\hyperlink{classanen_sta_1_1_station_a1ebec6ab0f696fcbe3b2fdabf0e08410}{Station}} (std\+::string, double, double)
+\item 
+\mbox{\hyperlink{classanen_sta_1_1_station_abe94af374abbb791cfe572a2b165f10d}{Station}} (\mbox{\hyperlink{classanen_sta_1_1_station}{Station}} const \&)
+\item 
+virtual \mbox{\hyperlink{classanen_sta_1_1_station_a2825593117f648d73ea9cbaf851d709d}{$\sim$\+Station}} ()
+\item 
+\mbox{\hyperlink{classanen_sta_1_1_station}{Station}} \& \mbox{\hyperlink{classanen_sta_1_1_station_aefbe0460eb39098b3e1ed4b085ecefab}{operator=}} (const \mbox{\hyperlink{classanen_sta_1_1_station}{Station}} \&)
+\item 
+bool \mbox{\hyperlink{classanen_sta_1_1_station_a402c117d0cff0994d195c2b7027f57c6}{operator==}} (const \mbox{\hyperlink{classanen_sta_1_1_station}{Station}} \&) const
+\item 
+bool \mbox{\hyperlink{classanen_sta_1_1_station_ae75bae686937d9b5fc9b75ca7f6133fc}{operator$<$}} (const \mbox{\hyperlink{classanen_sta_1_1_station}{Station}} \&) const
+\item 
+bool \mbox{\hyperlink{classanen_sta_1_1_station_a071a6c089a2c00a61606d7b4e2766194}{compare}} (const \mbox{\hyperlink{classanen_sta_1_1_station}{Station}} \&) const
+\item 
+std\+::string \mbox{\hyperlink{classanen_sta_1_1_station_a85b26a617e15c4d516e06169c9fb9e50}{get\+Name}} () const
+\item 
+std\+::size\+\_\+t \mbox{\hyperlink{classanen_sta_1_1_station_a7da5e30ee0d25653333630aa61ca5257}{get\+ID}} () const
+\item 
+double \mbox{\hyperlink{classanen_sta_1_1_station_adefc7f1b643ef4542580fd05fbf96b60}{getY}} () const
+\item 
+double \mbox{\hyperlink{classanen_sta_1_1_station_a8f4b152659b571ef4d14159527d2037d}{getX}} () const
+\item 
+void \mbox{\hyperlink{classanen_sta_1_1_station_a8e124bea828292a973ccdfa8aff399cb}{set\+Name}} (std\+::string name)
+\item 
+void \mbox{\hyperlink{classanen_sta_1_1_station_aad174c1e68a7e008a81c1c7decd21064}{setX}} (double x)
+\item 
+void \mbox{\hyperlink{classanen_sta_1_1_station_afd21b8c9a5ebdf6f0423e95cf77daebb}{setY}} (double y)
+\item 
+void \mbox{\hyperlink{classanen_sta_1_1_station_a463e83848b188691dc554003b995ae6d}{print}} (std\+::ostream \&) const
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static std\+::size\+\_\+t \mbox{\hyperlink{classanen_sta_1_1_station_a6623cdce8748308c6d0e27ab4a111eb7}{\+\_\+count\+I\+Ds}} ()
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+std\+::ostream \& \mbox{\hyperlink{classanen_sta_1_1_station_a98b2219804f7e593b080d3c8dec80f0b}{operator$<$$<$}} (std\+::ostream \&, \mbox{\hyperlink{classanen_sta_1_1_station}{Station}} const \&)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Class \mbox{\hyperlink{classanen_sta_1_1_station}{Station}} stores station information including name, X, and Y. Each \mbox{\hyperlink{classanen_sta_1_1_station}{Station}} Object is assigned with an unique ID. This ID can be useful for station retrieval. 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classanen_sta_1_1_station_afb64bb9d68c519a693cd10af5d783873}\label{classanen_sta_1_1_station_afb64bb9d68c519a693cd10af5d783873}} 
+\index{anen\+Sta\+::\+Station@{anen\+Sta\+::\+Station}!Station@{Station}}
+\index{Station@{Station}!anen\+Sta\+::\+Station@{anen\+Sta\+::\+Station}}
+\subsubsection{\texorpdfstring{Station()}{Station()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily anen\+Sta\+::\+Station\+::\+Station (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classanen_sta_1_1_station_a388a35801b1bc978ac07f7a27ffcbfad}\label{classanen_sta_1_1_station_a388a35801b1bc978ac07f7a27ffcbfad}} 
+\index{anen\+Sta\+::\+Station@{anen\+Sta\+::\+Station}!Station@{Station}}
+\index{Station@{Station}!anen\+Sta\+::\+Station@{anen\+Sta\+::\+Station}}
+\subsubsection{\texorpdfstring{Station()}{Station()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily anen\+Sta\+::\+Station\+::\+Station (\begin{DoxyParamCaption}\item[{std\+::string}]{name }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classanen_sta_1_1_station_a1ebec6ab0f696fcbe3b2fdabf0e08410}\label{classanen_sta_1_1_station_a1ebec6ab0f696fcbe3b2fdabf0e08410}} 
+\index{anen\+Sta\+::\+Station@{anen\+Sta\+::\+Station}!Station@{Station}}
+\index{Station@{Station}!anen\+Sta\+::\+Station@{anen\+Sta\+::\+Station}}
+\subsubsection{\texorpdfstring{Station()}{Station()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily anen\+Sta\+::\+Station\+::\+Station (\begin{DoxyParamCaption}\item[{std\+::string}]{,  }\item[{double}]{,  }\item[{double}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classanen_sta_1_1_station_abe94af374abbb791cfe572a2b165f10d}\label{classanen_sta_1_1_station_abe94af374abbb791cfe572a2b165f10d}} 
+\index{anen\+Sta\+::\+Station@{anen\+Sta\+::\+Station}!Station@{Station}}
+\index{Station@{Station}!anen\+Sta\+::\+Station@{anen\+Sta\+::\+Station}}
+\subsubsection{\texorpdfstring{Station()}{Station()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily anen\+Sta\+::\+Station\+::\+Station (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classanen_sta_1_1_station}{Station}} const \&}]{rhs }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classanen_sta_1_1_station_a2825593117f648d73ea9cbaf851d709d}\label{classanen_sta_1_1_station_a2825593117f648d73ea9cbaf851d709d}} 
+\index{anen\+Sta\+::\+Station@{anen\+Sta\+::\+Station}!````~Station@{$\sim$\+Station}}
+\index{````~Station@{$\sim$\+Station}!anen\+Sta\+::\+Station@{anen\+Sta\+::\+Station}}
+\subsubsection{\texorpdfstring{$\sim$\+Station()}{~Station()}}
+{\footnotesize\ttfamily anen\+Sta\+::\+Station\+::$\sim$\+Station (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classanen_sta_1_1_station_a6623cdce8748308c6d0e27ab4a111eb7}\label{classanen_sta_1_1_station_a6623cdce8748308c6d0e27ab4a111eb7}} 
+\index{anen\+Sta\+::\+Station@{anen\+Sta\+::\+Station}!\+\_\+count\+I\+Ds@{\+\_\+count\+I\+Ds}}
+\index{\+\_\+count\+I\+Ds@{\+\_\+count\+I\+Ds}!anen\+Sta\+::\+Station@{anen\+Sta\+::\+Station}}
+\subsubsection{\texorpdfstring{\+\_\+count\+I\+Ds()}{\_countIDs()}}
+{\footnotesize\ttfamily static std\+::size\+\_\+t anen\+Sta\+::\+Station\+::\+\_\+count\+I\+Ds (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+\mbox{\Hypertarget{classanen_sta_1_1_station_a071a6c089a2c00a61606d7b4e2766194}\label{classanen_sta_1_1_station_a071a6c089a2c00a61606d7b4e2766194}} 
+\index{anen\+Sta\+::\+Station@{anen\+Sta\+::\+Station}!compare@{compare}}
+\index{compare@{compare}!anen\+Sta\+::\+Station@{anen\+Sta\+::\+Station}}
+\subsubsection{\texorpdfstring{compare()}{compare()}}
+{\footnotesize\ttfamily bool anen\+Sta\+::\+Station\+::compare (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classanen_sta_1_1_station}{Station}} \&}]{rhs }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classanen_sta_1_1_station_a7da5e30ee0d25653333630aa61ca5257}\label{classanen_sta_1_1_station_a7da5e30ee0d25653333630aa61ca5257}} 
+\index{anen\+Sta\+::\+Station@{anen\+Sta\+::\+Station}!get\+ID@{get\+ID}}
+\index{get\+ID@{get\+ID}!anen\+Sta\+::\+Station@{anen\+Sta\+::\+Station}}
+\subsubsection{\texorpdfstring{get\+I\+D()}{getID()}}
+{\footnotesize\ttfamily size\+\_\+t anen\+Sta\+::\+Station\+::get\+ID (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classanen_sta_1_1_station_a85b26a617e15c4d516e06169c9fb9e50}\label{classanen_sta_1_1_station_a85b26a617e15c4d516e06169c9fb9e50}} 
+\index{anen\+Sta\+::\+Station@{anen\+Sta\+::\+Station}!get\+Name@{get\+Name}}
+\index{get\+Name@{get\+Name}!anen\+Sta\+::\+Station@{anen\+Sta\+::\+Station}}
+\subsubsection{\texorpdfstring{get\+Name()}{getName()}}
+{\footnotesize\ttfamily string anen\+Sta\+::\+Station\+::get\+Name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classanen_sta_1_1_station_a8f4b152659b571ef4d14159527d2037d}\label{classanen_sta_1_1_station_a8f4b152659b571ef4d14159527d2037d}} 
+\index{anen\+Sta\+::\+Station@{anen\+Sta\+::\+Station}!getX@{getX}}
+\index{getX@{getX}!anen\+Sta\+::\+Station@{anen\+Sta\+::\+Station}}
+\subsubsection{\texorpdfstring{get\+X()}{getX()}}
+{\footnotesize\ttfamily double anen\+Sta\+::\+Station\+::getX (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classanen_sta_1_1_station_adefc7f1b643ef4542580fd05fbf96b60}\label{classanen_sta_1_1_station_adefc7f1b643ef4542580fd05fbf96b60}} 
+\index{anen\+Sta\+::\+Station@{anen\+Sta\+::\+Station}!getY@{getY}}
+\index{getY@{getY}!anen\+Sta\+::\+Station@{anen\+Sta\+::\+Station}}
+\subsubsection{\texorpdfstring{get\+Y()}{getY()}}
+{\footnotesize\ttfamily double anen\+Sta\+::\+Station\+::getY (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classanen_sta_1_1_station_ae75bae686937d9b5fc9b75ca7f6133fc}\label{classanen_sta_1_1_station_ae75bae686937d9b5fc9b75ca7f6133fc}} 
+\index{anen\+Sta\+::\+Station@{anen\+Sta\+::\+Station}!operator$<$@{operator$<$}}
+\index{operator$<$@{operator$<$}!anen\+Sta\+::\+Station@{anen\+Sta\+::\+Station}}
+\subsubsection{\texorpdfstring{operator$<$()}{operator<()}}
+{\footnotesize\ttfamily bool anen\+Sta\+::\+Station\+::operator$<$ (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classanen_sta_1_1_station}{Station}} \&}]{rhs }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classanen_sta_1_1_station_aefbe0460eb39098b3e1ed4b085ecefab}\label{classanen_sta_1_1_station_aefbe0460eb39098b3e1ed4b085ecefab}} 
+\index{anen\+Sta\+::\+Station@{anen\+Sta\+::\+Station}!operator=@{operator=}}
+\index{operator=@{operator=}!anen\+Sta\+::\+Station@{anen\+Sta\+::\+Station}}
+\subsubsection{\texorpdfstring{operator=()}{operator=()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classanen_sta_1_1_station}{Station}} \& anen\+Sta\+::\+Station\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classanen_sta_1_1_station}{Station}} \&}]{rhs }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classanen_sta_1_1_station_a402c117d0cff0994d195c2b7027f57c6}\label{classanen_sta_1_1_station_a402c117d0cff0994d195c2b7027f57c6}} 
+\index{anen\+Sta\+::\+Station@{anen\+Sta\+::\+Station}!operator==@{operator==}}
+\index{operator==@{operator==}!anen\+Sta\+::\+Station@{anen\+Sta\+::\+Station}}
+\subsubsection{\texorpdfstring{operator==()}{operator==()}}
+{\footnotesize\ttfamily bool anen\+Sta\+::\+Station\+::operator== (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classanen_sta_1_1_station}{Station}} \&}]{rhs }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classanen_sta_1_1_station_a463e83848b188691dc554003b995ae6d}\label{classanen_sta_1_1_station_a463e83848b188691dc554003b995ae6d}} 
+\index{anen\+Sta\+::\+Station@{anen\+Sta\+::\+Station}!print@{print}}
+\index{print@{print}!anen\+Sta\+::\+Station@{anen\+Sta\+::\+Station}}
+\subsubsection{\texorpdfstring{print()}{print()}}
+{\footnotesize\ttfamily void anen\+Sta\+::\+Station\+::print (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classanen_sta_1_1_station_a8e124bea828292a973ccdfa8aff399cb}\label{classanen_sta_1_1_station_a8e124bea828292a973ccdfa8aff399cb}} 
+\index{anen\+Sta\+::\+Station@{anen\+Sta\+::\+Station}!set\+Name@{set\+Name}}
+\index{set\+Name@{set\+Name}!anen\+Sta\+::\+Station@{anen\+Sta\+::\+Station}}
+\subsubsection{\texorpdfstring{set\+Name()}{setName()}}
+{\footnotesize\ttfamily void anen\+Sta\+::\+Station\+::set\+Name (\begin{DoxyParamCaption}\item[{std\+::string}]{name }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classanen_sta_1_1_station_aad174c1e68a7e008a81c1c7decd21064}\label{classanen_sta_1_1_station_aad174c1e68a7e008a81c1c7decd21064}} 
+\index{anen\+Sta\+::\+Station@{anen\+Sta\+::\+Station}!setX@{setX}}
+\index{setX@{setX}!anen\+Sta\+::\+Station@{anen\+Sta\+::\+Station}}
+\subsubsection{\texorpdfstring{set\+X()}{setX()}}
+{\footnotesize\ttfamily void anen\+Sta\+::\+Station\+::setX (\begin{DoxyParamCaption}\item[{double}]{x }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classanen_sta_1_1_station_afd21b8c9a5ebdf6f0423e95cf77daebb}\label{classanen_sta_1_1_station_afd21b8c9a5ebdf6f0423e95cf77daebb}} 
+\index{anen\+Sta\+::\+Station@{anen\+Sta\+::\+Station}!setY@{setY}}
+\index{setY@{setY}!anen\+Sta\+::\+Station@{anen\+Sta\+::\+Station}}
+\subsubsection{\texorpdfstring{set\+Y()}{setY()}}
+{\footnotesize\ttfamily void anen\+Sta\+::\+Station\+::setY (\begin{DoxyParamCaption}\item[{double}]{y }\end{DoxyParamCaption})}
+
+
+
+\subsection{Friends And Related Function Documentation}
+\mbox{\Hypertarget{classanen_sta_1_1_station_a98b2219804f7e593b080d3c8dec80f0b}\label{classanen_sta_1_1_station_a98b2219804f7e593b080d3c8dec80f0b}} 
+\index{anen\+Sta\+::\+Station@{anen\+Sta\+::\+Station}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!anen\+Sta\+::\+Station@{anen\+Sta\+::\+Station}}
+\subsubsection{\texorpdfstring{operator$<$$<$}{operator<<}}
+{\footnotesize\ttfamily std\+::ostream\& operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{,  }\item[{\mbox{\hyperlink{classanen_sta_1_1_station}{Station}} const \&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_stations_8h}{Stations.\+h}}\item 
+\mbox{\hyperlink{_stations_8cpp}{Stations.\+cpp}}\end{DoxyCompactItemize}

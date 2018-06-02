@@ -1,3 +1,3 @@
 <map id="Forecasts_array" name="Forecasts_array">
-<area shape="rect" id="node2" href="$class_forecasts.html" title="{Forecasts\n|# parameters_\l# stations_\l# times_\l# flts_\l|+ Forecasts()\l+ Forecasts()\l+ Forecasts()\l+ ~Forecasts()\l+ getValue()\l+ setValue()\l+ setValues()\l+ get_parameters_size()\l+ get_stations_size()\l+ get_times_size()\land 6 more...\l}" alt="" coords="5,5,172,252"/>
+<area shape="rect" id="node2" href="$class_forecasts.html" title="Forecasts class provides interface for reading and writing forecast data from and to a NetCDF file..." alt="" coords="8,5,149,252"/>
 </map>
