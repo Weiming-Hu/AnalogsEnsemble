@@ -1,3 +1,19 @@
+#
+#  "`-''-/").___..--''"`-._
+# (`6_ 6  )   `-.  (     ).`-.__.`)   WE ARE ...
+# (_Y_.)'  ._   )  `._ `. ``-..-'    PENN STATE!
+#   _ ..`--'_..-_/  /--'_.' ,'
+# (il),-''  (li),'  ((!.-'
+#
+#
+# Author: Guido Cervone (cervone@psu.edu)
+#         Laura Clemente-Harding (laura@psu.edu)
+#         Weiming Hu (weiming@psu.edu)
+#
+#         Geoinformatics and Earth Observation Laboratory (http://geolab.psu.edu)
+#         Department of Geography and Institute for CyberScience
+#         The Pennsylvania State University
+#
 # This script is created for generating AnEn input forecast file
 
 library(ncdf4)
@@ -41,8 +57,6 @@ stations.tz   <- paste('timezone_', 1:dim.stations, sep = '')
 station.names <- paste('station_', 1:dim.stations, sep = '')
 
 par.names <- paste('par_', 1:dim.pars, sep = '')
-
-
 
 units.stations  <- "Number"
 units.params    <- "Character"

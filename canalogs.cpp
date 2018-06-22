@@ -1,6 +1,7 @@
 /* 
  * File:   canalogs.cpp
- * Author: guido
+ * Author: Guido Cervone <cervone@psu.edu>
+ *         Weiming Hu <weiming@psu.edu>
  *
  * Created on April 17, 2018, 11:10 PM
  */
