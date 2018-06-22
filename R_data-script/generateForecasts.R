@@ -12,18 +12,18 @@ library(ncdf4)
 output.name <- 'forecasts.nc'
 
 # Metadata
-md.web <-  "http://geolab.psu.edu"
-md.inst <-  "The Pennsylvania State University"
+md.web      <-  "http://geolab.psu.edu"
+md.inst     <-  "The Pennsylvania State University"
 md.contacts <-  "({cervone,laura,weiming}@psu.edu)"
-md.unit <-  "Geoinformatics and Earth Observation Laboratory"
-md.author <-  "Guido Cervone, Laura Clemente-Harding, and Weiming Hu"
+md.unit     <-  "Geoinformatics and Earth Observation Laboratory"
+md.author   <-  "Guido Cervone, Laura Clemente-Harding, and Weiming Hu"
 
 # Dimension length
-nchars.max <- 50
+nchars.max   <- 50
 dim.stations <- 200
-dim.times <- 100
-dim.flts <- 8
-dim.pars <- 5
+dim.times    <- 100
+dim.flts     <- 8
+dim.pars     <- 5
 
 # The origin (starting point) of time
 origin <- "1970-01-01"
@@ -37,8 +37,12 @@ times <- sample.int(1:100, size = dim.times, replace = T)
 data <- array(runif(dim.stations*dim.times*dim.flts*dim.pars),
 							dim = c(dim.pars, dim.stations, dim.times, dim.flts))
 
-stations.tz <- paste('timezone_', 1:dim.stations, sep = '')
+stations.tz   <- paste('timezone_', 1:dim.stations, sep = '')
 station.names <- paste('station_', 1:dim.stations, sep = '')
+
+par.names <- paste('par_', 1:dim.pars, sep = '')
+
+
 
 units.stations  <- "Number"
 units.params    <- "Character"
@@ -56,56 +60,63 @@ units.tz        <- "Olson Names"
 #
 nc.dim.stations  <- ncdim_def(
 	"num_stations", "", 1:dim.stations,
-	longname="Number of Stations",
-	create_dimvar=FALSE)
+longname="Number of Stations",
+	create_dimvar = F)
 nc.dim.times     <- ncdim_def(
 	"num_times", "",  1:dim.times,
-	create_dimvar = FALSE)
+	create_dimvar = F)
 nc.dim.params    <- ncdim_def(
 	"num_parameters", "", 1:dim.pars,
-	create_dimvar=FALSE)
+	create_dimvar = F)
 nc.dim.char      <- ncdim_def(
 	"num_chars", "", 1:nchars.max, 
-	create_dimvar=FALSE )
-
----------------------------------------
+	create_dimvar = F)
+nc.dim.flts      <- ncdim_def(
+	"num_flts", "", 1:dim.flts,
+	create_dimvar = F)
 
 # variable definition
-nc.var.obs      <- ncvar_def( "Data", "", list(nc.dim.params, nc.dim.stations, nc.dim.times),NA,prec="double")
-nc.var.times    <- ncvar_def( "Times", units.times, list(nc.dim.times), NA, 
-															longname=paste("Number of seconds since",origin,"00:00:00"), prec = "double")
-nc.var.params   <- ncvar_def( "ParameterNames", "", list(nc.dim.char, nc.dim.params), prec="char")
-nc.var.stations <- ncvar_def( 'StationNames', "", list(nc.dim.char, nc.dim.stations), prec="char")
-nc.var.tz       <- ncvar_def( "TimeZones", units.tz, list(nc.dim.char, nc.dim.stations), prec="char")
-nc.var.lon      <- ncvar_def( "Xs", units.lon, nc.dim.stations)
-nc.var.lat      <- ncvar_def( "Ys", units.lat, nc.dim.stations)
+nc.var.data      <- ncvar_def("Data", "", list(
+	nc.dim.params, nc.dim.stations, nc.dim.times, nc.dim.flts),
+	NA, prec="double")
+nc.var.times    <- ncvar_def("Times", units.times, list(
+	nc.dim.times), NA, longname = paste(
+	"Number of seconds since",origin,"00:00:00"), prec = "double")
+nc.var.params   <- ncvar_def("ParameterNames", "", list(
+	nc.dim.char, nc.dim.params), prec="char")
+nc.var.stations <- ncvar_def("StationNames", "", list(
+	nc.dim.char, nc.dim.stations), prec="char")
+nc.var.tz       <- ncvar_def("TimeZones", units.tz, list(
+	nc.dim.char, nc.dim.stations), prec="char")
+nc.var.lon      <- ncvar_def("Xs", units.lon, nc.dim.stations)
+nc.var.lat      <- ncvar_def("Ys", units.lat, nc.dim.stations)
 
-# Removing the file
-unlink(obs.fname)
+# Removing the file if it already exists
+unlink(output.name)
 
-nc.data.obs    <- nc_create( obs.fname, list(nc.var.obs, nc.var.params, nc.var.tz,
-																						 nc.var.lon, nc.var.lat, nc.var.times,
-																						 nc.var.stations))
+nc.new <- nc_create(output.name, list(
+	nc.var.data, nc.var.params, nc.var.tz, nc.var.lon,
+	nc.var.lat, nc.var.times, nc.var.stations))
 
-ncvar_put( nc.data.obs, nc.var.obs,  observations, start=c(1,1,1))
-ncvar_put( nc.data.obs, nc.var.params, observations.names)
-ncvar_put( nc.data.obs, nc.var.tz, stations.tz)
-ncvar_put( nc.data.obs, nc.var.lon, longs)
-ncvar_put( nc.data.obs, nc.var.lat, lats)
-ncvar_put( nc.data.obs, nc.var.times, times)
-ncvar_put( nc.data.obs, nc.var.stations, station.names)
+ncvar_put(nc.new, nc.var.data,  data, start=c(1,1,1,1))
+ncvar_put(nc.new, nc.var.params, par.names)
+ncvar_put(nc.new, nc.var.tz, stations.tz)
+ncvar_put(nc.new, nc.var.lon, Xs)
+ncvar_put(nc.new, nc.var.lat, lats)
+ncvar_put(nc.new, nc.var.times, times)
+ncvar_put(nc.new, nc.var.stations, station.names)
 
 if ( !is.na(nx) && !is.na(ny) ) {
-	ncatt_put( nc.data.obs, "Data", "nx", nx, "short")
-	ncatt_put( nc.data.obs, "Data", "ny", ny, "short")
+	ncatt_put( nc.new, "Data", "nx", nx, "short")
+	ncatt_put( nc.new, "Data", "ny", ny, "short")
 }
 
-ncatt_put(nc.data.obs, 0, 'Authors', md.author)
-ncatt_put(nc.data.obs, 0, 'Contacts', md.contacts)
-ncatt_put(nc.data.obs, 0, 'Unit', md.unit)
-ncatt_put(nc.data.obs, 0, 'Web', md.web)
-ncatt_put(nc.data.obs, 0, 'Institute', md.inst)
-ncatt_put(nc.data.obs, 0, 'Created',
+ncatt_put(nc.new, 0, 'Authors', md.author)
+ncatt_put(nc.new, 0, 'Contacts', md.contacts)
+ncatt_put(nc.new, 0, 'Unit', md.unit)
+ncatt_put(nc.new, 0, 'Web', md.web)
+ncatt_put(nc.new, 0, 'Institute', md.inst)
+ncatt_put(nc.new, 0, 'Created',
 					format(Sys.time(), format = '%Y-%m-%d_%H:%M:%S_%Z'))
 
-nc_close( nc.data.obs ) 
+nc_close( nc.new ) 
