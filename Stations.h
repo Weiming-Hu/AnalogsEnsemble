@@ -46,6 +46,7 @@ namespace anenSta {
 
         Station & operator=(const Station &);
         bool operator==(const Station &) const;
+        bool operator!=(const Station &) const;
         bool operator<(const Station &) const;
         bool compare(const Station &) const;
 
@@ -100,6 +101,7 @@ namespace anenSta {
      */
     using multiIndexStations = boost::multi_index_container<
             Station,
+
             boost::multi_index::indexed_by<
 
             // Order by insertion
@@ -110,8 +112,7 @@ namespace anenSta {
             boost::multi_index::hashed_unique<
             boost::multi_index::tag<by_ID>,
             boost::multi_index::const_mem_fun<
-            Station, std::size_t, &Station::getID> >
-            > >;
+            Station, std::size_t, &Station::getID> > > >;
 
     /**
      * \class Stations

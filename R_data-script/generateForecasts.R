@@ -28,18 +28,18 @@ library(ncdf4)
 output.name <- 'forecasts.nc'
 
 # Metadata
-md.web      <-  "http://geolab.psu.edu"
-md.inst     <-  "The Pennsylvania State University"
+md.author   <-  "Guido Cervone, Laura Clemente-Harding, and Weiming Hu"
 md.contacts <-  "({cervone,laura,weiming}@psu.edu)"
 md.unit     <-  "Geoinformatics and Earth Observation Laboratory"
-md.author   <-  "Guido Cervone, Laura Clemente-Harding, and Weiming Hu"
+md.web      <-  "http://geolab.psu.edu"
+md.inst     <-  "The Pennsylvania State University"
 
 # Dimension length
 nchars.max   <- 50
 dim.stations <- 200
 dim.times    <- 100
-dim.flts     <- 8
 dim.pars     <- 5
+dim.flts     <- 8
 
 # The origin (starting point) of time
 origin <- "1970-01-01"
@@ -49,6 +49,9 @@ nx <- NA
 ny <- NA
 
 times <- sample.int(1:100, size = dim.times, replace = T)
+
+Xs <- 1:dim.stations
+Ys <- dim.stations:1
 
 data <- array(runif(dim.stations*dim.times*dim.flts*dim.pars),
 							dim = c(dim.pars, dim.stations, dim.times, dim.flts))
@@ -74,7 +77,7 @@ units.tz        <- "Olson Names"
 #
 nc.dim.stations  <- ncdim_def(
 	"num_stations", "", 1:dim.stations,
-longname="Number of Stations",
+	longname="Number of Stations",
 	create_dimvar = F)
 nc.dim.times     <- ncdim_def(
 	"num_times", "",  1:dim.times,
@@ -95,7 +98,7 @@ nc.var.data      <- ncvar_def("Data", "", list(
 	NA, prec="double")
 nc.var.times    <- ncvar_def("Times", units.times, list(
 	nc.dim.times), NA, longname = paste(
-	"Number of seconds since",origin,"00:00:00"), prec = "double")
+		"Number of seconds since",origin,"00:00:00"), prec = "double")
 nc.var.params   <- ncvar_def("ParameterNames", "", list(
 	nc.dim.char, nc.dim.params), prec="char")
 nc.var.stations <- ncvar_def("StationNames", "", list(
@@ -112,11 +115,11 @@ nc.new <- nc_create(output.name, list(
 	nc.var.data, nc.var.params, nc.var.tz, nc.var.lon,
 	nc.var.lat, nc.var.times, nc.var.stations))
 
-ncvar_put(nc.new, nc.var.data,  data, start=c(1,1,1,1))
+ncvar_put(nc.new, nc.var.data, data, start=c(1,1,1,1))
 ncvar_put(nc.new, nc.var.params, par.names)
 ncvar_put(nc.new, nc.var.tz, stations.tz)
 ncvar_put(nc.new, nc.var.lon, Xs)
-ncvar_put(nc.new, nc.var.lat, lats)
+ncvar_put(nc.new, nc.var.lat, Ys)
 ncvar_put(nc.new, nc.var.times, times)
 ncvar_put(nc.new, nc.var.stations, station.names)
 

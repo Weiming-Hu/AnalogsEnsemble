@@ -1,6 +1,6 @@
 /*
  * File:   testStations.cpp
- * Author: Weiming Hu (Weiming Hu)
+ * Author: Weiming Hu <weiming@psu.edu>
  *
  * Created on May 30, 2018, 2:40:21 PM
  */
@@ -131,12 +131,12 @@ testStations::testGetIndex() {
     
     Stations stations;
     stations.insert(stations.end(), vec.begin(), vec.end());
-    
+
     CPPUNIT_ASSERT(stations.getStationIndex(s0.getID()) == 0);
     CPPUNIT_ASSERT(stations.getStationIndex(s3.getID()) == 1);
     CPPUNIT_ASSERT(stations.getStationIndex(s5.getID()) == 2);
     CPPUNIT_ASSERT(stations.getStationIndex(s2.getID()) == 3);
-    
+
     // Test if there is no duplicate
     vec =  {s3, s2, s1, s0};
     stations.clear();

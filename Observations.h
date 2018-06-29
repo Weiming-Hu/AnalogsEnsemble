@@ -26,10 +26,7 @@
  */
 class Observations {
 public:
-    // Don't allow default constructor
     Observations();
-
-    // Delete copy constructor to avoid unexpected call to default constructor
     Observations(const Observations& orig) = delete;
 
     Observations(anenPar::Parameters, anenSta::Stations, anenTime::Times);
@@ -46,7 +43,7 @@ public:
      */
     virtual double getValue(std::size_t parameter_index,
             std::size_t station_index, std::size_t time_index) const = 0;
-    
+
     /**
      * Gets value by searching with IDs and timestamps.
      * 
@@ -70,7 +67,7 @@ public:
      * Observations::updateDataDims to make sure sufficient space is allocated.
      */
     virtual void setValues(const std::vector<double> & vals) = 0;
-    
+
     /**
      * Resizes underlying data member according to the sizes of parameters,
      * stations, and times.
@@ -87,7 +84,7 @@ public:
     std::size_t getParameterIndex(std::size_t parameter_ID) const;
     std::size_t getStationIndex(std::size_t station_ID) const;
     std::size_t getTimeIndex(double timestamp) const;
-    
+
     std::size_t get_parameters_size() const;
     std::size_t get_stations_size() const;
     std::size_t get_times_size() const;
@@ -95,7 +92,7 @@ public:
     const anenPar::Parameters & getParameters() const;
     const anenSta::Stations & getStations() const;
     const anenTime::Times & getTimes() const;
-    
+
     void setParameters(anenPar::Parameters parameters_);
     void setStations(anenSta::Stations stations_);
     void setTimes(anenTime::Times times_);
@@ -125,7 +122,7 @@ public:
             const std::vector<double> & vals);
 
     virtual ~Observations_array();
-    
+
     boost::multi_array<double, 3> const & getValues() const;
 
     double getValue(std::size_t parameter_index,
@@ -139,7 +136,7 @@ public:
             std::size_t station_ID, double timestamp) override;
 
     void setValues(const std::vector<double> & vals) override;
-    
+
     void updateDataDims() override;
 
     void print(std::ostream&) const override;

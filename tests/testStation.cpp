@@ -37,7 +37,7 @@ testStation::testStationComparison() {
     Station s1("station1", 10, 20);
     Station s2("station1", 10, 20);
 
-    CPPUNIT_ASSERT(!(s1 == s2));
+    CPPUNIT_ASSERT(s1 != s2);
     CPPUNIT_ASSERT(s1 < s2);
 }
 
@@ -46,7 +46,7 @@ testStation::testStationAssignment() {
 
     /*
      * When a station is assigned to another station, all member variables
-     * except IDs should be copied. 
+     * should be copied. 
      */
 
     Station s1("station1", 10, 20);

@@ -121,7 +121,7 @@ Observations(parameters, stations, times) {
 Observations_array::Observations_array(
         anenPar::Parameters parameters, anenSta::Stations stations, anenTime::Times times,
         const vector<double> & vals) :
-Observations(parameters, stations, times) {
+Observations_array(parameters, stations, times) {
     setValues(vals);
 }
 

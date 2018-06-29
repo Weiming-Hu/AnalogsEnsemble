@@ -41,7 +41,7 @@ namespace anenTime {
     using multiIndexTimes = boost::multi_index_container<
 
             // This is the base class
-            std::size_t,
+            double,
 
             boost::multi_index::indexed_by<
 

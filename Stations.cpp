@@ -68,6 +68,12 @@ namespace anenSta {
     }
 
     bool
+    Station::operator!=(const Station & rhs) const {
+        bool result = !(*this == rhs); // Reuse equals operator
+        return result;
+    }
+
+    bool
     Station::operator<(const Station & rhs) const {
         return ID_ < rhs.getID();
     }
@@ -145,10 +151,10 @@ namespace anenSta {
 
     Stations::~Stations() {
     }
-    
+
     size_t
     Stations::getStationIndex(size_t station_ID) const {
-        
+
         // Find the station ID in ID-based index
         const multiIndexStations::index<by_ID>::type &
                 stations_by_ID = get<by_ID>();
@@ -174,7 +180,7 @@ namespace anenSta {
 
     vector<size_t>
     Stations::getNearbyStationsID(const size_t & ID) const {
-        vector<size_t> nearby_stations {ID};
+        vector<size_t> nearby_stations{ID};
         return (nearby_stations);
     }
 
