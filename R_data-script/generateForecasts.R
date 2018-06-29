@@ -36,8 +36,8 @@ md.inst     <-  "The Pennsylvania State University"
 
 # Dimension length
 nchars.max   <- 50
-dim.stations <- 200
-dim.times    <- 100
+dim.stations <- 20
+dim.times    <- 10
 dim.pars     <- 5
 dim.flts     <- 8
 
@@ -48,12 +48,12 @@ origin <- "1970-01-01"
 nx <- NA
 ny <- NA
 
-times <- sample.int(1:100, size = dim.times, replace = T)
+times <- 1:(dim.times*dim.flts)
 
 Xs <- 1:dim.stations
 Ys <- dim.stations:1
 
-data <- array(runif(dim.stations*dim.times*dim.flts*dim.pars),
+data <- array(1:(dim.stations*dim.times*dim.flts*dim.pars),
 							dim = c(dim.pars, dim.stations, dim.times, dim.flts))
 
 stations.tz   <- paste('timezone_', 1:dim.stations, sep = '')

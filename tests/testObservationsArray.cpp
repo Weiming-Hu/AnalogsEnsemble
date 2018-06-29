@@ -1,8 +1,8 @@
 /*
- * File:   testObservationsArray.cpp
+ * File:   testObservationsArra y.cpp
  * Author: Weiming Hu <weiming@psu.edu>
  *
- * Created on Jun 29, 2018, 1:36:09 PM
+ * Created on Jun 29, 2018, 5:37:58 PM
  */
 
 #include "testObservationsArray.h"
@@ -111,4 +111,6 @@ void testObservationsArray::testTraverseTime() {
             << elapsed_column_major << "s" << endl;
 
     CPPUNIT_ASSERT(elapsed_column_major < elapsed_row_major);
+    
+    cout << "Done!" << endl;
 }

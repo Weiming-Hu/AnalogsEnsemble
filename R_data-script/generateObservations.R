@@ -37,8 +37,8 @@ basename_sans_ext <- function( x ) { return( basename(file_path_sans_ext(x)) ) }
 
 # Dimension length
 nchars.max   <- 50
-dim.stations <- 200
-dim.times    <- 100
+dim.stations <- 20
+dim.times    <- 10
 dim.pars     <- 5
 
 # The number of flts will not be written into the file.
@@ -53,12 +53,12 @@ origin <- "1970-01-01"
 nx <- NA
 ny <- NA
 
-times <- sample.int(1:100, size = dim.times*dim.flts, replace = T)
+times <- 1:(dim.times*dim.flts)
 
 Xs <- 1:dim.stations
 Ys <- dim.stations:1
 
-data <- array(runif(dim.stations*dim.times*dim.pars*dim.flts),
+data <- array(1:(dim.stations*dim.times*dim.pars*dim.flts),
 							dim = c(dim.pars, dim.stations, dim.times*dim.flts))
 
 stations.tz   <- paste('timezone_', 1:dim.stations, sep = '')
