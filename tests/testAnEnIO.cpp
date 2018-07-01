@@ -28,7 +28,7 @@ void testAnEnIO::setUp() {
 void testAnEnIO::tearDown() {
 }
 
-void testAnEnIO::testReadFile() {
+void testAnEnIO::testReadObservationFile() {
 
     /*
      * Test reading an observation file.
@@ -53,14 +53,44 @@ void testAnEnIO::testReadFile() {
             << "times: " << num_times << endl;
 
     double count = 1;
-    for (size_t k = 0; k < num_times; k++) {
-        for (size_t j = 0; j < num_stations; j++) {
+    for (size_t k = 0; k < num_times; k++)
+        for (size_t j = 0; j < num_stations; j++)
             for (size_t i = 0; i < num_pars; i++) {
                 CPPUNIT_ASSERT(count == observations.getValues()[i][j][k]);
                 count++;
             }
-        }
-    }
-    
+
+    cout << "Done!" << endl;
+}
+
+void testAnEnIO::testReadForecastFile() {
+
+    /*
+     * Test reading a forecast file.
+     */
+
+    string file = "/Users/wuh20/github/AnalogsEnsemble/tests/test_forecasts.nc";
+
+    AnEnIO io(file);
+    io.setVerbose(0);
+    io.setFileType("Forecasts");
+
+    Forecasts_array forecasts;
+    io.handleError(io.readForecasts(forecasts));
+
+    size_t num_pars = forecasts.get_parameters_size();
+    size_t num_stations = forecasts.get_stations_size();
+    size_t num_times = forecasts.get_times_size();
+    size_t num_flts = forecasts.get_flts_size();
+
+    double count = 1;
+    for (size_t l = 0; l < num_flts; l++)
+        for (size_t k = 0; k < num_times; k++)
+            for (size_t j = 0; j < num_stations; j++)
+                for (size_t i = 0; i < num_pars; i++) {
+                    CPPUNIT_ASSERT(count == forecasts.getValue(i, j, k, l));
+                    count++;
+                }
+
     cout << "Done!" << endl;
 }

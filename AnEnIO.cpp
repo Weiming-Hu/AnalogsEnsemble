@@ -91,10 +91,10 @@ AnEnIO::checkFileType() const {
 
     if (file_type_ == "Observations") {
         dim_names = {"num_parameters", "num_stations", "num_times"};
-        var_names = {"Data"};
+        var_names = {"Data", "Times", "StationNames", "ParameterNames"};
     } else if (file_type_ == "Forecasts") {
         dim_names = {"num_parameters", "num_stations", "num_times", "num_flts"};
-        var_names = {"Data"};
+        var_names = {"Data", "FLTs", "Times", "StationNames", "ParameterNames"};
     } else {
         if (verbose_ >= 1) {
             cout << BOLDRED << "Error: Unknown file type."
@@ -253,7 +253,7 @@ AnEnIO::readObservations(Observations & observations) {
 
     vector<double> vals;
     handleError(read_vector_("Data", vals));
-    
+
     observations.setParameters(parameters);
     observations.setStations(stations);
     observations.setTimes(times);
@@ -277,7 +277,7 @@ AnEnIO::readForecasts(Forecasts & forecasts) {
         }
         return (UNKOWN_FILE_TYPE);
     }
-    
+
     anenPar::Parameters parameters;
     anenSta::Stations stations;
     anenTime::Times times;
@@ -286,11 +286,11 @@ AnEnIO::readForecasts(Forecasts & forecasts) {
     handleError(readParameters(parameters));
     handleError(readStations(stations));
     handleError(readTimes(times));
-    handleError(readTimes(flts));
+    handleError(readFLTs(flts));
 
     vector<double> vals;
     handleError(read_vector_("Data", vals));
-    
+
     forecasts.setParameters(parameters);
     forecasts.setStations(stations);
     forecasts.setTimes(times);

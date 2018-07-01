@@ -48,6 +48,8 @@ origin <- "1970-01-01"
 nx <- NA
 ny <- NA
 
+flts <- 1:dim.flts
+
 times <- 1:(dim.times*dim.flts)
 
 Xs <- 1:dim.stations
@@ -93,27 +95,29 @@ nc.dim.flts      <- ncdim_def(
 	create_dimvar = F)
 
 # variable definition
-nc.var.data      <- ncvar_def("Data", "", list(
+nc.var.data <- ncvar_def("Data", "", list(
 	nc.dim.params, nc.dim.stations, nc.dim.times, nc.dim.flts),
 	NA, prec="double")
-nc.var.times    <- ncvar_def("Times", units.times, list(
+nc.var.times <- ncvar_def("Times", units.times, list(
 	nc.dim.times), NA, longname = paste(
 		"Number of seconds since",origin,"00:00:00"), prec = "double")
-nc.var.params   <- ncvar_def("ParameterNames", "", list(
+nc.var.flts <- ncvar_def("FLTs", units.times, list(
+	nc.dim.flts), NA, longname = 'Forecast lead time', prec = "double")
+nc.var.params <- ncvar_def("ParameterNames", "", list(
 	nc.dim.char, nc.dim.params), prec="char")
 nc.var.stations <- ncvar_def("StationNames", "", list(
 	nc.dim.char, nc.dim.stations), prec="char")
-nc.var.tz       <- ncvar_def("TimeZones", units.tz, list(
+nc.var.tz <- ncvar_def("TimeZones", units.tz, list(
 	nc.dim.char, nc.dim.stations), prec="char")
-nc.var.lon      <- ncvar_def("Xs", units.lon, nc.dim.stations)
-nc.var.lat      <- ncvar_def("Ys", units.lat, nc.dim.stations)
+nc.var.lon <- ncvar_def("Xs", units.lon, nc.dim.stations)
+nc.var.lat <- ncvar_def("Ys", units.lat, nc.dim.stations)
 
 # Removing the file if it already exists
 unlink(output.name)
 
 nc.new <- nc_create(output.name, list(
 	nc.var.data, nc.var.params, nc.var.tz, nc.var.lon,
-	nc.var.lat, nc.var.times, nc.var.stations))
+	nc.var.lat, nc.var.times, nc.var.flts, nc.var.stations))
 
 ncvar_put(nc.new, nc.var.data, data, start=c(1,1,1,1))
 ncvar_put(nc.new, nc.var.params, par.names)
@@ -121,6 +125,7 @@ ncvar_put(nc.new, nc.var.tz, stations.tz)
 ncvar_put(nc.new, nc.var.lon, Xs)
 ncvar_put(nc.new, nc.var.lat, Ys)
 ncvar_put(nc.new, nc.var.times, times)
+ncvar_put(nc.new, nc.var.flts, flts)
 ncvar_put(nc.new, nc.var.stations, station.names)
 
 if ( !is.na(nx) && !is.na(ny) ) {
