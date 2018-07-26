@@ -18,16 +18,16 @@
 using namespace std;
 
 int main(int argc, char** argv) {
-    string file(argv[argc - 1]);
+//    string file(argv[argc - 1]);
+    string file("/Users/wuh20/Desktop/ObservationsWind.nc");
     
-    AnEnIO io(file);
-    io.setVerbose(3);
-    io.setFileType("Observations");
+    AnEnIO io("Read", file, "Observations", 3);
 
     Observations_array observations;
     io.handleError(io.readObservations(observations));
     
-    cout << observations;
-
+    io.setMode("Write", "/Users/wuh20/Desktop/test.nc");
+    io.handleError(io.writeObservations(observations));
+    
     return (0);
 }

@@ -11,7 +11,8 @@
 
 
 
-Inheritance diagram for Observations\+:\nopagebreak
+Inheritance diagram for Observations\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -20,7 +21,8 @@ Inheritance diagram for Observations\+:\nopagebreak
 \end{figure}
 
 
-Collaboration diagram for Observations\+:\nopagebreak
+Collaboration diagram for Observations\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -41,6 +43,8 @@ virtual \mbox{\hyperlink{class_observations_a8724b267cce796b0f77f8f2b9e4aaf1d}{$
 virtual double \mbox{\hyperlink{class_observations_ad7b52b880869698f4d191f47bae766e2}{get\+Value}} (std\+::size\+\_\+t parameter\+\_\+index, std\+::size\+\_\+t station\+\_\+index, std\+::size\+\_\+t time\+\_\+index) const =0
 \item 
 virtual double \mbox{\hyperlink{class_observations_ac5564bbf13e79d269407d1ecf567cd7f}{get\+Value}} (std\+::size\+\_\+t parameter\+\_\+\+ID, std\+::size\+\_\+t station\+\_\+\+ID, double timestamp) const =0
+\item 
+virtual const double $\ast$ \mbox{\hyperlink{class_observations_abd666d72594c8e61234296626756ec01}{data}} () const =0
 \item 
 virtual void \mbox{\hyperlink{class_observations_a6f00b4a2277ce9e77cd0d5975f4066f8}{set\+Value}} (double val, std\+::size\+\_\+t parameter\+\_\+index, std\+::size\+\_\+t station\+\_\+index, std\+::size\+\_\+t time\+\_\+index)=0
 \item 
@@ -123,6 +127,19 @@ std\+::ostream \& \mbox{\hyperlink{class_observations_ad93ae2b52ac4bae27e3419d15
 
 
 \subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_observations_abd666d72594c8e61234296626756ec01}\label{class_observations_abd666d72594c8e61234296626756ec01}} 
+\index{Observations@{Observations}!data@{data}}
+\index{data@{data}!Observations@{Observations}}
+\subsubsection{\texorpdfstring{data()}{data()}}
+{\footnotesize\ttfamily virtual const double$\ast$ Observations\+::data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+Gets data in form of a double pointer. \begin{DoxyReturn}{Returns}
+A double pointer. 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{class_observations__array_a75c4a3fea9a8ccd370309058701204f4}{Observations\+\_\+array}}.
+
 \mbox{\Hypertarget{class_observations_a4ae6818f6d01490eb14d63ce51a1d331}\label{class_observations_a4ae6818f6d01490eb14d63ce51a1d331}} 
 \index{Observations@{Observations}!get\+\_\+parameters\+\_\+size@{get\+\_\+parameters\+\_\+size}}
 \index{get\+\_\+parameters\+\_\+size@{get\+\_\+parameters\+\_\+size}!Observations@{Observations}}

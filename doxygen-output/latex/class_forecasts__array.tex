@@ -11,7 +11,8 @@
 
 
 
-Inheritance diagram for Forecasts\+\_\+array\+:\nopagebreak
+Inheritance diagram for Forecasts\+\_\+array\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -20,7 +21,8 @@ Inheritance diagram for Forecasts\+\_\+array\+:\nopagebreak
 \end{figure}
 
 
-Collaboration diagram for Forecasts\+\_\+array\+:\nopagebreak
+Collaboration diagram for Forecasts\+\_\+array\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -45,6 +47,8 @@ virtual \mbox{\hyperlink{class_forecasts__array_a7e13cb82b1ab76a45946cff992c7fff
 double \mbox{\hyperlink{class_forecasts__array_add3a617d4e63dba10bf369fe41714a24}{get\+Value}} (std\+::size\+\_\+t parameter\+\_\+index, std\+::size\+\_\+t station\+\_\+index, std\+::size\+\_\+t time\+\_\+index, std\+::size\+\_\+t flt\+\_\+index) const override
 \item 
 double \mbox{\hyperlink{class_forecasts__array_a38f7b890af0947e0d2022ce5bc5bb514}{get\+Value}} (std\+::size\+\_\+t parameter\+\_\+\+ID, std\+::size\+\_\+t station\+\_\+\+ID, double timestamp, double flt) const override
+\item 
+const double $\ast$ \mbox{\hyperlink{class_forecasts__array_ae7af8dfc4b7a7970310d06bf71069200}{data}} () const override
 \item 
 void \mbox{\hyperlink{class_forecasts__array_a19d59c93e8b7692ebae2d3e15dc43f87}{set\+Value}} (double val, std\+::size\+\_\+t parameter\+\_\+index, std\+::size\+\_\+t station\+\_\+index, std\+::size\+\_\+t time\+\_\+index, std\+::size\+\_\+t flt\+\_\+index) override
 \item 
@@ -101,6 +105,19 @@ std\+::ostream \& \mbox{\hyperlink{class_forecasts__array_a6bde933a6e00ad1328f83
 
 
 \subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_forecasts__array_ae7af8dfc4b7a7970310d06bf71069200}\label{class_forecasts__array_ae7af8dfc4b7a7970310d06bf71069200}} 
+\index{Forecasts\+\_\+array@{Forecasts\+\_\+array}!data@{data}}
+\index{data@{data}!Forecasts\+\_\+array@{Forecasts\+\_\+array}}
+\subsubsection{\texorpdfstring{data()}{data()}}
+{\footnotesize\ttfamily const double $\ast$ Forecasts\+\_\+array\+::data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+Gets data in form of a double pointer. \begin{DoxyReturn}{Returns}
+A double pointer. 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{class_forecasts_abd9768fd95e64920efa89c2c9115cb4d}{Forecasts}}.
+
 \mbox{\Hypertarget{class_forecasts__array_add3a617d4e63dba10bf369fe41714a24}\label{class_forecasts__array_add3a617d4e63dba10bf369fe41714a24}} 
 \index{Forecasts\+\_\+array@{Forecasts\+\_\+array}!get\+Value@{get\+Value}}
 \index{get\+Value@{get\+Value}!Forecasts\+\_\+array@{Forecasts\+\_\+array}}

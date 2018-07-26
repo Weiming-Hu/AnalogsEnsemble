@@ -6,6 +6,7 @@
  */
 
 #include "Observations.h"
+#include "colorTexts.h"
 
 #include <stdexcept>
 #include <algorithm>
@@ -133,6 +134,11 @@ Observations_array::getValues() const {
     return (data_);
 };
 
+const double*
+Observations_array::data() const {
+    return (data_.data());
+}
+
 double
 Observations_array::getValue(size_t parameter_index,
         size_t station_index, size_t time_index) const {
@@ -181,8 +187,17 @@ Observations_array::setValues(const vector<double>& vals) {
 
 void
 Observations_array::updateDataDims() {
-    data_.resize(boost::extents
+    
+    try {
+        data_.resize(boost::extents
             [parameters_.size()][stations_.size()][times_.size()]);
+    } catch (bad_alloc & e) {
+        cout << BOLDRED << "Error: insufficient memory while resizing the"
+                << " array4D to hold " << parameters_.size() << "x"
+                << stations_.size() << "x" << times_.size()
+                << " double values." << endl;
+        throw e;
+    }   
 }
 
 void

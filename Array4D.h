@@ -51,7 +51,7 @@ class Array4D : public boost::multi_array<double, 4> {
 public:
 
     Array4D();
-    Array4D(const Array4D&) = delete;
+    Array4D(const Array4D&);
 
     Array4D(size_t d1, size_t d2, size_t d3, size_t d4);
     Array4D(vector< double > const &, size_t M, size_t N, size_t O, size_t P);

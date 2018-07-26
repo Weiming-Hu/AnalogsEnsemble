@@ -16,6 +16,7 @@
 #include "Parameters.h"
 #include "Times.h"
 #include "Array4D.h"
+#include "colorTexts.h"
 
 /**
  * \class Forecasts
@@ -57,6 +58,12 @@ public:
      */
     virtual double getValue(std::size_t parameter_ID, std::size_t station_ID,
             double timestamp, double flt) const = 0;
+    
+    /**
+     * Gets data in form of a double pointer.
+     * @return A double pointer.
+     */
+    virtual const double* data() const = 0;
 
     virtual void setValue(double val, std::size_t parameter_index,
             std::size_t station_index, std::size_t time_index,
@@ -129,6 +136,8 @@ public:
     double getValue(std::size_t parameter_ID, std::size_t station_ID,
             double timestamp, double flt) const override;
 
+    const double* data() const override;
+    
     void setValue(double val, std::size_t parameter_index,
             std::size_t station_index, std::size_t time_index,
             std::size_t flt_index) override;
@@ -143,7 +152,9 @@ public:
     friend std::ostream& operator<<(std::ostream&, const Forecasts_array&);
 
 private:
-    Array4D data_;
+    Array4D data_ = Array4D(
+            boost::extents[0][0][0][0],
+            boost::fortran_storage_order());
 };
 
 #endif /* FORECASTS_H */

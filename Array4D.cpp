@@ -19,7 +19,10 @@
 using namespace std;
 
 Array4D::Array4D() {
-    //cout << "Array4D Constructor: Default" << endl;
+}
+
+Array4D::Array4D(const Array4D& rhs) {
+    *this = rhs;
 }
 
 Array4D::Array4D(size_t d1, size_t d2, size_t d3, size_t d4) {
@@ -74,7 +77,7 @@ Array4D::getDataFromVector(vector<double> const & data,
     // Resize the current array
     try {
         resize(boost::extents[M][N][O][P]);
-    } catch (bad_alloc e) {
+    } catch (bad_alloc & e) {
         cerr  << "ERROR: insufficient memory while resizing the array4D to hold "
                 << M * N * O * P << " double values"
                  << endl;

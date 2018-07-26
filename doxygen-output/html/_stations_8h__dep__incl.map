@@ -1,10 +1,12 @@
 <map id="Stations.h" name="Stations.h">
 <area shape="rect" id="node2" href="$_an_en_i_o_8h.html" title="AnEnIO.h" alt="" coords="155,152,234,177"/>
-<area shape="rect" id="node4" href="$canalogs_8cpp.html" title="canalogs.cpp" alt="" coords="350,225,450,251"/>
-<area shape="rect" id="node5" href="$_forecasts_8h.html" title="Forecasts.h" alt="" coords="293,79,384,104"/>
-<area shape="rect" id="node7" href="$_observations_8h.html" title="Observations.h" alt="" coords="107,79,218,104"/>
-<area shape="rect" id="node9" href="$_stations_8cpp.html" title="Stations.cpp" alt="" coords="489,79,583,104"/>
-<area shape="rect" id="node3" href="$_an_en_i_o_8cpp.html" title="AnEnIO.cpp" alt="" coords="148,225,241,251"/>
-<area shape="rect" id="node6" href="$_forecasts_8cpp.html" title="Forecasts.cpp" alt="" coords="258,152,363,177"/>
-<area shape="rect" id="node8" href="$_observations_8cpp.html" title="Observations.cpp" alt="" coords="5,152,130,177"/>
+<area shape="rect" id="node6" href="$canalogs_8cpp.html" title="canalogs.cpp" alt="" coords="350,225,450,251"/>
+<area shape="rect" id="node7" href="$_forecasts_8h.html" title="Forecasts.h" alt="" coords="293,79,384,104"/>
+<area shape="rect" id="node9" href="$_observations_8h.html" title="Observations.h" alt="" coords="107,79,218,104"/>
+<area shape="rect" id="node11" href="$_stations_8cpp.html" title="Stations.cpp" alt="" coords="489,79,583,104"/>
+<area shape="rect" id="node3" href="$_an_en_8h.html" title="AnEn.h" alt="" coords="211,225,276,251"/>
+<area shape="rect" id="node5" href="$_an_en_i_o_8cpp.html" title="AnEnIO.cpp" alt="" coords="95,225,188,251"/>
+<area shape="rect" id="node4" href="$_an_en_8cpp.html" title="AnEn.cpp" alt="" coords="204,299,283,324"/>
+<area shape="rect" id="node8" href="$_forecasts_8cpp.html" title="Forecasts.cpp" alt="" coords="258,152,363,177"/>
+<area shape="rect" id="node10" href="$_observations_8cpp.html" title="Observations.cpp" alt="" coords="5,152,130,177"/>
 </map>

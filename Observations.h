@@ -54,6 +54,12 @@ public:
      */
     virtual double getValue(std::size_t parameter_ID,
             std::size_t station_ID, double timestamp) const = 0;
+    
+    /**
+     * Gets data in form of a double pointer.
+     * @return A double pointer.
+     */
+    virtual const double* data() const = 0;
 
     virtual void setValue(double val, std::size_t parameter_index,
             std::size_t station_index, std::size_t time_index) = 0;
@@ -123,7 +129,8 @@ public:
 
     virtual ~Observations_array();
 
-    boost::multi_array<double, 3> const & getValues() const;
+    const boost::multi_array<double, 3> & getValues() const;
+    const double* data() const override;
 
     double getValue(std::size_t parameter_index,
             std::size_t station_index, std::size_t time_index) const override;

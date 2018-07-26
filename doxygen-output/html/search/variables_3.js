@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['parameters_5f',['parameters_',['../class_forecasts.html#a514e1029a27c9d797212158238e4ec86',1,'Forecasts::parameters_()'],['../class_observations.html#a9e80eaaa9c096dda1dbbe8fcf631c087',1,'Observations::parameters_()']]]
+  ['nx_5f',['nx_',['../class_array4_d.html#a5fa707d43fe236f8890dae010de99bf1',1,'Array4D']]],
+  ['ny_5f',['ny_',['../class_array4_d.html#a0c3053b1362730bb52d2d6e9c4402099',1,'Array4D']]]
 ];

@@ -35,8 +35,9 @@ void testAnEnIO::testReadObservationFile() {
      */
 
     string file = "/Users/wuh20/github/AnalogsEnsemble/tests/test_observations.nc";
+    string mode("Input");
 
-    AnEnIO io(file);
+    AnEnIO io(mode, file);
     io.setVerbose(0);
     io.setFileType("Observations");
 
@@ -47,10 +48,10 @@ void testAnEnIO::testReadObservationFile() {
     size_t num_stations = observations.get_stations_size();
     size_t num_times = observations.get_times_size();
 
-    cout << "Observation data dimensions:" << endl
-            << "parameters: " << num_pars << endl
-            << "stations: " << num_stations << endl
-            << "times: " << num_times << endl;
+    //    cout << "Observation data dimensions:" << endl
+    //            << "parameters: " << num_pars << endl
+    //            << "stations: " << num_stations << endl
+    //            << "times: " << num_times << endl;
 
     double count = 1;
     for (size_t k = 0; k < num_times; k++)
@@ -60,7 +61,7 @@ void testAnEnIO::testReadObservationFile() {
                 count++;
             }
 
-    cout << "Done!" << endl;
+    cout << "Done!";
 }
 
 void testAnEnIO::testReadForecastFile() {
@@ -92,5 +93,5 @@ void testAnEnIO::testReadForecastFile() {
                     count++;
                 }
 
-    cout << "Done!" << endl;
+    cout << "Done!";
 }

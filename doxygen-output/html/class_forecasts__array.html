@@ -79,7 +79,7 @@ Inheritance diagram for Forecasts_array:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_forecasts__array__inherit__graph.png" border="0" usemap="#_forecasts__array_inherit__map" alt="Inheritance graph"/></div>
 <map name="_forecasts__array_inherit__map" id="_forecasts__array_inherit__map">
-<area shape="rect" id="node2" href="class_forecasts.html" title="Forecasts class provides interface for reading and writing forecast data from and to a NetCDF file..." alt="" coords="8,5,149,252"/>
+<area shape="rect" id="node2" href="class_forecasts.html" title="Forecasts class provides interface for reading and writing forecast data from and to a NetCDF file..." alt="" coords="24,5,132,252"/>
 </map>
 </div>
 <div class="dynheader">
@@ -87,7 +87,7 @@ Collaboration diagram for Forecasts_array:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_forecasts__array__coll__graph.png" border="0" usemap="#_forecasts__array_coll__map" alt="Collaboration graph"/></div>
 <map name="_forecasts__array_coll__map" id="_forecasts__array_coll__map">
-<area shape="rect" id="node2" href="class_forecasts.html" title="Forecasts class provides interface for reading and writing forecast data from and to a NetCDF file..." alt="" coords="123,519,264,725"/>
+<area shape="rect" id="node2" href="class_forecasts.html" title="Forecasts class provides interface for reading and writing forecast data from and to a NetCDF file..." alt="" coords="140,519,248,725"/>
 <area shape="rect" id="node3" href="classanen_time_1_1_f_l_ts.html" title="FLTs class is used to store time information for prediction forecast lead times (FLTs). If a temperature forecast on January 1st, 2028 contains predictions at 00h, 06h, 12h, 18h on that day, this forecast has 4 FLTs, which are 0, 6, 12, 18. " alt="" coords="80,357,195,431"/>
 <area shape="rect" id="node4" href="classanen_time_1_1_times.html" title="Times class is used to store time information for predictions. By default this is the number of secon..." alt="" coords="9,128,133,281"/>
 <area shape="rect" id="node6" href="classanen_par_1_1_parameters.html" title="Parameters class stores Parameter objects. " alt="" coords="219,337,374,451"/>
@@ -113,6 +113,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:add3a617d4e63dba10bf369fe41714a24"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a38f7b890af0947e0d2022ce5bc5bb514"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_forecasts__array.html#a38f7b890af0947e0d2022ce5bc5bb514">getValue</a> (std::size_t parameter_ID, std::size_t station_ID, double timestamp, double flt) const override</td></tr>
 <tr class="separator:a38f7b890af0947e0d2022ce5bc5bb514"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae7af8dfc4b7a7970310d06bf71069200"><td class="memItemLeft" align="right" valign="top">const double *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_forecasts__array.html#ae7af8dfc4b7a7970310d06bf71069200">data</a> () const override</td></tr>
+<tr class="separator:ae7af8dfc4b7a7970310d06bf71069200"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a19d59c93e8b7692ebae2d3e15dc43f87"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_forecasts__array.html#a19d59c93e8b7692ebae2d3e15dc43f87">setValue</a> (double val, std::size_t parameter_index, std::size_t station_index, std::size_t time_index, std::size_t flt_index) override</td></tr>
 <tr class="separator:a19d59c93e8b7692ebae2d3e15dc43f87"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7224d8333630fcd162a1b69b49241d2f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_forecasts__array.html#a7224d8333630fcd162a1b69b49241d2f">setValue</a> (double val, std::size_t parameter_ID, std::size_t station_ID, double timestamp, double flt) override</td></tr>
@@ -332,6 +334,34 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="ae7af8dfc4b7a7970310d06bf71069200"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae7af8dfc4b7a7970310d06bf71069200">&#9670;&nbsp;</a></span>data()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const double * Forecasts_array::data </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gets data in form of a double pointer. </p><dl class="section return"><dt>Returns</dt><dd>A double pointer. </dd></dl>
+
+<p>Implements <a class="el" href="class_forecasts.html#abd9768fd95e64920efa89c2c9115cb4d">Forecasts</a>.</p>
+
+</div>
+</div>
 <a id="add3a617d4e63dba10bf369fe41714a24"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#add3a617d4e63dba10bf369fe41714a24">&#9670;&nbsp;</a></span>getValue() <span class="overload">[1/2]</span></h2>
 

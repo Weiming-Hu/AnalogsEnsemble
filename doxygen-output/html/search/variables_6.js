@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['times_5f',['times_',['../class_forecasts.html#a5db6d70382b21bc6621b7765d21f6d61',1,'Forecasts::times_()'],['../class_observations.html#ad379be63239b03e0db53dc31014a2d74',1,'Observations::times_()']]]
+  ['required_5fdimensions_5f',['required_dimensions_',['../class_an_en_i_o.html#adf42061631c78508bde00de7d22a65b4',1,'AnEnIO']]],
+  ['required_5fvariables_5f',['required_variables_',['../class_an_en_i_o.html#a119dcb81d3811547f0e37d6c3752f0a7',1,'AnEnIO']]]
 ];

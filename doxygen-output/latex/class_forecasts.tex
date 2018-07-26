@@ -11,7 +11,8 @@
 
 
 
-Inheritance diagram for Forecasts\+:\nopagebreak
+Inheritance diagram for Forecasts\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -20,7 +21,8 @@ Inheritance diagram for Forecasts\+:\nopagebreak
 \end{figure}
 
 
-Collaboration diagram for Forecasts\+:\nopagebreak
+Collaboration diagram for Forecasts\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -41,6 +43,8 @@ virtual \mbox{\hyperlink{class_forecasts_a340fd19812d62efc334fe4d23ff8dcd2}{$\si
 virtual double \mbox{\hyperlink{class_forecasts_a7e6690ba3d8af6ca02d76c6c57701ed4}{get\+Value}} (std\+::size\+\_\+t parameter\+\_\+index, std\+::size\+\_\+t station\+\_\+index, std\+::size\+\_\+t time\+\_\+index, std\+::size\+\_\+t flt\+\_\+index) const =0
 \item 
 virtual double \mbox{\hyperlink{class_forecasts_a07a51e97b54a5c42d197fb4804ee43bc}{get\+Value}} (std\+::size\+\_\+t parameter\+\_\+\+ID, std\+::size\+\_\+t station\+\_\+\+ID, double timestamp, double flt) const =0
+\item 
+virtual const double $\ast$ \mbox{\hyperlink{class_forecasts_abd9768fd95e64920efa89c2c9115cb4d}{data}} () const =0
 \item 
 virtual void \mbox{\hyperlink{class_forecasts_a4ce21957ef296384b1e251098db953bc}{set\+Value}} (double val, std\+::size\+\_\+t parameter\+\_\+index, std\+::size\+\_\+t station\+\_\+index, std\+::size\+\_\+t time\+\_\+index, std\+::size\+\_\+t flt\+\_\+index)=0
 \item 
@@ -125,6 +129,19 @@ std\+::ostream \& \mbox{\hyperlink{class_forecasts_a42c14120042eae287169092654f5
 
 
 \subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_forecasts_abd9768fd95e64920efa89c2c9115cb4d}\label{class_forecasts_abd9768fd95e64920efa89c2c9115cb4d}} 
+\index{Forecasts@{Forecasts}!data@{data}}
+\index{data@{data}!Forecasts@{Forecasts}}
+\subsubsection{\texorpdfstring{data()}{data()}}
+{\footnotesize\ttfamily virtual const double$\ast$ Forecasts\+::data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+Gets data in form of a double pointer. \begin{DoxyReturn}{Returns}
+A double pointer. 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{class_forecasts__array_ae7af8dfc4b7a7970310d06bf71069200}{Forecasts\+\_\+array}}.
+
 \mbox{\Hypertarget{class_forecasts_a5cea0e9e7f39a95a26878fefc0c29b7b}\label{class_forecasts_a5cea0e9e7f39a95a26878fefc0c29b7b}} 
 \index{Forecasts@{Forecasts}!get\+\_\+flts\+\_\+size@{get\+\_\+flts\+\_\+size}}
 \index{get\+\_\+flts\+\_\+size@{get\+\_\+flts\+\_\+size}!Forecasts@{Forecasts}}

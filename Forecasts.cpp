@@ -148,6 +148,11 @@ Forecasts_array::getValue(size_t parameter_index, size_t station_index,
     return (data_[parameter_index][station_index][time_index][flt_index]);
 }
 
+const double*
+Forecasts_array::data() const {
+    return (data_.data());
+}
+
 double
 Forecasts_array::getValue(std::size_t parameter_ID, std::size_t station_ID,
         double timestamp, double flt) const {
@@ -193,8 +198,16 @@ Forecasts_array::setValues(const vector<double> & vals) {
 
 void
 Forecasts_array::updateDataDims() {
-    data_.myresize(get_parameters_size(), get_stations_size(),
-            get_times_size(), get_flts_size());
+    try {
+        data_.myresize(get_parameters_size(), get_stations_size(),
+                get_times_size(), get_flts_size());
+    } catch (bad_alloc & e) {
+        cout << BOLDRED << "Error: insufficient memory while resizing the"
+                << " array4D to hold " << get_flts_size() << "x"
+                << get_parameters_size() << "x" << get_stations_size() << "x"
+                << get_times_size() << " double values." << endl;
+        throw e;
+    }
 }
 
 void

@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['required_5fdimensions_5f',['required_dimensions_',['../class_an_en_i_o.html#adf42061631c78508bde00de7d22a65b4',1,'AnEnIO']]],
-  ['required_5fvariables_5f',['required_variables_',['../class_an_en_i_o.html#a119dcb81d3811547f0e37d6c3752f0a7',1,'AnEnIO']]]
+  ['optional_5fvariables_5f',['optional_variables_',['../class_an_en_i_o.html#a43f82ffbafbbda7ab8c9471d0bce70df',1,'AnEnIO']]],
+  ['origin_5f',['origin_',['../classanen_time_1_1_times.html#a7e08602fb0628df1c5f1cccbb98baeb1',1,'anenTime::Times']]]
 ];

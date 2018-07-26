@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['observations_2ecpp',['Observations.cpp',['../_observations_8cpp.html',1,'']]],
-  ['observations_2eh',['Observations.h',['../_observations_8h.html',1,'']]]
+  ['forecasts_2ecpp',['Forecasts.cpp',['../_forecasts_8cpp.html',1,'']]],
+  ['forecasts_2eh',['Forecasts.h',['../_forecasts_8h.html',1,'']]]
 ];

@@ -1,13 +1,15 @@
 var searchData=
 [
+  ['select_5fanalogs',['select_analogs',['../class_an_en.html#a179079dda478bf08e1a2937e9e17e51c',1,'AnEn']]],
   ['set_5fnx_5fny',['set_nx_ny',['../class_array4_d.html#a4071001d8fd5248bcaf89c54556a6fe2',1,'Array4D']]],
   ['set_5fxs',['set_xs',['../class_array4_d.html#aca331683d3d0d0922e06aa15c89f6c8a',1,'Array4D']]],
   ['set_5fys',['set_ys',['../class_array4_d.html#a5f356e5e2b6c0bf059cfcb1ecb5891c8',1,'Array4D']]],
   ['setcircular',['setCircular',['../class_array4_d.html#ab4574e45a22610a3e9768542afe76797',1,'Array4D::setCircular()'],['../classanen_par_1_1_parameter.html#a879fc52a86d9bd101d5c7854cb9e44e5',1,'anenPar::Parameter::setCircular()']]],
-  ['setfilepath',['setFilePath',['../class_an_en_i_o.html#a38bdc2d686737eba3812b3b41e073006',1,'AnEnIO']]],
-  ['setfiletype',['setFileType',['../class_an_en_i_o.html#ac1a951fd63d9b109e4574143e077f9b2',1,'AnEnIO']]],
+  ['setfilepath',['setFilePath',['../class_an_en_i_o.html#a98066d375cc78694fda2af1ce37cc8d8',1,'AnEnIO']]],
+  ['setfiletype',['setFileType',['../class_an_en_i_o.html#a00fce5619b087353debcb2a602007f31',1,'AnEnIO']]],
   ['setfirstdimension',['setFirstDimension',['../class_array4_d.html#a05273ec7b80fb8eb738dfcf74a54ab5f',1,'Array4D']]],
   ['setflts',['setFlts',['../class_forecasts.html#aa15a4e56c5747afc1594131ad30e4fc3',1,'Forecasts']]],
+  ['setmode',['setMode',['../class_an_en_i_o.html#a0f3889bc1652077a4b41016393f0b7c6',1,'AnEnIO::setMode(std::string mode)'],['../class_an_en_i_o.html#aa199cf152c5c165e9c98d237830ba9ec',1,'AnEnIO::setMode(std::string mode, std::string file_path)']]],
   ['setname',['setName',['../class_array4_d.html#aebbb2b6bc7d699ebe405852509001c9d',1,'Array4D::setName()'],['../classanen_par_1_1_parameter.html#a273b15764bdfae1014bccb2cd4ac42a9',1,'anenPar::Parameter::setName()'],['../classanen_sta_1_1_station.html#a8e124bea828292a973ccdfa8aff399cb',1,'anenSta::Station::setName()']]],
   ['setnames',['setNames',['../class_array4_d.html#af68fe1f08ec29e4f9a14df33a551457f',1,'Array4D']]],
   ['setoptionalvariables',['setOptionalVariables',['../class_an_en_i_o.html#abc499df15eac5fa3f203267723f5edfa',1,'AnEnIO']]],

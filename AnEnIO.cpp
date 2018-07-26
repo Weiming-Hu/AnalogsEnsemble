@@ -9,6 +9,13 @@
 
 #include <boost/filesystem.hpp>
 #include <algorithm>
+#include <exception>
+#include <ncFile.h>
+#include <ncVar.h>
+#include <ncType.h>
+#include <ncDim.h>
+
+size_t _max_chars = 50;
 
 namespace filesys = boost::filesystem;
 using namespace netCDF;
@@ -16,34 +23,60 @@ using namespace std;
 
 using errorType = AnEnIO::errorType;
 
-AnEnIO::AnEnIO(string file_path) :
-file_path_(file_path) {
+AnEnIO::AnEnIO(string mode, string file_path) :
+mode_(mode), file_path_(file_path) {
+    handleError(checkMode());
     handleError(checkFile());
 }
 
-AnEnIO::AnEnIO(string file_path, string file_type) :
-file_path_(file_path), file_type_(file_type) {
-    handleError(checkFile());
-    handleError(checkFileType());
-}
-
-AnEnIO::AnEnIO(string file_path, string file_type, int verbose) :
-file_path_(file_path), file_type_(file_type), verbose_(verbose) {
+AnEnIO::AnEnIO(string mode, string file_path, string file_type) :
+mode_(mode), file_path_(file_path), file_type_(file_type) {
+    handleError(checkMode());
     handleError(checkFile());
     handleError(checkFileType());
 }
 
-AnEnIO::AnEnIO(string file_path, string file_type, int verbose,
+AnEnIO::AnEnIO(string mode, string file_path,
+        string file_type, int verbose) :
+mode_(mode), file_path_(file_path),
+file_type_(file_type), verbose_(verbose) {
+    handleError(checkMode());
+    handleError(checkFile());
+    handleError(checkFileType());
+}
+
+AnEnIO::AnEnIO(string mode, string file_path,
+        string file_type, int verbose,
         vector<string> required_variables,
         vector<string> optional_variables) :
-file_path_(file_path), file_type_(file_type), verbose_(verbose),
+mode_(mode), file_path_(file_path),
+file_type_(file_type), verbose_(verbose),
 required_variables_(required_variables),
 optional_variables_(optional_variables) {
+    handleError(checkMode());
     handleError(checkFile());
     handleError(checkFileType());
 }
 
 AnEnIO::~AnEnIO() {
+}
+
+errorType
+AnEnIO::checkMode() const {
+    if (verbose_ >= 3) {
+        cout << "Checking mode ..." << endl;
+    }
+
+    if (mode_ != "Read" && mode_ != "Write") {
+        if (verbose_ >= 1) {
+            cout << BOLDRED << "Error: Mode should be 'Read' or 'Write'."
+                    << endl;
+        }
+
+        return (UNKNOWN_MODE);
+    }
+
+    return (SUCCESS);
 }
 
 errorType
@@ -53,7 +86,24 @@ AnEnIO::checkFile() const {
         cout << "Checking file (" << file_path_ << ") ..." << endl;
     }
 
-    if (filesys::exists(file_path_)) {
+    bool file_exists = filesys::exists(file_path_);
+
+    if (file_exists && mode_ == "Write") {
+        if (verbose_ >= 1) {
+            cout << BOLDRED << "Error: File exists at "
+                    << file_path_ << RESET << endl;
+        }
+
+        return (FILE_EXISTS);
+    } else if (!file_exists && mode_ == "Read") {
+
+        if (verbose_ >= 1) {
+            cout << BOLDRED << "Error: File not found "
+                    << file_path_ << RESET << endl;
+        }
+
+        return (FILE_NOT_FOUND);
+    } else {
 
         filesys::path boost_path(file_path_);
 
@@ -66,17 +116,11 @@ AnEnIO::checkFile() const {
         }
 
         if (verbose_ >= 1) {
-            cout << BOLDRED << "Error: unknown file type "
+            cout << BOLDRED << "Error: Unknown file type "
                     << file_path_ << RESET << endl;
         }
-        return (UNKOWN_FILE_TYPE);
-    } else {
 
-        if (verbose_ >= 1) {
-            cout << BOLDRED << "Error: File not found "
-                    << file_path_ << RESET << endl;
-        }
-        return (FILE_NOT_FOUND);
+        return (UNKOWN_FILE_TYPE);
     }
 }
 
@@ -87,14 +131,24 @@ AnEnIO::checkFileType() const {
         cout << "Checking file type (" << file_type_ << ") ..." << endl;
     }
 
+    if (mode_ != "Read") {
+        if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Read'."
+                << RESET << endl;
+        return (WRONG_MODE);
+    }
+
     vector<string> dim_names, var_names;
 
     if (file_type_ == "Observations") {
+
         dim_names = {"num_parameters", "num_stations", "num_times"};
         var_names = {"Data", "Times", "StationNames", "ParameterNames"};
+
     } else if (file_type_ == "Forecasts") {
+
         dim_names = {"num_parameters", "num_stations", "num_times", "num_flts"};
         var_names = {"Data", "FLTs", "Times", "StationNames", "ParameterNames"};
+
     } else {
         if (verbose_ >= 1) {
             cout << BOLDRED << "Error: Unknown file type."
@@ -119,6 +173,12 @@ AnEnIO::checkVariable(string var_name, bool optional) const {
 
     if (verbose_ >= 3) {
         cout << "Checking variable (" << var_name << ") ..." << endl;
+    }
+
+    if (mode_ != "Read") {
+        if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Read'."
+                << RESET << endl;
+        return (WRONG_MODE);
     }
 
     NcFile nc(file_path_, NcFile::FileMode::read);
@@ -155,6 +215,12 @@ AnEnIO::checkDim(string dim_name) const {
         cout << "Checking dimension (" << dim_name << ") ..." << endl;
     }
 
+    if (mode_ != "Read") {
+        if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Read'."
+                << RESET << endl;
+        return (WRONG_MODE);
+    }
+
     NcFile nc(file_path_, NcFile::FileMode::read);
     NcDim dim = nc.getDim(dim_name);
     bool is_null = dim.isNull();
@@ -181,6 +247,12 @@ AnEnIO::checkVariables() const {
 
     if (verbose_ >= 3) {
         cout << "Checking variables ..." << endl;
+    }
+
+    if (mode_ != "Read") {
+        if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Read'."
+                << RESET << endl;
+        return (WRONG_MODE);
     }
 
     if (required_variables_.empty()) {
@@ -214,6 +286,12 @@ AnEnIO::checkDimensions() const {
         cout << "Checking dimensions ..." << endl;
     }
 
+    if (mode_ != "Read") {
+        if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Read'."
+                << RESET << endl;
+        return (WRONG_MODE);
+    }
+
     if (required_dimensions_.empty()) {
         if (verbose_ >= 2)
             cout << RED << "Warning: Required dimensions are not set!"
@@ -235,6 +313,12 @@ AnEnIO::readObservations(Observations & observations) {
         cout << "Reading observation file ..." << endl;
     }
 
+    if (mode_ != "Read") {
+        if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Read'."
+                << RESET << endl;
+        return (WRONG_MODE);
+    }
+
     if (file_type_.empty()) {
         if (verbose_ >= 1) {
             cout << BOLDRED << "Error: File type not specified!"
@@ -243,6 +327,15 @@ AnEnIO::readObservations(Observations & observations) {
         return (UNKOWN_FILE_TYPE);
     }
 
+    if (file_type_ != "Observations") {
+        if (verbose_ >= 1) {
+            cout << BOLDGREEN << "Error: File type is not \"Observations\"."
+                    << RESET << endl;
+        }
+        return (WRONG_FILE_TYPE);
+    }
+
+    // Read meta information
     anenPar::Parameters parameters;
     anenSta::Stations stations;
     anenTime::Times times;
@@ -251,6 +344,7 @@ AnEnIO::readObservations(Observations & observations) {
     handleError(readStations(stations));
     handleError(readTimes(times));
 
+    // Read data
     vector<double> vals;
     handleError(read_vector_("Data", vals));
 
@@ -270,6 +364,12 @@ AnEnIO::readForecasts(Forecasts & forecasts) {
         cout << "Reading forecast file ..." << endl;
     }
 
+    if (mode_ != "Read") {
+        if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Read'."
+                << RESET << endl;
+        return (WRONG_MODE);
+    }
+
     if (file_type_.empty()) {
         if (verbose_ >= 1) {
             cout << BOLDRED << "Error: File type not specified!"
@@ -278,16 +378,26 @@ AnEnIO::readForecasts(Forecasts & forecasts) {
         return (UNKOWN_FILE_TYPE);
     }
 
+    if (file_type_ != "Forecasts") {
+        if (verbose_ >= 1) {
+            cout << BOLDGREEN << "Error: File type is not \"Observations\"."
+                    << RESET << endl;
+        }
+        return (WRONG_FILE_TYPE);
+    }
+
     anenPar::Parameters parameters;
     anenSta::Stations stations;
     anenTime::Times times;
     anenTime::FLTs flts;
 
+    // Read meta information
     handleError(readParameters(parameters));
     handleError(readStations(stations));
     handleError(readTimes(times));
     handleError(readFLTs(flts));
 
+    // Read data
     vector<double> vals;
     handleError(read_vector_("Data", vals));
 
@@ -306,6 +416,12 @@ AnEnIO::readFLTs(anenTime::FLTs& flts) {
 
     if (verbose_ >= 3) {
         cout << "Reading variable (FLTs) ..." << endl;
+    }
+
+    if (mode_ != "Read") {
+        if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Read'."
+                << RESET << endl;
+        return (WRONG_MODE);
     }
 
     string var_name = "FLTs";
@@ -334,6 +450,12 @@ AnEnIO::readParameters(anenPar::Parameters & parameters) {
 
     if (verbose_ >= 3) {
         cout << "Reading parameters from file (" << file_path_ << ") ..." << endl;
+    }
+
+    if (mode_ != "Read") {
+        if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Read'."
+                << RESET << endl;
+        return (WRONG_MODE);
     }
 
     size_t dim_len;
@@ -396,6 +518,12 @@ AnEnIO::readStations(anenSta::Stations& stations) {
 
     if (verbose_ >= 3) {
         cout << "Reading stations from file (" << file_path_ << ") ..." << endl;
+    }
+
+    if (mode_ != "Read") {
+        if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Read'."
+                << RESET << endl;
+        return (WRONG_MODE);
     }
 
     size_t dim_len;
@@ -477,6 +605,12 @@ AnEnIO::readTimes(anenTime::Times& times) {
         cout << "Reading variable (Times) ..." << endl;
     }
 
+    if (mode_ != "Read") {
+        if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Read'."
+                << RESET << endl;
+        return (WRONG_MODE);
+    }
+
     string var_name = "Times";
     handleError(checkVariable(var_name, false));
 
@@ -505,11 +639,437 @@ AnEnIO::readDimLength(string dim_name, size_t & len) {
         cout << "Reading dimension (" << dim_name << ") length ..." << endl;
     }
 
+    if (mode_ != "Read") {
+        if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Read'."
+                << RESET << endl;
+        return (WRONG_MODE);
+    }
+
     handleError(checkDim(dim_name));
 
     NcFile nc(file_path_, NcFile::FileMode::read);
     NcDim dim = nc.getDim(dim_name);
     len = dim.getSize();
+    nc.close();
+    return (SUCCESS);
+}
+
+errorType
+AnEnIO::writeForecasts(const Forecasts & forecasts) const {
+
+    if (verbose_ >= 3) {
+        cout << "Writing forecasts ..." << endl;
+    }
+
+    if (mode_ != "Write") {
+        if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Write'."
+                << RESET << endl;
+        return (WRONG_MODE);
+    }
+
+    // Create an empty file
+    NcFile nc_empty(file_path_, NcFile::FileMode::newFile,
+            NcFile::FileFormat::nc4);
+    nc_empty.close();
+
+    // Write meta info
+    handleError(writeParameters(forecasts.getParameters(), false));
+    handleError(writeStations(forecasts.getStations(), false));
+    handleError(writeTimes(forecasts.getTimes(), false));
+    handleError(writeFLTs(forecasts.getFLTs(), false));
+
+    // Write data
+    if (verbose_ >= 3) cout << "Writing variable (Data) ..." << endl;
+    
+    NcFile nc(file_path_, NcFile::FileMode::write);
+
+    NcVar var_data = nc.getVar("Data");
+    if (!var_data.isNull()) {
+        if (verbose_ >= 1) cout << BOLDRED << "Error: Variable (Data)"
+                << " exists in file (" << file_path_ << ")." << RESET << endl;
+        nc.close();
+        return (VARIABLE_EXISTS);
+    }
+
+    // Create data variable
+    vector<string> dim_data
+            = {"num_flts", "num_times", "num_stations", "num_parameters"};
+    var_data = nc.addVar("Data", "double", dim_data);
+    var_data.putVar(forecasts.data());
+
+    nc.close();
+    return (SUCCESS);
+}
+
+errorType
+AnEnIO::writeObservations(const Observations & observations) const {
+
+    if (verbose_ >= 3) {
+        cout << "Writing observations ..." << endl;
+    }
+
+    if (mode_ != "Write") {
+        if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Write'."
+                << RESET << endl;
+        return (WRONG_MODE);
+    }
+
+    // Create an empty NetCDF file
+    NcFile nc_empty(file_path_, NcFile::FileMode::newFile,
+            NcFile::FileFormat::nc4);
+    nc_empty.close();
+
+    // Write meta info
+    handleError(writeParameters(observations.getParameters(), false));
+    handleError(writeStations(observations.getStations(), false));
+    handleError(writeTimes(observations.getTimes(), false));
+
+    // Write data
+    if (verbose_ >= 3) cout << "Writing variable (Data) ..." << endl;
+    
+    NcFile nc(file_path_, NcFile::FileMode::write);
+
+    NcVar var_data = nc.getVar("Data");
+    if (!var_data.isNull()) {
+        if (verbose_ >= 1) cout << BOLDRED << "Error: Variable (Data)"
+                << " exists in file (" << file_path_ << ")." << RESET << endl;
+        nc.close();
+        return (VARIABLE_EXISTS);
+    }
+
+    // Create data variable
+    vector<string> dim_data = {"num_times", "num_stations", "num_parameters"};
+    var_data = nc.addVar("Data", "double", dim_data);
+    var_data.putVar(observations.data());
+
+    nc.close();
+    return (SUCCESS);
+}
+
+errorType
+AnEnIO::writeFLTs(const anenTime::FLTs& flts, bool unlimited) const {
+
+    if (verbose_ >= 3) cout << "Writing variable (FLTs) ..." << endl;
+
+    if (mode_ != "Write") {
+        if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Write'."
+                << RESET << endl;
+        return (WRONG_MODE);
+    }
+
+    NcFile nc(file_path_, NcFile::FileMode::write);
+
+    // Check if file already has dimension
+    NcDim dim_flts = nc.getDim("num_flts");
+    if (!dim_flts.isNull()) {
+        if (verbose_ >= 1) cout << BOLDRED << "Error: Dimension (num_flts)"
+                << " exists in file (" << file_path_ << ")." << RESET << endl;
+        nc.close();
+        return (DIMENSION_EXISTS);
+    }
+
+    // Check if file already has variable
+    NcVar var = nc.getVar("FLTs");
+    if (!var.isNull()) {
+        if (verbose_ >= 1) cout << BOLDRED << "Error: Variable (FLTs)"
+                << " exists in file (" << file_path_ << ")." << RESET << endl;
+        nc.close();
+        return (VARIABLE_EXISTS);
+    }
+
+    // Create dimension
+    if (unlimited) {
+        dim_flts = nc.addDim("num_flts");
+    } else {
+        dim_flts = nc.addDim("num_flts", flts.size());
+    }
+
+    var = nc.addVar("FLTs", NcType::nc_DOUBLE, dim_flts);
+
+    // Convert from multi-index container type to a double pointer
+    double* p = nullptr;
+    try {
+        p = new double [flts.size()]();
+    } catch (bad_alloc e) {
+        cout << BOLDRED << "Error: Insufficient memory to write FLTs ("
+                << flts.size() << ")." << RESET << endl;
+        nc.close();
+        return (INSUFFICIENT_MEMORY);
+    }
+
+    const anenTime::multiIndexTimes::index<anenTime::by_insert>::type&
+            flts_by_insert = flts.get<anenTime::by_insert>();
+
+#if defined(_OPENMP)
+#pragma omp parallel for default(none) schedule(static) \
+shared(flts_by_insert, p)
+#endif
+    for (size_t i = 0; i < flts_by_insert.size(); i++) {
+        p[i] = flts_by_insert[i];
+    }
+
+    var.putVar(p);
+    delete [] p;
+
+    nc.close();
+    return (SUCCESS);
+}
+
+errorType
+AnEnIO::writeParameters(const anenPar::Parameters& parameters,
+        bool unlimited) const {
+
+    if (verbose_ >= 3) cout << "Writing variable (Parameters) ..." << endl;
+
+    if (mode_ != "Write") {
+        if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Write'."
+                << RESET << endl;
+        return (WRONG_MODE);
+    }
+
+    NcFile nc(file_path_, NcFile::FileMode::write);
+
+    // Check if file already has dimensions
+    NcDim dim_parameters = nc.getDim("num_parameters");
+    if (!dim_parameters.isNull()) {
+        if (verbose_ >= 1) cout << BOLDRED
+                << "Error: Dimension (num_parameters) exists in file ("
+                << file_path_ << ")." << RESET << endl;
+        nc.close();
+        return (DIMENSION_EXISTS);
+    }
+
+    NcDim dim_chars = nc.getDim("num_chars");
+    if (dim_chars.isNull()) {
+        dim_chars = nc.addDim("num_chars", _max_chars);
+    }
+
+    // Check if file already has variable
+    NcVar var;
+    vector<string> var_names_to_check
+            = {"ParameterNames", "ParameterWeights", "ParameterCirculars"};
+    for (auto name : var_names_to_check) {
+        var = nc.getVar(name);
+        if (!var.isNull()) {
+            if (verbose_ >= 1) cout << BOLDRED
+                    << "Error: Variable (" << name << ") exists in file ("
+                    << file_path_ << ")." << RESET << endl;
+            nc.close();
+            return (VARIABLE_EXISTS);
+        }
+    }
+
+    if (unlimited) {
+        dim_parameters = nc.addDim("num_parameters");
+    } else {
+        dim_parameters = nc.addDim("num_parameters", parameters.size());
+    }
+
+    vector<NcDim> dim_names = {dim_parameters, dim_chars};
+    NcVar var_names = nc.addVar("ParameterNames", NcType::nc_CHAR, dim_names);
+    NcVar var_weights = nc.addVar("ParameterWeights",
+            NcType::nc_DOUBLE, dim_parameters);
+    NcVar var_circulars = nc.addVar("ParameterCirculars",
+            NcType::nc_INT, dim_parameters);
+
+    // Convert types for writing
+    char* p_names = nullptr;
+    double* p_weights = nullptr;
+    bool* p_circulars = nullptr;
+    try {
+        p_names = new char [_max_chars * parameters.size()]();
+        p_weights = new double [parameters.size()]();
+        p_circulars = new bool [parameters.size()]();
+    } catch (bad_alloc e) {
+        cout << BOLDRED << "Error: Insufficient memory to write Parameters ("
+                << parameters.size() << ")." << RESET << endl;
+        nc.close();
+        return (INSUFFICIENT_MEMORY);
+    }
+
+    const anenPar::multiIndexParameters::index<anenPar::by_insert>::type&
+            parameters_by_insert = parameters.get<anenPar::by_insert>();
+
+#if defined(_OPENMP)
+#pragma omp parallel for default(none) schedule(static) \
+shared(parameters_by_insert, p_circulars, p_names, p_weights)
+#endif
+    for (size_t i = 0; i < parameters_by_insert.size(); i++) {
+        parameters_by_insert[i].getName().copy(
+                p_names + (i * _max_chars), _max_chars, 0);
+        p_weights[i] = parameters_by_insert[i].getWeight();
+        p_circulars[i] = parameters_by_insert[i].getCircular();
+    }
+
+    var_names.putVar(p_names);
+    var_weights.putVar(p_weights);
+    var_circulars.putVar(p_circulars);
+    delete [] p_names;
+    delete [] p_weights;
+    delete [] p_circulars;
+
+    nc.close();
+    return (SUCCESS);
+}
+
+errorType
+AnEnIO::writeStations(const anenSta::Stations& stations, bool unlimited) const {
+
+    if (verbose_ >= 3) cout << "Writing variable (Stations) ..." << endl;
+
+    if (mode_ != "Write") {
+        if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Write'."
+                << RESET << endl;
+        return (WRONG_MODE);
+    }
+
+    NcFile nc(file_path_, NcFile::FileMode::write);
+
+    // Check if file already has dimensions
+    NcDim dim_stations = nc.getDim("num_stations");
+    if (!dim_stations.isNull()) {
+        if (verbose_ >= 1) cout << BOLDRED
+                << "Error: Dimension (num_stations) exists in file ("
+                << file_path_ << ")." << RESET << endl;
+        nc.close();
+        return (DIMENSION_EXISTS);
+    }
+
+    NcDim dim_chars = nc.getDim("num_chars");
+    if (dim_chars.isNull()) {
+        dim_chars = nc.addDim("num_chars", _max_chars);
+    }
+
+    // Check if file already has variable
+    NcVar var;
+    vector<string> var_names_to_check = {"StationNames", "Xs", "Ys"};
+    for (auto name : var_names_to_check) {
+        var = nc.getVar(name);
+        if (!var.isNull()) {
+            if (verbose_ >= 1) cout << BOLDRED
+                    << "Error: Variable (" << name << ") exists in file ("
+                    << file_path_ << ")." << RESET << endl;
+            nc.close();
+            return (VARIABLE_EXISTS);
+        }
+    }
+
+    if (unlimited) {
+        dim_stations = nc.addDim("num_stations");
+    } else {
+        dim_stations = nc.addDim("num_stations", stations.size());
+    }
+
+    vector<NcDim> dim_names = {dim_stations, dim_chars};
+    NcVar var_names = nc.addVar("StationNames", NcType::nc_CHAR, dim_names);
+    NcVar var_xs = nc.addVar("Xs", NcType::nc_DOUBLE, dim_stations);
+    NcVar var_ys = nc.addVar("Ys", NcType::nc_DOUBLE, dim_stations);
+
+    // Convert types for writing
+    char* p_names = nullptr;
+    double* p_xs = nullptr;
+    double* p_ys = nullptr;
+    try {
+        p_names = new char [_max_chars * stations.size()]();
+        p_xs = new double [stations.size()]();
+        p_ys = new double [stations.size()]();
+    } catch (bad_alloc e) {
+        cout << BOLDRED << "Error: Insufficient memory to write Parameters ("
+                << stations.size() << ")." << RESET << endl;
+        nc.close();
+        return (INSUFFICIENT_MEMORY);
+    }
+
+    const anenSta::multiIndexStations::index<anenSta::by_insert>::type&
+            stations_by_insert = stations.get<anenSta::by_insert>();
+
+#if defined(_OPENMP)
+#pragma omp parallel for default(none) schedule(static) \
+shared(stations_by_insert, p_names, p_xs, p_ys)
+#endif
+    for (size_t i = 0; i < stations_by_insert.size(); i++) {
+        stations_by_insert[i].getName().copy(
+                p_names + (i * _max_chars), _max_chars, 0);
+        p_xs[i] = stations_by_insert[i].getX();
+        p_ys[i] = stations_by_insert[i].getY();
+    }
+
+    var_names.putVar(p_names);
+    var_xs.putVar(p_xs);
+    var_ys.putVar(p_ys);
+    delete [] p_names;
+    delete [] p_xs;
+    delete [] p_ys;
+
+    nc.close();
+    return (SUCCESS);
+}
+
+errorType
+AnEnIO::writeTimes(const anenTime::Times& times, bool unlimited) const {
+
+    if (verbose_ >= 3) cout << "Writing variable (Times) ..." << endl;
+
+    if (mode_ != "Write") {
+        if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Write'."
+                << RESET << endl;
+        return (WRONG_MODE);
+    }
+
+    NcFile nc(file_path_, NcFile::FileMode::write);
+
+    // Check if file already has dimension
+    NcDim dim_times = nc.getDim("num_times");
+    if (!dim_times.isNull()) {
+        if (verbose_ >= 1) cout << BOLDRED << "Error: Dimension (num_times)"
+                << " exists in file (" << file_path_ << ")." << RESET << endl;
+        nc.close();
+        return (DIMENSION_EXISTS);
+    }
+
+    // Check if file already has variable
+    NcVar var = nc.getVar("Times");
+    if (!var.isNull()) {
+        if (verbose_ >= 1) cout << BOLDRED << "Error: Variable (Times)"
+                << " exists in file (" << file_path_ << ")." << RESET << endl;
+        nc.close();
+        return (VARIABLE_EXISTS);
+    }
+
+    // Create dimension
+    if (unlimited) {
+        dim_times = nc.addDim("num_times");
+    } else {
+        dim_times = nc.addDim("num_times", times.size());
+    }
+
+    var = nc.addVar("Times", NcType::nc_DOUBLE, dim_times);
+
+    // Convert from multi-index container type to a double pointer
+    double* p = nullptr;
+    try {
+        p = new double [times.size()]();
+    } catch (bad_alloc e) {
+        cout << BOLDRED << "Error: Insufficient memory to write FLTs ("
+                << times.size() << ")." << RESET << endl;
+        nc.close();
+        return (INSUFFICIENT_MEMORY);
+    }
+
+    const anenTime::multiIndexTimes::index<anenTime::by_insert>::type&
+            times_by_insert = times.get<anenTime::by_insert>();
+
+#if defined(_OPENMP)
+#pragma omp parallel for default(none) schedule(static) \
+shared(times_by_insert, p)
+#endif
+    for (size_t i = 0; i < times_by_insert.size(); i++) {
+        p[i] = times_by_insert[i];
+    }
+
+    var.putVar(p);
+    delete [] p;
+
     nc.close();
     return (SUCCESS);
 }
@@ -522,6 +1082,16 @@ AnEnIO::handleError(const errorType & indicator) const {
     } else {
         throw runtime_error("Error code " + to_string(indicator));
     }
+}
+
+int
+AnEnIO::getVerbose() const {
+    return verbose_;
+}
+
+string
+AnEnIO::getMode() const {
+    return mode_;
 }
 
 string
@@ -544,25 +1114,40 @@ AnEnIO::getRequiredVariables() const {
     return required_variables_;
 }
 
-vector<std::string>
+vector<string>
 AnEnIO::getRequiredDimensions() const {
     return required_dimensions_;
 }
 
-int
-AnEnIO::getVerbose() const {
-    return verbose_;
+void
+AnEnIO::setVerbose(int verbose) {
+    this->verbose_ = verbose;
 }
 
 void
-AnEnIO::setFilePath(string file_path_) {
-    this->file_path_ = file_path_;
+AnEnIO::setMode(string mode) {
+    this->mode_ = mode;
+    handleError(checkMode());
     handleError(checkFile());
 }
 
 void
-AnEnIO::setFileType(string fileType_) {
-    this->file_type_ = fileType_;
+AnEnIO::setMode(string mode, string file_path) {
+    this->mode_ = mode;
+    this->file_path_ = file_path;
+    handleError(checkMode());
+    handleError(checkFile());
+}
+
+void
+AnEnIO::setFilePath(string file_path) {
+    this->file_path_ = file_path;
+    handleError(checkFile());
+}
+
+void
+AnEnIO::setFileType(string file_type) {
+    this->file_type_ = file_type;
     handleError(checkFileType());
 }
 
@@ -577,90 +1162,8 @@ AnEnIO::setRequiredVariables(vector<string> required_variables) {
 }
 
 void
-AnEnIO::setRequiredDimensions(std::vector<std::string> required_dimensions) {
+AnEnIO::setRequiredDimensions(vector<string> required_dimensions) {
     this->required_dimensions_ = required_dimensions;
-}
-
-void
-AnEnIO::setVerbose(int verbose_) {
-    this->verbose_ = verbose_;
-}
-
-errorType
-AnEnIO::read_string_vector_(string var_name, vector<string> & vector) const {
-
-    NcFile nc(file_path_, NcFile::FileMode::read);
-    NcVar var = nc.getVar(var_name);
-    auto var_dims = var.getDims();
-    char *p_vals = nullptr;
-
-    if (var_dims.size() == 2) {
-        if (var.getType() == NcType::nc_CHAR) {
-
-            size_t len = 1;
-            for (const auto & dim : var_dims) {
-                len *= dim.getSize();
-            }
-
-            try {
-                p_vals = new char[len];
-            } catch (bad_alloc & e) {
-                nc.close();
-                if (verbose_ >= 1) cout << BOLDRED <<
-                        "Error: Insufficient memory reading variable ("
-                        << var_name << ")!" << RESET << endl;
-                return (INSUFFICIENT_MEMORY);
-            }
-
-            var.getVar(p_vals);
-
-
-            size_t num_strs, num_chars;
-
-            // Figure out which dimension is the number of chars and 
-            // which dimension is the number of strings.
-            //
-            if (var_dims.at(0).getName() == "num_chars") {
-                num_strs = var_dims.at(1).getSize();
-                num_chars = var_dims.at(0).getSize();
-            } else if (var_dims.at(1).getName() == "num_chars") {
-                num_strs = var_dims.at(0).getSize();
-                num_chars = var_dims.at(1).getSize();
-            } else {
-                if (verbose_ >= 1) {
-                    cout << BOLDRED << "Error: The dimension (num_chars)"
-                            << " is expected in variable (" << var_name
-                            << ")!" << RESET << endl;
-                }
-                return (WRONG_VARIABLE_SHAPE);
-            }
-
-            vector.resize(num_strs);
-            for (size_t i = 0; i < num_strs; i++) {
-                string str(p_vals + i*num_chars, p_vals + (i + 1) * num_chars);
-                vector.at(i) = str;
-            }
-
-            delete [] p_vals;
-            nc.close();
-            return (SUCCESS);
-
-        } else {
-
-            if (verbose_ >= 1) {
-                cout << BOLDRED << "Error: Variable (" << var_name <<
-                        ") is not nc_CHAR type!" << RESET << endl;
-            }
-            return (WRONG_VARIABLE_SHAPE);
-        }
-    } else {
-
-        if (verbose_ >= 1) {
-            cout << BOLDRED << "Error: Variable (" << var_name <<
-                    ") should only have 2 dimensions!" << RESET << endl;
-        }
-        return (WRONG_VARIABLE_SHAPE);
-    }
 }
 
 void
@@ -672,6 +1175,12 @@ AnEnIO::dumpVariable(string var_name, size_t start, size_t count) const {
         cout << "Dumping variable ("
             << var_name << ") values ..." << endl
             << "---------------------------------------------" << endl;
+
+    if (mode_ != "Read") {
+        if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Read'."
+                << RESET << endl;
+        return;
+    }
 
     NcFile nc(file_path_, NcFile::FileMode::read);
     NcVar var = nc.getVar(var_name);
@@ -725,7 +1234,8 @@ AnEnIO::dumpVariable(string var_name, size_t start, size_t count) const {
                 break;
             default:
                 if (verbose_ >= 1) cout << BOLDRED << "Error: Variable ("
-                        << var_name << ") type not supported!" << RESET << endl;
+                        << var_name << ") type not supported!"
+                        << RESET << endl;
                 return;
         }
     } catch (bad_alloc & e) {
@@ -783,4 +1293,86 @@ AnEnIO::dumpVariable(string var_name, size_t start, size_t count) const {
 
     nc.close();
     return;
+}
+
+errorType
+AnEnIO::read_string_vector_(string var_name, vector<string> & vector) const {
+
+    if (mode_ != "Read") {
+        if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Read'."
+                << RESET << endl;
+        return (WRONG_MODE);
+    }
+
+    NcFile nc(file_path_, NcFile::FileMode::read);
+    NcVar var = nc.getVar(var_name);
+    auto var_dims = var.getDims();
+    char *p_vals = nullptr;
+
+    if (var_dims.size() == 2) {
+        if (var.getType() == NcType::nc_CHAR) {
+
+            size_t len = 1;
+            for (const auto & dim : var_dims) {
+                len *= dim.getSize();
+            }
+
+            try {
+                p_vals = new char[len];
+            } catch (bad_alloc & e) {
+                nc.close();
+                if (verbose_ >= 1) cout << BOLDRED <<
+                        "Error: Insufficient memory reading variable ("
+                        << var_name << ")!" << RESET << endl;
+                return (INSUFFICIENT_MEMORY);
+            }
+
+            var.getVar(p_vals);
+
+            size_t num_strs, num_chars;
+
+            // Figure out which dimension is the number of chars and 
+            // which dimension is the number of strings.
+            //
+            if (var_dims.at(0).getName() == "num_chars") {
+                num_strs = var_dims.at(1).getSize();
+                num_chars = var_dims.at(0).getSize();
+            } else if (var_dims.at(1).getName() == "num_chars") {
+                num_strs = var_dims.at(0).getSize();
+                num_chars = var_dims.at(1).getSize();
+            } else {
+                if (verbose_ >= 1) {
+                    cout << BOLDRED << "Error: The dimension (num_chars)"
+                            << " is expected in variable (" << var_name
+                            << ")!" << RESET << endl;
+                }
+                return (WRONG_VARIABLE_SHAPE);
+            }
+
+            vector.resize(num_strs);
+            for (size_t i = 0; i < num_strs; i++) {
+                string str(p_vals + i*num_chars, p_vals + (i + 1) * num_chars);
+                vector.at(i) = str;
+            }
+
+            delete [] p_vals;
+            nc.close();
+            return (SUCCESS);
+
+        } else {
+
+            if (verbose_ >= 1) {
+                cout << BOLDRED << "Error: Variable (" << var_name <<
+                        ") is not nc_CHAR type!" << RESET << endl;
+            }
+            return (WRONG_VARIABLE_SHAPE);
+        }
+    } else {
+
+        if (verbose_ >= 1) {
+            cout << BOLDRED << "Error: Variable (" << var_name <<
+                    ") should only have 2 dimensions!" << RESET << endl;
+        }
+        return (WRONG_VARIABLE_SHAPE);
+    }
 }
