@@ -33,7 +33,7 @@ AnEnIO::AnEnIO(string mode, string file_path, string file_type) :
 mode_(mode), file_path_(file_path), file_type_(file_type) {
     handleError(checkMode());
     handleError(checkFile());
-    handleError(checkFileType());
+    if (mode_ != "Write") handleError(checkFileType());
 }
 
 AnEnIO::AnEnIO(string mode, string file_path,
@@ -42,7 +42,7 @@ mode_(mode), file_path_(file_path),
 file_type_(file_type), verbose_(verbose) {
     handleError(checkMode());
     handleError(checkFile());
-    handleError(checkFileType());
+    if (mode_ != "Write") handleError(checkFileType());
 }
 
 AnEnIO::AnEnIO(string mode, string file_path,
@@ -55,7 +55,7 @@ required_variables_(required_variables),
 optional_variables_(optional_variables) {
     handleError(checkMode());
     handleError(checkFile());
-    handleError(checkFileType());
+    if (mode_ != "Write") handleError(checkFileType());
 }
 
 AnEnIO::~AnEnIO() {
@@ -131,41 +131,46 @@ AnEnIO::checkFileType() const {
         cout << "Checking file type (" << file_type_ << ") ..." << endl;
     }
 
-    if (mode_ != "Read") {
-        if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Read'."
+    if (mode_ == "Write") {
+        if (verbose_ >= 2) cout << RED << "Warning: No need to check "
+                << "for mode 'Write'." << RESET << endl;
+        return (SUCCESS);
+    } else if (mode_ == "Read") {
+
+        vector<string> dim_names, var_names;
+
+        if (file_type_ == "Observations") {
+
+            dim_names = {"num_parameters", "num_stations", "num_times"};
+            var_names = {"Data", "Times", "StationNames", "ParameterNames"};
+
+        } else if (file_type_ == "Forecasts") {
+
+            dim_names = {"num_parameters", "num_stations", "num_times", "num_flts"};
+            var_names = {"Data", "FLTs", "Times", "StationNames", "ParameterNames"};
+
+        } else {
+            if (verbose_ >= 1) {
+                cout << BOLDRED << "Error: Unknown file type."
+                        << file_type_ << RESET << endl;
+            }
+            return (UNKOWN_FILE_TYPE);
+        }
+
+        for (const auto & name : dim_names) {
+            handleError(checkDim(name));
+        }
+
+        for (const auto & name : var_names) {
+            handleError(checkVariable(name, false));
+        }
+
+        return (SUCCESS);
+    } else {
+        if (verbose_ >= 1) cout << BOLDRED << "Error: Unknown mode."
                 << RESET << endl;
         return (WRONG_MODE);
     }
-
-    vector<string> dim_names, var_names;
-
-    if (file_type_ == "Observations") {
-
-        dim_names = {"num_parameters", "num_stations", "num_times"};
-        var_names = {"Data", "Times", "StationNames", "ParameterNames"};
-
-    } else if (file_type_ == "Forecasts") {
-
-        dim_names = {"num_parameters", "num_stations", "num_times", "num_flts"};
-        var_names = {"Data", "FLTs", "Times", "StationNames", "ParameterNames"};
-
-    } else {
-        if (verbose_ >= 1) {
-            cout << BOLDRED << "Error: Unknown file type."
-                    << file_type_ << RESET << endl;
-        }
-        return (UNKOWN_FILE_TYPE);
-    }
-
-    for (const auto & name : dim_names) {
-        handleError(checkDim(name));
-    }
-
-    for (const auto & name : var_names) {
-        handleError(checkVariable(name, false));
-    }
-
-    return (SUCCESS);
 }
 
 errorType
@@ -478,10 +483,16 @@ AnEnIO::readParameters(anenPar::Parameters & parameters) {
         }
     }
 
-    // Read variable CircularParameters
+    // Read variable ParameterCirculars
     vector<string> circulars;
-    if (SUCCESS == checkVariable("CircularParameters", true)) {
-        read_vector_("CircularParameters", circulars);
+    if (SUCCESS == checkVariable("ParameterCirculars", true)) {
+        handleError(read_string_vector_("ParameterCirculars", circulars));
+    }
+
+    // Read variable ParameterWeights
+    vector<double> weights;
+    if (SUCCESS == checkVariable("ParameterWeights", true)) {
+        handleError(read_vector_("ParameterWeights", weights));
     }
 
     // Construct anenPar::Parameter objects and insert them into anenPar::Parameters
@@ -499,6 +510,9 @@ AnEnIO::readParameters(anenPar::Parameters & parameters) {
             auto it_circular = find(circulars.begin(), circulars.end(), name);
             if (it_circular != circulars.end()) parameter.setCircular(true);
         }
+
+        if (!(weights.empty()))
+            parameter.setWeight(weights.at(i));
 
         if (!parameters.push_back(parameter).second) {
 
@@ -680,7 +694,7 @@ AnEnIO::writeForecasts(const Forecasts & forecasts) const {
 
     // Write data
     if (verbose_ >= 3) cout << "Writing variable (Data) ..." << endl;
-    
+
     NcFile nc(file_path_, NcFile::FileMode::write);
 
     NcVar var_data = nc.getVar("Data");
@@ -726,7 +740,7 @@ AnEnIO::writeObservations(const Observations & observations) const {
 
     // Write data
     if (verbose_ >= 3) cout << "Writing variable (Data) ..." << endl;
-    
+
     NcFile nc(file_path_, NcFile::FileMode::write);
 
     NcVar var_data = nc.getVar("Data");
@@ -827,6 +841,35 @@ AnEnIO::writeParameters(const anenPar::Parameters& parameters,
         return (WRONG_MODE);
     }
 
+    // Check if parameters have weights
+    int num_nan = 0;
+    double tmp = 0.0, sum = 0.0;
+    const anenPar::multiIndexParameters::index<anenPar::by_insert>::type &
+            parameters_by_insert = parameters.get<anenPar::by_insert>();
+    for (const auto & parameter : parameters_by_insert) {
+        tmp = parameter.getWeight();
+        if (isnan(tmp)) {
+            num_nan++;
+        } else {
+            sum += tmp;
+        }
+    }
+
+    if (num_nan == 0) {
+
+        if (sum != 1) {
+            if (verbose_ >= 1) cout << BOLDRED << "Error: Parameter weights do not"
+                    << " add up to 1." << RESET << endl;
+            return (ERROR_SETTING_VALUES);
+        }
+    } else if (num_nan != parameters_by_insert.size()) {
+
+        if (verbose_ >= 1) cout << BOLDRED
+                << "Error: Weights can either be all NAN or all numbers."
+                << RESET << endl;
+        return (NAN_VALUES);
+    }
+
     NcFile nc(file_path_, NcFile::FileMode::write);
 
     // Check if file already has dimensions
@@ -866,29 +909,34 @@ AnEnIO::writeParameters(const anenPar::Parameters& parameters,
     }
 
     vector<NcDim> dim_names = {dim_parameters, dim_chars};
+    vector<NcDim> dim_circulars = {dim_parameters, dim_chars};
     NcVar var_names = nc.addVar("ParameterNames", NcType::nc_CHAR, dim_names);
     NcVar var_weights = nc.addVar("ParameterWeights",
             NcType::nc_DOUBLE, dim_parameters);
     NcVar var_circulars = nc.addVar("ParameterCirculars",
-            NcType::nc_INT, dim_parameters);
+            NcType::nc_CHAR, dim_circulars);
+
+    vector<string> circular_names;
+    for (const auto & parameter : parameters_by_insert) {
+        if (parameter.getCircular()) {
+            circular_names.push_back(parameter.getName());
+        }
+    }
 
     // Convert types for writing
     char* p_names = nullptr;
     double* p_weights = nullptr;
-    bool* p_circulars = nullptr;
+    char* p_circulars = nullptr;
     try {
         p_names = new char [_max_chars * parameters.size()]();
         p_weights = new double [parameters.size()]();
-        p_circulars = new bool [parameters.size()]();
+        p_circulars = new char [_max_chars * parameters.size()]();
     } catch (bad_alloc e) {
         cout << BOLDRED << "Error: Insufficient memory to write Parameters ("
                 << parameters.size() << ")." << RESET << endl;
         nc.close();
         return (INSUFFICIENT_MEMORY);
     }
-
-    const anenPar::multiIndexParameters::index<anenPar::by_insert>::type&
-            parameters_by_insert = parameters.get<anenPar::by_insert>();
 
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(static) \
@@ -898,7 +946,11 @@ shared(parameters_by_insert, p_circulars, p_names, p_weights)
         parameters_by_insert[i].getName().copy(
                 p_names + (i * _max_chars), _max_chars, 0);
         p_weights[i] = parameters_by_insert[i].getWeight();
-        p_circulars[i] = parameters_by_insert[i].getCircular();
+    }
+
+    for (size_t i = 0; i < circular_names.size(); i++) {
+        circular_names[i].copy(
+                p_circulars + (i * _max_chars), _max_chars, 0);
     }
 
     var_names.putVar(p_names);
@@ -1148,7 +1200,7 @@ AnEnIO::setFilePath(string file_path) {
 void
 AnEnIO::setFileType(string file_type) {
     this->file_type_ = file_type;
-    handleError(checkFileType());
+    if (mode_ != "Write") handleError(checkFileType());
 }
 
 void
@@ -1352,6 +1404,7 @@ AnEnIO::read_string_vector_(string var_name, vector<string> & vector) const {
             vector.resize(num_strs);
             for (size_t i = 0; i < num_strs; i++) {
                 string str(p_vals + i*num_chars, p_vals + (i + 1) * num_chars);
+                purge_(str);
                 vector.at(i) = str;
             }
 
@@ -1375,4 +1428,18 @@ AnEnIO::read_string_vector_(string var_name, vector<string> & vector) const {
         }
         return (WRONG_VARIABLE_SHAPE);
     }
+}
+
+void AnEnIO::purge_(std::string & str) const {
+
+    str.erase(remove_if(str.begin(), str.end(), [](const unsigned char & c) {
+        bool remove = !(isalpha(c) || isdigit(c) || ispunct(c) || isspace(c));
+        return (remove);
+    }), str.end());
+
+}
+
+void AnEnIO::purge_(std::vector<std::string> & strs) const {
+
+    for (auto & str : strs) purge_(str);
 }

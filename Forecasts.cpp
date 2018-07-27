@@ -131,6 +131,7 @@ Forecasts_array::Forecasts_array(anenPar::Parameters parameters,
         anenSta::Stations stations, anenTime::Times times, anenTime::FLTs flts,
         const vector<double>& vals) :
 Forecasts(parameters, stations, times, flts) {
+    updateDataDims();
     setValues(vals);
 }
 

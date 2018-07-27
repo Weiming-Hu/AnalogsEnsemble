@@ -36,6 +36,8 @@ namespace anenPar {
     class Parameter {
     public:
         Parameter();
+        Parameter(std::string);
+        Parameter(std::string, double);
         Parameter(std::string, double, bool);
         Parameter(const Parameter& other);
 

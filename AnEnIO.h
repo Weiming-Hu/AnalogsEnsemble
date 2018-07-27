@@ -67,6 +67,7 @@ public:
         VARIABLE_EXISTS = -18,
 
         ERROR_SETTING_VALUES = -50,
+        NAN_VALUES = -51,
 
         INSUFFICIENT_MEMORY = -100
     };
@@ -158,7 +159,7 @@ public:
      * read from using the constructor.
      * 
      * This function assumes the dimension name "num_parameters", and the
-     * optional variable names "ParameterNames" and "CircularParameters".
+     * optional variable names "ParameterNames" and "ParameterCirculars".
      * 
      * @param parameters The anenPar::Parameters object to store the information.
      * @return An AnEnIO::errorType.
@@ -300,6 +301,20 @@ protected:
      */
     errorType read_string_vector_(std::string var_name,
             std::vector<std::string> & vectors) const;
+    
+    /**
+     * Cleans special characters in strings.
+     * 
+     * @param str A string.
+     */
+    void purge_(std::string & str) const;
+    
+    /**
+     * Cleans special characters in strings
+     * 
+     * @param strs A vector of strings.
+     */
+    void purge_(std::vector<std::string> & strs) const;
 
     /************************************************************************
      *                      Template Functions                              *

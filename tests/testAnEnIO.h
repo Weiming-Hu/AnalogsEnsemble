@@ -23,6 +23,8 @@ class testAnEnIO : public CPPUNIT_NS::TestFixture {
 
     CPPUNIT_TEST(testReadObservationFile);
     CPPUNIT_TEST(testReadForecastFile);
+    CPPUNIT_TEST(testWriteReadObservationFile);
+    CPPUNIT_TEST(testWriteReadForecastFile);
     
     CPPUNIT_TEST_SUITE_END();
 
@@ -35,6 +37,8 @@ public:
 private:
     void testReadObservationFile();
     void testReadForecastFile();
+    void testWriteReadObservationFile();
+    void testWriteReadForecastFile();
 };
 
 #endif /* TESTANENIO_H */

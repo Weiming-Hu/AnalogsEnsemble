@@ -32,6 +32,16 @@ namespace anenPar {
         setID_();
     }
 
+    Parameter::Parameter(string name) :
+    name_(name) {
+        setID_();
+    }
+
+    Parameter::Parameter(string name, double weight) :
+    name_(name), weight_(weight){
+        setID_();
+    }
+
     Parameter::Parameter(string name, double weight, bool circular) :
     name_(name), weight_(weight), circular_(circular) {
         setID_();
