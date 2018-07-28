@@ -144,6 +144,11 @@ void testAnEnIO::testWriteReadObservationFile() {
     io.setMode("Read");
     io.handleError(io.readObservations(observations_read));
 
+    /* I have to write my own comparing functions because the comparison
+     * function (==) provided by the class is based on ID. But here I
+     * want to compare actual attribute values.
+     */
+    
     // Verify parameters
     auto parameters_read = observations_read.getParameters();
     const anenPar::multiIndexParameters::index<anenPar::by_insert>::type&
@@ -247,6 +252,11 @@ void testAnEnIO::testWriteReadForecastFile() {
     io.setMode("Read");
     io.handleError(io.readForecasts(forecasts_read));
 
+    /* I have to write my own comparing functions because the comparison
+     * function (==) provided by the class is based on ID. But here I
+     * want to compare actual attribute values.
+     */
+    
     // Verify parameters
     auto parameters_read = forecasts_read.getParameters();
     const anenPar::multiIndexParameters::index<anenPar::by_insert>::type&

@@ -47,6 +47,11 @@ namespace anenPar {
         setID_();
     }
 
+    Parameter::Parameter(string name, bool circular) :
+    name_(name), circular_(circular) {
+        setID_();
+    }
+    
     Parameter::Parameter(const Parameter& rhs) {
         *this = rhs;
     }

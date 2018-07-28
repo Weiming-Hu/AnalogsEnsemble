@@ -6,18 +6,18 @@
  * Created on April 17, 2018, 10:41 PM
  */
 
+#include <boost/multi_index/random_access_index.hpp>
+#include <boost/multi_index/ordered_index.hpp>
+#include <boost/multi_index/hashed_index.hpp>
+#include <boost/multi_index_container.hpp>
+#include <boost/multi_index/identity.hpp>
+#include <boost/multi_index/mem_fun.hpp>
+#include <boost/multi_index/tag.hpp>
+
 #include <vector>
 #include <string>
 #include <cmath>
 #include <iostream>
-
-#include <boost/multi_index_container.hpp>
-#include <boost/multi_index/random_access_index.hpp>
-#include <boost/multi_index/identity.hpp>
-#include <boost/multi_index/hashed_index.hpp>
-#include <boost/multi_index/tag.hpp>
-#include <boost/multi_index/mem_fun.hpp>
-
 
 #ifndef STATIONS_H
 #define STATIONS_H
@@ -96,6 +96,18 @@ namespace anenSta {
          */
     };
 
+    struct by_x {
+        /** 
+         * The tag for the order based on x
+         */
+    };
+
+    struct by_y {
+        /** 
+         * The tag for the order based on y
+         */
+    };
+
     /**
      * Base class for Stations
      */
@@ -112,7 +124,20 @@ namespace anenSta {
             boost::multi_index::hashed_unique<
             boost::multi_index::tag<by_ID>,
             boost::multi_index::const_mem_fun<
-            Station, std::size_t, &Station::getID> > > >;
+            Station, std::size_t, &Station::getID> >,
+            
+            // Order by x
+            boost::multi_index::ordered_non_unique<
+            boost::multi_index::tag<by_x>,
+            boost::multi_index::const_mem_fun<
+            Station, double, &Station::getX> >,
+
+            // Order by y
+            boost::multi_index::ordered_non_unique<
+            boost::multi_index::tag<by_y>,
+            boost::multi_index::const_mem_fun<
+            Station, double, &Station::getY> >
+            > >;
 
     /**
      * \class Stations

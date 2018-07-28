@@ -39,6 +39,7 @@ namespace anenPar {
         Parameter(std::string);
         Parameter(std::string, double);
         Parameter(std::string, double, bool);
+        Parameter(std::string, bool);
         Parameter(const Parameter& other);
 
         virtual ~Parameter();
