@@ -1,0 +1,450 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="100">
+  <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <logicalFolder name="HeaderFiles"
+                   displayName="Header Files"
+                   projectFiles="true">
+      <itemPath>AnEn.h</itemPath>
+      <itemPath>AnEnIO.h</itemPath>
+      <itemPath>Array4D.h</itemPath>
+      <itemPath>Forecasts.h</itemPath>
+      <itemPath>Observations.h</itemPath>
+      <itemPath>Parameters.h</itemPath>
+      <itemPath>Stations.h</itemPath>
+      <itemPath>Times.h</itemPath>
+      <itemPath>colorTexts.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="ResourceFiles"
+                   displayName="Resource Files"
+                   projectFiles="true">
+    </logicalFolder>
+    <logicalFolder name="SourceFiles"
+                   displayName="Source Files"
+                   projectFiles="true">
+      <itemPath>AnEn.cpp</itemPath>
+      <itemPath>AnEnIO.cpp</itemPath>
+      <itemPath>Array4D.cpp</itemPath>
+      <itemPath>Forecasts.cpp</itemPath>
+      <itemPath>Observations.cpp</itemPath>
+      <itemPath>Parameters.cpp</itemPath>
+      <itemPath>Stations.cpp</itemPath>
+      <itemPath>Times.cpp</itemPath>
+      <itemPath>canalogs.cpp</itemPath>
+      <itemPath>doxygen-mainpage.cpp</itemPath>
+    </logicalFolder>
+    <logicalFolder name="TestFiles"
+                   displayName="Test Files"
+                   projectFiles="false"
+                   kind="TEST_LOGICAL_FOLDER">
+      <logicalFolder name="f4"
+                     displayName="testAnEnIO"
+                     projectFiles="true"
+                     kind="TEST">
+        <itemPath>tests/runnerAnEnIO.cpp</itemPath>
+        <itemPath>tests/testAnEnIO.cpp</itemPath>
+        <itemPath>tests/testAnEnIO.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="f5"
+                     displayName="testForecastsArray"
+                     projectFiles="true"
+                     kind="TEST">
+        <itemPath>tests/runnerForecastsArray.cpp</itemPath>
+        <itemPath>tests/testForecastsArray.cpp</itemPath>
+        <itemPath>tests/testForecastsArray.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="f3"
+                     displayName="testObservationsArray"
+                     projectFiles="true"
+                     kind="TEST">
+        <itemPath>tests/runnerObservationsArray.cpp</itemPath>
+        <itemPath>tests/testObservationsArray.cpp</itemPath>
+        <itemPath>tests/testObservationsArray.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="f1"
+                     displayName="testStation"
+                     projectFiles="true"
+                     kind="TEST">
+        <itemPath>tests/runnerStation.cpp</itemPath>
+        <itemPath>tests/testStation.cpp</itemPath>
+        <itemPath>tests/testStation.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="f2"
+                     displayName="testStations"
+                     projectFiles="true"
+                     kind="TEST">
+        <itemPath>tests/runnerStations.cpp</itemPath>
+        <itemPath>tests/testStations.cpp</itemPath>
+        <itemPath>tests/testStations.h</itemPath>
+      </logicalFolder>
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>AnalogsEnsemble-Makefile.mk</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <projectmakefile>AnalogsEnsemble-Makefile.mk</projectmakefile>
+  <confs>
+    <conf name="Debug" type="1">
+      <toolsSet>
+        <compilerSet>CLang|CLang</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <compileType>
+        <ccTool>
+          <incDir>
+            <pElem>/usr/local/Cellar/boost/1.67.0_1/include</pElem>
+            <pElem>/usr/local/Cellar/netcdf/4.6.1_2/include</pElem>
+          </incDir>
+          <commandLine>-std=c++11</commandLine>
+          <warningLevel>2</warningLevel>
+        </ccTool>
+        <linkerTool>
+          <linkerLibItems>
+            <linkerLibLibItem>netcdf-cxx4.1.0.3</linkerLibLibItem>
+            <linkerLibLibItem>netcdf-cxx4.1</linkerLibLibItem>
+            <linkerLibLibItem>netcdf-cxx4</linkerLibLibItem>
+            <linkerLibLibItem>netcdf-cxx4</linkerLibLibItem>
+            <linkerLibLibItem>netcdf.13</linkerLibLibItem>
+            <linkerLibLibItem>netcdf</linkerLibLibItem>
+            <linkerLibLibItem>netcdf</linkerLibLibItem>
+            <linkerLibLibItem>netcdf_c++.4</linkerLibLibItem>
+            <linkerLibLibItem>netcdf_c++</linkerLibLibItem>
+            <linkerLibLibItem>netcdf_c++</linkerLibLibItem>
+            <linkerLibLibItem>netcdff.6.1.1</linkerLibLibItem>
+            <linkerLibLibItem>netcdff.6</linkerLibLibItem>
+            <linkerLibLibItem>netcdff</linkerLibLibItem>
+            <linkerLibLibItem>netcdff</linkerLibLibItem>
+            <linkerLibLibItem>boost_filesystem-mt</linkerLibLibItem>
+            <linkerLibLibItem>boost_filesystem-mt</linkerLibLibItem>
+            <linkerLibLibItem>boost_filesystem</linkerLibLibItem>
+            <linkerLibLibItem>boost_filesystem</linkerLibLibItem>
+            <linkerLibLibItem>boost_system-mt</linkerLibLibItem>
+            <linkerLibLibItem>boost_system-mt</linkerLibLibItem>
+            <linkerLibLibItem>boost_system</linkerLibLibItem>
+            <linkerLibLibItem>boost_system</linkerLibLibItem>
+          </linkerLibItems>
+        </linkerTool>
+      </compileType>
+      <item path="AnEn.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="AnEn.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="AnEnIO.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="AnEnIO.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Array4D.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Array4D.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Forecasts.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Forecasts.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Observations.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Observations.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Parameters.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Parameters.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Stations.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Stations.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Times.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Times.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="canalogs.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="colorTexts.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="doxygen-mainpage.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <folder path="TestFiles">
+        <ccTool>
+          <incDir>
+            <pElem>/usr/local/Cellar/cppunit/1.14.0/include</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <linkerLibItems>
+            <linkerLibLibItem>cppunit-1.14.0</linkerLibLibItem>
+            <linkerLibLibItem>cppunit</linkerLibLibItem>
+            <linkerLibLibItem>cppunit</linkerLibLibItem>
+          </linkerLibItems>
+        </linkerTool>
+      </folder>
+      <folder path="TestFiles/f1">
+        <cTool>
+          <commandLine>`cppunit-config --cflags`</commandLine>
+        </cTool>
+        <ccTool>
+          <incDir>
+            <pElem>/usr/local/Cellar/cppunit/1.14.0/include</pElem>
+          </incDir>
+          <commandLine>`cppunit-config --cflags`</commandLine>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f1</output>
+          <linkerLibItems>
+            <linkerOptionItem>`cppunit-config --libs`</linkerOptionItem>
+            <linkerLibLibItem>cppunit-1.14.0</linkerLibLibItem>
+            <linkerLibLibItem>cppunit</linkerLibLibItem>
+            <linkerLibLibItem>cppunit</linkerLibLibItem>
+          </linkerLibItems>
+        </linkerTool>
+      </folder>
+      <folder path="TestFiles/f2">
+        <cTool>
+          <commandLine>`cppunit-config --cflags`</commandLine>
+        </cTool>
+        <ccTool>
+          <commandLine>`cppunit-config --cflags`</commandLine>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f2</output>
+          <linkerLibItems>
+            <linkerOptionItem>`cppunit-config --libs`</linkerOptionItem>
+          </linkerLibItems>
+        </linkerTool>
+      </folder>
+      <folder path="TestFiles/f3">
+        <cTool>
+          <commandLine>`cppunit-config --cflags`</commandLine>
+        </cTool>
+        <ccTool>
+          <commandLine>`cppunit-config --cflags`</commandLine>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f3</output>
+          <linkerLibItems>
+            <linkerOptionItem>`cppunit-config --libs`</linkerOptionItem>
+          </linkerLibItems>
+        </linkerTool>
+      </folder>
+      <folder path="TestFiles/f4">
+        <cTool>
+          <commandLine>`cppunit-config --cflags`</commandLine>
+        </cTool>
+        <ccTool>
+          <commandLine>`cppunit-config --cflags`</commandLine>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f4</output>
+          <linkerLibItems>
+            <linkerOptionItem>`cppunit-config --libs`</linkerOptionItem>
+          </linkerLibItems>
+        </linkerTool>
+      </folder>
+      <folder path="TestFiles/f5">
+        <cTool>
+          <commandLine>`cppunit-config --cflags`</commandLine>
+        </cTool>
+        <ccTool>
+          <commandLine>`cppunit-config --cflags`</commandLine>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f5</output>
+          <linkerLibItems>
+            <linkerOptionItem>`cppunit-config --libs`</linkerOptionItem>
+          </linkerLibItems>
+        </linkerTool>
+      </folder>
+      <item path="tests/runnerAnEnIO.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/runnerForecastsArray.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/runnerObservationsArray.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/runnerStation.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/runnerStations.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/testAnEnIO.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/testAnEnIO.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="tests/testForecastsArray.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/testForecastsArray.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="tests/testObservationsArray.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/testObservationsArray.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="tests/testStation.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/testStation.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="tests/testStations.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/testStations.h" ex="false" tool="3" flavor2="0">
+      </item>
+    </conf>
+    <conf name="Release" type="1">
+      <toolsSet>
+        <compilerSet>CLang|CLang</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <compileType>
+        <cTool>
+          <developmentMode>5</developmentMode>
+        </cTool>
+        <ccTool>
+          <developmentMode>5</developmentMode>
+        </ccTool>
+        <fortranCompilerTool>
+          <developmentMode>5</developmentMode>
+        </fortranCompilerTool>
+        <asmTool>
+          <developmentMode>5</developmentMode>
+        </asmTool>
+      </compileType>
+      <item path="AnEn.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="AnEn.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="AnEnIO.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="AnEnIO.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Array4D.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Array4D.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Forecasts.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Forecasts.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Observations.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Observations.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Parameters.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Parameters.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Stations.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Stations.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Times.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Times.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="canalogs.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="colorTexts.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="doxygen-mainpage.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <folder path="TestFiles/f1">
+        <cTool>
+          <commandLine>`cppunit-config --cflags`</commandLine>
+        </cTool>
+        <ccTool>
+          <commandLine>`cppunit-config --cflags`</commandLine>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f1</output>
+          <linkerLibItems>
+            <linkerOptionItem>`cppunit-config --libs`</linkerOptionItem>
+          </linkerLibItems>
+        </linkerTool>
+      </folder>
+      <folder path="TestFiles/f2">
+        <cTool>
+          <commandLine>`cppunit-config --cflags`</commandLine>
+        </cTool>
+        <ccTool>
+          <commandLine>`cppunit-config --cflags`</commandLine>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f2</output>
+          <linkerLibItems>
+            <linkerOptionItem>`cppunit-config --libs`</linkerOptionItem>
+          </linkerLibItems>
+        </linkerTool>
+      </folder>
+      <folder path="TestFiles/f3">
+        <cTool>
+          <commandLine>`cppunit-config --cflags`</commandLine>
+        </cTool>
+        <ccTool>
+          <commandLine>`cppunit-config --cflags`</commandLine>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f3</output>
+          <linkerLibItems>
+            <linkerOptionItem>`cppunit-config --libs`</linkerOptionItem>
+          </linkerLibItems>
+        </linkerTool>
+      </folder>
+      <folder path="TestFiles/f4">
+        <cTool>
+          <commandLine>`cppunit-config --cflags`</commandLine>
+        </cTool>
+        <ccTool>
+          <commandLine>`cppunit-config --cflags`</commandLine>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f4</output>
+          <linkerLibItems>
+            <linkerOptionItem>`cppunit-config --libs`</linkerOptionItem>
+          </linkerLibItems>
+        </linkerTool>
+      </folder>
+      <folder path="TestFiles/f5">
+        <cTool>
+          <commandLine>`cppunit-config --cflags`</commandLine>
+        </cTool>
+        <ccTool>
+          <commandLine>`cppunit-config --cflags`</commandLine>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f5</output>
+          <linkerLibItems>
+            <linkerOptionItem>`cppunit-config --libs`</linkerOptionItem>
+          </linkerLibItems>
+        </linkerTool>
+      </folder>
+      <item path="tests/runnerAnEnIO.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/runnerForecastsArray.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/runnerObservationsArray.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/runnerStation.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/runnerStations.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/testAnEnIO.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/testAnEnIO.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="tests/testForecastsArray.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/testForecastsArray.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="tests/testObservationsArray.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/testObservationsArray.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="tests/testStation.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/testStation.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="tests/testStations.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/testStations.h" ex="false" tool="3" flavor2="0">
+      </item>
+    </conf>
+  </confs>
+</configurationDescriptor>
