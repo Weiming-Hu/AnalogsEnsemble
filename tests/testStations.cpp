@@ -10,6 +10,7 @@
 #include "testStations.h"
 
 #include <iostream>
+#include <boost/lambda/lambda.hpp>
 
 using namespace std;
 using namespace anenSta;
@@ -169,6 +170,9 @@ void testStations::testGetStationsInSquare() {
      *                0  1  2  3  4  5  6  7  8  (X)
      */
 
+
+    using namespace boost::lambda;
+
     // Create an example forecast object
     anenSta::Station s1("1", 1, 1), s2("2", 6, 1), s3("3", 1, 3),
             s4("4", 4, 3), s5("5", 8, 3), s6("6", 3, 4),
@@ -185,7 +189,6 @@ void testStations::testGetStationsInSquare() {
 
     double half_edge = 1.5;
 
-    size_t main_station_ID = s9.getID();
     string main_station_name = s9.getName();
     double main_station_x = s9.getX();
     double main_station_y = s9.getY();
@@ -195,11 +198,38 @@ void testStations::testGetStationsInSquare() {
     auto search_stations_x_upper =
             stations_by_x.upper_bound(main_station_x + half_edge);
 
-    cout << "Nearby stations of the main station (" << main_station_name
-            << ") with the half edge (" << half_edge << ") are: " << endl;
-    for (auto it = search_stations_x_lower;
-            it != search_stations_x_upper; it++) {
-        cout << *it;
+    auto stations_range_1 = stations_by_x.range(
+            main_station_x - half_edge <= boost::lambda::_1,
+            boost::lambda::_1 <= main_station_x + half_edge);
+
+    vector<Station> answers{s8, s11, s6, s9, s12, s4, s10};
+
+    auto it1 = search_stations_x_lower;
+    auto it2 = stations_range_1.first;
+    auto it3 = answers.begin();
+    for (; (it1 != search_stations_x_upper) &&
+            (it2 != stations_range_1.second) &&
+            (it3 != answers.end());
+            it1++, it2++, it3++) {
+        CPPUNIT_ASSERT(*it1 == *it2);
+        CPPUNIT_ASSERT(*it2 == *it3);
     }
 
+    Stations stations_subset;
+    stations_subset.insert(stations_subset.end(),
+            stations_range_1.first, stations_range_1.second);
+
+    auto & stations_subset_by_y = stations_subset.get<by_y>();
+
+    auto stations_range_2 = stations_subset_by_y.range(
+            main_station_y - half_edge <= boost::lambda::_1,
+            boost::lambda::_1 <= main_station_y + half_edge);
+
+    answers = {s6, s8, s9, s10, s11};
+    auto it4 = stations_range_2.first;
+    for (it3 = answers.begin();
+            (it4 != stations_range_2.second) &&
+            (it3 != answers.end()); it3++, it4++) {
+        CPPUNIT_ASSERT(*it3 == *it4);
+    }
 }
