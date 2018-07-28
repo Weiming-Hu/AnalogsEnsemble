@@ -102,6 +102,9 @@
           <warningLevel>2</warningLevel>
         </ccTool>
         <linkerTool>
+          <linkerDynSerch>
+            <pElem>.</pElem>
+          </linkerDynSerch>
           <linkerLibItems>
             <linkerLibLibItem>netcdf-cxx4.1.0.3</linkerLibLibItem>
             <linkerLibLibItem>netcdf-cxx4.1</linkerLibLibItem>
@@ -173,6 +176,9 @@
           </incDir>
         </ccTool>
         <linkerTool>
+          <linkerDynSerch>
+            <pElem>.</pElem>
+          </linkerDynSerch>
           <linkerLibItems>
             <linkerLibLibItem>cppunit-1.14.0</linkerLibLibItem>
             <linkerLibLibItem>cppunit</linkerLibLibItem>
@@ -192,6 +198,9 @@
         </ccTool>
         <linkerTool>
           <output>${TESTDIR}/TestFiles/f1</output>
+          <linkerDynSerch>
+            <pElem>.</pElem>
+          </linkerDynSerch>
           <linkerLibItems>
             <linkerOptionItem>`cppunit-config --libs`</linkerOptionItem>
             <linkerLibLibItem>cppunit-1.14.0</linkerLibLibItem>
@@ -209,6 +218,9 @@
         </ccTool>
         <linkerTool>
           <output>${TESTDIR}/TestFiles/f2</output>
+          <linkerDynSerch>
+            <pElem>.</pElem>
+          </linkerDynSerch>
           <linkerLibItems>
             <linkerOptionItem>`cppunit-config --libs`</linkerOptionItem>
           </linkerLibItems>
@@ -223,6 +235,9 @@
         </ccTool>
         <linkerTool>
           <output>${TESTDIR}/TestFiles/f3</output>
+          <linkerDynSerch>
+            <pElem>.</pElem>
+          </linkerDynSerch>
           <linkerLibItems>
             <linkerOptionItem>`cppunit-config --libs`</linkerOptionItem>
           </linkerLibItems>
@@ -237,6 +252,9 @@
         </ccTool>
         <linkerTool>
           <output>${TESTDIR}/TestFiles/f4</output>
+          <linkerDynSerch>
+            <pElem>.</pElem>
+          </linkerDynSerch>
           <linkerLibItems>
             <linkerOptionItem>`cppunit-config --libs`</linkerOptionItem>
           </linkerLibItems>
@@ -251,6 +269,9 @@
         </ccTool>
         <linkerTool>
           <output>${TESTDIR}/TestFiles/f5</output>
+          <linkerDynSerch>
+            <pElem>.</pElem>
+          </linkerDynSerch>
           <linkerLibItems>
             <linkerOptionItem>`cppunit-config --libs`</linkerOptionItem>
           </linkerLibItems>
@@ -306,6 +327,11 @@
         <asmTool>
           <developmentMode>5</developmentMode>
         </asmTool>
+        <linkerTool>
+          <linkerDynSerch>
+            <pElem>.</pElem>
+          </linkerDynSerch>
+        </linkerTool>
       </compileType>
       <item path="AnEn.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -345,6 +371,13 @@
       </item>
       <item path="doxygen-mainpage.cpp" ex="false" tool="1" flavor2="0">
       </item>
+      <folder path="TestFiles">
+        <linkerTool>
+          <linkerDynSerch>
+            <pElem>.</pElem>
+          </linkerDynSerch>
+        </linkerTool>
+      </folder>
       <folder path="TestFiles/f1">
         <cTool>
           <commandLine>`cppunit-config --cflags`</commandLine>
@@ -354,6 +387,9 @@
         </ccTool>
         <linkerTool>
           <output>${TESTDIR}/TestFiles/f1</output>
+          <linkerDynSerch>
+            <pElem>.</pElem>
+          </linkerDynSerch>
           <linkerLibItems>
             <linkerOptionItem>`cppunit-config --libs`</linkerOptionItem>
           </linkerLibItems>
@@ -368,6 +404,9 @@
         </ccTool>
         <linkerTool>
           <output>${TESTDIR}/TestFiles/f2</output>
+          <linkerDynSerch>
+            <pElem>.</pElem>
+          </linkerDynSerch>
           <linkerLibItems>
             <linkerOptionItem>`cppunit-config --libs`</linkerOptionItem>
           </linkerLibItems>
@@ -382,6 +421,9 @@
         </ccTool>
         <linkerTool>
           <output>${TESTDIR}/TestFiles/f3</output>
+          <linkerDynSerch>
+            <pElem>.</pElem>
+          </linkerDynSerch>
           <linkerLibItems>
             <linkerOptionItem>`cppunit-config --libs`</linkerOptionItem>
           </linkerLibItems>
@@ -396,6 +438,9 @@
         </ccTool>
         <linkerTool>
           <output>${TESTDIR}/TestFiles/f4</output>
+          <linkerDynSerch>
+            <pElem>.</pElem>
+          </linkerDynSerch>
           <linkerLibItems>
             <linkerOptionItem>`cppunit-config --libs`</linkerOptionItem>
           </linkerLibItems>
@@ -410,6 +455,9 @@
         </ccTool>
         <linkerTool>
           <output>${TESTDIR}/TestFiles/f5</output>
+          <linkerDynSerch>
+            <pElem>.</pElem>
+          </linkerDynSerch>
           <linkerLibItems>
             <linkerOptionItem>`cppunit-config --libs`</linkerOptionItem>
           </linkerLibItems>

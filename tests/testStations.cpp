@@ -10,9 +10,11 @@
 #include "testStations.h"
 
 #include <iostream>
+#include <boost/lambda/lambda.hpp>
 
 using namespace std;
 using namespace anenSta;
+using namespace boost::lambda;
 
 CPPUNIT_TEST_SUITE_REGISTRATION(testStations);
 
@@ -201,5 +203,12 @@ void testStations::testGetStationsInSquare() {
             it != search_stations_x_upper; it++) {
         cout << *it;
     }
+
+    //std::pair<double_set::iterator,double_set::iterator> p= s.range(100.0<=_1,_1<=200); // 100<= x <=200
+    auto p = stations_by_x.range(main_station_x - half_edge <= boost::lambda::_1, 
+                boost::lambda::_1 <= main_station_x + half_edge);
+
+    cout << "----------" << endl;
+    cout << endl << *(p.first) << " AND " << endl << *(prev(p.second)) << endl;
 
 }
