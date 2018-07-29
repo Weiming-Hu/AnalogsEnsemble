@@ -144,7 +144,7 @@ Forecasts_array::getValues() const {
 }
 
 double
-Forecasts_array::getValue(size_t parameter_index, size_t station_index,
+Forecasts_array::getValueByIndex(size_t parameter_index, size_t station_index,
         size_t time_index, size_t flt_index) const {
     return (data_[parameter_index][station_index][time_index][flt_index]);
 }
@@ -155,7 +155,7 @@ Forecasts_array::data() const {
 }
 
 double
-Forecasts_array::getValue(std::size_t parameter_ID, std::size_t station_ID,
+Forecasts_array::getValueByID(std::size_t parameter_ID, std::size_t station_ID,
         double timestamp, double flt) const {
     size_t parameter_index = parameters_.getParameterIndex(parameter_ID);
     size_t station_index = stations_.getStationIndex(station_ID);

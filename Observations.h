@@ -41,7 +41,7 @@ public:
      * @param time_index Time index.
      * @return A double.
      */
-    virtual double getValue(std::size_t parameter_index,
+    virtual double getValueByIndex(std::size_t parameter_index,
             std::size_t station_index, std::size_t time_index) const = 0;
 
     /**
@@ -52,7 +52,7 @@ public:
      * @param timestamp A double for the time.
      * @return A double.
      */
-    virtual double getValue(std::size_t parameter_ID,
+    virtual double getValueByID(std::size_t parameter_ID,
             std::size_t station_ID, double timestamp) const = 0;
     
     /**
@@ -132,9 +132,9 @@ public:
     const boost::multi_array<double, 3> & getValues() const;
     const double* data() const override;
 
-    double getValue(std::size_t parameter_index,
+    double getValueByIndex(std::size_t parameter_index,
             std::size_t station_index, std::size_t time_index) const override;
-    double getValue(std::size_t parameter_ID,
+    double getValueByID(std::size_t parameter_ID,
             std::size_t station_ID, double timestamp) const override;
 
     void setValue(double val, std::size_t parameter_index,

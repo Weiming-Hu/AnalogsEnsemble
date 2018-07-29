@@ -140,13 +140,13 @@ Observations_array::data() const {
 }
 
 double
-Observations_array::getValue(size_t parameter_index,
+Observations_array::getValueByIndex(size_t parameter_index,
         size_t station_index, size_t time_index) const {
     return (data_[parameter_index][station_index][time_index]);
 }
 
 double
-Observations_array::getValue(size_t parameter_ID, size_t station_ID,
+Observations_array::getValueByID(size_t parameter_ID, size_t station_ID,
         double timestamp) const {
     size_t parameter_index = parameters_.getParameterIndex(parameter_ID);
     size_t station_index = stations_.getStationIndex(station_ID);

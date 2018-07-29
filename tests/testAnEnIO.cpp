@@ -95,7 +95,7 @@ void testAnEnIO::testReadForecastFile() {
         for (size_t k = 0; k < num_times; k++)
             for (size_t j = 0; j < num_stations; j++)
                 for (size_t i = 0; i < num_pars; i++) {
-                    CPPUNIT_ASSERT(count == forecasts.getValue(i, j, k, l));
+                    CPPUNIT_ASSERT(count == forecasts.getValueByIndex(i, j, k, l));
                     count++;
                 }
 

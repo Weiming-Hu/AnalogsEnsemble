@@ -43,7 +43,7 @@ public:
      * @param flt_index FLT index.
      * @return A value.
      */
-    virtual double getValue(std::size_t parameter_index,
+    virtual double getValueByIndex(std::size_t parameter_index,
             std::size_t station_index, std::size_t time_index,
             std::size_t flt_index) const = 0;
 
@@ -56,7 +56,7 @@ public:
      * @param flt A timestamp for FLT.
      * @return A value.
      */
-    virtual double getValue(std::size_t parameter_ID, std::size_t station_ID,
+    virtual double getValueByID(std::size_t parameter_ID, std::size_t station_ID,
             double timestamp, double flt) const = 0;
     
     /**
@@ -131,9 +131,9 @@ public:
 
     Array4D const & getValues() const;
 
-    double getValue(std::size_t parameter_index, std::size_t station_index,
+    double getValueByIndex(std::size_t parameter_index, std::size_t station_index,
             std::size_t time_index, std::size_t flt_index) const override;
-    double getValue(std::size_t parameter_ID, std::size_t station_ID,
+    double getValueByID(std::size_t parameter_ID, std::size_t station_ID,
             double timestamp, double flt) const override;
 
     const double* data() const override;
