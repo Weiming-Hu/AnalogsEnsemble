@@ -23,7 +23,8 @@ testForecastsArray::~testForecastsArray() {
 void testForecastsArray::testForecastValueSequence() {
 
     /**
-     * Test the sequence of values stored in the Forecast data type
+     * Test the sequence of values stored in the Forecast data type.
+     * Data should be set in column-major order.
      */
 
     anenSta::Station s1, s2("Hunan", 10, 20), s3("Hubei"),

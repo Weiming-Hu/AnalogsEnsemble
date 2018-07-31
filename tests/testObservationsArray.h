@@ -15,17 +15,17 @@ class testObservationsArray : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST_SUITE(testObservationsArray);
 
     CPPUNIT_TEST(testTraverseTime);
+    CPPUNIT_TEST(testObservationValueSequence);
 
     CPPUNIT_TEST_SUITE_END();
 
 public:
     testObservationsArray();
     virtual ~testObservationsArray();
-    void setUp();
-    void tearDown();
-
+    
 private:
     void testTraverseTime();
+    void testObservationValueSequence();
 };
 
 #endif /* TESTOBSERVATIONSARRAY_H */
