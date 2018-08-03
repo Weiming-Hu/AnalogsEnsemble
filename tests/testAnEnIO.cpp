@@ -135,7 +135,7 @@ void testAnEnIO::testWriteReadObservationFile() {
     // Remove file if exists
     string file_path("read-write-observations.nc");
     remove(file_path.c_str());
-    
+
     AnEnIO io("Write", file_path, "Observations", 2);
 
     io.handleError(io.writeObservations(observations_write));
@@ -148,7 +148,7 @@ void testAnEnIO::testWriteReadObservationFile() {
      * function (==) provided by the class is based on ID. But here I
      * want to compare actual attribute values.
      */
-    
+
     // Verify parameters
     auto parameters_read = observations_read.getParameters();
     const anenPar::multiIndexParameters::index<anenPar::by_insert>::type&
@@ -211,7 +211,7 @@ void testAnEnIO::testWriteReadForecastFile() {
     /* 
      * Test writing and reading of a forecast file.
      */
-    
+
     // Create an example forecast object
     anenSta::Station s1, s2("Hunan", 10, 20), s3("Hubei"),
             s4("Guangdong", 30, 40), s5("Zhejiang"),
@@ -228,12 +228,12 @@ void testAnEnIO::testWriteReadForecastFile() {
 
     anenTime::Times times_write;
     times_write.insert(times_write.end(),{1, 2, 3, 4, 5, 6, 7, 8, 9, 10});
-    
+
     anenTime::FLTs flts_write;
-    flts_write.insert(flts_write.end(), {100, 200, 300, 400, 500});
+    flts_write.insert(flts_write.end(),{100, 200, 300, 400, 500});
 
     vector<double> values_write(parameters_write.size()
-    * stations_write.size() * times_write.size() * flts_write.size());
+            * stations_write.size() * times_write.size() * flts_write.size());
     generate(values_write.begin(), values_write.end(), rand);
 
     Forecasts_array forecasts_write(
@@ -243,7 +243,7 @@ void testAnEnIO::testWriteReadForecastFile() {
     // Remove file if exists
     string file_path("read-write-forecasts.nc");
     remove(file_path.c_str());
-    
+
     AnEnIO io("Write", file_path, "Forecasts", 2);
 
     io.handleError(io.writeForecasts(forecasts_write));
@@ -256,7 +256,7 @@ void testAnEnIO::testWriteReadForecastFile() {
      * function (==) provided by the class is based on ID. But here I
      * want to compare actual attribute values.
      */
-    
+
     // Verify parameters
     auto parameters_read = forecasts_read.getParameters();
     const anenPar::multiIndexParameters::index<anenPar::by_insert>::type&
@@ -322,4 +322,192 @@ void testAnEnIO::testWriteReadForecastFile() {
 
     // Remove the file
     remove(file_path.c_str());
+}
+
+void testAnEnIO::testReadPartParameters() {
+
+    /**
+     * Tests reading part of parameters
+     */
+
+    string file = "tests/test_observations.nc";
+    AnEnIO io("Read", file, "Observations", 1);
+
+    anenPar::Parameters parameters;
+    io.readParameters(parameters, 1, 2);
+
+    CPPUNIT_ASSERT(parameters.size() == 2);
+    const anenPar::multiIndexParameters::index<anenPar::by_insert>::type&
+            parameters_by_insert_1 = parameters.get<anenPar::by_insert>();
+    CPPUNIT_ASSERT(parameters_by_insert_1[0].getName() == "par_2");
+    CPPUNIT_ASSERT(parameters_by_insert_1[1].getName() == "par_3");
+
+    io.readParameters(parameters, 0, 2, 3);
+
+    CPPUNIT_ASSERT(parameters.size() == 2);
+    const anenPar::multiIndexParameters::index<anenPar::by_insert>::type&
+            parameters_by_insert_2 = parameters.get<anenPar::by_insert>();
+    CPPUNIT_ASSERT(parameters_by_insert_2[0].getName() == "par_1");
+    CPPUNIT_ASSERT(parameters_by_insert_2[1].getName() == "par_4");
+}
+
+void testAnEnIO::testReadPartStations() {
+
+    /**
+     * Tests reading part of stations
+     */
+
+    string file = "tests/test_observations.nc";
+    AnEnIO io("Read", file, "Observations", 1);
+
+    anenSta::Stations stations;
+
+    io.readStations(stations, 3, 2);
+    const anenSta::multiIndexStations::index<anenSta::by_insert>::type &
+            stations_by_insert_1 = stations.get<anenSta::by_insert>();
+    CPPUNIT_ASSERT(stations_by_insert_1[0].getName() == "station_4");
+    CPPUNIT_ASSERT(stations_by_insert_1[1].getName() == "station_5");
+
+    io.setVerbose(0);
+    CPPUNIT_ASSERT(io.readStations(stations, 1, 10, 4)
+            == AnEnIO::errorType::WRONG_INDEX_SHAPE);
+
+    io.setVerbose(2);
+    io.readStations(stations, 1, 3, 6);
+    const anenSta::multiIndexStations::index<anenSta::by_insert>::type &
+            stations_by_insert_2 = stations.get<anenSta::by_insert>();
+    CPPUNIT_ASSERT(stations_by_insert_2[0].getName() == "station_2");
+    CPPUNIT_ASSERT(stations_by_insert_2[0].getX() == 2);
+    CPPUNIT_ASSERT(stations_by_insert_2[1].getName() == "station_8");
+    CPPUNIT_ASSERT(stations_by_insert_2[1].getY() == 13);
+    CPPUNIT_ASSERT(stations_by_insert_2[2].getName() == "station_14");
+    CPPUNIT_ASSERT(stations_by_insert_2[2].getX() == 14);
+}
+
+void testAnEnIO::testReadPartTimes() {
+
+    /**
+     * Tests reading part of times
+     */
+
+    string file = "tests/test_observations.nc";
+    AnEnIO io("Read", file, "Observations", 1);
+
+    anenTime::Times times;
+    io.readTimes(times, 1, 3, 10);
+    const anenTime::multiIndexTimes::index<anenTime::by_insert>::type &
+            times_by_insert = times.get<anenTime::by_insert>();
+    CPPUNIT_ASSERT(times_by_insert[0] == 2);
+    CPPUNIT_ASSERT(times_by_insert[1] == 12);
+    CPPUNIT_ASSERT(times_by_insert[2] == 22);
+}
+
+void testAnEnIO::testReadPartFLTs() {
+
+    /**
+     * Tests reading part of FLTs
+     */
+
+    string file = "tests/test_forecasts.nc";
+    AnEnIO io("Read", file, "Forecasts", 1);
+
+    anenTime::FLTs flts, flts_full;
+    io.readFLTs(flts_full);
+
+    io.readFLTs(flts, 1, 3, 2);
+    const anenTime::multiIndexTimes::index<anenTime::by_insert>::type &
+            flts_by_insert = flts.get<anenTime::by_insert>();
+    CPPUNIT_ASSERT(flts_by_insert[0] == flts_full[1]);
+    CPPUNIT_ASSERT(flts_by_insert[1] == flts_full[3]);
+    CPPUNIT_ASSERT(flts_by_insert[2] == flts_full[5]);
+}
+
+void testAnEnIO::testReadPartObservations() {
+
+    /**
+     * Tests reading part of observations
+     */
+
+    string file = "tests/test_observations.nc";
+    AnEnIO io("Read", file, "Observations", 1);
+
+    Observations_array observations, observations_full;
+
+    vector<size_t> vec_start{0, 5, 5}, vec_count{2, 3, 1};
+    vector<ptrdiff_t> vec_stride{2, 5, 1};
+
+    io.readObservations(observations_full);
+
+    io.readObservations(observations, vec_start, vec_count);
+    CPPUNIT_ASSERT(observations.getValueByIndex(0, 0, 0)
+            == observations_full.getValueByIndex(0, 5, 5));
+    CPPUNIT_ASSERT(observations.getValueByIndex(1, 0, 0)
+            == observations_full.getValueByIndex(1, 5, 5));
+    CPPUNIT_ASSERT(observations.getValueByIndex(0, 1, 0)
+            == observations_full.getValueByIndex(0, 6, 5));
+    CPPUNIT_ASSERT(observations.getValueByIndex(1, 1, 0)
+            == observations_full.getValueByIndex(1, 6, 5));
+    CPPUNIT_ASSERT(observations.getValueByIndex(0, 2, 0)
+            == observations_full.getValueByIndex(0, 7, 5));
+    CPPUNIT_ASSERT(observations.getValueByIndex(1, 2, 0)
+            == observations_full.getValueByIndex(1, 7, 5));
+
+    io.readObservations(observations, vec_start, vec_count, vec_stride);
+    CPPUNIT_ASSERT(observations.getValueByIndex(0, 0, 0)
+            == observations_full.getValueByIndex(0, 5, 5));
+    CPPUNIT_ASSERT(observations.getValueByIndex(1, 0, 0)
+            == observations_full.getValueByIndex(2, 5, 5));
+    CPPUNIT_ASSERT(observations.getValueByIndex(0, 1, 0)
+            == observations_full.getValueByIndex(0, 10, 5));
+    CPPUNIT_ASSERT(observations.getValueByIndex(1, 1, 0)
+            == observations_full.getValueByIndex(2, 10, 5));
+    CPPUNIT_ASSERT(observations.getValueByIndex(0, 2, 0)
+            == observations_full.getValueByIndex(0, 15, 5));
+    CPPUNIT_ASSERT(observations.getValueByIndex(1, 2, 0)
+            == observations_full.getValueByIndex(2, 15, 5));
+}
+
+void testAnEnIO::testReadPartForecasts() {
+
+    /**
+     * Tests reading part of forecasts
+     */
+
+    string file = "tests/test_forecasts.nc";
+    AnEnIO io("Read", file, "Forecasts", 1);
+
+    Forecasts_array forecasts, forecasts_full;
+
+    vector<size_t> vec_start{0, 5, 5, 4}, vec_count{2, 3, 1, 1};
+    vector<ptrdiff_t> vec_stride{2, 5, 1, 1};
+
+    io.readForecasts(forecasts_full);
+
+    io.readForecasts(forecasts, vec_start, vec_count);
+    CPPUNIT_ASSERT(forecasts.getValueByIndex(0, 0, 0, 0)
+            == forecasts_full.getValueByIndex(0, 5, 5, 4));
+    CPPUNIT_ASSERT(forecasts.getValueByIndex(1, 0, 0, 0)
+            == forecasts_full.getValueByIndex(1, 5, 5, 4));
+    CPPUNIT_ASSERT(forecasts.getValueByIndex(0, 1, 0, 0)
+            == forecasts_full.getValueByIndex(0, 6, 5, 4));
+    CPPUNIT_ASSERT(forecasts.getValueByIndex(1, 1, 0, 0)
+            == forecasts_full.getValueByIndex(1, 6, 5, 4));
+    CPPUNIT_ASSERT(forecasts.getValueByIndex(0, 2, 0, 0)
+            == forecasts_full.getValueByIndex(0, 7, 5, 4));
+    CPPUNIT_ASSERT(forecasts.getValueByIndex(1, 2, 0, 0)
+            == forecasts_full.getValueByIndex(1, 7, 5, 4));
+
+    io.readForecasts(forecasts, vec_start, vec_count, vec_stride);
+    CPPUNIT_ASSERT(forecasts.getValueByIndex(0, 0, 0, 0)
+            == forecasts_full.getValueByIndex(0, 5, 5, 4));
+    CPPUNIT_ASSERT(forecasts.getValueByIndex(1, 0, 0, 0)
+            == forecasts_full.getValueByIndex(2, 5, 5, 4));
+    CPPUNIT_ASSERT(forecasts.getValueByIndex(0, 1, 0, 0)
+            == forecasts_full.getValueByIndex(0, 10, 5, 4));
+    CPPUNIT_ASSERT(forecasts.getValueByIndex(1, 1, 0, 0)
+            == forecasts_full.getValueByIndex(2, 10, 5, 4));
+    CPPUNIT_ASSERT(forecasts.getValueByIndex(0, 2, 0, 0)
+            == forecasts_full.getValueByIndex(0, 15, 5, 4));
+    CPPUNIT_ASSERT(forecasts.getValueByIndex(1, 2, 0, 0)
+            == forecasts_full.getValueByIndex(2, 15, 5, 4));
 }

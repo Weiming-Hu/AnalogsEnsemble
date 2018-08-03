@@ -146,8 +146,10 @@ AnEnIO::checkFileType() const {
 
         } else if (file_type_ == "Forecasts") {
 
-            dim_names = {"num_parameters", "num_stations", "num_times", "num_flts"};
-            var_names = {"Data", "FLTs", "Times", "StationNames", "ParameterNames"};
+            dim_names = {"num_parameters", "num_stations",
+                "num_times", "num_flts"};
+            var_names = {"Data", "FLTs", "Times",
+                "StationNames", "ParameterNames"};
 
         } else {
             if (verbose_ >= 1) {
@@ -193,7 +195,7 @@ AnEnIO::checkVariable(string var_name, bool optional) const {
     if (is_null) {
         if (optional) {
 
-            if (verbose_ >= 1) {
+            if (verbose_ >= 2) {
                 cout << RED << "Warning: Optional variable (" << var_name
                         << ") is missing in file (" << file_path_
                         << ")!" << RESET << endl;
@@ -334,7 +336,7 @@ AnEnIO::readObservations(Observations & observations) {
 
     if (file_type_ != "Observations") {
         if (verbose_ >= 1) {
-            cout << BOLDGREEN << "Error: File type is not \"Observations\"."
+            cout << BOLDGREEN << "Error: File type is not 'Observations'."
                     << RESET << endl;
         }
         return (WRONG_FILE_TYPE);
@@ -350,8 +352,79 @@ AnEnIO::readObservations(Observations & observations) {
     handleError(readTimes(times));
 
     // Read data
+    if (verbose_ >= 3) cout << "Reading observation values from file ("
+            << file_path_ << ") ..." << endl;
     vector<double> vals;
     handleError(read_vector_("Data", vals));
+
+    observations.setParameters(parameters);
+    observations.setStations(stations);
+    observations.setTimes(times);
+    observations.updateDataDims();
+    observations.setValues(vals);
+
+    return (SUCCESS);
+}
+
+errorType
+AnEnIO::readObservations(Observations& observations, vector<size_t> start,
+        vector<size_t> count, vector<ptrdiff_t> stride) {
+
+    if (verbose_ >= 3) {
+        cout << "Reading observation file (subset) ..." << endl;
+    }
+
+    if (mode_ != "Read") {
+        if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Read'."
+                << RESET << endl;
+        return (WRONG_MODE);
+    }
+
+    if (file_type_.empty()) {
+        if (verbose_ >= 1) {
+            cout << BOLDRED << "Error: File type is not specified!"
+                    << RESET << endl;
+        }
+        return (WRONG_FILE_TYPE);
+    }
+
+    // Check indices
+    if (start.size() != 3) {
+        if (verbose_ >= 1) cout << BOLDRED
+                << "Error: Start should have 3 indices for observations."
+                << RESET << endl;
+        return (WRONG_INDEX_SHAPE);
+    }
+
+    if (count.size() != 3) {
+        if (verbose_ >= 1) cout << BOLDRED
+                << "Error: Count should have 3 indices for observations."
+                << RESET << endl;
+        return (WRONG_INDEX_SHAPE);
+    }
+
+    if (stride.size() != 3) {
+        if (verbose_ >= 1) cout << BOLDRED
+                << "Error: Stride should have 3 indices for observations."
+                << RESET << endl;
+        return (WRONG_INDEX_SHAPE);
+    }
+
+    // Read meta information
+    anenPar::Parameters parameters;
+    anenSta::Stations stations;
+    anenTime::Times times;
+
+    handleError(readParameters(parameters, start[0], count[0], stride[0]));
+    handleError(readStations(stations, start[1], count[1], stride[1]));
+    handleError(readTimes(times, start[2], count[2], stride[2]));
+
+    // Read data
+    if (verbose_ >= 3)
+        cout << "Reading observation values (subset) from file ("
+            << file_path_ << ") ..." << endl;
+    vector<double> vals;
+    handleError(read_vector_("Data", vals, start, count, stride));
 
     observations.setParameters(parameters);
     observations.setStations(stations);
@@ -385,7 +458,7 @@ AnEnIO::readForecasts(Forecasts & forecasts) {
 
     if (file_type_ != "Forecasts") {
         if (verbose_ >= 1) {
-            cout << BOLDGREEN << "Error: File type is not \"Observations\"."
+            cout << BOLDGREEN << "Error: File type is not 'Observations'."
                     << RESET << endl;
         }
         return (WRONG_FILE_TYPE);
@@ -403,8 +476,90 @@ AnEnIO::readForecasts(Forecasts & forecasts) {
     handleError(readFLTs(flts));
 
     // Read data
+    if (verbose_ >= 3) cout << "Reading forecast values (subset) from file ("
+            << file_path_ << ") ..." << endl;
     vector<double> vals;
     handleError(read_vector_("Data", vals));
+
+    forecasts.setParameters(parameters);
+    forecasts.setStations(stations);
+    forecasts.setTimes(times);
+    forecasts.setFlts(flts);
+    forecasts.updateDataDims();
+    forecasts.setValues(vals);
+
+    return (SUCCESS);
+}
+
+errorType
+AnEnIO::readForecasts(Forecasts& forecasts,
+        vector<size_t> start, vector<size_t> count,
+        vector<ptrdiff_t> stride) {
+
+    if (verbose_ >= 3) {
+        cout << "Reading forecast file (subset) ..." << endl;
+    }
+
+    if (mode_ != "Read") {
+        if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Read'."
+                << RESET << endl;
+        return (WRONG_MODE);
+    }
+
+    if (file_type_.empty()) {
+        if (verbose_ >= 1) {
+            cout << BOLDRED << "Error: File type not specified!"
+                    << RESET << endl;
+        }
+        return (UNKOWN_FILE_TYPE);
+    }
+
+    if (file_type_ != "Forecasts") {
+        if (verbose_ >= 1) {
+            cout << BOLDGREEN << "Error: File type is not 'Observations'."
+                    << RESET << endl;
+        }
+        return (WRONG_FILE_TYPE);
+    }
+
+    // Check indices
+    if (start.size() != 4) {
+        if (verbose_ >= 1) cout << BOLDRED
+                << "Error: Start should have 4 indices for forecasts."
+                << RESET << endl;
+        return (WRONG_INDEX_SHAPE);
+    }
+
+    if (count.size() != 4) {
+        if (verbose_ >= 1) cout << BOLDRED
+                << "Error: Count should have 4 indices for forecasts."
+                << RESET << endl;
+        return (WRONG_INDEX_SHAPE);
+    }
+
+    if (stride.size() != 4) {
+        if (verbose_ >= 1) cout << BOLDRED
+                << "Error: Stride should have 4 indices for forecasts."
+                << RESET << endl;
+        return (WRONG_INDEX_SHAPE);
+    }
+
+    // Read meta information
+    anenPar::Parameters parameters;
+    anenSta::Stations stations;
+    anenTime::Times times;
+    anenTime::FLTs flts;
+
+    handleError(readParameters(parameters, start[0], count[0], stride[0]));
+    handleError(readStations(stations, start[1], count[1], stride[1]));
+    handleError(readTimes(times, start[2], count[2], stride[2]));
+    handleError(readFLTs(flts, start[3], count[3], stride[3]));
+
+    // Read data
+    if (verbose_ >= 3) cout << "Reading forecast values (subset) from file ("
+            << file_path_ << ") ..." << endl;
+    vector<double> vals;
+    handleError(read_vector_("Data", vals, start, count, stride));
 
     forecasts.setParameters(parameters);
     forecasts.setStations(stations);
@@ -420,13 +575,19 @@ errorType
 AnEnIO::readFLTs(anenTime::FLTs& flts) {
 
     if (verbose_ >= 3) {
-        cout << "Reading variable (FLTs) ..." << endl;
+        cout << "Reading FLTs from file (" << file_path_ << ") ..." << endl;
     }
 
     if (mode_ != "Read") {
         if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Read'."
                 << RESET << endl;
         return (WRONG_MODE);
+    }
+
+    if (file_type_ != "Forecasts") {
+        if (verbose_ >= 1) cout << BOLDRED
+                << "Error: File type is not Forecasts!" << RESET << endl;
+        return (WRONG_FILE_TYPE);
     }
 
     string var_name = "FLTs";
@@ -451,10 +612,48 @@ AnEnIO::readFLTs(anenTime::FLTs& flts) {
 }
 
 errorType
+AnEnIO::readFLTs(anenTime::FLTs& flts,
+        size_t start, size_t count, ptrdiff_t stride) {
+
+    if (verbose_ >= 3) {
+        cout << "Reading FLTs (subset) from file ("
+                << file_path_ << ") ..." << endl;
+    }
+
+    if (mode_ != "Read") {
+        if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Read'."
+                << RESET << endl;
+        return (WRONG_MODE);
+    }
+
+    string var_name = "FLTs";
+    handleError(checkVariable(var_name, false));
+
+    vector<double> vec;
+    read_vector_(var_name, vec, start, count, stride);
+
+    // copy the vector to the set
+    flts.clear();
+    flts.insert(flts.end(), vec.begin(), vec.end());
+
+    if (flts.size() != vec.size()) {
+        if (verbose_ >= 1) {
+            cout << BOLDRED << "Error: The variable (FLTs)"
+                    << " has duplicate elements!" << RESET << endl;
+        }
+        return (ELEMENT_NOT_UNIQUE);
+    }
+
+    return (SUCCESS);
+
+}
+
+errorType
 AnEnIO::readParameters(anenPar::Parameters & parameters) {
 
     if (verbose_ >= 3) {
-        cout << "Reading parameters from file (" << file_path_ << ") ..." << endl;
+        cout << "Reading Parameters from file ("
+                << file_path_ << ") ..." << endl;
     }
 
     if (mode_ != "Read") {
@@ -495,9 +694,92 @@ AnEnIO::readParameters(anenPar::Parameters & parameters) {
         handleError(read_vector_("ParameterWeights", weights));
     }
 
-    // Construct anenPar::Parameter objects and insert them into anenPar::Parameters
+    // Construct anenPar::Parameter objects and
+    // insert them into anenPar::Parameters
     parameters.clear();
     for (size_t i = 0; i < dim_len; i++) {
+
+        anenPar::Parameter parameter;
+
+        if (with_names) {
+
+            string name = names.at(i);
+            parameter.setName(name);
+
+            // Set circular if name is present
+            auto it_circular = find(circulars.begin(), circulars.end(), name);
+            if (it_circular != circulars.end()) parameter.setCircular(true);
+        }
+
+        if (!(weights.empty()))
+            parameter.setWeight(weights.at(i));
+
+        if (!parameters.push_back(parameter).second) {
+
+            if (verbose_ >= 1) {
+                cout << BOLDRED << "Error: Parameter (ID: " << parameter.getID()
+                        << ") is duplicate!" << RESET << endl;
+            }
+            return (ELEMENT_NOT_UNIQUE);
+        }
+    }
+
+    return (SUCCESS);
+}
+
+errorType
+AnEnIO::readParameters(anenPar::Parameters& parameters,
+        size_t start, size_t count, ptrdiff_t stride) {
+
+    if (verbose_ >= 3) {
+        cout << "Reading Parameters (subset) from file ("
+                << file_path_ << ") ..." << endl;
+    }
+
+    if (mode_ != "Read") {
+        if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Read'."
+                << RESET << endl;
+        return (WRONG_MODE);
+    }
+
+    size_t dim_len;
+    handleError(readDimLength("num_parameters", dim_len));
+
+    // Check parameters
+    if (start + (count - 1) * stride >= dim_len) {
+        if (verbose_ >= 1) cout << BOLDRED
+                << "Error: The parameter indices are not valid."
+                << " The length of parameters is " << dim_len << RESET << endl;
+        return (WRONG_INDEX_SHAPE);
+    }
+
+    // Read variable ParameterNames
+    vector<string> names;
+    bool with_names = false;
+    if (SUCCESS == checkVariable("ParameterNames", true)) {
+        read_string_vector_("ParameterNames",
+                names, start, count, stride);
+        with_names = true;
+    }
+
+    // Read variable ParameterCirculars
+    vector<string> circulars;
+    if (SUCCESS == checkVariable("ParameterCirculars", true)) {
+        handleError(read_string_vector_("ParameterCirculars",
+                circulars, start, count, stride));
+    }
+
+    // Read variable ParameterWeights
+    vector<double> weights;
+    if (SUCCESS == checkVariable("ParameterWeights", true)) {
+        handleError(read_vector_("ParameterWeights",
+                weights, start, count, stride));
+    }
+
+    // Construct anenPar::Parameter objects and
+    // insert them into anenPar::Parameters
+    parameters.clear();
+    for (size_t i = 0; i < count; i++) {
 
         anenPar::Parameter parameter;
 
@@ -531,7 +813,7 @@ errorType
 AnEnIO::readStations(anenSta::Stations& stations) {
 
     if (verbose_ >= 3) {
-        cout << "Reading stations from file (" << file_path_ << ") ..." << endl;
+        cout << "Reading Stations from file (" << file_path_ << ") ..." << endl;
     }
 
     if (mode_ != "Read") {
@@ -580,7 +862,8 @@ AnEnIO::readStations(anenSta::Stations& stations) {
         if (ys.size() != dim_len) {
             if (verbose_ >= 2) {
                 cout << BOLDRED << "Warning: There should be " << dim_len
-                        << " Ys! Coordinate variables not used!" << RESET << endl;
+                        << " Ys! Coordinate variables not used!"
+                        << RESET << endl;
             }
             with_coordinates = false;
         }
@@ -613,10 +896,82 @@ AnEnIO::readStations(anenSta::Stations& stations) {
 }
 
 errorType
+AnEnIO::readStations(anenSta::Stations& stations,
+        size_t start, size_t count, ptrdiff_t stride) {
+
+    if (verbose_ >= 3) {
+        cout << "Reading Stations (subset) from file ("
+                << file_path_ << ") ..." << endl;
+    }
+
+    if (mode_ != "Read") {
+        if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Read'."
+                << RESET << endl;
+        return (WRONG_MODE);
+    }
+
+    size_t dim_len;
+    handleError(readDimLength("num_stations", dim_len));
+
+    // Check parameters
+    if (start + (count - 1) * stride >= dim_len) {
+        if (verbose_ >= 1) cout << BOLDRED
+                << "Error: The station indices are not valid."
+                << " The length of stations is " << dim_len << RESET << endl;
+        return (WRONG_INDEX_SHAPE);
+    }
+
+    // Read variable StationNames
+    vector<string> names;
+    bool with_names = false;
+    if (SUCCESS == checkVariable("StationNames", false)) {
+        read_string_vector_("StationNames",
+                names, start, count, stride);
+        with_names = true;
+    }
+
+    // Read variables xs and ys (coordinates)
+    vector<double> xs, ys;
+    bool with_coordinates = false;
+    if (SUCCESS == checkVariable("Xs", true) &&
+            SUCCESS == checkVariable("Ys", true)) {
+        read_vector_("Xs", xs, start, count, stride);
+        read_vector_("Ys", ys, start, count, stride);
+        with_coordinates = true;
+    }
+
+    // Construct Station object and insert them into anenSta::Stations
+    stations.clear();
+    for (size_t i = 0; i < count; i++) {
+        anenSta::Station station;
+
+        if (with_names) {
+            station.setName(names.at(i));
+        }
+
+        if (with_coordinates) {
+            station.setX(xs.at(i));
+            station.setY(ys.at(i));
+        }
+
+        if (!stations.push_back(station).second) {
+            if (verbose_ >= 1) {
+                cout << BOLDRED << "Error: Station (ID: " << station.getID()
+                        << ") is duplicate!" << RESET << endl;
+            }
+            return (ELEMENT_NOT_UNIQUE);
+        }
+    }
+
+    return (SUCCESS);
+}
+
+errorType
 AnEnIO::readTimes(anenTime::Times& times) {
 
     if (verbose_ >= 3) {
-        cout << "Reading variable (Times) ..." << endl;
+        cout << "Reading Times from file (" << file_path_
+                << ")  ..." << endl;
     }
 
     if (mode_ != "Read") {
@@ -630,6 +985,42 @@ AnEnIO::readTimes(anenTime::Times& times) {
 
     vector<double> vec;
     read_vector_(var_name, vec);
+
+    // copy the vector to the set
+    times.clear();
+    times.insert(times.end(), vec.begin(), vec.end());
+
+    if (times.size() != vec.size()) {
+        if (verbose_ >= 1) {
+            cout << BOLDRED << "Error: The variable (Times)"
+                    << " has duplicate elements!" << RESET << endl;
+        }
+        return (ELEMENT_NOT_UNIQUE);
+    }
+
+    return (SUCCESS);
+}
+
+errorType
+AnEnIO::readTimes(anenTime::Times& times,
+        size_t start, size_t count, ptrdiff_t stride) {
+
+    if (verbose_ >= 3) {
+        cout << "Reading Times from file ("
+                << file_path_ << ")  (subset) ..." << endl;
+    }
+
+    if (mode_ != "Read") {
+        if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Read'."
+                << RESET << endl;
+        return (WRONG_MODE);
+    }
+
+    string var_name = "Times";
+    handleError(checkVariable(var_name, false));
+
+    vector<double> vec;
+    read_vector_(var_name, vec, start, count, stride);
 
     // copy the vector to the set
     times.clear();
@@ -858,7 +1249,8 @@ AnEnIO::writeParameters(const anenPar::Parameters& parameters,
     if (num_nan == 0) {
 
         if (sum != 1) {
-            if (verbose_ >= 1) cout << BOLDRED << "Error: Parameter weights do not"
+            if (verbose_ >= 1) cout << BOLDRED
+                    << "Error: Parameter weights do not"
                     << " add up to 1." << RESET << endl;
             return (ERROR_SETTING_VALUES);
         }
@@ -965,7 +1357,9 @@ shared(parameters_by_insert, p_circulars, p_names, p_weights)
 }
 
 errorType
-AnEnIO::writeStations(const anenSta::Stations& stations, bool unlimited) const {
+AnEnIO::writeStations(
+        const anenSta::Stations& stations,
+        bool unlimited) const {
 
     if (verbose_ >= 3) cout << "Writing variable (Stations) ..." << endl;
 
@@ -1348,7 +1742,7 @@ AnEnIO::dumpVariable(string var_name, size_t start, size_t count) const {
 }
 
 errorType
-AnEnIO::read_string_vector_(string var_name, vector<string> & vector) const {
+AnEnIO::read_string_vector_(string var_name, vector<string> & results) const {
 
     if (mode_ != "Read") {
         if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Read'."
@@ -1401,11 +1795,11 @@ AnEnIO::read_string_vector_(string var_name, vector<string> & vector) const {
                 return (WRONG_VARIABLE_SHAPE);
             }
 
-            vector.resize(num_strs);
+            results.resize(num_strs);
             for (size_t i = 0; i < num_strs; i++) {
                 string str(p_vals + i*num_chars, p_vals + (i + 1) * num_chars);
                 purge_(str);
-                vector.at(i) = str;
+                results.at(i) = str;
             }
 
             delete [] p_vals;
@@ -1430,7 +1824,72 @@ AnEnIO::read_string_vector_(string var_name, vector<string> & vector) const {
     }
 }
 
-void AnEnIO::purge_(std::string & str) const {
+errorType
+AnEnIO::read_string_vector_(string var_name, vector<string>& results,
+        size_t start, size_t count, ptrdiff_t stride) const {
+
+    if (mode_ != "Read") {
+        if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Read'."
+                << RESET << endl;
+        return (WRONG_MODE);
+    }
+
+    NcFile nc(file_path_, NcFile::FileMode::read);
+    NcVar var = nc.getVar(var_name);
+    auto var_dims = var.getDims();
+    char *p_vals = nullptr;
+
+    if (var_dims.size() == 2) {
+        if (var.getType() == NcType::nc_CHAR) {
+
+            size_t num_chars = nc.getDim("num_chars").getSize();
+            size_t total = count * num_chars;
+
+            try {
+                p_vals = new char[total];
+            } catch (bad_alloc & e) {
+                nc.close();
+                if (verbose_ >= 1) cout << BOLDRED <<
+                        "Error: Insufficient memory reading variable ("
+                        << var_name << ")!" << RESET << endl;
+                return (INSUFFICIENT_MEMORY);
+            }
+
+            vector<size_t> vec_start{start, 0}, vec_count{count, num_chars};
+            vector<ptrdiff_t> vec_stride{stride, 1};
+
+            var.getVar(vec_start, vec_count, vec_stride, p_vals);
+
+            results.resize(count);
+            for (size_t i = 0; i < count; i++) {
+                string str(p_vals + i*num_chars, p_vals + (i + 1) * num_chars);
+                purge_(str);
+                results.at(i) = str;
+            }
+
+            delete [] p_vals;
+            nc.close();
+            return (SUCCESS);
+
+        } else {
+
+            if (verbose_ >= 1) {
+                cout << BOLDRED << "Error: Variable (" << var_name <<
+                        ") is not nc_CHAR type!" << RESET << endl;
+            }
+            return (WRONG_VARIABLE_SHAPE);
+        }
+    } else {
+
+        if (verbose_ >= 1) {
+            cout << BOLDRED << "Error: Variable (" << var_name <<
+                    ") should only have 2 dimensions!" << RESET << endl;
+        }
+        return (WRONG_VARIABLE_SHAPE);
+    }
+}
+
+void AnEnIO::purge_(string & str) const {
 
     str.erase(remove_if(str.begin(), str.end(), [](const unsigned char & c) {
         bool remove = !(isalpha(c) || isdigit(c) || ispunct(c) || isspace(c));
@@ -1439,7 +1898,7 @@ void AnEnIO::purge_(std::string & str) const {
 
 }
 
-void AnEnIO::purge_(std::vector<std::string> & strs) const {
+void AnEnIO::purge_(vector<string> & strs) const {
 
     for (auto & str : strs) purge_(str);
 }

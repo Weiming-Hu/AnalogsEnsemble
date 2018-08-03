@@ -1,12 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
  * File:   testAnEnIO.h
- * Author: wuh20
+ * Author: Weiming Hu <weiming@psu.edu>
  *
  * Created on Jun 29, 2018, 6:02:11 PM
  */
@@ -25,7 +19,13 @@ class testAnEnIO : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST(testReadForecastFile);
     CPPUNIT_TEST(testWriteReadObservationFile);
     CPPUNIT_TEST(testWriteReadForecastFile);
-    
+    CPPUNIT_TEST(testReadPartParameters);
+    CPPUNIT_TEST(testReadPartStations);
+    CPPUNIT_TEST(testReadPartTimes);
+    CPPUNIT_TEST(testReadPartFLTs);
+    CPPUNIT_TEST(testReadPartObservations);
+    CPPUNIT_TEST(testReadPartForecasts);
+
     CPPUNIT_TEST_SUITE_END();
 
 public:
@@ -39,6 +39,12 @@ private:
     void testReadForecastFile();
     void testWriteReadObservationFile();
     void testWriteReadForecastFile();
+    void testReadPartParameters();
+    void testReadPartStations();
+    void testReadPartTimes();
+    void testReadPartFLTs();
+    void testReadPartObservations();
+    void testReadPartForecasts();
 };
 
 #endif /* TESTANENIO_H */

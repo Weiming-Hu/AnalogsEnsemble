@@ -10,6 +10,8 @@
 
 #include <netcdf>
 #include <string>
+#include <vector>
+#include <cstddef>
 #include <exception>
 
 #include "Times.h"
@@ -65,6 +67,7 @@ public:
         ELEMENT_NOT_UNIQUE = -16,
         DIMENSION_EXISTS = -17,
         VARIABLE_EXISTS = -18,
+        WRONG_INDEX_SHAPE = -19,
 
         ERROR_SETTING_VALUES = -50,
         NAN_VALUES = -51,
@@ -134,12 +137,43 @@ public:
     errorType readObservations(Observations & observations);
 
     /**
+     * Reads a subset of an observation file into an Observations
+     * object.
+     * 
+     * @param observations The Observations object to store data.
+     * @param start A vector of indices of the start of the data to read.
+     * @param count A vector of numbers of data to read for each dimension.
+     * @param stride A vector of numbers of the length of the stride for
+     * each dimension.
+     * @return An AnEnIO::errorType.
+     */
+    errorType readObservations(Observations & observations,
+            std::vector<size_t> start,
+            std::vector<size_t> count,
+            std::vector<ptrdiff_t> stride = {1, 1, 1});
+
+    /**
      * Reads forecast file into an Forecasts object.
      * 
      * @param forecasts The Forecasts object to store data.
      * @return An AnEnIO::errorType.
      */
     errorType readForecasts(Forecasts & forecasts);
+
+    /**
+     * Reads a subset of a forecast file into a Forecasts object.
+     * 
+     * @param forecasts The Forecasts object to store data.
+     * @param start A vector of indices of the start of the data to read.
+     * @param count A vector of numbers of data to read for each dimension.
+     * @param stride A vector of numbers of the length of the stride for
+     * each dimension.
+     * @return An AnEnIO::errorType.
+     */
+    errorType readForecasts(Forecasts & forecasts,
+            std::vector<size_t> start,
+            std::vector<size_t> count,
+            std::vector<ptrdiff_t> stride = {1, 1, 1, 1});
 
     /**
      * Reads forecast lead time information from the file. You should use the
@@ -152,6 +186,8 @@ public:
      * @return An AnEnIO::errorType.
      */
     errorType readFLTs(anenTime::FLTs & flts);
+    errorType readFLTs(anenTime::FLTs & flts,
+            size_t start, size_t count, ptrdiff_t stride = 1);
 
     /**
      * Reads parameter information from the file. You should use the function 
@@ -165,6 +201,8 @@ public:
      * @return An AnEnIO::errorType.
      */
     errorType readParameters(anenPar::Parameters & parameters);
+    errorType readParameters(anenPar::Parameters & parameters,
+            size_t start, size_t count, ptrdiff_t stride = 1);
 
     /**
      * Reads station information from the file. You should use the function 
@@ -178,6 +216,8 @@ public:
      * @return An AnEnIO::errorType.
      */
     errorType readStations(anenSta::Stations & stations);
+    errorType readStations(anenSta::Stations & stations,
+            size_t start, size_t count, ptrdiff_t stride = 1);
 
     /**
      * Reads time information from the file. You should use the function 
@@ -190,6 +230,8 @@ public:
      * @return An AnEnIO::errorType.
      */
     errorType readTimes(anenTime::Times & times);
+    errorType readTimes(anenTime::Times & times,
+            size_t start, size_t count, ptrdiff_t stride = 1);
 
     /**
      * Reads the length of a dimension.
@@ -296,19 +338,22 @@ protected:
      * dimensions and be the type of nc_CHAR.
      * 
      * @param var_name The variable name.
-     * @param vectors A string container.
+     * @param results A string container.
      * @return AnEnIO::errorType.
      */
     errorType read_string_vector_(std::string var_name,
-            std::vector<std::string> & vectors) const;
-    
+            std::vector<std::string> & results) const;
+    errorType read_string_vector_(std::string var_name,
+            std::vector<std::string> & results,
+            size_t start, size_t count, ptrdiff_t stride = 1) const;
+
     /**
      * Cleans special characters in strings.
      * 
      * @param str A string.
      */
     void purge_(std::string & str) const;
-    
+
     /**
      * Cleans special characters in strings
      * 
@@ -324,12 +369,12 @@ protected:
      * Reads variables as a atomic vector.
      * 
      * @param var_name The variable name.
-     * @param vector An atmoic container.
+     * @param results An atmoic container.
      * @return AnEnIO::errorType.
      */
     template<typename T>
     errorType
-    read_vector_(std::string var_name, std::vector<T> & vector) const {
+    read_vector_(std::string var_name, std::vector<T> & results) const {
 
         using namespace netCDF;
         using namespace std;
@@ -353,18 +398,76 @@ protected:
             p_vals = new T[len];
         } catch (bad_alloc & e) {
             nc.close();
-            if (verbose_ >= 1) cout << BOLDRED <<
-                    "Error: Insufficient memory when reading variable ("
+            if (verbose_ >= 1) cout << BOLDRED
+                    << "Error: Insufficient memory when reading variable ("
                     << var_name << ")!" << RESET << endl;
+            nc.close();
             return (INSUFFICIENT_MEMORY);
         }
 
         var.getVar(p_vals);
-        vector.assign(p_vals, p_vals + len);
+        results.assign(p_vals, p_vals + len);
 
         nc.close();
         delete [] p_vals;
         return (SUCCESS);
+    };
+
+    template<typename T>
+    errorType
+    read_vector_(std::string var_name, std::vector<T> & results,
+            std::vector<size_t> start, std::vector<size_t> count,
+            std::vector<ptrdiff_t> stride = {1}) const {
+
+        using namespace netCDF;
+        using namespace std;
+
+        if (mode_ != "Read") {
+            if (verbose_ >= 1) cout << "Error: Mode should be 'Read'." << endl;
+            return (WRONG_MODE);
+        }
+
+        NcFile nc(file_path_, NcFile::FileMode::read);
+        NcVar var = nc.getVar(var_name);
+        T *p_vals = nullptr;
+
+        size_t total = 1;
+        for (auto i : count) {
+            total *= i;
+        }
+
+        try {
+            p_vals = new T[total];
+        } catch (bad_alloc & e) {
+            nc.close();
+            if (verbose_ >= 1) cout << BOLDRED
+                    << "Error: Insufficient memory when reading variable ("
+                    << var_name << ")!" << RESET << endl;
+            nc.close();
+            return (INSUFFICIENT_MEMORY);
+        }
+
+        // Reverse the order because of the storage style of NetCDF
+        reverse(start.begin(), start.end());
+        reverse(count.begin(), count.end());
+        reverse(stride.begin(), stride.end());
+
+        var.getVar(start, count, stride, p_vals);
+        results.assign(p_vals, p_vals + total);
+
+        nc.close();
+        delete [] p_vals;
+        return (SUCCESS);
+    };
+
+    template<typename T>
+    errorType
+    read_vector_(std::string var_name, std::vector<T> & results,
+            size_t start, size_t count, ptrdiff_t stride = 1) const {
+        std::vector<size_t> vec_start{start}, vec_count{count};
+        std::vector<ptrdiff_t> vec_stride{stride};
+        return (read_vector_(var_name, results,
+                vec_start, vec_count, vec_stride));
     };
 
 };
