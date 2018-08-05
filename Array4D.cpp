@@ -30,9 +30,9 @@ Array4D::Array4D(size_t d1, size_t d2, size_t d3, size_t d4) {
     try {
         resize(boost::extents[d1][d2][d3][d4]);
     } catch (bad_alloc e) {
-        cerr  << "ERROR: insufficient memory while resizing the array4D to hold "
+        cerr << "ERROR: insufficient memory while resizing the array4D to hold "
                 << d1 * d2 * d3 * d4 << " double values"
-                 << endl;
+                << endl;
         throw e;
     }
 
@@ -54,9 +54,9 @@ Array4D & Array4D::operator=(const Array4D &rhs) {
                     [rhs.shape()[0]][rhs.shape()[1]]
                     [rhs.shape()[2]][rhs.shape()[3]]);
         } catch (bad_alloc e) {
-            cerr  << "ERROR: insufficient memory while resizing the array4D to hold "
+            cerr << "ERROR: insufficient memory while resizing the array4D to hold "
                     << rhs.shape()[0] * rhs.shape()[1] * rhs.shape()[2] * rhs.shape()[3] << " double values"
-                     << endl;
+                    << endl;
             throw e;
         }
 
@@ -70,7 +70,7 @@ Array4D & Array4D::operator=(const Array4D &rhs) {
 }
 
 void
-Array4D::getDataFromVector(vector<double> const & data,
+Array4D::setDataFromVector(vector<double> const & data,
         size_t M, size_t N, size_t O, size_t P) {
     // fill the array4D using the data from a vector
 
@@ -78,9 +78,9 @@ Array4D::getDataFromVector(vector<double> const & data,
     try {
         resize(boost::extents[M][N][O][P]);
     } catch (bad_alloc & e) {
-        cerr  << "ERROR: insufficient memory while resizing the array4D to hold "
+        cerr << "ERROR: insufficient memory while resizing the array4D to hold "
                 << M * N * O * P << " double values"
-                 << endl;
+                << endl;
         throw e;
     }
 
@@ -88,7 +88,7 @@ Array4D::getDataFromVector(vector<double> const & data,
     size_t n = 0;
     size_t o = 0;
     size_t p = 0;
-
+    
     vector<double>::const_iterator citer;
 
     for (citer = data.begin();
@@ -109,14 +109,12 @@ Array4D::getDataFromVector(vector<double> const & data,
         (*this)[m][n][o][p] = *citer;
         m++;
     }
-
-
 }
 
 Array4D::Array4D(vector<double> const & data,
         size_t M, size_t N, size_t O, size_t P) {
     //cout << "Array4D Constructor: From vector data" << endl;
-    getDataFromVector(data, M, N, O, P);
+    setDataFromVector(data, M, N, O, P);
 }
 
 Array4D::~Array4D() {
@@ -130,7 +128,7 @@ Array4D::myresize(index d1, index d2, index d3, index d4) {
     } catch (bad_alloc e) {
         cerr << "ERROR: insufficient memory while resizing the array4D to hold "
                 << d1 * d2 * d3 * d4 << " double values"
-                 << endl;
+                << endl;
         throw e;
     }
     return ( true);
@@ -191,7 +189,6 @@ Array4D::getFirstDimensionData(vector<double> & data, size_t pos) {
         n++;
     }
 }
-
 
 void
 Array4D::randomize() {
@@ -334,7 +331,6 @@ double
 Array4D::ys_min() const {
     return ( *(min_element(ys_.begin(), ys_.end())));
 }
-
 
 size_t
 Array4D::getSizeDim0() const {

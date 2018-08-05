@@ -37,22 +37,22 @@ Forecasts::~Forecasts() {
 }
 
 size_t
-Forecasts::get_parameters_size() const {
+Forecasts::getParametersSize() const {
     return ( parameters_.size());
 }
 
 size_t
-Forecasts::get_stations_size() const {
+Forecasts::getStationsSize() const {
     return ( stations_.size());
 }
 
 size_t
-Forecasts::get_times_size() const {
+Forecasts::getTimesSize() const {
     return ( times_.size());
 }
 
 size_t
-Forecasts::get_flts_size() const {
+Forecasts::getFLTsSize() const {
     return ( flts_.size());
 }
 
@@ -99,10 +99,10 @@ Forecasts::setTimes(anenTime::Times times) {
 void
 Forecasts::print(ostream &os) const {
     os << "[Forecasts] size: [" <<
-            get_parameters_size() << ", " <<
-            get_stations_size() << ", " <<
-            get_times_size() << ", " <<
-            get_flts_size() << "]" << endl << endl;
+            getParametersSize() << ", " <<
+            getStationsSize() << ", " <<
+            getTimesSize() << ", " <<
+            getFLTsSize() << "]" << endl << endl;
     os << parameters_ << endl;
     os << stations_ << endl;
     os << times_ << endl << endl;
@@ -139,7 +139,7 @@ Forecasts_array::~Forecasts_array() {
 }
 
 Array4D const &
-Forecasts_array::getValues() const {
+Forecasts_array::data() const {
     return (data_);
 }
 
@@ -150,7 +150,7 @@ Forecasts_array::getValueByIndex(size_t parameter_index, size_t station_index,
 }
 
 const double*
-Forecasts_array::data() const {
+Forecasts_array::getValues() const {
     return (data_.data());
 }
 
@@ -192,30 +192,36 @@ Forecasts_array::setValues(const vector<double> & vals) {
         throw length_error(message);
     }
 
-    data_.getDataFromVector(vals,
-            get_parameters_size(), get_stations_size(),
-            get_times_size(), get_flts_size());
+    data_.setDataFromVector(vals,
+            getParametersSize(), getStationsSize(),
+            getTimesSize(), getFLTsSize());
 }
 
 void
 Forecasts_array::updateDataDims() {
     try {
-        data_.myresize(get_parameters_size(), get_stations_size(),
-                get_times_size(), get_flts_size());
+        data_.myresize(getParametersSize(), getStationsSize(),
+                getTimesSize(), getFLTsSize());
     } catch (bad_alloc & e) {
         cout << BOLDRED << "Error: insufficient memory while resizing the"
-                << " array4D to hold " << get_flts_size() << "x"
-                << get_parameters_size() << "x" << get_stations_size() << "x"
-                << get_times_size() << " double values." << endl;
+                << " array4D to hold " << getFLTsSize() << "x"
+                << getParametersSize() << "x" << getStationsSize() << "x"
+                << getTimesSize() << " double values." << endl;
         throw e;
     }
+}
+
+size_t 
+Forecasts_array::getDataLength() const {
+    return (getParametersSize() * getStationsSize() *
+            getFLTsSize() * getTimesSize());
 }
 
 void
 Forecasts_array::print(ostream &os) const {
     Forecasts::print(os);
     os << endl;
-    os << data_ << endl;
+    os << data_;
 }
 
 ostream &

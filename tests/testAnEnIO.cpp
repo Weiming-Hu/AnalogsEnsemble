@@ -50,9 +50,9 @@ void testAnEnIO::testReadObservationFile() {
     Observations_array observations;
     io.handleError(io.readObservations(observations));
 
-    size_t num_pars = observations.get_parameters_size();
-    size_t num_stations = observations.get_stations_size();
-    size_t num_times = observations.get_times_size();
+    size_t num_pars = observations.getParametersSize();
+    size_t num_stations = observations.getStationsSize();
+    size_t num_times = observations.getTimesSize();
 
     //    cout << "Observation data dimensions:" << endl
     //            << "parameters: " << num_pars << endl
@@ -63,7 +63,7 @@ void testAnEnIO::testReadObservationFile() {
     for (size_t k = 0; k < num_times; k++)
         for (size_t j = 0; j < num_stations; j++)
             for (size_t i = 0; i < num_pars; i++) {
-                CPPUNIT_ASSERT(count == observations.getValues()[i][j][k]);
+                CPPUNIT_ASSERT(count == observations.data()[i][j][k]);
                 count++;
             }
 
@@ -85,10 +85,10 @@ void testAnEnIO::testReadForecastFile() {
     Forecasts_array forecasts;
     io.handleError(io.readForecasts(forecasts));
 
-    size_t num_pars = forecasts.get_parameters_size();
-    size_t num_stations = forecasts.get_stations_size();
-    size_t num_times = forecasts.get_times_size();
-    size_t num_flts = forecasts.get_flts_size();
+    size_t num_pars = forecasts.getParametersSize();
+    size_t num_stations = forecasts.getStationsSize();
+    size_t num_times = forecasts.getTimesSize();
+    size_t num_flts = forecasts.getFLTsSize();
 
     double count = 1;
     for (size_t l = 0; l < num_flts; l++)
@@ -198,8 +198,8 @@ void testAnEnIO::testWriteReadObservationFile() {
     }
 
     // Verify values
-    auto data_read = observations_read.getValues(),
-            data_write = observations_write.getValues();
+    auto data_read = observations_read.data(),
+            data_write = observations_write.data();
     CPPUNIT_ASSERT(data_read == data_write);
 
     // Remove the file
@@ -316,8 +316,8 @@ void testAnEnIO::testWriteReadForecastFile() {
     }
 
     // Verify values
-    auto data_read = forecasts_read.getValues(),
-            data_write = forecasts_write.getValues();
+    auto data_read = forecasts_read.data(),
+            data_write = forecasts_write.data();
     CPPUNIT_ASSERT(data_read == data_write);
 
     // Remove the file

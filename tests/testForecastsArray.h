@@ -19,7 +19,7 @@
 class testForecastsArray : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST_SUITE(testForecastsArray);
     
-    CPPUNIT_TEST(testForecastValueSequence);
+    CPPUNIT_TEST(testForecastSetVectorValues);
     
     CPPUNIT_TEST_SUITE_END();
 
@@ -27,11 +27,10 @@ public:
     testForecastsArray();
     virtual ~testForecastsArray();
     
-    void testForecastValueSequence();
+    void testForecastSetVectorValues();
 
 private:
     
 };
 
 #endif /* TESTFORECASTSARRAY_H */
-

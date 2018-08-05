@@ -11,6 +11,7 @@
 #include <ostream>
 #include <cmath>
 #include <vector>
+#include <memory>
 
 #include "Stations.h"
 #include "Parameters.h"
@@ -56,14 +57,15 @@ public:
      * @param flt A timestamp for FLT.
      * @return A value.
      */
-    virtual double getValueByID(std::size_t parameter_ID, std::size_t station_ID,
+    virtual double getValueByID(
+            std::size_t parameter_ID, std::size_t station_ID,
             double timestamp, double flt) const = 0;
-    
+
     /**
      * Gets data in form of a double pointer.
      * @return A double pointer.
      */
-    virtual const double* data() const = 0;
+    virtual const double* getValues() const = 0;
 
     virtual void setValue(double val, std::size_t parameter_index,
             std::size_t station_index, std::size_t time_index,
@@ -85,10 +87,11 @@ public:
      */
     virtual void updateDataDims() = 0;
 
-    std::size_t get_parameters_size() const;
-    std::size_t get_stations_size() const;
-    std::size_t get_times_size() const;
-    std::size_t get_flts_size() const;
+    std::size_t getParametersSize() const;
+    std::size_t getStationsSize() const;
+    std::size_t getTimesSize() const;
+    std::size_t getFLTsSize() const;
+    virtual std::size_t getDataLength() const = 0;
 
     anenPar::Parameters const & getParameters() const;
     anenSta::Stations const & getStations() const;
@@ -129,15 +132,15 @@ public:
 
     virtual ~Forecasts_array();
 
-    Array4D const & getValues() const;
+    Array4D const & data() const;
 
     double getValueByIndex(std::size_t parameter_index, std::size_t station_index,
             std::size_t time_index, std::size_t flt_index) const override;
     double getValueByID(std::size_t parameter_ID, std::size_t station_ID,
             double timestamp, double flt) const override;
 
-    const double* data() const override;
-    
+    const double* getValues() const override;
+
     void setValue(double val, std::size_t parameter_index,
             std::size_t station_index, std::size_t time_index,
             std::size_t flt_index) override;
@@ -147,6 +150,8 @@ public:
     void setValues(const std::vector<double>& vals) override;
 
     void updateDataDims() override;
+    
+    size_t getDataLength() const override;
 
     void print(std::ostream &) const override;
     friend std::ostream& operator<<(std::ostream&, const Forecasts_array&);

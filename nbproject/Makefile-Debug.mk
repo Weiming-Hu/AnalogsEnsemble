@@ -41,6 +41,8 @@ OBJECTFILES= \
 	${OBJECTDIR}/Forecasts.o \
 	${OBJECTDIR}/Observations.o \
 	${OBJECTDIR}/Parameters.o \
+	${OBJECTDIR}/SimilarityMatrices.o \
+	${OBJECTDIR}/StandardDeviation.o \
 	${OBJECTDIR}/Stations.o \
 	${OBJECTDIR}/Times.o \
 	${OBJECTDIR}/canalogs.o \
@@ -51,22 +53,31 @@ TESTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}/tests
 
 # Test Files
 TESTFILES= \
+	${TESTDIR}/TestFiles/f8 \
 	${TESTDIR}/TestFiles/f4 \
 	${TESTDIR}/TestFiles/f5 \
 	${TESTDIR}/TestFiles/f3 \
+	${TESTDIR}/TestFiles/f6 \
+	${TESTDIR}/TestFiles/f7 \
 	${TESTDIR}/TestFiles/f1 \
 	${TESTDIR}/TestFiles/f2
 
 # Test Object Files
 TESTOBJECTFILES= \
+	${TESTDIR}/tests/runnerAnEn.o \
 	${TESTDIR}/tests/runnerAnEnIO.o \
 	${TESTDIR}/tests/runnerForecastsArray.o \
 	${TESTDIR}/tests/runnerObservationsArray.o \
+	${TESTDIR}/tests/runnerSimilarityMatrices.o \
+	${TESTDIR}/tests/runnerStandardDeviation.o \
 	${TESTDIR}/tests/runnerStation.o \
 	${TESTDIR}/tests/runnerStations.o \
+	${TESTDIR}/tests/testAnEn.o \
 	${TESTDIR}/tests/testAnEnIO.o \
 	${TESTDIR}/tests/testForecastsArray.o \
 	${TESTDIR}/tests/testObservationsArray.o \
+	${TESTDIR}/tests/testSimilarityMatrices.o \
+	${TESTDIR}/tests/testStandardDeviation.o \
 	${TESTDIR}/tests/testStation.o \
 	${TESTDIR}/tests/testStations.o
 
@@ -124,6 +135,16 @@ ${OBJECTDIR}/Parameters.o: Parameters.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -Wall -I/usr/local/Cellar/boost/1.67.0_1/include -I/usr/local/Cellar/netcdf/4.6.1_2/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Parameters.o Parameters.cpp
 
+${OBJECTDIR}/SimilarityMatrices.o: SimilarityMatrices.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -Wall -I/usr/local/Cellar/boost/1.67.0_1/include -I/usr/local/Cellar/netcdf/4.6.1_2/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SimilarityMatrices.o SimilarityMatrices.cpp
+
+${OBJECTDIR}/StandardDeviation.o: StandardDeviation.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -Wall -I/usr/local/Cellar/boost/1.67.0_1/include -I/usr/local/Cellar/netcdf/4.6.1_2/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/StandardDeviation.o StandardDeviation.cpp
+
 ${OBJECTDIR}/Stations.o: Stations.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
@@ -151,6 +172,10 @@ ${OBJECTDIR}/doxygen-mainpage.o: doxygen-mainpage.cpp
 .build-tests-conf: .build-tests-subprojects .build-conf ${TESTFILES}
 .build-tests-subprojects:
 
+${TESTDIR}/TestFiles/f8: ${TESTDIR}/tests/runnerAnEn.o ${TESTDIR}/tests/testAnEn.o ${OBJECTFILES:%.o=%_nomain.o}
+	${MKDIR} -p ${TESTDIR}/TestFiles
+	${LINK.cc} -o ${TESTDIR}/TestFiles/f8 $^ ${LDLIBSOPTIONS}   -lcppunit-1.14.0 -lcppunit -lcppunit `cppunit-config --libs`   
+
 ${TESTDIR}/TestFiles/f4: ${TESTDIR}/tests/runnerAnEnIO.o ${TESTDIR}/tests/testAnEnIO.o ${OBJECTFILES:%.o=%_nomain.o}
 	${MKDIR} -p ${TESTDIR}/TestFiles
 	${LINK.cc} -o ${TESTDIR}/TestFiles/f4 $^ ${LDLIBSOPTIONS}   -lcppunit-1.14.0 -lcppunit -lcppunit `cppunit-config --libs`   
@@ -163,6 +188,14 @@ ${TESTDIR}/TestFiles/f3: ${TESTDIR}/tests/runnerObservationsArray.o ${TESTDIR}/t
 	${MKDIR} -p ${TESTDIR}/TestFiles
 	${LINK.cc} -o ${TESTDIR}/TestFiles/f3 $^ ${LDLIBSOPTIONS}   -lcppunit-1.14.0 -lcppunit -lcppunit `cppunit-config --libs`   
 
+${TESTDIR}/TestFiles/f6: ${TESTDIR}/tests/runnerSimilarityMatrices.o ${TESTDIR}/tests/testSimilarityMatrices.o ${OBJECTFILES:%.o=%_nomain.o}
+	${MKDIR} -p ${TESTDIR}/TestFiles
+	${LINK.cc} -o ${TESTDIR}/TestFiles/f6 $^ ${LDLIBSOPTIONS}   -lcppunit-1.14.0 -lcppunit -lcppunit `cppunit-config --libs`   
+
+${TESTDIR}/TestFiles/f7: ${TESTDIR}/tests/runnerStandardDeviation.o ${TESTDIR}/tests/testStandardDeviation.o ${OBJECTFILES:%.o=%_nomain.o}
+	${MKDIR} -p ${TESTDIR}/TestFiles
+	${LINK.cc} -o ${TESTDIR}/TestFiles/f7 $^ ${LDLIBSOPTIONS}   -lcppunit-1.14.0 -lcppunit -lcppunit `cppunit-config --libs`   
+
 ${TESTDIR}/TestFiles/f1: ${TESTDIR}/tests/runnerStation.o ${TESTDIR}/tests/testStation.o ${OBJECTFILES:%.o=%_nomain.o}
 	${MKDIR} -p ${TESTDIR}/TestFiles
 	${LINK.cc} -o ${TESTDIR}/TestFiles/f1 $^ ${LDLIBSOPTIONS}   -lcppunit-1.14.0 -lcppunit -lcppunit `cppunit-config --libs` -lcppunit-1.14.0 -lcppunit -lcppunit   
@@ -170,6 +203,18 @@ ${TESTDIR}/TestFiles/f1: ${TESTDIR}/tests/runnerStation.o ${TESTDIR}/tests/testS
 ${TESTDIR}/TestFiles/f2: ${TESTDIR}/tests/runnerStations.o ${TESTDIR}/tests/testStations.o ${OBJECTFILES:%.o=%_nomain.o}
 	${MKDIR} -p ${TESTDIR}/TestFiles
 	${LINK.cc} -o ${TESTDIR}/TestFiles/f2 $^ ${LDLIBSOPTIONS}   -lcppunit-1.14.0 -lcppunit -lcppunit `cppunit-config --libs`   
+
+
+${TESTDIR}/tests/runnerAnEn.o: tests/runnerAnEn.cpp 
+	${MKDIR} -p ${TESTDIR}/tests
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -Wall -I/usr/local/Cellar/boost/1.67.0_1/include -I/usr/local/Cellar/netcdf/4.6.1_2/include -I/usr/local/Cellar/cppunit/1.14.0/include `cppunit-config --cflags` -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/runnerAnEn.o tests/runnerAnEn.cpp
+
+
+${TESTDIR}/tests/testAnEn.o: tests/testAnEn.cpp 
+	${MKDIR} -p ${TESTDIR}/tests
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -Wall -I/usr/local/Cellar/boost/1.67.0_1/include -I/usr/local/Cellar/netcdf/4.6.1_2/include -I/usr/local/Cellar/cppunit/1.14.0/include `cppunit-config --cflags` -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/testAnEn.o tests/testAnEn.cpp
 
 
 ${TESTDIR}/tests/runnerAnEnIO.o: tests/runnerAnEnIO.cpp 
@@ -206,6 +251,30 @@ ${TESTDIR}/tests/testObservationsArray.o: tests/testObservationsArray.cpp
 	${MKDIR} -p ${TESTDIR}/tests
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -Wall -I/usr/local/Cellar/boost/1.67.0_1/include -I/usr/local/Cellar/netcdf/4.6.1_2/include -I/usr/local/Cellar/cppunit/1.14.0/include `cppunit-config --cflags` -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/testObservationsArray.o tests/testObservationsArray.cpp
+
+
+${TESTDIR}/tests/runnerSimilarityMatrices.o: tests/runnerSimilarityMatrices.cpp 
+	${MKDIR} -p ${TESTDIR}/tests
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -Wall -I/usr/local/Cellar/boost/1.67.0_1/include -I/usr/local/Cellar/netcdf/4.6.1_2/include -I/usr/local/Cellar/cppunit/1.14.0/include `cppunit-config --cflags` -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/runnerSimilarityMatrices.o tests/runnerSimilarityMatrices.cpp
+
+
+${TESTDIR}/tests/testSimilarityMatrices.o: tests/testSimilarityMatrices.cpp 
+	${MKDIR} -p ${TESTDIR}/tests
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -Wall -I/usr/local/Cellar/boost/1.67.0_1/include -I/usr/local/Cellar/netcdf/4.6.1_2/include -I/usr/local/Cellar/cppunit/1.14.0/include `cppunit-config --cflags` -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/testSimilarityMatrices.o tests/testSimilarityMatrices.cpp
+
+
+${TESTDIR}/tests/runnerStandardDeviation.o: tests/runnerStandardDeviation.cpp 
+	${MKDIR} -p ${TESTDIR}/tests
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -Wall -I/usr/local/Cellar/boost/1.67.0_1/include -I/usr/local/Cellar/netcdf/4.6.1_2/include -I/usr/local/Cellar/cppunit/1.14.0/include `cppunit-config --cflags` -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/runnerStandardDeviation.o tests/runnerStandardDeviation.cpp
+
+
+${TESTDIR}/tests/testStandardDeviation.o: tests/testStandardDeviation.cpp 
+	${MKDIR} -p ${TESTDIR}/tests
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -Wall -I/usr/local/Cellar/boost/1.67.0_1/include -I/usr/local/Cellar/netcdf/4.6.1_2/include -I/usr/local/Cellar/cppunit/1.14.0/include `cppunit-config --cflags` -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/testStandardDeviation.o tests/testStandardDeviation.cpp
 
 
 ${TESTDIR}/tests/runnerStation.o: tests/runnerStation.cpp 
@@ -310,6 +379,32 @@ ${OBJECTDIR}/Parameters_nomain.o: ${OBJECTDIR}/Parameters.o Parameters.cpp
 	    ${CP} ${OBJECTDIR}/Parameters.o ${OBJECTDIR}/Parameters_nomain.o;\
 	fi
 
+${OBJECTDIR}/SimilarityMatrices_nomain.o: ${OBJECTDIR}/SimilarityMatrices.o SimilarityMatrices.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/SimilarityMatrices.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -g -Wall -I/usr/local/Cellar/boost/1.67.0_1/include -I/usr/local/Cellar/netcdf/4.6.1_2/include -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SimilarityMatrices_nomain.o SimilarityMatrices.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/SimilarityMatrices.o ${OBJECTDIR}/SimilarityMatrices_nomain.o;\
+	fi
+
+${OBJECTDIR}/StandardDeviation_nomain.o: ${OBJECTDIR}/StandardDeviation.o StandardDeviation.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/StandardDeviation.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -g -Wall -I/usr/local/Cellar/boost/1.67.0_1/include -I/usr/local/Cellar/netcdf/4.6.1_2/include -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/StandardDeviation_nomain.o StandardDeviation.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/StandardDeviation.o ${OBJECTDIR}/StandardDeviation_nomain.o;\
+	fi
+
 ${OBJECTDIR}/Stations_nomain.o: ${OBJECTDIR}/Stations.o Stations.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	@NMOUTPUT=`${NM} ${OBJECTDIR}/Stations.o`; \
@@ -366,9 +461,12 @@ ${OBJECTDIR}/doxygen-mainpage_nomain.o: ${OBJECTDIR}/doxygen-mainpage.o doxygen-
 .test-conf:
 	@if [ "${TEST}" = "" ]; \
 	then  \
+	    ${TESTDIR}/TestFiles/f8 || true; \
 	    ${TESTDIR}/TestFiles/f4 || true; \
 	    ${TESTDIR}/TestFiles/f5 || true; \
 	    ${TESTDIR}/TestFiles/f3 || true; \
+	    ${TESTDIR}/TestFiles/f6 || true; \
+	    ${TESTDIR}/TestFiles/f7 || true; \
 	    ${TESTDIR}/TestFiles/f1 || true; \
 	    ${TESTDIR}/TestFiles/f2 || true; \
 	else  \

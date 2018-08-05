@@ -59,7 +59,7 @@ public:
      * Gets data in form of a double pointer.
      * @return A double pointer.
      */
-    virtual const double* data() const = 0;
+    virtual const double* getValues() const = 0;
 
     virtual void setValue(double val, std::size_t parameter_index,
             std::size_t station_index, std::size_t time_index) = 0;
@@ -91,9 +91,10 @@ public:
     std::size_t getStationIndex(std::size_t station_ID) const;
     std::size_t getTimeIndex(double timestamp) const;
 
-    std::size_t get_parameters_size() const;
-    std::size_t get_stations_size() const;
-    std::size_t get_times_size() const;
+    std::size_t getParametersSize() const;
+    std::size_t getStationsSize() const;
+    std::size_t getTimesSize() const;
+    virtual std::size_t getDataLength() const = 0;
 
     const anenPar::Parameters & getParameters() const;
     const anenSta::Stations & getStations() const;
@@ -129,8 +130,8 @@ public:
 
     virtual ~Observations_array();
 
-    const boost::multi_array<double, 3> & getValues() const;
-    const double* data() const override;
+    const boost::multi_array<double, 3> & data() const;
+    const double* getValues() const override;
 
     double getValueByIndex(std::size_t parameter_index,
             std::size_t station_index, std::size_t time_index) const override;
@@ -145,6 +146,8 @@ public:
     void setValues(const std::vector<double> & vals) override;
 
     void updateDataDims() override;
+    
+    std::size_t getDataLength() const override;
 
     void print(std::ostream&) const override;
     friend std::ostream& operator<<(std::ostream&, const Observations_array&);

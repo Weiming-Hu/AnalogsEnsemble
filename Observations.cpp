@@ -45,17 +45,17 @@ Observations::getTimeIndex(double timestamp) const {
 };
 
 size_t
-Observations::get_parameters_size() const {
+Observations::getParametersSize() const {
     return (parameters_.size());
 }
 
 size_t
-Observations::get_stations_size() const {
+Observations::getStationsSize() const {
     return (stations_.size());
 }
 
 size_t
-Observations::get_times_size() const {
+Observations::getTimesSize() const {
     return (times_.size());
 }
 
@@ -130,12 +130,12 @@ Observations_array::~Observations_array() {
 }
 
 boost::multi_array<double, 3> const &
-Observations_array::getValues() const {
+Observations_array::data() const {
     return (data_);
 };
 
 const double*
-Observations_array::data() const {
+Observations_array::getValues() const {
     return (data_.data());
 }
 
@@ -198,6 +198,10 @@ Observations_array::updateDataDims() {
                 << " double values." << endl;
         throw e;
     }   
+}
+
+size_t Observations_array::getDataLength() const {
+    return (getParametersSize() * getStationsSize() * getTimesSize());
 }
 
 void

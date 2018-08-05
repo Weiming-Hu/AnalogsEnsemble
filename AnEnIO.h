@@ -47,7 +47,7 @@ public:
 
     /**
      * Specifies the return error type of a function. Use 
-     * AnEnIO::handleError to handle the returned errorType variable.
+     * AnEnIO::handleError to handle the returned errorType.
      */
     enum errorType {
         SUCCESS = 0,
@@ -114,7 +114,7 @@ public:
      * @param dim_name The dimension name.
      * @return AnEnIO::errorType.
      */
-    errorType checkDim(string dim_name) const;
+    errorType checkDim(std::string dim_name) const;
 
     /**
      * Checks the required and optional variables.
@@ -310,7 +310,7 @@ protected:
 
     /**
      * Specifies the verbose level.
-     * - 0: No standard output.
+     * - 0: Quiet.
      * - 1: Errors.
      * - 2: The above plus Warnings.
      * - 3: The above plus program progress information.

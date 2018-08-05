@@ -78,7 +78,7 @@ namespace anenPar {
         std::size_t ID_;
 
         std::string name_ = "UNDEFINED";
-        double weight_ = NAN;
+        double weight_ = 1;
         bool circular_ = false;
 
         /**

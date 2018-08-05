@@ -26,8 +26,6 @@
 #include <utility>
 #include <algorithm>
 
-using namespace std;
-
 /** GC:
  This is the basic data structure that is used to store the forecasts and
  * the observations.  Normally the data is stored in the following format:
@@ -54,7 +52,8 @@ public:
     Array4D(const Array4D&);
 
     Array4D(size_t d1, size_t d2, size_t d3, size_t d4);
-    Array4D(vector< double > const &, size_t M, size_t N, size_t O, size_t P);
+    Array4D(std::vector< double > const &,
+            size_t M, size_t N, size_t O, size_t P);
     Array4D(Array4D::array_view<4>::type &);
 
     // c++11 supports "constructor inheritance"
@@ -68,11 +67,11 @@ public:
     /** GC: 
      * Used to set the data from a file when read one parameter at a time
      */
-    void setFirstDimension(vector<double> const & data, size_t pos);
-    //void setFirstDimension(string const & filename, int pos, bool big_endian = true);
+    void setFirstDimension(std::vector<double> const & data, size_t pos);
 
-    void getFirstDimensionData(vector<double> & data, size_t pos);
-    void getDataFromVector(vector<double> const & data, size_t M, size_t N, size_t O, size_t P);
+    void getFirstDimensionData(std::vector<double> & data, size_t pos);
+    void setDataFromVector(std::vector<double> const & data,
+            size_t M, size_t N, size_t O, size_t P);
 
     bool isCircular(size_t pos) const;
 
@@ -80,11 +79,11 @@ public:
 
     void unsetCircular(size_t pos);
 
-    bool setNames(const vector< string > & newNames);
+    bool setNames(const std::vector< std::string > & newNames);
 
-    bool setName(size_t pos, const string & newName);
+    bool setName(size_t pos, const std::string & newName);
 
-    string getName(size_t pos);
+    std::string getName(size_t pos);
 
     size_t getSizeDim0() const;
 
@@ -99,12 +98,11 @@ public:
     // Randomize the array
     void randomize();
 
-    void print(ostream &) const;
-    void print_size(ostream &) const;
-    friend ostream & operator<<(ostream &, Array4D const &);
+    void print(std::ostream &) const;
+    void print_size(std::ostream &) const;
+    friend std::ostream & operator<<(std::ostream &, Array4D const &);
 
     size_t get_nx();
-
     size_t get_ny();
 
     /**
@@ -120,9 +118,9 @@ public:
      */
     bool set_nx_ny(size_t nx, size_t ny);
 
-    const vector<double> & get_xs() const;
+    const std::vector<double> & get_xs() const;
 
-    const vector<double> & get_ys() const;
+    const std::vector<double> & get_ys() const;
 
     bool empty_xs() const;
 
@@ -132,9 +130,9 @@ public:
 
     size_t ys_size() const;
 
-    bool set_xs(vector<double> input);
-    bool set_ys(vector<double> input);
-    
+    bool set_xs(std::vector<double> input);
+    bool set_ys(std::vector<double> input);
+
     double xs_max() const;
     double xs_min() const;
     double ys_max() const;
@@ -143,8 +141,8 @@ public:
 protected:
     size_t nx_ = 0;
     size_t ny_ = 0;
-    vector<double> xs_;
-    vector<double> ys_;
+    std::vector<double> xs_;
+    std::vector<double> ys_;
 
 private:
 

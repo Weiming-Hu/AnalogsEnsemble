@@ -11,6 +11,7 @@
 
 #include <numeric>
 
+using namespace std;
 
 CPPUNIT_TEST_SUITE_REGISTRATION(testForecastsArray);
 
@@ -20,7 +21,7 @@ testForecastsArray::testForecastsArray() {
 testForecastsArray::~testForecastsArray() {
 }
 
-void testForecastsArray::testForecastValueSequence() {
+void testForecastsArray::testForecastSetVectorValues() {
 
     /**
      * Test the sequence of values stored in the Forecast data type.

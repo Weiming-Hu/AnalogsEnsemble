@@ -10,6 +10,8 @@
       <itemPath>Forecasts.h</itemPath>
       <itemPath>Observations.h</itemPath>
       <itemPath>Parameters.h</itemPath>
+      <itemPath>SimilarityMatrices.h</itemPath>
+      <itemPath>StandardDeviation.h</itemPath>
       <itemPath>Stations.h</itemPath>
       <itemPath>Times.h</itemPath>
       <itemPath>colorTexts.h</itemPath>
@@ -27,6 +29,8 @@
       <itemPath>Forecasts.cpp</itemPath>
       <itemPath>Observations.cpp</itemPath>
       <itemPath>Parameters.cpp</itemPath>
+      <itemPath>SimilarityMatrices.cpp</itemPath>
+      <itemPath>StandardDeviation.cpp</itemPath>
       <itemPath>Stations.cpp</itemPath>
       <itemPath>Times.cpp</itemPath>
       <itemPath>canalogs.cpp</itemPath>
@@ -36,6 +40,11 @@
                    displayName="Test Files"
                    projectFiles="false"
                    kind="TEST_LOGICAL_FOLDER">
+      <logicalFolder name="f8" displayName="testAnEn" projectFiles="true" kind="TEST">
+        <itemPath>tests/runnerAnEn.cpp</itemPath>
+        <itemPath>tests/testAnEn.cpp</itemPath>
+        <itemPath>tests/testAnEn.h</itemPath>
+      </logicalFolder>
       <logicalFolder name="f4"
                      displayName="testAnEnIO"
                      projectFiles="true"
@@ -59,6 +68,22 @@
         <itemPath>tests/runnerObservationsArray.cpp</itemPath>
         <itemPath>tests/testObservationsArray.cpp</itemPath>
         <itemPath>tests/testObservationsArray.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="f6"
+                     displayName="testSimilarityMatrices"
+                     projectFiles="true"
+                     kind="TEST">
+        <itemPath>tests/runnerSimilarityMatrices.cpp</itemPath>
+        <itemPath>tests/testSimilarityMatrices.cpp</itemPath>
+        <itemPath>tests/testSimilarityMatrices.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="f7"
+                     displayName="testStandardDeviation"
+                     projectFiles="true"
+                     kind="TEST">
+        <itemPath>tests/runnerStandardDeviation.cpp</itemPath>
+        <itemPath>tests/testStandardDeviation.cpp</itemPath>
+        <itemPath>tests/testStandardDeviation.h</itemPath>
       </logicalFolder>
       <logicalFolder name="f1"
                      displayName="testStation"
@@ -155,6 +180,14 @@
       </item>
       <item path="Parameters.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="SimilarityMatrices.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="SimilarityMatrices.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="StandardDeviation.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="StandardDeviation.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="Stations.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Stations.h" ex="false" tool="3" flavor2="0">
@@ -277,15 +310,67 @@
           </linkerLibItems>
         </linkerTool>
       </folder>
+      <folder path="TestFiles/f6">
+        <cTool>
+          <commandLine>`cppunit-config --cflags`</commandLine>
+        </cTool>
+        <ccTool>
+          <commandLine>`cppunit-config --cflags`</commandLine>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f6</output>
+          <linkerLibItems>
+            <linkerOptionItem>`cppunit-config --libs`</linkerOptionItem>
+          </linkerLibItems>
+        </linkerTool>
+      </folder>
+      <folder path="TestFiles/f7">
+        <cTool>
+          <commandLine>`cppunit-config --cflags`</commandLine>
+        </cTool>
+        <ccTool>
+          <commandLine>`cppunit-config --cflags`</commandLine>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f7</output>
+          <linkerLibItems>
+            <linkerOptionItem>`cppunit-config --libs`</linkerOptionItem>
+          </linkerLibItems>
+        </linkerTool>
+      </folder>
+      <folder path="TestFiles/f8">
+        <cTool>
+          <commandLine>`cppunit-config --cflags`</commandLine>
+        </cTool>
+        <ccTool>
+          <commandLine>`cppunit-config --cflags`</commandLine>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f8</output>
+          <linkerLibItems>
+            <linkerOptionItem>`cppunit-config --libs`</linkerOptionItem>
+          </linkerLibItems>
+        </linkerTool>
+      </folder>
+      <item path="tests/runnerAnEn.cpp" ex="false" tool="1" flavor2="0">
+      </item>
       <item path="tests/runnerAnEnIO.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/runnerForecastsArray.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/runnerObservationsArray.cpp" ex="false" tool="1" flavor2="0">
       </item>
+      <item path="tests/runnerSimilarityMatrices.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/runnerStandardDeviation.cpp" ex="false" tool="1" flavor2="0">
+      </item>
       <item path="tests/runnerStation.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/runnerStations.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/testAnEn.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/testAnEn.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="tests/testAnEnIO.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -298,6 +383,14 @@
       <item path="tests/testObservationsArray.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/testObservationsArray.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="tests/testSimilarityMatrices.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/testSimilarityMatrices.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="tests/testStandardDeviation.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/testStandardDeviation.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="tests/testStation.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -357,6 +450,14 @@
       </item>
       <item path="Parameters.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="SimilarityMatrices.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="SimilarityMatrices.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="StandardDeviation.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="StandardDeviation.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="Stations.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Stations.h" ex="false" tool="3" flavor2="0">
@@ -463,15 +564,67 @@
           </linkerLibItems>
         </linkerTool>
       </folder>
+      <folder path="TestFiles/f6">
+        <cTool>
+          <commandLine>`cppunit-config --cflags`</commandLine>
+        </cTool>
+        <ccTool>
+          <commandLine>`cppunit-config --cflags`</commandLine>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f6</output>
+          <linkerLibItems>
+            <linkerOptionItem>`cppunit-config --libs`</linkerOptionItem>
+          </linkerLibItems>
+        </linkerTool>
+      </folder>
+      <folder path="TestFiles/f7">
+        <cTool>
+          <commandLine>`cppunit-config --cflags`</commandLine>
+        </cTool>
+        <ccTool>
+          <commandLine>`cppunit-config --cflags`</commandLine>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f7</output>
+          <linkerLibItems>
+            <linkerOptionItem>`cppunit-config --libs`</linkerOptionItem>
+          </linkerLibItems>
+        </linkerTool>
+      </folder>
+      <folder path="TestFiles/f8">
+        <cTool>
+          <commandLine>`cppunit-config --cflags`</commandLine>
+        </cTool>
+        <ccTool>
+          <commandLine>`cppunit-config --cflags`</commandLine>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f8</output>
+          <linkerLibItems>
+            <linkerOptionItem>`cppunit-config --libs`</linkerOptionItem>
+          </linkerLibItems>
+        </linkerTool>
+      </folder>
+      <item path="tests/runnerAnEn.cpp" ex="false" tool="1" flavor2="0">
+      </item>
       <item path="tests/runnerAnEnIO.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/runnerForecastsArray.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/runnerObservationsArray.cpp" ex="false" tool="1" flavor2="0">
       </item>
+      <item path="tests/runnerSimilarityMatrices.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/runnerStandardDeviation.cpp" ex="false" tool="1" flavor2="0">
+      </item>
       <item path="tests/runnerStation.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/runnerStations.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/testAnEn.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/testAnEn.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="tests/testAnEnIO.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -484,6 +637,14 @@
       <item path="tests/testObservationsArray.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/testObservationsArray.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="tests/testSimilarityMatrices.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/testSimilarityMatrices.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="tests/testStandardDeviation.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/testStandardDeviation.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="tests/testStation.cpp" ex="false" tool="1" flavor2="0">
       </item>

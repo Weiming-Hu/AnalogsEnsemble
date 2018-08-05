@@ -1100,7 +1100,7 @@ AnEnIO::writeForecasts(const Forecasts & forecasts) const {
     vector<string> dim_data
             = {"num_flts", "num_times", "num_stations", "num_parameters"};
     var_data = nc.addVar("Data", "double", dim_data);
-    var_data.putVar(forecasts.data());
+    var_data.putVar(forecasts.getValues());
 
     nc.close();
     return (SUCCESS);
@@ -1145,7 +1145,7 @@ AnEnIO::writeObservations(const Observations & observations) const {
     // Create data variable
     vector<string> dim_data = {"num_times", "num_stations", "num_parameters"};
     var_data = nc.addVar("Data", "double", dim_data);
-    var_data.putVar(observations.data());
+    var_data.putVar(observations.getValues());
 
     nc.close();
     return (SUCCESS);

@@ -74,6 +74,7 @@ namespace anenTime {
         os << "[Time] size: " << size() << endl;
         ostream_iterator<size_t> element_itr(os, ", ");
         copy(begin(), end(), element_itr);
+        cout << endl;
     }
 
     ostream&
@@ -85,12 +86,13 @@ namespace anenTime {
     /***************************************************************************
      *                                 FLTs                                    *
      **************************************************************************/
-    
+
     void
     FLTs::print(ostream &os) const {
         os << "[FLT] size: " << size() << endl;
         ostream_iterator< int > element_itr(os, ", ");
         copy(begin(), end(), element_itr);
+        cout << endl;
     }
 
     ostream&
