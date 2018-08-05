@@ -2,6 +2,11 @@
 \label{class_an_en}\index{An\+En@{An\+En}}
 
 
+\mbox{\hyperlink{class_an_en}{An\+En}} class provides interfaces for computing Analog Ensembles.  
+
+
+
+
 {\ttfamily \#include $<$An\+En.\+h$>$}
 
 
@@ -11,36 +16,132 @@ Collaboration diagram for An\+En\+:
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=194pt]{class_an_en__coll__graph}
+\includegraphics[width=262pt]{class_an_en__coll__graph}
 \end{center}
 \end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{class_an_en_a0e256eb89d102d318a47d936b02242bf}{error\+Type}} \{ \mbox{\hyperlink{class_an_en_a0e256eb89d102d318a47d936b02242bfa0e5f548f45c8bb94aa25d3f12347194c}{S\+U\+C\+C\+E\+SS}} = 0, 
+\mbox{\hyperlink{class_an_en_a0e256eb89d102d318a47d936b02242bfaba4bb62ffbd9a9d41b7c830ca8aa6639}{W\+R\+O\+N\+G\+\_\+\+S\+H\+A\+PE}} = -\/10, 
+\mbox{\hyperlink{class_an_en_a0e256eb89d102d318a47d936b02242bfa4692ea596022bae2dfed00f33ea91e65}{O\+U\+T\+\_\+\+O\+F\+\_\+\+R\+A\+N\+GE}} = -\/20
+ \}
+\end{DoxyCompactItemize}
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\hyperlink{class_an_en_a60c12de232af95794a6194fbac06623a}{An\+En}} ()
 \item 
-\mbox{\hyperlink{class_an_en_a7fed6ed88ade22211fd75028a3a9491e}{An\+En}} (const \mbox{\hyperlink{class_an_en}{An\+En}} \&orig)
+\mbox{\hyperlink{class_an_en_a71a7c34cc125ce75e1377fd6f62988da}{An\+En}} (int verbose)
+\item 
+\mbox{\hyperlink{class_an_en_a02c78b9f5835a36a7a3e5c292c1d04fa}{An\+En}} (std\+::string cache\+\_\+similarity)
+\item 
+\mbox{\hyperlink{class_an_en_a00401d61d55408c3a8e23dbda0d7c512}{An\+En}} (std\+::string cache\+\_\+similarity, std\+::string output\+\_\+folder)
+\item 
+\mbox{\hyperlink{class_an_en_ab7fc3bc69d9f4639075f5700b1812b22}{An\+En}} (std\+::string cache\+\_\+similarity, std\+::string output\+\_\+folder, int verbose)
+\item 
+\mbox{\hyperlink{class_an_en_a97a51c40812584b01413a4426b1285a6}{An\+En}} (const \mbox{\hyperlink{class_an_en}{An\+En}} \&orig)=delete
 \item 
 virtual \mbox{\hyperlink{class_an_en_a18609907411058ee2c343727ab69bff4}{$\sim$\+An\+En}} ()
 \item 
-void \mbox{\hyperlink{class_an_en_a474249893701af8b457633fe7df8984b}{compute\+\_\+similarity}} ()
+\mbox{\hyperlink{class_an_en_a0e256eb89d102d318a47d936b02242bf}{error\+Type}} \mbox{\hyperlink{class_an_en_a759e434ea7749b867900b783a1d02180}{compute\+Standard\+Deviation}} (const \mbox{\hyperlink{class_forecasts__array}{Forecasts\+\_\+array}} \&forecasts, \mbox{\hyperlink{class_standard_deviation}{Standard\+Deviation}} \&sds)
 \item 
-void \mbox{\hyperlink{class_an_en_a179079dda478bf08e1a2937e9e17e51c}{select\+\_\+analogs}} ()
+\mbox{\hyperlink{class_an_en_a0e256eb89d102d318a47d936b02242bf}{error\+Type}} \mbox{\hyperlink{class_an_en_ac8cfe2cbd23482c35da648a4caf402bd}{compute\+Search\+Windows}} (boost\+::numeric\+::ublas\+::matrix$<$ size\+\_\+t $>$ \&matrix, size\+\_\+t num\+\_\+flts, size\+\_\+t window\+\_\+half\+\_\+size) const
+\item 
+\mbox{\hyperlink{class_an_en_a0e256eb89d102d318a47d936b02242bf}{error\+Type}} \mbox{\hyperlink{class_an_en_a3aaabacd299648521c90d661dcbba300}{compute\+Observations\+Time\+Indices}} (const \mbox{\hyperlink{classanen_time_1_1_times}{anen\+Time\+::\+Times}} \&times\+\_\+forecasts, const \mbox{\hyperlink{classanen_time_1_1_times}{anen\+Time\+::\+Times}} \&flts\+\_\+forecasts, const \mbox{\hyperlink{classanen_time_1_1_times}{anen\+Time\+::\+Times}} \&times\+\_\+observations, boost\+::numeric\+::ublas\+::matrix$<$ size\+\_\+t $>$ \&mapping) const
+\item 
+\mbox{\hyperlink{class_an_en_a0e256eb89d102d318a47d936b02242bf}{error\+Type}} \mbox{\hyperlink{class_an_en_a24f7aff2ab150077c95481c0a90e35ca}{compute\+Similarity}} (const \mbox{\hyperlink{class_forecasts__array}{Forecasts\+\_\+array}} \&search\+\_\+forecasts, const \mbox{\hyperlink{class_standard_deviation}{Standard\+Deviation}} \&sds, \mbox{\hyperlink{class_similarity_matrices}{Similarity\+Matrices}} \&sims, const \mbox{\hyperlink{class_observations__array}{Observations\+\_\+array}} \&search\+\_\+observations, boost\+::numeric\+::ublas\+::matrix$<$ size\+\_\+t $>$ mapping) const
+\item 
+\mbox{\hyperlink{class_an_en_a0e256eb89d102d318a47d936b02242bf}{error\+Type}} \mbox{\hyperlink{class_an_en_a8fdd1ef139e17ee4de3744f3913b6d7f}{select\+Analogs}} (\mbox{\hyperlink{class_analogs}{Analogs}} \&analogs, \mbox{\hyperlink{class_similarity_matrices}{Similarity\+Matrices}} \&sims, const \mbox{\hyperlink{class_observations__array}{Observations\+\_\+array}} \&search\+\_\+observations, boost\+::numeric\+::ublas\+::matrix$<$ size\+\_\+t $>$ mapping, size\+\_\+t i\+\_\+parameter, size\+\_\+t num\+\_\+members, bool quick=true) const
+\item 
+void \mbox{\hyperlink{class_an_en_a2c33c46f4bed8132aa2f6305fa702c0d}{handle\+Error}} (const \mbox{\hyperlink{class_an_en_a0e256eb89d102d318a47d936b02242bf}{error\+Type}} \&indicator) const
+\item 
+std\+::string \mbox{\hyperlink{class_an_en_aca0d81de024426ac3e2950cffa1f2cd5}{get\+Cache\+Similarity}} () const
+\item 
+std\+::string \mbox{\hyperlink{class_an_en_a017dc9da4386e61d8cc4d8f5f026628c}{get\+Output\+Folder}} () const
+\item 
+int \mbox{\hyperlink{class_an_en_aa937a792202a83e88df6e019a991b848}{get\+Verbose}} () const
+\item 
+void \mbox{\hyperlink{class_an_en_a46995cfbe45b9724a734f3a1a28f1681}{set\+Cache\+Similarity}} (std\+::string cache\+\_\+similarity)
+\item 
+void \mbox{\hyperlink{class_an_en_a829929424b823440c7e10dbec2979a45}{set\+Output\+Folder}} (std\+::string output\+\_\+folder)
+\item 
+void \mbox{\hyperlink{class_an_en_af1009201b008da7395f1c1ed0ec287cd}{set\+Verbose}} (int verbose)
+\item 
+double \mbox{\hyperlink{class_an_en_a7d7b0d5d3a607ebd4b624ddc07e55c57}{sd\+Linear}} (const std\+::vector$<$ double $>$ \&values) const
+\item 
+double \mbox{\hyperlink{class_an_en_aa06ebc1ce7ac87369156dc88976042a1}{sd\+Circular}} (const std\+::vector$<$ double $>$ \&values) const
+\item 
+double \mbox{\hyperlink{class_an_en_adc4ff05a5f03529fbd95f0547606f83e}{mean}} (const std\+::vector$<$ double $>$ \&values) const
+\item 
+double \mbox{\hyperlink{class_an_en_abf793d4b89afaf4d647df74c172a6018}{variance}} (const std\+::vector$<$ double $>$ \&values) const
+\item 
+double \mbox{\hyperlink{class_an_en_a0d0293f2d6a92c95919a937422dc86a9}{diff\+Circular}} (double i, double j) const
 \end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\mbox{\hyperlink{class_an_en}{An\+En}} class provides interfaces for computing Analog Ensembles. 
+
+\subsection{Member Enumeration Documentation}
+\mbox{\Hypertarget{class_an_en_a0e256eb89d102d318a47d936b02242bf}\label{class_an_en_a0e256eb89d102d318a47d936b02242bf}} 
+\index{An\+En@{An\+En}!error\+Type@{error\+Type}}
+\index{error\+Type@{error\+Type}!An\+En@{An\+En}}
+\subsubsection{\texorpdfstring{error\+Type}{errorType}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{class_an_en_a0e256eb89d102d318a47d936b02242bf}{An\+En\+::error\+Type}}}
+
+Specifies the return error type of a function. Use \mbox{\hyperlink{class_an_en_a2c33c46f4bed8132aa2f6305fa702c0d}{An\+En\+::handle\+Error}} to handle the returned error\+Type. \begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{S\+U\+C\+C\+E\+SS@{S\+U\+C\+C\+E\+SS}!An\+En@{An\+En}}\index{An\+En@{An\+En}!S\+U\+C\+C\+E\+SS@{S\+U\+C\+C\+E\+SS}}}\mbox{\Hypertarget{class_an_en_a0e256eb89d102d318a47d936b02242bfa0e5f548f45c8bb94aa25d3f12347194c}\label{class_an_en_a0e256eb89d102d318a47d936b02242bfa0e5f548f45c8bb94aa25d3f12347194c}} 
+S\+U\+C\+C\+E\+SS&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{W\+R\+O\+N\+G\+\_\+\+S\+H\+A\+PE@{W\+R\+O\+N\+G\+\_\+\+S\+H\+A\+PE}!An\+En@{An\+En}}\index{An\+En@{An\+En}!W\+R\+O\+N\+G\+\_\+\+S\+H\+A\+PE@{W\+R\+O\+N\+G\+\_\+\+S\+H\+A\+PE}}}\mbox{\Hypertarget{class_an_en_a0e256eb89d102d318a47d936b02242bfaba4bb62ffbd9a9d41b7c830ca8aa6639}\label{class_an_en_a0e256eb89d102d318a47d936b02242bfaba4bb62ffbd9a9d41b7c830ca8aa6639}} 
+W\+R\+O\+N\+G\+\_\+\+S\+H\+A\+PE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{O\+U\+T\+\_\+\+O\+F\+\_\+\+R\+A\+N\+GE@{O\+U\+T\+\_\+\+O\+F\+\_\+\+R\+A\+N\+GE}!An\+En@{An\+En}}\index{An\+En@{An\+En}!O\+U\+T\+\_\+\+O\+F\+\_\+\+R\+A\+N\+GE@{O\+U\+T\+\_\+\+O\+F\+\_\+\+R\+A\+N\+GE}}}\mbox{\Hypertarget{class_an_en_a0e256eb89d102d318a47d936b02242bfa4692ea596022bae2dfed00f33ea91e65}\label{class_an_en_a0e256eb89d102d318a47d936b02242bfa4692ea596022bae2dfed00f33ea91e65}} 
+O\+U\+T\+\_\+\+O\+F\+\_\+\+R\+A\+N\+GE&\\
+\hline
+
+\end{DoxyEnumFields}
 
 
 \subsection{Constructor \& Destructor Documentation}
 \mbox{\Hypertarget{class_an_en_a60c12de232af95794a6194fbac06623a}\label{class_an_en_a60c12de232af95794a6194fbac06623a}} 
 \index{An\+En@{An\+En}!An\+En@{An\+En}}
 \index{An\+En@{An\+En}!An\+En@{An\+En}}
-\subsubsection{\texorpdfstring{An\+En()}{AnEn()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+\subsubsection{\texorpdfstring{An\+En()}{AnEn()}\hspace{0.1cm}{\footnotesize\ttfamily [1/6]}}
 {\footnotesize\ttfamily An\+En\+::\+An\+En (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
-\mbox{\Hypertarget{class_an_en_a7fed6ed88ade22211fd75028a3a9491e}\label{class_an_en_a7fed6ed88ade22211fd75028a3a9491e}} 
+\mbox{\Hypertarget{class_an_en_a71a7c34cc125ce75e1377fd6f62988da}\label{class_an_en_a71a7c34cc125ce75e1377fd6f62988da}} 
 \index{An\+En@{An\+En}!An\+En@{An\+En}}
 \index{An\+En@{An\+En}!An\+En@{An\+En}}
-\subsubsection{\texorpdfstring{An\+En()}{AnEn()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
-{\footnotesize\ttfamily An\+En\+::\+An\+En (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_an_en}{An\+En}} \&}]{orig }\end{DoxyParamCaption})}
+\subsubsection{\texorpdfstring{An\+En()}{AnEn()}\hspace{0.1cm}{\footnotesize\ttfamily [2/6]}}
+{\footnotesize\ttfamily An\+En\+::\+An\+En (\begin{DoxyParamCaption}\item[{int}]{verbose }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_an_en_a02c78b9f5835a36a7a3e5c292c1d04fa}\label{class_an_en_a02c78b9f5835a36a7a3e5c292c1d04fa}} 
+\index{An\+En@{An\+En}!An\+En@{An\+En}}
+\index{An\+En@{An\+En}!An\+En@{An\+En}}
+\subsubsection{\texorpdfstring{An\+En()}{AnEn()}\hspace{0.1cm}{\footnotesize\ttfamily [3/6]}}
+{\footnotesize\ttfamily An\+En\+::\+An\+En (\begin{DoxyParamCaption}\item[{std\+::string}]{cache\+\_\+similarity }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_an_en_a00401d61d55408c3a8e23dbda0d7c512}\label{class_an_en_a00401d61d55408c3a8e23dbda0d7c512}} 
+\index{An\+En@{An\+En}!An\+En@{An\+En}}
+\index{An\+En@{An\+En}!An\+En@{An\+En}}
+\subsubsection{\texorpdfstring{An\+En()}{AnEn()}\hspace{0.1cm}{\footnotesize\ttfamily [4/6]}}
+{\footnotesize\ttfamily An\+En\+::\+An\+En (\begin{DoxyParamCaption}\item[{std\+::string}]{cache\+\_\+similarity,  }\item[{std\+::string}]{output\+\_\+folder }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_an_en_ab7fc3bc69d9f4639075f5700b1812b22}\label{class_an_en_ab7fc3bc69d9f4639075f5700b1812b22}} 
+\index{An\+En@{An\+En}!An\+En@{An\+En}}
+\index{An\+En@{An\+En}!An\+En@{An\+En}}
+\subsubsection{\texorpdfstring{An\+En()}{AnEn()}\hspace{0.1cm}{\footnotesize\ttfamily [5/6]}}
+{\footnotesize\ttfamily An\+En\+::\+An\+En (\begin{DoxyParamCaption}\item[{std\+::string}]{cache\+\_\+similarity,  }\item[{std\+::string}]{output\+\_\+folder,  }\item[{int}]{verbose }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_an_en_a97a51c40812584b01413a4426b1285a6}\label{class_an_en_a97a51c40812584b01413a4426b1285a6}} 
+\index{An\+En@{An\+En}!An\+En@{An\+En}}
+\index{An\+En@{An\+En}!An\+En@{An\+En}}
+\subsubsection{\texorpdfstring{An\+En()}{AnEn()}\hspace{0.1cm}{\footnotesize\ttfamily [6/6]}}
+{\footnotesize\ttfamily An\+En\+::\+An\+En (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_an_en}{An\+En}} \&}]{orig }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
 
 \mbox{\Hypertarget{class_an_en_a18609907411058ee2c343727ab69bff4}\label{class_an_en_a18609907411058ee2c343727ab69bff4}} 
 \index{An\+En@{An\+En}!````~An\+En@{$\sim$\+An\+En}}
@@ -51,18 +152,215 @@ void \mbox{\hyperlink{class_an_en_a179079dda478bf08e1a2937e9e17e51c}{select\+\_\
 
 
 \subsection{Member Function Documentation}
-\mbox{\Hypertarget{class_an_en_a474249893701af8b457633fe7df8984b}\label{class_an_en_a474249893701af8b457633fe7df8984b}} 
-\index{An\+En@{An\+En}!compute\+\_\+similarity@{compute\+\_\+similarity}}
-\index{compute\+\_\+similarity@{compute\+\_\+similarity}!An\+En@{An\+En}}
-\subsubsection{\texorpdfstring{compute\+\_\+similarity()}{compute\_similarity()}}
-{\footnotesize\ttfamily void An\+En\+::compute\+\_\+similarity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+\mbox{\Hypertarget{class_an_en_a3aaabacd299648521c90d661dcbba300}\label{class_an_en_a3aaabacd299648521c90d661dcbba300}} 
+\index{An\+En@{An\+En}!compute\+Observations\+Time\+Indices@{compute\+Observations\+Time\+Indices}}
+\index{compute\+Observations\+Time\+Indices@{compute\+Observations\+Time\+Indices}!An\+En@{An\+En}}
+\subsubsection{\texorpdfstring{compute\+Observations\+Time\+Indices()}{computeObservationsTimeIndices()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_an_en_a0e256eb89d102d318a47d936b02242bf}{error\+Type}} An\+En\+::compute\+Observations\+Time\+Indices (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classanen_time_1_1_times}{anen\+Time\+::\+Times}} \&}]{times\+\_\+forecasts,  }\item[{const \mbox{\hyperlink{classanen_time_1_1_times}{anen\+Time\+::\+Times}} \&}]{flts\+\_\+forecasts,  }\item[{const \mbox{\hyperlink{classanen_time_1_1_times}{anen\+Time\+::\+Times}} \&}]{times\+\_\+observations,  }\item[{boost\+::numeric\+::ublas\+::matrix$<$ size\+\_\+t $>$ \&}]{mapping }\end{DoxyParamCaption}) const}
 
-\mbox{\Hypertarget{class_an_en_a179079dda478bf08e1a2937e9e17e51c}\label{class_an_en_a179079dda478bf08e1a2937e9e17e51c}} 
-\index{An\+En@{An\+En}!select\+\_\+analogs@{select\+\_\+analogs}}
-\index{select\+\_\+analogs@{select\+\_\+analogs}!An\+En@{An\+En}}
-\subsubsection{\texorpdfstring{select\+\_\+analogs()}{select\_analogs()}}
-{\footnotesize\ttfamily void An\+En\+::select\+\_\+analogs (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+Computes the corresponding indices for observation times from forecast times and F\+L\+Ts.
 
+
+\begin{DoxyParams}{Parameters}
+{\em times\+\_\+forecasts} & Forecast anen\+Times\+::\+Time. \\
+\hline
+{\em flts\+\_\+forecasts} & Forecast anen\+Times\+::\+F\+L\+Ts. \\
+\hline
+{\em times\+\_\+observations} & Observation anen\+Times\+::\+Time. \\
+\hline
+{\em mapping} & A matrix stores the indices. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An \mbox{\hyperlink{class_an_en_a0e256eb89d102d318a47d936b02242bf}{An\+En\+::error\+Type}}. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_an_en_ac8cfe2cbd23482c35da648a4caf402bd}\label{class_an_en_ac8cfe2cbd23482c35da648a4caf402bd}} 
+\index{An\+En@{An\+En}!compute\+Search\+Windows@{compute\+Search\+Windows}}
+\index{compute\+Search\+Windows@{compute\+Search\+Windows}!An\+En@{An\+En}}
+\subsubsection{\texorpdfstring{compute\+Search\+Windows()}{computeSearchWindows()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_an_en_a0e256eb89d102d318a47d936b02242bf}{error\+Type}} An\+En\+::compute\+Search\+Windows (\begin{DoxyParamCaption}\item[{boost\+::numeric\+::ublas\+::matrix$<$ size\+\_\+t $>$ \&}]{matrix,  }\item[{size\+\_\+t}]{num\+\_\+flts,  }\item[{size\+\_\+t}]{window\+\_\+half\+\_\+size }\end{DoxyParamCaption}) const}
+
+Computes the search window for each F\+LT. the ranges are stored in a matrix with the following shape\+: \mbox{[}num\+\_\+flts\mbox{]}\mbox{[}2\mbox{]}
+
+The second dimension in sequence stores the start and the end F\+LT.
+
+
+\begin{DoxyParams}{Parameters}
+{\em matrix} & A matrix to store the range of F\+LT windows. \\
+\hline
+{\em num\+\_\+flts} & Number of F\+L\+Ts. \\
+\hline
+{\em window\+\_\+half\+\_\+size} & Half size of the window. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{class_an_en_a0e256eb89d102d318a47d936b02242bf}{An\+En\+::error\+Type}}. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_an_en_a24f7aff2ab150077c95481c0a90e35ca}\label{class_an_en_a24f7aff2ab150077c95481c0a90e35ca}} 
+\index{An\+En@{An\+En}!compute\+Similarity@{compute\+Similarity}}
+\index{compute\+Similarity@{compute\+Similarity}!An\+En@{An\+En}}
+\subsubsection{\texorpdfstring{compute\+Similarity()}{computeSimilarity()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_an_en_a0e256eb89d102d318a47d936b02242bf}{error\+Type}} An\+En\+::compute\+Similarity (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_forecasts__array}{Forecasts\+\_\+array}} \&}]{search\+\_\+forecasts,  }\item[{const \mbox{\hyperlink{class_standard_deviation}{Standard\+Deviation}} \&}]{sds,  }\item[{\mbox{\hyperlink{class_similarity_matrices}{Similarity\+Matrices}} \&}]{sims,  }\item[{const \mbox{\hyperlink{class_observations__array}{Observations\+\_\+array}} \&}]{search\+\_\+observations,  }\item[{boost\+::numeric\+::ublas\+::matrix$<$ size\+\_\+t $>$}]{mapping }\end{DoxyParamCaption}) const}
+
+Computes the similarity matrices.
+
+
+\begin{DoxyParams}{Parameters}
+{\em search\+\_\+forecasts} & \mbox{\hyperlink{class_forecasts}{Forecasts}} to search. \\
+\hline
+{\em sds} & Pre-\/computed standard deviation of the forecasts to search. This can be computed from the function \mbox{\hyperlink{class_an_en_a759e434ea7749b867900b783a1d02180}{An\+En\+::compute\+Standard\+Deviation}}; \\
+\hline
+{\em sims} & A \mbox{\hyperlink{class_similarity_matrices}{Similarity\+Matrices}}. \\
+\hline
+{\em search\+\_\+observations} & \mbox{\hyperlink{class_observations}{Observations}} to search. \\
+\hline
+{\em mapping} & A matrix stores the mapping indices from forecasts times and F\+L\+Ts to observation times. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An \mbox{\hyperlink{class_an_en_a0e256eb89d102d318a47d936b02242bf}{An\+En\+::error\+Type}}. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_an_en_a759e434ea7749b867900b783a1d02180}\label{class_an_en_a759e434ea7749b867900b783a1d02180}} 
+\index{An\+En@{An\+En}!compute\+Standard\+Deviation@{compute\+Standard\+Deviation}}
+\index{compute\+Standard\+Deviation@{compute\+Standard\+Deviation}!An\+En@{An\+En}}
+\subsubsection{\texorpdfstring{compute\+Standard\+Deviation()}{computeStandardDeviation()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_an_en_a0e256eb89d102d318a47d936b02242bf}{error\+Type}} An\+En\+::compute\+Standard\+Deviation (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_forecasts__array}{Forecasts\+\_\+array}} \&}]{forecasts,  }\item[{\mbox{\hyperlink{class_standard_deviation}{Standard\+Deviation}} \&}]{sds }\end{DoxyParamCaption})}
+
+Computes the standard deviation of times of forecasts for each parameter, each station, and each F\+LT. This function is designed to generate N\+AN values only when all values for a parameter, a station, and a F\+LT are N\+AN. Otherwise, N\+AN values will be ignored.
+
+See \mbox{\hyperlink{class_standard_deviation}{Standard\+Deviation}} for more information about storage.
+
+
+\begin{DoxyParams}{Parameters}
+{\em forecasts} & \mbox{\hyperlink{class_forecasts}{Forecasts}} for which standard deviation is generated for. \\
+\hline
+{\em sds} & \mbox{\hyperlink{class_standard_deviation}{Standard\+Deviation}} to store the values. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An \mbox{\hyperlink{class_an_en_a0e256eb89d102d318a47d936b02242bf}{An\+En\+::error\+Type}}. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_an_en_a0d0293f2d6a92c95919a937422dc86a9}\label{class_an_en_a0d0293f2d6a92c95919a937422dc86a9}} 
+\index{An\+En@{An\+En}!diff\+Circular@{diff\+Circular}}
+\index{diff\+Circular@{diff\+Circular}!An\+En@{An\+En}}
+\subsubsection{\texorpdfstring{diff\+Circular()}{diffCircular()}}
+{\footnotesize\ttfamily double An\+En\+::diff\+Circular (\begin{DoxyParamCaption}\item[{double}]{i,  }\item[{double}]{j }\end{DoxyParamCaption}) const}
+
+Computes the difference of two circular numbers
+
+
+\begin{DoxyParams}{Parameters}
+{\em i} & A double. \\
+\hline
+{\em j} & A double. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A double. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_an_en_aca0d81de024426ac3e2950cffa1f2cd5}\label{class_an_en_aca0d81de024426ac3e2950cffa1f2cd5}} 
+\index{An\+En@{An\+En}!get\+Cache\+Similarity@{get\+Cache\+Similarity}}
+\index{get\+Cache\+Similarity@{get\+Cache\+Similarity}!An\+En@{An\+En}}
+\subsubsection{\texorpdfstring{get\+Cache\+Similarity()}{getCacheSimilarity()}}
+{\footnotesize\ttfamily string An\+En\+::get\+Cache\+Similarity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{class_an_en_a017dc9da4386e61d8cc4d8f5f026628c}\label{class_an_en_a017dc9da4386e61d8cc4d8f5f026628c}} 
+\index{An\+En@{An\+En}!get\+Output\+Folder@{get\+Output\+Folder}}
+\index{get\+Output\+Folder@{get\+Output\+Folder}!An\+En@{An\+En}}
+\subsubsection{\texorpdfstring{get\+Output\+Folder()}{getOutputFolder()}}
+{\footnotesize\ttfamily string An\+En\+::get\+Output\+Folder (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{class_an_en_aa937a792202a83e88df6e019a991b848}\label{class_an_en_aa937a792202a83e88df6e019a991b848}} 
+\index{An\+En@{An\+En}!get\+Verbose@{get\+Verbose}}
+\index{get\+Verbose@{get\+Verbose}!An\+En@{An\+En}}
+\subsubsection{\texorpdfstring{get\+Verbose()}{getVerbose()}}
+{\footnotesize\ttfamily int An\+En\+::get\+Verbose (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{class_an_en_a2c33c46f4bed8132aa2f6305fa702c0d}\label{class_an_en_a2c33c46f4bed8132aa2f6305fa702c0d}} 
+\index{An\+En@{An\+En}!handle\+Error@{handle\+Error}}
+\index{handle\+Error@{handle\+Error}!An\+En@{An\+En}}
+\subsubsection{\texorpdfstring{handle\+Error()}{handleError()}}
+{\footnotesize\ttfamily void An\+En\+::handle\+Error (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_an_en_a0e256eb89d102d318a47d936b02242bf}{error\+Type}} \&}]{indicator }\end{DoxyParamCaption}) const}
+
+Handles the error\+Type.
+
+
+\begin{DoxyParams}{Parameters}
+{\em indicator} & An \mbox{\hyperlink{class_an_en_a0e256eb89d102d318a47d936b02242bf}{An\+En\+::error\+Type}}. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_an_en_adc4ff05a5f03529fbd95f0547606f83e}\label{class_an_en_adc4ff05a5f03529fbd95f0547606f83e}} 
+\index{An\+En@{An\+En}!mean@{mean}}
+\index{mean@{mean}!An\+En@{An\+En}}
+\subsubsection{\texorpdfstring{mean()}{mean()}}
+{\footnotesize\ttfamily double An\+En\+::mean (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ double $>$ \&}]{values }\end{DoxyParamCaption}) const}
+
+Computes the mean of a vector. 
+\begin{DoxyParams}{Parameters}
+{\em values} & A vector of values. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_an_en_aa06ebc1ce7ac87369156dc88976042a1}\label{class_an_en_aa06ebc1ce7ac87369156dc88976042a1}} 
+\index{An\+En@{An\+En}!sd\+Circular@{sd\+Circular}}
+\index{sd\+Circular@{sd\+Circular}!An\+En@{An\+En}}
+\subsubsection{\texorpdfstring{sd\+Circular()}{sdCircular()}}
+{\footnotesize\ttfamily double An\+En\+::sd\+Circular (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ double $>$ \&}]{values }\end{DoxyParamCaption}) const}
+
+Computes the standard deviation for circular numbers.
+
+
+\begin{DoxyParams}{Parameters}
+{\em values} & A vector of values. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_an_en_a7d7b0d5d3a607ebd4b624ddc07e55c57}\label{class_an_en_a7d7b0d5d3a607ebd4b624ddc07e55c57}} 
+\index{An\+En@{An\+En}!sd\+Linear@{sd\+Linear}}
+\index{sd\+Linear@{sd\+Linear}!An\+En@{An\+En}}
+\subsubsection{\texorpdfstring{sd\+Linear()}{sdLinear()}}
+{\footnotesize\ttfamily double An\+En\+::sd\+Linear (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ double $>$ \&}]{values }\end{DoxyParamCaption}) const}
+
+Computes the standard deviation for linear numbers.
+
+
+\begin{DoxyParams}{Parameters}
+{\em values} & A vector of values. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_an_en_a8fdd1ef139e17ee4de3744f3913b6d7f}\label{class_an_en_a8fdd1ef139e17ee4de3744f3913b6d7f}} 
+\index{An\+En@{An\+En}!select\+Analogs@{select\+Analogs}}
+\index{select\+Analogs@{select\+Analogs}!An\+En@{An\+En}}
+\subsubsection{\texorpdfstring{select\+Analogs()}{selectAnalogs()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_an_en_a0e256eb89d102d318a47d936b02242bf}{error\+Type}} An\+En\+::select\+Analogs (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_analogs}{Analogs}} \&}]{analogs,  }\item[{\mbox{\hyperlink{class_similarity_matrices}{Similarity\+Matrices}} \&}]{sims,  }\item[{const \mbox{\hyperlink{class_observations__array}{Observations\+\_\+array}} \&}]{search\+\_\+observations,  }\item[{boost\+::numeric\+::ublas\+::matrix$<$ size\+\_\+t $>$}]{mapping,  }\item[{size\+\_\+t}]{i\+\_\+parameter,  }\item[{size\+\_\+t}]{num\+\_\+members,  }\item[{bool}]{quick = {\ttfamily true} }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{class_an_en_a46995cfbe45b9724a734f3a1a28f1681}\label{class_an_en_a46995cfbe45b9724a734f3a1a28f1681}} 
+\index{An\+En@{An\+En}!set\+Cache\+Similarity@{set\+Cache\+Similarity}}
+\index{set\+Cache\+Similarity@{set\+Cache\+Similarity}!An\+En@{An\+En}}
+\subsubsection{\texorpdfstring{set\+Cache\+Similarity()}{setCacheSimilarity()}}
+{\footnotesize\ttfamily void An\+En\+::set\+Cache\+Similarity (\begin{DoxyParamCaption}\item[{std\+::string}]{cache\+\_\+similarity }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_an_en_a829929424b823440c7e10dbec2979a45}\label{class_an_en_a829929424b823440c7e10dbec2979a45}} 
+\index{An\+En@{An\+En}!set\+Output\+Folder@{set\+Output\+Folder}}
+\index{set\+Output\+Folder@{set\+Output\+Folder}!An\+En@{An\+En}}
+\subsubsection{\texorpdfstring{set\+Output\+Folder()}{setOutputFolder()}}
+{\footnotesize\ttfamily void An\+En\+::set\+Output\+Folder (\begin{DoxyParamCaption}\item[{std\+::string}]{output\+\_\+folder }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_an_en_af1009201b008da7395f1c1ed0ec287cd}\label{class_an_en_af1009201b008da7395f1c1ed0ec287cd}} 
+\index{An\+En@{An\+En}!set\+Verbose@{set\+Verbose}}
+\index{set\+Verbose@{set\+Verbose}!An\+En@{An\+En}}
+\subsubsection{\texorpdfstring{set\+Verbose()}{setVerbose()}}
+{\footnotesize\ttfamily void An\+En\+::set\+Verbose (\begin{DoxyParamCaption}\item[{int}]{verbose }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_an_en_abf793d4b89afaf4d647df74c172a6018}\label{class_an_en_abf793d4b89afaf4d647df74c172a6018}} 
+\index{An\+En@{An\+En}!variance@{variance}}
+\index{variance@{variance}!An\+En@{An\+En}}
+\subsubsection{\texorpdfstring{variance()}{variance()}}
+{\footnotesize\ttfamily double An\+En\+::variance (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ double $>$ \&}]{values }\end{DoxyParamCaption}) const}
+
+Computes the variance of a vector. 
+\begin{DoxyParams}{Parameters}
+{\em values} & A vector of values. \\
+\hline
+\end{DoxyParams}
 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}

@@ -43,7 +43,9 @@ enum \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+
 \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0a84a3c7e5b367ee64f2d15e585f8a0312}{D\+I\+M\+E\+N\+S\+I\+O\+N\+\_\+\+E\+X\+I\+S\+TS}} = -\/17, 
 \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0abb20ed9e5a08ecee4b09d132cbd2e120}{V\+A\+R\+I\+A\+B\+L\+E\+\_\+\+E\+X\+I\+S\+TS}} = -\/18, 
 \newline
+\mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0a6b6638f4fbbc0d1fd5ca45eb1d4266f5}{W\+R\+O\+N\+G\+\_\+\+I\+N\+D\+E\+X\+\_\+\+S\+H\+A\+PE}} = -\/19, 
 \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0af58b3b49fb1d75cbafd2d8859e4c3a55}{E\+R\+R\+O\+R\+\_\+\+S\+E\+T\+T\+I\+N\+G\+\_\+\+V\+A\+L\+U\+ES}} = -\/50, 
+\mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0a10fe7987d62e727f90425025fa90a09f}{N\+A\+N\+\_\+\+V\+A\+L\+U\+ES}} = -\/51, 
 \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0a0d5615cd010b41d905091ddea91f74b7}{I\+N\+S\+U\+F\+F\+I\+C\+I\+E\+N\+T\+\_\+\+M\+E\+M\+O\+RY}} = -\/100
  \}
 \end{DoxyCompactItemize}
@@ -72,7 +74,7 @@ virtual \mbox{\hyperlink{class_an_en_i_o_a1e7aef95fd2a0c6aaef55998f48368f4}{$\si
 \item 
 \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} \mbox{\hyperlink{class_an_en_i_o_ab7f3ba245b7acb11184e0a5b3490a84b}{check\+Variable}} (std\+::string var\+\_\+name, bool optional) const
 \item 
-\mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} \mbox{\hyperlink{class_an_en_i_o_ab99f9aebd7b145de00fe15b8d4869ac2}{check\+Dim}} (string dim\+\_\+name) const
+\mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} \mbox{\hyperlink{class_an_en_i_o_a60bc1958d57097e308643dad2c9d87d0}{check\+Dim}} (std\+::string dim\+\_\+name) const
 \item 
 \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} \mbox{\hyperlink{class_an_en_i_o_a44347f497bdf775fcf214ec75d8b6470}{check\+Variables}} () const
 \item 
@@ -80,15 +82,27 @@ virtual \mbox{\hyperlink{class_an_en_i_o_a1e7aef95fd2a0c6aaef55998f48368f4}{$\si
 \item 
 \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} \mbox{\hyperlink{class_an_en_i_o_a41ebcc0c9edee123626bf6e606917a49}{read\+Observations}} (\mbox{\hyperlink{class_observations}{Observations}} \&observations)
 \item 
+\mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} \mbox{\hyperlink{class_an_en_i_o_adb297d56636fff2db1f5f1af1083897c}{read\+Observations}} (\mbox{\hyperlink{class_observations}{Observations}} \&observations, std\+::vector$<$ size\+\_\+t $>$ start, std\+::vector$<$ size\+\_\+t $>$ count, std\+::vector$<$ ptrdiff\+\_\+t $>$ stride=\{1, 1, 1\})
+\item 
 \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} \mbox{\hyperlink{class_an_en_i_o_a912e513e58fa258e1dce67ff161abab2}{read\+Forecasts}} (\mbox{\hyperlink{class_forecasts}{Forecasts}} \&forecasts)
+\item 
+\mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} \mbox{\hyperlink{class_an_en_i_o_a5a66859433f123352fbd1f0ba606363c}{read\+Forecasts}} (\mbox{\hyperlink{class_forecasts}{Forecasts}} \&forecasts, std\+::vector$<$ size\+\_\+t $>$ start, std\+::vector$<$ size\+\_\+t $>$ count, std\+::vector$<$ ptrdiff\+\_\+t $>$ stride=\{1, 1, 1, 1\})
 \item 
 \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} \mbox{\hyperlink{class_an_en_i_o_aa58735032dd6f54c83d6450842922d3f}{read\+F\+L\+Ts}} (\mbox{\hyperlink{classanen_time_1_1_f_l_ts}{anen\+Time\+::\+F\+L\+Ts}} \&flts)
 \item 
+\mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} \mbox{\hyperlink{class_an_en_i_o_a521772f8c969c2fa4ca8ebf1ffa0a460}{read\+F\+L\+Ts}} (\mbox{\hyperlink{classanen_time_1_1_f_l_ts}{anen\+Time\+::\+F\+L\+Ts}} \&flts, size\+\_\+t start, size\+\_\+t count, ptrdiff\+\_\+t stride=1)
+\item 
 \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} \mbox{\hyperlink{class_an_en_i_o_a2b21ff04fcc0464017a5a717a6b19065}{read\+Parameters}} (\mbox{\hyperlink{classanen_par_1_1_parameters}{anen\+Par\+::\+Parameters}} \&parameters)
+\item 
+\mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} \mbox{\hyperlink{class_an_en_i_o_a0ff7e8d615ed2127ab66b83ee78fc820}{read\+Parameters}} (\mbox{\hyperlink{classanen_par_1_1_parameters}{anen\+Par\+::\+Parameters}} \&parameters, size\+\_\+t start, size\+\_\+t count, ptrdiff\+\_\+t stride=1)
 \item 
 \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} \mbox{\hyperlink{class_an_en_i_o_aaec8b46a52f3d8ab904fd4229bd3b9e9}{read\+Stations}} (\mbox{\hyperlink{classanen_sta_1_1_stations}{anen\+Sta\+::\+Stations}} \&stations)
 \item 
+\mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} \mbox{\hyperlink{class_an_en_i_o_ad0f7a1db44e12f42d4602898c0f51faa}{read\+Stations}} (\mbox{\hyperlink{classanen_sta_1_1_stations}{anen\+Sta\+::\+Stations}} \&stations, size\+\_\+t start, size\+\_\+t count, ptrdiff\+\_\+t stride=1)
+\item 
 \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} \mbox{\hyperlink{class_an_en_i_o_a19b454b0a9ecb5ecbc2cc2a9c139770b}{read\+Times}} (\mbox{\hyperlink{classanen_time_1_1_times}{anen\+Time\+::\+Times}} \&times)
+\item 
+\mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} \mbox{\hyperlink{class_an_en_i_o_aecbace06ce451ccad367d0150ef6aaf9}{read\+Times}} (\mbox{\hyperlink{classanen_time_1_1_times}{anen\+Time\+::\+Times}} \&times, size\+\_\+t start, size\+\_\+t count, ptrdiff\+\_\+t stride=1)
 \item 
 \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} \mbox{\hyperlink{class_an_en_i_o_a5ca1c7df3da9720967d7ed06f2dfe09b}{read\+Dim\+Length}} (std\+::string dim\+\_\+name, std\+::size\+\_\+t \&len)
 \item 
@@ -141,9 +155,19 @@ void \mbox{\hyperlink{class_an_en_i_o_acd5682e81361d75ff5566ae1df5fa023}{dump\+V
 \subsection*{Protected Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} \mbox{\hyperlink{class_an_en_i_o_a17e7a4c520675c23b01cbd65c7ffe1d5}{read\+\_\+string\+\_\+vector\+\_\+}} (std\+::string var\+\_\+name, std\+::vector$<$ std\+::string $>$ \&vectors) const
+\mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} \mbox{\hyperlink{class_an_en_i_o_ae9cf0a8cde2b742992295ccc2bed17ef}{read\+\_\+string\+\_\+vector\+\_\+}} (std\+::string var\+\_\+name, std\+::vector$<$ std\+::string $>$ \&results) const
 \item 
-{\footnotesize template$<$typename T $>$ }\\\mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} \mbox{\hyperlink{class_an_en_i_o_a3c3a3f86f90ea7610e086d371414d54f}{read\+\_\+vector\+\_\+}} (std\+::string var\+\_\+name, std\+::vector$<$ T $>$ \&vector) const
+\mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} \mbox{\hyperlink{class_an_en_i_o_a8c7e28931fd88831922e64ad87ee03f2}{read\+\_\+string\+\_\+vector\+\_\+}} (std\+::string var\+\_\+name, std\+::vector$<$ std\+::string $>$ \&results, size\+\_\+t start, size\+\_\+t count, ptrdiff\+\_\+t stride=1) const
+\item 
+void \mbox{\hyperlink{class_an_en_i_o_ae8ed483b1dcdbf2a15148d60f8067595}{purge\+\_\+}} (std\+::string \&str) const
+\item 
+void \mbox{\hyperlink{class_an_en_i_o_a7be5ab5c8c42fc9a04e4deeb0059a54d}{purge\+\_\+}} (std\+::vector$<$ std\+::string $>$ \&strs) const
+\item 
+{\footnotesize template$<$typename T $>$ }\\\mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} \mbox{\hyperlink{class_an_en_i_o_aa135f278f8ff2a028b8119f483dd36bf}{read\+\_\+vector\+\_\+}} (std\+::string var\+\_\+name, std\+::vector$<$ T $>$ \&results) const
+\item 
+{\footnotesize template$<$typename T $>$ }\\\mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} \mbox{\hyperlink{class_an_en_i_o_a4a4b8eedb372df1bb46b2104ae2761cd}{read\+\_\+vector\+\_\+}} (std\+::string var\+\_\+name, std\+::vector$<$ T $>$ \&results, std\+::vector$<$ size\+\_\+t $>$ start, std\+::vector$<$ size\+\_\+t $>$ count, std\+::vector$<$ ptrdiff\+\_\+t $>$ stride=\{1\}) const
+\item 
+{\footnotesize template$<$typename T $>$ }\\\mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} \mbox{\hyperlink{class_an_en_i_o_a9a0c27d0baddc7e27b25e1d13ac4f313}{read\+\_\+vector\+\_\+}} (std\+::string var\+\_\+name, std\+::vector$<$ T $>$ \&results, size\+\_\+t start, size\+\_\+t count, ptrdiff\+\_\+t stride=1) const
 \end{DoxyCompactItemize}
 \subsection*{Protected Attributes}
 \begin{DoxyCompactItemize}
@@ -174,7 +198,7 @@ std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{class_an_en_i_o_adf42061631c
 \subsubsection{\texorpdfstring{error\+Type}{errorType}}
 {\footnotesize\ttfamily enum \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{An\+En\+I\+O\+::error\+Type}}}
 
-Specifies the return error type of a function. Use \mbox{\hyperlink{class_an_en_i_o_a92276aeba9c0b5bd1cd3d285271d505f}{An\+En\+I\+O\+::handle\+Error}} to handle the returned error\+Type variable. \begin{DoxyEnumFields}{Enumerator}
+Specifies the return error type of a function. Use \mbox{\hyperlink{class_an_en_i_o_a92276aeba9c0b5bd1cd3d285271d505f}{An\+En\+I\+O\+::handle\+Error}} to handle the returned error\+Type. \begin{DoxyEnumFields}{Enumerator}
 \raisebox{\heightof{T}}[0pt][0pt]{\index{S\+U\+C\+C\+E\+SS@{S\+U\+C\+C\+E\+SS}!An\+En\+IO@{An\+En\+IO}}\index{An\+En\+IO@{An\+En\+IO}!S\+U\+C\+C\+E\+SS@{S\+U\+C\+C\+E\+SS}}}\mbox{\Hypertarget{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0afd4f6d99fa57b8fd2d3f2298b1781f6d}\label{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0afd4f6d99fa57b8fd2d3f2298b1781f6d}} 
 S\+U\+C\+C\+E\+SS&\\
 \hline
@@ -239,8 +263,16 @@ D\+I\+M\+E\+N\+S\+I\+O\+N\+\_\+\+E\+X\+I\+S\+TS&\\
 V\+A\+R\+I\+A\+B\+L\+E\+\_\+\+E\+X\+I\+S\+TS&\\
 \hline
 
+\raisebox{\heightof{T}}[0pt][0pt]{\index{W\+R\+O\+N\+G\+\_\+\+I\+N\+D\+E\+X\+\_\+\+S\+H\+A\+PE@{W\+R\+O\+N\+G\+\_\+\+I\+N\+D\+E\+X\+\_\+\+S\+H\+A\+PE}!An\+En\+IO@{An\+En\+IO}}\index{An\+En\+IO@{An\+En\+IO}!W\+R\+O\+N\+G\+\_\+\+I\+N\+D\+E\+X\+\_\+\+S\+H\+A\+PE@{W\+R\+O\+N\+G\+\_\+\+I\+N\+D\+E\+X\+\_\+\+S\+H\+A\+PE}}}\mbox{\Hypertarget{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0a6b6638f4fbbc0d1fd5ca45eb1d4266f5}\label{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0a6b6638f4fbbc0d1fd5ca45eb1d4266f5}} 
+W\+R\+O\+N\+G\+\_\+\+I\+N\+D\+E\+X\+\_\+\+S\+H\+A\+PE&\\
+\hline
+
 \raisebox{\heightof{T}}[0pt][0pt]{\index{E\+R\+R\+O\+R\+\_\+\+S\+E\+T\+T\+I\+N\+G\+\_\+\+V\+A\+L\+U\+ES@{E\+R\+R\+O\+R\+\_\+\+S\+E\+T\+T\+I\+N\+G\+\_\+\+V\+A\+L\+U\+ES}!An\+En\+IO@{An\+En\+IO}}\index{An\+En\+IO@{An\+En\+IO}!E\+R\+R\+O\+R\+\_\+\+S\+E\+T\+T\+I\+N\+G\+\_\+\+V\+A\+L\+U\+ES@{E\+R\+R\+O\+R\+\_\+\+S\+E\+T\+T\+I\+N\+G\+\_\+\+V\+A\+L\+U\+ES}}}\mbox{\Hypertarget{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0af58b3b49fb1d75cbafd2d8859e4c3a55}\label{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0af58b3b49fb1d75cbafd2d8859e4c3a55}} 
 E\+R\+R\+O\+R\+\_\+\+S\+E\+T\+T\+I\+N\+G\+\_\+\+V\+A\+L\+U\+ES&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{N\+A\+N\+\_\+\+V\+A\+L\+U\+ES@{N\+A\+N\+\_\+\+V\+A\+L\+U\+ES}!An\+En\+IO@{An\+En\+IO}}\index{An\+En\+IO@{An\+En\+IO}!N\+A\+N\+\_\+\+V\+A\+L\+U\+ES@{N\+A\+N\+\_\+\+V\+A\+L\+U\+ES}}}\mbox{\Hypertarget{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0a10fe7987d62e727f90425025fa90a09f}\label{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0a10fe7987d62e727f90425025fa90a09f}} 
+N\+A\+N\+\_\+\+V\+A\+L\+U\+ES&\\
 \hline
 
 \raisebox{\heightof{T}}[0pt][0pt]{\index{I\+N\+S\+U\+F\+F\+I\+C\+I\+E\+N\+T\+\_\+\+M\+E\+M\+O\+RY@{I\+N\+S\+U\+F\+F\+I\+C\+I\+E\+N\+T\+\_\+\+M\+E\+M\+O\+RY}!An\+En\+IO@{An\+En\+IO}}\index{An\+En\+IO@{An\+En\+IO}!I\+N\+S\+U\+F\+F\+I\+C\+I\+E\+N\+T\+\_\+\+M\+E\+M\+O\+RY@{I\+N\+S\+U\+F\+F\+I\+C\+I\+E\+N\+T\+\_\+\+M\+E\+M\+O\+RY}}}\mbox{\Hypertarget{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0a0d5615cd010b41d905091ddea91f74b7}\label{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0a0d5615cd010b41d905091ddea91f74b7}} 
@@ -296,11 +328,11 @@ I\+N\+S\+U\+F\+F\+I\+C\+I\+E\+N\+T\+\_\+\+M\+E\+M\+O\+RY&\\
 
 
 \subsection{Member Function Documentation}
-\mbox{\Hypertarget{class_an_en_i_o_ab99f9aebd7b145de00fe15b8d4869ac2}\label{class_an_en_i_o_ab99f9aebd7b145de00fe15b8d4869ac2}} 
+\mbox{\Hypertarget{class_an_en_i_o_a60bc1958d57097e308643dad2c9d87d0}\label{class_an_en_i_o_a60bc1958d57097e308643dad2c9d87d0}} 
 \index{An\+En\+IO@{An\+En\+IO}!check\+Dim@{check\+Dim}}
 \index{check\+Dim@{check\+Dim}!An\+En\+IO@{An\+En\+IO}}
 \subsubsection{\texorpdfstring{check\+Dim()}{checkDim()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} An\+En\+I\+O\+::check\+Dim (\begin{DoxyParamCaption}\item[{string}]{dim\+\_\+name }\end{DoxyParamCaption}) const}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} An\+En\+I\+O\+::check\+Dim (\begin{DoxyParamCaption}\item[{std\+::string}]{dim\+\_\+name }\end{DoxyParamCaption}) const}
 
 Checks whether the dimension exists.
 
@@ -457,11 +489,37 @@ Handles the error\+Type variable.
 {\em indicator} & An \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{An\+En\+I\+O\+::error\+Type}} item. \\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{class_an_en_i_o_a17e7a4c520675c23b01cbd65c7ffe1d5}\label{class_an_en_i_o_a17e7a4c520675c23b01cbd65c7ffe1d5}} 
+\mbox{\Hypertarget{class_an_en_i_o_ae8ed483b1dcdbf2a15148d60f8067595}\label{class_an_en_i_o_ae8ed483b1dcdbf2a15148d60f8067595}} 
+\index{An\+En\+IO@{An\+En\+IO}!purge\+\_\+@{purge\+\_\+}}
+\index{purge\+\_\+@{purge\+\_\+}!An\+En\+IO@{An\+En\+IO}}
+\subsubsection{\texorpdfstring{purge\+\_\+()}{purge\_()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void An\+En\+I\+O\+::purge\+\_\+ (\begin{DoxyParamCaption}\item[{std\+::string \&}]{str }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [protected]}}
+
+Cleans special characters in strings.
+
+
+\begin{DoxyParams}{Parameters}
+{\em str} & A string. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_an_en_i_o_a7be5ab5c8c42fc9a04e4deeb0059a54d}\label{class_an_en_i_o_a7be5ab5c8c42fc9a04e4deeb0059a54d}} 
+\index{An\+En\+IO@{An\+En\+IO}!purge\+\_\+@{purge\+\_\+}}
+\index{purge\+\_\+@{purge\+\_\+}!An\+En\+IO@{An\+En\+IO}}
+\subsubsection{\texorpdfstring{purge\+\_\+()}{purge\_()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void An\+En\+I\+O\+::purge\+\_\+ (\begin{DoxyParamCaption}\item[{std\+::vector$<$ std\+::string $>$ \&}]{strs }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [protected]}}
+
+Cleans special characters in strings
+
+
+\begin{DoxyParams}{Parameters}
+{\em strs} & A vector of strings. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_an_en_i_o_ae9cf0a8cde2b742992295ccc2bed17ef}\label{class_an_en_i_o_ae9cf0a8cde2b742992295ccc2bed17ef}} 
 \index{An\+En\+IO@{An\+En\+IO}!read\+\_\+string\+\_\+vector\+\_\+@{read\+\_\+string\+\_\+vector\+\_\+}}
 \index{read\+\_\+string\+\_\+vector\+\_\+@{read\+\_\+string\+\_\+vector\+\_\+}!An\+En\+IO@{An\+En\+IO}}
-\subsubsection{\texorpdfstring{read\+\_\+string\+\_\+vector\+\_\+()}{read\_string\_vector\_()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} An\+En\+I\+O\+::read\+\_\+string\+\_\+vector\+\_\+ (\begin{DoxyParamCaption}\item[{std\+::string}]{var\+\_\+name,  }\item[{std\+::vector$<$ std\+::string $>$ \&}]{vectors }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [protected]}}
+\subsubsection{\texorpdfstring{read\+\_\+string\+\_\+vector\+\_\+()}{read\_string\_vector\_()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} An\+En\+I\+O\+::read\+\_\+string\+\_\+vector\+\_\+ (\begin{DoxyParamCaption}\item[{std\+::string}]{var\+\_\+name,  }\item[{std\+::vector$<$ std\+::string $>$ \&}]{results }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [protected]}}
 
 Reads variables as a string vector. The variable should has two dimensions and be the type of nc\+\_\+\+C\+H\+AR.
 
@@ -469,18 +527,24 @@ Reads variables as a string vector. The variable should has two dimensions and b
 \begin{DoxyParams}{Parameters}
 {\em var\+\_\+name} & The variable name. \\
 \hline
-{\em vectors} & A string container. \\
+{\em results} & A string container. \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{An\+En\+I\+O\+::error\+Type}}. 
 \end{DoxyReturn}
-\mbox{\Hypertarget{class_an_en_i_o_a3c3a3f86f90ea7610e086d371414d54f}\label{class_an_en_i_o_a3c3a3f86f90ea7610e086d371414d54f}} 
+\mbox{\Hypertarget{class_an_en_i_o_a8c7e28931fd88831922e64ad87ee03f2}\label{class_an_en_i_o_a8c7e28931fd88831922e64ad87ee03f2}} 
+\index{An\+En\+IO@{An\+En\+IO}!read\+\_\+string\+\_\+vector\+\_\+@{read\+\_\+string\+\_\+vector\+\_\+}}
+\index{read\+\_\+string\+\_\+vector\+\_\+@{read\+\_\+string\+\_\+vector\+\_\+}!An\+En\+IO@{An\+En\+IO}}
+\subsubsection{\texorpdfstring{read\+\_\+string\+\_\+vector\+\_\+()}{read\_string\_vector\_()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} An\+En\+I\+O\+::read\+\_\+string\+\_\+vector\+\_\+ (\begin{DoxyParamCaption}\item[{std\+::string}]{var\+\_\+name,  }\item[{std\+::vector$<$ std\+::string $>$ \&}]{results,  }\item[{size\+\_\+t}]{start,  }\item[{size\+\_\+t}]{count,  }\item[{ptrdiff\+\_\+t}]{stride = {\ttfamily 1} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{class_an_en_i_o_aa135f278f8ff2a028b8119f483dd36bf}\label{class_an_en_i_o_aa135f278f8ff2a028b8119f483dd36bf}} 
 \index{An\+En\+IO@{An\+En\+IO}!read\+\_\+vector\+\_\+@{read\+\_\+vector\+\_\+}}
 \index{read\+\_\+vector\+\_\+@{read\+\_\+vector\+\_\+}!An\+En\+IO@{An\+En\+IO}}
-\subsubsection{\texorpdfstring{read\+\_\+vector\+\_\+()}{read\_vector\_()}}
+\subsubsection{\texorpdfstring{read\+\_\+vector\+\_\+()}{read\_vector\_()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
 {\footnotesize\ttfamily template$<$typename T $>$ \\
-\mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} An\+En\+I\+O\+::read\+\_\+vector\+\_\+ (\begin{DoxyParamCaption}\item[{std\+::string}]{var\+\_\+name,  }\item[{std\+::vector$<$ T $>$ \&}]{vector }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
+\mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} An\+En\+I\+O\+::read\+\_\+vector\+\_\+ (\begin{DoxyParamCaption}\item[{std\+::string}]{var\+\_\+name,  }\item[{std\+::vector$<$ T $>$ \&}]{results }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
 
 Reads variables as a atomic vector.
 
@@ -488,12 +552,26 @@ Reads variables as a atomic vector.
 \begin{DoxyParams}{Parameters}
 {\em var\+\_\+name} & The variable name. \\
 \hline
-{\em vector} & An atmoic container. \\
+{\em results} & An atmoic container. \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{An\+En\+I\+O\+::error\+Type}}. 
 \end{DoxyReturn}
+\mbox{\Hypertarget{class_an_en_i_o_a4a4b8eedb372df1bb46b2104ae2761cd}\label{class_an_en_i_o_a4a4b8eedb372df1bb46b2104ae2761cd}} 
+\index{An\+En\+IO@{An\+En\+IO}!read\+\_\+vector\+\_\+@{read\+\_\+vector\+\_\+}}
+\index{read\+\_\+vector\+\_\+@{read\+\_\+vector\+\_\+}!An\+En\+IO@{An\+En\+IO}}
+\subsubsection{\texorpdfstring{read\+\_\+vector\+\_\+()}{read\_vector\_()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} An\+En\+I\+O\+::read\+\_\+vector\+\_\+ (\begin{DoxyParamCaption}\item[{std\+::string}]{var\+\_\+name,  }\item[{std\+::vector$<$ T $>$ \&}]{results,  }\item[{std\+::vector$<$ size\+\_\+t $>$}]{start,  }\item[{std\+::vector$<$ size\+\_\+t $>$}]{count,  }\item[{std\+::vector$<$ ptrdiff\+\_\+t $>$}]{stride = {\ttfamily \{1\}} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
+
+\mbox{\Hypertarget{class_an_en_i_o_a9a0c27d0baddc7e27b25e1d13ac4f313}\label{class_an_en_i_o_a9a0c27d0baddc7e27b25e1d13ac4f313}} 
+\index{An\+En\+IO@{An\+En\+IO}!read\+\_\+vector\+\_\+@{read\+\_\+vector\+\_\+}}
+\index{read\+\_\+vector\+\_\+@{read\+\_\+vector\+\_\+}!An\+En\+IO@{An\+En\+IO}}
+\subsubsection{\texorpdfstring{read\+\_\+vector\+\_\+()}{read\_vector\_()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} An\+En\+I\+O\+::read\+\_\+vector\+\_\+ (\begin{DoxyParamCaption}\item[{std\+::string}]{var\+\_\+name,  }\item[{std\+::vector$<$ T $>$ \&}]{results,  }\item[{size\+\_\+t}]{start,  }\item[{size\+\_\+t}]{count,  }\item[{ptrdiff\+\_\+t}]{stride = {\ttfamily 1} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
+
 \mbox{\Hypertarget{class_an_en_i_o_a5ca1c7df3da9720967d7ed06f2dfe09b}\label{class_an_en_i_o_a5ca1c7df3da9720967d7ed06f2dfe09b}} 
 \index{An\+En\+IO@{An\+En\+IO}!read\+Dim\+Length@{read\+Dim\+Length}}
 \index{read\+Dim\+Length@{read\+Dim\+Length}!An\+En\+IO@{An\+En\+IO}}
@@ -515,7 +593,7 @@ An \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{An\+En\+I
 \mbox{\Hypertarget{class_an_en_i_o_aa58735032dd6f54c83d6450842922d3f}\label{class_an_en_i_o_aa58735032dd6f54c83d6450842922d3f}} 
 \index{An\+En\+IO@{An\+En\+IO}!read\+F\+L\+Ts@{read\+F\+L\+Ts}}
 \index{read\+F\+L\+Ts@{read\+F\+L\+Ts}!An\+En\+IO@{An\+En\+IO}}
-\subsubsection{\texorpdfstring{read\+F\+L\+Ts()}{readFLTs()}}
+\subsubsection{\texorpdfstring{read\+F\+L\+Ts()}{readFLTs()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} An\+En\+I\+O\+::read\+F\+L\+Ts (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classanen_time_1_1_f_l_ts}{anen\+Time\+::\+F\+L\+Ts}} \&}]{flts }\end{DoxyParamCaption})}
 
 Reads forecast lead time information from the file. You should use the function \mbox{\hyperlink{class_an_en_i_o_a98066d375cc78694fda2af1ce37cc8d8}{An\+En\+I\+O\+::set\+File\+Path}} first or make sure you have already specify a file to read from using the constructor.
@@ -530,10 +608,16 @@ This function assumes the name of the variable is \char`\"{}\+F\+L\+Ts\char`\"{}
 \begin{DoxyReturn}{Returns}
 An \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{An\+En\+I\+O\+::error\+Type}}. 
 \end{DoxyReturn}
+\mbox{\Hypertarget{class_an_en_i_o_a521772f8c969c2fa4ca8ebf1ffa0a460}\label{class_an_en_i_o_a521772f8c969c2fa4ca8ebf1ffa0a460}} 
+\index{An\+En\+IO@{An\+En\+IO}!read\+F\+L\+Ts@{read\+F\+L\+Ts}}
+\index{read\+F\+L\+Ts@{read\+F\+L\+Ts}!An\+En\+IO@{An\+En\+IO}}
+\subsubsection{\texorpdfstring{read\+F\+L\+Ts()}{readFLTs()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} An\+En\+I\+O\+::read\+F\+L\+Ts (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classanen_time_1_1_f_l_ts}{anen\+Time\+::\+F\+L\+Ts}} \&}]{flts,  }\item[{size\+\_\+t}]{start,  }\item[{size\+\_\+t}]{count,  }\item[{ptrdiff\+\_\+t}]{stride = {\ttfamily 1} }\end{DoxyParamCaption})}
+
 \mbox{\Hypertarget{class_an_en_i_o_a912e513e58fa258e1dce67ff161abab2}\label{class_an_en_i_o_a912e513e58fa258e1dce67ff161abab2}} 
 \index{An\+En\+IO@{An\+En\+IO}!read\+Forecasts@{read\+Forecasts}}
 \index{read\+Forecasts@{read\+Forecasts}!An\+En\+IO@{An\+En\+IO}}
-\subsubsection{\texorpdfstring{read\+Forecasts()}{readForecasts()}}
+\subsubsection{\texorpdfstring{read\+Forecasts()}{readForecasts()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} An\+En\+I\+O\+::read\+Forecasts (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_forecasts}{Forecasts}} \&}]{forecasts }\end{DoxyParamCaption})}
 
 Reads forecast file into an \mbox{\hyperlink{class_forecasts}{Forecasts}} object.
@@ -546,10 +630,32 @@ Reads forecast file into an \mbox{\hyperlink{class_forecasts}{Forecasts}} object
 \begin{DoxyReturn}{Returns}
 An \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{An\+En\+I\+O\+::error\+Type}}. 
 \end{DoxyReturn}
+\mbox{\Hypertarget{class_an_en_i_o_a5a66859433f123352fbd1f0ba606363c}\label{class_an_en_i_o_a5a66859433f123352fbd1f0ba606363c}} 
+\index{An\+En\+IO@{An\+En\+IO}!read\+Forecasts@{read\+Forecasts}}
+\index{read\+Forecasts@{read\+Forecasts}!An\+En\+IO@{An\+En\+IO}}
+\subsubsection{\texorpdfstring{read\+Forecasts()}{readForecasts()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} An\+En\+I\+O\+::read\+Forecasts (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_forecasts}{Forecasts}} \&}]{forecasts,  }\item[{std\+::vector$<$ size\+\_\+t $>$}]{start,  }\item[{std\+::vector$<$ size\+\_\+t $>$}]{count,  }\item[{std\+::vector$<$ ptrdiff\+\_\+t $>$}]{stride = {\ttfamily \{1,~1,~1,~1\}} }\end{DoxyParamCaption})}
+
+Reads a subset of a forecast file into a \mbox{\hyperlink{class_forecasts}{Forecasts}} object.
+
+
+\begin{DoxyParams}{Parameters}
+{\em forecasts} & The \mbox{\hyperlink{class_forecasts}{Forecasts}} object to store data. \\
+\hline
+{\em start} & A vector of indices of the start of the data to read. \\
+\hline
+{\em count} & A vector of numbers of data to read for each dimension. \\
+\hline
+{\em stride} & A vector of numbers of the length of the stride for each dimension. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{An\+En\+I\+O\+::error\+Type}}. 
+\end{DoxyReturn}
 \mbox{\Hypertarget{class_an_en_i_o_a41ebcc0c9edee123626bf6e606917a49}\label{class_an_en_i_o_a41ebcc0c9edee123626bf6e606917a49}} 
 \index{An\+En\+IO@{An\+En\+IO}!read\+Observations@{read\+Observations}}
 \index{read\+Observations@{read\+Observations}!An\+En\+IO@{An\+En\+IO}}
-\subsubsection{\texorpdfstring{read\+Observations()}{readObservations()}}
+\subsubsection{\texorpdfstring{read\+Observations()}{readObservations()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} An\+En\+I\+O\+::read\+Observations (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_observations}{Observations}} \&}]{observations }\end{DoxyParamCaption})}
 
 Reads observation file into an \mbox{\hyperlink{class_observations}{Observations}} object.
@@ -562,15 +668,37 @@ Reads observation file into an \mbox{\hyperlink{class_observations}{Observations
 \begin{DoxyReturn}{Returns}
 An \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{An\+En\+I\+O\+::error\+Type}}. 
 \end{DoxyReturn}
+\mbox{\Hypertarget{class_an_en_i_o_adb297d56636fff2db1f5f1af1083897c}\label{class_an_en_i_o_adb297d56636fff2db1f5f1af1083897c}} 
+\index{An\+En\+IO@{An\+En\+IO}!read\+Observations@{read\+Observations}}
+\index{read\+Observations@{read\+Observations}!An\+En\+IO@{An\+En\+IO}}
+\subsubsection{\texorpdfstring{read\+Observations()}{readObservations()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} An\+En\+I\+O\+::read\+Observations (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_observations}{Observations}} \&}]{observations,  }\item[{std\+::vector$<$ size\+\_\+t $>$}]{start,  }\item[{std\+::vector$<$ size\+\_\+t $>$}]{count,  }\item[{std\+::vector$<$ ptrdiff\+\_\+t $>$}]{stride = {\ttfamily \{1,~1,~1\}} }\end{DoxyParamCaption})}
+
+Reads a subset of an observation file into an \mbox{\hyperlink{class_observations}{Observations}} object.
+
+
+\begin{DoxyParams}{Parameters}
+{\em observations} & The \mbox{\hyperlink{class_observations}{Observations}} object to store data. \\
+\hline
+{\em start} & A vector of indices of the start of the data to read. \\
+\hline
+{\em count} & A vector of numbers of data to read for each dimension. \\
+\hline
+{\em stride} & A vector of numbers of the length of the stride for each dimension. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{An\+En\+I\+O\+::error\+Type}}. 
+\end{DoxyReturn}
 \mbox{\Hypertarget{class_an_en_i_o_a2b21ff04fcc0464017a5a717a6b19065}\label{class_an_en_i_o_a2b21ff04fcc0464017a5a717a6b19065}} 
 \index{An\+En\+IO@{An\+En\+IO}!read\+Parameters@{read\+Parameters}}
 \index{read\+Parameters@{read\+Parameters}!An\+En\+IO@{An\+En\+IO}}
-\subsubsection{\texorpdfstring{read\+Parameters()}{readParameters()}}
+\subsubsection{\texorpdfstring{read\+Parameters()}{readParameters()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} An\+En\+I\+O\+::read\+Parameters (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classanen_par_1_1_parameters}{anen\+Par\+::\+Parameters}} \&}]{parameters }\end{DoxyParamCaption})}
 
 Reads parameter information from the file. You should use the function \mbox{\hyperlink{class_an_en_i_o_a98066d375cc78694fda2af1ce37cc8d8}{An\+En\+I\+O\+::set\+File\+Path}} first or make sure you have already specify a file to read from using the constructor.
 
-This function assumes the dimension name \char`\"{}num\+\_\+parameters\char`\"{}, and the optional variable names \char`\"{}\+Parameter\+Names\char`\"{} and \char`\"{}\+Circular\+Parameters\char`\"{}.
+This function assumes the dimension name \char`\"{}num\+\_\+parameters\char`\"{}, and the optional variable names \char`\"{}\+Parameter\+Names\char`\"{} and \char`\"{}\+Parameter\+Circulars\char`\"{}.
 
 
 \begin{DoxyParams}{Parameters}
@@ -580,10 +708,16 @@ This function assumes the dimension name \char`\"{}num\+\_\+parameters\char`\"{}
 \begin{DoxyReturn}{Returns}
 An \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{An\+En\+I\+O\+::error\+Type}}. 
 \end{DoxyReturn}
+\mbox{\Hypertarget{class_an_en_i_o_a0ff7e8d615ed2127ab66b83ee78fc820}\label{class_an_en_i_o_a0ff7e8d615ed2127ab66b83ee78fc820}} 
+\index{An\+En\+IO@{An\+En\+IO}!read\+Parameters@{read\+Parameters}}
+\index{read\+Parameters@{read\+Parameters}!An\+En\+IO@{An\+En\+IO}}
+\subsubsection{\texorpdfstring{read\+Parameters()}{readParameters()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} An\+En\+I\+O\+::read\+Parameters (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classanen_par_1_1_parameters}{anen\+Par\+::\+Parameters}} \&}]{parameters,  }\item[{size\+\_\+t}]{start,  }\item[{size\+\_\+t}]{count,  }\item[{ptrdiff\+\_\+t}]{stride = {\ttfamily 1} }\end{DoxyParamCaption})}
+
 \mbox{\Hypertarget{class_an_en_i_o_aaec8b46a52f3d8ab904fd4229bd3b9e9}\label{class_an_en_i_o_aaec8b46a52f3d8ab904fd4229bd3b9e9}} 
 \index{An\+En\+IO@{An\+En\+IO}!read\+Stations@{read\+Stations}}
 \index{read\+Stations@{read\+Stations}!An\+En\+IO@{An\+En\+IO}}
-\subsubsection{\texorpdfstring{read\+Stations()}{readStations()}}
+\subsubsection{\texorpdfstring{read\+Stations()}{readStations()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} An\+En\+I\+O\+::read\+Stations (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classanen_sta_1_1_stations}{anen\+Sta\+::\+Stations}} \&}]{stations }\end{DoxyParamCaption})}
 
 Reads station information from the file. You should use the function \mbox{\hyperlink{class_an_en_i_o_a98066d375cc78694fda2af1ce37cc8d8}{An\+En\+I\+O\+::set\+File\+Path}} first or make sure you have already specify a file to read from using the constructor.
@@ -598,10 +732,16 @@ This function assumes the dimension name \char`\"{}num\+\_\+stations\char`\"{}, 
 \begin{DoxyReturn}{Returns}
 An \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{An\+En\+I\+O\+::error\+Type}}. 
 \end{DoxyReturn}
+\mbox{\Hypertarget{class_an_en_i_o_ad0f7a1db44e12f42d4602898c0f51faa}\label{class_an_en_i_o_ad0f7a1db44e12f42d4602898c0f51faa}} 
+\index{An\+En\+IO@{An\+En\+IO}!read\+Stations@{read\+Stations}}
+\index{read\+Stations@{read\+Stations}!An\+En\+IO@{An\+En\+IO}}
+\subsubsection{\texorpdfstring{read\+Stations()}{readStations()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} An\+En\+I\+O\+::read\+Stations (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classanen_sta_1_1_stations}{anen\+Sta\+::\+Stations}} \&}]{stations,  }\item[{size\+\_\+t}]{start,  }\item[{size\+\_\+t}]{count,  }\item[{ptrdiff\+\_\+t}]{stride = {\ttfamily 1} }\end{DoxyParamCaption})}
+
 \mbox{\Hypertarget{class_an_en_i_o_a19b454b0a9ecb5ecbc2cc2a9c139770b}\label{class_an_en_i_o_a19b454b0a9ecb5ecbc2cc2a9c139770b}} 
 \index{An\+En\+IO@{An\+En\+IO}!read\+Times@{read\+Times}}
 \index{read\+Times@{read\+Times}!An\+En\+IO@{An\+En\+IO}}
-\subsubsection{\texorpdfstring{read\+Times()}{readTimes()}}
+\subsubsection{\texorpdfstring{read\+Times()}{readTimes()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} An\+En\+I\+O\+::read\+Times (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classanen_time_1_1_times}{anen\+Time\+::\+Times}} \&}]{times }\end{DoxyParamCaption})}
 
 Reads time information from the file. You should use the function \mbox{\hyperlink{class_an_en_i_o_a98066d375cc78694fda2af1ce37cc8d8}{An\+En\+I\+O\+::set\+File\+Path}} first or make sure you have already specify a file to read from using the constructor.
@@ -616,6 +756,12 @@ This function assumes the dimension name \char`\"{}\+Times\char`\"{}.
 \begin{DoxyReturn}{Returns}
 An \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{An\+En\+I\+O\+::error\+Type}}. 
 \end{DoxyReturn}
+\mbox{\Hypertarget{class_an_en_i_o_aecbace06ce451ccad367d0150ef6aaf9}\label{class_an_en_i_o_aecbace06ce451ccad367d0150ef6aaf9}} 
+\index{An\+En\+IO@{An\+En\+IO}!read\+Times@{read\+Times}}
+\index{read\+Times@{read\+Times}!An\+En\+IO@{An\+En\+IO}}
+\subsubsection{\texorpdfstring{read\+Times()}{readTimes()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} An\+En\+I\+O\+::read\+Times (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classanen_time_1_1_times}{anen\+Time\+::\+Times}} \&}]{times,  }\item[{size\+\_\+t}]{start,  }\item[{size\+\_\+t}]{count,  }\item[{ptrdiff\+\_\+t}]{stride = {\ttfamily 1} }\end{DoxyParamCaption})}
+
 \mbox{\Hypertarget{class_an_en_i_o_a98066d375cc78694fda2af1ce37cc8d8}\label{class_an_en_i_o_a98066d375cc78694fda2af1ce37cc8d8}} 
 \index{An\+En\+IO@{An\+En\+IO}!set\+File\+Path@{set\+File\+Path}}
 \index{set\+File\+Path@{set\+File\+Path}!An\+En\+IO@{An\+En\+IO}}
@@ -755,7 +901,7 @@ Specifies the required variable names in the file. \mbox{\Hypertarget{class_an_e
 
 Specifies the verbose level.
 \begin{DoxyItemize}
-\item 0\+: No standard output.
+\item 0\+: Quiet.
 \item 1\+: Errors.
 \item 2\+: The above plus Warnings.
 \item 3\+: The above plus program progress information.

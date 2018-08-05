@@ -37,6 +37,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 OBJECTFILES= \
 	${OBJECTDIR}/AnEn.o \
 	${OBJECTDIR}/AnEnIO.o \
+	${OBJECTDIR}/Analogs.o \
 	${OBJECTDIR}/Array4D.o \
 	${OBJECTDIR}/Forecasts.o \
 	${OBJECTDIR}/Observations.o \
@@ -60,7 +61,8 @@ TESTFILES= \
 	${TESTDIR}/TestFiles/f6 \
 	${TESTDIR}/TestFiles/f7 \
 	${TESTDIR}/TestFiles/f1 \
-	${TESTDIR}/TestFiles/f2
+	${TESTDIR}/TestFiles/f2 \
+	${TESTDIR}/TestFiles/f9
 
 # Test Object Files
 TESTOBJECTFILES= \
@@ -72,6 +74,7 @@ TESTOBJECTFILES= \
 	${TESTDIR}/tests/runnerStandardDeviation.o \
 	${TESTDIR}/tests/runnerStation.o \
 	${TESTDIR}/tests/runnerStations.o \
+	${TESTDIR}/tests/runnerTimes.o \
 	${TESTDIR}/tests/testAnEn.o \
 	${TESTDIR}/tests/testAnEnIO.o \
 	${TESTDIR}/tests/testForecastsArray.o \
@@ -79,7 +82,8 @@ TESTOBJECTFILES= \
 	${TESTDIR}/tests/testSimilarityMatrices.o \
 	${TESTDIR}/tests/testStandardDeviation.o \
 	${TESTDIR}/tests/testStation.o \
-	${TESTDIR}/tests/testStations.o
+	${TESTDIR}/tests/testStations.o \
+	${TESTDIR}/tests/testTimes.o
 
 # C Compiler Flags
 CFLAGS=
@@ -114,6 +118,11 @@ ${OBJECTDIR}/AnEnIO.o: AnEnIO.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/AnEnIO.o AnEnIO.cpp
+
+${OBJECTDIR}/Analogs.o: Analogs.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Analogs.o Analogs.cpp
 
 ${OBJECTDIR}/Array4D.o: Array4D.cpp
 	${MKDIR} -p ${OBJECTDIR}
@@ -203,6 +212,10 @@ ${TESTDIR}/TestFiles/f1: ${TESTDIR}/tests/runnerStation.o ${TESTDIR}/tests/testS
 ${TESTDIR}/TestFiles/f2: ${TESTDIR}/tests/runnerStations.o ${TESTDIR}/tests/testStations.o ${OBJECTFILES:%.o=%_nomain.o}
 	${MKDIR} -p ${TESTDIR}/TestFiles
 	${LINK.cc} -o ${TESTDIR}/TestFiles/f2 $^ ${LDLIBSOPTIONS}   `cppunit-config --libs`   
+
+${TESTDIR}/TestFiles/f9: ${TESTDIR}/tests/runnerTimes.o ${TESTDIR}/tests/testTimes.o ${OBJECTFILES:%.o=%_nomain.o}
+	${MKDIR} -p ${TESTDIR}/TestFiles
+	${LINK.cc} -o ${TESTDIR}/TestFiles/f9 $^ ${LDLIBSOPTIONS}   `cppunit-config --libs`   
 
 
 ${TESTDIR}/tests/runnerAnEn.o: tests/runnerAnEn.cpp 
@@ -301,6 +314,18 @@ ${TESTDIR}/tests/testStations.o: tests/testStations.cpp
 	$(COMPILE.cc) -O2 `cppunit-config --cflags` -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/testStations.o tests/testStations.cpp
 
 
+${TESTDIR}/tests/runnerTimes.o: tests/runnerTimes.cpp 
+	${MKDIR} -p ${TESTDIR}/tests
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 `cppunit-config --cflags` -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/runnerTimes.o tests/runnerTimes.cpp
+
+
+${TESTDIR}/tests/testTimes.o: tests/testTimes.cpp 
+	${MKDIR} -p ${TESTDIR}/tests
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 `cppunit-config --cflags` -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/testTimes.o tests/testTimes.cpp
+
+
 ${OBJECTDIR}/AnEn_nomain.o: ${OBJECTDIR}/AnEn.o AnEn.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	@NMOUTPUT=`${NM} ${OBJECTDIR}/AnEn.o`; \
@@ -325,6 +350,19 @@ ${OBJECTDIR}/AnEnIO_nomain.o: ${OBJECTDIR}/AnEnIO.o AnEnIO.cpp
 	    $(COMPILE.cc) -O2 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/AnEnIO_nomain.o AnEnIO.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/AnEnIO.o ${OBJECTDIR}/AnEnIO_nomain.o;\
+	fi
+
+${OBJECTDIR}/Analogs_nomain.o: ${OBJECTDIR}/Analogs.o Analogs.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/Analogs.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -O2 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Analogs_nomain.o Analogs.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/Analogs.o ${OBJECTDIR}/Analogs_nomain.o;\
 	fi
 
 ${OBJECTDIR}/Array4D_nomain.o: ${OBJECTDIR}/Array4D.o Array4D.cpp 
@@ -469,6 +507,7 @@ ${OBJECTDIR}/doxygen-mainpage_nomain.o: ${OBJECTDIR}/doxygen-mainpage.o doxygen-
 	    ${TESTDIR}/TestFiles/f7 || true; \
 	    ${TESTDIR}/TestFiles/f1 || true; \
 	    ${TESTDIR}/TestFiles/f2 || true; \
+	    ${TESTDIR}/TestFiles/f9 || true; \
 	else  \
 	    ./${TEST} || true; \
 	fi

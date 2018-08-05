@@ -1,0 +1,163 @@
+\hypertarget{class_analogs}{}\section{Analogs Class Reference}
+\label{class_analogs}\index{Analogs@{Analogs}}
+
+
+This is the class to store analogs. The default dimensions are\+: \mbox{[}test stations\mbox{]}\mbox{[}test times\mbox{]}\mbox{[}F\+L\+Ts\mbox{]}\mbox{[}members\mbox{]}\mbox{[}3\mbox{]}.  
+
+
+
+
+{\ttfamily \#include $<$Analogs.\+h$>$}
+
+
+
+Inheritance diagram for Analogs\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=175pt]{class_analogs__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Analogs\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=175pt]{class_analogs__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{class_analogs_a9b56dcdb212f44c3ba40a60736d648bb}{C\+O\+L\+\_\+\+T\+AG}} \{ \mbox{\hyperlink{class_analogs_a9b56dcdb212f44c3ba40a60736d648bba5a08d0e60f9a619e16546d744854c670}{U\+N\+K\+N\+O\+WN}} = -\/999, 
+\mbox{\hyperlink{class_analogs_a9b56dcdb212f44c3ba40a60736d648bbad9315e6d921f3bc928effd909dd0d67b}{S\+T\+A\+T\+I\+ON}} = 0, 
+\mbox{\hyperlink{class_analogs_a9b56dcdb212f44c3ba40a60736d648bba64d8ac114131a39195bc644f3fb0f084}{T\+I\+ME}} = 1, 
+\mbox{\hyperlink{class_analogs_a9b56dcdb212f44c3ba40a60736d648bba28a85fd8dc593df26ed8d479a2745051}{V\+A\+L\+UE}} = 2
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_analogs_a8234aca0bc007305113d41b3e9f44a30}{Analogs}} ()
+\item 
+\mbox{\hyperlink{class_analogs_ab8fda7c92e8685f0be660ecdf7bf32a3}{Analogs}} (size\+\_\+t num\+\_\+stations, size\+\_\+t num\+\_\+times, size\+\_\+t num\+\_\+flts, size\+\_\+t num\+\_\+members)
+\item 
+\mbox{\hyperlink{class_analogs_a8e13e48e4097462f1ff324fa62c6481c}{Analogs}} (const \mbox{\hyperlink{class_forecasts}{Forecasts}} \&forecasts, size\+\_\+t num\+\_\+members)
+\item 
+\mbox{\hyperlink{class_analogs_af4174aafbd1d9d21cc4ea9ee3ab62dfd}{Analogs}} (const \mbox{\hyperlink{class_analogs}{Analogs}} \&orig)=delete
+\item 
+virtual \mbox{\hyperlink{class_analogs_ae6de501f002f0a3c878d44d5c7b67a0d}{$\sim$\+Analogs}} ()
+\item 
+void \mbox{\hyperlink{class_analogs_a8ed3949305fc98471e987ae03c305c17}{print}} (std\+::ostream \&) const
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ std\+::vector$<$ size\+\_\+t $>$ $>$ \mbox{\hyperlink{class_analogs_a32cff6e74cb1c15dc7fd769ab9835bca}{search\+\_\+stations}}
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+std\+::ostream \& \mbox{\hyperlink{class_analogs_a8b1c62cad49a019ac1733168d179cf73}{operator$<$$<$}} (std\+::ostream \&, const \mbox{\hyperlink{class_analogs}{Analogs}} \&)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This is the class to store analogs. The default dimensions are\+: \mbox{[}test stations\mbox{]}\mbox{[}test times\mbox{]}\mbox{[}F\+L\+Ts\mbox{]}\mbox{[}members\mbox{]}\mbox{[}3\mbox{]}. 
+
+The fifth dimension stores in sequence the search station indicator, the search time indicator, and the observed value. 
+
+\subsection{Member Enumeration Documentation}
+\mbox{\Hypertarget{class_analogs_a9b56dcdb212f44c3ba40a60736d648bb}\label{class_analogs_a9b56dcdb212f44c3ba40a60736d648bb}} 
+\index{Analogs@{Analogs}!C\+O\+L\+\_\+\+T\+AG@{C\+O\+L\+\_\+\+T\+AG}}
+\index{C\+O\+L\+\_\+\+T\+AG@{C\+O\+L\+\_\+\+T\+AG}!Analogs@{Analogs}}
+\subsubsection{\texorpdfstring{C\+O\+L\+\_\+\+T\+AG}{COL\_TAG}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{class_analogs_a9b56dcdb212f44c3ba40a60736d648bb}{Analogs\+::\+C\+O\+L\+\_\+\+T\+AG}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{U\+N\+K\+N\+O\+WN@{U\+N\+K\+N\+O\+WN}!Analogs@{Analogs}}\index{Analogs@{Analogs}!U\+N\+K\+N\+O\+WN@{U\+N\+K\+N\+O\+WN}}}\mbox{\Hypertarget{class_analogs_a9b56dcdb212f44c3ba40a60736d648bba5a08d0e60f9a619e16546d744854c670}\label{class_analogs_a9b56dcdb212f44c3ba40a60736d648bba5a08d0e60f9a619e16546d744854c670}} 
+U\+N\+K\+N\+O\+WN&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{S\+T\+A\+T\+I\+ON@{S\+T\+A\+T\+I\+ON}!Analogs@{Analogs}}\index{Analogs@{Analogs}!S\+T\+A\+T\+I\+ON@{S\+T\+A\+T\+I\+ON}}}\mbox{\Hypertarget{class_analogs_a9b56dcdb212f44c3ba40a60736d648bbad9315e6d921f3bc928effd909dd0d67b}\label{class_analogs_a9b56dcdb212f44c3ba40a60736d648bbad9315e6d921f3bc928effd909dd0d67b}} 
+S\+T\+A\+T\+I\+ON&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{T\+I\+ME@{T\+I\+ME}!Analogs@{Analogs}}\index{Analogs@{Analogs}!T\+I\+ME@{T\+I\+ME}}}\mbox{\Hypertarget{class_analogs_a9b56dcdb212f44c3ba40a60736d648bba64d8ac114131a39195bc644f3fb0f084}\label{class_analogs_a9b56dcdb212f44c3ba40a60736d648bba64d8ac114131a39195bc644f3fb0f084}} 
+T\+I\+ME&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{V\+A\+L\+UE@{V\+A\+L\+UE}!Analogs@{Analogs}}\index{Analogs@{Analogs}!V\+A\+L\+UE@{V\+A\+L\+UE}}}\mbox{\Hypertarget{class_analogs_a9b56dcdb212f44c3ba40a60736d648bba28a85fd8dc593df26ed8d479a2745051}\label{class_analogs_a9b56dcdb212f44c3ba40a60736d648bba28a85fd8dc593df26ed8d479a2745051}} 
+V\+A\+L\+UE&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_analogs_a8234aca0bc007305113d41b3e9f44a30}\label{class_analogs_a8234aca0bc007305113d41b3e9f44a30}} 
+\index{Analogs@{Analogs}!Analogs@{Analogs}}
+\index{Analogs@{Analogs}!Analogs@{Analogs}}
+\subsubsection{\texorpdfstring{Analogs()}{Analogs()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily Analogs\+::\+Analogs (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_analogs_ab8fda7c92e8685f0be660ecdf7bf32a3}\label{class_analogs_ab8fda7c92e8685f0be660ecdf7bf32a3}} 
+\index{Analogs@{Analogs}!Analogs@{Analogs}}
+\index{Analogs@{Analogs}!Analogs@{Analogs}}
+\subsubsection{\texorpdfstring{Analogs()}{Analogs()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily Analogs\+::\+Analogs (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{num\+\_\+stations,  }\item[{size\+\_\+t}]{num\+\_\+times,  }\item[{size\+\_\+t}]{num\+\_\+flts,  }\item[{size\+\_\+t}]{num\+\_\+members }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_analogs_a8e13e48e4097462f1ff324fa62c6481c}\label{class_analogs_a8e13e48e4097462f1ff324fa62c6481c}} 
+\index{Analogs@{Analogs}!Analogs@{Analogs}}
+\index{Analogs@{Analogs}!Analogs@{Analogs}}
+\subsubsection{\texorpdfstring{Analogs()}{Analogs()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily Analogs\+::\+Analogs (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_forecasts}{Forecasts}} \&}]{forecasts,  }\item[{size\+\_\+t}]{num\+\_\+members }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_analogs_af4174aafbd1d9d21cc4ea9ee3ab62dfd}\label{class_analogs_af4174aafbd1d9d21cc4ea9ee3ab62dfd}} 
+\index{Analogs@{Analogs}!Analogs@{Analogs}}
+\index{Analogs@{Analogs}!Analogs@{Analogs}}
+\subsubsection{\texorpdfstring{Analogs()}{Analogs()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily Analogs\+::\+Analogs (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_analogs}{Analogs}} \&}]{orig }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
+
+\mbox{\Hypertarget{class_analogs_ae6de501f002f0a3c878d44d5c7b67a0d}\label{class_analogs_ae6de501f002f0a3c878d44d5c7b67a0d}} 
+\index{Analogs@{Analogs}!````~Analogs@{$\sim$\+Analogs}}
+\index{````~Analogs@{$\sim$\+Analogs}!Analogs@{Analogs}}
+\subsubsection{\texorpdfstring{$\sim$\+Analogs()}{~Analogs()}}
+{\footnotesize\ttfamily Analogs\+::$\sim$\+Analogs (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_analogs_a8ed3949305fc98471e987ae03c305c17}\label{class_analogs_a8ed3949305fc98471e987ae03c305c17}} 
+\index{Analogs@{Analogs}!print@{print}}
+\index{print@{print}!Analogs@{Analogs}}
+\subsubsection{\texorpdfstring{print()}{print()}}
+{\footnotesize\ttfamily void Analogs\+::print (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{os }\end{DoxyParamCaption}) const}
+
+
+
+\subsection{Friends And Related Function Documentation}
+\mbox{\Hypertarget{class_analogs_a8b1c62cad49a019ac1733168d179cf73}\label{class_analogs_a8b1c62cad49a019ac1733168d179cf73}} 
+\index{Analogs@{Analogs}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!Analogs@{Analogs}}
+\subsubsection{\texorpdfstring{operator$<$$<$}{operator<<}}
+{\footnotesize\ttfamily std\+::ostream\& operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{os,  }\item[{const \mbox{\hyperlink{class_analogs}{Analogs}} \&}]{obj }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{class_analogs_a32cff6e74cb1c15dc7fd769ab9835bca}\label{class_analogs_a32cff6e74cb1c15dc7fd769ab9835bca}} 
+\index{Analogs@{Analogs}!search\+\_\+stations@{search\+\_\+stations}}
+\index{search\+\_\+stations@{search\+\_\+stations}!Analogs@{Analogs}}
+\subsubsection{\texorpdfstring{search\+\_\+stations}{search\_stations}}
+{\footnotesize\ttfamily std\+::vector$<$ std\+::vector$<$size\+\_\+t$>$ $>$ Analogs\+::search\+\_\+stations}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_analogs_8h}{Analogs.\+h}}\item 
+\mbox{\hyperlink{_analogs_8cpp}{Analogs.\+cpp}}\end{DoxyCompactItemize}

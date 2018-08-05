@@ -42,13 +42,13 @@ Collaboration diagram for Observations\+\_\+array\+:
 \item 
 virtual \mbox{\hyperlink{class_observations__array_a3124448be571f561a2bd2e8b44c95a2e}{$\sim$\+Observations\+\_\+array}} ()
 \item 
-const boost\+::multi\+\_\+array$<$ double, 3 $>$ \& \mbox{\hyperlink{class_observations__array_a68d81504c3672e1c34a8d8da3eee389b}{get\+Values}} () const
+const boost\+::multi\+\_\+array$<$ double, 3 $>$ \& \mbox{\hyperlink{class_observations__array_a085f4583439ecdd3327f3fac1e6bd2ce}{data}} () const
 \item 
-const double $\ast$ \mbox{\hyperlink{class_observations__array_a75c4a3fea9a8ccd370309058701204f4}{data}} () const override
+const double $\ast$ \mbox{\hyperlink{class_observations__array_ac024322acc4826e7fa60fddc74e4b3a3}{get\+Values}} () const override
 \item 
-double \mbox{\hyperlink{class_observations__array_a1d818317a4c3a6624021a6e44396ddc1}{get\+Value}} (std\+::size\+\_\+t parameter\+\_\+index, std\+::size\+\_\+t station\+\_\+index, std\+::size\+\_\+t time\+\_\+index) const override
+double \mbox{\hyperlink{class_observations__array_aa90203b110c6fb6bda4e201df163510d}{get\+Value\+By\+Index}} (std\+::size\+\_\+t parameter\+\_\+index, std\+::size\+\_\+t station\+\_\+index, std\+::size\+\_\+t time\+\_\+index) const override
 \item 
-double \mbox{\hyperlink{class_observations__array_a33f2154b3fed9d488e06e8c92eecc4db}{get\+Value}} (std\+::size\+\_\+t parameter\+\_\+\+ID, std\+::size\+\_\+t station\+\_\+\+ID, double timestamp) const override
+double \mbox{\hyperlink{class_observations__array_a42449c7be492f7df27d74c370c8e719f}{get\+Value\+By\+ID}} (std\+::size\+\_\+t parameter\+\_\+\+ID, std\+::size\+\_\+t station\+\_\+\+ID, double timestamp) const override
 \item 
 void \mbox{\hyperlink{class_observations__array_aa6b6e042f8db0afad3beaff248b4a602}{set\+Value}} (double val, std\+::size\+\_\+t parameter\+\_\+index, std\+::size\+\_\+t station\+\_\+index, std\+::size\+\_\+t time\+\_\+index) override
 \item 
@@ -57,6 +57,8 @@ void \mbox{\hyperlink{class_observations__array_a3994f0e11a8207c5e1182a9b20a67ec
 void \mbox{\hyperlink{class_observations__array_ae4ed49512506eae597a158d4c87dbd31}{set\+Values}} (const std\+::vector$<$ double $>$ \&vals) override
 \item 
 void \mbox{\hyperlink{class_observations__array_aa9364c4356d1f8a2b430c93a1fcd021f}{update\+Data\+Dims}} () override
+\item 
+std\+::size\+\_\+t \mbox{\hyperlink{class_observations__array_ae535b742be4ea895117da607fbe7c702}{get\+Data\+Length}} () const override
 \item 
 void \mbox{\hyperlink{class_observations__array_a2563545e5a38ec7e3ec09380c0b38855}{print}} (std\+::ostream \&) const override
 \end{DoxyCompactItemize}
@@ -94,7 +96,7 @@ std\+::ostream \& \mbox{\hyperlink{class_observations__array_affb01c6a2af2ae2b83
 \index{Observations\+\_\+array@{Observations\+\_\+array}!Observations\+\_\+array@{Observations\+\_\+array}}
 \index{Observations\+\_\+array@{Observations\+\_\+array}!Observations\+\_\+array@{Observations\+\_\+array}}
 \subsubsection{\texorpdfstring{Observations\+\_\+array()}{Observations\_array()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
-{\footnotesize\ttfamily Observations\+\_\+array\+::\+Observations\+\_\+array (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classanen_par_1_1_parameters}{anen\+Par\+::\+Parameters}}}]{,  }\item[{\mbox{\hyperlink{classanen_sta_1_1_stations}{anen\+Sta\+::\+Stations}}}]{,  }\item[{\mbox{\hyperlink{classanen_time_1_1_times}{anen\+Time\+::\+Times}}}]{,  }\item[{const std\+::vector$<$ double $>$ \&}]{vals }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily Observations\+\_\+array\+::\+Observations\+\_\+array (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classanen_par_1_1_parameters}{anen\+Par\+::\+Parameters}}}]{parameters,  }\item[{\mbox{\hyperlink{classanen_sta_1_1_stations}{anen\+Sta\+::\+Stations}}}]{stations,  }\item[{\mbox{\hyperlink{classanen_time_1_1_times}{anen\+Time\+::\+Times}}}]{times,  }\item[{const std\+::vector$<$ double $>$ \&}]{vals }\end{DoxyParamCaption})}
 
 \mbox{\Hypertarget{class_observations__array_a3124448be571f561a2bd2e8b44c95a2e}\label{class_observations__array_a3124448be571f561a2bd2e8b44c95a2e}} 
 \index{Observations\+\_\+array@{Observations\+\_\+array}!````~Observations\+\_\+array@{$\sim$\+Observations\+\_\+array}}
@@ -105,48 +107,27 @@ std\+::ostream \& \mbox{\hyperlink{class_observations__array_affb01c6a2af2ae2b83
 
 
 \subsection{Member Function Documentation}
-\mbox{\Hypertarget{class_observations__array_a75c4a3fea9a8ccd370309058701204f4}\label{class_observations__array_a75c4a3fea9a8ccd370309058701204f4}} 
+\mbox{\Hypertarget{class_observations__array_a085f4583439ecdd3327f3fac1e6bd2ce}\label{class_observations__array_a085f4583439ecdd3327f3fac1e6bd2ce}} 
 \index{Observations\+\_\+array@{Observations\+\_\+array}!data@{data}}
 \index{data@{data}!Observations\+\_\+array@{Observations\+\_\+array}}
 \subsubsection{\texorpdfstring{data()}{data()}}
-{\footnotesize\ttfamily const double $\ast$ Observations\+\_\+array\+::data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+{\footnotesize\ttfamily boost\+::multi\+\_\+array$<$ double, 3 $>$ const  \& Observations\+\_\+array\+::data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
 
-Gets data in form of a double pointer. \begin{DoxyReturn}{Returns}
-A double pointer. 
-\end{DoxyReturn}
-
-
-Implements \mbox{\hyperlink{class_observations_abd666d72594c8e61234296626756ec01}{Observations}}.
-
-\mbox{\Hypertarget{class_observations__array_a1d818317a4c3a6624021a6e44396ddc1}\label{class_observations__array_a1d818317a4c3a6624021a6e44396ddc1}} 
-\index{Observations\+\_\+array@{Observations\+\_\+array}!get\+Value@{get\+Value}}
-\index{get\+Value@{get\+Value}!Observations\+\_\+array@{Observations\+\_\+array}}
-\subsubsection{\texorpdfstring{get\+Value()}{getValue()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
-{\footnotesize\ttfamily double Observations\+\_\+array\+::get\+Value (\begin{DoxyParamCaption}\item[{std\+::size\+\_\+t}]{parameter\+\_\+index,  }\item[{std\+::size\+\_\+t}]{station\+\_\+index,  }\item[{std\+::size\+\_\+t}]{time\+\_\+index }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
-
-Gets value using array index.
+\mbox{\Hypertarget{class_observations__array_ae535b742be4ea895117da607fbe7c702}\label{class_observations__array_ae535b742be4ea895117da607fbe7c702}} 
+\index{Observations\+\_\+array@{Observations\+\_\+array}!get\+Data\+Length@{get\+Data\+Length}}
+\index{get\+Data\+Length@{get\+Data\+Length}!Observations\+\_\+array@{Observations\+\_\+array}}
+\subsubsection{\texorpdfstring{get\+Data\+Length()}{getDataLength()}}
+{\footnotesize\ttfamily size\+\_\+t Observations\+\_\+array\+::get\+Data\+Length (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
 
 
-\begin{DoxyParams}{Parameters}
-{\em parameter\+\_\+index} & Parameter index. \\
-\hline
-{\em station\+\_\+index} & Station index. \\
-\hline
-{\em time\+\_\+index} & Time index. \\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-A double. 
-\end{DoxyReturn}
 
+Implements \mbox{\hyperlink{class_observations_a3ad688dc4ef6dc6adabe212808fd32a9}{Observations}}.
 
-Implements \mbox{\hyperlink{class_observations_ad7b52b880869698f4d191f47bae766e2}{Observations}}.
-
-\mbox{\Hypertarget{class_observations__array_a33f2154b3fed9d488e06e8c92eecc4db}\label{class_observations__array_a33f2154b3fed9d488e06e8c92eecc4db}} 
-\index{Observations\+\_\+array@{Observations\+\_\+array}!get\+Value@{get\+Value}}
-\index{get\+Value@{get\+Value}!Observations\+\_\+array@{Observations\+\_\+array}}
-\subsubsection{\texorpdfstring{get\+Value()}{getValue()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
-{\footnotesize\ttfamily double Observations\+\_\+array\+::get\+Value (\begin{DoxyParamCaption}\item[{std\+::size\+\_\+t}]{parameter\+\_\+\+ID,  }\item[{std\+::size\+\_\+t}]{station\+\_\+\+ID,  }\item[{double}]{timestamp }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+\mbox{\Hypertarget{class_observations__array_a42449c7be492f7df27d74c370c8e719f}\label{class_observations__array_a42449c7be492f7df27d74c370c8e719f}} 
+\index{Observations\+\_\+array@{Observations\+\_\+array}!get\+Value\+By\+ID@{get\+Value\+By\+ID}}
+\index{get\+Value\+By\+ID@{get\+Value\+By\+ID}!Observations\+\_\+array@{Observations\+\_\+array}}
+\subsubsection{\texorpdfstring{get\+Value\+By\+I\+D()}{getValueByID()}}
+{\footnotesize\ttfamily double Observations\+\_\+array\+::get\+Value\+By\+ID (\begin{DoxyParamCaption}\item[{std\+::size\+\_\+t}]{parameter\+\_\+\+ID,  }\item[{std\+::size\+\_\+t}]{station\+\_\+\+ID,  }\item[{double}]{timestamp }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
 
 Gets value by searching with I\+Ds and timestamps.
 
@@ -164,13 +145,44 @@ A double.
 \end{DoxyReturn}
 
 
-Implements \mbox{\hyperlink{class_observations_ac5564bbf13e79d269407d1ecf567cd7f}{Observations}}.
+Implements \mbox{\hyperlink{class_observations_a0da5d441448944fb88841b8883f823b7}{Observations}}.
 
-\mbox{\Hypertarget{class_observations__array_a68d81504c3672e1c34a8d8da3eee389b}\label{class_observations__array_a68d81504c3672e1c34a8d8da3eee389b}} 
+\mbox{\Hypertarget{class_observations__array_aa90203b110c6fb6bda4e201df163510d}\label{class_observations__array_aa90203b110c6fb6bda4e201df163510d}} 
+\index{Observations\+\_\+array@{Observations\+\_\+array}!get\+Value\+By\+Index@{get\+Value\+By\+Index}}
+\index{get\+Value\+By\+Index@{get\+Value\+By\+Index}!Observations\+\_\+array@{Observations\+\_\+array}}
+\subsubsection{\texorpdfstring{get\+Value\+By\+Index()}{getValueByIndex()}}
+{\footnotesize\ttfamily double Observations\+\_\+array\+::get\+Value\+By\+Index (\begin{DoxyParamCaption}\item[{std\+::size\+\_\+t}]{parameter\+\_\+index,  }\item[{std\+::size\+\_\+t}]{station\+\_\+index,  }\item[{std\+::size\+\_\+t}]{time\+\_\+index }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+Gets value using array index.
+
+
+\begin{DoxyParams}{Parameters}
+{\em parameter\+\_\+index} & Parameter index. \\
+\hline
+{\em station\+\_\+index} & Station index. \\
+\hline
+{\em time\+\_\+index} & Time index. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A double. 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{class_observations_a85358b5d09f0ea02e27e06be09501cec}{Observations}}.
+
+\mbox{\Hypertarget{class_observations__array_ac024322acc4826e7fa60fddc74e4b3a3}\label{class_observations__array_ac024322acc4826e7fa60fddc74e4b3a3}} 
 \index{Observations\+\_\+array@{Observations\+\_\+array}!get\+Values@{get\+Values}}
 \index{get\+Values@{get\+Values}!Observations\+\_\+array@{Observations\+\_\+array}}
 \subsubsection{\texorpdfstring{get\+Values()}{getValues()}}
-{\footnotesize\ttfamily boost\+::multi\+\_\+array$<$ double, 3 $>$ const  \& Observations\+\_\+array\+::get\+Values (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+{\footnotesize\ttfamily const double $\ast$ Observations\+\_\+array\+::get\+Values (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+Gets data in form of a double pointer. \begin{DoxyReturn}{Returns}
+A double pointer. 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{class_observations_aa626ffb450b4647e1291053dd5b6d03c}{Observations}}.
 
 \mbox{\Hypertarget{class_observations__array_a2563545e5a38ec7e3ec09380c0b38855}\label{class_observations__array_a2563545e5a38ec7e3ec09380c0b38855}} 
 \index{Observations\+\_\+array@{Observations\+\_\+array}!print@{print}}

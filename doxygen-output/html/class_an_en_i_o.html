@@ -107,7 +107,9 @@ Public Types</h2></td></tr>
 <a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0a84a3c7e5b367ee64f2d15e585f8a0312">DIMENSION_EXISTS</a> = -17, 
 <a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0abb20ed9e5a08ecee4b09d132cbd2e120">VARIABLE_EXISTS</a> = -18, 
 <br />
-&#160;&#160;<a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0af58b3b49fb1d75cbafd2d8859e4c3a55">ERROR_SETTING_VALUES</a> = -50, 
+&#160;&#160;<a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0a6b6638f4fbbc0d1fd5ca45eb1d4266f5">WRONG_INDEX_SHAPE</a> = -19, 
+<a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0af58b3b49fb1d75cbafd2d8859e4c3a55">ERROR_SETTING_VALUES</a> = -50, 
+<a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0a10fe7987d62e727f90425025fa90a09f">NAN_VALUES</a> = -51, 
 <a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0a0d5615cd010b41d905091ddea91f74b7">INSUFFICIENT_MEMORY</a> = -100
 <br />
  }</td></tr>
@@ -137,24 +139,36 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aa9b4700db58d0ef09af429d5d31ff55f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab7f3ba245b7acb11184e0a5b3490a84b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#ab7f3ba245b7acb11184e0a5b3490a84b">checkVariable</a> (std::string var_name, bool optional) const</td></tr>
 <tr class="separator:ab7f3ba245b7acb11184e0a5b3490a84b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab99f9aebd7b145de00fe15b8d4869ac2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#ab99f9aebd7b145de00fe15b8d4869ac2">checkDim</a> (string dim_name) const</td></tr>
-<tr class="separator:ab99f9aebd7b145de00fe15b8d4869ac2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a60bc1958d57097e308643dad2c9d87d0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a60bc1958d57097e308643dad2c9d87d0">checkDim</a> (std::string dim_name) const</td></tr>
+<tr class="separator:a60bc1958d57097e308643dad2c9d87d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a44347f497bdf775fcf214ec75d8b6470"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a44347f497bdf775fcf214ec75d8b6470">checkVariables</a> () const</td></tr>
 <tr class="separator:a44347f497bdf775fcf214ec75d8b6470"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab6cd06f6402655924002fec4f83195eb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#ab6cd06f6402655924002fec4f83195eb">checkDimensions</a> () const</td></tr>
 <tr class="separator:ab6cd06f6402655924002fec4f83195eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a41ebcc0c9edee123626bf6e606917a49"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a41ebcc0c9edee123626bf6e606917a49">readObservations</a> (<a class="el" href="class_observations.html">Observations</a> &amp;observations)</td></tr>
 <tr class="separator:a41ebcc0c9edee123626bf6e606917a49"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adb297d56636fff2db1f5f1af1083897c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#adb297d56636fff2db1f5f1af1083897c">readObservations</a> (<a class="el" href="class_observations.html">Observations</a> &amp;observations, std::vector&lt; size_t &gt; start, std::vector&lt; size_t &gt; count, std::vector&lt; ptrdiff_t &gt; stride={1, 1, 1})</td></tr>
+<tr class="separator:adb297d56636fff2db1f5f1af1083897c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a912e513e58fa258e1dce67ff161abab2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a912e513e58fa258e1dce67ff161abab2">readForecasts</a> (<a class="el" href="class_forecasts.html">Forecasts</a> &amp;forecasts)</td></tr>
 <tr class="separator:a912e513e58fa258e1dce67ff161abab2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a66859433f123352fbd1f0ba606363c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a5a66859433f123352fbd1f0ba606363c">readForecasts</a> (<a class="el" href="class_forecasts.html">Forecasts</a> &amp;forecasts, std::vector&lt; size_t &gt; start, std::vector&lt; size_t &gt; count, std::vector&lt; ptrdiff_t &gt; stride={1, 1, 1, 1})</td></tr>
+<tr class="separator:a5a66859433f123352fbd1f0ba606363c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa58735032dd6f54c83d6450842922d3f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#aa58735032dd6f54c83d6450842922d3f">readFLTs</a> (<a class="el" href="classanen_time_1_1_f_l_ts.html">anenTime::FLTs</a> &amp;flts)</td></tr>
 <tr class="separator:aa58735032dd6f54c83d6450842922d3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a521772f8c969c2fa4ca8ebf1ffa0a460"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a521772f8c969c2fa4ca8ebf1ffa0a460">readFLTs</a> (<a class="el" href="classanen_time_1_1_f_l_ts.html">anenTime::FLTs</a> &amp;flts, size_t start, size_t count, ptrdiff_t stride=1)</td></tr>
+<tr class="separator:a521772f8c969c2fa4ca8ebf1ffa0a460"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2b21ff04fcc0464017a5a717a6b19065"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a2b21ff04fcc0464017a5a717a6b19065">readParameters</a> (<a class="el" href="classanen_par_1_1_parameters.html">anenPar::Parameters</a> &amp;parameters)</td></tr>
 <tr class="separator:a2b21ff04fcc0464017a5a717a6b19065"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ff7e8d615ed2127ab66b83ee78fc820"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a0ff7e8d615ed2127ab66b83ee78fc820">readParameters</a> (<a class="el" href="classanen_par_1_1_parameters.html">anenPar::Parameters</a> &amp;parameters, size_t start, size_t count, ptrdiff_t stride=1)</td></tr>
+<tr class="separator:a0ff7e8d615ed2127ab66b83ee78fc820"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaec8b46a52f3d8ab904fd4229bd3b9e9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#aaec8b46a52f3d8ab904fd4229bd3b9e9">readStations</a> (<a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> &amp;stations)</td></tr>
 <tr class="separator:aaec8b46a52f3d8ab904fd4229bd3b9e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad0f7a1db44e12f42d4602898c0f51faa"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#ad0f7a1db44e12f42d4602898c0f51faa">readStations</a> (<a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> &amp;stations, size_t start, size_t count, ptrdiff_t stride=1)</td></tr>
+<tr class="separator:ad0f7a1db44e12f42d4602898c0f51faa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a19b454b0a9ecb5ecbc2cc2a9c139770b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a19b454b0a9ecb5ecbc2cc2a9c139770b">readTimes</a> (<a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a> &amp;times)</td></tr>
 <tr class="separator:a19b454b0a9ecb5ecbc2cc2a9c139770b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aecbace06ce451ccad367d0150ef6aaf9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#aecbace06ce451ccad367d0150ef6aaf9">readTimes</a> (<a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a> &amp;times, size_t start, size_t count, ptrdiff_t stride=1)</td></tr>
+<tr class="separator:aecbace06ce451ccad367d0150ef6aaf9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5ca1c7df3da9720967d7ed06f2dfe09b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a5ca1c7df3da9720967d7ed06f2dfe09b">readDimLength</a> (std::string dim_name, std::size_t &amp;len)</td></tr>
 <tr class="separator:a5ca1c7df3da9720967d7ed06f2dfe09b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abc5b12bc4692f3ac303fa5430aecaf4c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#abc5b12bc4692f3ac303fa5430aecaf4c">writeForecasts</a> (const <a class="el" href="class_forecasts.html">Forecasts</a> &amp;forecasts) const</td></tr>
@@ -206,11 +220,23 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:a17e7a4c520675c23b01cbd65c7ffe1d5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a17e7a4c520675c23b01cbd65c7ffe1d5">read_string_vector_</a> (std::string var_name, std::vector&lt; std::string &gt; &amp;vectors) const</td></tr>
-<tr class="separator:a17e7a4c520675c23b01cbd65c7ffe1d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3c3a3f86f90ea7610e086d371414d54f"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a3c3a3f86f90ea7610e086d371414d54f"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a3c3a3f86f90ea7610e086d371414d54f">read_vector_</a> (std::string var_name, std::vector&lt; T &gt; &amp;vector) const</td></tr>
-<tr class="separator:a3c3a3f86f90ea7610e086d371414d54f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae9cf0a8cde2b742992295ccc2bed17ef"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#ae9cf0a8cde2b742992295ccc2bed17ef">read_string_vector_</a> (std::string var_name, std::vector&lt; std::string &gt; &amp;results) const</td></tr>
+<tr class="separator:ae9cf0a8cde2b742992295ccc2bed17ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c7e28931fd88831922e64ad87ee03f2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a8c7e28931fd88831922e64ad87ee03f2">read_string_vector_</a> (std::string var_name, std::vector&lt; std::string &gt; &amp;results, size_t start, size_t count, ptrdiff_t stride=1) const</td></tr>
+<tr class="separator:a8c7e28931fd88831922e64ad87ee03f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae8ed483b1dcdbf2a15148d60f8067595"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#ae8ed483b1dcdbf2a15148d60f8067595">purge_</a> (std::string &amp;str) const</td></tr>
+<tr class="separator:ae8ed483b1dcdbf2a15148d60f8067595"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7be5ab5c8c42fc9a04e4deeb0059a54d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a7be5ab5c8c42fc9a04e4deeb0059a54d">purge_</a> (std::vector&lt; std::string &gt; &amp;strs) const</td></tr>
+<tr class="separator:a7be5ab5c8c42fc9a04e4deeb0059a54d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa135f278f8ff2a028b8119f483dd36bf"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:aa135f278f8ff2a028b8119f483dd36bf"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#aa135f278f8ff2a028b8119f483dd36bf">read_vector_</a> (std::string var_name, std::vector&lt; T &gt; &amp;results) const</td></tr>
+<tr class="separator:aa135f278f8ff2a028b8119f483dd36bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4a4b8eedb372df1bb46b2104ae2761cd"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a4a4b8eedb372df1bb46b2104ae2761cd"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a4a4b8eedb372df1bb46b2104ae2761cd">read_vector_</a> (std::string var_name, std::vector&lt; T &gt; &amp;results, std::vector&lt; size_t &gt; start, std::vector&lt; size_t &gt; count, std::vector&lt; ptrdiff_t &gt; stride={1}) const</td></tr>
+<tr class="separator:a4a4b8eedb372df1bb46b2104ae2761cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a0c27d0baddc7e27b25e1d13ac4f313"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a9a0c27d0baddc7e27b25e1d13ac4f313"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a9a0c27d0baddc7e27b25e1d13ac4f313">read_vector_</a> (std::string var_name, std::vector&lt; T &gt; &amp;results, size_t start, size_t count, ptrdiff_t stride=1) const</td></tr>
+<tr class="separator:a9a0c27d0baddc7e27b25e1d13ac4f313"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -243,7 +269,7 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Specifies the return error type of a function. Use <a class="el" href="class_an_en_i_o.html#a92276aeba9c0b5bd1cd3d285271d505f">AnEnIO::handleError</a> to handle the returned errorType variable. </p>
+<p>Specifies the return error type of a function. Use <a class="el" href="class_an_en_i_o.html#a92276aeba9c0b5bd1cd3d285271d505f">AnEnIO::handleError</a> to handle the returned errorType. </p>
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="aa56bc1ec6610b86db4349bce20f9ead0afd4f6d99fa57b8fd2d3f2298b1781f6d"></a>SUCCESS&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="aa56bc1ec6610b86db4349bce20f9ead0a307923ca3c0962a4fe341eb2d7eb1eaa"></a>UNKNOWN_ERROR&#160;</td><td class="fielddoc"></td></tr>
@@ -261,7 +287,9 @@ Protected Attributes</h2></td></tr>
 <tr><td class="fieldname"><a id="aa56bc1ec6610b86db4349bce20f9ead0a288f494fc6e909e8ee0b8a7f9c7ef9ca"></a>ELEMENT_NOT_UNIQUE&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="aa56bc1ec6610b86db4349bce20f9ead0a84a3c7e5b367ee64f2d15e585f8a0312"></a>DIMENSION_EXISTS&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="aa56bc1ec6610b86db4349bce20f9ead0abb20ed9e5a08ecee4b09d132cbd2e120"></a>VARIABLE_EXISTS&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aa56bc1ec6610b86db4349bce20f9ead0a6b6638f4fbbc0d1fd5ca45eb1d4266f5"></a>WRONG_INDEX_SHAPE&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="aa56bc1ec6610b86db4349bce20f9ead0af58b3b49fb1d75cbafd2d8859e4c3a55"></a>ERROR_SETTING_VALUES&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aa56bc1ec6610b86db4349bce20f9ead0a10fe7987d62e727f90425025fa90a09f"></a>NAN_VALUES&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="aa56bc1ec6610b86db4349bce20f9ead0a0d5615cd010b41d905091ddea91f74b7"></a>INSUFFICIENT_MEMORY&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
@@ -499,8 +527,8 @@ Protected Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="ab99f9aebd7b145de00fe15b8d4869ac2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab99f9aebd7b145de00fe15b8d4869ac2">&#9670;&nbsp;</a></span>checkDim()</h2>
+<a id="a60bc1958d57097e308643dad2c9d87d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a60bc1958d57097e308643dad2c9d87d0">&#9670;&nbsp;</a></span>checkDim()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -508,7 +536,7 @@ Protected Attributes</h2></td></tr>
         <tr>
           <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::checkDim </td>
           <td>(</td>
-          <td class="paramtype">string&#160;</td>
+          <td class="paramtype">std::string&#160;</td>
           <td class="paramname"><em>dim_name</em></td><td>)</td>
           <td> const</td>
         </tr>
@@ -845,8 +873,74 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a17e7a4c520675c23b01cbd65c7ffe1d5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a17e7a4c520675c23b01cbd65c7ffe1d5">&#9670;&nbsp;</a></span>read_string_vector_()</h2>
+<a id="ae8ed483b1dcdbf2a15148d60f8067595"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae8ed483b1dcdbf2a15148d60f8067595">&#9670;&nbsp;</a></span>purge_() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void AnEnIO::purge_ </td>
+          <td>(</td>
+          <td class="paramtype">std::string &amp;&#160;</td>
+          <td class="paramname"><em>str</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Cleans special characters in strings.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">str</td><td>A string. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a7be5ab5c8c42fc9a04e4deeb0059a54d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7be5ab5c8c42fc9a04e4deeb0059a54d">&#9670;&nbsp;</a></span>purge_() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void AnEnIO::purge_ </td>
+          <td>(</td>
+          <td class="paramtype">std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>strs</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Cleans special characters in strings</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">strs</td><td>A vector of strings. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ae9cf0a8cde2b742992295ccc2bed17ef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae9cf0a8cde2b742992295ccc2bed17ef">&#9670;&nbsp;</a></span>read_string_vector_() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -864,7 +958,7 @@ Protected Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">std::vector&lt; std::string &gt; &amp;&#160;</td>
-          <td class="paramname"><em>vectors</em>&#160;</td>
+          <td class="paramname"><em>results</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -882,7 +976,7 @@ Protected Attributes</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">var_name</td><td>The variable name. </td></tr>
-    <tr><td class="paramname">vectors</td><td>A string container. </td></tr>
+    <tr><td class="paramname">results</td><td>A string container. </td></tr>
   </table>
   </dd>
 </dl>
@@ -890,8 +984,62 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a3c3a3f86f90ea7610e086d371414d54f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3c3a3f86f90ea7610e086d371414d54f">&#9670;&nbsp;</a></span>read_vector_()</h2>
+<a id="a8c7e28931fd88831922e64ad87ee03f2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8c7e28931fd88831922e64ad87ee03f2">&#9670;&nbsp;</a></span>read_string_vector_() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::read_string_vector_ </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>var_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>results</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>start</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>count</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ptrdiff_t&#160;</td>
+          <td class="paramname"><em>stride</em> = <code>1</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa135f278f8ff2a028b8119f483dd36bf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa135f278f8ff2a028b8119f483dd36bf">&#9670;&nbsp;</a></span>read_vector_() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -911,7 +1059,7 @@ template&lt;typename T &gt; </div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">std::vector&lt; T &gt; &amp;&#160;</td>
-          <td class="paramname"><em>vector</em>&#160;</td>
+          <td class="paramname"><em>results</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -929,11 +1077,123 @@ template&lt;typename T &gt; </div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">var_name</td><td>The variable name. </td></tr>
-    <tr><td class="paramname">vector</td><td>An atmoic container. </td></tr>
+    <tr><td class="paramname">results</td><td>An atmoic container. </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">AnEnIO::errorType</a>. </dd></dl>
+
+</div>
+</div>
+<a id="a4a4b8eedb372df1bb46b2104ae2761cd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4a4b8eedb372df1bb46b2104ae2761cd">&#9670;&nbsp;</a></span>read_vector_() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::read_vector_ </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>var_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>results</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; size_t &gt;&#160;</td>
+          <td class="paramname"><em>start</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; size_t &gt;&#160;</td>
+          <td class="paramname"><em>count</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; ptrdiff_t &gt;&#160;</td>
+          <td class="paramname"><em>stride</em> = <code>{1}</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9a0c27d0baddc7e27b25e1d13ac4f313"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9a0c27d0baddc7e27b25e1d13ac4f313">&#9670;&nbsp;</a></span>read_vector_() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::read_vector_ </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>var_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>results</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>start</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>count</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ptrdiff_t&#160;</td>
+          <td class="paramname"><em>stride</em> = <code>1</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -975,7 +1235,7 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <a id="aa58735032dd6f54c83d6450842922d3f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa58735032dd6f54c83d6450842922d3f">&#9670;&nbsp;</a></span>readFLTs()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aa58735032dd6f54c83d6450842922d3f">&#9670;&nbsp;</a></span>readFLTs() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1001,8 +1261,48 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
+<a id="a521772f8c969c2fa4ca8ebf1ffa0a460"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a521772f8c969c2fa4ca8ebf1ffa0a460">&#9670;&nbsp;</a></span>readFLTs() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::readFLTs </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classanen_time_1_1_f_l_ts.html">anenTime::FLTs</a> &amp;&#160;</td>
+          <td class="paramname"><em>flts</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>start</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>count</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ptrdiff_t&#160;</td>
+          <td class="paramname"><em>stride</em> = <code>1</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a912e513e58fa258e1dce67ff161abab2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a912e513e58fa258e1dce67ff161abab2">&#9670;&nbsp;</a></span>readForecasts()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a912e513e58fa258e1dce67ff161abab2">&#9670;&nbsp;</a></span>readForecasts() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1027,8 +1327,59 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
+<a id="a5a66859433f123352fbd1f0ba606363c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5a66859433f123352fbd1f0ba606363c">&#9670;&nbsp;</a></span>readForecasts() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::readForecasts </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_forecasts.html">Forecasts</a> &amp;&#160;</td>
+          <td class="paramname"><em>forecasts</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; size_t &gt;&#160;</td>
+          <td class="paramname"><em>start</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; size_t &gt;&#160;</td>
+          <td class="paramname"><em>count</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; ptrdiff_t &gt;&#160;</td>
+          <td class="paramname"><em>stride</em> = <code>{1,&#160;1,&#160;1,&#160;1}</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Reads a subset of a forecast file into a <a class="el" href="class_forecasts.html" title="Forecasts class provides interface for reading and writing forecast data from and to a NetCDF file...">Forecasts</a> object.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">forecasts</td><td>The <a class="el" href="class_forecasts.html" title="Forecasts class provides interface for reading and writing forecast data from and to a NetCDF file...">Forecasts</a> object to store data. </td></tr>
+    <tr><td class="paramname">start</td><td>A vector of indices of the start of the data to read. </td></tr>
+    <tr><td class="paramname">count</td><td>A vector of numbers of data to read for each dimension. </td></tr>
+    <tr><td class="paramname">stride</td><td>A vector of numbers of the length of the stride for each dimension. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>An <a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">AnEnIO::errorType</a>. </dd></dl>
+
+</div>
+</div>
 <a id="a41ebcc0c9edee123626bf6e606917a49"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a41ebcc0c9edee123626bf6e606917a49">&#9670;&nbsp;</a></span>readObservations()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a41ebcc0c9edee123626bf6e606917a49">&#9670;&nbsp;</a></span>readObservations() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1053,8 +1404,59 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
+<a id="adb297d56636fff2db1f5f1af1083897c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adb297d56636fff2db1f5f1af1083897c">&#9670;&nbsp;</a></span>readObservations() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::readObservations </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_observations.html">Observations</a> &amp;&#160;</td>
+          <td class="paramname"><em>observations</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; size_t &gt;&#160;</td>
+          <td class="paramname"><em>start</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; size_t &gt;&#160;</td>
+          <td class="paramname"><em>count</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; ptrdiff_t &gt;&#160;</td>
+          <td class="paramname"><em>stride</em> = <code>{1,&#160;1,&#160;1}</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Reads a subset of an observation file into an <a class="el" href="class_observations.html" title="Observations class provides interface for reading and writing observations from and to a NetCDF file...">Observations</a> object.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">observations</td><td>The <a class="el" href="class_observations.html" title="Observations class provides interface for reading and writing observations from and to a NetCDF file...">Observations</a> object to store data. </td></tr>
+    <tr><td class="paramname">start</td><td>A vector of indices of the start of the data to read. </td></tr>
+    <tr><td class="paramname">count</td><td>A vector of numbers of data to read for each dimension. </td></tr>
+    <tr><td class="paramname">stride</td><td>A vector of numbers of the length of the stride for each dimension. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>An <a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">AnEnIO::errorType</a>. </dd></dl>
+
+</div>
+</div>
 <a id="a2b21ff04fcc0464017a5a717a6b19065"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2b21ff04fcc0464017a5a717a6b19065">&#9670;&nbsp;</a></span>readParameters()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a2b21ff04fcc0464017a5a717a6b19065">&#9670;&nbsp;</a></span>readParameters() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1069,7 +1471,7 @@ template&lt;typename T &gt; </div>
       </table>
 </div><div class="memdoc">
 <p>Reads parameter information from the file. You should use the function <a class="el" href="class_an_en_i_o.html#a98066d375cc78694fda2af1ce37cc8d8">AnEnIO::setFilePath</a> first or make sure you have already specify a file to read from using the constructor.</p>
-<p>This function assumes the dimension name "num_parameters", and the optional variable names "ParameterNames" and "CircularParameters".</p>
+<p>This function assumes the dimension name "num_parameters", and the optional variable names "ParameterNames" and "ParameterCirculars".</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">parameters</td><td>The <a class="el" href="classanen_par_1_1_parameters.html" title="Parameters class stores Parameter objects. ">anenPar::Parameters</a> object to store the information. </td></tr>
@@ -1080,8 +1482,48 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
+<a id="a0ff7e8d615ed2127ab66b83ee78fc820"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0ff7e8d615ed2127ab66b83ee78fc820">&#9670;&nbsp;</a></span>readParameters() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::readParameters </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classanen_par_1_1_parameters.html">anenPar::Parameters</a> &amp;&#160;</td>
+          <td class="paramname"><em>parameters</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>start</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>count</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ptrdiff_t&#160;</td>
+          <td class="paramname"><em>stride</em> = <code>1</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="aaec8b46a52f3d8ab904fd4229bd3b9e9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaec8b46a52f3d8ab904fd4229bd3b9e9">&#9670;&nbsp;</a></span>readStations()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aaec8b46a52f3d8ab904fd4229bd3b9e9">&#9670;&nbsp;</a></span>readStations() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1107,8 +1549,48 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
+<a id="ad0f7a1db44e12f42d4602898c0f51faa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad0f7a1db44e12f42d4602898c0f51faa">&#9670;&nbsp;</a></span>readStations() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::readStations </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> &amp;&#160;</td>
+          <td class="paramname"><em>stations</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>start</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>count</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ptrdiff_t&#160;</td>
+          <td class="paramname"><em>stride</em> = <code>1</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a19b454b0a9ecb5ecbc2cc2a9c139770b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a19b454b0a9ecb5ecbc2cc2a9c139770b">&#9670;&nbsp;</a></span>readTimes()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a19b454b0a9ecb5ecbc2cc2a9c139770b">&#9670;&nbsp;</a></span>readTimes() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1131,6 +1613,46 @@ template&lt;typename T &gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>An <a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">AnEnIO::errorType</a>. </dd></dl>
+
+</div>
+</div>
+<a id="aecbace06ce451ccad367d0150ef6aaf9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aecbace06ce451ccad367d0150ef6aaf9">&#9670;&nbsp;</a></span>readTimes() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::readTimes </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a> &amp;&#160;</td>
+          <td class="paramname"><em>times</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>start</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>count</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ptrdiff_t&#160;</td>
+          <td class="paramname"><em>stride</em> = <code>1</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -1601,7 +2123,7 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 <p>Specifies the verbose level.</p><ul>
-<li>0: No standard output.</li>
+<li>0: Quiet.</li>
 <li>1: Errors.</li>
 <li>2: The above plus Warnings.</li>
 <li>3: The above plus program progress information.</li>

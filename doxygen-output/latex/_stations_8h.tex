@@ -1,16 +1,18 @@
 \hypertarget{_stations_8h}{}\section{Stations.\+h File Reference}
 \label{_stations_8h}\index{Stations.\+h@{Stations.\+h}}
+{\ttfamily \#include $<$boost/multi\+\_\+index/random\+\_\+access\+\_\+index.\+hpp$>$}\newline
+{\ttfamily \#include $<$boost/multi\+\_\+index/ordered\+\_\+index.\+hpp$>$}\newline
+{\ttfamily \#include $<$boost/multi\+\_\+index/hashed\+\_\+index.\+hpp$>$}\newline
+{\ttfamily \#include $<$boost/multi\+\_\+index\+\_\+container.\+hpp$>$}\newline
+{\ttfamily \#include $<$boost/multi\+\_\+index/identity.\+hpp$>$}\newline
+{\ttfamily \#include $<$boost/multi\+\_\+index/mem\+\_\+fun.\+hpp$>$}\newline
+{\ttfamily \#include $<$boost/multi\+\_\+index/tag.\+hpp$>$}\newline
 {\ttfamily \#include $<$vector$>$}\newline
 {\ttfamily \#include $<$string$>$}\newline
 {\ttfamily \#include $<$cmath$>$}\newline
 {\ttfamily \#include $<$iostream$>$}\newline
-{\ttfamily \#include $<$boost/multi\+\_\+index\+\_\+container.\+hpp$>$}\newline
-{\ttfamily \#include $<$boost/multi\+\_\+index/random\+\_\+access\+\_\+index.\+hpp$>$}\newline
-{\ttfamily \#include $<$boost/multi\+\_\+index/identity.\+hpp$>$}\newline
-{\ttfamily \#include $<$boost/multi\+\_\+index/hashed\+\_\+index.\+hpp$>$}\newline
-{\ttfamily \#include $<$boost/multi\+\_\+index/tag.\+hpp$>$}\newline
-{\ttfamily \#include $<$boost/multi\+\_\+index/mem\+\_\+fun.\+hpp$>$}\newline
-Include dependency graph for Stations.\+h\+:\nopagebreak
+Include dependency graph for Stations.\+h\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -34,6 +36,10 @@ struct \mbox{\hyperlink{structanen_sta_1_1by__insert}{anen\+Sta\+::by\+\_\+inser
 \item 
 struct \mbox{\hyperlink{structanen_sta_1_1by___i_d}{anen\+Sta\+::by\+\_\+\+ID}}
 \item 
+struct \mbox{\hyperlink{structanen_sta_1_1by__x}{anen\+Sta\+::by\+\_\+x}}
+\item 
+struct \mbox{\hyperlink{structanen_sta_1_1by__y}{anen\+Sta\+::by\+\_\+y}}
+\item 
 class \mbox{\hyperlink{classanen_sta_1_1_stations}{anen\+Sta\+::\+Stations}}
 \begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classanen_sta_1_1_stations}{Stations}} class stores \mbox{\hyperlink{classanen_sta_1_1_station}{Station}} objects. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Namespaces}
@@ -44,5 +50,5 @@ class \mbox{\hyperlink{classanen_sta_1_1_stations}{anen\+Sta\+::\+Stations}}
 \subsection*{Typedefs}
 \begin{DoxyCompactItemize}
 \item 
-using \mbox{\hyperlink{namespaceanen_sta_a913b335ef67a3eed40106e55b9a4582c}{anen\+Sta\+::multi\+Index\+Stations}} = boost\+::multi\+\_\+index\+\_\+container$<$ Station, boost\+::multi\+\_\+index\+::indexed\+\_\+by$<$ boost\+::multi\+\_\+index\+::random\+\_\+access$<$ boost\+::multi\+\_\+index\+::tag$<$ by\+\_\+insert $>$ $>$, boost\+::multi\+\_\+index\+::hashed\+\_\+unique$<$ boost\+::multi\+\_\+index\+::tag$<$ by\+\_\+\+ID $>$, boost\+::multi\+\_\+index\+::const\+\_\+mem\+\_\+fun$<$ Station, std\+::size\+\_\+t, \&Station\+::get\+ID $>$ $>$ $>$ $>$
+using \mbox{\hyperlink{namespaceanen_sta_a36826977aea7dbb351b814cceb511330}{anen\+Sta\+::multi\+Index\+Stations}} = boost\+::multi\+\_\+index\+\_\+container$<$ Station, boost\+::multi\+\_\+index\+::indexed\+\_\+by$<$ boost\+::multi\+\_\+index\+::random\+\_\+access$<$ boost\+::multi\+\_\+index\+::tag$<$ by\+\_\+insert $>$ $>$, boost\+::multi\+\_\+index\+::hashed\+\_\+unique$<$ boost\+::multi\+\_\+index\+::tag$<$ by\+\_\+\+ID $>$, boost\+::multi\+\_\+index\+::const\+\_\+mem\+\_\+fun$<$ Station, std\+::size\+\_\+t, \&Station\+::get\+ID $>$ $>$, boost\+::multi\+\_\+index\+::ordered\+\_\+non\+\_\+unique$<$ boost\+::multi\+\_\+index\+::tag$<$ by\+\_\+x $>$, boost\+::multi\+\_\+index\+::const\+\_\+mem\+\_\+fun$<$ Station, double, \&Station\+::getX $>$ $>$, boost\+::multi\+\_\+index\+::ordered\+\_\+non\+\_\+unique$<$ boost\+::multi\+\_\+index\+::tag$<$ by\+\_\+y $>$, boost\+::multi\+\_\+index\+::const\+\_\+mem\+\_\+fun$<$ Station, double, \&Station\+::getY $>$ $>$ $>$ $>$
 \end{DoxyCompactItemize}

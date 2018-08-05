@@ -42,13 +42,13 @@ Collaboration diagram for Forecasts\+\_\+array\+:
 \item 
 virtual \mbox{\hyperlink{class_forecasts__array_a7e13cb82b1ab76a45946cff992c7fff4}{$\sim$\+Forecasts\+\_\+array}} ()
 \item 
-\mbox{\hyperlink{class_array4_d}{Array4D}} const  \& \mbox{\hyperlink{class_forecasts__array_afd9f8bb1e1736bf3665073d95ae5ef8c}{get\+Values}} () const
+\mbox{\hyperlink{class_array4_d}{Array4D}} const  \& \mbox{\hyperlink{class_forecasts__array_a989f43aa5d819b50ddd8df5a2f33129d}{data}} () const
 \item 
-double \mbox{\hyperlink{class_forecasts__array_add3a617d4e63dba10bf369fe41714a24}{get\+Value}} (std\+::size\+\_\+t parameter\+\_\+index, std\+::size\+\_\+t station\+\_\+index, std\+::size\+\_\+t time\+\_\+index, std\+::size\+\_\+t flt\+\_\+index) const override
+double \mbox{\hyperlink{class_forecasts__array_ad37886d56310b642647c54d634e447a1}{get\+Value\+By\+Index}} (std\+::size\+\_\+t parameter\+\_\+index, std\+::size\+\_\+t station\+\_\+index, std\+::size\+\_\+t time\+\_\+index, std\+::size\+\_\+t flt\+\_\+index) const override
 \item 
-double \mbox{\hyperlink{class_forecasts__array_a38f7b890af0947e0d2022ce5bc5bb514}{get\+Value}} (std\+::size\+\_\+t parameter\+\_\+\+ID, std\+::size\+\_\+t station\+\_\+\+ID, double timestamp, double flt) const override
+double \mbox{\hyperlink{class_forecasts__array_a9ff105a7f87ceed5aaa6f32d438d82ef}{get\+Value\+By\+ID}} (std\+::size\+\_\+t parameter\+\_\+\+ID, std\+::size\+\_\+t station\+\_\+\+ID, double timestamp, double flt) const override
 \item 
-const double $\ast$ \mbox{\hyperlink{class_forecasts__array_ae7af8dfc4b7a7970310d06bf71069200}{data}} () const override
+const double $\ast$ \mbox{\hyperlink{class_forecasts__array_a5b8a91680acc4969aeb968b4f4a35a73}{get\+Values}} () const override
 \item 
 void \mbox{\hyperlink{class_forecasts__array_a19d59c93e8b7692ebae2d3e15dc43f87}{set\+Value}} (double val, std\+::size\+\_\+t parameter\+\_\+index, std\+::size\+\_\+t station\+\_\+index, std\+::size\+\_\+t time\+\_\+index, std\+::size\+\_\+t flt\+\_\+index) override
 \item 
@@ -57,6 +57,8 @@ void \mbox{\hyperlink{class_forecasts__array_a7224d8333630fcd162a1b69b49241d2f}{
 void \mbox{\hyperlink{class_forecasts__array_af31e7741f2e048593cbec1c317210b65}{set\+Values}} (const std\+::vector$<$ double $>$ \&vals) override
 \item 
 void \mbox{\hyperlink{class_forecasts__array_ab3fc780bb6a5cbf132457c8c336bc777}{update\+Data\+Dims}} () override
+\item 
+size\+\_\+t \mbox{\hyperlink{class_forecasts__array_aae8790581dc2f2dcfc140c34999588e0}{get\+Data\+Length}} () const override
 \item 
 void \mbox{\hyperlink{class_forecasts__array_a56985347f516340034b29dc4cdda87b1}{print}} (std\+::ostream \&) const override
 \end{DoxyCompactItemize}
@@ -94,7 +96,7 @@ std\+::ostream \& \mbox{\hyperlink{class_forecasts__array_a6bde933a6e00ad1328f83
 \index{Forecasts\+\_\+array@{Forecasts\+\_\+array}!Forecasts\+\_\+array@{Forecasts\+\_\+array}}
 \index{Forecasts\+\_\+array@{Forecasts\+\_\+array}!Forecasts\+\_\+array@{Forecasts\+\_\+array}}
 \subsubsection{\texorpdfstring{Forecasts\+\_\+array()}{Forecasts\_array()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
-{\footnotesize\ttfamily Forecasts\+\_\+array\+::\+Forecasts\+\_\+array (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classanen_par_1_1_parameters}{anen\+Par\+::\+Parameters}}}]{,  }\item[{\mbox{\hyperlink{classanen_sta_1_1_stations}{anen\+Sta\+::\+Stations}}}]{,  }\item[{\mbox{\hyperlink{classanen_time_1_1_times}{anen\+Time\+::\+Times}}}]{,  }\item[{\mbox{\hyperlink{classanen_time_1_1_f_l_ts}{anen\+Time\+::\+F\+L\+Ts}}}]{,  }\item[{const std\+::vector$<$ double $>$ \&}]{vals }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily Forecasts\+\_\+array\+::\+Forecasts\+\_\+array (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classanen_par_1_1_parameters}{anen\+Par\+::\+Parameters}}}]{parameters,  }\item[{\mbox{\hyperlink{classanen_sta_1_1_stations}{anen\+Sta\+::\+Stations}}}]{stations,  }\item[{\mbox{\hyperlink{classanen_time_1_1_times}{anen\+Time\+::\+Times}}}]{times,  }\item[{\mbox{\hyperlink{classanen_time_1_1_f_l_ts}{anen\+Time\+::\+F\+L\+Ts}}}]{flts,  }\item[{const std\+::vector$<$ double $>$ \&}]{vals }\end{DoxyParamCaption})}
 
 \mbox{\Hypertarget{class_forecasts__array_a7e13cb82b1ab76a45946cff992c7fff4}\label{class_forecasts__array_a7e13cb82b1ab76a45946cff992c7fff4}} 
 \index{Forecasts\+\_\+array@{Forecasts\+\_\+array}!````~Forecasts\+\_\+array@{$\sim$\+Forecasts\+\_\+array}}
@@ -105,50 +107,27 @@ std\+::ostream \& \mbox{\hyperlink{class_forecasts__array_a6bde933a6e00ad1328f83
 
 
 \subsection{Member Function Documentation}
-\mbox{\Hypertarget{class_forecasts__array_ae7af8dfc4b7a7970310d06bf71069200}\label{class_forecasts__array_ae7af8dfc4b7a7970310d06bf71069200}} 
+\mbox{\Hypertarget{class_forecasts__array_a989f43aa5d819b50ddd8df5a2f33129d}\label{class_forecasts__array_a989f43aa5d819b50ddd8df5a2f33129d}} 
 \index{Forecasts\+\_\+array@{Forecasts\+\_\+array}!data@{data}}
 \index{data@{data}!Forecasts\+\_\+array@{Forecasts\+\_\+array}}
 \subsubsection{\texorpdfstring{data()}{data()}}
-{\footnotesize\ttfamily const double $\ast$ Forecasts\+\_\+array\+::data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_array4_d}{Array4D}} const  \& Forecasts\+\_\+array\+::data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
 
-Gets data in form of a double pointer. \begin{DoxyReturn}{Returns}
-A double pointer. 
-\end{DoxyReturn}
-
-
-Implements \mbox{\hyperlink{class_forecasts_abd9768fd95e64920efa89c2c9115cb4d}{Forecasts}}.
-
-\mbox{\Hypertarget{class_forecasts__array_add3a617d4e63dba10bf369fe41714a24}\label{class_forecasts__array_add3a617d4e63dba10bf369fe41714a24}} 
-\index{Forecasts\+\_\+array@{Forecasts\+\_\+array}!get\+Value@{get\+Value}}
-\index{get\+Value@{get\+Value}!Forecasts\+\_\+array@{Forecasts\+\_\+array}}
-\subsubsection{\texorpdfstring{get\+Value()}{getValue()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
-{\footnotesize\ttfamily double Forecasts\+\_\+array\+::get\+Value (\begin{DoxyParamCaption}\item[{std\+::size\+\_\+t}]{parameter\+\_\+index,  }\item[{std\+::size\+\_\+t}]{station\+\_\+index,  }\item[{std\+::size\+\_\+t}]{time\+\_\+index,  }\item[{std\+::size\+\_\+t}]{flt\+\_\+index }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
-
-Gets value using array index.
+\mbox{\Hypertarget{class_forecasts__array_aae8790581dc2f2dcfc140c34999588e0}\label{class_forecasts__array_aae8790581dc2f2dcfc140c34999588e0}} 
+\index{Forecasts\+\_\+array@{Forecasts\+\_\+array}!get\+Data\+Length@{get\+Data\+Length}}
+\index{get\+Data\+Length@{get\+Data\+Length}!Forecasts\+\_\+array@{Forecasts\+\_\+array}}
+\subsubsection{\texorpdfstring{get\+Data\+Length()}{getDataLength()}}
+{\footnotesize\ttfamily size\+\_\+t Forecasts\+\_\+array\+::get\+Data\+Length (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
 
 
-\begin{DoxyParams}{Parameters}
-{\em parameter\+\_\+index} & Parameter index. \\
-\hline
-{\em station\+\_\+index} & Station index. \\
-\hline
-{\em time\+\_\+index} & Time index. \\
-\hline
-{\em flt\+\_\+index} & F\+LT index. \\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-A value. 
-\end{DoxyReturn}
 
+Implements \mbox{\hyperlink{class_forecasts_aeafd542ddff2fc678440d555002dc912}{Forecasts}}.
 
-Implements \mbox{\hyperlink{class_forecasts_a7e6690ba3d8af6ca02d76c6c57701ed4}{Forecasts}}.
-
-\mbox{\Hypertarget{class_forecasts__array_a38f7b890af0947e0d2022ce5bc5bb514}\label{class_forecasts__array_a38f7b890af0947e0d2022ce5bc5bb514}} 
-\index{Forecasts\+\_\+array@{Forecasts\+\_\+array}!get\+Value@{get\+Value}}
-\index{get\+Value@{get\+Value}!Forecasts\+\_\+array@{Forecasts\+\_\+array}}
-\subsubsection{\texorpdfstring{get\+Value()}{getValue()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
-{\footnotesize\ttfamily double Forecasts\+\_\+array\+::get\+Value (\begin{DoxyParamCaption}\item[{std\+::size\+\_\+t}]{parameter\+\_\+\+ID,  }\item[{std\+::size\+\_\+t}]{station\+\_\+\+ID,  }\item[{double}]{timestamp,  }\item[{double}]{flt }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+\mbox{\Hypertarget{class_forecasts__array_a9ff105a7f87ceed5aaa6f32d438d82ef}\label{class_forecasts__array_a9ff105a7f87ceed5aaa6f32d438d82ef}} 
+\index{Forecasts\+\_\+array@{Forecasts\+\_\+array}!get\+Value\+By\+ID@{get\+Value\+By\+ID}}
+\index{get\+Value\+By\+ID@{get\+Value\+By\+ID}!Forecasts\+\_\+array@{Forecasts\+\_\+array}}
+\subsubsection{\texorpdfstring{get\+Value\+By\+I\+D()}{getValueByID()}}
+{\footnotesize\ttfamily double Forecasts\+\_\+array\+::get\+Value\+By\+ID (\begin{DoxyParamCaption}\item[{std\+::size\+\_\+t}]{parameter\+\_\+\+ID,  }\item[{std\+::size\+\_\+t}]{station\+\_\+\+ID,  }\item[{double}]{timestamp,  }\item[{double}]{flt }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
 
 Gets value by searching with I\+Ds and timestamps.
 
@@ -168,13 +147,46 @@ A value.
 \end{DoxyReturn}
 
 
-Implements \mbox{\hyperlink{class_forecasts_a07a51e97b54a5c42d197fb4804ee43bc}{Forecasts}}.
+Implements \mbox{\hyperlink{class_forecasts_a1f2249027814ba541362e700d206ae55}{Forecasts}}.
 
-\mbox{\Hypertarget{class_forecasts__array_afd9f8bb1e1736bf3665073d95ae5ef8c}\label{class_forecasts__array_afd9f8bb1e1736bf3665073d95ae5ef8c}} 
+\mbox{\Hypertarget{class_forecasts__array_ad37886d56310b642647c54d634e447a1}\label{class_forecasts__array_ad37886d56310b642647c54d634e447a1}} 
+\index{Forecasts\+\_\+array@{Forecasts\+\_\+array}!get\+Value\+By\+Index@{get\+Value\+By\+Index}}
+\index{get\+Value\+By\+Index@{get\+Value\+By\+Index}!Forecasts\+\_\+array@{Forecasts\+\_\+array}}
+\subsubsection{\texorpdfstring{get\+Value\+By\+Index()}{getValueByIndex()}}
+{\footnotesize\ttfamily double Forecasts\+\_\+array\+::get\+Value\+By\+Index (\begin{DoxyParamCaption}\item[{std\+::size\+\_\+t}]{parameter\+\_\+index,  }\item[{std\+::size\+\_\+t}]{station\+\_\+index,  }\item[{std\+::size\+\_\+t}]{time\+\_\+index,  }\item[{std\+::size\+\_\+t}]{flt\+\_\+index }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+Gets value using array index.
+
+
+\begin{DoxyParams}{Parameters}
+{\em parameter\+\_\+index} & Parameter index. \\
+\hline
+{\em station\+\_\+index} & Station index. \\
+\hline
+{\em time\+\_\+index} & Time index. \\
+\hline
+{\em flt\+\_\+index} & F\+LT index. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A value. 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{class_forecasts_a22471db4cab8b0e686e4eb216844ebd0}{Forecasts}}.
+
+\mbox{\Hypertarget{class_forecasts__array_a5b8a91680acc4969aeb968b4f4a35a73}\label{class_forecasts__array_a5b8a91680acc4969aeb968b4f4a35a73}} 
 \index{Forecasts\+\_\+array@{Forecasts\+\_\+array}!get\+Values@{get\+Values}}
 \index{get\+Values@{get\+Values}!Forecasts\+\_\+array@{Forecasts\+\_\+array}}
 \subsubsection{\texorpdfstring{get\+Values()}{getValues()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{class_array4_d}{Array4D}} const  \& Forecasts\+\_\+array\+::get\+Values (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+{\footnotesize\ttfamily const double $\ast$ Forecasts\+\_\+array\+::get\+Values (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+Gets data in form of a double pointer. \begin{DoxyReturn}{Returns}
+A double pointer. 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{class_forecasts_a329d00c8a677da77c514908182fda0b6}{Forecasts}}.
 
 \mbox{\Hypertarget{class_forecasts__array_a56985347f516340034b29dc4cdda87b1}\label{class_forecasts__array_a56985347f516340034b29dc4cdda87b1}} 
 \index{Forecasts\+\_\+array@{Forecasts\+\_\+array}!print@{print}}

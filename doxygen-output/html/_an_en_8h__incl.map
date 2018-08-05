@@ -1,10 +1,13 @@
 <map id="AnEn.h" name="AnEn.h">
-<area shape="rect" id="node2" href="$_an_en_i_o_8h.html" title="AnEnIO.h" alt="" coords="987,79,1067,104"/>
-<area shape="rect" id="node6" href="$_times_8h.html" title="Times.h" alt="" coords="858,225,926,251"/>
-<area shape="rect" id="node14" href="$_stations_8h.html" title="Stations.h" alt="" coords="951,225,1031,251"/>
-<area shape="rect" id="node17" href="$_parameters_8h.html" title="Parameters.h" alt="" coords="1055,225,1156,251"/>
-<area shape="rect" id="node18" href="$_forecasts_8h.html" title="Forecasts.h" alt="" coords="1321,152,1412,177"/>
-<area shape="rect" id="node24" href="$color_texts_8h.html" title="colorTexts.h" alt="" coords="1633,225,1725,251"/>
-<area shape="rect" id="node25" href="$_observations_8h.html" title="Observations.h" alt="" coords="1125,152,1236,177"/>
-<area shape="rect" id="node20" href="$_array4_d_8h.html" title="Array4D.h" alt="" coords="1528,225,1609,251"/>
+<area shape="rect" id="node3" href="$_an_en_i_o_8h.html" title="AnEnIO.h" alt="" coords="1127,85,1207,111"/>
+<area shape="rect" id="node19" href="$_forecasts_8h.html" title="Forecasts.h" alt="" coords="1428,165,1519,191"/>
+<area shape="rect" id="node27" href="$_observations_8h.html" title="Observations.h" alt="" coords="1223,165,1334,191"/>
+<area shape="rect" id="node28" href="$_analogs_8h.html" title="Analogs.h" alt="" coords="1484,85,1565,111"/>
+<area shape="rect" id="node29" href="$_similarity_matrices_8h.html" title="SimilarityMatrices.h" alt="" coords="1589,85,1726,111"/>
+<area shape="rect" id="node30" href="$_standard_deviation_8h.html" title="StandardDeviation.h" alt="" coords="1948,239,2090,264"/>
+<area shape="rect" id="node7" href="$_times_8h.html" title="Times.h" alt="" coords="861,239,929,264"/>
+<area shape="rect" id="node15" href="$_stations_8h.html" title="Stations.h" alt="" coords="1079,239,1159,264"/>
+<area shape="rect" id="node18" href="$_parameters_8h.html" title="Parameters.h" alt="" coords="954,239,1055,264"/>
+<area shape="rect" id="node26" href="$color_texts_8h.html" title="colorTexts.h" alt="" coords="1831,239,1924,264"/>
+<area shape="rect" id="node22" href="$_array4_d_8h.html" title="Array4D.h" alt="" coords="1674,239,1756,264"/>
 </map>

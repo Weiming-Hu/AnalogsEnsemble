@@ -80,7 +80,7 @@ Inheritance diagram for Forecasts:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_forecasts__inherit__graph.png" border="0" usemap="#_forecasts_inherit__map" alt="Inheritance graph"/></div>
 <map name="_forecasts_inherit__map" id="_forecasts_inherit__map">
-<area shape="rect" id="node2" href="class_forecasts__array.html" title="Forecasts_array class is an implementation of class Forecasts. Data are stored using the Array4D clas..." alt="" coords="5,300,151,547"/>
+<area shape="rect" id="node2" href="class_forecasts__array.html" title="Forecasts_array class is an implementation of class Forecasts. Data are stored using the Array4D clas..." alt="" coords="5,300,151,560"/>
 </map>
 </div>
 <div class="dynheader">
@@ -105,12 +105,12 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a9170f0dd3065f443e19b4280dc2bee2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a340fd19812d62efc334fe4d23ff8dcd2"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_forecasts.html#a340fd19812d62efc334fe4d23ff8dcd2">~Forecasts</a> ()</td></tr>
 <tr class="separator:a340fd19812d62efc334fe4d23ff8dcd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7e6690ba3d8af6ca02d76c6c57701ed4"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_forecasts.html#a7e6690ba3d8af6ca02d76c6c57701ed4">getValue</a> (std::size_t parameter_index, std::size_t station_index, std::size_t time_index, std::size_t flt_index) const =0</td></tr>
-<tr class="separator:a7e6690ba3d8af6ca02d76c6c57701ed4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a07a51e97b54a5c42d197fb4804ee43bc"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_forecasts.html#a07a51e97b54a5c42d197fb4804ee43bc">getValue</a> (std::size_t parameter_ID, std::size_t station_ID, double timestamp, double flt) const =0</td></tr>
-<tr class="separator:a07a51e97b54a5c42d197fb4804ee43bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abd9768fd95e64920efa89c2c9115cb4d"><td class="memItemLeft" align="right" valign="top">virtual const double *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_forecasts.html#abd9768fd95e64920efa89c2c9115cb4d">data</a> () const =0</td></tr>
-<tr class="separator:abd9768fd95e64920efa89c2c9115cb4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a22471db4cab8b0e686e4eb216844ebd0"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_forecasts.html#a22471db4cab8b0e686e4eb216844ebd0">getValueByIndex</a> (std::size_t parameter_index, std::size_t station_index, std::size_t time_index, std::size_t flt_index) const =0</td></tr>
+<tr class="separator:a22471db4cab8b0e686e4eb216844ebd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f2249027814ba541362e700d206ae55"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_forecasts.html#a1f2249027814ba541362e700d206ae55">getValueByID</a> (std::size_t parameter_ID, std::size_t station_ID, double timestamp, double flt) const =0</td></tr>
+<tr class="separator:a1f2249027814ba541362e700d206ae55"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a329d00c8a677da77c514908182fda0b6"><td class="memItemLeft" align="right" valign="top">virtual const double *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_forecasts.html#a329d00c8a677da77c514908182fda0b6">getValues</a> () const =0</td></tr>
+<tr class="separator:a329d00c8a677da77c514908182fda0b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4ce21957ef296384b1e251098db953bc"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_forecasts.html#a4ce21957ef296384b1e251098db953bc">setValue</a> (double val, std::size_t parameter_index, std::size_t station_index, std::size_t time_index, std::size_t flt_index)=0</td></tr>
 <tr class="separator:a4ce21957ef296384b1e251098db953bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a584820dc47f1b5c4cae099485ee59cbe"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_forecasts.html#a584820dc47f1b5c4cae099485ee59cbe">setValue</a> (double, std::size_t parameter_ID, std::size_t station_ID, double timestamp, double flt)=0</td></tr>
@@ -119,14 +119,16 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ae2a59385e03dd372fef3dfe89f5a31cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8c7d29af8edb5c3bc6a6aad2220506a9"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_forecasts.html#a8c7d29af8edb5c3bc6a6aad2220506a9">updateDataDims</a> ()=0</td></tr>
 <tr class="separator:a8c7d29af8edb5c3bc6a6aad2220506a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a445efc69dce930a1c308d17289466e68"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_forecasts.html#a445efc69dce930a1c308d17289466e68">get_parameters_size</a> () const</td></tr>
-<tr class="separator:a445efc69dce930a1c308d17289466e68"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abec05f11da96ef797e741178b2a7335c"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_forecasts.html#abec05f11da96ef797e741178b2a7335c">get_stations_size</a> () const</td></tr>
-<tr class="separator:abec05f11da96ef797e741178b2a7335c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a267f33699ada17b57e2c05a25a01d1c3"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_forecasts.html#a267f33699ada17b57e2c05a25a01d1c3">get_times_size</a> () const</td></tr>
-<tr class="separator:a267f33699ada17b57e2c05a25a01d1c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5cea0e9e7f39a95a26878fefc0c29b7b"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_forecasts.html#a5cea0e9e7f39a95a26878fefc0c29b7b">get_flts_size</a> () const</td></tr>
-<tr class="separator:a5cea0e9e7f39a95a26878fefc0c29b7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a317a7d7bd37c3939a187413180201214"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_forecasts.html#a317a7d7bd37c3939a187413180201214">getParametersSize</a> () const</td></tr>
+<tr class="separator:a317a7d7bd37c3939a187413180201214"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af875cdef20964f44eb07579d064ac32b"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_forecasts.html#af875cdef20964f44eb07579d064ac32b">getStationsSize</a> () const</td></tr>
+<tr class="separator:af875cdef20964f44eb07579d064ac32b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8436043f928220ba29efd4c7d7c0c8a4"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_forecasts.html#a8436043f928220ba29efd4c7d7c0c8a4">getTimesSize</a> () const</td></tr>
+<tr class="separator:a8436043f928220ba29efd4c7d7c0c8a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e54c52233da87a7868a95e83b7e5ff7"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_forecasts.html#a3e54c52233da87a7868a95e83b7e5ff7">getFLTsSize</a> () const</td></tr>
+<tr class="separator:a3e54c52233da87a7868a95e83b7e5ff7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeafd542ddff2fc678440d555002dc912"><td class="memItemLeft" align="right" valign="top">virtual std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_forecasts.html#aeafd542ddff2fc678440d555002dc912">getDataLength</a> () const =0</td></tr>
+<tr class="separator:aeafd542ddff2fc678440d555002dc912"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a08adfc1510d1a2a506390276dcad8e09"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classanen_par_1_1_parameters.html">anenPar::Parameters</a> const  &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_forecasts.html#a08adfc1510d1a2a506390276dcad8e09">getParameters</a> () const</td></tr>
 <tr class="separator:a08adfc1510d1a2a506390276dcad8e09"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a31978316404dedda6ae3860d7844d855"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> const  &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_forecasts.html#a31978316404dedda6ae3860d7844d855">getStations</a> () const</td></tr>
@@ -274,8 +276,8 @@ Friends</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="abd9768fd95e64920efa89c2c9115cb4d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abd9768fd95e64920efa89c2c9115cb4d">&#9670;&nbsp;</a></span>data()</h2>
+<a id="aeafd542ddff2fc678440d555002dc912"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeafd542ddff2fc678440d555002dc912">&#9670;&nbsp;</a></span>getDataLength()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -284,7 +286,7 @@ Friends</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual const double* Forecasts::data </td>
+          <td class="memname">virtual std::size_t Forecasts::getDataLength </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -296,77 +298,8 @@ Friends</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Gets data in form of a double pointer. </p><dl class="section return"><dt>Returns</dt><dd>A double pointer. </dd></dl>
 
-<p>Implemented in <a class="el" href="class_forecasts__array.html#ae7af8dfc4b7a7970310d06bf71069200">Forecasts_array</a>.</p>
-
-</div>
-</div>
-<a id="a5cea0e9e7f39a95a26878fefc0c29b7b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5cea0e9e7f39a95a26878fefc0c29b7b">&#9670;&nbsp;</a></span>get_flts_size()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">size_t Forecasts::get_flts_size </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a445efc69dce930a1c308d17289466e68"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a445efc69dce930a1c308d17289466e68">&#9670;&nbsp;</a></span>get_parameters_size()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">size_t Forecasts::get_parameters_size </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="abec05f11da96ef797e741178b2a7335c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abec05f11da96ef797e741178b2a7335c">&#9670;&nbsp;</a></span>get_stations_size()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">size_t Forecasts::get_stations_size </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a267f33699ada17b57e2c05a25a01d1c3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a267f33699ada17b57e2c05a25a01d1c3">&#9670;&nbsp;</a></span>get_times_size()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">size_t Forecasts::get_times_size </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
+<p>Implemented in <a class="el" href="class_forecasts__array.html#aae8790581dc2f2dcfc140c34999588e0">Forecasts_array</a>.</p>
 
 </div>
 </div>
@@ -378,6 +311,23 @@ Friends</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="classanen_time_1_1_f_l_ts.html">anenTime::FLTs</a> const  &amp; Forecasts::getFLTs </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3e54c52233da87a7868a95e83b7e5ff7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3e54c52233da87a7868a95e83b7e5ff7">&#9670;&nbsp;</a></span>getFLTsSize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t Forecasts::getFLTsSize </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -404,6 +354,23 @@ Friends</h2></td></tr>
 
 </div>
 </div>
+<a id="a317a7d7bd37c3939a187413180201214"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a317a7d7bd37c3939a187413180201214">&#9670;&nbsp;</a></span>getParametersSize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t Forecasts::getParametersSize </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a31978316404dedda6ae3860d7844d855"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a31978316404dedda6ae3860d7844d855">&#9670;&nbsp;</a></span>getStations()</h2>
 
@@ -412,6 +379,23 @@ Friends</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> const  &amp; Forecasts::getStations </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af875cdef20964f44eb07579d064ac32b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af875cdef20964f44eb07579d064ac32b">&#9670;&nbsp;</a></span>getStationsSize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t Forecasts::getStationsSize </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -438,69 +422,25 @@ Friends</h2></td></tr>
 
 </div>
 </div>
-<a id="a7e6690ba3d8af6ca02d76c6c57701ed4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7e6690ba3d8af6ca02d76c6c57701ed4">&#9670;&nbsp;</a></span>getValue() <span class="overload">[1/2]</span></h2>
+<a id="a8436043f928220ba29efd4c7d7c0c8a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8436043f928220ba29efd4c7d7c0c8a4">&#9670;&nbsp;</a></span>getTimesSize()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual double Forecasts::getValue </td>
+          <td class="memname">size_t Forecasts::getTimesSize </td>
           <td>(</td>
-          <td class="paramtype">std::size_t&#160;</td>
-          <td class="paramname"><em>parameter_index</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::size_t&#160;</td>
-          <td class="paramname"><em>station_index</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::size_t&#160;</td>
-          <td class="paramname"><em>time_index</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::size_t&#160;</td>
-          <td class="paramname"><em>flt_index</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td> const</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
-<p>Gets value using array index.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">parameter_index</td><td>Parameter index. </td></tr>
-    <tr><td class="paramname">station_index</td><td>Station index. </td></tr>
-    <tr><td class="paramname">time_index</td><td>Time index. </td></tr>
-    <tr><td class="paramname">flt_index</td><td>FLT index. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A value. </dd></dl>
-
-<p>Implemented in <a class="el" href="class_forecasts__array.html#add3a617d4e63dba10bf369fe41714a24">Forecasts_array</a>.</p>
 
 </div>
 </div>
-<a id="a07a51e97b54a5c42d197fb4804ee43bc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a07a51e97b54a5c42d197fb4804ee43bc">&#9670;&nbsp;</a></span>getValue() <span class="overload">[2/2]</span></h2>
+<a id="a1f2249027814ba541362e700d206ae55"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1f2249027814ba541362e700d206ae55">&#9670;&nbsp;</a></span>getValueByID()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -509,7 +449,7 @@ Friends</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual double Forecasts::getValue </td>
+          <td class="memname">virtual double Forecasts::getValueByID </td>
           <td>(</td>
           <td class="paramtype">std::size_t&#160;</td>
           <td class="paramname"><em>parameter_ID</em>, </td>
@@ -556,7 +496,96 @@ Friends</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A value. </dd></dl>
 
-<p>Implemented in <a class="el" href="class_forecasts__array.html#a38f7b890af0947e0d2022ce5bc5bb514">Forecasts_array</a>.</p>
+<p>Implemented in <a class="el" href="class_forecasts__array.html#a9ff105a7f87ceed5aaa6f32d438d82ef">Forecasts_array</a>.</p>
+
+</div>
+</div>
+<a id="a22471db4cab8b0e686e4eb216844ebd0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a22471db4cab8b0e686e4eb216844ebd0">&#9670;&nbsp;</a></span>getValueByIndex()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual double Forecasts::getValueByIndex </td>
+          <td>(</td>
+          <td class="paramtype">std::size_t&#160;</td>
+          <td class="paramname"><em>parameter_index</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t&#160;</td>
+          <td class="paramname"><em>station_index</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t&#160;</td>
+          <td class="paramname"><em>time_index</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t&#160;</td>
+          <td class="paramname"><em>flt_index</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gets value using array index.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">parameter_index</td><td>Parameter index. </td></tr>
+    <tr><td class="paramname">station_index</td><td>Station index. </td></tr>
+    <tr><td class="paramname">time_index</td><td>Time index. </td></tr>
+    <tr><td class="paramname">flt_index</td><td>FLT index. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A value. </dd></dl>
+
+<p>Implemented in <a class="el" href="class_forecasts__array.html#ad37886d56310b642647c54d634e447a1">Forecasts_array</a>.</p>
+
+</div>
+</div>
+<a id="a329d00c8a677da77c514908182fda0b6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a329d00c8a677da77c514908182fda0b6">&#9670;&nbsp;</a></span>getValues()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual const double* Forecasts::getValues </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gets data in form of a double pointer. </p><dl class="section return"><dt>Returns</dt><dd>A double pointer. </dd></dl>
+
+<p>Implemented in <a class="el" href="class_forecasts__array.html#a5b8a91680acc4969aeb968b4f4a35a73">Forecasts_array</a>.</p>
 
 </div>
 </div>

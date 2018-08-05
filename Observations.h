@@ -54,7 +54,7 @@ public:
      */
     virtual double getValueByID(std::size_t parameter_ID,
             std::size_t station_ID, double timestamp) const = 0;
-    
+
     /**
      * Gets data in form of a double pointer.
      * @return A double pointer.
@@ -146,7 +146,7 @@ public:
     void setValues(const std::vector<double> & vals) override;
 
     void updateDataDims() override;
-    
+
     std::size_t getDataLength() const override;
 
     void print(std::ostream&) const override;

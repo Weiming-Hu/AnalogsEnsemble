@@ -10,7 +10,6 @@
 
 #include "Forecasts.h"
 #include "colorTexts.h"
-#include "boost/numeric/ublas/matrix.hpp"
 #include "boost/multi_array.hpp"
 
 #include <iostream>
@@ -25,33 +24,32 @@
  * The second dimension stores in sequence station id, time id, and similarity
  * value.
  */
-class SimilarityMatrix : public boost::numeric::ublas::matrix<double> {
+class SimilarityMatrix : public std::vector< std::vector< double > > {
 public:
     SimilarityMatrix();
     SimilarityMatrix(size_t nrows);
-    SimilarityMatrix(size_t nrows, size_t ncols);
     SimilarityMatrix(const SimilarityMatrix& orig);
-    
+
     virtual ~SimilarityMatrix();
+
+    void resize(size_t nrows);
+    size_t nrows() const;
+    size_t ncols() const;
 
     /**
      * Specifies the meaning of each column. The first column stores
      * station index, the second column stores time index, and the third
      * column stores value index.
      */
-    enum TAG {
+    enum COL_TAG {
         UNKNOWN = -999,
         STATION = 0,
         TIME = 1,
         VALUE = 2
     };
 
-    /**
-     * Set the order tag SimilarityMatrix::TAG.
-     * 
-     * @param tag
-     */
-    void setOrderTag(TAG tag);
+    bool sortRows(bool quick = true,
+            size_t length = 0, COL_TAG col_tag = VALUE);
 
     /**
      * Check whether the matrix is ordered.
@@ -65,15 +63,14 @@ public:
      * 
      * @return SimilarityMatrix::TAG
      */
-    TAG getOrderTag();
-    
+    COL_TAG getOrderTag();
+
     void print(std::ostream &) const;
     void printSize(std::ostream &) const;
     friend std::ostream & operator<<(std::ostream &,
             const SimilarityMatrix&);
-    
-    SimilarityMatrix& operator=(const SimilarityMatrix& right);
 
+    SimilarityMatrix& operator=(const SimilarityMatrix & right);
 
 private:
 
@@ -85,14 +82,14 @@ private:
     /**
      * Which column is the order based on.
      */
-    TAG order_tag_ = UNKNOWN;
+    COL_TAG order_tag_ = UNKNOWN;
 };
 
 /**
  * \class SimilarityMatrices
  * 
  * \brief SimilarityMatrices class stores multiple SimilarityMatrix. Default 
- * dimensions are:
+ * dimensions of SimilarityMatrices are:
  *              [test stations][test times][test FLTs]
  */
 class SimilarityMatrices : public boost::multi_array<SimilarityMatrix, 3> {
@@ -100,9 +97,9 @@ public:
     SimilarityMatrices() = delete;
     SimilarityMatrices(const SimilarityMatrices& orig) = delete;
     SimilarityMatrices(const Forecasts & forecasts);
-    
+
     ~SimilarityMatrices();
-    
+
     /**
      * Set the target forecast.
      * 
@@ -111,7 +108,15 @@ public:
      */
     void setTargets(const Forecasts & targets);
     
-    
+    /**
+     * Order all SimilarityMatrix using a specific column.
+     * 
+     * @return Whether the order succeeded.
+     */
+    bool sortRows(bool quick = true, size_t length = 0,
+            SimilarityMatrix::COL_TAG col_tag = SimilarityMatrix::COL_TAG::VALUE);
+
+
     /**
      * Get the target forecast values. Since forecasts only have parameters
      * for one station, one FLT, and one time. Values would a vector of
@@ -120,17 +125,16 @@ public:
      * @return A vector of double.
      */
     const Forecasts_array & getTargets() const;
-    
+
     void print(std::ostream &) const;
     void printSize(std::ostream &) const;
     friend std::ostream & operator<<(std::ostream &,
             const SimilarityMatrices&);
-    
+
 private:
 
     /**
-     * One Forecast entry for one station, one time, one FLT,
-     * and all parameters.
+     * The corresponding forecasts for each SimilarityMatrix.
      */
     Forecasts_array targets_;
 };

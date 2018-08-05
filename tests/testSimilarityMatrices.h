@@ -24,6 +24,8 @@ class testSimilarityMatrices : public CPPUNIT_NS::TestFixture {
     
     CPPUNIT_TEST(testMatricesConstructor);
     CPPUNIT_TEST(testMatrixPrint);
+    CPPUNIT_TEST(testMatrixSort);
+    CPPUNIT_TEST(testMatrixResize);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -32,9 +34,10 @@ public:
     virtual ~testSimilarityMatrices();
 
 private:
-    
     void testMatricesConstructor();
     void testMatrixPrint();
+    void testMatrixSort();
+    void testMatrixResize();
 };
 
 #endif /* TESTSIMILARITYMATRIX_H */

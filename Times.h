@@ -74,7 +74,7 @@ namespace anenTime {
 
         virtual ~Times();
 
-        std::size_t getTimeIndex(double timestamp) const;
+        bool getTimeIndex(double timestamp, size_t & i_time) const;
 
         void print(std::ostream & os) const;
         friend std::ostream& operator<<(std::ostream& os, Times const & obj);

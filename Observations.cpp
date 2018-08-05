@@ -41,7 +41,9 @@ Observations::getStationIndex(size_t station_ID) const {
 
 size_t
 Observations::getTimeIndex(double timestamp) const {
-    return (times_.getTimeIndex(timestamp));
+    size_t i_time;
+    if (times_.getTimeIndex(timestamp, i_time)) return (i_time);
+    else throw (out_of_range("Error: Could not find Time."));
 };
 
 size_t
@@ -150,8 +152,11 @@ Observations_array::getValueByID(size_t parameter_ID, size_t station_ID,
         double timestamp) const {
     size_t parameter_index = parameters_.getParameterIndex(parameter_ID);
     size_t station_index = stations_.getStationIndex(station_ID);
-    size_t time_index = times_.getTimeIndex(timestamp);
-    return (data_[parameter_index][station_index][time_index]);
+
+    size_t i_time;
+    if (times_.getTimeIndex(timestamp, i_time))
+        return (data_[parameter_index][station_index][i_time]);
+    else throw out_of_range("Error: Could not find Time.");
 }
 
 void
@@ -165,8 +170,11 @@ Observations_array::setValue(double val, size_t parameter_ID,
         size_t station_ID, double timestamp) {
     size_t parameter_index = parameters_.getParameterIndex(parameter_ID);
     size_t station_index = stations_.getStationIndex(station_ID);
-    size_t time_index = times_.getTimeIndex(timestamp);
-    data_[parameter_index][station_index][time_index] = val;
+
+    size_t i_time;
+    if (times_.getTimeIndex(timestamp, i_time))
+        data_[parameter_index][station_index][i_time] = val;
+    else throw out_of_range("Error: Could not find Time.");
 }
 
 void
@@ -187,17 +195,17 @@ Observations_array::setValues(const vector<double>& vals) {
 
 void
 Observations_array::updateDataDims() {
-    
+
     try {
         data_.resize(boost::extents
-            [parameters_.size()][stations_.size()][times_.size()]);
+                [parameters_.size()][stations_.size()][times_.size()]);
     } catch (bad_alloc & e) {
         cout << BOLDRED << "Error: insufficient memory while resizing the"
                 << " array4D to hold " << parameters_.size() << "x"
                 << stations_.size() << "x" << times_.size()
                 << " double values." << endl;
         throw e;
-    }   
+    }
 }
 
 size_t Observations_array::getDataLength() const {

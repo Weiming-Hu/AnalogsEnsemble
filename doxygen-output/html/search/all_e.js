@@ -1,19 +1,20 @@
 var searchData=
 [
   ['randomize',['randomize',['../class_array4_d.html#a15626fe44d3792ccc2822afb30bcbd98',1,'Array4D']]],
-  ['read_5fstring_5fvector_5f',['read_string_vector_',['../class_an_en_i_o.html#a17e7a4c520675c23b01cbd65c7ffe1d5',1,'AnEnIO']]],
-  ['read_5fvector_5f',['read_vector_',['../class_an_en_i_o.html#a3c3a3f86f90ea7610e086d371414d54f',1,'AnEnIO']]],
+  ['read_5fstring_5fvector_5f',['read_string_vector_',['../class_an_en_i_o.html#ae9cf0a8cde2b742992295ccc2bed17ef',1,'AnEnIO::read_string_vector_(std::string var_name, std::vector&lt; std::string &gt; &amp;results) const'],['../class_an_en_i_o.html#a8c7e28931fd88831922e64ad87ee03f2',1,'AnEnIO::read_string_vector_(std::string var_name, std::vector&lt; std::string &gt; &amp;results, size_t start, size_t count, ptrdiff_t stride=1) const']]],
+  ['read_5fvector_5f',['read_vector_',['../class_an_en_i_o.html#aa135f278f8ff2a028b8119f483dd36bf',1,'AnEnIO::read_vector_(std::string var_name, std::vector&lt; T &gt; &amp;results) const'],['../class_an_en_i_o.html#a4a4b8eedb372df1bb46b2104ae2761cd',1,'AnEnIO::read_vector_(std::string var_name, std::vector&lt; T &gt; &amp;results, std::vector&lt; size_t &gt; start, std::vector&lt; size_t &gt; count, std::vector&lt; ptrdiff_t &gt; stride={1}) const'],['../class_an_en_i_o.html#a9a0c27d0baddc7e27b25e1d13ac4f313',1,'AnEnIO::read_vector_(std::string var_name, std::vector&lt; T &gt; &amp;results, size_t start, size_t count, ptrdiff_t stride=1) const']]],
   ['readdimlength',['readDimLength',['../class_an_en_i_o.html#a5ca1c7df3da9720967d7ed06f2dfe09b',1,'AnEnIO']]],
-  ['readflts',['readFLTs',['../class_an_en_i_o.html#aa58735032dd6f54c83d6450842922d3f',1,'AnEnIO']]],
-  ['readforecasts',['readForecasts',['../class_an_en_i_o.html#a912e513e58fa258e1dce67ff161abab2',1,'AnEnIO']]],
+  ['readflts',['readFLTs',['../class_an_en_i_o.html#aa58735032dd6f54c83d6450842922d3f',1,'AnEnIO::readFLTs(anenTime::FLTs &amp;flts)'],['../class_an_en_i_o.html#a521772f8c969c2fa4ca8ebf1ffa0a460',1,'AnEnIO::readFLTs(anenTime::FLTs &amp;flts, size_t start, size_t count, ptrdiff_t stride=1)']]],
+  ['readforecasts',['readForecasts',['../class_an_en_i_o.html#a912e513e58fa258e1dce67ff161abab2',1,'AnEnIO::readForecasts(Forecasts &amp;forecasts)'],['../class_an_en_i_o.html#a5a66859433f123352fbd1f0ba606363c',1,'AnEnIO::readForecasts(Forecasts &amp;forecasts, std::vector&lt; size_t &gt; start, std::vector&lt; size_t &gt; count, std::vector&lt; ptrdiff_t &gt; stride={1, 1, 1, 1})']]],
   ['readme_2emd',['README.md',['../_r_e_a_d_m_e_8md.html',1,'']]],
-  ['readobservations',['readObservations',['../class_an_en_i_o.html#a41ebcc0c9edee123626bf6e606917a49',1,'AnEnIO']]],
-  ['readparameters',['readParameters',['../class_an_en_i_o.html#a2b21ff04fcc0464017a5a717a6b19065',1,'AnEnIO']]],
-  ['readstations',['readStations',['../class_an_en_i_o.html#aaec8b46a52f3d8ab904fd4229bd3b9e9',1,'AnEnIO']]],
-  ['readtimes',['readTimes',['../class_an_en_i_o.html#a19b454b0a9ecb5ecbc2cc2a9c139770b',1,'AnEnIO']]],
+  ['readobservations',['readObservations',['../class_an_en_i_o.html#a41ebcc0c9edee123626bf6e606917a49',1,'AnEnIO::readObservations(Observations &amp;observations)'],['../class_an_en_i_o.html#adb297d56636fff2db1f5f1af1083897c',1,'AnEnIO::readObservations(Observations &amp;observations, std::vector&lt; size_t &gt; start, std::vector&lt; size_t &gt; count, std::vector&lt; ptrdiff_t &gt; stride={1, 1, 1})']]],
+  ['readparameters',['readParameters',['../class_an_en_i_o.html#a2b21ff04fcc0464017a5a717a6b19065',1,'AnEnIO::readParameters(anenPar::Parameters &amp;parameters)'],['../class_an_en_i_o.html#a0ff7e8d615ed2127ab66b83ee78fc820',1,'AnEnIO::readParameters(anenPar::Parameters &amp;parameters, size_t start, size_t count, ptrdiff_t stride=1)']]],
+  ['readstations',['readStations',['../class_an_en_i_o.html#aaec8b46a52f3d8ab904fd4229bd3b9e9',1,'AnEnIO::readStations(anenSta::Stations &amp;stations)'],['../class_an_en_i_o.html#ad0f7a1db44e12f42d4602898c0f51faa',1,'AnEnIO::readStations(anenSta::Stations &amp;stations, size_t start, size_t count, ptrdiff_t stride=1)']]],
+  ['readtimes',['readTimes',['../class_an_en_i_o.html#a19b454b0a9ecb5ecbc2cc2a9c139770b',1,'AnEnIO::readTimes(anenTime::Times &amp;times)'],['../class_an_en_i_o.html#aecbace06ce451ccad367d0150ef6aaf9',1,'AnEnIO::readTimes(anenTime::Times &amp;times, size_t start, size_t count, ptrdiff_t stride=1)']]],
   ['red',['RED',['../color_texts_8h.html#a8d23feea868a983c8c2b661e1e16972f',1,'colorTexts.h']]],
   ['required_5fdimensions_5f',['required_dimensions_',['../class_an_en_i_o.html#adf42061631c78508bde00de7d22a65b4',1,'AnEnIO']]],
   ['required_5fvariable_5fmissing',['REQUIRED_VARIABLE_MISSING',['../class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0a77597f2d2fa33ef922bd74ea4580d8b4',1,'AnEnIO']]],
   ['required_5fvariables_5f',['required_variables_',['../class_an_en_i_o.html#a119dcb81d3811547f0e37d6c3752f0a7',1,'AnEnIO']]],
-  ['reset',['RESET',['../color_texts_8h.html#ab702106cf3b3e96750b6845ded4e0299',1,'colorTexts.h']]]
+  ['reset',['RESET',['../color_texts_8h.html#ab702106cf3b3e96750b6845ded4e0299',1,'colorTexts.h']]],
+  ['resize',['resize',['../class_similarity_matrix.html#a53caceef5b63b494cdf5a8f4a19d6e32',1,'SimilarityMatrix']]]
 ];

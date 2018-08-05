@@ -12,8 +12,15 @@
 #include <cmath>
 #include <ostream>
 
+#if defined(_OPENMP)
+#include <omp.h>
+#endif
+
 using namespace std;
 using errorType = AnEn::errorType;
+
+const double MULTIPLY = M_PI / 180;
+const double MULTIPLY_REVERSE = 180 / M_PI;
 
 AnEn::AnEn() {
 
@@ -81,10 +88,10 @@ shared(num_parameters, num_stations, num_flts, num_times, array, circular_flags,
 
                 if (circular_flags[i_parameter]) {
                     // If the parameter is circular
-                    sds[i_parameter][i_station][i_flt] = _sdCircular(values);
+                    sds[i_parameter][i_station][i_flt] = sdCircular(values);
                 } else {
                     // If the parameter is not circular
-                    sds[i_parameter][i_station][i_flt] = _sdLinear(values);
+                    sds[i_parameter][i_station][i_flt] = sdLinear(values);
                 } // End of if statement of is_circular
 
             } // End of FLTs loop
@@ -112,11 +119,53 @@ AnEn::computeSearchWindows(boost::numeric::ublas::matrix<size_t> & windows,
 }
 
 errorType
+AnEn::computeObservationsTimeIndices(
+        const anenTime::Times & times_forecasts,
+        const anenTime::Times & flts_forecasts,
+        const anenTime::Times & times_observations,
+        boost::numeric::ublas::matrix<size_t> & mapping) const {
+
+    mapping.resize(times_forecasts.size(), flts_forecasts.size());
+    mapping.clear();
+
+    const auto & times_forecasts_by_insert = times_forecasts.get<anenTime::by_insert>();
+    const auto & flts_forecasts_by_insert = flts_forecasts.get<anenTime::by_insert>();
+
+    size_t index = 0;
+
+#if defined(_OPENMP)
+#pragma omp parallel for default(none) schedule(static) collapse(2)\
+shared(mapping, times_observations, times_forecasts_by_insert, flts_forecasts_by_insert)\
+firstprivate(index)
+#endif
+    for (size_t i_row = 0; i_row < mapping.size1(); i_row++) {
+        for (size_t i_col = 0; i_col < mapping.size2(); i_col++) {
+
+            if (times_observations.getTimeIndex(
+                    times_forecasts_by_insert[i_row] +
+                    flts_forecasts_by_insert[i_col], index)) {
+                mapping(i_row, i_col) = index;
+            } else {
+                if (verbose_ >= 1) cout << BOLDRED << "Error: Could not find time for "
+                        << "Time " << times_forecasts_by_insert[i_row]
+                        << "FLT " << flts_forecasts_by_insert[i_col]
+                        << "!" << RESET << endl;
+                return (OUT_OF_RANGE);
+            }
+
+        }
+    }
+
+    return (SUCCESS);
+}
+
+errorType
 AnEn::computeSimilarity(
         const Forecasts_array& search_forecasts,
         const StandardDeviation& sds,
         SimilarityMatrices& sims,
-        const Observations_array& search_observations) const {
+        const Observations_array& search_observations,
+        boost::numeric::ublas::matrix<size_t> mapping) const {
 
     const Forecasts_array & test_forecasts = sims.getTargets();
 
@@ -155,10 +204,12 @@ AnEn::computeSimilarity(
         return (WRONG_SHAPE);
     }
 
+    if (verbose_ >= 3) cout << "Computing similarity matrices ... " << endl;
+
     if (verbose_ >= 4) {
         cout << "Session information for computeSimilarity: " << endl
                 << "# of parameters: " << num_parameters << endl
-                << "# of flts: " << num_flts << endl
+                << "# of FLTs: " << num_flts << endl
                 << "# of test stations: " << num_test_stations << endl
                 << "# of test times: " << num_test_times << endl
                 << "# of search stations: " << num_search_stations << endl
@@ -173,7 +224,7 @@ AnEn::computeSimilarity(
     // Pre compute the window size for each FLT
     size_t window_half_size = 1;
     boost::numeric::ublas::matrix<size_t> flts_window;
-    computeSearchWindows(flts_window, num_flts, window_half_size);
+    handleError(computeSearchWindows(flts_window, num_flts, window_half_size));
 
     vector<bool> circular_flags(num_parameters, false);
     vector<double> weights(num_parameters, NAN);
@@ -183,73 +234,77 @@ AnEn::computeSimilarity(
         weights[i_parameter] = parameters_by_insert[i_parameter].getWeight();
     }
 
+#if defined(_OPENMP)
+#pragma omp parallel for default(none) schedule(static) collapse(3)\
+shared(num_test_stations, num_flts, num_test_times, sims, num_search_times, num_search_stations)
+#endif
+    // Initialize the similarity matrix for this forecast entry
     for (size_t i_test_station = 0; i_test_station < num_test_stations; i_test_station++) {
         for (size_t i_test_flt = 0; i_test_flt < num_flts; i_test_flt++) {
             for (size_t i_test_time = 0; i_test_time < num_test_times; i_test_time++) {
+                sims[i_test_station][i_test_time][i_test_flt].resize(num_search_times * num_search_stations);
+            }
+        }
+    }
 
-                cout << "Computing i_test_station " << i_test_station
-                        << " i_test_flt " << i_test_flt
-                        << " i_test_time " << i_test_time << endl;
-
-                // Initialize the similarity matrix for this forecast entry
-                sims[i_test_station][i_test_time][i_test_flt].resize(num_search_times * num_search_stations, 3);
-                sims[i_test_station][i_test_time][i_test_flt].clear();
-                cout << "Similarity matrix initialized." << endl;
-
-
+#if defined(_OPENMP)
+#pragma omp parallel for default(none) schedule(static) collapse(5)\
+shared(num_test_stations, num_flts, num_test_times, num_search_stations, \
+num_search_times, circular_flags, num_parameters, data_search_observations, \
+mapping, weights, data_search_forecasts, data_test_forecasts, sims, sds)
+#endif
+    for (size_t i_test_station = 0; i_test_station < num_test_stations; i_test_station++) {
+        for (size_t i_test_flt = 0; i_test_flt < num_flts; i_test_flt++) {
+            for (size_t i_test_time = 0; i_test_time < num_test_times; i_test_time++) {
                 for (size_t i_search_station = 0; i_search_station < num_search_stations; i_search_station++) {
                     for (size_t i_search_time = 0; i_search_time < num_search_times; i_search_time++) {
-                        
+
                         size_t i_sim_row = i_search_station * num_search_times + i_search_time;
 
                         for (size_t i_parameter = 0; i_parameter < num_parameters; i_parameter++) {
 
-                            cout << "Comparing i_search_station " << i_search_station
-                                    << " i_search_time " << i_search_time
-                                    << " i_parameter " << i_parameter << endl;
+                            double value_search_observation = data_search_observations
+                                    [i_parameter][i_search_station][mapping(i_search_time, i_test_flt)];
 
-                            vector<double> window(flts_window(i_test_flt, 1) - flts_window(i_test_flt, 0) + 1);
-                            short pos = 0;
+                            if (weights[i_parameter] != 0 && !isnan(value_search_observation)) {
+                                vector<double> window(flts_window(i_test_flt, 1) - flts_window(i_test_flt, 0) + 1);
+                                short pos = 0;
 
-                            for (size_t i_window_flt = flts_window(i_test_flt, 0);
-                                    i_window_flt <= flts_window(i_test_flt, 1); i_window_flt++, pos++) {
+                                for (size_t i_window_flt = flts_window(i_test_flt, 0);
+                                        i_window_flt <= flts_window(i_test_flt, 1); i_window_flt++, pos++) {
 
-                                cout << "Accessing window pos " << i_window_flt << "... " << flush;
+                                    double value_search = data_search_forecasts
+                                            [i_parameter][i_search_station][i_search_time][i_window_flt];
+                                    double value_test = data_test_forecasts
+                                            [i_parameter][i_test_station][i_test_time][i_window_flt];
 
-                                double value_search = data_search_forecasts
-                                        [i_parameter][i_search_station][i_search_time][i_window_flt];
-                                double value_test = data_test_forecasts
-                                        [i_parameter][i_test_station][i_test_time][i_window_flt];
+                                    if (isnan(value_search) || isnan(value_test)) window[pos] = NAN;
 
-                                cout << "Succeed!" << endl;
+                                    if (circular_flags[i_parameter]) {
+                                        window[pos] = pow(diffCircular(value_search, value_test), 2);
+                                    } else {
+                                        window[pos] = pow(value_search - value_test, 2);
+                                    }
+                                } // End loop of search window FLTs
 
-                                if (circular_flags[i_parameter]) {
-                                    window[pos] = pow(_diffCircular(value_search, value_test), 2);
-                                } else {
-                                    window[pos] = pow(value_search - value_test, 2);
+                                double average = mean(window);
+
+                                if (sds[i_parameter][i_search_station][i_test_flt] > 0 && !isnan(average)) {
+                                    (sims[i_test_station][i_test_time][i_test_flt])
+                                            [i_sim_row][SimilarityMatrix::COL_TAG::VALUE] += weights[i_parameter] *
+                                            (sqrt(average) / sds[i_parameter][i_search_station][i_test_flt]);
                                 }
-                            } // End loop of search window FLTs
-
-                            double mean = _mean(window);
-
-                            if (sds[i_parameter][i_search_station][i_test_flt] > 0) {
-                                sims[i_test_station][i_test_time][i_test_flt](
-                                        i_sim_row, SimilarityMatrix::TAG::VALUE) += weights[i_parameter] *
-                                        (sqrt(mean) / sds[i_parameter][i_search_station][i_test_flt]);
                             }
 
                         } // End loop of parameters
-                        
-                        sims[i_test_station][i_test_time][i_test_flt](
-                                        i_sim_row, SimilarityMatrix::TAG::STATION) = i_search_station;
-                        sims[i_test_station][i_test_time][i_test_flt](
-                                        i_sim_row, SimilarityMatrix::TAG::TIME) = i_search_time;
 
+                        (sims[i_test_station][i_test_time][i_test_flt])
+                                [i_sim_row][SimilarityMatrix::COL_TAG::STATION] = i_search_station;
+                        (sims[i_test_station][i_test_time][i_test_flt])
+                                [i_sim_row][SimilarityMatrix::COL_TAG::TIME] = i_search_time;
 
                     } // End loop of search times
                 } // End loop of search stations
-
-
             } // End loop of test times
         } // End loop of test FLTs
     } // End loop of test stations
@@ -257,23 +312,98 @@ AnEn::computeSimilarity(
     return (SUCCESS);
 }
 
+errorType
+AnEn::selectAnalogs(
+        Analogs & analogs,
+        SimilarityMatrices & sims,
+        const Observations_array& search_observations,
+        boost::numeric::ublas::matrix<size_t> mapping,
+        size_t i_parameter, size_t num_members, bool quick) const {
+    
+    if (verbose_ >= 3) cout << "Selecting analogs ..." << endl;
+    
+    if (i_parameter >= search_observations.getParametersSize()) {
+        if (verbose_ >= 1) cout << BOLDRED << "Error: i_parameter exceeds the limits. "
+                << "There are only " << search_observations.getParametersSize()
+                << " parameters available." << RESET << endl;
+        return (WRONG_SHAPE);
+    }
+    
+    size_t num_test_stations = sims.getTargets().getStationsSize();
+    size_t num_test_times = sims.getTargets().getTimesSize();
+    size_t num_flts = sims.getTargets().getFLTsSize();
+    
+    Analogs::extent_gen extents;
+    analogs.resize(extents[0][0][0][0][0]);
+    analogs.resize(extents[num_test_stations][num_test_times][num_flts][num_members][3]);
+
+    using COL_TAG_ANALOG = Analogs::COL_TAG;
+    using COL_TAG_SIM = SimilarityMatrix::COL_TAG;
+
+    sims.sortRows(quick, num_members);
+
+    const auto & data_observations = search_observations.data();
+
+#if defined(_OPENMP)
+#pragma omp parallel for default(none) schedule(static) collapse(3)\
+shared(data_observations, sims, num_members, mapping, analogs, num_test_stations,\
+num_test_times, num_flts)
+#endif
+    for (size_t i_test_station = 0; i_test_station < num_test_stations; i_test_station++) {
+        for (size_t i_test_time = 0; i_test_time < num_test_times; i_test_time++) {
+            for (size_t i_flt = 0; i_flt < num_flts; i_flt++) {
+
+                const auto & sim = sims[i_test_station][i_test_time][i_flt];
+                size_t num_rows = sim.nrows();
+                size_t max_members = (num_members < num_rows) ? num_members : num_rows;
+
+                for (size_t i_member = 0; i_member < max_members; i_member++) {
+                    size_t i_search_station = sim[i_member][COL_TAG_SIM::STATION];
+                    size_t i_search_forecast_time = sim[i_member][COL_TAG_SIM::TIME];
+
+                    analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::STATION] =
+                            sim[i_member][COL_TAG_SIM::STATION];
+                    analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::TIME] =
+                            i_search_forecast_time;
+                    analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::VALUE] =
+                            data_observations[i_parameter][i_search_station]
+                            [mapping(i_search_forecast_time, i_flt)];
+                }
+            }
+        }
+    }
+    
+    return (SUCCESS);
+}
+
+void
+AnEn::handleError(const errorType & indicator) const {
+    if (indicator != SUCCESS) {
+        throw runtime_error("Error code " + to_string(indicator));
+    }
+}
+
 string
 AnEn::getCacheSimilarity() const {
+
     return cache_similarity_;
 }
 
 string
 AnEn::getOutputFolder() const {
+
     return output_folder_;
 }
 
 int
 AnEn::getVerbose() const {
+
     return verbose_;
 }
 
 void
 AnEn::setCacheSimilarity(string cache_similarity) {
+
     cache_similarity_ = cache_similarity;
 }
 
@@ -282,6 +412,7 @@ AnEn::setOutputFolder(string output_folder) {
     if (cache_similarity_ == "NetCDF") {
         output_folder_ = output_folder;
     } else {
+
         string message = "Error: No folder is required for cache_similarity: ";
         message.append(cache_similarity_);
         throw invalid_argument(message);
@@ -290,20 +421,20 @@ AnEn::setOutputFolder(string output_folder) {
 
 void
 AnEn::setVerbose(int verbose) {
+
     verbose_ = verbose;
 }
 
 double
-AnEn::_sdLinear(const vector<double>& values) const {
-    return (sqrt(_variance(values)));
+AnEn::sdLinear(const vector<double>& values) const {
+
+    return (sqrt(variance(values)));
 }
 
 double
-AnEn::_sdCircular(const vector<double>& values) const {
+AnEn::sdCircular(const vector<double>& values) const {
 
-    double b = 0.1547;
-
-    vector<double> dirRad(values.size());
+    double rad;
     vector<double> sins(values.size());
     vector<double> coss(values.size());
 
@@ -311,14 +442,14 @@ AnEn::_sdCircular(const vector<double>& values) const {
 
         // This is to convert from degrees to radians
         //
-        dirRad[i] = values[i] * M_PI;
+        rad = values[i] * MULTIPLY;
 
-        sins[i] = sin(dirRad[i]);
-        coss[i] = cos(dirRad[i]);
+        sins[i] = sin(rad);
+        coss[i] = cos(rad);
     }
 
-    double s = _mean(sins);
-    double c = _mean(coss);
+    double s = mean(sins);
+    double c = mean(coss);
 
     // Yamartino estimator
     //
@@ -326,15 +457,21 @@ AnEn::_sdCircular(const vector<double>& values) const {
     double asine = asin(e);
     double ex3 = pow(e, 3);
 
+    // This is the best estimator that Yamartino has found
+    //              2 / sqrt(3) - 1 = 0.1547
+    //
+    const double b = 0.1547;
+
     double q = asine * (1 + b * ex3);
 
     // Convert back to degrees
     //
-    return (q / M_PI);
+
+    return (q * MULTIPLY_REVERSE);
 }
 
 double
-AnEn::_mean(const std::vector<double>& values) const {
+AnEn::mean(const std::vector<double>& values) const {
     double sum = 0.0;
     size_t valid = 0;
 
@@ -346,20 +483,22 @@ AnEn::_mean(const std::vector<double>& values) const {
     }
 
     if (valid == 0) return NAN;
+
     return (sum / (double) valid);
 }
 
 double
-AnEn::_variance(const std::vector<double>& values) const {
-    double mean = _mean(values);
-    if (isnan(mean)) return NAN;
+AnEn::variance(const std::vector<double>& values) const {
+    double average = mean(values);
+    if (isnan(average)) return NAN;
 
     double sum = 0.0;
     size_t valid = 0;
 
     for (const auto & value : values) {
         if (!isnan(value)) {
-            sum += pow(value - mean, 2);
+
+            sum += pow(value - average, 2);
             valid++;
         }
     }
@@ -368,7 +507,7 @@ AnEn::_variance(const std::vector<double>& values) const {
 }
 
 double
-AnEn::_diffCircular(double i, double j) const {
+AnEn::diffCircular(double i, double j) const {
     double res1 = abs(i - j);
     double res2 = abs(res1 - 360);
     return (min(res1, res2));

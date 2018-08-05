@@ -42,8 +42,8 @@ namespace anenTime {
     Times::~Times() {
     }
 
-    size_t
-    Times::getTimeIndex(double timestamp) const {
+    bool
+    Times::getTimeIndex(double timestamp, size_t & i_time) const {
 
         // Find the timestamp in value-ordered index
         const multiIndexTimes::index<by_value>::type&
@@ -54,19 +54,20 @@ namespace anenTime {
         if (it_value != times_by_value.end()) {
 
             // Project the value-based ordered to insertion sequence
-            auto it_insert = project<by_insert>(it_value);
+            const auto it_insert = project<by_insert>(it_value);
 
             // Get the insertion sequence index iterator
             const multiIndexTimes::index<by_insert>::type&
                     times_by_insert = get<by_insert>();
 
             // Compute the distance
-            return (distance(times_by_insert.begin(), it_insert));
+            i_time = distance(times_by_insert.begin(), it_insert);
+            return (true);
 
         } else {
-            throw out_of_range("Can't find the timestamp "
-                    + to_string(timestamp));
+            return (false);
         }
+
     }
 
     void

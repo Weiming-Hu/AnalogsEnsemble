@@ -1,5 +1,7 @@
 var searchData=
 [
+  ['analogs_2ecpp',['Analogs.cpp',['../_analogs_8cpp.html',1,'']]],
+  ['analogs_2eh',['Analogs.h',['../_analogs_8h.html',1,'']]],
   ['anen_2ecpp',['AnEn.cpp',['../_an_en_8cpp.html',1,'']]],
   ['anen_2eh',['AnEn.h',['../_an_en_8h.html',1,'']]],
   ['anenio_2ecpp',['AnEnIO.cpp',['../_an_en_i_o_8cpp.html',1,'']]],

@@ -1,8 +1,12 @@
 <map id="Forecasts.h" name="Forecasts.h">
-<area shape="rect" id="node2" href="$_an_en_i_o_8h.html" title="AnEnIO.h" alt="" coords="129,79,208,104"/>
-<area shape="rect" id="node6" href="$canalogs_8cpp.html" title="canalogs.cpp" alt="" coords="218,152,318,177"/>
-<area shape="rect" id="node7" href="$_forecasts_8cpp.html" title="Forecasts.cpp" alt="" coords="294,79,399,104"/>
-<area shape="rect" id="node3" href="$_an_en_8h.html" title="AnEn.h" alt="" coords="12,152,77,177"/>
-<area shape="rect" id="node5" href="$_an_en_i_o_8cpp.html" title="AnEnIO.cpp" alt="" coords="101,152,194,177"/>
-<area shape="rect" id="node4" href="$_an_en_8cpp.html" title="AnEn.cpp" alt="" coords="5,225,84,251"/>
+<area shape="rect" id="node2" href="$_analogs_8h.html" title="Analogs.h" alt="" coords="66,79,146,104"/>
+<area shape="rect" id="node4" href="$_an_en_8h.html" title="AnEn.h" alt="" coords="124,152,189,177"/>
+<area shape="rect" id="node6" href="$_an_en_i_o_8h.html" title="AnEnIO.h" alt="" coords="381,79,460,104"/>
+<area shape="rect" id="node8" href="$canalogs_8cpp.html" title="canalogs.cpp" alt="" coords="505,152,605,177"/>
+<area shape="rect" id="node9" href="$_similarity_matrices_8h.html" title="SimilarityMatrices.h" alt="" coords="220,79,357,104"/>
+<area shape="rect" id="node11" href="$_forecasts_8cpp.html" title="Forecasts.cpp" alt="" coords="535,79,640,104"/>
+<area shape="rect" id="node3" href="$_analogs_8cpp.html" title="Analogs.cpp" alt="" coords="5,152,100,177"/>
+<area shape="rect" id="node5" href="$_an_en_8cpp.html" title="AnEn.cpp" alt="" coords="117,225,196,251"/>
+<area shape="rect" id="node7" href="$_an_en_i_o_8cpp.html" title="AnEnIO.cpp" alt="" coords="389,152,482,177"/>
+<area shape="rect" id="node10" href="$_similarity_matrices_8cpp.html" title="SimilarityMatrices.cpp" alt="" coords="213,152,364,177"/>
 </map>

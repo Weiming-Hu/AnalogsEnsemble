@@ -11,6 +11,8 @@
  * Created on Aug 3, 2018, 12:53:04 PM
  */
 
+#include <cppunit/TestAssert.h>
+
 #include "testSimilarityMatrices.h"
 
 using namespace std;
@@ -60,22 +62,71 @@ void testSimilarityMatrices::testMatricesConstructor() {
     for (size_t i = 0; i < mats.getTargets().getDataLength(); i++) {
         CPPUNIT_ASSERT(vec_mat[i] == values[i]);
     }
-    
+
     cout << mats;
 }
 
 void testSimilarityMatrices::testMatrixPrint() {
-    
+
     /**
      * Test the print functionality of SimilarityMatrix
      */
 
     SimilarityMatrix mat(10);
-    mat.clear();
 
-    for (size_t i = 0; i < mat.size1(); ++ i)
-        for (size_t j = 0; j < mat.size2() - 1; ++ j)
-            mat(i, j) = 3 * i + j;
+    for (size_t i = 0; i < mat.nrows(); ++i)
+        for (size_t j = 0; j < mat.ncols() - 1; ++j)
+            mat[i][j] = 3 * i + j;
 
     cout << mat;
+}
+
+void testSimilarityMatrices::testMatrixSort() {
+
+    /**
+     * Test the function sort().
+     */
+    SimilarityMatrix mat(10);
+
+    double val = 0;
+    size_t pos = 0;
+    vector<double> input{7, 49, 73, 58, 30, 72, 44, 78, 23, 9, 40, 65,
+        92, 42, 87, 3, 27, 29, 40, 12, 3, 69, 9, 57, 60, 33, 99, 78, 16, 35};
+    for (size_t i = 0; i < mat.nrows(); ++i)
+        for (size_t j = 0; j < mat.ncols(); ++j, val++, pos++) {
+            mat[i][j] = input[pos];
+        }
+    cout << mat;
+
+    cout << "Quick sort: (Please visually check the correctness)" << endl;
+    mat.sortRows(true, 5);
+    cout << mat;
+
+    cout << "Globle sort" << endl;
+    mat.sortRows(false);
+    cout << mat;
+    
+    pos = 0;
+    vector<double> result_global{40, 12, 3, 44, 78, 23, 3, 27, 29, 78, 16,
+        35, 69, 9, 57, 9, 40, 65, 58, 30, 72, 7, 49, 73, 92, 42, 87, 60, 33, 99};
+    for (size_t i = 0; i < mat.nrows(); ++i)
+        for (size_t j = 0; j < mat.ncols(); ++j, val++, pos++) {
+            CPPUNIT_ASSERT(mat[i][j] = result_global[pos]);
+        }
+    
+}
+
+void testSimilarityMatrices::testMatrixResize() {
+
+    /**
+     * Test the Matrix resize function.
+     */
+
+    SimilarityMatrix test1;
+    CPPUNIT_ASSERT(test1.size() == 0);
+
+    SimilarityMatrix test2(4);
+    CPPUNIT_ASSERT(test2.size() == 4);
+    for (const auto & vec : test2)
+        CPPUNIT_ASSERT(vec.size() == 3);
 }

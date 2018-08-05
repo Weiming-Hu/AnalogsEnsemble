@@ -10,10 +10,10 @@
 #include <boost/filesystem.hpp>
 #include <algorithm>
 #include <exception>
-#include <ncFile.h>
-#include <ncVar.h>
-#include <ncType.h>
-#include <ncDim.h>
+
+#if defined(_OPENMP)
+#include <omp.h>
+#endif
 
 size_t _max_chars = 50;
 

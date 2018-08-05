@@ -12,7 +12,6 @@
 #include <string>
 #include <vector>
 #include <cstddef>
-#include <exception>
 
 #include "Times.h"
 #include "Stations.h"

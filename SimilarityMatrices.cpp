@@ -8,24 +8,27 @@
 #include "SimilarityMatrices.h"
 
 #include <exception>
+#include <algorithm>
+
+#if defined(_OPENMP)
+#include <omp.h>
+#endif
 
 using namespace std;
-using TAG = SimilarityMatrix::TAG;
+using TAG = SimilarityMatrix::COL_TAG;
+
+const size_t NUM_COLS = 3;
 
 /*****************************************************************************
  *                              SimilarityMatrix                             *
  *****************************************************************************/
 
 SimilarityMatrix::SimilarityMatrix() {
-    resize(0, 3);
+    resize(0);
 }
 
 SimilarityMatrix::SimilarityMatrix(size_t nrows) {
-    resize(nrows, 3);
-}
-
-SimilarityMatrix::SimilarityMatrix(size_t nrows, size_t ncols) {
-    resize(nrows, ncols);
+    resize(nrows);
 }
 
 SimilarityMatrix::SimilarityMatrix(const SimilarityMatrix& orig) {
@@ -36,9 +39,41 @@ SimilarityMatrix::~SimilarityMatrix() {
 }
 
 void
-SimilarityMatrix::setOrderTag(TAG tag) {
-    order_tag_ = tag;
+SimilarityMatrix::resize(size_t nrows) {
+    vector< vector< double > >::resize(nrows);
+    for (auto & vec : * this) {
+        vec.resize(NUM_COLS, 0);
+    }
+}
+
+size_t
+SimilarityMatrix::nrows() const {
+    return size();
+}
+
+size_t
+SimilarityMatrix::ncols() const {
+    return NUM_COLS;
+}
+
+bool
+SimilarityMatrix::sortRows(bool quick, size_t length, COL_TAG col_tag) {
+
+    auto lambda = [col_tag](const vector<double> & lhs, const vector<double> & rhs) {
+        return ( lhs[col_tag] < rhs[col_tag]);
+    };
+
+    if (quick) {
+        if (length == 0) length = this->size();
+        nth_element(this->begin(), this->begin() + length,
+                this->end(), lambda);
+    } else {
+        sort(this->begin(), this->end(), lambda);
+    }
+
     ordered_ = true;
+    order_tag_ = col_tag;
+    return true;
 }
 
 bool
@@ -53,12 +88,12 @@ SimilarityMatrix::getOrderTag() {
 
 void
 SimilarityMatrix::print(ostream & os) const {
-    
+
     printSize(os);
     if (ordered_) cout << "Ordered by the column: " << order_tag_ << endl;
 
-    size_t O = size1();
-    size_t P = size2();
+    size_t O = size();
+    size_t P = NUM_COLS;
 
     for (size_t p = 0; p < P; p++) {
         os << "\t[ ," << p << "]";
@@ -69,7 +104,7 @@ SimilarityMatrix::print(ostream & os) const {
         os << "[" << o << ", ]\t";
 
         for (size_t p = 0; p < P; p++) {
-            os << (*this)(o, p) << "\t";
+            os << (*this)[o][p] << "\t";
         }
         os << endl;
 
@@ -80,8 +115,8 @@ SimilarityMatrix::print(ostream & os) const {
 void
 SimilarityMatrix::printSize(ostream & os) const {
     os << "Similarity Matrix shape = "
-            << "[" << size1() << "]"
-            << "[" << size2() << "]" << endl;
+            << "[" << size() << "]"
+            << "[" << NUM_COLS << "]" << endl;
 }
 
 ostream & operator<<(ostream & os,
@@ -94,7 +129,7 @@ SimilarityMatrix &
         SimilarityMatrix::operator=(const SimilarityMatrix& right) {
     if (this == &right) return *this;
 
-    boost::numeric::ublas::matrix<double>::operator=(right);
+    vector< std::vector< double > >::operator=(right);
     order_tag_ = right.order_tag_;
     ordered_ = right.ordered_;
 
@@ -102,7 +137,7 @@ SimilarityMatrix &
 }
 
 /*****************************************************************************
- *                            SimilarityMatrice                              *
+ *                            SimilarityMatrices                             *
  *****************************************************************************/
 SimilarityMatrices::SimilarityMatrices(const Forecasts& forecasts) {
     setTargets(forecasts);
@@ -129,6 +164,25 @@ SimilarityMatrices::setTargets(const Forecasts & targets) {
             [targets.getFLTsSize()]);
 }
 
+bool
+SimilarityMatrices::sortRows(bool quick, size_t length,
+        SimilarityMatrix::COL_TAG col_tag) {
+
+#if defined(_OPENMP)
+#pragma omp parallel for default(none) schedule(static) collapse(3) shared(this) 
+#endif
+    for (size_t i_station = 0; i_station < shape()[0]; i_station++) {
+        for (size_t i_time = 0; i_time < shape()[1]; i_time++) {
+            for (size_t i_flt = 0; i_flt < shape()[2]; i_flt++) {
+                (*this)[i_station][i_time][i_flt].sortRows(
+                        quick, length, col_tag);
+            }
+        }
+    }
+    
+    return true;
+}
+
 const Forecasts_array &
 SimilarityMatrices::getTargets() const {
     return (targets_);
@@ -142,16 +196,16 @@ SimilarityMatrices::print(ostream& os) const {
             << targets_.getTimes()
             << targets_.getFLTs() << endl;
     printSize(os);
-    for (size_t i = 0; i < shape()[0]; i++) 
-        for (size_t j = 0; j < shape()[1]; j++) 
-            for (size_t k = 0; k < shape()[2]; k++) 
+    for (size_t i = 0; i < shape()[0]; i++)
+        for (size_t j = 0; j < shape()[1]; j++)
+            for (size_t k = 0; k < shape()[2]; k++)
                 cout << "SimilarityMatrices[" << i
-                        << "][" << j << "][" << k << "]"
-                        << endl << (*this)[i][j][k];
+                    << "][" << j << "][" << k << "]"
+                    << endl << (*this)[i][j][k];
 }
 
 void
-SimilarityMatrices::printSize(ostream& os) const {   
+SimilarityMatrices::printSize(ostream& os) const {
     os << "Similarity Matrices shape = "
             << "[" << shape()[0] << "]"
             << "[" << shape()[1] << "]"

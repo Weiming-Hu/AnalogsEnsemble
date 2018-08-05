@@ -1,9 +1,5 @@
 var searchData=
 [
-  ['writeflts',['writeFLTs',['../class_an_en_i_o.html#a150e3fc6fe249b11bac909e5ee843a58',1,'AnEnIO']]],
-  ['writeforecasts',['writeForecasts',['../class_an_en_i_o.html#abc5b12bc4692f3ac303fa5430aecaf4c',1,'AnEnIO']]],
-  ['writeobservations',['writeObservations',['../class_an_en_i_o.html#ae89350e02d93439e79aa76068062490a',1,'AnEnIO']]],
-  ['writeparameters',['writeParameters',['../class_an_en_i_o.html#a9ae88d089b2de16571085cb6f7f4cefb',1,'AnEnIO']]],
-  ['writestations',['writeStations',['../class_an_en_i_o.html#ac4cb6e66c0661eff0a10dcc3cb3324e8',1,'AnEnIO']]],
-  ['writetimes',['writeTimes',['../class_an_en_i_o.html#a13ba268b1cae107c145ad8ed895ddedd',1,'AnEnIO']]]
+  ['unsetcircular',['unsetCircular',['../class_array4_d.html#ac6d1282e0d765748c192a72d60274853',1,'Array4D']]],
+  ['updatedatadims',['updateDataDims',['../class_forecasts.html#a8c7d29af8edb5c3bc6a6aad2220506a9',1,'Forecasts::updateDataDims()'],['../class_forecasts__array.html#ab3fc780bb6a5cbf132457c8c336bc777',1,'Forecasts_array::updateDataDims()'],['../class_observations.html#aab0540879c2d3fdf5f91d30ea2f902fd',1,'Observations::updateDataDims()'],['../class_observations__array.html#aa9364c4356d1f8a2b430c93a1fcd021f',1,'Observations_array::updateDataDims()']]]
 ];

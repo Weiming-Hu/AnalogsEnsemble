@@ -80,7 +80,7 @@ Inheritance diagram for Observations:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_observations__inherit__graph.png" border="0" usemap="#_observations_inherit__map" alt="Inheritance graph"/></div>
 <map name="_observations_inherit__map" id="_observations_inherit__map">
-<area shape="rect" id="node2" href="class_observations__array.html" title="Observations_array class is an implementation of the class Observations. Data are stored using the bo..." alt="" coords="5,287,171,533"/>
+<area shape="rect" id="node2" href="class_observations__array.html" title="Observations_array class is an implementation of the class Observations. Data are stored using the bo..." alt="" coords="5,287,171,547"/>
 </map>
 </div>
 <div class="dynheader">
@@ -104,12 +104,12 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:acd73489a964b9794e0a265ce394d6f17"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8724b267cce796b0f77f8f2b9e4aaf1d"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#a8724b267cce796b0f77f8f2b9e4aaf1d">~Observations</a> ()</td></tr>
 <tr class="separator:a8724b267cce796b0f77f8f2b9e4aaf1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad7b52b880869698f4d191f47bae766e2"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#ad7b52b880869698f4d191f47bae766e2">getValue</a> (std::size_t parameter_index, std::size_t station_index, std::size_t time_index) const =0</td></tr>
-<tr class="separator:ad7b52b880869698f4d191f47bae766e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac5564bbf13e79d269407d1ecf567cd7f"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#ac5564bbf13e79d269407d1ecf567cd7f">getValue</a> (std::size_t parameter_ID, std::size_t station_ID, double timestamp) const =0</td></tr>
-<tr class="separator:ac5564bbf13e79d269407d1ecf567cd7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abd666d72594c8e61234296626756ec01"><td class="memItemLeft" align="right" valign="top">virtual const double *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#abd666d72594c8e61234296626756ec01">data</a> () const =0</td></tr>
-<tr class="separator:abd666d72594c8e61234296626756ec01"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a85358b5d09f0ea02e27e06be09501cec"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#a85358b5d09f0ea02e27e06be09501cec">getValueByIndex</a> (std::size_t parameter_index, std::size_t station_index, std::size_t time_index) const =0</td></tr>
+<tr class="separator:a85358b5d09f0ea02e27e06be09501cec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0da5d441448944fb88841b8883f823b7"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#a0da5d441448944fb88841b8883f823b7">getValueByID</a> (std::size_t parameter_ID, std::size_t station_ID, double timestamp) const =0</td></tr>
+<tr class="separator:a0da5d441448944fb88841b8883f823b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa626ffb450b4647e1291053dd5b6d03c"><td class="memItemLeft" align="right" valign="top">virtual const double *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#aa626ffb450b4647e1291053dd5b6d03c">getValues</a> () const =0</td></tr>
+<tr class="separator:aa626ffb450b4647e1291053dd5b6d03c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6f00b4a2277ce9e77cd0d5975f4066f8"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#a6f00b4a2277ce9e77cd0d5975f4066f8">setValue</a> (double val, std::size_t parameter_index, std::size_t station_index, std::size_t time_index)=0</td></tr>
 <tr class="separator:a6f00b4a2277ce9e77cd0d5975f4066f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6ec8166ad0f141e23a07847ab3646a61"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#a6ec8166ad0f141e23a07847ab3646a61">setValue</a> (double val, std::size_t parameter_ID, std::size_t station_ID, double timestamp)=0</td></tr>
@@ -124,12 +124,14 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aa485e3d95a967b9b4efd5c4efaf0c9e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a60c87d96be325c830c88d83bb60353ef"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#a60c87d96be325c830c88d83bb60353ef">getTimeIndex</a> (double timestamp) const</td></tr>
 <tr class="separator:a60c87d96be325c830c88d83bb60353ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4ae6818f6d01490eb14d63ce51a1d331"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#a4ae6818f6d01490eb14d63ce51a1d331">get_parameters_size</a> () const</td></tr>
-<tr class="separator:a4ae6818f6d01490eb14d63ce51a1d331"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a30f67730e600545cf8cb9d7aed13bd33"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#a30f67730e600545cf8cb9d7aed13bd33">get_stations_size</a> () const</td></tr>
-<tr class="separator:a30f67730e600545cf8cb9d7aed13bd33"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a352e34f7c278c86f54c69def24dabcd1"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#a352e34f7c278c86f54c69def24dabcd1">get_times_size</a> () const</td></tr>
-<tr class="separator:a352e34f7c278c86f54c69def24dabcd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa54d9a904c390e964103bea086e065ee"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#aa54d9a904c390e964103bea086e065ee">getParametersSize</a> () const</td></tr>
+<tr class="separator:aa54d9a904c390e964103bea086e065ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ada795eafca78fe436908ec66f2bb161e"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#ada795eafca78fe436908ec66f2bb161e">getStationsSize</a> () const</td></tr>
+<tr class="separator:ada795eafca78fe436908ec66f2bb161e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeac31b76b1e849571bb277da8f4fe7a6"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#aeac31b76b1e849571bb277da8f4fe7a6">getTimesSize</a> () const</td></tr>
+<tr class="separator:aeac31b76b1e849571bb277da8f4fe7a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ad688dc4ef6dc6adabe212808fd32a9"><td class="memItemLeft" align="right" valign="top">virtual std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#a3ad688dc4ef6dc6adabe212808fd32a9">getDataLength</a> () const =0</td></tr>
+<tr class="separator:a3ad688dc4ef6dc6adabe212808fd32a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5347196195a72495217dc0614c9224c2"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classanen_par_1_1_parameters.html">anenPar::Parameters</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#a5347196195a72495217dc0614c9224c2">getParameters</a> () const</td></tr>
 <tr class="separator:a5347196195a72495217dc0614c9224c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0f6deefe6b26a0546ea6d7642d190bfa"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#a0f6deefe6b26a0546ea6d7642d190bfa">getStations</a> () const</td></tr>
@@ -265,8 +267,8 @@ Friends</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="abd666d72594c8e61234296626756ec01"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abd666d72594c8e61234296626756ec01">&#9670;&nbsp;</a></span>data()</h2>
+<a id="a3ad688dc4ef6dc6adabe212808fd32a9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3ad688dc4ef6dc6adabe212808fd32a9">&#9670;&nbsp;</a></span>getDataLength()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -275,7 +277,7 @@ Friends</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual const double* Observations::data </td>
+          <td class="memname">virtual std::size_t Observations::getDataLength </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -287,60 +289,8 @@ Friends</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Gets data in form of a double pointer. </p><dl class="section return"><dt>Returns</dt><dd>A double pointer. </dd></dl>
 
-<p>Implemented in <a class="el" href="class_observations__array.html#a75c4a3fea9a8ccd370309058701204f4">Observations_array</a>.</p>
-
-</div>
-</div>
-<a id="a4ae6818f6d01490eb14d63ce51a1d331"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4ae6818f6d01490eb14d63ce51a1d331">&#9670;&nbsp;</a></span>get_parameters_size()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">size_t Observations::get_parameters_size </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a30f67730e600545cf8cb9d7aed13bd33"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a30f67730e600545cf8cb9d7aed13bd33">&#9670;&nbsp;</a></span>get_stations_size()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">size_t Observations::get_stations_size </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a352e34f7c278c86f54c69def24dabcd1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a352e34f7c278c86f54c69def24dabcd1">&#9670;&nbsp;</a></span>get_times_size()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">size_t Observations::get_times_size </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
+<p>Implemented in <a class="el" href="class_observations__array.html#ae535b742be4ea895117da607fbe7c702">Observations_array</a>.</p>
 
 </div>
 </div>
@@ -387,6 +337,23 @@ Friends</h2></td></tr>
 
 </div>
 </div>
+<a id="aa54d9a904c390e964103bea086e065ee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa54d9a904c390e964103bea086e065ee">&#9670;&nbsp;</a></span>getParametersSize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t Observations::getParametersSize </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="aa485e3d95a967b9b4efd5c4efaf0c9e1"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa485e3d95a967b9b4efd5c4efaf0c9e1">&#9670;&nbsp;</a></span>getStationIndex()</h2>
 
@@ -413,6 +380,23 @@ Friends</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> const  &amp; Observations::getStations </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ada795eafca78fe436908ec66f2bb161e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ada795eafca78fe436908ec66f2bb161e">&#9670;&nbsp;</a></span>getStationsSize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t Observations::getStationsSize </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -457,62 +441,25 @@ Friends</h2></td></tr>
 
 </div>
 </div>
-<a id="ad7b52b880869698f4d191f47bae766e2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad7b52b880869698f4d191f47bae766e2">&#9670;&nbsp;</a></span>getValue() <span class="overload">[1/2]</span></h2>
+<a id="aeac31b76b1e849571bb277da8f4fe7a6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeac31b76b1e849571bb277da8f4fe7a6">&#9670;&nbsp;</a></span>getTimesSize()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual double Observations::getValue </td>
+          <td class="memname">size_t Observations::getTimesSize </td>
           <td>(</td>
-          <td class="paramtype">std::size_t&#160;</td>
-          <td class="paramname"><em>parameter_index</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::size_t&#160;</td>
-          <td class="paramname"><em>station_index</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::size_t&#160;</td>
-          <td class="paramname"><em>time_index</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td> const</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
-<p>Gets value using array index.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">parameter_index</td><td>Parameter index. </td></tr>
-    <tr><td class="paramname">station_index</td><td>Station index. </td></tr>
-    <tr><td class="paramname">time_index</td><td>Time index. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A double. </dd></dl>
-
-<p>Implemented in <a class="el" href="class_observations__array.html#a1d818317a4c3a6624021a6e44396ddc1">Observations_array</a>.</p>
 
 </div>
 </div>
-<a id="ac5564bbf13e79d269407d1ecf567cd7f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac5564bbf13e79d269407d1ecf567cd7f">&#9670;&nbsp;</a></span>getValue() <span class="overload">[2/2]</span></h2>
+<a id="a0da5d441448944fb88841b8883f823b7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0da5d441448944fb88841b8883f823b7">&#9670;&nbsp;</a></span>getValueByID()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -521,7 +468,7 @@ Friends</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual double Observations::getValue </td>
+          <td class="memname">virtual double Observations::getValueByID </td>
           <td>(</td>
           <td class="paramtype">std::size_t&#160;</td>
           <td class="paramname"><em>parameter_ID</em>, </td>
@@ -561,7 +508,89 @@ Friends</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A double. </dd></dl>
 
-<p>Implemented in <a class="el" href="class_observations__array.html#a33f2154b3fed9d488e06e8c92eecc4db">Observations_array</a>.</p>
+<p>Implemented in <a class="el" href="class_observations__array.html#a42449c7be492f7df27d74c370c8e719f">Observations_array</a>.</p>
+
+</div>
+</div>
+<a id="a85358b5d09f0ea02e27e06be09501cec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a85358b5d09f0ea02e27e06be09501cec">&#9670;&nbsp;</a></span>getValueByIndex()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual double Observations::getValueByIndex </td>
+          <td>(</td>
+          <td class="paramtype">std::size_t&#160;</td>
+          <td class="paramname"><em>parameter_index</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t&#160;</td>
+          <td class="paramname"><em>station_index</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t&#160;</td>
+          <td class="paramname"><em>time_index</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gets value using array index.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">parameter_index</td><td>Parameter index. </td></tr>
+    <tr><td class="paramname">station_index</td><td>Station index. </td></tr>
+    <tr><td class="paramname">time_index</td><td>Time index. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A double. </dd></dl>
+
+<p>Implemented in <a class="el" href="class_observations__array.html#aa90203b110c6fb6bda4e201df163510d">Observations_array</a>.</p>
+
+</div>
+</div>
+<a id="aa626ffb450b4647e1291053dd5b6d03c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa626ffb450b4647e1291053dd5b6d03c">&#9670;&nbsp;</a></span>getValues()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual const double* Observations::getValues </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gets data in form of a double pointer. </p><dl class="section return"><dt>Returns</dt><dd>A double pointer. </dd></dl>
+
+<p>Implemented in <a class="el" href="class_observations__array.html#ac024322acc4826e7fa60fddc74e4b3a3">Observations_array</a>.</p>
 
 </div>
 </div>
