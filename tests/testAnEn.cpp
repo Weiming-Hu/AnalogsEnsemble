@@ -385,15 +385,37 @@ void testAnEn::testSelectAnalogs() {
     // Compute similarity
     anen.computeSimilarity(search_forecasts, sds, sims,
             search_observations, mapping);
-    
+
     Analogs analogs;
     anen.selectAnalogs(analogs, sims, search_observations, mapping,
             0, // I know there is only one parameter
             4, // I only want 4 members
             false);
 
-    cout << sims;
+    vector<double> results{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 0, 0, 0, 0,
+        0, 0, 0, 5, 1, 1, 1, 1, 1, 1, 1, 4, 2, 2, 2, 2, 2, 2, 2, 3, 3,
+        3, 3, 3, 3, 3, 3, 34, 10, 11, 11, 12, 12, 13, 13, 30, 14, 15,
+        15, 16, 16, 17, 17, 26, 18, 19, 19, 20, 20, 21, 21, 22, 22, 23,
+        23, 24, 24, 25, 25};
 
-    cout << analogs;
+    size_t dim1 = analogs.shape()[0];
+    size_t dim2 = analogs.shape()[1];
+    size_t dim3 = analogs.shape()[2];
+    size_t dim4 = analogs.shape()[3];
+    size_t dim5 = analogs.shape()[4];
+
+    size_t i = 0;
+    for (size_t i_dim5 = 0; i_dim5 < dim5; i_dim5++) {
+        for (size_t i_dim4 = 0; i_dim4 < dim4; i_dim4++) {
+            for (size_t i_dim3 = 0; i_dim3 < dim3; i_dim3++) {
+                for (size_t i_dim2 = 0; i_dim2 < dim2; i_dim2++) {
+                    for (size_t i_dim1 = 0; i_dim1 < dim1; i_dim1++, i++) {
+                        CPPUNIT_ASSERT(results[i] == analogs[i_dim1][i_dim2][i_dim3][i_dim4][i_dim5]);
+                    }
+                }
+            }
+        }
+    }
 
 }

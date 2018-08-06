@@ -365,6 +365,7 @@ num_test_times, num_flts)
                             sim[i_member][COL_TAG_SIM::STATION];
                     analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::TIME] =
                             i_search_forecast_time;
+                    
                     analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::VALUE] =
                             data_observations[i_parameter][i_search_station]
                             [mapping(i_search_forecast_time, i_flt)];
