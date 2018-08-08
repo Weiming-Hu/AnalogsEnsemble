@@ -17,8 +17,6 @@
 using namespace std;
 using TAG = SimilarityMatrix::COL_TAG;
 
-const size_t NUM_COLS = 3;
-
 /*****************************************************************************
  *                              SimilarityMatrix                             *
  *****************************************************************************/
@@ -81,6 +79,23 @@ SimilarityMatrix::isOrdered() {
     return (ordered_);
 }
 
+void 
+SimilarityMatrix::setValues(vector<double> values) {
+    
+    if (values.size() % NUM_COLS != 0) 
+        throw out_of_range("Error: The input vector has wrong length!");
+    
+    size_t nrows = values.size() / NUM_COLS;
+    resize(nrows);
+    
+    size_t pos = 0;
+    for (size_t i_col = 0; i_col < NUM_COLS; i_col++) {
+        for (size_t i_row = 0; i_row < nrows; i_row++, pos++) {
+            (*this)[i_row][i_col] = values[pos];
+        }
+    }
+}
+
 TAG
 SimilarityMatrix::getOrderTag() {
     return (order_tag_);
@@ -139,6 +154,9 @@ SimilarityMatrix &
 /*****************************************************************************
  *                            SimilarityMatrices                             *
  *****************************************************************************/
+SimilarityMatrices::SimilarityMatrices() {
+}
+
 SimilarityMatrices::SimilarityMatrices(const Forecasts& forecasts) {
     setTargets(forecasts);
 }

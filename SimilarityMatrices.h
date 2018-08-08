@@ -57,6 +57,12 @@ public:
      * @return A boolean.
      */
     bool isOrdered();
+    
+    /**
+     * Set values from vector input.
+     * @param values
+     */
+    void setValues(std::vector<double> values);
 
     /**
      * Get the order tag.
@@ -71,6 +77,8 @@ public:
             const SimilarityMatrix&);
 
     SimilarityMatrix& operator=(const SimilarityMatrix & right);
+    
+    const static int NUM_COLS = 3;
 
 private:
 
@@ -94,7 +102,7 @@ private:
  */
 class SimilarityMatrices : public boost::multi_array<SimilarityMatrix, 3> {
 public:
-    SimilarityMatrices() = delete;
+    SimilarityMatrices();
     SimilarityMatrices(const SimilarityMatrices& orig) = delete;
     SimilarityMatrices(const Forecasts & forecasts);
 

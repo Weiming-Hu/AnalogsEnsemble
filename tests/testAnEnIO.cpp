@@ -511,3 +511,81 @@ void testAnEnIO::testReadPartForecasts() {
     CPPUNIT_ASSERT(forecasts.getValueByIndex(1, 2, 0, 0)
             == forecasts_full.getValueByIndex(2, 15, 5, 4));
 }
+
+void testAnEnIO::testReadWriteSimilarityMatrices() {
+
+    /**
+     * Test the read and write functions for SimilarityMatrices
+     */
+
+    // Create an example forecast object
+    anenSta::Station s1, s2("Hunan", 10, 20), s3("Hubei"),
+            s4("Guangdong", 30, 40), s5("Zhejiang"),
+            s6("Beijing", 30, 30);
+    anenSta::Stations stations_write;
+    stations_write.insert(stations_write.end(),{s1, s2, s3, s4, s5, s6});
+
+    anenPar::Parameter p1, p2("temperature", 0.6), p3("humidity", 0.3),
+            p4("wind direction", 0.05, true);
+    p1.setWeight(0.05);
+
+    anenPar::Parameters parameters_write;
+    parameters_write.insert(parameters_write.end(),{p1, p2, p3, p4});
+
+    anenTime::Times times_write;
+    times_write.insert(times_write.end(),{1, 2, 3, 4, 5, 6, 7, 8, 9, 10});
+
+    anenTime::FLTs flts_write;
+    flts_write.insert(flts_write.end(),{100, 200, 300, 400, 500});
+
+    vector<double> values_write(parameters_write.size()
+            * stations_write.size() * times_write.size() * flts_write.size());
+    generate(values_write.begin(), values_write.end(), rand);
+
+    Forecasts_array forecasts_write(
+            parameters_write, stations_write,
+            times_write, flts_write, values_write);
+
+    SimilarityMatrices sims_write(forecasts_write);
+
+    size_t nrows = 3;
+    size_t initial = 5;
+
+    for (size_t dim0 = 0; dim0 < sims_write.shape()[0]; dim0++) {
+        for (size_t dim1 = 0; dim1 < sims_write.shape()[1]; dim1++) {
+            for (size_t dim2 = 0; dim2 < sims_write.shape()[2]; dim2++) {
+                vector<double> sample(
+                        nrows * SimilarityMatrix::NUM_COLS, initial);
+                sims_write[dim0][dim1][dim2].setValues(sample);
+                nrows++;
+                initial++;
+            }
+        }
+    }
+
+    string file_path = "read-write-similarity.nc";
+    remove(file_path.c_str());
+
+    AnEnIO io("Write", file_path, "Similarity", 2);
+    io.writeSimilarityMatrices(sims_write);
+
+    SimilarityMatrices sims_read;
+    io.setMode("Read");
+    io.readSimilarityMatrices(sims_read);
+
+    CPPUNIT_ASSERT(sims_read.num_elements() == sims_write.num_elements());
+    for (size_t dim0 = 0; dim0 < sims_read.shape()[0]; dim0++) {
+        for (size_t dim1 = 0; dim1 < sims_read.shape()[1]; dim1++) {
+            for (size_t dim2 = 0; dim2 < sims_read.shape()[2]; dim2++) {
+                for (size_t i_row = 0;
+                        i_row < sims_read[dim0][dim1][dim2].nrows();
+                        i_row++) {
+                    CPPUNIT_ASSERT(sims_read[dim0][dim1][dim2][i_row][0] ==
+                            sims_write[dim0][dim1][dim2][i_row][0]);
+                }
+            }
+        }
+    }
+
+    remove(file_path.c_str());
+}

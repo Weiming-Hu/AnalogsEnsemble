@@ -10,6 +10,9 @@
 #include <boost/filesystem.hpp>
 #include <algorithm>
 #include <exception>
+#include <sstream>
+#include <set>
+#include <map>
 
 #if defined(_OPENMP)
 #include <omp.h>
@@ -26,13 +29,13 @@ using errorType = AnEnIO::errorType;
 AnEnIO::AnEnIO(string mode, string file_path) :
 mode_(mode), file_path_(file_path) {
     handleError(checkMode());
-    handleError(checkFile());
+    handleError(checkFilePath());
 }
 
 AnEnIO::AnEnIO(string mode, string file_path, string file_type) :
 mode_(mode), file_path_(file_path), file_type_(file_type) {
     handleError(checkMode());
-    handleError(checkFile());
+    handleError(checkFilePath());
     if (mode_ != "Write") handleError(checkFileType());
 }
 
@@ -41,7 +44,7 @@ AnEnIO::AnEnIO(string mode, string file_path,
 mode_(mode), file_path_(file_path),
 file_type_(file_type), verbose_(verbose) {
     handleError(checkMode());
-    handleError(checkFile());
+    handleError(checkFilePath());
     if (mode_ != "Write") handleError(checkFileType());
 }
 
@@ -54,7 +57,7 @@ file_type_(file_type), verbose_(verbose),
 required_variables_(required_variables),
 optional_variables_(optional_variables) {
     handleError(checkMode());
-    handleError(checkFile());
+    handleError(checkFilePath());
     if (mode_ != "Write") handleError(checkFileType());
 }
 
@@ -80,7 +83,7 @@ AnEnIO::checkMode() const {
 }
 
 errorType
-AnEnIO::checkFile() const {
+AnEnIO::checkFilePath() const {
 
     if (verbose_ >= 3) {
         cout << "Checking file (" << file_path_ << ") ..." << endl;
@@ -89,12 +92,21 @@ AnEnIO::checkFile() const {
     bool file_exists = filesys::exists(file_path_);
 
     if (file_exists && mode_ == "Write") {
-        if (verbose_ >= 1) {
-            cout << BOLDRED << "Error: File exists at "
-                    << file_path_ << RESET << endl;
-        }
+        if (add_) {
 
+            if (verbose_ >= 2) cout << RED
+                    << "Warning: writing to existing file "
+                    << file_path_ << "!" << RESET << endl;
+
+        } else {
+            if (verbose_ >= 1) {
+                cout << BOLDRED << "Error: File exists at "
+                        << file_path_ << RESET << endl;
+            }
+        }
+        
         return (FILE_EXISTS);
+
     } else if (!file_exists && mode_ == "Read") {
 
         if (verbose_ >= 1) {
@@ -116,7 +128,7 @@ AnEnIO::checkFile() const {
         }
 
         if (verbose_ >= 1) {
-            cout << BOLDRED << "Error: Unknown file type "
+            cout << BOLDRED << "Error: Unknown file extension "
                     << file_path_ << RESET << endl;
         }
 
@@ -151,9 +163,17 @@ AnEnIO::checkFileType() const {
             var_names = {"Data", "FLTs", "Times",
                 "StationNames", "ParameterNames"};
 
+        } else if (file_type_ == "Similarity") {
+
+            dim_names = {"cols"};
+
+        } else if (file_type_ == "Analogs") {
+
+            throw out_of_range("Error: no defined!");
+
         } else {
             if (verbose_ >= 1) {
-                cout << BOLDRED << "Error: Unknown file type."
+                cout << BOLDRED << "Error: Unknown file type "
                         << file_type_ << RESET << endl;
             }
             return (UNKOWN_FILE_TYPE);
@@ -326,21 +346,16 @@ AnEnIO::readObservations(Observations & observations) {
         return (WRONG_MODE);
     }
 
-    if (file_type_.empty()) {
-        if (verbose_ >= 1) {
-            cout << BOLDRED << "Error: File type not specified!"
-                    << RESET << endl;
-        }
-        return (UNKOWN_FILE_TYPE);
-    }
-
     if (file_type_ != "Observations") {
         if (verbose_ >= 1) {
-            cout << BOLDGREEN << "Error: File type is not 'Observations'."
+            cout << BOLDGREEN << "Error: File type should be Observations."
                     << RESET << endl;
         }
         return (WRONG_FILE_TYPE);
     }
+
+    handleError(checkFilePath());
+    handleError(checkFileType());
 
     // Read meta information
     anenPar::Parameters parameters;
@@ -380,13 +395,16 @@ AnEnIO::readObservations(Observations& observations, vector<size_t> start,
         return (WRONG_MODE);
     }
 
-    if (file_type_.empty()) {
+    if (file_type_ != "Observations") {
         if (verbose_ >= 1) {
-            cout << BOLDRED << "Error: File type is not specified!"
+            cout << BOLDGREEN << "Error: File type should be Observations."
                     << RESET << endl;
         }
         return (WRONG_FILE_TYPE);
     }
+
+    handleError(checkFilePath());
+    handleError(checkFileType());
 
     // Check indices
     if (start.size() != 3) {
@@ -448,21 +466,16 @@ AnEnIO::readForecasts(Forecasts & forecasts) {
         return (WRONG_MODE);
     }
 
-    if (file_type_.empty()) {
-        if (verbose_ >= 1) {
-            cout << BOLDRED << "Error: File type not specified!"
-                    << RESET << endl;
-        }
-        return (UNKOWN_FILE_TYPE);
-    }
-
     if (file_type_ != "Forecasts") {
         if (verbose_ >= 1) {
-            cout << BOLDGREEN << "Error: File type is not 'Observations'."
+            cout << BOLDGREEN << "Error: File type should be Forecasts."
                     << RESET << endl;
         }
         return (WRONG_FILE_TYPE);
     }
+
+    handleError(checkFilePath());
+    handleError(checkFileType());
 
     anenPar::Parameters parameters;
     anenSta::Stations stations;
@@ -506,21 +519,16 @@ AnEnIO::readForecasts(Forecasts& forecasts,
         return (WRONG_MODE);
     }
 
-    if (file_type_.empty()) {
-        if (verbose_ >= 1) {
-            cout << BOLDRED << "Error: File type not specified!"
-                    << RESET << endl;
-        }
-        return (UNKOWN_FILE_TYPE);
-    }
-
     if (file_type_ != "Forecasts") {
         if (verbose_ >= 1) {
-            cout << BOLDGREEN << "Error: File type is not 'Observations'."
+            cout << BOLDGREEN << "Error: File type should be Forecasts."
                     << RESET << endl;
         }
         return (WRONG_FILE_TYPE);
     }
+
+    handleError(checkFilePath());
+    handleError(checkFileType());
 
     // Check indices
     if (start.size() != 4) {
@@ -586,7 +594,7 @@ AnEnIO::readFLTs(anenTime::FLTs& flts) {
 
     if (file_type_ != "Forecasts") {
         if (verbose_ >= 1) cout << BOLDRED
-                << "Error: File type is not Forecasts!" << RESET << endl;
+                << "Error: File type should be Forecasts!" << RESET << endl;
         return (WRONG_FILE_TYPE);
     }
 
@@ -594,7 +602,7 @@ AnEnIO::readFLTs(anenTime::FLTs& flts) {
     handleError(checkVariable(var_name, false));
 
     vector<double> vec;
-    read_vector_(var_name, vec);
+    handleError(read_vector_(var_name, vec));
 
     // copy the vector to the set
     flts.clear();
@@ -630,7 +638,7 @@ AnEnIO::readFLTs(anenTime::FLTs& flts,
     handleError(checkVariable(var_name, false));
 
     vector<double> vec;
-    read_vector_(var_name, vec, start, count, stride);
+    handleError(read_vector_(var_name, vec, start, count, stride));
 
     // copy the vector to the set
     flts.clear();
@@ -674,7 +682,7 @@ AnEnIO::readParameters(anenPar::Parameters & parameters) {
 
         if (names.size() != dim_len) {
             if (verbose_ >= 2) {
-                cout << BOLDRED << "Warning: There should be " << dim_len
+                cout << RED << "Warning: There should be " << dim_len
                         << " parameter names! Variable not used!"
                         << RESET << endl;
             }
@@ -834,7 +842,7 @@ AnEnIO::readStations(anenSta::Stations& stations) {
 
         if (names.size() != dim_len) {
             if (verbose_ >= 2) {
-                cout << BOLDRED << "Warning: There should be " << dim_len
+                cout << RED << "Warning: There should be " << dim_len
                         << " station names! Variable not used!"
                         << RESET << endl;
             }
@@ -847,13 +855,13 @@ AnEnIO::readStations(anenSta::Stations& stations) {
     bool with_coordinates = false;
     if (SUCCESS == checkVariable("Xs", true) &&
             SUCCESS == checkVariable("Ys", true)) {
-        read_vector_("Xs", xs);
-        read_vector_("Ys", ys);
+        handleError(read_vector_("Xs", xs));
+        handleError(read_vector_("Ys", ys));
         with_coordinates = true;
 
         if (xs.size() != dim_len) {
             if (verbose_ >= 2) {
-                cout << BOLDRED << "Warning: There should be " << dim_len
+                cout << RED << "Warning: There should be " << dim_len
                         << " Xs! Coordinate variables not used!"
                         << RESET << endl;
             }
@@ -861,7 +869,7 @@ AnEnIO::readStations(anenSta::Stations& stations) {
         }
         if (ys.size() != dim_len) {
             if (verbose_ >= 2) {
-                cout << BOLDRED << "Warning: There should be " << dim_len
+                cout << RED << "Warning: There should be " << dim_len
                         << " Ys! Coordinate variables not used!"
                         << RESET << endl;
             }
@@ -935,8 +943,8 @@ AnEnIO::readStations(anenSta::Stations& stations,
     bool with_coordinates = false;
     if (SUCCESS == checkVariable("Xs", true) &&
             SUCCESS == checkVariable("Ys", true)) {
-        read_vector_("Xs", xs, start, count, stride);
-        read_vector_("Ys", ys, start, count, stride);
+        handleError(read_vector_("Xs", xs, start, count, stride));
+        handleError(read_vector_("Ys", ys, start, count, stride));
         with_coordinates = true;
     }
 
@@ -984,7 +992,7 @@ AnEnIO::readTimes(anenTime::Times& times) {
     handleError(checkVariable(var_name, false));
 
     vector<double> vec;
-    read_vector_(var_name, vec);
+    handleError(read_vector_(var_name, vec));
 
     // copy the vector to the set
     times.clear();
@@ -1020,7 +1028,7 @@ AnEnIO::readTimes(anenTime::Times& times,
     handleError(checkVariable(var_name, false));
 
     vector<double> vec;
-    read_vector_(var_name, vec, start, count, stride);
+    handleError(read_vector_(var_name, vec, start, count, stride));
 
     // copy the vector to the set
     times.clear();
@@ -1072,10 +1080,22 @@ AnEnIO::writeForecasts(const Forecasts & forecasts) const {
         return (WRONG_MODE);
     }
 
+    if (file_type_ != "Forecasts") {
+        if (verbose_ >= 1) {
+            cout << BOLDGREEN << "Error: File type should be Forecasts."
+                    << RESET << endl;
+        }
+        return (WRONG_FILE_TYPE);
+    }
+
     // Create an empty file
-    NcFile nc_empty(file_path_, NcFile::FileMode::newFile,
-            NcFile::FileFormat::nc4);
-    nc_empty.close();
+    if (checkFilePath() != FILE_EXISTS) {
+        NcFile nc_empty(file_path_, NcFile::FileMode::newFile,
+                NcFile::FileFormat::nc4);
+        nc_empty.close();
+    } else if (!add_) {
+        return (FILE_EXISTS);
+    }
 
     // Write meta info
     handleError(writeParameters(forecasts.getParameters(), false));
@@ -1119,10 +1139,24 @@ AnEnIO::writeObservations(const Observations & observations) const {
         return (WRONG_MODE);
     }
 
+    if (file_type_ != "Observations") {
+        if (verbose_ >= 1) {
+            cout << BOLDGREEN << "Error: File type should be Observations."
+                    << RESET << endl;
+        }
+        return (WRONG_FILE_TYPE);
+    }
+
+    handleError(checkFilePath());
+
     // Create an empty NetCDF file
-    NcFile nc_empty(file_path_, NcFile::FileMode::newFile,
-            NcFile::FileFormat::nc4);
-    nc_empty.close();
+    if (checkFilePath() != FILE_EXISTS) {
+        NcFile nc_empty(file_path_, NcFile::FileMode::newFile,
+                NcFile::FileFormat::nc4);
+        nc_empty.close();
+    } else if (!add_) {
+        return (FILE_EXISTS);
+    }
 
     // Write meta info
     handleError(writeParameters(observations.getParameters(), false));
@@ -1160,6 +1194,14 @@ AnEnIO::writeFLTs(const anenTime::FLTs& flts, bool unlimited) const {
         if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Write'."
                 << RESET << endl;
         return (WRONG_MODE);
+    }
+
+    if (file_type_ != "Forecasts") {
+        if (verbose_ >= 1) {
+            cout << BOLDGREEN << "Error: File type should be Forecasts."
+                    << RESET << endl;
+        }
+        return (WRONG_FILE_TYPE);
     }
 
     NcFile nc(file_path_, NcFile::FileMode::write);
@@ -1520,6 +1562,160 @@ shared(times_by_insert, p)
     return (SUCCESS);
 }
 
+errorType
+AnEnIO::readSimilarityMatrices(SimilarityMatrices & sims) {
+
+    if (verbose_ >= 3) cout << "Reading similarity matrices ..." << endl;
+
+    if (mode_ != "Read") {
+        if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Read'."
+                << RESET << endl;
+        return (WRONG_MODE);
+    }
+
+    if (file_type_ != "Similarity") {
+        if (verbose_ >= 1)
+            cout << BOLDRED << "Error: file type should be Similarity."
+                << RESET << endl;
+        return (WRONG_FILE_TYPE);
+    }
+
+    handleError(checkFilePath());
+    handleError(checkFileType());
+
+    // Read forecasts
+    setFileType("Forecasts");
+    Forecasts_array forecasts;
+    handleError(readForecasts(forecasts));
+    setFileType("Similarity");
+
+    // Resize similarity matrices to clear any leftover values
+    SimilarityMatrices::extent_gen extens;
+    sims.resize(extens[0][0][0]);
+
+    // Set forecast target for similarity matrices
+    sims.setTargets(forecasts);
+
+    stringstream ss;
+    ss.str(string());
+
+    vector<double> vals;
+
+    for (size_t dim0 = 0; dim0 < sims.shape()[0]; dim0++) {
+        for (size_t dim1 = 0; dim1 < sims.shape()[1]; dim1++) {
+            for (size_t dim2 = 0; dim2 < sims.shape()[2]; dim2++) {
+                ss << "station_" << dim0 << "_time_" << dim1 << "_flt_" << dim2;
+                handleError(read_vector_(ss.str(), vals));
+                sims[dim0][dim1][dim2].setValues(vals);
+                ss.str(string());
+            }
+        }
+    }
+
+    return (SUCCESS);
+}
+
+errorType
+AnEnIO::writeSimilarityMatrices(const SimilarityMatrices & sims) {
+
+    if (verbose_ >= 3) cout << "Writing similarity matrices ..." << endl;
+
+    if (mode_ != "Write") {
+        if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Write'."
+                << RESET << endl;
+        return (WRONG_MODE);
+    }
+
+    if (file_type_ != "Similarity") {
+        if (verbose_ >= 1)
+            cout << BOLDRED << "Error: file type should be Similarity."
+                << RESET << endl;
+        return (WRONG_FILE_TYPE);
+    }
+
+    if (checkFilePath() != FILE_EXISTS) {
+        NcFile nc(file_path_, NcFile::FileMode::newFile,
+                NcFile::FileFormat::nc4);
+        nc.close();
+    } else {
+        if (verbose_ >= 2) cout << RED << "Warning: writing to existing file "
+                << file_path_ << "!" << RESET << endl;
+    }
+
+    // Figure out how many different rows do the similarity matrices have
+    set<size_t> nrows;
+    for (auto p = sims.data(); p != sims.data() + sims.num_elements(); p++) {
+        nrows.insert(p->nrows());
+    }
+
+    NcFile nc(file_path_, NcFile::FileMode::write);
+
+    // Create dimensions for nrows and ncols
+    map<size_t, NcDim> nrows_map;
+
+    size_t count = 1;
+    for (const auto & nrow : nrows) {
+        string name("rows_");
+        name.append(to_string(count));
+        count++;
+
+        NcDim dim = nc.addDim(name, nrow);
+        nrows_map[nrow] = dim;
+    }
+
+    NcDim dim_col = nc.addDim("cols", SimilarityMatrix::NUM_COLS);
+
+    stringstream ss;
+    ss.str(string());
+
+    NcVar var;
+    vector<NcDim> dims(2);
+    dims[0] = dim_col;
+
+    for (size_t dim0 = 0; dim0 < sims.shape()[0]; dim0++) {
+        for (size_t dim1 = 0; dim1 < sims.shape()[1]; dim1++) {
+            for (size_t dim2 = 0; dim2 < sims.shape()[2]; dim2++) {
+                ss << "station_" << dim0 << "_time_" << dim1 << "_flt_" << dim2;
+                dims[1] = nrows_map[sims[dim0][dim1][dim2].nrows()];
+                var = nc.addVar(ss.str(), NC_DOUBLE, dims);
+
+                size_t sim_rows = sims[dim0][dim1][dim2].nrows();
+                vector<double> tmp(sim_rows * SimilarityMatrix::NUM_COLS);
+                size_t pos = 0;
+                for (size_t i_col = 0; i_col < SimilarityMatrix::NUM_COLS; i_col++) {
+                    for (size_t i_row = 0; i_row < sim_rows; i_row++, pos++) {
+                        tmp[pos] = sims[dim0][dim1][dim2][i_row][i_col];
+                    }
+                }
+
+                var.putVar(tmp.data());
+                ss.str(string());
+            }
+        }
+    }
+
+    nc.close();
+
+    setFileType("Forecasts");
+    bool ori = isAdd();
+    setAdd(true);
+    handleError(writeForecasts(sims.getTargets()));
+    setAdd(ori);
+    setFileType("Similarity");
+
+    return (SUCCESS);
+}
+
+errorType
+AnEnIO::readAnalogs(Analogs & analogs) {
+
+}
+
+errorType
+AnEnIO::writeAnalogs(const Analogs & analogs) {
+
+}
+
 void
 AnEnIO::handleError(const errorType & indicator) const {
     if (indicator == SUCCESS ||
@@ -1528,6 +1724,11 @@ AnEnIO::handleError(const errorType & indicator) const {
     } else {
         throw runtime_error("Error code " + to_string(indicator));
     }
+}
+
+bool
+AnEnIO::isAdd() const {
+    return add_;
 }
 
 int
@@ -1566,6 +1767,11 @@ AnEnIO::getRequiredDimensions() const {
 }
 
 void
+AnEnIO::setAdd(bool add) {
+    this->add_ = add;
+}
+
+void
 AnEnIO::setVerbose(int verbose) {
     this->verbose_ = verbose;
 }
@@ -1574,7 +1780,7 @@ void
 AnEnIO::setMode(string mode) {
     this->mode_ = mode;
     handleError(checkMode());
-    handleError(checkFile());
+    handleError(checkFilePath());
 }
 
 void
@@ -1582,13 +1788,13 @@ AnEnIO::setMode(string mode, string file_path) {
     this->mode_ = mode;
     this->file_path_ = file_path;
     handleError(checkMode());
-    handleError(checkFile());
+    handleError(checkFilePath());
 }
 
 void
 AnEnIO::setFilePath(string file_path) {
     this->file_path_ = file_path;
-    handleError(checkFile());
+    handleError(checkFilePath());
 }
 
 void

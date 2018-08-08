@@ -25,6 +25,7 @@ class testAnEnIO : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST(testReadPartFLTs);
     CPPUNIT_TEST(testReadPartObservations);
     CPPUNIT_TEST(testReadPartForecasts);
+    CPPUNIT_TEST(testReadWriteSimilarityMatrices);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -45,6 +46,7 @@ private:
     void testReadPartFLTs();
     void testReadPartObservations();
     void testReadPartForecasts();
+    void testReadWriteSimilarityMatrices();
 };
 
 #endif /* TESTANENIO_H */

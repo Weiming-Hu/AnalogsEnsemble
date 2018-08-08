@@ -17,6 +17,8 @@
 #include "Stations.h"
 #include "Parameters.h"
 #include "Forecasts.h"
+#include "Analogs.h"
+#include "SimilarityMatrices.h"
 #include "Observations.h"
 #include "colorTexts.h"
 
@@ -86,7 +88,7 @@ public:
      * 
      * @return AnEnIO::errorType.
      */
-    errorType checkFile() const;
+    errorType checkFilePath() const;
 
     /**
      * Checks whether the NetCDF file conforms with the file type.
@@ -250,6 +252,13 @@ public:
             const anenSta::Stations & stations, bool unlimited) const;
     errorType writeTimes(const anenTime::Times & times, bool unlimited) const;
 
+
+    errorType readSimilarityMatrices(SimilarityMatrices & sims);
+    errorType writeSimilarityMatrices(const SimilarityMatrices & sims);
+
+    errorType readAnalogs(Analogs & analogs);
+    errorType writeAnalogs(const Analogs & analogs);
+
     /**
      * Handles the errorType variable.
      * 
@@ -257,6 +266,7 @@ public:
      */
     void handleError(const errorType & indicator) const;
 
+    bool isAdd() const;
     int getVerbose() const;
     std::string getMode() const;
     std::string getFilePath() const;
@@ -264,7 +274,8 @@ public:
     std::vector<std::string> getOptionalVariables() const;
     std::vector<std::string> getRequiredVariables() const;
     std::vector<std::string> getRequiredDimensions() const;
-
+    
+    void setAdd(bool add);
     void setVerbose(int verbose_);
     void setMode(std::string mode);
     void setMode(std::string mode, std::string file_path);
@@ -284,7 +295,6 @@ public:
     void dumpVariable(std::string var_name,
             std::size_t start = 0,
             std::size_t count = 0) const;
-
 
 protected:
 
@@ -306,6 +316,11 @@ protected:
      * - Forecasts
      */
     std::string file_type_;
+
+    /**
+     * Whether to write to an existing file.
+     */
+    bool add_ = false;
 
     /**
      * Specifies the verbose level.
@@ -384,7 +399,14 @@ protected:
         }
 
         NcFile nc(file_path_, NcFile::FileMode::read);
+
         NcVar var = nc.getVar(var_name);
+        if (var.isNull()) {
+            if (verbose_ >= 1) cout << BOLDRED << "Error: Could not"
+                    << " find variable " << var_name << "!" << RESET << endl;
+            return (WRONG_INDEX_SHAPE);
+        }
+
         auto var_dims = var.getDims();
         T *p_vals = nullptr;
 
