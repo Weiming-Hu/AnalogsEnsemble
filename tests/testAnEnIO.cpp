@@ -131,15 +131,12 @@ void testAnEnIO::testWriteReadObservationFile() {
 
     Observations_array observations_write(
             parameters_write, stations_write, times_write, values_write);
-
     // Remove file if exists
     string file_path("read-write-observations.nc");
     remove(file_path.c_str());
 
     AnEnIO io("Write", file_path, "Observations", 2);
-
     io.handleError(io.writeObservations(observations_write));
-
     Observations_array observations_read;
     io.setMode("Read");
     io.handleError(io.readObservations(observations_read));
@@ -148,7 +145,6 @@ void testAnEnIO::testWriteReadObservationFile() {
      * function (==) provided by the class is based on ID. But here I
      * want to compare actual attribute values.
      */
-
     // Verify parameters
     auto parameters_read = observations_read.getParameters();
     const anenPar::multiIndexParameters::index<anenPar::by_insert>::type&
@@ -165,7 +161,6 @@ void testAnEnIO::testWriteReadObservationFile() {
         CPPUNIT_ASSERT(parameters_read_by_insert[i].getCircular() ==
                 parameters_write_by_insert[i].getCircular());
     }
-
     // Verify stations
     auto stations_read = observations_read.getStations();
     const anenSta::multiIndexStations::index<anenSta::by_insert>::type &
@@ -186,7 +181,6 @@ void testAnEnIO::testWriteReadObservationFile() {
                 (isnan(stations_read_by_insert[i].getY()) &&
                 isnan(stations_write_by_insert[i].getY())));
     }
-
     // Verify times
     auto times_read = observations_read.getTimes();
     const anenTime::multiIndexTimes::index<anenTime::by_insert>::type &
@@ -550,20 +544,8 @@ void testAnEnIO::testReadWriteSimilarityMatrices() {
 
     SimilarityMatrices sims_write(forecasts_write);
 
-    size_t nrows = 3;
-    size_t initial = 5;
-
-    for (size_t dim0 = 0; dim0 < sims_write.shape()[0]; dim0++) {
-        for (size_t dim1 = 0; dim1 < sims_write.shape()[1]; dim1++) {
-            for (size_t dim2 = 0; dim2 < sims_write.shape()[2]; dim2++) {
-                vector<double> sample(
-                        nrows * SimilarityMatrix::NUM_COLS, initial);
-                sims_write[dim0][dim1][dim2].setValues(sample);
-                nrows++;
-                initial++;
-            }
-        }
-    }
+    generate(sims_write.data(),
+            sims_write.data() + sims_write.num_elements(), rand);
 
     string file_path = "read-write-similarity.nc";
     remove(file_path.c_str());
@@ -579,11 +561,11 @@ void testAnEnIO::testReadWriteSimilarityMatrices() {
     for (size_t dim0 = 0; dim0 < sims_read.shape()[0]; dim0++) {
         for (size_t dim1 = 0; dim1 < sims_read.shape()[1]; dim1++) {
             for (size_t dim2 = 0; dim2 < sims_read.shape()[2]; dim2++) {
-                for (size_t i_row = 0;
-                        i_row < sims_read[dim0][dim1][dim2].nrows();
-                        i_row++) {
-                    CPPUNIT_ASSERT(sims_read[dim0][dim1][dim2][i_row][0] ==
-                            sims_write[dim0][dim1][dim2][i_row][0]);
+                for (size_t dim3 = 0; dim3 < sims_read.shape()[3]; dim3++) {
+                    for (size_t dim4 = 0; dim4 < sims_read.shape()[4]; dim4++) {
+                        CPPUNIT_ASSERT(sims_read[dim0][dim1][dim2][dim3][dim4]
+                                == sims_write[dim0][dim1][dim2][dim3][dim4]);
+                    }
                 }
             }
         }

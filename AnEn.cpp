@@ -8,6 +8,8 @@
 #include "AnEn.h"
 #include "exception"
 
+#include <boost/numeric/ublas/io.hpp>
+
 #define _USE_MATH_DEFINES
 #include <cmath>
 #include <ostream>
@@ -220,7 +222,7 @@ AnEn::computeSimilarity(
                 << "# of search stations: " << num_search_stations << endl
                 << "# of search times: " << num_search_times << endl;
     }
-    
+
     // Get data
     auto data_search_observations = search_observations.data();
     auto data_search_forecasts = search_forecasts.data();
@@ -239,18 +241,11 @@ AnEn::computeSimilarity(
         weights[i_parameter] = parameters_by_insert[i_parameter].getWeight();
     }
 
-#if defined(_OPENMP)
-#pragma omp parallel for default(none) schedule(static) collapse(3)\
-shared(num_test_stations, num_flts, num_test_times, sims, num_search_times, num_search_stations)
-#endif
-    // Initialize the similarity matrix for this forecast entry
-    for (size_t i_test_station = 0; i_test_station < num_test_stations; i_test_station++) {
-        for (size_t i_test_flt = 0; i_test_flt < num_flts; i_test_flt++) {
-            for (size_t i_test_time = 0; i_test_time < num_test_times; i_test_time++) {
-                sims[i_test_station][i_test_time][i_test_flt].resize(num_search_times * num_search_stations);
-            }
-        }
-    }
+    using COL_TAG_SIM = SimilarityMatrices::COL_TAG;
+    
+    sims.setMaxEntries(num_search_stations * num_search_times);
+    sims.resize();
+    fill(sims.data(), sims.data() + sims.num_elements(), NAN);
 
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(static) collapse(5)\
@@ -265,6 +260,8 @@ mapping, weights, data_search_forecasts, data_test_forecasts, sims, sds)
                     for (size_t i_search_time = 0; i_search_time < num_search_times; i_search_time++) {
 
                         size_t i_sim_row = i_search_station * num_search_times + i_search_time;
+                        if (isnan(sims[i_test_station][i_test_time][i_test_flt][i_sim_row][COL_TAG_SIM::VALUE]))
+                            sims[i_test_station][i_test_time][i_test_flt][i_sim_row][COL_TAG_SIM::VALUE] = 0;
 
                         for (size_t i_parameter = 0; i_parameter < num_parameters; i_parameter++) {
 
@@ -295,18 +292,15 @@ mapping, weights, data_search_forecasts, data_test_forecasts, sims, sds)
                                 double average = mean(window);
 
                                 if (sds[i_parameter][i_search_station][i_test_flt] > 0 && !isnan(average)) {
-                                    (sims[i_test_station][i_test_time][i_test_flt])
-                                            [i_sim_row][SimilarityMatrix::COL_TAG::VALUE] += weights[i_parameter] *
-                                            (sqrt(average) / sds[i_parameter][i_search_station][i_test_flt]);
+                                    sims[i_test_station][i_test_time][i_test_flt][i_sim_row][COL_TAG_SIM::VALUE]
+                                            += weights[i_parameter] * (sqrt(average) / sds[i_parameter][i_search_station][i_test_flt]);
                                 }
                             }
 
                         } // End loop of parameters
 
-                        (sims[i_test_station][i_test_time][i_test_flt])
-                                [i_sim_row][SimilarityMatrix::COL_TAG::STATION] = i_search_station;
-                        (sims[i_test_station][i_test_time][i_test_flt])
-                                [i_sim_row][SimilarityMatrix::COL_TAG::TIME] = i_search_time;
+                        sims[i_test_station][i_test_time][i_test_flt][i_sim_row][COL_TAG_SIM::STATION] = i_search_station;
+                        sims[i_test_station][i_test_time][i_test_flt][i_sim_row][COL_TAG_SIM::TIME] = i_search_time;
 
                     } // End loop of search times
                 } // End loop of search stations
@@ -324,61 +318,57 @@ AnEn::selectAnalogs(
         const Observations_array& search_observations,
         boost::numeric::ublas::matrix<size_t> mapping,
         size_t i_parameter, size_t num_members, bool quick) const {
-    
+
     if (verbose_ >= 3) cout << "Selecting analogs ..." << endl;
-    
+
     if (i_parameter >= search_observations.getParametersSize()) {
         if (verbose_ >= 1) cout << BOLDRED << "Error: i_parameter exceeds the limits. "
                 << "There are only " << search_observations.getParametersSize()
-                << " parameters available." << RESET << endl;
+            << " parameters available." << RESET << endl;
         return (WRONG_SHAPE);
     }
-    
+
     size_t num_test_stations = sims.getTargets().getStationsSize();
     size_t num_test_times = sims.getTargets().getTimesSize();
     size_t num_flts = sims.getTargets().getFLTsSize();
-    
+
     Analogs::extent_gen extents;
     analogs.resize(extents[0][0][0][0][0]);
     analogs.resize(extents[num_test_stations][num_test_times][num_flts][num_members][3]);
 
     using COL_TAG_ANALOG = Analogs::COL_TAG;
-    using COL_TAG_SIM = SimilarityMatrix::COL_TAG;
+    using COL_TAG_SIM = SimilarityMatrices::COL_TAG;
 
     sims.sortRows(quick, num_members);
 
     const auto & data_observations = search_observations.data();
-
+    
 #if defined(_OPENMP)
-#pragma omp parallel for default(none) schedule(static) collapse(3)\
+#pragma omp parallel for default(none) schedule(static) collapse(4)\
 shared(data_observations, sims, num_members, mapping, analogs, num_test_stations,\
 num_test_times, num_flts)
 #endif
     for (size_t i_test_station = 0; i_test_station < num_test_stations; i_test_station++) {
         for (size_t i_test_time = 0; i_test_time < num_test_times; i_test_time++) {
             for (size_t i_flt = 0; i_flt < num_flts; i_flt++) {
-
-                const auto & sim = sims[i_test_station][i_test_time][i_flt];
-                size_t num_rows = sim.nrows();
-                size_t max_members = (num_members < num_rows) ? num_members : num_rows;
-
-                for (size_t i_member = 0; i_member < max_members; i_member++) {
-                    size_t i_search_station = sim[i_member][COL_TAG_SIM::STATION];
-                    size_t i_search_forecast_time = sim[i_member][COL_TAG_SIM::TIME];
-
-                    analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::STATION] =
-                            sim[i_member][COL_TAG_SIM::STATION];
-                    analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::TIME] =
-                            i_search_forecast_time;
+                for (size_t i_member = 0; i_member < num_members; i_member++) {
                     
-                    analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::VALUE] =
-                            data_observations[i_parameter][i_search_station]
-                            [mapping(i_search_forecast_time, i_flt)];
+                    if (!isnan(sims[i_test_station][i_test_time][i_flt][i_member][COL_TAG_SIM::VALUE])) {
+                        size_t i_search_station = (size_t) sims[i_test_station][i_test_time][i_flt][i_member][COL_TAG_SIM::STATION];
+                        size_t i_search_forecast_time = (size_t) sims[i_test_station][i_test_time][i_flt][i_member][COL_TAG_SIM::TIME];
+
+                        analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::STATION] = i_search_station;
+                        analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::TIME] = i_search_forecast_time;
+
+                        analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::VALUE] =
+                                data_observations[i_parameter][i_search_station][mapping(i_search_forecast_time, i_flt)];
+                    }
+                    
                 }
             }
         }
     }
-    
+
     return (SUCCESS);
 }
 

@@ -9,159 +9,70 @@
 
 #include <exception>
 #include <algorithm>
+#include <exception>
+#include <iostream>
 
 #if defined(_OPENMP)
 #include <omp.h>
 #endif
 
 using namespace std;
-using TAG = SimilarityMatrix::COL_TAG;
+using COL_TAG = SimilarityMatrices::COL_TAG;
 
-/*****************************************************************************
- *                              SimilarityMatrix                             *
- *****************************************************************************/
+// Overload swap function for sortRows
+//
+// Ref:
+// http://coliru.stacked-crooked.com/a/bfbb5a98995cc2a4
+// https://stackoverflow.com/questions/36117142/sorting-boosts-multi-array-using-sort-function-and-a-recursive-comparator
+//
+namespace boost {
+    namespace detail {
+        namespace multi_array {
 
-SimilarityMatrix::SimilarityMatrix() {
-    resize(0);
-}
-
-SimilarityMatrix::SimilarityMatrix(size_t nrows) {
-    resize(nrows);
-}
-
-SimilarityMatrix::SimilarityMatrix(const SimilarityMatrix& orig) {
-    *this = orig;
-}
-
-SimilarityMatrix::~SimilarityMatrix() {
-}
-
-void
-SimilarityMatrix::resize(size_t nrows) {
-    vector< vector< double > >::resize(nrows);
-    for (auto & vec : * this) {
-        vec.resize(NUM_COLS, 0);
-    }
-}
-
-size_t
-SimilarityMatrix::nrows() const {
-    return size();
-}
-
-size_t
-SimilarityMatrix::ncols() const {
-    return NUM_COLS;
-}
-
-bool
-SimilarityMatrix::sortRows(bool quick, size_t length, COL_TAG col_tag) {
-
-    auto lambda = [col_tag](const vector<double> & lhs, const vector<double> & rhs) {
-        return ( lhs[col_tag] < rhs[col_tag]);
-    };
-
-    if (quick) {
-        if (length == 0) length = this->size();
-        nth_element(this->begin(), this->begin() + length,
-                this->end(), lambda);
-    } else {
-        sort(this->begin(), this->end(), lambda);
-    }
-
-    ordered_ = true;
-    order_tag_ = col_tag;
-    return true;
-}
-
-bool
-SimilarityMatrix::isOrdered() {
-    return (ordered_);
-}
-
-void 
-SimilarityMatrix::setValues(vector<double> values) {
-    
-    if (values.size() % NUM_COLS != 0) 
-        throw out_of_range("Error: The input vector has wrong length!");
-    
-    size_t nrows = values.size() / NUM_COLS;
-    resize(nrows);
-    
-    size_t pos = 0;
-    for (size_t i_col = 0; i_col < NUM_COLS; i_col++) {
-        for (size_t i_row = 0; i_row < nrows; i_row++, pos++) {
-            (*this)[i_row][i_col] = values[pos];
+            template < typename T, size_t dims >
+            static void swap(sub_array < T, dims > lhs,
+                    sub_array < T, dims > rhs) {
+                using std::swap;
+                for (auto ai = lhs.begin(), bi = rhs.begin();
+                        ai != lhs.end() && bi != rhs.end(); ++ai, ++bi) {
+                    swap(*ai, *bi);
+                }
+            }
         }
     }
 }
 
-TAG
-SimilarityMatrix::getOrderTag() {
-    return (order_tag_);
+SimilarityMatrices::SimilarityMatrices(size_t max_entries) :
+max_entries_(max_entries) {
 }
 
-void
-SimilarityMatrix::print(ostream & os) const {
-
-    printSize(os);
-    if (ordered_) cout << "Ordered by the column: " << order_tag_ << endl;
-
-    size_t O = size();
-    size_t P = NUM_COLS;
-
-    for (size_t p = 0; p < P; p++) {
-        os << "\t[ ," << p << "]";
-    }
-    os << endl;
-
-    for (size_t o = 0; o < O; o++) {
-        os << "[" << o << ", ]\t";
-
-        for (size_t p = 0; p < P; p++) {
-            os << (*this)[o][p] << "\t";
-        }
-        os << endl;
-
-    }
-    os << endl;
-}
-
-void
-SimilarityMatrix::printSize(ostream & os) const {
-    os << "Similarity Matrix shape = "
-            << "[" << size() << "]"
-            << "[" << NUM_COLS << "]" << endl;
-}
-
-ostream & operator<<(ostream & os,
-        const SimilarityMatrix& bv) {
-    bv.print(os);
-    return os;
-}
-
-SimilarityMatrix &
-        SimilarityMatrix::operator=(const SimilarityMatrix& right) {
-    if (this == &right) return *this;
-
-    vector< std::vector< double > >::operator=(right);
-    order_tag_ = right.order_tag_;
-    ordered_ = right.ordered_;
-
-    return *this;
-}
-
-/*****************************************************************************
- *                            SimilarityMatrices                             *
- *****************************************************************************/
-SimilarityMatrices::SimilarityMatrices() {
-}
-
-SimilarityMatrices::SimilarityMatrices(const Forecasts& forecasts) {
+SimilarityMatrices::SimilarityMatrices(
+        const Forecasts& forecasts, size_t max_entries) {
+    max_entries_ = max_entries;
     setTargets(forecasts);
 }
 
+SimilarityMatrices::SimilarityMatrices(const size_t& num_stations,
+        const size_t& num_times, const size_t& num_flts,
+        const size_t& max_entries) :
+boost::multi_array<double, 5>(boost::extents[num_stations][num_times]
+[num_flts][max_entries][NUM_COLS_]), max_entries_(max_entries) {
+}
+
 SimilarityMatrices::~SimilarityMatrices() {
+}
+
+void
+SimilarityMatrices::resize() {
+    boost::multi_array < double, 5 >::resize(
+            boost::extents[targets_.getStationsSize()][targets_.getTimesSize()]
+            [targets_.getFLTsSize()][max_entries_][NUM_COLS_]);
+}
+
+void
+SimilarityMatrices::resize(size_t dim0, size_t dim1, size_t dim2) {
+    boost::multi_array < double, 5 >::resize(
+            boost::extents[dim0][dim1][dim2][max_entries_][NUM_COLS_]);
 }
 
 void
@@ -177,27 +88,55 @@ SimilarityMatrices::setTargets(const Forecasts & targets) {
     vector<double> vec(p_vals, p_vals + targets.getDataLength());
     targets_.setValues(vec);
 
-    resize(boost::extents[targets.getStationsSize()]
-            [targets.getTimesSize()]
-            [targets.getFLTsSize()]);
+    // Resize the multi array values
+    resize(targets.getStationsSize(),
+            targets.getTimesSize(), targets.getFLTsSize());
 }
 
 bool
-SimilarityMatrices::sortRows(bool quick, size_t length,
-        SimilarityMatrix::COL_TAG col_tag) {
+SimilarityMatrices::sortRows(bool quick, size_t length, COL_TAG col_tag) {
+
+    matrixSort sortFunc;
+    sortFunc.order_tag = col_tag;
+
+    if (quick) {
+        if (length == 0) {
+            length = this->size();
+            cout << RED << "Warning: Length can't be 0 for quick sort."
+                    << " It has been set to the number of entries."
+                    << RESET << endl;
+        }
 
 #if defined(_OPENMP)
-#pragma omp parallel for default(none) schedule(static) collapse(3) shared(this) 
+#pragma omp parallel for default(none) schedule(static) \
+collapse(3) shared(this, sortFunc)
 #endif
-    for (size_t i_station = 0; i_station < shape()[0]; i_station++) {
-        for (size_t i_time = 0; i_time < shape()[1]; i_time++) {
-            for (size_t i_flt = 0; i_flt < shape()[2]; i_flt++) {
-                (*this)[i_station][i_time][i_flt].sortRows(
-                        quick, length, col_tag);
+        for (size_t i = 0; i < this->shape()[0]; i++) {
+            for (size_t j = 0; j < this->shape()[1]; j++) {
+                for (size_t k = 0; k < this->shape()[2]; k++) {
+                    nth_element((*this)[i][j][k].begin(),
+                            (*this)[i][j][k].begin() + length,
+                            (*this)[i][j][k].end(), sortFunc);
+                }
+            }
+        }
+
+    } else {
+#if defined(_OPENMP)
+#pragma omp parallel for default(none) schedule(static) \
+collapse(3) shared(this, sortFunc)
+#endif
+        for (size_t i = 0; i < this->shape()[0]; i++) {
+            for (size_t j = 0; j < this->shape()[1]; j++) {
+                for (size_t k = 0; k < this->shape()[2]; k++) {
+                    sort((*this)[i][j][k].begin(),
+                            (*this)[i][j][k].end(), sortFunc);
+                }
             }
         }
     }
-    
+
+    order_tag_ = col_tag;
     return true;
 }
 
@@ -207,27 +146,75 @@ SimilarityMatrices::getTargets() const {
 }
 
 void
+SimilarityMatrices::setOrderTag(COL_TAG order_tag) {
+    if (order_tag >= STATION || order_tag <= VALUE) order_tag_ = order_tag_;
+    else throw range_error("Error: Invalid order tag");
+}
+
+void
+SimilarityMatrices::setMaxEntries(size_t max_entries) {
+    max_entries_ = max_entries;
+}
+
+int
+SimilarityMatrices::getNumCols() {
+    return NUM_COLS_;
+}
+
+size_t
+SimilarityMatrices::getMaxEntries() {
+    return max_entries_;
+}
+
+COL_TAG
+SimilarityMatrices::getOrderTag() const {
+    return order_tag_;
+}
+
+void
 SimilarityMatrices::print(ostream& os) const {
-    cout << "Associated forecasts:" << endl
-            << targets_.getStations()
-            << targets_.getParameters()
-            << targets_.getTimes()
-            << targets_.getFLTs() << endl;
+    //    cout << "Associated forecasts:" << endl
+    //            << targets_.getStations()
+    //            << targets_.getParameters()
+    //            << targets_.getTimes()
+    //            << targets_.getFLTs() << endl;
     printSize(os);
-    for (size_t i = 0; i < shape()[0]; i++)
-        for (size_t j = 0; j < shape()[1]; j++)
-            for (size_t k = 0; k < shape()[2]; k++)
-                cout << "SimilarityMatrices[" << i
-                    << "][" << j << "][" << k << "]"
-                    << endl << (*this)[i][j][k];
+
+    size_t O = shape()[3];
+    size_t P = NUM_COLS_;
+
+    for (size_t i = 0; i < shape()[0]; i++) {
+        for (size_t j = 0; j < shape()[1]; j++) {
+            for (size_t k = 0; k < shape()[2]; k++) {
+                cout << "SimilarityMatrices[" << i << ", " << j
+                        << ", " << k << ", , ]" << endl;
+
+                for (size_t p = 0; p < P; p++) {
+                    os << "\t[ ," << p << "]";
+                }
+                os << endl;
+
+                for (size_t o = 0; o < O; o++) {
+                    os << "[" << o << ", ]\t";
+                    for (size_t p = 0; p < P; p++) {
+                        os << (*this)[i][j][k][o][p] << "\t";
+                    }
+                    os << endl;
+                }
+                os << endl;
+            }
+        }
+    }
 }
 
 void
 SimilarityMatrices::printSize(ostream& os) const {
-    os << "Similarity Matrices shape = "
+    os << "SimilarityMatrices shape = "
             << "[" << shape()[0] << "]"
             << "[" << shape()[1] << "]"
-            << "[" << shape()[2] << "]" << endl;
+            << "[" << shape()[2] << "]"
+            << "[" << shape()[3] << "]"
+            << "[" << shape()[4] << "]" << endl;
 }
 
 ostream & operator<<(ostream & os,

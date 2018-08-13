@@ -193,7 +193,7 @@ void testAnEn::testComputeSimilarity() {
                         i_search_time < search_times.size();
                         i_search_time++, index++) {
                     CPPUNIT_ASSERT((int) (sims[i_station][i_time][i_flt]
-                            [i_search_time][SimilarityMatrix::COL_TAG::VALUE] * 100)
+                            [i_search_time][SimilarityMatrices::COL_TAG::VALUE] * 100)
                             == (int) (results[index] * 100));
                 }
             }
@@ -300,7 +300,6 @@ void testAnEn::testSelectAnalogs() {
      * 
      * The data contains no NAN values. This test is designed for correctness.
      */
-
     // tick is created for assigning values
     double tick;
 
@@ -315,7 +314,6 @@ void testAnEn::testSelectAnalogs() {
     flts.insert(flts.end(),{1, 2, 3, 4});
 
     vector<double> values;
-
     // Construct test forecasts
     anenSta::Stations test_stations;
     test_stations.insert(test_stations.end(),{s1});
@@ -330,7 +328,6 @@ void testAnEn::testSelectAnalogs() {
     }
     Forecasts_array test_forecasts(parameters,
             test_stations, test_times, flts, values);
-
     // Construct search forecasts
     anenSta::Stations search_stations;
     search_stations.insert(search_stations.end(),{s1});
@@ -347,7 +344,6 @@ void testAnEn::testSelectAnalogs() {
     }
     Forecasts_array search_forecasts(parameters,
             search_stations, search_times, flts, values);
-
     // Construct search observations
     anenTime::Times search_observation_times;
     search_observation_times.insert(search_observation_times.end(),{
@@ -364,7 +360,6 @@ void testAnEn::testSelectAnalogs() {
             search_observation_times.size());
     Observations_array search_observations(parameters,
             search_stations, search_observation_times, values);
-
     // Construct AnEn object
     AnEn anen(2);
 
@@ -375,7 +370,6 @@ void testAnEn::testSelectAnalogs() {
     StandardDeviation sds(parameters.size(),
             search_stations.size(), flts.size());
     anen.computeStandardDeviation(search_forecasts, sds);
-
     // Pre compute the time mapping from forecasts to observations
     boost::numeric::ublas::matrix<size_t> mapping;
     anen.handleError(anen.computeObservationsTimeIndices(
@@ -383,9 +377,9 @@ void testAnEn::testSelectAnalogs() {
             search_observations.getTimes(), mapping));
 
     // Compute similarity
+    
     anen.computeSimilarity(search_forecasts, sds, sims,
             search_observations, mapping);
-
     Analogs analogs;
     anen.selectAnalogs(analogs, sims, search_observations, mapping,
             0, // I know there is only one parameter
@@ -417,5 +411,4 @@ void testAnEn::testSelectAnalogs() {
             }
         }
     }
-
 }

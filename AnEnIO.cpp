@@ -14,10 +14,6 @@
 #include <set>
 #include <map>
 
-#ifdef _TIME_PROFILING
-#include <ctime>
-#endif
-
 #if defined(_OPENMP)
 #include <omp.h>
 #endif
@@ -169,7 +165,8 @@ AnEnIO::checkFileType() const {
 
         } else if (file_type_ == "Similarity") {
 
-            dim_names = {"cols"};
+            dim_names = {"num_test_stations", "num_test_times",
+                "num_test_flts", "num_entries", "num_cols"};
 
         } else if (file_type_ == "Analogs") {
 
@@ -1589,37 +1586,20 @@ AnEnIO::readSimilarityMatrices(SimilarityMatrices & sims) {
 
     // Resize similarity matrices to clear any leftover values
     SimilarityMatrices::extent_gen extens;
-    sims.resize(extens[0][0][0]);
+    sims.resize(0, 0, 0);
 
     // Set forecast target for similarity matrices
     sims.setTargets(forecasts);
 
-    stringstream ss;
-    ss.str(string());
-
-    vector<double> vals;
-
-    for (size_t dim0 = 0; dim0 < sims.shape()[0]; dim0++) {
-        for (size_t dim1 = 0; dim1 < sims.shape()[1]; dim1++) {
-            for (size_t dim2 = 0; dim2 < sims.shape()[2]; dim2++) {
-                ss << "station_" << dim0 << "_time_" << dim1 << "_flt_" << dim2;
-                handleError(read_vector_(ss.str(), vals));
-                sims[dim0][dim1][dim2].setValues(vals);
-                ss.str(string());
-            }
-        }
-    }
+    vector<double> values;
+    handleError(read_vector_("SimilarityMatrices", values));
+    sims.assign(values.begin(), values.end());
 
     return (SUCCESS);
 }
 
 errorType
 AnEnIO::writeSimilarityMatrices(const SimilarityMatrices & sims) {
-
-#ifdef _TIME_PROFILING
-    cout << "[Profiling function writeSimilarityMatrices]" << endl;
-    clock_t begin = clock();
-#endif
 
     if (verbose_ >= 3) cout << "Writing similarity matrices ..." << endl;
 
@@ -1637,124 +1617,43 @@ AnEnIO::writeSimilarityMatrices(const SimilarityMatrices & sims) {
     }
 
     if (checkFilePath() != FILE_EXISTS) {
-        NcFile nc(file_path_, NcFile::FileMode::newFile,
+        NcFile nc_empty(file_path_, NcFile::FileMode::newFile,
                 NcFile::FileFormat::nc4);
-        nc.close();
-    } else {
-        if (verbose_ >= 2) cout << RED << "Warning: writing to existing file "
-                << file_path_ << "!" << RESET << endl;
+        nc_empty.close();
+    } else if (!add_) {
+        return (FILE_EXISTS);
     }
 
-    // Figure out how many different rows do the similarity matrices have
-    set<size_t> nrows;
-    for (auto p = sims.data(); p != sims.data() + sims.num_elements(); p++) {
-        nrows.insert(p->nrows());
-    }
+    size_t num_test_stations = sims.shape()[0],
+            num_test_times = sims.shape()[1],
+            num_test_flts = sims.shape()[2],
+            num_entries = sims.shape()[3],
+            num_cols = sims.shape()[4];
 
     NcFile nc(file_path_, NcFile::FileMode::write);
 
-    // Create dimensions for nrows and ncols
-    map<size_t, NcDim> nrows_map;
+    // Create dimensions
+    NcDim dim_stations = nc.addDim("num_test_stations", num_test_stations);
+    NcDim dim_times = nc.addDim("num_test_times", num_test_times);
+    NcDim dim_flts = nc.addDim("num_test_flts", num_test_flts);
+    NcDim dim_entries = nc.addDim("num_entries", num_entries);
+    NcDim dim_cols = nc.addDim("num_cols", num_cols);
 
-    size_t count = 1;
-    for (const auto & nrow : nrows) {
-        string name("rows_");
-        name.append(to_string(count));
-        count++;
+    // Create similarity matrices variable
+    NcVar var_sims = nc.addVar("SimilarityMatrices", NC_DOUBLE,{
+        dim_stations, dim_times, dim_flts, dim_entries, dim_cols
+    });
 
-        NcDim dim = nc.addDim(name, nrow);
-        nrows_map[nrow] = dim;
-    }
-
-    NcDim dim_col = nc.addDim("cols", SimilarityMatrix::NUM_COLS);
-
-    stringstream ss;
-    ss.str(string());
-
-    NcVar var;
-    vector<NcDim> dims(2);
-    dims[0] = dim_col;
-
-#ifdef _TIME_PROFILING
-    clock_t check_preparation = clock();
-    double time_loop_transform = 0.0;
-    double time_loop_assign = 0.0;
-#endif
-
-    for (size_t dim0 = 0; dim0 < sims.shape()[0]; dim0++) {
-        for (size_t dim1 = 0; dim1 < sims.shape()[1]; dim1++) {
-            for (size_t dim2 = 0; dim2 < sims.shape()[2]; dim2++) {
-                ss << "station_" << dim0 << "_time_" << dim1 << "_flt_" << dim2;
-                dims[1] = nrows_map[sims[dim0][dim1][dim2].nrows()];
-                var = nc.addVar(ss.str(), NC_DOUBLE, dims);
-
-#ifdef _TIME_PROFILING
-                clock_t begin_loop = clock();
-#endif
-
-                size_t sim_rows = sims[dim0][dim1][dim2].nrows();
-                vector<double> tmp(sim_rows * SimilarityMatrix::NUM_COLS);
-                size_t pos = 0;
-                for (size_t i_col = 0; i_col < SimilarityMatrix::NUM_COLS; i_col++) {
-                    for (size_t i_row = 0; i_row < sim_rows; i_row++, pos++) {
-                        tmp[pos] = sims[dim0][dim1][dim2][i_row][i_col];
-                    }
-                }
-
-#ifdef _TIME_PROFILING
-                clock_t check_loop_transform = clock();
-#endif
-
-                var.putVar(tmp.data());
-                ss.str(string());
-
-#ifdef _TIME_PROFILING
-                clock_t check_loop_assign = clock();
-                time_loop_transform += double(check_loop_transform - begin_loop);
-                time_loop_assign += double(check_loop_assign - check_loop_transform);
-#endif
-
-            }
-        }
-    }
-
-#ifdef _TIME_PROFILING
-    clock_t check_loop = clock();
-#endif
-
+    var_sims.putVar(sims.data());
     nc.close();
 
+    // Add Forecasts
     setFileType("Forecasts");
     bool ori = isAdd();
     setAdd(true);
     handleError(writeForecasts(sims.getTargets()));
     setAdd(ori);
     setFileType("Similarity");
-
-#ifdef _TIME_PROFILING
-    clock_t end = clock();
-
-    double time_preparation = double(check_preparation - begin) / CLOCKS_PER_SEC;
-    double time_loop = double(check_loop - check_preparation) / CLOCKS_PER_SEC;
-    double time_finish = double(end - check_loop) / CLOCKS_PER_SEC;
-    double time_total = double(end - begin) / CLOCKS_PER_SEC;
-    time_loop_transform /= CLOCKS_PER_SEC;
-    time_loop_assign /= CLOCKS_PER_SEC;
-    
-    cout << [Profiling results for function writeSimilarityMatrices] << endl
-            << "Preparation: " << time_preparation << " s ("
-            << time_preparation / time_total * 100 << "%)" << endl
-            << "Loop: " << time_loop << " s ("
-            << time_loop / time_total * 100 << "%)" << endl
-            << "    Transform: " << time_loop_transform << " s ("
-            << time_loop_transform / time_total * 100 << "%)" << endl
-            << "    Assign: " << time_loop_assign << " s ("
-            << time_loop_assign / time_total * 100 << "%)" << endl
-            << "Finish: " << time_finish << " s ("
-            << time_finish / time_total * 100 << "%)" << endl
-            << "Total: " << time_total << " s ("
-            << time_total / time_total * 100 << "%)" << endl;
-#endif
 
     return (SUCCESS);
 }

@@ -6,15 +6,6 @@
     </data>
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/Users/wuh20/github/AnalogsEnsemble/AnEn.h</file>
-            <file>file:/Users/wuh20/github/AnalogsEnsemble/SimilarityMatrices.h</file>
-            <file>file:/Users/wuh20/github/AnalogsEnsemble/AnEnIO.h</file>
-            <file>file:/Users/wuh20/github/AnalogsEnsemble/tests/testAnEn.cpp</file>
-            <file>file:/Users/wuh20/github/AnalogsEnsemble/SimilarityMatrices.cpp</file>
-            <file>file:/Users/wuh20/github/AnalogsEnsemble/tests/testAnEnIO.cpp</file>
-            <file>file:/Users/wuh20/github/AnalogsEnsemble/AnEn.cpp</file>
-            <file>file:/Users/wuh20/github/AnalogsEnsemble/AnEnIO.cpp</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

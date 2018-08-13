@@ -62,71 +62,79 @@ void testSimilarityMatrices::testMatricesConstructor() {
     for (size_t i = 0; i < mats.getTargets().getDataLength(); i++) {
         CPPUNIT_ASSERT(vec_mat[i] == values[i]);
     }
-
-    cout << mats;
 }
 
-void testSimilarityMatrices::testMatrixPrint() {
+void testSimilarityMatrices::testMatricesSort() {
 
     /**
-     * Test the print functionality of SimilarityMatrix
+     * Test the function sortRows().
      */
+    SimilarityMatrices sims(1, 3, 2, 6);
 
-    SimilarityMatrix mat(10);
+    vector<double> initials = {
+        0, 1, 5, 0, 2, 8, 0, 3, 9, 4, 2, 1, 4, 3, 5, NAN, NAN, NAN,
+        9, 1, 5, 1, 2, 3, NAN, NAN, NAN, 2, 3, 1, 4, 6, 3, 7, 8, 10,
+        3, 2, 5, 4, 6, 5, 4, 3, 2, 7, 6, NAN, NAN, NAN, 6, 9, 8, 1,
+        1, 2, 3, NAN, NAN, NAN, 2, 3, 1, 2, 4, 3, 5, 9, 1, 6, 8, 4,
+        NAN, NAN, NAN, 9, 8, 7, 8, 7, 6, 7, 8, 9, 5, 7, 6, 6, 8, 7,
+        3, 6, 5, 7, 6, 4, 8, 7, 3, 9, 9, 9, 7, 9, 1, NAN, NAN, NAN
+    };
 
-    for (size_t i = 0; i < mat.nrows(); ++i)
-        for (size_t j = 0; j < mat.ncols() - 1; ++j)
-            mat[i][j] = 3 * i + j;
+    if (initials.size() != sims.num_elements())
+        throw length_error("Number of elements don't match!");
+    sims.assign(initials.begin(), initials.end());
 
-    cout << mat;
-}
-
-void testSimilarityMatrices::testMatrixSort() {
-
-    /**
-     * Test the function sort().
-     */
-    SimilarityMatrix mat(10);
-
-    double val = 0;
-    size_t pos = 0;
-    vector<double> input{7, 49, 73, 58, 30, 72, 44, 78, 23, 9, 40, 65,
-        92, 42, 87, 3, 27, 29, 40, 12, 3, 69, 9, 57, 60, 33, 99, 78, 16, 35};
-    for (size_t i = 0; i < mat.nrows(); ++i)
-        for (size_t j = 0; j < mat.ncols(); ++j, val++, pos++) {
-            mat[i][j] = input[pos];
+    sims.sortRows(false, 0, SimilarityMatrices::COL_TAG::VALUE);
+    vector<double> results1 = {
+        4, 2, 1, 0, 1, 5, 4, 3, 5, 0, 2, 8, 0, 3, 9, NAN, NAN, NAN,
+        2, 3, 1, 1, 2, 3, 4, 6, 3, 9, 1, 5, 7, 8, 10, NAN, NAN, NAN,
+        9, 8, 1, 4, 3, 2, 3, 2, 5, 4, 6, 5, NAN, NAN, 6, 7, 6, NAN,
+        2, 3, 1, 5, 9, 1, 1, 2, 3, 2, 4, 3, 6, 8, 4, NAN, NAN, NAN,
+        8, 7, 6, 5, 7, 6, 9, 8, 7, 6, 8, 7, 7, 8, 9, NAN, NAN, NAN,
+        7, 9, 1, 8, 7, 3, 7, 6, 4, 3, 6, 5, 9, 9, 9, NAN, NAN, NAN
+    };
+    for (size_t i = 0; i < sims.num_elements(); i++) {
+        if (isnan(sims.data()[i]) || isnan(results1[i])) {
+            CPPUNIT_ASSERT(isnan(sims.data()[i]));
+            CPPUNIT_ASSERT(isnan(results1[i]));
+        } else {
+            CPPUNIT_ASSERT(sims.data()[i] == results1[i]);
         }
-    cout << mat;
+    }
 
-    cout << "Quick sort: (Please visually check the correctness)" << endl;
-    mat.sortRows(true, 5);
-    cout << mat;
-
-    cout << "Globle sort" << endl;
-    mat.sortRows(false);
-    cout << mat;
-    
-    pos = 0;
-    vector<double> result_global{40, 12, 3, 44, 78, 23, 3, 27, 29, 78, 16,
-        35, 69, 9, 57, 9, 40, 65, 58, 30, 72, 7, 49, 73, 92, 42, 87, 60, 33, 99};
-    for (size_t i = 0; i < mat.nrows(); ++i)
-        for (size_t j = 0; j < mat.ncols(); ++j, val++, pos++) {
-            CPPUNIT_ASSERT(mat[i][j] = result_global[pos]);
+    sims.sortRows(false, 0, SimilarityMatrices::COL_TAG::TIME);
+    vector<double> results2 = {
+        0, 1, 5, 4, 2, 1, 0, 2, 8, 4, 3, 5, 0, 3, 9, NAN, NAN, NAN,
+        9, 1, 5, 1, 2, 3, 2, 3, 1, 4, 6, 3, 7, 8, 10, NAN, NAN, NAN,
+        3, 2, 5, 4, 3, 2, 4, 6, 5, 7, 6, NAN, 9, 8, 1, NAN, NAN,
+        6, 1, 2, 3, 2, 3, 1, 2, 4, 3, 6, 8, 4, 5, 9, 1, NAN, NAN, NAN,
+        8, 7, 6, 5, 7, 6, 9, 8, 7, 6, 8, 7, 7, 8, 9, NAN, NAN, NAN,
+        7, 6, 4, 3, 6, 5, 8, 7, 3, 7, 9, 1, 9, 9, 9, NAN, NAN, NAN
+    };
+    for (size_t i = 0; i < sims.num_elements(); i++) {
+        if (isnan(sims.data()[i]) || isnan(results2[i])) {
+            CPPUNIT_ASSERT(isnan(sims.data()[i]));
+            CPPUNIT_ASSERT(isnan(results2[i]));
+        } else {
+            CPPUNIT_ASSERT(sims.data()[i] == results2[i]);
         }
-    
-}
+    }
 
-void testSimilarityMatrices::testMatrixResize() {
-
-    /**
-     * Test the Matrix resize function.
-     */
-
-    SimilarityMatrix test1;
-    CPPUNIT_ASSERT(test1.size() == 0);
-
-    SimilarityMatrix test2(4);
-    CPPUNIT_ASSERT(test2.size() == 4);
-    for (const auto & vec : test2)
-        CPPUNIT_ASSERT(vec.size() == 3);
+    sims.sortRows(true, 3);
+    vector<double> results3 = {
+        4, 2, 1, 0, 1, 5, 4, 3, 5, 0, 2, 8, 0, 3, 9, NAN, NAN, NAN,
+        2, 3, 1, 1, 2, 3, 4, 6, 3, 9, 1, 5, 7, 8, 10, NAN, NAN, NAN,
+        9, 8, 1, 4, 3, 2, 4, 6, 5, 3, 2, 5, NAN, NAN, 6, 7, 6, NAN,
+        2, 3, 1, 5, 9, 1, 2, 4, 3, 1, 2, 3, 6, 8, 4, NAN, NAN, NAN,
+        8, 7, 6, 5, 7, 6, 9, 8, 7, 6, 8, 7, 7, 8, 9, NAN, NAN, NAN,
+        7, 9, 1, 8, 7, 3, 7, 6, 4, 3, 6, 5, 9, 9, 9, NAN, NAN, NAN,
+    };
+    for (size_t i = 0; i < sims.num_elements(); i++) {
+        if (isnan(sims.data()[i]) || isnan(results3[i])) {
+            CPPUNIT_ASSERT(isnan(sims.data()[i]));
+            CPPUNIT_ASSERT(isnan(results3[i]));
+        } else {
+            CPPUNIT_ASSERT(sims.data()[i] == results3[i]);
+        }
+    }
 }

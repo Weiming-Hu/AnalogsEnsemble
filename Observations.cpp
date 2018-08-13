@@ -217,7 +217,6 @@ Observations_array::print(ostream& os) const {
 
     // Base class print function
     Observations::print(os);
-    os << endl;
 
     // Print data in derived class
     os << "Array Shape = ";
