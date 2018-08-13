@@ -342,6 +342,7 @@ void testAnEnIO::testReadPartParameters() {
     CPPUNIT_ASSERT(parameters_by_insert_1[0].getName() == "par_2");
     CPPUNIT_ASSERT(parameters_by_insert_1[1].getName() == "par_3");
 
+    parameters.clear();
     io.readParameters(parameters, 0, 2, 3);
 
     CPPUNIT_ASSERT(parameters.size() == 2);
@@ -372,6 +373,7 @@ void testAnEnIO::testReadPartStations() {
     CPPUNIT_ASSERT(io.readStations(stations, 1, 10, 4)
             == AnEnIO::errorType::WRONG_INDEX_SHAPE);
 
+    stations.clear();
     io.setVerbose(2);
     io.readStations(stations, 1, 3, 6);
     const anenSta::multiIndexStations::index<anenSta::by_insert>::type &

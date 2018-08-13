@@ -47,7 +47,7 @@ public:
         WRONG_SHAPE = -10,
         OUT_OF_RANGE = -20
     };
-
+    
     /**
      * Computes the standard deviation of times of forecasts for each 
      * parameter, each station, and each FLT. This function is designed to 
@@ -131,7 +131,7 @@ public:
      * @param indicator An AnEn::errorType.
      */
     void handleError(const errorType & indicator) const;
-
+    
     std::string getCacheSimilarity() const;
     std::string getOutputFolder() const;
     int getVerbose() const;

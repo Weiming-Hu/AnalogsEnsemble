@@ -14,6 +14,10 @@
 #include <set>
 #include <map>
 
+#ifdef _TIME_PROFILING
+#include <ctime>
+#endif
+
 #if defined(_OPENMP)
 #include <omp.h>
 #endif
@@ -104,7 +108,7 @@ AnEnIO::checkFilePath() const {
                         << file_path_ << RESET << endl;
             }
         }
-        
+
         return (FILE_EXISTS);
 
     } else if (!file_exists && mode_ == "Read") {
@@ -605,7 +609,6 @@ AnEnIO::readFLTs(anenTime::FLTs& flts) {
     handleError(read_vector_(var_name, vec));
 
     // copy the vector to the set
-    flts.clear();
     flts.insert(flts.end(), vec.begin(), vec.end());
 
     if (flts.size() != vec.size()) {
@@ -641,7 +644,6 @@ AnEnIO::readFLTs(anenTime::FLTs& flts,
     handleError(read_vector_(var_name, vec, start, count, stride));
 
     // copy the vector to the set
-    flts.clear();
     flts.insert(flts.end(), vec.begin(), vec.end());
 
     if (flts.size() != vec.size()) {
@@ -704,7 +706,7 @@ AnEnIO::readParameters(anenPar::Parameters & parameters) {
 
     // Construct anenPar::Parameter objects and
     // insert them into anenPar::Parameters
-    parameters.clear();
+    //
     for (size_t i = 0; i < dim_len; i++) {
 
         anenPar::Parameter parameter;
@@ -786,7 +788,7 @@ AnEnIO::readParameters(anenPar::Parameters& parameters,
 
     // Construct anenPar::Parameter objects and
     // insert them into anenPar::Parameters
-    parameters.clear();
+    //
     for (size_t i = 0; i < count; i++) {
 
         anenPar::Parameter parameter;
@@ -878,7 +880,6 @@ AnEnIO::readStations(anenSta::Stations& stations) {
     }
 
     // Construct Station object and insert them into anenSta::Stations
-    stations.clear();
     for (size_t i = 0; i < dim_len; i++) {
         anenSta::Station station;
 
@@ -949,7 +950,6 @@ AnEnIO::readStations(anenSta::Stations& stations,
     }
 
     // Construct Station object and insert them into anenSta::Stations
-    stations.clear();
     for (size_t i = 0; i < count; i++) {
         anenSta::Station station;
 
@@ -995,7 +995,6 @@ AnEnIO::readTimes(anenTime::Times& times) {
     handleError(read_vector_(var_name, vec));
 
     // copy the vector to the set
-    times.clear();
     times.insert(times.end(), vec.begin(), vec.end());
 
     if (times.size() != vec.size()) {
@@ -1031,7 +1030,6 @@ AnEnIO::readTimes(anenTime::Times& times,
     handleError(read_vector_(var_name, vec, start, count, stride));
 
     // copy the vector to the set
-    times.clear();
     times.insert(times.end(), vec.begin(), vec.end());
 
     if (times.size() != vec.size()) {
@@ -1618,6 +1616,11 @@ AnEnIO::readSimilarityMatrices(SimilarityMatrices & sims) {
 errorType
 AnEnIO::writeSimilarityMatrices(const SimilarityMatrices & sims) {
 
+#ifdef _TIME_PROFILING
+    cout << "[Profiling function writeSimilarityMatrices]" << endl;
+    clock_t begin = clock();
+#endif
+
     if (verbose_ >= 3) cout << "Writing similarity matrices ..." << endl;
 
     if (mode_ != "Write") {
@@ -1672,12 +1675,22 @@ AnEnIO::writeSimilarityMatrices(const SimilarityMatrices & sims) {
     vector<NcDim> dims(2);
     dims[0] = dim_col;
 
+#ifdef _TIME_PROFILING
+    clock_t check_preparation = clock();
+    double time_loop_transform = 0.0;
+    double time_loop_assign = 0.0;
+#endif
+
     for (size_t dim0 = 0; dim0 < sims.shape()[0]; dim0++) {
         for (size_t dim1 = 0; dim1 < sims.shape()[1]; dim1++) {
             for (size_t dim2 = 0; dim2 < sims.shape()[2]; dim2++) {
                 ss << "station_" << dim0 << "_time_" << dim1 << "_flt_" << dim2;
                 dims[1] = nrows_map[sims[dim0][dim1][dim2].nrows()];
                 var = nc.addVar(ss.str(), NC_DOUBLE, dims);
+
+#ifdef _TIME_PROFILING
+                clock_t begin_loop = clock();
+#endif
 
                 size_t sim_rows = sims[dim0][dim1][dim2].nrows();
                 vector<double> tmp(sim_rows * SimilarityMatrix::NUM_COLS);
@@ -1688,11 +1701,26 @@ AnEnIO::writeSimilarityMatrices(const SimilarityMatrices & sims) {
                     }
                 }
 
+#ifdef _TIME_PROFILING
+                clock_t check_loop_transform = clock();
+#endif
+
                 var.putVar(tmp.data());
                 ss.str(string());
+
+#ifdef _TIME_PROFILING
+                clock_t check_loop_assign = clock();
+                time_loop_transform += double(check_loop_transform - begin_loop);
+                time_loop_assign += double(check_loop_assign - check_loop_transform);
+#endif
+
             }
         }
     }
+
+#ifdef _TIME_PROFILING
+    clock_t check_loop = clock();
+#endif
 
     nc.close();
 
@@ -1702,6 +1730,31 @@ AnEnIO::writeSimilarityMatrices(const SimilarityMatrices & sims) {
     handleError(writeForecasts(sims.getTargets()));
     setAdd(ori);
     setFileType("Similarity");
+
+#ifdef _TIME_PROFILING
+    clock_t end = clock();
+
+    double time_preparation = double(check_preparation - begin) / CLOCKS_PER_SEC;
+    double time_loop = double(check_loop - check_preparation) / CLOCKS_PER_SEC;
+    double time_finish = double(end - check_loop) / CLOCKS_PER_SEC;
+    double time_total = double(end - begin) / CLOCKS_PER_SEC;
+    time_loop_transform /= CLOCKS_PER_SEC;
+    time_loop_assign /= CLOCKS_PER_SEC;
+    
+    cout << [Profiling results for function writeSimilarityMatrices] << endl
+            << "Preparation: " << time_preparation << " s ("
+            << time_preparation / time_total * 100 << "%)" << endl
+            << "Loop: " << time_loop << " s ("
+            << time_loop / time_total * 100 << "%)" << endl
+            << "    Transform: " << time_loop_transform << " s ("
+            << time_loop_transform / time_total * 100 << "%)" << endl
+            << "    Assign: " << time_loop_assign << " s ("
+            << time_loop_assign / time_total * 100 << "%)" << endl
+            << "Finish: " << time_finish << " s ("
+            << time_finish / time_total * 100 << "%)" << endl
+            << "Total: " << time_total << " s ("
+            << time_total / time_total * 100 << "%)" << endl;
+#endif
 
     return (SUCCESS);
 }

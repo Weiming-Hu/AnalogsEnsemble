@@ -23,6 +23,10 @@ const double MULTIPLY = M_PI / 180;
 const double MULTIPLY_REVERSE = 180 / M_PI;
 
 AnEn::AnEn() {
+#include "AnEn.h"
+#include "exception"
+
+#define _USE_MATH_DEFINES
 
 }
 
@@ -176,6 +180,7 @@ AnEn::computeSimilarity(
     size_t num_search_stations = search_forecasts.getStationsSize();
     size_t num_search_times = search_forecasts.getTimesSize();
 
+    // Check input
     if (num_parameters != search_forecasts.getParametersSize()) {
         if (verbose_ >= 1) cout << BOLDRED
                 << "Error: Search and test forecasts should have same numbers of parameters!"
@@ -215,7 +220,7 @@ AnEn::computeSimilarity(
                 << "# of search stations: " << num_search_stations << endl
                 << "# of search times: " << num_search_times << endl;
     }
-
+    
     // Get data
     auto data_search_observations = search_observations.data();
     auto data_search_forecasts = search_forecasts.data();
