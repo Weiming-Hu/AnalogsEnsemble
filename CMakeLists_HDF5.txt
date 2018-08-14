@@ -1,0 +1,106 @@
+# This script takes care of installing HDF5 
+#
+# The following vairables will be set
+# - HDF5_C_LIBRARY
+# - HDF5_HL_LIBRARY
+# - HDF5_INCLUDE_DIR
+#
+include(ExternalProject)
+enable_language(CXX)
+option(BUILD_HDF5 "build HDF5" OFF)
+
+
+########
+# HDF5 #
+########
+find_package(HDF5 COMPONENTS C HL)
+if(HDF5_FOUND)
+    if(HDF5_IS_PARALLEL)
+        message(STATUS "HDF5 has parallel I/O support. Set ENABLE_MPI to ${ENABLE_MPI} automatically.")
+        set(ENABLE_MPI TRUE)
+    else(HDF5_IS_PARALLEL)
+        if(ENABLE_MPI)
+            set(HDF5_FOUND FALSE)
+        endif(ENABLE_MPI)
+    endif(HDF5_IS_PARALLEL)
+else(HDF5_FOUND)
+    set(HDF5_IS_PARALLEL FALSE)
+endif(HDF5_FOUND)
+
+if(ENABLE_MPI)
+    # check MPI compiler
+    find_package(MPI REQUIRED)
+    if(CMAKE_C_COMPILER MATCHES "^.*mpi.*$" AND
+            CMAKE_CXX_COMPILER MATCHES "^.*mpi.*$")
+        message(STATUS "Configure support with MPI compiler")
+    else(CMAKE_C_COMPILER MATCHES "^.*mpi.*$" AND
+            CMAKE_CXX_COMPILER MATCHES "^.*mpi.*$")
+        message(FATAL_ERROR "Please specify CC and CXX to mpicc compiler/wrapper.")
+    endif(CMAKE_C_COMPILER MATCHES "^.*mpi.*$" AND
+        CMAKE_CXX_COMPILER MATCHES "^.*mpi.*$")
+endif(ENABLE_MPI)    
+
+if(BUILD_HDF5)
+    set(HDF5_FOUND FALSE)
+endif(BUILD_HDF5)
+
+if(NOT HDF5_FOUND)
+    message(STATUS "HDF5 is not found or does not meet the requirement. Try to build it.")
+    message(STATUS "Or please specify the variable CMAKE_PREFIX_PATH which contains /bin, /lib, and /include.")
+    set(HDF5_VERSION "1.8.13")
+    set(HDF5_URL "ftp://ftp.unidata.ucar.edu/pub/netcdf/netcdf-4/hdf5-${HDF5_VERSION}.tar.gz")
+    #set(HDF5_URL "ftp://ftp.unidata.ucar.edu/pub/netcdf/netcdf-4/hdf5-${HDF5_VERSION}.tar.bz2")
+    set(HDF5_ROOT_PATH "${DEPENDENCY_PATH}/HDF5")
+    set(HDF5_INSTALL_PREFIX "${HDF5_ROOT_PATH}/install")
+    set(HDF5_BUILD_HL_LIB "-DHDF5_BUILD_HL_LIB=ON")
+    set(HDF5_BUILD_TYPE "-DCMAKE_BUILD_TYPE=${CMAKE_EXTERNAL_PROJECT_BUILD_TYPE}")
+    set(HDF5_C_COMPILER "-DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}")
+    set(HDF5_CXX_COMPILER "-DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}")
+    set(HDF5_PREFIX_PATH "-DCMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}")
+    set(HDF5_CMAKE_ARGS "-DCMAKE_INSTALL_PREFIX=${HDF5_INSTALL_PREFIX}")
+    set(HDF5_CMAKE_ARGS ${HDF5_CMAKE_ARGS} ${HDF5_PREFIX_PATH}
+        ${HDF5_BUILD_TYPE} ${HDF5_BUILD_HL_LIB}
+        ${HDF5_C_COMPILER} ${HDF5_CXX_COMPILER})
+
+    if(ENABLE_MPI)
+        set(HDF5_ENABLE_PARALLEL "-DHDF5_ENABLE_PARALLEL=ON")
+        set(HDF5_CMAKE_ARGS ${HDF5_CMAKE_ARGS} ${HDF5_ENABLE_PARALLEL})
+        set(HDF5_IS_PARALLEL TRUE)
+    endif(ENABLE_MPI)
+
+    if(VERBOSE)
+        set(VERBOSE_DOWNLOAD 0)
+        set(VERBOSE_CONFIGURE 0)
+        set(VERBOSE_BUILD 0) 
+        set(VERBOSE_INSTALL 0) 
+        set(VERBOSE_TEST 0)
+    else(VERBOSE)
+        set(VERBOSE_DOWNLOAD 1)
+        set(VERBOSE_CONFIGURE 1)
+        set(VERBOSE_BUILD 1) 
+        set(VERBOSE_INSTALL 1) 
+        set(VERBOSE_TEST 1)
+    endif(VERBOSE)
+    ExternalProject_add(HDF5
+        PREFIX ${HDF5_ROOT_PATH}
+        URL ${HDF5_URL}
+        PATCH_COMMAND ""
+        UPDATE_COMMAND ""
+        CMAKE_ARGS ${HDF5_CMAKE_ARGS}
+        BUILD_COMMAND ${MAKE}
+        LOG_TEST ${VERBOSE_TEST}
+        LOG_DOWNLOAD ${VERBOSE_DOWNLOAD}
+        LOG_CONFIGURE ${VERBOSE_CONFIGURE}
+        LOG_BUILD ${VERBOSE_BUILD}
+        LOG_INSTALL ${VERBOSE_INSTALL})
+
+    set(HDF5_C_LIBRARY ${HDF5_INSTALL_PREFIX}/lib/libhdf5.a)
+    set(HDF5_HL_LIBRARY ${HDF5_INSTALL_PREFIX}/lib/libhdf5_hl.a)
+    set(HDF5_INCLUDE_DIR ${HDF5_INSTALL_PREFIX}/include)
+else(NOT HDF5_FOUND)
+    #message(WARNING "HDF5 is found. But make sure you are using the
+    #same compiler used for HDF5 to compile the CAnalogs program")
+    set(HDF5_C_LIBRARY ${HDF5_C_LIBRARIES})
+    set(HDF5_HL_LIBRARY ${HDF5_HL_LIBRARIES})
+    set(HDF5_INCLUDE_DIR ${HDF5_INCLUDE_DIRS})
+endif(NOT HDF5_FOUND)

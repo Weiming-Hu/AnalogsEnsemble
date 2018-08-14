@@ -44,3 +44,9 @@
 *.dep.inc
 */*.dep.inc
 .Rproj.user
+
+# Customize
+build
+output
+dependency
+doxygen-output
