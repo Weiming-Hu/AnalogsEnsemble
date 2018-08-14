@@ -78,8 +78,6 @@ $(function() {
 Collaboration diagram for AnEn:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_an_en__coll__graph.png" border="0" usemap="#_an_en_coll__map" alt="Collaboration graph"/></div>
-<map name="_an_en_coll__map" id="_an_en_coll__map">
-</map>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
@@ -369,7 +367,7 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Computes the corresponding indices for observation times from forecast times and FLTs.</p>
+<p>Computes the corresponding indices for observation times from forecast times and <a class="el" href="class_f_l_ts.html">FLTs</a>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">times_forecasts</td><td>Forecast anenTimes::Time. </td></tr>
@@ -419,7 +417,7 @@ Public Member Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">matrix</td><td>A matrix to store the range of FLT windows. </td></tr>
-    <tr><td class="paramname">num_flts</td><td>Number of FLTs. </td></tr>
+    <tr><td class="paramname">num_flts</td><td>Number of <a class="el" href="class_f_l_ts.html">FLTs</a>. </td></tr>
     <tr><td class="paramname">window_half_size</td><td>Half size of the window. </td></tr>
   </table>
   </dd>
@@ -476,9 +474,9 @@ Public Member Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">search_forecasts</td><td><a class="el" href="class_forecasts.html" title="Forecasts class provides interface for reading and writing forecast data from and to a NetCDF file...">Forecasts</a> to search. </td></tr>
     <tr><td class="paramname">sds</td><td>Pre-computed standard deviation of the forecasts to search. This can be computed from the function <a class="el" href="class_an_en.html#a759e434ea7749b867900b783a1d02180">AnEn::computeStandardDeviation</a>; </td></tr>
-    <tr><td class="paramname">sims</td><td>A <a class="el" href="class_similarity_matrices.html" title="SimilarityMatrices class stores multiple SimilarityMatrix. Default dimensions of SimilarityMatrices a...">SimilarityMatrices</a>. </td></tr>
+    <tr><td class="paramname">sims</td><td>A <a class="el" href="class_similarity_matrices.html" title="SimilarityMatrices class stores similarity metrics. Default dimensions of SimilarityMatrices are: [te...">SimilarityMatrices</a>. </td></tr>
     <tr><td class="paramname">search_observations</td><td><a class="el" href="class_observations.html" title="Observations class provides interface for reading and writing observations from and to a NetCDF file...">Observations</a> to search. </td></tr>
-    <tr><td class="paramname">mapping</td><td>A matrix stores the mapping indices from forecasts times and FLTs to observation times. </td></tr>
+    <tr><td class="paramname">mapping</td><td>A matrix stores the mapping indices from forecasts times and <a class="el" href="class_f_l_ts.html">FLTs</a> to observation times. </td></tr>
   </table>
   </dd>
 </dl>

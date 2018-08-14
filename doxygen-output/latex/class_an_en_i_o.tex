@@ -68,7 +68,7 @@ virtual \mbox{\hyperlink{class_an_en_i_o_a1e7aef95fd2a0c6aaef55998f48368f4}{$\si
 \item 
 \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} \mbox{\hyperlink{class_an_en_i_o_a2dbb61800810628c09158882d3727478}{check\+Mode}} () const
 \item 
-\mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} \mbox{\hyperlink{class_an_en_i_o_adf0b96d441687159e1d884273847d68e}{check\+File}} () const
+\mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} \mbox{\hyperlink{class_an_en_i_o_aac9e5ef017cb141eedbbda6583b699ad}{check\+File\+Path}} () const
 \item 
 \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} \mbox{\hyperlink{class_an_en_i_o_aa9b4700db58d0ef09af429d5d31ff55f}{check\+File\+Type}} () const
 \item 
@@ -118,7 +118,17 @@ virtual \mbox{\hyperlink{class_an_en_i_o_a1e7aef95fd2a0c6aaef55998f48368f4}{$\si
 \item 
 \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} \mbox{\hyperlink{class_an_en_i_o_a13ba268b1cae107c145ad8ed895ddedd}{write\+Times}} (const \mbox{\hyperlink{classanen_time_1_1_times}{anen\+Time\+::\+Times}} \&times, bool unlimited) const
 \item 
+\mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} \mbox{\hyperlink{class_an_en_i_o_a237d03f50bb9101c40f7842694d25c5e}{read\+Similarity\+Matrices}} (\mbox{\hyperlink{class_similarity_matrices}{Similarity\+Matrices}} \&sims)
+\item 
+\mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} \mbox{\hyperlink{class_an_en_i_o_af4d66adaa8c94540dd6e7dd21c41be38}{write\+Similarity\+Matrices}} (const \mbox{\hyperlink{class_similarity_matrices}{Similarity\+Matrices}} \&sims)
+\item 
+\mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} \mbox{\hyperlink{class_an_en_i_o_ab9199c18d2a4a1e005dc5b1fefe6e75b}{read\+Analogs}} (\mbox{\hyperlink{class_analogs}{Analogs}} \&analogs)
+\item 
+\mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} \mbox{\hyperlink{class_an_en_i_o_a0a6326b1fe67f23b81667af12a99a5f0}{write\+Analogs}} (const \mbox{\hyperlink{class_analogs}{Analogs}} \&analogs)
+\item 
 void \mbox{\hyperlink{class_an_en_i_o_a92276aeba9c0b5bd1cd3d285271d505f}{handle\+Error}} (const \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} \&indicator) const
+\item 
+bool \mbox{\hyperlink{class_an_en_i_o_a0cd2479fe69440fb8643b7b5e84e06b1}{is\+Add}} () const
 \item 
 int \mbox{\hyperlink{class_an_en_i_o_a0bf0dab5e393c5597f97ab38c910e24d}{get\+Verbose}} () const
 \item 
@@ -133,6 +143,8 @@ std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{class_an_en_i_o_a50997e1baef
 std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{class_an_en_i_o_abd3cbf0e384dd9d610f985fb4131df9b}{get\+Required\+Variables}} () const
 \item 
 std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{class_an_en_i_o_a80e8d2bc7f90b24b93c560a24aeb126e}{get\+Required\+Dimensions}} () const
+\item 
+void \mbox{\hyperlink{class_an_en_i_o_ada3447ac52d460ae2cbc355dcd55bd35}{set\+Add}} (bool add)
 \item 
 void \mbox{\hyperlink{class_an_en_i_o_a696dff7bb250fc45b597e5f82e33e23e}{set\+Verbose}} (int \mbox{\hyperlink{class_an_en_i_o_a4f6abd007730e4a8f54d57cc3572bd9e}{verbose\+\_\+}})
 \item 
@@ -177,6 +189,8 @@ std\+::string \mbox{\hyperlink{class_an_en_i_o_a311891a4a1a6b3907246da853bc4e5c8
 std\+::string \mbox{\hyperlink{class_an_en_i_o_ab892e06ca18be5e0c442c9e882e4475f}{file\+\_\+path\+\_\+}}
 \item 
 std\+::string \mbox{\hyperlink{class_an_en_i_o_addbfb455f641a394c14907163874d8fe}{file\+\_\+type\+\_\+}}
+\item 
+bool \mbox{\hyperlink{class_an_en_i_o_af41950dbc4fabfba3d00263c297b50ad}{add\+\_\+}} = false
 \item 
 int \mbox{\hyperlink{class_an_en_i_o_a4f6abd007730e4a8f54d57cc3572bd9e}{verbose\+\_\+}} = 2
 \item 
@@ -353,11 +367,11 @@ Checks whether the dimension exists.
 Checks the required dimensions. \begin{DoxyReturn}{Returns}
 \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{An\+En\+I\+O\+::error\+Type}}. 
 \end{DoxyReturn}
-\mbox{\Hypertarget{class_an_en_i_o_adf0b96d441687159e1d884273847d68e}\label{class_an_en_i_o_adf0b96d441687159e1d884273847d68e}} 
-\index{An\+En\+IO@{An\+En\+IO}!check\+File@{check\+File}}
-\index{check\+File@{check\+File}!An\+En\+IO@{An\+En\+IO}}
-\subsubsection{\texorpdfstring{check\+File()}{checkFile()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} An\+En\+I\+O\+::check\+File (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+\mbox{\Hypertarget{class_an_en_i_o_aac9e5ef017cb141eedbbda6583b699ad}\label{class_an_en_i_o_aac9e5ef017cb141eedbbda6583b699ad}} 
+\index{An\+En\+IO@{An\+En\+IO}!check\+File\+Path@{check\+File\+Path}}
+\index{check\+File\+Path@{check\+File\+Path}!An\+En\+IO@{An\+En\+IO}}
+\subsubsection{\texorpdfstring{check\+File\+Path()}{checkFilePath()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} An\+En\+I\+O\+::check\+File\+Path (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
 
 Checks file path and file extension.
 
@@ -489,6 +503,12 @@ Handles the error\+Type variable.
 {\em indicator} & An \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{An\+En\+I\+O\+::error\+Type}} item. \\
 \hline
 \end{DoxyParams}
+\mbox{\Hypertarget{class_an_en_i_o_a0cd2479fe69440fb8643b7b5e84e06b1}\label{class_an_en_i_o_a0cd2479fe69440fb8643b7b5e84e06b1}} 
+\index{An\+En\+IO@{An\+En\+IO}!is\+Add@{is\+Add}}
+\index{is\+Add@{is\+Add}!An\+En\+IO@{An\+En\+IO}}
+\subsubsection{\texorpdfstring{is\+Add()}{isAdd()}}
+{\footnotesize\ttfamily bool An\+En\+I\+O\+::is\+Add (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
 \mbox{\Hypertarget{class_an_en_i_o_ae8ed483b1dcdbf2a15148d60f8067595}\label{class_an_en_i_o_ae8ed483b1dcdbf2a15148d60f8067595}} 
 \index{An\+En\+IO@{An\+En\+IO}!purge\+\_\+@{purge\+\_\+}}
 \index{purge\+\_\+@{purge\+\_\+}!An\+En\+IO@{An\+En\+IO}}
@@ -572,6 +592,20 @@ Reads variables as a atomic vector.
 {\footnotesize\ttfamily template$<$typename T $>$ \\
 \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} An\+En\+I\+O\+::read\+\_\+vector\+\_\+ (\begin{DoxyParamCaption}\item[{std\+::string}]{var\+\_\+name,  }\item[{std\+::vector$<$ T $>$ \&}]{results,  }\item[{size\+\_\+t}]{start,  }\item[{size\+\_\+t}]{count,  }\item[{ptrdiff\+\_\+t}]{stride = {\ttfamily 1} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
 
+\mbox{\Hypertarget{class_an_en_i_o_ab9199c18d2a4a1e005dc5b1fefe6e75b}\label{class_an_en_i_o_ab9199c18d2a4a1e005dc5b1fefe6e75b}} 
+\index{An\+En\+IO@{An\+En\+IO}!read\+Analogs@{read\+Analogs}}
+\index{read\+Analogs@{read\+Analogs}!An\+En\+IO@{An\+En\+IO}}
+\subsubsection{\texorpdfstring{read\+Analogs()}{readAnalogs()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} An\+En\+I\+O\+::read\+Analogs (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_analogs}{Analogs}} \&}]{analogs }\end{DoxyParamCaption})}
+
+Read \mbox{\hyperlink{class_analogs}{Analogs}}. 
+\begin{DoxyParams}{Parameters}
+{\em analogs} & \mbox{\hyperlink{class_analogs}{Analogs}} to store the data. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{An\+En\+I\+O\+::error\+Type}}. 
+\end{DoxyReturn}
 \mbox{\Hypertarget{class_an_en_i_o_a5ca1c7df3da9720967d7ed06f2dfe09b}\label{class_an_en_i_o_a5ca1c7df3da9720967d7ed06f2dfe09b}} 
 \index{An\+En\+IO@{An\+En\+IO}!read\+Dim\+Length@{read\+Dim\+Length}}
 \index{read\+Dim\+Length@{read\+Dim\+Length}!An\+En\+IO@{An\+En\+IO}}
@@ -714,6 +748,20 @@ An \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{An\+En\+I
 \subsubsection{\texorpdfstring{read\+Parameters()}{readParameters()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} An\+En\+I\+O\+::read\+Parameters (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classanen_par_1_1_parameters}{anen\+Par\+::\+Parameters}} \&}]{parameters,  }\item[{size\+\_\+t}]{start,  }\item[{size\+\_\+t}]{count,  }\item[{ptrdiff\+\_\+t}]{stride = {\ttfamily 1} }\end{DoxyParamCaption})}
 
+\mbox{\Hypertarget{class_an_en_i_o_a237d03f50bb9101c40f7842694d25c5e}\label{class_an_en_i_o_a237d03f50bb9101c40f7842694d25c5e}} 
+\index{An\+En\+IO@{An\+En\+IO}!read\+Similarity\+Matrices@{read\+Similarity\+Matrices}}
+\index{read\+Similarity\+Matrices@{read\+Similarity\+Matrices}!An\+En\+IO@{An\+En\+IO}}
+\subsubsection{\texorpdfstring{read\+Similarity\+Matrices()}{readSimilarityMatrices()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} An\+En\+I\+O\+::read\+Similarity\+Matrices (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_similarity_matrices}{Similarity\+Matrices}} \&}]{sims }\end{DoxyParamCaption})}
+
+Read \mbox{\hyperlink{class_similarity_matrices}{Similarity\+Matrices}}. 
+\begin{DoxyParams}{Parameters}
+{\em sims} & \mbox{\hyperlink{class_similarity_matrices}{Similarity\+Matrices}} to store data. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{An\+En\+I\+O\+::error\+Type}}. 
+\end{DoxyReturn}
 \mbox{\Hypertarget{class_an_en_i_o_aaec8b46a52f3d8ab904fd4229bd3b9e9}\label{class_an_en_i_o_aaec8b46a52f3d8ab904fd4229bd3b9e9}} 
 \index{An\+En\+IO@{An\+En\+IO}!read\+Stations@{read\+Stations}}
 \index{read\+Stations@{read\+Stations}!An\+En\+IO@{An\+En\+IO}}
@@ -761,6 +809,12 @@ An \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{An\+En\+I
 \index{read\+Times@{read\+Times}!An\+En\+IO@{An\+En\+IO}}
 \subsubsection{\texorpdfstring{read\+Times()}{readTimes()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} An\+En\+I\+O\+::read\+Times (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classanen_time_1_1_times}{anen\+Time\+::\+Times}} \&}]{times,  }\item[{size\+\_\+t}]{start,  }\item[{size\+\_\+t}]{count,  }\item[{ptrdiff\+\_\+t}]{stride = {\ttfamily 1} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_an_en_i_o_ada3447ac52d460ae2cbc355dcd55bd35}\label{class_an_en_i_o_ada3447ac52d460ae2cbc355dcd55bd35}} 
+\index{An\+En\+IO@{An\+En\+IO}!set\+Add@{set\+Add}}
+\index{set\+Add@{set\+Add}!An\+En\+IO@{An\+En\+IO}}
+\subsubsection{\texorpdfstring{set\+Add()}{setAdd()}}
+{\footnotesize\ttfamily void An\+En\+I\+O\+::set\+Add (\begin{DoxyParamCaption}\item[{bool}]{add }\end{DoxyParamCaption})}
 
 \mbox{\Hypertarget{class_an_en_i_o_a98066d375cc78694fda2af1ce37cc8d8}\label{class_an_en_i_o_a98066d375cc78694fda2af1ce37cc8d8}} 
 \index{An\+En\+IO@{An\+En\+IO}!set\+File\+Path@{set\+File\+Path}}
@@ -810,46 +864,138 @@ An \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{An\+En\+I
 \subsubsection{\texorpdfstring{set\+Verbose()}{setVerbose()}}
 {\footnotesize\ttfamily void An\+En\+I\+O\+::set\+Verbose (\begin{DoxyParamCaption}\item[{int}]{verbose\+\_\+ }\end{DoxyParamCaption})}
 
+\mbox{\Hypertarget{class_an_en_i_o_a0a6326b1fe67f23b81667af12a99a5f0}\label{class_an_en_i_o_a0a6326b1fe67f23b81667af12a99a5f0}} 
+\index{An\+En\+IO@{An\+En\+IO}!write\+Analogs@{write\+Analogs}}
+\index{write\+Analogs@{write\+Analogs}!An\+En\+IO@{An\+En\+IO}}
+\subsubsection{\texorpdfstring{write\+Analogs()}{writeAnalogs()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} An\+En\+I\+O\+::write\+Analogs (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_analogs}{Analogs}} \&}]{analogs }\end{DoxyParamCaption})}
+
+Write analogs. 
+\begin{DoxyParams}{Parameters}
+{\em analogs} & \mbox{\hyperlink{class_analogs}{Analogs}} to write. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{An\+En\+I\+O\+::error\+Type}}. 
+\end{DoxyReturn}
 \mbox{\Hypertarget{class_an_en_i_o_a150e3fc6fe249b11bac909e5ee843a58}\label{class_an_en_i_o_a150e3fc6fe249b11bac909e5ee843a58}} 
 \index{An\+En\+IO@{An\+En\+IO}!write\+F\+L\+Ts@{write\+F\+L\+Ts}}
 \index{write\+F\+L\+Ts@{write\+F\+L\+Ts}!An\+En\+IO@{An\+En\+IO}}
 \subsubsection{\texorpdfstring{write\+F\+L\+Ts()}{writeFLTs()}}
 {\footnotesize\ttfamily \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} An\+En\+I\+O\+::write\+F\+L\+Ts (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classanen_time_1_1_f_l_ts}{anen\+Time\+::\+F\+L\+Ts}} \&}]{flts,  }\item[{bool}]{unlimited }\end{DoxyParamCaption}) const}
 
+Write Forecast Lead \mbox{\hyperlink{class_times}{Times}} \mbox{\hyperlink{classanen_time_1_1_f_l_ts}{anen\+Time\+::\+F\+L\+Ts}}. A dimension (num\+\_\+flts) will be created; Variables for \mbox{\hyperlink{class_f_l_ts}{F\+L\+Ts}} will be created. 
+\begin{DoxyParams}{Parameters}
+{\em flts} & \mbox{\hyperlink{classanen_time_1_1_f_l_ts}{anen\+Time\+::\+F\+L\+Ts}} to write. \\
+\hline
+{\em unlimited} & Whether this dimension is unlimited. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{An\+En\+I\+O\+::error\+Type}}. 
+\end{DoxyReturn}
 \mbox{\Hypertarget{class_an_en_i_o_abc5b12bc4692f3ac303fa5430aecaf4c}\label{class_an_en_i_o_abc5b12bc4692f3ac303fa5430aecaf4c}} 
 \index{An\+En\+IO@{An\+En\+IO}!write\+Forecasts@{write\+Forecasts}}
 \index{write\+Forecasts@{write\+Forecasts}!An\+En\+IO@{An\+En\+IO}}
 \subsubsection{\texorpdfstring{write\+Forecasts()}{writeForecasts()}}
 {\footnotesize\ttfamily \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} An\+En\+I\+O\+::write\+Forecasts (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_forecasts}{Forecasts}} \&}]{forecasts }\end{DoxyParamCaption}) const}
 
+Write forecasts. 
+\begin{DoxyParams}{Parameters}
+{\em forecasts} & \mbox{\hyperlink{class_forecasts}{Forecasts}} to write. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{An\+En\+I\+O\+::error\+Type}}. 
+\end{DoxyReturn}
 \mbox{\Hypertarget{class_an_en_i_o_ae89350e02d93439e79aa76068062490a}\label{class_an_en_i_o_ae89350e02d93439e79aa76068062490a}} 
 \index{An\+En\+IO@{An\+En\+IO}!write\+Observations@{write\+Observations}}
 \index{write\+Observations@{write\+Observations}!An\+En\+IO@{An\+En\+IO}}
 \subsubsection{\texorpdfstring{write\+Observations()}{writeObservations()}}
 {\footnotesize\ttfamily \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} An\+En\+I\+O\+::write\+Observations (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_observations}{Observations}} \&}]{observations }\end{DoxyParamCaption}) const}
 
+Write observations. 
+\begin{DoxyParams}{Parameters}
+{\em observations} & \mbox{\hyperlink{class_observations}{Observations}} to write. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{An\+En\+I\+O\+::error\+Type}}. 
+\end{DoxyReturn}
 \mbox{\Hypertarget{class_an_en_i_o_a9ae88d089b2de16571085cb6f7f4cefb}\label{class_an_en_i_o_a9ae88d089b2de16571085cb6f7f4cefb}} 
 \index{An\+En\+IO@{An\+En\+IO}!write\+Parameters@{write\+Parameters}}
 \index{write\+Parameters@{write\+Parameters}!An\+En\+IO@{An\+En\+IO}}
 \subsubsection{\texorpdfstring{write\+Parameters()}{writeParameters()}}
 {\footnotesize\ttfamily \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} An\+En\+I\+O\+::write\+Parameters (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classanen_par_1_1_parameters}{anen\+Par\+::\+Parameters}} \&}]{parameters,  }\item[{bool}]{unlimited }\end{DoxyParamCaption}) const}
 
+Write \mbox{\hyperlink{classanen_par_1_1_parameters}{anen\+Par\+::\+Parameters}}. A dimension (num\+\_\+parameters) will be created; Variables for \char`\"{}\+Parameter\+Names\char`\"{}, \char`\"{}\+Parameter\+Weights\char`\"{}, \char`\"{}\+Parameter\+Circulars\char`\"{} will be created. 
+\begin{DoxyParams}{Parameters}
+{\em parameters} & \mbox{\hyperlink{classanen_par_1_1_parameters}{anen\+Par\+::\+Parameters}} to write. \\
+\hline
+{\em unlimited} & Whether this dimension is unlimited. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{An\+En\+I\+O\+::error\+Type}}. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_an_en_i_o_af4d66adaa8c94540dd6e7dd21c41be38}\label{class_an_en_i_o_af4d66adaa8c94540dd6e7dd21c41be38}} 
+\index{An\+En\+IO@{An\+En\+IO}!write\+Similarity\+Matrices@{write\+Similarity\+Matrices}}
+\index{write\+Similarity\+Matrices@{write\+Similarity\+Matrices}!An\+En\+IO@{An\+En\+IO}}
+\subsubsection{\texorpdfstring{write\+Similarity\+Matrices()}{writeSimilarityMatrices()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} An\+En\+I\+O\+::write\+Similarity\+Matrices (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_similarity_matrices}{Similarity\+Matrices}} \&}]{sims }\end{DoxyParamCaption})}
+
+Write \mbox{\hyperlink{class_similarity_matrices}{Similarity\+Matrices}}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em sims} & \mbox{\hyperlink{class_similarity_matrices}{Similarity\+Matrices}} to write. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{An\+En\+I\+O\+::error\+Type}}. 
+\end{DoxyReturn}
 \mbox{\Hypertarget{class_an_en_i_o_ac4cb6e66c0661eff0a10dcc3cb3324e8}\label{class_an_en_i_o_ac4cb6e66c0661eff0a10dcc3cb3324e8}} 
 \index{An\+En\+IO@{An\+En\+IO}!write\+Stations@{write\+Stations}}
 \index{write\+Stations@{write\+Stations}!An\+En\+IO@{An\+En\+IO}}
 \subsubsection{\texorpdfstring{write\+Stations()}{writeStations()}}
 {\footnotesize\ttfamily \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} An\+En\+I\+O\+::write\+Stations (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classanen_sta_1_1_stations}{anen\+Sta\+::\+Stations}} \&}]{stations,  }\item[{bool}]{unlimited }\end{DoxyParamCaption}) const}
 
+Write \mbox{\hyperlink{classanen_sta_1_1_stations}{anen\+Sta\+::\+Stations}}. A dimension (num\+\_\+stations) will be created; Variables for name of stations, Xs, and Ys will be created. 
+\begin{DoxyParams}{Parameters}
+{\em stations} & \mbox{\hyperlink{classanen_sta_1_1_stations}{anen\+Sta\+::\+Stations}} to write. \\
+\hline
+{\em unlimited} & Whether this dimension is unlimited. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{An\+En\+I\+O\+::error\+Type}}. 
+\end{DoxyReturn}
 \mbox{\Hypertarget{class_an_en_i_o_a13ba268b1cae107c145ad8ed895ddedd}\label{class_an_en_i_o_a13ba268b1cae107c145ad8ed895ddedd}} 
 \index{An\+En\+IO@{An\+En\+IO}!write\+Times@{write\+Times}}
 \index{write\+Times@{write\+Times}!An\+En\+IO@{An\+En\+IO}}
 \subsubsection{\texorpdfstring{write\+Times()}{writeTimes()}}
 {\footnotesize\ttfamily \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{error\+Type}} An\+En\+I\+O\+::write\+Times (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classanen_time_1_1_times}{anen\+Time\+::\+Times}} \&}]{times,  }\item[{bool}]{unlimited }\end{DoxyParamCaption}) const}
 
+Write \mbox{\hyperlink{classanen_time_1_1_times}{anen\+Time\+::\+Times}}. A dimension (num\+\_\+times) will be created; Variables for \mbox{\hyperlink{class_times}{Times}} will be created. 
+\begin{DoxyParams}{Parameters}
+{\em times} & \mbox{\hyperlink{classanen_time_1_1_times}{anen\+Time\+::\+Times}} to write. \\
+\hline
+{\em unlimited} & Whether this dimension is unlimited. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An \mbox{\hyperlink{class_an_en_i_o_aa56bc1ec6610b86db4349bce20f9ead0}{An\+En\+I\+O\+::error\+Type}}. 
+\end{DoxyReturn}
 
 
 \subsection{Member Data Documentation}
-\mbox{\Hypertarget{class_an_en_i_o_ab892e06ca18be5e0c442c9e882e4475f}\label{class_an_en_i_o_ab892e06ca18be5e0c442c9e882e4475f}} 
+\mbox{\Hypertarget{class_an_en_i_o_af41950dbc4fabfba3d00263c297b50ad}\label{class_an_en_i_o_af41950dbc4fabfba3d00263c297b50ad}} 
+\index{An\+En\+IO@{An\+En\+IO}!add\+\_\+@{add\+\_\+}}
+\index{add\+\_\+@{add\+\_\+}!An\+En\+IO@{An\+En\+IO}}
+\subsubsection{\texorpdfstring{add\+\_\+}{add\_}}
+{\footnotesize\ttfamily bool An\+En\+I\+O\+::add\+\_\+ = false\hspace{0.3cm}{\ttfamily [protected]}}
+
+Whether to write to an existing file. \mbox{\Hypertarget{class_an_en_i_o_ab892e06ca18be5e0c442c9e882e4475f}\label{class_an_en_i_o_ab892e06ca18be5e0c442c9e882e4475f}} 
 \index{An\+En\+IO@{An\+En\+IO}!file\+\_\+path\+\_\+@{file\+\_\+path\+\_\+}}
 \index{file\+\_\+path\+\_\+@{file\+\_\+path\+\_\+}!An\+En\+IO@{An\+En\+IO}}
 \subsubsection{\texorpdfstring{file\+\_\+path\+\_\+}{file\_path\_}}

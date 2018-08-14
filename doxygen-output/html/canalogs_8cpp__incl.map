@@ -1,10 +1,12 @@
 <map id="canalogs.cpp" name="canalogs.cpp">
-<area shape="rect" id="node4" href="$_stations_8h.html" title="Stations.h" alt="" coords="1064,225,1145,251"/>
-<area shape="rect" id="node15" href="$_parameters_8h.html" title="Parameters.h" alt="" coords="891,225,992,251"/>
-<area shape="rect" id="node16" href="$_times_8h.html" title="Times.h" alt="" coords="788,225,856,251"/>
-<area shape="rect" id="node17" href="$_forecasts_8h.html" title="Forecasts.h" alt="" coords="1327,152,1418,177"/>
-<area shape="rect" id="node25" href="$_an_en_i_o_8h.html" title="AnEnIO.h" alt="" coords="1045,79,1124,104"/>
-<area shape="rect" id="node20" href="$_array4_d_8h.html" title="Array4D.h" alt="" coords="1790,225,1872,251"/>
-<area shape="rect" id="node24" href="$color_texts_8h.html" title="colorTexts.h" alt="" coords="1609,225,1701,251"/>
-<area shape="rect" id="node28" href="$_observations_8h.html" title="Observations.h" alt="" coords="1191,152,1302,177"/>
+<area shape="rect" id="node4" href="$_stations_8h.html" title="Stations.h" alt="" coords="1199,299,1279,324"/>
+<area shape="rect" id="node15" href="$_parameters_8h.html" title="Parameters.h" alt="" coords="1074,299,1175,324"/>
+<area shape="rect" id="node16" href="$_times_8h.html" title="Times.h" alt="" coords="981,299,1049,324"/>
+<area shape="rect" id="node17" href="$_forecasts_8h.html" title="Forecasts.h" alt="" coords="1563,225,1654,251"/>
+<area shape="rect" id="node25" href="$_an_en_i_o_8h.html" title="AnEnIO.h" alt="" coords="1441,79,1520,104"/>
+<area shape="rect" id="node20" href="$_array4_d_8h.html" title="Array4D.h" alt="" coords="1674,299,1756,324"/>
+<area shape="rect" id="node24" href="$color_texts_8h.html" title="colorTexts.h" alt="" coords="2026,299,2119,324"/>
+<area shape="rect" id="node28" href="$_analogs_8h.html" title="Analogs.h" alt="" coords="1568,152,1649,177"/>
+<area shape="rect" id="node29" href="$_similarity_matrices_8h.html" title="SimilarityMatrices.h" alt="" coords="1901,152,2038,177"/>
+<area shape="rect" id="node30" href="$_observations_8h.html" title="Observations.h" alt="" coords="1335,225,1446,251"/>
 </map>

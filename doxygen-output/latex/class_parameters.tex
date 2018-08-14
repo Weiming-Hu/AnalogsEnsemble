@@ -2,139 +2,16 @@
 \label{class_parameters}\index{Parameters@{Parameters}}
 
 
-{\ttfamily \#include $<$Parameters.\+h$>$}
-
-
-
-Inheritance diagram for Parameters\+:\nopagebreak
+Collaboration diagram for Parameters\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=210pt]{class_parameters__inherit__graph}
+\includegraphics[width=148pt]{class_parameters__coll__graph}
 \end{center}
 \end{figure}
 
 
-Collaboration diagram for Parameters\+:\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=210pt]{class_parameters__coll__graph}
-\end{center}
-\end{figure}
-\subsection*{Public Member Functions}
-\begin{DoxyCompactItemize}
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{class_parameters_af4d94ee360ac0157d9065f78797fe9a1}{Parameters}} ()
-\item 
-virtual \mbox{\hyperlink{class_parameters_a640a1a349975a8cb023696f25e563a5c}{$\sim$\+Parameters}} ()
-\item 
-std\+::pair$<$ iterator, bool $>$ \mbox{\hyperlink{class_parameters_ab643a6115d93d3142247f4a3ecf79d59}{insert}} (const \mbox{\hyperlink{class_parameter}{Parameter}} \&parameter)
-\item 
-size\+\_\+t \mbox{\hyperlink{class_parameters_ab8f80cdc799915ce3f551b385067b8f2}{size}} () const noexcept
-\item 
-void \mbox{\hyperlink{class_parameters_a8992e16aa53bfe4423adfe08182e2507}{clear}} () noexcept
-\item 
-\mbox{\hyperlink{class_parameter}{Parameter}} \& \mbox{\hyperlink{class_parameters_a719a79f29caa1c2adeee85ab8a963f40}{at}} (const size\+\_\+t \&key)
-\item 
-const \mbox{\hyperlink{class_parameter}{Parameter}} \& \mbox{\hyperlink{class_parameters_aa52d49e7e5d0e112a90a3cd288c477ce}{at}} (const size\+\_\+t \&key) const
-\item 
-void \mbox{\hyperlink{class_parameters_adff840358049658c4bb93c2b17480e74}{print}} (std\+::ostream \&) const
-\end{DoxyCompactItemize}
-\subsection*{Friends}
-\begin{DoxyCompactItemize}
-\item 
-std\+::ostream \& \mbox{\hyperlink{class_parameters_a8ffabb0f94a5698a8a711fa5c449e622}{operator$<$$<$}} (std\+::ostream \&, \mbox{\hyperlink{class_parameters}{Parameters}} const \&)
-\end{DoxyCompactItemize}
-
-
-\subsection{Detailed Description}
-\mbox{\hyperlink{class_parameters}{Parameters}} is a protected inheritance from std\+::unordered\+\_\+map$<$std\+::size\+\_\+t, Parameter$>$ because certain functions, like the insert function, have different behaviors. 
-
-\subsection{Constructor \& Destructor Documentation}
-\mbox{\Hypertarget{class_parameters_af4d94ee360ac0157d9065f78797fe9a1}\label{class_parameters_af4d94ee360ac0157d9065f78797fe9a1}} 
-\index{Parameters@{Parameters}!Parameters@{Parameters}}
-\index{Parameters@{Parameters}!Parameters@{Parameters}}
-\subsubsection{\texorpdfstring{Parameters()}{Parameters()}}
-{\footnotesize\ttfamily Parameters\+::\+Parameters (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
-
-\mbox{\Hypertarget{class_parameters_a640a1a349975a8cb023696f25e563a5c}\label{class_parameters_a640a1a349975a8cb023696f25e563a5c}} 
-\index{Parameters@{Parameters}!````~Parameters@{$\sim$\+Parameters}}
-\index{````~Parameters@{$\sim$\+Parameters}!Parameters@{Parameters}}
-\subsubsection{\texorpdfstring{$\sim$\+Parameters()}{~Parameters()}}
-{\footnotesize\ttfamily Parameters\+::$\sim$\+Parameters (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
-
-
-
-\subsection{Member Function Documentation}
-\mbox{\Hypertarget{class_parameters_a719a79f29caa1c2adeee85ab8a963f40}\label{class_parameters_a719a79f29caa1c2adeee85ab8a963f40}} 
-\index{Parameters@{Parameters}!at@{at}}
-\index{at@{at}!Parameters@{Parameters}}
-\subsubsection{\texorpdfstring{at()}{at()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
-{\footnotesize\ttfamily \mbox{\hyperlink{class_parameter}{Parameter}} \& Parameters\+::at (\begin{DoxyParamCaption}\item[{const size\+\_\+t \&}]{key }\end{DoxyParamCaption})}
-
-Gets the reference to the \mbox{\hyperlink{class_parameter}{Parameter}} based on the ID. If no such element exists, an exception of type std\+::out\+\_\+of\+\_\+range is thrown.
-
-
-\begin{DoxyParams}{Parameters}
-{\em key} & An size\+\_\+t key. \\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-A reference to \mbox{\hyperlink{class_parameter}{Parameter}} object. 
-\end{DoxyReturn}
-\mbox{\Hypertarget{class_parameters_aa52d49e7e5d0e112a90a3cd288c477ce}\label{class_parameters_aa52d49e7e5d0e112a90a3cd288c477ce}} 
-\index{Parameters@{Parameters}!at@{at}}
-\index{at@{at}!Parameters@{Parameters}}
-\subsubsection{\texorpdfstring{at()}{at()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
-{\footnotesize\ttfamily const \mbox{\hyperlink{class_parameter}{Parameter}} \& Parameters\+::at (\begin{DoxyParamCaption}\item[{const size\+\_\+t \&}]{key }\end{DoxyParamCaption}) const}
-
-\mbox{\Hypertarget{class_parameters_a8992e16aa53bfe4423adfe08182e2507}\label{class_parameters_a8992e16aa53bfe4423adfe08182e2507}} 
-\index{Parameters@{Parameters}!clear@{clear}}
-\index{clear@{clear}!Parameters@{Parameters}}
-\subsubsection{\texorpdfstring{clear()}{clear()}}
-{\footnotesize\ttfamily void Parameters\+::clear (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [noexcept]}}
-
-\mbox{\Hypertarget{class_parameters_ab643a6115d93d3142247f4a3ecf79d59}\label{class_parameters_ab643a6115d93d3142247f4a3ecf79d59}} 
-\index{Parameters@{Parameters}!insert@{insert}}
-\index{insert@{insert}!Parameters@{Parameters}}
-\subsubsection{\texorpdfstring{insert()}{insert()}}
-{\footnotesize\ttfamily std\+::pair$<$iterator, bool$>$ Parameters\+::insert (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_parameter}{Parameter}} \&}]{parameter }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
-
-Inserts a parameter into the map with the key set to its ID. By this way, it is ensured that parameters are unique in the map with their ID as the key.
-
-
-\begin{DoxyParams}{Parameters}
-{\em station} & \mbox{\hyperlink{class_parameter}{Parameter}} object. \\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-std\+::pair$<$iterator, bool$>$ object consisting of an iterator to the inserted element (or to the element that prevented the insertion) and a bool denoting whether the insertion took place. 
-\end{DoxyReturn}
-\mbox{\Hypertarget{class_parameters_adff840358049658c4bb93c2b17480e74}\label{class_parameters_adff840358049658c4bb93c2b17480e74}} 
-\index{Parameters@{Parameters}!print@{print}}
-\index{print@{print}!Parameters@{Parameters}}
-\subsubsection{\texorpdfstring{print()}{print()}}
-{\footnotesize\ttfamily void Parameters\+::print (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{ }\end{DoxyParamCaption}) const}
-
-\mbox{\Hypertarget{class_parameters_ab8f80cdc799915ce3f551b385067b8f2}\label{class_parameters_ab8f80cdc799915ce3f551b385067b8f2}} 
-\index{Parameters@{Parameters}!size@{size}}
-\index{size@{size}!Parameters@{Parameters}}
-\subsubsection{\texorpdfstring{size()}{size()}}
-{\footnotesize\ttfamily size\+\_\+t Parameters\+::size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [noexcept]}}
-
-
-
-\subsection{Friends And Related Function Documentation}
-\mbox{\Hypertarget{class_parameters_a8ffabb0f94a5698a8a711fa5c449e622}\label{class_parameters_a8ffabb0f94a5698a8a711fa5c449e622}} 
-\index{Parameters@{Parameters}!operator$<$$<$@{operator$<$$<$}}
-\index{operator$<$$<$@{operator$<$$<$}!Parameters@{Parameters}}
-\subsubsection{\texorpdfstring{operator$<$$<$}{operator<<}}
-{\footnotesize\ttfamily std\+::ostream\& operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{,  }\item[{\mbox{\hyperlink{class_parameters}{Parameters}} const \&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
-
-
-
-The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
-\item 
-\mbox{\hyperlink{_parameters_8h}{Parameters.\+h}}\item 
-\mbox{\hyperlink{_parameters_8cpp}{Parameters.\+cpp}}\end{DoxyCompactItemize}
+\mbox{\hyperlink{_an_en_8cpp}{An\+En.\+cpp}}\end{DoxyCompactItemize}

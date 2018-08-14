@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['search_5fstations',['search_stations',['../class_analogs.html#a32cff6e74cb1c15dc7fd769ab9835bca',1,'Analogs']]],
-  ['stations_5f',['stations_',['../class_forecasts.html#ac86fcc7d20b581d87a32eac26a5f8b01',1,'Forecasts::stations_()'],['../class_observations.html#a03e2d3c69e46066f48e4381657a995f7',1,'Observations::stations_()']]]
+  ['required_5fdimensions_5f',['required_dimensions_',['../class_an_en_i_o.html#adf42061631c78508bde00de7d22a65b4',1,'AnEnIO']]],
+  ['required_5fvariables_5f',['required_variables_',['../class_an_en_i_o.html#a119dcb81d3811547f0e37d6c3752f0a7',1,'AnEnIO']]]
 ];

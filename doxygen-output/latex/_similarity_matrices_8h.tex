@@ -3,7 +3,6 @@
 {\ttfamily \#include \char`\"{}Forecasts.\+h\char`\"{}}\newline
 {\ttfamily \#include \char`\"{}color\+Texts.\+h\char`\"{}}\newline
 {\ttfamily \#include \char`\"{}boost/multi\+\_\+array.\+hpp\char`\"{}}\newline
-{\ttfamily \#include $<$iostream$>$}\newline
 Include dependency graph for Similarity\+Matrices.\+h\+:
 \nopagebreak
 \begin{figure}[H]
@@ -17,13 +16,27 @@ This graph shows which files directly or indirectly include this file\+:
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=265pt]{_similarity_matrices_8h__dep__incl}
+\includegraphics[width=342pt]{_similarity_matrices_8h__dep__incl}
 \end{center}
 \end{figure}
 \subsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
-class \mbox{\hyperlink{class_similarity_matrix}{Similarity\+Matrix}}
-\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{class_similarity_matrix}{Similarity\+Matrix}} class is designed to store the similarity metric for one test station at one F\+LT and one test time. Default dimensions are\+: \mbox{[}Number of entries for comparison\mbox{]}\mbox{[}3\mbox{]}. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{class_similarity_matrices}{Similarity\+Matrices}}
-\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{class_similarity_matrices}{Similarity\+Matrices}} class stores multiple \mbox{\hyperlink{class_similarity_matrix}{Similarity\+Matrix}}. Default dimensions of \mbox{\hyperlink{class_similarity_matrices}{Similarity\+Matrices}} are\+: \mbox{[}test stations\mbox{]}\mbox{[}test times\mbox{]}\mbox{[}test F\+L\+Ts\mbox{]}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{class_similarity_matrices}{Similarity\+Matrices}} class stores similarity metrics. Default dimensions of \mbox{\hyperlink{class_similarity_matrices}{Similarity\+Matrices}} are\+: \mbox{[}test stations\mbox{]}\mbox{[}test times\mbox{]}\mbox{[}test \mbox{\hyperlink{class_f_l_ts}{F\+L\+Ts}}\mbox{]}\mbox{[}Number of entries for comparison\mbox{]}\mbox{[}3\mbox{]}. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_similarity_matrices_1_1matrix_sort}{Similarity\+Matrices\+::matrix\+Sort}}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{_an_en_8cpp_a8190ccc9d6d22401b041059049433c7f}{S\+I\+M\+I\+L\+A\+R\+I\+T\+Y\+M\+A\+T\+R\+I\+X\+\_\+H}}
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\mbox{\Hypertarget{_an_en_8cpp_a8190ccc9d6d22401b041059049433c7f}\label{_an_en_8cpp_a8190ccc9d6d22401b041059049433c7f}} 
+\index{Similarity\+Matrices.\+h@{Similarity\+Matrices.\+h}!S\+I\+M\+I\+L\+A\+R\+I\+T\+Y\+M\+A\+T\+R\+I\+X\+\_\+H@{S\+I\+M\+I\+L\+A\+R\+I\+T\+Y\+M\+A\+T\+R\+I\+X\+\_\+H}}
+\index{S\+I\+M\+I\+L\+A\+R\+I\+T\+Y\+M\+A\+T\+R\+I\+X\+\_\+H@{S\+I\+M\+I\+L\+A\+R\+I\+T\+Y\+M\+A\+T\+R\+I\+X\+\_\+H}!Similarity\+Matrices.\+h@{Similarity\+Matrices.\+h}}
+\subsubsection{\texorpdfstring{S\+I\+M\+I\+L\+A\+R\+I\+T\+Y\+M\+A\+T\+R\+I\+X\+\_\+H}{SIMILARITYMATRIX\_H}}
+{\footnotesize\ttfamily \#define S\+I\+M\+I\+L\+A\+R\+I\+T\+Y\+M\+A\+T\+R\+I\+X\+\_\+H}
+

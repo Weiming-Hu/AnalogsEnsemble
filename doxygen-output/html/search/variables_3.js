@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['num_5fcols',['NUM_COLS',['../_similarity_matrices_8cpp.html#ab0d0a68f2a60d6875cfd76410f7c9618',1,'SimilarityMatrices.cpp']]],
-  ['nx_5f',['nx_',['../class_array4_d.html#a5fa707d43fe236f8890dae010de99bf1',1,'Array4D']]],
-  ['ny_5f',['ny_',['../class_array4_d.html#a0c3053b1362730bb52d2d6e9c4402099',1,'Array4D']]]
+  ['mode_5f',['mode_',['../class_an_en_i_o.html#a311891a4a1a6b3907246da853bc4e5c8',1,'AnEnIO']]],
+  ['multiply',['MULTIPLY',['../_an_en_8cpp.html#a893990b8208717ecec4deeb35d4a8f03',1,'AnEn.cpp']]],
+  ['multiply_5freverse',['MULTIPLY_REVERSE',['../_an_en_8cpp.html#acb27363bb6765feb2f659991d9d38aef',1,'AnEn.cpp']]]
 ];

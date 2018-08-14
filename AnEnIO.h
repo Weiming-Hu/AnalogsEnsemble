@@ -257,11 +257,43 @@ public:
      */
     errorType writeObservations(const Observations & observations) const;
 
+    /**
+     * Write Forecast Lead Times anenTime::FLTs. A dimension (num_flts)
+     * will be created; Variables for FLTs will be created.
+     * @param flts anenTime::FLTs to write.
+     * @param unlimited Whether this dimension is unlimited.
+     * @return An AnEnIO::errorType.
+     */
     errorType writeFLTs(const anenTime::FLTs & flts, bool unlimited) const;
+    
+    /**
+     * Write anenPar::Parameters. A dimension (num_parameters) will be created;
+     * Variables for "ParameterNames", "ParameterWeights", "ParameterCirculars"
+     * will be created.
+     * @param parameters anenPar::Parameters to write.
+     * @param unlimited Whether this dimension is unlimited.
+     * @return An AnEnIO::errorType.
+     */
     errorType writeParameters(
             const anenPar::Parameters & parameters, bool unlimited) const;
+    
+    /**
+     * Write anenSta::Stations. A dimension (num_stations) will be created;
+     * Variables for name of stations, Xs, and Ys will be created.
+     * @param stations anenSta::Stations to write.
+     * @param unlimited Whether this dimension is unlimited.
+     * @return An AnEnIO::errorType.
+     */
     errorType writeStations(
             const anenSta::Stations & stations, bool unlimited) const;
+    
+    /**
+     * Write anenTime::Times. A dimension (num_times) will be created; Variables
+     * for Times will be created.
+     * @param times anenTime::Times to write.
+     * @param unlimited Whether this dimension is unlimited.
+     * @return An AnEnIO::errorType.
+     */
     errorType writeTimes(const anenTime::Times & times, bool unlimited) const;
 
     /**

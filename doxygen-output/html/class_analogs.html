@@ -72,7 +72,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>This is the class to store analogs. The default dimensions are: [test stations][test times][FLTs][members][3].  
+<p>This is the class to store analogs. The default dimensions are: [test stations][test times][<a class="el" href="class_f_l_ts.html">FLTs</a>][members][3].  
  <a href="class_analogs.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="_analogs_8h_source.html">Analogs.h</a>&gt;</code></p>
@@ -112,6 +112,18 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:af4174aafbd1d9d21cc4ea9ee3ab62dfd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae6de501f002f0a3c878d44d5c7b67a0d"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_analogs.html#ae6de501f002f0a3c878d44d5c7b67a0d">~Analogs</a> ()</td></tr>
 <tr class="separator:ae6de501f002f0a3c878d44d5c7b67a0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7803faee9bf541f68f7e9a5df762f684"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classanen_time_1_1_f_l_ts.html">anenTime::FLTs</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_analogs.html#a7803faee9bf541f68f7e9a5df762f684">getFLTs</a> () const</td></tr>
+<tr class="separator:a7803faee9bf541f68f7e9a5df762f684"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa618fe7556a1bc7ec39ddea07dc41a70"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_analogs.html#aa618fe7556a1bc7ec39ddea07dc41a70">getStations</a> () const</td></tr>
+<tr class="separator:aa618fe7556a1bc7ec39ddea07dc41a70"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af30fe2ceec49634f69a9ce0d6f7665ea"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_analogs.html#af30fe2ceec49634f69a9ce0d6f7665ea">getTimes</a> () const</td></tr>
+<tr class="separator:af30fe2ceec49634f69a9ce0d6f7665ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adcbabe9274d828c96d1cff1b807b3a6d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_analogs.html#adcbabe9274d828c96d1cff1b807b3a6d">setFLTs</a> (<a class="el" href="classanen_time_1_1_f_l_ts.html">anenTime::FLTs</a> flts)</td></tr>
+<tr class="separator:adcbabe9274d828c96d1cff1b807b3a6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a143c555b8cf7bd6fa457850b3dfa3f91"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_analogs.html#a143c555b8cf7bd6fa457850b3dfa3f91">setStations</a> (<a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> stations)</td></tr>
+<tr class="separator:a143c555b8cf7bd6fa457850b3dfa3f91"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a347217a824838542cc3440bc5362e535"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_analogs.html#a347217a824838542cc3440bc5362e535">setTimes</a> (<a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a> times)</td></tr>
+<tr class="separator:a347217a824838542cc3440bc5362e535"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8ed3949305fc98471e987ae03c305c17"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_analogs.html#a8ed3949305fc98471e987ae03c305c17">print</a> (std::ostream &amp;) const</td></tr>
 <tr class="separator:a8ed3949305fc98471e987ae03c305c17"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -126,7 +138,7 @@ Friends</h2></td></tr>
 <tr class="separator:a8b1c62cad49a019ac1733168d179cf73"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>This is the class to store analogs. The default dimensions are: [test stations][test times][FLTs][members][3]. </p>
+<div class="textblock"><p>This is the class to store analogs. The default dimensions are: [test stations][test times][<a class="el" href="class_f_l_ts.html">FLTs</a>][members][3]. </p>
 <p>The fifth dimension stores in sequence the search station indicator, the search time indicator, and the observed value. </p>
 </div><h2 class="groupheader">Member Enumeration Documentation</h2>
 <a id="a9b56dcdb212f44c3ba40a60736d648bb"></a>
@@ -287,6 +299,57 @@ Friends</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a7803faee9bf541f68f7e9a5df762f684"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7803faee9bf541f68f7e9a5df762f684">&#9670;&nbsp;</a></span>getFLTs()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classanen_time_1_1_f_l_ts.html">anenTime::FLTs</a> Analogs::getFLTs </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa618fe7556a1bc7ec39ddea07dc41a70"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa618fe7556a1bc7ec39ddea07dc41a70">&#9670;&nbsp;</a></span>getStations()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> Analogs::getStations </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af30fe2ceec49634f69a9ce0d6f7665ea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af30fe2ceec49634f69a9ce0d6f7665ea">&#9670;&nbsp;</a></span>getTimes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a> Analogs::getTimes </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a8ed3949305fc98471e987ae03c305c17"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8ed3949305fc98471e987ae03c305c17">&#9670;&nbsp;</a></span>print()</h2>
 
@@ -299,6 +362,60 @@ Friends</h2></td></tr>
           <td class="paramtype">std::ostream &amp;&#160;</td>
           <td class="paramname"><em>os</em></td><td>)</td>
           <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="adcbabe9274d828c96d1cff1b807b3a6d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adcbabe9274d828c96d1cff1b807b3a6d">&#9670;&nbsp;</a></span>setFLTs()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Analogs::setFLTs </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classanen_time_1_1_f_l_ts.html">anenTime::FLTs</a>&#160;</td>
+          <td class="paramname"><em>flts</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a143c555b8cf7bd6fa457850b3dfa3f91"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a143c555b8cf7bd6fa457850b3dfa3f91">&#9670;&nbsp;</a></span>setStations()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Analogs::setStations </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a>&#160;</td>
+          <td class="paramname"><em>stations</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a347217a824838542cc3440bc5362e535"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a347217a824838542cc3440bc5362e535">&#9670;&nbsp;</a></span>setTimes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Analogs::setTimes </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a>&#160;</td>
+          <td class="paramname"><em>times</em></td><td>)</td>
+          <td></td>
         </tr>
       </table>
 </div><div class="memdoc">

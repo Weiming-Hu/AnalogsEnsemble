@@ -2,129 +2,16 @@
 \label{class_times}\index{Times@{Times}}
 
 
-\mbox{\hyperlink{class_times}{Times}} class is used to store time information for predictions.  
-
-
-
-
-{\ttfamily \#include $<$Times.\+h$>$}
-
-
-
-Inheritance diagram for Times\+:
+Collaboration diagram for Times\+:
 \nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=176pt]{class_times__inherit__graph}
+\includegraphics[width=123pt]{class_times__coll__graph}
 \end{center}
 \end{figure}
 
 
-Collaboration diagram for Times\+:\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=176pt]{class_times__coll__graph}
-\end{center}
-\end{figure}
-\subsection*{Public Member Functions}
-\begin{DoxyCompactItemize}
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{class_times_a8ba246100f3c12f80abeb3beb93446f6}{Times}} ()
-\item 
-\mbox{\hyperlink{class_times_a49de9639125c133a6b0e4351eaa422b5}{Times}} (std\+::string unit)
-\item 
-\mbox{\hyperlink{class_times_aec85fed5d7741b4ea2445874b3ecadfe}{Times}} (std\+::string unit, std\+::string origin)
-\item 
-virtual \mbox{\hyperlink{class_times_a7989831a284e9d10e3ae96ceb2349a3c}{$\sim$\+Times}} ()
-\item 
-void \mbox{\hyperlink{class_times_acdfa95279c544d2cee2f33415fe4909c}{print}} (std\+::ostream \&os) const
-\end{DoxyCompactItemize}
-\subsection*{Protected Attributes}
-\begin{DoxyCompactItemize}
-\item 
-std\+::string \mbox{\hyperlink{class_times_a32130156e076d5511c44fc71ee68a980}{unit\+\_\+}} = \char`\"{}seconds\char`\"{}
-\item 
-std\+::string \mbox{\hyperlink{class_times_a7609195d9216105cad01df13230abfa9}{origin\+\_\+}}
-\end{DoxyCompactItemize}
-\subsection*{Friends}
-\begin{DoxyCompactItemize}
-\item 
-std\+::ostream \& \mbox{\hyperlink{class_times_a0c37c7d9833e9b02d1a219555f55fe34}{operator$<$$<$}} (std\+::ostream \&os, \mbox{\hyperlink{class_times}{Times}} const \&obj)
-\end{DoxyCompactItemize}
-
-
-\subsection{Detailed Description}
-\mbox{\hyperlink{class_times}{Times}} class is used to store time information for predictions. 
-
-\mbox{\hyperlink{class_times}{Times}} class supports the following features\+:
-\begin{DoxyEnumerate}
-\item Timestamps are unique in \mbox{\hyperlink{class_times}{Times}};
-\item Timestamps are kept in sequence of insertion, and accessible through random access; 
-\end{DoxyEnumerate}
-
-\subsection{Constructor \& Destructor Documentation}
-\mbox{\Hypertarget{class_times_a8ba246100f3c12f80abeb3beb93446f6}\label{class_times_a8ba246100f3c12f80abeb3beb93446f6}} 
-\index{Times@{Times}!Times@{Times}}
-\index{Times@{Times}!Times@{Times}}
-\subsubsection{\texorpdfstring{Times()}{Times()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
-{\footnotesize\ttfamily Times\+::\+Times (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
-
-\mbox{\Hypertarget{class_times_a49de9639125c133a6b0e4351eaa422b5}\label{class_times_a49de9639125c133a6b0e4351eaa422b5}} 
-\index{Times@{Times}!Times@{Times}}
-\index{Times@{Times}!Times@{Times}}
-\subsubsection{\texorpdfstring{Times()}{Times()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
-{\footnotesize\ttfamily Times\+::\+Times (\begin{DoxyParamCaption}\item[{std\+::string}]{unit }\end{DoxyParamCaption})}
-
-\mbox{\Hypertarget{class_times_aec85fed5d7741b4ea2445874b3ecadfe}\label{class_times_aec85fed5d7741b4ea2445874b3ecadfe}} 
-\index{Times@{Times}!Times@{Times}}
-\index{Times@{Times}!Times@{Times}}
-\subsubsection{\texorpdfstring{Times()}{Times()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
-{\footnotesize\ttfamily Times\+::\+Times (\begin{DoxyParamCaption}\item[{std\+::string}]{unit,  }\item[{std\+::string}]{origin }\end{DoxyParamCaption})}
-
-\mbox{\Hypertarget{class_times_a7989831a284e9d10e3ae96ceb2349a3c}\label{class_times_a7989831a284e9d10e3ae96ceb2349a3c}} 
-\index{Times@{Times}!````~Times@{$\sim$\+Times}}
-\index{````~Times@{$\sim$\+Times}!Times@{Times}}
-\subsubsection{\texorpdfstring{$\sim$\+Times()}{~Times()}}
-{\footnotesize\ttfamily Times\+::$\sim$\+Times (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
-
-
-
-\subsection{Member Function Documentation}
-\mbox{\Hypertarget{class_times_acdfa95279c544d2cee2f33415fe4909c}\label{class_times_acdfa95279c544d2cee2f33415fe4909c}} 
-\index{Times@{Times}!print@{print}}
-\index{print@{print}!Times@{Times}}
-\subsubsection{\texorpdfstring{print()}{print()}}
-{\footnotesize\ttfamily void Times\+::print (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{os }\end{DoxyParamCaption}) const}
-
-
-
-\subsection{Friends And Related Function Documentation}
-\mbox{\Hypertarget{class_times_a0c37c7d9833e9b02d1a219555f55fe34}\label{class_times_a0c37c7d9833e9b02d1a219555f55fe34}} 
-\index{Times@{Times}!operator$<$$<$@{operator$<$$<$}}
-\index{operator$<$$<$@{operator$<$$<$}!Times@{Times}}
-\subsubsection{\texorpdfstring{operator$<$$<$}{operator<<}}
-{\footnotesize\ttfamily std\+::ostream\& operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{os,  }\item[{\mbox{\hyperlink{class_times}{Times}} const \&}]{obj }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
-
-
-
-\subsection{Member Data Documentation}
-\mbox{\Hypertarget{class_times_a7609195d9216105cad01df13230abfa9}\label{class_times_a7609195d9216105cad01df13230abfa9}} 
-\index{Times@{Times}!origin\+\_\+@{origin\+\_\+}}
-\index{origin\+\_\+@{origin\+\_\+}!Times@{Times}}
-\subsubsection{\texorpdfstring{origin\+\_\+}{origin\_}}
-{\footnotesize\ttfamily std\+::string Times\+::origin\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}
-
-\mbox{\Hypertarget{class_times_a32130156e076d5511c44fc71ee68a980}\label{class_times_a32130156e076d5511c44fc71ee68a980}} 
-\index{Times@{Times}!unit\+\_\+@{unit\+\_\+}}
-\index{unit\+\_\+@{unit\+\_\+}!Times@{Times}}
-\subsubsection{\texorpdfstring{unit\+\_\+}{unit\_}}
-{\footnotesize\ttfamily std\+::string Times\+::unit\+\_\+ = \char`\"{}seconds\char`\"{}\hspace{0.3cm}{\ttfamily [protected]}}
-
-
-
-The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
-\item 
-\mbox{\hyperlink{_times_8h}{Times.\+h}}\item 
-\mbox{\hyperlink{_times_8cpp}{Times.\+cpp}}\end{DoxyCompactItemize}
+\mbox{\hyperlink{_an_en_8cpp}{An\+En.\+cpp}}\end{DoxyCompactItemize}

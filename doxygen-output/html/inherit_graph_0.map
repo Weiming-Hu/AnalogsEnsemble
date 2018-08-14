@@ -1,6 +1,6 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
 <area shape="rect" id="node2" href="$class_analogs.html" title="This is the class to store analogs. The default dimensions are: [test stations][test times][FLTs][mem..." alt="" coords="171,5,241,31"/>
 <area shape="rect" id="node3" href="$class_array4_d.html" title="Array4D" alt="" coords="171,55,241,80"/>
-<area shape="rect" id="node4" href="$class_similarity_matrices.html" title="SimilarityMatrices class stores multiple SimilarityMatrix. Default dimensions of SimilarityMatrices a..." alt="" coords="143,104,269,129"/>
+<area shape="rect" id="node4" href="$class_similarity_matrices.html" title="SimilarityMatrices class stores similarity metrics. Default dimensions of SimilarityMatrices are: [te..." alt="" coords="143,104,269,129"/>
 <area shape="rect" id="node5" href="$class_standard_deviation.html" title="StandardDeviation class is designed for storing the standard deviation of a Forecasts object..." alt="" coords="141,153,272,179"/>
 </map>

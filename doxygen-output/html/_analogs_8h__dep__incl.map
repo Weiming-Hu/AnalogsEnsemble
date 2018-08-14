@@ -1,5 +1,8 @@
 <map id="Analogs.h" name="Analogs.h">
 <area shape="rect" id="node2" href="$_analogs_8cpp.html" title="Analogs.cpp" alt="" coords="5,79,100,104"/>
-<area shape="rect" id="node3" href="$_an_en_8h.html" title="AnEn.h" alt="" coords="124,79,189,104"/>
-<area shape="rect" id="node4" href="$_an_en_8cpp.html" title="AnEn.cpp" alt="" coords="117,152,196,177"/>
+<area shape="rect" id="node3" href="$_an_en_i_o_8h.html" title="AnEnIO.h" alt="" coords="188,79,267,104"/>
+<area shape="rect" id="node4" href="$_an_en_8h.html" title="AnEn.h" alt="" coords="99,152,164,177"/>
+<area shape="rect" id="node6" href="$_an_en_i_o_8cpp.html" title="AnEnIO.cpp" alt="" coords="187,152,281,177"/>
+<area shape="rect" id="node7" href="$canalogs_8cpp.html" title="canalogs.cpp" alt="" coords="304,152,404,177"/>
+<area shape="rect" id="node5" href="$_an_en_8cpp.html" title="AnEn.cpp" alt="" coords="92,225,171,251"/>
 </map>

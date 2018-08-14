@@ -1,9 +1,11 @@
 <map id="AnEnIO.h" name="AnEnIO.h">
-<area shape="rect" id="node6" href="$_times_8h.html" title="Times.h" alt="" coords="944,152,1012,177"/>
-<area shape="rect" id="node14" href="$_stations_8h.html" title="Stations.h" alt="" coords="1161,152,1242,177"/>
-<area shape="rect" id="node17" href="$_parameters_8h.html" title="Parameters.h" alt="" coords="1036,152,1138,177"/>
-<area shape="rect" id="node18" href="$_forecasts_8h.html" title="Forecasts.h" alt="" coords="1443,79,1534,104"/>
-<area shape="rect" id="node25" href="$color_texts_8h.html" title="colorTexts.h" alt="" coords="1862,152,1955,177"/>
-<area shape="rect" id="node26" href="$_observations_8h.html" title="Observations.h" alt="" coords="1231,79,1342,104"/>
-<area shape="rect" id="node21" href="$_array4_d_8h.html" title="Array4D.h" alt="" coords="1757,152,1838,177"/>
+<area shape="rect" id="node6" href="$_times_8h.html" title="Times.h" alt="" coords="940,225,1008,251"/>
+<area shape="rect" id="node14" href="$_stations_8h.html" title="Stations.h" alt="" coords="1157,225,1238,251"/>
+<area shape="rect" id="node17" href="$_parameters_8h.html" title="Parameters.h" alt="" coords="1032,225,1134,251"/>
+<area shape="rect" id="node18" href="$_forecasts_8h.html" title="Forecasts.h" alt="" coords="1541,152,1632,177"/>
+<area shape="rect" id="node25" href="$color_texts_8h.html" title="colorTexts.h" alt="" coords="1910,225,2003,251"/>
+<area shape="rect" id="node26" href="$_analogs_8h.html" title="Analogs.h" alt="" coords="1592,79,1673,104"/>
+<area shape="rect" id="node27" href="$_similarity_matrices_8h.html" title="SimilarityMatrices.h" alt="" coords="1741,79,1878,104"/>
+<area shape="rect" id="node28" href="$_observations_8h.html" title="Observations.h" alt="" coords="1235,152,1346,177"/>
+<area shape="rect" id="node21" href="$_array4_d_8h.html" title="Array4D.h" alt="" coords="1609,225,1690,251"/>
 </map>
