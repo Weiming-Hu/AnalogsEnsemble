@@ -23,8 +23,6 @@
 #include "boost/multi_array.hpp"
 #include <iostream>
 #include <vector>
-#include <utility>
-#include <algorithm>
 
 /** GC:
  This is the basic data structure that is used to store the forecasts and

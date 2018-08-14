@@ -9,7 +9,6 @@
 #define SIMILARITYMATRIX_H
 
 #include "Forecasts.h"
-#include "colorTexts.h"
 #include "boost/multi_array.hpp"
 
 /**

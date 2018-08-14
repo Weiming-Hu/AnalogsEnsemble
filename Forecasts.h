@@ -9,15 +9,12 @@
 #define FORECASTS_H
 
 #include <ostream>
-#include <cmath>
 #include <vector>
-#include <memory>
 
 #include "Stations.h"
 #include "Parameters.h"
 #include "Times.h"
 #include "Array4D.h"
-#include "colorTexts.h"
 
 /**
  * \class Forecasts

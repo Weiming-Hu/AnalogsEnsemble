@@ -5,14 +5,10 @@
  * Created on October 1, 2013, 9:00 AM
  */
 
-#include <fstream>
-#include <iostream>
-#include <fstream>
-#include <algorithm>
 #include <iterator>
 #include <cstdlib>
-#include <ctime>
-#include <vector>
+#include <utility>
+#include <algorithm>
 
 #include "Array4D.h"
 

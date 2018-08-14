@@ -7,8 +7,7 @@
 
 #include "AnEn.h"
 #include "exception"
-
-#include <boost/numeric/ublas/io.hpp>
+#include "colorTexts.h"
 
 #define _USE_MATH_DEFINES
 #include <cmath>
@@ -25,11 +24,6 @@ const double MULTIPLY = M_PI / 180;
 const double MULTIPLY_REVERSE = 180 / M_PI;
 
 AnEn::AnEn() {
-#include "AnEn.h"
-#include "exception"
-
-#define _USE_MATH_DEFINES
-
 }
 
 AnEn::AnEn(int verbose) :
@@ -242,7 +236,7 @@ AnEn::computeSimilarity(
     }
 
     using COL_TAG_SIM = SimilarityMatrices::COL_TAG;
-    
+
     sims.setMaxEntries(num_search_stations * num_search_times);
     sims.resize();
     fill(sims.data(), sims.data() + sims.num_elements(), NAN);
@@ -342,7 +336,7 @@ AnEn::selectAnalogs(
     sims.sortRows(quick, num_members);
 
     const auto & data_observations = search_observations.data();
-    
+
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(static) collapse(4)\
 shared(data_observations, sims, num_members, mapping, analogs, num_test_stations,\
@@ -352,7 +346,7 @@ num_test_times, num_flts)
         for (size_t i_test_time = 0; i_test_time < num_test_times; i_test_time++) {
             for (size_t i_flt = 0; i_flt < num_flts; i_flt++) {
                 for (size_t i_member = 0; i_member < num_members; i_member++) {
-                    
+
                     if (!isnan(sims[i_test_station][i_test_time][i_flt][i_member][COL_TAG_SIM::VALUE])) {
                         size_t i_search_station = (size_t) sims[i_test_station][i_test_time][i_flt][i_member][COL_TAG_SIM::STATION];
                         size_t i_search_forecast_time = (size_t) sims[i_test_station][i_test_time][i_flt][i_member][COL_TAG_SIM::TIME];
@@ -363,7 +357,7 @@ num_test_times, num_flts)
                         analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::VALUE] =
                                 data_observations[i_parameter][i_search_station][mapping(i_search_forecast_time, i_flt)];
                     }
-                    
+
                 }
             }
         }

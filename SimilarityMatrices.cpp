@@ -6,6 +6,7 @@
  */
 
 #include "SimilarityMatrices.h"
+#include "colorTexts.h"
 
 #include <exception>
 #include <algorithm>

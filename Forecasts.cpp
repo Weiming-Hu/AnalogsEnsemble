@@ -16,6 +16,10 @@
  */
 
 #include "Forecasts.h"
+#include "colorTexts.h"
+
+#include <cmath>
+#include <memory>
 
 using namespace std;
 

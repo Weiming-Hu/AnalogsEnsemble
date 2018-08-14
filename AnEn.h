@@ -10,15 +10,12 @@
 
 #include <string>
 
-#include "AnEnIO.h"
 #include "Analogs.h"
 #include "Forecasts.h"
 #include "Observations.h"
 #include "SimilarityMatrices.h"
 #include "StandardDeviation.h"
 #include "boost/numeric/ublas/matrix.hpp"
-
-#include <set>
 
 /**
  * \class AnEn
@@ -114,9 +111,6 @@ public:
             SimilarityMatrices & sims,
             const Observations_array& search_observations,
             boost::numeric::ublas::matrix<size_t> mapping) const;
-
-    // writeMetric function to AnEnIO
-    // readMetric function to AnEnIO
 
     errorType selectAnalogs(
             Analogs & analogs,

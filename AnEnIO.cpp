@@ -10,9 +10,6 @@
 #include <boost/filesystem.hpp>
 #include <algorithm>
 #include <exception>
-#include <sstream>
-#include <set>
-#include <map>
 
 #if defined(_OPENMP)
 #include <omp.h>
