@@ -57,7 +57,7 @@ SimilarityMatrices::SimilarityMatrices(const size_t& num_stations,
         const size_t& num_times, const size_t& num_flts,
         const size_t& max_entries) :
 boost::multi_array<double, 5>(boost::extents[num_stations][num_times]
-[num_flts][max_entries][NUM_COLS_]), max_entries_(max_entries) {
+[num_flts][max_entries][_NUM_COLS_]), max_entries_(max_entries) {
 }
 
 SimilarityMatrices::~SimilarityMatrices() {
@@ -67,13 +67,13 @@ void
 SimilarityMatrices::resize() {
     boost::multi_array < double, 5 >::resize(
             boost::extents[targets_.getStationsSize()][targets_.getTimesSize()]
-            [targets_.getFLTsSize()][max_entries_][NUM_COLS_]);
+            [targets_.getFLTsSize()][max_entries_][_NUM_COLS_]);
 }
 
 void
 SimilarityMatrices::resize(size_t dim0, size_t dim1, size_t dim2) {
     boost::multi_array < double, 5 >::resize(
-            boost::extents[dim0][dim1][dim2][max_entries_][NUM_COLS_]);
+            boost::extents[dim0][dim1][dim2][max_entries_][_NUM_COLS_]);
 }
 
 void
@@ -159,7 +159,7 @@ SimilarityMatrices::setMaxEntries(size_t max_entries) {
 
 int
 SimilarityMatrices::getNumCols() {
-    return NUM_COLS_;
+    return _NUM_COLS_;
 }
 
 size_t
@@ -182,7 +182,7 @@ SimilarityMatrices::print(ostream& os) const {
     printSize(os);
 
     size_t O = shape()[3];
-    size_t P = NUM_COLS_;
+    size_t P = _NUM_COLS_;
 
     for (size_t i = 0; i < shape()[0]; i++) {
         for (size_t j = 0; j < shape()[1]; j++) {

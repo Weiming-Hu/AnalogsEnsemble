@@ -1250,7 +1250,7 @@ AnEnIO::writeParameters(const anenPar::Parameters& parameters,
     }
 
     // Check if parameters have weights
-    int num_nan = 0;
+    size_t num_nan = 0;
     double tmp = 0.0, sum = 0.0;
     const anenPar::multiIndexParameters::index<anenPar::by_insert>::type &
             parameters_by_insert = parameters.get<anenPar::by_insert>();
@@ -1264,7 +1264,6 @@ AnEnIO::writeParameters(const anenPar::Parameters& parameters,
     }
 
     if (num_nan == 0) {
-
         if (sum != 1) {
             if (verbose_ >= 1) cout << BOLDRED
                     << "Error: Parameter weights do not"

@@ -23,7 +23,6 @@ endif(EXISTS ${COMMON_OUTPUT_DIR})
 
 file(MAKE_DIRECTORY ${COMMON_OUTPUT_DIR})
 file(MAKE_DIRECTORY "${COMMON_OUTPUT_DIR}/bin")
-file(MAKE_DIRECTORY "${COMMON_OUTPUT_DIR}/test")
 
 # policy setting for backward compatibility
 if(POLICY CMP0054)
@@ -146,6 +145,7 @@ endif(ENABLE_MPI)
 option(CMAKE_BUILD_TESTS "Build tests" OFF)
 if(CMAKE_BUILD_TESTS)
     message(STATUS "Build various tests")
+    file(MAKE_DIRECTORY "${COMMON_OUTPUT_DIR}/test")
     enable_testing()
     add_custom_target(test_all ${CMAKE_CTEST_COMMAND} -V)
 

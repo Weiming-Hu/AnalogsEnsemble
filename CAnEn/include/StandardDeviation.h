@@ -23,7 +23,7 @@ class StandardDeviation : public boost::multi_array<double, 3> {
 public:
     StandardDeviation();
     StandardDeviation(size_t dim1, size_t dim2, size_t dim3);
-    StandardDeviation(const StandardDeviation& orig);
+    StandardDeviation(const StandardDeviation& orig) = delete;
     virtual ~StandardDeviation();
 
     void print(std::ostream &) const;

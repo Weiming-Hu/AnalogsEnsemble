@@ -18,9 +18,6 @@ StandardDeviation::StandardDeviation(size_t dim1, size_t dim2, size_t dim3) {
     resize(extents[dim1][dim2][dim3]);
 }
 
-StandardDeviation::StandardDeviation(const StandardDeviation& orig) {
-}
-
 StandardDeviation::~StandardDeviation() {
 }
 

@@ -105,7 +105,8 @@ errorType
 AnEn::computeSearchWindows(boost::numeric::ublas::matrix<size_t> & windows,
         size_t num_flts, size_t window_half_size) const {
 
-    int begin = 0, end = 0;
+    int begin = 0;
+    size_t end = 0;
     windows.resize(num_flts, 2);
 
     for (size_t i_flt = 0; i_flt < num_flts; i_flt++) {

@@ -122,7 +122,7 @@ private:
     COL_TAG order_tag_ = VALUE;
     size_t max_entries_;
 
-    const static int NUM_COLS_ = 3;
+    const static int _NUM_COLS_ = 3;
 };
 
 
