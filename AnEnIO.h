@@ -243,8 +243,20 @@ public:
      */
     errorType readDimLength(std::string dim_name, std::size_t & len);
 
+    /**
+     * Write forecasts.
+     * @param forecasts Forecasts to write.
+     * @return An AnEnIO::errorType.
+     */
     errorType writeForecasts(const Forecasts & forecasts) const;
+
+    /**
+     * Write observations.
+     * @param observations Observations to write.
+     * @return An AnEnIO::errorType.
+     */
     errorType writeObservations(const Observations & observations) const;
+
     errorType writeFLTs(const anenTime::FLTs & flts, bool unlimited) const;
     errorType writeParameters(
             const anenPar::Parameters & parameters, bool unlimited) const;
@@ -252,11 +264,33 @@ public:
             const anenSta::Stations & stations, bool unlimited) const;
     errorType writeTimes(const anenTime::Times & times, bool unlimited) const;
 
-
+    /**
+     * Read SimilarityMatrices.
+     * @param sims SimilarityMatrices to store data.
+     * @return An AnEnIO::errorType.
+     */
     errorType readSimilarityMatrices(SimilarityMatrices & sims);
+
+    /**
+     * Write SimilarityMatrices.
+     * 
+     * @param sims SimilarityMatrices to write.
+     * @return An AnEnIO::errorType.
+     */
     errorType writeSimilarityMatrices(const SimilarityMatrices & sims);
 
+    /**
+     * Read Analogs.
+     * @param analogs Analogs to store the data.
+     * @return An AnEnIO::errorType.
+     */
     errorType readAnalogs(Analogs & analogs);
+    
+    /**
+     * Write analogs.
+     * @param analogs Analogs to write.
+     * @return An AnEnIO::errorType.
+     */
     errorType writeAnalogs(const Analogs & analogs);
 
     /**
@@ -274,7 +308,7 @@ public:
     std::vector<std::string> getOptionalVariables() const;
     std::vector<std::string> getRequiredVariables() const;
     std::vector<std::string> getRequiredDimensions() const;
-    
+
     void setAdd(bool add);
     void setVerbose(int verbose_);
     void setMode(std::string mode);

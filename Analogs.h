@@ -36,6 +36,14 @@ public:
         VALUE = 2
     };
 
+    anenTime::FLTs getFLTs() const;
+    anenSta::Stations getStations() const;
+    anenTime::Times getTimes() const;
+
+    void setFLTs(anenTime::FLTs flts);
+    void setStations(anenSta::Stations stations);
+    void setTimes(anenTime::Times times);
+
     void print(std::ostream &) const;
     friend std::ostream & operator<<(std::ostream &, const Analogs &);
 

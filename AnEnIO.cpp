@@ -94,8 +94,7 @@ AnEnIO::checkFilePath() const {
     if (file_exists && mode_ == "Write") {
         if (add_) {
 
-            if (verbose_ >= 2) cout << RED
-                    << "Warning: writing to existing file "
+            if (verbose_ >= 3) cout << "Writing to existing file "
                     << file_path_ << "!" << RESET << endl;
 
         } else {
@@ -166,11 +165,14 @@ AnEnIO::checkFileType() const {
         } else if (file_type_ == "Similarity") {
 
             dim_names = {"num_test_stations", "num_test_times",
-                "num_test_flts", "num_entries", "num_cols"};
+                "num_flts", "num_entries", "num_cols"};
+            var_names = {"SimilarityMatrices"};
 
         } else if (file_type_ == "Analogs") {
 
-            throw out_of_range("Error: no defined!");
+            dim_names = {"num_test_stations", "num_test_times",
+                "num_flts", "num_members", "num_cols"};
+            var_names = {"Analogs"};
 
         } else {
             if (verbose_ >= 1) {
@@ -1075,14 +1077,6 @@ AnEnIO::writeForecasts(const Forecasts & forecasts) const {
         return (WRONG_MODE);
     }
 
-    if (file_type_ != "Forecasts") {
-        if (verbose_ >= 1) {
-            cout << BOLDGREEN << "Error: File type should be Forecasts."
-                    << RESET << endl;
-        }
-        return (WRONG_FILE_TYPE);
-    }
-
     // Create an empty file
     if (checkFilePath() != FILE_EXISTS) {
         NcFile nc_empty(file_path_, NcFile::FileMode::newFile,
@@ -1134,14 +1128,6 @@ AnEnIO::writeObservations(const Observations & observations) const {
         return (WRONG_MODE);
     }
 
-    if (file_type_ != "Observations") {
-        if (verbose_ >= 1) {
-            cout << BOLDGREEN << "Error: File type should be Observations."
-                    << RESET << endl;
-        }
-        return (WRONG_FILE_TYPE);
-    }
-
     handleError(checkFilePath());
 
     // Create an empty NetCDF file
@@ -1191,23 +1177,27 @@ AnEnIO::writeFLTs(const anenTime::FLTs& flts, bool unlimited) const {
         return (WRONG_MODE);
     }
 
-    if (file_type_ != "Forecasts") {
-        if (verbose_ >= 1) {
-            cout << BOLDGREEN << "Error: File type should be Forecasts."
-                    << RESET << endl;
-        }
-        return (WRONG_FILE_TYPE);
-    }
-
     NcFile nc(file_path_, NcFile::FileMode::write);
 
     // Check if file already has dimension
     NcDim dim_flts = nc.getDim("num_flts");
     if (!dim_flts.isNull()) {
-        if (verbose_ >= 1) cout << BOLDRED << "Error: Dimension (num_flts)"
-                << " exists in file (" << file_path_ << ")." << RESET << endl;
-        nc.close();
-        return (DIMENSION_EXISTS);
+        if (dim_flts.getSize() != flts.size() ||
+                dim_flts.isUnlimited() != unlimited) {
+            if (verbose_ >= 1) cout << BOLDRED
+                    << "Error: Dimension (num_flts) with different length"
+                    << " exists in file (" << file_path_ << ")."
+                    << RESET << endl;
+            nc.close();
+            return (DIMENSION_EXISTS);
+        }
+    } else {
+        // Create dimension
+        if (unlimited) {
+            dim_flts = nc.addDim("num_flts");
+        } else {
+            dim_flts = nc.addDim("num_flts", flts.size());
+        }
     }
 
     // Check if file already has variable
@@ -1217,13 +1207,6 @@ AnEnIO::writeFLTs(const anenTime::FLTs& flts, bool unlimited) const {
                 << " exists in file (" << file_path_ << ")." << RESET << endl;
         nc.close();
         return (VARIABLE_EXISTS);
-    }
-
-    // Create dimension
-    if (unlimited) {
-        dim_flts = nc.addDim("num_flts");
-    } else {
-        dim_flts = nc.addDim("num_flts", flts.size());
     }
 
     var = nc.addVar("FLTs", NcType::nc_DOUBLE, dim_flts);
@@ -1304,11 +1287,21 @@ AnEnIO::writeParameters(const anenPar::Parameters& parameters,
     // Check if file already has dimensions
     NcDim dim_parameters = nc.getDim("num_parameters");
     if (!dim_parameters.isNull()) {
-        if (verbose_ >= 1) cout << BOLDRED
-                << "Error: Dimension (num_parameters) exists in file ("
-                << file_path_ << ")." << RESET << endl;
-        nc.close();
-        return (DIMENSION_EXISTS);
+        if (dim_parameters.getSize() != parameters.size() ||
+                dim_parameters.isUnlimited() != unlimited) {
+            if (verbose_ >= 1) cout << BOLDRED
+                    << "Error: Dimension (num_parameters) with a different"
+                    << " length exists in file (" << file_path_ << ")."
+                    << RESET << endl;
+            nc.close();
+            return (DIMENSION_EXISTS);
+        }
+    } else {
+        if (unlimited) {
+            dim_parameters = nc.addDim("num_parameters");
+        } else {
+            dim_parameters = nc.addDim("num_parameters", parameters.size());
+        }
     }
 
     NcDim dim_chars = nc.getDim("num_chars");
@@ -1329,12 +1322,6 @@ AnEnIO::writeParameters(const anenPar::Parameters& parameters,
             nc.close();
             return (VARIABLE_EXISTS);
         }
-    }
-
-    if (unlimited) {
-        dim_parameters = nc.addDim("num_parameters");
-    } else {
-        dim_parameters = nc.addDim("num_parameters", parameters.size());
     }
 
     vector<NcDim> dim_names = {dim_parameters, dim_chars};
@@ -1411,11 +1398,21 @@ AnEnIO::writeStations(
     // Check if file already has dimensions
     NcDim dim_stations = nc.getDim("num_stations");
     if (!dim_stations.isNull()) {
-        if (verbose_ >= 1) cout << BOLDRED
-                << "Error: Dimension (num_stations) exists in file ("
-                << file_path_ << ")." << RESET << endl;
-        nc.close();
-        return (DIMENSION_EXISTS);
+        if (dim_stations.getSize() != stations.size() ||
+                dim_stations.isUnlimited() != unlimited) {
+            if (verbose_ >= 1) cout << BOLDRED
+                    << "Error: Dimension (num_stations) exists with a "
+                    << "different length in file (" << file_path_ << ")."
+                    << RESET << endl;
+            nc.close();
+            return (DIMENSION_EXISTS);
+        }
+    } else {
+        if (unlimited) {
+            dim_stations = nc.addDim("num_stations");
+        } else {
+            dim_stations = nc.addDim("num_stations", stations.size());
+        }
     }
 
     NcDim dim_chars = nc.getDim("num_chars");
@@ -1435,12 +1432,6 @@ AnEnIO::writeStations(
             nc.close();
             return (VARIABLE_EXISTS);
         }
-    }
-
-    if (unlimited) {
-        dim_stations = nc.addDim("num_stations");
-    } else {
-        dim_stations = nc.addDim("num_stations", stations.size());
     }
 
     vector<NcDim> dim_names = {dim_stations, dim_chars};
@@ -1504,10 +1495,21 @@ AnEnIO::writeTimes(const anenTime::Times& times, bool unlimited) const {
     // Check if file already has dimension
     NcDim dim_times = nc.getDim("num_times");
     if (!dim_times.isNull()) {
-        if (verbose_ >= 1) cout << BOLDRED << "Error: Dimension (num_times)"
-                << " exists in file (" << file_path_ << ")." << RESET << endl;
-        nc.close();
-        return (DIMENSION_EXISTS);
+        if (dim_times.getSize() != times.size() ||
+                dim_times.isUnlimited() != unlimited) {
+            if (verbose_ >= 1) cout << BOLDRED << "Error: Dimension (num_times)"
+                    << " with a different length exists in file ("
+                    << file_path_ << ")." << RESET << endl;
+            nc.close();
+            return (DIMENSION_EXISTS);
+        }
+    } else {
+        // Create dimension
+        if (unlimited) {
+            dim_times = nc.addDim("num_times");
+        } else {
+            dim_times = nc.addDim("num_times", times.size());
+        }
     }
 
     // Check if file already has variable
@@ -1517,13 +1519,6 @@ AnEnIO::writeTimes(const anenTime::Times& times, bool unlimited) const {
                 << " exists in file (" << file_path_ << ")." << RESET << endl;
         nc.close();
         return (VARIABLE_EXISTS);
-    }
-
-    // Create dimension
-    if (unlimited) {
-        dim_times = nc.addDim("num_times");
-    } else {
-        dim_times = nc.addDim("num_times", times.size());
     }
 
     var = nc.addVar("Times", NcType::nc_DOUBLE, dim_times);
@@ -1578,18 +1573,30 @@ AnEnIO::readSimilarityMatrices(SimilarityMatrices & sims) {
     handleError(checkFilePath());
     handleError(checkFileType());
 
-    // Read forecasts
-    setFileType("Forecasts");
-    Forecasts_array forecasts;
-    handleError(readForecasts(forecasts));
-    setFileType("Similarity");
-
     // Resize similarity matrices to clear any leftover values
     SimilarityMatrices::extent_gen extens;
     sims.resize(0, 0, 0);
 
-    // Set forecast target for similarity matrices
-    sims.setTargets(forecasts);
+    // Read forecasts
+    if (checkVariable("Data", true) == SUCCESS) {
+        setFileType("Forecasts");
+        Forecasts_array forecasts;
+        handleError(readForecasts(forecasts));
+        setFileType("Similarity");
+
+        // Set forecast target for similarity matrices
+        NcFile nc(file_path_, NcFile::FileMode::read);
+        sims.setMaxEntries(nc.getDim("num_entries").getSize());
+        sims.setTargets(forecasts);
+        nc.close();
+    } else {
+        NcFile nc(file_path_, NcFile::FileMode::read);
+        sims.setMaxEntries(nc.getDim("num_entries").getSize());
+        sims.resize(nc.getDim("num_test_stations").getSize(),
+                nc.getDim("num_test_times").getSize(),
+                nc.getDim("num_flts").getSize());
+        nc.close();
+    }
 
     vector<double> values;
     handleError(read_vector_("SimilarityMatrices", values));
@@ -1609,13 +1616,6 @@ AnEnIO::writeSimilarityMatrices(const SimilarityMatrices & sims) {
         return (WRONG_MODE);
     }
 
-    if (file_type_ != "Similarity") {
-        if (verbose_ >= 1)
-            cout << BOLDRED << "Error: file type should be Similarity."
-                << RESET << endl;
-        return (WRONG_FILE_TYPE);
-    }
-
     if (checkFilePath() != FILE_EXISTS) {
         NcFile nc_empty(file_path_, NcFile::FileMode::newFile,
                 NcFile::FileFormat::nc4);
@@ -1626,7 +1626,7 @@ AnEnIO::writeSimilarityMatrices(const SimilarityMatrices & sims) {
 
     size_t num_test_stations = sims.shape()[0],
             num_test_times = sims.shape()[1],
-            num_test_flts = sims.shape()[2],
+            num_flts = sims.shape()[2],
             num_entries = sims.shape()[3],
             num_cols = sims.shape()[4];
 
@@ -1635,7 +1635,7 @@ AnEnIO::writeSimilarityMatrices(const SimilarityMatrices & sims) {
     // Create dimensions
     NcDim dim_stations = nc.addDim("num_test_stations", num_test_stations);
     NcDim dim_times = nc.addDim("num_test_times", num_test_times);
-    NcDim dim_flts = nc.addDim("num_test_flts", num_test_flts);
+    NcDim dim_flts = nc.addDim("num_flts", num_flts);
     NcDim dim_entries = nc.addDim("num_entries", num_entries);
     NcDim dim_cols = nc.addDim("num_cols", num_cols);
 
@@ -1648,24 +1648,116 @@ AnEnIO::writeSimilarityMatrices(const SimilarityMatrices & sims) {
     nc.close();
 
     // Add Forecasts
-    setFileType("Forecasts");
-    bool ori = isAdd();
-    setAdd(true);
-    handleError(writeForecasts(sims.getTargets()));
-    setAdd(ori);
-    setFileType("Similarity");
+    if (sims.getTargets().getDataLength() != 0) {
+        bool ori = isAdd();
+        setAdd(true);
+        handleError(writeForecasts(sims.getTargets()));
+        setAdd(ori);
+    }
 
     return (SUCCESS);
 }
 
 errorType
 AnEnIO::readAnalogs(Analogs & analogs) {
+    if (verbose_ >= 3) cout << "Reading analogs ..." << endl;
 
+    if (mode_ != "Read") {
+        if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Read'."
+                << RESET << endl;
+        return (WRONG_MODE);
+    }
+
+    if (file_type_ != "Analogs") {
+        if (verbose_ >= 1)
+            cout << BOLDRED << "Error: file type should be Analogs."
+                << RESET << endl;
+        return (WRONG_FILE_TYPE);
+    }
+
+    handleError(checkFilePath());
+    handleError(checkFileType());
+
+    if (checkVariable("StationNames", true) == SUCCESS &&
+            checkVariable("FLTs", true) == SUCCESS &&
+            checkVariable("Times", true) == SUCCESS) {
+        anenSta::Stations stations;
+        anenTime::Times times;
+        anenTime::FLTs flts;
+
+        readTimes(times);
+        readFLTs(flts);
+        readStations(stations);
+
+        analogs.setTimes(times);
+        analogs.setFLTs(flts);
+        analogs.setStations(stations);
+    } else {
+        NcFile nc(file_path_, NcFile::FileMode::read);
+        analogs.resize(boost::extents
+                [nc.getDim("num_test_stations").getSize()]
+                [nc.getDim("num_test_times").getSize()]
+                [nc.getDim("num_flts").getSize()]
+                [nc.getDim("num_members").getSize()]
+                [nc.getDim("num_cols").getSize()]);
+        nc.close();
+    }
+
+    vector<double> values;
+    handleError(read_vector_("Analogs", values));
+    analogs.assign(values.begin(), values.end());
+
+    return (SUCCESS);
 }
 
 errorType
 AnEnIO::writeAnalogs(const Analogs & analogs) {
+    if (verbose_ >= 3) cout << "Writing analogs ..." << endl;
 
+    if (mode_ != "Write") {
+        if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Write'."
+                << RESET << endl;
+        return (WRONG_MODE);
+    }
+
+    if (checkFilePath() != FILE_EXISTS) {
+        NcFile nc_empty(file_path_, NcFile::FileMode::newFile,
+                NcFile::FileFormat::nc4);
+        nc_empty.close();
+    } else if (!add_) {
+        return (FILE_EXISTS);
+    }
+
+    size_t num_test_stations = analogs.shape()[0],
+            num_test_times = analogs.shape()[1],
+            num_flts = analogs.shape()[2],
+            num_members = analogs.shape()[3],
+            num_cols = analogs.shape()[4];
+
+    NcFile nc(file_path_, NcFile::FileMode::write);
+
+    NcDim dim_stations = nc.addDim("num_test_stations", num_test_stations);
+    NcDim dim_times = nc.addDim("num_test_times", num_test_times);
+    NcDim dim_flts = nc.addDim("num_flts", num_flts);
+    NcDim dim_members = nc.addDim("num_members", num_members);
+    NcDim dim_cols = nc.addDim("num_cols", num_cols);
+
+    // Create similarity matrices variable
+    NcVar var_sims = nc.addVar("Analogs", NC_DOUBLE,{
+        dim_cols, dim_members, dim_flts, dim_times, dim_stations
+    });
+
+    var_sims.putVar(analogs.data());
+    nc.close();
+
+    if (analogs.getFLTs().size() != 0)
+        handleError(writeFLTs(analogs.getFLTs(), false));
+    if (analogs.getStations().size() != 0)
+        handleError(writeStations(analogs.getStations(), false));
+    if (analogs.getTimes().size() != 0)
+        handleError(writeTimes(analogs.getTimes(), false));
+
+    return (SUCCESS);
 }
 
 void

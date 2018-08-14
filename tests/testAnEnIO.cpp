@@ -549,7 +549,6 @@ void testAnEnIO::testReadWriteSimilarityMatrices() {
 
     string file_path = "read-write-similarity.nc";
     remove(file_path.c_str());
-
     AnEnIO io("Write", file_path, "Similarity", 2);
     io.writeSimilarityMatrices(sims_write);
 
@@ -571,5 +570,31 @@ void testAnEnIO::testReadWriteSimilarityMatrices() {
         }
     }
 
+    remove(file_path.c_str());
+}
+
+void testAnEnIO::testReadWriteAnalogs() {
+
+    /**
+     * Test functions for reading and writing analogs
+     */
+
+    Analogs analogs_write(10, 20, 15, 11);
+    generate(analogs_write.data(), analogs_write.data() +
+            analogs_write.num_elements(), rand);
+
+    string file_path = "read-write-analogs.nc";
+    remove(file_path.c_str());
+
+    AnEnIO io("Write", file_path, "Analogs", 2);
+    io.writeAnalogs(analogs_write);
+
+    Analogs analogs_read;
+    io.setMode("Read");
+    io.readAnalogs(analogs_read);
+    
+    for (size_t i = 0; i < analogs_read.num_elements(); i++)
+        CPPUNIT_ASSERT(analogs_read.data()[i] == analogs_write.data()[i]);
+    
     remove(file_path.c_str());
 }
