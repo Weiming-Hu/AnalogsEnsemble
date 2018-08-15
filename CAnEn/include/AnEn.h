@@ -27,13 +27,26 @@ class AnEn {
 public:
     AnEn();
     AnEn(int verbose);
-    AnEn(std::string cache_similarity);
-    AnEn(std::string cache_similarity, std::string output_folder);
-    AnEn(std::string cache_similarity,
-            std::string output_folder, int verbose);
     AnEn(const AnEn& orig) = delete;
 
     virtual ~AnEn();
+    
+    /**
+     * Specifies the method that AnEn::computeSimilarity function uses:
+     * - ONE_TO_ONE Stations of search and test forecasts are aligned; each
+     * test station only search its own station;
+     * - ONE_TO_MANY Stations of search are extended; search extension is 
+     * defined by a search station list.
+     * - ONE_TO_ALL Each of test station searches all search stations.
+     * 
+     * The ONE, MANY, ALL are concepts for stations, like one station,
+     * many stations, and all stations.
+     */
+    enum simMethod {
+        ONE_TO_ONE = 1,
+        ONE_TO_MANY = 2,
+        ONE_TO_ALL = 3,
+    };
 
     /**
      * Specifies the return error type of a function. Use AnEn::handleError
@@ -41,6 +54,7 @@ public:
      */
     enum errorType {
         SUCCESS = 0,
+        UNKNOWN_METHOD = -1,
         WRONG_SHAPE = -10,
         OUT_OF_RANGE = -20
     };
@@ -103,6 +117,9 @@ public:
      * @param search_observations Observations to search.
      * @param mapping A matrix stores the mapping indices from forecasts times
      * and FLTs to observation times.
+     * @param i_observation_parameter The parameter in observations that will
+     * be checked for NAN values. By default it is 0 pointing at the first
+     * parameter.
      * @return An AnEn::errorType.
      */
     errorType computeSimilarity(
@@ -110,8 +127,23 @@ public:
             const StandardDeviation & sds,
             SimilarityMatrices & sims,
             const Observations_array& search_observations,
-            boost::numeric::ublas::matrix<size_t> mapping) const;
+            boost::numeric::ublas::matrix<size_t> mapping,
+            size_t i_observation_parameter = 0) const;
 
+    /**
+     * Select analogs based on the simialrity matrices.
+     * @param analogs Analogs object to write the analogs
+     * @param sims SimilarityMatrices on which the selection is based
+     * @param search_observations Observations_array where the analog values
+     * come from.
+     * @param mapping A Boost Matrix for the mapping of times between
+     * forecasts and observations. This is computed from the function
+     * AnEn::computeObservationsTimeIndices.
+     * @param i_parameter The index of the parameter to select in Observations.
+     * @param num_members How many members each analog should have.
+     * @param quick Whether to use quick sort mechanism.
+     * @return An AnEn::errorType.
+     */
     errorType selectAnalogs(
             Analogs & analogs,
             SimilarityMatrices & sims,
@@ -126,12 +158,10 @@ public:
      */
     void handleError(const errorType & indicator) const;
     
-    std::string getCacheSimilarity() const;
-    std::string getOutputFolder() const;
     int getVerbose() const;
-
-    void setCacheSimilarity(std::string cache_similarity);
-    void setOutputFolder(std::string output_folder);
+    simMethod getMethod() const;
+    
+    void setMethod(simMethod method);
     void setVerbose(int verbose);
 
     /**
@@ -170,20 +200,6 @@ public:
     double diffCircular(double i, double j) const;
 
 private:
-
-    /**
-     * Specifies the method to store similarity matrices. It can be:
-     * - Memory
-     * - NetCDF
-     */
-    std::string cache_similarity_ = "Memory";
-
-    /**
-     * Specifies the output folder for file output if "NetCDF"
-     * is chosen for AnEn::cache_similarity_;
-     */
-    std::string output_folder_;
-
     /**
      * Specifies the verbose level.
      * - 0: Quiet.
@@ -193,8 +209,25 @@ private:
      * - 4: The above plus session information.
      */
     int verbose_ = 2;
-
+    
+    /*
+     * This variable specifies the way similarity matrices are computed.
+     * It is used by function AnEn::computeSimilarity. The ONE, MANY, ALL are
+     * concepts for stations, like one station, many stations, and all stations.
+     */
+    simMethod method_ = ONE_TO_ALL;
+    
+    /**
+     * Check input.
+     * @param search_forecasts Search forecasts.
+     * @param sims Similarity matrices provides the test forecasts.
+     * @param search_observations Search observations.
+     * @return An AnEn::errorType.
+     */
+    errorType check_input_(
+        const Forecasts_array & search_forecasts,
+        const SimilarityMatrices & sims,
+        const Observations_array& search_observations) const;
 };
 
 #endif /* ANEN_H */
-

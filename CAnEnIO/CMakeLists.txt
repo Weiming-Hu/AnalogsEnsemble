@@ -3,7 +3,7 @@ project (AnEnIO)
 enable_language (CXX)
 
 set (LIBRARY_NAME "AnEnIO")
-set (LIBRARY_VERSION "2.0")
+set (LIBRARY_VERSION "2.0.0")
 
 file (GLOB SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
 include_directories ("${CMAKE_CURRENT_SOURCE_DIR}/include")

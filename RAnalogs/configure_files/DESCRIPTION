@@ -1,0 +1,16 @@
+Package: @LIBRARY_NAME@
+Type: Package
+Title: Analog Ensemble Package
+Version: @LIBRARY_VERSION@
+Date: 2018-08-15
+Author: Weiming Hu
+Maintainer:Weiming Hu <wuh20@psu.edu>
+Description:The Analog Ensemble Package computes and manages analog ensembles. It is implemented in C++ and exported to R interface.
+License: GPL (>= 2)
+SystemRequirements: C++11
+Imports:
+    Rcpp (>= 0.12.9),
+    BH (>= 1.62.0-1),
+LinkingTo:
+    Rcpp,
+    BH,
