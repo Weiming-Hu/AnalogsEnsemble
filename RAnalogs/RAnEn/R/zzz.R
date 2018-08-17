@@ -16,7 +16,7 @@ if (interactive()) {
     } else {
         message <- paste("Package 'RAnEn' version", version)
     }
-    if (!check_OpenMP()) {
+    if (!checkOpenMP()) {
         message <- paste(message, "\n*** Multi-thread not supported ***",
                          sep = '')
     }

@@ -369,7 +369,7 @@ void testAnEn::testSelectAnalogs() {
     // Construct standard deviation
     StandardDeviation sds(parameters.size(),
             search_stations.size(), flts.size());
-    anen.computeStandardDeviation(search_forecasts, sds);
+    anen.handleError(anen.computeStandardDeviation(search_forecasts, sds));
     // Pre compute the time mapping from forecasts to observations
     boost::numeric::ublas::matrix<size_t> mapping;
     anen.handleError(anen.computeObservationsTimeIndices(
@@ -377,9 +377,9 @@ void testAnEn::testSelectAnalogs() {
             search_observations.getTimes(), mapping));
 
     // Compute similarity
-    
-    anen.computeSimilarity(search_forecasts, sds, sims,
-            search_observations, mapping);
+    anen.handleError(anen.computeSimilarity(
+            search_forecasts, sds, sims,
+            search_observations, mapping));
     Analogs analogs;
     anen.selectAnalogs(analogs, sims, search_observations, mapping,
             0, // I know there is only one parameter

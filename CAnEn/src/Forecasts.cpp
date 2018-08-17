@@ -147,6 +147,11 @@ Forecasts_array::data() const {
     return (data_);
 }
 
+Array4D &
+Forecasts_array::data() {
+    return (data_);
+}
+
 double
 Forecasts_array::getValueByIndex(size_t parameter_index, size_t station_index,
         size_t time_index, size_t flt_index) const {

@@ -131,6 +131,8 @@ public:
     virtual ~Observations_array();
 
     const boost::multi_array<double, 3> & data() const;
+    boost::multi_array<double, 3> & data();
+    
     const double* getValues() const override;
 
     double getValueByIndex(std::size_t parameter_index,

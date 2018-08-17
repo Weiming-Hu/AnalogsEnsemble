@@ -130,6 +130,7 @@ public:
     virtual ~Forecasts_array();
 
     Array4D const & data() const;
+    Array4D & data();
 
     double getValueByIndex(std::size_t parameter_index, std::size_t station_index,
             std::size_t time_index, std::size_t flt_index) const override;

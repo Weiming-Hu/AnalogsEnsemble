@@ -136,6 +136,11 @@ Observations_array::data() const {
     return (data_);
 };
 
+boost::multi_array<double, 3> &
+Observations_array::data() {
+    return (data_);
+};
+
 const double*
 Observations_array::getValues() const {
     return (data_.data());

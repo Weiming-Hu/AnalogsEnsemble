@@ -3,6 +3,7 @@ project(ParallelEnsembleForecasts)
 
 enable_language(CXX C)
 option(VERBOSE "verbose standout output" OFF)
+option(CMAKE_BUILD_TESTS "Build tests" OFF)
 
 set(IMPORTANT_PATH "${CMAKE_SOURCE_DIR}/important")
 set(EXTRA_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake-modules")
@@ -142,7 +143,6 @@ endif(ENABLE_MPI)
 #   Build tests     #
 #####################
 # if CMAKE_BUILD_TESTS is set to ON, build the test cases
-option(CMAKE_BUILD_TESTS "Build tests" OFF)
 if(CMAKE_BUILD_TESTS)
     message(STATUS "Build various tests")
     file(MAKE_DIRECTORY "${COMMON_OUTPUT_DIR}/test")

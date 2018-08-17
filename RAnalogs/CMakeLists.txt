@@ -64,7 +64,7 @@ if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Release")
 endif(NOT CMAKE_BUILD_TYPE)
 
-set(CXX_FLAGS_RELEASE "-Wno-unused-variable -Wno-unused-but-set-variable -Wno-deprecated -Wno-sign-compare -Wno-unused-local-typedefs")
+# set(CXX_FLAGS_RELEASE "-Wno-unused-variable -Wno-unused-but-set-variable -Wno-deprecated -Wno-sign-compare -Wno-unused-local-typedefs")
 
 if(CMAKE_BUILD_TYPE STREQUAL "Release")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CXX_FLAGS_RELEASE}")
@@ -165,8 +165,6 @@ if(NOT R_COMMAND)
     else(${CMAKE_MAJOR_VERSION} GREATER 2 AND ${CMAKE_MINOR_VERSION} GREATER 2)
         message(FATAL_ERROR "CMake version should be higher than 3.3 in order for me to check if multiple Rs exist. Please specify R_COMMAND to cmake.")
     endif(${CMAKE_MAJOR_VERSION} GREATER 2 AND ${CMAKE_MINOR_VERSION} GREATER 2)
-else(NOT R_COMMAND)
-    message(STATUS "R_COMMAND is set to ${R_COMMAND}")
 endif(NOT R_COMMAND)
 
 
@@ -197,8 +195,8 @@ add_custom_target(
     build-package ALL ${R_COMMAND} CMD build ${RAnEn_PACKAGE_DIR}
     COMMENT "target for building RAnEn package")
 add_custom_target(
-    copy-tarball ALL cmake -E copy ${LIBRARY_NAME}_${LIBRARY_VERSION}.tar.gz ${CMAKE_CURRENT_SOURCE_DIR}/precompiled/${LIBRARY_NAME}_${LIBRARY_VERSION}.tar.gz
-    COMMENT "target for building RAnEn package")
+    copy-tarball ALL ${CMAKE_COMMAND} -E copy ${LIBRARY_NAME}_${LIBRARY_VERSION}.tar.gz ${CMAKE_CURRENT_SOURCE_DIR}/precompiled/${LIBRARY_NAME}_${LIBRARY_VERSION}.tar.gz
+    COMMENT "target for copying package tarball")
 add_custom_target(
     install-package ALL ${R_COMMAND} CMD INSTALL "${LIBRARY_NAME}_${LIBRARY_VERSION}.tar.gz"
     COMMENT "target for installing RAnEn package")

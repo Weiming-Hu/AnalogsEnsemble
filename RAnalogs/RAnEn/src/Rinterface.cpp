@@ -11,6 +11,13 @@
 // [[Rcpp::plugins(openmp)]]
 //
 #include <Rcpp.h>
+#include <iostream>
+
+#include <boost/numeric/ublas/io.hpp>
+
+#include "AnEn.h"
+
+using namespace Rcpp;
 
 #if defined(_OPENMP)
 #include <omp.h>
@@ -19,9 +26,11 @@
 // Rcpp::Rcout is the wrapper for std::cout in Rcpp
 #define cout Rcpp::Rcout
 #define cerr Rcpp::Rcerr
+#define endl std::endl
 
-// [[Rcpp::export("check_openmp")]]
-bool check_openmp() {
+// [[Rcpp::export("checkOpenMP")]]
+
+bool checkOpenMP() {
 #ifndef _OPENMP
     return false;
 #else
@@ -29,289 +38,144 @@ bool check_openmp() {
 #endif
 }
 
-// [[Rcpp::export(".computeSimilarity")]]
-Rcpp::
+// [[Rcpp::export(".generateAnalogs")]]
 
-// [[Rcpp::export(".compute_analogs_hidden")]]
-Rcpp::List compute_analogs_hidden(
-        Rcpp::NumericVector forecasts_R,
-        Rcpp::NumericVector forecasts_R_dims,
-        Rcpp::NumericVector observations_R,
-        Rcpp::NumericVector observations_R_dims,
-        Rcpp::NumericVector circulars_R,
-        Rcpp::NumericVector weights_R,
-        int observation_ID,
-        Rcpp::NumericVector stations_ID_R,
-        int test_ID_start, int test_ID_end,
-        int train_ID_start, int train_ID_end,
-        int members_size, int rolling,
-        bool quick, int num_cores,
-        bool search_extension,
-        Rcpp::NumericVector xs_R,
-        Rcpp::NumericVector ys_R,
-        double distance, int num_nearest,
-        bool observation_from_extended_station,
-        bool recompute_sd_for_extended_station,
-        bool output_search_stations,
-        bool output_metric,
-        int verbose) {
-    
-    // simple dimension check
-    if (forecasts_R_dims.size() != 4 || observations_R_dims.size() != 4) {
-        cerr << "Error: both observations and forecasts should be 4-dimensional!" << std::endl;
-        return 0;
-    }
+List generateAnalogs(
+        NumericVector R_test_forecasts, NumericVector R_test_forecasts_dims,
+        NumericVector R_search_forecasts, NumericVector R_search_forecasts_dims,
+        NumericVector R_search_times, NumericVector R_search_flts,
+        NumericVector R_search_observations,
+        NumericVector R_search_observations_dims,
+        NumericVector R_observation_times,
+        size_t num_members, size_t observation_parameter, bool quick,
+        IntegerVector R_circulars,
+        bool preserve_similarity, int verbose) {
 
-    // convert variables from Rcpp structures to C++ structures
-    std::vector<double> vec_observations = Rcpp::as< std::vector<double> >(observations_R);
-    Array4D observations(vec_observations,
-            observations_R_dims[0], observations_R_dims[1],
-            observations_R_dims[2], observations_R_dims[3]);
-    std::vector<double> vec_forecasts= Rcpp::as< std::vector<double> >(forecasts_R);
-    Array4D forecasts(vec_forecasts,
-            forecasts_R_dims[0], forecasts_R_dims[1],
-            forecasts_R_dims[2], forecasts_R_dims[3]);
+    /***************************************************************************
+     *                   Convert objects for AnEn computation                  *
+     **************************************************************************/
+    if (verbose >= 1)
+        cout << "Convert R objects to C++ objects ..." << endl;
+    anenTime::Times search_times;
+    search_times.insert(search_times.end(),
+            R_search_times.begin(), R_search_times.end());
 
-    std::vector<double> weights = Rcpp::as< std::vector<double> >(weights_R);
-    std::vector<std::size_t> stations_ID = Rcpp::as< std::vector<std::size_t> >(stations_ID_R);
+    anenTime::FLTs flts;
+    flts.insert(flts.end(), R_search_flts.begin(), R_search_flts.end());
 
-    if (search_extension) {
-        std::vector<double> xs = Rcpp::as< std::vector<double> >(xs_R);
-        std::vector<double> ys = Rcpp::as< std::vector<double> >(ys_R);
-        observations.set_xs(xs);
-        observations.set_ys(ys);
-        forecasts.set_xs(xs);
-        forecasts.set_ys(ys);
-    }
+    anenTime::Times observation_times;
+    observation_times.insert(observation_times.end(),
+            R_observation_times.begin(), R_observation_times.end());
 
-    if (circulars_R.size() != 0) {
-        // there are circular variable in the forecasts
-        // set the property of these variables accordingly
-        //
-        std::vector<int> circulars = Rcpp::as< std::vector<int> >(circulars_R);
-        for (auto index : circulars) {
-            // R counts from 1 but C counts from 0
-            // subtract 1 in indexing
-            //
-            if (verbose >= 1) {
-                cout << "setting parameter " << index << " as circular." << endl;
-            }
-            forecasts.setCircular(index - 1);
-        }
+    std::vector<anenPar::Parameter> parameters_vec(R_test_forecasts_dims[0]);
+    for (auto & pos : R_circulars) {
+        parameters_vec[pos - 1].setCircular(true);
     }
+    anenPar::Parameters parameters;
+    parameters.insert(parameters.end(),
+            parameters_vec.begin(), parameters_vec.end());
 
-    // print out session information to console
-    if (verbose == 2) {
-        print_session_info(forecasts, observations, weights, stations_ID,
-                test_ID_start, test_ID_end, train_ID_start, train_ID_end,
-                members_size, rolling, quick, num_cores);
-    }
+    anenSta::Stations test_stations;
+    test_stations.get<anenSta::by_insert>().resize(R_test_forecasts_dims[1]);
 
-    if (observation_ID < 1) {
-        cerr << "ERROR: observation_ID (" << observation_ID << ") < 1!" << endl;
-        return 0;
-    }
-    if (test_ID_start < 1) {
-        cerr << "ERROR: test_ID_start (" << test_ID_start << ") < 1!" << endl;
-        return 0;
-    }
-    if (test_ID_end < 1) {
-        cerr << "ERROR: test_ID_end (" << test_ID_end << ") < 1!" << endl;
-        return 0;
-    }
-    if (train_ID_start < 1) {
-        cerr << "ERROR: train_ID_start (" << train_ID_start << ") < 1!" << endl;
-        return 0;
-    }
-    if (train_ID_end < 1) {
-        cerr << "ERROR: train_ID_end (" << train_ID_end << ") < 1!" << endl;
-        return 0;
+    std::vector<double> test_times_vec(R_test_forecasts_dims[2], 0);
+    iota(test_times_vec.begin(), test_times_vec.end(), 0);
+    anenTime::Times test_times;
+    test_times.insert(test_times.end(),
+            test_times_vec.begin(), test_times_vec.end());
+
+    anenSta::Stations search_stations;
+    search_stations.get<anenSta::by_insert>().resize(
+            R_search_forecasts_dims[1]);
+
+    anenPar::Parameters observation_parameters;
+    observation_parameters.get<anenPar::by_insert>().resize(
+            R_search_observations_dims[0]);
+
+    Forecasts_array test_forecasts(
+            parameters, test_stations, test_times, flts);
+    test_forecasts.data().assign(
+            R_test_forecasts.begin(), R_test_forecasts.end());
+
+    Forecasts_array search_forecasts(
+            parameters, search_stations, search_times, flts);
+    search_forecasts.data().assign(
+            R_search_forecasts.begin(), R_search_forecasts.end());
+
+    Observations_array search_observations(
+            observation_parameters, search_stations, observation_times);
+    search_observations.data().assign(
+            R_search_observations.begin(), R_search_observations.end());
+
+    /***************************************************************************
+     *                           AnEn Computation                              *
+     **************************************************************************/
+    AnEn anen(2);
+    Analogs analogs;
+    SimilarityMatrices sims(test_forecasts);
+    boost::numeric::ublas::matrix<size_t> mapping;
+    StandardDeviation sds(parameters.size(),
+            search_stations.size(), flts.size());
+
+    if (verbose >= 2) {
+        cout << "Inspect test forecast parameters:" << endl
+                << sims.getTargets().getParameters();
     }
 
-    // convert indexing from R style (counting from 1) to 
-    // C style (counting from 0)
+    // Pre compute the standard deviation
+    if (verbose >= 1) cout << "Compute standard deviation ... " << endl;
+    anen.handleError(anen.computeStandardDeviation(search_forecasts, sds));
+
+    // Pre compute the time mapping from forecasts [Times, FLTs] 
+    // to observations [Times]
     //
-    for (auto& index : stations_ID) {
-        index -= 1;
-    }
-    test_ID_start -= 1;
-    test_ID_end -= 1;
-    train_ID_start -= 1;
-    train_ID_end -= 1;
-    observation_ID -= 1;
+    if (verbose >= 1) cout << "Map from forecasts [Time, FLT]"
+            << " to observations [Time] ... " << endl;
+    anen.handleError(anen.computeObservationsTimeIndices(
+            search_forecasts.getTimes(), search_forecasts.getFLTs(),
+            search_observations.getTimes(), mapping));
 
-    if (members_size < 0) {
-        cerr << "ERROR: members_size (" << members_size << ") < 0!" << endl;
-        return 0;
-    }
-    if (num_cores < 0) {
-        cerr << "ERROR: num_cores (" << num_cores << ") < 0!" << endl;
-        return 0;
-    }
+    // Compute similarity
+    if (verbose >= 1) cout << "Compute similarity ... " << endl;
+    anen.setMethod(AnEn::simMethod::ONE_TO_ONE);
+    anen.handleError(anen.computeSimilarity(search_forecasts, sds, sims,
+            search_observations, mapping));
 
-    AnEn AnEn_calc(weights, observation_ID, stations_ID,
-            test_ID_start, test_ID_end,
-            train_ID_start, train_ID_end,
-            members_size, rolling, quick, num_cores,
-            search_extension,
-            observation_from_extended_station,
-            recompute_sd_for_extended_station,
-            "");
+    // Select analogs
+    if (verbose >= 1) cout << "Select analogs ... " << endl;
+    anen.handleError(anen.selectAnalogs(analogs, sims, search_observations,
+            mapping, observation_parameter, num_members, quick));
 
-    AnEn_calc.set_distance(distance);
-    AnEn_calc.set_num_nearest((size_t)num_nearest);
-    if (output_metric) {
-        AnEn_calc.set_output_metric("inMemory");
-    }
-    if (output_search_stations) {
-        AnEn_calc.switch_save_search_stations(true);
-    }
-        
-    if (verbose > 1) {
-        cout << "Checking parameters ..." << endl;
-    }
-    
-    if (!AnEn_calc.validate_parameters(forecasts, observations)) {
-        cout << "failed!" << endl;
-        return 1;
+    /***************************************************************************
+     *                           Wrap Up Results                               *
+     **************************************************************************/
+    if (verbose >= 1) cout << "Wrap C++ objects ..." << endl;
+    List ret;
+
+    if (preserve_similarity) {
+        IntegerVector R_sims_dims = {
+            static_cast<int> (sims.shape()[4]),
+            static_cast<int> (sims.shape()[3]),
+            static_cast<int> (sims.shape()[2]),
+            static_cast<int> (sims.shape()[1]),
+            static_cast<int> (sims.shape()[0])
+        };
+        NumericVector R_sims(sims.data(), sims.data() + sims.num_elements());
+        R_sims.attr("dim") = R_sims_dims;
+        ret["similarity"] = R_sims;
     }
 
-    if (verbose > 0) {
-        cout << "Start computing analogs ...";
-        cout.flush();
-    }
-    
-    Array5D analogs = AnEn_calc.computeAnalogs(
-            forecasts, observations);
-    
-    if (verbose > 0) {
-        cout << "Done!" << std::endl;
-        cout.flush();
+    IntegerVector R_analogs_dims = {
+        static_cast<int> (analogs.shape()[0]),
+        static_cast<int> (analogs.shape()[1]),
+        static_cast<int> (analogs.shape()[2]),
+        static_cast<int> (analogs.shape()[3]),
+        static_cast<int> (analogs.shape()[4])
+    };
+    NumericVector R_analogs(analogs.data(),
+            analogs.data() + analogs.num_elements());
+    R_analogs.attr("dim") = R_analogs_dims;
+    ret["analogs"] = R_analogs;
 
-#ifndef _OPENMP
-        cout << "*** Multi-thread is not supported by the compiler. Please refer to README if this concerns you. ***" << std::endl;
-#endif
-    }
-
-    // data re-formatting and output
-    //
-    if (verbose > 0) {
-        cout << "Transporting data from C++ to R ...";
-        cout.flush();
-    }
-
-    Rcpp::List ret;
-
-    // to return to Rcpp::NumericVector, the below data type conversion is carried out:
-    // Array4D -> vector<double> -> Rcpp::NumericVector
-    //
-    // Pay attention to the indexing and for-loop
-    // multidimensional arrays in C/C++ are stored in row-   major order
-    //            while arrays in   R   are stored in column-major order
-    //
-    // Here are generally three cases, value, single_index, and double index
-    // the first two has the same dimensions, so they can be dealt by two
-    // processes
-    //
-    int num_stations, num_days, num_flts, num_members, num_indices;
-    num_stations = analogs.shape()[0];
-    num_days = analogs.shape()[1];
-    num_flts = analogs.shape()[2];
-    num_members = analogs.shape()[3];
-    num_indices = analogs.shape()[4];
-
-    vector<double> analogs_1D(num_stations * num_days * num_flts * num_members * num_indices);
-    size_t index = 0;
-
-    for (int k = 0; k < num_indices; k++)
-        for (int i = 0; i < num_members; i++)
-            for (int j = 0; j < num_flts; j++)
-                for (int m = 0; m < num_days; m++)
-                    for (int n = 0; n < num_stations; n++, index++) {
-
-                        switch(k) {
-                            case 0: // observation values are stored at the first position
-                                    analogs_1D[index] = analogs[n][m][j][i][k];
-                                    break;
-                            default: // all the others should be index
-                                    analogs_1D[index] = analogs[n][m][j][i][k] + 1;
-                        }
-
-                    }
-    Rcpp::NumericVector analogs_R(analogs_1D.begin(), analogs_1D.end());
-
-    // assign the dimension information
-    vector<int> dim = {num_stations, num_days, num_flts, num_members, num_indices};
-    Rcpp::IntegerVector dim_R(dim.begin(), dim.end());
-    analogs_R.attr("dim") = dim_R;
-    analogs_R.attr("class") = "array";
-    ret["analogs"] = analogs_R;
-
-    if (output_metric) {
-        const boost::multi_array<Array2D, 3> & metrics =
-            analogs.get_const_metrics();
-        Rcpp::List metrics_R;
-        for (int m = 0; m < num_stations; m++) {
-            for (int n = 0; n < num_days; n++) {
-                for (int k = 0; k < num_flts; k++) {
-                    std::string ele_name = 
-                        "station_" + std::to_string(stations_ID.at(m) + 1) + "_" +
-                        "day_" + std::to_string(test_ID_start + n + 1) + "_" +
-                        "flt_" + std::to_string(k + 1);
-                    size_t d1 = metrics[m][n][k].sizeM();
-                    size_t d2 = metrics[m][n][k].sizeN();
-                    std::vector<double> metric(d1*d2);
-                    index = 0;
-                    for (int i = 0; i < d2; i++) {
-                        for (int j = 0; j < d1; j++, index++) {
-                            switch(i) {
-                                case 0: // observation values are stored at the first position
-                                    metric[index] = (metrics[m][n][k])[j][i];
-                                    break;
-                                default: // all the others should be index
-                                    metric[index] = (metrics[m][n][k])[j][i] + 1;
-                            }
-                        }
-                    }
-
-                    Rcpp::NumericVector metric_R(metric.begin(), metric.end());
-
-                    vector<size_t> dim_metric = {d1, d2};
-                    Rcpp::IntegerVector dim_metric_R(dim_metric.begin(), dim_metric.end());
-                    metric_R.attr("dim") = dim_metric_R;
-                    Rcpp::colnames(metric_R) = Rcpp::CharacterVector::create(
-                            "metric", "station", "day");
-
-                    metrics_R[ele_name] = metric_R;
-                }
-            }
-        }
-
-        metrics_R.attr("class") = "metrics";
-        ret["metrics"] = metrics_R;
-    }
-
-    if (output_search_stations) {
-        const std::vector< std::vector<size_t> > & vec_search_stations =
-            analogs.get_const_vec_search_stations();
-        Rcpp::List search_stations_R_list;
-        for (size_t i = 0; i < num_stations; i++) {
-            vector<size_t> search_stations(vec_search_stations[i]);
-            for(auto & val : search_stations) val += 1;
-            Rcpp::IntegerVector search_stations_R(search_stations.begin(), search_stations.end());
-            string ele_name = "station_" + std::to_string(stations_ID.at(i) + 1);
-            search_stations_R_list[ele_name] = search_stations_R;
-        }
-
-        search_stations_R_list.attr("class") = "search_stations";
-        ret["search_stations"] = search_stations_R_list;
-    }
-    
-    if (verbose > 0) {
-        cout << "Done!" << std::endl;
-        cout.flush();
-    }
-
-    ret.attr("class") = "AnEn";
-    return ret;
- }
+    return (ret);
+}

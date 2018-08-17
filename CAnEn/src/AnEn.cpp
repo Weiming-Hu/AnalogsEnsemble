@@ -59,7 +59,8 @@ AnEn::computeStandardDeviation(
 
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(static) collapse(3)\
-shared(num_parameters, num_stations, num_flts, num_times, array, circular_flags, sds) 
+shared(num_parameters, num_stations, num_flts, num_times, array,\
+circular_flags, sds) 
 #endif
     for (size_t i_parameter = 0; i_parameter < num_parameters; i_parameter++) {
         for (size_t i_station = 0; i_station < num_stations; i_station++) {
@@ -209,15 +210,14 @@ AnEn::computeSimilarity(
         // Resize similarity matrices according to the search space
         sims.setMaxEntries(num_search_stations * num_search_times);
         sims.resize();
-
-        // Initialize to 0 because each entry is guaranteed to be used
-        fill(sims.data(), sims.data() + sims.num_elements(), 0);
+        fill(sims.data(), sims.data() + sims.num_elements(), NAN);
 
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(static) collapse(5)\
 shared(num_test_stations, num_flts, num_test_times, num_search_stations,\
 num_search_times, circular_flags, num_parameters, data_search_observations,\
-flts_window, mapping, weights, data_search_forecasts, data_test_forecasts, sims, sds)
+flts_window, mapping, weights, data_search_forecasts, data_test_forecasts,\
+sims, sds)
 #endif
         for (size_t i_test_station = 0; i_test_station < num_test_stations; i_test_station++) {
             for (size_t i_test_time = 0; i_test_time < num_test_times; i_test_time++) {
@@ -227,7 +227,10 @@ flts_window, mapping, weights, data_search_forecasts, data_test_forecasts, sims,
 
                             if (!isnan(data_search_observations[i_observation_parameter][i_search_station]
                                     [mapping(i_search_time, i_flt)])) {
+
                                 size_t i_sim_row = i_search_station * num_search_times + i_search_time;
+                                if (isnan(sims[i_test_station][i_test_time][i_flt][i_sim_row][COL_TAG_SIM::VALUE]))
+                                    sims[i_test_station][i_test_time][i_flt][i_sim_row][COL_TAG_SIM::VALUE] = 0;
 
                                 for (size_t i_parameter = 0; i_parameter < num_parameters; i_parameter++) {
 
@@ -277,27 +280,25 @@ flts_window, mapping, weights, data_search_forecasts, data_test_forecasts, sims,
         // Resize similarity matrices according to the search space
         sims.setMaxEntries(num_search_times);
         sims.resize();
-
-        // Initialize to 0 because each entry is guaranteed to be used
-        fill(sims.data(), sims.data() + sims.num_elements(), 0);
+        fill(sims.data(), sims.data() + sims.num_elements(), NAN);
 
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(static) collapse(4)\
 shared(num_test_stations, num_flts, num_test_times, num_search_stations,\
 num_search_times, circular_flags, num_parameters, data_search_observations,\
-flts_window, mapping, weights, data_search_forecasts, data_test_forecasts, sims, sds)
+flts_window, mapping, weights, data_search_forecasts, data_test_forecasts,\
+sims, sds)
 #endif
         for (size_t i_station = 0; i_station < num_test_stations; i_station++) {
             for (size_t i_test_time = 0; i_test_time < num_test_times; i_test_time++) {
                 for (size_t i_flt = 0; i_flt < num_flts; i_flt++) {
                     for (size_t i_search_time = 0; i_search_time < num_search_times; i_search_time++) {
 
-                        // if (isnan(sims[i_test_station][i_test_time][i_flt][i_sim_row][COL_TAG_SIM::VALUE]))
-                        // sims[i_test_station][i_test_time][i_flt][i_sim_row][COL_TAG_SIM::VALUE] = 0;
-
                         if (!isnan(data_search_observations[i_observation_parameter][i_station]
                                 [mapping(i_search_time, i_flt)])) {
-                            size_t i_sim_row = i_station * num_search_times + i_search_time;
+
+                            if (isnan(sims[i_station][i_test_time][i_flt][i_search_time][COL_TAG_SIM::VALUE]))
+                                sims[i_station][i_test_time][i_flt][i_search_time][COL_TAG_SIM::VALUE] = 0;
                             for (size_t i_parameter = 0; i_parameter < num_parameters; i_parameter++) {
 
                                 double value_search_observation = data_search_observations
@@ -326,15 +327,15 @@ flts_window, mapping, weights, data_search_forecasts, data_test_forecasts, sims,
                                     double average = mean(window);
 
                                     if (sds[i_parameter][i_station][i_flt] > 0 && !isnan(average)) {
-                                        sims[i_station][i_test_time][i_flt][i_sim_row][COL_TAG_SIM::VALUE]
+                                        sims[i_station][i_test_time][i_flt][i_search_time][COL_TAG_SIM::VALUE]
                                                 += weights[i_parameter] * (sqrt(average) / sds[i_parameter][i_station][i_flt]);
                                     }
                                 }
 
                             } // End loop of parameters
 
-                            sims[i_station][i_test_time][i_flt][i_sim_row][COL_TAG_SIM::STATION] = i_station;
-                            sims[i_station][i_test_time][i_flt][i_sim_row][COL_TAG_SIM::TIME] = i_search_time;
+                            sims[i_station][i_test_time][i_flt][i_search_time][COL_TAG_SIM::STATION] = i_station;
+                            sims[i_station][i_test_time][i_flt][i_search_time][COL_TAG_SIM::TIME] = i_search_time;
                         }
                     } // End loop of search times
                 } // End loop of FLTs
@@ -357,16 +358,25 @@ AnEn::selectAnalogs(
 
     if (verbose_ >= 3) cout << "Selecting analogs ..." << endl;
 
+    if (num_members >= sims.getMaxEntries()) {
+        if (verbose_ >= 1) cout << BOLDRED << "Error: Number of members is "
+                << "bigger than the number of entries in SimilarityMatrices!"
+                << RESET << endl;
+        return (OUT_OF_RANGE);
+    }
+
     if (i_parameter >= search_observations.getParametersSize()) {
         if (verbose_ >= 1) cout << BOLDRED << "Error: i_parameter exceeds the limits. "
                 << "There are only " << search_observations.getParametersSize()
             << " parameters available." << RESET << endl;
-        return (WRONG_SHAPE);
+        return (OUT_OF_RANGE);
     }
 
     size_t num_test_stations = sims.getTargets().getStationsSize();
     size_t num_test_times = sims.getTargets().getTimesSize();
     size_t num_flts = sims.getTargets().getFLTsSize();
+    auto & observation_times_by_insert =
+            search_observations.getTimes().get<anenTime::by_insert>();
 
     Analogs::extent_gen extents;
     analogs.resize(extents[0][0][0][0][0]);
@@ -382,7 +392,7 @@ AnEn::selectAnalogs(
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(static) collapse(4)\
 shared(data_observations, sims, num_members, mapping, analogs, num_test_stations,\
-i_parameter, num_test_times, num_flts)
+i_parameter, num_test_times, num_flts, observation_times_by_insert)
 #endif
     for (size_t i_test_station = 0; i_test_station < num_test_stations; i_test_station++) {
         for (size_t i_test_time = 0; i_test_time < num_test_times; i_test_time++) {
@@ -392,12 +402,14 @@ i_parameter, num_test_times, num_flts)
                     if (!isnan(sims[i_test_station][i_test_time][i_flt][i_member][COL_TAG_SIM::VALUE])) {
                         size_t i_search_station = (size_t) sims[i_test_station][i_test_time][i_flt][i_member][COL_TAG_SIM::STATION];
                         size_t i_search_forecast_time = (size_t) sims[i_test_station][i_test_time][i_flt][i_member][COL_TAG_SIM::TIME];
+                        size_t i_observation_time = mapping(i_search_forecast_time, i_flt);
 
                         analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::STATION] = i_search_station;
-                        analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::TIME] = i_search_forecast_time;
+                        analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::TIME] =
+                                observation_times_by_insert[i_observation_time];
 
                         analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::VALUE] =
-                                data_observations[i_parameter][i_search_station][mapping(i_search_forecast_time, i_flt)];
+                                data_observations[i_parameter][i_search_station][i_observation_time];
                     }
 
                 }
@@ -428,7 +440,7 @@ AnEn::getMethod() const {
 
 void
 AnEn::setMethod(simMethod method) {
-    if (method == ONE_TO_ALL || method == ONE_TO_MANY || method == ONE_TO_ALL)
+    if (method == ONE_TO_ALL || method == ONE_TO_MANY || method == ONE_TO_ONE)
         this->method_ = method;
 }
 
