@@ -61,7 +61,7 @@ AnEn.cpp <- generateAnalogs(
 	circulars = forecasts.circulars,
 	quick = F,
 	preserve_similarity = T,
-	verbose = 2
+	verbose = 3
 )
 
 analogs.cpp <- AnEn.cpp$analogs[,,,,3]
@@ -105,7 +105,7 @@ AnEn.cpp <- generateAnalogs(
 	circulars = forecasts.circulars,
 	quick = F,
 	preserve_similarity = T,
-	verbose = 2
+	verbose = 3
 )
 
 analogs_WU <- AnEn.cpp$analogs[,,,,3]

@@ -10,10 +10,10 @@
 #         The Pennsylvania State University
 #
 generateAnalogs <- function(
-	test_forecasts, search_forecasts, search_times, search_flts,
-	search_observations, observation_times, num_members,
-	observation_id = 1, quick = T, circulars = NA, weights = NA, 
-        xs = NA, ys = NA, preserve_similarity = F, verbose = 1) {
+	test_forecasts,
+	search_forecasts, search_times, search_flts, circulars = NA, weights = NA,
+	search_observations, observation_id = 1, observation_times,
+	num_members, quick = T, preserve_similarity = F, verbose = 1) {
 	
 	# Check input
 	if (!(is.array(test_forecasts) && is.numeric(test_forecasts) && length(dim(test_forecasts)) == 4)) {

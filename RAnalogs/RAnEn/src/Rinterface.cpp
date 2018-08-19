@@ -110,7 +110,7 @@ List generateAnalogs(
     /***************************************************************************
      *                           AnEn Computation                              *
      **************************************************************************/
-    AnEn anen(2);
+    AnEn anen(verbose);
     Analogs analogs;
     SimilarityMatrices sims(test_forecasts);
     boost::numeric::ublas::matrix<size_t> mapping;
@@ -123,26 +123,21 @@ List generateAnalogs(
     }
 
     // Pre compute the standard deviation
-    if (verbose >= 3) cout << "Compute standard deviation ... " << endl;
     anen.handleError(anen.computeStandardDeviation(search_forecasts, sds));
 
     // Pre compute the time mapping from forecasts [Times, FLTs] 
     // to observations [Times]
     //
-    if (verbose >= 3) cout << "Map from forecasts [Time, FLT]"
-            << " to observations [Time] ... " << endl;
     anen.handleError(anen.computeObservationsTimeIndices(
             search_forecasts.getTimes(), search_forecasts.getFLTs(),
             search_observations.getTimes(), mapping));
 
     // Compute similarity
-    if (verbose >= 3) cout << "Compute similarity ... " << endl;
     anen.setMethod(AnEn::simMethod::ONE_TO_ONE);
     anen.handleError(anen.computeSimilarity(search_forecasts, sds, sims,
             search_observations, mapping));
 
     // Select analogs
-    if (verbose >= 3) cout << "Select analogs ... " << endl;
     anen.handleError(anen.selectAnalogs(analogs, sims, search_observations,
             mapping, observation_parameter, num_members, quick));
 
@@ -177,5 +172,6 @@ List generateAnalogs(
     R_analogs.attr("dim") = R_analogs_dims;
     ret["analogs"] = R_analogs;
 
+    ret.attr("class") = "AnEn";
     return (ret);
 }

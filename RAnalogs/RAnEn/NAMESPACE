@@ -2,7 +2,7 @@
 # It should create problems
 #
 
-# S3method(print,AnEn)
+S3method(print,AnEn)
 
 export(checkOpenMP)
 export(generateAnalogs)

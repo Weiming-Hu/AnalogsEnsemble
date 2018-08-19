@@ -91,6 +91,8 @@ errorType
 AnEn::computeSearchWindows(boost::numeric::ublas::matrix<size_t> & windows,
         size_t num_flts, size_t window_half_size) const {
 
+    if (verbose_ >= 3) cout << "Computing search windows for FLT ... " << endl;
+
     int begin = 0;
     size_t end = 0;
     windows.resize(num_flts, 2);
@@ -111,6 +113,8 @@ AnEn::computeObservationsTimeIndices(
         const anenTime::Times & flts_forecasts,
         const anenTime::Times & times_observations,
         boost::numeric::ublas::matrix<size_t> & mapping) const {
+
+    if (verbose_ >= 3) cout << "Computing mapping from forecast [Time, FLT] to observation [Time]  ... " << endl;
 
     mapping.resize(times_forecasts.size(), flts_forecasts.size());
     mapping.clear();
@@ -161,8 +165,6 @@ AnEn::computeSimilarity(
         boost::numeric::ublas::matrix<size_t> mapping,
         size_t i_observation_parameter) const {
 
-    if (verbose_ >= 3) cout << "Computing similarity matrices ... " << endl;
-
     // Check input
     handleError(check_input_(search_forecasts, sims, search_observations));
 
@@ -204,6 +206,8 @@ AnEn::computeSimilarity(
         circular_flags[i_parameter] = parameters_by_insert[i_parameter].getCircular();
         weights[i_parameter] = parameters_by_insert[i_parameter].getWeight();
     }
+
+    if (verbose_ >= 3) cout << "Computing similarity matrices ... " << endl;
 
     if (method_ == ONE_TO_ALL) {
 
@@ -301,36 +305,34 @@ sims, sds)
                                 sims[i_station][i_test_time][i_flt][i_search_time][COL_TAG_SIM::VALUE] = 0;
                             for (size_t i_parameter = 0; i_parameter < num_parameters; i_parameter++) {
 
-                                double value_search_observation = data_search_observations
-                                        [i_parameter][i_station][mapping(i_search_time, i_flt)];
-                                if (weights[i_parameter] != 0 && !isnan(value_search_observation)) {
-                                    vector<double> window(flts_window(i_flt, 1) - flts_window(i_flt, 0) + 1);
-                                    short pos = 0;
+                                if (weights[i_parameter] != 0) {
+                                        vector<double> window(flts_window(i_flt, 1) - flts_window(i_flt, 0) + 1);
+                                        short pos = 0;
 
-                                    for (size_t i_window_flt = flts_window(i_flt, 0);
-                                            i_window_flt <= flts_window(i_flt, 1); i_window_flt++, pos++) {
+                                        for (size_t i_window_flt = flts_window(i_flt, 0);
+                                                i_window_flt <= flts_window(i_flt, 1); i_window_flt++, pos++) {
 
-                                        double value_search = data_search_forecasts
-                                                [i_parameter][i_station][i_search_time][i_window_flt];
-                                        double value_test = data_test_forecasts
-                                                [i_parameter][i_station][i_test_time][i_window_flt];
+                                            double value_search = data_search_forecasts
+                                                    [i_parameter][i_station][i_search_time][i_window_flt];
+                                            double value_test = data_test_forecasts
+                                                    [i_parameter][i_station][i_test_time][i_window_flt];
 
-                                        if (isnan(value_search) || isnan(value_test)) window[pos] = NAN;
+                                            if (isnan(value_search) || isnan(value_test)) window[pos] = NAN;
 
-                                        if (circular_flags[i_parameter]) {
-                                            window[pos] = pow(diffCircular(value_search, value_test), 2);
-                                        } else {
-                                            window[pos] = pow(value_search - value_test, 2);
+                                            if (circular_flags[i_parameter]) {
+                                                window[pos] = pow(diffCircular(value_search, value_test), 2);
+                                            } else {
+                                                window[pos] = pow(value_search - value_test, 2);
+                                            }
+                                        } // End loop of search window FLTs
+
+                                        double average = mean(window);
+
+                                        if (sds[i_parameter][i_station][i_flt] > 0 && !isnan(average)) {
+                                            sims[i_station][i_test_time][i_flt][i_search_time][COL_TAG_SIM::VALUE]
+                                                    += weights[i_parameter] * (sqrt(average) / sds[i_parameter][i_station][i_flt]);
                                         }
-                                    } // End loop of search window FLTs
-
-                                    double average = mean(window);
-
-                                    if (sds[i_parameter][i_station][i_flt] > 0 && !isnan(average)) {
-                                        sims[i_station][i_test_time][i_flt][i_search_time][COL_TAG_SIM::VALUE]
-                                                += weights[i_parameter] * (sqrt(average) / sds[i_parameter][i_station][i_flt]);
                                     }
-                                }
 
                             } // End loop of parameters
 

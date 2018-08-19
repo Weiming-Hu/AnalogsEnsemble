@@ -128,7 +128,7 @@ message(STATUS "Add clean-rsrc target for cleaning the copied files")
 add_custom_target(
     clean-rsrc 
     COMMAND ${CMAKE_COMMAND} -E remove ${FILES_TO_DELETE}
-    COMMENT "clean the copied files in RAnEn/src")
+    COMMENT "clean the copied files in RAnEn/src. You will need to cmake again if you want to make.")
 
 if(CONFIGURE_ONLY)
     message(STATUS "Only RAnEn configuration is done! No target has been built.")
