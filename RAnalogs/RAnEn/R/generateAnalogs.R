@@ -12,9 +12,8 @@
 generateAnalogs <- function(
 	test_forecasts, search_forecasts, search_times, search_flts,
 	search_observations, observation_times, num_members,
-	observation_id = 1, quick = T, circulars = NA, xs = NA, ys = NA,
-	parameter_circulars = NA, parameter_weights = NA, preserve_similarity = F,
-    verbose = 1) {
+	observation_id = 1, quick = T, circulars = NA, weights = NA, 
+        xs = NA, ys = NA, preserve_similarity = F, verbose = 1) {
 	
 	# Check input
 	if (!(is.array(test_forecasts) && is.numeric(test_forecasts) && length(dim(test_forecasts)) == 4)) {
@@ -60,7 +59,7 @@ generateAnalogs <- function(
 		observation_id = observation_id - 1
 	}
 	
-	if (!is.na(circulars)) {
+	if (!anyNA(circulars)) {
 		if (!(is.vector(circulars, mode = 'numeric') && !anyNA(circulars) && length(circulars) <= dim(test_forecasts)[1])) {
 			print('Error: Circulars should be a numeric vector. Its length should not exceed the number of forecast parameters.')
 			return(0)

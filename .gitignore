@@ -44,6 +44,8 @@
 *.dep.inc
 */*.dep.inc
 .Rproj.user
+*/*Rhistory
+*Rhistory
 
 # Customize
 build

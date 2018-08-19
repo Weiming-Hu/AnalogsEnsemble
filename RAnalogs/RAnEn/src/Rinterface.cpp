@@ -54,7 +54,7 @@ List generateAnalogs(
     /***************************************************************************
      *                   Convert objects for AnEn computation                  *
      **************************************************************************/
-    if (verbose >= 1)
+    if (verbose >= 3)
         cout << "Convert R objects to C++ objects ..." << endl;
     anenTime::Times search_times;
     search_times.insert(search_times.end(),
@@ -117,39 +117,39 @@ List generateAnalogs(
     StandardDeviation sds(parameters.size(),
             search_stations.size(), flts.size());
 
-    if (verbose >= 2) {
-        cout << "Inspect test forecast parameters:" << endl
+    if (verbose >= 4) {
+        cout << "A summary of test forecast parameters:" << endl
                 << sims.getTargets().getParameters();
     }
 
     // Pre compute the standard deviation
-    if (verbose >= 1) cout << "Compute standard deviation ... " << endl;
+    if (verbose >= 3) cout << "Compute standard deviation ... " << endl;
     anen.handleError(anen.computeStandardDeviation(search_forecasts, sds));
 
     // Pre compute the time mapping from forecasts [Times, FLTs] 
     // to observations [Times]
     //
-    if (verbose >= 1) cout << "Map from forecasts [Time, FLT]"
+    if (verbose >= 3) cout << "Map from forecasts [Time, FLT]"
             << " to observations [Time] ... " << endl;
     anen.handleError(anen.computeObservationsTimeIndices(
             search_forecasts.getTimes(), search_forecasts.getFLTs(),
             search_observations.getTimes(), mapping));
 
     // Compute similarity
-    if (verbose >= 1) cout << "Compute similarity ... " << endl;
+    if (verbose >= 3) cout << "Compute similarity ... " << endl;
     anen.setMethod(AnEn::simMethod::ONE_TO_ONE);
     anen.handleError(anen.computeSimilarity(search_forecasts, sds, sims,
             search_observations, mapping));
 
     // Select analogs
-    if (verbose >= 1) cout << "Select analogs ... " << endl;
+    if (verbose >= 3) cout << "Select analogs ... " << endl;
     anen.handleError(anen.selectAnalogs(analogs, sims, search_observations,
             mapping, observation_parameter, num_members, quick));
 
     /***************************************************************************
      *                           Wrap Up Results                               *
      **************************************************************************/
-    if (verbose >= 1) cout << "Wrap C++ objects ..." << endl;
+    if (verbose >= 3) cout << "Wrap C++ objects ..." << endl;
     List ret;
 
     if (preserve_similarity) {
