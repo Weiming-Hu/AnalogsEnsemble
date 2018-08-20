@@ -233,3 +233,19 @@ void testStations::testGetStationsInSquare() {
         CPPUNIT_ASSERT(*it3 == *it4);
     }
 }
+
+void testStations::testAddStation() {
+
+    /**
+     * Test adding Station to Stations.
+     */
+
+    Station s1("test1", 20, 40), s2("test 2");
+    Stations stations;
+    stations.push_back(s1);
+    stations.push_back(s2);
+
+    auto & stations_by_insert = stations.get<by_insert>();
+    CPPUNIT_ASSERT(stations_by_insert[0] == s1);
+    CPPUNIT_ASSERT(stations_by_insert[1] == s2);
+}

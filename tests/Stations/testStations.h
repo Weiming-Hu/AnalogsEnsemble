@@ -18,6 +18,7 @@ class testStations : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST(testMultiIndex);
     CPPUNIT_TEST(testGetIndex);
     CPPUNIT_TEST(testGetStationsInSquare);
+    CPPUNIT_TEST(testAddStation);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -32,6 +33,7 @@ private:
     void testMultiIndex();
     void testGetIndex();
     void testGetStationsInSquare();
+    void testAddStation();
 };
 
 #endif /* TESTSTATIONS_H */

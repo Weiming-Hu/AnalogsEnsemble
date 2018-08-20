@@ -125,7 +125,7 @@ namespace anenSta {
             boost::multi_index::tag<by_ID>,
             boost::multi_index::const_mem_fun<
             Station, std::size_t, &Station::getID> >,
-            
+
             // Order by x
             boost::multi_index::ordered_non_unique<
             boost::multi_index::tag<by_x>,
@@ -156,8 +156,17 @@ namespace anenSta {
         virtual ~Stations();
 
         std::size_t getStationIndex(std::size_t station_ID) const;
+        std::size_t getStationsIndex(
+                std::vector<std::size_t> stations_ID) const;
 
-        std::vector<std::size_t> getNearbyStationsID(const std::size_t &) const;
+        std::vector<std::size_t> getStationsIdBySquare(
+                std::size_t i_main, double half_edge) const;
+
+        std::vector<std::size_t> getStationsIdByDistance(
+                std::size_t i_main, double radius) const;
+
+        std::vector<std::size_t> getNearestStationsId(std::size_t i_main,
+        std::size_t num_stations, double threshold) const;
 
         void print(std::ostream &) const;
         friend std::ostream& operator<<(std::ostream&, Stations const &);
