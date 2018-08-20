@@ -22,9 +22,6 @@ if (EXISTS ${COMMON_OUTPUT_DIR})
     file(REMOVE_RECURSE ${COMMON_OUTPUT_DIR})
 endif(EXISTS ${COMMON_OUTPUT_DIR})
 
-file(MAKE_DIRECTORY ${COMMON_OUTPUT_DIR})
-file(MAKE_DIRECTORY "${COMMON_OUTPUT_DIR}/bin")
-
 # policy setting for backward compatibility
 if(POLICY CMP0054)
     cmake_policy(SET CMP0054 NEW)
@@ -54,9 +51,13 @@ endif(INSTALL_RAnEn)
 # thrid packages required by CAnEn and CAnEnIO
 option(ENABLE_MPI "enable suppor for MPI" OFF)
 message(STATUS "ENABLE_MPI is set to ${ENABLE_MPI}")
+
 if(ENABLE_MPI)
     add_definitions(-DENABLE_MPI)
 endif(ENABLE_MPI)
+
+file(MAKE_DIRECTORY ${COMMON_OUTPUT_DIR})
+file(MAKE_DIRECTORY "${COMMON_OUTPUT_DIR}/bin")
 
 include(CMakeLists_netCDF.txt)
 include(CMakeLists_Boost.txt)
@@ -134,9 +135,6 @@ add_subdirectory("${CMAKE_SOURCE_DIR}/app_analogsGenerator")
 #add_subdirectory("${CMAKE_SOURCE_DIR}/app_canalogs")
 #add_subdirectory("${CMAKE_SOURCE_DIR}/app_CAnEnIO")
 #add_subdirectory("${CMAKE_SOURCE_DIR}/app_data_manager")
-if(ENABLE_MPI)
-    add_subdirectory("${CMAKE_SOURCE_DIR}/app_test")
-endif(ENABLE_MPI)
 
 
 #####################
