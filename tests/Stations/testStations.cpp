@@ -10,6 +10,7 @@
 #include "testStations.h"
 
 #include <iostream>
+#include <algorithm>
 #include <boost/lambda/lambda.hpp>
 
 using namespace std;
@@ -153,6 +154,7 @@ void testStations::testGetStationsInSquare() {
 
     /**
      * Tests the multi-index container to get nearby stations in a square.
+     * This is only a test of concept, not using any provided functions.
      * 
      * The spatial distribution of stations looks like below. The numbers
      * shown on the diagram are the ID of stations.
@@ -250,14 +252,156 @@ void testStations::testAddStation() {
     CPPUNIT_ASSERT(stations_by_insert[1] == s2);
 }
 
-void testStations::testgetStationsIdBySquare() {
-    CPPUNIT_ASSERT(false);
+void testStations::testGetStationsIdBySquare() {
+
+    /**
+     * Tests the multi-index container to get nearby stations in a square.
+     * This is the correctness test for function getStationsIdBySquare();
+     * 
+     * The spatial distribution of stations looks like below. The numbers
+     * shown on the diagram are the ID of stations.
+     * 
+     *           (Y)  ^
+     *              8 |             14
+     *              7 |       12          13
+     *              6 |    11
+     *              5 |     8  9 10
+     *              4 |        6        7
+     *              3 |  3        4           5
+     *              2 |
+     *              1 |  1              2
+     *                .-------------------------->
+     *                0  1  2  3  4  5  6  7  8  (X)
+     */
+
+    // Create an example forecast object
+    anenSta::Station s1("1", 1, 1), s2("2", 6, 1), s3("3", 1, 3),
+            s4("4", 4, 3), s5("5", 8, 3), s6("6", 3, 4),
+            s7("7", 6, 4), s8("8", 2, 5), s9("9", 3, 5),
+            s10("10", 4, 5), s11("11", 2, 6), s12("12", 3, 7),
+            s13("13", 7, 7), s14("14", 5, 8);
+    anenSta::Stations stations;
+    stations.insert(stations.end(),{s1, s2, s3, s4, s5, s6,
+        s7, s8, s9, s10, s11, s12, s13, s14});
+
+    // Test 1
+    // Main station is s9; half size window is 0.5
+    //
+    double half_size = 0.5;
+    vector<size_t> results = stations.getStationsIdBySquare(8, half_size);
+    CPPUNIT_ASSERT(results.size() == 0);
+
+    // Test 2
+    // Main station is s9; half size window is 1.5
+    //
+    half_size = 1.5;
+    results = stations.getStationsIdBySquare(8, half_size);
+    CPPUNIT_ASSERT(results.size() == 4);
+
+    // Test 3
+    // Main station is s1; half size window is 2
+    //
+    half_size = 2;
+    results = stations.getStationsIdBySquare(0, half_size);
+    CPPUNIT_ASSERT(results.size() == 1);
+    CPPUNIT_ASSERT(results[0] == s3.getID());
 }
 
-void testStations::testgetStationsIdByDistance() {
-    CPPUNIT_ASSERT(false);
+void testStations::testGetStationsIdByDistance() {
+
+    /**
+     * Tests the multi-index container to get nearby stations with distance.
+     * This is the correctness test for function getStationsIdByDistance();
+     * 
+     * The spatial distribution of stations looks like below. The numbers
+     * shown on the diagram are the ID of stations.
+     * 
+     *           (Y)  ^
+     *              8 |             14
+     *              7 |       12          13
+     *              6 |    11
+     *              5 |     8  9 10
+     *              4 |        6        7
+     *              3 |  3        4           5
+     *              2 |
+     *              1 |  1              2
+     *                .-------------------------->
+     *                0  1  2  3  4  5  6  7  8  (X)
+     */
+
+    // Create an example forecast object
+    anenSta::Station s1("1", 1, 1), s2("2", 6, 1), s3("3", 1, 3),
+            s4("4", 4, 3), s5("5", 8, 3), s6("6", 3, 4),
+            s7("7", 6, 4), s8("8", 2, 5), s9("9", 3, 5),
+            s10("10", 4, 5), s11("11", 2, 6), s12("12", 3, 7),
+            s13("13", 7, 7), s14("14", 5, 8);
+    anenSta::Stations stations;
+    stations.insert(stations.end(),{s1, s2, s3, s4, s5, s6,
+        s7, s8, s9, s10, s11, s12, s13, s14});
+
+    // Test 1
+    // Main station is s2; distance is 2
+    //
+    double distance = 2;
+    vector<size_t> results = stations.getStationsIdByDistance(1, distance);
+    CPPUNIT_ASSERT(results.size() == 0);
+
+    // Test 2
+    // Main station is s9; half size window is 1.1
+    //
+    distance = 1.1;
+    results = stations.getStationsIdByDistance(8, distance);
+    CPPUNIT_ASSERT(results.size() == 3);
 }
 
-void testStations::testgetNearestStationsId() {
-    CPPUNIT_ASSERT(false);
+void testStations::testGetNearestStationsId() {
+
+    /**
+     * Tests the multi-index container to get K-nearest stations.
+     * This is the correctness test for function getNearestStationsId();
+     * 
+     * The spatial distribution of stations looks like below. The numbers
+     * shown on the diagram are the ID of stations.
+     * 
+     *           (Y)  ^
+     *              8 |             14
+     *              7 |       12          13
+     *              6 |    11
+     *              5 |     8  9 10
+     *              4 |        6        7
+     *              3 |  3        4           5
+     *              2 |
+     *              1 |  1              2
+     *                .-------------------------->
+     *                0  1  2  3  4  5  6  7  8  (X)
+     */
+
+    // Create an example forecast object
+    anenSta::Station s1("1", 1, 1), s2("2", 6, 1), s3("3", 1, 3),
+            s4("4", 4, 3), s5("5", 8, 3), s6("6", 3, 4),
+            s7("7", 6, 4), s8("8", 2, 5), s9("9", 3, 5),
+            s10("10", 4, 5), s11("11", 2, 6), s12("12", 3, 7),
+            s13("13", 7, 7), s14("14", 5, 8);
+    anenSta::Stations stations;
+    stations.insert(stations.end(),{s1, s2, s3, s4, s5, s6,
+        s7, s8, s9, s10, s11, s12, s13, s14});
+
+    // Test 1
+    // Main station is s4; number of nearest stations is 1
+    //
+    size_t num_stations = 1;
+    vector<size_t> results = stations.getStationsIdByDistance(3, num_stations);
+    CPPUNIT_ASSERT(results.size() == 1);
+    CPPUNIT_ASSERT(results[0] == s6.getID());
+
+    // Test 2
+    // Main station is s13; number of nearest stations is 2
+    //
+    num_stations = 2;
+    results = stations.getStationsIdByDistance(12, num_stations);
+    CPPUNIT_ASSERT(results.size() == 2);
+    CPPUNIT_ASSERT(find(results.begin(), results.end(),
+            s7.getID()) != results.end());
+    CPPUNIT_ASSERT(find(results.begin(), results.end(),
+            s14.getID()) != results.end());
 }
