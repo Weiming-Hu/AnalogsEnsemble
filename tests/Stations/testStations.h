@@ -22,7 +22,7 @@ class testStations : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST(testGetStationsIdBySquare);
     CPPUNIT_TEST(testGetStationsIdByDistance);
     CPPUNIT_TEST(testGetNearestStationsId);
-
+    CPPUNIT_TEST(testGetStationsIndex);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -41,6 +41,7 @@ private:
     void testGetStationsIdBySquare();
     void testGetStationsIdByDistance();
     void testGetNearestStationsId();
+    void testGetStationsIndex();
 };
 
 #endif /* TESTSTATIONS_H */

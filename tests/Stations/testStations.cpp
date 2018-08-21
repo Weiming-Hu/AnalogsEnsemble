@@ -176,12 +176,12 @@ void testStations::testGetStationsInSquare() {
     using namespace boost::lambda;
 
     // Create an example forecast object
-    anenSta::Station s1("1", 1, 1), s2("2", 6, 1), s3("3", 1, 3),
+    Station s1("1", 1, 1), s2("2", 6, 1), s3("3", 1, 3),
             s4("4", 4, 3), s5("5", 8, 3), s6("6", 3, 4),
             s7("7", 6, 4), s8("8", 2, 5), s9("9", 3, 5),
             s10("10", 4, 5), s11("11", 2, 6), s12("12", 3, 7),
             s13("13", 7, 7), s14("14", 5, 8);
-    anenSta::Stations stations;
+    Stations stations;
     stations.insert(stations.end(),{s1, s2, s3, s4, s5, s6,
         s7, s8, s9, s10, s11, s12, s13, s14});
 
@@ -275,12 +275,12 @@ void testStations::testGetStationsIdBySquare() {
      */
 
     // Create an example forecast object
-    anenSta::Station s1("1", 1, 1), s2("2", 6, 1), s3("3", 1, 3),
+    Station s1("1", 1, 1), s2("2", 6, 1), s3("3", 1, 3),
             s4("4", 4, 3), s5("5", 8, 3), s6("6", 3, 4),
             s7("7", 6, 4), s8("8", 2, 5), s9("9", 3, 5),
             s10("10", 4, 5), s11("11", 2, 6), s12("12", 3, 7),
             s13("13", 7, 7), s14("14", 5, 8);
-    anenSta::Stations stations;
+    Stations stations;
     stations.insert(stations.end(),{s1, s2, s3, s4, s5, s6,
         s7, s8, s9, s10, s11, s12, s13, s14});
 
@@ -339,12 +339,12 @@ void testStations::testGetStationsIdByDistance() {
      */
 
     // Create an example forecast object
-    anenSta::Station s1("1", 1, 1), s2("2", 6, 1), s3("3", 1, 3),
+    Station s1("1", 1, 1), s2("2", 6, 1), s3("3", 1, 3),
             s4("4", 4, 3), s5("5", 8, 3), s6("6", 3, 4),
             s7("7", 6, 4), s8("8", 2, 5), s9("9", 3, 5),
             s10("10", 4, 5), s11("11", 2, 6), s12("12", 3, 7),
             s13("13", 7, 7), s14("14", 5, 8);
-    anenSta::Stations stations;
+    Stations stations;
     stations.insert(stations.end(),{s1, s2, s3, s4, s5, s6,
         s7, s8, s9, s10, s11, s12, s13, s14});
 
@@ -386,12 +386,12 @@ void testStations::testGetNearestStationsId() {
      */
 
     // Create an example forecast object
-    anenSta::Station s1("1", 1, 1), s2("2", 6, 1), s3("3", 1, 3),
+    Station s1("1", 1, 1), s2("2", 6, 1), s3("3", 1, 3),
             s4("4", 4, 3), s5("5", 8, 3), s6("6", 3, 4),
             s7("7", 6, 4), s8("8", 2, 5), s9("9", 3, 5),
             s10("10", 4, 5), s11("11", 2, 6), s12("12", 3, 7),
             s13("13", 7, 7), s14("14", 5, 8);
-    anenSta::Stations stations;
+    Stations stations;
     stations.insert(stations.end(),{s1, s2, s3, s4, s5, s6,
         s7, s8, s9, s10, s11, s12, s13, s14});
 
@@ -428,4 +428,34 @@ void testStations::testGetNearestStationsId() {
             s10.getID()) != results.end());
     CPPUNIT_ASSERT(find(results.begin(), results.end(),
             s9.getID()) == results.end());
+}
+
+void testStations::testGetStationsIndex() {
+
+    /**
+     * Test the function getStationsIndex()
+     */
+    Station s1("1", 1, 1), s2("2", 6, 1), s3("3", 1, 3),
+            s4("4", 4, 3), s5("5", 8, 3), s6("6", 3, 4),
+            s7("7", 6, 4), s8("8", 2, 5), s9("9", 3, 5),
+            s10("10", 4, 5), s11("11", 2, 6), s12("12", 3, 7),
+            s13("13", 7, 7), s14("14", 5, 8);
+    vector<Station> vec_stations{s1, s2, s3, s4, s5, s6, s7, s8, s9, s10,
+        s11, s12, s13, s14};
+
+    vector<size_t> stations_ID;
+    for (const auto & s : vec_stations) {
+        stations_ID.push_back(s.getID());
+    }
+
+    Stations stations;
+    stations.insert(stations.end(), vec_stations.begin(), vec_stations.end());
+
+    vector<size_t> stations_index = stations.getStationsIndex(stations_ID);
+    
+    size_t compare = 0;
+    for (const auto & i : stations_index) {
+        CPPUNIT_ASSERT(i == compare);
+        compare++;
+    }
 }

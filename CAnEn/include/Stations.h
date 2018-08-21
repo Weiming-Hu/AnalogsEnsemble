@@ -156,8 +156,8 @@ namespace anenSta {
         virtual ~Stations();
 
         std::size_t getStationIndex(std::size_t station_ID) const;
-        std::size_t getStationsIndex(
-                std::vector<std::size_t> stations_ID) const;
+        std::vector<std::size_t> getStationsIndex(
+                const std::vector<std::size_t> & stations_ID) const;
 
         std::vector<std::size_t> getStationsIdBySquare(
                 std::size_t i_main, double half_edge) const;

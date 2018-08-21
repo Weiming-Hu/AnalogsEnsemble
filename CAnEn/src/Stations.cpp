@@ -185,14 +185,30 @@ namespace anenSta {
             // Compute the distance
             return (distance(stations_by_insert.begin(), it_insert));
         } else {
-            throw out_of_range("Can't find the station IDs "
+            throw out_of_range("Can't find the station ID "
                     + to_string(station_ID));
         }
     }
 
-    size_t
-    Stations::getStationsIndex(vector<size_t> stations_ID) const {
-        return (0);
+    vector<size_t>
+    Stations::getStationsIndex(const vector<size_t> & stations_ID) const {
+        auto & stations_by_ID = this->get<by_ID>();
+        auto & stations_by_insert = this->get<by_insert>();
+        vector<size_t> stations_index(stations_ID.size());
+
+        transform(stations_ID.begin(), stations_ID.end(), stations_index.begin(),
+                [&stations_by_ID, &stations_by_insert, this](size_t id) {
+                    auto it_ID = stations_by_ID.find(id);
+                    if (it_ID != stations_by_ID.end()) {
+                        return (distance(stations_by_insert.begin(),
+                                this->project<by_insert>(it_ID)));
+                    } else {
+                        throw out_of_range("Can't find the station ID "
+                                + to_string(id));
+                    }
+                });
+
+        return (stations_index);
     }
 
     vector<size_t>
