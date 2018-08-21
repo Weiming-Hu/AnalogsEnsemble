@@ -18,8 +18,20 @@
 #include "Stations.h"
 #include "boost/lambda/lambda.hpp"
 
+// Reference for Boost Geometry
+// https://www.boost.org/doc/libs/1_68_0/libs/geometry/doc/html/index.html
+//
+#include "boost/geometry.hpp"
+#include "boost/geometry/geometries/point.hpp"
+#include "boost/geometry/geometries/box.hpp"
+#include "boost/geometry/index/rtree.hpp"
+
 #include <iterator>
 #include <algorithm>
+
+namespace bg = boost::geometry;
+namespace bgi = boost::geometry::index;
+
 
 namespace anenSta {
     using namespace std;
@@ -265,8 +277,36 @@ search_stations_ID_by_square, search_stations_ID, radius)
     vector<size_t>
     Stations::getNearestStationsId(size_t i_main,
             size_t num_stations, double threshold) const {
-        vector<size_t> a;
-        return (a);
+        using point = bg::model::point<double, 2, bg::cs::cartesian>;
+        using value = pair<point, size_t>;
+
+        bgi::rtree< value, bgi::quadratic<16> > rtree;
+
+        // Get the main station
+        auto & stations_by_insert = this->get<by_insert>();
+        Station main_station(stations_by_insert[i_main]);
+        double main_station_x = main_station.getX(),
+                main_station_y = main_station.getY();
+
+        // Build the R-tree
+        for (size_t i = 0; i < stations_by_insert.size(); i++) {
+            point pt(stations_by_insert[i].getX(),
+                    stations_by_insert[i].getY());
+            rtree.insert(make_pair(pt, stations_by_insert[i].getID()));
+        }
+        
+        // KNN request
+        vector<value> results_points;
+        rtree.query(bgi::nearest(point(main_station_x, main_station_y),
+                num_stations), back_inserter(results_points));
+        
+        // Convert point to ID
+        vector<size_t> results_ID(results_points.size());
+        for (size_t i = 0; i < results_points.size(); i++) {
+            results_ID[i] = results_points[i].second;
+        }
+
+        return (results_ID);
     }
 
     void

@@ -249,3 +249,15 @@ void testStations::testAddStation() {
     CPPUNIT_ASSERT(stations_by_insert[0] == s1);
     CPPUNIT_ASSERT(stations_by_insert[1] == s2);
 }
+
+void testStations::testgetStationsIdBySquare() {
+    CPPUNIT_ASSERT(false);
+}
+
+void testStations::testgetStationsIdByDistance() {
+    CPPUNIT_ASSERT(false);
+}
+
+void testStations::testgetNearestStationsId() {
+    CPPUNIT_ASSERT(false);
+}
