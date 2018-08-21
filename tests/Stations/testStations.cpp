@@ -297,6 +297,14 @@ void testStations::testGetStationsIdBySquare() {
     half_size = 1.5;
     results = stations.getStationsIdBySquare(8, half_size);
     CPPUNIT_ASSERT(results.size() == 4);
+    CPPUNIT_ASSERT(find(results.begin(), results.end(),
+            s11.getID()) != results.end());
+    CPPUNIT_ASSERT(find(results.begin(), results.end(),
+            s8.getID()) != results.end());
+    CPPUNIT_ASSERT(find(results.begin(), results.end(),
+            s10.getID()) != results.end());
+    CPPUNIT_ASSERT(find(results.begin(), results.end(),
+            s6.getID()) != results.end());
 
     // Test 3
     // Main station is s1; half size window is 2
@@ -305,6 +313,7 @@ void testStations::testGetStationsIdBySquare() {
     results = stations.getStationsIdBySquare(0, half_size);
     CPPUNIT_ASSERT(results.size() == 1);
     CPPUNIT_ASSERT(results[0] == s3.getID());
+
 }
 
 void testStations::testGetStationsIdByDistance() {
@@ -390,18 +399,33 @@ void testStations::testGetNearestStationsId() {
     // Main station is s4; number of nearest stations is 1
     //
     size_t num_stations = 1;
-    vector<size_t> results = stations.getStationsIdByDistance(3, num_stations);
-    CPPUNIT_ASSERT(results.size() == 1);
+    vector<size_t> results = stations.getNearestStationsId(3, num_stations);
+    CPPUNIT_ASSERT(results.size() == num_stations);
     CPPUNIT_ASSERT(results[0] == s6.getID());
 
     // Test 2
     // Main station is s13; number of nearest stations is 2
     //
     num_stations = 2;
-    results = stations.getStationsIdByDistance(12, num_stations);
-    CPPUNIT_ASSERT(results.size() == 2);
+    results = stations.getNearestStationsId(12, num_stations);
+    CPPUNIT_ASSERT(results.size() == num_stations);
     CPPUNIT_ASSERT(find(results.begin(), results.end(),
             s7.getID()) != results.end());
     CPPUNIT_ASSERT(find(results.begin(), results.end(),
             s14.getID()) != results.end());
+
+    // Test 3
+    // Main station is s4; number of nearest stations is 4;
+    // threshold is 2.1
+    //
+    num_stations = 4;
+    double threshold = 2.1;
+    results = stations.getNearestStationsId(3, num_stations, threshold);
+    CPPUNIT_ASSERT(results.size() == 2);
+    CPPUNIT_ASSERT(find(results.begin(), results.end(),
+            s6.getID()) != results.end());
+    CPPUNIT_ASSERT(find(results.begin(), results.end(),
+            s10.getID()) != results.end());
+    CPPUNIT_ASSERT(find(results.begin(), results.end(),
+            s9.getID()) == results.end());
 }

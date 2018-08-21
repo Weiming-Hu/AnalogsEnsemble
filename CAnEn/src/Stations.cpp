@@ -23,18 +23,16 @@
 //
 #include "boost/geometry.hpp"
 #include "boost/geometry/geometries/point.hpp"
-#include "boost/geometry/geometries/box.hpp"
+#include <boost/geometry/geometries/ring.hpp>
 #include "boost/geometry/index/rtree.hpp"
 
 #include <iterator>
 #include <algorithm>
 
-namespace bg = boost::geometry;
-namespace bgi = boost::geometry::index;
-
-
 namespace anenSta {
     using namespace std;
+    namespace bg = boost::geometry;
+    namespace bgi = boost::geometry::index;
 
     /**************************************************************************
      *                            Station                                     *
@@ -192,6 +190,11 @@ namespace anenSta {
         }
     }
 
+    size_t
+    Stations::getStationsIndex(vector<size_t> stations_ID) const {
+        return (0);
+    }
+
     vector<size_t>
     Stations::getStationsIdBySquare(size_t i_main, double half_edge) const {
 
@@ -213,6 +216,9 @@ namespace anenSta {
         Stations stations_subset;
         stations_subset.insert(stations_subset.end(),
                 stations_range_x.first, stations_range_x.second);
+
+        // Remove the main station
+        stations_subset.get<by_ID>().erase(main_station.getID());
 
         // Order the subset station by y
         auto & stations_by_y = stations_subset.get<by_y>();
@@ -247,14 +253,14 @@ namespace anenSta {
         vector<double> distances(search_stations_ID_by_square.size());
         auto & stations_by_ID = this->get<by_ID>();
 
+        // We compare the distance squared rather than the actual distance
+        // for a better performance
+        //
+        radius *= radius;
+
         // With in the subset stations, compute distances extensively
         // and select the ones within the radius
         //
-#ifdef _OPENMP
-#pragma omp parallel for default(none) schedule(static)\
-shared(distances, main_station_x, main_station_y, stations_by_ID,\
-search_stations_ID_by_square, search_stations_ID, radius)
-#endif
         for (size_t i = 0; i < distances.size(); i++) {
             Station station(
                     *(stations_by_ID.find(search_stations_ID_by_square[i])));
@@ -263,9 +269,6 @@ search_stations_ID_by_square, search_stations_ID, radius)
                     pow(main_station_y - station.getY(), 2);
 
             if (distances[i] <= radius) {
-#ifdef _OPENMP
-#pragma omp critical
-#endif
                 search_stations_ID.push_back(
                         search_stations_ID_by_square[i]);
             }
@@ -280,7 +283,8 @@ search_stations_ID_by_square, search_stations_ID, radius)
         using point = bg::model::point<double, 2, bg::cs::cartesian>;
         using value = pair<point, size_t>;
 
-        bgi::rtree< value, bgi::quadratic<16> > rtree;
+        bgi::rtree< value, bgi::dynamic_rstar > rtree(
+                bgi::dynamic_rstar(this->size()));
 
         // Get the main station
         auto & stations_by_insert = this->get<by_insert>();
@@ -294,15 +298,31 @@ search_stations_ID_by_square, search_stations_ID, radius)
                     stations_by_insert[i].getY());
             rtree.insert(make_pair(pt, stations_by_insert[i].getID()));
         }
-        
+
+        // Remove the main station
+        rtree.remove(make_pair(point(main_station_x, main_station_y),
+                main_station.getID()));
+
         // KNN request
         vector<value> results_points;
-        rtree.query(bgi::nearest(point(main_station_x, main_station_y),
-                num_stations), back_inserter(results_points));
-        
-        // Convert point to ID
+        if (isnan(threshold)) {
+            rtree.query(bgi::nearest(point(main_station_x, main_station_y),
+                    num_stations), back_inserter(results_points));
+        } else {
+            threshold *= threshold;
+            rtree.query(bgi::nearest(point(main_station_x, main_station_y),
+                    num_stations) && bgi::satisfies(
+                    [&main_station_x, &main_station_y, &threshold]
+                    (value const& p) {
+                        return (pow(main_station_x - bg::get<0>(p.first), 2) +
+                                pow(main_station_y - bg::get<1>(p.first), 2) <
+                                threshold); }), back_inserter(results_points));
+        }
+
+        // Convert value to ID
         vector<size_t> results_ID(results_points.size());
         for (size_t i = 0; i < results_points.size(); i++) {
+
             results_ID[i] = results_points[i].second;
         }
 
@@ -311,6 +331,7 @@ search_stations_ID_by_square, search_stations_ID, radius)
 
     void
     Stations::print(ostream & os) const {
+
         os << "[Stations] size: " << size() << endl;
         copy(begin(), end(), ostream_iterator<Station>(os));
     }
