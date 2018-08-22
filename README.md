@@ -1,6 +1,6 @@
 # Parallel Ensemble Forecast Package
 
-==This document is still under development.==
+_This document is still under development._
 
 ## About
 
@@ -166,7 +166,7 @@ make clean
 |       VERBOSE       |               `cmake -DVERBOSE=OFF ..`              |                                                                                                                                                                                                             **Default**. Less output. |
 |                     |               `cmake -DVERBOSE=ON ..`               |                                                                                                                                                                                                                      Detailed output. |
 
-**Table generated from [Tables Generator](https://www.tablesgenerator.com/markdown_tables).
+_Table generated from [Tables Generator](https://www.tablesgenerator.com/markdown_tables)._
 
 ## Known Issues
 
