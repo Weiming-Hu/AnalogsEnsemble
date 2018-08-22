@@ -212,15 +212,10 @@ namespace anenSta {
     }
 
     vector<size_t>
-    Stations::getStationsIdBySquare(size_t i_main, double half_edge) const {
+    Stations::getStationsIdBySquare(double main_station_x,
+            double main_station_y, double half_edge) const {
 
         using namespace boost::lambda;
-
-        // Get the main station
-        auto & stations_by_insert = this->get<by_insert>();
-        Station main_station(stations_by_insert[i_main]);
-        double main_station_x = main_station.getX(),
-                main_station_y = main_station.getY();
 
         // Order the stations by x
         auto & stations_by_x = this->get<by_x>();
@@ -232,9 +227,6 @@ namespace anenSta {
         Stations stations_subset;
         stations_subset.insert(stations_subset.end(),
                 stations_range_x.first, stations_range_x.second);
-
-        // Remove the main station
-        stations_subset.get<by_ID>().erase(main_station.getID());
 
         // Order the subset station by y
         auto & stations_by_y = stations_subset.get<by_y>();
@@ -253,18 +245,13 @@ namespace anenSta {
     }
 
     vector<size_t>
-    Stations::getStationsIdByDistance(size_t i_main, double radius) const {
-
-        // Get the main station
-        auto & stations_by_insert = this->get<by_insert>();
-        Station main_station(stations_by_insert[i_main]);
-        double main_station_x = main_station.getX(),
-                main_station_y = main_station.getY();
+    Stations::getStationsIdByDistance(double main_station_x,
+            double main_station_y, double radius) const {
 
         // Use the range function to get a square area of the stations
         vector<size_t> search_stations_ID,
                 search_stations_ID_by_square =
-                getStationsIdBySquare(i_main, radius);
+                getStationsIdBySquare(main_station_x, main_station_y, radius);
 
         vector<double> distances(search_stations_ID_by_square.size());
         auto & stations_by_ID = this->get<by_ID>();
@@ -294,30 +281,23 @@ namespace anenSta {
     }
 
     vector<size_t>
-    Stations::getNearestStationsId(size_t i_main,
-            size_t num_stations, double threshold) const {
+    Stations::getNearestStationsId(double main_station_x,
+            double main_station_y, size_t num_stations,
+            double threshold) const {
+
         using point = bg::model::point<double, 2, bg::cs::cartesian>;
         using value = pair<point, size_t>;
 
         bgi::rtree< value, bgi::dynamic_rstar > rtree(
                 bgi::dynamic_rstar(this->size()));
 
-        // Get the main station
-        auto & stations_by_insert = this->get<by_insert>();
-        Station main_station(stations_by_insert[i_main]);
-        double main_station_x = main_station.getX(),
-                main_station_y = main_station.getY();
-
         // Build the R-tree
+        auto & stations_by_insert = this->get<by_insert>();
         for (size_t i = 0; i < stations_by_insert.size(); i++) {
             point pt(stations_by_insert[i].getX(),
                     stations_by_insert[i].getY());
             rtree.insert(make_pair(pt, stations_by_insert[i].getID()));
         }
-
-        // Remove the main station
-        rtree.remove(make_pair(point(main_station_x, main_station_y),
-                main_station.getID()));
 
         // KNN request
         vector<value> results_points;

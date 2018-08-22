@@ -288,15 +288,17 @@ void testStations::testGetStationsIdBySquare() {
     // Main station is s9; half size window is 0.5
     //
     double half_size = 0.5;
-    vector<size_t> results = stations.getStationsIdBySquare(8, half_size);
-    CPPUNIT_ASSERT(results.size() == 0);
+    vector<size_t> results = stations.getStationsIdBySquare(
+            s9.getX(), s9.getY(), half_size);
+    CPPUNIT_ASSERT(results.size() == 1);
 
     // Test 2
     // Main station is s9; half size window is 1.5
     //
     half_size = 1.5;
-    results = stations.getStationsIdBySquare(8, half_size);
-    CPPUNIT_ASSERT(results.size() == 4);
+    results = stations.getStationsIdBySquare(
+            s9.getX(), s9.getY(), half_size);
+    CPPUNIT_ASSERT(results.size() == 5);
     CPPUNIT_ASSERT(find(results.begin(), results.end(),
             s11.getID()) != results.end());
     CPPUNIT_ASSERT(find(results.begin(), results.end(),
@@ -305,14 +307,20 @@ void testStations::testGetStationsIdBySquare() {
             s10.getID()) != results.end());
     CPPUNIT_ASSERT(find(results.begin(), results.end(),
             s6.getID()) != results.end());
+    CPPUNIT_ASSERT(find(results.begin(), results.end(),
+            s9.getID()) != results.end());
 
     // Test 3
     // Main station is s1; half size window is 2
     //
     half_size = 2;
-    results = stations.getStationsIdBySquare(0, half_size);
-    CPPUNIT_ASSERT(results.size() == 1);
-    CPPUNIT_ASSERT(results[0] == s3.getID());
+    results = stations.getStationsIdBySquare(
+            s1.getX(), s1.getY(), half_size);
+    CPPUNIT_ASSERT(results.size() == 2);
+    CPPUNIT_ASSERT(find(results.begin(), results.end(),
+            s1.getID()) != results.end());
+    CPPUNIT_ASSERT(find(results.begin(), results.end(),
+            s3.getID()) != results.end());
 
 }
 
@@ -352,15 +360,17 @@ void testStations::testGetStationsIdByDistance() {
     // Main station is s2; distance is 2
     //
     double distance = 2;
-    vector<size_t> results = stations.getStationsIdByDistance(1, distance);
-    CPPUNIT_ASSERT(results.size() == 0);
+    vector<size_t> results = stations.getStationsIdByDistance(
+            s2.getX(), s2.getY(), distance);
+    CPPUNIT_ASSERT(results.size() == 1);
 
     // Test 2
     // Main station is s9; half size window is 1.1
     //
     distance = 1.1;
-    results = stations.getStationsIdByDistance(8, distance);
-    CPPUNIT_ASSERT(results.size() == 3);
+    results = stations.getStationsIdByDistance(
+            s9.getX(), s9.getY(), distance);
+    CPPUNIT_ASSERT(results.size() == 4);
 }
 
 void testStations::testGetNearestStationsId() {
@@ -399,20 +409,24 @@ void testStations::testGetNearestStationsId() {
     // Main station is s4; number of nearest stations is 1
     //
     size_t num_stations = 1;
-    vector<size_t> results = stations.getNearestStationsId(3, num_stations);
+    vector<size_t> results = stations.getNearestStationsId(
+            s4.getX(), s4.getY(), num_stations);
     CPPUNIT_ASSERT(results.size() == num_stations);
-    CPPUNIT_ASSERT(results[0] == s6.getID());
+    CPPUNIT_ASSERT(results[0] == s4.getID());
 
     // Test 2
     // Main station is s13; number of nearest stations is 2
     //
-    num_stations = 2;
-    results = stations.getNearestStationsId(12, num_stations);
+    num_stations = 3;
+    results = stations.getNearestStationsId(
+            s13.getX(), s13.getY(), num_stations);
     CPPUNIT_ASSERT(results.size() == num_stations);
     CPPUNIT_ASSERT(find(results.begin(), results.end(),
             s7.getID()) != results.end());
     CPPUNIT_ASSERT(find(results.begin(), results.end(),
             s14.getID()) != results.end());
+    CPPUNIT_ASSERT(find(results.begin(), results.end(),
+            s13.getID()) != results.end());
 
     // Test 3
     // Main station is s4; number of nearest stations is 4;
@@ -420,10 +434,13 @@ void testStations::testGetNearestStationsId() {
     //
     num_stations = 4;
     double threshold = 2.1;
-    results = stations.getNearestStationsId(3, num_stations, threshold);
-    CPPUNIT_ASSERT(results.size() == 2);
+    results = stations.getNearestStationsId(
+            s4.getX(), s4.getY(), num_stations, threshold);
+    CPPUNIT_ASSERT(results.size() == 3);
     CPPUNIT_ASSERT(find(results.begin(), results.end(),
             s6.getID()) != results.end());
+    CPPUNIT_ASSERT(find(results.begin(), results.end(),
+            s4.getID()) != results.end());
     CPPUNIT_ASSERT(find(results.begin(), results.end(),
             s10.getID()) != results.end());
     CPPUNIT_ASSERT(find(results.begin(), results.end(),

@@ -159,14 +159,15 @@ namespace anenSta {
         std::vector<std::size_t> getStationsIndex(
                 const std::vector<std::size_t> & stations_ID) const;
 
-        std::vector<std::size_t> getStationsIdBySquare(
-                std::size_t i_main, double half_edge) const;
+        std::vector<std::size_t> getStationsIdBySquare(double main_station_x,
+                double main_station_y, double half_edge) const;
 
-        std::vector<std::size_t> getStationsIdByDistance(
-                std::size_t i_main, double radius) const;
+        std::vector<std::size_t> getStationsIdByDistance(double main_station_x,
+                double main_station_y, double radius) const;
 
-        std::vector<std::size_t> getNearestStationsId(std::size_t i_main,
-        std::size_t num_stations, double threshold = NAN) const;
+        std::vector<std::size_t> getNearestStationsId(double main_station_x,
+                double main_station_y, std::size_t num_stations,
+                double threshold = NAN) const;
 
         void print(std::ostream &) const;
         friend std::ostream& operator<<(std::ostream&, Stations const &);

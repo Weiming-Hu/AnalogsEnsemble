@@ -217,6 +217,11 @@ private:
      */
     simMethod method_ = ONE_TO_ALL;
     
+    /*
+     * Whether to use search space extension functionality.
+     */
+    bool search_extension_ = false;
+    
     /**
      * Check input.
      * @param search_forecasts Search forecasts.
