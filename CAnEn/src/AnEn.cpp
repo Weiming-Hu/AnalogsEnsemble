@@ -157,16 +157,87 @@ firstprivate(index)
 }
 
 errorType
+AnEn::computeSearchStations(
+        const anenSta::Stations & test_stations,
+        const anenSta::Stations & search_stations,
+        boost::numeric::ublas::matrix<size_t> & i_search_stations_ref,
+        size_t max_num_search_stations,
+        double distance, size_t num_stations) {
+
+    boost::numeric::ublas::matrix<size_t> i_search_stations(
+            test_stations.size(), max_num_search_stations, NAN);
+
+
+    if (num_stations == 0) {
+
+        if (distance == 0) {
+            if (verbose_ >= 1) cout << BOLDRED << "Error: Please specify"
+                    << "distance or/and number of nearest stations to find."
+                    << RESET << endl;
+            return (MISSING_VALUE);
+        }
+
+        for (size_t i_test = 0; i_test < test_stations.size(); i_test++) {
+
+            // Find search stations based on the distance
+            vector<size_t> i_search_station =
+                    search_stations.getStationsIdByDistance(
+                    test_stations[i_test].getX(), test_stations[i_test].getY(),
+                    distance);
+
+            // Assign search stations to matrix
+            for (size_t i_search = 0; i_search < max_num_search_stations &&
+                    i_search < i_search_station.size(); i_search++) {
+                i_search_stations(i_test, i_search) = i_search_station[i_search];
+            }
+        }
+
+    } else {
+
+        for (size_t i_test = 0; i_test < test_stations.size(); i_test++) {
+
+            // Find nearest search stations also considering the threshold
+            // distance.
+            //
+            vector<size_t> i_search_station =
+                    search_stations.getNearestStationsId(
+                    test_stations[i_test].getX(), test_stations[i_test].getY(),
+                    num_stations, distance);
+
+            // Assign search stations to matrix
+            for (size_t i_search = 0; i_search < max_num_search_stations &&
+                    i_search < i_search_station.size(); i_search++) {
+                i_search_stations(i_test, i_search) = i_search_station[i_search];
+            }
+        }
+    }
+
+    swap(i_search_stations_ref, i_search_stations);
+    return (SUCCESS);
+}
+
+errorType
 AnEn::computeSimilarity(
         const Forecasts_array& search_forecasts,
         const StandardDeviation& sds,
         SimilarityMatrices& sims,
         const Observations_array& search_observations,
-        boost::numeric::ublas::matrix<size_t> mapping,
-        size_t i_observation_parameter) const {
+        const boost::numeric::ublas::matrix<size_t> & mapping,
+        size_t i_observation_parameter,
+        boost::numeric::ublas::matrix<size_t> && i_search_stations) const {
 
     // Check input
-    handleError(check_input_(search_forecasts, sims, search_observations));
+    handleError(check_input_(search_forecasts, sds, sims,
+            search_observations, mapping, i_observation_parameter));
+
+    if (method_ == ONE_TO_MANY) {
+        if (i_search_stations.size1() == 0 || i_search_stations.size2() == 0) {
+            if (verbose_ >= 1) cout << BOLDRED
+                    << "Error: Please Provide the search station matrix."
+                    << RESET << endl;
+            return (MISSING_VALUE);
+        };
+    }
 
     const Forecasts_array & test_forecasts = sims.getTargets();
     size_t num_parameters = test_forecasts.getParametersSize();
@@ -278,7 +349,13 @@ sims, sds)
         } // End loop of test stations
 
     } else if (method_ == ONE_TO_MANY) {
-        return (UNKNOWN_METHOD);
+
+        // Resize similarity matrices according to the search space
+        sims.setMaxEntries(i_search_stations.size2() * num_search_times);
+        sims.resize();
+        fill(sims.data(), sims.data() + sims.num_elements(), NAN);
+
+
     } else if (method_ == ONE_TO_ONE) {
 
         // Resize similarity matrices according to the search space
@@ -306,33 +383,33 @@ sims, sds)
                             for (size_t i_parameter = 0; i_parameter < num_parameters; i_parameter++) {
 
                                 if (weights[i_parameter] != 0) {
-                                        vector<double> window(flts_window(i_flt, 1) - flts_window(i_flt, 0) + 1);
-                                        short pos = 0;
+                                    vector<double> window(flts_window(i_flt, 1) - flts_window(i_flt, 0) + 1);
+                                    short pos = 0;
 
-                                        for (size_t i_window_flt = flts_window(i_flt, 0);
-                                                i_window_flt <= flts_window(i_flt, 1); i_window_flt++, pos++) {
+                                    for (size_t i_window_flt = flts_window(i_flt, 0);
+                                            i_window_flt <= flts_window(i_flt, 1); i_window_flt++, pos++) {
 
-                                            double value_search = data_search_forecasts
-                                                    [i_parameter][i_station][i_search_time][i_window_flt];
-                                            double value_test = data_test_forecasts
-                                                    [i_parameter][i_station][i_test_time][i_window_flt];
+                                        double value_search = data_search_forecasts
+                                                [i_parameter][i_station][i_search_time][i_window_flt];
+                                        double value_test = data_test_forecasts
+                                                [i_parameter][i_station][i_test_time][i_window_flt];
 
-                                            if (isnan(value_search) || isnan(value_test)) window[pos] = NAN;
+                                        if (isnan(value_search) || isnan(value_test)) window[pos] = NAN;
 
-                                            if (circular_flags[i_parameter]) {
-                                                window[pos] = pow(diffCircular(value_search, value_test), 2);
-                                            } else {
-                                                window[pos] = pow(value_search - value_test, 2);
-                                            }
-                                        } // End loop of search window FLTs
-
-                                        double average = mean(window);
-
-                                        if (sds[i_parameter][i_station][i_flt] > 0 && !isnan(average)) {
-                                            sims[i_station][i_test_time][i_flt][i_search_time][COL_TAG_SIM::VALUE]
-                                                    += weights[i_parameter] * (sqrt(average) / sds[i_parameter][i_station][i_flt]);
+                                        if (circular_flags[i_parameter]) {
+                                            window[pos] = pow(diffCircular(value_search, value_test), 2);
+                                        } else {
+                                            window[pos] = pow(value_search - value_test, 2);
                                         }
+                                    } // End loop of search window FLTs
+
+                                    double average = mean(window);
+
+                                    if (sds[i_parameter][i_station][i_flt] > 0 && !isnan(average)) {
+                                        sims[i_station][i_test_time][i_flt][i_search_time][COL_TAG_SIM::VALUE]
+                                                += weights[i_parameter] * (sqrt(average) / sds[i_parameter][i_station][i_flt]);
                                     }
+                                }
 
                             } // End loop of parameters
 
@@ -537,9 +614,12 @@ AnEn::diffCircular(double i, double j) const {
 
 errorType
 AnEn::check_input_(
-        const Forecasts_array & search_forecasts,
-        const SimilarityMatrices & sims,
-        const Observations_array& search_observations) const {
+        const Forecasts_array& search_forecasts,
+        const StandardDeviation& sds,
+        SimilarityMatrices& sims,
+        const Observations_array& search_observations,
+        boost::numeric::ublas::matrix<size_t> mapping,
+        size_t i_observation_parameter) const {
 
     const Forecasts_array & test_forecasts = sims.getTargets();
 
@@ -547,6 +627,36 @@ AnEn::check_input_(
     size_t num_test_stations = test_forecasts.getStationsSize();
     size_t num_flts = test_forecasts.getFLTsSize();
     size_t num_search_stations = search_forecasts.getStationsSize();
+
+    if (i_observation_parameter < search_observations.getParametersSize()) {
+        if (verbose_ >= 1) cout << BOLDRED
+                << "Error: Please specify a valid observation variable!"
+                << RESET << endl;
+        return (OUT_OF_RANGE);
+    }
+
+    if (mapping.size1() != search_forecasts.getTimesSize()) {
+        if (verbose_ >= 1) cout << BOLDRED
+                << "Error: The rows of mapping should equal the number of forecast times!"
+                << RESET << endl;
+        return (WRONG_SHAPE);
+    }
+
+    if (mapping.size2() != search_forecasts.getFLTsSize()) {
+        if (verbose_ >= 1) cout << BOLDRED
+                << "Error: The columns of mapping should equal the number of FLTs!"
+                << RESET << endl;
+        return (WRONG_SHAPE);
+    }
+
+    if (!(sds.shape()[0] == search_forecasts.getParametersSize() &&
+            sds.shape()[1] == search_forecasts.getStationsSize() &&
+            sds.shape()[2] == search_forecasts.getFLTsSize())) {
+        if (verbose_ >= 1) cout << BOLDRED
+                << "Error: Standard deviation array has a different shape to search forecasts!"
+                << RESET << endl;
+        return (WRONG_SHAPE);
+    }
 
     if (num_parameters != search_forecasts.getParametersSize()) {
         if (verbose_ >= 1) cout << BOLDRED

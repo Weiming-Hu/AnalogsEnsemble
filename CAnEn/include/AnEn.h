@@ -30,7 +30,7 @@ public:
     AnEn(const AnEn& orig) = delete;
 
     virtual ~AnEn();
-    
+
     /**
      * Specifies the method that AnEn::computeSimilarity function uses:
      * - ONE_TO_ONE Stations of search and test forecasts are aligned; each
@@ -55,10 +55,12 @@ public:
     enum errorType {
         SUCCESS = 0,
         UNKNOWN_METHOD = -1,
+        MISSING_VALUE = -2,
         WRONG_SHAPE = -10,
+        WRONG_METHOD = -11,
         OUT_OF_RANGE = -20
     };
-    
+
     /**
      * Computes the standard deviation of times of forecasts for each 
      * parameter, each station, and each FLT. This function is designed to 
@@ -107,6 +109,13 @@ public:
             const anenTime::Times & times_observations,
             boost::numeric::ublas::matrix<size_t> & mapping) const;
 
+    errorType computeSearchStations(
+            const anenSta::Stations & test_stations,
+            const anenSta::Stations & search_stations,
+            boost::numeric::ublas::matrix<size_t> & i_search_stations,
+            size_t max_num_search_stations,
+            double distance = 0, size_t num_stations = 0);
+
     /**
      * Computes the similarity matrices.
      * 
@@ -120,6 +129,9 @@ public:
      * @param i_observation_parameter The parameter in observations that will
      * be checked for NAN values. By default it is 0 pointing at the first
      * parameter.
+     * @param i_search_stations A precomputed matrix with the search stations 
+     * for each test station stored per row.
+     * 
      * @return An AnEn::errorType.
      */
     errorType computeSimilarity(
@@ -127,8 +139,10 @@ public:
             const StandardDeviation & sds,
             SimilarityMatrices & sims,
             const Observations_array& search_observations,
-            boost::numeric::ublas::matrix<size_t> mapping,
-            size_t i_observation_parameter = 0) const;
+            const boost::numeric::ublas::matrix<size_t> & mapping,
+            size_t i_observation_parameter = 0,
+            boost::numeric::ublas::matrix<size_t> && i_search_stations =
+            boost::numeric::ublas::matrix<size_t>(0, 0)) const;
 
     /**
      * Select analogs based on the simialrity matrices.
@@ -157,10 +171,10 @@ public:
      * @param indicator An AnEn::errorType.
      */
     void handleError(const errorType & indicator) const;
-    
+
     int getVerbose() const;
     simMethod getMethod() const;
-    
+
     void setMethod(simMethod method);
     void setVerbose(int verbose);
 
@@ -209,19 +223,14 @@ private:
      * - 4: The above plus session information.
      */
     int verbose_ = 2;
-    
+
     /*
      * This variable specifies the way similarity matrices are computed.
      * It is used by function AnEn::computeSimilarity. The ONE, MANY, ALL are
      * concepts for stations, like one station, many stations, and all stations.
      */
     simMethod method_ = ONE_TO_ALL;
-    
-    /*
-     * Whether to use search space extension functionality.
-     */
-    bool search_extension_ = false;
-    
+
     /**
      * Check input.
      * @param search_forecasts Search forecasts.
@@ -230,9 +239,12 @@ private:
      * @return An AnEn::errorType.
      */
     errorType check_input_(
-        const Forecasts_array & search_forecasts,
-        const SimilarityMatrices & sims,
-        const Observations_array& search_observations) const;
+            const Forecasts_array& search_forecasts,
+            const StandardDeviation& sds,
+            SimilarityMatrices& sims,
+            const Observations_array& search_observations,
+            boost::numeric::ublas::matrix<size_t> mapping,
+            size_t i_observation_parameter) const;
 };
 
 #endif /* ANEN_H */

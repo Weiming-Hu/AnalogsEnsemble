@@ -301,7 +301,7 @@ namespace anenSta {
 
         // KNN request
         vector<value> results_points;
-        if (isnan(threshold)) {
+        if (threshold == 0) {
             rtree.query(bgi::nearest(point(main_station_x, main_station_y),
                     num_stations), back_inserter(results_points));
         } else {

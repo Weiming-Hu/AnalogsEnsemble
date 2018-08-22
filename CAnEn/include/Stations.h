@@ -167,7 +167,7 @@ namespace anenSta {
 
         std::vector<std::size_t> getNearestStationsId(double main_station_x,
                 double main_station_y, std::size_t num_stations,
-                double threshold = NAN) const;
+                double threshold = 0) const;
 
         void print(std::ostream &) const;
         friend std::ostream& operator<<(std::ostream&, Stations const &);
