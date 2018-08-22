@@ -2,6 +2,16 @@
 
 ==This document is still under development.==
 
+* [About](#about)
+* [Dependencies](#dependencies)
+* [Installation](#installation)
+    * [C Program and Libraries](#c-program-and-libraries)
+    * [R Package](#r-package)
+            * [Use Pre-built Version](#use-pre-built-version)
+            * [Compile from Source](#compile-from-source)
+    * [CMake Tunable Parameters Look-up](#cmake-tunable-parameters-look-up)
+* [Feedbacks](#feedbacks)
+
 ## About
 
 Parallel Ensemble Forecast package uses a numerical weather prediction algorithm, called Analog Ensemble (AnEn), to generate ensemble forecasts. Ensemble members, also referred to as analogs, are selected based on the similarity between the current multivariate forecasts and the historical forecasts. It has been successfully applied to forecasts of several weather variables, for example, short-term temperature and wind speed predictions.
@@ -167,13 +177,6 @@ make clean
 |                     |               `cmake -DVERBOSE=ON ..`               |                                                                                                                                                                                                                      Detailed output. |
 
 **Table generated from [Tables Generator](https://www.tablesgenerator.com/markdown_tables).
-
-## Known Issues
-
-##### canalogs program runs with `Debug` option, but fails in debugger
-
-Even specified with `-DCMAKE_BUILD_TYPE=Debug`, when debugging using GNU GDB and NetBeans, the program `canalogs` fails at ambiguous location related to the library `Boost Multi-Array`. This can be solved by using a system version of `Boost`, instead of the compiled-on-site version from `CAnalogsV2`.
-
 
 ## Feedbacks
 
