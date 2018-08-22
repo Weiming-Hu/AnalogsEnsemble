@@ -10,6 +10,7 @@
 #include <numeric>
 #include <cppunit/TestAssert.h>
 
+#include <boost/numeric/ublas/io.hpp>
 using namespace std;
 
 CPPUNIT_TEST_SUITE_REGISTRATION(testAnEn);
@@ -192,8 +193,9 @@ void testAnEn::testComputeSimilarity() {
                 for (size_t i_search_time = 0;
                         i_search_time < search_times.size();
                         i_search_time++, index++) {
-                    CPPUNIT_ASSERT((int) (sims[i_station][i_time][i_flt]
-                            [i_search_time][SimilarityMatrices::COL_TAG::VALUE] * 100)
+                    CPPUNIT_ASSERT((int) (sims[i_station]
+                            [i_time][i_flt][i_search_time]
+                            [SimilarityMatrices::COL_TAG::VALUE] * 100)
                             == (int) (results[index] * 100));
                 }
             }
@@ -278,7 +280,8 @@ void testAnEn::testComputeObservationTimeIndices() {
     AnEn anen(2);
     boost::numeric::ublas::matrix<size_t> mapping;
 
-    anen.computeObservationsTimeIndices(times_forecasts, flts_forecasts, times_observations, mapping);
+    anen.computeObservationsTimeIndices(times_forecasts, flts_forecasts,
+            times_observations, mapping);
 
     size_t pos = 0;
     vector<size_t> results{
@@ -406,10 +409,95 @@ void testAnEn::testSelectAnalogs() {
             for (size_t i_dim3 = 0; i_dim3 < dim3; i_dim3++) {
                 for (size_t i_dim2 = 0; i_dim2 < dim2; i_dim2++) {
                     for (size_t i_dim1 = 0; i_dim1 < dim1; i_dim1++, i++) {
-                        CPPUNIT_ASSERT(results[i] == analogs[i_dim1][i_dim2][i_dim3][i_dim4][i_dim5]);
+                        CPPUNIT_ASSERT(results[i] == analogs[i_dim1][i_dim2]
+                                [i_dim3][i_dim4][i_dim5]);
                     }
                 }
             }
         }
     }
+}
+
+void testAnEn::testComputeSearchStations() {
+
+    /**
+     * Tests function computeSearchStations;
+     * 
+     * The spatial distribution of stations looks like below. The numbers
+     * shown on the diagram are the ID of stations.
+     * 
+     *           (Y)  ^
+     *              8 |             14
+     *              7 |       12          13
+     *              6 |    11
+     *              5 |     8  9 10
+     *              4 |        6        7
+     *              3 |  3        4           5
+     *              2 |
+     *              1 |  1              2
+     *                .-------------------------->
+     *                0  1  2  3  4  5  6  7  8  (X)
+     */
+
+    // Create an example forecast object
+    anenSta::Station s1("1", 1, 1), s2("2", 6, 1), s3("3", 1, 3),
+            s4("4", 4, 3), s5("5", 8, 3), s6("6", 3, 4),
+            s7("7", 6, 4), s8("8", 2, 5), s9("9", 3, 5),
+            s10("10", 4, 5), s11("11", 2, 6), s12("12", 3, 7),
+            s13("13", 7, 7), s14("14", 5, 8);
+
+    anenSta::Stations test_stations, search_stations;
+    search_stations.insert(search_stations.end(),{s1, s2, s3, s4, s5, s6,
+        s7, s8, s9, s10, s11, s12, s13, s14});
+    test_stations.insert(test_stations.end(),{s3, s6, s7});
+
+    boost::numeric::ublas::matrix<size_t> i_search_stations;
+    AnEn anen(2);
+
+    vector<size_t> results;
+
+    // Test getting stations based on distance
+    double distance = 1.5;
+    anen.computeSearchStations(test_stations, search_stations,
+            i_search_stations, 5, distance);
+
+    results = {2, AnEn::_FILL_SIZE_T, AnEn::_FILL_SIZE_T, AnEn::_FILL_SIZE_T,
+        AnEn::_FILL_SIZE_T, 3, 5, 7, 8, 9, 6, AnEn::_FILL_SIZE_T,
+        AnEn::_FILL_SIZE_T, AnEn::_FILL_SIZE_T, AnEn::_FILL_SIZE_T};
+    for (auto row = i_search_stations.begin1();
+            row != i_search_stations.end1(); row++) {
+        for (const auto & val : row) {
+            results.erase(find(results.begin(), results.end(), val));
+        }
+    }
+    CPPUNIT_ASSERT(results.size() == 0);
+
+    // Test getting KNN stations
+    size_t num_stations = 4;
+    anen.computeSearchStations(test_stations, search_stations,
+            i_search_stations, num_stations, 0, num_stations);
+
+    results = {5, 7, 2, 0, 3, 7, 5, 8, 4, 9, 3, 6};
+    for (auto row = i_search_stations.begin1();
+            row != i_search_stations.end1(); row++) {
+        for (const auto & val : row) {
+            results.erase(find(results.begin(), results.end(), val));
+        }
+    }
+    CPPUNIT_ASSERT(results.size() == 0);
+
+    // Test getting KNN stations limited by threshold distance
+    double threshold = 2;
+    anen.computeSearchStations(test_stations, search_stations,
+            i_search_stations, num_stations, threshold, num_stations);
+
+    results = {2, AnEn::_FILL_SIZE_T, AnEn::_FILL_SIZE_T, AnEn::_FILL_SIZE_T, 7,
+        8, 3, 5, 6, AnEn::_FILL_SIZE_T, AnEn::_FILL_SIZE_T, AnEn::_FILL_SIZE_T};
+    for (auto row = i_search_stations.begin1();
+            row != i_search_stations.end1(); row++) {
+        for (const auto & val : row) {
+            results.erase(find(results.begin(), results.end(), val));
+        }
+    }
+    CPPUNIT_ASSERT(results.size() == 0);
 }

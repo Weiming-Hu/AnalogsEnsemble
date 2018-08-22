@@ -8,7 +8,7 @@
 #ifndef ANEN_H
 #define ANEN_H
 
-#include <string>
+#include <limits>
 
 #include "Analogs.h"
 #include "Forecasts.h"
@@ -114,7 +114,8 @@ public:
             const anenSta::Stations & search_stations,
             boost::numeric::ublas::matrix<size_t> & i_search_stations,
             size_t max_num_search_stations,
-            double distance = 0, size_t num_stations = 0);
+            double distance = 0, size_t num_nearest_stations = 0,
+            bool return_index = true);
 
     /**
      * Computes the similarity matrices.
@@ -145,7 +146,7 @@ public:
             boost::numeric::ublas::matrix<size_t>(0, 0)) const;
 
     /**
-     * Select analogs based on the simialrity matrices.
+     * Select analogs based on the similarity matrices.
      * @param analogs Analogs object to write the analogs
      * @param sims SimilarityMatrices on which the selection is based
      * @param search_observations Observations_array where the analog values
@@ -212,6 +213,8 @@ public:
      * @return  A double.
      */
     double diffCircular(double i, double j) const;
+    
+    static const size_t _FILL_SIZE_T;
 
 private:
     /**
