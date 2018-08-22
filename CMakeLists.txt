@@ -112,16 +112,8 @@ else (${OPENMP_FOUND})
     SUGGESTION: specify another compiler using CC and CXX. CC=[C compiler] CXX=[CXX compiler] cmake ..")
 endif (${OPENMP_FOUND})
 
-# if INSTALL_CAnEnIO_ONLY is set to TRUE
-# only install CAnEnIO library
-#
 message(STATUS "configure CAnEnIO library")
-#option(INSTALL_CAnEnIO_ONLY "install CAnEnIO library ONLY" OFF)
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/CAnEnIO")
-#if(INSTALL_CAnEnIO_ONLY)
-#    add_subdirectory("${CMAKE_SOURCE_DIR}/app_CAnEnIO")
-#    return()
-#endif(INSTALL_CAnEnIO_ONLY)
 
 # install CAnEn library
 message(STATUS "configure CAnEn library")

@@ -101,8 +101,6 @@ endif(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
 #
 add_subdirectory(${RAnEn_SOURCE_DIR})
 
-option(CONFIGURE_ONLY "Only configure the R installation. Manual installation needed." OFF)
-
 set(FILES_TO_DELETE "")
 foreach(file ${REQUIRED_FILE_NAME})
     set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_SOURCE_DIR}/${file}.h")
@@ -130,6 +128,7 @@ add_custom_target(
     COMMAND ${CMAKE_COMMAND} -E remove ${FILES_TO_DELETE}
     COMMENT "clean the copied files in RAnEn/src. You will need to cmake again if you want to make.")
 
+option(CONFIGURE_ONLY "Only configure the R installation. Manual installation needed." OFF)
 if(CONFIGURE_ONLY)
     message(STATUS "Only RAnEn configuration is done! No target has been built.")
     return()
