@@ -16,15 +16,19 @@ BEGIN_RCPP
 END_RCPP
 }
 // generateAnalogs
-List generateAnalogs(NumericVector R_test_forecasts, NumericVector R_test_forecasts_dims, NumericVector R_search_forecasts, NumericVector R_search_forecasts_dims, NumericVector R_search_times, NumericVector R_search_flts, NumericVector R_search_observations, NumericVector R_search_observations_dims, NumericVector R_observation_times, size_t num_members, size_t observation_parameter, bool quick, IntegerVector R_circulars, bool preserve_similarity, int verbose);
-RcppExport SEXP _RAnEn_generateAnalogs(SEXP R_test_forecastsSEXP, SEXP R_test_forecasts_dimsSEXP, SEXP R_search_forecastsSEXP, SEXP R_search_forecasts_dimsSEXP, SEXP R_search_timesSEXP, SEXP R_search_fltsSEXP, SEXP R_search_observationsSEXP, SEXP R_search_observations_dimsSEXP, SEXP R_observation_timesSEXP, SEXP num_membersSEXP, SEXP observation_parameterSEXP, SEXP quickSEXP, SEXP R_circularsSEXP, SEXP preserve_similaritySEXP, SEXP verboseSEXP) {
+List generateAnalogs(NumericVector R_test_forecasts, NumericVector R_test_forecasts_dims, NumericVector R_test_forecasts_station_x, NumericVector R_test_forecasts_station_y, NumericVector R_search_forecasts, NumericVector R_search_forecasts_dims, NumericVector R_search_forecasts_station_x, NumericVector R_search_forecasts_station_y, NumericVector R_search_times, NumericVector R_search_flts, NumericVector R_search_observations, NumericVector R_search_observations_dims, NumericVector R_observation_times, size_t num_members, size_t observation_parameter, bool quick, IntegerVector R_circulars, bool search_extension, bool preserve_similarity, bool preserve_mapping, bool preserve_search_stations, size_t max_num_search_stations, double distance, size_t num_nearest_stations, int verbose);
+RcppExport SEXP _RAnEn_generateAnalogs(SEXP R_test_forecastsSEXP, SEXP R_test_forecasts_dimsSEXP, SEXP R_test_forecasts_station_xSEXP, SEXP R_test_forecasts_station_ySEXP, SEXP R_search_forecastsSEXP, SEXP R_search_forecasts_dimsSEXP, SEXP R_search_forecasts_station_xSEXP, SEXP R_search_forecasts_station_ySEXP, SEXP R_search_timesSEXP, SEXP R_search_fltsSEXP, SEXP R_search_observationsSEXP, SEXP R_search_observations_dimsSEXP, SEXP R_observation_timesSEXP, SEXP num_membersSEXP, SEXP observation_parameterSEXP, SEXP quickSEXP, SEXP R_circularsSEXP, SEXP search_extensionSEXP, SEXP preserve_similaritySEXP, SEXP preserve_mappingSEXP, SEXP preserve_search_stationsSEXP, SEXP max_num_search_stationsSEXP, SEXP distanceSEXP, SEXP num_nearest_stationsSEXP, SEXP verboseSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericVector >::type R_test_forecasts(R_test_forecastsSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type R_test_forecasts_dims(R_test_forecasts_dimsSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type R_test_forecasts_station_x(R_test_forecasts_station_xSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type R_test_forecasts_station_y(R_test_forecasts_station_ySEXP);
     Rcpp::traits::input_parameter< NumericVector >::type R_search_forecasts(R_search_forecastsSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type R_search_forecasts_dims(R_search_forecasts_dimsSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type R_search_forecasts_station_x(R_search_forecasts_station_xSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type R_search_forecasts_station_y(R_search_forecasts_station_ySEXP);
     Rcpp::traits::input_parameter< NumericVector >::type R_search_times(R_search_timesSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type R_search_flts(R_search_fltsSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type R_search_observations(R_search_observationsSEXP);
@@ -34,16 +38,22 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< size_t >::type observation_parameter(observation_parameterSEXP);
     Rcpp::traits::input_parameter< bool >::type quick(quickSEXP);
     Rcpp::traits::input_parameter< IntegerVector >::type R_circulars(R_circularsSEXP);
+    Rcpp::traits::input_parameter< bool >::type search_extension(search_extensionSEXP);
     Rcpp::traits::input_parameter< bool >::type preserve_similarity(preserve_similaritySEXP);
+    Rcpp::traits::input_parameter< bool >::type preserve_mapping(preserve_mappingSEXP);
+    Rcpp::traits::input_parameter< bool >::type preserve_search_stations(preserve_search_stationsSEXP);
+    Rcpp::traits::input_parameter< size_t >::type max_num_search_stations(max_num_search_stationsSEXP);
+    Rcpp::traits::input_parameter< double >::type distance(distanceSEXP);
+    Rcpp::traits::input_parameter< size_t >::type num_nearest_stations(num_nearest_stationsSEXP);
     Rcpp::traits::input_parameter< int >::type verbose(verboseSEXP);
-    rcpp_result_gen = Rcpp::wrap(generateAnalogs(R_test_forecasts, R_test_forecasts_dims, R_search_forecasts, R_search_forecasts_dims, R_search_times, R_search_flts, R_search_observations, R_search_observations_dims, R_observation_times, num_members, observation_parameter, quick, R_circulars, preserve_similarity, verbose));
+    rcpp_result_gen = Rcpp::wrap(generateAnalogs(R_test_forecasts, R_test_forecasts_dims, R_test_forecasts_station_x, R_test_forecasts_station_y, R_search_forecasts, R_search_forecasts_dims, R_search_forecasts_station_x, R_search_forecasts_station_y, R_search_times, R_search_flts, R_search_observations, R_search_observations_dims, R_observation_times, num_members, observation_parameter, quick, R_circulars, search_extension, preserve_similarity, preserve_mapping, preserve_search_stations, max_num_search_stations, distance, num_nearest_stations, verbose));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
     {"_RAnEn_checkOpenMP", (DL_FUNC) &_RAnEn_checkOpenMP, 0},
-    {"_RAnEn_generateAnalogs", (DL_FUNC) &_RAnEn_generateAnalogs, 15},
+    {"_RAnEn_generateAnalogs", (DL_FUNC) &_RAnEn_generateAnalogs, 25},
     {NULL, NULL, 0}
 };
 

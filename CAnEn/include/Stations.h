@@ -39,6 +39,7 @@ namespace anenSta {
     public:
         Station();
         Station(std::string);
+        Station(double, double);
         Station(std::string, double, double);
         Station(Station const &);
 

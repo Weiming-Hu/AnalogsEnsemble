@@ -3,9 +3,13 @@
 #
 
 S3method(print,AnEn)
+S3method(print,Configuration)
 
 export(checkOpenMP)
 export(generateAnalogs)
+export(generateConfiguration)
+export(validateConfiguration)
+export(generateCircleCoords)
 
 import(BH)
 import(Rcpp)

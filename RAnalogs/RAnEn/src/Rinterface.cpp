@@ -42,14 +42,21 @@ bool checkOpenMP() {
 
 List generateAnalogs(
         NumericVector R_test_forecasts, NumericVector R_test_forecasts_dims,
+        NumericVector R_test_forecasts_station_x,
+        NumericVector R_test_forecasts_station_y,
         NumericVector R_search_forecasts, NumericVector R_search_forecasts_dims,
+        NumericVector R_search_forecasts_station_x,
+        NumericVector R_search_forecasts_station_y,
         NumericVector R_search_times, NumericVector R_search_flts,
         NumericVector R_search_observations,
         NumericVector R_search_observations_dims,
         NumericVector R_observation_times,
         size_t num_members, size_t observation_parameter, bool quick,
-        IntegerVector R_circulars,
-        bool preserve_similarity, int verbose) {
+        IntegerVector R_circulars, bool search_extension,
+        bool preserve_similarity, bool preserve_mapping,
+        bool preserve_search_stations,
+        size_t max_num_search_stations, double distance,
+        size_t num_nearest_stations, int verbose) {
 
     /***************************************************************************
      *                   Convert objects for AnEn computation                  *
@@ -76,7 +83,17 @@ List generateAnalogs(
             parameters_vec.begin(), parameters_vec.end());
 
     anenSta::Stations test_stations;
-    test_stations.get<anenSta::by_insert>().resize(R_test_forecasts_dims[1]);
+    if (search_extension) {
+        for (size_t i_station = 0; i_station < R_test_forecasts_dims[1];
+                i_station++) {
+            anenSta::Station s(R_test_forecasts_station_x[i_station],
+                    R_test_forecasts_station_y[i_station]);
+            test_stations.push_back(s);
+        }
+    } else {
+        test_stations.get<anenSta::by_insert>().resize(
+                R_test_forecasts_dims[1]);
+    }
 
     std::vector<double> test_times_vec(R_test_forecasts_dims[2], 0);
     iota(test_times_vec.begin(), test_times_vec.end(), 0);
@@ -85,8 +102,17 @@ List generateAnalogs(
             test_times_vec.begin(), test_times_vec.end());
 
     anenSta::Stations search_stations;
-    search_stations.get<anenSta::by_insert>().resize(
-            R_search_forecasts_dims[1]);
+    if (search_extension) {
+        for (size_t i_station = 0; i_station < R_search_forecasts_dims[1];
+                i_station++) {
+            anenSta::Station s(R_search_forecasts_station_x[i_station],
+                    R_search_forecasts_station_y[i_station]);
+            search_stations.push_back(s);
+        }
+    } else {
+        search_stations.get<anenSta::by_insert>().resize(
+                R_search_forecasts_dims[1]);
+    }
 
     anenPar::Parameters observation_parameters;
     observation_parameters.get<anenPar::by_insert>().resize(
@@ -122,6 +148,9 @@ List generateAnalogs(
                 << sims.getTargets().getParameters();
     }
 
+    if (search_extension) anen.setMethod(AnEn::simMethod::ONE_TO_MANY);
+    else anen.setMethod(AnEn::simMethod::ONE_TO_ONE);
+
     // Pre compute the standard deviation
     anen.handleError(anen.computeStandardDeviation(search_forecasts, sds));
 
@@ -133,9 +162,23 @@ List generateAnalogs(
             search_observations.getTimes(), mapping));
 
     // Compute similarity
-    anen.setMethod(AnEn::simMethod::ONE_TO_ONE);
-    anen.handleError(anen.computeSimilarity(search_forecasts, sds, sims,
-            search_observations, mapping));
+    boost::numeric::ublas::matrix<double> i_search_stations;
+    if (search_extension) {
+        bool return_index = true;
+
+        anen.handleError(anen.computeSearchStations(
+                test_forecasts.getStations(), search_forecasts.getStations(),
+                i_search_stations, max_num_search_stations, distance,
+                num_nearest_stations, return_index));
+
+        anen.handleError(anen.computeSimilarity(search_forecasts, sds, sims,
+                search_observations, mapping,
+                i_search_stations, observation_parameter));
+
+    } else {
+        anen.handleError(anen.computeSimilarity(search_forecasts, sds, sims,
+                search_observations, mapping, observation_parameter));
+    }
 
     // Select analogs
     anen.handleError(anen.selectAnalogs(analogs, sims, search_observations,
@@ -144,7 +187,7 @@ List generateAnalogs(
     /***************************************************************************
      *                           Wrap Up Results                               *
      **************************************************************************/
-    if (verbose >= 3) cout << "Wrap C++ objects ..." << endl;
+    if (verbose >= 3) cout << "Wraping C++ objects ..." << endl;
     List ret;
 
     if (preserve_similarity) {
@@ -158,6 +201,26 @@ List generateAnalogs(
         NumericVector R_sims(sims.data(), sims.data() + sims.num_elements());
         R_sims.attr("dim") = R_sims_dims;
         ret["similarity"] = R_sims;
+    }
+
+    if (preserve_mapping) {
+        IntegerVector R_mapping_dims{
+            static_cast<int> (mapping.size2()),
+            static_cast<int> (mapping.size1())};
+        NumericVector R_mapping(mapping.data().begin(),
+                mapping.data().end());
+        R_mapping.attr("dim") = R_mapping_dims;
+        ret["mapping"] = R_mapping;
+    }
+
+    if (preserve_search_stations) {
+        IntegerVector R_search_stations_dims{
+            static_cast<int> (i_search_stations.size2()),
+            static_cast<int> (i_search_stations.size1())};
+        NumericVector R_search_stations(i_search_stations.data().begin(),
+                i_search_stations.data().end());
+        R_search_stations.attr("dim") = R_search_stations_dims;
+        ret["searchStations"] = R_search_stations;
     }
 
     IntegerVector R_analogs_dims = {

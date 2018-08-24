@@ -4,91 +4,92 @@
 #    _ ..`--'_..-_/  /--'_.' ,'
 #  (il),-''  (li),'  ((!.-'
 # 
-# Author: Weiming Hu <wuh20@psu.edu>
+# Author: Weiming Hu <weiming@psu.edu>
 #         Geoinformatics and Earth Observation Laboratory (http://geolab.psu.edu)
 #         Department of Geography and Institute for CyberScience
 #         The Pennsylvania State University
 #
-generateAnalogs <- function(
-	test_forecasts,
-	search_forecasts, search_times, search_flts, circulars = NA, weights = NA,
-	search_observations, observation_id = 1, observation_times,
-	num_members, quick = T, preserve_similarity = F, verbose = 1) {
+generateAnalogs <- function(configuration) {
 	
-	# Check input
-	if (!(is.array(test_forecasts) && is.numeric(test_forecasts) && length(dim(test_forecasts)) == 4)) {
-		print('ERROR: Test forecasts should be a 4-dimensional numeric array!')
-		print('Please use dim(), is.numeric(), and is.array() to check!')
-		return(0)
-	}
+	valid <- validateConfiguration(configuration)
+	if (!valid) return(valid)
 	
-	if (!(is.array(search_forecasts) && is.numeric(search_forecasts) && length(dim(search_forecasts)) == 4)) {
-		print('ERROR: Search forecasts should be a 4-dimensional numeric array!')
-		print('Please use dim(), is.numeric(), and is.array() to check!')
-		return(0)
-	}
+	configuration$observation_id = configuration$observation_id - 1
 	
-	if (!(is.vector(search_times, mode = 'numeric') && length(search_times) == dim(search_forecasts)[3])) {
-		print('ERROR: Search forecast times should be a numeric vector with the length of the third dimension of search forecasts!')
-		print('Please use is.vector() and length() to check!')
-		return(0)
-	}
-	
-	if (!(is.vector(search_flts, mode = 'numeric') && length(search_flts) == dim(search_forecasts)[4])) {
-		print('ERROR: Search forecast FLTs should be a numeric vector with the length of the fourth dimension of search forecasts!')
-		print('Please use is.vector() and length() to check!')
-		return(0)
-	}
-	
-	if (!(is.array(search_observations) && is.numeric(search_observations) && length(dim(search_observations)) == 3)) {
-		print('ERROR: Search observations should be a 3-dimensional numeric array!')
-		print('Please use dim(), is.numeric(), and is.array() to check!')
-		return(0)
-	}
-	
-	if (!(is.vector(observation_times, mode = 'numeric') && length(observation_times) == dim(search_observations)[3])) {
-		print('ERROR: Search observation times should be a numeric vector with the length of the third dimension of search observations!')
-		print('Please use is.vector() and length() to check!')
-		return(0)
-	}
-	
-	if (!(is.numeric(observation_id) && length(observation_id) == 1 && observation_id >= 1 && observation_id <= dim(search_observations)[1])) {
-		print('Error: Observation id should be an integer within the number of parameters in observations.')
-		return(0)
-	} else {
-		observation_id = observation_id - 1
-	}
-	
-	if (!anyNA(circulars)) {
-		if (!(is.vector(circulars, mode = 'numeric') && !anyNA(circulars) && length(circulars) <= dim(test_forecasts)[1])) {
-			print('Error: Circulars should be a numeric vector. Its length should not exceed the number of forecast parameters.')
-			return(0)
-		}
+	if (configuration$mode == 'independentSearch') {
 		
-		for (val in circulars) {
-			if (val > dim(test_forecasts)[1] || val <= 0) {
-				print('Error: Circulars value should be positive and not exceed the number of forecast parameters.')
-				return(0)
-			}
-		}
+		# Create default values
+		test_forecasts_station_x <- vector(mode = 'numeric', length = 0)
+		test_forecasts_station_y <- vector(mode = 'numeric', length = 0)
+		search_forecasts_station_x <- vector(mode = 'numeric', length = 0)
+		search_forecasts_station_y <- vector(mode = 'numeric', length = 0)
+		search_extension <- F
+		preserve_search_stations <- F
+		max_num_search_stations <- 0
+		distance <- 0
+		num_nearest_stations <- 0
+		
+		AnEn <- .generateAnalogs(
+			configuration$test_forecasts, dim(configuration$test_forecasts),
+			test_forecasts_station_x, test_forecasts_station_y,
+			configuration$search_forecasts, dim(configuration$search_forecasts),
+			search_forecasts_station_x, search_forecasts_station_y,
+			configuration$search_times, configuration$search_flts,
+			configuration$search_observations, dim(configuration$search_observations),
+			configuration$observation_times, configuration$num_members,
+			configuration$observation_id, configuration$quick,
+			configuration$circulars, search_extension,
+			configuration$preserve_similarity, 
+			configuration$preserve_mapping, preserve_search_stations,
+			max_num_search_stations, distance,
+			num_nearest_stations, configuration$verbose)
+		
+	} else if (configuration$mode == 'extendedSearch') {
+		# Create default values
+		search_extension <- T
+		
+		AnEn <- .generateAnalogs(
+			configuration$test_forecasts, dim(configuration$test_forecasts),
+			configuration$test_stations_x,
+			configuration$test_stations_y,
+			configuration$search_forecasts, dim(configuration$search_forecasts),
+			configuration$search_stations_x,
+			configuration$search_stations_y,
+			configuration$search_times, configuration$search_flts,
+			configuration$search_observations, dim(configuration$search_observations),
+			configuration$observation_times, configuration$num_members,
+			configuration$observation_id, configuration$quick,
+			configuration$circulars, search_extension,
+			configuration$preserve_similarity,
+			configuration$preserve_mapping,
+			configuration$preserve_search_stations,
+			configuration$max_num_search_stations,
+			configuration$distance,
+			configuration$num_nearest,
+			configuration$verbose)
+		
 	} else {
-		circulars <- vector(mode = 'numeric', length = 0)
+		stop('Unknown configuration mode!')
 	}
 	
-	AnEn <- .generateAnalogs(
-		test_forecasts, dim(test_forecasts), 
-		search_forecasts, dim(search_forecasts), 
-		search_times, search_flts,
-		search_observations, dim(search_observations),
-		observation_times, num_members, observation_id, quick,
-		circulars, preserve_similarity, verbose)
-
-    # Because similarity matrix was stored in row-major in C++ and the R object will be column-major.
-    # So change the order of dimensions to make it conform with other objects.
-    #
-    if (preserve_similarity) {
-        AnEn$similarity <- aperm(AnEn$similarity, length(dim(AnEn$similarity)):1)
-    }
+	# Because similarity matrix was stored in row-major in C++ and the R object will be column-major.
+	# So change the order of dimensions to make it conform with other objects.
+	#
+	if (configuration$preserve_similarity) {
+		AnEn$similarity <- aperm(AnEn$similarity, length(dim(AnEn$similarity)):1)
+	}
+	
+	if (configuration$mode == 'extendedSearch') {
+		if (configuration$preserve_search_stations) {
+			AnEn$searchStations <- AnEn$searchStations + 1
+		}
+	}
+	
+	# Convert the station index from C counting to R counting
+	AnEn$analogs[, , , , 1] <- AnEn$analogs[, , , , 1, drop = F] + 1
+	AnEn$similarity[, , , , 1:2] <- AnEn$similarity[, , , , 1:2, drop = F] + 1
+	
+	if (configuration$preserve_mapping) AnEn$mapping <- AnEn$mapping + 1
 	
 	return(AnEn)
 }

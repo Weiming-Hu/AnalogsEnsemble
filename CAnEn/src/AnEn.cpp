@@ -24,7 +24,7 @@ using simMethod = AnEn::simMethod;
 const double MULTIPLY = M_PI / 180;
 const double MULTIPLY_REVERSE = 180 / M_PI;
 
-const size_t AnEn::_FILL_SIZE_T = std::numeric_limits<size_t>::max();
+const double AnEn::_FILL_VALUE = NAN;
 
 AnEn::AnEn() {
 }
@@ -162,13 +162,13 @@ errorType
 AnEn::computeSearchStations(
         const anenSta::Stations & test_stations,
         const anenSta::Stations & search_stations,
-        boost::numeric::ublas::matrix<size_t> & i_search_stations_ref,
+        boost::numeric::ublas::matrix<double> & i_search_stations_ref,
         size_t max_num_search_stations,
         double distance, size_t num_nearest_stations, bool return_index) {
 
-    boost::numeric::ublas::matrix<size_t> i_search_stations(
+    boost::numeric::ublas::matrix<double> i_search_stations(
             test_stations.size(), max_num_search_stations,
-            AnEn::_FILL_SIZE_T);
+            AnEn::_FILL_VALUE);
 
     auto & test_stations_by_insert = test_stations.get<anenSta::by_insert>();
 
@@ -245,7 +245,8 @@ _FILL_SIZE_T)
         for (size_t i_row = 0; i_row < i_search_stations.size1(); i_row++) {
             for (size_t i_col = 0; i_col < i_search_stations.size2(); i_col++) {
 
-                if (i_search_stations(i_row, i_col) != _FILL_SIZE_T) {
+                // Check if the value is _FILL_VALUE
+                if (!isnan(i_search_stations(i_row, i_col))) {
                     auto it_ID = search_stations_by_ID.find(
                             i_search_stations(i_row, i_col));
 
@@ -274,21 +275,12 @@ AnEn::computeSimilarity(
         SimilarityMatrices& sims,
         const Observations_array& search_observations,
         const boost::numeric::ublas::matrix<size_t> & mapping,
-        size_t i_observation_parameter,
-        boost::numeric::ublas::matrix<size_t> && i_search_stations) const {
+        boost::numeric::ublas::matrix<double> & i_search_stations,
+        size_t i_observation_parameter) const {
 
     // Check input
     handleError(check_input_(search_forecasts, sds, sims,
             search_observations, mapping, i_observation_parameter));
-
-    if (method_ == ONE_TO_MANY) {
-        if (i_search_stations.size1() == 0 || i_search_stations.size2() == 0) {
-            if (verbose_ >= 1) cout << BOLDRED
-                    << "Error: Please Provide the search station matrix."
-                    << RESET << endl;
-            return (MISSING_VALUE);
-        };
-    }
 
     const Forecasts_array & test_forecasts = sims.getTargets();
     size_t num_parameters = test_forecasts.getParametersSize();
@@ -299,6 +291,22 @@ AnEn::computeSimilarity(
     size_t num_search_times = search_forecasts.getTimesSize();
 
     using COL_TAG_SIM = SimilarityMatrices::COL_TAG;
+
+    if (method_ == ONE_TO_MANY) {
+        if (i_search_stations.size1() == 0 || i_search_stations.size2() == 0) {
+            if (verbose_ >= 1) cout << BOLDRED
+                    << "Error: Please Provide the search station matrix."
+                    << RESET << endl;
+            return (MISSING_VALUE);
+        };
+        
+        if (i_search_stations.size1() != num_test_stations) {
+            if (verbose_ >= 1) cout << BOLDRED
+                    << "Error: Number of rows in i_search_stations should equal the number of test stations."
+                    << RESET << endl;
+            return (WRONG_SHAPE);
+        }
+    }
 
     if (verbose_ >= 4) {
         cout << "Session information for computeSimilarity: " << endl
@@ -413,22 +421,23 @@ sims, sds)
 shared(num_test_stations, num_flts, num_test_times, num_search_stations,\
 num_search_times, circular_flags, num_parameters, data_search_observations,\
 flts_window, mapping, weights, data_search_forecasts, data_test_forecasts,\
-sims, sds)
+sims, sds, i_search_stations)
 #endif
         for (size_t i_test_station = 0; i_test_station < num_test_stations; i_test_station++) {
             for (size_t i_test_time = 0; i_test_time < num_test_times; i_test_time++) {
                 for (size_t i_flt = 0; i_flt < num_flts; i_flt++) {
                     for (size_t i_search_station_index = 0; i_search_station_index < num_search_stations; i_search_station_index++) {
 
-                        size_t i_search_station = i_search_stations(i_test_station, i_search_station_index);
-                        if (i_search_station != AnEn::_FILL_SIZE_T) {
-
+                        double i_search_station = i_search_stations(i_test_station, i_search_station_index);
+                        
+                        // Check if search station is NAN, which is the _FILL_VALUE
+                        if (!isnan(i_search_station)) {
                             for (size_t i_search_time = 0; i_search_time < num_search_times; i_search_time++) {
 
                                 if (!isnan(data_search_observations[i_observation_parameter][i_search_station]
                                         [mapping(i_search_time, i_flt)])) {
 
-                                    size_t i_sim_row = i_search_station * num_search_times + i_search_time;
+                                    size_t i_sim_row = i_search_station_index * num_search_times + i_search_time;
                                     if (isnan(sims[i_test_station][i_test_time][i_flt][i_sim_row][COL_TAG_SIM::VALUE]))
                                         sims[i_test_station][i_test_time][i_flt][i_sim_row][COL_TAG_SIM::VALUE] = 0;
 
@@ -543,6 +552,20 @@ sims, sds)
     }
 
     return (SUCCESS);
+}
+
+errorType
+AnEn::computeSimilarity(
+        const Forecasts_array& search_forecasts,
+        const StandardDeviation& sds,
+        SimilarityMatrices& sims,
+        const Observations_array& search_observations,
+        const boost::numeric::ublas::matrix<size_t> & mapping,
+        size_t i_observation_parameter) const {
+
+    boost::numeric::ublas::matrix<double> i_search_stations(0, 0);
+    return (computeSimilarity(search_forecasts, sds, sims, search_observations,
+            mapping, i_search_stations, i_observation_parameter));
 }
 
 errorType

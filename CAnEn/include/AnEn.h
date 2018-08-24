@@ -8,8 +8,6 @@
 #ifndef ANEN_H
 #define ANEN_H
 
-#include <limits>
-
 #include "Analogs.h"
 #include "Forecasts.h"
 #include "Observations.h"
@@ -109,10 +107,27 @@ public:
             const anenTime::Times & times_observations,
             boost::numeric::ublas::matrix<size_t> & mapping) const;
 
+    /**
+     * Computes the search stations of each test stations.
+     * 
+     * @param test_stations Test anenSta::Stations.
+     * @param search_stations Search anenSta::Stations.
+     * @param i_search_stations A matrix to store the search stations for each
+     * test stations per row.
+     * @param max_num_search_stations The maximum number of search stations
+     * that will be stored.
+     * @param distance The buffer distance from each test station to look
+     * for search stations.
+     * @param num_nearest_stations The number of KNN search stations to look
+     * for for each test stations.
+     * @param return_index Whether to return the index of the ID of the search
+     * stations.
+     * @return An AnEn::errorType;
+     */
     errorType computeSearchStations(
             const anenSta::Stations & test_stations,
             const anenSta::Stations & search_stations,
-            boost::numeric::ublas::matrix<size_t> & i_search_stations,
+            boost::numeric::ublas::matrix<double> & i_search_stations,
             size_t max_num_search_stations,
             double distance = 0, size_t num_nearest_stations = 0,
             bool return_index = true);
@@ -127,11 +142,11 @@ public:
      * @param search_observations Observations to search.
      * @param mapping A matrix stores the mapping indices from forecasts times
      * and FLTs to observation times.
+     * @param i_search_stations A precomputed matrix with the search stations 
+     * for each test station stored per row.
      * @param i_observation_parameter The parameter in observations that will
      * be checked for NAN values. By default it is 0 pointing at the first
      * parameter.
-     * @param i_search_stations A precomputed matrix with the search stations 
-     * for each test station stored per row.
      * 
      * @return An AnEn::errorType.
      */
@@ -141,9 +156,16 @@ public:
             SimilarityMatrices & sims,
             const Observations_array& search_observations,
             const boost::numeric::ublas::matrix<size_t> & mapping,
-            size_t i_observation_parameter = 0,
-            boost::numeric::ublas::matrix<size_t> && i_search_stations =
-            boost::numeric::ublas::matrix<size_t>(0, 0)) const;
+            boost::numeric::ublas::matrix<double> & i_search_stations,
+            size_t i_observation_parameter = 0) const;
+    
+    errorType computeSimilarity(
+            const Forecasts_array & search_forecasts,
+            const StandardDeviation & sds,
+            SimilarityMatrices & sims,
+            const Observations_array& search_observations,
+            const boost::numeric::ublas::matrix<size_t> & mapping,
+            size_t i_observation_parameter = 0) const;
 
     /**
      * Select analogs based on the similarity matrices.
@@ -213,8 +235,8 @@ public:
      * @return  A double.
      */
     double diffCircular(double i, double j) const;
-    
-    static const size_t _FILL_SIZE_T;
+
+    static const double _FILL_VALUE;
 
 private:
     /**

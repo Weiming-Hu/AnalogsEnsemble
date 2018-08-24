@@ -461,9 +461,9 @@ void testAnEn::testComputeSearchStations() {
     anen.computeSearchStations(test_stations, search_stations,
             i_search_stations, 5, distance);
 
-    results = {2, AnEn::_FILL_SIZE_T, AnEn::_FILL_SIZE_T, AnEn::_FILL_SIZE_T,
-        AnEn::_FILL_SIZE_T, 3, 5, 7, 8, 9, 6, AnEn::_FILL_SIZE_T,
-        AnEn::_FILL_SIZE_T, AnEn::_FILL_SIZE_T, AnEn::_FILL_SIZE_T};
+    results = {2, AnEn::_FILL_VALUE, AnEn::_FILL_VALUE, AnEn::_FILL_VALUE,
+        AnEn::_FILL_VALUE, 3, 5, 7, 8, 9, 6, AnEn::_FILL_VALUE,
+        AnEn::_FILL_VALUE, AnEn::_FILL_VALUE, AnEn::_FILL_VALUE};
     for (auto row = i_search_stations.begin1();
             row != i_search_stations.end1(); row++) {
         for (const auto & val : row) {
@@ -491,8 +491,8 @@ void testAnEn::testComputeSearchStations() {
     anen.computeSearchStations(test_stations, search_stations,
             i_search_stations, num_stations, threshold, num_stations);
 
-    results = {2, AnEn::_FILL_SIZE_T, AnEn::_FILL_SIZE_T, AnEn::_FILL_SIZE_T, 7,
-        8, 3, 5, 6, AnEn::_FILL_SIZE_T, AnEn::_FILL_SIZE_T, AnEn::_FILL_SIZE_T};
+    results = {2, AnEn::_FILL_VALUE, AnEn::_FILL_VALUE, AnEn::_FILL_VALUE, 7,
+        8, 3, 5, 6, AnEn::_FILL_VALUE, AnEn::_FILL_VALUE, AnEn::_FILL_VALUE};
     for (auto row = i_search_stations.begin1();
             row != i_search_stations.end1(); row++) {
         for (const auto & val : row) {

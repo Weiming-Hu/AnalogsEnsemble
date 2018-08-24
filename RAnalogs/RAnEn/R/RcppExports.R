@@ -5,7 +5,7 @@ checkOpenMP <- function() {
     .Call('_RAnEn_checkOpenMP', PACKAGE = 'RAnEn')
 }
 
-.generateAnalogs <- function(R_test_forecasts, R_test_forecasts_dims, R_search_forecasts, R_search_forecasts_dims, R_search_times, R_search_flts, R_search_observations, R_search_observations_dims, R_observation_times, num_members, observation_parameter, quick, R_circulars, preserve_similarity, verbose) {
-    .Call('_RAnEn_generateAnalogs', PACKAGE = 'RAnEn', R_test_forecasts, R_test_forecasts_dims, R_search_forecasts, R_search_forecasts_dims, R_search_times, R_search_flts, R_search_observations, R_search_observations_dims, R_observation_times, num_members, observation_parameter, quick, R_circulars, preserve_similarity, verbose)
+.generateAnalogs <- function(R_test_forecasts, R_test_forecasts_dims, R_test_forecasts_station_x, R_test_forecasts_station_y, R_search_forecasts, R_search_forecasts_dims, R_search_forecasts_station_x, R_search_forecasts_station_y, R_search_times, R_search_flts, R_search_observations, R_search_observations_dims, R_observation_times, num_members, observation_parameter, quick, R_circulars, search_extension, preserve_similarity, preserve_mapping, preserve_search_stations, max_num_search_stations, distance, num_nearest_stations, verbose) {
+    .Call('_RAnEn_generateAnalogs', PACKAGE = 'RAnEn', R_test_forecasts, R_test_forecasts_dims, R_test_forecasts_station_x, R_test_forecasts_station_y, R_search_forecasts, R_search_forecasts_dims, R_search_forecasts_station_x, R_search_forecasts_station_y, R_search_times, R_search_flts, R_search_observations, R_search_observations_dims, R_observation_times, num_members, observation_parameter, quick, R_circulars, search_extension, preserve_similarity, preserve_mapping, preserve_search_stations, max_num_search_stations, distance, num_nearest_stations, verbose)
 }
 

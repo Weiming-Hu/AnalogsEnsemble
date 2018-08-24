@@ -1,0 +1,117 @@
+# "`-''-/").___..--''"`-._
+#  (`6_ 6  )   `-.  (     ).`-.__.`)   WE ARE ...
+#  (_Y_.)'  ._   )  `._ `. ``-..-'    PENN STATE!
+#    _ ..`--'_..-_/  /--'_.' ,'
+#  (il),-''  (li),'  ((!.-'
+# 
+# Author: Weiming Hu <weiming@psu.edu>
+#         Geoinformatics and Earth Observation Laboratory (http://geolab.psu.edu)
+#         Department of Geography and Institute for CyberScience
+#         The Pennsylvania State University
+#
+validateConfiguration <- function(x, verbose = 1) {
+	if (class(x) != 'Configuration')
+		stop("Class is not Configuration.")
+	
+	valid <- T
+	
+	# All variables should not be NA
+	for (i in 1:length(x)) {
+		if (is.null(x[[i]])) {
+			if (verbose > 0) cat("Null variable:", attr(x, 'name')[i], "\n")
+			valid <- F
+		}
+	}
+	
+	if (!valid) return(valid)
+	
+	if (!(x$mode %in% c('extendedSearch', 'independentSearch'))) {
+		print('ERROR: Unknown configuration mode!')
+		valid <- F
+	}
+	
+	if (!(is.array(x$test_forecasts) && is.numeric(x$test_forecasts) && length(dim(x$test_forecasts)) == 4)) {
+		print('ERROR: Test forecasts should be a 4-dimensional numeric array!')
+		print('Please use dim(), is.numeric(), and is.array() to check!')
+		valid <- F
+	}
+	
+	if (!(is.array(x$search_forecasts) && is.numeric(x$search_forecasts) && length(dim(x$search_forecasts)) == 4)) {
+		print('ERROR: Search forecasts should be a 4-dimensional numeric array!')
+		print('Please use dim(), is.numeric(), and is.array() to check!')
+		valid <- F
+	}
+	
+	if (!(is.vector(x$search_times, mode = 'numeric') && length(x$search_times) == dim(x$search_forecasts)[3])) {
+		print('ERROR: Search forecast times should be a numeric vector with the length of the third dimension of search forecasts!')
+		print('Please use is.vector() and length() to check!')
+		valid <- F
+	}
+	
+	if (!(is.vector(x$search_flts, mode = 'numeric') && length(x$search_flts) == dim(x$search_forecasts)[4])) {
+		print('ERROR: Search forecast FLTs should be a numeric vector with the length of the fourth dimension of search forecasts!')
+		print('Please use is.vector() and length() to check!')
+		valid <- F
+	}
+	
+	if (!(is.array(x$search_observations) && is.numeric(x$search_observations) && length(dim(x$search_observations)) == 3)) {
+		print('ERROR: Search observations should be a 3-dimensional numeric array!')
+		print('Please use dim(), is.numeric(), and is.array() to check!')
+		valid <- F
+	}
+	
+	if (!(is.vector(x$observation_times, mode = 'numeric') && length(x$observation_times) == dim(x$search_observations)[3])) {
+		print('ERROR: Search observation times should be a numeric vector with the length of the third dimension of search observations!')
+		print('Please use is.vector() and length() to check!')
+		valid <- F
+	}
+	
+	if (!(is.numeric(x$observation_id) && length(x$observation_id) == 1 && x$observation_id >= 1 && x$observation_id <= dim(x$search_observations)[1])) {
+		print('Error: Observation id should be an integer within the number of parameters in observations.')
+		valid <- F
+	}
+	
+	if (!anyNA(x$circulars)) {
+		if (!(is.vector(x$circulars, mode = 'numeric') && !anyNA(x$circulars) && length(x$circulars) <= dim(x$test_forecasts)[1])) {
+			print('Error: Circulars should be a numeric vector. Its length should not exceed the number of forecast parameters.')
+			valid <- F
+		}
+		
+		for (val in x$circulars) {
+			if (val > dim(x$test_forecasts)[1] || val <= 0) {
+				print('Error: Circulars value should be positive and not exceed the number of forecast parameters.')
+				valid <- F
+			}
+		}
+	}
+	
+	if (x$mode == 'extendedSearch') {
+		
+		if (!(is.vector(x$test_stations_x, mode = 'numeric') && length(x$test_stations_x) == dim(x$test_forecasts)[2])) {
+			print('ERROR: Test Stations X should be a numeric vector with the length of the second dimension of test forecasts!')
+			print('Please use is.vector() and length() to check!')
+			valid <- F
+		}
+		if (!(is.vector(x$test_stations_y, mode = 'numeric') && length(x$test_stations_y) == dim(x$test_forecasts)[2])) {
+			print('ERROR: Test Stations Y should be a numeric vector with the length of the second dimension of test forecasts!')
+			print('Please use is.vector() and length() to check!')
+			valid <- F
+		}
+		if (!(is.vector(x$search_stations_x, mode = 'numeric') && length(x$search_stations_x) == dim(x$search_forecasts)[2])) {
+			print('ERROR: Search Stations X should be a numeric vector with the length of the second dimension of search forecasts!')
+			print('Please use is.vector() and length() to check!')
+			valid <- F
+		}
+		if (!(is.vector(x$search_stations_y, mode = 'numeric') && length(x$search_stations_y) == dim(x$search_forecasts)[2])) {
+			print('ERROR: Search Stations Y should be a numeric vector with the length of the second dimension of search forecasts!')
+			print('Please use is.vector() and length() to check!')
+			valid <- F
+		}
+		if (!(is.logical(x$preserve_search_stations) && length(x$preserve_search_stations) == 1)) {
+			print('Error: preserve_search_stations should be a boolean.')
+			valid <- F
+		}
+	}
+	
+	return(valid)
+}

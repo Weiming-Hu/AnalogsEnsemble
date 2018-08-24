@@ -50,19 +50,22 @@ search.times <- (1:dim(search.forecasts)[3]) * 100
 search.flts <- 1:dim(search.forecasts)[4]
 observation.times <- rep(search.times, each = length(search.flts)) + search.flts
 
-AnEn.cpp <- generateAnalogs(
-	test_forecasts = test.forecasts,
-	search_forecasts = search.forecasts,
-	search_times = search.times,
-	search_flts = search.flts,
-	search_observations = search.observations,
-	observation_times = observation.times,
-	num_members = members.size,
-	circulars = forecasts.circulars,
-	quick = F,
-	preserve_similarity = T,
-	verbose = 3
-)
+config <- generateConfiguration('independentSearch')
+config$test_forecasts <- test.forecasts
+config$search_forecasts <- search.forecasts
+config$search_times <- search.times
+config$search_flts <- search.flts
+config$search_observations <- search.observations
+config$observation_times <- observation.times
+config$num_members <- members.size
+config$quick <- F
+config$preserve_similarity <- T
+config$verbose <- 3
+config$weights <- rep(1, dim(test.forecasts)[1])
+config$circulars <- forecasts.circulars
+
+validateConfiguration(config)
+AnEn.cpp <- generateAnalogs(config)
 
 analogs.cpp <- AnEn.cpp$analogs[,,,,3]
 
@@ -94,19 +97,22 @@ search.times <- (1:dim(search.forecasts)[3]) * 100
 search.flts <- 1:dim(search.forecasts)[4]
 observation.times <- rep(search.times, each = length(search.flts)) + search.flts
 
-AnEn.cpp <- generateAnalogs(
-	test_forecasts = test.forecasts,
-	search_forecasts = search.forecasts,
-	search_times = search.times,
-	search_flts = search.flts,
-	search_observations = search.observations,
-	observation_times = observation.times,
-	num_members = members.size,
-	circulars = forecasts.circulars,
-	quick = F,
-	preserve_similarity = T,
-	verbose = 3
-)
+config <- generateConfiguration('independentSearch')
+config$test_forecasts <- test.forecasts
+config$search_forecasts <- search.forecasts
+config$search_times <- search.times
+config$search_flts <- search.flts
+config$search_observations <- search.observations
+config$observation_times <- observation.times
+config$num_members <- members.size
+config$quick <- F
+config$preserve_similarity <- T
+config$verbose <- 3
+config$weights <- rep(1, dim(test.forecasts)[1])
+config$circulars <- forecasts.circulars
+
+validateConfiguration(config)
+AnEn.cpp <- generateAnalogs(config)
 
 analogs_WU <- AnEn.cpp$analogs[,,,,3]
 

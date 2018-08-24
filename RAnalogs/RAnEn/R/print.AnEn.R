@@ -31,16 +31,30 @@ print.AnEn <- function (x) {
     empty <- F
     cat("Member 'analogs': [test station][test time][FLT][member][type]\n")
     cat(dim(x$analogs))
-    cat("(search station, search observation time, value)")
+    cat(" (search station, search observation time, value)")
     cat("\n")
   }
   
   if ('similarity' %in% names(x)) {
+  	empty <- F
+  	cat("Member 'similarity': [test station][test time][FLT][member][type]\n")
+  	cat(dim(x$similarity))
+  	cat(" (search station, search forecast time, value)")
+  	cat("\n")
+  }
+  
+  if ('mapping' %in% names(x)) {
     empty <- F
-    cat("Member 'similarity': [test station][test time][FLT][member][type]\n")
-    cat(dim(x$similarity))
-    cat("(search station, search forecast time, value)")
+    cat("Member 'mapping': [FLT][forecast time] ")
+    cat(dim(x$mapping))
     cat("\n")
+  }
+  
+  if ('searchStations' %in% names(x)) {
+  	empty <- F
+  	cat("Member 'searchStations': [search station][test station] ")
+  	cat(dim(x$searchStations))
+  	cat("\n")
   }
   
   if (empty) {

@@ -49,6 +49,11 @@ namespace anenSta {
         setID_();
     }
 
+    Station::Station(double x, double y) :
+    x_(x), y_(y) {
+        setID_();
+    }
+
     Station::Station(string name, double x, double y) :
     name_(name), x_(x), y_(y) {
         setID_();
