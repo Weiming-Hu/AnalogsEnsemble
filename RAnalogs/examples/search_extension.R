@@ -172,7 +172,7 @@ if (T) {
 	
 	# plot different types of stations together
 	par(mfrow = c(1, 1))
-	plot(xs, ys, main = title, pch = 19, cex = cex, col = 'grey')
+	plot(xs, ys, main = title, pch = 19, cex = cex, col = 'grey', asp=1)
 	points(xs[search.stations.ID], ys[search.stations.ID],
 				 pch = 19, cex = cex, col = 'green')
 	points(xs[main.station.ID], ys[main.station.ID],

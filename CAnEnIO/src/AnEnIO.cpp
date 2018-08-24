@@ -1223,7 +1223,7 @@ AnEnIO::writeFLTs(const anenTime::FLTs& flts, bool unlimited) const {
             flts_by_insert = flts.get<anenTime::by_insert>();
 
 #if defined(_OPENMP)
-#pragma omp parallel for default(none) schedule(static)\
+#pragma omp parallel for default(none) schedule(static) \
 shared(flts_by_insert, p)
 #endif
     for (size_t i = 0; i < flts_by_insert.size(); i++) {
@@ -1351,7 +1351,7 @@ AnEnIO::writeParameters(const anenPar::Parameters& parameters,
     }
 
 #if defined(_OPENMP)
-#pragma omp parallel for default(none) schedule(static)\
+#pragma omp parallel for default(none) schedule(static) \
 shared(parameters_by_insert, p_circulars, p_names, p_weights, _max_chars)
 #endif
     for (size_t i = 0; i < parameters_by_insert.size(); i++) {
@@ -1454,7 +1454,7 @@ AnEnIO::writeStations(
             stations_by_insert = stations.get<anenSta::by_insert>();
 
 #if defined(_OPENMP)
-#pragma omp parallel for default(none) schedule(static)\
+#pragma omp parallel for default(none) schedule(static) \
 shared(stations_by_insert, p_names, p_xs, p_ys, _max_chars)
 #endif
     for (size_t i = 0; i < stations_by_insert.size(); i++) {
@@ -1534,7 +1534,7 @@ AnEnIO::writeTimes(const anenTime::Times& times, bool unlimited) const {
             times_by_insert = times.get<anenTime::by_insert>();
 
 #if defined(_OPENMP)
-#pragma omp parallel for default(none) schedule(static)\
+#pragma omp parallel for default(none) schedule(static) \
 shared(times_by_insert, p)
 #endif
     for (size_t i = 0; i < times_by_insert.size(); i++) {

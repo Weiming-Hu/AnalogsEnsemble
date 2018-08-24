@@ -109,7 +109,7 @@ SimilarityMatrices::sortRows(bool quick, size_t length, COL_TAG col_tag) {
         }
 
 #if defined(_OPENMP)
-#pragma omp parallel for default(none) schedule(static)\
+#pragma omp parallel for default(none) schedule(static) \
 collapse(3) shared(sortFunc, length)
 #endif
         for (size_t i = 0; i < this->shape()[0]; i++) {
@@ -124,7 +124,7 @@ collapse(3) shared(sortFunc, length)
 
     } else {
 #if defined(_OPENMP)
-#pragma omp parallel for default(none) schedule(static)\
+#pragma omp parallel for default(none) schedule(static) \
 collapse(3) shared(sortFunc)
 #endif
         for (size_t i = 0; i < this->shape()[0]; i++) {

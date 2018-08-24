@@ -451,7 +451,7 @@ void testAnEn::testComputeSearchStations() {
         s7, s8, s9, s10, s11, s12, s13, s14});
     test_stations.insert(test_stations.end(),{s3, s6, s7});
 
-    boost::numeric::ublas::matrix<size_t> i_search_stations;
+    boost::numeric::ublas::matrix<double> i_search_stations;
     AnEn anen(2);
 
     vector<size_t> results;
@@ -461,13 +461,11 @@ void testAnEn::testComputeSearchStations() {
     anen.computeSearchStations(test_stations, search_stations,
             i_search_stations, 5, distance);
 
-    results = {2, AnEn::_FILL_VALUE, AnEn::_FILL_VALUE, AnEn::_FILL_VALUE,
-        AnEn::_FILL_VALUE, 3, 5, 7, 8, 9, 6, AnEn::_FILL_VALUE,
-        AnEn::_FILL_VALUE, AnEn::_FILL_VALUE, AnEn::_FILL_VALUE};
+    results = {2, 3, 5, 7, 8, 9, 6};
     for (auto row = i_search_stations.begin1();
             row != i_search_stations.end1(); row++) {
         for (const auto & val : row) {
-            results.erase(find(results.begin(), results.end(), val));
+            if (!isnan(val)) results.erase(find(results.begin(), results.end(), val));
         }
     }
     CPPUNIT_ASSERT(results.size() == 0);
@@ -491,12 +489,11 @@ void testAnEn::testComputeSearchStations() {
     anen.computeSearchStations(test_stations, search_stations,
             i_search_stations, num_stations, threshold, num_stations);
 
-    results = {2, AnEn::_FILL_VALUE, AnEn::_FILL_VALUE, AnEn::_FILL_VALUE, 7,
-        8, 3, 5, 6, AnEn::_FILL_VALUE, AnEn::_FILL_VALUE, AnEn::_FILL_VALUE};
+    results = {2, 7, 8, 3, 5, 6};
     for (auto row = i_search_stations.begin1();
             row != i_search_stations.end1(); row++) {
         for (const auto & val : row) {
-            results.erase(find(results.begin(), results.end(), val));
+            if (!isnan(val)) results.erase(find(results.begin(), results.end(), val));
         }
     }
     CPPUNIT_ASSERT(results.size() == 0);

@@ -60,8 +60,8 @@ AnEn::computeStandardDeviation(
     sds.resize(extents[num_parameters][num_stations][num_flts]);
 
 #if defined(_OPENMP)
-#pragma omp parallel for default(none) schedule(static) collapse(3)\
-shared(num_parameters, num_stations, num_flts, num_times, array,\
+#pragma omp parallel for default(none) schedule(static) collapse(3) \
+shared(num_parameters, num_stations, num_flts, num_times, array, \
 circular_flags, sds) 
 #endif
     for (size_t i_parameter = 0; i_parameter < num_parameters; i_parameter++) {
@@ -132,8 +132,8 @@ AnEn::computeObservationsTimeIndices(
     int loop_flag = 1;
 
 #if defined(_OPENMP)
-#pragma omp parallel for default(none) schedule(static) collapse(2) reduction(min:loop_flag)\
-shared(mapping, times_observations, times_forecasts_by_insert, flts_forecasts_by_insert, cout)\
+#pragma omp parallel for default(none) schedule(static) collapse(2) reduction(min:loop_flag) \
+shared(mapping, times_observations, times_forecasts_by_insert, flts_forecasts_by_insert, cout) \
 firstprivate(index)
 #endif
     for (size_t i_row = 0; i_row < mapping.size1(); i_row++) {
@@ -176,11 +176,6 @@ AnEn::computeSearchStations(
 
     if (num_nearest_stations == 0) {
 
-#if defined(_OPENMP)
-#pragma omp parallel for default(none) schedule(static)\
-shared(test_stations_by_insert, search_stations, i_search_stations,\
-distance, max_num_search_stations)
-#endif
         if (distance == 0) {
             if (verbose_ >= 1) cout << BOLDRED << "Error: Please specify"
                     << "distance or/and number of nearest stations to find."
@@ -188,6 +183,11 @@ distance, max_num_search_stations)
             return (MISSING_VALUE);
         }
 
+#if defined(_OPENMP)
+#pragma omp parallel for default(none) schedule(static) \
+shared(test_stations_by_insert, search_stations, i_search_stations, \
+distance, max_num_search_stations)
+#endif
         for (size_t i_test = 0; i_test < test_stations_by_insert.size();
                 i_test++) {
 
@@ -208,8 +208,8 @@ distance, max_num_search_stations)
     } else {
 
 #if defined(_OPENMP)
-#pragma omp parallel for default(none) schedule(static)\
-shared(test_stations_by_insert, search_stations, i_search_stations,\
+#pragma omp parallel for default(none) schedule(static) \
+shared(test_stations_by_insert, search_stations, i_search_stations, \
 num_nearest_stations, distance, max_num_search_stations)
 #endif
         for (size_t i_test = 0; i_test < test_stations_by_insert.size();
@@ -238,9 +238,9 @@ num_nearest_stations, distance, max_num_search_stations)
                 search_stations.get<anenSta::by_insert>();
 
 #if defined(_OPENMP)
-#pragma omp parallel for default(none) schedule(static)\
-shared(search_stations_by_ID, search_stations_by_insert, i_search_stations,\
-_FILL_SIZE_T)
+#pragma omp parallel for default(none) schedule(static) \
+shared(search_stations_by_ID, search_stations_by_insert, i_search_stations, \
+search_stations)
 #endif
         for (size_t i_row = 0; i_row < i_search_stations.size1(); i_row++) {
             for (size_t i_col = 0; i_col < i_search_stations.size2(); i_col++) {
@@ -299,7 +299,7 @@ AnEn::computeSimilarity(
                     << RESET << endl;
             return (MISSING_VALUE);
         };
-        
+
         if (i_search_stations.size1() != num_test_stations) {
             if (verbose_ >= 1) cout << BOLDRED
                     << "Error: Number of rows in i_search_stations should equal the number of test stations."
@@ -347,11 +347,11 @@ AnEn::computeSimilarity(
         fill(sims.data(), sims.data() + sims.num_elements(), NAN);
 
 #if defined(_OPENMP)
-#pragma omp parallel for default(none) schedule(static) collapse(5)\
-shared(num_test_stations, num_flts, num_test_times, num_search_stations,\
-num_search_times, circular_flags, num_parameters, data_search_observations,\
-flts_window, mapping, weights, data_search_forecasts, data_test_forecasts,\
-sims, sds)
+#pragma omp parallel for default(none) schedule(static) collapse(5) \
+shared(num_test_stations, num_flts, num_test_times, num_search_stations, \
+num_search_times, circular_flags, num_parameters, data_search_observations, \
+flts_window, mapping, weights, data_search_forecasts, data_test_forecasts, \
+sims, sds, i_observation_parameter)
 #endif
         for (size_t i_test_station = 0; i_test_station < num_test_stations; i_test_station++) {
             for (size_t i_test_time = 0; i_test_time < num_test_times; i_test_time++) {
@@ -417,11 +417,11 @@ sims, sds)
         num_search_stations = i_search_stations.size2();
 
 #if defined(_OPENMP)
-#pragma omp parallel for default(none) schedule(static) collapse(4)\
-shared(num_test_stations, num_flts, num_test_times, num_search_stations,\
-num_search_times, circular_flags, num_parameters, data_search_observations,\
-flts_window, mapping, weights, data_search_forecasts, data_test_forecasts,\
-sims, sds, i_search_stations)
+#pragma omp parallel for default(none) schedule(static) collapse(4) \
+shared(num_test_stations, num_flts, num_test_times, num_search_stations, \
+num_search_times, circular_flags, num_parameters, data_search_observations, \
+flts_window, mapping, weights, data_search_forecasts, data_test_forecasts, \
+sims, sds, i_observation_parameter, i_search_stations)
 #endif
         for (size_t i_test_station = 0; i_test_station < num_test_stations; i_test_station++) {
             for (size_t i_test_time = 0; i_test_time < num_test_times; i_test_time++) {
@@ -429,7 +429,7 @@ sims, sds, i_search_stations)
                     for (size_t i_search_station_index = 0; i_search_station_index < num_search_stations; i_search_station_index++) {
 
                         double i_search_station = i_search_stations(i_test_station, i_search_station_index);
-                        
+
                         // Check if search station is NAN, which is the _FILL_VALUE
                         if (!isnan(i_search_station)) {
                             for (size_t i_search_time = 0; i_search_time < num_search_times; i_search_time++) {
@@ -491,11 +491,11 @@ sims, sds, i_search_stations)
         fill(sims.data(), sims.data() + sims.num_elements(), NAN);
 
 #if defined(_OPENMP)
-#pragma omp parallel for default(none) schedule(static) collapse(4)\
-shared(num_test_stations, num_flts, num_test_times, num_search_stations,\
-num_search_times, circular_flags, num_parameters, data_search_observations,\
-flts_window, mapping, weights, data_search_forecasts, data_test_forecasts,\
-sims, sds)
+#pragma omp parallel for default(none) schedule(static) collapse(4) \
+shared(num_test_stations, num_flts, num_test_times, num_search_stations, \
+num_search_times, circular_flags, num_parameters, data_search_observations, \
+flts_window, mapping, weights, data_search_forecasts, data_test_forecasts, \
+sims, sds, i_observation_parameter)
 #endif
         for (size_t i_station = 0; i_station < num_test_stations; i_station++) {
             for (size_t i_test_time = 0; i_test_time < num_test_times; i_test_time++) {
@@ -610,8 +610,8 @@ AnEn::selectAnalogs(
     const auto & data_observations = search_observations.data();
 
 #if defined(_OPENMP)
-#pragma omp parallel for default(none) schedule(static) collapse(4)\
-shared(data_observations, sims, num_members, mapping, analogs, num_test_stations,\
+#pragma omp parallel for default(none) schedule(static) collapse(4) \
+shared(data_observations, sims, num_members, mapping, analogs, num_test_stations, \
 i_parameter, num_test_times, num_flts, observation_times_by_insert)
 #endif
     for (size_t i_test_station = 0; i_test_station < num_test_stations; i_test_station++) {
