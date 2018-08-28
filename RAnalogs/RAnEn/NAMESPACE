@@ -6,6 +6,8 @@ S3method(print,AnEn)
 S3method(print,Configuration)
 
 export(checkOpenMP)
+export(compute_analogs)
+export(rcpp_compute_analogs)
 export(generateAnalogs)
 export(generateConfiguration)
 export(validateConfiguration)

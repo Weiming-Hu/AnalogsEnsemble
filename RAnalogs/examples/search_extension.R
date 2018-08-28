@@ -28,7 +28,7 @@ COL_STATION <- 1
 # and observations
 #
 num.parmeters <- 1
-num.stations <- 2000
+num.stations <- 1000
 num.days <- 50
 num.flts <- 1
 members.size <- 5
@@ -195,7 +195,7 @@ if (T) {
 				 col = c('grey', 'green', 'red', 'red'))
 }
 
-if (T) {
+if (F) {
 	# compare the results from method with and without
 	# search extension
 	#

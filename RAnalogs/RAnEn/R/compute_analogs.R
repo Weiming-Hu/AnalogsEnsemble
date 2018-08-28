@@ -45,7 +45,7 @@ rcpp_compute_analogs <- function(forecasts,
                                  output_metric = F,
                                  verbose = 1,
                                  parameter_ID = NA) {
-  cat("WARNING: function name rcpp_compute_analogs is deprecated. Please use generateAnalogs!\n")
+  cat("WARNING: Function rcpp_compute_analogs is deprecated. Please use generateAnalogs!\n")
   analogs <- compute_analogs(forecasts = forecasts,
                              observations = observations,
                              circulars = circulars,
@@ -231,7 +231,7 @@ compute_analogs <- function(forecasts,
                             output_metric = F,
                             verbose = 1,
                             parameter_ID = NA) {
-  cat("WARNING: function name compute_analogs is deprecated. Please use generateAnalogs!\n")
+  cat("WARNING: Function compute_analogs is deprecated. Please use generateAnalogs!\n")
   
   # check deprecation
   if (!identical(NA, parameter_ID)) {
@@ -477,7 +477,7 @@ compute_analogs <- function(forecasts,
     config$max_num_search_stations <- 10
     
   } else {
-    config <- generateConfiguration('IndependentSearch')
+    config <- generateConfiguration('independentSearch')
   }
   
   test.forecasts <- forecasts[, , test_ID_start:test_ID_end, , drop = F]
@@ -526,10 +526,10 @@ compute_analogs <- function(forecasts,
   if (cores != 0) cat('Warning: cores are automatically detected.')
   
   
-  configuration$observation_id = configuration$observation_id - 1
+  config$observation_id = config$observation_id - 1
   
   
-  if (configuration$mode == 'independentSearch') {
+  if (config$mode == 'independentSearch') {
     
     # Create default values
     test_forecasts_station_x <- vector(mode = 'numeric', length = 0)
@@ -543,43 +543,43 @@ compute_analogs <- function(forecasts,
     num_nearest_stations <- 0
     
     AnEn <- .generateAnalogs(
-      configuration$test_forecasts, dim(configuration$test_forecasts),
+      config$test_forecasts, dim(config$test_forecasts),
       test_forecasts_station_x, test_forecasts_station_y,
-      configuration$search_forecasts, dim(configuration$search_forecasts),
+      config$search_forecasts, dim(config$search_forecasts),
       search_forecasts_station_x, search_forecasts_station_y,
-      configuration$search_times, configuration$search_flts,
-      configuration$search_observations, dim(configuration$search_observations),
-      configuration$observation_times, configuration$num_members,
-      configuration$observation_id, configuration$quick,
-      configuration$circulars, search_extension,
-      configuration$preserve_similarity, 
-      configuration$preserve_mapping, preserve_search_stations,
+      config$search_times, config$search_flts,
+      config$search_observations, dim(config$search_observations),
+      config$observation_times, config$num_members,
+      config$observation_id, config$quick,
+      config$circulars, search_extension,
+      config$preserve_similarity, 
+      config$preserve_mapping, preserve_search_stations,
       max_num_search_stations, distance,
-      num_nearest_stations, configuration$verbose)
+      num_nearest_stations, config$verbose)
     
-  } else if (configuration$mode == 'extendedSearch') {
+  } else if (config$mode == 'extendedSearch') {
     # Create default values
     search_extension <- T
     
     AnEn <- .generateAnalogs(
-      configuration$test_forecasts, dim(configuration$test_forecasts),
-      configuration$test_stations_x,
-      configuration$test_stations_y,
-      configuration$search_forecasts, dim(configuration$search_forecasts),
-      configuration$search_stations_x,
-      configuration$search_stations_y,
-      configuration$search_times, configuration$search_flts,
-      configuration$search_observations, dim(configuration$search_observations),
-      configuration$observation_times, configuration$num_members,
-      configuration$observation_id, configuration$quick,
-      configuration$circulars, search_extension,
-      configuration$preserve_similarity,
-      configuration$preserve_mapping,
-      configuration$preserve_search_stations,
-      configuration$max_num_search_stations,
-      configuration$distance,
-      configuration$num_nearest,
-      configuration$verbose)
+      config$test_forecasts, dim(config$test_forecasts),
+      config$test_stations_x,
+      config$test_stations_y,
+      config$search_forecasts, dim(config$search_forecasts),
+      config$search_stations_x,
+      config$search_stations_y,
+      config$search_times, config$search_flts,
+      config$search_observations, dim(config$search_observations),
+      config$observation_times, config$num_members,
+      config$observation_id, config$quick,
+      config$circulars, search_extension,
+      config$preserve_similarity,
+      config$preserve_mapping,
+      config$preserve_search_stations,
+      config$max_num_search_stations,
+      config$distance,
+      config$num_nearest,
+      config$verbose)
     
   } else {
     stop('Unknown configuration mode!')
@@ -588,12 +588,12 @@ compute_analogs <- function(forecasts,
   # Because similarity matrix was stored in row-major in C++ and the R object will be column-major.
   # So change the order of dimensions to make it conform with other objects.
   #
-  if (configuration$preserve_similarity) {
+  if (config$preserve_similarity) {
     AnEn$similarity <- aperm(AnEn$similarity, length(dim(AnEn$similarity)):1)
   }
   
-  if (configuration$mode == 'extendedSearch') {
-    if (configuration$preserve_search_stations) {
+  if (config$mode == 'extendedSearch') {
+    if (config$preserve_search_stations) {
       AnEn$searchStations <- AnEn$searchStations + 1
     }
   }
@@ -602,7 +602,7 @@ compute_analogs <- function(forecasts,
   AnEn$analogs[, , , , 1] <- AnEn$analogs[, , , , 1, drop = F] + 1
   AnEn$similarity[, , , , 1:2] <- AnEn$similarity[, , , , 1:2, drop = F] + 1
   
-  if (configuration$preserve_mapping) AnEn$mapping <- AnEn$mapping + 1
+  if (config$preserve_mapping) AnEn$mapping <- AnEn$mapping + 1
   
   return(AnEn)
 }
