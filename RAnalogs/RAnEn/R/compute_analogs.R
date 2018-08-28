@@ -483,7 +483,7 @@ compute_analogs <- function(forecasts,
   test.forecasts <- forecasts[, , test_ID_start:test_ID_end, , drop = F]
   search.forecasts <- forecasts[, , train_ID_start:train_ID_end, , drop = F]
   
-  tmp.search.observations <- ob[, , train_ID_start:train_ID_end, , drop = F]
+  tmp.search.observations <- observations[, , train_ID_start:train_ID_end, , drop = F]
   search.observations <- aperm(tmp.search.observations, c(4, 3, 2, 1))
   search.observations <- array(search.observations,
                                dim = c(dim(tmp.search.observations)[3] 
