@@ -58,6 +58,7 @@ endif(ENABLE_MPI)
 
 file(MAKE_DIRECTORY ${COMMON_OUTPUT_DIR})
 file(MAKE_DIRECTORY "${COMMON_OUTPUT_DIR}/bin")
+file(MAKE_DIRECTORY "${COMMON_OUTPUT_DIR}/lib")
 
 include(CMakeLists_netCDF.txt)
 include(CMakeLists_Boost.txt)

@@ -30,11 +30,10 @@ endforeach(file ${EXTRA_SOURCE_FILES})
 ##################
 # build and link #
 ##################
-add_library (${LIBRARY_NAME} STATIC ${SOURCES})
+add_library (${LIBRARY_NAME} SHARED ${SOURCES})
 
 include_directories(${NETCDF_CXX4_INCLUDE_DIR})
 add_dependencies(${LIBRARY_NAME} NETCDF_CXX4_PROJECT)
-target_link_libraries(${LIBRARY_NAME} ${NETCDF_CXX4_LIBRARIES})
 
 #if(${ENABLE_MPI})
 #        include_directories(SYSTEM ${MPI_INCLUDE_PATH})
@@ -49,7 +48,11 @@ target_link_libraries(${LIBRARY_NAME} ${NETCDF_CXX4_LIBRARIES})
 #        endif(MPI_CXX_LINK_FLAGS)
 #endif(${ENABLE_MPI}) 
 
-install(TARGETS ${LIBRARY_NAME} ARCHIVE
-    DESTINATION lib)
-install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include
-    DESTINATION .)
+# Set default make output folder
+set_target_properties(${LIBRARY_NAME} PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${COMMON_OUTPUT_DIR}/lib")
+
+# Copy library to destination
+install(TARGETS ${LIBRARY_NAME} LIBRARY DESTINATION lib)
+
+# Copy headers to destination
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include DESTINATION .)
