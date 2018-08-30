@@ -49,9 +49,8 @@ if(NOT HDF5_FOUND)
     message(STATUS "Or please specify the variable CMAKE_PREFIX_PATH which contains /bin, /lib, and /include.")
     set(HDF5_VERSION "1.8.13")
     set(HDF5_URL "ftp://ftp.unidata.ucar.edu/pub/netcdf/netcdf-4/hdf5-${HDF5_VERSION}.tar.gz")
-    #set(HDF5_URL "ftp://ftp.unidata.ucar.edu/pub/netcdf/netcdf-4/hdf5-${HDF5_VERSION}.tar.bz2")
-    set(HDF5_ROOT_PATH "${DEPENDENCY_PATH}/HDF5")
-    set(HDF5_INSTALL_PREFIX "${HDF5_ROOT_PATH}/install")
+    set(HDF5_ROOT_PATH ${DEPENDENCY_PATH})
+    set(HDF5_INSTALL_PREFIX "${DEPENDENCY_PATH}/install")
     set(HDF5_BUILD_SHARED_LIBS "-DBUILD_SHARED_LIBS=ON")
     set(HDF5_BUILD_HL_LIB "-DHDF5_BUILD_HL_LIB=ON")
     set(HDF5_BUILD_TYPE "-DCMAKE_BUILD_TYPE=${CMAKE_EXTERNAL_PROJECT_BUILD_TYPE}")
@@ -82,7 +81,7 @@ if(NOT HDF5_FOUND)
         set(VERBOSE_INSTALL 1) 
         set(VERBOSE_TEST 1)
     endif(VERBOSE)
-    ExternalProject_add(HDF5
+    ExternalProject_add(HDF5_PROJECT
         PREFIX ${HDF5_ROOT_PATH}
         URL ${HDF5_URL}
         PATCH_COMMAND ""
@@ -95,13 +94,16 @@ if(NOT HDF5_FOUND)
         LOG_BUILD ${VERBOSE_BUILD}
         LOG_INSTALL ${VERBOSE_INSTALL})
 
-    set(HDF5_C_LIBRARY ${HDF5_INSTALL_PREFIX}/lib/libhdf5.a)
-    set(HDF5_HL_LIBRARY ${HDF5_INSTALL_PREFIX}/lib/libhdf5_hl.a)
     set(HDF5_INCLUDE_DIR ${HDF5_INSTALL_PREFIX}/include)
+
+    # Use this variable to tell whether HDF5 is built or found
+    set(HDF5_BUILT TRUE)
+
 else(NOT HDF5_FOUND)
     #message(WARNING "HDF5 is found. But make sure you are using the
     #same compiler used for HDF5 to compile the CAnalogs program")
     set(HDF5_C_LIBRARY ${HDF5_C_LIBRARIES})
     set(HDF5_HL_LIBRARY ${HDF5_HL_LIBRARIES})
     set(HDF5_INCLUDE_DIR ${HDF5_INCLUDE_DIRS})
+    set(HDF5_BUILT FALSE)
 endif(NOT HDF5_FOUND)

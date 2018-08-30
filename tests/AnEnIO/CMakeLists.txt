@@ -26,3 +26,4 @@ add_definitions(-D_PATH_OBSERVATIONS="${CMAKE_SOURCE_DIR}/tests/test_observation
 
 set_target_properties(runAnEnIO PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${COMMON_OUTPUT_DIR}/test")
 add_test(NAME ${PROJECT_NAME} COMMAND runAnEnIO)
+install(TARGETS runAnEnIO RUNTIME DESTINATION bin)

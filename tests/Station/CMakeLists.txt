@@ -23,3 +23,4 @@ endif(CPPUNIT_FOUND)
 
 set_target_properties(runStation PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${COMMON_OUTPUT_DIR}/test")
 add_test(NAME ${PROJECT_NAME} COMMAND runStation)
+install(TARGETS runStation RUNTIME DESTINATION bin)

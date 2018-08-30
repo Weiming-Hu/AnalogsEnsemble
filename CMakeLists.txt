@@ -32,6 +32,7 @@ endif(POLICY CMP0054)
 # supercomputers where modules are always loaded, rather
 # than installed at the standard location.
 #
+SET(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
 SET(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 # if INSTALL_RAnEn is set to TRUE
@@ -51,6 +52,10 @@ endif(INSTALL_RAnEn)
 # thrid packages required by CAnEn and CAnEnIO
 option(ENABLE_MPI "enable suppor for MPI" OFF)
 message(STATUS "ENABLE_MPI is set to ${ENABLE_MPI}")
+
+# let the rpath to handle shared libraries that are outside
+# of the current project
+set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 if(ENABLE_MPI)
     add_definitions(-DENABLE_MPI)
@@ -180,3 +185,21 @@ if(CMAKE_BUILD_TESTS)
 else(CMAKE_BUILD_TESTS)
     message(STATUS "By default, no tests built (CMAKE_BUILD_TESTS OFF)")
 endif(CMAKE_BUILD_TESTS)
+
+
+#########################
+#      Add Uninstall    #
+#########################
+# uninstall target
+if(NOT TARGET uninstall)
+    add_custom_target(uninstall
+        COMMAND ${CMAKE_COMMAND} -P ${CMAKE_SOURCE_DIR}/CMakeLists_Uninstall.txt)
+endif(NOT TARGET uninstall)
+
+if (HDF5_BUILT)
+    message(WARNING "HDF5 is built. Please keep this build directory becuase the program needs it.")
+endif(HDF5_BUILT)
+
+if(NETCDF_BUILT)
+    message(WARNING "netCDF is built. Please keep this build directory becuase the program needs it.")
+endif(NETCDF_BUILT)
