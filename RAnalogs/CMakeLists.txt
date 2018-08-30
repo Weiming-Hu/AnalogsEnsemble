@@ -55,6 +55,7 @@ foreach(file_name ${REQUIRED_FILE_NAME})
 endforeach(file_name ${REQUIRED_FILE_NAME})
 
 file(COPY "${RAnEn_EXTRA_INCLUDE_DIR}/colorTexts.h" DESTINATION ${RAnEn_SOURCE_DIR})
+file(COPY "${CMAKE_SOURCE_DIR}/LICENSE.txt" DESTINATION ${RAnEn_PACKAGE_DIR})
 
 ####################################
 # configure files in RAnEn package #
@@ -118,6 +119,7 @@ set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_PACKAGE_DIR}/DESCRIPTION")
 set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_PACKAGE_DIR}/configure")
 set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_PACKAGE_DIR}/configure.ac")
 set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_PACKAGE_DIR}/aclocal.m4")
+set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_PACKAGE_DIR}/LICENSE.txt")
 
 # I decide to keep this tarball file because it might be useful for installing 
 # the package on different platforms

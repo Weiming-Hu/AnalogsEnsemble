@@ -1,5 +1,8 @@
 # Parallel Ensemble Forecast Package
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/f4cf23c626034d92a3bef0ba169a218a)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Weiming-Hu/AnalogsEnsemble&amp;utm_campaign=Badge_Grade)
+
 _This document is still under development._
 
 * [About](#about)
@@ -172,6 +175,7 @@ make clean
 | CMAKE\_BUILD\_TESTS |          `cmake -DCMAKE_BUILD_TESTS=ON ..`          |                                                                                                                                                                                                               Specify to build tests. |
 |                     |          `cmake -DCMAKE_BUILD_TESTS=OFF ..`         |                                                                                                                                                                                              **Default**. Specify not to build tests. |
 |    BUILD\_NETCDF    |             `cmake -DBUILD_NETCDF=ON ..`            |                                                                                                                                                                                                                 Build NetCDF library. |
+|    BUILD\_HDF5      |             `cmake -DBUILD_HDF5=ON ..`            |                                                                                                                                                                                                                 Build HDF5 library. |
 |     ENABLE\_MPI     |             `cmake -DENABLE_MPI=OFF ..`             |                                                                                                                                           **Default**. Specify whether to build MPI support. **This is currently under development.** |
 |       VERBOSE       |               `cmake -DVERBOSE=OFF ..`              |                                                                                                                                                                                                             **Default**. Less output. |
 |                     |               `cmake -DVERBOSE=ON ..`               |                                                                                                                                                                                                                      Detailed output. |

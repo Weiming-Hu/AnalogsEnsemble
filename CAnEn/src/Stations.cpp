@@ -1,6 +1,7 @@
 /* 
  * File:   Stations.cpp
- * Author: guido
+ * Author: Guido Cervone <cervone@psu.edu>
+ *         Weiming Hu <cervone@psu.edu>
  *
  * Created on April 17, 2018, 10:41 PM
  * 

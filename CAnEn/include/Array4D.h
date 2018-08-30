@@ -1,6 +1,7 @@
 /* 
  * File:   Array4D.h
- * Author: Guido Cervone
+ * Author: Guido Cervone <cervone@psu.edu>
+ *         Weiming Hu <cervone@psu.edu>
  *
  * Created on October 1, 2013, 9:00 AM
  *

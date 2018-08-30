@@ -1,5 +1,5 @@
 /*
- * Author: Weiming Hu
+ * Author: Weiming Hu <weiming@psu.edu>
  *
  * Created on August 15, 2018
  *

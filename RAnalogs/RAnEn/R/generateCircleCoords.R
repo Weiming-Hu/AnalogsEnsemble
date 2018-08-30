@@ -4,7 +4,7 @@
 #    _ ..`--'_..-_/  /--'_.' ,'
 #  (il),-''  (li),'  ((!.-'
 # 
-# Author: Weiming Hu <wuh20@psu.edu>
+# Author: Weiming Hu <weiming@psu.edu>
 #         Geoinformatics and Earth Observation Laboratory (http://geolab.psu.edu)
 #         Department of Geography and Institute for CyberScience
 #         The Pennsylvania State University

@@ -1,0 +1,87 @@
+matrix:
+   include:
+     - os: linux
+       language: cpp
+       addons:
+         apt:
+           sources:
+             - ubuntu-toolchain-r-test
+           packages:
+             - g++-4.9
+       env:
+         - MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9"
+         - ENVIRONMENT_LANGUAGE="c++"
+
+     - os: linux
+       language: cpp
+       addons:
+         apt:
+           sources:
+             - ubuntu-toolchain-r-test
+           packages:
+             - g++-4.9
+             - libnetcdf-dev
+       env:
+         - MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9"
+         - ENVIRONMENT_LANGUAGE="c++"
+
+     - os: linux
+       language: cpp
+       addons:
+          apt:
+            sources:
+              - ubuntu-toolchain-r-test
+            packages:
+             - g++-7
+       env:
+         - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+         - ENVIRONMENT_LANGUAGE="c++"
+
+
+     - os: linux
+       language: cpp
+       addons:
+          apt:
+            sources:
+              - ubuntu-toolchain-r-test
+            packages:
+             - g++-7
+             - libnetcdf-dev
+       env:
+         - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+         - ENVIRONMENT_LANGUAGE="c++"
+
+     - os: osx
+       language: cpp
+       env:
+         - MATRIX_EVAL=""
+         - ENVIRONMENT_LANGUAGE="c++"
+
+     - os: linux
+       language: r
+       cache: Rcpp
+       env:
+         - ENVIRONMENT_LANGUAGE="r"
+
+     - os: osx
+       language: r
+       cache: Rcpp
+       env:
+         - ENVIRONMENT_LANGUAGE="r"
+
+before_install:
+    - cmake --version
+    - eval "${MATRIX_EVAL}"
+    - if [[ "$ENVIRONMENT_LANGUAGE" == "c++" ]]; then if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew cask uninstall oclint; brew install netcdf; fi; fi
+    - if [[ "$ENVIRONMENT_LANGUAGE" == "r" ]]; then R -e "install.packages('Rcpp')"; R -e "install.packages('BH')";fi
+
+install:
+    - if [[ "$ENVIRONMENT_LANGUAGE" == "r" ]]; then mkdir build-RAnEn; cd build-RAnEn; cmake -DINSTALL_RAnEn=TRUE -DR_COMMAND=`which R` ..; fi
+
+script:
+    - if [[ "$ENVIRONMENT_LANGUAGE" == "c++" ]]; then mkdir build; cd build; cmake -DVERBOSE=TRUE ..; make; fi
+    - if [[ "$ENVIRONMENT_LANGUAGE" == "r" ]]; then make; fi
+
+after_success:
+    - if [[ "$ENVIRONMENT_LANGUAGE" == "c++" ]]; then make test; fi
+    - if [[ "$ENVIRONMENT_LANGUAGE" == "r" ]]; then R -e "library(RAnEn)"; fi
