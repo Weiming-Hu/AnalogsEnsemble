@@ -67,7 +67,7 @@ config$circulars <- forecasts.circulars
 validateConfiguration(config)
 AnEn.cpp <- generateAnalogs(config)
 
-analogs.cpp <- AnEn.cpp$analogs[,,,,3]
+analogs.cpp <- AnEn.cpp$analogs[,,,,1]
 
 if(!identical(analogs.cpp, analogs.java)) {
     stop('Wind test failed!')
@@ -114,7 +114,7 @@ config$circulars <- forecasts.circulars
 validateConfiguration(config)
 AnEn.cpp <- generateAnalogs(config)
 
-analogs_WU <- AnEn.cpp$analogs[,,,,3]
+analogs_WU <- AnEn.cpp$analogs[,,,,1]
 
 if (!identical(analogs_WU[1,,],analogs.java[1,,])) {
     stop('Solar test failed!')

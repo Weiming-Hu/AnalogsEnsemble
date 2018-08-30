@@ -31,7 +31,7 @@ print.AnEn <- function (x) {
     empty <- F
     cat("Member 'analogs': [test station][test time][FLT][member][type]\n")
     cat(dim(x$analogs))
-    cat(" (search station, search observation time, value)")
+    cat(" (value, search station, search observation time)")
     cat("\n")
   }
   
@@ -39,7 +39,7 @@ print.AnEn <- function (x) {
   	empty <- F
   	cat("Member 'similarity': [test station][test time][FLT][member][type]\n")
   	cat(dim(x$similarity))
-  	cat(" (search station, search forecast time, value)")
+  	cat(" (value, search station, search observation time)")
   	cat("\n")
   }
   

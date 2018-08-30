@@ -39,6 +39,7 @@ generateAnalogs <- function(configuration) {
 			configuration$observation_times, configuration$num_members,
 			configuration$observation_id, configuration$quick,
 			configuration$circulars, search_extension,
+			configuration$preserve_real_time,
 			configuration$preserve_similarity, 
 			configuration$preserve_mapping, preserve_search_stations,
 			max_num_search_stations, distance,
@@ -60,6 +61,7 @@ generateAnalogs <- function(configuration) {
 			configuration$observation_times, configuration$num_members,
 			configuration$observation_id, configuration$quick,
 			configuration$circulars, search_extension,
+			configuration$preserve_real_time,
 			configuration$preserve_similarity,
 			configuration$preserve_mapping,
 			configuration$preserve_search_stations,
@@ -85,8 +87,12 @@ generateAnalogs <- function(configuration) {
 		}
 	}
 	
+	if (!configuration$preserve_real_time) {
+	  AnEn$analogs[, , , , 2] <- AnEn$analogs[, , , , 2, drop = F] + 1
+	}
+	
 	# Convert the station index from C counting to R counting
-	AnEn$analogs[, , , , 1] <- AnEn$analogs[, , , , 1, drop = F] + 1
+	AnEn$analogs[, , , , 3] <- AnEn$analogs[, , , , 3, drop = F] + 1
 	AnEn$similarity[, , , , 1:2] <- AnEn$similarity[, , , , 1:2, drop = F] + 1
 	
 	if (configuration$preserve_mapping) AnEn$mapping <- AnEn$mapping + 1

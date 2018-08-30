@@ -17,8 +17,8 @@
  * \brief This is the class to store analogs. The default dimensions are:
  *           [test stations][test times][FLTs][members][3]
  * 
- * The fifth dimension stores in sequence the search station indicator, the
- * search time indicator, and the observed value.
+ * The fifth dimension stores in sequence the observed value, the search
+ * time indicator, and the search station indicator. 
  */
 class Analogs : public boost::multi_array<double, 5> {
 public:
@@ -31,9 +31,9 @@ public:
 
     enum COL_TAG {
         UNKNOWN = -999,
-        STATION = 0,
-        TIME = 1,
-        VALUE = 2
+        VALUE = 0,
+        STATION = 1,
+        TIME = 2
     };
 
     anenTime::FLTs getFLTs() const;

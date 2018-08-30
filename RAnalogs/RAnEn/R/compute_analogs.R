@@ -12,16 +12,6 @@
 ##################
 #   Deprecated   #
 ##################
-#' RAnEn::rcpp_compute_analogs
-#' 
-#' RAnEn::rcpp_compute_analogs is deprecated. Please see
-#' \code{\link{compute_analogs}}
-#' 
-#' @import Rcpp BH
-#' @importFrom Rcpp evalCpp
-#' @useDynLib RAnEn
-#' 
-#' @export
 rcpp_compute_analogs <- function(forecasts,
                                  observations,
                                  circulars = vector(mode = 'numeric'),
@@ -45,7 +35,7 @@ rcpp_compute_analogs <- function(forecasts,
                                  output_metric = F,
                                  verbose = 1,
                                  parameter_ID = NA) {
-  cat("WARNING: Function rcpp_compute_analogs is deprecated. Please use generateAnalogs!\n")
+  cat("Warning: Function rcpp_compute_analogs is deprecated. Please use generateAnalogs!\n")
   analogs <- compute_analogs(forecasts = forecasts,
                              observations = observations,
                              circulars = circulars,
@@ -74,140 +64,6 @@ rcpp_compute_analogs <- function(forecasts,
   return(analogs)
 }
 
-#' RAnEn::compute_analogs
-#' 
-#' RAnEn::compute_analogs computes Analog Ensembles and return the results
-#' in an AnEn class object.
-#' 
-#' For algorithm details, please see references.
-#' 
-#' @author Weiming Hu \email{weiming@@psu.edu}
-#' 
-#' @import Rcpp BH
-#' 
-#' @importFrom Rcpp evalCpp
-#' 
-#' @useDynLib RAnEn
-#' 
-#' @param forecasts A 4-dimensional double array that contains all the 
-#' forecast parameter values. The expected structure is \bold{forecasts
-#' [parameter, station, day, flt]} where flt stands for forecast lead time.
-#' @param observations A 4-dimensional double array that contains all the 
-#' observation parameter values. The expected structure is \bold{
-#' observations[parameter, station, day, flt]} where flt stands for 
-#' forecast lead time.
-#' @param circulars An integer vector that specifies which parameter(s) in 
-#' the forecasts should be circular. For example, wind direction is a circular
-#'  parameter because 0 and 360 are the same directinos.
-#' @param weights An double vector that specifies the weight strategy used 
-#' while computing the analog ensembles. The number of the weights should be 
-#' the same as the number of parameters in the forecasts. By default it sets 
-#' a uniform weights for all parameters.
-#' @param stations_ID An integer vector that specifies the station ids for 
-#' which you want to compute analog ensemble. By default it uses all stations.
-#' @param test_ID_start An integer specifies the first day that will be used 
-#' for testing.
-#' @param test_ID_end An integer specifies the last day that will be used for 
-#' testing.
-#' @param train_ID_start An integer specifies the first day that will be used 
-#' for training.
-#' @param train_ID_end An integer specifies the last day that will be used for
-#'  training. If rolling is set, train_ID_end will by default set to 
-#'  test_ID_start + rolling.
-#' @param observation_ID An integer specifies for which parameter you want to
-#'  compute analog ensembles. By default, it is set to 1 if observations only
-#' have one parameter.
-#' @param members_size An integer specifies how many members there should be in 
-#' each analog ensemble.
-#' @param rolling An integer that is either 0 or negative. 0 indicates that no 
-#' rolling strategy will be used; a negative integer indicates the offset of 
-#' training days.
-#' @param quick A boolean value that specifies the sorting strategy. After 
-#' computing the standard deviations, when choosing the most matching past 
-#' forecasts, TRUE indicates partial sort and FALSE indicates global sort.
-#' @param cores An integer indicating that how many threads you want to create 
-#' if OpenMP is supported in your machine.
-#' @param search_extension A boolean value that specifies whether to use extended 
-#' search space.
-#' @param observation_from_extended_station A boolean value that specifies whether
-#'  to take observations from the extended stations.
-#' @param recompute_sd_for_extended_station A boolean value that specifies whether 
-#' to recompute standard deviation for extended stations. This might cause a 
-#' significant slow-down of the process.
-#' @param verbose An integer indicating the level of output information. 0 means 
-#' no output, 1 means little, and 2 means detailed output. By default, it is 1.
-#' 
-#' @return An AnEn list. Possible list members include analogs, metrics, and 
-#' search_stations. The list member analogs is a 5-dimensional array that contains
-#' values and indices of ensemble members from the variable observations.
-#' The structure returned is \bold{analogs[stations, #' days, flt, members, ...]}
-#' where flt stands for forecast lead time. The size of #' the fifth dimension is 3,
-#' storing the value [,,,,1], station index [,,,,2], and day index [,,,,3]. The list 
-#' member metrics shows the similarity between the test forecast (specified in the element's
-#' name) and all available train forecasts. The list member search_stations has the
-#' extended search stations ID for the main station specified in element's name.
-#' 
-#' @examples
-#' library(RAnEn)
-#'
-#' # load the example datasets
-#' data(Forecasts)
-#' data(Observations)
-#' dim(forecasts)
-#' dim(observations)
-#' 
-#' # use the last 2 days for testing
-#' test_ID_start      <- 8
-#' test_ID_end        <- 10
-#' 
-#' # use the first 7 days for training
-#' train_ID_start      <- 1
-#' train_ID_end        <- 7
-#' 
-#' # other parameters for the function
-#' weights             <- c(1,1,1,1)
-#' stations_ID         <- c(1,2)
-#' members_size        <- 3
-#' rolling             <- -2
-#' quick               <- TRUE
-#' forecasts.circulars <- 4
-#' observation_ID      <- 1
-#' cores               <- 1
-#' 
-#' 
-#' # compute analogs
-#' analogs <- compute_analogs(forecasts,
-#'                            observations,
-#'                            forecasts.circulars,
-#'                            weights = weights,
-#'                            stations_ID = stations_ID,
-#'                            test_ID_start = test_ID_start,
-#'                            test_ID_end = test_ID_end,
-#'                            train_ID_start = train_ID_start,
-#'                            train_ID_end = train_ID_end,
-#'                            observation_ID = observation_ID,
-#'                            members_size = members_size,
-#'                            rolling = rolling,
-#'                            quick = quick,
-#'                            cores = cores)
-#' 
-#' dim(analogs)
-#' 
-#' 
-#' @references 
-#' Delle Monache, Luca, et al. "Probabilistic weather prediction with an 
-#' analog ensemble." Monthly Weather Review 141.10 (2013): 3498-3516.
-#' 
-#' Cervone, Guido, et al. "Short-term photovoltaic power forecasting using 
-#' Artificial Neural Networks and an Analog Ensemble." Renewable Energy (2017).
-#' 
-#' Alessandrini, S., et al. "An analog ensemble for short-term probabilistic 
-#' solar power forecast." Applied energy 157 (2015): 95-110.
-#' 
-#' Alessandrini, S., et al. "A novel application of an analog ensemble for 
-#' short-term wind power forecasting." Renewable Energy 76 (2015): 768-781.
-#' 
-#' @export
 compute_analogs <- function(forecasts,
                             observations,
                             circulars = vector(mode = 'numeric'),
@@ -231,11 +87,11 @@ compute_analogs <- function(forecasts,
                             output_metric = F,
                             verbose = 1,
                             parameter_ID = NA) {
-  cat("WARNING: Function compute_analogs is deprecated. Please use generateAnalogs!\n")
+  cat("Warning: Function compute_analogs is deprecated. Please use generateAnalogs!\n")
   
   # check deprecation
   if (!identical(NA, parameter_ID)) {
-    print("WARNING: parameter_ID is deprecated! Use observation_ID instead.")
+    print("Warning: parameter_ID is deprecated! Use observation_ID instead.")
     if (!identical(NA, observation_ID)) {
       return(0)
     }
@@ -295,7 +151,7 @@ compute_analogs <- function(forecasts,
     return(0)
   }
   if (!all(!duplicated(stations_ID))) {
-    print("WARNING: there are duplicate(s) in stations_ID. The program will ignore duplicates!")
+    print("Warning: there are duplicate(s) in stations_ID. The program will ignore duplicates!")
     stations_ID <- unique(stations_ID)
   }
   
@@ -521,9 +377,9 @@ compute_analogs <- function(forecasts,
   if (recompute_sd_for_extended_station)
     cat('Warning: recompute_sd_for_extended_station is not supported.\n')
   
-  if (rolling < 0) cat('Warning: rolling is not supported.')
+  if (rolling < 0) cat('Warning: rolling is not supported.\n')
   
-  if (cores != 0) cat('Warning: cores are automatically detected.')
+  if (cores != 0) cat('Warning: cores are automatically detected.\n')
   
   
   config$observation_id = config$observation_id - 1
@@ -552,6 +408,7 @@ compute_analogs <- function(forecasts,
       config$observation_times, config$num_members,
       config$observation_id, config$quick,
       config$circulars, search_extension,
+      config$preserve_real_time,
       config$preserve_similarity, 
       config$preserve_mapping, preserve_search_stations,
       max_num_search_stations, distance,
@@ -573,6 +430,7 @@ compute_analogs <- function(forecasts,
       config$observation_times, config$num_members,
       config$observation_id, config$quick,
       config$circulars, search_extension,
+      config$preserve_real_time,
       config$preserve_similarity,
       config$preserve_mapping,
       config$preserve_search_stations,
@@ -598,8 +456,12 @@ compute_analogs <- function(forecasts,
     }
   }
   
+  if (!config$preserve_real_time) {
+    AnEn$analogs[, , , , 2] <- AnEn$analogs[, , , , 2, drop = F] %/% dim(config$test_forecasts)[4] + 1
+  }
+  
   # Convert the station index from C counting to R counting
-  AnEn$analogs[, , , , 1] <- AnEn$analogs[, , , , 1, drop = F] + 1
+  AnEn$analogs[, , , , 3] <- AnEn$analogs[, , , , 3, drop = F] + 1
   AnEn$similarity[, , , , 1:2] <- AnEn$similarity[, , , , 1:2, drop = F] + 1
   
   if (config$preserve_mapping) AnEn$mapping <- AnEn$mapping + 1

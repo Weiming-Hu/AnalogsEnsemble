@@ -86,7 +86,7 @@ void testSimilarityMatrices::testMatricesSort() {
         throw length_error("Number of elements don't match!");
     sims.assign(initials.begin(), initials.end());
 
-    sims.sortRows(false, 0, SimilarityMatrices::COL_TAG::VALUE);
+    sims.sortRows(false, 0, SimilarityMatrices::COL_TAG::TIME);
     vector<double> results1 = {
         4, 2, 1, 0, 1, 5, 4, 3, 5, 0, 2, 8, 0, 3, 9, NAN, NAN, NAN,
         2, 3, 1, 1, 2, 3, 4, 6, 3, 9, 1, 5, 7, 8, 10, NAN, NAN, NAN,
@@ -104,7 +104,7 @@ void testSimilarityMatrices::testMatricesSort() {
         }
     }
 
-    sims.sortRows(false, 0, SimilarityMatrices::COL_TAG::TIME);
+    sims.sortRows(false, 0, SimilarityMatrices::COL_TAG::STATION);
     vector<double> results2 = {
         0, 1, 5, 4, 2, 1, 0, 2, 8, 4, 3, 5, 0, 3, 9, NAN, NAN, NAN,
         9, 1, 5, 1, 2, 3, 2, 3, 1, 4, 6, 3, 7, 8, 10, NAN, NAN, NAN,
@@ -122,7 +122,7 @@ void testSimilarityMatrices::testMatricesSort() {
         }
     }
 
-    sims.sortRows(true, 3);
+    sims.sortRows(true, 3, SimilarityMatrices::COL_TAG::TIME);
     vector< vector<double> > results3 = {
         {1, 5, 5}, {1, 3, 3}, {1, 2, 5},
         {1, 1, 3}, {6, 6, 7}, {1, 3, 4}
@@ -133,10 +133,10 @@ void testSimilarityMatrices::testMatricesSort() {
         for (size_t j = 0; j < sims.shape()[1]; j++) 
             for (size_t k = 0; k < sims.shape()[2]; k++, pos++) {
                 CPPUNIT_ASSERT( find(results3[pos].begin(), results3[pos].end(),
-                            sims[i][j][k][0][SimilarityMatrices::COL_TAG::VALUE]) != results3[pos].end());
+                            sims[i][j][k][0][SimilarityMatrices::COL_TAG::TIME]) != results3[pos].end());
                 CPPUNIT_ASSERT( find(results3[pos].begin(), results3[pos].end(),
-                            sims[i][j][k][1][SimilarityMatrices::COL_TAG::VALUE]) != results3[pos].end());
+                            sims[i][j][k][1][SimilarityMatrices::COL_TAG::TIME]) != results3[pos].end());
                 CPPUNIT_ASSERT( find(results3[pos].begin(), results3[pos].end(),
-                            sims[i][j][k][2][SimilarityMatrices::COL_TAG::VALUE]) != results3[pos].end());
+                            sims[i][j][k][2][SimilarityMatrices::COL_TAG::TIME]) != results3[pos].end());
             }
 }

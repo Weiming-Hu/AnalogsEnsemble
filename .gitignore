@@ -34,7 +34,7 @@
 # Netbeans
 *nbproject
 *dist
-*build
+*build*
 #*.mk
 
 # Mac
@@ -48,7 +48,7 @@
 *Rhistory
 
 # Customize
-build
+build*
 output
 dependency
 doxygen-output

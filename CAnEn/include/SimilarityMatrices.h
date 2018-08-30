@@ -18,8 +18,8 @@
  *  of SimilarityMatrices are:
  *  [test stations][test times][test FLTs][Number of entries for comparison][3]
  * 
- * The second dimension stores in sequence station indicator, time indicator,
- * and similarity metric value.
+ * The second dimension stores in sequence similarity metric value, time
+ * indicator, and station indication.
  */
 class SimilarityMatrices : public boost::multi_array <double, 5> {
 public:
@@ -32,9 +32,9 @@ public:
     ~SimilarityMatrices();
 
     enum COL_TAG {
-        STATION = 0,
-        TIME = 1,
-        VALUE = 2
+        VALUE = 0,
+        STATION = 1,
+        TIME = 2
     };
 
     struct matrixSort {

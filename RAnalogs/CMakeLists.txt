@@ -64,7 +64,9 @@ if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Release")
 endif(NOT CMAKE_BUILD_TYPE)
 
-set(CXX_FLAGS_RELEASE "-Wno-unused-variable -Wno-unused-but-set-variable -Wno-deprecated -Wno-sign-compare -Wno-unused-local-typedefs")
+# inhibit all warnings for Release mode
+#set(CXX_FLAGS_RELEASE "-Wno-unused-variable -Wno-unused-but-set-variable -Wno-deprecated -Wno-sign-compare -Wno-unused-local-typedefs")
+set(CXX_FLAGS_RELEASE "-w")
 
 if(CMAKE_BUILD_TYPE STREQUAL "Release")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CXX_FLAGS_RELEASE}")
