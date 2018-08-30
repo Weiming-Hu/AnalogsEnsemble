@@ -184,7 +184,7 @@ _Table generated from [Tables Generator](https://www.tablesgenerator.com/markdow
 
 ## Feedbacks
 
-We appreciate collaborations and feedbacks from users. Please contact the maintainer [weiming@psu.edu](weiming@psu.edu), or create tickets if you have any problems.
+We appreciate collaborations and feedbacks from users. Please contact maintainer [Weiming Hu](http://weiming.ddns.net) through [weiming@psu.edu](weiming@psu.edu), or create tickets if you have any problems.
 
 Thank you!
 
