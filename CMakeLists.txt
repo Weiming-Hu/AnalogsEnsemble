@@ -37,8 +37,16 @@ endif(EXISTS ${COMMON_OUTPUT_DIR})
 # supercomputers where modules are always loaded, rather
 # than installed at the standard location.
 #
-SET(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
-SET(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
+set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+
+# This variable is used for all the external projects
+# to deal with RPATH issues
+#
+set(RPATH_ARGS "-DCMAKE_INSTALL_RPATH_USE_LINK_PATH=${CMAKE_INSTALL_RPATH_USE_LINK_PATH}")
+set(RPATH_ARGS ${RPATH_ARGS} "-DCMAKE_INSTALL_RPATH=${CMAKE_INSTALL_RPATH}")
+set(RPATH_ARGS ${RPATH_ARGS} "-DCMAKE_MACOSX_RPATH=${CMAKE_MACOSX_RPATH}")
+
 
 # if INSTALL_RAnEn is set to TRUE
 # only install RAnEn package
@@ -187,7 +195,7 @@ if(CMAKE_BUILD_TESTS)
 
         string(REPLACE ";" "|" CPPUNIT_ALT_CMAKE_PREFIX_PATH "${CMAKE_PREFIX_PATH}")
         set(CPPUNIT_PREFIX_PATH "-DCMAKE_PREFIX_PATH=${CPPUNIT_ALT_CMAKE_PREFIX_PATH}")
-        set(CPPUNIT_CMAKE_ARGS ${CPPUNIT_CMAKE_ARGS} ${CPPUNIT_PREFIX_PATH})
+        set(CPPUNIT_CMAKE_ARGS ${CPPUNIT_CMAKE_ARGS} ${CPPUNIT_PREFIX_PATH} ${RPATH_ARGS})
 
         if(VERBOSE)
             # If verbose is set to true, the following information will be printed

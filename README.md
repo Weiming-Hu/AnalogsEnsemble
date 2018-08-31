@@ -31,15 +31,17 @@ This package contains several libraries and applications:
 
 **This package has been developed and tested on Linux and MacOS and is not guaranteed on Windows.**
 
-## Dependencies
+## Requirement and Dependencies
 
-A list of dependency is provided below. Note that you don't necessarily have to install them all before installing the CAnEn library because some of them can be automatically installed during the make process, or because you may not want to install some of the modules.
+A list of requirement and dependency is provided below. Note that you don't necessarily have to install them all before installing the CAnEn library because some of them can be automatically installed during the make process, or because you may not want to install only parts of the modules.
 
 - CMake
-- netcdf-c, which depends on HDF5, cul, and zlib
+- GCC/Clang
+- NetCDF-C, which depends on HDF5, cul, and zlib
 - Boost
 - OpenMP
 - R
+- CppUnit
 
 ## Installation
 
