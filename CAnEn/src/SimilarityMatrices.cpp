@@ -148,7 +148,7 @@ SimilarityMatrices::getTargets() const {
 
 void
 SimilarityMatrices::setOrderTag(COL_TAG order_tag) {
-    if (order_tag >= STATION || order_tag <= VALUE) order_tag_ = order_tag_;
+    if (order_tag >= STATION || order_tag <= VALUE) order_tag_ = order_tag;
     else throw range_error("Error: Invalid order tag");
 }
 

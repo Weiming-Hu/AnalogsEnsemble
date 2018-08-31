@@ -26,11 +26,11 @@ Array4D::Array4D(size_t d1, size_t d2, size_t d3, size_t d4) {
     //cout << "Array4D Constructor: With Dimensions" << endl;
     try {
         resize(boost::extents[d1][d2][d3][d4]);
-    } catch (bad_alloc e) {
+    } catch (bad_alloc & e) {
         cerr << "ERROR: insufficient memory while resizing the array4D to hold "
                 << d1 * d2 * d3 * d4 << " double values"
                 << endl;
-        throw e;
+        throw;
     }
 
 }
@@ -89,8 +89,7 @@ Array4D::setDataFromVector(vector<double> const & data,
     vector<double>::const_iterator citer;
 
     for (citer = data.begin();
-            citer != data.end();
-            citer++) {
+            citer != data.end(); ++citer) {
         if (m == M) {
             m = 0;
             n++;

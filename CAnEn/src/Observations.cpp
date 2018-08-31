@@ -209,7 +209,7 @@ Observations_array::updateDataDims() {
                 << " array4D to hold " << parameters_.size() << "x"
                 << stations_.size() << "x" << times_.size()
                 << " double values." << endl;
-        throw e;
+        throw;
     }
 }
 

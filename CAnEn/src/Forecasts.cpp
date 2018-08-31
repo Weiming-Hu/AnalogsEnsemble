@@ -223,7 +223,7 @@ Forecasts_array::updateDataDims() {
                 << " array4D to hold " << getFLTsSize() << "x"
                 << getParametersSize() << "x" << getStationsSize() << "x"
                 << getTimesSize() << " double values." << endl;
-        throw e;
+        throw;
     }
 }
 

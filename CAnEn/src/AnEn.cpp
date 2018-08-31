@@ -95,11 +95,12 @@ AnEn::computeSearchWindows(boost::numeric::ublas::matrix<size_t> & windows,
 
     if (verbose_ >= 3) cout << "Computing search windows for FLT ... " << endl;
 
-    int begin = 0;
-    size_t end = 0;
     windows.resize(num_flts, 2);
 
     for (size_t i_flt = 0; i_flt < num_flts; i_flt++) {
+        int begin = 0;
+        size_t end = 0;
+
         begin = i_flt - window_half_size;
         end = i_flt + window_half_size;
         windows(i_flt, 0) = (begin < 0) ? 0 : begin;
@@ -709,7 +710,6 @@ AnEn::sdLinear(const vector<double>& values) const {
 double
 AnEn::sdCircular(const vector<double>& values) const {
 
-    double rad;
     vector<double> sins(values.size());
     vector<double> coss(values.size());
 
@@ -717,7 +717,7 @@ AnEn::sdCircular(const vector<double>& values) const {
 
         // This is to convert from degrees to radians
         //
-        rad = values[i] * MULTIPLY;
+        double rad = values[i] * MULTIPLY;
 
         sins[i] = sin(rad);
         coss[i] = cos(rad);

@@ -1212,7 +1212,7 @@ AnEnIO::writeFLTs(const anenTime::FLTs& flts, bool unlimited) const {
     double* p = nullptr;
     try {
         p = new double [flts.size()]();
-    } catch (bad_alloc e) {
+    } catch (bad_alloc & e) {
         cout << BOLDRED << "Error: Insufficient memory to write FLTs ("
                 << flts.size() << ")." << RESET << endl;
         nc.close();
@@ -1251,11 +1251,11 @@ AnEnIO::writeParameters(const anenPar::Parameters& parameters,
 
     // Check if parameters have weights
     size_t num_nan = 0;
-    double tmp = 0.0, sum = 0.0;
+    double sum = 0.0;
     const anenPar::multiIndexParameters::index<anenPar::by_insert>::type &
             parameters_by_insert = parameters.get<anenPar::by_insert>();
     for (const auto & parameter : parameters_by_insert) {
-        tmp = parameter.getWeight();
+        double tmp = parameter.getWeight();
         if (std::isnan(tmp)) {
             num_nan++;
         } else {
