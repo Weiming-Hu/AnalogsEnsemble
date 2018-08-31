@@ -15,7 +15,7 @@ include_directories ("${CMAKE_CURRENT_SOURCE_DIR}/include")
 set(EXTRA_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/CAnEn/include")
 include_directories(${EXTRA_INCLUDE_DIR})
 
-set(EXTRA_SOURCE_FILES "Times;Stations;Parameters;Forecasts;Analogs;SimilarityMatrices;Observations")
+set(EXTRA_SOURCE_FILES "Array4D;Times;Stations;Parameters;Forecasts;Analogs;SimilarityMatrices;Observations")
 
 foreach(file ${EXTRA_SOURCE_FILES})
     set(EXTRA_SOURCE_FILE "${CMAKE_SOURCE_DIR}/CAnEn/src/${file}.cpp")
@@ -31,6 +31,15 @@ endforeach(file ${EXTRA_SOURCE_FILES})
 # build and link #
 ##################
 add_library (${LIBRARY_NAME} SHARED ${SOURCES})
+
+if(BOOST_TYPE STREQUAL "BUILD")
+    target_link_libraries (${LIBRARY_NAME} "system")
+    target_link_libraries (${LIBRARY_NAME} "filesystem")
+    target_link_libraries (${LIBRARY_NAME} "program_options")
+elseif(BOOST_TYPE STREQUAL "SYSTEM")
+    target_link_libraries (${LIBRARY_NAME} ${Boost_LIBRARIES})
+    target_link_libraries (${LIBRARY_NAME} ${Boost_LIBRARIES})
+endif(BOOST_TYPE STREQUAL "BUILD")
 
 include_directories(${NETCDF_CXX4_INCLUDE_DIR})
 add_dependencies(${LIBRARY_NAME} NETCDF_CXX4_PROJECT)

@@ -19,7 +19,94 @@ matrix:
            sources:
              - ubuntu-toolchain-r-test
            packages:
+             - g++-5
+       env:
+         - MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9"
+         - ENVIRONMENT_LANGUAGE="c++"
+
+     - os: linux
+       language: cpp
+       addons:
+         apt:
+           sources:
+             - ubuntu-toolchain-r-test
+           packages:
+             - g++-6
+       env:
+         - MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9"
+         - ENVIRONMENT_LANGUAGE="c++"
+
+     - os: linux
+       language: cpp
+       addons:
+         apt:
+           sources:
+             - ubuntu-toolchain-r-test
+           packages:
+             - g++-7
+       env:
+         - MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9"
+         - ENVIRONMENT_LANGUAGE="c++"
+
+     - os: linux
+       language: cpp
+       addons:
+          apt:
+            sources:
+              - ubuntu-toolchain-r-test
+            packages:
+             - g++-8
+       env:
+         - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+         - ENVIRONMENT_LANGUAGE="c++"
+
+     - os: linux
+       language: cpp
+       addons:
+         apt:
+           sources:
+             - ubuntu-toolchain-r-test
+           packages:
              - g++-4.9
+             - libnetcdf-dev
+       env:
+         - MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9"
+         - ENVIRONMENT_LANGUAGE="c++"
+
+     - os: linux
+       language: cpp
+       addons:
+         apt:
+           sources:
+             - ubuntu-toolchain-r-test
+           packages:
+             - g++-5
+             - libnetcdf-dev
+       env:
+         - MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9"
+         - ENVIRONMENT_LANGUAGE="c++"
+
+     - os: linux
+       language: cpp
+       addons:
+         apt:
+           sources:
+             - ubuntu-toolchain-r-test
+           packages:
+             - g++-6
+             - libnetcdf-dev
+       env:
+         - MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9"
+         - ENVIRONMENT_LANGUAGE="c++"
+
+     - os: linux
+       language: cpp
+       addons:
+         apt:
+           sources:
+             - ubuntu-toolchain-r-test
+           packages:
+             - g++-7
              - libnetcdf-dev
        env:
          - MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9"
@@ -32,21 +119,8 @@ matrix:
             sources:
               - ubuntu-toolchain-r-test
             packages:
-             - g++-7
-       env:
-         - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
-         - ENVIRONMENT_LANGUAGE="c++"
-
-
-     - os: linux
-       language: cpp
-       addons:
-          apt:
-            sources:
-              - ubuntu-toolchain-r-test
-            packages:
-             - g++-7
              - libnetcdf-dev
+             - g++-8
        env:
          - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
          - ENVIRONMENT_LANGUAGE="c++"

@@ -1,6 +1,16 @@
 cmake_minimum_required(VERSION 2.8)
 project(ParallelEnsembleForecasts)
 
+# policy setting for backward compatibility
+if(POLICY CMP0054)
+    cmake_policy(SET CMP0054 NEW)
+endif(POLICY CMP0054)
+
+if(POLICY CMP0042)
+    cmake_policy(SET CMP0042 NEW)
+endif(POLICY CMP0042)
+set(CMAKE_MACOSX_RPATH TRUE)
+
 enable_language(CXX C)
 option(VERBOSE "verbose standout output" OFF)
 option(CMAKE_BUILD_TESTS "Build tests" OFF)
@@ -21,15 +31,6 @@ set(COMMON_OUTPUT_DIR "${CMAKE_SOURCE_DIR}/output")
 if (EXISTS ${COMMON_OUTPUT_DIR})
     file(REMOVE_RECURSE ${COMMON_OUTPUT_DIR})
 endif(EXISTS ${COMMON_OUTPUT_DIR})
-
-# policy setting for backward compatibility
-if(POLICY CMP0054)
-    cmake_policy(SET CMP0054 NEW)
-endif(POLICY CMP0054)
-
-if(POLICY CMP0042)
-    cmake_policy(SET CMP0042 NEW)
-endif(POLICY CMP0042)
 
 # set this variable to prevent CMake from removing
 # non-standard build paths. This would be helpful on
@@ -90,9 +91,14 @@ if (${CMAKE_COMPILER_IS_GNUCXX})
     endif(CMAKE_CXX_COMPILER_VERSION VERSION_LESS "4.9")
 endif (${CMAKE_COMPILER_IS_GNUCXX})
 
-# set c++11 standard
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+include(CheckCXXCompilerFlag)
+CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
+if(COMPILER_SUPPORTS_CXX11)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c++11")
+else()
+    message(FATAL_ERROR "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
+endif()
 
 # compiler flags for Debug and Release
 set (CMAKE_CXX_FLAGS_DEBUG "-g -Wall -Wextra")
