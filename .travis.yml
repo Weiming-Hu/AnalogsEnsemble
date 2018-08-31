@@ -57,7 +57,7 @@ matrix:
             packages:
              - g++-8
        env:
-         - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+         - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
          - ENVIRONMENT_LANGUAGE="c++"
 
      - os: linux
@@ -122,7 +122,7 @@ matrix:
              - libnetcdf-dev
              - g++-8
        env:
-         - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+         - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
          - ENVIRONMENT_LANGUAGE="c++"
 
      - os: osx
@@ -150,10 +150,10 @@ before_install:
     - if [[ "$ENVIRONMENT_LANGUAGE" == "r" ]]; then R -e "install.packages('Rcpp')"; R -e "install.packages('BH')";fi
 
 install:
-    - if [[ "$ENVIRONMENT_LANGUAGE" == "r" ]]; then mkdir build-RAnEn; cd build-RAnEn; cmake -DINSTALL_RAnEn=TRUE -DR_COMMAND=`which R` ..; fi
+    - if [[ "$ENVIRONMENT_LANGUAGE" == "r" ]]; then mkdir build-RAnEn; cd build-RAnEn; cmake -DINSTALL_RAnEn=On -DR_COMMAND=`which R` ..; fi
 
 script:
-    - if [[ "$ENVIRONMENT_LANGUAGE" == "c++" ]]; then mkdir build; cd build; cmake -DVERBOSE=TRUE ..; make; fi
+    - if [[ "$ENVIRONMENT_LANGUAGE" == "c++" ]]; then mkdir build; cd build; cmake -DCMAKE_BUILD_TESTS=ON -DVERBOSE=TRUE ..; make -j16; fi
     - if [[ "$ENVIRONMENT_LANGUAGE" == "r" ]]; then make; fi
 
 after_success:

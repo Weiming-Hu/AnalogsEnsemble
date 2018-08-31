@@ -16,4 +16,5 @@ else ()
     message (FATAL_ERROR "ERROR: Cannot find Boost minimal_boost library!")
 endif ()
 
-add_library(${LIBRARY_NAME} STATIC ${SOURCES})
+#add_library(${LIBRARY_NAME} STATIC ${SOURCES})
+add_library(${LIBRARY_NAME} SHARED ${SOURCES})

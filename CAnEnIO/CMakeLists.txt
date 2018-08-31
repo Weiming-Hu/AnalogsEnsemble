@@ -48,42 +48,6 @@ add_dependencies(${LIBRARY_NAME} NETCDF_CXX4_PROJECT)
 # https://stackoverflow.com/questions/35934112/installing-an-externalproject-with-cmake
 set(AnEnIO_RPATH "")
 
-#if(HDF5_BUILT)
-#    include(ExternalProject)
-#    ExternalProject_Get_Property(HDF5_PROJECT install_dir)
-#
-#    add_library(hdf5_built SHARED IMPORTED)
-#    set_target_properties(hdf5_built
-#        PROPERTIES IMPORTED_LOCATION "${install_dir}/install/lib/${CMAKE_SHARED_LIBRARY_PREFIX}hdf5${CMAKE_SHARED_LIBRARY_SUFFIX}")
-#    add_dependencies(hdf5_built HDF5_PROJECT)
-#
-#    add_library(hdf5_hl_built SHARED IMPORTED)
-#    set_target_properties(hdf5_hl_built
-#        PROPERTIES IMPORTED_LOCATION "${install_dir}/install/lib/${CMAKE_SHARED_LIBRARY_PREFIX}hdf5_hl${CMAKE_SHARED_LIBRARY_SUFFIX}")
-#    add_dependencies(hdf5_hl_built HDF5_PROJECT)
-#
-#    target_link_libraries(${LIBRARY_NAME} hdf5_hl_built hdf5_built)
-#    set(AnEnIO_RPATH "${AnEnIO_RPATH};${install_dir}/install/lib")
-#
-#else(HDF5_BUILT)
-#    target_link_libraries(${LIBRARY_NAME} ${HDF5_C_LIBRARY} ${HDF5_HL_LIBRARY})
-#endif(HDF5_BUILT)
-#
-#if(NETCDF_BUILT)
-#    ExternalProject_Get_Property(NETCDF_PROJECT install_dir)
-#
-#    add_library(netcdf_built SHARED IMPORTED)
-#    set_target_properties(netcdf_built
-#        PROPERTIES IMPORTED_LOCATION "${install_dir}/install/lib/${CMAKE_SHARED_LIBRARY_PREFIX}netcdf${CMAKE_SHARED_LIBRARY_SUFFIX}")
-#    add_dependencies(netcdf_built NETCDF_PROJECT)
-#
-#    target_link_libraries(${LIBRARY_NAME} netcdf_built)
-#    set(AnEnIO_RPATH "${AnEnIO_RPATH};${install_dir}/install/lib")
-#
-#else(NETCDF_BUILT)
-#    target_link_libraries(${LIBRARY_NAME} ${NETCDF_LIBRARIES})
-#endif(NETCDF_BUILT)
-
 if(NETCDF_CXX4_BUILT)
     ExternalProject_Get_Property(NETCDF_CXX4_PROJECT install_dir)
 

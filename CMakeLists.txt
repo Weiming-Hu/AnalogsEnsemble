@@ -58,10 +58,6 @@ endif(INSTALL_RAnEn)
 option(ENABLE_MPI "enable suppor for MPI" OFF)
 message(STATUS "ENABLE_MPI is set to ${ENABLE_MPI}")
 
-# let the rpath to handle shared libraries that are outside
-# of the current project
-set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
-
 if(ENABLE_MPI)
     add_definitions(-DENABLE_MPI)
 endif(ENABLE_MPI)
@@ -69,9 +65,6 @@ endif(ENABLE_MPI)
 file(MAKE_DIRECTORY ${COMMON_OUTPUT_DIR})
 file(MAKE_DIRECTORY "${COMMON_OUTPUT_DIR}/bin")
 file(MAKE_DIRECTORY "${COMMON_OUTPUT_DIR}/lib")
-
-include(CMakeLists_netCDF.txt)
-include(CMakeLists_Boost.txt)
 
 # check if the compiler is GCC
 if (NOT ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU"))
@@ -101,12 +94,29 @@ else()
 endif()
 
 # compiler flags for Debug and Release
-set (CMAKE_CXX_FLAGS_DEBUG "-g -Wall -Wextra")
-set (CMAKE_CXX_FLAGS_RELEASE "-O3 -w")
 if (NOT CMAKE_BUILD_TYPE)
     set (CMAKE_BUILD_TYPE "Release")
 endif(NOT CMAKE_BUILD_TYPE)
 message (STATUS "CMAKE_BUILD_TYPE is ${CMAKE_BUILD_TYPE}")
+
+set (CMAKE_CXX_FLAGS_DEBUG "-g -Wall -Wextra")
+set (CMAKE_CXX_FLAGS_RELEASE "-O3 -w")
+
+if (CMAKE_BUILD_TYPE STREQUAL "Release")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CMAKE_CXX_FLAGS_RELEASE}")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${CMAKE_CXX_FLAGS_RELEASE}")
+endif(CMAKE_BUILD_TYPE STREQUAL "Release")
+
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CMAKE_CXX_FLAGS_DEBUG}")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${CMAKE_CXX_FLAGS_DEBUG}")
+endif(CMAKE_BUILD_TYPE STREQUAL "Debug")
+
+# The Release and Debug mode also apply to the libraries that we are going to build
+# But we don't want the -fopenmp option to be applied to dependent libraries
+#
+include(CMakeLists_netCDF.txt)
+include(CMakeLists_Boost.txt)
 
 # find OpenMP
 find_package (OpenMP)
@@ -147,8 +157,7 @@ if(CMAKE_BUILD_TESTS)
     add_custom_target(test_all ${CMAKE_CTEST_COMMAND} -V)
 
     if (NOT CPPUNIT_TYPE)
-        set (CPPUNIT_TYPE "BUILD" CACHE STRING
-            "The type of CPPUNIT library that is going to use by the make process. Should be either SYSTEM or BUILD.")
+        set (CPPUNIT_TYPE "BUILD")
     endif (NOT CPPUNIT_TYPE)
     message (STATUS "CPPUNIT_TYPE is set to ${CPPUNIT_TYPE}")
 
@@ -168,17 +177,55 @@ if(CMAKE_BUILD_TESTS)
         LIST(APPEND UnitTestLibs ${CPPUNIT_LIBRARIES})
     else(CPPUNIT_FOUND)
         message(STATUS "CppUnit not found. Build it now.")
-        find_package(Git REQUIRED)
+        include(ExternalProject)
 
-        set (LIBRARY_CPPUNIT "${DEPENDENCY_PATH}/cppunit")
-        if (NOT EXISTS ${LIBRARY_CPPUNIT})
-            execute_process(COMMAND ${GIT_EXECUTABLE} "clone" "https://github.com/Weiming-Hu/CppUnit.git" ${LIBRARY_CPPUNIT})
-        else(NOT EXISTS ${LIBRARY_CPPUNIT})
-            message(STATUS "CppUnit has already been downloaded!")
-        endif(NOT EXISTS ${LIBRARY_CPPUNIT})
+        set(CMAKE_EXTERNAL_PROJECT_BUILD_TYPE "Release")
+        set(CPPUNIT_ROOT_PATH ${DEPENDENCY_PATH})
+        set(CPPUNIT_INSTALL_PREFIX "${DEPENDENCY_PATH}/install")
+        set(CPPUNIT_URL "https://github.com/Weiming-Hu/CppUnit.git")
+        set(CPPUNIT_CMAKE_ARGS "-DCMAKE_INSTALL_PREFIX=${CPPUNIT_INSTALL_PREFIX}")
 
-        include_directories("${LIBRARY_CPPUNIT}/include")
-        add_subdirectory("${LIBRARY_CPPUNIT}")
+        string(REPLACE ";" "|" CPPUNIT_ALT_CMAKE_PREFIX_PATH "${CMAKE_PREFIX_PATH}")
+        set(CPPUNIT_PREFIX_PATH "-DCMAKE_PREFIX_PATH=${CPPUNIT_ALT_CMAKE_PREFIX_PATH}")
+        set(CPPUNIT_CMAKE_ARGS ${CPPUNIT_CMAKE_ARGS} ${CPPUNIT_PREFIX_PATH})
+
+        if(VERBOSE)
+            # If verbose is set to true, the following information will be printed
+            set(VERBOSE_DOWNLOAD 0)
+            set(VERBOSE_CONFIGURE 0)
+            set(VERBOSE_BUILD 0)
+            set(VERBOSE_INSTALL 0) 
+            set(VERBOSE_TEST 0)
+        else(VERBOSE)
+            # If verbose is set to true, the following information will be logged to file
+            set(VERBOSE_DOWNLOAD 1)
+            set(VERBOSE_CONFIGURE 1)
+            set(VERBOSE_BUILD 1)
+            set(VERBOSE_INSTALL 1) 
+            set(VERBOSE_TEST 1)
+        endif(VERBOSE)
+
+        ExternalProject_add(CPPUNIT_PROJECT
+            PREFIX ${CPPUNIT_ROOT_PATH}
+            GIT_REPOSITORY ${CPPUNIT_URL}
+            GIT_TAG master
+            PATCH_COMMAND ""
+            UPDATE_COMMAND ""
+            LIST_SEPARATOR | # Use the alternate list separator
+            CMAKE_ARGS ${CPPUNIT_CMAKE_ARGS}
+            BUILD_COMMAND ${MAKE}
+            LOG_DOWNLOAD ${VERBOSE_DOWNLOAD}
+            LOG_CONFIGURE ${VERBOSE_CONFIGURE}
+            LOG_BUILD ${VERBOSE_BUILD}
+            LOG_TEST ${VERBOSE_TEST}
+            LOG_INSTALL ${VERBOSE_INSTALL})
+
+        ExternalProject_Get_Property(CPPUNIT_PROJECT install_dir)
+        add_library(cppunit STATIC IMPORTED)
+        set_target_properties(cppunit
+            PROPERTIES IMPORTED_LOCATION "${install_dir}/install/lib/${CMAKE_STATIC_LIBRARY_PREFIX}cppunit${CMAKE_STATIC_LIBRARY_SUFFIX}")
+        include_directories("${CPPUNIT_INSTALL_PREFIX}/include")
+
     endif(CPPUNIT_FOUND)
 
     add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/tests")

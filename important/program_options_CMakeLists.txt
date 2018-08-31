@@ -30,4 +30,5 @@ if (CMAKE_BUILD_TYPE STREQUAL "Release")
     #set (CMAKE_CXX_ARCHIVE_FINISH "<CMAKE_RANLIB> -no_warning_for_no_symbols <TARGET>")
 endif (CMAKE_BUILD_TYPE STREQUAL "Release")
 
-add_library(${LIBRARY_NAME} STATIC ${SOURCES})
+#add_library(${LIBRARY_NAME} STATIC ${SOURCES})
+add_library(${LIBRARY_NAME} SHARED ${SOURCES})
