@@ -222,7 +222,7 @@ void testAnEn::testSdCircular() {
     CPPUNIT_ASSERT((int) (anen.sdCircular(values) * 1000) == 1414);
 
     values = {NAN, NAN, NAN, NAN};
-    CPPUNIT_ASSERT(isnan(anen.sdCircular(values)));
+    CPPUNIT_ASSERT(std::isnan(anen.sdCircular(values)));
 
     values = {1, 3, 5, NAN, 2, 4, NAN};
     CPPUNIT_ASSERT((int) (anen.sdCircular(values) * 1000) == 1414);
@@ -250,7 +250,7 @@ void testAnEn::testSdLinear() {
     CPPUNIT_ASSERT((int) (anen.sdLinear(values) * 1000) == 1581);
 
     values = {NAN, NAN, NAN, NAN};
-    CPPUNIT_ASSERT(isnan(anen.sdLinear(values)));
+    CPPUNIT_ASSERT(std::isnan(anen.sdLinear(values)));
 
     values = {1, 3, 5, NAN, 2, 4, NAN};
     CPPUNIT_ASSERT((int) (anen.sdLinear(values) * 1000) == 1581);
@@ -465,7 +465,7 @@ void testAnEn::testComputeSearchStations() {
     for (auto row = i_search_stations.begin1();
             row != i_search_stations.end1(); row++) {
         for (const auto & val : row) {
-            if (!isnan(val)) results.erase(find(results.begin(), results.end(), val));
+            if (!std::isnan(val)) results.erase(find(results.begin(), results.end(), val));
         }
     }
     CPPUNIT_ASSERT(results.size() == 0);
@@ -493,7 +493,7 @@ void testAnEn::testComputeSearchStations() {
     for (auto row = i_search_stations.begin1();
             row != i_search_stations.end1(); row++) {
         for (const auto & val : row) {
-            if (!isnan(val)) results.erase(find(results.begin(), results.end(), val));
+            if (!std::isnan(val)) results.erase(find(results.begin(), results.end(), val));
         }
     }
     CPPUNIT_ASSERT(results.size() == 0);

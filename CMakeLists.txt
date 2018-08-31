@@ -27,6 +27,10 @@ if(POLICY CMP0054)
     cmake_policy(SET CMP0054 NEW)
 endif(POLICY CMP0054)
 
+if(POLICY CMP0042)
+    cmake_policy(SET CMP0042 NEW)
+endif(POLICY CMP0042)
+
 # set this variable to prevent CMake from removing
 # non-standard build paths. This would be helpful on
 # supercomputers where modules are always loaded, rather
@@ -101,7 +105,7 @@ endif()
 
 # compiler flags for Debug and Release
 set (CMAKE_CXX_FLAGS_DEBUG "-g -Wall -Wextra")
-set (CMAKE_CXX_FLAGS_RELEASE "-g -O3")
+set (CMAKE_CXX_FLAGS_RELEASE "-O3 -w")
 if (NOT CMAKE_BUILD_TYPE)
     set (CMAKE_BUILD_TYPE "Release")
 endif(NOT CMAKE_BUILD_TYPE)

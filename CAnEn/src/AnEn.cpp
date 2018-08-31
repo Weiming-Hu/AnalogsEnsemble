@@ -246,7 +246,7 @@ search_stations)
             for (size_t i_col = 0; i_col < i_search_stations.size2(); i_col++) {
 
                 // Check if the value is _FILL_VALUE
-                if (!isnan(i_search_stations(i_row, i_col))) {
+                if (!std::isnan(i_search_stations(i_row, i_col))) {
                     auto it_ID = search_stations_by_ID.find(
                             i_search_stations(i_row, i_col));
 
@@ -359,11 +359,11 @@ sims, sds, i_observation_parameter)
                     for (size_t i_search_station = 0; i_search_station < num_search_stations; i_search_station++) {
                         for (size_t i_search_time = 0; i_search_time < num_search_times; i_search_time++) {
 
-                            if (!isnan(data_search_observations[i_observation_parameter][i_search_station]
+                            if (!std::isnan(data_search_observations[i_observation_parameter][i_search_station]
                                     [mapping(i_search_time, i_flt)])) {
 
                                 size_t i_sim_row = i_search_station * num_search_times + i_search_time;
-                                if (isnan(sims[i_test_station][i_test_time][i_flt][i_sim_row][COL_TAG_SIM::VALUE]))
+                                if (std::isnan(sims[i_test_station][i_test_time][i_flt][i_sim_row][COL_TAG_SIM::VALUE]))
                                     sims[i_test_station][i_test_time][i_flt][i_sim_row][COL_TAG_SIM::VALUE] = 0;
 
                                 for (size_t i_parameter = 0; i_parameter < num_parameters; i_parameter++) {
@@ -380,7 +380,7 @@ sims, sds, i_observation_parameter)
                                             double value_test = data_test_forecasts
                                                     [i_parameter][i_test_station][i_test_time][i_window_flt];
 
-                                            if (isnan(value_search) || isnan(value_test)) window[pos] = NAN;
+                                            if (std::isnan(value_search) || std::isnan(value_test)) window[pos] = NAN;
 
                                             if (circular_flags[i_parameter]) {
                                                 window[pos] = pow(diffCircular(value_search, value_test), 2);
@@ -391,7 +391,7 @@ sims, sds, i_observation_parameter)
 
                                         double average = mean(window);
 
-                                        if (sds[i_parameter][i_search_station][i_flt] > 0 && !isnan(average)) {
+                                        if (sds[i_parameter][i_search_station][i_flt] > 0 && !std::isnan(average)) {
                                             sims[i_test_station][i_test_time][i_flt][i_sim_row][COL_TAG_SIM::VALUE]
                                                     += weights[i_parameter] * (sqrt(average) / sds[i_parameter][i_search_station][i_flt]);
                                         }
@@ -431,14 +431,14 @@ sims, sds, i_observation_parameter, i_search_stations)
                         double i_search_station = i_search_stations(i_test_station, i_search_station_index);
 
                         // Check if search station is NAN, which is the _FILL_VALUE
-                        if (!isnan(i_search_station)) {
+                        if (!std::isnan(i_search_station)) {
                             for (size_t i_search_time = 0; i_search_time < num_search_times; i_search_time++) {
 
-                                if (!isnan(data_search_observations[i_observation_parameter][i_search_station]
+                                if (!std::isnan(data_search_observations[i_observation_parameter][i_search_station]
                                         [mapping(i_search_time, i_flt)])) {
 
                                     size_t i_sim_row = i_search_station_index * num_search_times + i_search_time;
-                                    if (isnan(sims[i_test_station][i_test_time][i_flt][i_sim_row][COL_TAG_SIM::VALUE]))
+                                    if (std::isnan(sims[i_test_station][i_test_time][i_flt][i_sim_row][COL_TAG_SIM::VALUE]))
                                         sims[i_test_station][i_test_time][i_flt][i_sim_row][COL_TAG_SIM::VALUE] = 0;
 
                                     for (size_t i_parameter = 0; i_parameter < num_parameters; i_parameter++) {
@@ -455,7 +455,7 @@ sims, sds, i_observation_parameter, i_search_stations)
                                                 double value_test = data_test_forecasts
                                                         [i_parameter][i_test_station][i_test_time][i_window_flt];
 
-                                                if (isnan(value_search) || isnan(value_test)) window[pos] = NAN;
+                                                if (std::isnan(value_search) || std::isnan(value_test)) window[pos] = NAN;
 
                                                 if (circular_flags[i_parameter]) {
                                                     window[pos] = pow(diffCircular(value_search, value_test), 2);
@@ -466,7 +466,7 @@ sims, sds, i_observation_parameter, i_search_stations)
 
                                             double average = mean(window);
 
-                                            if (sds[i_parameter][i_search_station][i_flt] > 0 && !isnan(average)) {
+                                            if (sds[i_parameter][i_search_station][i_flt] > 0 && !std::isnan(average)) {
                                                 sims[i_test_station][i_test_time][i_flt][i_sim_row][COL_TAG_SIM::VALUE]
                                                         += weights[i_parameter] * (sqrt(average) / sds[i_parameter][i_search_station][i_flt]);
                                             }
@@ -502,10 +502,10 @@ sims, sds, i_observation_parameter)
                 for (size_t i_flt = 0; i_flt < num_flts; i_flt++) {
                     for (size_t i_search_time = 0; i_search_time < num_search_times; i_search_time++) {
 
-                        if (!isnan(data_search_observations[i_observation_parameter][i_station]
+                        if (!std::isnan(data_search_observations[i_observation_parameter][i_station]
                                 [mapping(i_search_time, i_flt)])) {
 
-                            if (isnan(sims[i_station][i_test_time][i_flt][i_search_time][COL_TAG_SIM::VALUE]))
+                            if (std::isnan(sims[i_station][i_test_time][i_flt][i_search_time][COL_TAG_SIM::VALUE]))
                                 sims[i_station][i_test_time][i_flt][i_search_time][COL_TAG_SIM::VALUE] = 0;
                             for (size_t i_parameter = 0; i_parameter < num_parameters; i_parameter++) {
 
@@ -521,7 +521,7 @@ sims, sds, i_observation_parameter)
                                         double value_test = data_test_forecasts
                                                 [i_parameter][i_station][i_test_time][i_window_flt];
 
-                                        if (isnan(value_search) || isnan(value_test)) window[pos] = NAN;
+                                        if (std::isnan(value_search) || std::isnan(value_test)) window[pos] = NAN;
 
                                         if (circular_flags[i_parameter]) {
                                             window[pos] = pow(diffCircular(value_search, value_test), 2);
@@ -532,7 +532,7 @@ sims, sds, i_observation_parameter)
 
                                     double average = mean(window);
 
-                                    if (sds[i_parameter][i_station][i_flt] > 0 && !isnan(average)) {
+                                    if (sds[i_parameter][i_station][i_flt] > 0 && !std::isnan(average)) {
                                         sims[i_station][i_test_time][i_flt][i_search_time][COL_TAG_SIM::VALUE]
                                                 += weights[i_parameter] * (sqrt(average) / sds[i_parameter][i_station][i_flt]);
                                     }
@@ -622,7 +622,7 @@ i_parameter, num_test_times, num_flts, observation_times_by_insert)
                 for (size_t i_flt = 0; i_flt < num_flts; i_flt++) {
                     for (size_t i_member = 0; i_member < num_members; i_member++) {
 
-                        if (!isnan(sims[i_test_station][i_test_time][i_flt][i_member][COL_TAG_SIM::VALUE])) {
+                        if (!std::isnan(sims[i_test_station][i_test_time][i_flt][i_member][COL_TAG_SIM::VALUE])) {
                             size_t i_search_station = (size_t) sims[i_test_station][i_test_time][i_flt][i_member][COL_TAG_SIM::STATION];
                             size_t i_search_forecast_time = (size_t) sims[i_test_station][i_test_time][i_flt][i_member][COL_TAG_SIM::TIME];
                             size_t i_observation_time = mapping(i_search_forecast_time, i_flt);
@@ -651,7 +651,7 @@ i_parameter, num_test_times, num_flts)
                 for (size_t i_flt = 0; i_flt < num_flts; i_flt++) {
                     for (size_t i_member = 0; i_member < num_members; i_member++) {
 
-                        if (!isnan(sims[i_test_station][i_test_time][i_flt][i_member][COL_TAG_SIM::VALUE])) {
+                        if (!std::isnan(sims[i_test_station][i_test_time][i_flt][i_member][COL_TAG_SIM::VALUE])) {
                             size_t i_search_station = (size_t) sims[i_test_station][i_test_time][i_flt][i_member][COL_TAG_SIM::STATION];
                             size_t i_search_forecast_time = (size_t) sims[i_test_station][i_test_time][i_flt][i_member][COL_TAG_SIM::TIME];
 
@@ -748,7 +748,7 @@ AnEn::mean(const std::vector<double>& values) const {
     size_t valid = 0;
 
     for (const auto & value : values) {
-        if (!isnan(value)) {
+        if (!std::isnan(value)) {
             sum += value;
             valid++;
         }
@@ -762,13 +762,13 @@ AnEn::mean(const std::vector<double>& values) const {
 double
 AnEn::variance(const std::vector<double>& values) const {
     double average = mean(values);
-    if (isnan(average)) return NAN;
+    if (std::isnan(average)) return NAN;
 
     double sum = 0.0;
     size_t valid = 0;
 
     for (const auto & value : values) {
-        if (!isnan(value)) {
+        if (!std::isnan(value)) {
 
             sum += pow(value - average, 2);
             valid++;

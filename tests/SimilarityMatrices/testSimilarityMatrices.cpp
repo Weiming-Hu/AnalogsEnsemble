@@ -96,9 +96,9 @@ void testSimilarityMatrices::testMatricesSort() {
         7, 9, 1, 8, 7, 3, 7, 6, 4, 3, 6, 5, 9, 9, 9, NAN, NAN, NAN
     };
     for (size_t i = 0; i < sims.num_elements(); i++) {
-        if (isnan(sims.data()[i]) || isnan(results1[i])) {
-            CPPUNIT_ASSERT(isnan(sims.data()[i]));
-            CPPUNIT_ASSERT(isnan(results1[i]));
+        if (std::isnan(sims.data()[i]) || std::isnan(results1[i])) {
+            CPPUNIT_ASSERT(std::isnan(sims.data()[i]));
+            CPPUNIT_ASSERT(std::isnan(results1[i]));
         } else {
             CPPUNIT_ASSERT(sims.data()[i] == results1[i]);
         }
@@ -114,9 +114,9 @@ void testSimilarityMatrices::testMatricesSort() {
         7, 6, 4, 3, 6, 5, 8, 7, 3, 7, 9, 1, 9, 9, 9, NAN, NAN, NAN
     };
     for (size_t i = 0; i < sims.num_elements(); i++) {
-        if (isnan(sims.data()[i]) || isnan(results2[i])) {
-            CPPUNIT_ASSERT(isnan(sims.data()[i]));
-            CPPUNIT_ASSERT(isnan(results2[i]));
+        if (std::isnan(sims.data()[i]) || std::isnan(results2[i])) {
+            CPPUNIT_ASSERT(std::isnan(sims.data()[i]));
+            CPPUNIT_ASSERT(std::isnan(results2[i]));
         } else {
             CPPUNIT_ASSERT(sims.data()[i] == results2[i]);
         }

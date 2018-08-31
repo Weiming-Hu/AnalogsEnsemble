@@ -1256,7 +1256,7 @@ AnEnIO::writeParameters(const anenPar::Parameters& parameters,
             parameters_by_insert = parameters.get<anenPar::by_insert>();
     for (const auto & parameter : parameters_by_insert) {
         tmp = parameter.getWeight();
-        if (isnan(tmp)) {
+        if (std::isnan(tmp)) {
             num_nan++;
         } else {
             sum += tmp;

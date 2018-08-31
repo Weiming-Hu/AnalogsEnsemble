@@ -170,12 +170,12 @@ void testAnEnIO::testWriteReadObservationFile() {
                 stations_write_by_insert[i].getName());
         CPPUNIT_ASSERT(stations_read_by_insert[i].getX() ==
                 stations_write_by_insert[i].getX() ||
-                (isnan(stations_read_by_insert[i].getX()) &&
-                isnan(stations_write_by_insert[i].getX())));
+                (std::isnan(stations_read_by_insert[i].getX()) &&
+                std::isnan(stations_write_by_insert[i].getX())));
         CPPUNIT_ASSERT(stations_read_by_insert[i].getY() ==
                 stations_write_by_insert[i].getY() ||
-                (isnan(stations_read_by_insert[i].getY()) &&
-                isnan(stations_write_by_insert[i].getY())));
+                (std::isnan(stations_read_by_insert[i].getY()) &&
+                std::isnan(stations_write_by_insert[i].getY())));
     }
     // Verify times
     auto times_read = observations_read.getTimes();
@@ -277,12 +277,12 @@ void testAnEnIO::testWriteReadForecastFile() {
                 stations_write_by_insert[i].getName());
         CPPUNIT_ASSERT(stations_read_by_insert[i].getX() ==
                 stations_write_by_insert[i].getX() ||
-                (isnan(stations_read_by_insert[i].getX()) &&
-                isnan(stations_write_by_insert[i].getX())));
+                (std::isnan(stations_read_by_insert[i].getX()) &&
+                std::isnan(stations_write_by_insert[i].getX())));
         CPPUNIT_ASSERT(stations_read_by_insert[i].getY() ==
                 stations_write_by_insert[i].getY() ||
-                (isnan(stations_read_by_insert[i].getY()) &&
-                isnan(stations_write_by_insert[i].getY())));
+                (std::isnan(stations_read_by_insert[i].getY()) &&
+                std::isnan(stations_write_by_insert[i].getY())));
     }
 
     // Verify times
