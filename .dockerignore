@@ -1,9 +1,3 @@
-######################################
-# If you have ever made any changes  #
-# to this file, please consider also #
-# change the .dockerignore file      #
-######################################
-#
 # Prerequisites
 *.d
 
@@ -87,3 +81,9 @@ RAnalogs/RAnEn/src/Times.cpp
 RAnalogs/RAnEn/src/Times.h
 RAnalogs/RAnEn/src/colorTexts.h
 RAnalogs/RAnEn/src/config.log
+
+# Specific for docker image
+.travis.yml
+.git
+.gitignore
+_config.yml
