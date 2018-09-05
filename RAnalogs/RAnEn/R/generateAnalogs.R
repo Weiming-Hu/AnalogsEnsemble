@@ -88,12 +88,12 @@ generateAnalogs <- function(configuration) {
 	}
 	
 	if (!configuration$preserve_real_time) {
-	  AnEn$analogs[, , , , 2] <- AnEn$analogs[, , , , 2, drop = F] + 1
+	  AnEn$analogs[, , , , 3] <- AnEn$analogs[, , , , 3, drop = F] + 1
 	}
 	
 	# Convert the station index from C counting to R counting
-	AnEn$analogs[, , , , 3] <- AnEn$analogs[, , , , 3, drop = F] + 1
-	AnEn$similarity[, , , , 1:2] <- AnEn$similarity[, , , , 1:2, drop = F] + 1
+	AnEn$analogs[, , , , 2] <- AnEn$analogs[, , , , 2, drop = F] + 1
+	AnEn$similarity[, , , , 2:3] <- AnEn$similarity[, , , , 2:3, drop = F] + 1
 	
 	if (configuration$preserve_mapping) AnEn$mapping <- AnEn$mapping + 1
 	

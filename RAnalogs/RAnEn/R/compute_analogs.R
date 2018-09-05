@@ -335,7 +335,7 @@ compute_analogs <- function(forecasts,
   } else {
     config <- generateConfiguration('independentSearch')
   }
-  
+
   test.forecasts <- forecasts[, , test_ID_start:test_ID_end, , drop = F]
   search.forecasts <- forecasts[, , train_ID_start:train_ID_end, , drop = F]
   
@@ -457,12 +457,12 @@ compute_analogs <- function(forecasts,
   }
   
   if (!config$preserve_real_time) {
-    AnEn$analogs[, , , , 2] <- AnEn$analogs[, , , , 2, drop = F] %/% dim(config$test_forecasts)[4] + 1
+    AnEn$analogs[, , , , 3] <- AnEn$analogs[, , , , 3, drop = F] %/% dim(config$test_forecasts)[4] + 1
   }
   
   # Convert the station index from C counting to R counting
-  AnEn$analogs[, , , , 3] <- AnEn$analogs[, , , , 3, drop = F] + 1
-  AnEn$similarity[, , , , 1:2] <- AnEn$similarity[, , , , 1:2, drop = F] + 1
+  AnEn$analogs[, , , , 2] <- AnEn$analogs[, , , , 2, drop = F] + 1
+  AnEn$similarity[, , , , 2:3] <- AnEn$similarity[, , , , 2:3, drop = F] + 1
   
   if (config$preserve_mapping) AnEn$mapping <- AnEn$mapping + 1
   

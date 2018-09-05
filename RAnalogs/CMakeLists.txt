@@ -4,7 +4,7 @@ project (RAnalogs LANGUAGES NONE)
 include(ExternalProject)
 set(LIBRARY_NAME "RAnEn")
 
-set(LIBRARY_VERSION "3.0.0")
+set(LIBRARY_VERSION "3.0.1")
 message(STATUS "RAnEn version ${LIBRARY_VERSION}")
 
 set(RAnEn_PACKAGE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/${LIBRARY_NAME}")

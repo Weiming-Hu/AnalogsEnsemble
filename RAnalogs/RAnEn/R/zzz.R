@@ -22,12 +22,13 @@ if (interactive()) {
    / _, _// ___ | / / / // /___ / / / /
   /_/ |_|/_/  |_|/_/ /_//_____//_/ /_/ 
                                        
-------------------------------------------- GEOlab @ Penn State
-------------------------------------------- RAnEn Version", version, "
-Copyright (c) 2018 Weiming Hu (胡韦名)")
+------------------------------------------- 
+-------------------------------------------
+RAnEn Version", version, "from GEOlab @ Penn State
+Copyright (c) 2018 Weiming Hu")
     } else {
         message <- paste("Package 'RAnEn' version", version)
-        message <- paste(message, "\nCopyright (c) 2018 Weiming Hu (胡韦名)", sep = '')
+        message <- paste(message, "\nCopyright (c) 2018 Weiming Hu", sep = '')
     }
     if (!checkOpenMP()) {
         message <- paste(message, "\n*** Multi-thread not supported ***", sep = '')

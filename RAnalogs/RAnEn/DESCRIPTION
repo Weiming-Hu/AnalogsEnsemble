@@ -1,7 +1,7 @@
 Package: RAnEn
 Type: Package
 Title: Analog Ensemble Package
-Version: 3.0.0
+Version: 3.0.1
 Date: 2018-08-15
 Author: Weiming Hu
 Maintainer:Weiming Hu <wuh20@psu.edu>
