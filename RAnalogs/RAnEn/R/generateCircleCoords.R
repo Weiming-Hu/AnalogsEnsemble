@@ -11,11 +11,11 @@
 
 #' RAnEn::generateCircleCoords
 #' 
-#' @author Weiming Hu, \email{weiming@@psu.edu}
-#' 
 #' Generate a number of sequential point coordinates that
 #' lie on a circle based on the center coordinates of the
 #' circle and the radius.
+#' 
+#' @author Weiming Hu, \email{weiming@@psu.edu}
 #' 
 #' @param x x coordinate of the center.
 #' @param y y coordinate of the center.

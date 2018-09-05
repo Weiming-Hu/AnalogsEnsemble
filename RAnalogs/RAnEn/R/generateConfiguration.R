@@ -9,6 +9,20 @@
 #         Department of Geography and Institute for CyberScience
 #         The Pennsylvania State University
 #
+
+#' RAnEn::generateConfiguration
+#' 
+#' RAnEn::generateConfiguration generates a templated configuration object to
+#' be passed to the function \code{\link{generateAnalogs}} instead of passing various
+#' parameters one by one. This object can be validated before use by the function
+#' \code{\link{validateConfiguration}}.
+#' 
+#' @author Weiming Hu \email{weiming@@psu.edu}
+#' 
+#' @param mode A character string of either 'independentSearch' or
+#' 'extendedSearch'.
+#' 
+#' @export
 generateConfiguration <- function(mode) {
 	
 	if (mode != 'independentSearch' && mode != 'extendedSearch') {
