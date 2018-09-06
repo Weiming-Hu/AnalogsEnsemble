@@ -60,7 +60,7 @@ if(NETCDF_CXX4_BUILT)
     set(AnEnIO_RPATH "${AnEnIO_RPATH};${install_dir}/install/lib")
 
 else(NETCDF_CXX4_BUILT)
-    message(FATAL "netcdf-cxx4 should always be built.")
+    message(FATAL_ERROR "netcdf-cxx4 should always be built.")
 endif(NETCDF_CXX4_BUILT)
 
 set_target_properties(${LIBRARY_NAME} PROPERTIES INSTALL_RPATH "${AnEnIO_RPATH}")

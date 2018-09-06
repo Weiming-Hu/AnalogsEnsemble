@@ -52,6 +52,7 @@
 .Rproj.user
 */*Rhistory
 *Rhistory
+*autom4te.cache*
 
 # Customize
 build*
@@ -61,6 +62,7 @@ doxygen-output
 
 RAnalogs/RAnEn/.Rhistory
 RAnalogs/RAnEn/config.log
+RAnalogs/RAnEn/DESCRIPTION
 RAnalogs/RAnEn/config.status
 RAnalogs/RAnEn/LICENSE.txt
 RAnalogs/RAnEn/src/AnEn.cpp

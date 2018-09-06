@@ -68,6 +68,24 @@ dnl this the meat of R's m4/openmp.m4
     esac
   fi
 
+dnl @synopsis CXX_FLAGS_CHECK [compiler flags]                                        
+dnl @summary check whether compiler supports given C++ flags or not                   
+AC_DEFUN([CXX_FLAG_CHECK],                                                            
+[dnl                                                                                  
+  AC_MSG_CHECKING([if $CXX supports $1])
+  AC_LANG_PUSH([C++])
+  ac_saved_cxxflags="$CXXFLAGS"                                                       
+  CXXFLAGS="-Werror $1"                                                               
+  AC_COMPILE_IFELSE([AC_LANG_PROGRAM([])],                                            
+    [AC_MSG_RESULT([yes])],                                                           
+    [AC_MSG_ERROR([no])]                                                              
+  )                                                                                   
+  CXXFLAGS="$ac_saved_cxxflags"                                                       
+  AC_LANG_POP([C++])
+])
+
+CXX_FLAG_CHECK([-Wno-everything])
+
 AC_SUBST(OPENMP_CXXFLAGS)
 AC_CONFIG_FILES([src/Makevars])
 AC_OUTPUT
