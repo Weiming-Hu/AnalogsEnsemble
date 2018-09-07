@@ -16,7 +16,7 @@ option(VERBOSE "verbose standout output" OFF)
 option(CMAKE_BUILD_TESTS "Build tests" OFF)
 
 set(IMPORTANT_PATH "${CMAKE_SOURCE_DIR}/important")
-set(EXTRA_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake-modules")
+set(EXTRA_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${EXTRA_MODULE_PATH})
 set(DEPENDENCY_PATH "${CMAKE_SOURCE_DIR}/dependency")
 
