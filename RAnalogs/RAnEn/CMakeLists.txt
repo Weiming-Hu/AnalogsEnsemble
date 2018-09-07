@@ -117,11 +117,6 @@ add_custom_target(copyPackage ALL)
 # Set files to copy
 file (GLOB_RECURSE COPYFILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*")
 
-# Create folder in the destination folder
-file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/R")
-file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/data")
-file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/man")
-
 # Copy files
 foreach(COPYFILE IN LISTS COPYFILES)
 	add_custom_command(TARGET copyPackage
@@ -143,12 +138,13 @@ add_custom_command(TARGET copyPackage
     "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Makefile"
     "${CMAKE_CURRENT_BINARY_DIR}/src/Makefile")
 
+install(CODE "execute_process(COMMAND \"${R_COMMAND}\"
+CMD INSTALL . WORKING_DIRECTORY \"${CMAKE_CURRENT_BINARY_DIR}\")")
 
-if(WIN32)
-    install(CODE "execute_process(COMMAND \"${R_COMMAND}\"
-	CMD INSTALL --no-multiarch \$\{CMAKE_INSTALL_CONFIG_NAME\}
-	WORKING_DIRECTORY \"${CMAKE_CURRENT_BINARY_DIR}\")")
-else(WIN32)
-	install(CODE "execute_process(COMMAND \"${R_COMMAND}\"
-	CMD INSTALL . WORKING_DIRECTORY \"${CMAKE_CURRENT_BINARY_DIR}\")")
-endif(WIN32)
+file(GLOB FILES_TO_DELETE_ROXYGEN "${CMAKE_CURRENT_SOURCE_DIR}/src/*.o")
+list(APPEND FILES_TO_DELETE_ROXYGEN "${CMAKE_CURRENT_SOURCE_DIR}/src/RAnEn.so")
+
+add_custom_target(
+    clean-roxygen
+    COMMAND ${CMAKE_COMMAND} -E remove ${FILES_TO_DELETE_ROXYGEN}
+    COMMENT "clean *.o *.so files possibly created by Roxygen.")
