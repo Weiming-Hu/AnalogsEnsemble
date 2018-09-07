@@ -79,17 +79,41 @@ add_custom_target(
     COMMENT "clean the copied files in RAnEn/src. You will need to cmake again if you want to make.")
 
 # Add target to build release
-add_custom_target(
-    build-release
+add_custom_target(build-release)	
+
+add_custom_command(TARGET build-release
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    "${RAnEn_PACKAGE_DIR}/cmake/configure"
+    "${RAnEn_PACKAGE_DIR}/configure")
+add_custom_command(TARGET build-release
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    "${RAnEn_PACKAGE_DIR}/cmake/Makefile"
+    "${RAnEn_SOURCE_DIR}/Makefile")
+add_custom_command(TARGET build-release
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    "${RAnEn_PACKAGE_DIR}/cmake/Makefile.win"
+    "${RAnEn_SOURCE_DIR}/Makefile.win")
+
+add_custom_command(
+    TARGET build-release
     COMMAND ${R_COMMAND} CMD build ${RAnEn_PACKAGE_DIR}
     COMMENT "target for building RAnEn release tarbal"
     WORKING_DIRECTORY ${RAnEn_RELEASES_DIR})
 
-set(OLD_RAnEn_TARFILE "${LIBRARY_NAME}_${LIBRARY_VERSION}.tar.gz")
+add_custom_command(TARGET build-release
+    COMMAND ${CMAKE_COMMAND} -E remove "${RAnEn_PACKAGE_DIR}/configure")
+add_custom_command(TARGET build-release
+    COMMAND ${CMAKE_COMMAND} -E remove "${RAnEn_SOURCE_DIR}/Makefile")
+add_custom_command(TARGET build-release
+    COMMAND ${CMAKE_COMMAND} -E remove "${RAnEn_SOURCE_DIR}/Makefile.win")
 
+# Remove old release tarball file if exists
+set(OLD_RAnEn_TARFILE "${LIBRARY_NAME}_${LIBRARY_VERSION}.tar.gz")
 add_custom_target(
 	remove-old-release
 	COMMAND ${CMAKE_COMMAND} -E remove ${OLD_RAnEn_TARFILE}
 	COMMENT "target to remove the old release ${OLD_RAnEn_TARFILE}"
 	WORKING_DIRECTORY ${RAnEn_RELEASES_DIR})
 add_dependencies(build-release remove-old-release)
+
+
