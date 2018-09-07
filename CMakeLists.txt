@@ -108,7 +108,7 @@ endif(NOT CMAKE_BUILD_TYPE)
 message (STATUS "CMAKE_BUILD_TYPE is ${CMAKE_BUILD_TYPE}")
 
 set (CMAKE_CXX_FLAGS_DEBUG "-g -Wall -Wextra")
-set (CMAKE_CXX_FLAGS_RELEASE "-O3 -w")
+set (CMAKE_CXX_FLAGS_RELEASE "-O2 -w")
 
 if (CMAKE_BUILD_TYPE STREQUAL "Release")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CMAKE_CXX_FLAGS_RELEASE}")
@@ -129,6 +129,7 @@ include(CMakeLists_Boost.txt)
 # find OpenMP
 find_package (OpenMP)
 if (${OPENMP_FOUND})
+    message(STATUS "Using OpenMP ${OpenMP_CXX_FLAGS}")
     set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
     set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
 else (${OPENMP_FOUND})
