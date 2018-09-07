@@ -1,8 +1,8 @@
-Package: RAnEn
+Package: @LIBRARY_NAME@
 Type: Package
 Title: Analog Ensemble Package
-Version: 3.0.2
-Date: 2018-09-07_15:07
+Version: @LIBRARY_VERSION@
+Date: @LIBRARY_CONFIGURE_TIMESTAMP@
 Author: Weiming Hu
 Maintainer: Weiming Hu <weiming@psu.edu>
 Description: The Analog Ensemble Package computes and manages analog ensembles. It is implemented in C++ and exported to R interface.

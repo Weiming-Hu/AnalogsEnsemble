@@ -87,12 +87,12 @@ add_custom_command(TARGET build-release
     "${RAnEn_PACKAGE_DIR}/configure")
 add_custom_command(TARGET build-release
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
-    "${RAnEn_PACKAGE_DIR}/cmake/Makefile"
-    "${RAnEn_SOURCE_DIR}/Makefile")
+    "${RAnEn_PACKAGE_DIR}/cmake/Makevars.in"
+    "${RAnEn_SOURCE_DIR}/Makevars.in")
 add_custom_command(TARGET build-release
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
-    "${RAnEn_PACKAGE_DIR}/cmake/Makefile.win"
-    "${RAnEn_SOURCE_DIR}/Makefile.win")
+    "${RAnEn_PACKAGE_DIR}/cmake/Makevars.win.in"
+    "${RAnEn_SOURCE_DIR}/Makevars.win.in")
 
 add_custom_command(
     TARGET build-release
@@ -103,9 +103,9 @@ add_custom_command(
 add_custom_command(TARGET build-release
     COMMAND ${CMAKE_COMMAND} -E remove "${RAnEn_PACKAGE_DIR}/configure")
 add_custom_command(TARGET build-release
-    COMMAND ${CMAKE_COMMAND} -E remove "${RAnEn_SOURCE_DIR}/Makefile")
+    COMMAND ${CMAKE_COMMAND} -E remove "${RAnEn_SOURCE_DIR}/Makevars.in")
 add_custom_command(TARGET build-release
-    COMMAND ${CMAKE_COMMAND} -E remove "${RAnEn_SOURCE_DIR}/Makefile.win")
+    COMMAND ${CMAKE_COMMAND} -E remove "${RAnEn_SOURCE_DIR}/Makevars.win.in")
 
 # Remove old release tarball file if exists
 set(OLD_RAnEn_TARFILE "${LIBRARY_NAME}_${LIBRARY_VERSION}.tar.gz")
