@@ -64,6 +64,21 @@ else (EXISTS ${R_BH_INCLUDE_DIR})
     message(FATAL_ERROR "R library BH is not installed. ${R_BH_INCLUDE_DIR} missing.")
 endif (EXISTS ${R_BH_INCLUDE_DIR})
 
+# Import Rcpp library
+if (WIN32)
+    message(FATAL_ERROR "The CMake installation approach is not supported. Please use R CMD INSTALL.")
+endif (WIN32)
+
+add_library(Rcpp SHARED IMPORTED)
+set_target_properties(Rcpp PROPERTIES IMPORTED_LOCATION "${RCPP_DIR}/libs/Rcpp.so")
+
+# Link the directory for this imported library manually. If I don't do so, Rcpp.so is always
+# linked relatively on Mac OS which causes problems. By manually linking the directory, all
+# targets created after this will be linked to the full directory and I don't need to link
+# Rcpp again.
+#
+link_directories("${RCPP_DIR}/libs/")
+
 # Add the shared libarry target
 file (GLOB SourceFiles "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
 add_library(RAnEn SHARED ${SourceFiles})
@@ -71,19 +86,10 @@ set_property(TARGET RAnEn PROPERTY PREFIX "")
 set_property(TARGET RAnEn PROPERTY LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/src")
 set_property(TARGET RAnEn PROPERTY SUFFIX ".so")
 
-# Import Rcpp library
-if (WIN32)
-    message(FATAL_ERROR "The CMake installation approach is not supported. Please use R CMD INSTALL.")
-endif (WIN32)
-
-add_library(Rcpp SHARED IMPORTED)
-set_property(TARGET Rcpp
-	PROPERTY IMPORTED_LOCATION "${RCPP_DIR}/libs/Rcpp.so")
-
 # Include and link libraries
 set_property(TARGET RAnEn APPEND PROPERTY COMPILE_FLAGS ${RCPP_CXXFLAGS})
 include_directories ("${CMAKE_CURRENT_SOURCE_DIR}/src" ${R_INCLUDE_DIR})
-target_link_libraries(RAnEn Rcpp R)
+target_link_libraries(RAnEn R)
 
 if (R_BH_INCLUDE_DIR)
     include_directories (${R_BH_INCLUDE_DIR})
