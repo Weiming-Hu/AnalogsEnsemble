@@ -64,6 +64,10 @@ RAnalogs/RAnEn/.Rhistory
 RAnalogs/RAnEn/config.log
 RAnalogs/RAnEn/config.status
 RAnalogs/RAnEn/LICENSE.txt
+RAnalogs/RAnEn/src/Makevars
+RAnalogs/RAnEn/src/Makevars.in
+RAnalogs/RAnEn/src/Makevars.win
+RAnalogs/RAnEn/src/Makevars.win.in
 RAnalogs/RAnEn/src/Makefile
 RAnalogs/RAnEn/src/Makefile.in
 RAnalogs/RAnEn/src/Makefile.win

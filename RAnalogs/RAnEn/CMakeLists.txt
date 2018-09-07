@@ -14,11 +14,7 @@ if(NOT CMAKE_BUILD_TYPE)
 endif(NOT CMAKE_BUILD_TYPE)
 
 # Find R
-if (APPLE)
-    find_library(R_LIBRARY R REQUIRED)
-else (APPLE)
-    find_package(R REQUIRED)
-endif (APPLE)
+find_package(R REQUIRED)
 
 # Find Rscript
 if (RSCRIPT_COMMAND)
@@ -73,11 +69,16 @@ file (GLOB SourceFiles "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
 add_library(RAnEn SHARED ${SourceFiles})
 set_property(TARGET RAnEn PROPERTY PREFIX "")
 set_property(TARGET RAnEn PROPERTY LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/src")
+set_property(TARGET RAnEn PROPERTY SUFFIX ".so")
 
 # Import Rcpp library
+if (WIN32)
+    message(FATAL_ERROR "The CMake installation approach is not supported. Please use R CMD INSTALL.")
+endif (WIN32)
+
 add_library(Rcpp SHARED IMPORTED)
 set_property(TARGET Rcpp
-	PROPERTY IMPORTED_LOCATION "${RCPP_DIR}/libs/Rcpp${CMAKE_SHARED_LIBRARY_SUFFIX}")
+	PROPERTY IMPORTED_LOCATION "${RCPP_DIR}/libs/Rcpp.so")
 
 # Include and link libraries
 set_property(TARGET RAnEn APPEND PROPERTY COMPILE_FLAGS ${RCPP_CXXFLAGS})
