@@ -48,32 +48,9 @@ set(RPATH_ARGS ${RPATH_ARGS} "-DCMAKE_INSTALL_RPATH=${CMAKE_INSTALL_RPATH}")
 set(RPATH_ARGS ${RPATH_ARGS} "-DCMAKE_MACOSX_RPATH=${CMAKE_MACOSX_RPATH}")
 
 
-# if INSTALL_RAnEn is set to TRUE
-# only install RAnEn package
-#
-option(INSTALL_RAnEn "install RAnEn package" OFF)
-if(INSTALL_RAnEn)
-    message(STATUS "install RAnEn package")
-    add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/RAnalogs")
-    return()
-endif(INSTALL_RAnEn)
-
-
 ###################
 # build libraries #
 ###################
-# thrid packages required by CAnEn and CAnEnIO
-option(ENABLE_MPI "enable suppor for MPI" OFF)
-message(STATUS "ENABLE_MPI is set to ${ENABLE_MPI}")
-
-if(ENABLE_MPI)
-    add_definitions(-DENABLE_MPI)
-endif(ENABLE_MPI)
-
-file(MAKE_DIRECTORY ${COMMON_OUTPUT_DIR})
-file(MAKE_DIRECTORY "${COMMON_OUTPUT_DIR}/bin")
-file(MAKE_DIRECTORY "${COMMON_OUTPUT_DIR}/lib")
-
 # check if the compiler is GCC
 if (NOT ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU"))
     # reference for message
@@ -120,12 +97,6 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${CMAKE_CXX_FLAGS_DEBUG}")
 endif(CMAKE_BUILD_TYPE STREQUAL "Debug")
 
-# The Release and Debug mode also apply to the libraries that we are going to build
-# But we don't want the -fopenmp option to be applied to dependent libraries
-#
-include(CMakeLists_netCDF.txt)
-include(CMakeLists_Boost.txt)
-
 # find OpenMP
 find_package (OpenMP)
 if (${OPENMP_FOUND})
@@ -137,6 +108,34 @@ else (${OPENMP_FOUND})
     The process goes on, but the executable won't support multi-threading.
     SUGGESTION: specify another compiler using CC and CXX. CC=[C compiler] CXX=[CXX compiler] cmake ..")
 endif (${OPENMP_FOUND})
+
+# if INSTALL_RAnEn is set to TRUE
+# only install RAnEn package
+#
+option(INSTALL_RAnEn "install RAnEn package" OFF)
+if(INSTALL_RAnEn)
+    message(STATUS "install RAnEn package")
+    add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/RAnalogs")
+    return()
+else (INSTALL_RAnEn)
+	# The Release and Debug mode also apply to the libraries that we are going to build
+	# But we don't want the -fopenmp option to be applied to dependent libraries
+	#
+	include(CMakeLists_netCDF.txt)
+	include(CMakeLists_Boost.txt)
+endif(INSTALL_RAnEn)
+
+# thrid packages required by CAnEn and CAnEnIO
+option(ENABLE_MPI "enable suppor for MPI" OFF)
+message(STATUS "ENABLE_MPI is set to ${ENABLE_MPI}")
+
+if(ENABLE_MPI)
+    add_definitions(-DENABLE_MPI)
+endif(ENABLE_MPI)
+
+file(MAKE_DIRECTORY ${COMMON_OUTPUT_DIR})
+file(MAKE_DIRECTORY "${COMMON_OUTPUT_DIR}/bin")
+file(MAKE_DIRECTORY "${COMMON_OUTPUT_DIR}/lib")
 
 message(STATUS "configure CAnEnIO library")
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/CAnEnIO")

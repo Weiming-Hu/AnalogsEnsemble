@@ -2,7 +2,7 @@ cmake_minimum_required (VERSION 2.8)
 project (RAnalogs LANGUAGES NONE)
 
 set(LIBRARY_NAME "RAnEn")
-set(LIBRARY_VERSION "3.0.1")
+set(LIBRARY_VERSION "3.0.2")
 message(STATUS "RAnEn version ${LIBRARY_VERSION}")
 
 set(RAnEn_PACKAGE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/${LIBRARY_NAME}")
@@ -12,12 +12,6 @@ set(RAnEn_EXTRA_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/CAnEn/include")
 set(RAnEn_EXTRA_SOURCE_DIR "${CMAKE_SOURCE_DIR}/CAnEn/src")
 set(RAnEn_RELEASES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/releases")
 
-# remove old file if it exists
-set(OLD_RAnEn_TARFILE "${RAnEn_RELEASES_DIR}/${LIBRARY_NAME}_${LIBRARY_VERSION}.tar.gz")
-
-if(EXISTS ${OLD_RAnEn_TARFILE})
-    file(REMOVE ${OLD_RAnEn_TARFILE})
-endif(EXISTS ${OLD_RAnEn_TARFILE})
 
 ##########################
 # complete src directory #
@@ -43,6 +37,15 @@ if(NOT EXISTS ${RAnEn_EXTRA_INCLUDE_DIR})
     message(FATAL_ERROR "ERROR: extra include file directory for RAnEn package could not be found in ${RAnEn_EXTRA_INCLUDE_DIR}")
 endif(NOT EXISTS ${RAnEn_EXTRA_INCLUDE_DIR})
 
+# Configure DESCRIPTION
+string(TIMESTAMP LIBRARY_CONFIGURE_TIMESTAMP "%Y-%m-%d_%H:%M")
+configure_file("${RAnEn_PACKAGE_DIR}/DESCRIPTION.in" "${RAnEn_PACKAGE_DIR}/DESCRIPTION")
+if (WIN32)
+	configure_file("${RAnEn_SOURCE_DIR}/Makefile.in" "${RAnEn_SOURCE_DIR}/Makefile.win")
+else (WIN32)
+	configure_file("${RAnEn_SOURCE_DIR}/Makefile.in" "${RAnEn_SOURCE_DIR}/Makefile")
+endif (WIN32)
+
 # copy files
 set(REQUIRED_FILE_NAME "Analogs;AnEn;Array4D;Forecasts;Observations;Parameters;SimilarityMatrices;StandardDeviation;Stations;Times")
 
@@ -55,12 +58,13 @@ endforeach(file_name ${REQUIRED_FILE_NAME})
 
 file(COPY "${RAnEn_EXTRA_INCLUDE_DIR}/colorTexts.h" DESTINATION ${RAnEn_SOURCE_DIR})
 
+add_subdirectory(${RAnEn_PACKAGE_DIR})
+
+
 ##########################
 # customize clean target #
 ##########################
 #
-add_subdirectory(${RAnEn_PACKAGE_DIR})
-
 set(FILES_TO_DELETE "")
 foreach(file ${REQUIRED_FILE_NAME})
     set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_SOURCE_DIR}/${file}.h")
@@ -80,7 +84,16 @@ add_custom_target(
 
 # Add target to build release
 add_custom_target(
-    build-release ALL ${R_COMMAND} CMD build ${RAnEn_PACKAGE_DIR}
+    build-release
+    COMMAND ${R_COMMAND} CMD build ${RAnEn_PACKAGE_DIR}
     COMMENT "target for building RAnEn release tarbal"
     WORKING_DIRECTORY ${RAnEn_RELEASES_DIR})
 
+set(OLD_RAnEn_TARFILE "${LIBRARY_NAME}_${LIBRARY_VERSION}.tar.gz")
+
+add_custom_target(
+	remove-old-release
+	COMMAND ${CMAKE_COMMAND} -E remove ${OLD_RAnEn_TARFILE}
+	COMMENT "target to remove the old release ${OLD_RAnEn_TARFILE}"
+	WORKING_DIRECTORY ${RAnEn_RELEASES_DIR})
+add_dependencies(build-release remove-old-release)

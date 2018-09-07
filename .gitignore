@@ -62,9 +62,9 @@ doxygen-output
 
 RAnalogs/RAnEn/.Rhistory
 RAnalogs/RAnEn/config.log
-RAnalogs/RAnEn/DESCRIPTION
 RAnalogs/RAnEn/config.status
 RAnalogs/RAnEn/LICENSE.txt
+RAnalogs/RAnEn/src/Makefile
 RAnalogs/RAnEn/src/AnEn.cpp
 RAnalogs/RAnEn/src/AnEn.h
 RAnalogs/RAnEn/src/Analogs.cpp
