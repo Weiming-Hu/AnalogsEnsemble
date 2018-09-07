@@ -40,11 +40,6 @@ endif(NOT EXISTS ${RAnEn_EXTRA_INCLUDE_DIR})
 # Configure DESCRIPTION
 string(TIMESTAMP LIBRARY_CONFIGURE_TIMESTAMP "%Y-%m-%d_%H:%M")
 configure_file("${RAnEn_PACKAGE_DIR}/DESCRIPTION.in" "${RAnEn_PACKAGE_DIR}/DESCRIPTION")
-if (WIN32)
-	configure_file("${RAnEn_SOURCE_DIR}/Makefile.in" "${RAnEn_SOURCE_DIR}/Makefile.win")
-else (WIN32)
-	configure_file("${RAnEn_SOURCE_DIR}/Makefile.in" "${RAnEn_SOURCE_DIR}/Makefile")
-endif (WIN32)
 
 # copy files
 set(REQUIRED_FILE_NAME "Analogs;AnEn;Array4D;Forecasts;Observations;Parameters;SimilarityMatrices;StandardDeviation;Stations;Times")
@@ -73,6 +68,7 @@ foreach(file ${REQUIRED_FILE_NAME})
 endforeach(file ${REQUIRED_FILE_NAME})
 set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_SOURCE_DIR}/colorTexts.h")
 set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_SOURCE_DIR}/RAnEn.so")
+set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_SOURCE_DIR}/Makefile")
 set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_SOURCE_DIR}/RcppExports.o")
 set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_SOURCE_DIR}/Rinterface.o")
 

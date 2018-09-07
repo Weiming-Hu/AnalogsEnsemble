@@ -7,13 +7,13 @@
 _This document is still under development._
 
 * [About](#about)
-* [Dependencies](#dependencies)
+* [Requirement and Dependencies](#requirement-and-dependencies)
 * [Installation](#installation)
-    * [C Program and Libraries](#c-program-and-libraries)
-    * [R Package](#r-package)
-            * [Use Pre-built Version](#use-pre-built-version)
-            * [Compile from Source](#compile-from-source)
-    * [CMake Tunable Parameters Look-up](#cmake-tunable-parameters-look-up)
+	* [C Program and Libraries](#c-program-and-libraries)
+	* [R Package](#r-package)
+			* [Use Released Tarball File](#use-released-tarball-file)
+			* [Compile from Source](#compile-from-source)
+	* [CMake Tunable Parameters Look-up](#cmake-tunable-parameters-look-up)
 * [Feedbacks](#feedbacks)
 
 ## About
@@ -88,7 +88,7 @@ make clean
 
 ### R Package
 
-##### Use Pre-built Version
+##### Use Released Tarball File
 
 Generally, the following R packages are needed:
 
@@ -100,13 +100,16 @@ Generally, the following R packages are needed:
 - [R for Windows](https://cran.r-project.org/bin/windows/base/)
 - [Latest Rtools](https://cran.r-project.org/bin/windows/Rtools/)
 
-Please find a tarball file under `CAnalogs/RAnalogs/precompiled`. That is the package file you need to install inside R later. Then, open an R session, and run the following command.
+Please find a tarball file under [`CAnalogs/RAnalogs/releases`](https://github.com/Weiming-Hu/AnalogsEnsemble/tree/master/releases). That is the package file you need to install inside R later. Then, open an R session, and run the following command.
 
 ```
 #install.packages("BH")
 #install.packages("Rcpp")
 
-install.packages("[full path to the tarball file]", type = "source", repo = NULL)
+# The quiet option is to reduce the amount of standard output. Switch the parameter
+# if you prefer to see the full list of warnings
+#
+install.packages("[full path to the tarball file]", type = "source", repo = NULL, quiet = T)
 ```
 
 On *Windows*, please separate folder names with `\\`.
@@ -138,12 +141,6 @@ Then, let's generate the make files.
 cmake -DINSTALL_RAnEn=ON -G "Unix Makefiles" ..
 ```
 
-If you have multiple R executables, please specify which R should be used.
-
-```
-cmake -DINSTALL_RAnEn=ON -DR_COMMAND=[R executable] -G "Unix Makefiles" ..
-```
-
 Read the output messages. If you would like to make any changes and generate new make files, please delete all the files in `build/` folder first. Otherwise, you will not change anything because of the existed files.
 
 After the make files have been generated, go ahead and install the R package.
@@ -152,7 +149,17 @@ After the make files have been generated, go ahead and install the R package.
 make
 ```
 
-*Please don't use parallelizing flags `-j` here. It will mess up the order of execution and you will fail. It won't take long.*
+The following command installs the R package.
+
+```
+make install
+```
+
+The following command generates a new tarball file into the `releases` folder and overwrites the old file if file already existst.
+
+```
+make build-release
+```
 
 Clean up the files after the make process.
 
@@ -171,7 +178,6 @@ make clean
 |                     |            `cmake -DINSTALL_RAnEn=ON ..`            |                                                                                                                                                                                                 Specify installing the RAnEn package. |
 |     BOOST\_TYPE     |            `cmake -DBOOST_TYPE=BUILD ..`            |                                                                                                                                                                                        **Default**. Specify building Boost libraries. |
 |                     |            `cmake -DBOOST_TYPE=SYSTEM ..`           |                                                                                                                                                                            **Not recommended**. Specify using system Boost libraries. |
-|      R\_COMMAND     |       `cmake -DR_COMMAND=/usr/local/bin/r ..`       |                                                                                                                                                                                                             Specify the R executable. |
 |  CMAKE\_BUILD\_TYPE |        `cmake -DCMAKE_BUILD_TYPE=Release ..`        |                                                                                                                                                               **Default**. Specify Release which will generate less warning messages. |
 |                     |         `cmake -DCMAKE_BUILD_TYPE=Debug ..`         |                                                                                                                                                                              Specify Debug which will generate more warning messages. |
 | CMAKE\_BUILD\_TESTS |          `cmake -DCMAKE_BUILD_TESTS=ON ..`          |                                                                                                                                                                                                               Specify to build tests. |

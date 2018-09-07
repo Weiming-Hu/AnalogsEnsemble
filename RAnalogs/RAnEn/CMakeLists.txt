@@ -123,6 +123,20 @@ foreach(COPYFILE IN LISTS COPYFILES)
 		"${CMAKE_CURRENT_BINARY_DIR}/${COPYFILE}")
 endforeach(COPYFILE IN LISTS COPYFILES)
 
+# Copy empty Makefiles to suppress any compiling of the source code when
+# using make install to install R package because the RAnEn.so should already
+# be compiled.
+#
+add_custom_command(TARGET copyPackage
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Makefile.win"
+    "${CMAKE_CURRENT_BINARY_DIR}/src/Makefile.win")
+add_custom_command(TARGET copyPackage
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Makefile"
+    "${CMAKE_CURRENT_BINARY_DIR}/src/Makefile")
+
+
 if(WIN32)
     install(CODE "execute_process(COMMAND \"${R_COMMAND}\"
 	CMD INSTALL --no-multiarch \$\{CMAKE_INSTALL_CONFIG_NAME\}

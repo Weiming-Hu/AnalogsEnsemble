@@ -65,6 +65,8 @@ RAnalogs/RAnEn/config.log
 RAnalogs/RAnEn/config.status
 RAnalogs/RAnEn/LICENSE.txt
 RAnalogs/RAnEn/src/Makefile
+RAnalogs/RAnEn/src/Makefile.in
+RAnalogs/RAnEn/src/Makefile.win
 RAnalogs/RAnEn/src/AnEn.cpp
 RAnalogs/RAnEn/src/AnEn.h
 RAnalogs/RAnEn/src/Analogs.cpp
@@ -73,8 +75,6 @@ RAnalogs/RAnEn/src/Array4D.cpp
 RAnalogs/RAnEn/src/Array4D.h
 RAnalogs/RAnEn/src/Forecasts.cpp
 RAnalogs/RAnEn/src/Forecasts.h
-RAnalogs/RAnEn/src/Makevars
-RAnalogs/RAnEn/src/Makevars.in
 RAnalogs/RAnEn/src/Observations.cpp
 RAnalogs/RAnEn/src/Observations.h
 RAnalogs/RAnEn/src/Parameters.cpp
