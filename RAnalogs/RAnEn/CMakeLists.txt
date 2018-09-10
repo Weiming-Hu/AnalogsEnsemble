@@ -15,6 +15,7 @@ endif(NOT CMAKE_BUILD_TYPE)
 
 # Find R
 find_package(R REQUIRED)
+message(STATUS "R is found at ${R_LIBRARY_BASE}")
 
 # Find Rscript
 if (RSCRIPT_COMMAND)
@@ -89,7 +90,7 @@ set_property(TARGET RAnEn PROPERTY SUFFIX ".so")
 # Include and link libraries
 set_property(TARGET RAnEn APPEND PROPERTY COMPILE_FLAGS ${RCPP_CXXFLAGS})
 include_directories ("${CMAKE_CURRENT_SOURCE_DIR}/src" ${R_INCLUDE_DIR})
-target_link_libraries(RAnEn R)
+target_link_libraries(RAnEn ${R_LIBRARY_BASE})
 
 if (R_BH_INCLUDE_DIR)
     include_directories (${R_BH_INCLUDE_DIR})

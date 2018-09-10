@@ -74,7 +74,12 @@ matrix:
      - os: linux
        language: r
        cache: Rcpp
+       addons:
+           apt:
+               packages:
+                   - g++-8
        env:
+         - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
          - ENVIRONMENT_LANGUAGE="r"
 
      - os: osx
