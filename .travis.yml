@@ -77,7 +77,7 @@ matrix:
        addons:
           apt:
             sources:
-              - 'ppa:ubuntu-toolchain-r/test'
+              - ubuntu-toolchain-r-test
             packages:
               - g++-4.9
        env:
