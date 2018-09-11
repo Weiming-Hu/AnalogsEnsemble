@@ -269,6 +269,7 @@ find_package(Doxygen)
 if (DOXYGEN_FOUND)
     set(DOXYGEN_GENERATE_HTML YES)
     set(DOXYGEN_GENERATE_MAN YES)
+    set(DOXYGEN_USE_MDFILE_AS_MAINPAGE "${CMAKE_CURRENT_SOURCE_DIR}/README.md")
     set(DOXYGEN_EXCLUDE_PATTERNS "*build*;*output*;*dependency*;*nbproject*;*RAnalogs*;*important*;*cmake*")
 
     message(STATUS "Doxygen found. Use make document to generate package C++ documentation.")
