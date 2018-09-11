@@ -77,9 +77,9 @@ matrix:
        addons:
            apt:
                packages:
-                   - g++-8
+                   - g++-5
        env:
-         - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
+         - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"
          - ENVIRONMENT_LANGUAGE="r"
 
      - os: osx
