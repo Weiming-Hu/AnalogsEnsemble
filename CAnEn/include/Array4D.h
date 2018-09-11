@@ -26,7 +26,7 @@
 #include <vector>
 
 /** GC:
- This is the basic data structure that is used to store the forecasts and
+ * This is the basic data structure that is used to store the forecasts and
  * the observations.  Normally the data is stored in the following format:
  * 
  * [Parameter][Station][Days][Forecast Lead Time]

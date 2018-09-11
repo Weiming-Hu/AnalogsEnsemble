@@ -259,3 +259,20 @@ endif(HDF5_BUILT)
 if(NETCDF_BUILT)
     message(WARNING "netCDF is built. Please keep this build directory becuase the program needs it.")
 endif(NETCDF_BUILT)
+
+
+#########################
+#     Add ducoment      #
+#########################
+# Use doxygen to generate documents for C++
+find_package(Doxygen)
+if (DOXYGEN_FOUND)
+    set(DOXYGEN_GENERATE_HTML YES)
+    set(DOXYGEN_GENERATE_MAN YES)
+    set(DOXYGEN_EXCLUDE_PATTERNS "*build*;*output*;*dependency*;*nbproject*;*RAnalogs*;*important*;*cmake*")
+
+    message(STATUS "Doxygen found. Use make document to generate package C++ documentation.")
+    doxygen_add_docs(document ${CMAKE_CURRENT_SOURCE_DIR}
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+        COMMENT "Generate documentation for C++ package")
+endif (DOXYGEN_FOUND)
