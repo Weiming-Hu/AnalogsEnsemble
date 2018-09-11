@@ -75,11 +75,13 @@ matrix:
        language: r
        cache: Rcpp
        addons:
-           apt:
-               packages:
-                   - g++-5
+          apt:
+            sources:
+              - 'ppa:ubuntu-toolchain-r/test'
+            packages:
+              - g++-4.9
        env:
-         - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"
+         - MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9"
          - ENVIRONMENT_LANGUAGE="r"
 
      - os: osx
