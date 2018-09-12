@@ -228,10 +228,16 @@ if(CMAKE_BUILD_TESTS)
             LOG_TEST ${VERBOSE_TEST}
             LOG_INSTALL ${VERBOSE_INSTALL})
 
+        get_property(LIB64 GLOBAL PROPERTY FIND_LIBRARY_USE_LIB64_PATHS)
+        if (${LIB64})
+            set (CPPUNIT_IMPORTED_LOCATION "${install_dir}/install/lib64/${CMAKE_STATIC_LIBRARY_PREFIX}cppunit${CMAKE_STATIC_LIBRARY_SUFFIX}")
+        else (${LIB64})
+            set (CPPUNIT_IMPORTED_LOCATION "${install_dir}/install/lib/${CMAKE_STATIC_LIBRARY_PREFIX}cppunit${CMAKE_STATIC_LIBRARY_SUFFIX}")
+        endif (${LIB64})
+
         ExternalProject_Get_Property(CPPUNIT_PROJECT install_dir)
         add_library(cppunit STATIC IMPORTED)
-        set_target_properties(cppunit
-            PROPERTIES IMPORTED_LOCATION "${install_dir}/install/lib/${CMAKE_STATIC_LIBRARY_PREFIX}cppunit${CMAKE_STATIC_LIBRARY_SUFFIX}")
+        set_target_properties(cppunit PROPERTIES IMPORTED_LOCATION ${CPPUNIT_IMPORTED_LOCATION})
         include_directories("${CPPUNIT_INSTALL_PREFIX}/include")
 
     endif(CPPUNIT_FOUND)
