@@ -78,7 +78,7 @@ public:
     /**
      * Set the target forecast.
      * 
-     * @param target A Forecasts with one station, one time, one FLT,
+     * @param targets A Forecasts with one station, one time, one FLT,
      * and all parameters.
      */
     void setTargets(const Forecasts & targets);

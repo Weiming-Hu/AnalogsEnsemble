@@ -265,15 +265,24 @@ endif(NETCDF_BUILT)
 #     Add ducoment      #
 #########################
 # Use doxygen to generate documents for C++
-find_package(Doxygen)
+find_package (Doxygen)
 if (DOXYGEN_FOUND)
-    set(DOXYGEN_GENERATE_HTML YES)
-    set(DOXYGEN_GENERATE_MAN YES)
-    set(DOXYGEN_USE_MDFILE_AS_MAINPAGE "${CMAKE_CURRENT_SOURCE_DIR}/README.md")
-    set(DOXYGEN_EXCLUDE_PATTERNS "*build*;*output*;*dependency*;*nbproject*;*RAnalogs*;*important*;*cmake*")
+    set (DOXYGEN_QUIET "NO")
+    set (DOXYGEN_GENERATE_XML "NO")
+    set (DOXYGEN_GENERATE_HTML YES)
+    set (DOXYGEN_GENERATE_MAN YES)
+    set (DOXYGEN_GENERATE_LATEX "NO")
+    set (DOXYGEN_PROJECT_NAME "Analog Ensemble")
+    set (DOXYGEN_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR})
+    set (DOXYGEN_MAINPAGE_MDFILE "${CMAKE_CURRENT_SOURCE_DIR}/README.md")
+    set (DOXYGEN_EXCLUDE_PATTERNS "*build* *output* *dependency* *nbproject* *RAnalogs* *important* *cmake*")
 
-    message(STATUS "Doxygen found. Use make document to generate package C++ documentation.")
-    doxygen_add_docs(document ${CMAKE_CURRENT_SOURCE_DIR}
+    configure_file ("${CMAKE_CURRENT_SOURCE_DIR}/doxygen-config.in" "${CMAKE_CURRENT_BINARY_DIR}/doxygen-config")
+
+    message (STATUS "Doxygen found. Use make document to generate package C++ documentation.")
+
+    add_custom_target(document
+        COMMAND ${DOXYGEN_EXECUTABLE} "${CMAKE_CURRENT_BINARY_DIR}/doxygen-config"
         WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-        COMMENT "Generate documentation for C++ package")
+        COMMENT "Generate help page using doxygen")
 endif (DOXYGEN_FOUND)
