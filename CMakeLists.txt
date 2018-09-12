@@ -277,6 +277,12 @@ if (DOXYGEN_FOUND)
     set (DOXYGEN_MAINPAGE_MDFILE "${CMAKE_CURRENT_SOURCE_DIR}/README.md")
     set (DOXYGEN_EXCLUDE_PATTERNS "*build* *output* *dependency* *nbproject* *RAnalogs* *important* *cmake*")
 
+    if (${DOXYGEN_DOT_FOUND})
+        set (DOXYGEN_HAVE_DOT YES)
+    else (${DOXYGEN_DOT_FOUND}) 
+        set (DOXYGEN_HAVE_DOT "NO")
+    endif (${DOXYGEN_DOT_FOUND})
+
     configure_file ("${CMAKE_CURRENT_SOURCE_DIR}/doxygen-config.in" "${CMAKE_CURRENT_BINARY_DIR}/doxygen-config")
 
     message (STATUS "Doxygen found. Use make document to generate package C++ documentation.")
