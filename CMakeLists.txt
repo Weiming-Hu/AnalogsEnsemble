@@ -149,9 +149,8 @@ add_subdirectory("${CMAKE_SOURCE_DIR}/CAnEn")
 # build executables #
 #####################
 add_subdirectory("${CMAKE_SOURCE_DIR}/app_analogsGenerator")
-#add_subdirectory("${CMAKE_SOURCE_DIR}/app_canalogs")
-#add_subdirectory("${CMAKE_SOURCE_DIR}/app_CAnEnIO")
-#add_subdirectory("${CMAKE_SOURCE_DIR}/app_data_manager")
+add_subdirectory("${CMAKE_SOURCE_DIR}/app_similarityCalculator")
+
 
 
 #####################

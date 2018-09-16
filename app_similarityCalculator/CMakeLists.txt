@@ -1,11 +1,11 @@
 cmake_minimum_required(VERSION 2.8)
-project(analogsGenerator)
+project(similarityCalculator)
 
-set (analogsGenerator_VERSION "3.0.0")
+set (similarityCalculator_VERSION "1.0.0")
 
 enable_language(C CXX)
-message(STATUS "build application Analogs Generator")
-set(SOURCE_MAIN "${CMAKE_CURRENT_SOURCE_DIR}/analogsGenerator.cpp")
+message(STATUS "build application Similarity Calculator")
+set(SOURCE_MAIN "${CMAKE_CURRENT_SOURCE_DIR}/similarityCalculator.cpp")
 add_executable(${PROJECT_NAME} ${SOURCE_MAIN})
 
 include_directories(${NETCDF_INCLUDES})
@@ -18,6 +18,6 @@ include_directories("${CMAKE_SOURCE_DIR}/CAnEn/include")
 add_dependencies(${PROJECT_NAME} AnEn)
 target_link_libraries(${PROJECT_NAME} AnEn)
 
-set_target_properties(analogsGenerator
+set_target_properties(similarityCalculator
     PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${COMMON_OUTPUT_DIR}/bin")
-install(TARGETS analogsGenerator RUNTIME DESTINATION bin)
+install(TARGETS similarityCalculator RUNTIME DESTINATION bin)

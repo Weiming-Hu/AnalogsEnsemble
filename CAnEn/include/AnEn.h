@@ -28,6 +28,9 @@ public:
     AnEn(const AnEn& orig) = delete;
 
     virtual ~AnEn();
+    
+    using TimeMapMatrix = boost::numeric::ublas::matrix<size_t>;
+    using SearchStationMatrix = boost::numeric::ublas::matrix<double>;
 
     /**
      * Specifies the method that AnEn::computeSimilarity function uses:
@@ -105,7 +108,7 @@ public:
             const anenTime::Times & times_forecasts,
             const anenTime::Times & flts_forecasts,
             const anenTime::Times & times_observations,
-            boost::numeric::ublas::matrix<size_t> & mapping) const;
+            TimeMapMatrix & mapping) const;
 
     /**
      * Computes the search stations of each test stations.
@@ -127,7 +130,7 @@ public:
     errorType computeSearchStations(
             const anenSta::Stations & test_stations,
             const anenSta::Stations & search_stations,
-            boost::numeric::ublas::matrix<double> & i_search_stations,
+            SearchStationMatrix & i_search_stations,
             size_t max_num_search_stations,
             double distance = 0, size_t num_nearest_stations = 0,
             bool return_index = true);
