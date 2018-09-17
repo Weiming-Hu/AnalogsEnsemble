@@ -186,58 +186,31 @@ if(CMAKE_BUILD_TESTS)
         message(STATUS "CppUnit not found. Build it now.")
         include(ExternalProject)
 
+        # There are generally two ways to link to an external library that is not built in the system:
+        # - 1. Include the subdirectory if a CMakeLists.txt is provided, and this CMakeLists.txt 
+        #      supports being included as a subdirectory. With that being said, the CMakeLists.txt
+        #      carefully uses variables like CMake_SOURCE_DIR since, as a subdirectory, CMAKE_SOURCE_DIR
+        #      is differentiated from CMAKE_CURRENT_SOURCE_DIR.
+        # - 2. Add an external project and import the library. This approach is architecture dependent in
+        #      that the full path to the built library needs to be specified at compile time. NetCDF-CXX4
+        #      uses this method to be included in the project. This method is useful when you are building
+        #      dependencies of dependencies so that you don't need to re-write CMakeLists.txt for each
+        #      submodule to include their submodules.
+        #
+        find_package(Git REQUIRED QUIET)
+
         set(CMAKE_EXTERNAL_PROJECT_BUILD_TYPE "Release")
-        set(CPPUNIT_ROOT_PATH ${DEPENDENCY_PATH})
-        set(CPPUNIT_INSTALL_PREFIX "${DEPENDENCY_PATH}/install")
         set(CPPUNIT_URL "https://github.com/Weiming-Hu/CppUnit.git")
-        set(CPPUNIT_CMAKE_ARGS "-DCMAKE_INSTALL_PREFIX=${CPPUNIT_INSTALL_PREFIX}")
+        set (LIBRARY_CPPUNIT "${DEPENDENCY_PATH}/CppUnit")
 
-        string(REPLACE ";" "|" CPPUNIT_ALT_CMAKE_PREFIX_PATH "${CMAKE_PREFIX_PATH}")
-        set(CPPUNIT_PREFIX_PATH "-DCMAKE_PREFIX_PATH=${CPPUNIT_ALT_CMAKE_PREFIX_PATH}")
-        set(CPPUNIT_CMAKE_ARGS ${CPPUNIT_CMAKE_ARGS} ${CPPUNIT_PREFIX_PATH} ${RPATH_ARGS})
+        if(NOT EXISTS ${LIBRARY_CPPUNIT})
+            execute_process(COMMAND ${GIT_EXECUTABLE} "clone" ${CPPUNIT_URL} ${LIBRARY_CPPUNIT})
+        else(NOT EXISTS ${LIBRARY_CPPUNIT})
+            message(STATUS "CppUnit submodule is already downloaded")
+        endif(NOT EXISTS ${LIBRARY_CPPUNIT})
 
-        if(VERBOSE)
-            # If verbose is set to true, the following information will be printed
-            set(VERBOSE_DOWNLOAD 0)
-            set(VERBOSE_CONFIGURE 0)
-            set(VERBOSE_BUILD 0)
-            set(VERBOSE_INSTALL 0) 
-            set(VERBOSE_TEST 0)
-        else(VERBOSE)
-            # If verbose is set to true, the following information will be logged to file
-            set(VERBOSE_DOWNLOAD 1)
-            set(VERBOSE_CONFIGURE 1)
-            set(VERBOSE_BUILD 1)
-            set(VERBOSE_INSTALL 1) 
-            set(VERBOSE_TEST 1)
-        endif(VERBOSE)
-
-        ExternalProject_add(CPPUNIT_PROJECT
-            PREFIX ${CPPUNIT_ROOT_PATH}
-            GIT_REPOSITORY ${CPPUNIT_URL}
-            GIT_TAG master
-            PATCH_COMMAND ""
-            UPDATE_COMMAND ""
-            LIST_SEPARATOR | # Use the alternate list separator
-            CMAKE_ARGS ${CPPUNIT_CMAKE_ARGS}
-            BUILD_COMMAND ${MAKE}
-            LOG_DOWNLOAD ${VERBOSE_DOWNLOAD}
-            LOG_CONFIGURE ${VERBOSE_CONFIGURE}
-            LOG_BUILD ${VERBOSE_BUILD}
-            LOG_TEST ${VERBOSE_TEST}
-            LOG_INSTALL ${VERBOSE_INSTALL})
-
-        ExternalProject_Get_Property(CPPUNIT_PROJECT install_dir)
-        get_property(LIB64 GLOBAL PROPERTY FIND_LIBRARY_USE_LIB64_PATHS)
-        if (${LIB64})
-            set (CPPUNIT_IMPORTED_LOCATION "${install_dir}/install/lib64/${CMAKE_STATIC_LIBRARY_PREFIX}cppunit${CMAKE_STATIC_LIBRARY_SUFFIX}")
-        else (${LIB64})
-            set (CPPUNIT_IMPORTED_LOCATION "${install_dir}/install/lib/${CMAKE_STATIC_LIBRARY_PREFIX}cppunit${CMAKE_STATIC_LIBRARY_SUFFIX}")
-        endif (${LIB64})
-
-        add_library(cppunit STATIC IMPORTED)
-        set_target_properties(cppunit PROPERTIES IMPORTED_LOCATION ${CPPUNIT_IMPORTED_LOCATION})
-        include_directories("${CPPUNIT_INSTALL_PREFIX}/include")
+        include_directories ("${LIBRARY_CPPUNIT}/include")
+        add_subdirectory ("${DEPENDENCY_PATH}/CppUnit")
 
     endif(CPPUNIT_FOUND)
 

@@ -43,7 +43,7 @@ if (BOOST_TYPE STREQUAL "BUILD")
             file (MAKE_DIRECTORY ${DEPENDENCY_PATH})
         endif (NOT EXISTS ${DEPENDENCY_PATH})
 
-        find_package(Git REQUIRED)
+        find_package(Git REQUIRED QUIET)
 
         if(NOT EXISTS ${LIBRARY_PROGRAMOPTIONS})
             execute_process(COMMAND ${GIT_EXECUTABLE} "clone" "https://github.com/boostorg/program_options.git" ${LIBRARY_PROGRAMOPTIONS})
