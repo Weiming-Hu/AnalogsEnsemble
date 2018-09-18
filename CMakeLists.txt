@@ -151,6 +151,11 @@ add_subdirectory("${CMAKE_SOURCE_DIR}/CAnEn")
 add_subdirectory("${CMAKE_SOURCE_DIR}/app_analogsGenerator")
 add_subdirectory("${CMAKE_SOURCE_DIR}/app_similarityCalculator")
 
+option (BUILD_GRIBCONVERTER "Build gribConverter utility. Eccodes required." OFF)
+if (BUILD_GRIBCONVERTER)
+    add_subdirectory("${CMAKE_SOURCE_DIR}/app_gribConverter")
+endif (BUILD_GRIBCONVERTER)
+
 
 
 #####################
