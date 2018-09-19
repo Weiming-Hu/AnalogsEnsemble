@@ -2,11 +2,13 @@
 
 S3method(print,AnEn)
 export(biasCorrection)
+export(compute_analogs)
 export(generateAnalogs)
 export(generateCircleCoords)
 export(generateConfiguration)
 export(plotAnEnMap)
 export(plotAnEnTimesSeries)
+export(rcpp_compute_analogs)
 export(validateConfiguration)
 import(BH)
 import(Rcpp)

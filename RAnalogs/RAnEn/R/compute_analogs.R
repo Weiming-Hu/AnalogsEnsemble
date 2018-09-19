@@ -12,6 +12,18 @@
 ##################
 #   Deprecated   #
 ##################
+
+#' RAnEn::rcpp_compute_analogs
+#' 
+#' Deprecated function. Please see \code{\link{generateAnalogs}}.
+#' 
+#' @import Rcpp BH
+#' 
+#' @importFrom Rcpp evalCpp
+#' 
+#' @useDynLib RAnEn
+#' 
+#' @export
 rcpp_compute_analogs <- function(forecasts,
                                  observations,
                                  circulars = vector(mode = 'numeric'),
@@ -64,6 +76,17 @@ rcpp_compute_analogs <- function(forecasts,
   return(analogs)
 }
 
+#' RAnEn::compute_analogs
+#' 
+#' Deprecated function. Please see \code{\link{generateAnalogs}}.
+#' 
+#' @import Rcpp BH
+#' 
+#' @importFrom Rcpp evalCpp
+#' 
+#' @useDynLib RAnEn
+#' 
+#' @export
 compute_analogs <- function(forecasts,
                             observations,
                             circulars = vector(mode = 'numeric'),

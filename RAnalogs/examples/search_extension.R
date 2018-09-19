@@ -15,7 +15,8 @@ library(reshape2)
 library(RAnEn)
 
 # This is the column for station ID in metrics
-COL_STATION <- 1
+COL_STATION <- 2
+COL_VALUE <- 1
 
 ################
 # Prepare Data #
@@ -35,7 +36,7 @@ members.size <- 5
 
 search.times <- 1:num.days * 100
 search.flts <- 1:num.flts
-observation.times <- rep(search.times, each = num.flts) + num.flts
+observation.times <- rep(search.times, each = num.flts) + search.flts 
 
 # create synthetic data
 # values are generated from normal distributions
@@ -216,9 +217,9 @@ if (F) {
 	
 	# prepare data to plot
 	all.days.value.se <- t(analogs[
-		main.station.index, , flt, , 3])
+		main.station.index, , flt, , COL_VALUE])
 	all.days.value.wose <- t(AnEn.ind$analogs[
-		main.station.index, , flt, , 3])
+		main.station.index, , flt, , COL_VALUE])
 	obs <- observations[1, stations.ID[main.station.index],
 											test.ID.start:test.ID.end[day.index]]
 	

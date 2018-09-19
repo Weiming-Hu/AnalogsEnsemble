@@ -6,15 +6,21 @@
 
 _This document is still under development._
 
+<!-- vim-markdown-toc GitLab -->
+
 * [About](#about)
 * [Requirement and Dependencies](#requirement-and-dependencies)
 * [Installation](#installation)
-	* [C Program and Libraries](#c-program-and-libraries)
-	* [R Package](#r-package)
-			* [Use Released Tarball File](#use-released-tarball-file)
-			* [Compile from Source](#compile-from-source)
-	* [CMake Tunable Parameters Look-up](#cmake-tunable-parameters-look-up)
+    * [C Program and Libraries](#c-program-and-libraries)
+    * [R Package](#r-package)
+            * [Use Released Tarball File](#use-released-tarball-file)
+            * [Compile from Source](#compile-from-source)
+    * [CMake Tunable Parameters Look-up](#cmake-tunable-parameters-look-up)
+* [Known Issues](#known-issues)
+        * [`RAnEn` is built with GNU compiler and CMake process. But it shows up not supporting `OpenMP`.](#ranen-is-built-with-gnu-compiler-and-cmake-process-but-it-shows-up-not-supporting-openmp)
 * [Feedbacks](#feedbacks)
+
+<!-- vim-markdown-toc -->
 
 ## About
 
@@ -170,25 +176,25 @@ make clean
 
 ### CMake Tunable Parameters Look-up
 
-|      Parameter      |                        Usage                        |                                                                                                              Explanation                                                                                                              |
-|:-------------------:|:---------------------------------------------------:|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
-|          CC         |          `CC=/usr/local/bin/gcc-7 cmake ..`         |                                                                                                                                                                                            Specify C compiler. Usually used with CXX. |
-|         CXX         |         `CXX=/usr/local/bin/g++-7 cmake ..`         |                                                                                                                                                                                           Specify C++ compiler. Usually used with CC. |
-|    INSTALL\_RAnEn   |            `cmake -DINSTALL_RAnEn=OFF ..`           |                                                                                                                                                                            **Default**. Specify installing the C++ executable prgram. |
-|                     |            `cmake -DINSTALL_RAnEn=ON ..`            |                                                                                                                                                                                                 Specify installing the RAnEn package. |
-|     BOOST\_TYPE     |            `cmake -DBOOST_TYPE=BUILD ..`            |                                                                                                                                                                                        **Default**. Specify building Boost libraries. |
-|                     |            `cmake -DBOOST_TYPE=SYSTEM ..`           |                                                                                                                                                                            **Not recommended**. Specify using system Boost libraries. |
-|  CMAKE\_BUILD\_TYPE |        `cmake -DCMAKE_BUILD_TYPE=Release ..`        |                                                                                                                                                               **Default**. Specify Release which will generate less warning messages. |
-|                     |         `cmake -DCMAKE_BUILD_TYPE=Debug ..`         |                                                                                                                                                                              Specify Debug which will generate more warning messages. |
-| CMAKE\_BUILD\_TESTS |          `cmake -DCMAKE_BUILD_TESTS=ON ..`          |                                                                                                                                                                                                               Specify to build tests. |
-|                     |          `cmake -DCMAKE_BUILD_TESTS=OFF ..`         |                                                                                                                                                                                              **Default**. Specify not to build tests. |
-|    BUILD\_NETCDF    |             `cmake -DBUILD_NETCDF=ON ..`            |                                                                                                                                                                                                                 Build NetCDF library. |
-|    BUILD\_HDF5      |             `cmake -DBUILD_HDF5=ON ..`            |                                                                                                                                                                                                                 Build HDF5 library. |
-|     ENABLE\_MPI     |             `cmake -DENABLE_MPI=OFF ..`             |                                                                                                                                           **Default**. Specify whether to build MPI support. **This is currently under development.** |
-|       VERBOSE       |               `cmake -DVERBOSE=OFF ..`              |                                                                                                                                                                                                             **Default**. Less output. |
-|                     |               `cmake -DVERBOSE=ON ..`               |                                                                                                                                                                                                                      Detailed output. |
+|      Parameter      |                                              Explanation                                              |       Default      |
+|:-------------------:|:-----------------------------------------------------------------------------------------------------:|:------------------:|
+|          CC         |                                         The C compiler to use.                                        | [System dependent] |
+|         CXX         |                                        The C++ compiler to use.                                       | [System dependent] |
+|    INSTALL\_RAnEn   |                                 Build and install the `RAnEn` library.                                |         OFF        |
+|     BOOST\_TYPE     | `BUILD` for building `Boost` library; `SYSTEM` for using the `Boost` library installed on the system. |        BUILD       |
+|  CMAKE\_BUILD\_TYPE |                          `Release` for release mode; `Debug` for debug mode.                          |       Release      |
+| CMAKE\_BUILD\_TESTS |                                        Build and install tests.                                       |         OFF        |
+|    BUILD\_NETCDF    |                                        Build `NetCDF` library.                                        |         OFF        |
+|     BUILD\_HDF5     |                                         Build `HDF5` library.                                         |         OFF        |
+|       VERBOSE       |                                            Verbose output.                                            |         OFF        |
 
 _Table generated from [Tables Generator](https://www.tablesgenerator.com/markdown_tables)._
+
+## Known Issues
+
+#### `RAnEn` is built with GNU compiler and CMake process. But it shows up not supporting `OpenMP`.
+
+If you have run the `roxygen` command before the make process, the library will not be supporting `OpenMP`. Make sure that before your CMake's runtime, you have a `clean` directory under `RAnalogs/RAnEn/src`. An easy way to do this is to run `make clean-roxygen`, and repeat the build and make process.
 
 ## Feedbacks
 
