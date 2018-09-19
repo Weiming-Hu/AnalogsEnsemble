@@ -6,8 +6,6 @@
 
 _This document is still under development._
 
-<!-- vim-markdown-toc GitLab -->
-
 * [About](#about)
 * [Requirement and Dependencies](#requirement-and-dependencies)
 * [Installation](#installation)
@@ -17,10 +15,7 @@ _This document is still under development._
             * [Compile from Source](#compile-from-source)
     * [CMake Tunable Parameters Look-up](#cmake-tunable-parameters-look-up)
 * [Known Issues](#known-issues)
-        * [`RAnEn` is built with GNU compiler and CMake process. But it shows up not supporting `OpenMP`.](#ranen-is-built-with-gnu-compiler-and-cmake-process-but-it-shows-up-not-supporting-openmp)
 * [Feedbacks](#feedbacks)
-
-<!-- vim-markdown-toc -->
 
 ## About
 
@@ -192,9 +187,13 @@ _Table generated from [Tables Generator](https://www.tablesgenerator.com/markdow
 
 ## Known Issues
 
-#### `RAnEn` is built with GNU compiler and CMake process. But it shows up not supporting `OpenMP`.
+- `RAnEn` is built with GNU compiler and CMake process. But it shows up not supporting `OpenMP`.
 
 If you have run the `roxygen` command before the make process, the library will not be supporting `OpenMP`. Make sure that before your CMake's runtime, you have a `clean` directory under `RAnalogs/RAnEn/src`. An easy way to do this is to run `make clean-roxygen`, and repeat the build and make process.
+
+- Linking errors when building the C++ library during the second time.
+
+If you have successfully built the C++ library before and when you modifed any files or did a `git pull`, you found the `make` process failed. This can be caused by using the old dependencies previously built and stored in the `dependency/` directory. This typically happens when you've also changed the compiler. An easy workaround for this is to remove all the build files, include the directories `dependency\`, `output\`, and `build\`, and start from scratch with a clean directory.
 
 ## Feedbacks
 
