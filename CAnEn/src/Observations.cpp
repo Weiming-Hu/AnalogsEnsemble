@@ -41,9 +41,8 @@ Observations::getStationIndex(size_t station_ID) const {
 
 size_t
 Observations::getTimeIndex(double timestamp) const {
-    size_t i_time;
-    if (times_.getTimeIndex(timestamp, i_time)) return (i_time);
-    else throw (out_of_range("Error: Could not find Time."));
+    size_t i_time = times_.getTimeIndex(timestamp);
+    return (i_time);
 };
 
 size_t
@@ -158,10 +157,8 @@ Observations_array::getValueByID(size_t parameter_ID, size_t station_ID,
     size_t parameter_index = parameters_.getParameterIndex(parameter_ID);
     size_t station_index = stations_.getStationIndex(station_ID);
 
-    size_t i_time;
-    if (times_.getTimeIndex(timestamp, i_time))
-        return (data_[parameter_index][station_index][i_time]);
-    else throw out_of_range("Error: Could not find Time.");
+    size_t i_time = times_.getTimeIndex(timestamp);
+    return (data_[parameter_index][station_index][i_time]);
 }
 
 void
@@ -176,10 +173,8 @@ Observations_array::setValue(double val, size_t parameter_ID,
     size_t parameter_index = parameters_.getParameterIndex(parameter_ID);
     size_t station_index = stations_.getStationIndex(station_ID);
 
-    size_t i_time;
-    if (times_.getTimeIndex(timestamp, i_time))
-        data_[parameter_index][station_index][i_time] = val;
-    else throw out_of_range("Error: Could not find Time.");
+    size_t i_time = times_.getTimeIndex((timestamp));
+    data_[parameter_index][station_index][i_time] = val;
 }
 
 void

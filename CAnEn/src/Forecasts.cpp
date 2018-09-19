@@ -170,11 +170,9 @@ Forecasts_array::getValueByID(std::size_t parameter_ID, std::size_t station_ID,
     size_t parameter_index = parameters_.getParameterIndex(parameter_ID);
     size_t station_index = stations_.getStationIndex(station_ID);
 
-    size_t i_time, i_flt;
-    if (flts_.getTimeIndex(flt, i_flt) &&
-            times_.getTimeIndex(timestamp, i_time))
-        return (data_[parameter_index][station_index][i_time][i_flt]);
-    else throw (out_of_range("Error: Could not find Time and FLT."));
+    size_t i_time = times_.getTimeIndex(timestamp), 
+            i_flt = flts_.getTimeIndex((flt));
+    return (data_[parameter_index][station_index][i_time][i_flt]);
 }
 
 void
@@ -189,11 +187,9 @@ Forecasts_array::setValue(double val, std::size_t parameter_ID,
     size_t parameter_index = parameters_.getParameterIndex(parameter_ID);
     size_t station_index = stations_.getStationIndex(station_ID);
 
-    size_t i_time, i_flt;
-    if (flts_.getTimeIndex(flt, i_flt) &&
-            times_.getTimeIndex(timestamp, i_time))
-        data_[parameter_index][station_index][i_time][i_flt] = val;
-    else throw (out_of_range("Error: Could not find Time and FLT."));
+    size_t i_time = times_.getTimeIndex(timestamp), 
+            i_flt = flts_.getTimeIndex((flt));
+    data_[parameter_index][station_index][i_time][i_flt] = val;
 }
 
 void

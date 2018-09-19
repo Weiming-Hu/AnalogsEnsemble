@@ -140,17 +140,10 @@ firstprivate(index)
     for (size_t i_row = 0; i_row < mapping.size1(); i_row++) {
         for (size_t i_col = 0; i_col < mapping.size2(); i_col++) {
 
-            if (times_observations.getTimeIndex(
-                    times_forecasts_by_insert[i_row] +
-                    flts_forecasts_by_insert[i_col], index)) {
-                mapping(i_row, i_col) = index;
-            } else {
-                if (verbose_ >= 1) cout << BOLDRED << "Error: Could not find time for "
-                        << "Time " << times_forecasts_by_insert[i_row]
-                        << "FLT " << flts_forecasts_by_insert[i_col]
-                        << "!" << RESET << endl;
-                loop_flag = 0;
-            }
+            index = times_observations.getTimeIndex(
+                    times_forecasts_by_insert[i_row] + flts_forecasts_by_insert[i_col]);
+            mapping(i_row, i_col) = index;
+
 
         }
     }
@@ -597,7 +590,7 @@ AnEn::selectAnalogs(
     size_t num_test_stations = sims.getTargets().getStationsSize();
     size_t num_test_times = sims.getTargets().getTimesSize();
     size_t num_flts = sims.getTargets().getFLTsSize();
-    
+
     Analogs::extent_gen extents;
     analogs.resize(extents[0][0][0][0][0]);
     analogs.resize(extents[num_test_stations][num_test_times][num_flts][num_members][3]);

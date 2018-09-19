@@ -24,6 +24,10 @@
  */
 namespace anenTime {
 
+    const static int _ORIGIN_YEAR = 1970;
+    const static int _ORIGIN_MONTH = 1;
+    const static int _ORIGIN_DAY = 1;
+
     struct by_insert {
         /**
          * The tag for insertion sequence indexing
@@ -75,7 +79,7 @@ namespace anenTime {
 
         virtual ~Times();
 
-        bool getTimeIndex(double timestamp, size_t & i_time) const;
+        size_t getTimeIndex(double timestamp) const;
 
         void print(std::ostream & os) const;
         friend std::ostream& operator<<(std::ostream& os, Times const & obj);

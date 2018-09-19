@@ -18,6 +18,7 @@
 
 #include "Times.h"
 #include <iterator>
+#include <sstream>
 
 namespace anenTime {
 
@@ -28,12 +29,16 @@ namespace anenTime {
      **************************************************************************/
 
     Times::Times() {
-        origin_ = "1970-01-01";
+        stringstream ss;
+        ss << _ORIGIN_YEAR << "-" << _ORIGIN_MONTH << "-" << _ORIGIN_DAY;
+        origin_ = ss.str();
     }
 
     Times::Times(string unit) :
     unit_(unit) {
-        origin_ = "1970-01-01";
+        stringstream ss;
+        ss << _ORIGIN_YEAR << "-" << _ORIGIN_MONTH << "-" << _ORIGIN_DAY;
+        origin_ = ss.str();
     }
 
     Times::Times(string unit, string origin) :
@@ -43,8 +48,8 @@ namespace anenTime {
     Times::~Times() {
     }
 
-    bool
-    Times::getTimeIndex(double timestamp, size_t & i_time) const {
+    size_t
+    Times::getTimeIndex(double timestamp) const {
 
         // Find the timestamp in value-ordered index
         const multiIndexTimes::index<by_value>::type&
@@ -62,13 +67,12 @@ namespace anenTime {
                     times_by_insert = get<by_insert>();
 
             // Compute the distance
-            i_time = distance(times_by_insert.begin(), it_insert);
-            return (true);
+            return (distance(times_by_insert.begin(), it_insert));
 
         } else {
-            return (false);
+            throw out_of_range("Can't find the station ID " +
+                    to_string(timestamp));
         }
-
     }
 
     void

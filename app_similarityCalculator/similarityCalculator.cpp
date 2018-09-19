@@ -163,7 +163,7 @@ int main(int argc, char** argv) {
         po::options_description desc("Available options");
         desc.add_options()
                 ("help,h", "Print help information for options.")
-                ("config,c", po::value<string>(), "Set the configuration file path. Command line options overwrite options in configuration file. ")
+                ("config,c", po::value<string>(&config_file), "Set the configuration file path. Command line options overwrite options in configuration file. ")
 
                 ("test-forecast-nc", po::value<string>(&file_test_forecasts)->required(), "Set the file path for test forecast NetCDF.")
                 ("search-forecast-nc", po::value<string>(&file_search_forecasts)->required(), "Set the file path for search forecast NetCDF.")
@@ -187,13 +187,10 @@ int main(int argc, char** argv) {
         po::variables_map vm;
         store(po::command_line_parser(argc, argv).options(desc).run(), vm);
         
-        if (vm.count("help") || argc == 1) {
-            cout << GREEN << "Analog Ensemble program --- Similarity Calculator"
-                    << RESET << endl << desc << endl;
-            return 0;
-        }
-        
         if (vm.count("config")) {
+            // If configuration file is specfied, read it first.
+            // The variable won't be written until we call notify.
+            //
             config_file = vm["config"].as<string>();
         }
         
@@ -208,6 +205,12 @@ int main(int argc, char** argv) {
             }
         }
 
+        if (vm.count("help") || argc == 1) {
+            cout << GREEN << "Analog Ensemble program --- Similarity Calculator"
+                    << RESET << endl << desc << endl;
+            return 0;
+        }
+        
         notify(vm);
         
     } catch (...) {
