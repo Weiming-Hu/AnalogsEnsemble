@@ -110,7 +110,6 @@ operator<<(ostream& os, const Observations & obj) {
 /*******************************************************************************
  *                         Observations_array                                  *
  ******************************************************************************/
-
 Observations_array::Observations_array() {
 }
 
@@ -124,6 +123,7 @@ Observations_array::Observations_array(
         anenPar::Parameters parameters, anenSta::Stations stations, anenTime::Times times,
         const vector<double> & vals) :
 Observations_array(parameters, stations, times) {
+    updateDataDims();
     setValues(vals);
 }
 
@@ -206,6 +206,8 @@ Observations_array::updateDataDims() {
                 << " double values." << endl;
         throw;
     }
+    
+    fill_n(data_.data(), data_.num_elements(), _DEFAULT);
 }
 
 size_t Observations_array::getDataLength() const {

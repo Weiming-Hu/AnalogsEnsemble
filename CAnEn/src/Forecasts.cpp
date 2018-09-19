@@ -32,10 +32,8 @@ Forecasts::Forecasts() {
 
 Forecasts::Forecasts(anenPar::Parameters parameters,
         anenSta::Stations stations, anenTime::Times time, anenTime::FLTs flt) :
-parameters_(parameters),
-stations_(stations),
-times_(time),
-flts_(flt) {
+parameters_(parameters), stations_(stations),
+times_(time), flts_(flt) {
 }
 
 Forecasts::~Forecasts() {
@@ -221,6 +219,8 @@ Forecasts_array::updateDataDims() {
                 << getTimesSize() << " double values." << endl;
         throw;
     }
+
+    fill_n(data_.data(), data_.num_elements(), _DEFAULT);
 }
 
 size_t

@@ -232,7 +232,7 @@ void toForecasts(const vector<string> & files_in, const string & file_out,
         anenPar::Parameter parameter(pars_new_name[i], circular);
         parameters.push_back(parameter);
     }
-    if (verbose >= 3) cout << parameters << endl;
+    if (verbose >= 3) cout << parameters;
     assert(parameters.size() == pars_new_name.size());
 
     // Prepare times
@@ -260,6 +260,7 @@ void toForecasts(const vector<string> & files_in, const string & file_out,
     }
 
     // Read times and flts
+    vector<double> times_vec, flts_vec;
     boost::gregorian::date time_start{anenTime::_ORIGIN_YEAR,
         anenTime::_ORIGIN_MONTH, anenTime::_ORIGIN_DAY}, time_end;
     for (const auto & file : files_in) {
@@ -276,13 +277,19 @@ void toForecasts(const vector<string> & files_in, const string & file_out,
                 time_end = boost::gregorian::from_undelimited_string(string(match[1]));
             }
             boost::gregorian::date_duration duration = time_end - time_start;
-            times.push_back(duration.days() * _SECS_IN_DAY);
+            times_vec.push_back(duration.days() * _SECS_IN_DAY);
         }
 
         if (regex_search(file.begin(), file.end(), match, regex_flt)) {
-            flts.push_back(stoi(match[1]) * flt_interval);
+            flts_vec.push_back(stoi(match[1]) * flt_interval);
         }
     }
+
+    sort(flts_vec.begin(), flts_vec.end());
+    flts.insert(flts.end(), flts_vec.begin(), flts_vec.end());
+
+    sort(times_vec.begin(), times_vec.end());
+    times.insert(times.end(), times_vec.begin(), times_vec.end());
 
     if (verbose >= 4) {
         cout << times << flts;
@@ -442,6 +449,7 @@ void toObservations(const vector<string> & files_in, const string & file_out,
     }
 
     // Read times
+    vector<double> times_vec;
     boost::gregorian::date time_start{anenTime::_ORIGIN_YEAR,
         anenTime::_ORIGIN_MONTH, anenTime::_ORIGIN_DAY}, time_end;
     for (const auto & file : files_in) {
@@ -458,10 +466,13 @@ void toObservations(const vector<string> & files_in, const string & file_out,
                 time_end = boost::gregorian::from_undelimited_string(string(match[1]));
             }
             boost::gregorian::date_duration duration = time_end - time_start;
-            times.push_back(duration.days() * _SECS_IN_DAY);
+            times_vec.push_back(duration.days() * _SECS_IN_DAY);
         }
     }
 
+    sort(times_vec.begin(), times_vec.end());
+    times.insert(times.end(), times_vec.begin(), times_vec.end());
+    
     if (verbose >= 4) cout << times;
     // Read data
     if (verbose >= 3) cout << "Reading data information ..." << endl;
@@ -640,7 +651,7 @@ int main(int argc, char** argv) {
     if (fs::exists(fs::path(file_out))) {
         if (overwrite_output) {
             fs::remove(fs::path(file_out));
-            if (verbose >= 3) cout << "Remove existed output file " << file_out << endl;
+            if (verbose >= 3) cout << "Remove existing output file " << file_out << endl;
         } else {
             cout << BOLDRED << "Error: Output file exists!" << RESET << endl;
             return 1;

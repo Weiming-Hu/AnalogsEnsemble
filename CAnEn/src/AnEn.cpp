@@ -324,11 +324,12 @@ AnEn::computeSimilarity(
 
     // Get circular parameters and parameter weights
     vector<bool> circular_flags(num_parameters, false);
-    vector<double> weights(num_parameters, NAN);
+    vector<double> weights(num_parameters, 1);
     auto & parameters_by_insert = test_forecasts.getParameters().get<anenPar::by_insert>();
     for (size_t i_parameter = 0; i_parameter < num_parameters; i_parameter++) {
         circular_flags[i_parameter] = parameters_by_insert[i_parameter].getCircular();
         weights[i_parameter] = parameters_by_insert[i_parameter].getWeight();
+        if (std::isnan(weights[i_parameter])) weights[i_parameter] = 1;
     }
 
     if (verbose_ >= 3) cout << "Computing similarity matrices ... " << endl;

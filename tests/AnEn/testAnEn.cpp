@@ -153,29 +153,27 @@ void testAnEn::testComputeSimilarity() {
     Observations_array search_observations(parameters,
             search_stations, search_observation_times, values);
 
-
-
     // Construct AnEn object
     AnEn anen(2);
 
     // Construct SimilarityMatrices
     SimilarityMatrices sims(test_forecasts);
-
+    
     // Construct standard deviation
     StandardDeviation sds(parameters.size(),
             search_stations.size(), flts.size());
     anen.computeStandardDeviation(search_forecasts, sds);
-
+    
     // Pre compute the time mapping from forecasts to observations
     boost::numeric::ublas::matrix<size_t> mapping;
     anen.handleError(anen.computeObservationsTimeIndices(
             search_forecasts.getTimes(), search_forecasts.getFLTs(),
             search_observations.getTimes(), mapping));
-
+    
     // Compute similarity
     anen.computeSimilarity(search_forecasts, sds, sims,
             search_observations, mapping);
-
+    
     vector<double> results{
         32.81278, 32.51099, 32.21302, 31.91898, 31.62899, 31.34315, 31.06157,
         40.57181, 40.61140, 40.65622, 40.70626, 40.76150, 40.82191, 40.88748,

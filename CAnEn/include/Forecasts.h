@@ -11,6 +11,7 @@
 
 #include <ostream>
 #include <vector>
+#include <limits>
 
 #include "Stations.h"
 #include "Parameters.h"
@@ -119,6 +120,9 @@ protected:
  */
 class Forecasts_array : public Forecasts {
 public:
+    
+    static constexpr double _DEFAULT = std::numeric_limits<double>::quiet_NaN();
+    
     Forecasts_array();
     Forecasts_array(const Forecasts_array & rhs) = delete;
 

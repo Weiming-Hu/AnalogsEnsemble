@@ -11,11 +11,12 @@
 #include <ostream>
 #include <vector>
 #include <cmath>
+#include <limits>
+#include <boost/multi_array.hpp>
 
 #include "Parameters.h"
 #include "Stations.h"
 #include "Times.h"
-#include <boost/multi_array.hpp>
 
 /**
  * \class Observations
@@ -121,6 +122,9 @@ protected:
  */
 class Observations_array : public Observations {
 public:
+    
+    static constexpr double _DEFAULT = std::numeric_limits<double>::quiet_NaN();
+    
     Observations_array();
     Observations_array(const Observations_array& orig) = delete;
 
