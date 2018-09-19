@@ -37,9 +37,8 @@ void testTimes::testGetTimeIndex() {
         200, 205, 210, 215, 220, 300, 305, 310, 315, 320});
 
     size_t i_time;
-    CPPUNIT_ASSERT(!times.getTimeIndex(104, i_time));
-    CPPUNIT_ASSERT(times.getTimeIndex(110, i_time));
+    i_time = times.getTimeIndex(110);
     CPPUNIT_ASSERT(i_time == 2);
-    CPPUNIT_ASSERT(times.getTimeIndex(320, i_time));
+    i_time = times.getTimeIndex(320);
     CPPUNIT_ASSERT(i_time == 14);
 }

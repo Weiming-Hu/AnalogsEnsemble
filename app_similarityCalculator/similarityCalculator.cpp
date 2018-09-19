@@ -5,8 +5,11 @@
  * Created on September 11, 2018, 5:40 PM
  */
 
+/** @file */
+
 #include "AnEnIO.h"
 #include "AnEn.h"
+#include "CommonExeFunctions.h"
 
 #include "boost/program_options.hpp"
 #include "boost/multi_array.hpp"
@@ -18,27 +21,6 @@
 #include <condition_variable>
 
 using namespace std;
-
-// A convenient function for printing vectors
-template<class T>
-ostream& operator<<(ostream& os, const vector<T>& v)
-{
-    copy(v.begin(), v.end(), ostream_iterator<T>(os, ",")); 
-    return os;
-}
-
-void handle_exception(const exception_ptr & eptr) {
-    // handle general exceptions
-    try {
-        if (eptr) {
-            rethrow_exception(eptr);
-        }
-    } catch (const exception & e) {
-        cerr << RED << e.what() << RESET << endl;
-    } catch (...) {
-        cerr << RED << "ERROR: caught unknown exceptions!" << RESET << endl;
-    }
-}
 
 void runSimilarityCalculator(
         const string & file_test_forecasts,
@@ -185,7 +167,8 @@ int main(int argc, char** argv) {
         
         // Parse the command line options first
         po::variables_map vm;
-        store(po::command_line_parser(argc, argv).options(desc).run(), vm);
+        po::parsed_options parsed = po::command_line_parser(argc, argv).options(desc).allow_unregistered().run();
+        store(parsed, vm);
         
         if (vm.count("config")) {
             // If configuration file is specfied, read it first.
@@ -209,6 +192,19 @@ int main(int argc, char** argv) {
             cout << GREEN << "Analog Ensemble program --- Similarity Calculator"
                     << RESET << endl << desc << endl;
             return 0;
+        }
+        
+        // process unregistered keys and notify users about my guesses
+        vector<string> available_options;
+        auto lambda = [&available_options](const boost::shared_ptr<boost::program_options::option_description> option) {
+            available_options.push_back("--" + option->long_name());
+        };
+        for_each(desc.options().begin(), desc.options().end(), lambda);
+
+        auto unregistered_keys = po::collect_unrecognized(parsed.options, po::exclude_positional);
+        if (unregistered_keys.size() != 0) {
+            guess_arguments(unregistered_keys, available_options);
+            return 1;
         }
         
         notify(vm);
