@@ -22,7 +22,9 @@
 # theoretically should be free of bugs.
 #
 
-setwd('~/github/AnalogsEnsemble/RAnalogs/test/')
+# Set this directory to where the data reside
+setwd('~/github/AnalogsEnsemble/RAnalogs/tests/')
+
 library(RAnEn)
 
 ##################################################################################
