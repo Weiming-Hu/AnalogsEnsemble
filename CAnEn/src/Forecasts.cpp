@@ -121,6 +121,8 @@ operator<<(ostream& os, Forecasts const & obj) {
 /*******************************************************************************
  *                            Forecasts_array                                  *
  ******************************************************************************/
+constexpr double Forecasts_array::_DEFAULT;
+
 Forecasts_array::Forecasts_array() {
 }
 

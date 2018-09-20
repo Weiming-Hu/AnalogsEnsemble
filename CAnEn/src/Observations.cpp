@@ -110,6 +110,8 @@ operator<<(ostream& os, const Observations & obj) {
 /*******************************************************************************
  *                         Observations_array                                  *
  ******************************************************************************/
+constexpr double Observations_array::_DEFAULT;
+
 Observations_array::Observations_array() {
 }
 

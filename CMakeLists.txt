@@ -41,10 +41,11 @@ set(CMAKE_MACOSX_RPATH ON)
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 if (CMAKE_INSTALL_RPATH)
-    set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_RPATH};${DEPENDENCY_PATH}/install/lib")
+    set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_RPATH};${DEPENDENCY_PATH}/install/lib/")
 else (CMAKE_INSTALL_RPATH)
-    set(CMAKE_INSTALL_RPATH "${DEPENDENCY_PATH}/install/lib")
+    set(CMAKE_INSTALL_RPATH "${DEPENDENCY_PATH}/install/lib/")
 endif (CMAKE_INSTALL_RPATH)
+message(STATUS "CMAKE_INSTALL_RPATH: ${CMAKE_INSTALL_RPATH}")
 
 # This variable is used for all the external projects
 # to deal with RPATH issues
