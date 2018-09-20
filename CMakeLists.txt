@@ -9,7 +9,6 @@ endif(POLICY CMP0054)
 if(POLICY CMP0042)
     cmake_policy(SET CMP0042 NEW)
 endif(POLICY CMP0042)
-set(CMAKE_MACOSX_RPATH TRUE)
 
 enable_language(CXX C)
 option(VERBOSE "verbose standout output" OFF)
@@ -38,8 +37,14 @@ endif(EXISTS ${COMMON_OUTPUT_DIR})
 # supercomputers where modules are always loaded, rather
 # than installed at the standard location.
 #
-set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
+set(CMAKE_MACOSX_RPATH ON)
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+
+if (CMAKE_INSTALL_RPATH)
+    set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_RPATH};${DEPENDENCY_PATH}/install/lib")
+else (CMAKE_INSTALL_RPATH)
+    set(CMAKE_INSTALL_RPATH "${DEPENDENCY_PATH}/install/lib")
+endif (CMAKE_INSTALL_RPATH)
 
 # This variable is used for all the external projects
 # to deal with RPATH issues
