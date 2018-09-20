@@ -72,6 +72,73 @@ matrix:
          - ENVIRONMENT_LANGUAGE="c++"
 
      - os: linux
+       language: cpp
+       addons:
+         apt:
+           sources:
+             - ubuntu-toolchain-r-test
+           packages:
+             - g++-4.9
+       env:
+         - MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9"
+         - ENVIRONMENT_LANGUAGE="c++"
+
+     - os: linux
+       language: cpp
+       addons:
+         apt:
+           sources:
+             - ubuntu-toolchain-r-test
+           packages:
+             - g++-5
+       env:
+         - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"
+         - ENVIRONMENT_LANGUAGE="c++"
+
+     - os: linux
+       language: cpp
+       addons:
+         apt:
+           sources:
+             - ubuntu-toolchain-r-test
+           packages:
+             - g++-6
+       env:
+         - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
+         - ENVIRONMENT_LANGUAGE="c++"
+
+     - os: linux
+       language: cpp
+       addons:
+         apt:
+           sources:
+             - ubuntu-toolchain-r-test
+           packages:
+             - g++-7
+       env:
+         - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+         - ENVIRONMENT_LANGUAGE="c++"
+
+     - os: linux
+       language: cpp
+       addons:
+          apt:
+            sources:
+              - ubuntu-toolchain-r-test
+            packages:
+             - g++-8
+       env:
+         - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
+         - ENVIRONMENT_LANGUAGE="c++"
+
+     - os: osx
+       language: cpp
+       env:
+         - MATRIX_EVAL=""
+         - ENVIRONMENT_LANGUAGE="c++"
+         - INSTALLFLAG="NETCDF"
+
+     - os: linux
        language: r
        cache: Rcpp
        addons:
@@ -93,7 +160,7 @@ matrix:
 before_install:
     - cmake --version
     - eval "${MATRIX_EVAL}"
-    - if [[ "$ENVIRONMENT_LANGUAGE" == "c++" ]]; then if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew cask uninstall oclint; brew install netcdf; fi; fi
+    - if [[ "$ENVIRONMENT_LANGUAGE" == "c++" ]]; then if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew cask uninstall oclint; if [[ "$INSTALLFLAG" == "NETCDF" ]]; then brew install netcdf; fi; fi; fi
     - if [[ "$ENVIRONMENT_LANGUAGE" == "r" ]]; then R -e "install.packages('Rcpp')"; R -e "install.packages('BH')";fi
 
 install:
