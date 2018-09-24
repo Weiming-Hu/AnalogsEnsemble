@@ -1,3 +1,7 @@
+env:
+   global:
+    - CODECOV_TOKEN=11fbe283-94bd-4eca-88d0-a3083178cf25
+
 matrix:
    include:
      - os: linux
@@ -113,3 +117,4 @@ script:
 after_success:
     - if [[ "$ENVIRONMENT_LANGUAGE" == "c++" ]]; then make test; fi
     - if [[ "$ENVIRONMENT_LANGUAGE" == "r" ]]; then R -e "library(RAnEn)"; fi
+    - bash <(curl -s https://codecov.io/bash)
