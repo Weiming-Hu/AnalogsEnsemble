@@ -155,7 +155,7 @@ add_subdirectory("${CMAKE_SOURCE_DIR}/CAnEn")
 #####################
 # build executables #
 #####################
-add_subdirectory("${CMAKE_SOURCE_DIR}/app_analogsGenerator")
+add_subdirectory("${CMAKE_SOURCE_DIR}/app_analogGenerator")
 add_subdirectory("${CMAKE_SOURCE_DIR}/app_similarityCalculator")
 
 if (BUILD_GRIBCONVERTER)

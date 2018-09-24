@@ -8,6 +8,8 @@ _This document is still under development._
 
 * [About](#about)
 * [Requirement and Dependencies](#requirement-and-dependencies)
+    * [On Mac](#on-mac)
+    * [On Linux](#on-linux)
 * [Installation](#installation)
     * [C Program and Libraries](#c-program-and-libraries)
     * [R Package](#r-package)
@@ -26,9 +28,9 @@ This package contains several libraries and applications:
 - [CAnEn](https://github.com/Weiming-Hu/AnalogsEnsemble/tree/master/CAnEn): This is the main library that is implemented in C++. It provides main functionality of the AnEn method;
 - [CAnalogsIO](https://github.com/Weiming-Hu/AnalogsEnsemble/tree/master/CAnalogsIO): This is the library for file I/O. Currently, it supports reading and writing [standard NetCDF](https://www.unidata.ucar.edu/software/netcdf/).
 - [RAnalogs](https://github.com/Weiming-Hu/AnalogsEnsemble/tree/master/RAnalogs): This is a R library which provides the interface for *CAnEn* functionality, in order to appeal researchers who are prefer R. This R package is called *RAnEn* which stands for *R Analogs Ensemble*.
-- [Analogs Generator](https://github.com/Weiming-Hu/AnalogsEnsemble/tree/master/app_analogsGenerator): This is an application for generating analogs. It is currently under-development.
-- Similarity Calculator: This is an application for computing the similarity metrics. It is currently under development.
-- Analogs Evaluator: This is an application for evaluating the similarity metrics and selecting the analogs. It is currently under development.
+- [Analog Generator](https://github.com/Weiming-Hu/AnalogsEnsemble/tree/master/app_analogGenerator): This is an application for generating analogs. It is currently under-development.
+- [Analog Selector](https://github.com/Weiming-Hu/AnalogsEnsemble/tree/master/app_analogSelector): This is an application for selecting analogs based on the similarity matrices. It is currently under-development.
+- [Similarity Calculator](https://github.com/Weiming-Hu/AnalogsEnsemble/tree/master/app_similarityCalculator): This is an application for calculating the similarity matrices.
 
 **This package has been developed and tested on Linux and MacOS and is not guaranteed on Windows.**
 
@@ -36,13 +38,42 @@ This package contains several libraries and applications:
 
 A list of requirement and dependency is provided below. Note that you don't necessarily have to install them all before installing the CAnEn library because some of them can be automatically installed during the make process, or because you may not want to install only parts of the modules.
 
-- CMake
-- GCC/Clang
-- NetCDF-C, which depends on HDF5, cul, and zlib
-- Boost
-- OpenMP
-- R
-- CppUnit
+| Dependency |                                            Description                                           |
+|:----------:|:------------------------------------------------------------------------------------------------:|
+|    CMake   |                                   Required for the C++ program.                                  |
+|  GCC/Clang |                                   Required for the C++ program.                                  |
+|  NetCDF-C  |        Optional for the C++ program. If it is not found, the project will try to build it.       |
+|  Boost C++ | Optional for the C++ program. It is recommended to let the project build it for the C++ program. |
+|   CppUnit  |                         Optional for the C++ program when building tests.                        |
+|      R     |                                    Required for the R library.                                   |
+|   OpenMP   |                                   Optional for both R and C++.                                   |
+
+### On Mac
+
+It is fairly straightforward to use `HomeBrew`() to manage packages. However, note that `HomeBrew` might not be working well with `Port`. If you already have one of the two, go with the desired one.
+
+```
+# Install GNU compilers to support OpenMP
+# brew search gcc
+brwe install gcc@7
+
+# Install CMake
+# brew search cmake
+brew install cmake
+
+# Install NetCDF
+brew install netcdf
+```
+
+### On Linux
+
+If `apt-get` is available, please see the following commands.
+
+```
+# Install NetCDF
+sudo apt-get install libnetcdf-dev netcdf-bin
+
+```
 
 ## Installation
 

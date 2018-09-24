@@ -1,5 +1,5 @@
 /* 
- * File:   canalogs.cpp
+ * File:   analogGenerator.cpp
  * Author: Guido Cervone <cervone@psu.edu>
  *         Weiming Hu <weiming@psu.edu>
  *
@@ -14,5 +14,6 @@
 using namespace std;
 
 int main(int argc, char** argv) {
+    cout << "Analog Generator ..." << endl;
     return (0);
 }
