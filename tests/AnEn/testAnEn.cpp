@@ -6,11 +6,13 @@
  */
 
 #include "testAnEn.h"
+#include "../../CAnEn/include/colorTexts.h"
 
 #include <numeric>
 #include <cppunit/TestAssert.h>
 
 #include <boost/numeric/ublas/io.hpp>
+#include <omp.h>
 using namespace std;
 
 CPPUNIT_TEST_SUITE_REGISTRATION(testAnEn);
@@ -381,6 +383,8 @@ void testAnEn::testSelectAnalogs() {
     anen.handleError(anen.computeSimilarity(
             search_forecasts, sds, sims,
             search_observations, mapping));
+    
+    // Select analogs
     Analogs analogs;
     anen.selectAnalogs(analogs, sims, search_observations, mapping,
             0, // I know there is only one parameter
@@ -495,4 +499,33 @@ void testAnEn::testComputeSearchStations() {
         }
     }
     CPPUNIT_ASSERT(results.size() == 0);
+}
+
+void testAnEn::testOpenMP() {
+    
+    /*
+     * Test whether OpenMP is supported and how many threads are created.
+     */
+    
+#if defined(_OPENMP)
+    cout << GREEN << "OpenMP is supported." << RESET << endl;
+    
+    int num_threads;
+
+#pragma omp parallel for default(none) schedule(static) shared(num_threads)
+    for (size_t i = 0; i < 100; i++) {
+        double tmp = 42 * 3.14;
+        if (0 == omp_get_thread_num()) num_threads = omp_get_num_threads();
+        tmp *= 2;
+    }
+    
+    cout << "There are " << GREEN;
+    if (num_threads < 50) cout << num_threads;
+    else cout << "> 50";
+    cout << RESET << " threads created.";
+    
+#else
+    cout << RED << "Warning: OpenMP is not supported." << RESET << endl;
+#endif
+
 }

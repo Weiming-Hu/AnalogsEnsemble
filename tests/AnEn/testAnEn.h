@@ -23,6 +23,7 @@ class testAnEn : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST(testComputeObservationTimeIndices);
     CPPUNIT_TEST(testSelectAnalogs);
     CPPUNIT_TEST(testComputeSearchStations);
+    CPPUNIT_TEST(testOpenMP);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -39,6 +40,7 @@ private:
     void testComputeObservationTimeIndices();
     void testSelectAnalogs();
     void testComputeSearchStations();
+    void testOpenMP();
 };
 
 #endif /* TESTANEN_H */
