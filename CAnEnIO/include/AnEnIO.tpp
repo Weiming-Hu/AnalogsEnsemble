@@ -9,7 +9,6 @@
  *                      Public Template Functions                       *
  ************************************************************************/
 #include "boost/numeric/ublas/io.hpp"
-#include "AnEnIO.h"
 
 #include <iostream>
 #include <fstream>

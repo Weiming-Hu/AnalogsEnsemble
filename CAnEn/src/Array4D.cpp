@@ -18,7 +18,8 @@ using namespace std;
 Array4D::Array4D() {
 }
 
-Array4D::Array4D(const Array4D& rhs) {
+Array4D::Array4D(const Array4D& rhs) :
+boost::multi_array<double, 4>() {
     *this = rhs;
 }
 
@@ -35,7 +36,8 @@ Array4D::Array4D(size_t d1, size_t d2, size_t d3, size_t d4) {
 
 }
 
-Array4D::Array4D(Array4D::array_view<4>::type & view) : boost::multi_array<double, 4>(view) {
+Array4D::Array4D(Array4D::array_view<4>::type & view) :
+boost::multi_array<double, 4>(view) {
 
 }
 
@@ -60,7 +62,11 @@ Array4D & Array4D::operator=(const Array4D &rhs) {
         // call base class assignment operator explicitly
         //
         boost::multi_array<double, 4>::operator=(rhs);
-
+        
+        nx_ = rhs.nx_;
+        ny_ = rhs.ny_;
+        xs_ = rhs.xs_;
+        ys_ = rhs.ys_;
     }
 
     return *this;

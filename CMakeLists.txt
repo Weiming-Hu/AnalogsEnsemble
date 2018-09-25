@@ -192,7 +192,7 @@ if(CMAKE_BUILD_TESTS)
         message(STATUS "CppUnit lib files found at ${CPPUNIT_LIBRARIES}")
         message(WARNING "This might create problems if you are using a different compiler when you compiled CppUnit. Try to set CPPUNIT_TYPE to BUILD to let CMake build it.")
 
-        include_directories(${CPPUNIT_INCLUDE_DIR})
+        include_directories(SYSTEM ${CPPUNIT_INCLUDE_DIR})
         LIST(APPEND UnitTestLibs ${CPPUNIT_LIBRARIES})
     else(CPPUNIT_FOUND)
         message(STATUS "CppUnit not found. Build it now.")
@@ -221,7 +221,7 @@ if(CMAKE_BUILD_TESTS)
             message(STATUS "CppUnit submodule is already downloaded")
         endif(NOT EXISTS ${LIBRARY_CPPUNIT})
 
-        include_directories ("${LIBRARY_CPPUNIT}/include")
+        include_directories (SYSTEM "${LIBRARY_CPPUNIT}/include")
         add_subdirectory ("${DEPENDENCY_PATH}/CppUnit")
 
     endif(CPPUNIT_FOUND)
