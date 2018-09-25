@@ -35,6 +35,7 @@ void runSimilarityCalculator(
         const vector<size_t> & obs_start,
         const vector<size_t> & obs_count,
 
+        const string & file_mapping,
         const string & file_similarity,
 
         size_t observation_id,
@@ -66,8 +67,8 @@ void runSimilarityCalculator(
                 search_start, search_count));
     }
 
-    io.setFilePath(file_observations);
     io.setFileType("Observations");
+    io.setFilePath(file_observations);
     if (obs_start.empty() || obs_count.empty()) {
         io.handleError(io.readObservations(observations));
     } else {
@@ -90,6 +91,11 @@ void runSimilarityCalculator(
     anen.handleError(anen.computeObservationsTimeIndices(
             search_forecasts.getTimes(), search_forecasts.getFLTs(),
             observations.getTimes(), mapping));
+    if (file_mapping.empty()) {
+        io.setFileType("Matrix");
+        io.setMode("Write", file_mapping);
+        io.handleError(io.writeTextMatrix(mapping));
+    }
 
     if (searchExtension) {
         anen.setMethod(AnEn::simMethod::ONE_TO_MANY);
@@ -117,6 +123,7 @@ void runSimilarityCalculator(
     /************************************************************************
      *                         Write Similarity                             *
      ************************************************************************/
+    io.setFileType("Similarity");
     io.setMode("Write", file_similarity);
     io.handleError(io.writeSimilarityMatrices(sims));
 }
@@ -127,7 +134,7 @@ int main(int argc, char** argv) {
     
     // Required variables
     string file_test_forecasts, file_search_forecasts,
-            file_observations, file_similarity;
+            file_observations, file_similarity, file_mapping;
 
     // Optional variables
     string config_file;
@@ -147,12 +154,13 @@ int main(int argc, char** argv) {
                 ("help,h", "Print help information for options.")
                 ("config,c", po::value<string>(&config_file), "Set the configuration file path. Command line options overwrite options in configuration file. ")
 
-                ("test-forecast-nc", po::value<string>(&file_test_forecasts)->required(), "Set the file path for test forecast NetCDF.")
-                ("search-forecast-nc", po::value<string>(&file_search_forecasts)->required(), "Set the file path for search forecast NetCDF.")
-                ("observation-nc", po::value<string>(&file_observations)->required(), "Set the file path for search observation NetCDF.")
-                ("similarity-nc", po::value<string>(&file_similarity)->required(), "Set the file path for similarity NetCDF.")
+                ("test-forecast-nc", po::value<string>(&file_test_forecasts)->required(), "Set the input file path for test forecast NetCDF.")
+                ("search-forecast-nc", po::value<string>(&file_search_forecasts)->required(), "Set input the file path for search forecast NetCDF.")
+                ("observation-nc", po::value<string>(&file_observations)->required(), "Set the input file path for search observation NetCDF.")
+                ("similarity-nc", po::value<string>(&file_similarity)->required(), "Set the output file path for similarity NetCDF.")
 
                 ("verbose,v", po::value<int>(&verbose)->default_value(2), "Set the verbose level.")
+                ("mapping-txt", po::value<string>(&file_mapping), "Set the output file path for time mapping matrix.")
                 ("observation-id", po::value<int>(&observation_id)->default_value(0), "Set the index of the observation variable that will be used.")
                 ("searchExtension", po::bool_switch(&searchExtension)->default_value(false), "Use search extension.")
                 ("distance", po::value<double>(&distance)->default_value(0), "Set the radius for selecting neighbors.")
@@ -240,7 +248,7 @@ int main(int argc, char** argv) {
                 file_test_forecasts, test_start, test_count,
                 file_search_forecasts, search_start, search_count,
                 file_observations, obs_start, obs_count, file_similarity,
-                observation_id, searchExtension, max_neighbors,
+                file_mapping, observation_id, searchExtension, max_neighbors,
                 num_neighbors, distance, verbose);
     } catch (...) {
         handle_exception(current_exception());
