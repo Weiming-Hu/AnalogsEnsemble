@@ -89,11 +89,11 @@ set_property(TARGET RAnEn PROPERTY SUFFIX ".so")
 
 # Include and link libraries
 set_property(TARGET RAnEn APPEND PROPERTY COMPILE_FLAGS ${RCPP_CXXFLAGS})
-include_directories ("${CMAKE_CURRENT_SOURCE_DIR}/src" ${R_INCLUDE_DIR})
+include_directories (SYSTEM "${CMAKE_CURRENT_SOURCE_DIR}/src" ${R_INCLUDE_DIR})
 target_link_libraries(RAnEn ${R_LIBRARY_BASE})
 
 if (R_BH_INCLUDE_DIR)
-    include_directories (${R_BH_INCLUDE_DIR})
+    include_directories (SYSTEM ${R_BH_INCLUDE_DIR})
 endif (R_BH_INCLUDE_DIR)
 
 # Enable C++11

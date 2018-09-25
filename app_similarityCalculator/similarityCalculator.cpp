@@ -18,7 +18,6 @@
 
 #include <iostream>
 #include <fstream>
-#include <condition_variable>
 
 using namespace std;
 
@@ -134,17 +133,15 @@ int main(int argc, char** argv) {
     
     // Required variables
     string file_test_forecasts, file_search_forecasts,
-            file_observations, file_similarity, file_mapping;
+            file_observations, file_similarity;
 
     // Optional variables
-    string config_file;
-    
-    int verbose, observation_id;
-
-    bool searchExtension = false;
-    double distance = 0.0;
-    size_t max_neighbors = 0, num_neighbors = 0;
-
+    int verbose;
+    size_t observation_id;
+    string config_file, file_mapping;
+    bool searchExtension;
+    double distance;
+    size_t max_neighbors, num_neighbors;
     vector<size_t> test_start, test_count, search_start, search_count,
             obs_start, obs_count;
     
@@ -161,9 +158,9 @@ int main(int argc, char** argv) {
 
                 ("verbose,v", po::value<int>(&verbose)->default_value(2), "Set the verbose level.")
                 ("mapping-txt", po::value<string>(&file_mapping), "Set the output file path for time mapping matrix.")
-                ("observation-id", po::value<int>(&observation_id)->default_value(0), "Set the index of the observation variable that will be used.")
+                ("observation-id", po::value<size_t>(&observation_id)->default_value(0), "Set the index of the observation variable that will be used.")
                 ("searchExtension", po::bool_switch(&searchExtension)->default_value(false), "Use search extension.")
-                ("distance", po::value<double>(&distance)->default_value(0), "Set the radius for selecting neighbors.")
+                ("distance", po::value<double>(&distance)->default_value(0.0), "Set the radius for selecting neighbors.")
                 ("max-neighbors", po::value<size_t>(&max_neighbors)->default_value(0), "Set the maximum neighbors allowed to keep.")
                 ("num-neighbors", po::value<size_t>(&num_neighbors)->default_value(0), "Set the number of neighbors to find.")
                 ("test-start", po::value< vector<size_t> >(&test_start)->multitoken(), "Set the start indices in the test forecast NetCDF where the program starts reading.")
@@ -179,7 +176,7 @@ int main(int argc, char** argv) {
         store(parsed, vm);
         
         if (vm.count("config")) {
-            // If configuration file is specfied, read it first.
+            // If configuration file is specified, read it first.
             // The variable won't be written until we call notify.
             //
             config_file = vm["config"].as<string>();

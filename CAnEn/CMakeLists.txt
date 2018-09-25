@@ -36,7 +36,7 @@ elseif(BOOST_TYPE STREQUAL "SYSTEM")
     target_link_libraries (${LIBRARY_NAME} ${Boost_LIBRARIES})
 endif(BOOST_TYPE STREQUAL "BUILD")
 
-include_directories(${NETCDF_CXX4_INCLUDE_DIR})
+include_directories(SYSTEM ${NETCDF_CXX4_INCLUDE_DIR})
 add_dependencies(${LIBRARY_NAME} NETCDF_CXX4_PROJECT)
 
 #if(${ENABLE_MPI})

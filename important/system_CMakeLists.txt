@@ -11,7 +11,7 @@ include_directories ("include")
 # add Boost minimal_boost
 string (REPLACE ${LIBRARY_NAME} "minimal_boost" LIBRARY_MINIMALBOOST ${CMAKE_CURRENT_SOURCE_DIR})
 if (EXISTS "${LIBRARY_MINIMALBOOST}/boost")
-    include_directories ("${LIBRARY_MINIMALBOOST}")
+    include_directories (SYSTEM "${LIBRARY_MINIMALBOOST}")
 else ()
     message (FATAL_ERROR "ERROR: Cannot find Boost minimal_boost library!")
 endif ()

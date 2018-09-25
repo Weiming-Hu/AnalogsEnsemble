@@ -23,7 +23,7 @@ set (LIBRARY_MINIMALBOOST "${DEPENDENCY_PATH}/minimal_boost")
 if (BOOST_TYPE STREQUAL "SYSTEM")
     find_package (Boost 1.41.0 REQUIRED
         COMPONENTS program_options system filesystem)
-    include_directories (${Boost_INCLUDE_DIRS})
+    include_directories (SYSTEM ${Boost_INCLUDE_DIRS})
     set (Boost_USE_MULTITHREADED ON)
     message (WARNING "You are using Boost library in the system.
     Make sure you are using the same compiler to compiler AnEn code and
@@ -92,21 +92,21 @@ if (BOOST_TYPE STREQUAL "BUILD")
     endif (NOT (EXISTS "${LIBRARY_SYSTEM}/include" AND EXISTS "${LIBRARY_FILESYSTEM}/include" AND
         EXISTS "${LIBRARY_PROGRAMOPTIONS}/include" AND EXISTS "${LIBRARY_DATETIME}/include"))
 
-    include_directories ("${LIBRARY_SYSTEM}/include")
-    include_directories ("${LIBRARY_FILESYSTEM}/include")
-    include_directories ("${LIBRARY_PROGRAMOPTIONS}/include")
+    include_directories (SYSTEM "${LIBRARY_SYSTEM}/include")
+    include_directories (SYSTEM "${LIBRARY_FILESYSTEM}/include")
+    include_directories (SYSTEM "${LIBRARY_PROGRAMOPTIONS}/include")
     add_subdirectory ("${DEPENDENCY_PATH}/system")
     add_subdirectory ("${DEPENDENCY_PATH}/filesystem")
     add_subdirectory ("${DEPENDENCY_PATH}/program_options")
 
     if (BUILD_GRIBCONVERTER)
-        include_directories ("${LIBRARY_DATETIME}/include")
+        include_directories (SYSTEM "${LIBRARY_DATETIME}/include")
         add_subdirectory ("${DEPENDENCY_PATH}/datetime")
     endif (BUILD_GRIBCONVERTER)
 
     # add Boost minimal_boost
     if (EXISTS "${LIBRARY_MINIMALBOOST}/boost")
-        include_directories ("${LIBRARY_MINIMALBOOST}")
+        include_directories (SYSTEM "${LIBRARY_MINIMALBOOST}")
     else (EXISTS "${LIBRARY_MINIMALBOOST}/boost")
         message (FATAL_ERROR "ERROR: Cannot find Boost minimal_boost library!")
     endif (EXISTS "${LIBRARY_MINIMALBOOST}/boost")
