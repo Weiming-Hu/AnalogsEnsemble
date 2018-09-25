@@ -21,6 +21,7 @@
 #include "SimilarityMatrices.h"
 #include "Observations.h"
 #include "colorTexts.h"
+#include "boost/numeric/ublas/matrix.hpp"
 
 /**
  * \class AnEnIO
@@ -242,7 +243,7 @@ public:
      * @return An AnEnIO::errorType.
      */
     errorType readDimLength(std::string dim_name, std::size_t & len);
-
+    
     /**
      * Write forecasts.
      * @param forecasts Forecasts to write.
@@ -323,7 +324,7 @@ public:
      * @param analogs Analogs to write.
      * @return An AnEnIO::errorType.
      */
-    errorType writeAnalogs(const Analogs & analogs);
+    errorType writeAnalogs(const Analogs & analogs) const;
 
     /**
      * Handles the errorType variable.
@@ -332,7 +333,13 @@ public:
      */
     void handleError(const errorType & indicator) const;
 
+    /**
+     * Whether the write function should be writing to an existing file.
+     * 
+     * @return A boolean.
+     */
     bool isAdd() const;
+    
     int getVerbose() const;
     std::string getMode() const;
     std::string getFilePath() const;
@@ -341,7 +348,13 @@ public:
     std::vector<std::string> getRequiredVariables() const;
     std::vector<std::string> getRequiredDimensions() const;
 
+    /**
+     * Whether the write function should be writing to an existing file.
+     * 
+     * @param add A boolean
+     */
     void setAdd(bool add);
+    
     void setVerbose(int verbose_);
     void setMode(std::string mode);
     void setMode(std::string mode, std::string file_path);
@@ -362,6 +375,30 @@ public:
             std::size_t start = 0,
             std::size_t count = 0) const;
 
+    /**
+     * Reads the matrix of type boost::numeric::ublas::matrix<T>.
+     * Currently AnEn::TimeMapMatrix and AnEn::SearchStationMatrix are using
+     * this template.
+     * 
+     * @param matrix A boost matrix to store the data.
+     * @return An AnEnIO::errorType.
+     */
+    template <typename T>
+    errorType
+    readTextMatrix(boost::numeric::ublas::matrix<T> & mapping);
+    
+    /**
+     * Writes the matrix of type boost::numeric::ublas::matrix<T> into a file.
+     * Currently AnEn::TimeMapMatrix and AnEn::SearchStationMatrix are using
+     * this template.
+     * 
+     * @param mapping A boost matrix to write.
+     * @return An AnEnIO::errorType.
+     */
+    template <typename T>
+    errorType
+    writeTextMatrix(const boost::numeric::ublas::matrix<T> & mapping) const;
+
 protected:
 
     /**
@@ -380,6 +417,9 @@ protected:
      * Specifies the type of the file. Values can be:
      * - Observations
      * - Forecasts
+     * - Analogs
+     * - Similarity
+     * - Matrix
      */
     std::string file_type_;
 
@@ -441,10 +481,6 @@ protected:
      */
     void purge_(std::vector<std::string> & strs) const;
 
-    /************************************************************************
-     *                      Template Functions                              *
-     ************************************************************************/
-
     /**
      * Reads variables as a atomic vector.
      * 
@@ -454,109 +490,19 @@ protected:
      */
     template<typename T>
     errorType
-    read_vector_(std::string var_name, std::vector<T> & results) const {
-
-        using namespace netCDF;
-        using namespace std;
-
-        if (mode_ != "Read") {
-            if (verbose_ >= 1) cout << "Error: Mode should be 'Read'." << endl;
-            return (WRONG_MODE);
-        }
-
-        NcFile nc(file_path_, NcFile::FileMode::read);
-
-        NcVar var = nc.getVar(var_name);
-        if (var.isNull()) {
-            if (verbose_ >= 1) cout << BOLDRED << "Error: Could not"
-                    << " find variable " << var_name << "!" << RESET << endl;
-            return (WRONG_INDEX_SHAPE);
-        }
-
-        auto var_dims = var.getDims();
-        T *p_vals = nullptr;
-
-        size_t len = 1;
-        for (const auto & dim : var_dims) {
-            len *= dim.getSize();
-        }
-
-        try {
-            p_vals = new T[len];
-        } catch (bad_alloc & e) {
-            nc.close();
-            if (verbose_ >= 1) cout << BOLDRED
-                    << "Error: Insufficient memory when reading variable ("
-                    << var_name << ")!" << RESET << endl;
-            nc.close();
-            return (INSUFFICIENT_MEMORY);
-        }
-
-        var.getVar(p_vals);
-        results.assign(p_vals, p_vals + len);
-
-        nc.close();
-        delete [] p_vals;
-        return (SUCCESS);
-    };
+    read_vector_(std::string var_name, std::vector<T> & results) const;
 
     template<typename T>
-    errorType
-    read_vector_(std::string var_name, std::vector<T> & results,
+    errorType read_vector_(std::string var_name, std::vector<T> & results,
             std::vector<size_t> start, std::vector<size_t> count,
-            std::vector<ptrdiff_t> stride = {1}) const {
-
-        using namespace netCDF;
-        using namespace std;
-
-        if (mode_ != "Read") {
-            if (verbose_ >= 1) cout << "Error: Mode should be 'Read'." << endl;
-            return (WRONG_MODE);
-        }
-
-        NcFile nc(file_path_, NcFile::FileMode::read);
-        NcVar var = nc.getVar(var_name);
-        T *p_vals = nullptr;
-
-        size_t total = 1;
-        for (auto i : count) {
-            total *= i;
-        }
-
-        try {
-            p_vals = new T[total];
-        } catch (bad_alloc & e) {
-            nc.close();
-            if (verbose_ >= 1) cout << BOLDRED
-                    << "Error: Insufficient memory when reading variable ("
-                    << var_name << ")!" << RESET << endl;
-            nc.close();
-            return (INSUFFICIENT_MEMORY);
-        }
-
-        // Reverse the order because of the storage style of NetCDF
-        reverse(start.begin(), start.end());
-        reverse(count.begin(), count.end());
-        reverse(stride.begin(), stride.end());
-
-        var.getVar(start, count, stride, p_vals);
-        results.assign(p_vals, p_vals + total);
-
-        nc.close();
-        delete [] p_vals;
-        return (SUCCESS);
-    };
+            std::vector<ptrdiff_t> stride = {1}) const;
 
     template<typename T>
-    errorType
-    read_vector_(std::string var_name, std::vector<T> & results,
-            size_t start, size_t count, ptrdiff_t stride = 1) const {
-        std::vector<size_t> vec_start{start}, vec_count{count};
-        std::vector<ptrdiff_t> vec_stride{stride};
-        return (read_vector_(var_name, results,
-                vec_start, vec_count, vec_stride));
-    };
+    errorType read_vector_(std::string var_name, std::vector<T> & results,
+            size_t start, size_t count, ptrdiff_t stride = 1) const;
 
 };
+
+#include "AnEnIO.tpp"
 
 #endif /* ANENIO_H */

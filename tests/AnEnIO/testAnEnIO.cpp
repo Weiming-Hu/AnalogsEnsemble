@@ -595,3 +595,35 @@ void testAnEnIO::testReadWriteAnalogs() {
     
     remove(file_path.c_str());
 }
+
+void testAnEnIO::testReadWriteTextMatrix() {
+    
+    /**
+     * Test writing and reading text matrix
+     */
+    string file_path = "read-write-text-matrix.txt";
+    remove(file_path.c_str());
+    
+    boost::numeric::ublas::matrix<size_t> mat_write(5, 10);
+    
+    for (size_t i = 0; i < mat_write.size1(); i++)
+        for (size_t j = 0; j < mat_write.size2(); j++)
+            mat_write(i, j) = i * 1000 + j;
+    
+    
+    AnEnIO io("Write", file_path, "Matrix", 1);
+    io.writeTextMatrix(mat_write);
+    
+    boost::numeric::ublas::matrix<size_t> mat_read;
+    io.setMode("Read");
+    io.readTextMatrix(mat_read);
+    
+    CPPUNIT_ASSERT(mat_read.size1() == mat_write.size1());
+    CPPUNIT_ASSERT(mat_read.size2() == mat_write.size2());
+
+    for (size_t i = 0; i < mat_write.size1(); i++)
+        for (size_t j = 0; j < mat_write.size2(); j++)
+            CPPUNIT_ASSERT(mat_read(i, j) == mat_write(i, j));
+    
+    remove(file_path.c_str());
+}

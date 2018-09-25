@@ -28,6 +28,7 @@ void runAnalogSelector(const string & file_sims, const string & file_obs,
     
     SimilarityMatrices sims;
     io.setFilePath(file_sims);
+    io.setFileType("Similarity");
     io.readSimilarityMatrices(sims);
     
     Observations_array search_observations;

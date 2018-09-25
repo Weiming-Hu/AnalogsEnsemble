@@ -22,7 +22,7 @@ testObservationsArray::testObservationsArray() {
 testObservationsArray::~testObservationsArray() {
 }
 
-void testObservationsArray::testTraverseTime() {
+void testObservationsArray::testColumnMajor() {
 
     /*
      * Test the traverse order and the traverse time of the data structure 

@@ -14,7 +14,7 @@
 class testObservationsArray : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST_SUITE(testObservationsArray);
 
-    CPPUNIT_TEST(testTraverseTime);
+    CPPUNIT_TEST(testColumnMajor);
     CPPUNIT_TEST(testObservationValueSequence);
 
     CPPUNIT_TEST_SUITE_END();
@@ -24,7 +24,7 @@ public:
     virtual ~testObservationsArray();
     
 private:
-    void testTraverseTime();
+    void testColumnMajor();
     void testObservationValueSequence();
 };
 

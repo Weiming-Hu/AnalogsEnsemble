@@ -6,8 +6,8 @@
  */
 
 #include "AnEnIO.h"
+#include "boost/filesystem.hpp"
 
-#include <boost/filesystem.hpp>
 #include <algorithm>
 #include <exception>
 
@@ -118,9 +118,8 @@ AnEnIO::checkFilePath() const {
         if (boost_path.has_extension()) {
             string ext = boost_path.extension().string();
 
-            if (ext == ".nc") {
-                return (SUCCESS);
-            }
+            if (mode_ == "Matrix"  || ext == ".txt") return (SUCCESS);
+            if (ext == ".nc") return (SUCCESS);
         }
 
         if (verbose_ >= 1) {
@@ -171,6 +170,12 @@ AnEnIO::checkFileType() const {
                 "num_flts", "num_members", "num_cols"};
             var_names = {"Analogs"};
 
+        } else if (file_type_ == "Matrix") {
+            
+            if (verbose_ >= 2) cout << RED << "Warning: No available check "
+                    << "for file type Matrix." << RESET << endl;
+            return (SUCCESS);
+            
         } else {
             if (verbose_ >= 1) {
                 cout << BOLDRED << "Error: Unknown file type "
@@ -1707,7 +1712,7 @@ AnEnIO::readAnalogs(Analogs & analogs) {
 }
 
 errorType
-AnEnIO::writeAnalogs(const Analogs & analogs) {
+AnEnIO::writeAnalogs(const Analogs & analogs) const {
     if (verbose_ >= 3) cout << "Writing analogs ..." << endl;
 
     if (mode_ != "Write") {
