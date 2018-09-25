@@ -12,7 +12,11 @@
 #include <cppunit/TestAssert.h>
 
 #include <boost/numeric/ublas/io.hpp>
+
+#if defined(_OPENMP)
 #include <omp.h>
+#endif
+
 using namespace std;
 
 CPPUNIT_TEST_SUITE_REGISTRATION(testAnEn);
