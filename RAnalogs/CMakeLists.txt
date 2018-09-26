@@ -2,7 +2,7 @@ cmake_minimum_required (VERSION 3.1)
 project (RAnalogs LANGUAGES NONE)
 
 set(LIBRARY_NAME "RAnEn")
-set(LIBRARY_VERSION "3.0.3")
+set(LIBRARY_VERSION "3.0.4")
 message(STATUS "RAnEn version ${LIBRARY_VERSION}")
 
 set(RAnEn_PACKAGE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/${LIBRARY_NAME}")
@@ -88,11 +88,11 @@ add_custom_command(TARGET build-release
 add_custom_command(TARGET build-release
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
     "${RAnEn_PACKAGE_DIR}/cmake/Makevars.in"
-    "${RAnEn_SOURCE_DIR}/Makevars.in")
+    "${RAnEn_SOURCE_DIR}/Makevars")
 add_custom_command(TARGET build-release
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
     "${RAnEn_PACKAGE_DIR}/cmake/Makevars.win.in"
-    "${RAnEn_SOURCE_DIR}/Makevars.win.in")
+    "${RAnEn_SOURCE_DIR}/Makevars.win")
 
 add_custom_command(
     TARGET build-release
@@ -103,9 +103,9 @@ add_custom_command(
 add_custom_command(TARGET build-release
     COMMAND ${CMAKE_COMMAND} -E remove "${RAnEn_PACKAGE_DIR}/configure")
 add_custom_command(TARGET build-release
-    COMMAND ${CMAKE_COMMAND} -E remove "${RAnEn_SOURCE_DIR}/Makevars.in")
+    COMMAND ${CMAKE_COMMAND} -E remove "${RAnEn_SOURCE_DIR}/Makevars")
 add_custom_command(TARGET build-release
-    COMMAND ${CMAKE_COMMAND} -E remove "${RAnEn_SOURCE_DIR}/Makevars.win.in")
+    COMMAND ${CMAKE_COMMAND} -E remove "${RAnEn_SOURCE_DIR}/Makevars.win")
 
 # Remove old release tarball file if exists
 set(OLD_RAnEn_TARFILE "${LIBRARY_NAME}_${LIBRARY_VERSION}.tar.gz")
