@@ -27,7 +27,7 @@ Parallel Ensemble Forecast package uses a numerical weather prediction algorithm
 This package contains several libraries and applications:
 
 - [CAnEn](https://github.com/Weiming-Hu/AnalogsEnsemble/tree/master/CAnEn): This is the main library that is implemented in C++. It provides main functionality of the AnEn method;
-- [CAnalogsIO](https://github.com/Weiming-Hu/AnalogsEnsemble/tree/master/CAnalogsIO): This is the library for file I/O. Currently, it supports reading and writing [standard NetCDF](https://www.unidata.ucar.edu/software/netcdf/).
+- [CAnalogsIO](https://github.com/Weiming-Hu/AnalogsEnsemble/tree/master/CAnEnIO): This is the library for file I/O. Currently, it supports reading and writing [standard NetCDF](https://www.unidata.ucar.edu/software/netcdf/).
 - [RAnalogs](https://github.com/Weiming-Hu/AnalogsEnsemble/tree/master/RAnalogs): This is a R library which provides the interface for *CAnEn* functionality, in order to appeal researchers who are prefer R. This R package is called *RAnEn* which stands for *R Analogs Ensemble*.
 - [Analog Generator](https://github.com/Weiming-Hu/AnalogsEnsemble/tree/master/app_analogGenerator): This is an application for generating analogs. It is currently under-development.
 - [Analog Selector](https://github.com/Weiming-Hu/AnalogsEnsemble/tree/master/app_analogSelector): This is an application for selecting analogs based on the similarity matrices. It is currently under-development.
