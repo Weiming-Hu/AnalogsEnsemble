@@ -1,20 +1,25 @@
 ---
-layout: default
-title: Home
+layout: page
+title: Posts
 ---
+
+Curerntly there are {{ paginator.total_posts }} posts available. If you would like to ask a question, please open a ticket at <a href="https://github.com/Weiming-Hu/AnalogsEnsemble/issues">Github Issues</a>. Thank you.
+
+<hr>
 
 <div class="posts">
   {% for post in paginator.posts %}
   <div class="post">
-    <h1 class="post-title">
+    <h3 class="post-title">
       <a href="{{ post.url }}">
         {{ post.title }}
       </a>
-    </h1>
+    </h3>
 
     <span class="post-date">{{ post.date | date_to_string }}</span>
 
-    {{ post.content }}
+    {{ post.content | truncatewords:20 }}
+
   </div>
   {% endfor %}
 </div>
