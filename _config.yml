@@ -1,5 +1,5 @@
 # Dependencies
-remote_theme:     poole/hyde
+remote_theme:     fongandrew/hydeout
 highlighter:      rouge
 
 # Permalinks
