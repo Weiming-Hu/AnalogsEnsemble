@@ -209,7 +209,7 @@ if(CMAKE_BUILD_TESTS)
         #      dependencies of dependencies so that you don't need to re-write CMakeLists.txt for each
         #      submodule to include their submodules.
         #
-        find_package(Git REQUIRED QUIET)
+        find_package(Git 1.9 REQUIRED QUIET)
 
         set(CMAKE_EXTERNAL_PROJECT_BUILD_TYPE "Release")
         set(CPPUNIT_URL "https://github.com/Weiming-Hu/CppUnit.git")

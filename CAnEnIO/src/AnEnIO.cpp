@@ -1767,7 +1767,7 @@ AnEnIO::handleError(const errorType & indicator) const {
             indicator == OPTIONAL_VARIABLE_MISSING) {
         return;
     } else {
-        throw runtime_error("Error code " + to_string(indicator));
+        throw runtime_error("Error code " + to_string((long long) indicator));
     }
 }
 

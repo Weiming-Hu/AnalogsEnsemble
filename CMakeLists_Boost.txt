@@ -44,7 +44,7 @@ if (BOOST_TYPE STREQUAL "BUILD")
             file (MAKE_DIRECTORY ${DEPENDENCY_PATH})
         endif (NOT EXISTS ${DEPENDENCY_PATH})
 
-        find_package(Git REQUIRED QUIET)
+        find_package(Git 1.9 REQUIRED QUIET)
 
         if (BUILD_GRIBCONVERTER)
             if (NOT EXISTS ${LIBRARY_DATETIME})

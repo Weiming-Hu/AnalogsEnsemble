@@ -185,9 +185,9 @@ Observations_array::setValues(const vector<double>& vals) {
     // Check the length of data
     if (data_.num_elements() != vals.size()) {
         string message = "length of observations container (";
-        message.append(to_string(data_.num_elements()));
+        message.append(to_string((long long) data_.num_elements()));
         message.append(") != length of input (");
-        message.append(to_string(vals.size()));
+        message.append(to_string((long long) vals.size()));
         message.append(")!");
         throw length_error(message);
     }

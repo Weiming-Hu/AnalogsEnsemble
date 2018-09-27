@@ -250,7 +250,7 @@ search_stations)
                                 search_stations.project<anenSta::by_insert>(it_ID));
                     } else {
                         throw out_of_range("Can't find the station ID "
-                                + to_string(i_search_stations(i_row, i_col)));
+                                + to_string((long long) i_search_stations(i_row, i_col)));
                     }
                 }
 
@@ -675,7 +675,7 @@ i_parameter, num_test_times, num_flts, max_members)
 void
 AnEn::handleError(const errorType & indicator) const {
     if (indicator != SUCCESS) {
-        throw runtime_error("Error code " + to_string(indicator));
+        throw runtime_error("Error code " + to_string((long long) indicator));
     }
 }
 

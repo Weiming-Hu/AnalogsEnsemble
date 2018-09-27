@@ -192,7 +192,7 @@ namespace anenSta {
             return (distance(stations_by_insert.begin(), it_insert));
         } else {
             throw out_of_range("Can't find the station ID "
-                    + to_string(station_ID));
+                    + to_string((long long) station_ID));
         }
     }
 
@@ -210,7 +210,7 @@ namespace anenSta {
                                 this->project<by_insert>(it_ID)));
                     } else {
                         throw out_of_range("Can't find the station ID "
-                                + to_string(id));
+                                + to_string((long long) id));
                     }
                 });
 

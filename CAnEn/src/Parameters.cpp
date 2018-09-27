@@ -179,7 +179,7 @@ namespace anenPar {
             return (distance(parameters_by_insert.begin(), it_insert));
         } else {
             throw out_of_range("Can't find the parameter IDs "
-                    + to_string(parameter_ID));
+                    + to_string((long long) parameter_ID));
         }
     }
 

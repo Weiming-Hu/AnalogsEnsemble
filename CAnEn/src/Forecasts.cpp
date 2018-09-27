@@ -197,7 +197,7 @@ Forecasts_array::setValues(const vector<double> & vals) {
 
     if (data_.num_elements() != vals.size()) {
         string message = "length of forecasts container (";
-        message.append(to_string(data_.num_elements()));
+        message.append(to_string((long long) data_.num_elements()));
         message.append(") != length of input (");
         message.append(to_string(vals.size()));
         message.append(")!");
