@@ -51,7 +51,7 @@ A list of requirement and dependency is provided below. Note that you don't nece
 
 ### On Mac
 
-It is fairly straightforward to use `HomeBrew`() to manage packages. However, note that `HomeBrew` might not be working well with `Port`. If you already have one of the two, go with the desired one.
+It is fairly straightforward to use [HomeBrew](https://brew.sh/) to manage packages. However, note that `HomeBrew` might not be working well with `Port`. If you already have one of the two, go with the desired one.
 
 ```
 # Install GNU compilers to support OpenMP

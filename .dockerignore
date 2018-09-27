@@ -1,3 +1,9 @@
+######################################
+# If you have ever made any changes  #
+# to this file, please consider also #
+# change the .dockerignore file      #
+######################################
+#
 # Prerequisites
 *.d
 
@@ -46,6 +52,7 @@
 .Rproj.user
 */*Rhistory
 *Rhistory
+*autom4te.cache*
 
 # Customize
 build*
@@ -88,6 +95,54 @@ RAnalogs/RAnEn/src/Times.h
 RAnalogs/RAnEn/src/colorTexts.h
 RAnalogs/RAnEn/src/config.log
 RAnalogs/RAnEn/build
+
+# From the base theme and jekyll ignore
+# Ignore docs files
+#
+_gh_pages
+_site
+.ruby-version
+*.lock
+.sass-cache
+_screenshots
+
+# Numerous always-ignore extensions
+*.diff
+*.err
+*.orig
+*.log
+*.rej
+*.swo
+*.swp
+*.zip
+*.vi
+*~
+
+# OS or Editor folders
+.DS_Store
+._*
+Thumbs.db
+.cache
+.project
+.settings
+.tmproj
+*.esproj
+nbproject
+*.sublime-project
+*.sublime-workspace
+.idea
+
+# Komodo
+*.komodoproject
+.komodotools
+
+# grunt-html-validation
+validation-status.json
+validation-report.json
+
+# Folders to ignore
+node_modules<Paste>
+
 
 # Specific for docker image
 .travis.yml
