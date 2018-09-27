@@ -1,32 +1,26 @@
+# Dependencies
+markdown:         redcarpet
+highlighter:      pygments
+
 # Permalinks
-permalink:           pretty
+permalink:        pretty
+relative_permalinks: true
 
 # Setup
-title:               Parallel Ensemble Forecasts
-tagline:             R and C++
-url:                 https://weiming-hu.github.io/AnalogsEnsemble/
-paginate:            1
-baseurl:             ""
+title:            Parallel Ensemble Forecasts
+tagline:          'R and C++'
+description:      'An integrated package for parallel ensemble forecasts and more, implemented in R and C++.'
+url:              https://weiming-hu.github.io/AnalogsEnsemble/
+baseurl:          /
 
-# Assets
-#
-# We specify the directory for Jekyll so we can use @imports.
-sass:
-  sass_dir:          _sass
-  style:            :compressed
-
-# About/contact
 author:
-  name:              Weiming Hu
-  url:               https://weiming.ddns.net
-  email:             weiming@psu.edu
+  name:           'Weiming Hu'
+  url:            https://weiming.ddns.net
+
+paginate:         5
 
 # Custom vars
-version:             3.0.4
-github:              https://github.com/Weiming-Hu
-  repo:              https://github.com/Weiming-Hu/AnalogsEnsemble
+version:          3.0.4
 
-# Gems
-gems:
-  - jekyll-paginate
-  - jekyll-gist
+github:
+  repo:           https://github.com/Weiming-Hu/AnalogsEnsemble
