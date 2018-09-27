@@ -1,4 +1,5 @@
 # Dependencies
+remote_theme:     poole/hyde
 highlighter:      rouge
 
 # Permalinks
