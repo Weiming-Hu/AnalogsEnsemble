@@ -1,6 +1,7 @@
 ---
 layout: page
 title: About
+sidebar_link: true
 ---
 
 _This document is currently under development._

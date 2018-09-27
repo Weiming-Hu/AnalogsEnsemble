@@ -1,26 +1,42 @@
 # Dependencies
-remote_theme:     hydeout
-highlighter:      rouge
-
-# Permalinks
-permalink:        pretty
-relative_permalinks: false
+remote_theme: fongandrew/hydeout
+markdown: kramdown
+highlighter: rouge
 
 # Setup
-title:            Parallel Ensemble Forecasts
-tagline:          'R and C++'
-description:      'An integrated package for parallel ensemble forecasts and more, implemented in R and C++.'
-url:              https://weiming-hu.github.io/AnalogsEnsemble/
-baseurl:          /
+title: Parallel Ensemble Forecasts
+tagline: 'R and C++'
+description: 'An integrated package for parallel ensemble forecasts and more, implemented in R and C++.'
+url: https://weiming-hu.github.io/AnalogsEnsemble/
+baseurl: '/pef'
+# the optional subpath of your site, e.g. "/blog"
+# NB: This applies to all pages in your Jekyll site.
+# If you want to move just the blog index pages but keep
+# other pages at root, see the paginate_path and
+# sidebar_blog_link below.
 
 author:
-  name:           'Weiming Hu'
-  url:            https://weiming.ddns.net
+ name: 'Weiming Hu'
+ url: https://weiming.ddns.net
 
-paginate:         5
-paginate_path:    "/posts/page:num/"
+paginate: 5
+paginate_path: "/posts/page:num/"
 
 # Custom vars
-version:          3.0
-github:           
-  repo:           https://github.com/Weiming-Hu/AnalogsEnsemble
+version: 3.0
+hydeout: 
+ repo: https://github.com/Weiming-Hu/AnalogsEnsemble
+ download_link: https://github.com/Weiming-Hu/AnalogsEnsemble/releases
+
+plugins:
+ - jekyll-feed
+ - jekyll-gist
+ - jekyll-paginate
+
+# Sidebar link settings
+sidebar_home_link: true
+sidebar_blog_link: '/posts'
+# By default, your home page is your blog
+# page. If you change your paginate_path,
+# set this to the root of the paginate_path
+# to enable a separate blog link.
