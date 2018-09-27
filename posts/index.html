@@ -11,7 +11,7 @@ Curerntly there are {{ paginator.total_posts }} posts available. If you would li
   {% for post in paginator.posts %}
   <div class="post">
     <h3 class="post-title">
-      <a href="{{ post.url }}">
+        <a href="{{ site.baseurl }}{{ post.url }}">
         {{ post.title }}
       </a>
     </h3>

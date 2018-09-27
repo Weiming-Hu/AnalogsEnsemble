@@ -40,3 +40,10 @@ sidebar_blog_link: '/posts'
 # page. If you change your paginate_path,
 # set this to the root of the paginate_path
 # to enable a separate blog link.
+
+# Google Analytics tracking number
+google_analytics: UA-118051066-1
+
+# comment features
+disqus:
+  shortname: weiming-hu
