@@ -13,7 +13,7 @@ option(BUILD_HDF5 "build HDF5" OFF)
 ########
 # HDF5 #
 ########
-find_package(HDF5 COMPONENTS C HL)
+find_package(HDF5 1.8.10 COMPONENTS C HL)
 if(HDF5_FOUND)
     if(HDF5_IS_PARALLEL)
         message(STATUS "HDF5 has parallel I/O support. Set ENABLE_MPI to ${ENABLE_MPI} automatically.")
