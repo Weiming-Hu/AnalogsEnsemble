@@ -1,0 +1,97 @@
+######################################
+# If you have ever made any changes  #
+# to this file, please consider also #
+# change the .dockerignore file      #
+######################################
+#
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+# Netbeans
+*nbproject
+*dist
+*build*
+#*.mk
+
+# Mac
+*.DS_Store
+*.swp
+*/*.swp
+*.dep.inc
+*/*.dep.inc
+.Rproj.user
+*/*Rhistory
+*Rhistory
+*autom4te.cache*
+
+# Customize
+build*
+output
+dependency
+doxygen-output
+
+RAnalogs/RAnEn/.Rhistory
+RAnalogs/RAnEn/config.log
+RAnalogs/RAnEn/config.status
+RAnalogs/RAnEn/LICENSE.txt
+RAnalogs/RAnEn/DESCRIPTION
+RAnalogs/RAnEn/src/Makevars
+RAnalogs/RAnEn/src/Makevars.in
+RAnalogs/RAnEn/src/Makevars.win
+RAnalogs/RAnEn/src/Makevars.win.in
+RAnalogs/RAnEn/src/Makefile
+RAnalogs/RAnEn/src/Makefile.in
+RAnalogs/RAnEn/src/Makefile.win
+RAnalogs/RAnEn/src/AnEn.cpp
+RAnalogs/RAnEn/src/AnEn.h
+RAnalogs/RAnEn/src/Analogs.cpp
+RAnalogs/RAnEn/src/Analogs.h
+RAnalogs/RAnEn/src/Array4D.cpp
+RAnalogs/RAnEn/src/Array4D.h
+RAnalogs/RAnEn/src/Forecasts.cpp
+RAnalogs/RAnEn/src/Forecasts.h
+RAnalogs/RAnEn/src/Observations.cpp
+RAnalogs/RAnEn/src/Observations.h
+RAnalogs/RAnEn/src/Parameters.cpp
+RAnalogs/RAnEn/src/Parameters.h
+RAnalogs/RAnEn/src/SimilarityMatrices.cpp
+RAnalogs/RAnEn/src/SimilarityMatrices.h
+RAnalogs/RAnEn/src/StandardDeviation.cpp
+RAnalogs/RAnEn/src/StandardDeviation.h
+RAnalogs/RAnEn/src/Stations.cpp
+RAnalogs/RAnEn/src/Stations.h
+RAnalogs/RAnEn/src/Times.cpp
+RAnalogs/RAnEn/src/Times.h
+RAnalogs/RAnEn/src/colorTexts.h
+RAnalogs/RAnEn/src/config.log
+RAnalogs/RAnEn/build
