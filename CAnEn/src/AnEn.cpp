@@ -132,13 +132,17 @@ AnEn::computeObservationsTimeIndices(
     //
     int loop_flag = 1;
 
+    // Define vairables for perfectly nexted parallel loops with collapse
+    auto limit_row = mapping.size1();
+    auto limit_col = mapping.size2();
+
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(static) collapse(2) reduction(min:loop_flag) \
-shared(mapping, times_observations, times_forecasts_by_insert, flts_forecasts_by_insert, cout) \
-firstprivate(index)
+shared(mapping, times_observations, times_forecasts_by_insert, flts_forecasts_by_insert, cout, \
+limit_row, limit_col) firstprivate(index)
 #endif
-    for (size_t i_row = 0; i_row < mapping.size1(); i_row++) {
-        for (size_t i_col = 0; i_col < mapping.size2(); i_col++) {
+    for (size_t i_row = 0; i_row < limit_row; i_row++) {
+        for (size_t i_col = 0; i_col < limit_col; i_col++) {
 
             index = times_observations.getTimeIndex(
                     times_forecasts_by_insert[i_row] + flts_forecasts_by_insert[i_col]);
@@ -168,6 +172,9 @@ AnEn::computeSearchStations(
 
     if (verbose_ >= 3) cout << "Computing search space extension ... " << endl;
 
+    // Define variables for perfectly nexted paralle loops with collapse
+    auto limit_test = test_stations_by_insert.size();
+
     if (num_nearest_stations == 0) {
 
         if (distance == 0) {
@@ -180,10 +187,9 @@ AnEn::computeSearchStations(
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(static) \
 shared(test_stations_by_insert, search_stations, i_search_stations, \
-distance, max_num_search_stations)
+distance, max_num_search_stations, limit_test)
 #endif
-        for (size_t i_test = 0; i_test < test_stations_by_insert.size();
-                i_test++) {
+        for (size_t i_test = 0; i_test < limit_test; i_test++) {
 
             // Find search stations based on the distance
             vector<size_t> i_search_station =
@@ -204,10 +210,9 @@ distance, max_num_search_stations)
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(static) \
 shared(test_stations_by_insert, search_stations, i_search_stations, \
-num_nearest_stations, distance, max_num_search_stations)
+num_nearest_stations, distance, max_num_search_stations, limit_test)
 #endif
-        for (size_t i_test = 0; i_test < test_stations_by_insert.size();
-                i_test++) {
+        for (size_t i_test = 0; i_test < limit_test; i_test++) {
 
             // Find nearest search stations also considering the threshold
             // distance.
@@ -230,14 +235,18 @@ num_nearest_stations, distance, max_num_search_stations)
         auto & search_stations_by_ID = search_stations.get<anenSta::by_ID>();
         auto & search_stations_by_insert =
                 search_stations.get<anenSta::by_insert>();
+        
+        // Define variables for perfectly nexted paralle loops with collapse
+        auto limit_search_row = i_search_stations.size1();
+        auto limit_search_col = i_search_stations.size2();
 
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(static) \
 shared(search_stations_by_ID, search_stations_by_insert, i_search_stations, \
-search_stations)
+search_stations, limit_search_row, limit_search_col)
 #endif
-        for (size_t i_row = 0; i_row < i_search_stations.size1(); i_row++) {
-            for (size_t i_col = 0; i_col < i_search_stations.size2(); i_col++) {
+        for (size_t i_row = 0; i_row < limit_search_row; i_row++) {
+            for (size_t i_col = 0; i_col < limit_search_col; i_col++) {
 
                 // Check if the value is _FILL_VALUE
                 if (!std::isnan(i_search_stations(i_row, i_col))) {

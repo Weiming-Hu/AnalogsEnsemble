@@ -121,7 +121,11 @@ operator<<(ostream& os, Forecasts const & obj) {
 /*******************************************************************************
  *                            Forecasts_array                                  *
  ******************************************************************************/
+#ifdef __INTEL_COMPILER
+const double Forecasts_array::_DEFAULT;
+#else
 constexpr double Forecasts_array::_DEFAULT;
+#endif
 
 Forecasts_array::Forecasts_array() {
 }
@@ -199,7 +203,7 @@ Forecasts_array::setValues(const vector<double> & vals) {
         string message = "length of forecasts container (";
         message.append(to_string((long long) data_.num_elements()));
         message.append(") != length of input (");
-        message.append(to_string(vals.size()));
+        message.append(to_string((long long) vals.size()));
         message.append(")!");
         throw length_error(message);
     }

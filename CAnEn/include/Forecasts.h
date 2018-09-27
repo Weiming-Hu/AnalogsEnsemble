@@ -121,7 +121,11 @@ protected:
 class Forecasts_array : public Forecasts {
 public:
     
+#ifdef __INTEL_COMPILER
+    static const double _DEFAULT = NAN;
+#else
     static constexpr double _DEFAULT = std::numeric_limits<double>::quiet_NaN();
+#endif
     
     Forecasts_array();
     Forecasts_array(const Forecasts_array & rhs) = delete;

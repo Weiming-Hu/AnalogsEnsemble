@@ -71,7 +71,7 @@ namespace anenTime {
 
         } else {
             throw out_of_range("Can't find the station ID " +
-                    to_string(timestamp));
+                    to_string((long double) timestamp));
         }
     }
 

@@ -123,7 +123,11 @@ protected:
 class Observations_array : public Observations {
 public:
     
+#ifdef __INTEL_COMPILER
+    static const double _DEFAULT = NAN;
+#else
     static constexpr double _DEFAULT = std::numeric_limits<double>::quiet_NaN();
+#endif
     
     Observations_array();
     Observations_array(const Observations_array& orig) = delete;

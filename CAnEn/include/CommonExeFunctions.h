@@ -86,9 +86,7 @@ namespace {
     void handle_exception(const exception_ptr & eptr) {
         // handle general exceptions
         try {
-            if (eptr) {
-                rethrow_exception(eptr);
-            }
+            rethrow_exception(eptr);
         } catch (const exception & e) {
             cerr << RED << e.what() << RESET << endl;
         } catch (...) {

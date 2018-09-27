@@ -110,7 +110,13 @@ operator<<(ostream& os, const Observations & obj) {
 /*******************************************************************************
  *                         Observations_array                                  *
  ******************************************************************************/
+#ifdef __INTEL_COMPILER
+const double Observations_array::_DEFAULT;
+#else
 constexpr double Observations_array::_DEFAULT;
+#endif
+
+
 
 Observations_array::Observations_array() {
 }
