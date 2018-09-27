@@ -1,26 +1,32 @@
-# Dependencies
-markdown:         redcarpet
-highlighter:      pygments
-
 # Permalinks
-permalink:        pretty
-relative_permalinks: false
+permalink:           pretty
 
 # Setup
-title:            Hyde
-tagline:          'A Jekyll theme'
-description:      'A brazen two-column <a href="http://jekyllrb.com" target="_blank">Jekyll</a> theme that pairs a prominent sidebar with uncomplicated content. Made by <a href="https://twitter.com/mdo" target="_blank">@mdo</a>.'
-url:              http://hyde.getpoole.com
-baseurl:          /
+title:               Parallel Ensemble Forecasts
+tagline:             R and C++
+url:                 https://weiming-hu.github.io/AnalogsEnsemble/
+paginate:            1
+baseurl:             ""
 
+# Assets
+#
+# We specify the directory for Jekyll so we can use @imports.
+sass:
+  sass_dir:          _sass
+  style:            :compressed
+
+# About/contact
 author:
-  name:           'Mark Otto'
-  url:            https://twitter.com/mdo
-
-paginate:         5
+  name:              Weiming Hu
+  url:               https://weiming.ddns.net
+  email:             weiming@psu.edu
 
 # Custom vars
-version:          2.1.0
+version:             3.0.4
+github:              https://github.com/Weiming-Hu
+  repo:              https://github.com/Weiming-Hu/AnalogsEnsemble
 
-github:
-  repo:           https://github.com/poole/hyde
+# Gems
+gems:
+  - jekyll-paginate
+  - jekyll-gist
