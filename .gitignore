@@ -103,7 +103,8 @@ _gh_pages
 _site
 .ruby-version
 *.lock
-_site
+.sass-cache
+_screenshots
 
 # Numerous always-ignore extensions
 *.diff
