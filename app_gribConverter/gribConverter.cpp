@@ -298,9 +298,9 @@ void toForecasts(const vector<string> & files_in, const string & file_out,
 
     // Read data
     if (verbose >= 3) {
-        cout << "Allocating memory double [" << parameters.size() << "]["
-            << stations.size() << "][" << times.size() << "][" << flts.size()
-            << "] ... " << endl;
+        cout << "Allocating memory for double array [" << parameters.size()
+            << "][" << stations.size() << "][" << times.size() << "]["
+            << flts.size() << "] ... " << endl;
     }
     Forecasts_array forecasts(parameters, stations, times, flts);
     auto & data = forecasts.data();
