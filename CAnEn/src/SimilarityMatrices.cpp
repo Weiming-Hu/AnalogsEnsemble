@@ -65,15 +65,28 @@ SimilarityMatrices::~SimilarityMatrices() {
 
 void
 SimilarityMatrices::resize() {
-    boost::multi_array < double, 5 >::resize(
-            boost::extents[targets_.getStationsSize()][targets_.getTimesSize()]
-            [targets_.getFLTsSize()][max_entries_][_NUM_COLS_]);
+    try {
+        boost::multi_array < double, 5 >::resize(
+                boost::extents[targets_.getStationsSize()][targets_.getTimesSize()]
+                [targets_.getFLTsSize()][max_entries_][_NUM_COLS_]);
+    } catch (bad_alloc & e) {
+        cerr << "ERROR: Insufficient memory to resize similarity matrix to store "
+            << targets_.getStationsSize() * targets_.getTimesSize() * targets_.getFLTsSize() * max_entries_ * _NUM_COLS_
+            << " double values!" << endl;
+        throw e;
+    }
 }
 
 void
 SimilarityMatrices::resize(size_t dim0, size_t dim1, size_t dim2) {
-    boost::multi_array < double, 5 >::resize(
-            boost::extents[dim0][dim1][dim2][max_entries_][_NUM_COLS_]);
+    try {
+        boost::multi_array < double, 5 >::resize(
+                boost::extents[dim0][dim1][dim2][max_entries_][_NUM_COLS_]);
+    } catch (bad_alloc & e) {
+        cerr << "ERROR: Insufficient memory to resize similarity matrix to store "
+            << dim0 * dim1 * dim2 * max_entries_ * _NUM_COLS_ << " double values!" << endl;
+        throw e;
+    }
 }
 
 void

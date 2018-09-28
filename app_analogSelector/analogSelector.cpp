@@ -127,11 +127,30 @@ int main(int argc, char** argv) {
                 ("quick", po::bool_switch(&quick)->default_value(true), "Use quick sort when selecting analog members.")
                 ("real-time", po::bool_switch(&preserve_real_time)->default_value(false), "Convert observation time index to real time information.");
         
+        // process unregistered keys and notify users about my guesses
+        vector<string> available_options;
+        auto lambda = [&available_options](const boost::shared_ptr<boost::program_options::option_description> option) {
+            available_options.push_back("--" + option->long_name());
+        };
+        for_each(desc.options().begin(), desc.options().end(), lambda);
+
         // Parse the command line options first
         po::variables_map vm;
         po::parsed_options parsed = po::command_line_parser(argc, argv).options(desc).allow_unregistered().run();
         store(parsed, vm);
         
+        if (vm.count("help") || argc == 1) {
+            cout << GREEN << "Analog Ensemble program --- Similarity Calculator"
+                    << RESET << endl << desc << endl;
+            return 0;
+        }
+         
+        auto unregistered_keys = po::collect_unrecognized(parsed.options, po::exclude_positional);
+        if (unregistered_keys.size() != 0) {
+            guess_arguments(unregistered_keys, available_options);
+            return 1;
+        }
+
         if (vm.count("config")) {
             // If configuration file is specified, read it first.
             // The variable won't be written until we call notify.
@@ -146,29 +165,18 @@ int main(int argc, char** argv) {
                 cout << BOLDRED << "Error: Can't open configuration file " << config_file << RESET << endl;
                 return 1;
             } else {
-                store(parse_config_file(ifs, desc), vm);
+                auto parsed_config = parse_config_file(ifs, desc, true);
+
+                auto unregistered_keys = po::collect_unrecognized(parsed_config.options, po::exclude_positional);
+                if (unregistered_keys.size() != 0) {
+                    guess_arguments(unregistered_keys, available_options);
+                    return 1;
+                }
+
+                store(parsed_config, vm);
             }
         }
         
-        if (vm.count("help") || argc == 1) {
-            cout << GREEN << "Analog Ensemble program --- Similarity Calculator"
-                    << RESET << endl << desc << endl;
-            return 0;
-        }
-         
-        // process unregistered keys and notify users about my guesses
-        vector<string> available_options;
-        auto lambda = [&available_options](const boost::shared_ptr<boost::program_options::option_description> option) {
-            available_options.push_back("--" + option->long_name());
-        };
-        for_each(desc.options().begin(), desc.options().end(), lambda);
-
-        auto unregistered_keys = po::collect_unrecognized(parsed.options, po::exclude_positional);
-        if (unregistered_keys.size() != 0) {
-            guess_arguments(unregistered_keys, available_options);
-            return 1;
-        }
-
         notify(vm);
     } catch (...) {
         handle_exception(current_exception());

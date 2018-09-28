@@ -188,10 +188,10 @@ List generateAnalogs(
     /***************************************************************************
      *                           Wrap Up Results                               *
      **************************************************************************/
-    if (verbose >= 3) cout << "Wraping C++ objects ..." << endl;
     List ret;
 
     if (preserve_similarity) {
+        if (verbose >= 3) cout << "Wraping C++ object similarity matrix ..." << endl;
         IntegerVector R_sims_dims = {
             static_cast<int> (sims.shape()[4]),
             static_cast<int> (sims.shape()[3]),
@@ -205,6 +205,7 @@ List generateAnalogs(
     }
 
     if (preserve_mapping) {
+        if (verbose >= 3) cout << "Wraping C++ object mapping ..." << endl;
         IntegerVector R_mapping_dims{
             static_cast<int> (mapping.size2()),
             static_cast<int> (mapping.size1())};
@@ -215,6 +216,7 @@ List generateAnalogs(
     }
 
     if (preserve_search_stations) {
+        if (verbose >= 3) cout << "Wraping C++ object search stations ..." << endl;
         IntegerVector R_search_stations_dims{
             static_cast<int> (i_search_stations.size2()),
             static_cast<int> (i_search_stations.size1())};
@@ -224,6 +226,7 @@ List generateAnalogs(
         ret["searchStations"] = R_search_stations;
     }
 
+    if (verbose >= 3) cout << "Wraping C++ object analogs ..." << endl;
     IntegerVector R_analogs_dims = {
         static_cast<int> (analogs.shape()[0]),
         static_cast<int> (analogs.shape()[1]),

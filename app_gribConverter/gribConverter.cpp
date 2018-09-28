@@ -138,6 +138,7 @@ void getDoubles(vector<double> & vals, string file, long par_id, long level,
 
     // Get data size
     h = codes_handle_new_from_index(index, &ret);
+    CODES_CHECK(ret, 0);
     CODES_CHECK(codes_get_size(h, val_key.c_str(), &vals_len), 0);
 
     // Get data values
@@ -232,7 +233,7 @@ void toForecasts(const vector<string> & files_in, const string & file_out,
         anenPar::Parameter parameter(pars_new_name[i], circular);
         parameters.push_back(parameter);
     }
-    if (verbose >= 3) cout << parameters;
+    if (verbose >= 4) cout << parameters;
     assert(parameters.size() == pars_new_name.size());
 
     // Prepare times
@@ -244,7 +245,7 @@ void toForecasts(const vector<string> & files_in, const string & file_out,
     try {
         regex_time = regex(regex_time_str);
     } catch (const std::regex_error& e) {
-        cout << BOLDRED << "Error: Can't not use the regular expression " << regex_time_str << RESET << endl;
+        cout << BOLDRED << "Error: Can't use the regular expression " << regex_time_str << RESET << endl;
         throw e;
     }
 
@@ -255,7 +256,7 @@ void toForecasts(const vector<string> & files_in, const string & file_out,
     try {
         regex_flt = regex(regex_flt_str);
     } catch (const std::regex_error& e) {
-        cout << BOLDRED << "Error: Can't not use the regular expression " << regex_flt_str << RESET << endl;
+        cout << BOLDRED << "Error: Can't use the regular expression " << regex_flt_str << RESET << endl;
         throw e;
     }
 
@@ -296,17 +297,24 @@ void toForecasts(const vector<string> & files_in, const string & file_out,
     }
 
     // Read data
-    if (verbose >= 3) cout << "Reading data information ... " << endl;
+    if (verbose >= 3) {
+        cout << "Allocating memory double [" << parameters.size() << "]["
+            << stations.size() << "][" << times.size() << "][" << flts.size()
+            << "] ... " << endl;
+    }
     Forecasts_array forecasts(parameters, stations, times, flts);
     auto & data = forecasts.data();
 
     // This is created to keep track of the return condition for each file
     vector<bool> file_flags(files_in.size(), true);
 
+    if (verbose >= 3) cout << "Reading data ... " << endl;
+
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(static) \
 shared(files_in, regex_flt, flt_interval, regex_time, delimited, time_start, \
-flts, times, data, forecasts, pars_id, levels, file_flags) private(match, time_end)
+flts, times, data, forecasts, pars_id, levels, file_flags, verbose, cout) \
+private(match, time_end)
 #endif
     for (size_t i = 0; i < files_in.size(); i++) {
 
@@ -326,10 +334,11 @@ flts, times, data, forecasts, pars_id, levels, file_flags) private(match, time_e
         }
         boost::gregorian::date_duration duration = time_end - time_start;
         size_t index_time = times.getTimeIndex(duration.days() * _SECS_IN_DAY);
-
+        
+        vector<double> data_vec;
         for (size_t j = 0; j < pars_id.size(); j++) {
+
             if (file_flags[i]) {
-                vector<double> data_vec;
                 getDoubles(data_vec, files_in[i], pars_id[j], levels[j]);
 
                 if (data_vec.size() == forecasts.getStations().size()) {
@@ -432,7 +441,7 @@ void toObservations(const vector<string> & files_in, const string & file_out,
         anenPar::Parameter parameter(pars_new_name[i], circular);
         parameters.push_back(parameter);
     }
-    if (verbose >= 3) cout << parameters << endl;
+    if (verbose >= 4) cout << parameters;
     assert(parameters.size() == pars_new_name.size());
 
     // Prepare times
@@ -444,7 +453,7 @@ void toObservations(const vector<string> & files_in, const string & file_out,
     try {
         regex_time = regex(regex_time_str);
     } catch (const std::regex_error& e) {
-        cout << BOLDRED << "Error: Can't not use the regular expression " << regex_time_str << RESET << endl;
+        cout << BOLDRED << "Error: Can't use the regular expression " << regex_time_str << RESET << endl;
         throw e;
     }
 
@@ -485,9 +494,13 @@ void toObservations(const vector<string> & files_in, const string & file_out,
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(static) \
 shared(files_in, regex_time, delimited, time_start, times, data, \
-observations, pars_id, levels, file_flags) private(match, time_end)
+observations, pars_id, levels, file_flags, cout, verbose) \
+private(match, time_end)
 #endif
     for (size_t i = 0; i < files_in.size(); i++) {
+
+#pragma omp critical
+        if (verbose >= 3) cout << "\t reading data from file " << files_in[i] << endl;
 
         // Find out time index
         if (!regex_search(files_in[i].begin(), files_in[i].end(), match, regex_time))
@@ -573,34 +586,6 @@ int main(int argc, char** argv) {
                 ("overwrite", po::bool_switch(&overwrite_output)->default_value(false), "Overwrite the output file.")
                 ("verbose,v", po::value<int>(&verbose)->default_value(0), "Set the verbose level.");
 
-        // Parse the command line first
-        po::variables_map vm;
-        po::parsed_options parsed = po::command_line_parser(argc, argv).options(desc).allow_unregistered().run();
-        store(parsed, vm);
-
-        if (vm.count("config")) {
-            // If configuration file is specfied, read it first.
-            // The variable won't be written until we call notify.
-            //
-            config_file = vm["config"].as<string>();
-        }
-
-        // Then parse the configuration file
-        if (!config_file.empty()) {
-            ifstream ifs(config_file.c_str());
-            if (!ifs) {
-                cout << BOLDRED << "Error: Can't open configuration file " << config_file << RESET << endl;
-                return 1;
-            } else {
-                store(parse_config_file(ifs, desc), vm);
-            }
-        }
-
-        if (vm.count("help") || argc == 1) {
-            cout << GREEN << "GRIB Converter" << RESET << endl << desc << endl;
-            return 0;
-        }
-
         // process unregistered keys and notify users about my guesses
         vector<string> available_options;
         auto lambda = [&available_options](const boost::shared_ptr<boost::program_options::option_description> option) {
@@ -608,10 +593,47 @@ int main(int argc, char** argv) {
         };
         for_each(desc.options().begin(), desc.options().end(), lambda);
 
+        // Parse the command line first
+        po::variables_map vm;
+        po::parsed_options parsed = po::command_line_parser(argc, argv).options(desc).allow_unregistered().run();
+        store(parsed, vm);
+
+        if (vm.count("help") || argc == 1) {
+            cout << GREEN << "Analog Ensemble program --- GRIB Converter"
+                << RESET << endl << desc << endl;
+            return 0;
+        }
+
         auto unregistered_keys = po::collect_unrecognized(parsed.options, po::exclude_positional);
         if (unregistered_keys.size() != 0) {
             guess_arguments(unregistered_keys, available_options);
             return 1;
+        }
+
+        // Then parse the configuration file
+        if (vm.count("config")) {
+            // If configuration file is specfied, read it first.
+            // The variable won't be written until we call notify.
+            //
+            config_file = vm["config"].as<string>();
+        }
+
+        if (!config_file.empty()) {
+            ifstream ifs(config_file.c_str());
+            if (!ifs) {
+                cout << BOLDRED << "Error: Can't open configuration file " << config_file << RESET << endl;
+                return 1;
+            } else {
+                auto parsed_config = parse_config_file(ifs, desc, true);
+
+                auto unregistered_keys_config = po::collect_unrecognized(parsed_config.options, po::exclude_positional);
+                if (unregistered_keys_config.size() != 0) {
+                    guess_arguments(unregistered_keys_config, available_options);
+                    return 1;
+                }
+
+                store(parsed_config, vm);
+            }
         }
 
         notify(vm);

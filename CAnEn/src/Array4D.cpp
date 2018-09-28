@@ -31,7 +31,7 @@ Array4D::Array4D(size_t d1, size_t d2, size_t d3, size_t d4) {
         cerr << "ERROR: insufficient memory while resizing the array4D to hold "
                 << d1 * d2 * d3 * d4 << " double values"
                 << endl;
-        throw;
+        throw e;
     }
 
 }

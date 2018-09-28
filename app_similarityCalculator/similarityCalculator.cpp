@@ -170,35 +170,6 @@ int main(int argc, char** argv) {
                 ("obs-start", po::value< vector<size_t> >(&obs_start)->multitoken(), "Set the start indices in the search observation NetCDF where the program starts reading.")
                 ("obs-count", po::value< vector<size_t> >(&obs_count)->multitoken(), "Set the count numbers for each dimension in the search observation NetCDF.");
         
-        // Parse the command line options first
-        po::variables_map vm;
-        po::parsed_options parsed = po::command_line_parser(argc, argv).options(desc).allow_unregistered().run();
-        store(parsed, vm);
-        
-        if (vm.count("config")) {
-            // If configuration file is specified, read it first.
-            // The variable won't be written until we call notify.
-            //
-            config_file = vm["config"].as<string>();
-        }
-        
-        // Then parse the configuration file
-        if (!config_file.empty()) {
-            ifstream ifs(config_file.c_str());
-            if (!ifs) {
-                cout << BOLDRED << "Error: Can't open configuration file " << config_file << RESET << endl;
-                return 1;
-            } else {
-                store(parse_config_file(ifs, desc), vm);
-            }
-        }
-
-        if (vm.count("help") || argc == 1) {
-            cout << GREEN << "Analog Ensemble program --- Similarity Calculator"
-                    << RESET << endl << desc << endl;
-            return 0;
-        }
-        
         // process unregistered keys and notify users about my guesses
         vector<string> available_options;
         auto lambda = [&available_options](const boost::shared_ptr<boost::program_options::option_description> option) {
@@ -206,12 +177,49 @@ int main(int argc, char** argv) {
         };
         for_each(desc.options().begin(), desc.options().end(), lambda);
 
+        // Parse the command line options first
+        po::variables_map vm;
+        po::parsed_options parsed = po::command_line_parser(argc, argv).options(desc).allow_unregistered().run();
+        store(parsed, vm);
+        
+        if (vm.count("help") || argc == 1) {
+            cout << GREEN << "Analog Ensemble program --- Similarity Calculator"
+                    << RESET << endl << desc << endl;
+            return 0;
+        }
+        
         auto unregistered_keys = po::collect_unrecognized(parsed.options, po::exclude_positional);
         if (unregistered_keys.size() != 0) {
             guess_arguments(unregistered_keys, available_options);
             return 1;
         }
         
+        // Then parse the configuration file
+        if (vm.count("config")) {
+            // If configuration file is specified, read it first.
+            // The variable won't be written until we call notify.
+            //
+            config_file = vm["config"].as<string>();
+        }
+        
+        if (!config_file.empty()) {
+            ifstream ifs(config_file.c_str());
+            if (!ifs) {
+                cout << BOLDRED << "Error: Can't open configuration file " << config_file << RESET << endl;
+                return 1;
+            } else {
+                auto parsed_config = parse_config_file(ifs, desc, true);
+
+                auto unregistered_keys_config = po::collect_unrecognized(parsed_config.options, po::exclude_positional);
+                if (unregistered_keys_config.size() != 0) {
+                    guess_arguments(unregistered_keys_config, available_options);
+                    return 1;
+                }
+
+                store(parsed_config, vm);
+            }
+        }
+
         notify(vm);
         
     } catch (...) {
