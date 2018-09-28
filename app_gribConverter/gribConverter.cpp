@@ -109,13 +109,15 @@ void getXY(vector<double> & xs, vector<double> & ys, string file, long par_id,
  * grib_ls utility or by looking up in the ecCodes parameter database,
  * \link{http://apps.ecmwf.int/codes/grib/param-db/}.
  * @param level The level of the parameter.
+ * @param type The type for level (typeOfLevel)
  * @param par_key The key name of the parameter.
  * @param level_key The key name of the level.
+ * @param type_key The key name of the typeOfLevel.
  * @param val_key The key name of the value.
  */
 void getDoubles(vector<double> & vals, string file, long par_id, long level,
-        string par_key = "paramId", string level_key = "level",
-        string val_key = "values") {
+        string type, string par_key = "paramId", string level_key = "level",
+        string type_key = "typeOfLevel", string val_key = "values") {
 
     int ret;
     double* p_vals;
@@ -125,19 +127,38 @@ void getDoubles(vector<double> & vals, string file, long par_id, long level,
 
     // Construct query string
     string query_str(par_key);
-    query_str.append(",");
+    query_str.append(":l,");
     query_str.append(level_key);
+    query_str.append(":l,");
+    query_str.append(type_key);
+    query_str.append(":s");
 
     // Send query request
-    index = codes_index_new_from_file(0, &file[0u], query_str.c_str(), &ret);
+    // The select string function requires a char* rather than const char*,
+    // hence the following cast
+    //
+    index = codes_index_new_from_file(0,
+            const_cast<char*>(file.c_str()), query_str.c_str(), &ret);
     CODES_CHECK(ret, 0);
 
-    // Select index based on par_key and level_key
+    // Select index based on par_key and level_key, level_type
+    CODES_CHECK(codes_index_select_string(index, type_key.c_str(),
+            const_cast<char*> (type.c_str())), 0);
     CODES_CHECK(codes_index_select_long(index, par_key.c_str(), par_id), 0);
     CODES_CHECK(codes_index_select_long(index, level_key.c_str(), level), 0);
-
+    
     // Get data size
     h = codes_handle_new_from_index(index, &ret);
+    if (ret == GRIB_END_OF_INDEX) {
+        stringstream ss;
+        ss << BOLDRED << "Error: (GRIB_END_OF_INDEX) There is no index for "
+                << par_key << " " << par_id << " " << level_key << " "
+                << level << " " << type_key << " " << type << RESET << endl;
+
+        CODES_CHECK(codes_handle_delete(h), 0);
+        codes_index_delete(index);
+        throw runtime_error(ss.str());
+    }
     CODES_CHECK(ret, 0);
     CODES_CHECK(codes_get_size(h, val_key.c_str(), &vals_len), 0);
 
@@ -183,6 +204,7 @@ void getDoubles(vector<double> & vals, string file, long par_id, long level,
  * Forecasts NetCDF file.
  * @param crcl_pars_id A vector of parameters ID for circular parameters.
  * @param levels A vector of level numbers to specify for each parameter.
+ * @param level_types A vector of types of levels.
  * @param regex_time_str The regular expression used to extract time information.
  * @param regex_flt_str The regular expression used to extract FLT information.
  * @param flt_interval The FLT interval in seconds. This interval will be used to multiply
@@ -195,18 +217,11 @@ void getDoubles(vector<double> & vals, string file, long par_id, long level,
 void toForecasts(const vector<string> & files_in, const string & file_out,
         const vector<long> & pars_id, const vector<string> & pars_new_name,
         const vector<long> & crcl_pars_id, const vector<long> & levels,
-        string regex_time_str, string regex_flt_str, double flt_interval,
-        bool delimited = false, int verbose = 0) {
+        const vector<string> & level_types, string regex_time_str,
+        string regex_flt_str, double flt_interval, bool delimited = false,
+        int verbose = 0) {
 
     if (verbose >= 3) cout << "Convert GRIB2 files to Forecasts" << endl;
-
-    // Basic checks
-    if (files_in.size() == 0) throw runtime_error("Error: No files input specified!");
-    if (pars_id.size() == 0) throw runtime_error("Error: No parameter Id specified!");
-    if (pars_id.size() != pars_new_name.size())
-        throw runtime_error("Error: The numbers of parameter Ids and new names!");
-    if (pars_id.size() != levels.size())
-        throw runtime_error("Error: The numbers of parameter Ids and levels do not match!");
 
     // Read station xs and ys based on the first parameter in the list
     if (verbose >= 3) cout << "Reading station information ... " << endl;
@@ -313,10 +328,13 @@ void toForecasts(const vector<string> & files_in, const string & file_out,
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(static) \
 shared(files_in, regex_flt, flt_interval, regex_time, delimited, time_start, \
-flts, times, data, forecasts, pars_id, levels, file_flags, verbose, cout) \
-private(match, time_end)
+flts, times, data, forecasts, pars_id, levels, file_flags, cout, verbose, \
+level_types) private(match, time_end)
 #endif
     for (size_t i = 0; i < files_in.size(); i++) {
+
+#pragma omp critical
+        if (verbose >= 3) cout << "\t reading data from file " << files_in[i] << endl;
 
         // Find out flt index
         if (!regex_search(files_in[i].begin(), files_in[i].end(), match, regex_flt))
@@ -339,7 +357,7 @@ private(match, time_end)
         for (size_t j = 0; j < pars_id.size(); j++) {
 
             if (file_flags[i]) {
-                getDoubles(data_vec, files_in[i], pars_id[j], levels[j]);
+                getDoubles(data_vec, files_in[i], pars_id[j], levels[j], level_types[j]);
 
                 if (data_vec.size() == forecasts.getStations().size()) {
 
@@ -395,6 +413,7 @@ private(match, time_end)
  * Forecasts NetCDF file.
  * @param crcl_pars_id A vector of parameters ID for circular parameters.
  * @param levels A vector of level numbers to specify for each parameter.
+ * @param level_types A vector of types of levels.
  * @param regex_time_str The regular expression used to extract time information.
  * @param delimited Whether the extract Time information is delimited. A string like
  * '19900701' will be undelimited; a string like '1990-07-01' or '1990/07/01' is delimited.
@@ -403,18 +422,10 @@ private(match, time_end)
 void toObservations(const vector<string> & files_in, const string & file_out,
         const vector<long> & pars_id, const vector<string> & pars_new_name,
         const vector<long> & crcl_pars_id, const vector<long> & levels,
-        string regex_time_str, bool delimited = false, int verbose = 0) {
+        const vector<string> & level_types, string regex_time_str,
+        bool delimited = false, int verbose = 0) {
 
     if (verbose >= 3) cout << "Convert GRIB2 files to Observations" << endl;
-
-    //Basic checks
-    if (files_in.size() == 0) throw runtime_error("Error: No files input specified!");
-    if (pars_id.size() == 0) throw runtime_error("Error: No parameter Id specified!");
-    if (pars_id.size() != pars_new_name.size())
-        throw runtime_error("Error: The numbers of parameter Ids and new names!");
-    if (pars_id.size() != levels.size())
-        throw runtime_error("Error: The numbers of parameter Ids and levels do not match!");
-
 
     // Read station xs and ys based on the first parameter in the list
     if (verbose >= 3) cout << "Reading station information ... " << endl;
@@ -494,7 +505,7 @@ void toObservations(const vector<string> & files_in, const string & file_out,
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(static) \
 shared(files_in, regex_time, delimited, time_start, times, data, \
-observations, pars_id, levels, file_flags, cout, verbose) \
+observations, pars_id, levels, file_flags, cout, verbose, level_types) \
 private(match, time_end)
 #endif
     for (size_t i = 0; i < files_in.size(); i++) {
@@ -517,7 +528,7 @@ private(match, time_end)
         for (size_t j = 0; j < pars_id.size(); j++) {
             if (file_flags[i]) {
                 vector<double> data_vec;
-                getDoubles(data_vec, files_in[i], pars_id[j], levels[j]);
+                getDoubles(data_vec, files_in[i], pars_id[j], levels[j], level_types[j]);
 
                 if (data_vec.size() == observations.getStations().size()) {
 
@@ -555,6 +566,7 @@ int main(int argc, char** argv) {
     // Required variables
     string folder, file_out, regex_time_str, regex_flt_str, output_type;
     vector<long> pars_id, levels;
+    vector<string> level_types;
     double unit_flt;
 
     // Optional variables
@@ -577,6 +589,7 @@ int main(int argc, char** argv) {
                 ("regex-flt", po::value<string>(&regex_flt_str)->required(), "Set the regular expression for FLT. FLT information will be extracted from the file name.")
                 ("pars-id", po::value< vector<long> >(&pars_id)->multitoken()->required(), "Set the parameters ID that will be read from the file.")
                 ("levels", po::value< vector<long> >(&levels)->multitoken()->required(), "Set the levels for each parameters.")
+                ("level-types", po::value< vector<string> >(&level_types)->multitoken()->required(), "Set the types of levels for each parameters.")
                 ("flt-interval", po::value<double>(&unit_flt)->required(), "Set the interval in seconds for FLT.")
 
                 ("delimited", po::bool_switch(&delimited)->default_value(false), "The extracted time message is delimited by ambiguous character (1990-01-01).")
@@ -696,15 +709,26 @@ int main(int argc, char** argv) {
                 << "pars_new_name: " << pars_new_name << endl
                 << "input files (computed internally): " << files_in << endl;
     }
+    
 
+    // Basic checks
+    if (files_in.size() == 0) throw runtime_error("Error: No files input specified!");
+    if (pars_id.size() == 0) throw runtime_error("Error: No parameter Id specified!");
+    if (pars_id.size() != pars_new_name.size())
+        throw runtime_error("Error: The numbers of parameter Ids and new names!");
+    if (pars_id.size() != levels.size())
+        throw runtime_error("Error: The numbers of parameter Ids and levels do not match!");    
+    if (pars_id.size() != level_types.size())
+        throw runtime_error("Error: The numbers of parameter Ids and level types do not match!");
+    
     // Call function to convert GRIB
     if (output_type == "Forecasts") {
-        toForecasts(files_in, file_out, pars_id, pars_new_name,
-                crcl_pars_id, levels, regex_time_str, regex_flt_str,
-                unit_flt, delimited, verbose);
+        toForecasts(files_in, file_out, pars_id, pars_new_name, crcl_pars_id,
+                levels, level_types, regex_time_str, regex_flt_str, unit_flt,
+                delimited, verbose);
     } else if (output_type == "Observations") {
-        toObservations(files_in, file_out, pars_id, pars_new_name,
-                crcl_pars_id, levels, regex_time_str, delimited, verbose);
+        toObservations(files_in, file_out, pars_id, pars_new_name, crcl_pars_id,
+                levels, level_types, regex_time_str, delimited, verbose);
     } else {
         cout << BOLDRED << "Error: Output type " << output_type << " is not supported!"
                 << RESET << endl;

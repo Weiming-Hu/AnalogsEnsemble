@@ -91,8 +91,17 @@ if (NOT CMAKE_BUILD_TYPE)
 endif(NOT CMAKE_BUILD_TYPE)
 message (STATUS "CMAKE_BUILD_TYPE is ${CMAKE_BUILD_TYPE}")
 
-set (CMAKE_CXX_FLAGS_DEBUG "-g -Wall -Wextra")
-set (CMAKE_CXX_FLAGS_RELEASE "-O2 -w")
+if (CMAKE_CXX_FLAGS_DEBUG)
+    set (CMAKE_CXX_FLAGS_DEBUG "-g -Wall -Wextra ${CMAKE_CXX_FLAGS_DEBUG}")
+else (CMAKE_CXX_FLAGS_DEBUG)
+    set (CMAKE_CXX_FLAGS_DEBUG "-g -Wall -Wextra")
+endif (CMAKE_CXX_FLAGS_DEBUG)
+
+if (CMAKE_CXX_FLAGS_RELEASE)
+    set (CMAKE_CXX_FLAGS_RELEASE "-O2 -w ${CMAKE_CXX_FLAGS_RELEASE}")
+else (CMAKE_CXX_FLAGS_RELEASE)
+    set (CMAKE_CXX_FLAGS_RELEASE "-O2 -w")
+endif (CMAKE_CXX_FLAGS_RELEASE)
 
 if (CMAKE_BUILD_TYPE STREQUAL "Release")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CMAKE_CXX_FLAGS_RELEASE}")
@@ -115,6 +124,10 @@ else (${OPENMP_FOUND})
     The process goes on, but the executable won't support multi-threading.
     SUGGESTION: specify another compiler using CC and CXX. CC=[C compiler] CXX=[CXX compiler] cmake ..")
 endif (${OPENMP_FOUND})
+
+if (VERBOSE)
+    message(STATUS "CMAKE_CXX_FLAGS: ${CMAKE_CXX_FLAGS}")
+endif (VERBOSE)
 
 # if INSTALL_RAnEn is set to TRUE
 # only install RAnEn package
