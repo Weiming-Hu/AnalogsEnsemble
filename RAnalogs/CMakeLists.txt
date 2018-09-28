@@ -88,11 +88,11 @@ add_custom_command(TARGET build-release
 add_custom_command(TARGET build-release
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
     "${RAnEn_PACKAGE_DIR}/cmake/Makevars.in"
-    "${RAnEn_SOURCE_DIR}/Makevars")
+    "${RAnEn_SOURCE_DIR}/Makevars.in")
 add_custom_command(TARGET build-release
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
     "${RAnEn_PACKAGE_DIR}/cmake/Makevars.win.in"
-    "${RAnEn_SOURCE_DIR}/Makevars.win")
+    "${RAnEn_SOURCE_DIR}/Makevars.win.in")
 
 add_custom_command(
     TARGET build-release
