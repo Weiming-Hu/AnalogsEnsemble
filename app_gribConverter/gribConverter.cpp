@@ -125,6 +125,9 @@ void getDoubles(vector<double> & vals, string file, long par_id, long level,
     codes_index* index;
     codes_handle* h = NULL;
 
+    // Turn on support for multi fields messages
+    codes_grib_multi_support_on(0);
+
     // Construct query string
     string query_str(par_key);
     query_str.append(":l,");
