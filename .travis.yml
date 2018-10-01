@@ -5,6 +5,21 @@ env:
 matrix:
    include:
      - os: linux
+       language: r
+       cache: Rcpp
+       addons:
+          apt:
+            sources:
+              - ubuntu-toolchain-r-test
+            packages:
+              - g++-4.9
+       env:
+         - MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9"
+         - ENVIRONMENT_LANGUAGE="doc"
+         - ENCRYPTION_LABEL: "20cb31435ac4"
+         - COMMIT_AUTHOR_EMAIL: "huweiming950714@gmail.com"
+
+     - os: linux
        language: cpp
        addons:
          apt:
@@ -106,6 +121,7 @@ before_install:
     - eval "${MATRIX_EVAL}"
     - if [[ "$ENVIRONMENT_LANGUAGE" == "c++" ]]; then if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew cask uninstall oclint; if [[ "$INSTALLFLAG" == "NETCDF" ]]; then brew install netcdf; fi; fi; fi
     - if [[ "$ENVIRONMENT_LANGUAGE" == "r" ]]; then R -e "install.packages('Rcpp')"; R -e "install.packages('BH')";fi
+    - if [[ "$ENVIRONMENT_LANGUAGE" == "doc" ]]; then R -e "install.packages('Rcpp')"; R -e "install.packages('pkgdown')"; R -e "install.packages('BH')";fi
 
 install:
     - if [[ "$ENVIRONMENT_LANGUAGE" == "r" ]]; then mkdir build-RAnEn; cd build-RAnEn; CC=$CC CXX=$CXX cmake -DINSTALL_RAnEn=On ..; fi
@@ -113,6 +129,7 @@ install:
 script:
     - if [[ "$ENVIRONMENT_LANGUAGE" == "c++" ]]; then mkdir build; cd build; CC=$CC CXX=$CXX cmake -DCMAKE_CXX_FLAGS="-coverage" -DCMAKE_BUILD_TESTS=ON ..; make -j16; fi
     - if [[ "$ENVIRONMENT_LANGUAGE" == "r" ]]; then make -j16; fi
+    - if [[ "$ENVIRONMENT_LANGUAGE" == "doc" ]]; then ./deploymentAutomation/deploy.sh; fi
 
 after_success:
     - if [[ "$ENVIRONMENT_LANGUAGE" == "c++" ]]; then make test; fi

@@ -20,6 +20,13 @@ Currently the available functions are:\cr
 - \code{\link{plotAnEnTimesSeries}}\cr
 - \code{\link{validateConfiguration}}\cr
 }
+\seealso{
+Useful links:
+\itemize{
+  \item Report bugs at \url{https://github.com/Weiming-Hu/AnalogsEnsemble/issues}
+}
+
+}
 \author{
 Weiming Hu \email{weiming@psu.edu}
 }

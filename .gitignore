@@ -95,6 +95,8 @@ RAnalogs/RAnEn/src/Times.h
 RAnalogs/RAnEn/src/colorTexts.h
 RAnalogs/RAnEn/src/config.log
 RAnalogs/RAnEn/build
+RAnalogs/RAnEn/docs
+RAnalogs/RAnEn/README*
 
 # From the base theme and jekyll ignore
 # Ignore docs files
@@ -142,3 +144,6 @@ validation-report.json
 
 # Folders to ignore
 node_modules
+
+# The automatic deployment folder
+out
