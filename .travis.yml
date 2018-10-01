@@ -4,24 +4,24 @@ env:
 
 matrix:
    include:
-     - os: linux
-       language: r
-       cache: Rcpp
-       addons:
-          apt:
-            sources:
-              - ubuntu-toolchain-r-test
-            packages:
-              - doxygen
-              - doxygen-doc
-              - doxygen-latex
-              - doxygen-gui
-              - graphviz
-              - g++-4.9
-       env:
-         - ENVIRONMENT_LANGUAGE="doc"
-         - ENCRYPTION_LABEL: "20cb31435ac4"
-         - COMMIT_AUTHOR_EMAIL: "huweiming950714@gmail.com"
+       #     - os: linux
+       #       language: r
+       #       cache: Rcpp
+       #       addons:
+       #          apt:
+       #            sources:
+       #              - ubuntu-toolchain-r-test
+       #            packages:
+       #              - doxygen
+       #              - doxygen-doc
+       #              - doxygen-latex
+       #              - doxygen-gui
+       #              - graphviz
+       #              - g++-4.9
+       #       env:
+       #         - ENVIRONMENT_LANGUAGE="doc"
+       #         - ENCRYPTION_LABEL: "20cb31435ac4"
+       #         - COMMIT_AUTHOR_EMAIL: "huweiming950714@gmail.com"
 
      - os: linux
        language: cpp
