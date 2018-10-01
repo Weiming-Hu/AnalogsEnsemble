@@ -14,7 +14,14 @@ function doCompileCXX {
     echo "Compile for C++"
     mkdir buildC
     cd buildC
-    CC=gcc-4.9 CXX=g++-4.9 cmake ..
+
+    if [ -z "$TRAVIS_BRANCH" ]
+    then
+        cmake ..
+    else
+        CC=gcc-4.9 CXX=g++-4.9 cmake ..
+    fi
+
     make document
     cd html
 
@@ -25,6 +32,10 @@ function doCompileCXX {
     echo -e '---' | cat - index.html > temp && mv temp index.html
 
     cd ../..
+
+    # Update gh-pages
+    rm -rf out/CXX || true
+    mv buildC/html/ out/CXX
 }
 
 function doCompileR {
@@ -42,6 +53,10 @@ function doCompileR {
     echo -e '---' | cat - index.html > temp && mv temp index.html
 
     cd ../../../../
+
+    # Update gh-pages
+    rm -rf out/R || true
+    mv RAnalogs/releases/RAnEn/docs out/R
 }
 
 # Pull requests and commits to other branches shouldn't try to deploy, just build to verify
@@ -67,13 +82,6 @@ cd ..
 # Call the compile functions
 doCompileCXX
 doCompileR
-
-# Update gh-pages
-rm -rf out/CXX || true
-mv buildC/html/ out/CXX
-
-rm -rf out/R || true
-mv RAnalogs/releases/RAnEn/docs out/R
 
 # Now let's go have some fun with the cloned repo
 cd out
