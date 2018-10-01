@@ -15,7 +15,15 @@ function doCompileCXX {
     cd buildC
     CC=gcc-7 CXX=g++-7 cmake ..
     make document
-    cd ..
+    cd html
+
+    echo -e '\n' | cat - index.html > temp && mv temp index.html
+    echo -e '---' | cat - index.html > temp && mv temp index.html
+    echo -e 'title: C++ Documentation' | cat - index.html > temp && mv temp index.html
+    echo -e 'sidebar_link: true' | cat - index.html > temp && mv temp index.html
+    echo -e '---' | cat - index.html > temp && mv temp index.html
+
+    cd ../..
 }
 
 function doCompileR {
@@ -23,7 +31,15 @@ function doCompileR {
     tar -xvzf `ls -rt | tail --lines=1`
     cd RAnEn
     Rscript ../../developerGuides/generate_site.R
-    cd ../../../
+    cd docs
+
+    echo -e '\n' | cat - index.html > temp && mv temp index.html
+    echo -e '---' | cat - index.html > temp && mv temp index.html
+    echo -e 'title: R Documentation' | cat - index.html > temp && mv temp index.html
+    echo -e 'sidebar_link: true' | cat - index.html > temp && mv temp index.html
+    echo -e '---' | cat - index.html > temp && mv temp index.html
+
+    cd ../../../../
 }
 
 # Pull requests and commits to other branches shouldn't try to deploy, just build to verify
