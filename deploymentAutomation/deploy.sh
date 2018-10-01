@@ -13,7 +13,7 @@ TARGET_BRANCH="gh-pages"
 function doCompileCXX {
     mkdir buildC
     cd buildC
-    CC=gcc-7 CXX=g++-7 cmake ..
+    CC=gcc-4.9 CXX=g++-4.9 cmake ..
     make document
     cd html
 
