@@ -70,6 +70,8 @@ SHA=`git rev-parse --verify HEAD`
 git clone $REPO out
 cd out
 git checkout $TARGET_BRANCH || git checkout --orphan $TARGET_BRANCH
+rm README.md
+cp ../README.md .
 cd ..
 
 # Pull requests and commits to other branches shouldn't try to deploy, just build to verify
