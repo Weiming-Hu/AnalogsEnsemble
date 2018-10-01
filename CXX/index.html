@@ -1,7 +1,8 @@
 ---
-title: C++ Documentation
 sidebar_link: true
+title: C++ Documentation
 ---
+
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -94,7 +95,7 @@ $(function() {
 <p>This package contains several libraries and applications:</p>
 <ul>
 <li><a href="https://github.com/Weiming-Hu/AnalogsEnsemble/tree/master/CAnEn">CAnEn</a>: This is the main library that is implemented in C++. It provides main functionality of the <a class="el" href="class_an_en.html" title="AnEn class provides interfaces for computing Analog Ensembles. ">AnEn</a> method;</li>
-<li><a href="https://github.com/Weiming-Hu/AnalogsEnsemble/tree/master/CAnalogsIO">CAnalogsIO</a>: This is the library for file I/O. Currently, it supports reading and writing <a href="https://www.unidata.ucar.edu/software/netcdf/">standard NetCDF</a>.</li>
+<li><a href="https://github.com/Weiming-Hu/AnalogsEnsemble/tree/master/CAnEnIO">CAnalogsIO</a>: This is the library for file I/O. Currently, it supports reading and writing <a href="https://www.unidata.ucar.edu/software/netcdf/">standard NetCDF</a>.</li>
 <li><a href="https://github.com/Weiming-Hu/AnalogsEnsemble/tree/master/RAnalogs">RAnalogs</a>: This is a R library which provides the interface for <em>CAnEn</em> functionality, in order to appeal researchers who are prefer R. This R package is called <em>RAnEn</em> which stands for <em>R <a class="el" href="class_analogs.html" title="This is the class to store analogs. The default dimensions are: [test stations][test times][FLTs][mem...">Analogs</a> Ensemble</em>.</li>
 <li><a href="https://github.com/Weiming-Hu/AnalogsEnsemble/tree/master/app_analogGenerator">Analog Generator</a>: This is an application for generating analogs. It is currently under-development.</li>
 <li><a href="https://github.com/Weiming-Hu/AnalogsEnsemble/tree/master/app_analogSelector">Analog Selector</a>: This is an application for selecting analogs based on the similarity matrices. It is currently under-development.</li>
@@ -122,7 +123,7 @@ $(function() {
 <td align="center">OpenMP </td><td align="center">Optional for both R and C++. </td></tr>
 </table>
 <h3>On Mac</h3>
-<p>It is fairly straightforward to use <code>HomeBrew</code>() to manage packages. However, note that <code>HomeBrew</code> might not be working well with <code>Port</code>. If you already have one of the two, go with the desired one.</p>
+<p>It is fairly straightforward to use <a href="https://brew.sh/">HomeBrew</a> to manage packages. However, note that <code>HomeBrew</code> might not be working well with <code>Port</code>. If you already have one of the two, go with the desired one.</p>
 <div class="fragment"><div class="line"># Install GNU compilers to support OpenMP</div><div class="line"># brew search gcc</div><div class="line">brwe install gcc@7</div><div class="line"></div><div class="line"># Install CMake</div><div class="line"># brew search cmake</div><div class="line">brew install cmake</div><div class="line"></div><div class="line"># Install NetCDF</div><div class="line">brew install netcdf</div></div><!-- fragment --><h3>On Linux</h3>
 <p>If <code>apt-get</code> is available, please see the following commands.</p>
 <div class="fragment"><div class="line"># Install NetCDF</div><div class="line">sudo apt-get install libnetcdf-dev netcdf-bin</div></div><!-- fragment --><h2>Installation</h2>
