@@ -41,6 +41,7 @@ function doCompileCXX {
 function doCompileR {
     echo "Compile for R"
     cd RAnalogs/releases
+    rm -rf RAnEn || true
     tar -xvzf `ls -rt | tail --lines=1`
     cd RAnEn
     Rscript ../../developerGuides/generate_site.R
