@@ -68,10 +68,10 @@ doCompileR
 
 # Update gh-pages
 rm -rf out/CXX || true
-mv build/html/ out/CXX
+mv buildC/html/ out/CXX
 
 rm -rf out/R || true
-mv RAnalogs/RAnEn/docs out/R
+mv RAnalogs/releases/RAnEn/docs out/R
 
 # Now let's go have some fun with the cloned repo
 cd out
