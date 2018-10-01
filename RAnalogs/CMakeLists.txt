@@ -83,10 +83,6 @@ add_custom_target(build-release)
 
 add_custom_command(TARGET build-release
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
-    "${CMAKE_SOURCE_DIR}/README.md"
-    "${RAnEn_PACKAGE_DIR}/README.md")
-add_custom_command(TARGET build-release
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different
     "${RAnEn_PACKAGE_DIR}/cmake/configure"
     "${RAnEn_PACKAGE_DIR}/configure")
 add_custom_command(TARGET build-release
