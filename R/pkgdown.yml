@@ -1,0 +1,8 @@
+pandoc: []
+pkgdown: 1.1.0
+pkgdown_sha: ~
+articles: []
+urls:
+  reference: https://weiming-hu.github.io/AnalogsEnsemble//reference
+  article: https://weiming-hu.github.io/AnalogsEnsemble//articles
+

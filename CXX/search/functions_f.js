@@ -12,6 +12,6 @@ var searchData=
   ['teststations',['testStations',['../classtest_stations.html#a536a21772411f61507c9811753ed9d8d',1,'testStations']]],
   ['testtimes',['testTimes',['../classtest_times.html#ae754049ba7f47fc3e2abd493715a3986',1,'testTimes']]],
   ['times',['Times',['../classanen_time_1_1_times.html#a66161eb232f580fe090579b8e19e3618',1,'anenTime::Times::Times()'],['../classanen_time_1_1_times.html#a2bd2c89fd910120a72eab80017792125',1,'anenTime::Times::Times(std::string unit)'],['../classanen_time_1_1_times.html#a73794184536377320073427409a63da6',1,'anenTime::Times::Times(std::string unit, std::string origin)']]],
-  ['toforecasts',['toForecasts',['../grib_converter_8cpp.html#ad9f02f22a0580f6b0205a37df4e96899',1,'gribConverter.cpp']]],
-  ['toobservations',['toObservations',['../grib_converter_8cpp.html#a4251641e7a46f19a621014584dbeedb1',1,'gribConverter.cpp']]]
+  ['toforecasts',['toForecasts',['../grib_converter_8cpp.html#a4911a3421f2cafa180f631437ee55cb8',1,'gribConverter.cpp']]],
+  ['toobservations',['toObservations',['../grib_converter_8cpp.html#a68df5c8c3e6273784d23bcf349009d41',1,'gribConverter.cpp']]]
 ];

@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['levenshtein_2ecpp',['Levenshtein.cpp',['../_levenshtein_8cpp.html',1,'']]],
-  ['levenshtein_2eh',['Levenshtein.h',['../_levenshtein_8h.html',1,'']]]
+  ['index_2emd',['index.md',['../index_8md.html',1,'']]],
+  ['inspect_5fshared_5flibraries_2emd',['inspect_shared_libraries.md',['../inspect__shared__libraries_8md.html',1,'']]]
 ];
