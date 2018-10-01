@@ -11,6 +11,7 @@ SOURCE_BRANCH="master"
 TARGET_BRANCH="gh-pages"
 
 function doCompileCXX {
+    echo "Compile for C++"
     mkdir buildC
     cd buildC
     CC=gcc-4.9 CXX=g++-4.9 cmake ..
@@ -27,6 +28,7 @@ function doCompileCXX {
 }
 
 function doCompileR {
+    echo "Compile for R"
     cd RAnalogs/releases
     tar -xvzf `ls -rt | tail --lines=1`
     cd RAnEn
