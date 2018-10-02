@@ -147,8 +147,6 @@ limit_row, limit_col) firstprivate(index)
             index = times_observations.getTimeIndex(
                     times_forecasts_by_insert[i_row] + flts_forecasts_by_insert[i_col]);
             mapping(i_row, i_col) = index;
-
-
         }
     }
 
