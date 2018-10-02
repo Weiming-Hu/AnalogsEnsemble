@@ -17,9 +17,11 @@ Curerntly there are {{ paginator.total_posts }} posts available. If you would li
     </h3>
 
     <span class="post-date">{{ post.date | date_to_string }}</span>
-
+    
+    {% comment %}
     {{ post.content | truncatewords:20 }}
-
+    {% endcomment %}
+    
   </div>
   {% endfor %}
 </div>
