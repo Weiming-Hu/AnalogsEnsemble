@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['released_20under_20mit_20license',['Released under MIT License',['../md__home_graduate_wuh20_tmp__analogs_ensemble_out__l_i_c_e_n_s_e.html',1,'']]],
-  ['readme',['README',['../md__home_graduate_wuh20_tmp__analogs_ensemble_out__r_e_a_d_m_e.html',1,'']]],
+  ['released_20under_20mit_20license',['Released under MIT License',['../md___users_wuh20_tmp__analogs_ensemble_out__l_i_c_e_n_s_e.html',1,'']]],
+  ['readme',['README',['../md___users_wuh20_tmp__analogs_ensemble_out__r_e_a_d_m_e.html',1,'']]],
   ['randomize',['randomize',['../class_array4_d.html#a15626fe44d3792ccc2822afb30bcbd98',1,'Array4D']]],
   ['read_5fstring_5fvector_5f',['read_string_vector_',['../class_an_en_i_o.html#ae9cf0a8cde2b742992295ccc2bed17ef',1,'AnEnIO::read_string_vector_(std::string var_name, std::vector&lt; std::string &gt; &amp;results) const'],['../class_an_en_i_o.html#a8c7e28931fd88831922e64ad87ee03f2',1,'AnEnIO::read_string_vector_(std::string var_name, std::vector&lt; std::string &gt; &amp;results, size_t start, size_t count, ptrdiff_t stride=1) const']]],
   ['read_5fvector_5f',['read_vector_',['../class_an_en_i_o.html#aa135f278f8ff2a028b8119f483dd36bf',1,'AnEnIO::read_vector_(std::string var_name, std::vector&lt; T &gt; &amp;results) const'],['../class_an_en_i_o.html#a4a4b8eedb372df1bb46b2104ae2761cd',1,'AnEnIO::read_vector_(std::string var_name, std::vector&lt; T &gt; &amp;results, std::vector&lt; size_t &gt; start, std::vector&lt; size_t &gt; count, std::vector&lt; ptrdiff_t &gt; stride={1}) const'],['../class_an_en_i_o.html#a9a0c27d0baddc7e27b25e1d13ac4f313',1,'AnEnIO::read_vector_(std::string var_name, std::vector&lt; T &gt; &amp;results, size_t start, size_t count, ptrdiff_t stride=1) const']]],
@@ -22,7 +22,8 @@ var searchData=
   ['required_5fvariables_5f',['required_variables_',['../class_an_en_i_o.html#a119dcb81d3811547f0e37d6c3752f0a7',1,'AnEnIO']]],
   ['reset',['RESET',['../color_texts_8h.html#ab702106cf3b3e96750b6845ded4e0299',1,'colorTexts.h']]],
   ['resize',['resize',['../class_similarity_matrices.html#afc8b529a0d1bed232c63b6c96a1432dd',1,'SimilarityMatrices::resize()'],['../class_similarity_matrices.html#a6fd85de464f978b2767f907df5f95513',1,'SimilarityMatrices::resize(size_t dim0, size_t dim1, size_t dim2)']]],
-  ['runanalogselector',['runAnalogSelector',['../analog_selector_8cpp.html#af61f37b32d9195d56c17792e82f8a019',1,'analogSelector.cpp']]],
+  ['runanaloggenerator',['runAnalogGenerator',['../analog_generator_8cpp.html#a71ab8c2559f86a72aacad6345008d9b2',1,'analogGenerator.cpp']]],
+  ['runanalogselector',['runAnalogSelector',['../analog_selector_8cpp.html#a37707012d1be48c9502d90e4145c790f',1,'analogSelector.cpp']]],
   ['runneranen_2ecpp',['runnerAnEn.cpp',['../runner_an_en_8cpp.html',1,'']]],
   ['runneranenio_2ecpp',['runnerAnEnIO.cpp',['../runner_an_en_i_o_8cpp.html',1,'']]],
   ['runnerforecastsarray_2ecpp',['runnerForecastsArray.cpp',['../runner_forecasts_array_8cpp.html',1,'']]],
@@ -32,5 +33,5 @@ var searchData=
   ['runnerstation_2ecpp',['runnerStation.cpp',['../runner_station_8cpp.html',1,'']]],
   ['runnerstations_2ecpp',['runnerStations.cpp',['../runner_stations_8cpp.html',1,'']]],
   ['runnertimes_2ecpp',['runnerTimes.cpp',['../runner_times_8cpp.html',1,'']]],
-  ['runsimilaritycalculator',['runSimilarityCalculator',['../similarity_calculator_8cpp.html#ae543f90625b3365876bd4626697ff43a',1,'similarityCalculator.cpp']]]
+  ['runsimilaritycalculator',['runSimilarityCalculator',['../similarity_calculator_8cpp.html#a81c95d87a1128932f7d2c9cf0b3b67d3',1,'similarityCalculator.cpp']]]
 ];

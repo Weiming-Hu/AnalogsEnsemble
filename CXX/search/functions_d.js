@@ -14,6 +14,7 @@ var searchData=
   ['readtextmatrix',['readTextMatrix',['../class_an_en_i_o.html#a08b76ea993d992b9b69dc2c985b13da9',1,'AnEnIO']]],
   ['readtimes',['readTimes',['../class_an_en_i_o.html#a19b454b0a9ecb5ecbc2cc2a9c139770b',1,'AnEnIO::readTimes(anenTime::Times &amp;times)'],['../class_an_en_i_o.html#aecbace06ce451ccad367d0150ef6aaf9',1,'AnEnIO::readTimes(anenTime::Times &amp;times, size_t start, size_t count, ptrdiff_t stride=1)']]],
   ['resize',['resize',['../class_similarity_matrices.html#afc8b529a0d1bed232c63b6c96a1432dd',1,'SimilarityMatrices::resize()'],['../class_similarity_matrices.html#a6fd85de464f978b2767f907df5f95513',1,'SimilarityMatrices::resize(size_t dim0, size_t dim1, size_t dim2)']]],
-  ['runanalogselector',['runAnalogSelector',['../analog_selector_8cpp.html#af61f37b32d9195d56c17792e82f8a019',1,'analogSelector.cpp']]],
-  ['runsimilaritycalculator',['runSimilarityCalculator',['../similarity_calculator_8cpp.html#ae543f90625b3365876bd4626697ff43a',1,'similarityCalculator.cpp']]]
+  ['runanaloggenerator',['runAnalogGenerator',['../analog_generator_8cpp.html#a71ab8c2559f86a72aacad6345008d9b2',1,'analogGenerator.cpp']]],
+  ['runanalogselector',['runAnalogSelector',['../analog_selector_8cpp.html#a37707012d1be48c9502d90e4145c790f',1,'analogSelector.cpp']]],
+  ['runsimilaritycalculator',['runSimilarityCalculator',['../similarity_calculator_8cpp.html#a81c95d87a1128932f7d2c9cf0b3b67d3',1,'similarityCalculator.cpp']]]
 ];
