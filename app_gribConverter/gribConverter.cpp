@@ -56,6 +56,9 @@ void getXY(vector<double> & xs, vector<double> & ys, string file, long par_id,
     size_t len;
     codes_index* index;
     codes_handle* h = NULL;
+    
+    // Turn on support for multi fields messages
+    codes_grib_multi_support_on(0);
 
     // Construct query string
     string query_str(par_key);
@@ -97,6 +100,13 @@ void getXY(vector<double> & xs, vector<double> & ys, string file, long par_id,
     codes_index_delete(index);
 
     return;
+}
+
+void MY_CODES_CHECK(int ret, int caller) {
+    if (ret != CODES_SUCCESS) {
+        const char* p_str = codes_get_error_message(ret);
+        throw runtime_error(p_str);
+    }
 }
 
 /**
@@ -142,13 +152,13 @@ void getDoubles(vector<double> & vals, string file, long par_id, long level,
     //
     index = codes_index_new_from_file(0,
             const_cast<char*>(file.c_str()), query_str.c_str(), &ret);
-    CODES_CHECK(ret, 0);
+    MY_CODES_CHECK(ret, 0);
 
     // Select index based on par_key and level_key, level_type
-    CODES_CHECK(codes_index_select_string(index, type_key.c_str(),
+    MY_CODES_CHECK(codes_index_select_string(index, type_key.c_str(),
             const_cast<char*> (type.c_str())), 0);
-    CODES_CHECK(codes_index_select_long(index, par_key.c_str(), par_id), 0);
-    CODES_CHECK(codes_index_select_long(index, level_key.c_str(), level), 0);
+    MY_CODES_CHECK(codes_index_select_long(index, par_key.c_str(), par_id), 0);
+    MY_CODES_CHECK(codes_index_select_long(index, level_key.c_str(), level), 0);
     
     // Get data size
     h = codes_handle_new_from_index(index, &ret);
@@ -158,16 +168,16 @@ void getDoubles(vector<double> & vals, string file, long par_id, long level,
                 << par_key << " " << par_id << " " << level_key << " "
                 << level << " " << type_key << " " << type << RESET << endl;
 
-        CODES_CHECK(codes_handle_delete(h), 0);
+        MY_CODES_CHECK(codes_handle_delete(h), 0);
         codes_index_delete(index);
         throw runtime_error(ss.str());
     }
-    CODES_CHECK(ret, 0);
-    CODES_CHECK(codes_get_size(h, val_key.c_str(), &vals_len), 0);
+    MY_CODES_CHECK(ret, 0);
+    MY_CODES_CHECK(codes_get_size(h, val_key.c_str(), &vals_len), 0);
 
     // Get data values
     p_vals = (double*) malloc(vals_len * sizeof (double));
-    CODES_CHECK(codes_get_double_array(h, val_key.c_str(), p_vals, &vals_len), 0);
+    MY_CODES_CHECK(codes_get_double_array(h, val_key.c_str(), p_vals, &vals_len), 0);
 
     // Copy data to vector
     vals.clear();
@@ -176,7 +186,7 @@ void getDoubles(vector<double> & vals, string file, long par_id, long level,
 
     // Housekeeping
     free(p_vals);
-    CODES_CHECK(codes_handle_delete(h), 0);
+    MY_CODES_CHECK(codes_handle_delete(h), 0);
     codes_index_delete(index);
 
     return;
@@ -208,6 +218,10 @@ void getDoubles(vector<double> & vals, string file, long par_id, long level,
  * @param crcl_pars_id A vector of parameters ID for circular parameters.
  * @param levels A vector of level numbers to specify for each parameter.
  * @param level_types A vector of types of levels.
+ * @param par_key The key name of parameter ID.
+ * @param level_key The key name of level.
+ * @param type_key The key name of type of level.
+ * @param val_key The key name of values.
  * @param regex_time_str The regular expression used to extract time information.
  * @param regex_flt_str The regular expression used to extract FLT information.
  * @param flt_interval The FLT interval in seconds. This interval will be used to multiply
@@ -220,8 +234,11 @@ void getDoubles(vector<double> & vals, string file, long par_id, long level,
 void toForecasts(const vector<string> & files_in, const string & file_out,
         const vector<long> & pars_id, const vector<string> & pars_new_name,
         const vector<long> & crcl_pars_id, const vector<long> & levels,
-        const vector<string> & level_types, string regex_time_str,
-        string regex_flt_str, double flt_interval, bool delimited = false,
+        const vector<string> & level_types,
+        const string & par_key, const string & level_key,
+        const string & type_key, const string & val_key,
+        string regex_time_str, string regex_flt_str,
+        double flt_interval, bool delimited = false,
         int verbose = 0) {
 
     if (verbose >= 3) cout << "Convert GRIB2 files to Forecasts" << endl;
@@ -230,7 +247,7 @@ void toForecasts(const vector<string> & files_in, const string & file_out,
     if (verbose >= 3) cout << "Reading station information ... " << endl;
     anenSta::Stations stations;
     vector<double> xs, ys;
-    getXY(xs, ys, files_in[0], pars_id[0], levels[0]);
+    getXY(xs, ys, files_in[0], pars_id[0], levels[0], par_key, level_key, val_key);
     if (xs.size() != ys.size()) throw runtime_error("Error: the number of xs and ys do not match!");
 
     for (size_t i = 0; i < xs.size(); i++) {
@@ -279,7 +296,10 @@ void toForecasts(const vector<string> & files_in, const string & file_out,
     }
 
     // Read times and flts
+    // Within this loop, it is also checking whether each file is valid
+    //
     vector<double> times_vec, flts_vec;
+    vector<string> keys = {par_key, level_key, type_key, val_key};
     boost::gregorian::date time_start{anenTime::_ORIGIN_YEAR,
         anenTime::_ORIGIN_MONTH, anenTime::_ORIGIN_DAY}, time_end;
     for (const auto & file : files_in) {
@@ -332,11 +352,13 @@ void toForecasts(const vector<string> & files_in, const string & file_out,
 #pragma omp parallel for default(none) schedule(static) \
 shared(files_in, regex_flt, flt_interval, regex_time, delimited, time_start, \
 flts, times, data, forecasts, pars_id, levels, file_flags, cout, verbose, \
-level_types) private(match, time_end)
+level_types, par_key, level_key, type_key, val_key) private(match, time_end)
 #endif
     for (size_t i = 0; i < files_in.size(); i++) {
 
+#if defined(_OPENMP)
 #pragma omp critical
+#endif
         if (verbose >= 3) cout << "\t reading data from file " << files_in[i] << endl;
 
         // Find out flt index
@@ -360,7 +382,18 @@ level_types) private(match, time_end)
         for (size_t j = 0; j < pars_id.size(); j++) {
 
             if (file_flags[i]) {
-                getDoubles(data_vec, files_in[i], pars_id[j], levels[j], level_types[j]);
+                try {
+                    getDoubles(data_vec, files_in[i], pars_id[j], levels[j], level_types[j],
+                            par_key, level_key, type_key, val_key);
+                } catch (...) {
+#if defined(_OPENMP)
+#pragma omp critical
+#endif
+                    cout << BOLDRED << "Error when reading " << pars_id[j] << " "
+                        << levels[j] << " " << level_types[j] << " from file " << files_in[i]
+                        << RESET << endl;
+                    continue;
+                }
 
                 if (data_vec.size() == forecasts.getStations().size()) {
 
@@ -417,6 +450,10 @@ level_types) private(match, time_end)
  * @param crcl_pars_id A vector of parameters ID for circular parameters.
  * @param levels A vector of level numbers to specify for each parameter.
  * @param level_types A vector of types of levels.
+ * @param par_key The key name of parameter ID.
+ * @param level_key The key name of level.
+ * @param type_key The key name of type of level.
+ * @param val_key The key name of values.
  * @param regex_time_str The regular expression used to extract time information.
  * @param delimited Whether the extract Time information is delimited. A string like
  * '19900701' will be undelimited; a string like '1990-07-01' or '1990/07/01' is delimited.
@@ -425,8 +462,10 @@ level_types) private(match, time_end)
 void toObservations(const vector<string> & files_in, const string & file_out,
         const vector<long> & pars_id, const vector<string> & pars_new_name,
         const vector<long> & crcl_pars_id, const vector<long> & levels,
-        const vector<string> & level_types, string regex_time_str,
-        bool delimited = false, int verbose = 0) {
+        const vector<string> & level_types,
+        const string & par_key, const string & level_key,
+        const string & type_key, const string & val_key,
+        string regex_time_str, bool delimited = false, int verbose = 0) {
 
     if (verbose >= 3) cout << "Convert GRIB2 files to Observations" << endl;
 
@@ -434,7 +473,7 @@ void toObservations(const vector<string> & files_in, const string & file_out,
     if (verbose >= 3) cout << "Reading station information ... " << endl;
     anenSta::Stations stations;
     vector<double> xs, ys;
-    getXY(xs, ys, files_in[0], pars_id[0], levels[0]);
+    getXY(xs, ys, files_in[0], pars_id[0], levels[0], par_key, level_key, val_key);
     if (xs.size() != ys.size()) throw runtime_error("Error: the number of xs and ys do not match!");
 
     for (size_t i = 0; i < xs.size(); i++) {
@@ -472,6 +511,9 @@ void toObservations(const vector<string> & files_in, const string & file_out,
     }
 
     // Read times
+    // Within this loop, it is also checking whether each file is valid
+    //
+    vector<string> keys = {par_key, level_key, type_key, val_key};
     vector<double> times_vec;
     boost::gregorian::date time_start{anenTime::_ORIGIN_YEAR,
         anenTime::_ORIGIN_MONTH, anenTime::_ORIGIN_DAY}, time_end;
@@ -508,12 +550,14 @@ void toObservations(const vector<string> & files_in, const string & file_out,
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(static) \
 shared(files_in, regex_time, delimited, time_start, times, data, \
-observations, pars_id, levels, file_flags, cout, verbose, level_types) \
-private(match, time_end)
+observations, pars_id, levels, file_flags, cout, verbose, level_types, \
+par_key, level_key, type_key, val_key) private(match, time_end)
 #endif
     for (size_t i = 0; i < files_in.size(); i++) {
 
+#if defined(_OPENMP)
 #pragma omp critical
+#endif
         if (verbose >= 3) cout << "\t reading data from file " << files_in[i] << endl;
 
         // Find out time index
@@ -531,7 +575,18 @@ private(match, time_end)
         for (size_t j = 0; j < pars_id.size(); j++) {
             if (file_flags[i]) {
                 vector<double> data_vec;
-                getDoubles(data_vec, files_in[i], pars_id[j], levels[j], level_types[j]);
+                try {
+                    getDoubles(data_vec, files_in[i], pars_id[j], levels[j], level_types[j],
+                            par_key, level_key, type_key, val_key);
+                } catch (...) {
+#if defined(_OPENMP)
+#pragma omp critical
+#endif
+                    cout << BOLDRED << "Error when reading " << pars_id[j] << " "
+                        << levels[j] << " " << level_types[j] << " from file " << files_in[i]
+                        << RESET << endl;
+                    continue;
+                }
 
                 if (data_vec.size() == observations.getStations().size()) {
 
@@ -575,7 +630,7 @@ int main(int argc, char** argv) {
     // Optional variables
     int verbose;
     bool delimited, overwrite_output;
-    string ext, config_file;
+    string ext, config_file, par_key, level_key, type_key, val_key;
     vector<long> crcl_pars_id;
     vector<string> pars_new_name;
 
@@ -597,6 +652,10 @@ int main(int argc, char** argv) {
 
                 ("delimited", po::bool_switch(&delimited)->default_value(false), "The extracted time message is delimited by ambiguous character (1990-01-01).")
                 ("ext", po::value<string>(&ext)->default_value(".grb2"), "Set the file extension.")
+                ("par-key", po::value<string>(&par_key)->default_value("paramId"), "Set the parameter ID key name in GRB file.")
+                ("level-key", po::value<string>(&level_key)->default_value("level"), "Set the level key name in GRB file.")
+                ("type-key", po::value<string>(&type_key)->default_value("typeOfLevel"), "Set the type of level key name in GRB file.")
+                ("value-key", po::value<string>(&val_key)->default_value("values"), "Set the value key name in GRB file.")
                 ("circulars-id", po::value< vector<long> >(&crcl_pars_id)->multitoken(), "Set the IDs of circular parameters.")
                 ("parameters-new-name", po::value< vector<string> >(&pars_new_name)->multitoken(), "Set the new names of each parameter.")
                 ("overwrite", po::bool_switch(&overwrite_output)->default_value(false), "Overwrite the output file.")
@@ -727,11 +786,12 @@ int main(int argc, char** argv) {
     // Call function to convert GRIB
     if (output_type == "Forecasts") {
         toForecasts(files_in, file_out, pars_id, pars_new_name, crcl_pars_id,
-                levels, level_types, regex_time_str, regex_flt_str, unit_flt,
-                delimited, verbose);
+                levels, level_types, par_key, level_key, type_key, val_key, 
+                regex_time_str, regex_flt_str, unit_flt, delimited, verbose);
     } else if (output_type == "Observations") {
         toObservations(files_in, file_out, pars_id, pars_new_name, crcl_pars_id,
-                levels, level_types, regex_time_str, delimited, verbose);
+                levels, level_types, par_key, level_key, type_key, val_key,
+                regex_time_str, delimited, verbose);
     } else {
         cout << BOLDRED << "Error: Output type " << output_type << " is not supported!"
                 << RESET << endl;
