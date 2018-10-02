@@ -34,8 +34,8 @@ void runSimilarityCalculator(
         const vector<size_t> & obs_start,
         const vector<size_t> & obs_count,
 
-        const string & file_mapping,
         const string & file_similarity,
+        const string & file_mapping,
 
         size_t observation_id,
 
@@ -90,9 +90,9 @@ void runSimilarityCalculator(
     anen.handleError(anen.computeObservationsTimeIndices(
             search_forecasts.getTimes(), search_forecasts.getFLTs(),
             observations.getTimes(), mapping));
-    if (file_mapping.empty()) {
-        io.setFileType("Matrix");
+    if (!file_mapping.empty()) {
         io.setMode("Write", file_mapping);
+        io.setFileType("Matrix");
         io.handleError(io.writeTextMatrix(mapping));
     }
 
@@ -122,8 +122,8 @@ void runSimilarityCalculator(
     /************************************************************************
      *                         Write Similarity                             *
      ************************************************************************/
-    io.setFileType("Similarity");
     io.setMode("Write", file_similarity);
+    io.setFileType("Similarity");
     io.handleError(io.writeSimilarityMatrices(sims));
 }
 
@@ -233,6 +233,7 @@ int main(int argc, char** argv) {
                 << "file_search_forecasts: " << file_search_forecasts << endl
                 << "file_observations: " << file_observations << endl
                 << "file_similarity: " << file_similarity << endl
+                << "file_mapping: " << file_mapping << endl
                 << "config_file: " << config_file << endl
                 << "verbose: " << verbose << endl
                 << "observation_id: " << observation_id << endl

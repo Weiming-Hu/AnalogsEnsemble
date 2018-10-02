@@ -70,7 +70,7 @@ namespace anenTime {
             return (distance(times_by_insert.begin(), it_insert));
 
         } else {
-            throw out_of_range("Can't find the station ID " +
+            throw out_of_range("Error: Can't find the index for time " +
                     to_string((long double) timestamp));
         }
     }

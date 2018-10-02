@@ -148,13 +148,13 @@ AnEnIO::checkFileType() const {
 
         if (file_type_ == "Observations") {
 
-            dim_names = {"num_parameters", "num_stations", "num_times"};
+            dim_names = {"num_parameters", "num_stations", "num_times", "num_chars"};
             var_names = {"Data", "Times", "StationNames", "ParameterNames"};
 
         } else if (file_type_ == "Forecasts") {
 
             dim_names = {"num_parameters", "num_stations",
-                "num_times", "num_flts"};
+                "num_times", "num_flts", "num_chars"};
             var_names = {"Data", "FLTs", "Times",
                 "StationNames", "ParameterNames"};
 

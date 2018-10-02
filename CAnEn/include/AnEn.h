@@ -44,9 +44,12 @@ public:
      * many stations, and all stations.
      */
     enum simMethod {
-        ONE_TO_ONE = 1,
-        ONE_TO_MANY = 2,
-        ONE_TO_ALL = 3,
+        /// 1
+        ONE_TO_ONE = 1, 
+        /// 2
+        ONE_TO_MANY = 2, 
+        /// 3
+        ONE_TO_ALL = 3 
     };
 
     /**
@@ -54,12 +57,18 @@ public:
      * to handle the returned errorType.
      */
     enum errorType {
-        SUCCESS = 0,
-        UNKNOWN_METHOD = -1,
-        MISSING_VALUE = -2,
-        WRONG_SHAPE = -10,
-        WRONG_METHOD = -11,
-        OUT_OF_RANGE = -20
+        /// 0
+        SUCCESS = 0, 
+        /// -1
+        UNKNOWN_METHOD = -1, 
+        /// -2
+        MISSING_VALUE = -2, 
+        /// -10
+        WRONG_SHAPE = -10, 
+        /// -11
+        WRONG_METHOD = -11, 
+        /// -20
+        OUT_OF_RANGE = -20 
     };
 
     /**

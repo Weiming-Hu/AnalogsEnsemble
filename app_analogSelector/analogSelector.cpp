@@ -23,7 +23,7 @@ using namespace std;
 
 void runAnalogSelector(const string & file_sim, const string & file_obs,
         const vector<size_t> & obs_start, const vector<size_t> & obs_count,
-        const string & file_mapping, const string & file_out, size_t i_parameter,
+        const string & file_mapping, const string & file_analogs, size_t observation_id,
         size_t num_members, bool quick, bool preserve_real_time, int verbose) {
     
     /**************************************************************************
@@ -53,8 +53,8 @@ void runAnalogSelector(const string & file_sim, const string & file_obs,
                 << "currently not supported." << RESET << endl;
         throw runtime_error(ss.str());
     } else {
-        io.setFileType("Matrix");
         io.setMode("Read", file_mapping);
+        io.setFileType("Matrix");
         io.handleError(io.readTextMatrix(mapping));
     }
     
@@ -62,17 +62,11 @@ void runAnalogSelector(const string & file_sim, const string & file_obs,
     /**************************************************************************
      *                                Check Input                             *
      **************************************************************************/
-    if (mapping.size1() == sims.getTargets().getTimesSize()) {
+    if (mapping.size2() != sims.getTargets().getFLTsSize()) {
         stringstream ss;
-        ss << BOLDRED << "Error: Number of rows in mapping should match "
-                << " number of forecast times!" << RESET << endl;
-        throw runtime_error(ss.str());
-    }
-    
-    if (mapping.size2() == sims.getTargets().getFLTsSize()) {
-        stringstream ss;
-        ss << BOLDRED << "Error: Number of columns in mapping should match "
-                << " number of forecast forecast lead times!" << RESET << endl;
+        ss << BOLDRED << "Error: Number of columns in mapping (" << mapping.size2()
+            << ") should match number of forecast forecast lead times ("
+            << sims.getTargets().getFLTsSize() << ")!" << RESET << endl;
         throw runtime_error(ss.str());
     }
     
@@ -81,13 +75,14 @@ void runAnalogSelector(const string & file_sim, const string & file_obs,
      *                             Select Analogs                             *
      **************************************************************************/
     anen.handleError(anen.selectAnalogs(analogs, sims, search_observations,
-            mapping, i_parameter, num_members, quick, preserve_real_time));
+            mapping, observation_id, num_members, quick, preserve_real_time));
     
     
     /**************************************************************************
      *                             Write Analogs                              *
      **************************************************************************/
-    io.setMode("Write", file_out);
+    io.setMode("Write", file_analogs);
+    io.setFileType("Analogs");
     io.handleError(io.writeAnalogs(analogs));
     
     return;
@@ -98,13 +93,13 @@ int main(int argc, char** argv) {
     namespace po = boost::program_options;
     
     // Required variables
-    string file_sim, file_obs, file_mapping, file_out;
+    string file_sim, file_obs, file_mapping, file_analogs;
     size_t num_members;
 
     // Optional variables
     int verbose;
     string config_file;
-    size_t i_parameter;
+    size_t observation_id;
     vector<size_t>  obs_start, obs_count;
     bool quick, preserve_real_time;
     
@@ -117,14 +112,14 @@ int main(int argc, char** argv) {
                 ("similarity-nc", po::value<string>(&file_sim)->required(), "Set the input file for the similarity matrix.")
                 ("observation-nc", po::value<string>(&file_obs)->required(), "Set the input file for search observations.")
                 ("mapping-txt", po::value<string>(&file_mapping)->required(), "Set the input file for time mapping matrix")
-                ("analog-nc", po::value<string>(&file_out)->required(), "Set the output file for analogs.")
+                ("analog-nc", po::value<string>(&file_analogs)->required(), "Set the output file for analogs.")
                 ("members", po::value<size_t>(&num_members)->required(), "Set the number of analog members to keep in an ensemble.")
                 
                 ("verbose,v", po::value<int>(&verbose)->default_value(2), "Set the verbose level.")
-                ("observation-id", po::value<size_t>(&i_parameter), "Set the index of the observation variable that will be used.")
+                ("observation-id", po::value<size_t>(&observation_id), "Set the index of the observation variable that will be used.")
                 ("obs-start", po::value< vector<size_t> >(&obs_start)->multitoken(), "Set the start indices in the search observation NetCDF where the program starts reading.")
                 ("obs-count", po::value< vector<size_t> >(&obs_count)->multitoken(), "Set the count numbers for each dimension in the search observation NetCDF.")
-                ("quick", po::bool_switch(&quick)->default_value(true), "Use quick sort when selecting analog members.")
+                ("quick", po::bool_switch(&quick)->default_value(false), "Use quick sort when selecting analog members.")
                 ("real-time", po::bool_switch(&preserve_real_time)->default_value(false), "Convert observation time index to real time information.");
         
         // process unregistered keys and notify users about my guesses
@@ -188,11 +183,11 @@ int main(int argc, char** argv) {
             << "file_sim: " << file_sim << endl
             << "file_obs: " << file_obs << endl
             << "file_mapping: " << file_mapping << endl
-            << "file_out: " << file_out << endl
+            << "file_analogs: " << file_analogs << endl
             << "num_members: " << num_members << endl
             << "verbose: " << verbose << endl
             << "config_file: " << config_file << endl
-            << "i_parameter: " << i_parameter << endl
+            << "observation_id: " << observation_id << endl
             << "obs_start: " << obs_start << endl
             << "obs_count: " << obs_count << endl
             << "quick: " << quick << endl
@@ -201,7 +196,7 @@ int main(int argc, char** argv) {
     
     try {
         runAnalogSelector(file_sim, file_obs, obs_start, obs_count,
-                file_mapping, file_out, i_parameter, num_members,
+                file_mapping, file_analogs, observation_id, num_members,
                 quick, preserve_real_time, verbose);
     } catch (...) {
         handle_exception(current_exception());

@@ -10,7 +10,7 @@
 #         The Pennsylvania State University
 
 # This script is used for manual test procedure to ensure that the results from
-# lastest version of development is consistent with the standard results. This
+# lastest version of R API development is consistent with the standard results. This
 # serves as a way to avoid bugs.
 #
 # Datasets used in this test include:
@@ -23,7 +23,7 @@
 #
 
 # Set this directory to where the data reside
-setwd('~/github/AnalogsEnsemble/RAnalogs/tests/')
+# setwd('~/github/AnalogsEnsemble/RAnalogs/tests/')
 
 library(RAnEn)
 
@@ -61,7 +61,7 @@ config$search_observations <- search.observations
 config$observation_times <- observation.times
 config$num_members <- members.size
 config$quick <- F
-config$preserve_similarity <- T
+config$preserve_similarity <- F
 config$verbose <- 3
 config$weights <- rep(1, dim(test.forecasts)[1])
 config$circulars <- forecasts.circulars
@@ -95,7 +95,7 @@ search.observations <- array(search.observations,
 search.observations <- aperm(search.observations, c(3, 2, 1))
 rm(tmp.search.observations)
 
-search.times <- (1:dim(search.forecasts)[3]) * 100
+search.times <- (1:dim(search.forecasts)[3]) * 1000
 search.flts <- 1:dim(search.forecasts)[4]
 observation.times <- rep(search.times, each = length(search.flts)) + search.flts
 
@@ -108,7 +108,7 @@ config$search_observations <- search.observations
 config$observation_times <- observation.times
 config$num_members <- members.size
 config$quick <- F
-config$preserve_similarity <- T
+config$preserve_similarity <- F
 config$verbose <- 3
 config$weights <- rep(1, dim(test.forecasts)[1])
 config$circulars <- forecasts.circulars
@@ -118,8 +118,8 @@ AnEn.cpp <- generateAnalogs(config)
 
 analogs_WU <- AnEn.cpp$analogs[,,,,1]
 
-if (!identical(analogs_WU[1,,],analogs.java[1,,])) {
+if (!identical(analogs_WU[1, , ], analogs.java[1, , ])) {
     stop('Solar test failed!')
 }
 
-print("You survived the Wind and the Solar tests!")
+print("You survived the Wind and the Solar tests for R API!")
