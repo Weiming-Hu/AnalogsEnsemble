@@ -90,7 +90,7 @@ void runSimilarityCalculator(
     anen.handleError(anen.computeObservationsTimeIndices(
             search_forecasts.getTimes(), search_forecasts.getFLTs(),
             observations.getTimes(), mapping));
-    if (file_mapping.empty()) {
+    if (!file_mapping.empty()) {
         io.setFileType("Matrix");
         io.setMode("Write", file_mapping);
         io.handleError(io.writeTextMatrix(mapping));
