@@ -41,7 +41,14 @@ function doCompileCXX {
 function doCompileR {
     echo "Compile for R"
     cd RAnalogs/releases
-    tar -xvzf `ls -rt | tail --lines=1`
+
+    unamestr=`uname`
+    if [[ "$unamestr" == 'Linux' ]]; then
+        tar -xvzf `ls -rt | tail --lines=1`
+    elif [[ "$unamestr" == 'Darwin' ]]; then
+        tar xopf `ls -rt | tail --lines=1`
+    fi
+
     cd RAnEn
     Rscript ../../developerGuides/generate_site.R
     cd docs
