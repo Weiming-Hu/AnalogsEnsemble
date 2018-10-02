@@ -43,10 +43,10 @@ function doCompileR {
     cd RAnalogs/releases
 
     unamestr=`uname`
-    if [[ "$unamestr" == 'Linux' ]]; then
+    if [[ "$unamestr" == 'Darwin' ]]; then
+        tar xopf `ls -rt | tail -1`
+    else
         tar -xvzf `ls -rt | tail --lines=1`
-    elif [[ "$unamestr" == 'Darwin' ]]; then
-        tar xopf `ls -rt | tail --lines=1`
     fi
 
     cd RAnEn
