@@ -234,7 +234,7 @@ Forecasts_array::setValues(const vector<double> & vals) {
 }
 
 void
-Forecasts_array::updateDataDims() {
+Forecasts_array::updateDataDims(bool initialize_values) {
     try {
         data_.myresize(getParametersSize(), getStationsSize(),
                 getTimesSize(), getFLTsSize());
@@ -246,7 +246,10 @@ Forecasts_array::updateDataDims() {
         throw;
     }
 
-    fill_n(data_.data(), data_.num_elements(), _DEFAULT);
+    if (initialize_values)
+        fill_n(data_.data(), data_.num_elements(), _DEFAULT);
+
+    return;
 }
 
 size_t

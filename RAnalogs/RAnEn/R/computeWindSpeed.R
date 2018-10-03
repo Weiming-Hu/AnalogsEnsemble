@@ -24,12 +24,14 @@
 #' 
 #' @export
 computeWindSpeed <- function(U, V) {
+  
+  if (!is.vector(U)) stop("U should be a vector.")
+  if (!is.vector(V)) stop("V should be a vector.")
+  
   valid <- !is.na(U) & !is.na(V)
   ret <- rep(NA, length(U))
   
-  if (length(valid) != 0) {
-    ret[valid] = sqrt(U[valid]^2+V[valid]^2)
-  }
+  ret[valid] = sqrt(U[valid]^2+V[valid]^2)
   
   return(ret)
 }

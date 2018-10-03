@@ -391,7 +391,7 @@ AnEnIO::readObservations(Observations& observations, vector<size_t> start,
         vector<size_t> count, vector<ptrdiff_t> stride) {
 
     if (verbose_ >= 3) {
-        cout << "Reading observation file (subset) ..." << endl;
+        cout << "Reading observation file ..." << endl;
     }
 
     if (mode_ != "Read") {
@@ -444,7 +444,7 @@ AnEnIO::readObservations(Observations& observations, vector<size_t> start,
 
     // Read data
     if (verbose_ >= 3)
-        cout << "Reading observation values (subset) from file ("
+        cout << "Reading observation values from file ("
             << file_path_ << ") ..." << endl;
     vector<double> vals;
     handleError(read_vector_("Data", vals, start, count, stride));
@@ -494,7 +494,7 @@ AnEnIO::readForecasts(Forecasts & forecasts) {
     handleError(readFLTs(flts));
 
     // Read data
-    if (verbose_ >= 3) cout << "Reading forecast values (subset) from file ("
+    if (verbose_ >= 3) cout << "Reading forecast values from file ("
             << file_path_ << ") ..." << endl;
     vector<double> vals;
     handleError(read_vector_("Data", vals));
@@ -515,7 +515,7 @@ AnEnIO::readForecasts(Forecasts& forecasts,
         vector<ptrdiff_t> stride) {
 
     if (verbose_ >= 3) {
-        cout << "Reading forecast file (subset) ..." << endl;
+        cout << "Reading forecast file ..." << endl;
     }
 
     if (mode_ != "Read") {
@@ -569,7 +569,7 @@ AnEnIO::readForecasts(Forecasts& forecasts,
     handleError(readFLTs(flts, start[3], count[3], stride[3]));
 
     // Read data
-    if (verbose_ >= 3) cout << "Reading forecast values (subset) from file ("
+    if (verbose_ >= 3) cout << "Reading forecast values  from file ("
             << file_path_ << ") ..." << endl;
     vector<double> vals;
     handleError(read_vector_("Data", vals, start, count, stride));
@@ -628,7 +628,7 @@ AnEnIO::readFLTs(anenTime::FLTs& flts,
         size_t start, size_t count, ptrdiff_t stride) {
 
     if (verbose_ >= 3) {
-        cout << "Reading FLTs (subset) from file ("
+        cout << "Reading FLTs  from file ("
                 << file_path_ << ") ..." << endl;
     }
 
@@ -743,7 +743,7 @@ AnEnIO::readParameters(anenPar::Parameters& parameters,
         size_t start, size_t count, ptrdiff_t stride) {
 
     if (verbose_ >= 3) {
-        cout << "Reading Parameters (subset) from file ("
+        cout << "Reading Parameters  from file ("
                 << file_path_ << ") ..." << endl;
     }
 
@@ -910,7 +910,7 @@ AnEnIO::readStations(anenSta::Stations& stations,
         size_t start, size_t count, ptrdiff_t stride) {
 
     if (verbose_ >= 3) {
-        cout << "Reading Stations (subset) from file ("
+        cout << "Reading Stations  from file ("
                 << file_path_ << ") ..." << endl;
     }
 
@@ -1015,7 +1015,7 @@ AnEnIO::readTimes(anenTime::Times& times,
 
     if (verbose_ >= 3) {
         cout << "Reading Times from file ("
-                << file_path_ << ")  (subset) ..." << endl;
+                << file_path_ << ")   ..." << endl;
     }
 
     if (mode_ != "Read") {
@@ -1081,6 +1081,7 @@ AnEnIO::writeForecasts(const Forecasts & forecasts) const {
 
     // Create an empty file
     if (checkFilePath() != FILE_EXISTS) {
+        cout << file_path_ << endl;
         NcFile nc_empty(file_path_, NcFile::FileMode::newFile,
                 NcFile::FileFormat::nc4);
         nc_empty.close();

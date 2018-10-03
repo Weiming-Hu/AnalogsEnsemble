@@ -217,7 +217,7 @@ Observations_array::setValues(const vector<double>& vals) {
 }
 
 void
-Observations_array::updateDataDims() {
+Observations_array::updateDataDims(bool initialize_values) {
 
     try {
         data_.resize(boost::extents
@@ -230,7 +230,8 @@ Observations_array::updateDataDims() {
         throw;
     }
     
-    fill_n(data_.data(), data_.num_elements(), _DEFAULT);
+    if (initialize_values)
+        fill_n(data_.data(), data_.num_elements(), _DEFAULT);
 }
 
 size_t Observations_array::getDataLength() const {

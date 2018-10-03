@@ -25,15 +25,16 @@
 #' @export
 computeWindDir <- function(U, V) {
   
+  if (!is.vector(U)) stop("U should be a vector.")
+  if (!is.vector(V)) stop("V should be a vector.")
+  
   # Extract valid value indices from U and V.
-  valid <- !is.na(U) && !is.na(V)
+  valid <- !is.na(U) & !is.na(V)
   
   # Only compute angles when both U and V are valid.
   angles <- rep(NA, length(U))
-  if (length(valid) != 0) {
-    angle[valid] <- (180/pi * atan2(U[valid],V[valid])) %% 360
-    angle[valid][angle[valid]<0]  = angle[valid][angle[valid]<0]+360
-  }
+  angles[valid] <- (180/pi * atan2(U[valid],V[valid])) %% 360
+  angles[valid][angles[valid] < 0] <- angles[valid][angles[valid]<0]+360
   
-  return(angle)
+  return(angles)
 }

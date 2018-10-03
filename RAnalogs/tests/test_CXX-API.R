@@ -21,8 +21,6 @@
 # theoretically should be free of bugs.
 #
 
-library(ncdf4)
-
 # Genearte NetCDF file
 unlink('solar-forecasts.nc')
 unlink('solar-observations.nc')
@@ -48,7 +46,7 @@ search_forecasts <- 'wind-forecasts.nc'
 search_observations <- 'wind-observations.nc'
 output_analog <- 'analog.nc'
 num_members <- members.size
-verbose <- 2
+verbose <- 1
 test_start <- c(0, 0, test.start - 1, 0)
 test_count <- c(dim(fc)[1], dim(fc)[2], test.end - test.start + 1, dim(fc)[4])
 search_start <- c(0, 0, train.start - 1, 0)

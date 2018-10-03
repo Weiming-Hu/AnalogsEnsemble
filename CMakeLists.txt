@@ -170,7 +170,7 @@ add_subdirectory("${CMAKE_SOURCE_DIR}/CAnEn")
 #####################
 add_subdirectory("${CMAKE_SOURCE_DIR}/app_analogGenerator")
 add_subdirectory("${CMAKE_SOURCE_DIR}/app_similarityCalculator")
-add_subdirectory("${CMAKE_SOURCE_DIR}/app_windDirectionCalculator")
+add_subdirectory("${CMAKE_SOURCE_DIR}/app_windFieldCalculator")
 add_subdirectory("${CMAKE_SOURCE_DIR}/app_analogSelector")
 
 if (BUILD_GRIBCONVERTER)

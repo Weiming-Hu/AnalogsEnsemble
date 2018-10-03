@@ -84,7 +84,7 @@ public:
      * Resizes underlying data member according to the sizes of parameters,
      * stations, times, and flts.
      */
-    virtual void updateDataDims() = 0;
+    virtual void updateDataDims(bool initialize_values = true) = 0;
 
     std::size_t getParametersSize() const;
     std::size_t getStationsSize() const;
@@ -161,7 +161,7 @@ public:
 
     void setValues(const std::vector<double>& vals) override;
 
-    void updateDataDims() override;
+    void updateDataDims(bool initialize_values = true) override;
     
     size_t getDataLength() const override;
 

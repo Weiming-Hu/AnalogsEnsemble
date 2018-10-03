@@ -85,7 +85,7 @@ void runWindFieldCalculator(
 
         // Because we are enlarging the size, the original values are kept.
         if (verbose >= 3) cout << "Resizing data ..." << endl;
-        data.myresize(num_parameters, num_stations, num_stations, num_flts);
+        forecasts.updateDataDims(false);
 
         if (verbose >= 3) cout << "Computing ..." << endl;
 #ifdef _OPENMP
@@ -97,7 +97,7 @@ func_dir, func_speed)
             for (size_t k = 0; k < num_times; k++) {
                 for (size_t l = 0; l < num_flts; l++) {
                     data[i_speed][j][k][l] = func_speed(data[i_U][j][k][l], data[i_V][j][k][l]);
-                    data[i_dir][j][k][l] = func_speed(data[i_U][j][k][l], data[i_V][j][k][l]);
+                    data[i_dir][j][k][l] = func_dir(data[i_U][j][k][l], data[i_V][j][k][l]);
                 }
             }
         }
@@ -135,7 +135,7 @@ func_dir, func_speed)
 
         // Because we are enlarging the size, the original values are kept.
         if (verbose >= 3) cout << "Resizing data ..." << endl;
-        data.resize(boost::extents[num_parameters][num_stations][num_stations]);
+        observations.updateDataDims(false);
 
         if (verbose >= 3) cout << "Computing ..." << endl;
 #ifdef _OPENMP
@@ -146,7 +146,7 @@ func_dir, func_speed)
         for (size_t j = 0; j < num_stations; j++) {
             for (size_t k = 0; k < num_times; k++) {
                 data[i_speed][j][k] = func_speed(data[i_U][j][k], data[i_V][j][k]);
-                data[i_dir][j][k] = func_speed(data[i_U][j][k], data[i_V][j][k]);
+                data[i_dir][j][k] = func_dir(data[i_U][j][k], data[i_V][j][k]);
             }
         }
 
@@ -183,6 +183,7 @@ int main(int argc, char** argv) {
                 
                 ("file_in", po::value<string>(&file_in)->required(), "Set the file to read.")
                 ("file_type", po::value<string>(&file_type)->required(), "Set the file type. Currently supports Forecasts and Observations.")
+                ("file_out", po::value<string>(&file_out)->required(), "Set the file to write.")
                 ("U_name,U", po::value<string>(&var_U_name)->required(), "Set the name of the parameter to read for U component of wind.")
                 ("V_name,V", po::value<string>(&var_V_name)->required(), "Set the name of the parameter to read for V component of wind.")
                 
