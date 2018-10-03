@@ -2,6 +2,8 @@
 
 S3method(print,AnEn)
 export(biasCorrection)
+export(computeWindDir)
+export(computeWindSpeed)
 export(compute_analogs)
 export(generateAnalogs)
 export(generateCircleCoords)

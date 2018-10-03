@@ -23,6 +23,8 @@
 #' - \code{\link{plotAnEnMap}}\cr
 #' - \code{\link{plotAnEnTimesSeries}}\cr
 #' - \code{\link{validateConfiguration}}\cr
+#' - \code{\link{computeWindSpeed}}\cr
+#' - \code{\link{computeWindDir}}\cr
 #' 
 #' @keywords Analog Ensemble, Probabilistic Weather Forecasts, Bias Correction
 #' 

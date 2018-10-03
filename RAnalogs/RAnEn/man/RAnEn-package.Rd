@@ -19,6 +19,8 @@ Currently the available functions are:\cr
 - \code{\link{plotAnEnMap}}\cr
 - \code{\link{plotAnEnTimesSeries}}\cr
 - \code{\link{validateConfiguration}}\cr
+- \code{\link{computeWindSpeed}}\cr
+- \code{\link{computeWindDir}}\cr
 }
 \seealso{
 Useful links:
