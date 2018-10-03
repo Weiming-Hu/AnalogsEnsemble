@@ -41,7 +41,15 @@ function doCompileCXX {
 function doCompileR {
     echo "Compile for R"
     cd RAnalogs/releases
-    tar -xvzf `ls -rt | tail --lines=1`
+    rm -rf RAnEn || true
+
+    unamestr=`uname`
+    if [[ "$unamestr" == 'Darwin' ]]; then
+        tar xopf `ls -rt | tail -1`
+    else
+        tar -xvzf `ls -rt | tail --lines=1`
+    fi
+
     cd RAnEn
     Rscript ../../developerGuides/generate_site.R
     cd docs
@@ -69,6 +77,8 @@ SHA=`git rev-parse --verify HEAD`
 git clone $REPO out
 cd out
 git checkout $TARGET_BRANCH || git checkout --orphan $TARGET_BRANCH
+rm README.md
+cp ../README.md .
 cd ..
 
 # Pull requests and commits to other branches shouldn't try to deploy, just build to verify
