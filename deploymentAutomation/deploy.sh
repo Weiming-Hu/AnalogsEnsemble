@@ -45,9 +45,9 @@ function doCompileR {
 
     unamestr=$(uname)
     if [[ "$unamestr" == 'Darwin' ]]; then
-        tar xopf $(ls -rt | tail -1)
+        tar xopf $(ls | tail -1)
     else
-        tar -xvzf $(ls -rt | tail --lines=1)
+        tar -xvzf $(ls | tail --lines=1)
     fi
 
     cd RAnEn
