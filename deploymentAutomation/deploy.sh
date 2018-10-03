@@ -76,6 +76,7 @@ if [ "$TRAVIS_PULL_REQUEST" != "false" -o "$TRAVIS_BRANCH" != "$SOURCE_BRANCH" ]
     echo "Skipping deploy; just doing a build."
     doCompileCXX
     doCompileR
+    echo "Build is done. Please deploy the document manually."
     exit 0
 fi
 
