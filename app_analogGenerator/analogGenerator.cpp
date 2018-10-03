@@ -147,15 +147,15 @@ int main(int argc, char** argv) {
     // Required variables
     string file_test_forecasts, file_search_forecasts,
             file_observations, file_analogs;
-    size_t num_members;
+    size_t num_members = 0;
 
     // Optional variables
-    int verbose;
-    size_t observation_id;
+    int verbose = 0;
+    size_t observation_id = 0;
     string config_file, file_mapping, file_similarity;
-    bool quick, preserve_real_time, searchExtension;
+    bool quick = false, preserve_real_time = false, searchExtension = false;
 
-    double distance;
+    double distance = 0;
     size_t max_neighbors, num_neighbors;
     vector<size_t> test_start, test_count, search_start, search_count,
             obs_start, obs_count;

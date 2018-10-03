@@ -52,10 +52,10 @@ void getXY(vector<double> & xs, vector<double> & ys, string file, long par_id,
         string val_key = "values") {
 
     int ret;
-    double* p_xs, *p_ys, *p_vals;
+    double *p_xs, *p_ys, *p_vals;
     size_t len;
     codes_index* index;
-    codes_handle* h = NULL;
+    codes_handle* h;
     
     // Turn on support for multi fields messages
     codes_grib_multi_support_on(0);
@@ -281,7 +281,7 @@ void toForecasts(const vector<string> & files_in, const string & file_out,
         regex_time = regex(regex_time_str);
     } catch (const std::regex_error& e) {
         cout << BOLDRED << "Error: Can't use the regular expression " << regex_time_str << RESET << endl;
-        throw e;
+        throw;
     }
 
     // Prepare flts
@@ -292,14 +292,13 @@ void toForecasts(const vector<string> & files_in, const string & file_out,
         regex_flt = regex(regex_flt_str);
     } catch (const std::regex_error& e) {
         cout << BOLDRED << "Error: Can't use the regular expression " << regex_flt_str << RESET << endl;
-        throw e;
+        throw;
     }
 
     // Read times and flts
     // Within this loop, it is also checking whether each file is valid
     //
     vector<double> times_vec, flts_vec;
-    vector<string> keys = {par_key, level_key, type_key, val_key};
     boost::gregorian::date time_start{anenTime::_ORIGIN_YEAR,
         anenTime::_ORIGIN_MONTH, anenTime::_ORIGIN_DAY}, time_end;
     for (const auto & file : files_in) {
@@ -507,13 +506,12 @@ void toObservations(const vector<string> & files_in, const string & file_out,
         regex_time = regex(regex_time_str);
     } catch (const std::regex_error& e) {
         cout << BOLDRED << "Error: Can't use the regular expression " << regex_time_str << RESET << endl;
-        throw e;
+        throw;
     }
 
     // Read times
     // Within this loop, it is also checking whether each file is valid
     //
-    vector<string> keys = {par_key, level_key, type_key, val_key};
     vector<double> times_vec;
     boost::gregorian::date time_start{anenTime::_ORIGIN_YEAR,
         anenTime::_ORIGIN_MONTH, anenTime::_ORIGIN_DAY}, time_end;
@@ -625,11 +623,11 @@ int main(int argc, char** argv) {
     string folder, file_out, regex_time_str, regex_flt_str, output_type;
     vector<long> pars_id, levels;
     vector<string> level_types;
-    double unit_flt;
+    double unit_flt = 0;
 
     // Optional variables
-    int verbose;
-    bool delimited, overwrite_output;
+    int verbose = 0;
+    bool delimited = false, overwrite_output = false;
     string ext, config_file, par_key, level_key, type_key, val_key;
     vector<long> crcl_pars_id;
     vector<string> pars_new_name;

@@ -97,6 +97,11 @@ public:
     anenTime::Times const & getTimes() const;
     anenTime::FLTs const & getFLTs() const;
 
+    anenPar::Parameters & getParameters();
+    anenSta::Stations & getStations();
+    anenTime::Times & getTimes();
+    anenTime::FLTs & getFLTs();
+
     void setFlts(anenTime::FLTs flts);
     void setParameters(anenPar::Parameters parameters);
     void setStations(anenSta::Stations stations);

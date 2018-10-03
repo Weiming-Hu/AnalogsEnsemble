@@ -11,9 +11,9 @@
 
 #' RAnEn::computeWindDir
 #' 
-#' @author Weiming Hu \email{weiming@@psu.edu}
-#'         Guido Cervone \email{cervone@@psu.edu}
+#' @author Weiming Hu \email{weiming@@psu.edu}, Guido Cervone \email{cervone@@psu.edu}
 #' 
+#' @description 
 #' Compute wind direction from U and V component of wind.
 #' 
 #' @param U A vector of values for U component of wind.

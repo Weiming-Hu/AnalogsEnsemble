@@ -97,11 +97,11 @@ int main(int argc, char** argv) {
     size_t num_members;
 
     // Optional variables
-    int verbose;
+    int verbose = 0;
     string config_file;
-    size_t observation_id;
+    size_t observation_id = 0;
     vector<size_t>  obs_start, obs_count;
-    bool quick, preserve_real_time;
+    bool quick = false, preserve_real_time = false;
     
     try {
         po::options_description desc("Avaialble options");
@@ -116,7 +116,7 @@ int main(int argc, char** argv) {
                 ("members", po::value<size_t>(&num_members)->required(), "Set the number of analog members to keep in an ensemble.")
                 
                 ("verbose,v", po::value<int>(&verbose)->default_value(2), "Set the verbose level.")
-                ("observation-id", po::value<size_t>(&observation_id), "Set the index of the observation variable that will be used.")
+                ("observation-id", po::value<size_t>(&observation_id)->default_value(0), "Set the index of the observation variable that will be used.")
                 ("obs-start", po::value< vector<size_t> >(&obs_start)->multitoken(), "Set the start indices in the search observation NetCDF where the program starts reading.")
                 ("obs-count", po::value< vector<size_t> >(&obs_count)->multitoken(), "Set the count numbers for each dimension in the search observation NetCDF.")
                 ("quick", po::bool_switch(&quick)->default_value(false), "Use quick sort when selecting analog members.")

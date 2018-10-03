@@ -50,6 +50,7 @@
 *.dep.inc
 */*.dep.inc
 .Rproj.user
+*Rproj*
 */*Rhistory
 *Rhistory
 *autom4te.cache*

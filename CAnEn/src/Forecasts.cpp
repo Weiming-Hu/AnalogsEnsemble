@@ -79,6 +79,26 @@ Forecasts::getFLTs() const {
     return flts_;
 }
 
+anenPar::Parameters &
+Forecasts::getParameters() {
+    return parameters_;
+}
+
+anenSta::Stations &
+Forecasts::getStations() {
+    return stations_;
+}
+
+anenTime::Times &
+Forecasts::getTimes() {
+    return times_;
+}
+
+anenTime::FLTs &
+Forecasts::getFLTs() {
+    return flts_;
+}
+
 void
 Forecasts::setFlts(anenTime::FLTs flts) {
     this->flts_ = flts;

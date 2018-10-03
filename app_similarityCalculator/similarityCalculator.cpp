@@ -136,12 +136,11 @@ int main(int argc, char** argv) {
             file_observations, file_similarity;
 
     // Optional variables
-    int verbose;
-    size_t observation_id;
+    int verbose = 0;
+    size_t observation_id = 0, max_neighbors = 0, num_neighbors = 0;
     string config_file, file_mapping;
-    bool searchExtension;
-    double distance;
-    size_t max_neighbors, num_neighbors;
+    bool searchExtension = false;
+    double distance = 0;
     vector<size_t> test_start, test_count, search_start, search_count,
             obs_start, obs_count;
     

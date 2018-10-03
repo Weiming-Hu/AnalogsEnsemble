@@ -73,7 +73,7 @@ SimilarityMatrices::resize() {
         cerr << "ERROR: Insufficient memory to resize similarity matrix to store "
             << targets_.getStationsSize() * targets_.getTimesSize() * targets_.getFLTsSize() * max_entries_ * _NUM_COLS_
             << " double values!" << endl;
-        throw e;
+        throw;
     }
 }
 

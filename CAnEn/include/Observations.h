@@ -100,7 +100,11 @@ public:
     const anenPar::Parameters & getParameters() const;
     const anenSta::Stations & getStations() const;
     const anenTime::Times & getTimes() const;
-
+    
+    anenPar::Parameters & getParameters();
+    anenSta::Stations & getStations();
+    anenTime::Times & getTimes();
+    
     void setParameters(anenPar::Parameters parameters_);
     void setStations(anenSta::Stations stations_);
     void setTimes(anenTime::Times times_);

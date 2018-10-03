@@ -75,6 +75,21 @@ Observations::getTimes() const {
     return times_;
 }
 
+anenPar::Parameters &
+Observations::getParameters() {
+    return parameters_;
+}
+
+anenSta::Stations &
+Observations::getStations() {
+    return stations_;
+}
+
+anenTime::Times &
+Observations::getTimes() {
+    return times_;
+}
+
 void
 Observations::setParameters(anenPar::Parameters parameters) {
     this->parameters_ = parameters;

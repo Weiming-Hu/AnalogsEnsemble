@@ -31,7 +31,7 @@ Array4D::Array4D(size_t d1, size_t d2, size_t d3, size_t d4) {
         cerr << "ERROR: insufficient memory while resizing the array4D to hold "
                 << d1 * d2 * d3 * d4 << " double values"
                 << endl;
-        throw e;
+        throw;
     }
 
 }
@@ -52,11 +52,11 @@ Array4D & Array4D::operator=(const Array4D &rhs) {
             resize(boost::extents
                     [rhs.shape()[0]][rhs.shape()[1]]
                     [rhs.shape()[2]][rhs.shape()[3]]);
-        } catch (bad_alloc e) {
+        } catch (bad_alloc & e) {
             cerr << "ERROR: insufficient memory while resizing the array4D to hold "
                     << rhs.shape()[0] * rhs.shape()[1] * rhs.shape()[2] * rhs.shape()[3] << " double values"
                     << endl;
-            throw e;
+            throw;
         }
 
         // call base class assignment operator explicitly
@@ -84,7 +84,7 @@ Array4D::setDataFromVector(vector<double> const & data,
         cerr << "ERROR: insufficient memory while resizing the array4D to hold "
                 << M * N * O * P << " double values"
                 << endl;
-        throw e;
+        throw;
     }
 
     size_t m = 0;
@@ -131,7 +131,7 @@ Array4D::myresize(index d1, index d2, index d3, index d4) {
         cerr << "ERROR: insufficient memory while resizing the array4D to hold "
                 << d1 * d2 * d3 * d4 << " double values"
                 << endl;
-        throw e;
+        throw;
     }
     return ( true);
 }
@@ -150,7 +150,7 @@ Array4D::setFirstDimension(vector<double> const & data, size_t pos) {
 
     for (citer = data.begin();
             citer != data.end();
-            citer++) {
+            ++citer) {
         if (n == N) {
             n = 0;
             o++;

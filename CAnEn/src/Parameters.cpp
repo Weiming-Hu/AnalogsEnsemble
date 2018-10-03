@@ -182,6 +182,21 @@ namespace anenPar {
                     + to_string((long long) parameter_ID));
         }
     }
+    
+    Parameter
+    Parameters::getParameterByName(string name) const {
+        
+        const multiIndexParameters::index<by_name>::type &
+                parameters_by_name = get<by_name>();
+        
+        auto it_name = parameters_by_name.find(name);
+        
+        if (it_name != parameters_by_name.end()) {
+            return (*it_name);
+        } else {
+            throw out_of_range("Can't find the parameter with name " + name);
+        }
+    }
 
     void
     Parameters::print(ostream & os) const {

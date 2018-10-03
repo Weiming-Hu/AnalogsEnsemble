@@ -130,27 +130,32 @@ AnEn::computeObservationsTimeIndices(
     // OpenMP does not allow return status. So this flag is used to keep track
     // of return status of the loop
     //
-    int loop_flag = 1;
+    int loop_flag = 0;
 
     // Define vairables for perfectly nexted parallel loops with collapse
     auto limit_row = mapping.size1();
     auto limit_col = mapping.size2();
 
 #if defined(_OPENMP)
-#pragma omp parallel for default(none) schedule(static) collapse(2) reduction(min:loop_flag) \
+#pragma omp parallel for default(none) schedule(static) collapse(2) reduction(max:loop_flag) \
 shared(mapping, times_observations, times_forecasts_by_insert, flts_forecasts_by_insert, cout, \
 limit_row, limit_col) firstprivate(index)
 #endif
     for (size_t i_row = 0; i_row < limit_row; i_row++) {
         for (size_t i_col = 0; i_col < limit_col; i_col++) {
 
-            index = times_observations.getTimeIndex(
-                    times_forecasts_by_insert[i_row] + flts_forecasts_by_insert[i_col]);
-            mapping(i_row, i_col) = index;
+            try {
+                index = times_observations.getTimeIndex(
+                        times_forecasts_by_insert[i_row] + flts_forecasts_by_insert[i_col]);
+                mapping(i_row, i_col) = index;
+            } catch (...) {
+                loop_flag = 1;
+            }
+
         }
     }
 
-    if (loop_flag == 0) return (OUT_OF_RANGE);
+    if (loop_flag > 0) return (OUT_OF_RANGE);
     else return (SUCCESS);
 }
 

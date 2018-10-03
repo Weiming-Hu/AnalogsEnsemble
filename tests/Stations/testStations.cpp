@@ -191,7 +191,6 @@ void testStations::testGetStationsInSquare() {
 
     double half_edge = 1.5;
 
-    string main_station_name = s9.getName();
     double main_station_x = s9.getX();
     double main_station_y = s9.getY();
 

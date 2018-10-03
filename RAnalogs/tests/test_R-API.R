@@ -62,7 +62,7 @@ config$observation_times <- observation.times
 config$num_members <- members.size
 config$quick <- F
 config$preserve_similarity <- F
-config$verbose <- 3
+config$verbose <- 2
 config$weights <- rep(1, dim(test.forecasts)[1])
 config$circulars <- forecasts.circulars
 
@@ -109,7 +109,7 @@ config$observation_times <- observation.times
 config$num_members <- members.size
 config$quick <- F
 config$preserve_similarity <- F
-config$verbose <- 3
+config$verbose <- 2
 config$weights <- rep(1, dim(test.forecasts)[1])
 config$circulars <- forecasts.circulars
 

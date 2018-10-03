@@ -37,10 +37,34 @@ namespace anenPar {
     class Parameter {
     public:
         Parameter();
-        Parameter(std::string);
-        Parameter(std::string, double);
-        Parameter(std::string, double, bool);
-        Parameter(std::string, bool);
+        
+        /**
+         * Initialize parameter.
+         * @param name Parameter name.
+         */
+        Parameter(std::string name);
+        
+        /**
+         * Initialize parameter.
+         * @param name Parameter name.
+         * @param weight Parameter weight.
+         */
+        Parameter(std::string name, double weight);
+        
+        /**
+         * Initialize parameter.
+         * @param name Parameter name.
+         * @param weight Parameter weight.
+         * @param circular Whether parameter is circular.
+         */
+        Parameter(std::string name, double weight, bool circular);
+        
+        /**
+         * Initialize parameter.
+         * @param name Parameter name.
+         * @param circular Whether parameter is circular.
+         */
+        Parameter(std::string name, bool circular);
         Parameter(const Parameter& other);
 
         virtual ~Parameter();
@@ -100,6 +124,12 @@ namespace anenPar {
          */
     };
 
+    struct by_name {
+        /** 
+         * The tag for name-based indexing
+         */
+    };
+
     /**
      * Base class for Parameters
      */
@@ -115,7 +145,13 @@ namespace anenPar {
             boost::multi_index::hashed_unique<
             boost::multi_index::tag<by_ID>,
             boost::multi_index::const_mem_fun<
-            Parameter, std::size_t, &Parameter::getID> >
+            Parameter, std::size_t, &Parameter::getID> >,
+            
+            // Access by name
+            boost::multi_index::hashed_non_unique<
+            boost::multi_index::tag<by_name>,
+            boost::multi_index::const_mem_fun<
+            Parameter, std::string, &Parameter::getName> >
             > >;
 
     /**
@@ -134,7 +170,22 @@ namespace anenPar {
         Parameters();
         virtual ~Parameters();
 
+        /**
+         * Gets the parameter index by ID.
+         * 
+         * @param parameter_ID The parameter ID.
+         * @return The parameter index.
+         */
         std::size_t getParameterIndex(std::size_t parameter_ID) const;
+        
+        /**
+         * Gets the parameter by name. If multiple parameters have the same
+         * name, this function returns the first parameter found.
+         * 
+         * @param name The name of the parameter
+         * @return anenPar::Parameter.
+         */
+        Parameter getParameterByName(std::string name) const;
 
         void print(std::ostream &) const;
         friend std::ostream& operator<<(std::ostream&, Parameters const &);

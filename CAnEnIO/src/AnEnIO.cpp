@@ -1348,7 +1348,7 @@ AnEnIO::writeParameters(const anenPar::Parameters& parameters,
         p_names = new char [_max_chars * parameters.size()]();
         p_weights = new double [parameters.size()]();
         p_circulars = new char [_max_chars * parameters.size()]();
-    } catch (bad_alloc e) {
+    } catch (bad_alloc & e) {
         cout << BOLDRED << "Error: Insufficient memory to write Parameters ("
                 << parameters.size() << ")." << RESET << endl;
         nc.close();

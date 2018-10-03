@@ -15,11 +15,8 @@ computeWindSpeed(U, V)
 A vector of values for wind speed.
 }
 \description{
-RAnEn::computeWindSpeed
+Compute wind speed from U and V component of wind.
 }
 \author{
-Weiming Hu \email{weiming@psu.edu}
-        Guido Cervone \email{cervone@psu.edu}
-
-Compute wind speed from U and V component of wind.
+Weiming Hu \email{weiming@psu.edu}, Guido Cervone \email{cervone@psu.edu}
 }
