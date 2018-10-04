@@ -60,12 +60,14 @@ void testAnEnIO::testReadObservationFile() {
     //            << "times: " << num_times << endl;
 
     double count = 1;
-    for (size_t k = 0; k < num_times; k++)
-        for (size_t j = 0; j < num_stations; j++)
+    for (size_t k = 0; k < num_times; k++) {
+        for (size_t j = 0; j < num_stations; j++) {
             for (size_t i = 0; i < num_pars; i++) {
                 CPPUNIT_ASSERT(count == observations.data()[i][j][k]);
                 count++;
             }
+        }
+    }
 }
 
 void testAnEnIO::testReadForecastFile() {
@@ -89,13 +91,16 @@ void testAnEnIO::testReadForecastFile() {
     size_t num_flts = forecasts.getFLTsSize();
 
     double count = 1;
-    for (size_t l = 0; l < num_flts; l++)
-        for (size_t k = 0; k < num_times; k++)
-            for (size_t j = 0; j < num_stations; j++)
+    for (size_t l = 0; l < num_flts; l++) {
+        for (size_t k = 0; k < num_times; k++) {
+            for (size_t j = 0; j < num_stations; j++) {
                 for (size_t i = 0; i < num_pars; i++) {
                     CPPUNIT_ASSERT(count == forecasts.getValueByIndex(i, j, k, l));
                     count++;
                 }
+            }
+        }
+    }
 }
 
 void testAnEnIO::testWriteReadObservationFile() {

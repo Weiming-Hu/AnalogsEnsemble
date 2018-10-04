@@ -339,7 +339,7 @@ AnEnIO::checkDimensions() const {
 }
 
 errorType
-AnEnIO::readObservations(Observations & observations) {
+AnEnIO::readObservations(Observations_array & observations) {
 
     if (verbose_ >= 3) {
         cout << "Reading observation file ..." << endl;
@@ -371,23 +371,53 @@ AnEnIO::readObservations(Observations & observations) {
     handleError(readStations(stations));
     handleError(readTimes(times));
 
-    // Read data
-    if (verbose_ >= 3) cout << "Reading observation values from file ("
-            << file_path_ << ") ..." << endl;
-    vector<double> vals;
-    handleError(read_vector_("Data", vals));
-
+    // Prepare the meta information in Observations first
     observations.setParameters(parameters);
     observations.setStations(stations);
     observations.setTimes(times);
     observations.updateDataDims();
-    observations.setValues(vals);
+
+    // Read data
+    if (verbose_ >= 3) cout << "Reading observation values from file ("
+            << file_path_ << ") ..." << endl;
+
+    try {
+
+        string var_name = "Data";
+        double *p_vals = observations.data().data();
+        NcFile nc(file_path_, NcFile::FileMode::read);
+        NcVar var = nc.getVar(var_name);
+
+        if (var.isNull()) {
+            if (verbose_ >= 1) cout << BOLDRED << "Error: Could not"
+                << " find variable " << var_name << "!" << RESET << endl;
+            return (WRONG_INDEX_SHAPE);
+        }
+
+        // Please realize that I'm directly reading to the forecasts data
+        // pointer which can be dangerous if handled uncautionsly. But I
+        // don't have to create a copy of the data by doing this so I
+        // think the benefit in memory and speed outweighs the downside.
+        //
+        var.getVar(p_vals);
+
+        nc.close();
+    } catch (...) {
+        throw;
+    }
+    
+    // I didn't use the following function because it requires copy of 
+    // the data which might cause insufficient memory problem.
+    //
+    // handleError(read_vector_("Data", vals));
+    // observations.setValues(vals);
+    // 
 
     return (SUCCESS);
 }
 
 errorType
-AnEnIO::readObservations(Observations& observations, vector<size_t> start,
+AnEnIO::readObservations(Observations_array & observations, vector<size_t> start,
         vector<size_t> count, vector<ptrdiff_t> stride) {
 
     if (verbose_ >= 3) {
@@ -459,7 +489,7 @@ AnEnIO::readObservations(Observations& observations, vector<size_t> start,
 }
 
 errorType
-AnEnIO::readForecasts(Forecasts & forecasts) {
+AnEnIO::readForecasts(Forecasts_array & forecasts) {
 
     if (verbose_ >= 3) {
         cout << "Reading forecast file ..." << endl;
@@ -493,24 +523,54 @@ AnEnIO::readForecasts(Forecasts & forecasts) {
     handleError(readTimes(times));
     handleError(readFLTs(flts));
 
-    // Read data
-    if (verbose_ >= 3) cout << "Reading forecast values from file ("
-            << file_path_ << ") ..." << endl;
-    vector<double> vals;
-    handleError(read_vector_("Data", vals));
-
+    // Prepare the meta information in forecasts first
     forecasts.setParameters(parameters);
     forecasts.setStations(stations);
     forecasts.setTimes(times);
     forecasts.setFlts(flts);
     forecasts.updateDataDims();
-    forecasts.setValues(vals);
+
+    // Read data
+    if (verbose_ >= 3) cout << "Reading forecast values from file ("
+            << file_path_ << ") ..." << endl;
+
+    try {
+
+        string var_name = "Data";
+        double *p_vals = forecasts.data().data();
+        NcFile nc(file_path_, NcFile::FileMode::read);
+        NcVar var = nc.getVar(var_name);
+
+        if (var.isNull()) {
+            if (verbose_ >= 1) cout << BOLDRED << "Error: Could not"
+                << " find variable " << var_name << "!" << RESET << endl;
+            return (WRONG_INDEX_SHAPE);
+        }
+
+        // Please realize that I'm directly reading to the forecasts data
+        // pointer which can be dangerous if handled uncautionsly. But I
+        // don't have to create a copy of the data by doing this so I
+        // think the benefit in memory and speed outweighs the downside.
+        //
+        var.getVar(p_vals);
+
+        nc.close();
+    } catch (...) {
+        throw;
+    }
+
+    // I didn't use the following function because it requires copy of 
+    // the data which might cause insufficient memory problem.
+    //
+    // handleError(read_vector_("Data", vals));
+    // forecasts.setValues(vals);
+    //
 
     return (SUCCESS);
 }
 
 errorType
-AnEnIO::readForecasts(Forecasts& forecasts,
+AnEnIO::readForecasts(Forecasts_array & forecasts,
         vector<size_t> start, vector<size_t> count,
         vector<ptrdiff_t> stride) {
 

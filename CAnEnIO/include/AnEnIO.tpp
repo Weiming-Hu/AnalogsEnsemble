@@ -116,7 +116,7 @@ AnEnIO::read_vector_(std::string var_name, std::vector<T> & results) const {
     }
 
     try {
-        p_vals = new T[len];
+        results.resize(len);
     } catch (bad_alloc & e) {
         nc.close();
         if (verbose_ >= 1) cout << BOLDRED
@@ -126,11 +126,14 @@ AnEnIO::read_vector_(std::string var_name, std::vector<T> & results) const {
         return (INSUFFICIENT_MEMORY);
     }
 
+    p_vals = results.data();
     var.getVar(p_vals);
-    results.assign(p_vals, p_vals + len);
 
     nc.close();
-    delete [] p_vals;
+
+    // Don't delete pointer because it is managed by the vector object
+    // delete [] p_vals;
+    
     return (SUCCESS);
 };
 
@@ -158,7 +161,7 @@ AnEnIO::read_vector_(std::string var_name, std::vector<T> & results,
     }
 
     try {
-        p_vals = new T[total];
+        results.resize(total);
     } catch (bad_alloc & e) {
         nc.close();
         if (verbose_ >= 1) cout << BOLDRED
@@ -168,16 +171,19 @@ AnEnIO::read_vector_(std::string var_name, std::vector<T> & results,
         return (INSUFFICIENT_MEMORY);
     }
 
+    p_vals = results.data();
+
     // Reverse the order because of the storage style of NetCDF
     reverse(start.begin(), start.end());
     reverse(count.begin(), count.end());
     reverse(stride.begin(), stride.end());
 
     var.getVar(start, count, stride, p_vals);
-    results.assign(p_vals, p_vals + total);
 
     nc.close();
-    delete [] p_vals;
+    // Don't delete pointer because it is managed by the vector object
+    // delete [] p_vals;
+    
     return (SUCCESS);
 };
 

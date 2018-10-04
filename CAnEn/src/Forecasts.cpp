@@ -228,9 +228,18 @@ Forecasts_array::setValues(const vector<double> & vals) {
         throw length_error(message);
     }
 
-    data_.setDataFromVector(vals,
-            getParametersSize(), getStationsSize(),
-            getTimesSize(), getFLTsSize());
+    data_.assign(vals.begin(), vals.end());
+    //
+    // The above function is a more efficient function.
+    //
+    // You may be concerned of the order of the values in the the vector
+    // and the multi_array. However, the two functions shared the same
+    // assumption that the values in the vector is ordered column-wise and the
+    // multi_array has fortran order.
+    //
+    // data_.setDataFromVector(vals,
+    //         getParametersSize(), getStationsSize(),
+    //         getTimesSize(), getFLTsSize());
 }
 
 void

@@ -34,7 +34,7 @@ void runWindFieldCalculator(
         int verbose) {
 
     // Define the functions to compute wind speed
-    if (verbose >= 3) cout << "Define functions for computation ..." << endl;
+    if (verbose >= 3) cout << GREEN << "Define functions for computation ..." << RESET << endl;
     function< double (double, double) > func_speed =
             [](double d1, double d2) {
                 return (sqrt(d1 * d1 + d2 * d2));
@@ -58,7 +58,7 @@ void runWindFieldCalculator(
 
     if (file_type == "Forecasts") {
 
-        if (verbose >= 3) cout << "Processing forecasts file ..." << endl;
+        if (verbose >= 3) cout << GREEN << "Processing forecasts file ..." << RESET << endl;
 
         Forecasts_array forecasts;
         io.handleError(io.readForecasts(forecasts));
@@ -84,10 +84,10 @@ void runWindFieldCalculator(
         auto & data = forecasts.data();
 
         // Because we are enlarging the size, the original values are kept.
-        if (verbose >= 3) cout << "Resizing data ..." << endl;
+        if (verbose >= 3) cout << GREEN << "Resizing data ..." << RESET << endl;
         forecasts.updateDataDims(false);
 
-        if (verbose >= 3) cout << "Computing ..." << endl;
+        if (verbose >= 3) cout << GREEN << "Computing ..." << RESET << endl;
 #ifdef _OPENMP
 #pragma omp parallel for default(none) schedule(static) collapse(3) \
 shared(num_stations, num_times, num_flts, data, i_speed, i_U, i_V, i_dir, \
@@ -102,13 +102,13 @@ func_dir, func_speed)
             }
         }
 
-        if (verbose >= 3) cout << "Writing file " << file_out << " ... " << endl;
+        if (verbose >= 3) cout << GREEN << "Writing file " << file_out << " ... " << RESET << endl;
         io.setMode("Write", file_out);
         io.handleError(io.writeForecasts(forecasts));
 
     } else if (file_type == "Observations") {
 
-        if (verbose >= 3) cout << "Processing forecasts file ..." << endl;
+        if (verbose >= 3) cout << GREEN << "Processing forecasts file ..." << RESET << endl;
 
         Observations_array observations;
         io.handleError(io.readObservations(observations));
@@ -134,10 +134,10 @@ func_dir, func_speed)
         auto & data = observations.data();
 
         // Because we are enlarging the size, the original values are kept.
-        if (verbose >= 3) cout << "Resizing data ..." << endl;
+        if (verbose >= 3) cout << GREEN << "Resizing data ..." << RESET << endl;
         observations.updateDataDims(false);
 
-        if (verbose >= 3) cout << "Computing ..." << endl;
+        if (verbose >= 3) cout << GREEN << "Computing ..." << RESET << endl;
 #ifdef _OPENMP
 #pragma omp parallel for default(none) schedule(static) collapse(2) \
 shared(num_stations, num_times, data, i_speed, i_U, i_V, i_dir, \
@@ -150,7 +150,7 @@ func_dir, func_speed)
             }
         }
 
-        if (verbose >= 3) cout << "Writing file " << file_out << " ... " << endl;
+        if (verbose >= 3) cout << GREEN << "Writing file " << file_out << " ... " << RESET << endl;
         io.setMode("Write", file_out);
         io.handleError(io.writeObservations(observations));
 
@@ -204,7 +204,7 @@ int main(int argc, char** argv) {
         store(parsed, vm);
 
         if (vm.count("help") || argc == 1) {
-            cout << GREEN << "Analog Ensemble program --- Similarity Calculator"
+            cout << BOLDGREEN << "Analog Ensemble program --- Similarity Calculator"
                     << RESET << endl << desc << endl;
             return 0;
         }

@@ -153,23 +153,23 @@ public:
     /**
      * Reads observation file into an Observations object.
      * 
-     * @param observations The Observations object to store data.
+     * @param observations The Observations_array object to store data.
      * @return An AnEnIO::errorType.
      */
-    errorType readObservations(Observations & observations);
+    errorType readObservations(Observations_array & observations);
 
     /**
      * Reads a subset of an observation file into an Observations
      * object.
      * 
-     * @param observations The Observations object to store data.
+     * @param observations The Observations_array object to store data.
      * @param start A vector of indices of the start of the data to read.
      * @param count A vector of numbers of data to read for each dimension.
      * @param stride A vector of numbers of the length of the stride for
      * each dimension.
      * @return An AnEnIO::errorType.
      */
-    errorType readObservations(Observations & observations,
+    errorType readObservations(Observations_array & observations,
             std::vector<size_t> start,
             std::vector<size_t> count,
             std::vector<ptrdiff_t> stride = {1, 1, 1});
@@ -177,22 +177,22 @@ public:
     /**
      * Reads forecast file into an Forecasts object.
      * 
-     * @param forecasts The Forecasts object to store data.
+     * @param forecasts The Forecasts_array object to store data.
      * @return An AnEnIO::errorType.
      */
-    errorType readForecasts(Forecasts & forecasts);
+    errorType readForecasts(Forecasts_array & forecasts);
 
     /**
      * Reads a subset of a forecast file into a Forecasts object.
      * 
-     * @param forecasts The Forecasts object to store data.
+     * @param forecasts The Forecasts_array object to store data.
      * @param start A vector of indices of the start of the data to read.
      * @param count A vector of numbers of data to read for each dimension.
      * @param stride A vector of numbers of the length of the stride for
      * each dimension.
      * @return An AnEnIO::errorType.
      */
-    errorType readForecasts(Forecasts & forecasts,
+    errorType readForecasts(Forecasts_array & forecasts,
             std::vector<size_t> start,
             std::vector<size_t> count,
             std::vector<ptrdiff_t> stride = {1, 1, 1, 1});

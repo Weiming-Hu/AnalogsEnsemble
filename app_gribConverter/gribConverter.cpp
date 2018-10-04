@@ -241,10 +241,10 @@ void toForecasts(const vector<string> & files_in, const string & file_out,
         double flt_interval, bool delimited = false,
         int verbose = 0) {
 
-    if (verbose >= 3) cout << "Convert GRIB2 files to Forecasts" << endl;
+    if (verbose >= 3) cout << GREEN << "Convert GRIB2 files to Forecasts" << RESET << endl;
 
     // Read station xs and ys based on the first parameter in the list
-    if (verbose >= 3) cout << "Reading station information ... " << endl;
+    if (verbose >= 3) cout << GREEN << "Reading station information ... " << RESET << endl;
     anenSta::Stations stations;
     vector<double> xs, ys;
     getXY(xs, ys, files_in[0], pars_id[0], levels[0], par_key, level_key, val_key);
@@ -257,7 +257,7 @@ void toForecasts(const vector<string> & files_in, const string & file_out,
     assert(stations.size() == xs.size());
 
     // Read parameters based on input options
-    if (verbose >= 3) cout << "Reading parameter information ... " << endl;
+    if (verbose >= 3) cout << GREEN << "Reading parameter information ... " << RESET << endl;
     anenPar::Parameters parameters;
     for (size_t i = 0; i < pars_new_name.size(); i++) {
         bool circular = false;
@@ -272,7 +272,7 @@ void toForecasts(const vector<string> & files_in, const string & file_out,
     assert(parameters.size() == pars_new_name.size());
 
     // Prepare times
-    if (verbose >= 3) cout << "Reading time and FLT information ... " << endl;
+    if (verbose >= 3) cout << GREEN << "Reading time and FLT information ... " << RESET << endl;
     anenTime::Times times;
     regex regex_time;
     smatch match;
@@ -335,9 +335,9 @@ void toForecasts(const vector<string> & files_in, const string & file_out,
 
     // Read data
     if (verbose >= 3) {
-        cout << "Allocating memory for double array [" << parameters.size()
+        cout << GREEN << "Allocating memory for double array [" << parameters.size()
             << "][" << stations.size() << "][" << times.size() << "]["
-            << flts.size() << "] ... " << endl;
+            << flts.size() << "] ... " << RESET << endl;
     }
     Forecasts_array forecasts(parameters, stations, times, flts);
     auto & data = forecasts.data();
@@ -345,7 +345,7 @@ void toForecasts(const vector<string> & files_in, const string & file_out,
     // This is created to keep track of the return condition for each file
     vector<bool> file_flags(files_in.size(), true);
 
-    if (verbose >= 3) cout << "Reading data ... " << endl;
+    if (verbose >= 3) cout << GREEN << "Reading data ... " << RESET << endl;
 
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(static) \
@@ -415,11 +415,11 @@ level_types, par_key, level_key, type_key, val_key) private(match, time_end)
     }
 
     // Write forecasts
-    if (verbose >= 3) cout << "Writing Forecasts file ... " << endl;
+    if (verbose >= 3) cout << GREEN << "Writing Forecasts file ... " << RESET << endl;
     AnEnIO io("Write", file_out, "Forecasts");
     io.handleError(io.writeForecasts(forecasts));
 
-    if (verbose >= 3) cout << "Done!" << endl;
+    if (verbose >= 3) cout << GREEN << "Done!" << RESET << endl;
     return;
 }
 
@@ -466,10 +466,10 @@ void toObservations(const vector<string> & files_in, const string & file_out,
         const string & type_key, const string & val_key,
         string regex_time_str, bool delimited = false, int verbose = 0) {
 
-    if (verbose >= 3) cout << "Convert GRIB2 files to Observations" << endl;
+    if (verbose >= 3) cout << GREEN << "Convert GRIB2 files to Observations" << RESET << endl;
 
     // Read station xs and ys based on the first parameter in the list
-    if (verbose >= 3) cout << "Reading station information ... " << endl;
+    if (verbose >= 3) cout << GREEN << "Reading station information ... " << RESET << endl;
     anenSta::Stations stations;
     vector<double> xs, ys;
     getXY(xs, ys, files_in[0], pars_id[0], levels[0], par_key, level_key, val_key);
@@ -482,7 +482,7 @@ void toObservations(const vector<string> & files_in, const string & file_out,
     assert(stations.size() == xs.size());
 
     // Read parameters based on input options
-    if (verbose >= 3) cout << "Reading parameter information ... " << endl;
+    if (verbose >= 3) cout << GREEN << "Reading parameter information ... " << RESET << endl;
     anenPar::Parameters parameters;
     for (size_t i = 0; i < pars_new_name.size(); i++) {
         bool circular = false;
@@ -497,7 +497,7 @@ void toObservations(const vector<string> & files_in, const string & file_out,
     assert(parameters.size() == pars_new_name.size());
 
     // Prepare times
-    if (verbose >= 3) cout << "Reading time and FLT information ... " << endl;
+    if (verbose >= 3) cout << GREEN << "Reading time and FLT information ... " << RESET << endl;
     anenTime::Times times;
     regex regex_time;
     smatch match;
@@ -538,7 +538,7 @@ void toObservations(const vector<string> & files_in, const string & file_out,
     
     if (verbose >= 4) cout << times;
     // Read data
-    if (verbose >= 3) cout << "Reading data information ..." << endl;
+    if (verbose >= 3) cout << GREEN << "Reading data information ..." << RESET << endl;
     Observations_array observations(parameters, stations, times);
     auto & data = observations.data();
     
@@ -607,11 +607,11 @@ par_key, level_key, type_key, val_key) private(match, time_end)
     }
 
     // Write observations
-    if (verbose >= 3) cout << "Writing Observations file ... " << endl;
+    if (verbose >= 3) cout << GREEN << "Writing Observations file ... " << RESET << endl;
     AnEnIO io("Write", file_out, "Observations");
     io.handleError(io.writeObservations(observations));
 
-    if (verbose >= 3) cout << "Done!" << endl;
+    if (verbose >= 3) cout << GREEN << "Done!" << RESET << endl;
     return;
 }
 
@@ -746,7 +746,7 @@ int main(int argc, char** argv) {
     if (fs::exists(fs::path(file_out))) {
         if (overwrite_output) {
             fs::remove(fs::path(file_out));
-            if (verbose >= 3) cout << "Remove existing output file " << file_out << endl;
+            if (verbose >= 3) cout << GREEN << "Remove existing output file " << file_out << RESET << endl;
         } else {
             cout << BOLDRED << "Error: Output file exists!" << RESET << endl;
             return 1;
