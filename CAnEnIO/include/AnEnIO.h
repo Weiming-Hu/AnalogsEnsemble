@@ -360,12 +360,46 @@ public:
      */
     bool isAdd() const;
     
+    /**
+     * Get the verbose level.
+     * @return Verbose level.
+     */
     int getVerbose() const;
+    
+    /**
+     * Get the mode.
+     * @return Mode string.
+     */
     std::string getMode() const;
+    
+    /**
+     * Get file path.
+     * @return File path string.
+     */
     std::string getFilePath() const;
+    
+    /**
+     * Get the file type.
+     * @return File type string
+     */
     std::string getFileType() const;
+    
+    /**
+     * Get the optional variables to check.
+     * @return A vector of optional variables.
+     */
     std::vector<std::string> getOptionalVariables() const;
+    
+    /**
+     * Get the required variables to check.
+     * @return A vector of required variables.
+     */
     std::vector<std::string> getRequiredVariables() const;
+    
+    /**
+     * Get the required dimensions to check.
+     * @return A vector of required dimensions.
+     */
     std::vector<std::string> getRequiredDimensions() const;
 
     /**

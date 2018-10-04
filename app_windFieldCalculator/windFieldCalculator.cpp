@@ -26,6 +26,21 @@
 
 using namespace std;
 
+/**
+ * runWindFieldCalculator computes the wind direction and the wind speed
+ * from the variables specified. Typically, the file should be generated
+ * using the C++ API.
+ * 
+ * @param file_in The file to read.
+ * @param file_type The type of the file, "Forecasts" or "Observations".
+ * @param file_out The file to write.
+ * @param var_U_name The name of the U component of wind.
+ * @param var_V_name The name of the V component of wind.
+ * @param var_dir_name The new name of the wind direction variable.
+ * @param var_speed_name The new name of the wind speed variable.
+ * @param verbose The verbose level.
+ * 
+ */
 void runWindFieldCalculator(
         const string & file_in, const string & file_type,
         const string & file_out,
