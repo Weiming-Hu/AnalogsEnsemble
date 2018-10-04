@@ -638,16 +638,19 @@ int main(int argc, char** argv) {
                 ("help,h", "Print help information for options.")
                 ("config,c", po::value<string>(), "Set the configuration file path. Command line options overwrite options in configuration file.")
 
-                ("output-type", po::value<string>(&output_type)->required(), "Set the output type. Currently it supports 'Forecasts'.")
+                ("output-type", po::value<string>(&output_type)->required(), "Set the output type. Currently it supports 'Forecasts' and 'Observations'.")
                 ("folder", po::value<string>(&folder)->required(), "Set the data folder.")
                 ("output,o", po::value<string>(&file_out)->required(), "Set the output file path.")
                 ("regex-time", po::value<string>(&regex_time_str)->required(), "Set the regular expression for time. Time information will be extracted from the file name.")
-                ("regex-flt", po::value<string>(&regex_flt_str)->required(), "Set the regular expression for FLT. FLT information will be extracted from the file name.")
+
+                // This is required for Forecasts but not for Observations. I will deal with this separately.
+                ("regex-flt", po::value<string>(&regex_flt_str), "Set the regular expression for FLT. FLT information will be extracted from the file name.")
+                ("flt-interval", po::value<double>(&unit_flt), "Set the interval in seconds for FLT.")
+
                 ("pars-id", po::value< vector<long> >(&pars_id)->multitoken()->required(), "Set the parameters ID that will be read from the file.")
                 ("levels", po::value< vector<long> >(&levels)->multitoken()->required(), "Set the levels for each parameters.")
                 ("level-types", po::value< vector<string> >(&level_types)->multitoken()->required(), "Set the types of levels for each parameters.")
-                ("flt-interval", po::value<double>(&unit_flt)->required(), "Set the interval in seconds for FLT.")
-
+                
                 ("delimited", po::bool_switch(&delimited)->default_value(false), "The extracted time message is delimited by ambiguous character (1990-01-01).")
                 ("ext", po::value<string>(&ext)->default_value(".grb2"), "Set the file extension.")
                 ("par-key", po::value<string>(&par_key)->default_value("paramId"), "Set the parameter ID key name in GRB file.")
@@ -721,9 +724,23 @@ int main(int argc, char** argv) {
                 pars_new_name.push_back(to_string(i));
             }
         }
+        
+        
 
-        if (output_type != "Forecasts") {
-            throw runtime_error("Error: Specified output type is not supported.");
+        if (output_type == "Forecasts") {
+            if (!vm.count("flt-interval")) {
+                cout << BOLDRED << "Error: flt-interval option is required for Forecasts." << RESET << endl;
+                return 1;
+            }
+            
+            if (!vm.count("regex-flt")) {
+                cout << BOLDRED << "Error: regex-flt option is required for Forecasts." << RESET << endl;
+                return 1;
+            }
+            
+        } if (output_type != "Observations") {
+            cout << BOLDRED << "Error: Specified output type is not supported." << RESET << endl;
+            return 1;
         }
 
     } catch (...) {
