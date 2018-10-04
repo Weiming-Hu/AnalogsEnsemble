@@ -497,7 +497,7 @@ void toObservations(const vector<string> & files_in, const string & file_out,
     assert(parameters.size() == pars_new_name.size());
 
     // Prepare times
-    if (verbose >= 3) cout << "Reading time and FLT information ... " << endl;
+    if (verbose >= 3) cout << "Reading time information ... " << endl;
     anenTime::Times times;
     regex regex_time;
     smatch match;
