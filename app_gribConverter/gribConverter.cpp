@@ -738,8 +738,8 @@ int main(int argc, char** argv) {
                 return 1;
             }
             
-        } if (output_type != "Observations") {
-            cout << BOLDRED << "Error: Specified output type is not supported." << RESET << endl;
+        } else if (output_type != "Observations") {
+            cout << BOLDRED << "Error: Specified output type (" << output_type << ") is not supported." << RESET << endl;
             return 1;
         }
 
