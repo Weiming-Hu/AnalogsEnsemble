@@ -219,7 +219,7 @@ int main(int argc, char** argv) {
         store(parsed, vm);
 
         if (vm.count("help") || argc == 1) {
-            cout << BOLDGREEN << "Analog Ensemble program --- Similarity Calculator"
+            cout << BOLDGREEN << "Analog Ensemble program --- Wind Field Calculator"
                     << RESET << endl << desc << endl;
             return 0;
         }
