@@ -35,6 +35,6 @@ var searchData=
   ['times_2ecpp',['Times.cpp',['../_times_8cpp.html',1,'']]],
   ['times_2eh',['Times.h',['../_times_8h.html',1,'']]],
   ['times_5f',['times_',['../class_forecasts.html#a5db6d70382b21bc6621b7765d21f6d61',1,'Forecasts::times_()'],['../class_observations.html#ad379be63239b03e0db53dc31014a2d74',1,'Observations::times_()']]],
-  ['toforecasts',['toForecasts',['../grib_converter_8cpp.html#a4911a3421f2cafa180f631437ee55cb8',1,'gribConverter.cpp']]],
-  ['toobservations',['toObservations',['../grib_converter_8cpp.html#a68df5c8c3e6273784d23bcf349009d41',1,'gribConverter.cpp']]]
+  ['toforecasts',['toForecasts',['../grib_converter_8cpp.html#a5bcb7ad0cdc15da64e59e675785e652c',1,'gribConverter.cpp']]],
+  ['toobservations',['toObservations',['../grib_converter_8cpp.html#a07e8bf83b8b165538d1db64b7a390945',1,'gribConverter.cpp']]]
 ];

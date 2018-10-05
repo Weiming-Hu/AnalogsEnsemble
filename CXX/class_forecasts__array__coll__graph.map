@@ -1,7 +1,7 @@
 <map id="Forecasts_array" name="Forecasts_array">
-<area shape="rect" id="node2" href="$class_forecasts.html" title="Forecasts class provides interface for reading and writing forecast data from and to a NetCDF file..." alt="" coords="126,559,267,765"/>
-<area shape="rect" id="node3" href="$classanen_time_1_1_f_l_ts.html" title="FLTs class is used to store time information for prediction forecast lead times (FLTs). If a temperature forecast on January 1st, 2028 contains predictions at 00h, 06h, 12h, 18h on that day, this forecast has 4 FLTs, which are 0, 6, 12, 18. " alt="" coords="83,377,198,451"/>
-<area shape="rect" id="node4" href="$classanen_time_1_1_times.html" title="Times class is used to store time information for predictions. By default this is the number of secon..." alt="" coords="12,128,136,281"/>
-<area shape="rect" id="node6" href="$classanen_par_1_1_parameters.html" title="Parameters class stores Parameter objects. " alt="" coords="222,357,377,471"/>
-<area shape="rect" id="node8" href="$classanen_sta_1_1_stations.html" title="Stations class stores Station objects. " alt="" coords="400,331,587,497"/>
+<area shape="rect" id="node2" href="$class_forecasts.html" title="Forecasts class provides interface for reading and writing forecast data from and to a NetCDF file..." alt="" coords="146,559,287,765"/>
+<area shape="rect" id="node3" href="$classanen_time_1_1_f_l_ts.html" title="FLTs class is used to store time information for prediction forecast lead times (FLTs). If a temperature forecast on January 1st, 2028 contains predictions at 00h, 06h, 12h, 18h on that day, this forecast has 4 FLTs, which are 0, 6, 12, 18. " alt="" coords="100,377,215,451"/>
+<area shape="rect" id="node4" href="$classanen_time_1_1_times.html" title="Times class is used to store time information for predictions. By default this is the number of secon..." alt="" coords="5,128,129,281"/>
+<area shape="rect" id="node6" href="$classanen_par_1_1_parameters.html" title="Parameters class stores Parameter objects. " alt="" coords="239,351,412,477"/>
+<area shape="rect" id="node8" href="$classanen_sta_1_1_stations.html" title="Stations class stores Station objects. " alt="" coords="436,331,623,497"/>
 </map>

@@ -88,10 +88,10 @@ Collaboration diagram for Observations_array:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_observations__array__coll__graph.png" border="0" usemap="#_observations__array_coll__map" alt="Collaboration graph"/></div>
 <map name="_observations__array_coll__map" id="_observations__array_coll__map">
-<area shape="rect" id="node2" href="class_observations.html" title="Observations class provides interface for reading and writing observations from and to a NetCDF file..." alt="" coords="207,356,348,563"/>
-<area shape="rect" id="node3" href="classanen_par_1_1_parameters.html" title="Parameters class stores Parameter objects. " alt="" coords="5,155,160,268"/>
-<area shape="rect" id="node5" href="classanen_sta_1_1_stations.html" title="Stations class stores Station objects. " alt="" coords="184,128,371,295"/>
-<area shape="rect" id="node7" href="classanen_time_1_1_times.html" title="Times class is used to store time information for predictions. By default this is the number of secon..." alt="" coords="395,135,518,288"/>
+<area shape="rect" id="node2" href="class_observations.html" title="Observations class provides interface for reading and writing observations from and to a NetCDF file..." alt="" coords="225,356,367,563"/>
+<area shape="rect" id="node3" href="classanen_par_1_1_parameters.html" title="Parameters class stores Parameter objects. " alt="" coords="5,148,179,275"/>
+<area shape="rect" id="node5" href="classanen_sta_1_1_stations.html" title="Stations class stores Station objects. " alt="" coords="203,128,390,295"/>
+<area shape="rect" id="node7" href="classanen_time_1_1_times.html" title="Times class is used to store time information for predictions. By default this is the number of secon..." alt="" coords="413,135,536,288"/>
 </map>
 </div>
 <table class="memberdecls">
@@ -123,8 +123,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a3994f0e11a8207c5e1182a9b20a67ec4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae4ed49512506eae597a158d4c87dbd31"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations__array.html#ae4ed49512506eae597a158d4c87dbd31">setValues</a> (const std::vector&lt; double &gt; &amp;vals) override</td></tr>
 <tr class="separator:ae4ed49512506eae597a158d4c87dbd31"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa9364c4356d1f8a2b430c93a1fcd021f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations__array.html#aa9364c4356d1f8a2b430c93a1fcd021f">updateDataDims</a> () override</td></tr>
-<tr class="separator:aa9364c4356d1f8a2b430c93a1fcd021f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d9a0f3d80db18da1f1c8f99e43ba000"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations__array.html#a6d9a0f3d80db18da1f1c8f99e43ba000">updateDataDims</a> (bool initialize_values=true) override</td></tr>
+<tr class="separator:a6d9a0f3d80db18da1f1c8f99e43ba000"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae535b742be4ea895117da607fbe7c702"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations__array.html#ae535b742be4ea895117da607fbe7c702">getDataLength</a> () const override</td></tr>
 <tr class="separator:ae535b742be4ea895117da607fbe7c702"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2563545e5a38ec7e3ec09380c0b38855"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations__array.html#a2563545e5a38ec7e3ec09380c0b38855">print</a> (std::ostream &amp;) const override</td></tr>
@@ -156,6 +156,12 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a0f6deefe6b26a0546ea6d7642d190bfa inherit pub_methods_class_observations"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa0929286a88fe261af73cc67c6c8df92 inherit pub_methods_class_observations"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#aa0929286a88fe261af73cc67c6c8df92">getTimes</a> () const</td></tr>
 <tr class="separator:aa0929286a88fe261af73cc67c6c8df92 inherit pub_methods_class_observations"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac05528c352cd617521e42c0800362b86 inherit pub_methods_class_observations"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classanen_par_1_1_parameters.html">anenPar::Parameters</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#ac05528c352cd617521e42c0800362b86">getParameters</a> ()</td></tr>
+<tr class="separator:ac05528c352cd617521e42c0800362b86 inherit pub_methods_class_observations"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa12a9640fc370dbc8e45d84521224cf6 inherit pub_methods_class_observations"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#aa12a9640fc370dbc8e45d84521224cf6">getStations</a> ()</td></tr>
+<tr class="separator:aa12a9640fc370dbc8e45d84521224cf6 inherit pub_methods_class_observations"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae6b340ea6602a94ae89a3fecb2545801 inherit pub_methods_class_observations"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#ae6b340ea6602a94ae89a3fecb2545801">getTimes</a> ()</td></tr>
+<tr class="separator:ae6b340ea6602a94ae89a3fecb2545801 inherit pub_methods_class_observations"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6965bc35582ce23ed840e9e6bf1fa228 inherit pub_methods_class_observations"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#a6965bc35582ce23ed840e9e6bf1fa228">setParameters</a> (<a class="el" href="classanen_par_1_1_parameters.html">anenPar::Parameters</a> <a class="el" href="class_observations.html#a9e80eaaa9c096dda1dbbe8fcf631c087">parameters_</a>)</td></tr>
 <tr class="separator:a6965bc35582ce23ed840e9e6bf1fa228 inherit pub_methods_class_observations"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a01ddf7eb5d0b9c3fec31731a931cfdf4 inherit pub_methods_class_observations"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#a01ddf7eb5d0b9c3fec31731a931cfdf4">setStations</a> (<a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> <a class="el" href="class_observations.html#a03e2d3c69e46066f48e4381657a995f7">stations_</a>)</td></tr>
@@ -680,7 +686,7 @@ Additional Inherited Members</h2></td></tr>
 <p>Sets values from a vector.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">vals</td><td>A vector&lt;double&gt; with values. Call <a class="el" href="class_observations.html#aab0540879c2d3fdf5f91d30ea2f902fd">Observations::updateDataDims</a> to make sure sufficient space is allocated. </td></tr>
+    <tr><td class="paramname">vals</td><td>A vector&lt;double&gt; with values. Call <a class="el" href="class_observations.html#a683e74974a084a67eff703c2b258ab42">Observations::updateDataDims</a> to make sure sufficient space is allocated. </td></tr>
   </table>
   </dd>
 </dl>
@@ -689,8 +695,8 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a id="aa9364c4356d1f8a2b430c93a1fcd021f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa9364c4356d1f8a2b430c93a1fcd021f">&#9670;&nbsp;</a></span>updateDataDims()</h2>
+<a id="a6d9a0f3d80db18da1f1c8f99e43ba000"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6d9a0f3d80db18da1f1c8f99e43ba000">&#9670;&nbsp;</a></span>updateDataDims()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -701,7 +707,8 @@ Additional Inherited Members</h2></td></tr>
         <tr>
           <td class="memname">void Observations_array::updateDataDims </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>initialize_values</em> = <code>true</code></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -713,7 +720,7 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 <p>Resizes underlying data member according to the sizes of parameters, stations, and times. </p>
 
-<p>Implements <a class="el" href="class_observations.html#aab0540879c2d3fdf5f91d30ea2f902fd">Observations</a>.</p>
+<p>Implements <a class="el" href="class_observations.html#a683e74974a084a67eff703c2b258ab42">Observations</a>.</p>
 
 </div>
 </div>
@@ -778,8 +785,8 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>/Users/wuh20/tmp/AnalogsEnsemble/CAnEn/include/<a class="el" href="_observations_8h_source.html">Observations.h</a></li>
-<li>/Users/wuh20/tmp/AnalogsEnsemble/CAnEn/src/<a class="el" href="_observations_8cpp.html">Observations.cpp</a></li>
+<li>/Users/wuh20/github/AnalogsEnsemble/CAnEn/include/<a class="el" href="_observations_8h_source.html">Observations.h</a></li>
+<li>/Users/wuh20/github/AnalogsEnsemble/CAnEn/src/<a class="el" href="_observations_8cpp.html">Observations.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

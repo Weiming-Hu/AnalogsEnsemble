@@ -1,5 +1,5 @@
 var searchData=
 [
   ['unsetcircular',['unsetCircular',['../class_array4_d.html#ac6d1282e0d765748c192a72d60274853',1,'Array4D']]],
-  ['updatedatadims',['updateDataDims',['../class_forecasts.html#a8c7d29af8edb5c3bc6a6aad2220506a9',1,'Forecasts::updateDataDims()'],['../class_forecasts__array.html#ab3fc780bb6a5cbf132457c8c336bc777',1,'Forecasts_array::updateDataDims()'],['../class_observations.html#aab0540879c2d3fdf5f91d30ea2f902fd',1,'Observations::updateDataDims()'],['../class_observations__array.html#aa9364c4356d1f8a2b430c93a1fcd021f',1,'Observations_array::updateDataDims()']]]
+  ['updatedatadims',['updateDataDims',['../class_forecasts.html#a542d6ed8bfaf077133df730c3d8dd5c5',1,'Forecasts::updateDataDims()'],['../class_forecasts__array.html#a6c257670f3904c12cb6cae6694e3624d',1,'Forecasts_array::updateDataDims()'],['../class_observations.html#a683e74974a084a67eff703c2b258ab42',1,'Observations::updateDataDims()'],['../class_observations__array.html#a6d9a0f3d80db18da1f1c8f99e43ba000',1,'Observations_array::updateDataDims()']]]
 ];

@@ -101,6 +101,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aab183145d25096bc5b3e2ae2b0fa5532"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4739a165ec7ff10b49dc00ec0784c8eb"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classanen_par_1_1_parameters.html#a4739a165ec7ff10b49dc00ec0784c8eb">getParameterIndex</a> (std::size_t parameter_ID) const</td></tr>
 <tr class="separator:a4739a165ec7ff10b49dc00ec0784c8eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a73b0b2c9601c1dd3d1ccdc848dbb4079"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classanen_par_1_1_parameter.html">Parameter</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classanen_par_1_1_parameters.html#a73b0b2c9601c1dd3d1ccdc848dbb4079">getParameterByName</a> (std::string name) const</td></tr>
+<tr class="separator:a73b0b2c9601c1dd3d1ccdc848dbb4079"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acc1ebdd412b4b9d34e121fc0910c7952"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classanen_par_1_1_parameters.html#acc1ebdd412b4b9d34e121fc0910c7952">print</a> (std::ostream &amp;) const</td></tr>
 <tr class="separator:acc1ebdd412b4b9d34e121fc0910c7952"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -160,6 +162,32 @@ Friends</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a73b0b2c9601c1dd3d1ccdc848dbb4079"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a73b0b2c9601c1dd3d1ccdc848dbb4079">&#9670;&nbsp;</a></span>getParameterByName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classanen_par_1_1_parameter.html">Parameter</a> anenPar::Parameters::getParameterByName </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>name</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Gets the parameter by name. If multiple parameters have the same name, this function returns the first parameter found.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>The name of the parameter </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="classanen_par_1_1_parameter.html" title="Parameter stores parameter information including name, weight, and circular. Each Parameter object is...">anenPar::Parameter</a>. </dd></dl>
+
+</div>
+</div>
 <a id="a4739a165ec7ff10b49dc00ec0784c8eb"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4739a165ec7ff10b49dc00ec0784c8eb">&#9670;&nbsp;</a></span>getParameterIndex()</h2>
 
@@ -175,6 +203,14 @@ Friends</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Gets the parameter index by ID.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">parameter_ID</td><td>The parameter ID. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The parameter index. </dd></dl>
 
 </div>
 </div>
@@ -234,8 +270,8 @@ Friends</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>/Users/wuh20/tmp/AnalogsEnsemble/CAnEn/include/<a class="el" href="_parameters_8h_source.html">Parameters.h</a></li>
-<li>/Users/wuh20/tmp/AnalogsEnsemble/CAnEn/src/<a class="el" href="_parameters_8cpp.html">Parameters.cpp</a></li>
+<li>/Users/wuh20/github/AnalogsEnsemble/CAnEn/include/<a class="el" href="_parameters_8h_source.html">Parameters.h</a></li>
+<li>/Users/wuh20/github/AnalogsEnsemble/CAnEn/src/<a class="el" href="_parameters_8cpp.html">Parameters.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

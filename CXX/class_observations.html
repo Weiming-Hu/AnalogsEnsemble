@@ -88,9 +88,9 @@ Collaboration diagram for Observations:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_observations__coll__graph.png" border="0" usemap="#_observations_coll__map" alt="Collaboration graph"/></div>
 <map name="_observations_coll__map" id="_observations_coll__map">
-<area shape="rect" id="node2" href="classanen_par_1_1_parameters.html" title="Parameters class stores Parameter objects. " alt="" coords="5,155,160,268"/>
-<area shape="rect" id="node4" href="classanen_sta_1_1_stations.html" title="Stations class stores Station objects. " alt="" coords="184,128,371,295"/>
-<area shape="rect" id="node6" href="classanen_time_1_1_times.html" title="Times class is used to store time information for predictions. By default this is the number of secon..." alt="" coords="395,135,518,288"/>
+<area shape="rect" id="node2" href="classanen_par_1_1_parameters.html" title="Parameters class stores Parameter objects. " alt="" coords="5,148,179,275"/>
+<area shape="rect" id="node4" href="classanen_sta_1_1_stations.html" title="Stations class stores Station objects. " alt="" coords="203,128,390,295"/>
+<area shape="rect" id="node6" href="classanen_time_1_1_times.html" title="Times class is used to store time information for predictions. By default this is the number of secon..." alt="" coords="413,135,536,288"/>
 </map>
 </div>
 <table class="memberdecls">
@@ -116,8 +116,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a6ec8166ad0f141e23a07847ab3646a61"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3aaf49cad714ff61c105d26b4b083ac3"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#a3aaf49cad714ff61c105d26b4b083ac3">setValues</a> (const std::vector&lt; double &gt; &amp;vals)=0</td></tr>
 <tr class="separator:a3aaf49cad714ff61c105d26b4b083ac3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aab0540879c2d3fdf5f91d30ea2f902fd"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#aab0540879c2d3fdf5f91d30ea2f902fd">updateDataDims</a> ()=0</td></tr>
-<tr class="separator:aab0540879c2d3fdf5f91d30ea2f902fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a683e74974a084a67eff703c2b258ab42"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#a683e74974a084a67eff703c2b258ab42">updateDataDims</a> (bool initialize_values=true)=0</td></tr>
+<tr class="separator:a683e74974a084a67eff703c2b258ab42"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a73897578d7e1d4aaf6023857db896ee8"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#a73897578d7e1d4aaf6023857db896ee8">getParameterIndex</a> (std::size_t parameter_ID) const</td></tr>
 <tr class="separator:a73897578d7e1d4aaf6023857db896ee8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa485e3d95a967b9b4efd5c4efaf0c9e1"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#aa485e3d95a967b9b4efd5c4efaf0c9e1">getStationIndex</a> (std::size_t station_ID) const</td></tr>
@@ -138,6 +138,12 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a0f6deefe6b26a0546ea6d7642d190bfa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa0929286a88fe261af73cc67c6c8df92"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#aa0929286a88fe261af73cc67c6c8df92">getTimes</a> () const</td></tr>
 <tr class="separator:aa0929286a88fe261af73cc67c6c8df92"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac05528c352cd617521e42c0800362b86"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classanen_par_1_1_parameters.html">anenPar::Parameters</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#ac05528c352cd617521e42c0800362b86">getParameters</a> ()</td></tr>
+<tr class="separator:ac05528c352cd617521e42c0800362b86"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa12a9640fc370dbc8e45d84521224cf6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#aa12a9640fc370dbc8e45d84521224cf6">getStations</a> ()</td></tr>
+<tr class="separator:aa12a9640fc370dbc8e45d84521224cf6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae6b340ea6602a94ae89a3fecb2545801"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#ae6b340ea6602a94ae89a3fecb2545801">getTimes</a> ()</td></tr>
+<tr class="separator:ae6b340ea6602a94ae89a3fecb2545801"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6965bc35582ce23ed840e9e6bf1fa228"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#a6965bc35582ce23ed840e9e6bf1fa228">setParameters</a> (<a class="el" href="classanen_par_1_1_parameters.html">anenPar::Parameters</a> <a class="el" href="class_observations.html#a9e80eaaa9c096dda1dbbe8fcf631c087">parameters_</a>)</td></tr>
 <tr class="separator:a6965bc35582ce23ed840e9e6bf1fa228"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a01ddf7eb5d0b9c3fec31731a931cfdf4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#a01ddf7eb5d0b9c3fec31731a931cfdf4">setStations</a> (<a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> <a class="el" href="class_observations.html#a03e2d3c69e46066f48e4381657a995f7">stations_</a>)</td></tr>
@@ -321,7 +327,7 @@ Friends</h2></td></tr>
 </div>
 </div>
 <a id="a5347196195a72495217dc0614c9224c2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5347196195a72495217dc0614c9224c2">&#9670;&nbsp;</a></span>getParameters()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a5347196195a72495217dc0614c9224c2">&#9670;&nbsp;</a></span>getParameters() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -331,6 +337,23 @@ Friends</h2></td></tr>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac05528c352cd617521e42c0800362b86"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac05528c352cd617521e42c0800362b86">&#9670;&nbsp;</a></span>getParameters() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classanen_par_1_1_parameters.html">anenPar::Parameters</a> &amp; Observations::getParameters </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -373,7 +396,7 @@ Friends</h2></td></tr>
 </div>
 </div>
 <a id="a0f6deefe6b26a0546ea6d7642d190bfa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0f6deefe6b26a0546ea6d7642d190bfa">&#9670;&nbsp;</a></span>getStations()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f6deefe6b26a0546ea6d7642d190bfa">&#9670;&nbsp;</a></span>getStations() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -383,6 +406,23 @@ Friends</h2></td></tr>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa12a9640fc370dbc8e45d84521224cf6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa12a9640fc370dbc8e45d84521224cf6">&#9670;&nbsp;</a></span>getStations() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> &amp; Observations::getStations </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -425,7 +465,7 @@ Friends</h2></td></tr>
 </div>
 </div>
 <a id="aa0929286a88fe261af73cc67c6c8df92"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa0929286a88fe261af73cc67c6c8df92">&#9670;&nbsp;</a></span>getTimes()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aa0929286a88fe261af73cc67c6c8df92">&#9670;&nbsp;</a></span>getTimes() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -435,6 +475,23 @@ Friends</h2></td></tr>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae6b340ea6602a94ae89a3fecb2545801"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae6b340ea6602a94ae89a3fecb2545801">&#9670;&nbsp;</a></span>getTimes() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a> &amp; Observations::getTimes </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -802,7 +859,7 @@ Friends</h2></td></tr>
 <p>Sets values from a vector.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">vals</td><td>A vector&lt;double&gt; with values. Call <a class="el" href="class_observations.html#aab0540879c2d3fdf5f91d30ea2f902fd">Observations::updateDataDims</a> to make sure sufficient space is allocated. </td></tr>
+    <tr><td class="paramname">vals</td><td>A vector&lt;double&gt; with values. Call <a class="el" href="class_observations.html#a683e74974a084a67eff703c2b258ab42">Observations::updateDataDims</a> to make sure sufficient space is allocated. </td></tr>
   </table>
   </dd>
 </dl>
@@ -811,8 +868,8 @@ Friends</h2></td></tr>
 
 </div>
 </div>
-<a id="aab0540879c2d3fdf5f91d30ea2f902fd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aab0540879c2d3fdf5f91d30ea2f902fd">&#9670;&nbsp;</a></span>updateDataDims()</h2>
+<a id="a683e74974a084a67eff703c2b258ab42"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a683e74974a084a67eff703c2b258ab42">&#9670;&nbsp;</a></span>updateDataDims()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -823,7 +880,8 @@ Friends</h2></td></tr>
         <tr>
           <td class="memname">virtual void Observations::updateDataDims </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>initialize_values</em> = <code>true</code></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -835,7 +893,7 @@ Friends</h2></td></tr>
 </div><div class="memdoc">
 <p>Resizes underlying data member according to the sizes of parameters, stations, and times. </p>
 
-<p>Implemented in <a class="el" href="class_observations__array.html#aa9364c4356d1f8a2b430c93a1fcd021f">Observations_array</a>.</p>
+<p>Implemented in <a class="el" href="class_observations__array.html#a6d9a0f3d80db18da1f1c8f99e43ba000">Observations_array</a>.</p>
 
 </div>
 </div>
@@ -944,8 +1002,8 @@ Friends</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>/Users/wuh20/tmp/AnalogsEnsemble/CAnEn/include/<a class="el" href="_observations_8h_source.html">Observations.h</a></li>
-<li>/Users/wuh20/tmp/AnalogsEnsemble/CAnEn/src/<a class="el" href="_observations_8cpp.html">Observations.cpp</a></li>
+<li>/Users/wuh20/github/AnalogsEnsemble/CAnEn/include/<a class="el" href="_observations_8h_source.html">Observations.h</a></li>
+<li>/Users/wuh20/github/AnalogsEnsemble/CAnEn/src/<a class="el" href="_observations_8cpp.html">Observations.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

@@ -1,16 +1,16 @@
 var searchData=
 [
-  ['released_20under_20mit_20license',['Released under MIT License',['../md___users_wuh20_tmp__analogs_ensemble_out__l_i_c_e_n_s_e.html',1,'']]],
-  ['readme',['README',['../md___users_wuh20_tmp__analogs_ensemble_out__r_e_a_d_m_e.html',1,'']]],
+  ['released_20under_20mit_20license',['Released under MIT License',['../md___users_wuh20_github__analogs_ensemble_out__site__l_i_c_e_n_s_e.html',1,'']]],
+  ['released_20under_20mit_20license',['Released under MIT License',['../md___users_wuh20_github__analogs_ensemble_out__l_i_c_e_n_s_e.html',1,'']]],
   ['randomize',['randomize',['../class_array4_d.html#a15626fe44d3792ccc2822afb30bcbd98',1,'Array4D']]],
   ['read_5fstring_5fvector_5f',['read_string_vector_',['../class_an_en_i_o.html#ae9cf0a8cde2b742992295ccc2bed17ef',1,'AnEnIO::read_string_vector_(std::string var_name, std::vector&lt; std::string &gt; &amp;results) const'],['../class_an_en_i_o.html#a8c7e28931fd88831922e64ad87ee03f2',1,'AnEnIO::read_string_vector_(std::string var_name, std::vector&lt; std::string &gt; &amp;results, size_t start, size_t count, ptrdiff_t stride=1) const']]],
   ['read_5fvector_5f',['read_vector_',['../class_an_en_i_o.html#aa135f278f8ff2a028b8119f483dd36bf',1,'AnEnIO::read_vector_(std::string var_name, std::vector&lt; T &gt; &amp;results) const'],['../class_an_en_i_o.html#a4a4b8eedb372df1bb46b2104ae2761cd',1,'AnEnIO::read_vector_(std::string var_name, std::vector&lt; T &gt; &amp;results, std::vector&lt; size_t &gt; start, std::vector&lt; size_t &gt; count, std::vector&lt; ptrdiff_t &gt; stride={1}) const'],['../class_an_en_i_o.html#a9a0c27d0baddc7e27b25e1d13ac4f313',1,'AnEnIO::read_vector_(std::string var_name, std::vector&lt; T &gt; &amp;results, size_t start, size_t count, ptrdiff_t stride=1) const']]],
   ['readanalogs',['readAnalogs',['../class_an_en_i_o.html#ab9199c18d2a4a1e005dc5b1fefe6e75b',1,'AnEnIO']]],
   ['readdimlength',['readDimLength',['../class_an_en_i_o.html#a5ca1c7df3da9720967d7ed06f2dfe09b',1,'AnEnIO']]],
   ['readflts',['readFLTs',['../class_an_en_i_o.html#aa58735032dd6f54c83d6450842922d3f',1,'AnEnIO::readFLTs(anenTime::FLTs &amp;flts)'],['../class_an_en_i_o.html#a521772f8c969c2fa4ca8ebf1ffa0a460',1,'AnEnIO::readFLTs(anenTime::FLTs &amp;flts, size_t start, size_t count, ptrdiff_t stride=1)']]],
-  ['readforecasts',['readForecasts',['../class_an_en_i_o.html#a912e513e58fa258e1dce67ff161abab2',1,'AnEnIO::readForecasts(Forecasts &amp;forecasts)'],['../class_an_en_i_o.html#a5a66859433f123352fbd1f0ba606363c',1,'AnEnIO::readForecasts(Forecasts &amp;forecasts, std::vector&lt; size_t &gt; start, std::vector&lt; size_t &gt; count, std::vector&lt; ptrdiff_t &gt; stride={1, 1, 1, 1})']]],
-  ['readme_2emd',['README.md',['../out_2_r_e_a_d_m_e_8md.html',1,'(Global Namespace)'],['../_r_e_a_d_m_e_8md.html',1,'(Global Namespace)']]],
-  ['readobservations',['readObservations',['../class_an_en_i_o.html#a41ebcc0c9edee123626bf6e606917a49',1,'AnEnIO::readObservations(Observations &amp;observations)'],['../class_an_en_i_o.html#adb297d56636fff2db1f5f1af1083897c',1,'AnEnIO::readObservations(Observations &amp;observations, std::vector&lt; size_t &gt; start, std::vector&lt; size_t &gt; count, std::vector&lt; ptrdiff_t &gt; stride={1, 1, 1})']]],
+  ['readforecasts',['readForecasts',['../class_an_en_i_o.html#a7048d8b13138c2cabb07a4a82a6032f1',1,'AnEnIO::readForecasts(Forecasts_array &amp;forecasts)'],['../class_an_en_i_o.html#a79da666f555989ce4640623be116efe9',1,'AnEnIO::readForecasts(Forecasts_array &amp;forecasts, std::vector&lt; size_t &gt; start, std::vector&lt; size_t &gt; count, std::vector&lt; ptrdiff_t &gt; stride={1, 1, 1, 1})']]],
+  ['readme_2emd',['README.md',['../out_2__site_2_r_e_a_d_m_e_8md.html',1,'(Global Namespace)'],['../out_2_r_e_a_d_m_e_8md.html',1,'(Global Namespace)'],['../_r_e_a_d_m_e_8md.html',1,'(Global Namespace)']]],
+  ['readobservations',['readObservations',['../class_an_en_i_o.html#a41f9d4be43463330384942cde49cd932',1,'AnEnIO::readObservations(Observations_array &amp;observations)'],['../class_an_en_i_o.html#af35a512d7a7e85aae99e57c669ac8817',1,'AnEnIO::readObservations(Observations_array &amp;observations, std::vector&lt; size_t &gt; start, std::vector&lt; size_t &gt; count, std::vector&lt; ptrdiff_t &gt; stride={1, 1, 1})']]],
   ['readparameters',['readParameters',['../class_an_en_i_o.html#a2b21ff04fcc0464017a5a717a6b19065',1,'AnEnIO::readParameters(anenPar::Parameters &amp;parameters)'],['../class_an_en_i_o.html#a0ff7e8d615ed2127ab66b83ee78fc820',1,'AnEnIO::readParameters(anenPar::Parameters &amp;parameters, size_t start, size_t count, ptrdiff_t stride=1)']]],
   ['readsimilaritymatrices',['readSimilarityMatrices',['../class_an_en_i_o.html#a237d03f50bb9101c40f7842694d25c5e',1,'AnEnIO']]],
   ['readstations',['readStations',['../class_an_en_i_o.html#aaec8b46a52f3d8ab904fd4229bd3b9e9',1,'AnEnIO::readStations(anenSta::Stations &amp;stations)'],['../class_an_en_i_o.html#ad0f7a1db44e12f42d4602898c0f51faa',1,'AnEnIO::readStations(anenSta::Stations &amp;stations, size_t start, size_t count, ptrdiff_t stride=1)']]],
@@ -24,6 +24,7 @@ var searchData=
   ['resize',['resize',['../class_similarity_matrices.html#afc8b529a0d1bed232c63b6c96a1432dd',1,'SimilarityMatrices::resize()'],['../class_similarity_matrices.html#a6fd85de464f978b2767f907df5f95513',1,'SimilarityMatrices::resize(size_t dim0, size_t dim1, size_t dim2)']]],
   ['runanaloggenerator',['runAnalogGenerator',['../analog_generator_8cpp.html#a71ab8c2559f86a72aacad6345008d9b2',1,'analogGenerator.cpp']]],
   ['runanalogselector',['runAnalogSelector',['../analog_selector_8cpp.html#a37707012d1be48c9502d90e4145c790f',1,'analogSelector.cpp']]],
+  ['runforecaststoobservations',['runForecastsToObservations',['../forecasts_to_observations_8cpp.html#a8dd5b2157fb007ac2d24d8ebc9799469',1,'forecastsToObservations.cpp']]],
   ['runneranen_2ecpp',['runnerAnEn.cpp',['../runner_an_en_8cpp.html',1,'']]],
   ['runneranenio_2ecpp',['runnerAnEnIO.cpp',['../runner_an_en_i_o_8cpp.html',1,'']]],
   ['runnerforecastsarray_2ecpp',['runnerForecastsArray.cpp',['../runner_forecasts_array_8cpp.html',1,'']]],
@@ -33,5 +34,6 @@ var searchData=
   ['runnerstation_2ecpp',['runnerStation.cpp',['../runner_station_8cpp.html',1,'']]],
   ['runnerstations_2ecpp',['runnerStations.cpp',['../runner_stations_8cpp.html',1,'']]],
   ['runnertimes_2ecpp',['runnerTimes.cpp',['../runner_times_8cpp.html',1,'']]],
-  ['runsimilaritycalculator',['runSimilarityCalculator',['../similarity_calculator_8cpp.html#a81c95d87a1128932f7d2c9cf0b3b67d3',1,'similarityCalculator.cpp']]]
+  ['runsimilaritycalculator',['runSimilarityCalculator',['../similarity_calculator_8cpp.html#a81c95d87a1128932f7d2c9cf0b3b67d3',1,'similarityCalculator.cpp']]],
+  ['runwindfieldcalculator',['runWindFieldCalculator',['../wind_field_calculator_8cpp.html#a76753e43d00cfaef85409e6a2ec18dcf',1,'windFieldCalculator.cpp']]]
 ];
