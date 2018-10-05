@@ -30,6 +30,8 @@ function doCompileCXX {
     # Update gh-pages
     rm -rf out/CXX || true
     mv buildC/html/ out/CXX
+
+    rm -rf buildC
 }
 
 function doCompileR {
@@ -73,7 +75,13 @@ cd out
 git checkout $TARGET_BRANCH || git checkout --orphan $TARGET_BRANCH
 rm README.md
 cp ../README.md .
+
 cp ../README.md ./index.md
+echo -e '\n' | cat - index.html > temp && mv temp index.html
+echo -e '---' | cat - index.html > temp && mv temp index.html
+echo -e 'layout: default' | cat - index.html > temp && mv temp index.html
+echo -e '---' | cat - index.html > temp && mv temp index.html
+
 cd ..
 
 # Call the compile functions
