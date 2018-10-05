@@ -146,9 +146,9 @@ Please find a tarball file under [`CAnalogs/RAnalogs/releases`](https://github.c
 # if you prefer to see the full list of warnings
 #
 install.packages("[full path to the tarball file]", type = "source", repo = NULL, quiet = T)
-```
 
-On *Windows*, please separate folder names with `\\`.
+# On Windows, please separate folder names with \\ or /
+```
 
 If you want to use a different compiler, an easy workaround is to create a `Makevars` file under `~/.R`, with the following content.
 
