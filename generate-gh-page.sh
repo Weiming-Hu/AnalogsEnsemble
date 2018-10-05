@@ -73,6 +73,7 @@ cd out
 git checkout $TARGET_BRANCH || git checkout --orphan $TARGET_BRANCH
 rm README.md
 cp ../README.md .
+cp ../README.md ./index.md
 cd ..
 
 # Call the compile functions
