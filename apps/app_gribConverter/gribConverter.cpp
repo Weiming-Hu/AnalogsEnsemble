@@ -66,7 +66,8 @@ void getXY(vector<double> & xs, vector<double> & ys, string file, long par_id,
     query_str.append(level_key);
 
     // Send query request
-    index = codes_index_new_from_file(0, &file[0u], query_str.c_str(), &ret);
+    index = codes_index_new_from_file(0, 
+           const_cast<char*>(file.c_str()), query_str.c_str(), &ret);
     CODES_CHECK(ret, 0);
 
     // Select index based on par_key and level_key
