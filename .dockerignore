@@ -148,6 +148,7 @@ node_modules<Paste>
 
 # The automatic deployment folder
 out
+*vim-markdown-preview.html
 
 # Specific for docker image
 .travis.yml

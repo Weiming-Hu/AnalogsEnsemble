@@ -13,7 +13,7 @@ _This document is still under development._
     * [On Mac](#on-mac)
     * [On Linux](#on-linux)
 * [Installation](#installation)
-    * [C Program and Libraries](#c-program-and-libraries)
+    * [C Programs and Libraries](#c-programs-and-libraries)
     * [R Package](#r-package)
             * [Use Released Tarball File](#use-released-tarball-file)
             * [Compile from Source](#compile-from-source)
@@ -27,14 +27,12 @@ Parallel Ensemble Forecast package uses a numerical weather prediction algorithm
 
 This package contains several libraries and applications:
 
-- [CAnEn](https://github.com/Weiming-Hu/AnalogsEnsemble/tree/master/CAnEn): This is the main library that is implemented in C++. It provides main functionality of the AnEn method;
-- [CAnalogsIO](https://github.com/Weiming-Hu/AnalogsEnsemble/tree/master/CAnEnIO): This is the library for file I/O. Currently, it supports reading and writing [standard NetCDF](https://www.unidata.ucar.edu/software/netcdf/).
-- [RAnalogs](https://github.com/Weiming-Hu/AnalogsEnsemble/tree/master/RAnalogs): This is a R library which provides the interface for *CAnEn* functionality, in order to appeal researchers who are prefer R. This R package is called *RAnEn* which stands for *R Analogs Ensemble*.
-- [Analog Generator](https://github.com/Weiming-Hu/AnalogsEnsemble/tree/master/app_analogGenerator): This is an application for generating analogs. It is currently under-development.
-- [Analog Selector](https://github.com/Weiming-Hu/AnalogsEnsemble/tree/master/app_analogSelector): This is an application for selecting analogs based on the similarity matrices. It is currently under-development.
-- [Similarity Calculator](https://github.com/Weiming-Hu/AnalogsEnsemble/tree/master/app_similarityCalculator): This is an application for calculating the similarity matrices.
+- __AnEn__: This is the main library that is implemented in C++. It provides main functionality of the AnEn method;
+- __AnEnIO__: This is the library for file I/O. Currently, it supports reading and writing [standard NetCDF](https://www.unidata.ucar.edu/software/netcdf/).
+- __RAnEn__: This is an R package which provides C++ library *AnEn* functionality to facilitate researchers who prefer R. *RAnEn* stands for *R Analogs Ensemble*.
+- __Apps__: You can find multiple applications included in `apps/` folder designed for *AnEn* computation and data management.
 
-**This package has been developed and tested on Linux and MacOS and is not guaranteed on Windows.**
+**These packages are developed and tested on Linux and MacOS and not guaranteed on Windows.**
 
 ## Requirement and Dependencies
 
@@ -56,7 +54,11 @@ It is fairly straightforward to use [HomeBrew](https://brew.sh/) to manage packa
 
 ```
 # Install GNU compilers to support OpenMP
+#
 # brew search gcc
+# 
+# Select version from the output of the above command, I choose gcc-7 below.
+#
 brwe install gcc@7
 
 # Install CMake
@@ -79,7 +81,7 @@ sudo apt-get install libnetcdf-dev netcdf-bin
 
 ## Installation
 
-### C Program and Libraries
+### C Programs and Libraries
 
 The installation process can be divided into two steps:
 
@@ -97,12 +99,18 @@ cd build
 Then, generate the make files.
 
 ```
-CC=[full path to CC] CXX=[full path to CXX] cmake ..
+cmake ..
+
+# If you would like to change the default compiler, specify the compilers like this
+#
+# CC=[full path to CC] CXX=[full path to CXX] cmake ..
 ```
 
 Read the output messages. If you would like to make any changes and generate new make files, please delete all the files in `build/` folder first. Otherwise, you will not change anything.
 
-After having the make files generated, please go ahead and install the program.
+Some of the components are by default turned off. Please refer to [CMake Tunable Parameters Look-up](#cmake-tunable-parameters-look-up) for instructions for how to turn them on.
+
+After having the make files generated, please go ahead and compile the programs and the libraries.
 
 ```
 make
@@ -114,7 +122,17 @@ make -j4
 make document
 ```
 
-After the compilation, the programs and libraries should be in the foler AnalogsEnsemble/output. 
+After the compilation, the programs and libraries should be in the folder `AnalogsEnsemble/output`. For example, to print out the help messages for the program `analogCalculator`, open up a terminal and `cd` into the binary folder `[Where you download the repository]/AnalogsEnsemble/output/bin/` and run the following command.
+
+```
+./analogGenerator 
+# Analog Ensemble program --- Analog Generator
+# Available options:
+#  -h [ --help ]             Print help information for options.
+#  -c [ --config ] arg       Set the configuration file path. Command line 
+#                            options overwrite options in configuration file. 
+# ...
+```
 
 If you want to clean up the folder, please do the following.
 
@@ -124,6 +142,8 @@ make clean
 
 ### R Package
 
+__Please use the installation guide for updating the package as well. The process is the same.__
+
 ##### Use Released Tarball File
 
 Generally, the following R packages are needed:
@@ -131,23 +151,29 @@ Generally, the following R packages are needed:
 - [BH](https://cran.r-project.org/web/packages/BH/index.html)
 - [Rcpp](https://cran.r-project.org/web/packages/Rcpp/index.html)
 
+Please run the following commands in R and make sure they succeed. 
+
+```
+install.packages('Rcpp')
+install.packages('BH')
+```
+
  If you are using `Windows`, please install the following programs:
 
 - [R for Windows](https://cran.r-project.org/bin/windows/base/)
 - [Latest Rtools](https://cran.r-project.org/bin/windows/Rtools/)
 
-Please find a tarball file under [`CAnalogs/RAnalogs/releases`](https://github.com/Weiming-Hu/AnalogsEnsemble/tree/master/releases). That is the package file you need to install inside R later. Then, open an R session, and run the following command.
+Please download the latest tarball file from [`release folder`](https://github.com/Weiming-Hu/AnalogsEnsemble/tree/master/RAnalogs/releases). That is the package file you need to install inside R later. Alternatively, if you have already downloaded this repository, you can also find the release package tarball file under the folder `[Where you downloaded this repository]/AnalogsEnsemble/RAnalogs/releases`. Then, open an R session, and run the following command.
 
 ```
-#install.packages("BH")
-#install.packages("Rcpp")
-
 # The quiet option is to reduce the amount of standard output. Switch the parameter
 # if you prefer to see the full list of warnings
 #
-install.packages("[full path to the tarball file]", type = "source", repo = NULL, quiet = T)
+install.packages("[full path to the tarball file]", type = "source", repos = NULL, quiet = T)
 
-# On Windows, please separate folder names with \\ or /
+# On Windows, please separate folder names with `//`.
+# For example, the full path to the tarball file on a Windows should look similar to this
+# C://Users//yourName//Downloads//RAnEn_3.0.6.tar.gz
 ```
 
 If you want to use a different compiler, an easy workaround is to create a `Makevars` file under `~/.R`, with the following content.
@@ -191,16 +217,11 @@ The following command installs the R package.
 make install
 ```
 
-The following command generates a new tarball file into the `releases` folder and overwrites the old file if file already existst.
-
-```
-make build-release
-```
-
 Clean up the files after the make process.
 
 ```
 make clean-rsrc
+make clean-roxygen
 make clean
 ```
 
@@ -213,10 +234,10 @@ make clean
 |    INSTALL\_RAnEn   |                                 Build and install the `RAnEn` library.                                |         OFF        |
 |     BOOST\_TYPE     | `BUILD` for building `Boost` library; `SYSTEM` for using the `Boost` library installed on the system. |        BUILD       |
 |  CMAKE\_BUILD\_TYPE |                          `Release` for release mode; `Debug` for debug mode.                          |       Release      |
-| CMAKE\_BUILD\_TESTS |                                        Build and install tests.                                       |         OFF        |
-|    BUILD\_NETCDF    |                                        Build `NetCDF` library.                                        |         OFF        |
-|     BUILD\_HDF5     |                                         Build `HDF5` library.                                         |         OFF        |
-|       VERBOSE       |                                            Verbose output.                                            |         OFF        |
+| CMAKE\_BUILD\_TESTS |                                             Build tests.                                              |         OFF        |
+|    BUILD\_NETCDF    |                           Build `NetCDF` library regardless of its existence.                         |         OFF        |
+|     BUILD\_HDF5     |                            Build `HDF5` library regardless of its existence.                          |         OFF        |
+|       VERBOSE       |                          Print detailed messages during the compiling process.                        |         OFF        |
 
 _Table generated from [Tables Generator](https://www.tablesgenerator.com/markdown_tables)._
 
@@ -249,12 +270,13 @@ Thank you!
 #    _ ..`--'_..-_/  /--'_.' ,'
 #  (il),-''  (li),'  ((!.-'
 # 
-# Author: Weiming Hu <weiming@psu.edu>
-#         Guido Cervone <cervone@psu.edu>
+# Authors: 
+#     Weiming Hu <weiming@psu.edu>
+#     Guido Cervone
 #
-# Contributor: 
-#         Laura Clemente-Harding
-#         Martina Calovi
+# Contributors: 
+#     Laura Clemente-Harding
+#     Martina Calovi
 #         
 # Geoinformatics and Earth Observation Laboratory (http://geolab.psu.edu)
 # Department of Geography and Institute for CyberScience
