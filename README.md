@@ -163,7 +163,7 @@ install.packages('BH')
 - [R for Windows](https://cran.r-project.org/bin/windows/base/)
 - [Latest Rtools](https://cran.r-project.org/bin/windows/Rtools/)
 
-Please download the latest tarball file from [`release folder`](https://github.com/Weiming-Hu/AnalogsEnsemble/tree/master/RAnalogs/releases). That is the package file you need to install inside R later. Alternatively, if you have already downloaded this repository, you can also find the release package tarball file under the folder `[Where you downloaded this repository]/AnalogsEnsemble/RAnalogs/releases`. Then, open an R session, and run the following command.
+Please download the latest tarball file from the [release folder](https://github.com/Weiming-Hu/AnalogsEnsemble/tree/master/RAnalogs/releases). That is the package file you need to install inside R later. Alternatively, if you have already downloaded this repository, you can also find the release package tarball file under the folder `[Where you downloaded this repository]/AnalogsEnsemble/RAnalogs/releases`. Then, open an R session, and run the following command.
 
 ```
 # The quiet option is to reduce the amount of standard output. Switch the parameter
