@@ -142,7 +142,7 @@ make clean
 
 ### R Package
 
-__Please use the installation guide for updating the package as well. The process is the same.__
+_Please use the installation guide for updating the package as well. The process is the same._
 
 ##### Use Released Tarball File
 
