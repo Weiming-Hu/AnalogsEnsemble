@@ -45,6 +45,8 @@ void runSimilarityCalculator(
     /************************************************************************
      *                         Read Input Data                              *
      ************************************************************************/
+    if (verbose >= 3) cout << GREEN << "Start computing similarity ... " << RESET << endl;
+
     Forecasts_array test_forecasts, search_forecasts;
     Observations_array observations;
 
@@ -124,6 +126,10 @@ void runSimilarityCalculator(
     io.setMode("Write", file_similarity);
     io.setFileType("Similarity");
     io.handleError(io.writeSimilarityMatrices(sims));
+
+    if (verbose >= 3) cout << GREEN << "Done!" << RESET << endl;
+
+    return;
 }
 
 int main(int argc, char** argv) {

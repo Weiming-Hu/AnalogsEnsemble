@@ -58,6 +58,6 @@ fi
 AC_SUBST(OPENMP_CXXFLAGS)
 
 AC_CONFIG_FILES([src/Makevars])
-AC_CONFIG_FILES([src/Makevars.win])
+#AC_CONFIG_FILES([src/Makevars.win])
 
 AC_OUTPUT

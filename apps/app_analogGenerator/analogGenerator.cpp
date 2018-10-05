@@ -47,6 +47,8 @@ void runAnalogGenerator(
     /************************************************************************
      *                         Read Input Data                              *
      ************************************************************************/
+    if (verbose >=3) cout << GREEN << "Start generating analogs ... " << RESET << endl;
+    
     Forecasts_array test_forecasts, search_forecasts;
     Observations_array search_observations;
 
@@ -136,7 +138,9 @@ void runAnalogGenerator(
     io.setMode("Write", file_analogs);
     io.setFileType("Analogs");
     io.handleError(io.writeAnalogs(analogs));
-    
+
+    if (verbose >= 3) cout << GREEN << "Done!" << RESET << endl;
+
     return;
 }
 

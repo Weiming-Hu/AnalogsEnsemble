@@ -48,6 +48,8 @@ void runWindFieldCalculator(
         const string & var_dir_name, const string & var_speed_name,
         int verbose) {
 
+    if (verbose >= 3) cout << GREEN << "Start generating wind fields ... " << RESET << endl;
+
     // Define the functions to compute wind speed
     if (verbose >= 3) cout << GREEN << "Define functions for computation ..." << RESET << endl;
     function< double (double, double) > func_speed =
@@ -174,6 +176,8 @@ func_dir, func_speed)
         ss << BOLDRED << "Error: Unsupported file type " << file_type << RESET;
         throw runtime_error(ss.str());
     }
+
+    if (verbose >= 3) cout << GREEN << "Done!" << RESET << endl;
 
     return;
 }

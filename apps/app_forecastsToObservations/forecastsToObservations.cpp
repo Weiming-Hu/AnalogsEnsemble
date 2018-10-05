@@ -93,6 +93,8 @@ num_stations, num_times, num_flts, obs_data, fcsts_data, mapping) collapse(4)
     io.setFileType("Observations");
     io.handleError(io.writeObservations(observations));
 
+    if (verbose >= 3) cout << GREEN << "Done!" << RESET << endl;
+
     return;
 }
 
@@ -113,8 +115,8 @@ int main(int argc, char** argv) {
                 ("help,h", "Print help information for options.")
                 ("config,c", po::value<string>(&config_file), "Set the configuration file path. Command line options overwrite options in configuration file. ")
 
-                ("in", po::value<string>(&file_in)->required(), "Set the Forecasts file to read.")
-                ("out", po::value<string>(&file_out)->required(), "Set the Observations file to write.")
+                ("in,i", po::value<string>(&file_in)->required(), "Set the Forecasts file to read.")
+                ("out,o", po::value<string>(&file_out)->required(), "Set the Observations file to write.")
 
                 ("verbose,v", po::value<int>(&verbose)->default_value(2), "Set the verbose level.");
 

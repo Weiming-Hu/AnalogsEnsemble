@@ -29,6 +29,8 @@ void runAnalogSelector(const string & file_sim, const string & file_obs,
     /**************************************************************************
      *                                Prepare Input                           *
      **************************************************************************/
+    if (verbose >= 3) cout << GREEN << "Start selecting analogs ... " << RESET << endl;
+
     Analogs analogs;
     AnEn anen(verbose);
     
@@ -85,6 +87,8 @@ void runAnalogSelector(const string & file_sim, const string & file_obs,
     io.setFileType("Analogs");
     io.handleError(io.writeAnalogs(analogs));
     
+    if (verbose >= 3) cout << GREEN << "Done!" << RESET << endl;
+
     return;
 }
 
