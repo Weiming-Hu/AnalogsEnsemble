@@ -18,10 +18,6 @@ include_directories("${CMAKE_SOURCE_DIR}/CAnEn/include")
 add_dependencies(${PROJECT_NAME} AnEn)
 target_link_libraries(${PROJECT_NAME} AnEn)
 
-find_package(eccodes REQUIRED)
-target_link_libraries(${PROJECT_NAME} eccodes)
-target_link_libraries (${PROJECT_NAME} datetime)
-
 set_target_properties(forecastsToObservations
     PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${COMMON_OUTPUT_DIR}/bin")
 install(TARGETS forecastsToObservations RUNTIME DESTINATION bin)
