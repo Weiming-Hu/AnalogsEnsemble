@@ -77,10 +77,10 @@ rm README.md
 cp ../README.md .
 
 cp ../README.md ./index.md
-echo -e '\n' | cat - index.html > temp && mv temp index.html
-echo -e '---' | cat - index.html > temp && mv temp index.html
-echo -e 'layout: default' | cat - index.html > temp && mv temp index.html
-echo -e '---' | cat - index.html > temp && mv temp index.html
+echo -e '\n' | cat - index.md > temp && mv temp index.md
+echo -e '---' | cat - index.md > temp && mv temp index.md
+echo -e 'layout: default' | cat - index.md > temp && mv temp index.md
+echo -e '---' | cat - index.md > temp && mv temp index.md
 
 cd ..
 
