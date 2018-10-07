@@ -39,7 +39,7 @@ package which observation parameter to use.
 \item preserve_similarity: Whether to preserve the similarity matrix in returned AnEn.
 \item preserve_mapping: Whether to preserve the mapping matrix in return AnEn.
 \item verbose: Verbose level. You can find settings for different values in the
-\url{C++ documentation}.
+\href{https://weiming-hu.github.io/AnalogsEnsemble/CXX/class_an_en.html#a25984b953516a987e2e9eb23048e5d60}{C++ documentation verbose}.
 }
 
 For configuration with mode 'extendedSearch': (skipping the aforementioned parameters)
