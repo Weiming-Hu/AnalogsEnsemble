@@ -28,7 +28,7 @@ using namespace Rcpp;
 #define cerr Rcpp::Rcerr
 #define endl std::endl
 
-// [[Rcpp::export("checkOpenMP")]]
+// [[Rcpp::export(".checkOpenMP")]]
 
 bool checkOpenMP() {
 #ifndef _OPENMP

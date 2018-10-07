@@ -25,6 +25,7 @@
 #' - \code{\link{validateConfiguration}}\cr
 #' - \code{\link{computeWindSpeed}}\cr
 #' - \code{\link{computeWindDir}}\cr
+#' - \code{\link{checkOpenMP}}\cr
 #' 
 #' @keywords Analog Ensemble, Probabilistic Weather Forecasts, Bias Correction
 #' 
