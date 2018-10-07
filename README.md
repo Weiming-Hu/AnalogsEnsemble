@@ -8,6 +8,8 @@
 
 _This document is still under development._
 
+<!-- vim-markdown-toc GitLab -->
+
 * [About](#about)
 * [Requirement and Dependencies](#requirement-and-dependencies)
     * [On Mac](#on-mac)
@@ -20,6 +22,8 @@ _This document is still under development._
     * [CMake Tunable Parameters Look-up](#cmake-tunable-parameters-look-up)
 * [Known Issues](#known-issues)
 * [Feedbacks](#feedbacks)
+
+<!-- vim-markdown-toc -->
 
 ## About
 
