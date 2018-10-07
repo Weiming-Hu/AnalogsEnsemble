@@ -26,7 +26,7 @@ paginate_path: "/posts/page:num/"
 version: 3.0
 hydeout: 
  repo: https://github.com/Weiming-Hu/AnalogsEnsemble
- download_link: https://github.com/Weiming-Hu/AnalogsEnsemble/releases
+ download_link: https://github.com/Weiming-Hu/AnalogsEnsemble/tree/master/RAnalogs/releases
 
 plugins:
  - jekyll-feed
