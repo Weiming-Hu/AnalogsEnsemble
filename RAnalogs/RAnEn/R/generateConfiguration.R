@@ -49,7 +49,7 @@
 #' - preserve_similarity: Whether to preserve the similarity matrix in returned AnEn.
 #' - preserve_mapping: Whether to preserve the mapping matrix in return AnEn.
 #' - verbose: Verbose level. You can find settings for different values in the
-#' [C++ documentation]().
+#' [C++ documentation verbose](https://weiming-hu.github.io/AnalogsEnsemble/CXX/class_an_en.html#a25984b953516a987e2e9eb23048e5d60).
 #' 
 #' For configuration with mode 'extendedSearch': (skipping the aforementioned parameters)
 #' - mode: 'extendedSearch' indicates search the forecasts from both the current location and the nearby locations.
