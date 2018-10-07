@@ -224,7 +224,7 @@ make document</code></pre>
 <div id="r-package" class="section level3">
 <h3 class="hasAnchor">
 <a href="#r-package" class="anchor"></a>R Package</h3>
-<p><strong>Please use the installation guide for updating the package as well. The process is the same.</strong></p>
+<p><em>Please use the installation guide for updating the package as well. The process is the same.</em></p>
 <div id="use-released-tarball-file" class="section level5">
 <h5 class="hasAnchor">
 <a href="#use-released-tarball-file" class="anchor"></a>Use Released Tarball File</h5>
@@ -241,7 +241,11 @@ install.packages('BH')</code></pre>
 <li><a href="https://cran.r-project.org/bin/windows/base/">R for Windows</a></li>
 <li><a href="https://cran.r-project.org/bin/windows/Rtools/">Latest Rtools</a></li>
 </ul>
-<p>Please download the latest tarball file from <a href="https://github.com/Weiming-Hu/AnalogsEnsemble/tree/master/RAnalogs/releases"><code>release folder</code></a>. That is the package file you need to install inside R later. Alternatively, if you have already downloaded this repository, you can also find the release package tarball file under the folder <code>[Where you downloaded this repository]/AnalogsEnsemble/RAnalogs/releases</code>. Then, open an R session, and run the following command.</p>
+<p>The following command installs the latest version of <code>RAnEn</code>. Please run the following command in R.</p>
+<pre><code>install.packages("https://github.com/Weiming-Hu/AnalogsEnsemble/raw/master/RAnalogs/releases/RAnEn_latest.tar.gz", repos = NULL)</code></pre>
+<p>If you want to install a specific version of <code>RAnEn</code>, you can go to the <a href="https://github.com/Weiming-Hu/AnalogsEnsemble/tree/master/RAnalogs/releases">release folder</a>, copy the full name of the tarball file, replace the following part <code>[tarball name]</code> (including the square bracket) with it, and run the following command in R.</p>
+<pre><code>install.packages("https://github.com/Weiming-Hu/AnalogsEnsemble/raw/master/RAnalogs/releases/[tarball name]", repos = NULL)</code></pre>
+<p>Or, you can download the latest tarball file from the <a href="https://github.com/Weiming-Hu/AnalogsEnsemble/tree/master/RAnalogs/releases">release folder</a>. That is the package file you need to install inside R later. If you have already downloaded this repository, you can also find the release package tarball file under the folder <code>[Where you downloaded this repository]/AnalogsEnsemble/RAnalogs/releases</code>. Then, open an R session, and run the following command.</p>
 <pre><code># The quiet option is to reduce the amount of standard output. Switch the parameter
 # if you prefer to see the full list of warnings
 #

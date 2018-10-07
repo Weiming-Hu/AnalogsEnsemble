@@ -168,7 +168,13 @@ If you are using `Windows`, please install the following programs:
 - [R for Windows](https://cran.r-project.org/bin/windows/base/)
 - [Latest Rtools](https://cran.r-project.org/bin/windows/Rtools/)
 
-If you don't want to download anything, you can just go to the [release folder](https://github.com/Weiming-Hu/AnalogsEnsemble/tree/master/RAnalogs/releases), copy the full name of the tarball file that you want to install, replace the following `[tarball name]` with it, and run the following command in R.
+The following command installs the latest version of `RAnEn`. Please run the following command in R.
+
+```
+install.packages("https://github.com/Weiming-Hu/AnalogsEnsemble/raw/master/RAnalogs/releases/RAnEn_latest.tar.gz", repos = NULL)
+```
+
+If you want to install a specific version of `RAnEn`, you can go to the [release folder](https://github.com/Weiming-Hu/AnalogsEnsemble/tree/master/RAnalogs/releases), copy the full name of the tarball file, replace the following part `[tarball name]` (including the square bracket) with it, and run the following command in R.
 
 ```
 install.packages("https://github.com/Weiming-Hu/AnalogsEnsemble/raw/master/RAnalogs/releases/[tarball name]", repos = NULL)

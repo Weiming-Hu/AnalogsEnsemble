@@ -15,6 +15,7 @@ var searchData=
   ['setfiletype',['setFileType',['../class_an_en_i_o.html#a00fce5619b087353debcb2a602007f31',1,'AnEnIO']]],
   ['setfirstdimension',['setFirstDimension',['../class_array4_d.html#a27a7b3dc2759941c5849a3843d9ad5d1',1,'Array4D']]],
   ['setflts',['setFlts',['../class_forecasts.html#aa15a4e56c5747afc1594131ad30e4fc3',1,'Forecasts::setFlts()'],['../class_analogs.html#adcbabe9274d828c96d1cff1b807b3a6d',1,'Analogs::setFLTs()']]],
+  ['setid_5f',['setID_',['../classanen_par_1_1_parameter.html#a035b078c7c386989184cbce16a510d63',1,'anenPar::Parameter::setID_()'],['../classanen_sta_1_1_station.html#a2838ef7dc5bd2603451355be7ed5e0f2',1,'anenSta::Station::setID_()']]],
   ['setmaxentries',['setMaxEntries',['../class_similarity_matrices.html#a1032538b8ffafc174d1aca5826bb22d7',1,'SimilarityMatrices']]],
   ['setmethod',['setMethod',['../class_an_en.html#afd6b6018f1ca8b138af2aaafe5464cbd',1,'AnEn']]],
   ['setmode',['setMode',['../class_an_en_i_o.html#a0f3889bc1652077a4b41016393f0b7c6',1,'AnEnIO::setMode(std::string mode)'],['../class_an_en_i_o.html#aa199cf152c5c165e9c98d237830ba9ec',1,'AnEnIO::setMode(std::string mode, std::string file_path)']]],
@@ -49,7 +50,7 @@ var searchData=
   ['stations',['Stations',['../classanen_sta_1_1_stations.html',1,'anenSta::Stations'],['../classanen_sta_1_1_stations.html#aa7c7fcad8a25b1cd14244d5e97c3f4cc',1,'anenSta::Stations::Stations()']]],
   ['stations_2ecpp',['Stations.cpp',['../_stations_8cpp.html',1,'']]],
   ['stations_2eh',['Stations.h',['../_stations_8h.html',1,'']]],
-  ['stations_5f',['stations_',['../class_forecasts.html#ac86fcc7d20b581d87a32eac26a5f8b01',1,'Forecasts::stations_()'],['../class_observations.html#a03e2d3c69e46066f48e4381657a995f7',1,'Observations::stations_()']]],
+  ['stations_5f',['stations_',['../class_analogs.html#a6535eccf2346254e90a76bd31dba6da7',1,'Analogs::stations_()'],['../class_forecasts.html#ac86fcc7d20b581d87a32eac26a5f8b01',1,'Forecasts::stations_()'],['../class_observations.html#a03e2d3c69e46066f48e4381657a995f7',1,'Observations::stations_()']]],
   ['sub_5farray',['sub_array',['../struct_similarity_matrices_1_1matrix_sort.html#ae39e66ff77c02f615725350ab7d68f71',1,'SimilarityMatrices::matrixSort']]],
   ['success',['SUCCESS',['../class_an_en.html#a0e256eb89d102d318a47d936b02242bfa0e5f548f45c8bb94aa25d3f12347194c',1,'AnEn::SUCCESS()'],['../class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0afd4f6d99fa57b8fd2d3f2298b1781f6d',1,'AnEnIO::SUCCESS()']]]
 ];

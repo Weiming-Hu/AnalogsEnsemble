@@ -1,0 +1,11 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node2" href="$classtest_an_en.html" title="testAnEn" alt="" coords="179,5,254,31"/>
+<area shape="rect" id="node3" href="$classtest_an_en_i_o.html" title="testAnEnIO" alt="" coords="172,55,261,80"/>
+<area shape="rect" id="node4" href="$classtest_forecasts_array.html" title="testForecastsArray" alt="" coords="150,104,283,129"/>
+<area shape="rect" id="node5" href="$classtest_observations_array.html" title="testObservationsArray" alt="" coords="140,153,293,179"/>
+<area shape="rect" id="node6" href="$classtest_similarity_matrices.html" title="testSimilarityMatrices" alt="" coords="143,203,290,228"/>
+<area shape="rect" id="node7" href="$classtest_standard_deviation.html" title="testStandardDeviation" alt="" coords="140,252,293,277"/>
+<area shape="rect" id="node8" href="$classtest_station.html" title="testStation" alt="" coords="174,301,259,327"/>
+<area shape="rect" id="node9" href="$classtest_stations.html" title="testStations" alt="" coords="171,351,262,376"/>
+<area shape="rect" id="node10" href="$classtest_times.html" title="testTimes" alt="" coords="177,400,256,425"/>
+</map>

@@ -1,5 +1,7 @@
 var searchData=
 [
-  ['search_5fstations',['search_stations',['../class_analogs.html#a32cff6e74cb1c15dc7fd769ab9835bca',1,'Analogs']]],
-  ['stations_5f',['stations_',['../class_forecasts.html#ac86fcc7d20b581d87a32eac26a5f8b01',1,'Forecasts::stations_()'],['../class_observations.html#a03e2d3c69e46066f48e4381657a995f7',1,'Observations::stations_()']]]
+  ['optional_5fvariables_5f',['optional_variables_',['../class_an_en_i_o.html#a43f82ffbafbbda7ab8c9471d0bce70df',1,'AnEnIO']]],
+  ['order_5ftag',['order_tag',['../struct_similarity_matrices_1_1matrix_sort.html#a0f3a523f5e5957fc30a3bea82be1464c',1,'SimilarityMatrices::matrixSort']]],
+  ['order_5ftag_5f',['order_tag_',['../class_similarity_matrices.html#ace23a7f408676b3ab0624d019b84317e',1,'SimilarityMatrices']]],
+  ['origin_5f',['origin_',['../classanen_time_1_1_times.html#a7e08602fb0628df1c5f1cccbb98baeb1',1,'anenTime::Times']]]
 ];
