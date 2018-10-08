@@ -160,7 +160,7 @@ int main(int argc, char** argv) {
     bool quick = false, preserve_real_time = false, searchExtension = false;
 
     double distance = 0;
-    size_t max_neighbors, num_neighbors;
+    size_t max_neighbors = 0, num_neighbors = 0;
     vector<size_t> test_start, test_count, search_start, search_count,
             obs_start, obs_count;
 
