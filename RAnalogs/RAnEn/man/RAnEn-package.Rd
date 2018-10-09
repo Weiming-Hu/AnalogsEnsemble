@@ -21,6 +21,7 @@ Currently the available functions are:\cr
 - \code{\link{validateConfiguration}}\cr
 - \code{\link{computeWindSpeed}}\cr
 - \code{\link{computeWindDir}}\cr
+- \code{\link{checkOpenMP}}\cr
 }
 \seealso{
 Useful links:

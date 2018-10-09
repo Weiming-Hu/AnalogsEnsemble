@@ -1509,7 +1509,7 @@ AnEnIO::writeStations(
         p_names = new char [_max_chars * stations.size()]();
         p_xs = new double [stations.size()]();
         p_ys = new double [stations.size()]();
-    } catch (bad_alloc e) {
+    } catch (bad_alloc & e) {
         cout << BOLDRED << "Error: Insufficient memory to write Parameters ("
                 << stations.size() << ")." << RESET << endl;
         nc.close();

@@ -85,7 +85,7 @@ SimilarityMatrices::resize(size_t dim0, size_t dim1, size_t dim2) {
     } catch (bad_alloc & e) {
         cerr << "ERROR: Insufficient memory to resize similarity matrix to store "
             << dim0 * dim1 * dim2 * max_entries_ * _NUM_COLS_ << " double values!" << endl;
-        throw e;
+        throw;
     }
 }
 

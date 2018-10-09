@@ -118,6 +118,10 @@ add_custom_command(TARGET build-release
     COMMAND ${CMAKE_COMMAND} -E remove "${RAnEn_SOURCE_DIR}/Makevars.win.in")
 add_custom_command(TARGET build-release
     COMMAND ${CMAKE_COMMAND} -E remove "${RAnEn_PACKAGE_DIR}/README.md")
+add_custom_command(TARGET build-release
+    COMMAND ${CMAKE_COMMAND} -E copy
+    "${CMAKE_CURRENT_SOURCE_DIR}/releases/${LIBRARY_NAME}_${LIBRARY_VERSION}.tar.gz"
+    "${CMAKE_CURRENT_SOURCE_DIR}/releases/${LIBRARY_NAME}_latest.tar.gz")
 
 # Remove old release tarball file if exists
 set(OLD_RAnEn_TARFILE "${LIBRARY_NAME}_${LIBRARY_VERSION}.tar.gz")

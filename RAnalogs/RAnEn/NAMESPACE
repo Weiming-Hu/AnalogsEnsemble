@@ -2,6 +2,7 @@
 
 S3method(print,AnEn)
 export(biasCorrection)
+export(checkOpenMP)
 export(computeWindDir)
 export(computeWindSpeed)
 export(compute_analogs)

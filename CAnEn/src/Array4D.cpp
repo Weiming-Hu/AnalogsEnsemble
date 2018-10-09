@@ -127,7 +127,7 @@ bool
 Array4D::myresize(index d1, index d2, index d3, index d4) {
     try {
         resize(boost::extents[d1][d2][d3][d4]);
-    } catch (bad_alloc e) {
+    } catch (bad_alloc & e) {
         cerr << "ERROR: insufficient memory while resizing the array4D to hold "
                 << d1 * d2 * d3 * d4 << " double values"
                 << endl;
