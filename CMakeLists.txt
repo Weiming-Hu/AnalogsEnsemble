@@ -91,16 +91,18 @@ if (NOT CMAKE_BUILD_TYPE)
 endif(NOT CMAKE_BUILD_TYPE)
 message (STATUS "CMAKE_BUILD_TYPE is ${CMAKE_BUILD_TYPE}")
 
+# Extensive warnings for Debug mode
 if (CMAKE_CXX_FLAGS_DEBUG)
-    set (CMAKE_CXX_FLAGS_DEBUG "-g -Wall -Wextra ${CMAKE_CXX_FLAGS_DEBUG}")
+    set (CMAKE_CXX_FLAGS_DEBUG "-Wall -Wextra ${CMAKE_CXX_FLAGS_DEBUG}")
 else (CMAKE_CXX_FLAGS_DEBUG)
-    set (CMAKE_CXX_FLAGS_DEBUG "-g -Wall -Wextra")
+    set (CMAKE_CXX_FLAGS_DEBUG "-Wall -Wextra")
 endif (CMAKE_CXX_FLAGS_DEBUG)
 
+# Suppress warning for Release mode
 if (CMAKE_CXX_FLAGS_RELEASE)
-    set (CMAKE_CXX_FLAGS_RELEASE "-O2 -w ${CMAKE_CXX_FLAGS_RELEASE}")
+    set (CMAKE_CXX_FLAGS_RELEASE "-w ${CMAKE_CXX_FLAGS_RELEASE}")
 else (CMAKE_CXX_FLAGS_RELEASE)
-    set (CMAKE_CXX_FLAGS_RELEASE "-O2 -w")
+    set (CMAKE_CXX_FLAGS_RELEASE "-w")
 endif (CMAKE_CXX_FLAGS_RELEASE)
 
 if (CMAKE_BUILD_TYPE STREQUAL "Release")
