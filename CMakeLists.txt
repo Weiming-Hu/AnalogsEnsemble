@@ -115,6 +115,8 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${CMAKE_CXX_FLAGS_DEBUG}")
 endif(CMAKE_BUILD_TYPE STREQUAL "Debug")
 
+message(STATUS "C++ compiler options are: ${CMAKE_CXX_FLAGS}")
+
 # find OpenMP
 find_package (OpenMP)
 if (${OPENMP_FOUND})
