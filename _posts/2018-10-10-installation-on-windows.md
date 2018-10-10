@@ -1,4 +1,7 @@
-# How to Fix Compilation Failure on Windows
+---
+layout: post
+title: How to Fix Compilation Failure on Windows
+---
 
 ## Summary
 
