@@ -1,4 +1,7 @@
-# Vocabulary for Parallel Ensemble Forecast Package
+---
+layout: post
+title: Vocabulary for Parallel Ensemble Forecast Package
+---
 
 <!-- vim-markdown-toc GitLab -->
 
