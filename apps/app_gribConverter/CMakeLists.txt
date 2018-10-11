@@ -5,7 +5,9 @@ set (gribConverter_VERSION "1.0.0")
 
 enable_language(C CXX)
 message(STATUS "build application GRIB Converter")
-set(SOURCE_MAIN "${CMAKE_CURRENT_SOURCE_DIR}/gribConverter.cpp")
+
+include_directories("${CMAKE_CURRENT_SOURCE_DIR}")
+set(SOURCE_MAIN "${CMAKE_CURRENT_SOURCE_DIR}/gribConverter.cpp;${CMAKE_CURRENT_SOURCE_DIR}/gribConverterFunctions.cpp")
 add_executable(${PROJECT_NAME} ${SOURCE_MAIN})
 
 include_directories(SYSTEM ${NETCDF_INCLUDES})

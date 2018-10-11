@@ -18,3 +18,9 @@ add_subdirectory("StandardDeviation")
 add_subdirectory("Station")
 add_subdirectory("Stations")
 add_subdirectory("Times")
+
+if (BUILD_GRIBCONVERTER)
+    message(STATUS "Build test for GRIB converter.")
+    add_subdirectory("gribConverter")
+endif (BUILD_GRIBCONVERTER)
+

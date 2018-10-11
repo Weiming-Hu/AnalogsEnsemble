@@ -273,6 +273,8 @@ If you are using the `RAnEn` library, you can check the automatic message printe
 
 If you are using the C++ programs, you need to first build tests by specifying `-DCMAKE_BUILD_TESTS=ON` to `cmake`. Then after the program compiles, there is a test at `AnalogsEnsemble/output/test/runAnEn`. If you see `OpenMP is supported` and the number of threads in the standard output message after running the test executable, `OpenMP` is correctly configured. You can also try to modify the system environment variable `OMP_NUM_THREADS` and run the test executable again, see how the system environment variable affects the number of threads being created.
 
+- [Compilation failure on Windows](https://weiming-hu.github.io/AnalogsEnsemble/2018/10/10/installation-on-windows.html)
+
 ## Feedbacks
 
 We appreciate collaborations and feedbacks from users. Please contact maintainer [Weiming Hu](http://weiming.ddns.net) through [weiming@psu.edu](weiming@psu.edu), or create tickets if you have any problems.
