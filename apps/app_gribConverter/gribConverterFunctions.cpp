@@ -7,6 +7,8 @@
 
 /** @file */
 
+#include <stdio.h>
+#include <stdlib.h>
 #include "gribConverterFunctions.h"
 
 // http://www.wmo.int/pages/prog/www/WMOCodes/WMO306_vI2/LatestVERSION/WMO306_vI2_GRIB2_CodeFlag_en.pdf
@@ -77,97 +79,82 @@ namespace gribConverter {
     }
 
     void getDoubles(vector<double> & vals, string file, long par_id, long level,
-            long discip, long par_num, long par_cat, string type,
-            string par_key, string level_key, string discip_key,
-            string par_num_key, string par_cat_key, string type_key, string val_key) {
+            string type, string par_key, string level_key,
+            string type_key, string val_key) {
 
         int ret;
         double* p_vals;
         size_t vals_len;
-        codes_index* index;
         codes_handle* h = NULL;
 
-        // Turn on support for multi fields messages
+        long par_id_h = 0, level_h = 0;
+        string type_h;
+        char* type_tmp;
+        size_t str_len;
+        FILE* in = fopen(file.c_str(), "r");
+
         codes_grib_multi_support_on(0);
 
-        // Construct query string
-        string query_str(par_key);
-        query_str.append(":l,");
-        query_str.append(level_key);
-        query_str.append(":l,");
-        query_str.append(discip_key);
-        query_str.append(":l,");
-        query_str.append(par_num_key);
-        query_str.append(":l,");
-        query_str.append(par_cat_key);
-        query_str.append(":l,");
-        query_str.append(type_key);
-        query_str.append(":s");
+        while ((h = codes_handle_new_from_file(0, in, PRODUCT_GRIB, &ret)) != NULL ) {
 
-        cout << par_id << endl
-            << level << endl
-            << discip << endl
-            << par_num << endl
-            << par_cat << endl
-            << type << endl
-            << par_cat << endl;
+            CODES_CHECK(ret,0);
 
-        // Send query request
-        // The select string function requires a char* rather than const char*,
-        // hence the following cast
-        //
-        index = codes_index_new_from_file(0,
-                const_cast<char*>(file.c_str()), query_str.c_str(), &ret);
-        MY_CODES_CHECK(ret, 0);
+            CODES_CHECK(codes_get_long(h, par_key.c_str(), &par_id_h),0);
+            if (par_id_h != par_id) {
+                codes_handle_delete(h);
+                continue;
+            }
 
-        // Select index based on par_key and level_key, level_type
-        MY_CODES_CHECK(codes_index_select_string(index, type_key.c_str(),
-                    const_cast<char*> (type.c_str())), 0);
-        MY_CODES_CHECK(codes_index_select_long(index, par_key.c_str(), par_id), 0);
-        MY_CODES_CHECK(codes_index_select_long(index, level_key.c_str(), level), 0);
-        MY_CODES_CHECK(codes_index_select_long(index, discip_key.c_str(), discip), 0);
-        MY_CODES_CHECK(codes_index_select_long(index, par_num_key.c_str(), par_num), 0);
-        MY_CODES_CHECK(codes_index_select_long(index, par_cat_key.c_str(), par_cat), 0);
+            CODES_CHECK(codes_get_long(h, level_key.c_str(), &level_h),0);
+            if (level_h != level) {
+                codes_handle_delete(h);
+                continue;
+            }
 
-        // Get data size
-        h = codes_handle_new_from_index(index, &ret);
-        if (ret == GRIB_END_OF_INDEX) {
-            stringstream ss;
-            ss << BOLDRED << "Error: (GRIB_END_OF_INDEX) There is no index for "
+            CODES_CHECK(codes_get_length(h, type_key.c_str(), &str_len), 0);
+            type_tmp = (char*)malloc(str_len*sizeof(char));
+            CODES_CHECK(codes_get_string(h, type_key.c_str(), type_tmp, &str_len),0);
+            if (type != string(type_tmp)) {
+                codes_handle_delete(h);
+                continue;
+            }
+
+            MY_CODES_CHECK(ret, 0);
+            MY_CODES_CHECK(codes_get_size(h, val_key.c_str(), &vals_len), 0);
+
+            // Get data values
+            p_vals = (double*) malloc(vals_len * sizeof (double));
+            MY_CODES_CHECK(codes_get_double_array(h, val_key.c_str(), p_vals, &vals_len), 0);
+
+            // Copy data to vector
+            vals.clear();
+            vals.resize(vals_len);
+            copy(p_vals, p_vals + vals_len, vals.begin());
+
+            // Housekeeping
+            free(p_vals);
+            free(type_tmp);
+            codes_handle_delete(h);
+            fclose(in);
+
+            return;
+        }
+        
+        stringstream ss;
+        ss << BOLDRED << "Error: There is no message for "
                 << par_key << " " << par_id << " " << level_key << " "
                 << level << " " << type_key << " " << type << RESET << endl;
 
-            MY_CODES_CHECK(codes_handle_delete(h), 0);
-            codes_index_delete(index);
-            throw runtime_error(ss.str());
-        }
-        MY_CODES_CHECK(ret, 0);
-        MY_CODES_CHECK(codes_get_size(h, val_key.c_str(), &vals_len), 0);
+        if (h) MY_CODES_CHECK(codes_handle_delete(h), 0);
+        throw runtime_error(ss.str());
 
-        // Get data values
-        p_vals = (double*) malloc(vals_len * sizeof (double));
-        MY_CODES_CHECK(codes_get_double_array(h, val_key.c_str(), p_vals, &vals_len), 0);
-
-        // Copy data to vector
-        vals.clear();
-        vals.resize(vals_len);
-        copy(p_vals, p_vals + vals_len, vals.begin());
-
-        // Housekeeping
-        free(p_vals);
-        MY_CODES_CHECK(codes_handle_delete(h), 0);
-        codes_index_delete(index);
-
-        return;
     }
 
     void toForecasts(const vector<string> & files_in, const string & file_out,
             const vector<long> & pars_id, const vector<string> & pars_new_name,
             const vector<long> & crcl_pars_id, const vector<long> & levels,
-            const vector<long> & discips, const vector<long> & par_nums, const vector<long> & par_cats,
             const vector<string> & level_types,
             const string & par_key, const string & level_key,
-            const string & discip_key, const string & par_num_key, const string & par_cat_key,
             const string & type_key, const string & val_key,
             string regex_time_str, string regex_flt_str,
             double flt_interval, bool delimited, int verbose) {
@@ -282,8 +269,7 @@ namespace gribConverter {
 #pragma omp parallel for default(none) schedule(static) \
         shared(files_in, regex_flt, flt_interval, regex_time, delimited, time_start, \
                 flts, times, data, forecasts, pars_id, levels, file_flags, cout, verbose, \
-                level_types, par_key, level_key, type_key, val_key, discips, par_nums, \
-                par_cats, discip_key, par_num_key, par_cat_key) private(match, time_end)
+                level_types, par_key, level_key, type_key, val_key) private(match, time_end)
 #endif
         for (size_t i = 0; i < files_in.size(); i++) {
 
@@ -315,9 +301,7 @@ namespace gribConverter {
                 if (file_flags[i]) {
                     try {
                         getDoubles(data_vec, files_in[i], pars_id[j], levels[j],
-                                discips[i], par_nums[i], par_cats[i], level_types[j],
-                                par_key, level_key, discip_key, par_num_key,
-                                par_cat_key, type_key, val_key);
+                                level_types[j], par_key, level_key, type_key, val_key);
                     } catch (...) {
 #if defined(_OPENMP)
 #pragma omp critical
@@ -360,10 +344,8 @@ namespace gribConverter {
     void toObservations(const vector<string> & files_in, const string & file_out,
             const vector<long> & pars_id, const vector<string> & pars_new_name,
             const vector<long> & crcl_pars_id, const vector<long> & levels,
-            const vector<long> & discips, const vector<long> & par_nums, const vector<long> & par_cats,
             const vector<string> & level_types,
             const string & par_key, const string & level_key,
-            const string & discip_key, const string & par_num_key, const string & par_cat_key,
             const string & type_key, const string & val_key,
             string regex_time_str, bool delimited, int verbose) {
 
@@ -450,8 +432,7 @@ namespace gribConverter {
 #pragma omp parallel for default(none) schedule(static) \
         shared(files_in, regex_time, delimited, time_start, times, data, \
                 observations, pars_id, levels, file_flags, cout, verbose, level_types, \
-                par_key, level_key, type_key, val_key, discips, par_nums, \
-                par_cats, discip_key, par_num_key, par_cat_key) private(match, time_end)
+                par_key, level_key, type_key, val_key) private(match, time_end)
 #endif
         for (size_t i = 0; i < files_in.size(); i++) {
 
@@ -477,9 +458,7 @@ namespace gribConverter {
                     vector<double> data_vec;
                     try {
                         getDoubles(data_vec, files_in[i], pars_id[j], levels[j],
-                                discips[i], par_nums[i], par_cats[i], level_types[j],
-                                par_key, level_key, discip_key, par_num_key,
-                                par_cat_key, type_key, val_key);
+                                level_types[j], par_key, level_key, type_key, val_key);
                     } catch (...) {
 #if defined(_OPENMP)
 #pragma omp critical

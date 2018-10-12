@@ -17,15 +17,14 @@ int main(int argc, char** argv) {
 
     // Required variables
     string folder, file_out, regex_time_str, regex_flt_str, output_type;
-    vector<long> pars_id, levels, discips, par_nums, par_cats;
+    vector<long> pars_id, levels;
     vector<string> level_types;
     double unit_flt = 0;
 
     // Optional variables
     int verbose = 0;
     bool delimited = false, overwrite_output = false;
-    string ext, config_file, par_key, level_key, discip_key, par_num_key,
-            par_cat_key, type_key, val_key;
+    string ext, config_file, par_key, level_key, type_key, val_key;
     vector<long> crcl_pars_id;
     vector<string> pars_new_name;
 
@@ -46,18 +45,12 @@ int main(int argc, char** argv) {
 
                 ("pars-id", po::value< vector<long> >(&pars_id)->multitoken()->required(), "Set the parameters ID that will be read from the file.")
                 ("levels", po::value< vector<long> >(&levels)->multitoken()->required(), "Set the levels for each parameters.")
-                ("discips", po::value< vector<long> >(&discips)->multitoken()->required(), "Set the discipline for each parameters.")
-                ("par-nums", po::value< vector<long> >(&par_nums)->multitoken()->required(), "Set the parameterNumber for each parameters.")
-                ("par-cats", po::value< vector<long> >(&par_cats)->multitoken()->required(), "Set the parameterCategory for each parameters.")
                 ("level-types", po::value< vector<string> >(&level_types)->multitoken()->required(), "Set the types of levels for each parameters.")
                 
                 ("delimited", po::bool_switch(&delimited)->default_value(false), "The extracted time message is delimited by ambiguous character (1990-01-01).")
                 ("ext", po::value<string>(&ext)->default_value(".grb2"), "Set the file extension.")
                 ("par-key", po::value<string>(&par_key)->default_value("paramId"), "Set the parameter ID key name in GRB file.")
                 ("level-key", po::value<string>(&level_key)->default_value("level"), "Set the level key name in GRB file.")
-                ("discip-key", po::value<string>(&discip_key)->default_value("discipline"), "Set the discipline key name in GRB file.")
-                ("par-num-key", po::value<string>(&par_num_key)->default_value("parameterNumber"), "Set the parameterNumber key name in GRB file.")
-                ("par-cat-key", po::value<string>(&par_cat_key)->default_value("parameterCategory"), "Set the parameterCategory key name in GRB file.")
                 ("type-key", po::value<string>(&type_key)->default_value("typeOfLevel"), "Set the type of level key name in GRB file.")
                 ("value-key", po::value<string>(&val_key)->default_value("values"), "Set the value key name in GRB file.")
                 ("circulars-id", po::value< vector<long> >(&crcl_pars_id)->multitoken(), "Set the IDs of circular parameters.")
@@ -203,13 +196,11 @@ int main(int argc, char** argv) {
     // Call function to convert GRIB
     if (output_type == "Forecasts") {
         toForecasts(files_in, file_out, pars_id, pars_new_name, crcl_pars_id,
-                levels, discips, par_nums, par_cats, level_types, par_key,
-                level_key, discip_key, par_num_key, par_cat_key, type_key, val_key, 
+                levels, level_types, par_key, level_key, type_key, val_key, 
                 regex_time_str, regex_flt_str, unit_flt, delimited, verbose);
     } else if (output_type == "Observations") {
         toObservations(files_in, file_out, pars_id, pars_new_name, crcl_pars_id,
-                levels, discips, par_nums, par_cats, level_types, par_key,
-                level_key, discip_key, par_num_key, par_cat_key, type_key, val_key,
+                levels, level_types, par_key, level_key, type_key, val_key,
                 regex_time_str, delimited, verbose);
     } else {
         cout << BOLDRED << "Error: Output type " << output_type << " is not supported!"

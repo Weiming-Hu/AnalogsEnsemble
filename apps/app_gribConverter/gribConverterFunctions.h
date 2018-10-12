@@ -67,24 +67,15 @@ namespace gribConverter {
      * grib_ls utility or by looking up in the ecCodes parameter database,
      * \link{http://apps.ecmwf.int/codes/grib/param-db/}.
      * @param level The level of the parameter.
-     * @param discip The discipline of the parameter.
-     * @param par_num The parameterNumber of the parameter.
-     * @param par_cat The parameterCategory of the parameter.
      * @param type The type for level (typeOfLevel)
      * @param par_key The key name of the parameter.
      * @param level_key The key name of the level.
-     * @param discip_key The key name of the discipline.
-     * @param par_num_key The key name of the parameterNumber.
-     * @param par_cat_key The key name of the parameterCategory.
      * @param type_key The key name of the typeOfLevel.
      * @param val_key The key name of the value.
      */
     void getDoubles(vector<double> & vals, string file, long par_id, long level,
-            long discip, long par_num, long par_cat, string type,
-            string par_key = "parameter", string level_key = "level",
-            string discip_key = "discipline", string par_num_key = "parameterNumber",
-            string par_cat_key = "parameterCategory", string type_key = "typeOfLevel",
-            string val_key = "values");
+            string type, string par_key = "parameter", string level_key = "level",
+            string type_key = "typeOfLevel", string val_key = "values");
 
     /**
      * toForecasts function reads data multiple forecast files and write them in
@@ -114,9 +105,6 @@ namespace gribConverter {
      * @param level_types A vector of types of levels.
      * @param par_key The key name of parameter ID.
      * @param level_key The key name of level.
-     * @param discip_key The key name of the discipline.
-     * @param par_num_key The key name of the parameterNumber.
-     * @param par_cat_key The key name of the parameterCategory.
      * @param type_key The key name of type of level.
      * @param val_key The key name of values.
      * @param regex_time_str The regular expression used to extract time information.
@@ -131,10 +119,8 @@ namespace gribConverter {
     void toForecasts(const vector<string> & files_in, const string & file_out,
             const vector<long> & pars_id, const vector<string> & pars_new_name,
             const vector<long> & crcl_pars_id, const vector<long> & levels,
-            const vector<long> & discips, const vector<long> & par_nums, const vector<long> & par_cats,
             const vector<string> & level_types,
             const string & par_key, const string & level_key,
-            const string & discip_key, const string & par_num_key, const string & par_cat_key,
             const string & type_key, const string & val_key,
             string regex_time_str, string regex_flt_str,
             double flt_interval, bool delimited = false,
@@ -165,15 +151,9 @@ namespace gribConverter {
      * Forecasts NetCDF file.
      * @param crcl_pars_id A vector of parameters ID for circular parameters.
      * @param levels A vector of level numbers to specify for each parameter.
-     * @param discips A vector of disciplines for each parameter.
-     * @param par_nums A vector of parameterNumber for each parameter.
-     * @param par_cats A vector of parameterCategory for each parameter.
      * @param level_types A vector of types of levels.
      * @param par_key The key name of parameter ID.
      * @param level_key The key name of level.
-     * @param discip_key The key name of the discipline.
-     * @param par_num_key The key name of the parameterNumber.
-     * @param par_cat_key The key name of the parameterCategory.
      * @param type_key The key name of type of level.
      * @param val_key The key name of values.
      * @param regex_time_str The regular expression used to extract time information.
@@ -184,10 +164,8 @@ namespace gribConverter {
     void toObservations(const vector<string> & files_in, const string & file_out,
             const vector<long> & pars_id, const vector<string> & pars_new_name,
             const vector<long> & crcl_pars_id, const vector<long> & levels,
-            const vector<long> & discips, const vector<long> & par_nums, const vector<long> & par_cats,
             const vector<string> & level_types,
             const string & par_key, const string & level_key,
-            const string & discip_key, const string & par_num_key, const string & par_cat_key,
             const string & type_key, const string & val_key,
             string regex_time_str, bool delimited = false, int verbose = 0);
 }

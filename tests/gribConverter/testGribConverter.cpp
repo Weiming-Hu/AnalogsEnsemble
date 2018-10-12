@@ -22,7 +22,7 @@ testGribConverter::~testGribConverter() {
 void testGribConverter::testGetDoubles() {
 
     vector<double> vals_temp, vals_U, vals_V;
-    long par_id = 0, level = 0, par_num = 0, par_cat = 0, discip = 0;
+    long par_id = 0, level = 0;
     string type;
 
     // The location of the file is hard coded.
@@ -31,30 +31,26 @@ void testGribConverter::testGetDoubles() {
     // Get the U component
     par_id = 131;
     level = 0;
-    par_num = 2;
-    par_cat = 2;
-    discip = 0;
     type = "tropopause";
-    getDoubles(vals_U, file, par_id, level, discip, par_num, par_cat, type);
+    cout << "Getting U" <<endl;
+    getDoubles(vals_U, file, par_id, level, type);
 
     // Get the V component
     par_id = 132;
     level = 0;
-    par_num = 3;
-    par_cat = 2;
-    discip = 0;
     type = "tropopause";
-    getDoubles(vals_V, file, par_id, level, discip, par_num, par_cat, type);
+    cout << "Getting V" <<endl;
+    getDoubles(vals_V, file, par_id, level, type);
 
     // Get the temperature
     par_id = 130;
     level = 0;
-    par_num = 0;
-    par_cat = 0;
-    discip = 0;
     type = "surface";
-    getDoubles(vals_temp, file, par_id, level, discip, par_num, par_cat, type);
+    cout << "Getting temp" <<endl;
+    getDoubles(vals_temp, file, par_id, level, type);
 
+    cout << "Printing" <<endl;
+    getDoubles(vals_temp, file, par_id, level, type);
     cout << "V component: " << vals_V << endl
         << "U component: " << vals_U << endl
         << "Temperature: " << vals_temp << endl;
