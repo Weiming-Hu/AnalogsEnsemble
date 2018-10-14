@@ -85,40 +85,69 @@ namespace gribConverter {
         int ret;
         double* p_vals;
         size_t vals_len;
+        codes_index* index = NULL;
         codes_handle* h = NULL;
 
         long par_id_h = 0, level_h = 0;
         string type_h;
         char* type_tmp;
         size_t str_len;
-        FILE* in = fopen(file.c_str(), "r");
 
+        // Turning multi field support on is dangerous because the indexing functions will
+        // only find the message and the handle created from the message points to the first
+        // field. For example, if a message has multiple fields, say U and V component, the 
+        // message containing V can be found, but then handle created to read the message will
+        // only point to the first field which is U. Please read on and see how I take care of
+        // this situation.
+        //
         codes_grib_multi_support_on(0);
 
-        while ((h = codes_handle_new_from_file(0, in, PRODUCT_GRIB, &ret)) != NULL ) {
+        // First we use the fast way to index the message.
 
-            CODES_CHECK(ret,0);
+        // Construct query string
+        string query_str(par_key);
+        query_str.append(":l,");
+        query_str.append(level_key);
+        query_str.append(":l,");
+        query_str.append(type_key);
+        query_str.append(":s");
 
-            CODES_CHECK(codes_get_long(h, par_key.c_str(), &par_id_h),0);
-            if (par_id_h != par_id) {
-                codes_handle_delete(h);
-                continue;
-            }
+        // Send query request
+        // The select string function requires a char* rather than const char*,
+        // hence the following cast
+        //
+        index = codes_index_new_from_file(0,
+                const_cast<char*>(file.c_str()), query_str.c_str(), &ret);
+        MY_CODES_CHECK(ret, 0);
 
-            CODES_CHECK(codes_get_long(h, level_key.c_str(), &level_h),0);
-            if (level_h != level) {
-                codes_handle_delete(h);
-                continue;
-            }
+        // Select index based on par_key and level_key, level_type
+        MY_CODES_CHECK(codes_index_select_string(index, type_key.c_str(),
+                    const_cast<char*> (type.c_str())), 0);
+        MY_CODES_CHECK(codes_index_select_long(index, par_key.c_str(), par_id), 0);
+        MY_CODES_CHECK(codes_index_select_long(index, level_key.c_str(), level), 0);
 
+        while ((h = codes_handle_new_from_index(index, &ret)) != NULL ) {
+
+            // At this point we should have a valid index that points to the message 
+            // that we want to read. However, we should deal with the multi field
+            // situation. We check whether the first field is what we want.
+            //
             CODES_CHECK(codes_get_length(h, type_key.c_str(), &str_len), 0);
             type_tmp = (char*)malloc(str_len*sizeof(char));
             CODES_CHECK(codes_get_string(h, type_key.c_str(), type_tmp, &str_len),0);
-            if (type != string(type_tmp)) {
-                codes_handle_delete(h);
+            CODES_CHECK(codes_get_long(h, par_key.c_str(), &par_id_h),0);
+            CODES_CHECK(codes_get_long(h, level_key.c_str(), &level_h),0);
+
+            if ((par_id_h != par_id) || (level_h != level) || (type != string(type_tmp))) {
+                // Not this meesage, skip it and read the next one
+                free(type_tmp);
+                MY_CODES_CHECK(codes_handle_delete(h), 0);
                 continue;
             }
 
+            // If the first field is exactly what we want we read then read it
+
+            // Get data size
             MY_CODES_CHECK(ret, 0);
             MY_CODES_CHECK(codes_get_size(h, val_key.c_str(), &vals_len), 0);
 
@@ -133,21 +162,22 @@ namespace gribConverter {
 
             // Housekeeping
             free(p_vals);
-            free(type_tmp);
-            codes_handle_delete(h);
-            fclose(in);
+            MY_CODES_CHECK(codes_handle_delete(h), 0);
+            codes_index_delete(index);
 
+            free(type_tmp);
             return;
         }
-        
+
         stringstream ss;
         ss << BOLDRED << "Error: There is no message for "
-                << par_key << " " << par_id << " " << level_key << " "
-                << level << " " << type_key << " " << type << RESET << endl;
+            << par_key << " " << par_id << " " << level_key << " "
+            << level << " " << type_key << " " << type << RESET << endl;
 
         if (h) MY_CODES_CHECK(codes_handle_delete(h), 0);
-        throw runtime_error(ss.str());
+        codes_index_delete(index);
 
+        throw runtime_error(ss.str());
     }
 
     void toForecasts(const vector<string> & files_in, const string & file_out,
