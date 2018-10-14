@@ -21,8 +21,8 @@ else(CPPUNIT_FOUND)
     target_link_libraries (runAnEnIO cppunit testAnEnIO AnEnIO AnEn)
 endif(CPPUNIT_FOUND)
 
-add_definitions(-D_PATH_OBSERVATIONS="${CMAKE_SOURCE_DIR}/tests/test_observations.nc"
-    -D_PATH_FORECASTS="${CMAKE_SOURCE_DIR}/tests/test_forecasts.nc")
+add_definitions(-D_PATH_OBSERVATIONS="${CMAKE_SOURCE_DIR}/tests/Data/test_observations.nc"
+    -D_PATH_FORECASTS="${CMAKE_SOURCE_DIR}/tests/Data/test_forecasts.nc")
 
 set_target_properties(runAnEnIO PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${COMMON_OUTPUT_DIR}/test")
 add_test(NAME ${PROJECT_NAME} COMMAND runAnEnIO)

@@ -116,8 +116,7 @@ namespace gribConverter {
         // The select string function requires a char* rather than const char*,
         // hence the following cast
         //
-        index = codes_index_new_from_file(0,
-                const_cast<char*>(file.c_str()), query_str.c_str(), &ret);
+        index = codes_index_new_from_file(0, const_cast<char*>(file.c_str()), query_str.c_str(), &ret);
         MY_CODES_CHECK(ret, 0);
 
         // Select index based on par_key and level_key, level_type
@@ -139,7 +138,7 @@ namespace gribConverter {
             CODES_CHECK(codes_get_long(h, level_key.c_str(), &level_h),0);
 
             if ((par_id_h != par_id) || (level_h != level) || (type != string(type_tmp))) {
-                // Not this meesage, skip it and read the next one
+                // Not this field, skip it and read the next one
                 free(type_tmp);
                 MY_CODES_CHECK(codes_handle_delete(h), 0);
                 continue;
@@ -169,14 +168,65 @@ namespace gribConverter {
             return;
         }
 
+        // If the field is still not found, try the third way to access data by traversing all
+        // the messaging individually without using the index mechanism.
+        //
+        FILE* in = fopen(file.c_str(), "r");
+        
+        while ((h = codes_handle_new_from_file(0, in, PRODUCT_GRIB, &ret)) != NULL ) {
+
+            CODES_CHECK(ret,0);
+
+            CODES_CHECK(codes_get_long(h, par_key.c_str(), &par_id_h),0);
+            if (par_id_h != par_id) {
+                codes_handle_delete(h);
+                continue;
+            }
+
+            CODES_CHECK(codes_get_long(h, level_key.c_str(), &level_h),0);
+            if (level_h != level) {
+                codes_handle_delete(h);
+                continue;
+            }
+
+            CODES_CHECK(codes_get_length(h, type_key.c_str(), &str_len), 0);
+            type_tmp = (char*)malloc(str_len*sizeof(char));
+            CODES_CHECK(codes_get_string(h, type_key.c_str(), type_tmp, &str_len),0);
+            if (type != string(type_tmp)) {
+                codes_handle_delete(h);
+                free(type_tmp);
+                continue;
+            }
+
+            MY_CODES_CHECK(ret, 0);
+            MY_CODES_CHECK(codes_get_size(h, val_key.c_str(), &vals_len), 0);
+
+            // Get data values
+            p_vals = (double*) malloc(vals_len * sizeof (double));
+            MY_CODES_CHECK(codes_get_double_array(h, val_key.c_str(), p_vals, &vals_len), 0);
+
+            // Copy data to vector
+            vals.clear();
+            vals.resize(vals_len);
+            copy(p_vals, p_vals + vals_len, vals.begin());
+
+            // Housekeeping
+            free(p_vals);
+            free(type_tmp);
+            codes_handle_delete(h);
+            fclose(in);
+
+            return;
+        }
+
+        fclose(in);
+        codes_index_delete(index);
+        if (h) MY_CODES_CHECK(codes_handle_delete(h), 0);
+
         stringstream ss;
         ss << BOLDRED << "Error: There is no message for "
             << par_key << " " << par_id << " " << level_key << " "
             << level << " " << type_key << " " << type << RESET << endl;
-
-        if (h) MY_CODES_CHECK(codes_handle_delete(h), 0);
-        codes_index_delete(index);
-
         throw runtime_error(ss.str());
     }
 

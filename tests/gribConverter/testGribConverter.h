@@ -20,6 +20,8 @@ class testGribConverter : public CPPUNIT_NS::TestFixture {
 public:
     testGribConverter();
     virtual ~testGribConverter();
+
+    std::string file_grib1 = _PATH_GRIB1;
     
 private:
     void testGetDoubles();

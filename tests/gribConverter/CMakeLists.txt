@@ -27,8 +27,7 @@ target_link_libraries (testGribConverter eccodes)
 target_link_libraries (testGribConverter datetime)
 target_link_libraries (runGribConverter eccodes)
 
-add_definitions(-D_PATH_OBSERVATIONS="${CMAKE_SOURCE_DIR}/tests/test_observations.nc"
-    -D_PATH_FORECASTS="${CMAKE_SOURCE_DIR}/tests/test_forecasts.nc")
+add_definitions(-D_PATH_GRIB1="${CMAKE_SOURCE_DIR}/tests/Data/test_multi_fields.grib2")
 
 set_target_properties(runGribConverter PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${COMMON_OUTPUT_DIR}/test")
 add_test(NAME ${PROJECT_NAME} COMMAND runGribConverter)
