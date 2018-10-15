@@ -23,6 +23,7 @@ else(CPPUNIT_FOUND)
 endif(CPPUNIT_FOUND)
 
 find_package(eccodes REQUIRED)
+include_directories(${ECCODES_INCLUDE_DIRS})
 target_link_libraries (testGribConverter eccodes)
 target_link_libraries (testGribConverter datetime)
 target_link_libraries (runGribConverter eccodes)

@@ -11,6 +11,10 @@
 #include <stdlib.h>
 #include "gribConverterFunctions.h"
 
+#if defined(_OPENMP)
+#include <omp.h>
+#endif
+
 // http://www.wmo.int/pages/prog/www/WMOCodes/WMO306_vI2/LatestVERSION/WMO306_vI2_GRIB2_CodeFlag_en.pdf
 // http://www.cosmo-model.org/content/model/documentation/grib/pdtemplate_4.11.htm
 
@@ -172,7 +176,7 @@ namespace gribConverter {
         // the messaging individually without using the index mechanism.
         //
         FILE* in = fopen(file.c_str(), "r");
-        
+
         while ((h = codes_handle_new_from_file(0, in, PRODUCT_GRIB, &ret)) != NULL ) {
 
             CODES_CHECK(ret,0);
@@ -353,10 +357,12 @@ namespace gribConverter {
 #endif
         for (size_t i = 0; i < files_in.size(); i++) {
 
+            if (verbose >= 3) {
 #if defined(_OPENMP)
 #pragma omp critical
 #endif
-            if (verbose >= 3) cout << "\t reading data from file " << files_in[i] << endl;
+                cout << "\t reading data from file " << files_in[i] << endl;
+            }
 
             // Find out flt index
             if (!regex_search(files_in[i].begin(), files_in[i].end(), match, regex_flt))
@@ -516,10 +522,12 @@ namespace gribConverter {
 #endif
         for (size_t i = 0; i < files_in.size(); i++) {
 
+            if (verbose >= 3) {
 #if defined(_OPENMP)
 #pragma omp critical
 #endif
-            if (verbose >= 3) cout << "\t reading data from file " << files_in[i] << endl;
+                cout << "\t reading data from file " << files_in[i] << endl;
+            }
 
             // Find out time index
             if (!regex_search(files_in[i].begin(), files_in[i].end(), match, regex_time))

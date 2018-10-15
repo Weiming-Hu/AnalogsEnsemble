@@ -21,6 +21,7 @@ add_dependencies(${PROJECT_NAME} AnEn)
 target_link_libraries(${PROJECT_NAME} AnEn)
 
 find_package(eccodes REQUIRED)
+include_directories(${ECCODES_INCLUDE_DIRS})
 target_link_libraries(${PROJECT_NAME} eccodes)
 target_link_libraries (${PROJECT_NAME} datetime)
 
