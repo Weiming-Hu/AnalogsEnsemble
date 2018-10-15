@@ -1141,7 +1141,6 @@ AnEnIO::writeForecasts(const Forecasts & forecasts) const {
 
     // Create an empty file
     if (checkFilePath() != FILE_EXISTS) {
-        cout << file_path_ << endl;
         NcFile nc_empty(file_path_, NcFile::FileMode::newFile,
                 NcFile::FileFormat::nc4);
         nc_empty.close();

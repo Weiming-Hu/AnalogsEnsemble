@@ -414,7 +414,7 @@ namespace gribConverter {
 
         // Write forecasts
         if (verbose >= 3) cout << GREEN << "Writing Forecasts file ... " << RESET << endl;
-        AnEnIO io("Write", file_out, "Forecasts");
+        AnEnIO io("Write", file_out, "Forecasts", verbose);
         io.handleError(io.writeForecasts(forecasts));
 
         if (verbose >= 3) cout << GREEN << "Done!" << RESET << endl;
@@ -571,7 +571,7 @@ namespace gribConverter {
 
         // Write observations
         if (verbose >= 3) cout << GREEN << "Writing Observations file ... " << RESET << endl;
-        AnEnIO io("Write", file_out, "Observations");
+        AnEnIO io("Write", file_out, "Observations", verbose);
         io.handleError(io.writeObservations(observations));
 
         if (verbose >= 3) cout << GREEN << "Done!" << RESET << endl;
