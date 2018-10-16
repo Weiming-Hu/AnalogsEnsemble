@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+export OMP_NUM_THREADS=3
+
 # Declare the folder names where the data are
 declare -a arr=("201701" "201702" "201703" "201704" "201705" \
     "201706" "201707" "201708" "201709" "201710" "201711" \

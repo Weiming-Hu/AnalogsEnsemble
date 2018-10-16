@@ -350,7 +350,7 @@ namespace gribConverter {
         if (verbose >= 3) cout << GREEN << "Reading data ... " << RESET << endl;
 
 #if defined(_OPENMP)
-#pragma omp parallel for default(none) schedule(static) \
+#pragma omp parallel for default(none) schedule(dynamic) \
         shared(files_in, regex_flt, flt_interval, regex_time, delimited, time_start, \
                 flts, times, data, forecasts, pars_id, levels, file_flags, cout, verbose, \
                 level_types, par_key, level_key, type_key, val_key) private(match, time_end)
@@ -515,7 +515,7 @@ namespace gribConverter {
         vector<bool> file_flags(files_in.size(), true);
 
 #if defined(_OPENMP)
-#pragma omp parallel for default(none) schedule(static) \
+#pragma omp parallel for default(none) schedule(dynamic) \
         shared(files_in, regex_time, delimited, time_start, times, data, \
                 observations, pars_id, levels, file_flags, cout, verbose, level_types, \
                 par_key, level_key, type_key, val_key) private(match, time_end)
