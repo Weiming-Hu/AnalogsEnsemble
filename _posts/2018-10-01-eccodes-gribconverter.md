@@ -3,6 +3,22 @@ layout: post
 title: How to use Eccodes Tools and the gribConverter Tool
 ---
 
+
+<!-- vim-markdown-toc GitLab -->
+
+* [Introduction](#introduction)
+* [Preparation](#preparation)
+        * [gribConverter](#gribconverter)
+        * [Eccodes](#eccodes)
+* [Usage](#usage)
+        * [Extract Time and FLTs](#extract-time-and-flts)
+        * [Specifying Parameters](#specifying-parameters)
+* [Example](#example)
+* [Caveat](#caveat)
+* [Summary](#summary)
+
+<!-- vim-markdown-toc -->
+
 ## Introduction
 
 The `gribConverter` tool provided in this package offers the convenience for converting GRB2 files to NetCDF files. The produced NetCDF files should be ready to be read into Analog computing tools like `similarityCalculator`. This post demonstrates how to use `Eccodes` tools and the `gribConverter` together to complete the file conversion task.
@@ -131,10 +147,14 @@ parameters-new-name = 131_0
 
 ## Example
 
-An working example can be found [here](https://github.com/Weiming-Hu/AnalogsEnsemble/tree/master/app_gribConverter/example).
+An working example can be found [here](https://github.com/Weiming-Hu/AnalogsEnsemble/tree/master/apps/app_gribConverter/example).
 
 - commonConfig.cfg is the common configuration file that all files share. It includes basic options like parameters, times, and flts;
 - convertForecasts.sh is the script specifying the different options for files, includes `output` and `folder`.
+
+## Caveat
+
+Please note in the file `convertForecasts.sh` on [line 3](https://github.com/Weiming-Hu/AnalogsEnsemble/blob/2ab0a1a5049917a1c55ef258cc725bb63fe6b780/apps/app_gribConverter/example/convertForecasts.sh#L3), I specified the number of threads to be created in the program. It is NOT the case that the more threads you create the faster your program will run. This also depends on your network quality. Because when too many threads are created, it actually slows download the file transfer process. For my case where the maximum network speed can go up until ~30 MB/s, I found that when I created more than 5 threads, it will slow down the network. Therefore, I tested with creating 1, 2, 3, and 5 threads, and decided I should only create 3 which should be a fairly balanced point.
 
 ## Summary
 
@@ -155,4 +175,3 @@ Please report any issues [here](https://github.com/Weiming-Hu/AnalogsEnsemble/is
 # Department of Geography and Institute for CyberScience
 # The Pennsylvania State University
 ```
-
