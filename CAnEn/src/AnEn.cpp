@@ -156,10 +156,17 @@ limit_row, limit_col) firstprivate(index)
     }
 
     if (loop_flag > 0) {
-        if (verbose_ >= 1) cout << BOLDRED
-            << "Error: Could not find some search forecast times in observation times."
-            << RESET << endl;
-        if (time_match_mode == 0) return (OUT_OF_RANGE);
+
+        if (time_match_mode == 0) {
+            if (verbose_ >= 1) cout << BOLDRED
+                << "Error: Could not find some search forecast times in observation times."
+                    << RESET << endl;
+            return (OUT_OF_RANGE);
+        } else {
+            if (verbose_ >= 2) cout << RED
+                << "Warning: Could not find some search forecast times in observation times."
+                    << RESET << endl;
+        }
     }
 
     swap(mapping_ref, mapping);
