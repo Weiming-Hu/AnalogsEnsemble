@@ -115,12 +115,12 @@ AnEn::computeObservationsTimeIndices(
         const anenTime::Times & times_forecasts,
         const anenTime::Times & flts_forecasts,
         const anenTime::Times & times_observations,
-        boost::numeric::ublas::matrix<size_t> & mapping) const {
+        AnEn::TimeMapMatrix & mapping_ref,
+        int search_mode) const {
 
     if (verbose_ >= 3) cout << "Computing mapping from forecast [Time, FLT] to observation [Time]  ... " << endl;
 
-    mapping.resize(times_forecasts.size(), flts_forecasts.size());
-    mapping.clear();
+    AnEn::TimeMapMatrix mapping(times_forecasts.size(), flts_forecasts.size(), AnEn::_FILL_VALUE);
 
     const auto & times_forecasts_by_insert = times_forecasts.get<anenTime::by_insert>();
     const auto & flts_forecasts_by_insert = flts_forecasts.get<anenTime::by_insert>();
@@ -150,24 +150,31 @@ limit_row, limit_col) firstprivate(index)
                 mapping(i_row, i_col) = index;
             } catch (...) {
                 loop_flag = 1;
+                continue;
             }
-
         }
     }
 
-    if (loop_flag > 0) return (OUT_OF_RANGE);
-    else return (SUCCESS);
+    if (loop_flag > 0) {
+        if (verbose >= 1) cout << BOLDRED
+            << "Error: Could not find some search forecast times in observation times."
+            << RESET << endl;
+        if (search_mode == 0) return (OUT_OF_RANGE);
+    }
+
+    swap(mapping_ref, mapping);
+    return (SUCCESS);
 }
 
 errorType
 AnEn::computeSearchStations(
         const anenSta::Stations & test_stations,
         const anenSta::Stations & search_stations,
-        boost::numeric::ublas::matrix<double> & i_search_stations_ref,
+        AnEn::SearchStationMatrix & i_search_stations_ref,
         size_t max_num_search_stations,
         double distance, size_t num_nearest_stations, bool return_index) {
 
-    boost::numeric::ublas::matrix<double> i_search_stations(
+    AnEn::SearchStationMatrix i_search_stations(
             test_stations.size(), max_num_search_stations,
             AnEn::_FILL_VALUE);
 
@@ -280,8 +287,8 @@ AnEn::computeSimilarity(
         const StandardDeviation& sds,
         SimilarityMatrices& sims,
         const Observations_array& search_observations,
-        const boost::numeric::ublas::matrix<size_t> & mapping,
-        boost::numeric::ublas::matrix<double> & i_search_stations,
+        const AnEn::TimeMapMatrix & mapping,
+        const AnEn::SearchStationMatrix & i_search_stations,
         size_t i_observation_parameter) const {
 
     // Check input
@@ -580,7 +587,7 @@ AnEn::selectAnalogs(
         Analogs & analogs,
         SimilarityMatrices & sims,
         const Observations_array& search_observations,
-        boost::numeric::ublas::matrix<size_t> mapping,
+        const AnEn::TimeMapMatrix mapping,
         size_t i_parameter, size_t num_members,
         bool quick, bool preserve_real_time) const {
 
@@ -802,7 +809,7 @@ AnEn::check_input_(
         const StandardDeviation& sds,
         SimilarityMatrices& sims,
         const Observations_array& search_observations,
-        boost::numeric::ublas::matrix<size_t> mapping,
+        const AnEn::TimeMapMatrix mapping,
         size_t i_observation_parameter) const {
 
     const Forecasts_array & test_forecasts = sims.getTargets();
