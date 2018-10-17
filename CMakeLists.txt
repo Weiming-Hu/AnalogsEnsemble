@@ -41,9 +41,9 @@ option(CMAKE_MACOSX_RPATH "Whether RPATH should be used on MacOS" ON)
 option(CMAKE_INSTALL_RPATH_USE_LINK_PATH "Whether to use link path during installation" ON)
 
 if (CMAKE_INSTALL_RPATH)
-    set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_RPATH};${DEPENDENCY_PATH}/install/lib/")
+    set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_RPATH};${DEPENDENCY_PATH}/install/lib/;${COMMON_OUTPUT_DIR}/lib")
 else (CMAKE_INSTALL_RPATH)
-    set(CMAKE_INSTALL_RPATH "${DEPENDENCY_PATH}/install/lib/")
+    set(CMAKE_INSTALL_RPATH "${DEPENDENCY_PATH}/install/lib/;${COMMON_OUTPUT_DIR}/lib")
 endif (CMAKE_INSTALL_RPATH)
 message(STATUS "CMAKE_INSTALL_RPATH: ${CMAKE_INSTALL_RPATH}")
 
@@ -176,7 +176,6 @@ add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_forecastsToObservations")
 if (BUILD_GRIBCONVERTER)
     add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_gribConverter")
 endif (BUILD_GRIBCONVERTER)
-
 
 
 #####################
