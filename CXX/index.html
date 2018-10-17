@@ -192,19 +192,7 @@ $(function() {
 </table>
 <p><em>Table generated from <a href="https://www.tablesgenerator.com/markdown_tables">Tables Generator</a>.</em></p>
 <h2>Known Issues</h2>
-<ul>
-<li><code>RAnEn</code> is built with GNU compiler and CMake process. But it shows up not supporting <code>OpenMP</code>.</li>
-</ul>
-<p>If you have run the <code>roxygen</code> command before the make process, the library will not be supporting <code>OpenMP</code>. Make sure that before your CMake's runtime, you have a <code>clean</code> directory under <code>RAnalogs/RAnEn/src</code>. An easy way to do this is to run <code>make clean-roxygen</code>, and repeat the build and make process.</p>
-<ul>
-<li>Linking errors when building the C++ library during the second time.</li>
-</ul>
-<p>If you have successfully built the C++ library before and when you modifed any files or did a <code>git pull</code>, you found the <code>make</code> process failed. This can be caused by using the old dependencies previously built and stored in the <code>dependency/</code> directory. This typically happens when you've also changed the compiler. An easy workaround for this is to remove all the build files, include the directories <code>dependency\</code>, <code>output\</code>, and <code>build\</code>, and start from scratch with a clean directory.</p>
-<ul>
-<li>How do I make sure whether <code>OpenMP</code> is supported.</li>
-</ul>
-<p>If you are using the <code>RAnEn</code> library, you can check the automatic message printed on loading the library. If it does not say "OpenMP is not supported", then it is supported.</p>
-<p>If you are using the C++ programs, you need to first build tests by specifying <code>-DCMAKE_BUILD_TESTS=ON</code> to <code>cmake</code>. Then after the program compiles, there is a test at <code>AnalogsEnsemble/output/test/runAnEn</code>. If you see <code>OpenMP is supported</code> and the number of threads in the standard output message after running the test executable, <code>OpenMP</code> is correctly configured. You can also try to modify the system environment variable <code>OMP_NUM_THREADS</code> and run the test executable again, see how the system environment variable affects the number of threads being created.</p>
+<p>Please see known issues in <a href="https://weiming-hu.github.io/AnalogsEnsemble/2018/10/17/known-issues.html">this post</a>. If you could not find solutions to your issue, you can consider open a ticket or comment below the post. Thank you.</p>
 <h2>Feedbacks</h2>
 <p>We appreciate collaborations and feedbacks from users. Please contact maintainer <a href="http://weiming.ddns.net">Weiming Hu</a> through <a href="weiming@psu.edu">weiming@psu.edu</a>, or create tickets if you have any problems.</p>
 <p>Thank you!</p>
