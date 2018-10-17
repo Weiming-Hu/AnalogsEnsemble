@@ -42,7 +42,7 @@ void runAnalogGenerator(
         size_t num_neighbors, double distance, 
 
         size_t num_members, bool quick,
-        bool preserve_real_time, int verbose) {
+        bool preserve_real_time, int time_match_mode, int verbose) {
 
     /************************************************************************
      *                         Read Input Data                              *
@@ -92,7 +92,7 @@ void runAnalogGenerator(
     AnEn::TimeMapMatrix mapping;
     anen.handleError(anen.computeObservationsTimeIndices(
                 search_forecasts.getTimes(), search_forecasts.getFLTs(),
-                search_observations.getTimes(), mapping));
+                search_observations.getTimes(), mapping, time_match_mode));
     if (!file_mapping.empty()) {
         io.setMode("Write", file_mapping);
         io.setFileType("Matrix");
@@ -154,7 +154,7 @@ int main(int argc, char** argv) {
     size_t num_members = 0;
 
     // Optional variables
-    int verbose = 0;
+    int verbose = 0, time_match_mode = 0;
     size_t observation_id = 0;
     string config_file, file_mapping, file_similarity;
     bool quick = false, preserve_real_time = false, searchExtension = false;
@@ -177,6 +177,7 @@ int main(int argc, char** argv) {
                 ("members", po::value<size_t>(&num_members)->required(), "Set the number of analog members to keep in an ensemble.")
 
                 ("verbose,v", po::value<int>(&verbose)->default_value(2), "Set the verbose level.")
+                ("time-match-mode", po::value<int>(&time_match_mode)->default_value(0), "Set the match mode for generating TimeMapMatrix. 0 for strict and 1 for loose search.")
                 ("similarity-nc", po::value<string>(&file_similarity), "Set the output file path for similarity NetCDF.")
                 ("mapping-txt", po::value<string>(&file_mapping), "Set the output file path for time mapping matrix.")
                 ("observation-id", po::value<size_t>(&observation_id)->default_value(0), "Set the index of the observation variable that will be used.")
@@ -264,6 +265,7 @@ int main(int argc, char** argv) {
             << "searchExtension: " << searchExtension << endl
             << "quick: " << quick << endl
             << "preserve_real_time: " << preserve_real_time << endl
+            << "time_match_mode: " << time_match_mode << endl
             << "verbose: " << verbose << endl
             << "distance: " << distance << endl
             << "max_neighbors: " << max_neighbors << endl
@@ -284,7 +286,7 @@ int main(int argc, char** argv) {
                 file_mapping, file_similarity, file_analogs,
                 observation_id, searchExtension, max_neighbors,
                 num_neighbors, distance, num_members, quick,
-                preserve_real_time, verbose);
+                preserve_real_time, time_match_mode, verbose);
     } catch (...) {
         handle_exception(current_exception());
         return 1;

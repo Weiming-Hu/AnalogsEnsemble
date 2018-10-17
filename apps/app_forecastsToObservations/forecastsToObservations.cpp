@@ -20,7 +20,8 @@
 
 using namespace std;
 
-void runForecastsToObservations( const string & file_in, const string & file_out, int verbose) {
+void runForecastsToObservations( const string & file_in, const string & file_out,
+        int time_match_mode, int verbose) {
 
     if (verbose >= 3) cout << GREEN << "Converting Observations to Forecasts" << RESET << endl;
 
@@ -55,7 +56,7 @@ void runForecastsToObservations( const string & file_in, const string & file_out
     AnEn::TimeMapMatrix mapping;
     anen.handleError(anen.computeObservationsTimeIndices(
             forecasts.getTimes(), forecasts.getFLTs(),
-            observations.getTimes(), mapping));
+            observations.getTimes(), mapping, time_match_mode));
 
     if (verbose >= 4) cout << "Time mapping from Forecasts to Observations:"
         << endl << mapping << endl;
@@ -106,7 +107,7 @@ int main(int argc, char** argv) {
     string file_in, file_out;
 
     // Optional variables
-    int verbose = 0;
+    int verbose = 0, time_match_mode = 0;
     string config_file;
 
     try {
@@ -118,6 +119,7 @@ int main(int argc, char** argv) {
                 ("in,i", po::value<string>(&file_in)->required(), "Set the Forecasts file to read.")
                 ("out,o", po::value<string>(&file_out)->required(), "Set the Observations file to write.")
 
+                ("time-match-mode", po::value<int>(&time_match_mode)->default_value(0), "Set the match mode for generating TimeMapMatrix. 0 for strict and 1 for loose search.")
                 ("verbose,v", po::value<int>(&verbose)->default_value(2), "Set the verbose level.");
 
         // process unregistered keys and notify users about my guesses
@@ -181,11 +183,12 @@ int main(int argc, char** argv) {
             << "file_in: " << file_in << endl
             << "file_out: " << file_out << endl
             << "verbose: " << verbose << endl
+            << "time_match_mode: " << time_match_mode << endl
             << "config_file: " << config_file << endl;
     }
 
     try {
-        runForecastsToObservations(file_in, file_out, verbose);
+        runForecastsToObservations(file_in, file_out, time_match_mode, verbose);
     } catch (...) {
         handle_exception(current_exception());
         return 1;

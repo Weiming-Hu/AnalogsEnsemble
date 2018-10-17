@@ -32,7 +32,7 @@ U <- 'parameter1'
 V <- 'parameter2'
 dir_name <- 'myWindDirection'
 speed_name <- 'myWindSpeed'
-verbose <- 1
+verbose <- 3
 
 command <- paste(exe, '--file_in', file_in,
                  '--file_type', file_type,

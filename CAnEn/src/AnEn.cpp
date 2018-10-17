@@ -116,7 +116,7 @@ AnEn::computeObservationsTimeIndices(
         const anenTime::Times & flts_forecasts,
         const anenTime::Times & times_observations,
         AnEn::TimeMapMatrix & mapping_ref,
-        int search_mode) const {
+        int time_match_mode) const {
 
     if (verbose_ >= 3) cout << "Computing mapping from forecast [Time, FLT] to observation [Time]  ... " << endl;
 
@@ -156,10 +156,10 @@ limit_row, limit_col) firstprivate(index)
     }
 
     if (loop_flag > 0) {
-        if (verbose >= 1) cout << BOLDRED
+        if (verbose_ >= 1) cout << BOLDRED
             << "Error: Could not find some search forecast times in observation times."
             << RESET << endl;
-        if (search_mode == 0) return (OUT_OF_RANGE);
+        if (time_match_mode == 0) return (OUT_OF_RANGE);
     }
 
     swap(mapping_ref, mapping);
@@ -574,7 +574,7 @@ AnEn::computeSimilarity(
         const StandardDeviation& sds,
         SimilarityMatrices& sims,
         const Observations_array& search_observations,
-        const boost::numeric::ublas::matrix<size_t> & mapping,
+        const AnEn::TimeMapMatrix & mapping,
         size_t i_observation_parameter) const {
 
     boost::numeric::ublas::matrix<double> i_search_stations(0, 0);
@@ -586,8 +586,8 @@ errorType
 AnEn::selectAnalogs(
         Analogs & analogs,
         SimilarityMatrices & sims,
-        const Observations_array& search_observations,
-        const AnEn::TimeMapMatrix mapping,
+        const Observations_array & search_observations,
+        const AnEn::TimeMapMatrix & mapping,
         size_t i_parameter, size_t num_members,
         bool quick, bool preserve_real_time) const {
 

@@ -30,7 +30,27 @@ endforeach(file ${EXTRA_SOURCE_FILES})
 ##################
 # build and link #
 ##################
-add_library (${LIBRARY_NAME} SHARED ${SOURCES})
+
+# I'm building a static library here for CAnEnIO to avoid multiple
+# copied of classes with static members. Please look at the below 
+# dependency situation if both CAnEnIO and CAnEn are built as
+# dynamic libraries.
+#
+#      Parameter (A class with a static member ID) ---->  CAnEn.so
+#       |
+#       |
+#       V
+#      CAnEnIO.so
+#          
+# This creates problem because the static members in two .so libraries
+# clearly don't share the value even if they are the same class Parameter.
+# This can also be observed if you print out the Parameter static member
+# address. They are different.
+# 
+# To avoid this problem, I build CAnEnIO as a static library.
+#          
+# add_library (${LIBRARY_NAME} SHARED ${SOURCES})
+add_library (${LIBRARY_NAME} STATIC ${SOURCES})
 
 if(BOOST_TYPE STREQUAL "BUILD")
     target_link_libraries (${LIBRARY_NAME} "system")
@@ -82,7 +102,8 @@ set_target_properties(${LIBRARY_NAME} PROPERTIES INSTALL_RPATH "${AnEnIO_RPATH}"
 set_target_properties(${LIBRARY_NAME} PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${COMMON_OUTPUT_DIR}/lib")
 
 # Copy library to destination
-install(TARGETS ${LIBRARY_NAME} LIBRARY DESTINATION lib)
+# install(TARGETS ${LIBRARY_NAME} LIBRARY DESTINATION lib)
+install(TARGETS ${LIBRARY_NAME} ARCHIVE DESTINATION lib)
 
 # Copy headers to destination
 install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include DESTINATION .)

@@ -50,6 +50,8 @@
 #' - preserve_mapping: Whether to preserve the mapping matrix in return AnEn.
 #' - verbose: Verbose level. You can find settings for different values in the
 #' [C++ documentation verbose](https://weiming-hu.github.io/AnalogsEnsemble/CXX/class_an_en.html#a25984b953516a987e2e9eb23048e5d60).
+#' - time_match_mode: This is the method used to computed the mapping matrix between forecast times/flts and observation times.
+#' 0 for strict search (return error when matching observation times cannot be found) and 1 for loose search.
 #' 
 #' For configuration with mode 'extendedSearch': (skipping the aforementioned parameters)
 #' - mode: 'extendedSearch' indicates search the forecasts from both the current location and the nearby locations.
@@ -81,13 +83,13 @@ generateConfiguration <- function(mode) {
 		mode = mode, test_forecasts = NULL, search_forecasts = NULL, search_times = NULL, search_flts = NULL,
 		search_observations = NULL, observation_times = NULL, observation_id = 1, num_members = NULL,
 		circulars = vector(mode = 'numeric', length = 0), weights = NULL, quick = T,
-		preserve_real_time = F, preserve_similarity = F, preserve_mapping = F, verbose = 1)
+		preserve_real_time = F, preserve_similarity = F, preserve_mapping = F, time_match_mode = 0, verbose = 1)
 	
 	if (mode == 'extendedSearch') {
 		config <- c(config, list(test_stations_x = NULL, test_stations_y = NULL,
-														 search_stations_x = NULL, search_stations_y = NULL,
-														 max_num_search_stations = NULL, num_nearest = NULL,
-														 distance = 0, preserve_search_stations = F))
+                                 search_stations_x = NULL, search_stations_y = NULL,
+                                 max_num_search_stations = NULL, num_nearest = NULL,
+                                 distance = 0, preserve_search_stations = F))
 	}
 	
 	class(config) <- "Configuration"

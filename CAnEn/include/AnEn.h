@@ -111,7 +111,7 @@ public:
      * @param flts_forecasts Forecast anenTimes::FLTs.
      * @param times_observations Observation anenTimes::Time.
      * @param mapping A matrix stores the indices.
-     * @param search_mode An integer specifying how to deal with missing observation
+     * @param time_match_mode An integer specifying how to deal with missing observation
      * times. 0 stands for strict search. It will throw an error when a forecast time
      * cannot be found in observation times. 1 stands for loose search. It will insert
      * NA into the matrix when a observation time cannot be found for a foreacst time.
@@ -121,7 +121,7 @@ public:
             const anenTime::Times & times_forecasts,
             const anenTime::Times & flts_forecasts,
             const anenTime::Times & times_observations,
-            TimeMapMatrix & mapping, int search_mode = 0) const;
+            TimeMapMatrix & mapping, int time_match_mode = 0) const;
 
     /**
      * Computes the search stations of each test stations.
@@ -203,7 +203,7 @@ public:
             Analogs & analogs,
             SimilarityMatrices & sims,
             const Observations_array& search_observations,
-            const TimeMapMatrix mapping,
+            const TimeMapMatrix & mapping,
             size_t i_parameter, size_t num_members,
             bool quick = true, bool preserve_real_time = false) const;
 

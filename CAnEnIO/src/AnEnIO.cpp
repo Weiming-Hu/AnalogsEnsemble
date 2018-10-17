@@ -803,7 +803,7 @@ AnEnIO::readParameters(anenPar::Parameters& parameters,
         size_t start, size_t count, ptrdiff_t stride) {
 
     if (verbose_ >= 3) {
-        cout << "Reading Parameters  from file ("
+        cout << "Reading Parameters from file ("
                 << file_path_ << ") ..." << endl;
     }
 

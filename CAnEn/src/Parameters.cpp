@@ -19,6 +19,8 @@
 #include "Parameters.h"
 #include <iterator>
 
+size_t anenPar::Parameter::_static_ID_ = 0;
+
 namespace anenPar {
 
     using namespace std;
@@ -26,8 +28,6 @@ namespace anenPar {
     /***************************************************************************
      *                              Parameter                                  *
      **************************************************************************/
-
-    size_t Parameter::_static_ID_ = 0;
 
     Parameter::Parameter() {
         setID_();
@@ -126,6 +126,11 @@ namespace anenPar {
     size_t
     Parameter::getID() const {
         return ID_;
+    }
+
+    size_t
+    Parameter::getStaticID() {
+        return Parameter::_static_ID_;
     }
 
     void

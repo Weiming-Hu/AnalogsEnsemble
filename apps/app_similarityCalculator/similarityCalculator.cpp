@@ -39,7 +39,8 @@ void runSimilarityCalculator(
         size_t observation_id,
 
         bool searchExtension, size_t max_neighbors,
-        size_t num_neighbors, double distance, int verbose) {
+        size_t num_neighbors, double distance,
+        int time_match_mode, int verbose) {
 
     
     /************************************************************************
@@ -90,7 +91,7 @@ void runSimilarityCalculator(
     AnEn::TimeMapMatrix mapping;
     anen.handleError(anen.computeObservationsTimeIndices(
             search_forecasts.getTimes(), search_forecasts.getFLTs(),
-            observations.getTimes(), mapping));
+            observations.getTimes(), mapping, time_match_mode));
     if (!file_mapping.empty()) {
         io.setMode("Write", file_mapping);
         io.setFileType("Matrix");
@@ -141,7 +142,7 @@ int main(int argc, char** argv) {
             file_observations, file_similarity;
 
     // Optional variables
-    int verbose = 0;
+    int verbose = 0, time_match_mode = 0;
     size_t observation_id = 0, max_neighbors = 0, num_neighbors = 0;
     string config_file, file_mapping;
     bool searchExtension = false;
@@ -161,6 +162,7 @@ int main(int argc, char** argv) {
                 ("similarity-nc", po::value<string>(&file_similarity)->required(), "Set the output file path for similarity NetCDF.")
 
                 ("verbose,v", po::value<int>(&verbose)->default_value(2), "Set the verbose level.")
+                ("time-match-mode", po::value<int>(&time_match_mode)->default_value(0), "Set the match mode for generating TimeMapMatrix. 0 for strict and 1 for loose search.")
                 ("mapping-txt", po::value<string>(&file_mapping), "Set the output file path for time mapping matrix.")
                 ("observation-id", po::value<size_t>(&observation_id)->default_value(0), "Set the index of the observation variable that will be used.")
                 ("searchExtension", po::bool_switch(&searchExtension)->default_value(false), "Use search extension.")
@@ -240,6 +242,7 @@ int main(int argc, char** argv) {
                 << "file_mapping: " << file_mapping << endl
                 << "config_file: " << config_file << endl
                 << "verbose: " << verbose << endl
+                << "time_match_mode: " << time_match_mode << endl
                 << "observation_id: " << observation_id << endl
                 << "searchExtension: " << searchExtension << endl
                 << "distance: " << distance << endl
@@ -259,7 +262,7 @@ int main(int argc, char** argv) {
                 file_search_forecasts, search_start, search_count,
                 file_observations, obs_start, obs_count, file_similarity,
                 file_mapping, observation_id, searchExtension, max_neighbors,
-                num_neighbors, distance, verbose);
+                num_neighbors, distance, time_match_mode, verbose);
     } catch (...) {
         handle_exception(current_exception());
         return 1;

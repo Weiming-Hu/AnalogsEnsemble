@@ -56,7 +56,8 @@ List generateAnalogs(
         bool preserve_real_time, bool preserve_similarity,
         bool preserve_mapping, bool preserve_search_stations,
         size_t max_num_search_stations, double distance,
-        size_t num_nearest_stations, int verbose) {
+        size_t num_nearest_stations, int time_match_mode,
+        int verbose) {
 
     /***************************************************************************
      *                   Convert objects for AnEn computation                  *
@@ -139,7 +140,7 @@ List generateAnalogs(
     AnEn anen(verbose);
     Analogs analogs;
     SimilarityMatrices sims(test_forecasts);
-    boost::numeric::ublas::matrix<size_t> mapping;
+    AnEn::TimeMapMatrix mapping;
     StandardDeviation sds(parameters.size(),
             search_stations.size(), flts.size());
 
@@ -159,7 +160,7 @@ List generateAnalogs(
     //
     anen.handleError(anen.computeObservationsTimeIndices(
             search_forecasts.getTimes(), search_forecasts.getFLTs(),
-            search_observations.getTimes(), mapping));
+            search_observations.getTimes(), mapping, time_match_mode));
 
     // Compute similarity
     boost::numeric::ublas::matrix<double> i_search_stations;

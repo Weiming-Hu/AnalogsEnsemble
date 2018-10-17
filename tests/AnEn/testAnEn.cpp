@@ -171,7 +171,7 @@ void testAnEn::testComputeSimilarity() {
     anen.computeStandardDeviation(search_forecasts, sds);
     
     // Pre compute the time mapping from forecasts to observations
-    boost::numeric::ublas::matrix<size_t> mapping;
+    AnEn::TimeMapMatrix mapping;
     anen.handleError(anen.computeObservationsTimeIndices(
             search_forecasts.getTimes(), search_forecasts.getFLTs(),
             search_observations.getTimes(), mapping));
@@ -282,7 +282,7 @@ void testAnEn::testComputeObservationTimeIndices() {
             values.begin(), values.end());
 
     AnEn anen(2);
-    boost::numeric::ublas::matrix<size_t> mapping;
+    AnEn::TimeMapMatrix mapping;
 
     anen.computeObservationsTimeIndices(times_forecasts, flts_forecasts,
             times_observations, mapping);
@@ -378,7 +378,7 @@ void testAnEn::testSelectAnalogs() {
             search_stations.size(), flts.size());
     anen.handleError(anen.computeStandardDeviation(search_forecasts, sds));
     // Pre compute the time mapping from forecasts to observations
-    boost::numeric::ublas::matrix<size_t> mapping;
+    AnEn::TimeMapMatrix mapping;
     anen.handleError(anen.computeObservationsTimeIndices(
             search_forecasts.getTimes(), search_forecasts.getFLTs(),
             search_observations.getTimes(), mapping));
@@ -457,7 +457,7 @@ void testAnEn::testComputeSearchStations() {
         s7, s8, s9, s10, s11, s12, s13, s14});
     test_stations.insert(test_stations.end(),{s3, s6, s7});
 
-    boost::numeric::ublas::matrix<double> i_search_stations;
+    AnEn::SearchStationMatrix i_search_stations;
     AnEn anen(2);
 
     vector<size_t> results;

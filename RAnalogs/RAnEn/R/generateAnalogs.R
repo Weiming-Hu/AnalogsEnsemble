@@ -78,7 +78,7 @@ generateAnalogs <- function(configuration) {
 			configuration$preserve_similarity, 
 			configuration$preserve_mapping, preserve_search_stations,
 			max_num_search_stations, distance,
-			num_nearest_stations, configuration$verbose)
+			num_nearest_stations, configuration$time_match_mode, configuration$verbose)
 		
 	} else if (configuration$mode == 'extendedSearch') {
 		# Create default values
@@ -103,6 +103,7 @@ generateAnalogs <- function(configuration) {
 			configuration$max_num_search_stations,
 			configuration$distance,
 			configuration$num_nearest,
+            configuration$time_match_mode,
 			configuration$verbose)
 		
 	} else {

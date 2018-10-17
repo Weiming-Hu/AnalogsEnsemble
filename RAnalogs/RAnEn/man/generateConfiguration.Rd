@@ -40,6 +40,8 @@ package which observation parameter to use.
 \item preserve_mapping: Whether to preserve the mapping matrix in return AnEn.
 \item verbose: Verbose level. You can find settings for different values in the
 \href{https://weiming-hu.github.io/AnalogsEnsemble/CXX/class_an_en.html#a25984b953516a987e2e9eb23048e5d60}{C++ documentation verbose}.
+\item time_match_mode: This is the method used to computed the mapping matrix between forecast times/flts and observation times.
+0 for strict search (return error when matching observation times cannot be found) and 1 for loose search.
 }
 
 For configuration with mode 'extendedSearch': (skipping the aforementioned parameters)

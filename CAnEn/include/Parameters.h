@@ -65,6 +65,7 @@ namespace anenPar {
          * @param circular Whether parameter is circular.
          */
         Parameter(std::string name, bool circular);
+
         Parameter(const Parameter& other);
 
         virtual ~Parameter();
@@ -90,6 +91,7 @@ namespace anenPar {
         double getWeight() const;
         bool getCircular() const;
         std::size_t getID() const;
+        static std::size_t getStaticID();
 
         void print(std::ostream &) const;
         friend std::ostream& operator<<(std::ostream&, Parameter const &);

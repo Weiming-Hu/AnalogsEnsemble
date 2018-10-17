@@ -7,6 +7,7 @@
 
 /** @file */
 
+#include "AnEn.h"
 #include "AnEnIO.h"
 #include "CommonExeFunctions.h"
 
@@ -64,14 +65,14 @@ void runWindFieldCalculator(
                 return (dir < 0 ? (dir + 360) : dir);
             };
 
-    // Define parameters
-    anenPar::Parameter windSpeed(var_speed_name, false),
-            windDir(var_dir_name, true);
-
     size_t num_parameters, num_stations, num_times, num_flts,
             i_U, i_V, i_speed, i_dir;
 
     AnEnIO io("Read", file_in, file_type, verbose);
+
+    // Define parameters
+    anenPar::Parameter windSpeed(var_speed_name, false),
+            windDir(var_dir_name, true);
 
     if (file_type == "Forecasts") {
 
