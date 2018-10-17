@@ -373,48 +373,50 @@ sims, sds, i_observation_parameter)
                     for (size_t i_search_station = 0; i_search_station < num_search_stations; i_search_station++) {
                         for (size_t i_search_time = 0; i_search_time < num_search_times; i_search_time++) {
 
-                            if (!std::isnan(data_search_observations[i_observation_parameter][i_search_station]
-                                    [mapping(i_search_time, i_flt)])) {
+                            if (!std::isnan(mapping(i_search_time, i_flt))) {
+                                if (!std::isnan(data_search_observations[i_observation_parameter][i_search_station]
+                                            [mapping(i_search_time, i_flt)])) {
 
-                                size_t i_sim_row = i_search_station * num_search_times + i_search_time;
-                                if (std::isnan(sims[i_test_station][i_test_time][i_flt][i_sim_row][COL_TAG_SIM::VALUE]))
-                                    sims[i_test_station][i_test_time][i_flt][i_sim_row][COL_TAG_SIM::VALUE] = 0;
+                                    size_t i_sim_row = i_search_station * num_search_times + i_search_time;
+                                    if (std::isnan(sims[i_test_station][i_test_time][i_flt][i_sim_row][COL_TAG_SIM::VALUE]))
+                                        sims[i_test_station][i_test_time][i_flt][i_sim_row][COL_TAG_SIM::VALUE] = 0;
 
-                                for (size_t i_parameter = 0; i_parameter < num_parameters; i_parameter++) {
+                                    for (size_t i_parameter = 0; i_parameter < num_parameters; i_parameter++) {
 
-                                    if (weights[i_parameter] != 0) {
-                                        vector<double> window(flts_window(i_flt, 1) - flts_window(i_flt, 0) + 1);
-                                        short pos = 0;
+                                        if (weights[i_parameter] != 0) {
+                                            vector<double> window(flts_window(i_flt, 1) - flts_window(i_flt, 0) + 1);
+                                            short pos = 0;
 
-                                        for (size_t i_window_flt = flts_window(i_flt, 0);
-                                                i_window_flt <= flts_window(i_flt, 1); i_window_flt++, pos++) {
+                                            for (size_t i_window_flt = flts_window(i_flt, 0);
+                                                    i_window_flt <= flts_window(i_flt, 1); i_window_flt++, pos++) {
 
-                                            double value_search = data_search_forecasts
+                                                double value_search = data_search_forecasts
                                                     [i_parameter][i_search_station][i_search_time][i_window_flt];
-                                            double value_test = data_test_forecasts
+                                                double value_test = data_test_forecasts
                                                     [i_parameter][i_test_station][i_test_time][i_window_flt];
 
-                                            if (std::isnan(value_search) || std::isnan(value_test)) window[pos] = NAN;
+                                                if (std::isnan(value_search) || std::isnan(value_test)) window[pos] = NAN;
 
-                                            if (circular_flags[i_parameter]) {
-                                                window[pos] = pow(diffCircular(value_search, value_test), 2);
-                                            } else {
-                                                window[pos] = pow(value_search - value_test, 2);
-                                            }
-                                        } // End loop of search window FLTs
+                                                if (circular_flags[i_parameter]) {
+                                                    window[pos] = pow(diffCircular(value_search, value_test), 2);
+                                                } else {
+                                                    window[pos] = pow(value_search - value_test, 2);
+                                                }
+                                            } // End loop of search window FLTs
 
-                                        double average = mean(window);
+                                            double average = mean(window);
 
-                                        if (sds[i_parameter][i_search_station][i_flt] > 0 && !std::isnan(average)) {
-                                            sims[i_test_station][i_test_time][i_flt][i_sim_row][COL_TAG_SIM::VALUE]
+                                            if (sds[i_parameter][i_search_station][i_flt] > 0 && !std::isnan(average)) {
+                                                sims[i_test_station][i_test_time][i_flt][i_sim_row][COL_TAG_SIM::VALUE]
                                                     += weights[i_parameter] * (sqrt(average) / sds[i_parameter][i_search_station][i_flt]);
+                                            }
                                         }
-                                    }
-                                } // End loop of parameters
+                                    } // End loop of parameters
 
-                                sims[i_test_station][i_test_time][i_flt][i_sim_row][COL_TAG_SIM::STATION] = i_search_station;
-                                sims[i_test_station][i_test_time][i_flt][i_sim_row][COL_TAG_SIM::TIME] = i_search_time;
-                            }
+                                    sims[i_test_station][i_test_time][i_flt][i_sim_row][COL_TAG_SIM::STATION] = i_search_station;
+                                    sims[i_test_station][i_test_time][i_flt][i_sim_row][COL_TAG_SIM::TIME] = i_search_time;
+                                } // End of isnan(observation value)
+                            } // End of isnan(mapping value)
                         } // End loop of search times
                     } // End loop of search stations
                 } // End loop of FLTs
@@ -448,48 +450,51 @@ sims, sds, i_observation_parameter, i_search_stations)
                         if (!std::isnan(i_search_station)) {
                             for (size_t i_search_time = 0; i_search_time < num_search_times; i_search_time++) {
 
-                                if (!std::isnan(data_search_observations[i_observation_parameter][i_search_station]
-                                        [mapping(i_search_time, i_flt)])) {
+                                if (!std::isnan(mapping(i_search_time, i_flt))) {
 
-                                    size_t i_sim_row = i_search_station_index * num_search_times + i_search_time;
-                                    if (std::isnan(sims[i_test_station][i_test_time][i_flt][i_sim_row][COL_TAG_SIM::VALUE]))
-                                        sims[i_test_station][i_test_time][i_flt][i_sim_row][COL_TAG_SIM::VALUE] = 0;
+                                    if (!std::isnan(data_search_observations[i_observation_parameter][i_search_station]
+                                                [mapping(i_search_time, i_flt)])) {
 
-                                    for (size_t i_parameter = 0; i_parameter < num_parameters; i_parameter++) {
+                                        size_t i_sim_row = i_search_station_index * num_search_times + i_search_time;
+                                        if (std::isnan(sims[i_test_station][i_test_time][i_flt][i_sim_row][COL_TAG_SIM::VALUE]))
+                                            sims[i_test_station][i_test_time][i_flt][i_sim_row][COL_TAG_SIM::VALUE] = 0;
 
-                                        if (weights[i_parameter] != 0) {
-                                            vector<double> window(flts_window(i_flt, 1) - flts_window(i_flt, 0) + 1);
-                                            short pos = 0;
+                                        for (size_t i_parameter = 0; i_parameter < num_parameters; i_parameter++) {
 
-                                            for (size_t i_window_flt = flts_window(i_flt, 0);
-                                                    i_window_flt <= flts_window(i_flt, 1); i_window_flt++, pos++) {
+                                            if (weights[i_parameter] != 0) {
+                                                vector<double> window(flts_window(i_flt, 1) - flts_window(i_flt, 0) + 1);
+                                                short pos = 0;
 
-                                                double value_search = data_search_forecasts
+                                                for (size_t i_window_flt = flts_window(i_flt, 0);
+                                                        i_window_flt <= flts_window(i_flt, 1); i_window_flt++, pos++) {
+
+                                                    double value_search = data_search_forecasts
                                                         [i_parameter][i_search_station][i_search_time][i_window_flt];
-                                                double value_test = data_test_forecasts
+                                                    double value_test = data_test_forecasts
                                                         [i_parameter][i_test_station][i_test_time][i_window_flt];
 
-                                                if (std::isnan(value_search) || std::isnan(value_test)) window[pos] = NAN;
+                                                    if (std::isnan(value_search) || std::isnan(value_test)) window[pos] = NAN;
 
-                                                if (circular_flags[i_parameter]) {
-                                                    window[pos] = pow(diffCircular(value_search, value_test), 2);
-                                                } else {
-                                                    window[pos] = pow(value_search - value_test, 2);
-                                                }
-                                            } // End loop of search window FLTs
+                                                    if (circular_flags[i_parameter]) {
+                                                        window[pos] = pow(diffCircular(value_search, value_test), 2);
+                                                    } else {
+                                                        window[pos] = pow(value_search - value_test, 2);
+                                                    }
+                                                } // End loop of search window FLTs
 
-                                            double average = mean(window);
+                                                double average = mean(window);
 
-                                            if (sds[i_parameter][i_search_station][i_flt] > 0 && !std::isnan(average)) {
-                                                sims[i_test_station][i_test_time][i_flt][i_sim_row][COL_TAG_SIM::VALUE]
+                                                if (sds[i_parameter][i_search_station][i_flt] > 0 && !std::isnan(average)) {
+                                                    sims[i_test_station][i_test_time][i_flt][i_sim_row][COL_TAG_SIM::VALUE]
                                                         += weights[i_parameter] * (sqrt(average) / sds[i_parameter][i_search_station][i_flt]);
+                                                }
                                             }
-                                        }
-                                    } // End loop of parameters
+                                        } // End loop of parameters
 
-                                    sims[i_test_station][i_test_time][i_flt][i_sim_row][COL_TAG_SIM::STATION] = i_search_station;
-                                    sims[i_test_station][i_test_time][i_flt][i_sim_row][COL_TAG_SIM::TIME] = i_search_time;
-                                }
+                                        sims[i_test_station][i_test_time][i_flt][i_sim_row][COL_TAG_SIM::STATION] = i_search_station;
+                                        sims[i_test_station][i_test_time][i_flt][i_sim_row][COL_TAG_SIM::TIME] = i_search_time;
+                                    } // End of isnan(observation value)
+                                } // End of isnan(mapping value)
                             } // End loop of search times
                         }
                     } // End loop of search stations
@@ -516,47 +521,49 @@ sims, sds, i_observation_parameter)
                 for (size_t i_flt = 0; i_flt < num_flts; i_flt++) {
                     for (size_t i_search_time = 0; i_search_time < num_search_times; i_search_time++) {
 
-                        if (!std::isnan(data_search_observations[i_observation_parameter][i_station]
-                                [mapping(i_search_time, i_flt)])) {
+                        if (!std::isnan(mapping(i_search_time, i_flt))) {
+                            if (!std::isnan(data_search_observations[i_observation_parameter][i_station]
+                                        [mapping(i_search_time, i_flt)])) {
 
-                            if (std::isnan(sims[i_station][i_test_time][i_flt][i_search_time][COL_TAG_SIM::VALUE]))
-                                sims[i_station][i_test_time][i_flt][i_search_time][COL_TAG_SIM::VALUE] = 0;
-                            for (size_t i_parameter = 0; i_parameter < num_parameters; i_parameter++) {
+                                if (std::isnan(sims[i_station][i_test_time][i_flt][i_search_time][COL_TAG_SIM::VALUE]))
+                                    sims[i_station][i_test_time][i_flt][i_search_time][COL_TAG_SIM::VALUE] = 0;
+                                for (size_t i_parameter = 0; i_parameter < num_parameters; i_parameter++) {
 
-                                if (weights[i_parameter] != 0) {
-                                    vector<double> window(flts_window(i_flt, 1) - flts_window(i_flt, 0) + 1);
-                                    short pos = 0;
+                                    if (weights[i_parameter] != 0) {
+                                        vector<double> window(flts_window(i_flt, 1) - flts_window(i_flt, 0) + 1);
+                                        short pos = 0;
 
-                                    for (size_t i_window_flt = flts_window(i_flt, 0);
-                                            i_window_flt <= flts_window(i_flt, 1); i_window_flt++, pos++) {
+                                        for (size_t i_window_flt = flts_window(i_flt, 0);
+                                                i_window_flt <= flts_window(i_flt, 1); i_window_flt++, pos++) {
 
-                                        double value_search = data_search_forecasts
+                                            double value_search = data_search_forecasts
                                                 [i_parameter][i_station][i_search_time][i_window_flt];
-                                        double value_test = data_test_forecasts
+                                            double value_test = data_test_forecasts
                                                 [i_parameter][i_station][i_test_time][i_window_flt];
 
-                                        if (std::isnan(value_search) || std::isnan(value_test)) window[pos] = NAN;
+                                            if (std::isnan(value_search) || std::isnan(value_test)) window[pos] = NAN;
 
-                                        if (circular_flags[i_parameter]) {
-                                            window[pos] = pow(diffCircular(value_search, value_test), 2);
-                                        } else {
-                                            window[pos] = pow(value_search - value_test, 2);
-                                        }
-                                    } // End loop of search window FLTs
+                                            if (circular_flags[i_parameter]) {
+                                                window[pos] = pow(diffCircular(value_search, value_test), 2);
+                                            } else {
+                                                window[pos] = pow(value_search - value_test, 2);
+                                            }
+                                        } // End loop of search window FLTs
 
-                                    double average = mean(window);
+                                        double average = mean(window);
 
-                                    if (sds[i_parameter][i_station][i_flt] > 0 && !std::isnan(average)) {
-                                        sims[i_station][i_test_time][i_flt][i_search_time][COL_TAG_SIM::VALUE]
+                                        if (sds[i_parameter][i_station][i_flt] > 0 && !std::isnan(average)) {
+                                            sims[i_station][i_test_time][i_flt][i_search_time][COL_TAG_SIM::VALUE]
                                                 += weights[i_parameter] * (sqrt(average) / sds[i_parameter][i_station][i_flt]);
+                                        }
                                     }
-                                }
 
-                            } // End loop of parameters
+                                } // End loop of parameters
 
-                            sims[i_station][i_test_time][i_flt][i_search_time][COL_TAG_SIM::STATION] = i_station;
-                            sims[i_station][i_test_time][i_flt][i_search_time][COL_TAG_SIM::TIME] = i_search_time;
-                        }
+                                sims[i_station][i_test_time][i_flt][i_search_time][COL_TAG_SIM::STATION] = i_station;
+                                sims[i_station][i_test_time][i_flt][i_search_time][COL_TAG_SIM::TIME] = i_search_time;
+                            } // End of isnan(observation value)
+                        } // End of isnan(mapping value)
                     } // End loop of search times
                 } // End loop of FLTs
             } // End loop of test times
@@ -639,16 +646,19 @@ i_parameter, num_test_times, num_flts, observation_times_by_insert, max_members)
 
                         if (i_member < max_members) {
                             if (!std::isnan(sims[i_test_station][i_test_time][i_flt][i_member][COL_TAG_SIM::VALUE])) {
+
                                 size_t i_search_station = (size_t) sims[i_test_station][i_test_time][i_flt][i_member][COL_TAG_SIM::STATION];
                                 size_t i_search_forecast_time = (size_t) sims[i_test_station][i_test_time][i_flt][i_member][COL_TAG_SIM::TIME];
-                                size_t i_observation_time = mapping(i_search_forecast_time, i_flt);
 
-                                analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::STATION] = i_search_station;
-                                analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::TIME] =
+                                if (!std::isnan(mapping(i_search_forecast_time, i_flt))) {
+                                    size_t i_observation_time = mapping(i_search_forecast_time, i_flt);
+
+                                    analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::STATION] = i_search_station;
+                                    analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::TIME] =
                                         observation_times_by_insert[i_observation_time];
-
-                                analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::VALUE] =
+                                    analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::VALUE] =
                                         data_observations[i_parameter][i_search_station][i_observation_time];
+                                }
                             }   
                         }
 
@@ -670,14 +680,16 @@ i_parameter, num_test_times, num_flts, max_members)
                         
                         if (i_member < max_members) {
                             if (!std::isnan(sims[i_test_station][i_test_time][i_flt][i_member][COL_TAG_SIM::VALUE])) {
+
                                 size_t i_search_station = (size_t) sims[i_test_station][i_test_time][i_flt][i_member][COL_TAG_SIM::STATION];
                                 size_t i_search_forecast_time = (size_t) sims[i_test_station][i_test_time][i_flt][i_member][COL_TAG_SIM::TIME];
 
-                                analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::STATION] = i_search_station;
-                                analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::TIME] = mapping(i_search_forecast_time, i_flt);
-
-                                analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::VALUE] =
+                                if (!std::isnan(mapping(i_search_forecast_time, i_flt))) {
+                                    analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::STATION] = i_search_station;
+                                    analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::TIME] = mapping(i_search_forecast_time, i_flt);
+                                    analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::VALUE] =
                                         data_observations[i_parameter][i_search_station][mapping(i_search_forecast_time, i_flt)];
+                                }
                             }
                         }
 
