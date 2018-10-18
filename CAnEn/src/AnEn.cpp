@@ -150,7 +150,6 @@ limit_row, limit_col) firstprivate(index)
                 mapping(i_row, i_col) = index;
             } catch (...) {
                 loop_flag = 1;
-                continue;
             }
         }
     }
