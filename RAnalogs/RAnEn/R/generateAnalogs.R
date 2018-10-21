@@ -132,6 +132,8 @@ generateAnalogs <- function(configuration) {
 	AnEn$similarity[, , , , 2:3] <- AnEn$similarity[, , , , 2:3, drop = F] + 1
 	
 	if (configuration$preserve_mapping) AnEn$mapping <- AnEn$mapping + 1
+
+    if (verbose >= 3)  print("Done!")
 	
 	return(AnEn)
 }
