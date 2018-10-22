@@ -57,7 +57,7 @@ List generateAnalogs(
         bool preserve_mapping, bool preserve_search_stations,
         size_t max_num_search_stations, double distance,
         size_t num_nearest_stations, int time_match_mode,
-        int verbose) {
+        double max_par_nan, double max_flt_nan, int verbose) {
 
     /***************************************************************************
      *                   Convert objects for AnEn computation                  *
@@ -174,11 +174,11 @@ List generateAnalogs(
 
         anen.handleError(anen.computeSimilarity(search_forecasts, sds, sims,
                 search_observations, mapping,
-                i_search_stations, observation_parameter));
+                i_search_stations, observation_parameter, max_par_nan, max_flt_nan));
 
     } else {
         anen.handleError(anen.computeSimilarity(search_forecasts, sds, sims,
-                search_observations, mapping, observation_parameter));
+                search_observations, mapping, observation_parameter, max_par_nan, max_flt_nan));
     }
 
     // Select analogs

@@ -42,7 +42,9 @@ void runAnalogGenerator(
         size_t num_neighbors, double distance, 
 
         size_t num_members, bool quick,
-        bool preserve_real_time, int time_match_mode, int verbose) {
+        bool preserve_real_time, int time_match_mode,
+        double max_par_nan, double max_flt_nan,
+        int verbose) {
 
     /************************************************************************
      *                         Read Input Data                              *
@@ -111,14 +113,14 @@ void runAnalogGenerator(
                 distance, num_neighbors, true));
         anen.handleError(anen.computeSimilarity(
                 search_forecasts, sds, sims, search_observations, mapping,
-                i_search_stations, observation_id));
+                i_search_stations, observation_id, max_par_nan, max_flt_nan));
 
     } else {
         anen.setMethod(AnEn::simMethod::ONE_TO_ONE);
 
         anen.handleError(anen.computeSimilarity(
                 search_forecasts, sds, sims, search_observations,
-                mapping, observation_id));
+                mapping, observation_id, max_par_nan, max_flt_nan));
     }
 
     if (!file_similarity.empty()) {
@@ -159,7 +161,7 @@ int main(int argc, char** argv) {
     string config_file, file_mapping, file_similarity;
     bool quick = false, preserve_real_time = false, searchExtension = false;
 
-    double distance = 0;
+    double distance = 0, max_par_nan = NAN, max_flt_nan = NAN;
     size_t max_neighbors = 0, num_neighbors = 0;
     vector<size_t> test_start, test_count, search_start, search_count,
             obs_start, obs_count;
@@ -178,6 +180,8 @@ int main(int argc, char** argv) {
 
                 ("verbose,v", po::value<int>(&verbose)->default_value(2), "Set the verbose level.")
                 ("time-match-mode", po::value<int>(&time_match_mode)->default_value(0), "Set the match mode for generating TimeMapMatrix. 0 for strict and 1 for loose search.")
+                ("max-par-nan", po::value<double>(&max_par_nan)->default_value(NAN), "The number of NAN values allowed when computing similarity across different parameters. Set it to a negative number (will be automatically converted to NAN) to allow any number of NAN values.")
+                ("max-flt-nan", po::value<double>(&max_flt_nan)->default_value(NAN), "The number of NAN values allowed when computing FLT window averages. Set it to a negative number (will be automatically converted to NAN) to allow any number of NAN values.")
                 ("similarity-nc", po::value<string>(&file_similarity), "Set the output file path for similarity NetCDF.")
                 ("mapping-txt", po::value<string>(&file_mapping), "Set the output file path for time mapping matrix.")
                 ("observation-id", po::value<size_t>(&observation_id)->default_value(0), "Set the index of the observation variable that will be used.")
@@ -243,6 +247,18 @@ int main(int argc, char** argv) {
                 store(parsed_config, vm);
             }
         }
+        
+        if (vm.count("max_par_nan")) {
+            if (vm["max_par_nan"].as<double>() < 0) {
+                max_par_nan = NAN;
+            }
+        }
+
+        if (vm.count("max_flt_nan")) {
+            if (vm["max_flt_nan"].as<double>() < 0) {
+                max_flt_nan = NAN;
+            }
+        }
 
         notify(vm);
         
@@ -266,6 +282,8 @@ int main(int argc, char** argv) {
             << "quick: " << quick << endl
             << "preserve_real_time: " << preserve_real_time << endl
             << "time_match_mode: " << time_match_mode << endl
+            << "max_par_nan: " << max_par_nan << endl
+            << "max_flt_nan: " << max_flt_nan << endl
             << "verbose: " << verbose << endl
             << "distance: " << distance << endl
             << "max_neighbors: " << max_neighbors << endl
@@ -286,7 +304,8 @@ int main(int argc, char** argv) {
                 file_mapping, file_similarity, file_analogs,
                 observation_id, searchExtension, max_neighbors,
                 num_neighbors, distance, num_members, quick,
-                preserve_real_time, time_match_mode, verbose);
+                preserve_real_time, time_match_mode, max_par_nan,
+                max_flt_nan, verbose);
     } catch (...) {
         handle_exception(current_exception());
         return 1;

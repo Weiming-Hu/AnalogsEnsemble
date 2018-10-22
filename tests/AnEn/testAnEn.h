@@ -24,6 +24,7 @@ class testAnEn : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST(testSelectAnalogs);
     CPPUNIT_TEST(testComputeSearchStations);
     CPPUNIT_TEST(testOpenMP);
+    CPPUNIT_TEST(testMean);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -36,6 +37,7 @@ private:
     void testComputeSearchWindows();
     void testComputeSimilarity();
     void testSdCircular();
+    void testMean();
     void testSdLinear();
     void testComputeObservationTimeIndices();
     void testSelectAnalogs();

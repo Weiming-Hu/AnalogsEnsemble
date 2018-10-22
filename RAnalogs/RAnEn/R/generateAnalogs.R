@@ -78,7 +78,9 @@ generateAnalogs <- function(configuration) {
 			configuration$preserve_similarity, 
 			configuration$preserve_mapping, preserve_search_stations,
 			max_num_search_stations, distance,
-			num_nearest_stations, configuration$time_match_mode, configuration$verbose)
+			num_nearest_stations, configuration$time_match_mode,
+            configuration$max_par_nan, configuration$max_flt_nan,
+            configuration$verbose)
 		
 	} else if (configuration$mode == 'extendedSearch') {
 		# Create default values
@@ -104,6 +106,8 @@ generateAnalogs <- function(configuration) {
 			configuration$distance,
 			configuration$num_nearest,
             configuration$time_match_mode,
+            configuration$max_par_nan,
+            configuration$max_flt_nan,
 			configuration$verbose)
 		
 	} else {
@@ -133,7 +137,7 @@ generateAnalogs <- function(configuration) {
 	
 	if (configuration$preserve_mapping) AnEn$mapping <- AnEn$mapping + 1
 
-    if (verbose >= 3)  print("Done!")
+    if (configuration$verbose >= 3)  cat("Done!\n")
 	
 	return(AnEn)
 }

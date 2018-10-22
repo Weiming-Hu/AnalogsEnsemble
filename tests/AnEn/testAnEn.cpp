@@ -263,6 +263,26 @@ void testAnEn::testSdLinear() {
     CPPUNIT_ASSERT((int) (anen.sdLinear(values) * 100) == 20297);
 }
 
+void testAnEn::testMean() {
+
+    /**
+     * Test the behavior of mean function.
+     */
+
+    AnEn anen;
+    vector<double> v1 = {1, 2, 3}, v2 = {1, NAN, 2},
+        v3 = {NAN, 1, NAN}, v4 = {NAN, NAN, NAN};
+
+    CPPUNIT_ASSERT(anen.mean(v1) == 2);
+    CPPUNIT_ASSERT(anen.mean(v2) == 1.5);
+    CPPUNIT_ASSERT(anen.mean(v3) == 1);
+    CPPUNIT_ASSERT(std::isnan(anen.mean(v4)));
+
+    CPPUNIT_ASSERT(std::isnan(anen.mean(v2, 0)));
+    CPPUNIT_ASSERT(std::isnan(anen.mean(v3, 1)));
+    CPPUNIT_ASSERT(anen.mean(v3, 2) == 1);
+}
+
 void testAnEn::testComputeObservationTimeIndices() {
 
     /**

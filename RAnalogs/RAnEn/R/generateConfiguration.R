@@ -52,6 +52,10 @@
 #' [C++ documentation verbose](https://weiming-hu.github.io/AnalogsEnsemble/CXX/class_an_en.html#a25984b953516a987e2e9eb23048e5d60).
 #' - time_match_mode: This is the method used to computed the mapping matrix between forecast times/flts and observation times.
 #' 0 for strict search (return error when matching observation times cannot be found) and 1 for loose search.
+#' - max_par_nan: The number of NAN values allowed when computing similarity across different parameters.
+#' Set it to NA to allow any number of NAN values.
+#' - max_flt_nan: The number of NAN values allowed when computing FLT window averages.
+#' Set it to NA to allow any number of NAN values.
 #' 
 #' For configuration with mode 'extendedSearch': (skipping the aforementioned parameters)
 #' - mode: 'extendedSearch' indicates search the forecasts from both the current location and the nearby locations.
@@ -83,7 +87,8 @@ generateConfiguration <- function(mode) {
 		mode = mode, test_forecasts = NULL, search_forecasts = NULL, search_times = NULL, search_flts = NULL,
 		search_observations = NULL, observation_times = NULL, observation_id = 1, num_members = NULL,
 		circulars = vector(mode = 'numeric', length = 0), weights = NULL, quick = T,
-		preserve_real_time = F, preserve_similarity = F, preserve_mapping = F, time_match_mode = 0, verbose = 1)
+		preserve_real_time = F, preserve_similarity = F, preserve_mapping = F, time_match_mode = 0, 
+        max_par_nan = NA, max_flt_nan= NA, verbose = 1)
 	
 	if (mode == 'extendedSearch') {
 		config <- c(config, list(test_stations_x = NULL, test_stations_y = NULL,

@@ -163,6 +163,11 @@ public:
      * @param i_observation_parameter The parameter in observations that will
      * be checked for NAN values. By default it is 0 pointing at the first
      * parameter.
+     * @param max_par_nan The number of NAN values allowed when computing
+     * similarity across different parameters. Set it to NAN to allow any number
+     * of NAN values.
+     * @param max_flt_nan The number of NAN values allowed when computing
+     * FLT window averages. Set it to NAN to allow any number of NAN values.
      * 
      * @return An AnEn::errorType.
      */
@@ -173,7 +178,8 @@ public:
             const Observations_array& search_observations,
             const TimeMapMatrix & mapping,
             const SearchStationMatrix & i_search_stations,
-            size_t i_observation_parameter = 0) const;
+            size_t i_observation_parameter = 0,
+            double max_par_nan = NAN, double max_flt_nan = NAN) const;
     
     errorType computeSimilarity(
             const Forecasts_array & search_forecasts,
@@ -181,7 +187,8 @@ public:
             SimilarityMatrices & sims,
             const Observations_array& search_observations,
             const TimeMapMatrix & mapping,
-            size_t i_observation_parameter = 0) const;
+            size_t i_observation_parameter = 0,
+            double max_par_nan = NAN, double max_flt_nan = NAN) const;
 
     /**
      * Select analogs based on the similarity matrices.
@@ -237,8 +244,11 @@ public:
     /**
      * Computes the mean of a vector.
      * @param values A vector of values.
+     * @param max_nan_allowed The number of NAN values allowed in the
+     * vector. Set it to NAN to allow any number of NAN values.
      */
-    double mean(const std::vector<double> & values) const;
+    double mean(const std::vector<double> & values,
+            const double max_nan_allowed = NAN) const;
 
     /**
      * Computes the variance of a vector.

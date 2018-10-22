@@ -42,6 +42,10 @@ package which observation parameter to use.
 \href{https://weiming-hu.github.io/AnalogsEnsemble/CXX/class_an_en.html#a25984b953516a987e2e9eb23048e5d60}{C++ documentation verbose}.
 \item time_match_mode: This is the method used to computed the mapping matrix between forecast times/flts and observation times.
 0 for strict search (return error when matching observation times cannot be found) and 1 for loose search.
+\item max_par_nan: The number of NAN values allowed when computing similarity across different parameters.
+Set it to NA to allow any number of NAN values.
+\item max_flt_nan: The number of NAN values allowed when computing FLT window averages.
+Set it to NA to allow any number of NAN values.
 }
 
 For configuration with mode 'extendedSearch': (skipping the aforementioned parameters)
