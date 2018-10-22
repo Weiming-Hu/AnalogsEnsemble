@@ -39,7 +39,7 @@ print.AnEn <- function (x) {
   	empty <- F
   	cat("Member 'similarity': [test station][test time][FLT][member][type]\n")
   	cat(dim(x$similarity))
-  	cat(" (value, search station, search observation time)")
+  	cat(" (value, search station, search forecast time)")
   	cat("\n")
   }
   
