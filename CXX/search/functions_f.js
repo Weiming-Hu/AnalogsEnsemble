@@ -23,6 +23,7 @@ var searchData=
   ['testgribconverter',['testGribConverter',['../classtest_grib_converter.html#a3314c2929635c2bdd2529b33868db34b',1,'testGribConverter']]],
   ['testmatricesconstructor',['testMatricesConstructor',['../classtest_similarity_matrices.html#a2c4692bd19c9b8273208ce0378bf21f3',1,'testSimilarityMatrices']]],
   ['testmatricessort',['testMatricesSort',['../classtest_similarity_matrices.html#aba9d96a88634e02a999f73371874c67e',1,'testSimilarityMatrices']]],
+  ['testmean',['testMean',['../classtest_an_en.html#a86facbd3fc93a49b45ef9bb0d18fd67a',1,'testAnEn']]],
   ['testmultiindex',['testMultiIndex',['../classtest_stations.html#a0897814b6b707f10cf83116147f16f39',1,'testStations']]],
   ['testobservationsarray',['testObservationsArray',['../classtest_observations_array.html#a309954f300b5ad1c1a86a88cb599e01f',1,'testObservationsArray']]],
   ['testobservationvaluesequence',['testObservationValueSequence',['../classtest_observations_array.html#aa78c38cde45f1cf609be8ba2c4c16a9a',1,'testObservationsArray']]],

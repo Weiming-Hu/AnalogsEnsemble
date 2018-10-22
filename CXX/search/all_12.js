@@ -32,6 +32,7 @@ var searchData=
   ['testgribconverter_2eh',['testGribConverter.h',['../test_grib_converter_8h.html',1,'']]],
   ['testmatricesconstructor',['testMatricesConstructor',['../classtest_similarity_matrices.html#a2c4692bd19c9b8273208ce0378bf21f3',1,'testSimilarityMatrices']]],
   ['testmatricessort',['testMatricesSort',['../classtest_similarity_matrices.html#aba9d96a88634e02a999f73371874c67e',1,'testSimilarityMatrices']]],
+  ['testmean',['testMean',['../classtest_an_en.html#a86facbd3fc93a49b45ef9bb0d18fd67a',1,'testAnEn']]],
   ['testmultiindex',['testMultiIndex',['../classtest_stations.html#a0897814b6b707f10cf83116147f16f39',1,'testStations']]],
   ['testobservationsarray',['testObservationsArray',['../classtest_observations_array.html',1,'testObservationsArray'],['../classtest_observations_array.html#a309954f300b5ad1c1a86a88cb599e01f',1,'testObservationsArray::testObservationsArray()']]],
   ['testobservationsarray_2ecpp',['testObservationsArray.cpp',['../test_observations_array_8cpp.html',1,'']]],
