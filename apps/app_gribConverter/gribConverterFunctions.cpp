@@ -40,7 +40,9 @@ namespace gribConverter {
         // Send query request
         index = codes_index_new_from_file(0, 
                 const_cast<char*>(file.c_str()), query_str.c_str(), &ret);
-        CODES_CHECK(ret, 0);
+
+        if (ret) throw runtime_error(codes_get_error_message(ret));
+        // CODES_CHECK(ret, 0);
 
         // Select index based on par_key and level_key
         CODES_CHECK(codes_index_select_long(index, par_key.c_str(), par_id), 0);
@@ -245,11 +247,24 @@ namespace gribConverter {
 
         if (verbose >= 3) cout << GREEN << "Convert GRIB2 files to Forecasts" << RESET << endl;
 
-        // Read station xs and ys based on the first parameter in the list
+        // Read station xs and ys from the first available file from the list
         if (verbose >= 3) cout << GREEN << "Reading station information ... " << RESET << endl;
         anenSta::Stations stations;
         vector<double> xs, ys;
-        getXY(xs, ys, files_in[0], pars_id[0], levels[0], par_key, level_key, val_key);
+        bool flag = false;
+        size_t i_file = 0;
+
+        for (size_t i_file = 0; i_file < files_in.size(); i_file++) {
+            try {
+                getXY(xs, ys, files_in[i_file], pars_id[i_file],
+                        levels[i_file], par_key, level_key, val_key);
+                break;
+            } catch (std::exception & e) {
+                cout << RED << "Skipping file ( " << files_in[i_file]
+                    << " ): " << e.what() << RESET << endl;
+            }
+        }
+
         if (xs.size() != ys.size()) throw runtime_error("Error: the number of xs and ys do not match!");
 
         for (size_t i = 0; i < xs.size(); i++) {
@@ -441,7 +456,20 @@ namespace gribConverter {
         if (verbose >= 3) cout << GREEN << "Reading station information ... " << RESET << endl;
         anenSta::Stations stations;
         vector<double> xs, ys;
-        getXY(xs, ys, files_in[0], pars_id[0], levels[0], par_key, level_key, val_key);
+        bool flag = false;
+        size_t i_file = 0;
+
+        for (size_t i_file = 0; i_file < files_in.size(); i_file++) {
+            try {
+                getXY(xs, ys, files_in[i_file], pars_id[i_file],
+                        levels[i_file], par_key, level_key, val_key);
+                break;
+            } catch (std::exception & e) {
+                cout << RED << "Skipping file ( " << files_in[i_file]
+                    << " ): " << e.what() << RESET << endl;
+            }
+        }
+
         if (xs.size() != ys.size()) throw runtime_error("Error: the number of xs and ys do not match!");
 
         for (size_t i = 0; i < xs.size(); i++) {
