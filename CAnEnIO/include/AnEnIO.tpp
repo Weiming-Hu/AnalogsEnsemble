@@ -13,6 +13,98 @@
 #include <iostream>
 #include <fstream>
 
+    
+// Boost does not provide the correct functions to read nan values 
+// for duoble, the operator is overloaded.
+//
+namespace boost { namespace numeric { namespace ublas {
+    template<class E, class T, class MF, class MA>
+        std::basic_istream<E, T> &operator >> (std::basic_istream<E, T> &is,
+                matrix<double, MF, MA> &m) {
+            typedef typename matrix<double, MF, MA>::size_type size_type;
+            char preview;
+            E ch;
+            size_type size1, size2;
+            if (is >> ch && ch != '[') {
+                is.putback (ch);
+                is.setstate (std::ios_base::failbit);
+            } else if (is >> size1 >> ch && ch != ',') {
+                is.putback (ch);
+                is.setstate (std::ios_base::failbit);
+            } else if (is >> size2 >> ch && ch != ']') {
+                is.putback (ch);
+                is.setstate (std::ios_base::failbit);
+            } else if (! is.fail ()) {
+                matrix<double, MF, MA> s (size1, size2);
+                if (is >> ch && ch != '(') {
+                    is.putback (ch);
+                    is.setstate (std::ios_base::failbit);
+                } else if (! is.fail ()) {
+                    for (size_type i = 0; i < size1; i ++) {
+                        if (is >> ch && ch != '(') {
+                            is.putback (ch);
+                            is.setstate (std::ios_base::failbit);
+                            break;
+                        }
+                        for (size_type j = 0; j < size2; j ++) {
+
+                            // Add codes to read 'nan' values
+                            //
+                            // If the input starts with 'n' I assume it
+                            // is going to be an nan vaue.
+                            //
+                            if (is >> preview && preview == 'n') {
+                                if (is >> preview && preview == 'a' && 
+                                        is >> preview && preview == 'n') {
+                                    s (i,j) = NAN;
+
+                                    if (is >> preview && preview != ',') {
+                                        is.putback (preview);
+                                        if (j < size2 - 1) {
+                                            is.setstate (std::ios_base::failbit);
+                                            break;
+                                        }
+                                    }
+                                } else {
+                                    is.setstate (std::ios_base::failbit);
+                                    break;
+                                }
+                            } else {
+                                is.putback(preview);
+                                if (is >> s (i, j) >> ch && ch != ',') {
+                                    is.putback (ch);
+                                    if (j < size2 - 1) {
+                                        is.setstate (std::ios_base::failbit);
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        if (is >> ch && ch != ')') {
+                            is.putback (ch);
+                            is.setstate (std::ios_base::failbit);
+                            break;
+                        }
+                        if (is >> ch && ch != ',') {
+                            is.putback (ch);
+                            if (i < size1 - 1) {
+                                is.setstate (std::ios_base::failbit);
+                                break;
+                            }
+                        }
+                    }
+                    if (is >> ch && ch != ')') {
+                        is.putback (ch);
+                        is.setstate (std::ios_base::failbit);
+                    }
+                }
+                if (! is.fail ())
+                    m.swap (s);
+            }
+            return is;
+        }
+} } } 
+
 /**
  * Reads the matrix of type boost::numeric::ublas::matrix<T>.
  * Currently AnEn::TimeMapMatrix and AnEn::SearchStationMatrix are using
@@ -44,6 +136,14 @@ AnEnIO::readTextMatrix(boost::numeric::ublas::matrix<T> & mat) {
     in >> mat;
     in.close();
 
+    if ( (in.rdstate() & std::ifstream::failbit ) != 0 ) {
+        if (verbose_ >= 1) {
+            cout << BOLDRED << "Error occurred during reading matrix file "
+                << getFilePath() << RESET << endl;
+        }
+        return (FILEIO_ERROR);
+    }
+
     return (SUCCESS);
 }
 
@@ -52,7 +152,7 @@ AnEnIO::readTextMatrix(boost::numeric::ublas::matrix<T> & mat) {
  * Currently AnEn::TimeMapMatrix and AnEn::SearchStationMatrix are using
  * this template.
  * 
- * @param mapping A boost matrix to write.
+ * @param mat_in A boost matrix to write.
  * @return An AnEnIO::errorType.
  */
 template <typename T>
@@ -71,12 +171,20 @@ AnEnIO::writeTextMatrix(
     }
     
     handleError(checkFilePath());
-    
+
     ifstream in;
     ofstream out;
     out.open(file_path_);
     out << mat;
     out.close();
+
+    if ( (in.rdstate() & std::ifstream::failbit ) != 0 ) {
+        if (verbose_ >= 1) {
+            cout << BOLDRED << "Error occurred during reading matrix file "
+                << getFilePath() << RESET << endl;
+        }
+        return (FILEIO_ERROR);
+    }
     
     return (SUCCESS);
 }

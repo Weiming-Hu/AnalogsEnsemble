@@ -34,7 +34,7 @@ void runAnalogSelector(const string & file_sim, const string & file_obs,
     Analogs analogs;
     AnEn anen(verbose);
     
-    AnEnIO io("Read", file_sim, "Similarity");
+    AnEnIO io("Read", file_sim, "Similarity", verbose);
     SimilarityMatrices sims;
     io.handleError(io.readSimilarityMatrices(sims));
     

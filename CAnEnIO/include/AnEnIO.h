@@ -66,6 +66,8 @@ public:
         UNKNOWN_MODE = -5, 
         /// -6
         WRONG_MODE = -6, 
+        /// -7
+        FILEIO_ERROR = -7, 
 
         /// -10
         FILE_NOT_FOUND = -10, 

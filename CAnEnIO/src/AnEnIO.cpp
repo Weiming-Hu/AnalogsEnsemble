@@ -172,8 +172,9 @@ AnEnIO::checkFileType() const {
 
         } else if (file_type_ == "Matrix") {
             
-            if (verbose_ >= 2) cout << RED << "Warning: No available check "
-                    << "for file type Matrix." << RESET << endl;
+            if (verbose_ >= 3) {
+                cout << RED << "File check for Matrix type is not defined." << RESET << endl;
+            }
             return (SUCCESS);
             
         } else {
