@@ -435,7 +435,11 @@ compute_analogs <- function(forecasts,
       config$preserve_similarity, 
       config$preserve_mapping, preserve_search_stations,
       max_num_search_stations, distance,
-      num_nearest_stations, config$verbose)
+      num_nearest_stations,
+      config$time_match_mode,
+      config$max_par_nan,
+      config$max_flt_nan,
+      config$verbose)
     
   } else if (config$mode == 'extendedSearch') {
     # Create default values
@@ -460,6 +464,9 @@ compute_analogs <- function(forecasts,
       config$max_num_search_stations,
       config$distance,
       config$num_nearest,
+      config$time_match_mode,
+      config$max_par_nan,
+      config$max_flt_nan,
       config$verbose)
     
   } else {
