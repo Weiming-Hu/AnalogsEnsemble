@@ -85,22 +85,24 @@ Public Types</h2></td></tr>
 &#160;&#160;<a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0a28c4093ff55045d651f1457dfe046e89">FILE_EXISTS</a> = -4, 
 <a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0a7d02135c2fa246d888f7498fa9ccb199">UNKNOWN_MODE</a> = -5, 
 <a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0a31bb5eebca1dcfce3f67aff4074412e9">WRONG_MODE</a> = -6, 
-<a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0a12593564dc1e16d72a57ba6016b1324f">FILE_NOT_FOUND</a> = -10, 
+<a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0abeb7bc485dd556be975f212197d037fe">FILEIO_ERROR</a> = -7, 
 <br />
-&#160;&#160;<a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0a77597f2d2fa33ef922bd74ea4580d8b4">REQUIRED_VARIABLE_MISSING</a> = -11, 
+&#160;&#160;<a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0a12593564dc1e16d72a57ba6016b1324f">FILE_NOT_FOUND</a> = -10, 
+<a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0a77597f2d2fa33ef922bd74ea4580d8b4">REQUIRED_VARIABLE_MISSING</a> = -11, 
 <a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0a0523be11226bd2aa810f5a30c124ab19">OPTIONAL_VARIABLE_MISSING</a> = -12, 
 <a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0ae1f7e1357e3be9b3312477eba02c07e0">DIMENSION_MISSING</a> = -13, 
-<a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0a83d4d08faaa4e794e6b7fbb9a89f203e">WRONG_VARIABLE_SHAPE</a> = -14, 
 <br />
-&#160;&#160;<a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0ad8e12998f526437cb6b2450f16f46d51">WRONG_VARIABLE_TYPE</a> = -15, 
+&#160;&#160;<a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0a83d4d08faaa4e794e6b7fbb9a89f203e">WRONG_VARIABLE_SHAPE</a> = -14, 
+<a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0ad8e12998f526437cb6b2450f16f46d51">WRONG_VARIABLE_TYPE</a> = -15, 
 <a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0a288f494fc6e909e8ee0b8a7f9c7ef9ca">ELEMENT_NOT_UNIQUE</a> = -16, 
 <a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0a84a3c7e5b367ee64f2d15e585f8a0312">DIMENSION_EXISTS</a> = -17, 
-<a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0abb20ed9e5a08ecee4b09d132cbd2e120">VARIABLE_EXISTS</a> = -18, 
 <br />
-&#160;&#160;<a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0a6b6638f4fbbc0d1fd5ca45eb1d4266f5">WRONG_INDEX_SHAPE</a> = -19, 
+&#160;&#160;<a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0abb20ed9e5a08ecee4b09d132cbd2e120">VARIABLE_EXISTS</a> = -18, 
+<a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0a6b6638f4fbbc0d1fd5ca45eb1d4266f5">WRONG_INDEX_SHAPE</a> = -19, 
 <a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0af58b3b49fb1d75cbafd2d8859e4c3a55">ERROR_SETTING_VALUES</a> = -50, 
 <a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0a10fe7987d62e727f90425025fa90a09f">NAN_VALUES</a> = -51, 
-<a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0a0d5615cd010b41d905091ddea91f74b7">INSUFFICIENT_MEMORY</a> = -100
+<br />
+&#160;&#160;<a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0a0d5615cd010b41d905091ddea91f74b7">INSUFFICIENT_MEMORY</a> = -100
 <br />
  }</td></tr>
 <tr class="separator:aa56bc1ec6610b86db4349bce20f9ead0"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -294,6 +296,8 @@ Protected Attributes</h2></td></tr>
 <tr><td class="fieldname"><a id="aa56bc1ec6610b86db4349bce20f9ead0a7d02135c2fa246d888f7498fa9ccb199"></a>UNKNOWN_MODE&#160;</td><td class="fielddoc"><p>-5 </p>
 </td></tr>
 <tr><td class="fieldname"><a id="aa56bc1ec6610b86db4349bce20f9ead0a31bb5eebca1dcfce3f67aff4074412e9"></a>WRONG_MODE&#160;</td><td class="fielddoc"><p>-6 </p>
+</td></tr>
+<tr><td class="fieldname"><a id="aa56bc1ec6610b86db4349bce20f9ead0abeb7bc485dd556be975f212197d037fe"></a>FILEIO_ERROR&#160;</td><td class="fielddoc"><p>-7 </p>
 </td></tr>
 <tr><td class="fieldname"><a id="aa56bc1ec6610b86db4349bce20f9ead0a12593564dc1e16d72a57ba6016b1324f"></a>FILE_NOT_FOUND&#160;</td><td class="fielddoc"><p>-10 </p>
 </td></tr>

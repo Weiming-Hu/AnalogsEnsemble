@@ -259,6 +259,7 @@ make clean
 |    BUILD\_NETCDF    |                           Build `NetCDF` library regardless of its existence.                         |         OFF        |
 |     BUILD\_HDF5     |                            Build `HDF5` library regardless of its existence.                          |         OFF        |
 |       VERBOSE       |                          Print detailed messages during the compiling process.                        |         OFF        |
+|   CODE\_PROFILING   |                                     Print time profiling information.                                 |         OFF        |
 
 _Table generated from [Tables Generator](https://www.tablesgenerator.com/markdown_tables)._
 
