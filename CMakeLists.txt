@@ -14,6 +14,7 @@ enable_language(CXX C)
 option(VERBOSE "verbose standout output" OFF)
 option(CMAKE_BUILD_TESTS "Build tests" OFF)
 option (BUILD_GRIBCONVERTER "Build gribConverter utility. Eccodes required." OFF)
+option (CODE_PROFILING "Insert profiling code and print time information." OFF)
 
 set(IMPORTANT_PATH "${CMAKE_SOURCE_DIR}/important")
 set(EXTRA_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
@@ -128,6 +129,11 @@ if (VERBOSE)
     message(STATUS "CMAKE_CXX_FLAGS: ${CMAKE_CXX_FLAGS}")
 endif (VERBOSE)
 
+if(CODE_PROFILING)
+    message(STATUS "Insert codes to profiling functions and print time information.")
+    add_definitions(-D_CODE_PROFILING)
+endif(CODE_PROFILING)
+
 # if INSTALL_RAnEn is set to TRUE
 # only install RAnEn package
 #
@@ -149,7 +155,7 @@ option(ENABLE_MPI "enable suppor for MPI" OFF)
 message(STATUS "ENABLE_MPI is set to ${ENABLE_MPI}")
 
 if(ENABLE_MPI)
-    add_definitions(-DENABLE_MPI)
+    add_definitions(-D_ENABLE_MPI)
 endif(ENABLE_MPI)
 
 file(MAKE_DIRECTORY ${COMMON_OUTPUT_DIR})

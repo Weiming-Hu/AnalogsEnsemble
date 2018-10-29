@@ -8,6 +8,10 @@
 
 /** @file */
 
+#if defined(_CODE_PROFILING)
+#include <ctime>
+#endif
+
 #include "AnEnIO.h"
 #include "AnEn.h"
 #include "CommonExeFunctions.h"
@@ -46,6 +50,10 @@ void runAnalogGenerator(
         double max_par_nan, double max_flt_nan,
         int verbose) {
 
+#if defined(_CODE_PROFILING)
+    clock_t time_func_start = clock();
+#endif
+
     /************************************************************************
      *                         Read Input Data                              *
      ************************************************************************/
@@ -80,6 +88,9 @@ void runAnalogGenerator(
                 obs_start, obs_count));
     }
 
+#if defined(_CODE_PROFILING)
+    clock_t time_end_of_reading = clock();
+#endif
 
     /************************************************************************
      *                           Analog Generation                          *
