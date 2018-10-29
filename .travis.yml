@@ -1,4 +1,4 @@
-fortran:false
+fortran: false
 
 env:
    global:
