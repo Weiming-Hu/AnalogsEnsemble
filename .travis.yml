@@ -1,3 +1,5 @@
+fortran:false
+
 env:
    global:
     - CODECOV_TOKEN=11fbe283-94bd-4eca-88d0-a3083178cf25
@@ -97,7 +99,6 @@ matrix:
 
      - os: osx
        language: r
-       fortran:false
        cache: Rcpp
        env:
          - ENVIRONMENT_LANGUAGE="r"
