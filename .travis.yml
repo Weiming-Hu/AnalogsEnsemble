@@ -97,6 +97,7 @@ matrix:
 
      - os: osx
        language: r
+       fortran:false
        cache: Rcpp
        env:
          - ENVIRONMENT_LANGUAGE="r"
