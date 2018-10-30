@@ -10,6 +10,7 @@
 
 #if defined(_CODE_PROFILING)
 #include <ctime>
+#include <iomanip>
 #endif
 
 #include "AnEnIO.h"
@@ -51,7 +52,7 @@ void runAnalogGenerator(
         int verbose) {
 
 #if defined(_CODE_PROFILING)
-    clock_t time_func_start = clock();
+    clock_t time_start = clock();
 #endif
 
     /************************************************************************
@@ -102,6 +103,10 @@ void runAnalogGenerator(
     StandardDeviation sds;
     anen.handleError(anen.computeStandardDeviation(search_forecasts, sds));
 
+#if defined(_CODE_PROFILING)
+    clock_t time_end_of_sd = clock();
+#endif
+
     AnEn::TimeMapMatrix mapping;
     anen.handleError(anen.computeObservationsTimeIndices(
                 search_forecasts.getTimes(), search_forecasts.getFLTs(),
@@ -111,6 +116,10 @@ void runAnalogGenerator(
         io.setFileType("Matrix");
         io.handleError(io.writeTextMatrix(mapping));
     }
+
+#if defined(_CODE_PROFILING)
+    clock_t time_end_of_mapping = clock();
+#endif
 
     if (searchExtension) {
         anen.setMethod(AnEn::simMethod::ONE_TO_MANY);
@@ -140,10 +149,17 @@ void runAnalogGenerator(
         io.handleError(io.writeSimilarityMatrices(sims));
     }
 
+#if defined(_CODE_PROFILING)
+    clock_t time_end_of_sim = clock();
+#endif
+
     Analogs analogs;
     anen.handleError(anen.selectAnalogs(analogs, sims, search_observations,
             mapping, observation_id, num_members, quick, preserve_real_time));
 
+#if defined(_CODE_PROFILING)
+    clock_t time_end_of_select = clock();
+#endif
 
     /************************************************************************
      *                           Write Analogs                              *
@@ -152,7 +168,33 @@ void runAnalogGenerator(
     io.setFileType("Analogs");
     io.handleError(io.writeAnalogs(analogs));
 
+#if defined(_CODE_PROFILING)
+    clock_t time_end_of_write = clock();
+#endif
+
     if (verbose >= 3) cout << GREEN << "Done!" << RESET << endl;
+
+#if defined(_CODE_PROFILING)
+    float duration_full = (float) (time_end_of_write - time_start) / CLOCKS_PER_SEC,
+          duration_reading = (float) (time_end_of_reading - time_start) / CLOCKS_PER_SEC,
+          duration_sd = (float) (time_end_of_sd - time_end_of_reading) / CLOCKS_PER_SEC,
+          duration_mapping = (float) (time_end_of_mapping - time_end_of_sd) / CLOCKS_PER_SEC,
+          duration_sim = (float) (time_end_of_sim - time_end_of_mapping) / CLOCKS_PER_SEC,
+          duration_select = (float) (time_end_of_select - time_end_of_sim) / CLOCKS_PER_SEC,
+          duration_write = (float) (time_end_of_write - time_end_of_select) / CLOCKS_PER_SEC;
+    float duration_computation = duration_sd + duration_mapping + duration_sim + duration_select;
+    cout << setprecision(3) << "-----------------------------------------------------" << endl
+        << "Time profiling for Analog Generator:" << endl
+        << "Total time: " << duration_full << " seconds (100%)" << endl
+        << "Reading data: " << duration_reading << " seconds (" << duration_reading / duration_full * 100 << "%)" << endl
+        << "Computation: " << duration_computation << " seconds (" << duration_computation / duration_full * 100 << "%)" << endl
+        << " -- SD: " << duration_sd << " seconds (" << duration_sd / duration_full * 100 << "%)" << endl
+        << " -- Mapping: " << duration_mapping << " seconds (" << duration_mapping / duration_full * 100 << "%)" << endl
+        << " -- Similarity: " << duration_sim << " seconds (" << duration_sim / duration_full * 100 << "%)" << endl
+        << " -- Selection: " << duration_select << " seconds (" << duration_select / duration_full * 100 << "%)" << endl
+        << "Writing data: " << duration_write << " seconds (" << duration_write / duration_full * 100 << "%)" << endl
+        << "-----------------------------------------------------" << endl;
+#endif
 
     return;
 }
