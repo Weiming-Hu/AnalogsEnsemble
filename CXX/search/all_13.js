@@ -7,5 +7,6 @@ var searchData=
   ['unknown_5fmode',['UNKNOWN_MODE',['../class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0a7d02135c2fa246d888f7498fa9ccb199',1,'AnEnIO']]],
   ['unkown_5ffile_5ftype',['UNKOWN_FILE_TYPE',['../class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0af27777283529d32c426e957fd4eba291',1,'AnEnIO']]],
   ['unsetcircular',['unsetCircular',['../class_array4_d.html#ac6d1282e0d765748c192a72d60274853',1,'Array4D']]],
-  ['updatedatadims',['updateDataDims',['../class_forecasts.html#a542d6ed8bfaf077133df730c3d8dd5c5',1,'Forecasts::updateDataDims()'],['../class_forecasts__array.html#a6c257670f3904c12cb6cae6694e3624d',1,'Forecasts_array::updateDataDims()'],['../class_observations.html#a683e74974a084a67eff703c2b258ab42',1,'Observations::updateDataDims()'],['../class_observations__array.html#a6d9a0f3d80db18da1f1c8f99e43ba000',1,'Observations_array::updateDataDims()']]]
+  ['updatedatadims',['updateDataDims',['../class_forecasts.html#a542d6ed8bfaf077133df730c3d8dd5c5',1,'Forecasts::updateDataDims()'],['../class_forecasts__array.html#a6c257670f3904c12cb6cae6694e3624d',1,'Forecasts_array::updateDataDims()'],['../class_observations.html#a683e74974a084a67eff703c2b258ab42',1,'Observations::updateDataDims()'],['../class_observations__array.html#a6d9a0f3d80db18da1f1c8f99e43ba000',1,'Observations_array::updateDataDims()']]],
+  ['use_5fjupyter_5fnotebook_2emd',['use_jupyter_notebook.md',['../use__jupyter__notebook_8md.html',1,'']]]
 ];
