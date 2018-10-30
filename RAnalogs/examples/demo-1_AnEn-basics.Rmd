@@ -1,0 +1,34 @@
+---
+title: "demo-1_AnEn-basics"
+author: "Weiming Hu"
+date: "October 29, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+```
+
+## Introduction
+
+This article walks you through the basic usage of the `RAnEn` library in a practice of short-term surface temperature forecasts. Data are prepared using the `generate-data.R` script from [North American Mesoscale Forecast System (NAM)](https://www.ncdc.noaa.gov/data-access/model-data/model-datasets/north-american-mesoscale-forecast-system-nam). 
+
+You will learn how to use these functions:
+
+- `generateConfiguration`
+- `generateAnalogs`
+- `checkOpenMP`
+
+## Data Description
+
+## Generate Temperature Forecasts
+
+## Visualization
+
+```{r cars}
+summary(cars)
+```
+
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
