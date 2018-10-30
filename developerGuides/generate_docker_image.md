@@ -11,6 +11,9 @@ To generate a new docker image:
 ```
 cd AnalogsEnsemble
 sudo docker image build -t pef .
+
+# If you want to force docker to do a clean build
+sudo docker image build --no-cache -t pef .
 ``` 
 
 After the image is ready, check if it shows up in the list:
