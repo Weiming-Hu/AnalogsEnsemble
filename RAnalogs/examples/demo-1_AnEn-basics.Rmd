@@ -6,6 +6,8 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
+load('analysis.RData')
+load('forecasts.RData')
 ```
 
 ## Introduction
