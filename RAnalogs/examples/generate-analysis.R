@@ -88,9 +88,12 @@ for (i in 1:length(data.list)) {
 assertthat::are_equal(length(analysis.times), recorded.days)
 
 # Reduce the amount of data
-xs <- xs[indices]
-ys <- ys[indices]
+analysis.xs <- xs[indices]
+analysis.ys <- ys[indices]
+analysis.indices <- indices
+analysis.par.names <- par.names
+analysis.circular.pars <- circular.pars
 
 # Save data
-save(analysis, analysis.times, xs, ys, indices, par.names, circular.pars,
-     file = 'analysis.RData')
+save(analysis, analysis.times, analysis.xs, analysis.ys, analysis.indices,
+     analysis.par.names, analysis.circular.pars, file = 'analysis.RData')

@@ -93,9 +93,13 @@ assertthat::are_equal(length(forecast.times), recorded.days)
 # Reduce the amount of data
 forecasts <- forecasts[, , , 1:36, drop = F]
 flts <- flts[1:36]
-xs <- xs[indices]
-ys <- ys[indices]
+forecast.xs <- xs[indices]
+forecast.ys <- ys[indices]
+
+forecast.indices <- indices
+forecast.par.names <- par.names
+forecast.circular.pars <- circular.pars
 
 # Save data
-save(forecasts, forecast.times, xs, ys, indices, par.names, circular.pars, flts,
-     file = 'forecasts.RData')
+save(forecasts, forecast.times, forecast.xs, forecast.ys, forecast.indices,
+     forecast.par.names, forecast.circular.pars, flts, file = 'forecasts.RData')
