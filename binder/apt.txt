@@ -1,0 +1,5 @@
+gcc
+cmake
+libnetcdf-dev
+git
+make
