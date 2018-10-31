@@ -8,6 +8,11 @@
 
 /** @file */
 
+#if defined(_CODE_PROFILING)
+#include <ctime>
+#include <iomanip>
+#endif
+
 #include "AnEnIO.h"
 #include "AnEn.h"
 #include "CommonExeFunctions.h"
@@ -26,6 +31,10 @@ void runAnalogSelector(const string & file_sim, const string & file_obs,
         const string & file_mapping, const string & file_analogs, size_t observation_id,
         size_t num_members, bool quick, bool preserve_real_time, int verbose) {
     
+#if defined(_CODE_PROFILING)
+    clock_t time_start = clock();
+#endif
+
     /**************************************************************************
      *                                Prepare Input                           *
      **************************************************************************/
@@ -60,6 +69,10 @@ void runAnalogSelector(const string & file_sim, const string & file_obs,
         io.handleError(io.readTextMatrix(mapping));
     }
     
+#if defined(_CODE_PROFILING)
+    clock_t time_end_of_reading = clock();
+#endif
+
     
     /**************************************************************************
      *                                Check Input                             *
@@ -79,6 +92,10 @@ void runAnalogSelector(const string & file_sim, const string & file_obs,
     anen.handleError(anen.selectAnalogs(analogs, sims, search_observations,
             mapping, observation_id, num_members, quick, preserve_real_time));
     
+#if defined(_CODE_PROFILING)
+    clock_t time_end_of_select = clock();
+#endif
+
     
     /**************************************************************************
      *                             Write Analogs                              *
@@ -88,6 +105,21 @@ void runAnalogSelector(const string & file_sim, const string & file_obs,
     io.handleError(io.writeAnalogs(analogs));
     
     if (verbose >= 3) cout << GREEN << "Done!" << RESET << endl;
+
+#if defined(_CODE_PROFILING)
+    clock_t time_end_of_write = clock();
+    float duration_full = (float) (time_end_of_write - time_start) / CLOCKS_PER_SEC,
+          duration_reading = (float) (time_end_of_reading - time_start) / CLOCKS_PER_SEC,
+          duration_select = (float) (time_end_of_select - time_end_of_reading) / CLOCKS_PER_SEC,
+          duration_write = (float) (time_end_of_write - time_end_of_select) / CLOCKS_PER_SEC;
+    cout << "-----------------------------------------------------" << endl
+        << "Time profiling for Analog Selector:" << endl
+        << "Total time: " << duration_full << " seconds (100%)" << endl
+        << "Reading data: " << duration_reading << " seconds (" << duration_reading / duration_full * 100 << "%)" << endl
+        << "Selection: " << duration_select << " seconds (" << duration_select / duration_full * 100 << "%)" << endl
+        << "Writing data: " << duration_write << " seconds (" << duration_write / duration_full * 100 << "%)" << endl
+        << "-----------------------------------------------------" << endl;
+#endif
 
     return;
 }

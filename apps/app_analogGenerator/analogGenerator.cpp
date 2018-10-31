@@ -168,13 +168,10 @@ void runAnalogGenerator(
     io.setFileType("Analogs");
     io.handleError(io.writeAnalogs(analogs));
 
-#if defined(_CODE_PROFILING)
-    clock_t time_end_of_write = clock();
-#endif
-
     if (verbose >= 3) cout << GREEN << "Done!" << RESET << endl;
 
 #if defined(_CODE_PROFILING)
+    clock_t time_end_of_write = clock();
     float duration_full = (float) (time_end_of_write - time_start) / CLOCKS_PER_SEC,
           duration_reading = (float) (time_end_of_reading - time_start) / CLOCKS_PER_SEC,
           duration_sd = (float) (time_end_of_sd - time_end_of_reading) / CLOCKS_PER_SEC,
@@ -183,7 +180,7 @@ void runAnalogGenerator(
           duration_select = (float) (time_end_of_select - time_end_of_sim) / CLOCKS_PER_SEC,
           duration_write = (float) (time_end_of_write - time_end_of_select) / CLOCKS_PER_SEC;
     float duration_computation = duration_sd + duration_mapping + duration_sim + duration_select;
-    cout << setprecision(3) << "-----------------------------------------------------" << endl
+    cout << "-----------------------------------------------------" << endl
         << "Time profiling for Analog Generator:" << endl
         << "Total time: " << duration_full << " seconds (100%)" << endl
         << "Reading data: " << duration_reading << " seconds (" << duration_reading / duration_full * 100 << "%)" << endl

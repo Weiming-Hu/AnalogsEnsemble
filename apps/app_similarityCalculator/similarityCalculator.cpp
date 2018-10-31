@@ -7,6 +7,11 @@
 
 /** @file */
 
+#if defined(_CODE_PROFILING)
+#include <ctime>
+#include <iomanip>
+#endif
+
 #include "AnEnIO.h"
 #include "AnEn.h"
 #include "CommonExeFunctions.h"
@@ -44,6 +49,10 @@ void runSimilarityCalculator(
         double max_flt_nan, int verbose) {
 
     
+#if defined(_CODE_PROFILING)
+    clock_t time_start = clock();
+#endif
+
     /************************************************************************
      *                         Read Input Data                              *
      ************************************************************************/
@@ -78,6 +87,10 @@ void runSimilarityCalculator(
                 obs_start, obs_count));
     }
 
+#if defined(_CODE_PROFILING)
+    clock_t time_end_of_reading = clock();
+#endif
+
 
     /************************************************************************
      *                     Similarity Computation                           *
@@ -89,6 +102,10 @@ void runSimilarityCalculator(
     StandardDeviation sds;
     anen.handleError(anen.computeStandardDeviation(search_forecasts, sds));
 
+#if defined(_CODE_PROFILING)
+    clock_t time_end_of_sd = clock();
+#endif
+
     AnEn::TimeMapMatrix mapping;
     anen.handleError(anen.computeObservationsTimeIndices(
             search_forecasts.getTimes(), search_forecasts.getFLTs(),
@@ -98,6 +115,10 @@ void runSimilarityCalculator(
         io.setFileType("Matrix");
         io.handleError(io.writeTextMatrix(mapping));
     }
+
+#if defined(_CODE_PROFILING)
+    clock_t time_end_of_mapping = clock();
+#endif
 
     if (searchExtension) {
         anen.setMethod(AnEn::simMethod::ONE_TO_MANY);
@@ -121,6 +142,10 @@ void runSimilarityCalculator(
                 mapping, observation_id, max_par_nan, max_flt_nan));
     }
 
+#if defined(_CODE_PROFILING)
+    clock_t time_end_of_sim = clock();
+#endif
+
 
     /************************************************************************
      *                         Write Similarity                             *
@@ -130,6 +155,27 @@ void runSimilarityCalculator(
     io.handleError(io.writeSimilarityMatrices(sims));
 
     if (verbose >= 3) cout << GREEN << "Done!" << RESET << endl;
+
+#if defined(_CODE_PROFILING)
+    clock_t time_end_of_write = clock();
+    float duration_full = (float) (time_end_of_write - time_start) / CLOCKS_PER_SEC,
+          duration_reading = (float) (time_end_of_reading - time_start) / CLOCKS_PER_SEC,
+          duration_sd = (float) (time_end_of_sd - time_end_of_reading) / CLOCKS_PER_SEC,
+          duration_mapping = (float) (time_end_of_mapping - time_end_of_sd) / CLOCKS_PER_SEC,
+          duration_sim = (float) (time_end_of_sim - time_end_of_mapping) / CLOCKS_PER_SEC,
+          duration_write = (float) (time_end_of_write - time_end_of_sim) / CLOCKS_PER_SEC;
+    float duration_computation = duration_sd + duration_mapping + duration_sim;
+    cout << "-----------------------------------------------------" << endl
+        << "Time profiling for Similarity Calculator:" << endl
+        << "Total time: " << duration_full << " seconds (100%)" << endl
+        << "Reading data: " << duration_reading << " seconds (" << duration_reading / duration_full * 100 << "%)" << endl
+        << "Computation: " << duration_computation << " seconds (" << duration_computation / duration_full * 100 << "%)" << endl
+        << " -- SD: " << duration_sd << " seconds (" << duration_sd / duration_full * 100 << "%)" << endl
+        << " -- Mapping: " << duration_mapping << " seconds (" << duration_mapping / duration_full * 100 << "%)" << endl
+        << " -- Similarity: " << duration_sim << " seconds (" << duration_sim / duration_full * 100 << "%)" << endl
+        << "Writing data: " << duration_write << " seconds (" << duration_write / duration_full * 100 << "%)" << endl
+        << "-----------------------------------------------------" << endl;
+#endif
 
     return;
 }
