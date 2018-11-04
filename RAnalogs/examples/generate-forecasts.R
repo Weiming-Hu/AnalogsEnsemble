@@ -25,7 +25,7 @@ nc <- nc_open(data.files[1])
 
 par.names <- ncvar_get(nc, 'ParameterNames')
 circular.pars <- ncvar_get(nc, 'ParameterCirculars')
-flts <- ncvar_get(nc, 'FLTs')
+flts <- as.numeric(ncvar_get(nc, 'FLTs'))
 num.pars <- length(par.names)
 num.flts <- length(flts)
 

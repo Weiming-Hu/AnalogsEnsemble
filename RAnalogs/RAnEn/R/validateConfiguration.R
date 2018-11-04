@@ -58,9 +58,16 @@ validateConfiguration <- function(x, verbose = 1) {
 	}
 	
 	if (!(is.vector(x$search_times, mode = 'numeric') && length(x$search_times) == dim(x$search_forecasts)[3])) {
-		print('ERROR: Search forecast times should be a numeric vector with the length of the third dimension of search forecasts!')
-		print('Please use is.vector() and length() to check!')
-		valid <- F
+	  if (inherits(x$search_times, 'POSIXt')) {
+	    x$search_times <- as.numeric(x$search_times)
+	    if (verbose >= 2) {
+	      print('Warning: Converting data/time to numeric for search_times.')
+	    }
+	  } else {
+	    print('ERROR: Search forecast times should be a numeric vector with the length of the third dimension of search forecasts!')
+	    print('Please use is.vector() and length() to check!')
+	    valid <- F
+	  }
 	}
 	
 	if (!(is.vector(x$search_flts, mode = 'numeric') && length(x$search_flts) == dim(x$search_forecasts)[4])) {
@@ -70,9 +77,16 @@ validateConfiguration <- function(x, verbose = 1) {
 	}
 	
 	if (!(is.array(x$search_observations) && is.numeric(x$search_observations) && length(dim(x$search_observations)) == 3)) {
-		print('ERROR: Search observations should be a 3-dimensional numeric array!')
-		print('Please use dim(), is.numeric(), and is.array() to check!')
-		valid <- F
+	  if (inherits(x$search_observations, 'POSIXt')) {
+	    x$search_observations <- as.numeric(x$search_observations)
+	    if (verbose >= 2) {
+	      print('Warning: Converting data/time to numeric for search_observations')
+	    }
+	  } else {
+	    print('ERROR: Search observations should be a 3-dimensional numeric array!')
+	    print('Please use dim(), is.numeric(), and is.array() to check!')
+	    valid <- F
+	  }
 	}
 	
 	if (!(is.vector(x$observation_times, mode = 'numeric') && length(x$observation_times) == dim(x$search_observations)[3])) {

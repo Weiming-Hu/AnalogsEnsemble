@@ -5,11 +5,6 @@ date: "October 29, 2018"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
-load('analysis.RData')
-load('forecasts.RData')
-```
-
 ## Introduction
 
 This article walks you through the basic usage of the `RAnEn` library in a practice of short-term surface temperature forecasts. Data are prepared using the `generate-data.R` script from [North American Mesoscale Forecast System (NAM)](https://www.ncdc.noaa.gov/data-access/model-data/model-datasets/north-american-mesoscale-forecast-system-nam). 
@@ -22,15 +17,119 @@ You will learn how to use these functions:
 
 ## Data Description
 
+First, let's load the prepared NAM model forecasts and analysis.
+
+```{r}
+load('analysis.RData')
+load('forecasts.RData')
+print(ls())
+```
+
+In total, `r length(forecast.par.names)` parameters are provided in the forecast data set.
+
+```{r}
+print(forecast.par.names)
+```
+
+Foreacsts and analysis have the following time range.
+
+```{r}
+print(range(forecast.times))
+print(range(analysis.times))
+```
+
+Coordinates in lat/lon are provided for grid points. We can plot them on maps. Note that coordinates start from the bottom left grid point and proceed in a row-wise order. There are 11 rows and 11 columns of grid points in the data sets.
+
+```{r}
+library(maps)
+map('state', regions = c('pennsylvania', 'new york', 'virginia'), col = 'grey')
+map('usa', add = T)
+points(forecast.xs - 360, forecast.ys, pch = 16, cex = .3, col = 'red')
+```
+
+Finally, let's look at the dimensions of forecasts and analysis.
+
+```{r}
+print(dim(forecasts))
+print(dim(analysis))
+```
+
+Forecasts have 4 dimensions. They are parameters, stations/grid points, days, and Forecast Lead Times (FLTs). Analysis have 3 dimensions. They are parameters, stations/grid points, and time.
+
 ## Generate Temperature Forecasts
+
+Now that we have a general idea of the data, we can generate temperature forecasts. The steps to generate AnEn forecasts are as follow:
+
+- Initialize a configuration
+- Set up options
+- Generate AnEn
+
+First, we set up the configuration. We generate AnEn for one day using about one year of historical data for all the grid points available.
+
+```{r, echo=FALSE}
+library(RAnEn)
+
+# We use independent search configuration.
+config <- generateConfiguration('independentSearch')
+
+# Set up options
+test.start <- 400
+test.end <- 400
+search.start <- 1
+search.end <- 370
+config$test_forecasts <- forecasts[, , test.start:test.end, , drop = F]
+config$search_forecasts <- forecasts[, , search.start:search.end, , drop = F]
+config$search_times <- forecast.times[search.start:search.end]
+config$search_flts <- flts
+config$search_observations <- analysis
+config$observation_times <- analysis.times
+config$weights <- rep(1, dim(forecasts)[1])
+config$time_match_mode <- 1
+config$num_members <- 19
+config$verbose <- 3
+```
+
+Now we can generate AnEn.
+
+```{r}
+AnEn <- generateAnalogs(config)
+```
+
+`AnEn` is a list of results. Let's check what we have in it.
+
+```{r}
+print(AnEn)
+```
 
 ## Visualization
 
-```{r cars}
-summary(cars)
+```{r}
+library(raster)
+library(RColorBrewer)
+
+# Choose a FLT to plot
+i.flt <- 1
+
+# Create an empty raster for the geographical region
+mean.analogs <- apply(AnEn$analogs[, , , , 1, drop = F], c(1, 2, 3), mean, na.rm = T)
+xy <- cbind(as.numeric(forecast.xs) - 360, as.numeric(forecast.ys))
+colnames(xy) = c('x', 'y')
+ext <- extent(xy[, c('x', 'y')])
+rast <- raster(ext, nrow = 11, ncol = 11, crs = CRS("+proj=longlat +datum=WGS84"))
+
+# rasterize the data values
+rast.anen <- rasterize(xy[, c('x', 'y')], rast, mean.analogs[, 1, i.flt], fun = mean)
+rast.fcts <- rasterize(xy[, c('x', 'y')], rast, forecasts[1, , test.start, i.flt], fun = mean)
+rast.anly <- rasterize(xy[, c('x', 'y')], rast, analysis[
+  1, , which(analysis.times == forecast.times[test.start] + flts[i.flt])], fun = mean)
+
+par(mfrow = c(1, 3))
+cols <- brewer.pal(11, 'Spectral')[11:1]
+plot(rast.fcts, main = 'NAM Forecasts', col = cols)
+map(col = 'grey', add = T); map('state', add = T)
+plot(rast.anen, main = 'AnEn Averaged', col = cols)
+map(col = 'grey', add = T); map('state', add = T)
+plot(rast.anly, main = 'NAM Analysis', col = cols)
+map(col = 'grey', add = T); map('state', add = T)
 ```
 
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
