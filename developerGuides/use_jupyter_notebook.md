@@ -8,7 +8,8 @@ To launch Jupyter notebook:
 
 To convert R markdown files to ipynb:
 
-`notedown input.Rmd --knit > output.ipynb`
+- [ipyrmd](https://github.com/chronitis/ipyrmd)
+- [IRkernel](https://github.com/IRkernel/IRkernel)
 
 ### References
 
