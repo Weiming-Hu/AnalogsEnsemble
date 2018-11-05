@@ -84,7 +84,7 @@ map('usa', add = T)
 points(forecast.xs - 360, forecast.ys, pch = 16, cex = .3, col = 'red')
 ```
 
-![Geography of the region of interest](https://github.com/Weiming-Hu/AnalogsEnsemble/blob/gh-pages/assets/posts/2018-11-04-demo-1-RAnEn-basics/geography.jpg)
+![Geography of the region of interest](https://github.com/Weiming-Hu/AnalogsEnsemble/raw/gh-pages/assets/posts/2018-11-04-demo-1-RAnEn-basics/geography.jpg)
 
 Finally, let’s look at the dimensions of forecasts and analysis.
 
@@ -158,5 +158,4 @@ print(AnEn)
 Finally, we can plot together the analysis, the forecasts, the AnEn, and
 the bias corrected AnEn. Below the figures are the respective RMSE.
 
-![Result comparison](https://github.com/Weiming-Hu/AnalogsEnsemble/blob/gh-pages/assets/posts/2018-11-04-demo-1-RAnEn-basics/results.jpg)
-
+![Result comparison](https://github.com/Weiming-Hu/AnalogsEnsemble/raw/gh-pages/assets/posts/2018-11-04-demo-1-RAnEn-basics/results.jpg)
