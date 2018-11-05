@@ -14,6 +14,10 @@
 #include <cmath>
 #include <vector>
 
+#ifndef BOOST_NO_AUTO_PTR
+#define BOOST_NO_AUTO_PTR
+#endif
+
 #include <boost/multi_index_container.hpp>
 #include <boost/multi_index/random_access_index.hpp>
 #include <boost/multi_index/identity.hpp>

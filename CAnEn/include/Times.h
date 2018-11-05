@@ -12,6 +12,10 @@
 #include <string>
 #include <iostream>
 
+#ifndef BOOST_NO_AUTO_PTR
+#define BOOST_NO_AUTO_PTR
+#endif
+
 #include <boost/multi_index/tag.hpp>
 #include <boost/multi_index/mem_fun.hpp>
 #include <boost/multi_index_container.hpp>

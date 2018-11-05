@@ -6,6 +6,10 @@
  * Created on April 17, 2018, 10:41 PM
  */
 
+#ifndef BOOST_NO_AUTO_PTR
+#define BOOST_NO_AUTO_PTR
+#endif
+
 #include <boost/multi_index/random_access_index.hpp>
 #include <boost/multi_index/ordered_index.hpp>
 #include <boost/multi_index/hashed_index.hpp>

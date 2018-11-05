@@ -8,6 +8,10 @@
 #ifndef SIMILARITYMATRIX_H
 #define SIMILARITYMATRIX_H
 
+#ifndef BOOST_NO_AUTO_PTR
+#define BOOST_NO_AUTO_PTR
+#endif
+
 #include "Forecasts.h"
 #include "boost/multi_array.hpp"
 

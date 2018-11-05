@@ -8,6 +8,10 @@
 #ifndef STANDARDDEVIATION_H
 #define STANDARDDEVIATION_H
 
+#ifndef BOOST_NO_AUTO_PTR
+#define BOOST_NO_AUTO_PTR
+#endif
+
 #include "boost/multi_array.hpp"
 
 #include <iostream>

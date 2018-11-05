@@ -21,6 +21,10 @@
 //
 // [[Rcpp::depends(BH)]]
 //
+#ifndef BOOST_NO_AUTO_PTR
+#define BOOST_NO_AUTO_PTR
+#endif
+
 #include "boost/multi_array.hpp"
 #include <iostream>
 #include <vector>
