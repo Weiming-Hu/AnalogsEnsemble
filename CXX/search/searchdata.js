@@ -10,7 +10,7 @@ var indexSectionsWithContent =
   7: "ces",
   8: "defimnorstuvw",
   9: "o",
-  10: "_bgmr",
+  10: "_bgmrs",
   11: "2ainr"
 };
 

@@ -103,45 +103,23 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>biasCorrection</span>(<span class='kw'>analogs</span> <span class='kw'>=</span> <span class='fu'>stop</span>(<span class='st'>"Please set analogs"</span>),
-  <span class='kw'>observations</span> <span class='kw'>=</span> <span class='fu'>stop</span>(<span class='st'>"Please set observations"</span>),
-  <span class='kw'>forecasts</span> <span class='kw'>=</span> <span class='fu'>stop</span>(<span class='st'>"Please set forecasts"</span>),
-  <span class='kw'>forecast.ID</span> <span class='kw'>=</span> <span class='fu'>stop</span>(<span class='st'>"Please set forecast.ID"</span>),
-  <span class='kw'>test.ID.start</span> <span class='kw'>=</span> <span class='fu'>stop</span>(<span class='st'>"Please set test.ID.start"</span>), <span class='kw'>group.func</span> <span class='kw'>=</span> <span class='no'>mean</span>,
-  <span class='no'>...</span>, <span class='kw'>keep.bias</span> <span class='kw'>=</span> <span class='no'>F</span>, <span class='kw'>show.progress</span> <span class='kw'>=</span> <span class='no'>T</span>)</pre>
+    <pre class="usage"><span class='fu'>biasCorrection</span>(<span class='no'>AnEn</span>, <span class='no'>config</span>, <span class='no'>forecast.ID</span>, <span class='kw'>group.func</span> <span class='kw'>=</span> <span class='no'>mean</span>, <span class='no'>...</span>,
+  <span class='kw'>keep.bias</span> <span class='kw'>=</span> <span class='no'>F</span>, <span class='kw'>show.progress</span> <span class='kw'>=</span> <span class='no'>T</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>analogs</th>
-      <td><p>analogs should either be the class of 'AnEn' or a 
-5-dimensional array. A variable of the class 'AnEn' is generated
-from the function <code><a href='compute_analogs.html'>compute_analogs</a></code>.</p></td>
+      <th>AnEn</th>
+      <td><p>An AnEn object.</p></td>
     </tr>
     <tr>
-      <th>observations</th>
-      <td><p>A 4-dimensional double array that contains 
-all the observation parameter values. The expected structure is 
-observations[parameter, station, day, flt] where flt stands for 
-forecast lead time.</p></td>
-    </tr>
-    <tr>
-      <th>forecasts</th>
-      <td><p>A 4-dimensional double array that contains all
-the forecast parameter values. The expected structure is 
-forecasts [parameter, station, day, flt] where flt stands for
-forecast lead time.</p></td>
+      <th>config</th>
+      <td><p>The configuration object used to generate the AnEn results.</p></td>
     </tr>
     <tr>
       <th>forecast.ID</th>
-      <td><p>A positive integer specifying which variable in
-forecasts are used to compute the bias.</p></td>
-    </tr>
-    <tr>
-      <th>test.ID.start</th>
-      <td><p>A positive integer specifying the start day
-of tests.</p></td>
+      <td><p>Which parameter in the forecasts should be used to generate bias.</p></td>
     </tr>
     <tr>
       <th>group.func</th>

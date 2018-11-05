@@ -51,6 +51,7 @@ var searchData=
   ['stations_2ecpp',['Stations.cpp',['../_stations_8cpp.html',1,'']]],
   ['stations_2eh',['Stations.h',['../_stations_8h.html',1,'']]],
   ['stations_5f',['stations_',['../class_analogs.html#a6535eccf2346254e90a76bd31dba6da7',1,'Analogs::stations_()'],['../class_forecasts.html#ac86fcc7d20b581d87a32eac26a5f8b01',1,'Forecasts::stations_()'],['../class_observations.html#a03e2d3c69e46066f48e4381657a995f7',1,'Observations::stations_()']]],
+  ['stations_5fh',['STATIONS_H',['../_stations_8h.html#a963ee566fedf82276595d8d78aa7a1cf',1,'Stations.h']]],
   ['sub_5farray',['sub_array',['../struct_similarity_matrices_1_1matrix_sort.html#ae39e66ff77c02f615725350ab7d68f71',1,'SimilarityMatrices::matrixSort']]],
   ['success',['SUCCESS',['../class_an_en.html#a0e256eb89d102d318a47d936b02242bfa0e5f548f45c8bb94aa25d3f12347194c',1,'AnEn::SUCCESS()'],['../class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0afd4f6d99fa57b8fd2d3f2298b1781f6d',1,'AnEnIO::SUCCESS()']]]
 ];
