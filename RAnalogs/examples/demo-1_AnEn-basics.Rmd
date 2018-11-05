@@ -3,6 +3,9 @@ title: "Demo 1: Analog Ensemble Basics"
 author: "Weiming Hu"
 date: "October 29, 2018"
 output: html_document
+# output: 
+#   md_document:
+#     variant: markdown_github
 ---
 
 ```{r setup, include=F}
