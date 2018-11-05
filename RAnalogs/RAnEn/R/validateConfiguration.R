@@ -71,28 +71,35 @@ validateConfiguration <- function(x, verbose = 1) {
 	}
 	
 	if (!(is.vector(x$search_flts, mode = 'numeric') && length(x$search_flts) == dim(x$search_forecasts)[4])) {
-		print('ERROR: Search forecast FLTs should be a numeric vector with the length of the fourth dimension of search forecasts!')
-		print('Please use is.vector() and length() to check!')
-		valid <- F
-	}
-	
-	if (!(is.array(x$search_observations) && is.numeric(x$search_observations) && length(dim(x$search_observations)) == 3)) {
-	  if (inherits(x$search_observations, 'POSIXt')) {
-	    x$search_observations <- as.numeric(x$search_observations)
+	  if (length(dim(x$search_flts)) == 1) {
+	    x$search_flts = as.numeric(x$search_flts)
 	    if (verbose >= 2) {
-	      print('Warning: Converting data/time to numeric for search_observations')
+	      print('Warning: Converting search_flts to a numeric vector.')
 	    }
 	  } else {
-	    print('ERROR: Search observations should be a 3-dimensional numeric array!')
-	    print('Please use dim(), is.numeric(), and is.array() to check!')
+	    print('ERROR: Search forecast FLTs should be a numeric vector with the length of the fourth dimension of search forecasts!')
+	    print('Please use is.vector() and length() to check!')
 	    valid <- F
 	  }
 	}
 	
+	if (!(is.array(x$search_observations) && is.numeric(x$search_observations) && length(dim(x$search_observations)) == 3)) {
+	  print('ERROR: Search observations should be a 3-dimensional numeric array!')
+	  print('Please use dim(), is.numeric(), and is.array() to check!')
+	  valid <- F
+	}
+	
 	if (!(is.vector(x$observation_times, mode = 'numeric') && length(x$observation_times) == dim(x$search_observations)[3])) {
-		print('ERROR: Search observation times should be a numeric vector with the length of the third dimension of search observations!')
-		print('Please use is.vector() and length() to check!')
-		valid <- F
+	  if (inherits(x$observation_times, 'POSIXt')) {
+	    x$observation_times <- as.numeric(x$observation_times)
+	    if (verbose >= 2) {
+	      print('Warning: Converting data/time to numeric for search_observations')
+	    }
+	  } else {
+	    print('ERROR: Search observation times should be a numeric vector with the length of the third dimension of search observations!')
+	    print('Please use is.vector() and length() to check!')
+	    valid <- F
+	  }
 	}
 	
 	if (!(is.numeric(x$observation_id) && length(x$observation_id) == 1 && x$observation_id >= 1 && x$observation_id <= dim(x$search_observations)[1])) {

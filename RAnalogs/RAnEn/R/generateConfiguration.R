@@ -87,7 +87,7 @@ generateConfiguration <- function(mode) {
 		mode = mode, test_forecasts = NULL, search_forecasts = NULL, search_times = NULL, search_flts = NULL,
 		search_observations = NULL, observation_times = NULL, observation_id = 1, num_members = NULL,
 		circulars = vector(mode = 'numeric', length = 0), weights = NULL, quick = T,
-		preserve_real_time = F, preserve_similarity = F, preserve_mapping = F, time_match_mode = 0, 
+		preserve_real_time = F, preserve_similarity = F, preserve_mapping = T, time_match_mode = 0, 
         max_par_nan = NA, max_flt_nan= NA, verbose = 1)
 	
 	if (mode == 'extendedSearch') {

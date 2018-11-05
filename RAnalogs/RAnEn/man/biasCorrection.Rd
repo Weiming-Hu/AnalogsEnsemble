@@ -4,33 +4,15 @@
 \alias{biasCorrection}
 \title{RAnEn::biasCorrection}
 \usage{
-biasCorrection(analogs = stop("Please set analogs"),
-  observations = stop("Please set observations"),
-  forecasts = stop("Please set forecasts"),
-  forecast.ID = stop("Please set forecast.ID"),
-  test.ID.start = stop("Please set test.ID.start"), group.func = mean,
-  ..., keep.bias = F, show.progress = T)
+biasCorrection(AnEn, config, forecast.ID, group.func = mean, ...,
+  keep.bias = F, show.progress = T)
 }
 \arguments{
-\item{analogs}{analogs should either be the class of 'AnEn' or a 
-5-dimensional array. A variable of the class 'AnEn' is generated
-from the function \code{\link{compute_analogs}}.}
+\item{AnEn}{An AnEn object.}
 
-\item{observations}{A 4-dimensional double array that contains 
-all the observation parameter values. The expected structure is 
-observations[parameter, station, day, flt] where flt stands for 
-forecast lead time.}
+\item{config}{The configuration object used to generate the AnEn results.}
 
-\item{forecasts}{A 4-dimensional double array that contains all
-the forecast parameter values. The expected structure is 
-forecasts [parameter, station, day, flt] where flt stands for
-forecast lead time.}
-
-\item{forecast.ID}{A positive integer specifying which variable in
-forecasts are used to compute the bias.}
-
-\item{test.ID.start}{A positive integer specifying the start day
-of tests.}
+\item{forecast.ID}{Which parameter in the forecasts should be used to generate bias.}
 
 \item{group.func}{A function that summarizes all the member values
 into one value. For example, it can be 'mean', 'median', 'max', or

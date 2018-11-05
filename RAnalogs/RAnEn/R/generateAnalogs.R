@@ -46,7 +46,7 @@
 #' @export
 generateAnalogs <- function(configuration) {
 	
-	valid <- validateConfiguration(configuration)
+	valid <- validateConfiguration(configuration, configuration$verbose)
 	if (!valid) return(valid)
 	
 	configuration$observation_id = configuration$observation_id - 1

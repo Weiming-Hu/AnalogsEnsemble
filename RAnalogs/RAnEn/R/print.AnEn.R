@@ -35,6 +35,14 @@ print.AnEn <- function (x) {
     cat("\n")
   }
   
+  if ('analogs.cor' %in% names(x)) {
+    empty <- F
+    cat("Member 'analogs.cor': [test station][test time][FLT][member][type]\n")
+    cat(dim(x$analogs))
+    cat(" (value, search station, search observation time)")
+    cat("\n")
+  }
+  
   if ('similarity' %in% names(x)) {
   	empty <- F
   	cat("Member 'similarity': [test station][test time][FLT][member][type]\n")

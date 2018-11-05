@@ -15,25 +15,11 @@
 #' 
 #' Statical bias correction function for analog ensembles.
 #' 
-#' @param analogs analogs should either be the class of 'AnEn' or a 
-#' 5-dimensional array. A variable of the class 'AnEn' is generated
-#' from the function \code{\link{compute_analogs}}.
+#' @param AnEn An AnEn object.
 #' 
-#' @param observations A 4-dimensional double array that contains 
-#' all the observation parameter values. The expected structure is 
-#' observations[parameter, station, day, flt] where flt stands for 
-#' forecast lead time.
+#' @param config The configuration object used to generate the AnEn results.
 #' 
-#' @param forecasts A 4-dimensional double array that contains all
-#'  the forecast parameter values. The expected structure is 
-#'  forecasts [parameter, station, day, flt] where flt stands for
-#'  forecast lead time.
-#'
-#' @param forecast.ID A positive integer specifying which variable in
-#' forecasts are used to compute the bias.
-#' 
-#' @param test.ID.start A positive integer specifying the start day
-#' of tests.
+#' @param forecast.ID Which parameter in the forecasts should be used to generate bias.
 #' 
 #' @param group.func A function that summarizes all the member values
 #' into one value. For example, it can be 'mean', 'median', 'max', or
@@ -49,71 +35,39 @@
 #' 
 #' @export
 biasCorrection <- function(
-  analogs = stop("Please set analogs"),
-  observations = stop("Please set observations"),
-  forecasts = stop("Please set forecasts"),
-  forecast.ID = stop("Please set forecast.ID"),
-  test.ID.start = stop("Please set test.ID.start"),
-  group.func = mean, ..., keep.bias = F, show.progress = T) {
+  AnEn, config, forecast.ID, group.func = mean, ..., keep.bias = F, show.progress = T) {
   
   require(RAnEn)
   
   # parameter checks
-  if (class(analogs) == 'AnEn') {
-    AnEn <- analogs
-    analogs <- AnEn$analogs
-  } else if (!(is.array(analogs) && 
-               is.numeric(analogs) &&
-               length(dim(analogs)) == 5)) {
-    stop("ERROR: analogs should either be the class 'AnEn' or a 5-dimensional numeric array (please check with functions is.array, is.numeric, and dim).")
+  if (class(AnEn) != 'AnEn') {
+    stop("AnEn should be an AnEn object.")
   }
-  if (!(is.array(forecasts) && 
-        is.numeric(forecasts) &&
-        length(dim(forecasts)) == 4)) {
-    stop("ERROR: forecasts should be a 4-dimensional numeric array! Please use dim(), is.numeric(), and is.array() to check!")
+  if (config$preserve_real_time) {
+    stop("Please don't use the option preserve_real_time in configuration when generating AnEn. This slows down the bias correction significantly.")
   }
-  if (!(is.array(observations) &&
-        is.numeric(observations) && 
-        length(dim(observations)) == 4)) {
-    stop("ERROR: observations should be a 4-dimensional numeric array! Please use dim(), is.numeric(), and is.array() to check!")
+  if (!config$preserve_mapping) {
+    stop("Please use the option preserve_mapping in configuration when generating AnEn. If not, it slows down the bias correction significantly.")
   }
-  if (dim(forecasts)[2] != dim(observations)[2] || 
-      dim(forecasts)[3] != dim(observations)[3] || 
-      dim(forecasts)[4] != dim(observations)[4]) {
-    stop("ERROR: the second, thrid, and fourth dimensions of forecasts and observations should be the same!")
-  }
-  if (dim(forecasts)[2] != dim(analogs)[1] ||
-      dim(forecasts)[4] != dim(analogs)[3]) {
-    stop("ERROR: analogs and forecasts should have the same stations and forecast lead times!")
-  }
-  if (!(is.numeric(forecast.ID) &&
-        length(forecast.ID) == 1 &&
-        forecast.ID > 0 &&
-        forecast.ID < dim(forecasts)[1])) {
-    stop("ERROR: forecast.ID should be a single positive numeric number! And it should not exceed the number of variables in forecasts.")
-  }
-  if (!(is.numeric(test.ID.start) &&
-        length(test.ID.start) == 1 &&
-        test.ID.start > 0 &&
-        test.ID.start <= dim(forecasts)[3])) {
-    stop("ERROR: test.ID.start should be a single positive numeric number! And it should not exceed the number of days in forecasts.")
+  if (class(config) != 'Configuration') {
+    stop("config should be a configuration object.")
   }
   if (!is.function(group.func)) {
-    stop("ERROR: group.func should be a function.")
+    stop("group.func should be a function.")
   }
   
   # number of members
-  members.size <- dim(analogs)[4]
+  members.size <- config$num_members
   
   # we will calculate a bias for
   # each station, each test day, and each flt
   #
-  bias <- array(NA, dim = dim(analogs)[1:3])
+  bias <- array(NA, dim = dim(AnEn$analogs)[1:3])
   
   # create an array for bias corrected analogs
   # which has the same shape with analogs
   #
-  analogs.cor <- analogs
+  analogs.cor <- AnEn$analogs
   
   # progress bar
   if (show.progress) {
@@ -127,17 +81,18 @@ biasCorrection <- function(
         
         # matrix indexing for members forecast
         index <- cbind(
-          rep(forecast.ID, members.size), # variable index
-          analogs[i, j, k, , 2],     # station index
-          analogs[i, j, k, , 3],     # day index
-          rep(k, members.size)            # flt index
+          rep(forecast.ID, members.size),                                          # variable index
+          AnEn$analogs[i, j, k, , 2],                                              # station index
+          unlist(lapply(AnEn$analogs[i, j, k, , 3], function(x, mapping, k) {
+            return(which(x == mapping[k, ]))}, mapping = AnEn$mapping, k = k)),    # forecast day index
+          rep(k, members.size)                                                     # flt index
         )
         
-        members.forecast <- forecasts[index]
+        members.forecast <- config$search_forecasts[index]
         
         # current forecast - mean of selected forecasts
         bias[i, j, k] <- 
-          forecasts[forecast.var, i, (j+test.ID.start-1), k] -
+          config$test_forecasts[forecast.ID, i, j, k] -
           group.func(members.forecast, ...)
         
         analogs.cor[i, j, k, , 1] <-
@@ -155,9 +110,11 @@ biasCorrection <- function(
     close(pb)
   }
   
+  AnEn$analogs.cor <- analogs.cor
+  
   if (keep.bias) {
-    return(list(analogs = analogs.cor, bias = bias))
-  } else {
-    return(analogs.cor)
+    AnEn$bias <- bias
   }
+  
+  return(AnEn)
 }
