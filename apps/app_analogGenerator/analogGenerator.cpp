@@ -11,6 +11,9 @@
 #if defined(_CODE_PROFILING)
 #include <ctime>
 #include <iomanip>
+#if defined(_OPENMP)
+#include <omp.h>
+#endif
 #endif
 
 #include "AnEnIO.h"
@@ -53,6 +56,9 @@ void runAnalogGenerator(
 
 #if defined(_CODE_PROFILING)
     clock_t time_start = clock();
+#if defined(_OPENMP)
+    double wtime_start = omp_get_wtime();
+#endif
 #endif
 
     /************************************************************************
@@ -91,6 +97,9 @@ void runAnalogGenerator(
 
 #if defined(_CODE_PROFILING)
     clock_t time_end_of_reading = clock();
+#if defined(_OPENMP)
+    double wtime_end_of_reading = omp_get_wtime();
+#endif
 #endif
 
     /************************************************************************
@@ -105,6 +114,9 @@ void runAnalogGenerator(
 
 #if defined(_CODE_PROFILING)
     clock_t time_end_of_sd = clock();
+#if defined(_OPENMP)
+    double wtime_end_of_sd = omp_get_wtime();
+#endif
 #endif
 
     AnEn::TimeMapMatrix mapping;
@@ -119,6 +131,9 @@ void runAnalogGenerator(
 
 #if defined(_CODE_PROFILING)
     clock_t time_end_of_mapping = clock();
+#if defined(_OPENMP)
+    double wtime_end_of_mapping = omp_get_wtime();
+#endif
 #endif
 
     if (searchExtension) {
@@ -151,6 +166,9 @@ void runAnalogGenerator(
 
 #if defined(_CODE_PROFILING)
     clock_t time_end_of_sim = clock();
+#if defined(_OPENMP)
+    double wtime_end_of_sim = omp_get_wtime();
+#endif
 #endif
 
     Analogs analogs;
@@ -159,6 +177,9 @@ void runAnalogGenerator(
 
 #if defined(_CODE_PROFILING)
     clock_t time_end_of_select = clock();
+#if defined(_OPENMP)
+    double wtime_end_of_select = omp_get_wtime();
+#endif
 #endif
 
     /************************************************************************
@@ -172,6 +193,19 @@ void runAnalogGenerator(
 
 #if defined(_CODE_PROFILING)
     clock_t time_end_of_write = clock();
+#if defined(_OPENMP)
+    double wtime_end_of_write = omp_get_wtime();
+
+    double wduration_full = wtime_end_of_write - wtime_start,
+           wduration_reading = wtime_end_of_reading - wtime_start,
+           wduration_sd = wtime_end_of_sd - wtime_end_of_reading,
+           wduration_mapping = wtime_end_of_mapping - wtime_end_of_sd,
+           wduration_sim = wtime_end_of_sim - wtime_end_of_mapping,
+           wduration_select = wtime_end_of_select - wtime_end_of_sim,
+           wduration_write = wtime_end_of_write - wtime_end_of_select;
+    double wduration_computation = wduration_sd + wduration_mapping + wduration_sim + wduration_select;
+#endif
+
     float duration_full = (float) (time_end_of_write - time_start) / CLOCKS_PER_SEC,
           duration_reading = (float) (time_end_of_reading - time_start) / CLOCKS_PER_SEC,
           duration_sd = (float) (time_end_of_sd - time_end_of_reading) / CLOCKS_PER_SEC,
@@ -181,7 +215,7 @@ void runAnalogGenerator(
           duration_write = (float) (time_end_of_write - time_end_of_select) / CLOCKS_PER_SEC;
     float duration_computation = duration_sd + duration_mapping + duration_sim + duration_select;
     cout << "-----------------------------------------------------" << endl
-        << "Time profiling for Analog Generator:" << endl
+        << "CPU Time profiling for Analog Generator:" << endl
         << "Total time: " << duration_full << " seconds (100%)" << endl
         << "Reading data: " << duration_reading << " seconds (" << duration_reading / duration_full * 100 << "%)" << endl
         << "Computation: " << duration_computation << " seconds (" << duration_computation / duration_full * 100 << "%)" << endl
@@ -191,6 +225,19 @@ void runAnalogGenerator(
         << " -- Selection: " << duration_select << " seconds (" << duration_select / duration_full * 100 << "%)" << endl
         << "Writing data: " << duration_write << " seconds (" << duration_write / duration_full * 100 << "%)" << endl
         << "-----------------------------------------------------" << endl;
+#if defined(_OPENMP)
+    cout << "-----------------------------------------------------" << endl
+        << "Wall Time profiling for Analog Generator:" << endl
+        << "Total wall time: " << wduration_full << " seconds (100%)" << endl
+        << "Reading data: " << wduration_reading << " seconds (" << wduration_reading / wduration_full * 100 << "%)" << endl
+        << "Computation: " << wduration_computation << " seconds (" << wduration_computation / wduration_full * 100 << "%)" << endl
+        << " -- SD: " << wduration_sd << " seconds (" << wduration_sd / wduration_full * 100 << "%)" << endl
+        << " -- Mapping: " << wduration_mapping << " seconds (" << wduration_mapping / wduration_full * 100 << "%)" << endl
+        << " -- Similarity: " << wduration_sim << " seconds (" << wduration_sim / wduration_full * 100 << "%)" << endl
+        << " -- Selection: " << wduration_select << " seconds (" << wduration_select / wduration_full * 100 << "%)" << endl
+        << "Writing data: " << wduration_write << " seconds (" << wduration_write / wduration_full * 100 << "%)" << endl
+        << "-----------------------------------------------------" << endl;
+#endif
 #endif
 
     return;
