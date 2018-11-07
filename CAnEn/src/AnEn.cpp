@@ -763,7 +763,9 @@ i_parameter, num_test_times, num_flts, max_members)
 void
 AnEn::handleError(const errorType & indicator) const {
     if (indicator != SUCCESS) {
-        throw runtime_error("Error code " + to_string((long long) indicator));
+        throw runtime_error("Error code "
+                + to_string((long long) indicator)
+                + "\nCode reference: https://weiming-hu.github.io/AnalogsEnsemble/CXX/class_an_en.html#a0e256eb89d102d318a47d936b02242bf");
     }
 }
 

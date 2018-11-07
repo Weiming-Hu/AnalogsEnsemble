@@ -1828,7 +1828,9 @@ AnEnIO::handleError(const errorType & indicator) const {
             indicator == OPTIONAL_VARIABLE_MISSING) {
         return;
     } else {
-        throw runtime_error("Error code " + to_string((long long) indicator));
+        throw runtime_error("Error code "
+                + to_string((long long) indicator)
+                + "\nCode reference: https://weiming-hu.github.io/AnalogsEnsemble/CXX/class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0");
     }
 }
 
