@@ -12,8 +12,8 @@ TARGET_BRANCH="gh-pages"
 
 function doCompileCXX {
     echo "Compile for C++"
-    mkdir buildC
-    cd buildC
+    mkdir buildC_gh-page
+    cd buildC_gh-page
     cmake ..
 
     make document
@@ -29,9 +29,9 @@ function doCompileCXX {
 
     # Update gh-pages
     rm -rf out/CXX || true
-    mv buildC/html/ out/CXX
+    mv buildC_gh-page/html/ out/CXX
 
-    rm -rf buildC
+    rm -rf buildC_gh-page
 }
 
 function doCompileR {
