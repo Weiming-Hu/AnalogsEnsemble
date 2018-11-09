@@ -1,6 +1,0 @@
-<map id="Observations_array" name="Observations_array">
-<area shape="rect" id="node2" href="$class_observations.html" title="Observations class provides interface for reading and writing observations from and to a NetCDF file..." alt="" coords="225,356,367,563"/>
-<area shape="rect" id="node3" href="$classanen_par_1_1_parameters.html" title="Parameters class stores Parameter objects. " alt="" coords="5,148,179,275"/>
-<area shape="rect" id="node5" href="$classanen_sta_1_1_stations.html" title="Stations class stores Station objects. " alt="" coords="203,128,390,295"/>
-<area shape="rect" id="node7" href="$classanen_time_1_1_times.html" title="Times class is used to store time information for predictions. By default this is the number of secon..." alt="" coords="413,135,536,288"/>
-</map>

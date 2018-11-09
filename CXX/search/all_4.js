@@ -11,6 +11,8 @@ var searchData=
   ['circular_5f',['circular_',['../classanen_par_1_1_parameter.html#a12e18f4bec79c8866f019174ddd3768a',1,'anenPar::Parameter']]],
   ['col_5ftag',['COL_TAG',['../class_analogs.html#a9b56dcdb212f44c3ba40a60736d648bb',1,'Analogs::COL_TAG()'],['../class_similarity_matrices.html#a8fea56a2e7c8a9f692753c8f706e5706',1,'SimilarityMatrices::COL_TAG()'],['../_similarity_matrices_8cpp.html#ac7e8d66a84673efde8929ea2456b872e',1,'COL_TAG():&#160;SimilarityMatrices.cpp']]],
   ['colortexts_2eh',['colorTexts.h',['../color_texts_8h.html',1,'']]],
+  ['combineforecastsarray',['combineForecastsArray',['../class_an_en_i_o.html#af0b54c8ef087ffc01db83dab8fabadd4',1,'AnEnIO']]],
+  ['combineobservationsarray',['combineObservationsArray',['../class_an_en_i_o.html#ae1fc8bfc7b6570acccfe86d22be3829a',1,'AnEnIO']]],
   ['commonexefunctions',['CommonExeFunctions',['../namespace_common_exe_functions.html',1,'']]],
   ['commonexefunctions_2eh',['CommonExeFunctions.h',['../_common_exe_functions_8h.html',1,'']]],
   ['compare',['compare',['../classanen_par_1_1_parameter.html#ac7bf17c016c65c6eba495a75cacf5431',1,'anenPar::Parameter::compare()'],['../classanen_sta_1_1_station.html#a071a6c089a2c00a61606d7b4e2766194',1,'anenSta::Station::compare()']]],
