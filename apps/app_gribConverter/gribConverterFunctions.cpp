@@ -251,8 +251,6 @@ namespace gribConverter {
         if (verbose >= 3) cout << GREEN << "Reading station information ... " << RESET << endl;
         anenSta::Stations stations;
         vector<double> xs, ys;
-        bool flag = false;
-        size_t i_file = 0;
 
         for (size_t i_file = 0; i_file < files_in.size(); i_file++) {
             try {
@@ -456,8 +454,6 @@ namespace gribConverter {
         if (verbose >= 3) cout << GREEN << "Reading station information ... " << RESET << endl;
         anenSta::Stations stations;
         vector<double> xs, ys;
-        bool flag = false;
-        size_t i_file = 0;
 
         for (size_t i_file = 0; i_file < files_in.size(); i_file++) {
             try {

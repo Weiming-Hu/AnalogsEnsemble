@@ -21,7 +21,8 @@ endif (PROGRESS_BAR)
 ##################
 # build and link #
 ##################
-add_library(${LIBRARY_NAME} SHARED ${SOURCES})
+#add_library(${LIBRARY_NAME} SHARED ${SOURCES})
+add_library(${LIBRARY_NAME} STATIC ${SOURCES})
 
 add_dependencies(${LIBRARY_NAME} "AnEnIO")
 include_directories("${CMAKE_SOURCE_DIR}/CAnEnIO/include")
@@ -56,7 +57,8 @@ add_dependencies(${LIBRARY_NAME} NETCDF_CXX4_PROJECT)
 set_target_properties(${LIBRARY_NAME} PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${COMMON_OUTPUT_DIR}/lib")
 
 # Copy library to destination
-install(TARGETS ${LIBRARY_NAME} LIBRARY DESTINATION lib)
+#install(TARGETS ${LIBRARY_NAME} LIBRARY DESTINATION lib)
+install(TARGETS ${LIBRARY_NAME} ARCHIVE DESTINATION lib)
 
 # Copy headers to destination
 install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include DESTINATION .)

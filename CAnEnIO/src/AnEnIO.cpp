@@ -118,7 +118,7 @@ AnEnIO::checkFilePath() const {
         if (boost_path.has_extension()) {
             string ext = boost_path.extension().string();
 
-            if (mode_ == "Matrix"  || ext == ".txt") return (SUCCESS);
+            if (mode_ == "Matrix" || ext == ".txt") return (SUCCESS);
             if (ext == ".nc") return (SUCCESS);
         }
 
@@ -171,12 +171,12 @@ AnEnIO::checkFileType() const {
             var_names = {"Analogs"};
 
         } else if (file_type_ == "Matrix") {
-            
+
             if (verbose_ >= 3) {
                 cout << RED << "File check for Matrix type is not defined." << RESET << endl;
             }
             return (SUCCESS);
-            
+
         } else {
             if (verbose_ >= 1) {
                 cout << BOLDRED << "Error: Unknown file type "
@@ -391,7 +391,7 @@ AnEnIO::readObservations(Observations_array & observations) {
 
         if (var.isNull()) {
             if (verbose_ >= 1) cout << BOLDRED << "Error: Could not"
-                << " find variable " << var_name << "!" << RESET << endl;
+                    << " find variable " << var_name << "!" << RESET << endl;
             return (WRONG_INDEX_SHAPE);
         }
 
@@ -406,7 +406,7 @@ AnEnIO::readObservations(Observations_array & observations) {
     } catch (...) {
         throw;
     }
-    
+
     // I didn't use the following function because it requires copy of 
     // the data which might cause insufficient memory problem.
     //
@@ -544,7 +544,7 @@ AnEnIO::readForecasts(Forecasts_array & forecasts) {
 
         if (var.isNull()) {
             if (verbose_ >= 1) cout << BOLDRED << "Error: Could not"
-                << " find variable " << var_name << "!" << RESET << endl;
+                    << " find variable " << var_name << "!" << RESET << endl;
             return (WRONG_INDEX_SHAPE);
         }
 
@@ -2053,6 +2053,390 @@ AnEnIO::dumpVariable(string var_name, size_t start, size_t count) const {
 
     nc.close();
     return;
+}
+
+errorType
+AnEnIO::combineForecastsArray(const std::vector<Forecasts_array> & forecasts_vec,
+        Forecasts_array & forecasts, size_t along, int verbose) {
+
+    if (forecasts.getDataLength() != 0) {
+        if (verbose >= 1) cout << BOLDRED << "Error: Please provide an empty forecasts." << RESET << endl;
+        return (ERROR_SETTING_VALUES);
+    }
+    
+    auto & parameters_combined = forecasts.getParameters();
+    auto & stations_combined = forecasts.getStations();
+    auto & times_combined = forecasts.getTimes();
+    auto & flts_combined = forecasts.getFLTs();
+    
+    const auto & first_parameters = forecasts_vec[0].getParameters();
+    const auto & first_stations = forecasts_vec[0].getStations();
+    const auto & first_times = forecasts_vec[0].getTimes();
+    const auto & first_flts = forecasts_vec[0].getFLTs();
+    
+    size_t count = 0;
+    vector<size_t> element_accumulated_counts(1, 0);
+
+    // Append meta information
+    if (verbose >= 3) cout << "Processing meta information ..." << endl;
+    if (along == 0) {
+        for_each(forecasts_vec.begin(), forecasts_vec.end(),
+                [&count, &element_accumulated_counts, &parameters_combined]
+                (const Forecasts_array & rhs) {
+                    const auto & rhs_parameters = rhs.getParameters();
+                    element_accumulated_counts.push_back(
+                            rhs_parameters.size() + accumulate(
+                            element_accumulated_counts.begin(),
+                            element_accumulated_counts.end(), 0));
+                    parameters_combined.insert(parameters_combined.end(),
+                            rhs_parameters.begin(), rhs_parameters.end());
+                    count += rhs_parameters.size();
+                });
+        
+        if (count != parameters_combined.size()) {
+            if (verbose >= 1) cout << BOLDRED << "Error: Duplicate parameters found in files. The number of parameters from files ("
+                    << count << ") does not equal to the parameters in the container (" << parameters_combined.size() << ")." << RESET << endl;
+            return (ELEMENT_NOT_UNIQUE);
+        }
+                    
+    } else if (along == 1) {
+        for_each(forecasts_vec.begin(), forecasts_vec.end(),
+                [&count, &element_accumulated_counts, &stations_combined]
+                (const Forecasts_array & rhs) {
+                    const auto & rhs_stations = rhs.getStations();
+                    element_accumulated_counts.push_back(
+                            rhs_stations.size() + accumulate(
+                            element_accumulated_counts.begin(),
+                            element_accumulated_counts.end(), 0));
+                    stations_combined.insert(stations_combined.end(), rhs_stations.begin(), rhs_stations.end());
+                    count += rhs_stations.size();
+                });
+        
+        if (count != stations_combined.size()) {
+            if (verbose >= 1) cout << BOLDRED << "Error: Duplicate stations found in files. The number of stations from files ("
+                    << count << ") does not equal to stations in the container (" << stations_combined.size() << ")." << RESET << endl;
+            return (ELEMENT_NOT_UNIQUE);
+        }
+
+    } else if (along == 2) {
+        for_each(forecasts_vec.begin(), forecasts_vec.end(),
+                [&count, &element_accumulated_counts, &times_combined]
+                (const Forecasts_array & rhs) {
+                    const auto & rhs_times = rhs.getTimes();
+                    element_accumulated_counts.push_back(
+                            rhs_times.size() + accumulate(
+                            element_accumulated_counts.begin(),
+                            element_accumulated_counts.end(), 0));
+                    times_combined.insert(times_combined.end(), rhs_times.begin(), rhs_times.end());
+                    count += rhs_times.size();
+                });
+        
+        if (count != times_combined.size()) {
+            if (verbose >= 1) cout << BOLDRED << "Error: Duplicate times found in files. The number of times from files ("
+                    << count << ") does not equal to times in the container (" << times_combined.size() << ")." << RESET << endl;
+            return (ELEMENT_NOT_UNIQUE);
+        }
+
+    } else if (along == 3) {
+        for_each(forecasts_vec.begin(), forecasts_vec.end(),
+                [&count, &element_accumulated_counts, &flts_combined]
+                (const Forecasts_array & rhs) {
+                    const auto & rhs_flts = rhs.getFLTs();
+                    element_accumulated_counts.push_back(
+                            rhs_flts.size() + accumulate(
+                            element_accumulated_counts.begin(),
+                            element_accumulated_counts.end(), 0));
+                    flts_combined.insert(flts_combined.end(), rhs_flts.begin(), rhs_flts.end());
+                    count += rhs_flts.size();
+                });
+        
+        if (count != flts_combined.size()) {
+            if (verbose >= 1) cout << BOLDRED << "Error: Duplicate flts found in files. The number of flts from files ("
+                    << count << ") does not equal to flts in the container (" << flts_combined.size() << ")." << RESET << endl;
+            return (ELEMENT_NOT_UNIQUE);
+        }
+
+    } else {
+        if (verbose >= 1) cout << BOLDRED << "Error: invalid along ("
+                << along << ")!" << RESET << endl;
+        return (ERROR_SETTING_VALUES);
+    }
+    
+    // Because we added one extra count to the accumulated vector,
+    // we need to pop it out. So that the length of accumulated 
+    // vector and forecasts vector match.
+    //
+    element_accumulated_counts.pop_back();
+
+    // Remove the along dimension from the vector of same dimension indices
+    vector<size_t> same_dimensions = {0, 1, 2, 3};
+    same_dimensions.erase(find(same_dimensions.begin(), same_dimensions.end(), along));
+    
+    // Read the other meta info that does not need to be appended
+    if (find(same_dimensions.begin(), same_dimensions.end(), 0) != same_dimensions.end()) {
+        // If parameter is included in the same dimension list
+        parameters_combined.insert(parameters_combined.end(),
+                first_parameters.begin(), first_parameters.end());
+        size_t size_expected = parameters_combined.size();
+        bool flag = all_of(forecasts_vec.begin(), forecasts_vec.end(),
+                [&size_expected](const Forecasts_array & f) {
+                    return (f.getParameters().size() == size_expected); });
+        if (!flag) {
+            if (verbose >= 3) cout << BOLDRED
+                    << "Error: Different number of parameters found in the list of forecasts."
+                    << RESET << endl;
+            return (WRONG_INDEX_SHAPE);
+        }
+    }
+    
+    if (find(same_dimensions.begin(), same_dimensions.end(), 1) != same_dimensions.end()) {
+        // If station is included in the same dimension list
+        stations_combined.insert(stations_combined.end(),
+                first_stations.begin(), first_stations.end());
+        size_t size_expected = stations_combined.size();
+        bool flag = all_of(forecasts_vec.begin(), forecasts_vec.end(),
+                [&size_expected](const Forecasts_array & f) {
+                    return (f.getStations().size() == size_expected); });
+        if (!flag) {
+            if (verbose >= 3) cout << BOLDRED
+                    << "Error: Different number of stations found in the list of forecasts."
+                    << RESET << endl;
+            return (WRONG_INDEX_SHAPE);
+        }
+    }
+    
+    if (find(same_dimensions.begin(), same_dimensions.end(), 2) != same_dimensions.end()) {
+        // If time is included in the same dimension list
+        times_combined.insert(times_combined.end(),
+                first_times.begin(), first_times.end());
+        size_t size_expected = times_combined.size();
+        bool flag = all_of(forecasts_vec.begin(), forecasts_vec.end(),
+                [&size_expected](const Forecasts_array & f) {
+                    return (f.getTimes().size() == size_expected); });
+        if (!flag) {
+            if (verbose >= 3) cout << BOLDRED
+                    << "Error: Different number of times found in the list of forecasts."
+                    << RESET << endl;
+            return (WRONG_INDEX_SHAPE);
+        }
+    }
+    
+    if (find(same_dimensions.begin(), same_dimensions.end(), 3) != same_dimensions.end()) {
+        // If FLT is included in the same dimension list
+        flts_combined.insert(flts_combined.end(),
+                first_flts.begin(), first_flts.end());
+        size_t size_expected = flts_combined.size();
+        bool flag = all_of(forecasts_vec.begin(), forecasts_vec.end(),
+                [&size_expected](const Forecasts_array & f) {
+                    return (f.getFLTs().size() == size_expected); });
+        if (!flag) {
+            if (verbose >= 3) cout << BOLDRED
+                    << "Error: Different number of parameters found in the list of forecasts."
+                    << RESET << endl;
+            return (WRONG_INDEX_SHAPE);
+        }
+    }
+    
+    // Update the dimensions of combined forecasts
+    if (verbose >= 3) cout << "Update dimensions of forecasts ..." << endl;
+    forecasts.updateDataDims(false);
+    auto & data = forecasts.data();
+    
+#if defined(_OPENMP)
+#pragma omp parallel for default(none) schedule(static) collapse(4) \
+shared(data, same_dimensions, forecasts_vec, along, element_accumulated_counts)
+#endif
+    for (size_t i = 0; i < data.shape()[same_dimensions[2]]; i++) {
+        for (size_t j = 0; j < data.shape()[same_dimensions[1]]; j++) {
+            for (size_t m = 0; m < data.shape()[same_dimensions[0]]; m++) {
+                for (size_t n = 0; n < forecasts_vec.size(); n++) {
+                
+                    const auto i_data = forecasts_vec[n].data();
+                    for (size_t l = 0; l < i_data.shape()[along]; l++) {
+                        if (along == 0)      data[element_accumulated_counts[n] + l][m][j][i] = i_data[l][m][j][i];
+                        else if (along == 1) data[m][element_accumulated_counts[n] + l][j][i] = i_data[m][l][j][i];
+                        else if (along == 2) data[m][j][element_accumulated_counts[n] + l][i] = i_data[m][j][l][i];
+                        else if (along == 3) data[m][j][i][element_accumulated_counts[n] + l] = i_data[m][j][i][l];
+                    }
+                    
+                }
+            }
+        }
+    }
+
+    return (SUCCESS);
+}
+
+errorType
+AnEnIO::combineObservationsArray(const std::vector<Observations_array> & observations_vec,
+        Observations_array & observations, size_t along, int verbose) {
+
+    if (observations.getDataLength() != 0) {
+        if (verbose >= 1) cout << BOLDRED << "Error: Please provide an empty observations." << RESET << endl;
+        return (ERROR_SETTING_VALUES);
+    }
+
+    auto & parameters_combined = observations.getParameters();
+    auto & stations_combined = observations.getStations();
+    auto & times_combined = observations.getTimes();
+
+    const auto & first_parameters = observations_vec[0].getParameters();
+    const auto & first_stations = observations_vec[0].getStations();
+    const auto & first_times = observations_vec[0].getTimes();
+
+    size_t count = 0;
+    vector<size_t> element_accumulated_counts(1, 0);
+
+    // Append meta information
+    if (verbose >= 3) cout << "Processing meta information ..." << endl;
+    if (along == 0) {
+        for_each(observations_vec.begin(), observations_vec.end(),
+                [&count, &element_accumulated_counts, &parameters_combined]
+                (const Observations_array & rhs) {
+                    const auto & rhs_parameters = rhs.getParameters();
+                    element_accumulated_counts.push_back(
+                            rhs_parameters.size() + accumulate(
+                            element_accumulated_counts.begin(),
+                            element_accumulated_counts.end(), 0));
+                    parameters_combined.insert(parameters_combined.end(),
+                            rhs_parameters.begin(), rhs_parameters.end());
+                    count += rhs_parameters.size();
+                });
+
+        if (count != parameters_combined.size()) {
+            if (verbose >= 1) cout << BOLDRED << "Error: Duplicate parameters found in files. The number of parameters from files ("
+                    << count << ") does not equal to the parameters in the container (" << parameters_combined.size() << ")." << RESET << endl;
+            return (ELEMENT_NOT_UNIQUE);
+        }
+
+    } else if (along == 1) {
+        for_each(observations_vec.begin(), observations_vec.end(),
+                [&count, &element_accumulated_counts, &stations_combined]
+                (const Observations_array & rhs) {
+                    const auto & rhs_stations = rhs.getStations();
+                    element_accumulated_counts.push_back(
+                            rhs_stations.size() + accumulate(
+                            element_accumulated_counts.begin(),
+                            element_accumulated_counts.end(), 0));
+                    stations_combined.insert(stations_combined.end(), rhs_stations.begin(), rhs_stations.end());
+                    count += rhs_stations.size();
+                });
+
+        if (count != stations_combined.size()) {
+            if (verbose >= 1) cout << BOLDRED << "Error: Duplicate stations found in files. The number of stations from files ("
+                    << count << ") does not equal to stations in the container (" << stations_combined.size() << ")." << RESET << endl;
+            return (ELEMENT_NOT_UNIQUE);
+        }
+
+    } else if (along == 2) {
+        for_each(observations_vec.begin(), observations_vec.end(),
+                [&count, &element_accumulated_counts, &times_combined]
+                (const Observations_array & rhs) {
+                    const auto & rhs_times = rhs.getTimes();
+                    element_accumulated_counts.push_back(
+                            rhs_times.size() + accumulate(
+                            element_accumulated_counts.begin(),
+                            element_accumulated_counts.end(), 0));
+                    times_combined.insert(times_combined.end(), rhs_times.begin(), rhs_times.end());
+                    count += rhs_times.size();
+                });
+
+        if (count != times_combined.size()) {
+            if (verbose >= 1) cout << BOLDRED << "Error: Duplicate times found in files. The number of times from files ("
+                    << count << ") does not equal to times in the container (" << times_combined.size() << ")." << RESET << endl;
+            return (ELEMENT_NOT_UNIQUE);
+        }
+
+    } else {
+        if (verbose >= 1) cout << BOLDRED << "Error: invalid along ("
+                << along << ")!" << RESET << endl;
+        return (ERROR_SETTING_VALUES);
+    }
+
+    // Because we added one extra count to the accumulated vector,
+    // we need to pop it out. So that the length of accumulated 
+    // vector and forecasts vector match.
+    //
+    element_accumulated_counts.pop_back();
+
+    // Remove the along dimension from the vector of same dimension indices
+    vector<size_t> same_dimensions = {0, 1, 2};
+    same_dimensions.erase(find(same_dimensions.begin(), same_dimensions.end(), along));
+
+    // Read the other meta info that does not need to be appended
+    if (find(same_dimensions.begin(), same_dimensions.end(), 0) != same_dimensions.end()) {
+        // If parameter is included in the same dimension list
+        parameters_combined.insert(parameters_combined.end(),
+                first_parameters.begin(), first_parameters.end());
+        size_t size_expected = parameters_combined.size();
+        bool flag = all_of(observations_vec.begin(), observations_vec.end(),
+                [&size_expected](const Observations_array & f) {
+                    return (f.getParameters().size() == size_expected); });
+        if (!flag) {
+            if (verbose >= 3) cout << BOLDRED
+                    << "Error: Different number of parameters found in the list of observations."
+                    << RESET << endl;
+            return (WRONG_INDEX_SHAPE);
+        }
+    }
+
+    if (find(same_dimensions.begin(), same_dimensions.end(), 1) != same_dimensions.end()) {
+        // If station is included in the same dimension list
+        stations_combined.insert(stations_combined.end(),
+                first_stations.begin(), first_stations.end());
+        size_t size_expected = stations_combined.size();
+        bool flag = all_of(observations_vec.begin(), observations_vec.end(),
+                [&size_expected](const Observations_array & f) {
+                    return (f.getStations().size() == size_expected); });
+        if (!flag) {
+            if (verbose >= 3) cout << BOLDRED
+                    << "Error: Different number of stations found in the list of observations."
+                    << RESET << endl;
+            return (WRONG_INDEX_SHAPE);
+        }
+    }
+
+    if (find(same_dimensions.begin(), same_dimensions.end(), 2) != same_dimensions.end()) {
+        // If time is included in the same dimension list
+        times_combined.insert(times_combined.end(),
+                first_times.begin(), first_times.end());
+        size_t size_expected = times_combined.size();
+        bool flag = all_of(observations_vec.begin(), observations_vec.end(),
+                [&size_expected](const Observations_array & f) {
+                    return (f.getTimes().size() == size_expected); });
+        if (!flag) {
+            if (verbose >= 3) cout << BOLDRED
+                    << "Error: Different number of times found in the list of observations."
+                    << RESET << endl;
+            return (WRONG_INDEX_SHAPE);
+        }
+    }
+
+    // Update the dimensions of combined forecasts
+    if (verbose >= 3) cout << "Update dimensions of observations ..." << endl;
+    observations.updateDataDims(false);
+    auto & data = observations.data();
+
+#if defined(_OPENMP)
+#pragma omp parallel for default(none) schedule(static) collapse(3) \
+shared(data, same_dimensions, observations_vec, along, element_accumulated_counts)
+#endif
+    for (size_t j = 0; j < data.shape()[same_dimensions[1]]; j++) {
+        for (size_t m = 0; m < data.shape()[same_dimensions[0]]; m++) {
+            for (size_t n = 0; n < observations_vec.size(); n++) {
+
+                const auto i_data = observations_vec[n].data();
+                for (size_t l = 0; l < i_data.shape()[along]; l++) {
+                    if (along == 0) data[element_accumulated_counts[n] + l][m][j] = i_data[l][m][j];
+                    else if (along == 1) data[m][element_accumulated_counts[n] + l][j] = i_data[m][l][j];
+                    else if (along == 2) data[m][j][element_accumulated_counts[n] + l] = i_data[m][j][l];
+                }
+
+            }
+        }
+    }
+
+    return (SUCCESS);
 }
 
 errorType

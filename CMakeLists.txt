@@ -178,6 +178,7 @@ add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_similarityCalculator")
 add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_windFieldCalculator")
 add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_analogSelector")
 add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_forecastsToObservations")
+add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_fileReshape")
 
 if (BUILD_GRIBCONVERTER)
     add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_gribConverter")

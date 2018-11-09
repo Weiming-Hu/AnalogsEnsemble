@@ -455,6 +455,16 @@ public:
     errorType
     writeTextMatrix(const boost::numeric::ublas::matrix<T> & mapping) const;
 
+    static errorType
+    combineForecastsArray(
+            const std::vector<Forecasts_array> & forecasts_vec,
+            Forecasts_array & forecasts, size_t along, int verbose = 2);
+
+    static errorType
+    combineObservationsArray(
+            const std::vector<Observations_array> & observations_vec,
+            Observations_array & observations, size_t along, int verbose = 2);
+
 protected:
 
     /**
