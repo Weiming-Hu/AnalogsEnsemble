@@ -455,11 +455,29 @@ public:
     errorType
     writeTextMatrix(const boost::numeric::ublas::matrix<T> & mapping) const;
 
+    /**
+     * Binds a vector of Forecasts_array.
+     * 
+     * @param forecasts_vec A vector of Forecasts_array.
+     * @param forecasts A Forecasts_arary to store the binded sub arrays.
+     * @param along Which dimension to append counting from 0.
+     * @param verbose Verbose level.
+     * @return An AnEnIO::errorType;
+     */
     static errorType
     combineForecastsArray(
             const std::vector<Forecasts_array> & forecasts_vec,
             Forecasts_array & forecasts, size_t along, int verbose = 2);
 
+    /**
+     * Binds a vector of Observations_array.
+     * 
+     * @param observations_vec A vector of Obseravtions_array.
+     * @param observations An Observations_array to store the binded sub arrays.
+     * @param along Which dimension to append counting from 0.
+     * @param verbose Verbose level.
+     * @return An AnEnIO::errorType;
+     */
     static errorType
     combineObservationsArray(
             const std::vector<Observations_array> & observations_vec,
