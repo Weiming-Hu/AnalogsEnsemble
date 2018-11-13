@@ -702,6 +702,17 @@ AnEnIO::readFLTs(anenTime::FLTs& flts,
     string var_name = "FLTs";
     handleError(checkVariable(var_name, false));
 
+    size_t dim_len;
+    handleError(readDimLength("num_flts", dim_len));
+
+    // Check parameters
+    if (start + (count - 1) * stride >= dim_len) {
+        if (verbose_ >= 1) cout << BOLDRED
+                << "Error: The FLT indices are not valid."
+                << " The length of FLTs is " << dim_len << RESET << endl;
+        return (WRONG_INDEX_SHAPE);
+    }
+
     vector<double> vec;
     handleError(read_vector_(var_name, vec, start, count, stride));
 
@@ -1087,6 +1098,17 @@ AnEnIO::readTimes(anenTime::Times& times,
 
     string var_name = "Times";
     handleError(checkVariable(var_name, false));
+
+    size_t dim_len;
+    handleError(readDimLength("num_times", dim_len));
+
+    // Check parameters
+    if (start + (count - 1) * stride >= dim_len) {
+        if (verbose_ >= 1) cout << BOLDRED
+                << "Error: The time indices are not valid."
+                << " The length of times is " << dim_len << RESET << endl;
+        return (WRONG_INDEX_SHAPE);
+    }
 
     vector<double> vec;
     handleError(read_vector_(var_name, vec, start, count, stride));
