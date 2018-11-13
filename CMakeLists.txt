@@ -38,7 +38,7 @@ endif(EXISTS ${COMMON_OUTPUT_DIR})
 # supercomputers where modules are always loaded, rather
 # than installed at the standard location.
 #
-option(CMAKE_MACOSX_RPATH "Whether RPATH should be used on MacOS" OFF)
+option(CMAKE_MACOSX_RPATH "Whether RPATH should be used on MacOS" ON)
 option(CMAKE_INSTALL_RPATH_USE_LINK_PATH "Whether to use link path during installation" ON)
 
 if (CMAKE_INSTALL_RPATH)
