@@ -65,29 +65,14 @@ void runFileReshape(const string & file_type, const vector<string> & in_files,
         if (verbose >= 3) cout << GREEN << "Reading files ... " << RESET << endl;
           
         for (size_t i = 0; i < in_files.size(); i++) {
-            try{
-                AnEnIO io("Read", in_files[i], file_type, 0);
-                
-                if (partial_read) {
-                    io.handleError(io.readForecasts(forecasts_vec[i],
+            AnEnIO io("Read", in_files[i], file_type, verbose);
+
+            if (partial_read) {
+                io.handleError(io.readForecasts(forecasts_vec[i],
                             {starts[i*4], starts[i*4+1], starts[i*4+2], starts[i*4+3]},
                             {counts[i*4], counts[i*4+1], counts[i*4+2], counts[i*4+3]}));
-                } else {
-                    io.handleError(io.readForecasts(forecasts_vec[i]));
-                }
-                
-                flags[i] = true;
-            } catch (...) {
-                flags[i] = false;
-            }
-        }
-        
-        // Check if all elements in flags are true.
-        for (size_t i = 0; i < flags.size(); i++) {
-            if (!flags[i]) {
-                if (verbose>=1) cout << BOLDRED << "Error: Error occurred when"
-                        << " reading file " << in_files[i] << RESET << endl;
-                return;
+            } else {
+                io.handleError(io.readForecasts(forecasts_vec[i]));
             }
         }
         
@@ -134,7 +119,7 @@ void runFileReshape(const string & file_type, const vector<string> & in_files,
           
         for (size_t i = 0; i < in_files.size(); i++) {
             try{
-                AnEnIO io("Read", in_files[i], file_type, 0);
+                AnEnIO io("Read", in_files[i], file_type, verbose);
                 
                 if (partial_read) {
                     io.handleError(io.readObservations(observations_vec[i],

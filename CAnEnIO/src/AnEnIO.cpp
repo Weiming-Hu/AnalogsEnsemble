@@ -2085,9 +2085,7 @@ AnEnIO::combineForecastsArray(const std::vector<Forecasts_array> & forecasts_vec
                 (const Forecasts_array & rhs) {
                     const auto & rhs_parameters = rhs.getParameters();
                     element_accumulated_counts.push_back(
-                            rhs_parameters.size() + accumulate(
-                            element_accumulated_counts.begin(),
-                            element_accumulated_counts.end(), 0));
+                            rhs_parameters.size() + element_accumulated_counts.back());
                     parameters_combined.insert(parameters_combined.end(),
                             rhs_parameters.begin(), rhs_parameters.end());
                     count += rhs_parameters.size();
@@ -2105,9 +2103,7 @@ AnEnIO::combineForecastsArray(const std::vector<Forecasts_array> & forecasts_vec
                 (const Forecasts_array & rhs) {
                     const auto & rhs_stations = rhs.getStations();
                     element_accumulated_counts.push_back(
-                            rhs_stations.size() + accumulate(
-                            element_accumulated_counts.begin(),
-                            element_accumulated_counts.end(), 0));
+                            rhs_stations.size() + element_accumulated_counts.back());
                     stations_combined.insert(stations_combined.end(), rhs_stations.begin(), rhs_stations.end());
                     count += rhs_stations.size();
                 });
@@ -2124,9 +2120,7 @@ AnEnIO::combineForecastsArray(const std::vector<Forecasts_array> & forecasts_vec
                 (const Forecasts_array & rhs) {
                     const auto & rhs_times = rhs.getTimes();
                     element_accumulated_counts.push_back(
-                            rhs_times.size() + accumulate(
-                            element_accumulated_counts.begin(),
-                            element_accumulated_counts.end(), 0));
+                            rhs_times.size() + element_accumulated_counts.back());
                     times_combined.insert(times_combined.end(), rhs_times.begin(), rhs_times.end());
                     count += rhs_times.size();
                 });
@@ -2143,9 +2137,7 @@ AnEnIO::combineForecastsArray(const std::vector<Forecasts_array> & forecasts_vec
                 (const Forecasts_array & rhs) {
                     const auto & rhs_flts = rhs.getFLTs();
                     element_accumulated_counts.push_back(
-                            rhs_flts.size() + accumulate(
-                            element_accumulated_counts.begin(),
-                            element_accumulated_counts.end(), 0));
+                            rhs_flts.size() + element_accumulated_counts.back());
                     flts_combined.insert(flts_combined.end(), rhs_flts.begin(), rhs_flts.end());
                     count += rhs_flts.size();
                 });
@@ -2242,6 +2234,7 @@ AnEnIO::combineForecastsArray(const std::vector<Forecasts_array> & forecasts_vec
     forecasts.updateDataDims(false);
     auto & data = forecasts.data();
     
+    if (verbose >= 3) cout << "Copy data values into the new array ..." << endl;
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(static) collapse(4) \
 shared(data, same_dimensions, forecasts_vec, along, element_accumulated_counts)
@@ -2295,9 +2288,7 @@ AnEnIO::combineObservationsArray(const std::vector<Observations_array> & observa
                 (const Observations_array & rhs) {
                     const auto & rhs_parameters = rhs.getParameters();
                     element_accumulated_counts.push_back(
-                            rhs_parameters.size() + accumulate(
-                            element_accumulated_counts.begin(),
-                            element_accumulated_counts.end(), 0));
+                            rhs_parameters.size() + element_accumulated_counts.back());
                     parameters_combined.insert(parameters_combined.end(),
                             rhs_parameters.begin(), rhs_parameters.end());
                     count += rhs_parameters.size();
@@ -2315,9 +2306,7 @@ AnEnIO::combineObservationsArray(const std::vector<Observations_array> & observa
                 (const Observations_array & rhs) {
                     const auto & rhs_stations = rhs.getStations();
                     element_accumulated_counts.push_back(
-                            rhs_stations.size() + accumulate(
-                            element_accumulated_counts.begin(),
-                            element_accumulated_counts.end(), 0));
+                            rhs_stations.size() + element_accumulated_counts.back());
                     stations_combined.insert(stations_combined.end(), rhs_stations.begin(), rhs_stations.end());
                     count += rhs_stations.size();
                 });
@@ -2334,9 +2323,7 @@ AnEnIO::combineObservationsArray(const std::vector<Observations_array> & observa
                 (const Observations_array & rhs) {
                     const auto & rhs_times = rhs.getTimes();
                     element_accumulated_counts.push_back(
-                            rhs_times.size() + accumulate(
-                            element_accumulated_counts.begin(),
-                            element_accumulated_counts.end(), 0));
+                            rhs_times.size() + element_accumulated_counts.back());
                     times_combined.insert(times_combined.end(), rhs_times.begin(), rhs_times.end());
                     count += rhs_times.size();
                 });
