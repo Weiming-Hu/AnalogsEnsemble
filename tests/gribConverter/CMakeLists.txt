@@ -25,7 +25,11 @@ endif(CPPUNIT_FOUND)
 find_package(eccodes REQUIRED)
 include_directories(${ECCODES_INCLUDE_DIRS})
 target_link_libraries (testGribConverter eccodes)
-target_link_libraries (testGribConverter datetime)
+
+if(BOOST_TYPE STREQUAL "BUILD")
+    target_link_libraries (${PROJECT_NAME} datetime)
+endif(BOOST_TYPE STREQUAL "BUILD")
+
 target_link_libraries (runGribConverter eccodes)
 
 add_definitions(-D_PATH_GRIB1="${CMAKE_SOURCE_DIR}/tests/Data/test_multi_fields.grib2")

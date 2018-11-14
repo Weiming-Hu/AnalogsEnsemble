@@ -23,7 +23,10 @@ target_link_libraries(${PROJECT_NAME} AnEn)
 find_package(eccodes REQUIRED)
 include_directories(${ECCODES_INCLUDE_DIRS})
 target_link_libraries(${PROJECT_NAME} eccodes)
-target_link_libraries (${PROJECT_NAME} datetime)
+
+if(BOOST_TYPE STREQUAL "BUILD")
+    target_link_libraries (${PROJECT_NAME} datetime)
+endif(BOOST_TYPE STREQUAL "BUILD")
 
 set_target_properties(gribConverter
     PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${COMMON_OUTPUT_DIR}/bin")

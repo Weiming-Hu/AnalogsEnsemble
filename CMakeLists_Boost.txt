@@ -21,8 +21,15 @@ set (LIBRARY_PROGRAMOPTIONS "${DEPENDENCY_PATH}/program_options")
 set (LIBRARY_MINIMALBOOST "${DEPENDENCY_PATH}/minimal_boost")
 
 if (BOOST_TYPE STREQUAL "SYSTEM")
-    find_package (Boost 1.41.0 REQUIRED
-        COMPONENTS program_options system filesystem)
+
+    if (BUILD_GRIBCONVERTER)
+        find_package (Boost 1.41.0 REQUIRED
+            COMPONENTS program_options system filesystem date_time)
+    else (BUILD_GRIBCONVERTER)
+        find_package (Boost 1.41.0 REQUIRED
+            COMPONENTS program_options system filesystem)
+    endif (BUILD_GRIBCONVERTER)
+
     include_directories (SYSTEM ${Boost_INCLUDE_DIRS})
     set (Boost_USE_MULTITHREADED ON)
     message (WARNING "You are using Boost library in the system.

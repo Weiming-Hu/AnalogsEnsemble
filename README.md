@@ -250,6 +250,7 @@ make clean
 |          CXX         |                                        The C++ compiler to use.                                         | [System dependent] |
 |     INSTALL\_RAnEn   |                                 Build and install the `RAnEn` library.                                  |         OFF        |
 |      BOOST\_TYPE     | `BUILD` for building `Boost` library; `SYSTEM` for using the `Boost` library installed on the system.   |        BUILD       |
+|     CPPUNIT\_TYPE    | `BUILD` for building `CppUnit` library; `SYSTEM` for using the `CppUnit` library from the system.       |        BUILD       |
 |   CMAKE\_BUILD\_TYPE |                          `Release` for release mode; `Debug` for debug mode.                            |       Release      |
 |  CMAKE\_BUILD\_TESTS |                                             Build tests.                                                |         OFF        |
 |     BUILD\_NETCDF    |                           Build `NetCDF` library regardless of its existence.                           |         OFF        |

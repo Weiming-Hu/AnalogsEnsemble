@@ -34,7 +34,6 @@ if(BOOST_TYPE STREQUAL "BUILD")
     target_link_libraries (${LIBRARY_NAME} "program_options")
 elseif(BOOST_TYPE STREQUAL "SYSTEM")
     target_link_libraries (${LIBRARY_NAME} ${Boost_LIBRARIES})
-    target_link_libraries (${LIBRARY_NAME} ${Boost_LIBRARIES})
 endif(BOOST_TYPE STREQUAL "BUILD")
 
 include_directories(SYSTEM ${NETCDF_CXX4_INCLUDE_DIR})
