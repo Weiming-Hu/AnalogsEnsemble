@@ -27,7 +27,7 @@ include_directories(${ECCODES_INCLUDE_DIRS})
 target_link_libraries (testGribConverter eccodes)
 
 if(BOOST_TYPE STREQUAL "BUILD")
-    target_link_libraries (${PROJECT_NAME} datetime)
+    target_link_libraries (testGribConverter datetime)
 endif(BOOST_TYPE STREQUAL "BUILD")
 
 target_link_libraries (runGribConverter eccodes)
