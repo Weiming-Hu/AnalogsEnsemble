@@ -72,8 +72,8 @@ if(NETCDF_CXX4_BUILT)
     ExternalProject_Get_Property(NETCDF_CXX4_PROJECT install_dir)
 
     add_library(netcdf_cxx4_built SHARED IMPORTED)
-    set_target_properties(netcdf_cxx4_built
-        PROPERTIES IMPORTED_LOCATION "${install_dir}/install/lib/${CMAKE_SHARED_LIBRARY_PREFIX}netcdf-cxx4${CMAKE_SHARED_LIBRARY_SUFFIX}")
+    set_target_properties(netcdf_cxx4_built PROPERTIES
+        IMPORTED_LOCATION "${install_dir}/install/lib/${CMAKE_SHARED_LIBRARY_PREFIX}netcdf-cxx4${CMAKE_SHARED_LIBRARY_SUFFIX}")
     add_dependencies(netcdf_cxx4_built NETCDF_CXX4_PROJECT)
 
     target_link_libraries(${LIBRARY_NAME} netcdf_cxx4_built)
