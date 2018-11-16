@@ -61,14 +61,14 @@ elseif(BOOST_TYPE STREQUAL "SYSTEM")
     target_link_libraries (${LIBRARY_NAME} ${Boost_LIBRARIES})
 endif(BOOST_TYPE STREQUAL "BUILD")
 
-include_directories(SYSTEM ${NETCDF_CXX4_INCLUDE_DIR})
-add_dependencies(${LIBRARY_NAME} NETCDF_CXX4_PROJECT)
-
 # TODO: install external libraries
 # https://stackoverflow.com/questions/35934112/installing-an-externalproject-with-cmake
 set(AnEnIO_RPATH "")
 
 if(NETCDF_CXX4_BUILT)
+    include_directories(SYSTEM ${NETCDF_CXX4_INCLUDE_DIR})
+    add_dependencies(${LIBRARY_NAME} NETCDF_CXX4_PROJECT)
+
     ExternalProject_Get_Property(NETCDF_CXX4_PROJECT install_dir)
 
     add_library(netcdf_cxx4_built SHARED IMPORTED)
@@ -80,7 +80,8 @@ if(NETCDF_CXX4_BUILT)
     set(AnEnIO_RPATH "${AnEnIO_RPATH};${install_dir}/install/lib")
 
 else(NETCDF_CXX4_BUILT)
-    message(FATAL_ERROR "netcdf-cxx4 should always be built.")
+    include_directories(SYSTEM ${NETCDF_INCLUDES})
+    target_link_libraries (${LIBRARY_NAME} ${NETCDF_LIBRARIES} ${NETCDF_LIBRARIES_CXX})
 endif(NETCDF_CXX4_BUILT)
 
 set_target_properties(${LIBRARY_NAME} PROPERTIES INSTALL_RPATH "${AnEnIO_RPATH}")
@@ -99,7 +100,10 @@ set_target_properties(${LIBRARY_NAME} PROPERTIES INSTALL_RPATH "${AnEnIO_RPATH}"
 #endif(${ENABLE_MPI}) 
 
 # Set default make output folder
-set_target_properties(${LIBRARY_NAME} PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${COMMON_OUTPUT_DIR}/lib")
+# set_target_properties(${LIBRARY_NAME} PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${COMMON_OUTPUT_DIR}/lib")
+set_target_properties(${LIBRARY_NAME} PROPERTIES
+    LIBRARY_OUTPUT_DIRECTORY "${COMMON_OUTPUT_DIR}/lib"  # if shared
+    ARCHIVE_OUTPUT_DIRECTORY "${COMMON_OUTPUT_DIR}/lib") # if static
 
 # Copy library to destination
 # install(TARGETS ${LIBRARY_NAME} LIBRARY DESTINATION lib)

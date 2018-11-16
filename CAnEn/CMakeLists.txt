@@ -54,7 +54,9 @@ add_dependencies(${LIBRARY_NAME} NETCDF_CXX4_PROJECT)
 #endif(${ENABLE_MPI}) 
 
 # Set default make output folder
-set_target_properties(${LIBRARY_NAME} PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${COMMON_OUTPUT_DIR}/lib")
+set_target_properties(${LIBRARY_NAME} PROPERTIES
+    ARCHIVE_OUTPUT_DIRECTORY "${COMMON_OUTPUT_DIR}/lib"  # if static 
+    LIBRARY_OUTPUT_DIRECTORY "${COMMON_OUTPUT_DIR}/lib") # if shared
 
 # Copy library to destination
 #install(TARGETS ${LIBRARY_NAME} LIBRARY DESTINATION lib)
