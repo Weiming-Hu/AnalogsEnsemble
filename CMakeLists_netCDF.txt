@@ -33,11 +33,8 @@ endif(VERBOSE)
 ###########
 # NetCDF4 #
 ###########
-if(ENABLE_MPI)
-    find_package(NetCDF COMPONENTS MPI CXX)
-else(ENABLE_MPI)
-    find_package(NetCDF COMPONENTS CXX)
-endif(ENABLE_MPI)
+set (NETCDF_CXX "YES")
+find_package(NetCDF COMPONENTS CXX)
 
 #if(NETCDF_FOUND)
 #    if(ENABLE_MPI)
