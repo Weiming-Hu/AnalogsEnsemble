@@ -249,20 +249,20 @@ make clean
 
 ### CMake Tunable Parameters Look-up
 
-|      Parameter      |                                              Explanation                                              |       Default      |
-|:-------------------:|:-----------------------------------------------------------------------------------------------------:|:------------------:|
-|          CC         |                                         The C compiler to use.                                        | [System dependent] |
-|         CXX         |                                        The C++ compiler to use.                                       | [System dependent] |
-|    INSTALL\_RAnEn   |                                 Build and install the `RAnEn` library.                                |         OFF        |
-|     BOOST\_TYPE     | `BUILD` for building `Boost` library; `SYSTEM` for using the `Boost` library installed on the system. |        BUILD       |
-|  CMAKE\_BUILD\_TYPE |                          `Release` for release mode; `Debug` for debug mode.                          |       Release      |
-| CMAKE\_BUILD\_TESTS |                                             Build tests.                                              |         OFF        |
-|    BUILD\_NETCDF    |                           Build `NetCDF` library regardless of its existence.                         |         OFF        |
-|     BUILD\_HDF5     |                            Build `HDF5` library regardless of its existence.                          |         OFF        |
-|       VERBOSE       |                          Print detailed messages during the compiling process.                        |         OFF        |
-|   CODE\_PROFILING   |                                     Print time profiling information.                                 |         OFF        |
-
-_Table generated from [Tables Generator](https://www.tablesgenerator.com/markdown_tables)._
+|      Parameter       |                                              Explanation                                                |       Default      |
+|:--------------------:|:-------------------------------------------------------------------------------------------------------:|:------------------:|
+|          CC          |                                         The C compiler to use.                                          | [System dependent] |
+|          CXX         |                                        The C++ compiler to use.                                         | [System dependent] |
+|     INSTALL\_RAnEn   |                                 Build and install the `RAnEn` library.                                  |         OFF        |
+|      BOOST\_TYPE     | `BUILD` for building `Boost` library; `SYSTEM` for using the `Boost` library installed on the system.   |        BUILD       |
+|     CPPUNIT\_TYPE    | `BUILD` for building `CppUnit` library; `SYSTEM` for using the `CppUnit` library from the system.       |        BUILD       |
+|   CMAKE\_BUILD\_TYPE |                          `Release` for release mode; `Debug` for debug mode.                            |       Release      |
+|  CMAKE\_BUILD\_TESTS |                                             Build tests.                                                |         OFF        |
+|     BUILD\_NETCDF    |                           Build `NetCDF` library regardless of its existence.                           |         OFF        |
+|      BUILD\_HDF5     |                            Build `HDF5` library regardless of its existence.                            |         OFF        |
+|        VERBOSE       |                          Print detailed messages during the compiling process.                          |         OFF        |
+|    CODE\_PROFILING   |                                     Print time profiling information.                                   |         OFF        |
+| BUILD\_GRIBCONVERTER | Build the GRIB Converter utility. [Eccodes](https://confluence.ecmwf.int/display/ECC) library required. |         OFF        |
 
 ## Known Issues
 
