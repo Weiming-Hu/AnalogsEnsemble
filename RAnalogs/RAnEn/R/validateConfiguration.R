@@ -124,25 +124,53 @@ validateConfiguration <- function(x, verbose = 1) {
 	if (x$mode == 'extendedSearch') {
 		
 		if (!(is.vector(x$test_stations_x, mode = 'numeric') && length(x$test_stations_x) == dim(x$test_forecasts)[2])) {
-			print('ERROR: Test Stations X should be a numeric vector with the length of the second dimension of test forecasts!')
-			print('Please use is.vector() and length() to check!')
-			valid <- F
+		  
+		  if (length(x$test_stations_x) == dim(x$test_forecasts)[2]) {
+		    x$test_stations_x <-  as.vector(x$test_stations_x)
+		    print('Warning: Converting test_stations_x to a vector.')
+		  } else{ 
+		    print('ERROR: Test Stations X should be a numeric vector with the length of the second dimension of test forecasts!')
+		    print('Please use is.vector() and length() to check!')
+		    valid <- F
+		  }
 		}
+	  
 		if (!(is.vector(x$test_stations_y, mode = 'numeric') && length(x$test_stations_y) == dim(x$test_forecasts)[2])) {
-			print('ERROR: Test Stations Y should be a numeric vector with the length of the second dimension of test forecasts!')
-			print('Please use is.vector() and length() to check!')
-			valid <- F
+			
+		  if (length(x$test_stations_y) == dim(x$test_forecasts)[2]) {
+		    x$test_stations_y <-  as.vector(x$test_stations_y)
+		    print('Warning: Converting test_stations_y to a vector.')
+		  } else {
+		    print('ERROR: Test Stations Y should be a numeric vector with the length of the second dimension of test forecasts!')
+		    print('Please use is.vector() and length() to check!')
+		    valid <- F
+		  }
 		}
+	  
 		if (!(is.vector(x$search_stations_x, mode = 'numeric') && length(x$search_stations_x) == dim(x$search_forecasts)[2])) {
-			print('ERROR: Search Stations X should be a numeric vector with the length of the second dimension of search forecasts!')
-			print('Please use is.vector() and length() to check!')
-			valid <- F
+		  
+		  if (length(x$search_stations_x) == dim(x$search_forecasts)[2]) {
+		    x$search_stations_x <-  as.vector(x$search_stations_x)
+		    print('Warning: Converting search_stations_x to a vector.')
+		  } else {
+		    print('ERROR: Search Stations X should be a numeric vector with the length of the second dimension of search forecasts!')
+		    print('Please use is.vector() and length() to check!')
+		    valid <- F
+		  }
 		}
+	  
 		if (!(is.vector(x$search_stations_y, mode = 'numeric') && length(x$search_stations_y) == dim(x$search_forecasts)[2])) {
-			print('ERROR: Search Stations Y should be a numeric vector with the length of the second dimension of search forecasts!')
-			print('Please use is.vector() and length() to check!')
-			valid <- F
+		  
+		  if (length(x$search_stations_y) == dim(x$search_forecasts)[2]) {
+		    x$search_stations_y <-  as.vector(x$search_stations_y)
+		    print('Warning: Converting test_stations_y to a vector.')
+		  } else {
+		    print('ERROR: Search Stations Y should be a numeric vector with the length of the second dimension of search forecasts!')
+		    print('Please use is.vector() and length() to check!')
+		    valid <- F
+		  }
 		}
+	  
 		if (!(is.logical(x$preserve_search_stations) && length(x$preserve_search_stations) == 1)) {
 			print('Error: preserve_search_stations should be a boolean.')
 			valid <- F

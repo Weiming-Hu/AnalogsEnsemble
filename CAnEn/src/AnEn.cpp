@@ -195,7 +195,7 @@ AnEn::computeSearchStations(
 
         if (distance == 0) {
             if (verbose_ >= 1) cout << BOLDRED << "Error: Please specify"
-                    << "distance or/and number of nearest stations to find."
+                    << " distance or/and number of nearest stations to find."
                     << RESET << endl;
             return (MISSING_VALUE);
         }

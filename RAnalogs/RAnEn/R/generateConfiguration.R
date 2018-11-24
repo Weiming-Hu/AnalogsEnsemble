@@ -93,7 +93,7 @@ generateConfiguration <- function(mode) {
 	if (mode == 'extendedSearch') {
 		config <- c(config, list(test_stations_x = NULL, test_stations_y = NULL,
                                  search_stations_x = NULL, search_stations_y = NULL,
-                                 max_num_search_stations = NULL, num_nearest = NULL,
+                                 max_num_search_stations = NULL, num_nearest = 0,
                                  distance = 0, preserve_search_stations = F))
 	}
 	

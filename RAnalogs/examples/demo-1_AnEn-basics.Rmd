@@ -95,7 +95,6 @@ config$time_match_mode <- 1
 config$num_members <- 19
 config$max_flt_nan <- 1
 config$max_par_nan <- 0
-config$preserve_mapping <- T
 config$verbose <- 3
 ```
 
@@ -126,7 +125,7 @@ Finally, we can plot together the analysis, the forecasts, the AnEn, and the bia
 # Choose a FLT to plot
 i.flt <- 31
 
-# Calculate ensemble mean
+# Calculate ensemble means
 mean.analogs <- apply(AnEn$analogs[, , , , 1, drop = F], c(1, 2, 3), mean, na.rm = T)
 mean.analogs.cor <- apply(AnEn$analogs.cor[, , , , 1, drop = F], c(1, 2, 3), mean, na.rm = T)
 
