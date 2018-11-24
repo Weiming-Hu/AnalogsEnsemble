@@ -177,7 +177,15 @@ set(NETCDF_CXX4_URL "https://github.com/Unidata/netcdf-cxx4/archive/v4.3.0.tar.g
 set(NETCDF_CXX4_ROOT_PATH ${DEPENDENCY_PATH})
 set(NETCDF_CXX4_INSTALL_PREFIX "${NETCDF_CXX4_ROOT_PATH}/install")
 set(NETCDF_CXX4_BUILD_TYPE "-DCMAKE_BUILD_TYPE=${CMAKE_EXTERNAL_PROJECT_BUILD_TYPE}")
-set(NETCDF_CXX4_SHARED "-DBUILD_SHARED_LIBS=ON")
+
+# By default, CXX4 library is built as a shared library. However, if this library is
+# already installed in the system, this built version by this project will mess up
+# with the system version because they share runpath and the program won't be able
+# to choose the correct version during runtime. Therefore, I'm building a static library 
+# to ensure that this library is always selected.
+#
+set(NETCDF_CXX4_SHARED "-DBUILD_SHARED_LIBS=OFF")
+
 set(NETCDF_CXX4_LIB_DIR "-DCMAKE_INSTALL_LIBDIR=${CMAKE_INSTALL_LIBDIR}")
 set(NETCDF_CXX4_CMAKE_ARGS "-DCMAKE_INSTALL_PREFIX=${NETCDF_CXX4_INSTALL_PREFIX}")
 set(NETCDF_CXX4_CMAKE_ARGS ${NETCDF_CXX4_CMAKE_ARGS} ${NETCDF_CXX4_LIB_DIR} 
