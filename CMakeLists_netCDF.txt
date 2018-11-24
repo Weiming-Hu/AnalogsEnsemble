@@ -77,7 +77,7 @@ if(NOT NETCDF_FOUND)
     # so for the sake of uniformity, we do not build shared libraries at all
     # http://www.unidata.ucar.edu/software/netcdf/docs/getting_and_building_netcdf.html
     #
-    set(NETCDF_SHARED "-DBUILD_SHARED_LIBS=ON")
+    set(NETCDF_SHARED "-DBUILD_SHARED_LIBS=OFF")
     #set(NETCDF_URL "https://github.com/cosmos-weiming/netcdf-c.git")
     set(NETCDF_URL "https://github.com/Unidata/netcdf-c.git")
     set(NETCDF_ROOT_PATH ${DEPENDENCY_PATH})
@@ -131,7 +131,7 @@ if(NOT NETCDF_FOUND)
 
     if(ENABLE_MPI)
         set(NETCDF_ENABLE_PARALLEL "-DENABLE_PARALLEL4=ON")
-        set(NETCDF_ENABLE_PARALLEL_TESTS "-DENABLE_PARALLEL_TESTS=ON")
+        set(NETCDF_ENABLE_PARALLEL_TESTS "-DENABLE_PARALLEL_TESTS=OFF")
         set(NETCDF_CMAKE_ARGS ${NETCDF_CMAKE_ARGS}
             ${NETCDF_ENABLE_PARALLEL} ${NETCDF_ENABLE_PARALLEL_TESTS})
     endif(ENABLE_MPI)
