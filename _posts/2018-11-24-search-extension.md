@@ -144,8 +144,53 @@ plot(rast.anen.cor, main = 'Bias Corrected AnEn Averaged', col = cols,
 map(col = 'grey', add = T); map('state', add = T)
 ```
 
-![Result comparison](https://github.com/Weiming-Hu/AnalogsEnsemble/raw/gh-pages/assets/posts/demo-2_search-extension_files/unnamed-chunk-6-1.png)
+![Result comparison](https://github.com/Weiming-Hu/AnalogsEnsemble/raw/gh-pages/assets/posts/2018-11-24-search-extension/unnamed-chunk-6-1.png)
 
 We can also visualize the test and search stations.
+
+```{r}
+# Select a test location of which the search locations will be shown.
+test.station.index <- 41
+day.index <- 1
+flt.index <- 1
+
+# Parameters for plot
+cex <- 1
+offset <- 10
+label.size <- .8
+title <- 'Search Space Demo'
+
+# Get the selected stations from ensemble members
+selected.stations <- unique(
+  AnEn$analogs[test.station.index, day.index, flt.index, , 2])
+
+# plot different types of stations together
+par(mfrow = c(1, 1))
+plot(config$search_stations_x, config$search_stations_y, xlab = 'x', ylab = 'y',
+     main = title, pch = 19, cex = cex, col = 'grey', asp=1)
+map(col = 'grey', add = T); map('state', add = T)
+points(config$search_stations_x[AnEn$searchStations[, test.station.index]],
+       config$search_stations_y[AnEn$searchStations[, test.station.index]],
+       pch = 19, cex = cex, col = 'green')
+points(config$test_stations_x[test.station.index],
+       config$test_stations_y[test.station.index],
+       pch = 19, cex = cex/2, col = 'red')
+points(config$search_stations_x[selected.stations],
+       config$search_stations_y[selected.stations],
+       cex = cex*1.6, col = 'red')
+
+
+if (config$distance > 0) {
+  coords <- generateCircleCoords(
+    x = config$test_stations_x[test.station.index],
+    y = config$test_stations_y[test.station.index],
+    radius = config$distance, np = 100)
+  
+  points(coords, cex = .1, pch = 19)
+}
+
+legend('top', legend = c('grid point', 'search', 'test', 'selected'),
+       pch = c(19, 19, 19 , 1), col = c('grey', 'green', 'red', 'red'), horiz = T)
+```
 
 ![Geographic plot](https://github.com/Weiming-Hu/AnalogsEnsemble/raw/gh-pages/assets/posts/2018-11-24-search-extension/unnamed-chunk-7-1.png)
