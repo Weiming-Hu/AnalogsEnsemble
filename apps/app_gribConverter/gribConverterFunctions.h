@@ -116,7 +116,7 @@ namespace gribConverter {
      * '19900701' will be undelimited; a string like '1990-07-01' or '1990/07/01' is delimited.
      * @param verbose An integer for the verbose level.
      */
-    void toForecasts(const vector<string> & files_in, const string & file_out,
+    void toForecasts(vector<string> & files_in, const string & file_out,
             const vector<long> & pars_id, const vector<string> & pars_new_name,
             const vector<long> & crcl_pars_id, const vector<long> & levels,
             const vector<string> & level_types,
@@ -161,7 +161,7 @@ namespace gribConverter {
      * '19900701' will be undelimited; a string like '1990-07-01' or '1990/07/01' is delimited.
      * @param verbose An integer for the verbose level.
      */
-    void toObservations(const vector<string> & files_in, const string & file_out,
+    void toObservations(vector<string> & files_in, const string & file_out,
             const vector<long> & pars_id, const vector<string> & pars_new_name,
             const vector<long> & crcl_pars_id, const vector<long> & levels,
             const vector<string> & level_types,

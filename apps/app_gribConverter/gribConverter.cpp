@@ -179,8 +179,7 @@ int main(int argc, char** argv) {
                 << "ext: " << ext << endl
                 << "config_file: " << config_file << endl
                 << "crcl_pars_id: " << crcl_pars_id << endl
-                << "pars_new_name: " << pars_new_name << endl
-                << "input files (computed internally): " << files_in << endl;
+                << "pars_new_name: " << pars_new_name << endl;
     }
 
     // Basic checks

@@ -236,7 +236,7 @@ namespace gribConverter {
         throw runtime_error(ss.str());
     }
 
-    void toForecasts(const vector<string> & files_in, const string & file_out,
+    void toForecasts(vector<string> & files_in, const string & file_out,
             const vector<long> & pars_id, const vector<string> & pars_new_name,
             const vector<long> & crcl_pars_id, const vector<long> & levels,
             const vector<string> & level_types,
@@ -290,7 +290,7 @@ namespace gribConverter {
         if (verbose >= 3) cout << GREEN << "Reading time and FLT information ... " << RESET << endl;
         anenTime::Times times;
         regex regex_time;
-        smatch match;
+        smatch match_time, match_flt;
 
         try {
             regex_time = regex(regex_time_str);
@@ -316,8 +316,11 @@ namespace gribConverter {
         vector<double> times_vec, flts_vec;
         boost::gregorian::date time_start{anenTime::_ORIGIN_YEAR,
             anenTime::_ORIGIN_MONTH, anenTime::_ORIGIN_DAY}, time_end;
+        vector<string> files_in_selected;
+
         for (const auto & file : files_in) {
-            if (regex_search(file.begin(), file.end(), match, regex_time)) {
+            if (regex_search(file.begin(), file.end(), match_time, regex_time) &&
+                    regex_search(file.begin(), file.end(), match_flt, regex_flt)) {
 
                 // Assumption
                 // - the first 4 digits to be the year
@@ -325,17 +328,21 @@ namespace gribConverter {
                 // - the next 2 digits to be the day
                 //
                 if (delimited) {
-                    time_end = boost::gregorian::from_string(string(match[1]));
+                    time_end = boost::gregorian::from_string(string(match_time[1]));
                 } else {
-                    time_end = boost::gregorian::from_undelimited_string(string(match[1]));
+                    time_end = boost::gregorian::from_undelimited_string(string(match_time[1]));
                 }
                 boost::gregorian::date_duration duration = time_end - time_start;
-                times_vec.push_back(duration.days() * _SECS_IN_DAY);
-            }
 
-            if (regex_search(file.begin(), file.end(), match, regex_flt)) {
-                flts_vec.push_back(stoi(match[1]) * flt_interval);
+                times_vec.push_back(duration.days() * _SECS_IN_DAY);
+                flts_vec.push_back(stoi(match_flt[1]) * flt_interval);
+                files_in_selected.push_back(file);
             }
+        }
+
+        swap(files_in, files_in_selected);
+        if (verbose >= 4) {
+            cout << "Input files (computed internally): " << files_in << endl;
         }
 
         sort(flts_vec.begin(), flts_vec.end());
@@ -366,30 +373,36 @@ namespace gribConverter {
 #pragma omp parallel for default(none) schedule(dynamic) \
         shared(files_in, regex_flt, flt_interval, regex_time, delimited, time_start, \
                 flts, times, data, forecasts, pars_id, levels, file_flags, cout, verbose, \
-                level_types, par_key, level_key, type_key, val_key) private(match, time_end)
+                level_types, par_key, level_key, type_key, val_key) \
+        private(match_time, match_flt, time_end)
 #endif
         for (size_t i = 0; i < files_in.size(); i++) {
+
+            // Create a const reference to the file list to avoid modification.
+            // Regex function requires a const string otherwise it gives error.
+            //
+            const string & file_in = files_in[i];
 
             if (verbose >= 3) {
 #if defined(_OPENMP)
 #pragma omp critical
 #endif
-                cout << "\t reading data from file " << files_in[i] << endl;
+                cout << "\t reading data from file " << file_in << endl;
             }
 
             // Find out flt index
-            if (!regex_search(files_in[i].begin(), files_in[i].end(), match, regex_flt))
+            if (!regex_search(file_in.begin(), file_in.end(), match_flt, regex_flt))
                 throw runtime_error("Error: Counld not find flt index in flts.");
-            size_t index_flt = flts.getTimeIndex(stoi(match[1]) * flt_interval);
+            size_t index_flt = flts.getTimeIndex(stoi(match_flt[1]) * flt_interval);
 
             // Find out time index
-            if (!regex_search(files_in[i].begin(), files_in[i].end(), match, regex_time))
+            if (!regex_search(file_in.begin(), file_in.end(), match_time, regex_time))
                 throw runtime_error("Error: Could not find time index in times.");
 
             if (delimited) {
-                time_end = boost::gregorian::from_string(string(match[1]));
+                time_end = boost::gregorian::from_string(string(match_time[1]));
             } else {
-                time_end = boost::gregorian::from_undelimited_string(string(match[1]));
+                time_end = boost::gregorian::from_undelimited_string(string(match_time[1]));
             }
             boost::gregorian::date_duration duration = time_end - time_start;
             size_t index_time = times.getTimeIndex(duration.days() * _SECS_IN_DAY);
@@ -399,14 +412,14 @@ namespace gribConverter {
 
                 if (file_flags[i]) {
                     try {
-                        getDoubles(data_vec, files_in[i], pars_id[j], levels[j],
+                        getDoubles(data_vec, file_in, pars_id[j], levels[j],
                                 level_types[j], par_key, level_key, type_key, val_key);
                     } catch (...) {
 #if defined(_OPENMP)
 #pragma omp critical
 #endif
                         cout << BOLDRED << "Error when reading " << pars_id[j] << " "
-                            << levels[j] << " " << level_types[j] << " from file " << files_in[i]
+                            << levels[j] << " " << level_types[j] << " from file " << file_in
                             << RESET << endl;
                         continue;
                     }
@@ -440,7 +453,7 @@ namespace gribConverter {
         return;
     }
 
-    void toObservations(const vector<string> & files_in, const string & file_out,
+    void toObservations(vector<string> & files_in, const string & file_out,
             const vector<long> & pars_id, const vector<string> & pars_new_name,
             const vector<long> & crcl_pars_id, const vector<long> & levels,
             const vector<string> & level_types,
@@ -508,6 +521,8 @@ namespace gribConverter {
         vector<double> times_vec;
         boost::gregorian::date time_start{anenTime::_ORIGIN_YEAR,
             anenTime::_ORIGIN_MONTH, anenTime::_ORIGIN_DAY}, time_end;
+        vector<string> files_in_selected;
+
         for (const auto & file : files_in) {
             if (regex_search(file.begin(), file.end(), match, regex_time)) {
 
@@ -522,8 +537,15 @@ namespace gribConverter {
                     time_end = boost::gregorian::from_undelimited_string(string(match[1]));
                 }
                 boost::gregorian::date_duration duration = time_end - time_start;
+
                 times_vec.push_back(duration.days() * _SECS_IN_DAY);
+                files_in_selected.push_back(file);
             }
+        }
+
+        swap(files_in, files_in_selected);
+        if (verbose >= 4) {
+            cout << "Input files (computed internally): " << files_in << endl;
         }
 
         sort(times_vec.begin(), times_vec.end());
@@ -546,17 +568,19 @@ namespace gribConverter {
 #endif
         for (size_t i = 0; i < files_in.size(); i++) {
 
+            // Create a const reference to the file list to avoid modification.
+            // Regex function requires a const string otherwise it gives error.
+            //
+            const string & file_in = files_in[i];
+
             if (verbose >= 3) {
 #if defined(_OPENMP)
 #pragma omp critical
 #endif
-                cout << "\t reading data from file " << files_in[i] << endl;
+                cout << "\t reading data from file " << file_in << endl;
             }
 
             // Find out time index
-            if (!regex_search(files_in[i].begin(), files_in[i].end(), match, regex_time))
-                throw runtime_error("Error: Could not find time index in times.");
-
             if (delimited) {
                 time_end = boost::gregorian::from_string(string(match[1]));
             } else {
@@ -569,14 +593,14 @@ namespace gribConverter {
                 if (file_flags[i]) {
                     vector<double> data_vec;
                     try {
-                        getDoubles(data_vec, files_in[i], pars_id[j], levels[j],
+                        getDoubles(data_vec, file_in, pars_id[j], levels[j],
                                 level_types[j], par_key, level_key, type_key, val_key);
                     } catch (...) {
 #if defined(_OPENMP)
 #pragma omp critical
 #endif
                         cout << BOLDRED << "Error when reading " << pars_id[j] << " "
-                            << levels[j] << " " << level_types[j] << " from file " << files_in[i]
+                            << levels[j] << " " << level_types[j] << " from file " << file_in
                             << RESET << endl;
                         continue;
                     }
