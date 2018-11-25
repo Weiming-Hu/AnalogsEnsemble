@@ -169,7 +169,7 @@ map(col = 'grey', add = T); map('state', add = T)
 
 We can also visualize the test and search stations.
 
-```{r, echo=F}
+```{r}
 # Select a test location of which the search locations will be shown.
 test.station.index <- 41
 day.index <- 1
