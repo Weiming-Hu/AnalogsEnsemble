@@ -71,7 +71,7 @@ if(NETCDF_CXX4_BUILT)
 
     ExternalProject_Get_Property(NETCDF_CXX4_PROJECT install_dir)
 
-    add_library(netcdf_cxx4_built SHARED IMPORTED)
+    add_library(netcdf_cxx4_built STATIC IMPORTED)
     set_target_properties(netcdf_cxx4_built PROPERTIES
         # IMPORTED_LOCATION "${install_dir}/install/lib/${CMAKE_SHARED_LIBRARY_PREFIX}netcdf-cxx4${CMAKE_SHARED_LIBRARY_SUFFIX}")
         IMPORTED_LOCATION "${install_dir}/install/lib/${CMAKE_STATIC_LIBRARY_PREFIX}netcdf-cxx4${CMAKE_STATIC_LIBRARY_SUFFIX}")
@@ -80,12 +80,27 @@ if(NETCDF_CXX4_BUILT)
     target_link_libraries(${LIBRARY_NAME} netcdf_cxx4_built)
     set(AnEnIO_RPATH "${AnEnIO_RPATH};${install_dir}/install/lib")
 
-    target_link_libraries (${LIBRARY_NAME} ${NETCDF_LIBRARIES})
+endif(NETCDF_CXX4_BUILT)
 
-else(NETCDF_CXX4_BUILT)
+if (NETCDF_BUILT)
+    include_directories(SYSTEM ${NETCDF_INCLUDE_DIR})
+    add_dependencies(${LIBRARY_NAME} NETCDF_PROJECT)
+
+    ExternalProject_Get_Property(NETCDF_PROJECT install_dir)
+
+    add_library(netcdf_built SHARED IMPORTED)
+    set_target_properties(netcdf_built PROPERTIES
+        IMPORTED_LOCATION "${install_dir}/install/lib/${CMAKE_SHARED_LIBRARY_PREFIX}netcdf${CMAKE_SHARED_LIBRARY_SUFFIX}")
+        # IMPORTED_LOCATION "${install_dir}/install/lib/${CMAKE_STATIC_LIBRARY_PREFIX}netcdf-cxx4${CMAKE_STATIC_LIBRARY_SUFFIX}")
+    add_dependencies(netcdf_built NETCDF_PROJECT)
+
+    target_link_libraries(${LIBRARY_NAME} netcdf_built)
+    set(AnEnIO_RPATH "${AnEnIO_RPATH};${install_dir}/install/lib")
+
+else (NETCDF_BUILT)
     include_directories(SYSTEM ${NETCDF_INCLUDES})
     target_link_libraries (${LIBRARY_NAME} ${NETCDF_LIBRARIES})
-endif(NETCDF_CXX4_BUILT)
+endif (NETCDF_BUILT)
 
 set_target_properties(${LIBRARY_NAME} PROPERTIES INSTALL_RPATH "${AnEnIO_RPATH}")
 
