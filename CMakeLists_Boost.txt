@@ -33,7 +33,7 @@ if (BOOST_TYPE STREQUAL "SYSTEM")
     include_directories (SYSTEM ${Boost_INCLUDE_DIRS})
     set (Boost_USE_MULTITHREADED ON)
     message (WARNING "You are using Boost library in the system.
-    Make sure you are using the same compiler to compiler AnEn code and
+    Make sure you are using the same compiler to compile AnEn code and
     Boost library to avoid linking problem.")
 elseif(BOOST_TYPE STREQUAL "SYSTEM")
     message (STATUS "System Boost not found. Try to download and build it.")

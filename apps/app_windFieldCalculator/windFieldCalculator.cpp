@@ -201,14 +201,14 @@ int main(int argc, char** argv) {
                 ("help,h", "Print help information for options.")
                 ("config,c", po::value<string>(&config_file), "Set the configuration file path. Command line options overwrite options in configuration file. ")
                 
-                ("file_in", po::value<string>(&file_in)->required(), "Set the file to read.")
-                ("file_type", po::value<string>(&file_type)->required(), "Set the file type. Currently supports Forecasts and Observations.")
-                ("file_out", po::value<string>(&file_out)->required(), "Set the file to write.")
-                ("U_name,U", po::value<string>(&var_U_name)->required(), "Set the name of the parameter to read for U component of wind.")
-                ("V_name,V", po::value<string>(&var_V_name)->required(), "Set the name of the parameter to read for V component of wind.")
+                ("file-in", po::value<string>(&file_in)->required(), "Set the file to read.")
+                ("file-type", po::value<string>(&file_type)->required(), "Set the file type. Currently supports Forecasts and Observations.")
+                ("file-out", po::value<string>(&file_out)->required(), "Set the file to write.")
+                ("U-name,U", po::value<string>(&var_U_name)->required(), "Set the name of the parameter to read for U component of wind.")
+                ("V-name,V", po::value<string>(&var_V_name)->required(), "Set the name of the parameter to read for V component of wind.")
                 
-                ("dir_name", po::value<string>(&var_dir_name)->default_value("windDirection"), "Set the name of the parameter to write for wind direction.")
-                ("speed_name", po::value<string>(&var_speed_name)->default_value("windSpeed"), "Set the name of the parameter to write for wind speed.")
+                ("dir-name", po::value<string>(&var_dir_name)->default_value("windDirection"), "Set the name of the parameter to write for wind direction.")
+                ("speed-name", po::value<string>(&var_speed_name)->default_value("windSpeed"), "Set the name of the parameter to write for wind speed.")
                 ("verbose,v", po::value<int>(&verbose)->default_value(2), "Set the verbose level.");
         
         // process unregistered keys and notify users about my guesses
