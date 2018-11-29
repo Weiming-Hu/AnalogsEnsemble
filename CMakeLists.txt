@@ -150,11 +150,21 @@ else (INSTALL_RAnEn)
 	include(CMakeLists_Boost.txt)
 endif(INSTALL_RAnEn)
 
-# thrid packages required by CAnEn and CAnEnIO
-option(ENABLE_MPI "enable suppor for MPI" OFF)
+option(ENABLE_MPI "enable support for MPI" OFF)
 message(STATUS "ENABLE_MPI is set to ${ENABLE_MPI}")
 
 if(ENABLE_MPI)
+    # check MPI compiler
+    find_package(MPI REQUIRED COMPONENTS C CXX)
+    if(CMAKE_C_COMPILER MATCHES "^.*mpi.*$" AND
+            CMAKE_CXX_COMPILER MATCHES "^.*mpi.*$")
+        message(STATUS "Configure support with MPI compiler")
+    else(CMAKE_C_COMPILER MATCHES "^.*mpi.*$" AND
+            CMAKE_CXX_COMPILER MATCHES "^.*mpi.*$")
+        message(FATAL_ERROR "Please specify CC and CXX to mpicc compiler/wrapper.")
+    endif(CMAKE_C_COMPILER MATCHES "^.*mpi.*$" AND
+        CMAKE_CXX_COMPILER MATCHES "^.*mpi.*$")
+
     add_definitions(-D_ENABLE_MPI)
 endif(ENABLE_MPI)
 

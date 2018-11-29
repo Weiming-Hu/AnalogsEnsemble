@@ -27,19 +27,6 @@ else(HDF5_FOUND)
     set(HDF5_IS_PARALLEL FALSE)
 endif(HDF5_FOUND)
 
-if(ENABLE_MPI)
-    # check MPI compiler
-    find_package(MPI REQUIRED)
-    if(CMAKE_C_COMPILER MATCHES "^.*mpi.*$" AND
-            CMAKE_CXX_COMPILER MATCHES "^.*mpi.*$")
-        message(STATUS "Configure support with MPI compiler")
-    else(CMAKE_C_COMPILER MATCHES "^.*mpi.*$" AND
-            CMAKE_CXX_COMPILER MATCHES "^.*mpi.*$")
-        message(FATAL_ERROR "Please specify CC and CXX to mpicc compiler/wrapper.")
-    endif(CMAKE_C_COMPILER MATCHES "^.*mpi.*$" AND
-        CMAKE_CXX_COMPILER MATCHES "^.*mpi.*$")
-endif(ENABLE_MPI)    
-
 if(BUILD_HDF5)
     set(HDF5_FOUND FALSE)
 endif(BUILD_HDF5)
