@@ -34,7 +34,7 @@ endif(VERBOSE)
 # NetCDF4 #
 ###########
 # set (NETCDF_CXX "YES")
-find_package(NetCDF COMPONENTS CXX)
+find_package(NetCDF)
 
 #if(NETCDF_FOUND)
 #    if(ENABLE_MPI)
