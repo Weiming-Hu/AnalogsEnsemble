@@ -18,9 +18,10 @@
 #include "Parameters.h"
 #include "Forecasts.h"
 #include "Analogs.h"
-#include "SimilarityMatrices.h"
 #include "Observations.h"
 #include "colorTexts.h"
+#include "SimilarityMatrices.h"
+#include "StandardDeviation.h"
 #include "boost/numeric/ublas/matrix.hpp"
 
 /**
@@ -347,6 +348,17 @@ public:
      * @return An AnEnIO::errorType.
      */
     errorType writeAnalogs(const Analogs & analogs) const;
+    
+    /**
+     * Write StandardDeviation.
+     * 
+     * @param sds StandardDeviation.
+     * @param forecasts Forecasts.
+     * @return An AnEnIO::errorType. 
+     */
+    errorType writeStandardDeviation(
+            const StandardDeviation & sds,
+            const Forecasts & forecasts) const;
 
     /**
      * Handles the errorType variable.
@@ -504,6 +516,7 @@ protected:
      * - Analogs
      * - Similarity
      * - Matrix
+     * - StandardDeviation
      */
     std::string file_type_;
 

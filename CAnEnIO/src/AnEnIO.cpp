@@ -1826,7 +1826,7 @@ AnEnIO::writeAnalogs(const Analogs & analogs) const {
     NcDim dim_members = nc.addDim("num_members", num_members);
     NcDim dim_cols = nc.addDim("num_cols", num_cols);
 
-    // Create similarity matrices variable
+    // Create Analogs variable
     NcVar var_sims = nc.addVar("Analogs", NC_DOUBLE,{
         dim_cols, dim_members, dim_flts, dim_times, dim_stations
     });
@@ -1841,6 +1841,48 @@ AnEnIO::writeAnalogs(const Analogs & analogs) const {
     if (analogs.getTimes().size() != 0)
         handleError(writeTimes(analogs.getTimes(), false));
 
+    return (SUCCESS);
+}
+
+errorType
+AnEnIO::writeStandardDeviation(
+        const StandardDeviation & sds,
+        const Forecasts & forecasts
+        ) const {
+    if (verbose_ >= 3) cout << "Writing standard deviation ..." << endl;
+    
+    if (mode_ != "Write") {
+        if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Write'."
+                << RESET << endl;
+        return (WRONG_MODE);
+    }
+    
+    if (checkFilePath() != FILE_EXISTS) {
+        NcFile nc_empty(file_path_, NcFile::FileMode::newFile,
+                NcFile::FileFormat::nc4);
+        nc_empty.close();
+    } else if (!add_) {
+        return (FILE_EXISTS);
+    }
+
+    size_t num_parameters = sds.shape()[0],
+            num_stations = sds.shape()[1],
+            num_flts = sds.shape()[2];
+            
+    NcFile nc(file_path_, NcFile::FileMode::write);
+    NcDim dim_parameters = nc.addDim("num_parameters", num_parameters),
+            dim_stations = nc.addDim("num_stations", num_stations),
+            dim_flts = nc.addDim("num_flts", num_flts);
+    NcVar var_sds = nc.addVar("StandardDeviation", NC_DOUBLE, {
+        dim_flts, dim_stations, dim_parameters
+    });
+    
+    var_sds.putVar(sds.data());
+    nc.close();
+    
+    if (forecasts.getParametersSize() != 0)
+        handleError(writeParameters(forecasts.getParameters(), false));
+    
     return (SUCCESS);
 }
 

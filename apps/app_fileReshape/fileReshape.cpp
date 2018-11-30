@@ -41,7 +41,7 @@ void runFileReshape(const string & file_type, const vector<string> & in_files,
     if (file_type == "Forecasts") {
         
         // Check input indices starts and counts
-        if (starts.size() == 0 && counts.size() == 0) {
+        if (starts.size() == 0 || counts.size() == 0) {
             partial_read = false;
         } else {
             if (starts.size() != in_files.size() * 4) {

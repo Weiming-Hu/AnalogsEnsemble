@@ -65,7 +65,7 @@ void runWindFieldCalculator(
                 return (dir < 0 ? (dir + 360) : dir);
             };
 
-    size_t num_parameters, num_stations, num_times, num_flts,
+    size_t num_stations, num_times, num_flts,
             i_U, i_V, i_speed, i_dir;
 
     AnEnIO io("Read", file_in, file_type, verbose);
@@ -94,7 +94,6 @@ void runWindFieldCalculator(
         i_dir = parameters.getParameterIndex(
                 parameters.getParameterByName(var_dir_name).getID());
 
-        num_parameters = forecasts.getParametersSize();
         num_stations = forecasts.getStationsSize();
         num_times = forecasts.getTimesSize();
         num_flts = forecasts.getFLTsSize();
@@ -145,7 +144,6 @@ func_dir, func_speed)
         i_dir = parameters.getParameterIndex(
                 parameters.getParameterByName(var_dir_name).getID());
 
-        num_parameters = observations.getParametersSize();
         num_stations = observations.getStationsSize();
         num_times = observations.getTimesSize();
 
