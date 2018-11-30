@@ -18,7 +18,9 @@
  *           [test stations][test times][FLTs][members][3]
  * 
  * The fifth dimension stores in sequence the observed value, the search
- * time indicator, and the search station indicator. 
+ * time indicator, and the search station indicator.
+ * 
+ * Analogs data order is column-major.
  */
 class Analogs : public boost::multi_array<double, 5> {
 public:

@@ -24,6 +24,8 @@
  * 
  * The second dimension stores in sequence similarity metric value, time
  * indicator, and station indication.
+ * 
+ * SimilarityMatrices data order is row-major.
  */
 class SimilarityMatrices : public boost::multi_array <double, 5> {
 public:

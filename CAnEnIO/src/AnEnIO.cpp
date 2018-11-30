@@ -169,6 +169,11 @@ AnEnIO::checkFileType() const {
             dim_names = {"num_test_stations", "num_test_times",
                 "num_flts", "num_members", "num_cols"};
             var_names = {"Analogs"};
+            
+        } else if (file_type_ == "StandardDeviation") {
+            
+            dim_names = {"num_parameters", "num_stations", "num_flts"};
+            var_names = {"StandardDeviation"};
 
         } else if (file_type_ == "Matrix") {
 
@@ -630,7 +635,7 @@ AnEnIO::readForecasts(Forecasts_array & forecasts,
     handleError(readFLTs(flts, start[3], count[3], stride[3]));
 
     // Read data
-    if (verbose_ >= 3) cout << "Reading forecast values  from file ("
+    if (verbose_ >= 3) cout << "Reading forecast values from file ("
             << file_path_ << ") ..." << endl;
     vector<double> vals;
     handleError(read_vector_("Data", vals, start, count, stride));
@@ -1830,7 +1835,7 @@ AnEnIO::writeAnalogs(const Analogs & analogs) const {
     NcVar var_sims = nc.addVar("Analogs", NC_DOUBLE,{
         dim_cols, dim_members, dim_flts, dim_times, dim_stations
     });
-
+            
     var_sims.putVar(analogs.data());
     nc.close();
 
@@ -1844,10 +1849,101 @@ AnEnIO::writeAnalogs(const Analogs & analogs) const {
     return (SUCCESS);
 }
 
+
+errorType
+AnEnIO::readStandardDeviation(StandardDeviation & sds) {
+    if (verbose_ >= 3) cout << "Reading standard deviation ..." << endl;
+
+    if (mode_ != "Read") {
+        if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Read'."
+                << RESET << endl;
+        return (WRONG_MODE);
+    }
+
+    if (file_type_ != "StandardDeviation") {
+        if (verbose_ >= 1)
+            cout << BOLDRED << "Error: file type should be StandardDeviation."
+                << RESET << endl;
+        return (WRONG_FILE_TYPE);
+    }
+
+    handleError(checkFilePath());
+    handleError(checkFileType());
+
+    NcFile nc(file_path_, NcFile::FileMode::read);
+    sds.resize(boost::extents
+            [nc.getDim("num_parameters").getSize()]
+            [nc.getDim("num_stations").getSize()]
+            [nc.getDim("num_flts").getSize()]);
+    nc.close();
+    
+    vector<double> values;
+    handleError(read_vector_("StandardDeviation", values));
+    sds.assign(values.begin(), values.end());
+
+    return (SUCCESS);
+}
+
+errorType
+AnEnIO::readStandardDeviation(StandardDeviation & sds,
+        vector<size_t> start, vector<size_t> count, vector<ptrdiff_t> stride) {
+    if (verbose_ >= 3) cout << "Reading partial standard deviation ..." << endl;
+
+    if (mode_ != "Read") {
+        if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Read'."
+                << RESET << endl;
+        return (WRONG_MODE);
+    }
+
+    if (file_type_ != "StandardDeviation") {
+        if (verbose_ >= 1)
+            cout << BOLDRED << "Error: file type should be StandardDeviation."
+                << RESET << endl;
+        return (WRONG_FILE_TYPE);
+    }
+
+    handleError(checkFilePath());
+    handleError(checkFileType());
+    
+    // Check indices
+    if (start.size() != 3) {
+        if (verbose_ >= 1) cout << BOLDRED
+                << "Error: Start should have 3 indices for StandardDeviation."
+                << RESET << endl;
+        return (WRONG_INDEX_SHAPE);
+    }
+
+    if (count.size() != 3) {
+        if (verbose_ >= 1) cout << BOLDRED
+                << "Error: Count should have 3 indices for StandardDeviation."
+                << RESET << endl;
+        return (WRONG_INDEX_SHAPE);
+    }
+
+    if (stride.size() != 3) {
+        if (verbose_ >= 1) cout << BOLDRED
+                << "Error: Stride should have 3 indices for StandardDeviation."
+                << RESET << endl;
+        return (WRONG_INDEX_SHAPE);
+    }
+    
+    sds.resize(boost::extents[count[0]][count[1]][count[2]]);
+
+    // Read data
+    if (verbose_ >= 3) cout << "Reading StandardDeviation values from file ("
+            << file_path_ << ") ..." << endl;
+    vector<double> values;
+    handleError(read_vector_("StandardDeviation", values,
+            start, count, stride));
+    sds.assign(values.begin(), values.end());
+
+    return (SUCCESS);
+}
+
 errorType
 AnEnIO::writeStandardDeviation(
         const StandardDeviation & sds,
-        const Forecasts & forecasts
+        const anenPar::Parameters & parameters
         ) const {
     if (verbose_ >= 3) cout << "Writing standard deviation ..." << endl;
     
@@ -1880,8 +1976,8 @@ AnEnIO::writeStandardDeviation(
     var_sds.putVar(sds.data());
     nc.close();
     
-    if (forecasts.getParametersSize() != 0)
-        handleError(writeParameters(forecasts.getParameters(), false));
+    if (parameters.size() != 0)
+        handleError(writeParameters(parameters, false));
     
     return (SUCCESS);
 }
@@ -2308,7 +2404,7 @@ shared(data, same_dimensions, forecasts_vec, along, element_accumulated_counts)
             for (size_t m = 0; m < data.shape()[same_dimensions[0]]; m++) {
                 for (size_t n = 0; n < forecasts_vec.size(); n++) {
                 
-                    const auto i_data = forecasts_vec[n].data();
+                    const auto & i_data = forecasts_vec[n].data();
                     for (size_t l = 0; l < i_data.shape()[along]; l++) {
                         if (along == 0)      data[element_accumulated_counts[n] + l][m][j][i] = i_data[l][m][j][i];
                         else if (along == 1) data[m][element_accumulated_counts[n] + l][j][i] = i_data[m][l][j][i];
@@ -2476,7 +2572,7 @@ shared(data, same_dimensions, observations_vec, along, element_accumulated_count
         for (size_t m = 0; m < data.shape()[same_dimensions[0]]; m++) {
             for (size_t n = 0; n < observations_vec.size(); n++) {
 
-                const auto i_data = observations_vec[n].data();
+                const auto & i_data = observations_vec[n].data();
                 for (size_t l = 0; l < i_data.shape()[along]; l++) {
                     if (along == 0) data[element_accumulated_counts[n] + l][m][j] = i_data[l][m][j];
                     else if (along == 1) data[m][element_accumulated_counts[n] + l][j] = i_data[m][l][j];
@@ -2487,6 +2583,77 @@ shared(data, same_dimensions, observations_vec, along, element_accumulated_count
         }
     }
 
+    return (SUCCESS);
+}
+
+errorType
+AnEnIO::combineStandardDeviation(const std::vector<StandardDeviation> & sds_vec,
+        StandardDeviation & sds, size_t along, int verbose) {
+    
+    if (sds.num_elements() != 0) {
+        if (verbose >= 1) cout << BOLDRED
+                << "Error: Please provide an empty standard deviation container."
+                << RESET << endl;
+        return (ERROR_SETTING_VALUES);
+    }
+    
+    // Get the initial dimensions from the first sds
+    vector<size_t> dims = {
+        sds_vec[0].shape()[0], sds_vec[0].shape()[1], sds_vec[0].shape()[2]
+    };
+
+    // Decide the full dimension of the aggregated dimension.
+    // Keep track of the dimensions that should be the same.
+    //
+    size_t count = 0;
+    vector<size_t> same_dimensions = {0, 1, 2};
+    vector<size_t> element_accumulated_counts(1, 0);
+    same_dimensions.erase(find(same_dimensions.begin(), same_dimensions.end(), along));
+    if (along <= 2) {
+        for_each(sds_vec.begin(), sds_vec.end(), [&count, &along, &element_accumulated_counts]
+                (const StandardDeviation & rhs) {
+            count += rhs.shape()[along];
+            element_accumulated_counts.push_back(
+                rhs.shape()[along] + element_accumulated_counts.back());
+        });
+        
+        dims[along] = count;
+    } else {
+        if (verbose >= 1) cout << BOLDRED << "Error: invalid along ("
+                << along << ")!" << RESET << endl;
+        return (ERROR_SETTING_VALUES);
+    }
+
+    // Because we added one extra count to the accumulated vector,
+    // we need to pop it out. So that the length of accumulated 
+    // vector and forecasts vector match.
+    //
+    element_accumulated_counts.pop_back();
+
+    // Update the dimensions of combined sds
+    if (verbose >= 3) cout << "Update dimensions of standard deviation ..." << endl;
+    sds.resize(boost::extents[dims[0]][dims[1]][dims[2]]);
+
+#if defined(_OPENMP)
+#pragma omp parallel for default(none) schedule(static) collapse(3) \
+shared(sds, sds_vec, along, same_dimensions, element_accumulated_counts)
+#endif
+    for (size_t j = 0; j < sds.shape()[same_dimensions[1]]; j++) {
+        for (size_t m = 0; m < sds.shape()[same_dimensions[0]]; m++) {
+            for (size_t n = 0; n < sds_vec.size(); n++) {
+
+                const auto & i_data = sds_vec[n];
+                
+                for (size_t l = 0; l < i_data.shape()[along]; l++) {
+                    if (along == 0) sds[element_accumulated_counts[n] + l][m][j] = i_data[l][m][j];
+                    else if (along == 1) sds[m][element_accumulated_counts[n] + l][j] = i_data[m][l][j];
+                    else if (along == 2) sds[m][j][element_accumulated_counts[n] + l] = i_data[m][j][l];
+                }
+
+            }
+        }
+    }
+    
     return (SUCCESS);
 }
 

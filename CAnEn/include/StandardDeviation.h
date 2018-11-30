@@ -22,6 +22,8 @@
  * \brief StandardDeviation class is designed for storing the standard 
  * deviation of a Forecasts object. The dimensions are 
  *                  [parameters][stations][FLTs]
+ * 
+ * StandardDeviation data order is column-major.
  */
 class StandardDeviation : public boost::multi_array<double, 3> {
 public:

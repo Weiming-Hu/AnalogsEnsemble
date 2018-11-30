@@ -10,7 +10,7 @@
 #         The Pennsylvania State University
 
 # This script is used for manual test procedure to ensure that the results from
-# lastest version of File Reshape utility is correct.
+# lastest version of File Aggregate utility is correct.
 #
 # If the test result is `TRUE` which suggests the results from the development
 # version and the standard results are the same. The development version 
@@ -25,7 +25,7 @@ library(abind)
 library(ncdf4)
 
 rm(list = ls())
-exe <- '../../output/bin/fileReshape'
+exe <- '../../output/bin/fileAggregate'
 type <- 'Forecasts'
 in_files <- '../../tests/Data/forecasts_part1.nc ../../tests/Data/forecasts_part2.nc'
 out_file <- 'test_combine.nc'
@@ -107,7 +107,7 @@ for (along in c(0, 1, 2, 3)) {
 ####################################################################################
 rm(list = ls())
 
-exe <- '../../output/bin/fileReshape'
+exe <- '../../output/bin/fileAggregate'
 out_file <- 'test_combine.nc'
 verbose <- 1
 type <- 'Observations'

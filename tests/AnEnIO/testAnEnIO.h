@@ -38,6 +38,7 @@ class testAnEnIO : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST(testReadWriteSimilarityMatrices);
     CPPUNIT_TEST(testReadWriteAnalogs);
     CPPUNIT_TEST(testReadWriteTextMatrix);
+    CPPUNIT_TEST(testReadWriteStandardDeviation);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -64,6 +65,7 @@ private:
     void testReadWriteSimilarityMatrices();
     void testReadWriteAnalogs();
     void testReadWriteTextMatrix();
+    void testReadWriteStandardDeviation();
 
 };
 

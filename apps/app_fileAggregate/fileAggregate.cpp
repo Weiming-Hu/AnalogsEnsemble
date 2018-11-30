@@ -1,5 +1,5 @@
 /* 
- * File: fileReshape.cpp
+ * File: fileAggregate.cpp
  * Author: Weiming Hu <weiming@psu.edu>
  *
  * Created on November 9, 2018, 10:20 AM
@@ -24,7 +24,7 @@
 
 using namespace std;
 
-void runFileReshape(const string & file_type, const vector<string> & in_files, 
+void runFileAggregate(const string & file_type, const vector<string> & in_files, 
         const size_t & along, const string & out_file,
         const vector<size_t> & starts, const vector<size_t> & counts, const int & verbose) {
 
@@ -153,12 +153,87 @@ void runFileReshape(const string & file_type, const vector<string> & in_files,
         }
         
         // Write combined forecasts
-        if (verbose >= 3) cout << GREEN << "Combining observations ..." << RESET << endl;
+        if (verbose >= 3) cout << GREEN << "Writing observations ..." << RESET << endl;
         AnEnIO io("Write", out_file, file_type, verbose);
         io.handleError(io.writeObservations(observations));
         if (verbose >= 3) cout << GREEN << "Done!" << RESET << endl;
         
         return;
+        
+    } else if (file_type == "StandardDeviation") {
+        
+        // Check input indices starts and counts
+        if (starts.size() == 0 && counts.size() == 0) {
+            partial_read = false;
+        } else {
+            if (starts.size() != in_files.size() * 4) {
+                if (verbose >= 1) cout << BOLDRED << "Error: The length of start indices"
+                        << " should be an integer multiplication of 3. "
+                        << starts.size() << " indices found instead." << RESET << endl;
+                return;
+            }
+
+            if (counts.size() != in_files.size() * 4) {
+                if (verbose >= 1) cout << BOLDRED << "Error: The length of count indices"
+                        << " should be an integer multiplication of 3. "
+                        << counts.size() << " indices found instead." << RESET << endl;
+                return;
+            }
+        }
+
+        // Read files
+        if (verbose >= 3) cout << GREEN << "Reading files ... " << RESET << endl;
+        vector<StandardDeviation> sds_vec(in_files.size());
+        vector<bool> flags(in_files.size(), false);
+
+        for (size_t i = 0; i < in_files.size(); i++) {
+            try {
+                AnEnIO io("Read", in_files[i], file_type, verbose);
+
+                if (partial_read) {
+                    io.handleError(io.readStandardDeviation(sds_vec[i],
+                        {starts[i * 3], starts[i * 3 + 1], starts[i * 3 + 2]},
+                        {counts[i * 3], counts[i * 3 + 1], counts[i * 3 + 2]}));
+                } else {
+                    io.handleError(io.readStandardDeviation(sds_vec[i]));
+                }
+
+                flags[i] = true;
+            } catch (...) {
+                flags[i] = false;
+            }
+        }
+
+        // Check if all elements in flags are true.
+        for (size_t i = 0; i < flags.size(); i++) {
+            if (!flags[i]) {
+                if (verbose >= 1) cout << BOLDRED << "Error: Error occurred when"
+                        << " reading file " << in_files[i] << RESET << endl;
+                return;
+            }
+        }
+
+        // Reshape data
+        if (verbose >= 3) cout << GREEN << "Combining standard deviation ..." << RESET << endl;
+        StandardDeviation sds;
+        auto ret = AnEnIO::combineStandardDeviation(sds_vec, sds, along, verbose);
+        if (ret != AnEnIO::errorType::SUCCESS) {
+            throw runtime_error("Error: Failed when combining standard deviation.");
+        }
+        
+        // Read parameters
+        AnEnIO ioPar("Read", in_files[0], file_type, verbose);
+        anenPar::Parameters parameters;
+        ioPar.readParameters(parameters);
+
+        // Write combined forecasts
+        if (verbose >= 3) cout << GREEN << "Writing standard deviation ..." << RESET << endl;
+        AnEnIO io("Write", out_file, file_type, verbose);
+        io.handleError(io.writeStandardDeviation(sds, parameters));
+        if (verbose >= 3) cout << GREEN << "Done!" << RESET << endl;
+
+        return;
+        
     } else {
         if (verbose >= 1) cout << BOLDRED << "Error: File type " << file_type
                 << " is not supported." << RESET << endl;
@@ -186,7 +261,7 @@ int main(int argc, char** argv) {
                 ("help,h", "Print help information for options.")
                 ("config,c", po::value<string>(&config_file), "Set the configuration file path. Command line options overwrite options in configuration file. ")
 
-                ("type,t", po::value<string>(&file_type)->required(), "Set the type of the files to read. It can be either Forecasts or Observations.")
+                ("type,t", po::value<string>(&file_type)->required(), "Set the type of the files to read. It can be either Forecasts ,Observations, or StandardDeviation.")
                 ("in,i", po::value< vector<string> >(&in_files)->multitoken()->required(), "Set the file names to read separated by a space.")
                 ("out,o", po::value<string>(&out_file)->required(), "Set the name of the output file.")
                 ("along,a", po::value<size_t>(&along)->required(), "Set the dimension index to be appended. It counts from 0.")
@@ -208,7 +283,7 @@ int main(int argc, char** argv) {
         store(parsed, vm);
 
         if (vm.count("help") || argc == 1) {
-            cout << GREEN << "Analog Ensemble program --- File Reshape"
+            cout << GREEN << "Analog Ensemble program --- File Aggregate"
                     << RESET << endl << desc << endl;
             return 0;
         }
@@ -275,7 +350,7 @@ int main(int argc, char** argv) {
     }
 
     try {
-        runFileReshape(file_type, in_files, along, out_file, starts, counts, verbose);
+        runFileAggregate(file_type, in_files, along, out_file, starts, counts, verbose);
     } catch (...) {
         handle_exception(current_exception());
         return 1;

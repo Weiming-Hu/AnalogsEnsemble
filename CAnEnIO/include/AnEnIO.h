@@ -350,15 +350,27 @@ public:
     errorType writeAnalogs(const Analogs & analogs) const;
     
     /**
+     * Read StandardDeviation.
+     * 
+     * @param sds StandardDeviation.
+     * @return An AnEnIO::errorType. 
+     */
+    errorType readStandardDeviation(StandardDeviation & sds);
+    errorType readStandardDeviation(StandardDeviation & sds,
+            std::vector<size_t> start,
+            std::vector<size_t> count,
+            std::vector<ptrdiff_t> stride = {1, 1, 1});
+    
+    /**
      * Write StandardDeviation.
      * 
      * @param sds StandardDeviation.
-     * @param forecasts Forecasts.
+     * @param parameters anenPar::Parameters.
      * @return An AnEnIO::errorType. 
      */
     errorType writeStandardDeviation(
             const StandardDeviation & sds,
-            const Forecasts & forecasts) const;
+            const anenPar::Parameters & parameters) const;
 
     /**
      * Handles the errorType variable.
@@ -494,6 +506,19 @@ public:
     combineObservationsArray(
             const std::vector<Observations_array> & observations_vec,
             Observations_array & observations, size_t along, int verbose = 2);
+    
+
+    /**
+     * Binds a vector of StandardDeviation
+     * @param sds_vec A vector of StandardDeviation.
+     * @param sds A StandardDeviation.
+     * @param along Which dimension to append counting from 0.
+     * @param verbose Verbose level.
+     * @return An AnEnIO::errorType;
+     */
+    static errorType
+    combineStandardDeviation(const std::vector<StandardDeviation> & sds_vec,
+            StandardDeviation & sds, size_t along, int verbose = 2);
 
 protected:
 

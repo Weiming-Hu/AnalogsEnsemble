@@ -21,6 +21,7 @@ file_in_2 <- '../../tests/Data/forecasts_part2.nc'
 file_out <- 'sds.nc'
 verbose <- 2
 
+unlink(file_out)
 command <- paste(exe, '-i', file_in_1, file_in_2,
                  '-o', file_out,
                  '-v', verbose)
@@ -42,3 +43,11 @@ nc_close(nc)
 
 fcsts <- abind(fcsts.1, fcsts.2, along = 3)
 sds.r <- apply(fcsts, c(1, 2, 4), sd, na.rm = T)
+
+dif <- abs(sds.r - sds.c)
+dif <- dif[dif < 1e+10]
+if (sum(dif, na.rm = T) < 1e-8) {
+  print("You passed the test!")
+} else {
+  stop("Something is wrong.")
+}

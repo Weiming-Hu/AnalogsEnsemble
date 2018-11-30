@@ -34,12 +34,12 @@ dir_name <- 'myWindDirection'
 speed_name <- 'myWindSpeed'
 verbose <- 1
 
-command <- paste(exe, '--file_in', file_in,
-                 '--file_type', file_type,
-                 '--file_out', file_out,
+command <- paste(exe, '--file-in', file_in,
+                 '--file-type', file_type,
+                 '--file-out', file_out,
                  '-U', U, '-V', V,
-                 '--dir_name', dir_name,
-                 '--speed_name', speed_name,
+                 '--dir-name', dir_name,
+                 '--speed-name', speed_name,
                  '-v', verbose)
 
 if (verbose >= 3) {
@@ -91,12 +91,12 @@ file_in <- 'wind-observations.nc'
 file_type <- 'Observations'
 V <- 'parameter1'
 
-command <- paste(exe, '--file_in', file_in,
-                 '--file_type', file_type,
-                 '--file_out', file_out,
+command <- paste(exe, '--file-in', file_in,
+                 '--file-type', file_type,
+                 '--file-out', file_out,
                  '-U', U, '-V', V,
-                 '--dir_name', dir_name,
-                 '--speed_name', speed_name,
+                 '--dir-name', dir_name,
+                 '--speed-name', speed_name,
                  '-v', verbose)
 
 if (verbose >= 3) {

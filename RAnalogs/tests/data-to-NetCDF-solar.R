@@ -62,9 +62,9 @@ ncvar_put(ncout, var_circulars, value_circulars)
 ncvar_put(ncout, var_data, fc)
 nc_close(ncout)
 
-ncin <- nc_open(file_forecasts)
-print(ncin)
-nc_close(ncin)
+# ncin <- nc_open(file_forecasts)
+# print(ncin)
+# nc_close(ncin)
 
 
 #########################################################################################
@@ -122,6 +122,6 @@ ncvar_put(ncout, var_parameter_names, value_parameter_names)
 ncvar_put(ncout, var_data, value_data)
 nc_close(ncout)
 
-ncin <- nc_open(file_observations)
-print(ncin)
-nc_close(ncin)
+# ncin <- nc_open(file_observations)
+# print(ncin)
+# nc_close(ncin)

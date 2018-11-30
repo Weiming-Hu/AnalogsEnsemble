@@ -632,3 +632,69 @@ void testAnEnIO::testReadWriteTextMatrix() {
     
     remove(file_path.c_str());
 }
+
+void testAnEnIO::testReadWriteStandardDeviation() {
+    
+    /**
+     * Test writing and reading StandardDeviation
+     */
+
+    string file_path = "read-write-standard-deviation.nc";
+    remove(file_path.c_str());
+    
+     // Create an example forecast object
+    anenSta::Station s1, s2("Hunan", 10, 20), s3("Hubei"),
+            s4("Guangdong", 30, 40), s5("Zhejiang"),
+            s6("Beijing", 30, 30);
+    anenSta::Stations stations_write;
+    stations_write.insert(stations_write.end(),{s1, s2, s3, s4, s5, s6});
+
+    anenPar::Parameter p1, p2("temperature", 0.6), p3("humidity", 0.3),
+            p4("wind direction", 0.05, true);
+    p1.setWeight(0.05);
+
+    anenPar::Parameters parameters_write;
+    parameters_write.insert(parameters_write.end(),{p1, p2, p3, p4});
+
+    anenTime::Times times_write;
+    times_write.insert(times_write.end(),{1, 2, 3, 4, 5, 6, 7, 8, 9, 10});
+
+    anenTime::FLTs flts_write;
+    flts_write.insert(flts_write.end(),{100, 200, 300, 400, 500});
+
+    vector<double> values_write(parameters_write.size()
+            * stations_write.size() * times_write.size() * flts_write.size());
+    generate(values_write.begin(), values_write.end(), rand);
+
+    Forecasts_array forecasts_write(
+            parameters_write, stations_write,
+            times_write, flts_write, values_write);
+    
+    // Create standard deviation
+    StandardDeviation sds_write;
+    StandardDeviation::extent_gen extents;
+    sds_write.resize(extents[4][6][5]);
+
+    for (size_t i = 0; i < 4; i++)
+        for (size_t j = 0; j < 6; j++)
+            for (size_t k = 0; k < 5; k++)
+                sds_write[i][j][k] = i * 100 + j * 10 + k;
+
+    AnEnIO io("Write", file_path, "StandardDeviation", 2);
+    io.writeStandardDeviation(sds_write, forecasts_write.getParameters());
+
+    StandardDeviation sds_read;
+    io.setMode("Read");
+    io.readStandardDeviation(sds_read);
+
+    CPPUNIT_ASSERT(sds_read.shape()[0] == sds_write.shape()[0]);
+    CPPUNIT_ASSERT(sds_read.shape()[1] == sds_write.shape()[1]);
+    CPPUNIT_ASSERT(sds_read.shape()[2] == sds_write.shape()[2]);
+    
+    for (size_t i = 0; i < 4; i++)
+        for (size_t j = 0; j < 6; j++)
+            for (size_t k = 0; k < 5; k++)
+                sds_write[i][j][k] = sds_read[i][j][k];
+
+    remove(file_path.c_str());
+}

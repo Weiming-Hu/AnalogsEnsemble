@@ -10,15 +10,21 @@
 
 using namespace std;
 
-StandardDeviation::StandardDeviation() {
+StandardDeviation::StandardDeviation() :
+boost::multi_array<double, 3>(
+boost::extents[0][0][0],
+boost::fortran_storage_order()) {
 }
 
-StandardDeviation::StandardDeviation(size_t dim1, size_t dim2, size_t dim3) {
+StandardDeviation::StandardDeviation(size_t dim1, size_t dim2, size_t dim3) :
+boost::multi_array<double, 3>(
+boost::extents[0][0][0],
+boost::fortran_storage_order()) {
     StandardDeviation::extent_gen extents;
     resize(extents[dim1][dim2][dim3]);
 }
 
-StandardDeviation::~StandardDeviation() {
+StandardDeviation::~StandardDeviation(){
 }
 
 void
