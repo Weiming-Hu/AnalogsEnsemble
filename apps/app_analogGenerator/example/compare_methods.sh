@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
 
-# This script shows how to use the utilities simialrityCalculator, analogSelector, and analogGnerator. The script first generate similarity from similarityCalculator and then feed the output into analogSelector to generate analogs. Then the script shows how to do these two steps altogether with analogGenerator.
+# This script shows how to use the utilities simialrityCalculator, analogSelector, and analogGnerator.
+# The script first generate similarity from similarityCalculator and then feed the output into analogSelector
+# to generate analogs. Then the script shows how to do these two steps altogether with analogGenerator.
 #
-# The results, simialrity and analogs, from the two methods are compared, and they should be identical. You can check this by reading the final output messages.
+# The results, simialrity and analogs, from the two methods are compared, and they should be identical.
+# You can check this by reading the final output messages.
 #
-
 rm -f map.txt
 rm -f sim_sep.nc
 rm -f sim_ctn.nc

@@ -34,7 +34,7 @@
 #' [,,,,3]. The list member \bold{similarity} stores the similarity metrics.
 #' The dimension indication is the same with the member analogs. The list
 #' member \bold{searchStations} stores the search station index. The list member
-#' \bold{mapping} stores the mapping mechanim from the time and the flt in
+#' \bold{mapping} stores the mapping mechanism from the time and the flt in
 #' forecasts to the time in observations.
 #' 
 #' @import Rcpp BH
