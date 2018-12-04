@@ -40,7 +40,10 @@ void runSimilarityCalculator(
 
         const string & file_similarity,
         const string & file_mapping,
+
         const string & file_sds,
+        const vector<size_t> & sds_start,
+        const vector<size_t> & sds_count,
 
         size_t observation_id,
 
@@ -104,7 +107,12 @@ void runSimilarityCalculator(
     if (!file_sds.empty()) {
         // If the standard deviation file is provided, read the file
         AnEnIO io_sds("Read", file_sds, "StandardDeviation", verbose);
-        io_sds.handleError(io_sds.readStandardDeviation(sds));
+
+        if (sds_start.empty() || sds_count.empty()) {
+            io_sds.handleError(io_sds.readStandardDeviation(sds));
+        } else {
+            io_sds.handleError(io_sds.readStandardDeviation(sds, sds_start, sds_count));
+        }
     } else {
         anen.handleError(anen.computeStandardDeviation(search_forecasts, sds));
     }
@@ -202,7 +210,7 @@ int main(int argc, char** argv) {
     bool searchExtension = false;
     double distance = 0, max_par_nan = NAN, max_flt_nan = NAN;
     vector<size_t> test_start, test_count, search_start, search_count,
-            obs_start, obs_count;
+            obs_start, obs_count, sds_start, sds_count;
     
     try {
         po::options_description desc("Available options");
@@ -231,7 +239,9 @@ int main(int argc, char** argv) {
                 ("search-start", po::value< vector<size_t> >(&search_start)->multitoken(), "Set the start indices in the search forecast NetCDF where the program starts reading.")
                 ("search-count", po::value< vector<size_t> >(&search_count)->multitoken(), "Set the count numbers for each dimension in the search forecast NetCDF.")
                 ("obs-start", po::value< vector<size_t> >(&obs_start)->multitoken(), "Set the start indices in the search observation NetCDF where the program starts reading.")
-                ("obs-count", po::value< vector<size_t> >(&obs_count)->multitoken(), "Set the count numbers for each dimension in the search observation NetCDF.");
+                ("obs-count", po::value< vector<size_t> >(&obs_count)->multitoken(), "Set the count numbers for each dimension in the search observation NetCDF.")
+                ("sds-start", po::value< vector<size_t> >(&sds_start)->multitoken(), "Set the start indices in the standard deviation NetCDF where the program starts reading.")
+                ("sds-count", po::value< vector<size_t> >(&sds_count)->multitoken(), "Set the count numbers for each dimension in the standard deviation NetCDF.");
         
         // process unregistered keys and notify users about my guesses
         vector<string> available_options;
@@ -325,7 +335,9 @@ int main(int argc, char** argv) {
                 << "search_start: " << search_start << endl
                 << "search_count: " << search_count << endl
                 << "obs_start: " << obs_start << endl
-                << "obs_count: " << obs_count << endl;
+                << "obs_count: " << obs_count << endl
+                << "sds_start: " << sds_start << endl
+                << "sds_count: " << sds_count << endl;
     }
     
     try {
@@ -333,7 +345,8 @@ int main(int argc, char** argv) {
                 file_test_forecasts, test_start, test_count,
                 file_search_forecasts, search_start, search_count,
                 file_observations, obs_start, obs_count, file_similarity,
-                file_mapping, file_sds, observation_id, searchExtension,
+                file_mapping, file_sds, sds_start, sds_count,
+                observation_id, searchExtension,
                 max_neighbors, num_neighbors, distance, time_match_mode,
                 max_par_nan, max_flt_nan, verbose);
     } catch (...) {

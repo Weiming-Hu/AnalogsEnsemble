@@ -916,9 +916,19 @@ AnEn::check_input_(
     if (!(sds.shape()[0] == search_forecasts.getParametersSize() &&
             sds.shape()[1] == search_forecasts.getStationsSize() &&
             sds.shape()[2] == search_forecasts.getFLTsSize())) {
-        if (verbose_ >= 1) cout << BOLDRED
-                << "Error: Standard deviation array has a different shape to search forecasts!"
-                << RESET << endl;
+        if (verbose_ >= 1) {
+            cout << BOLDRED << "Error: Standard deviation array has a different shape to search forecasts!" << endl;
+            if (sds.shape()[0] != search_forecasts.getParametersSize())
+                cout << "-- Number of parameters differs: sds have " << sds.shape()[0]
+                    << " and search forecasts have " << search_forecasts.getParametersSize() << endl;
+            if (sds.shape()[1] != search_forecasts.getStationsSize())
+                cout << "-- Number of stations differs: sds have " << sds.shape()[1]
+                   << " and search forecasts have " << search_forecasts.getStationsSize() << endl;
+            if (sds.shape()[2] != search_forecasts.getFLTsSize())
+                cout << "-- Number of FLTs differs: sds have " << sds.shape()[2]
+                   << " and search forecasts have " << search_forecasts.getFLTsSize() << endl;
+            cout << RESET << endl;
+        }
         return (WRONG_SHAPE);
     }
 
