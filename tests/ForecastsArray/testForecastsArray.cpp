@@ -62,3 +62,24 @@ void testForecastsArray::testForecastSetVectorValues() {
                     CPPUNIT_ASSERT(forecasts.getValueByIndex(i, j, m, n)
                         == values[l]);
 }
+
+void testForecastsArray::testForecastParameters() {
+    anenPar::Parameter p1, p2("temperature", 0.6), p3("humidity", true),
+            p4("wind direction", 0.05, true);
+    anenPar::Parameters parameters;
+    parameters.insert(parameters.end(),{p1, p2, p3, p4});
+
+    const auto & parameters_insert = parameters.get<anenPar::by_insert>();
+
+    // Test circular
+    CPPUNIT_ASSERT(!parameters_insert[0].getCircular());
+    CPPUNIT_ASSERT(!parameters_insert[1].getCircular());
+    CPPUNIT_ASSERT(parameters_insert[2].getCircular());
+    CPPUNIT_ASSERT(parameters_insert[3].getCircular());
+
+    // Test weight
+    CPPUNIT_ASSERT(std::isnan(parameters_insert[0].getWeight()));
+    CPPUNIT_ASSERT(parameters_insert[1].getWeight() == 0.6);
+    CPPUNIT_ASSERT(std::isnan(parameters_insert[2].getWeight()));
+    CPPUNIT_ASSERT(parameters_insert[3].getWeight() == 0.05);
+}
