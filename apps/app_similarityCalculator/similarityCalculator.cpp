@@ -40,6 +40,7 @@ void runSimilarityCalculator(
 
         const string & file_similarity,
         const string & file_mapping,
+        const string & file_sds,
 
         size_t observation_id,
 
@@ -100,7 +101,13 @@ void runSimilarityCalculator(
     SimilarityMatrices sims(test_forecasts);
 
     StandardDeviation sds;
-    anen.handleError(anen.computeStandardDeviation(search_forecasts, sds));
+    if (!file_sds.empty()) {
+        // If the standard deviation file is provided, read the file
+        AnEnIO io_sds("Read", file_sds, "StandardDeviation", verbose);
+        io_sds.handleError(io_sds.readStandardDeviation(sds));
+    } else {
+        anen.handleError(anen.computeStandardDeviation(search_forecasts, sds));
+    }
 
 #if defined(_CODE_PROFILING)
     clock_t time_end_of_sd = clock();
@@ -191,7 +198,7 @@ int main(int argc, char** argv) {
     // Optional variables
     int verbose = 0, time_match_mode = 0;
     size_t observation_id = 0, max_neighbors = 0, num_neighbors = 0;
-    string config_file, file_mapping;
+    string config_file, file_mapping, file_sds;
     bool searchExtension = false;
     double distance = 0, max_par_nan = NAN, max_flt_nan = NAN;
     vector<size_t> test_start, test_count, search_start, search_count,
@@ -212,6 +219,7 @@ int main(int argc, char** argv) {
                 ("time-match-mode", po::value<int>(&time_match_mode)->default_value(0), "Set the match mode for generating TimeMapMatrix. 0 for strict and 1 for loose search.")
                 ("max-par-nan", po::value<double>(&max_par_nan)->default_value(NAN), "The number of NAN values allowed when computing similarity across different parameters. Set it to a negative number (will be automatically converted to NAN) to allow any number of NAN values.")
                 ("max-flt-nan", po::value<double>(&max_flt_nan)->default_value(NAN), "The number of NAN values allowed when computing FLT window averages. Set it to a negative number (will be automatically converted to NAN) to allow any number of NAN values.")
+                ("sds-nc", po::value<string>(&file_sds), "Set the file path to read for standard deviation.")
                 ("mapping-txt", po::value<string>(&file_mapping), "Set the output file path for time mapping matrix.")
                 ("observation-id", po::value<size_t>(&observation_id)->default_value(0), "Set the index of the observation variable that will be used.")
                 ("searchExtension", po::bool_switch(&searchExtension)->default_value(false), "Use search extension.")
@@ -301,6 +309,7 @@ int main(int argc, char** argv) {
                 << "file_observations: " << file_observations << endl
                 << "file_similarity: " << file_similarity << endl
                 << "file_mapping: " << file_mapping << endl
+                << "file_sds: " << file_sds << endl
                 << "config_file: " << config_file << endl
                 << "verbose: " << verbose << endl
                 << "max_par_nan: " << max_par_nan << endl
@@ -324,9 +333,9 @@ int main(int argc, char** argv) {
                 file_test_forecasts, test_start, test_count,
                 file_search_forecasts, search_start, search_count,
                 file_observations, obs_start, obs_count, file_similarity,
-                file_mapping, observation_id, searchExtension, max_neighbors,
-                num_neighbors, distance, time_match_mode, max_par_nan,
-                max_flt_nan, verbose);
+                file_mapping, file_sds, observation_id, searchExtension,
+                max_neighbors, num_neighbors, distance, time_match_mode,
+                max_par_nan, max_flt_nan, verbose);
     } catch (...) {
         handle_exception(current_exception());
         return 1;
