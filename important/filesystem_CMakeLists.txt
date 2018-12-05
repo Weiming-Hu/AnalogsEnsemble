@@ -42,3 +42,7 @@ endif (CMAKE_BUILD_TYPE STREQUAL "Release")
 #add_library(${LIBRARY_NAME} STATIC ${SOURCES})
 add_library(${LIBRARY_NAME} SHARED ${SOURCES})
 target_link_libraries(${LIBRARY_NAME} "system")
+
+# Copy library and headers to destination
+install(TARGETS ${LIBRARY_NAME} LIBRARY DESTINATION "${DEPENDENCY_PATH}/install/lib")
+install(DIRECTORY "include" DESTINATION "${DEPENDENCY_PATH}/install")
