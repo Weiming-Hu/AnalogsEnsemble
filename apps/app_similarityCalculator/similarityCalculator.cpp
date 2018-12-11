@@ -204,11 +204,11 @@ int main(int argc, char** argv) {
             file_observations, file_similarity;
 
     // Optional variables
-    int verbose = 0, time_match_mode = 0;
+    int verbose = 0, time_match_mode = 1;
     size_t observation_id = 0, max_neighbors = 0, num_neighbors = 0;
     string config_file, file_mapping, file_sds;
     bool searchExtension = false;
-    double distance = 0, max_par_nan = NAN, max_flt_nan = NAN;
+    double distance = 0.0, max_par_nan = 0.0, max_flt_nan = 0.0;
     vector<size_t> test_start, test_count, search_start, search_count,
             obs_start, obs_count, sds_start, sds_count;
     
@@ -224,9 +224,9 @@ int main(int argc, char** argv) {
                 ("similarity-nc", po::value<string>(&file_similarity)->required(), "Set the output file path for similarity NetCDF.")
 
                 ("verbose,v", po::value<int>(&verbose)->default_value(2), "Set the verbose level.")
-                ("time-match-mode", po::value<int>(&time_match_mode)->default_value(0), "Set the match mode for generating TimeMapMatrix. 0 for strict and 1 for loose search.")
-                ("max-par-nan", po::value<double>(&max_par_nan)->default_value(NAN), "The number of NAN values allowed when computing similarity across different parameters. Set it to a negative number (will be automatically converted to NAN) to allow any number of NAN values.")
-                ("max-flt-nan", po::value<double>(&max_flt_nan)->default_value(NAN), "The number of NAN values allowed when computing FLT window averages. Set it to a negative number (will be automatically converted to NAN) to allow any number of NAN values.")
+                ("time-match-mode", po::value<int>(&time_match_mode)->default_value(1), "Set the match mode for generating TimeMapMatrix. 0 for strict and 1 for loose search.")
+                ("max-par-nan", po::value<double>(&max_par_nan)->default_value(0), "The number of NAN values allowed when computing similarity across different parameters. Set it to a negative number (will be automatically converted to NAN) to allow any number of NAN values.")
+                ("max-flt-nan", po::value<double>(&max_flt_nan)->default_value(0), "The number of NAN values allowed when computing FLT window averages. Set it to a negative number (will be automatically converted to NAN) to allow any number of NAN values.")
                 ("sds-nc", po::value<string>(&file_sds), "Set the file path to read for standard deviation.")
                 ("mapping-txt", po::value<string>(&file_mapping), "Set the output file path for time mapping matrix.")
                 ("observation-id", po::value<size_t>(&observation_id)->default_value(0), "Set the index of the observation variable that will be used.")

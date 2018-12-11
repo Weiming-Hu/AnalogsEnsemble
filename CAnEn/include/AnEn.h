@@ -121,7 +121,7 @@ public:
             const anenTime::Times & times_forecasts,
             const anenTime::Times & flts_forecasts,
             const anenTime::Times & times_observations,
-            TimeMapMatrix & mapping, int time_match_mode = 0) const;
+            TimeMapMatrix & mapping, int time_match_mode = 1) const;
 
     /**
      * Computes the search stations of each test stations.
@@ -179,7 +179,7 @@ public:
             const TimeMapMatrix & mapping,
             const SearchStationMatrix & i_search_stations,
             size_t i_observation_parameter = 0,
-            double max_par_nan = NAN, double max_flt_nan = NAN) const;
+            double max_par_nan = 0, double max_flt_nan = 0) const;
     
     errorType computeSimilarity(
             const Forecasts_array & search_forecasts,
@@ -188,7 +188,7 @@ public:
             const Observations_array& search_observations,
             const TimeMapMatrix & mapping,
             size_t i_observation_parameter = 0,
-            double max_par_nan = NAN, double max_flt_nan = NAN) const;
+            double max_par_nan = 0, double max_flt_nan = 0) const;
 
     /**
      * Select analogs based on the similarity matrices.
