@@ -653,7 +653,8 @@ AnEn::selectAnalogs(
         const Observations_array & search_observations,
         const AnEn::TimeMapMatrix & mapping,
         size_t i_parameter, size_t num_members,
-        bool quick, bool preserve_real_time) const {
+        bool quick, bool extend_observations,
+        bool preserve_real_time) const {
 
     if (verbose_ >= 3) cout << "Selecting analogs ..." << endl;
 
@@ -713,8 +714,16 @@ i_parameter, num_test_times, num_flts, observation_times_by_insert, max_members)
                                     analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::STATION] = i_search_station;
                                     analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::TIME] =
                                         observation_times_by_insert[i_observation_time];
-                                    analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::VALUE] =
-                                        data_observations[i_parameter][i_search_station][i_observation_time];
+
+                                    if (extend_observations) {
+                                        // Take the observations from search stations
+                                        analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::VALUE] =
+                                            data_observations[i_parameter][i_search_station][i_observation_time];
+                                    } else {
+                                        // Take the observations from the main (center) station
+                                        analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::VALUE] =
+                                            data_observations[i_parameter][i_test_station][i_observation_time];
+                                    }
                                 }
                             }   
                         }
@@ -744,8 +753,16 @@ i_parameter, num_test_times, num_flts, max_members)
                                 if (!std::isnan(mapping(i_search_forecast_time, i_flt))) {
                                     analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::STATION] = i_search_station;
                                     analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::TIME] = mapping(i_search_forecast_time, i_flt);
-                                    analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::VALUE] =
-                                        data_observations[i_parameter][i_search_station][mapping(i_search_forecast_time, i_flt)];
+
+                                    if (extend_observations) {
+                                        // Take the observations from search stations
+                                        analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::VALUE] =
+                                            data_observations[i_parameter][i_search_station][i_observation_time];
+                                    } else {
+                                        // Take the observations from the main (center) station
+                                        analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::VALUE] =
+                                            data_observations[i_parameter][i_test_station][i_observation_time];
+
                                 }
                             }
                         }

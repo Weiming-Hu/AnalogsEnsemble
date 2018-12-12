@@ -202,6 +202,8 @@ public:
      * @param i_parameter The index of the parameter to select in Observations.
      * @param num_members How many members each analog should have.
      * @param quick Whether to use quick sort mechanism.
+     * @param extend_observations Whether to select observations from the current
+     * station or the extended search stations.
      * @param preserve_real_time Whether to replace the observation time index
      * with the actual observation time.
      * @return An AnEn::errorType.
@@ -212,7 +214,8 @@ public:
             const Observations_array& search_observations,
             const TimeMapMatrix & mapping,
             size_t i_parameter, size_t num_members,
-            bool quick = true, bool preserve_real_time = false) const;
+            bool quick = true, bool extend_observations = false,
+            bool preserve_real_time = false) const;
 
     /**
      * Handles the errorType.

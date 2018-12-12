@@ -45,6 +45,7 @@
 #' - circulars: The index of forecast parameters in search forecasts that are circular.
 #' - weights: The weight for forecast parameters in search forecasts.
 #' - quick: Whether to use quick sort algorithm.
+#' - extend_observations: After getting the most similar forecast indices, take the corresponding observations from the search station.
 #' - preserve_real_time: Whether to preserve the real time information in returned AnEn.
 #' - preserve_similarity: Whether to preserve the similarity matrix in returned AnEn.
 #' - preserve_mapping: Whether to preserve the mapping matrix in return AnEn.
@@ -87,8 +88,8 @@ generateConfiguration <- function(mode) {
 		mode = mode, test_forecasts = NULL, search_forecasts = NULL, search_times = NULL, search_flts = NULL,
 		search_observations = NULL, observation_times = NULL, observation_id = 1, num_members = NULL,
 		circulars = vector(mode = 'numeric', length = 0), weights = NULL, quick = T,
-		preserve_real_time = F, preserve_similarity = F, preserve_mapping = T, time_match_mode = 1, 
-        max_par_nan = 0, max_flt_nan= 0, verbose = 1)
+        extend_observations = F, preserve_real_time = F, preserve_similarity = F,
+        preserve_mapping = T, time_match_mode = 1, max_par_nan = 0, max_flt_nan= 0, verbose = 1)
 	
 	if (mode == 'extendedSearch') {
 		config <- c(config, list(test_stations_x = NULL, test_stations_y = NULL,
