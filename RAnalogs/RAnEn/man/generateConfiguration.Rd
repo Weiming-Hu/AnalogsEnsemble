@@ -35,6 +35,7 @@ package which observation parameter to use.
 \item circulars: The index of forecast parameters in search forecasts that are circular.
 \item weights: The weight for forecast parameters in search forecasts.
 \item quick: Whether to use quick sort algorithm.
+\item extend_observations: After getting the most similar forecast indices, take the corresponding observations from the search station.
 \item preserve_real_time: Whether to preserve the real time information in returned AnEn.
 \item preserve_similarity: Whether to preserve the similarity matrix in returned AnEn.
 \item preserve_mapping: Whether to preserve the mapping matrix in return AnEn.
