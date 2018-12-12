@@ -61,7 +61,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAnEn</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">3.0.8</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">3.0.9</span>
       </span>
     </div>
 
@@ -143,7 +143,7 @@ into one value. For example, it can be 'mean', 'median', 'max', or
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An array or a list depending on whether keep.bias is selected.</p>
+    <p>An AnEn object.</p>
     
 
   </div>
@@ -159,7 +159,16 @@ into one value. For example, it can be 'mean', 'median', 'max', or
     
 Weiming Hu <a href='mailto:weiming@psu.edu'>weiming@psu.edu</a>
 
-Statical bias correction function for analog ensembles.
+Statical bias correction function for analog ensembles. For a given forecast from AnEn for a
+certain station/grid point, day, and FLT, first, the mean of the selected forecasts, also
+the most similar past forecasts, is calculated; then the difference of the mean of the selected
+forecasts and the current forecast is calculated. This difference is then added to the AnEn
+forecasts.
+
+This method only works when the vairable forecasted by AnEn also exists in the model forecasts.
+For example, temperature is a model forecast variable. So we can bias correct AnEn forecasts for
+temperature using the model forecasts. If the AnEn forecast variable does not exist in the model,
+this method is not applicable.
 
   </div>
 </div>

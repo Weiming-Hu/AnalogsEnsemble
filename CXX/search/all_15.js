@@ -8,6 +8,7 @@ var searchData=
   ['writeobservations',['writeObservations',['../class_an_en_i_o.html#ae89350e02d93439e79aa76068062490a',1,'AnEnIO']]],
   ['writeparameters',['writeParameters',['../class_an_en_i_o.html#a9ae88d089b2de16571085cb6f7f4cefb',1,'AnEnIO']]],
   ['writesimilaritymatrices',['writeSimilarityMatrices',['../class_an_en_i_o.html#af4d66adaa8c94540dd6e7dd21c41be38',1,'AnEnIO']]],
+  ['writestandarddeviation',['writeStandardDeviation',['../class_an_en_i_o.html#a2a23668f1a91764b21fc1d7f7cadda4b',1,'AnEnIO']]],
   ['writestations',['writeStations',['../class_an_en_i_o.html#ac4cb6e66c0661eff0a10dcc3cb3324e8',1,'AnEnIO']]],
   ['writetextmatrix',['writeTextMatrix',['../class_an_en_i_o.html#acf17e3e4854c9e41a65a14b46bdd8b99',1,'AnEnIO']]],
   ['writetimes',['writeTimes',['../class_an_en_i_o.html#a13ba268b1cae107c145ad8ed895ddedd',1,'AnEnIO']]],

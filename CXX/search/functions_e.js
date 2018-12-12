@@ -2,7 +2,7 @@ var searchData=
 [
   ['sdcircular',['sdCircular',['../class_an_en.html#aa06ebc1ce7ac87369156dc88976042a1',1,'AnEn']]],
   ['sdlinear',['sdLinear',['../class_an_en.html#a7d7b0d5d3a607ebd4b624ddc07e55c57',1,'AnEn']]],
-  ['selectanalogs',['selectAnalogs',['../class_an_en.html#ae6e5c5cddd72a92da85c473e73c25acf',1,'AnEn']]],
+  ['selectanalogs',['selectAnalogs',['../class_an_en.html#a3fa7b38a1cf2dfc4ab2adcb607ca8006',1,'AnEn']]],
   ['set_5fnx_5fny',['set_nx_ny',['../class_array4_d.html#a4071001d8fd5248bcaf89c54556a6fe2',1,'Array4D']]],
   ['set_5fxs',['set_xs',['../class_array4_d.html#a92afa660eb005779a0c2cf602aa4c6fe',1,'Array4D']]],
   ['set_5fys',['set_ys',['../class_array4_d.html#a03ed88518d6991a55f3e48ad7de15d73',1,'Array4D']]],

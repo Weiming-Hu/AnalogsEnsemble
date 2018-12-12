@@ -10,6 +10,7 @@ var searchData=
   ['testcomputesearchwindows',['testComputeSearchWindows',['../classtest_an_en.html#afc68fde7c62cf9eb20a1857144a1428e',1,'testAnEn']]],
   ['testcomputesimilarity',['testComputeSimilarity',['../classtest_an_en.html#adf299f591c4c14cda81a39d9e0c37375',1,'testAnEn']]],
   ['testcomputestandarddeviation',['testComputeStandardDeviation',['../classtest_an_en.html#a33eef796221cdb4d8e5f4febf2448d57',1,'testAnEn']]],
+  ['testforecastparameters',['testForecastParameters',['../classtest_forecasts_array.html#afb8788230879522b6662182acebc355b',1,'testForecastsArray']]],
   ['testforecastsarray',['testForecastsArray',['../classtest_forecasts_array.html#aac3ec4c0c0a197a1025788d4eb8030e8',1,'testForecastsArray']]],
   ['testforecastsetvectorvalues',['testForecastSetVectorValues',['../classtest_forecasts_array.html#a68b22ba9790a29cb129ebcd2ad520d03',1,'testForecastsArray']]],
   ['testgetdoubles',['testGetDoubles',['../classtest_grib_converter.html#a2db08b6430a356a65300a68ee42792eb',1,'testGribConverter']]],
@@ -39,6 +40,7 @@ var searchData=
   ['testreadparttimes',['testReadPartTimes',['../classtest_an_en_i_o.html#accf515d99e2182fbc302bd1b119b3616',1,'testAnEnIO']]],
   ['testreadwriteanalogs',['testReadWriteAnalogs',['../classtest_an_en_i_o.html#a59002d3815dcb81141757692398b1868',1,'testAnEnIO']]],
   ['testreadwritesimilaritymatrices',['testReadWriteSimilarityMatrices',['../classtest_an_en_i_o.html#af5b75260b5fe4e5c293bd129e0425d99',1,'testAnEnIO']]],
+  ['testreadwritestandarddeviation',['testReadWriteStandardDeviation',['../classtest_an_en_i_o.html#a527b11f89c15d1f2a84160c6c6e78bad',1,'testAnEnIO']]],
   ['testreadwritetextmatrix',['testReadWriteTextMatrix',['../classtest_an_en_i_o.html#a800e11a724b9c9279649242f4127a96b',1,'testAnEnIO']]],
   ['testsdcircular',['testSdCircular',['../classtest_an_en.html#abe2d49db563edbc05f61475df3528f3b',1,'testAnEn']]],
   ['testsdlinear',['testSdLinear',['../classtest_an_en.html#a12871e312daa89e705e1e5606e0e636c',1,'testAnEn']]],
@@ -54,6 +56,6 @@ var searchData=
   ['testwritereadforecastfile',['testWriteReadForecastFile',['../classtest_an_en_i_o.html#a53ff722b99bd2f1b2e05bdd6c737fd7e',1,'testAnEnIO']]],
   ['testwritereadobservationfile',['testWriteReadObservationFile',['../classtest_an_en_i_o.html#aa7906bfbbf98a81bb6c449968c9bae9e',1,'testAnEnIO']]],
   ['times',['Times',['../classanen_time_1_1_times.html#a66161eb232f580fe090579b8e19e3618',1,'anenTime::Times::Times()'],['../classanen_time_1_1_times.html#a2bd2c89fd910120a72eab80017792125',1,'anenTime::Times::Times(std::string unit)'],['../classanen_time_1_1_times.html#a73794184536377320073427409a63da6',1,'anenTime::Times::Times(std::string unit, std::string origin)']]],
-  ['toforecasts',['toForecasts',['../namespacegrib_converter.html#ac0ded4f3c07d29aed050a5a651bc19ee',1,'gribConverter']]],
-  ['toobservations',['toObservations',['../namespacegrib_converter.html#ab883383ce11604ed57e6c790146ac05c',1,'gribConverter']]]
+  ['toforecasts',['toForecasts',['../namespacegrib_converter.html#ae5d63c8047289652e8eaafb329998bfe',1,'gribConverter']]],
+  ['toobservations',['toObservations',['../namespacegrib_converter.html#aed91b29db63636bb942fa12d761f5f22',1,'gribConverter']]]
 ];

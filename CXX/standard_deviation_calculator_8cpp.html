@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>AnalogEnsemble: /home/graduate/wuh20/github/AnalogsEnsemble/apps/app_fileReshape/fileReshape.cpp File Reference</title>
+<title>AnalogEnsemble: /home/graduate/wuh20/github/AnalogsEnsemble/apps/app_standardDeviationCalculator/standardDeviationCalculator.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -58,30 +58,33 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_43e0a1f539e00dcfa1a6bc4d4fee4fc2.html">home</a></li><li class="navelem"><a class="el" href="dir_de7a6ac88ac216ca1102540557b7e286.html">graduate</a></li><li class="navelem"><a class="el" href="dir_c115b2a6f4a58aca62bd8551288e2c68.html">wuh20</a></li><li class="navelem"><a class="el" href="dir_9c3587517ccce060547d9d8ae06ba5ef.html">github</a></li><li class="navelem"><a class="el" href="dir_7a4a62549309bb857d45cac63e893526.html">AnalogsEnsemble</a></li><li class="navelem"><a class="el" href="dir_de33c52dd952b7857badb69c0c740195.html">apps</a></li><li class="navelem"><a class="el" href="dir_77b1c31a22eefc53223b41725e3f6da9.html">app_fileReshape</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_43e0a1f539e00dcfa1a6bc4d4fee4fc2.html">home</a></li><li class="navelem"><a class="el" href="dir_de7a6ac88ac216ca1102540557b7e286.html">graduate</a></li><li class="navelem"><a class="el" href="dir_c115b2a6f4a58aca62bd8551288e2c68.html">wuh20</a></li><li class="navelem"><a class="el" href="dir_9c3587517ccce060547d9d8ae06ba5ef.html">github</a></li><li class="navelem"><a class="el" href="dir_7a4a62549309bb857d45cac63e893526.html">AnalogsEnsemble</a></li><li class="navelem"><a class="el" href="dir_de33c52dd952b7857badb69c0c740195.html">apps</a></li><li class="navelem"><a class="el" href="dir_b2d27f641e7d7c2a40e6e506d4c8a6ef.html">app_standardDeviationCalculator</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">fileReshape.cpp File Reference</div>  </div>
+<div class="title">standardDeviationCalculator.cpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="_an_en_8h_source.html">AnEn.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_an_en_i_o_8h_source.html">AnEnIO.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="color_texts_8h_source.html">colorTexts.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_common_exe_functions_8h_source.html">CommonExeFunctions.h</a>&quot;</code><br />
 <code>#include &quot;boost/program_options.hpp&quot;</code><br />
+<code>#include &quot;boost/multi_array.hpp&quot;</code><br />
 <code>#include &quot;boost/filesystem.hpp&quot;</code><br />
 <code>#include &quot;boost/exception/all.hpp&quot;</code><br />
+<code>#include &lt;functional&gt;</code><br />
 <code>#include &lt;iostream&gt;</code><br />
+<code>#include &lt;sstream&gt;</code><br />
+<code>#include &lt;cmath&gt;</code><br />
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a062eb972942f985ddd335e425e99dc1b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="file_reshape_8cpp.html#a062eb972942f985ddd335e425e99dc1b">runFileReshape</a> (const string &amp;file_type, const vector&lt; string &gt; &amp;in_files, const size_t &amp;along, const string &amp;out_file, const vector&lt; size_t &gt; &amp;starts, const vector&lt; size_t &gt; &amp;counts, const int &amp;verbose)</td></tr>
-<tr class="separator:a062eb972942f985ddd335e425e99dc1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3c04138a5bfe5d72780bb7e82a18e627"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="file_reshape_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a> (int argc, char **argv)</td></tr>
+<tr class="memitem:a9d8fe6c59cc7aa89007ef58071aa1c2f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="standard_deviation_calculator_8cpp.html#a9d8fe6c59cc7aa89007ef58071aa1c2f">runStandardDeviationCalculator</a> (const vector&lt; string &gt; in_files, const vector&lt; size_t &gt; &amp;starts, const vector&lt; size_t &gt; &amp;counts, const string out_file, int verbose)</td></tr>
+<tr class="separator:a9d8fe6c59cc7aa89007ef58071aa1c2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c04138a5bfe5d72780bb7e82a18e627"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="standard_deviation_calculator_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a> (int argc, char **argv)</td></tr>
 <tr class="separator:a3c04138a5bfe5d72780bb7e82a18e627"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
@@ -113,35 +116,17 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a062eb972942f985ddd335e425e99dc1b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a062eb972942f985ddd335e425e99dc1b">&#9670;&nbsp;</a></span>runFileReshape()</h2>
+<a id="a9d8fe6c59cc7aa89007ef58071aa1c2f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9d8fe6c59cc7aa89007ef58071aa1c2f">&#9670;&nbsp;</a></span>runStandardDeviationCalculator()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void runFileReshape </td>
+          <td class="memname">void runStandardDeviationCalculator </td>
           <td>(</td>
-          <td class="paramtype">const string &amp;&#160;</td>
-          <td class="paramname"><em>file_type</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const vector&lt; string &gt; &amp;&#160;</td>
+          <td class="paramtype">const vector&lt; string &gt;&#160;</td>
           <td class="paramname"><em>in_files</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const size_t &amp;&#160;</td>
-          <td class="paramname"><em>along</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const string &amp;&#160;</td>
-          <td class="paramname"><em>out_file</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -158,7 +143,13 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const int &amp;&#160;</td>
+          <td class="paramtype">const string&#160;</td>
+          <td class="paramname"><em>out_file</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>verbose</em>&#160;</td>
         </tr>
         <tr>
