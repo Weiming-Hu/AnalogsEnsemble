@@ -687,6 +687,9 @@ AnEn::selectAnalogs(
     sims.sortRows(quick, num_members);
 
     const auto & data_observations = search_observations.data();
+    const auto & stations_observations = search_observations.getStations();
+    const auto & stations_tests = analogs.getStations();
+    const auto & stations_tests_by_insert = stations_tests.get<anenSta::by_insert>();
 
     if (preserve_real_time) {
         auto & observation_times_by_insert =
@@ -695,7 +698,8 @@ AnEn::selectAnalogs(
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(dynamic) collapse(4) \
 shared(data_observations, sims, num_members, mapping, analogs, num_test_stations, \
-i_parameter, num_test_times, num_flts, observation_times_by_insert, max_members)
+i_parameter, num_test_times, num_flts, observation_times_by_insert, max_members, extend_observations, \
+stations_tests_by_insert, stations_observations)
 #endif
         for (size_t i_test_station = 0; i_test_station < num_test_stations; i_test_station++) {
             for (size_t i_test_time = 0; i_test_time < num_test_times; i_test_time++) {
@@ -705,7 +709,19 @@ i_parameter, num_test_times, num_flts, observation_times_by_insert, max_members)
                         if (i_member < max_members) {
                             if (!std::isnan(sims[i_test_station][i_test_time][i_flt][i_member][COL_TAG_SIM::VALUE])) {
 
-                                size_t i_search_station = (size_t) sims[i_test_station][i_test_time][i_flt][i_member][COL_TAG_SIM::STATION];
+                                size_t i_search_station = 0;
+                                if (extend_observations) {
+                                    i_search_station = (size_t) sims[i_test_station][i_test_time][i_flt][i_member][COL_TAG_SIM::STATION];
+                                } else {
+                                    // Because search and test data are separate. If you don't want to extend the observation data to the
+                                    // search stations, I need to find the closest station in the search stations to the current test stations.
+                                    //
+                                    i_search_station = stations_observations.getStationIndex(
+                                            stations_observations.getNearestStationsId(
+                                                stations_tests_by_insert[i_test_station].getX(),
+                                                stations_tests_by_insert[i_test_station].getY(), 1)[0]);
+                                }
+
                                 size_t i_search_forecast_time = (size_t) sims[i_test_station][i_test_time][i_flt][i_member][COL_TAG_SIM::TIME];
 
                                 if (!std::isnan(mapping(i_search_forecast_time, i_flt))) {
@@ -714,20 +730,11 @@ i_parameter, num_test_times, num_flts, observation_times_by_insert, max_members)
                                     analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::STATION] = i_search_station;
                                     analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::TIME] =
                                         observation_times_by_insert[i_observation_time];
-
-                                    if (extend_observations) {
-                                        // Take the observations from search stations
-                                        analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::VALUE] =
-                                            data_observations[i_parameter][i_search_station][i_observation_time];
-                                    } else {
-                                        // Take the observations from the main (center) station
-                                        analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::VALUE] =
-                                            data_observations[i_parameter][i_test_station][i_observation_time];
-                                    }
+                                    analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::VALUE] =
+                                        data_observations[i_parameter][i_search_station][i_observation_time];
                                 }
                             }   
                         }
-
                     }
                 }
             }
@@ -737,7 +744,8 @@ i_parameter, num_test_times, num_flts, observation_times_by_insert, max_members)
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(dynamic) collapse(4) \
 shared(data_observations, sims, num_members, mapping, analogs, num_test_stations, \
-i_parameter, num_test_times, num_flts, max_members)
+i_parameter, num_test_times, num_flts, max_members, extend_observations, \
+stations_tests_by_insert, stations_observations)
 #endif
         for (size_t i_test_station = 0; i_test_station < num_test_stations; i_test_station++) {
             for (size_t i_test_time = 0; i_test_time < num_test_times; i_test_time++) {
@@ -747,22 +755,26 @@ i_parameter, num_test_times, num_flts, max_members)
                         if (i_member < max_members) {
                             if (!std::isnan(sims[i_test_station][i_test_time][i_flt][i_member][COL_TAG_SIM::VALUE])) {
 
-                                size_t i_search_station = (size_t) sims[i_test_station][i_test_time][i_flt][i_member][COL_TAG_SIM::STATION];
+                                size_t i_search_station = 0;
+                                if (extend_observations) {
+                                    i_search_station = (size_t) sims[i_test_station][i_test_time][i_flt][i_member][COL_TAG_SIM::STATION];
+                                } else {
+                                    // Because search and test data are separate. If you don't want to extend the observation data to the
+                                    // search stations, I need to find the closest station in the search stations to the current test stations.
+                                    //
+                                    i_search_station = stations_observations.getStationIndex(
+                                            stations_observations.getNearestStationsId(
+                                                stations_tests_by_insert[i_test_station].getX(),
+                                                stations_tests_by_insert[i_test_station].getY(), 1)[0]);
+                                }
+
                                 size_t i_search_forecast_time = (size_t) sims[i_test_station][i_test_time][i_flt][i_member][COL_TAG_SIM::TIME];
 
                                 if (!std::isnan(mapping(i_search_forecast_time, i_flt))) {
                                     analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::STATION] = i_search_station;
                                     analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::TIME] = mapping(i_search_forecast_time, i_flt);
-
-                                    if (extend_observations) {
-                                        // Take the observations from search stations
-                                        analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::VALUE] =
-                                            data_observations[i_parameter][i_search_station][i_observation_time];
-                                    } else {
-                                        // Take the observations from the main (center) station
-                                        analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::VALUE] =
-                                            data_observations[i_parameter][i_test_station][i_observation_time];
-
+                                    analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::VALUE] =
+                                        data_observations[i_parameter][i_search_station][mapping(i_search_forecast_time, i_flt)];
                                 }
                             }
                         }
