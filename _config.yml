@@ -26,6 +26,7 @@ paginate_path: "/posts/page:num/"
 version: 3.0
 hydeout: 
  repo: https://github.com/Weiming-Hu/AnalogsEnsemble
+ issue: https://github.com/Weiming-Hu/AnalogsEnsemble/issues
  download_link: https://github.com/Weiming-Hu/AnalogsEnsemble/tree/master/RAnalogs/releases
 
 plugins:
