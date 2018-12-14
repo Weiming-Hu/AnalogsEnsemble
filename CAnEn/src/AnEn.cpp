@@ -656,8 +656,6 @@ AnEn::selectAnalogs(
         bool quick, bool extend_observations,
         bool preserve_real_time) const {
 
-    if (verbose_ >= 3) cout << "Selecting analogs ..." << endl;
-
     if (i_parameter >= search_observations.getParametersSize()) {
         if (verbose_ >= 1) cout << BOLDRED << "Error: i_parameter exceeds the limits. "
                 << "There are only " << search_observations.getParametersSize()
@@ -718,6 +716,8 @@ AnEn::selectAnalogs(
                 test_stations_index_in_search.push_back(search_observation_stations.getStationIndex(id)); 
         });
     }
+
+    if (verbose_ >= 3) cout << "Selecting analogs ..." << endl;
 
     if (preserve_real_time) {
         auto & observation_times_by_insert =
@@ -781,9 +781,6 @@ extend_observations, test_stations_index_in_search)
                                 if (extend_observations) {
                                     i_search_station = (size_t) sims[i_test_station][i_test_time][i_flt][i_member][COL_TAG_SIM::STATION];
                                 } else {
-                                    // Because search and test data are separate. If you don't want to extend the observation data to the
-                                    // search stations, I need to find the closest station in the search stations to the current test stations.
-                                    //
                                     i_search_station = test_stations_index_in_search[i_test_station];
                                 }
 
