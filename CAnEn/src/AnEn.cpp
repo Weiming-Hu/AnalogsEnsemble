@@ -687,9 +687,37 @@ AnEn::selectAnalogs(
     sims.sortRows(quick, num_members);
 
     const auto & data_observations = search_observations.data();
-    const auto & stations_observations = search_observations.getStations();
-    const auto & stations_tests = analogs.getStations();
-    const auto & stations_tests_by_insert = stations_tests.get<anenSta::by_insert>();
+
+    vector<size_t> test_stations_index_in_search(0);
+    if (!extend_observations) {
+        // If only observations from the main (center) station are used in the analogs, I need to
+        // find the corresponding station index in the search stations to the main station which
+        // comes from the test stations.
+        //
+        if (verbose_ >= 3) cout << "Finding the corresponding indices of test stations in search stations ..." << endl;
+
+        const auto & search_observation_stations = search_observations.getStations();
+        if (search_observation_stations.size() == 0) {
+            if (verbose_ >= 1) cout << BOLDRED
+                << "Error: There is no location information provided for search stations in observations." << RESET << endl;
+            return(MISSING_VALUE);
+        }
+
+        const auto & test_stations = sims.getTargets().getStations();
+        if (test_stations.size() == 0) {
+            if (verbose_ >= 1) cout << BOLDRED
+                << "Error: There is no location information provided for test stations in SimilarityMatrices." << RESET << endl;
+            return(MISSING_VALUE);
+        }
+
+        const auto & test_stations_by_insert = test_stations.get<anenSta::by_insert>();
+
+        for_each(test_stations_by_insert.begin(), test_stations_by_insert.end(),
+            [&test_stations_index_in_search, &search_observation_stations](anenSta::Station test) {
+                size_t id = search_observation_stations.getNearestStationsId(test.getX(), test.getY(), 1)[0];
+                test_stations_index_in_search.push_back(search_observation_stations.getStationIndex(id)); 
+        });
+    }
 
     if (preserve_real_time) {
         auto & observation_times_by_insert =
@@ -698,8 +726,8 @@ AnEn::selectAnalogs(
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(dynamic) collapse(4) \
 shared(data_observations, sims, num_members, mapping, analogs, num_test_stations, \
-i_parameter, num_test_times, num_flts, observation_times_by_insert, max_members, extend_observations, \
-stations_tests_by_insert, stations_observations)
+i_parameter, num_test_times, num_flts, observation_times_by_insert, max_members, \
+extend_observations, test_stations_index_in_search)
 #endif
         for (size_t i_test_station = 0; i_test_station < num_test_stations; i_test_station++) {
             for (size_t i_test_time = 0; i_test_time < num_test_times; i_test_time++) {
@@ -713,13 +741,7 @@ stations_tests_by_insert, stations_observations)
                                 if (extend_observations) {
                                     i_search_station = (size_t) sims[i_test_station][i_test_time][i_flt][i_member][COL_TAG_SIM::STATION];
                                 } else {
-                                    // Because search and test data are separate. If you don't want to extend the observation data to the
-                                    // search stations, I need to find the closest station in the search stations to the current test stations.
-                                    //
-                                    i_search_station = stations_observations.getStationIndex(
-                                            stations_observations.getNearestStationsId(
-                                                stations_tests_by_insert[i_test_station].getX(),
-                                                stations_tests_by_insert[i_test_station].getY(), 1)[0]);
+                                    i_search_station = test_stations_index_in_search[i_test_station];
                                 }
 
                                 size_t i_search_forecast_time = (size_t) sims[i_test_station][i_test_time][i_flt][i_member][COL_TAG_SIM::TIME];
@@ -744,8 +766,8 @@ stations_tests_by_insert, stations_observations)
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(dynamic) collapse(4) \
 shared(data_observations, sims, num_members, mapping, analogs, num_test_stations, \
-i_parameter, num_test_times, num_flts, max_members, extend_observations, \
-stations_tests_by_insert, stations_observations)
+i_parameter, num_test_times, num_flts, max_members, \
+extend_observations, test_stations_index_in_search)
 #endif
         for (size_t i_test_station = 0; i_test_station < num_test_stations; i_test_station++) {
             for (size_t i_test_time = 0; i_test_time < num_test_times; i_test_time++) {
@@ -762,10 +784,7 @@ stations_tests_by_insert, stations_observations)
                                     // Because search and test data are separate. If you don't want to extend the observation data to the
                                     // search stations, I need to find the closest station in the search stations to the current test stations.
                                     //
-                                    i_search_station = stations_observations.getStationIndex(
-                                            stations_observations.getNearestStationsId(
-                                                stations_tests_by_insert[i_test_station].getX(),
-                                                stations_tests_by_insert[i_test_station].getY(), 1)[0]);
+                                    i_search_station = test_stations_index_in_search[i_test_station];
                                 }
 
                                 size_t i_search_forecast_time = (size_t) sims[i_test_station][i_test_time][i_flt][i_member][COL_TAG_SIM::TIME];

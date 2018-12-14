@@ -9,12 +9,25 @@
 #         Department of Geography and Institute for CyberScience
 #         The Pennsylvania State University
 #
+
+#' RAnEn::print.Configuration
+#' 
+#' @author Weiming Hu \email{weiming@@psu.edu}
+#' 
+#' Overload print function for class Configuration
+#' 
+#' @param x a Configuration object
+#' 
+#' @examples 
+#' config <- generateConfiguration('independentSearch')
+#' print(config)
+#' 
+#' @export
 print.Configuration <- function(x) {
 	
 	if (class(x) != 'Configuration') stop('Not a Configuration object.')
 	
-	valid <- T
-	for (i in 1:length(x)) if (is.null(x[[i]])) valid <- F
+	valid <- validateConfiguration(x)
 	
 	cat('Class: Configuration list\n')
 	cat('Mode: ', x$mode, '\n')
@@ -23,9 +36,6 @@ print.Configuration <- function(x) {
 	cat('\n')
 	
 	if (!valid) {
-		cat('* Not ready to be used. NULL exists in variables. *\nNull variables: ')
-		null.variables <- c()
-		for (i in 1:length(x)) if (is.null(x[[i]])) null.variables <- c(null.variables, names(x)[i])
-		cat(paste(null.variables, collapse = ', '))
+		cat('* The configuration is not complete. It is NOT ready to be used. *\n')
 	}
 }
