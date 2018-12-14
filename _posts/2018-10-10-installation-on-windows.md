@@ -1,6 +1,9 @@
 ---
 layout: post
 title: How to Fix Compilation Failure on Windows
+tags:
+  - issue
+  - tutorial
 ---
 
 ## Summary

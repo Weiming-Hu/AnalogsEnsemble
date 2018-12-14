@@ -1,5 +1,20 @@
-Introduction
-------------
+---
+layout: post
+title: RAnEn Search Space Extension
+tags:
+  - tutorial
+---
+
+<!-- vim-markdown-toc GitLab -->
+
+* [Introduction](#introduction)
+* [Data Description](#data-description)
+* [Generate Temperature Forecasts](#generate-temperature-forecasts)
+* [Visualization](#visualization)
+
+<!-- vim-markdown-toc -->
+
+## Introduction
 
 This article demonstrate how to use the `RAnEn` package with the search extension functionality. If you haven't done so, please read [the instructions for basic usage of `RAnEn`](https://weiming-hu.github.io/AnalogsEnsemble/2018/11/04/demo-1-RAnEn-basics.html) first. This article skips the part that has been covered in the previous article.
 
@@ -11,8 +26,7 @@ You will learn how to use these functions:
 
 -   `generateAnalogs`
 
-Data Description
-----------------
+## Data Description
 
 We reuse the data from the [demo 1 AnEn Basics](https://weiming-hu.github.io/AnalogsEnsemble/2018/11/04/demo-1-RAnEn-basics.html). Please refer to the article for more detailed data description. The message shows the name of variables loaded.
 
@@ -31,8 +45,7 @@ print(ls())
     ## [13] "forecast.xs"            "forecast.ys"           
     ## [15] "forecasts"
 
-Generate Temperature Forecasts
-------------------------------
+## Generate Temperature Forecasts
 
 It is similar to generate AnEn forecasts with search space extension functionaltiy. First, we create a configuration and set up some common parameters to what we have done for independent search. **Please note that we specify the type of configuration when we create it**.
 
@@ -91,8 +104,7 @@ print(AnEn)
     ## Member 'mapping': [FLT][forecast time] 36 370
     ## Member 'searchStations': [search station][test station] 15 121
 
-Visualization
-=============
+## Visualization
 
 Finally, we can make some plots.
 

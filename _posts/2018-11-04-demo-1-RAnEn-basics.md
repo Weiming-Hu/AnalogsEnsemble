@@ -1,6 +1,8 @@
 ---
 layout: post
 title: RAnEn Basics
+tags:
+  - tutorial
 ---
 
 <!-- vim-markdown-toc GitLab -->

@@ -1,6 +1,8 @@
 ---
 layout: post
 title: Known Issues
+tags:
+  - issue
 ---
 
 #### `RAnEn` is built with GNU compiler and CMake process. But it shows up not supporting `OpenMP`.
