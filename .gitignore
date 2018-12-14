@@ -151,3 +151,6 @@ node_modules
 # The automatic deployment folder
 out
 *vim-markdown-preview.html
+
+# VS code project
+*.vscode
