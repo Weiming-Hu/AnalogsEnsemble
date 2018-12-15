@@ -361,6 +361,9 @@ AnEn::computeSimilarity(
 
     if (verbose_ >= 3) cout << "Computing similarity matrices ... " << endl;
 
+    // TODO: potential bug because
+    // the three methods might be combined so that we clean the code.
+    //
     if (method_ == ONE_TO_ALL) {
 
         // Resize similarity matrices according to the search space
@@ -476,6 +479,10 @@ firstprivate(num_par_nan)
 
                                 if (!std::isnan(mapping(i_search_time, i_flt))) {
 
+                                    // TODO: potential bug here when extend_observations is set to false. We should check the observation
+                                    // from target station and this dependents on whether the target station is from the search stations
+                                    // or it is the test station.
+                                    //
                                     if (!std::isnan(data_search_observations[i_observation_parameter][i_search_station]
                                                 [mapping(i_search_time, i_flt)])) {
 
