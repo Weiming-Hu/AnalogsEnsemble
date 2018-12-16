@@ -165,22 +165,15 @@ List generateAnalogs(
 
     // Compute similarity
     boost::numeric::ublas::matrix<double> i_search_stations;
-    if (search_extension) {
-        bool return_index = true;
+    
+    anen.handleError(anen.computeSearchStations(
+            test_forecasts.getStations(), search_forecasts.getStations(),
+            i_search_stations, max_num_search_stations, distance,
+            num_nearest_stations));
 
-        anen.handleError(anen.computeSearchStations(
-                test_forecasts.getStations(), search_forecasts.getStations(),
-                i_search_stations, max_num_search_stations, distance,
-                num_nearest_stations, return_index));
-
-        anen.handleError(anen.computeSimilarity(search_forecasts, sds, sims,
-                search_observations, mapping,
-                i_search_stations, observation_parameter, max_par_nan, max_flt_nan));
-
-    } else {
-        anen.handleError(anen.computeSimilarity(search_forecasts, sds, sims,
-                search_observations, mapping, observation_parameter, max_par_nan, max_flt_nan));
-    }
+    anen.handleError(anen.computeSimilarity(search_forecasts, sds, sims,
+            search_observations, mapping,
+            i_search_stations, observation_parameter, max_par_nan, max_flt_nan));
 
     // Select analogs
     anen.handleError(anen.selectAnalogs(analogs, sims, search_observations,

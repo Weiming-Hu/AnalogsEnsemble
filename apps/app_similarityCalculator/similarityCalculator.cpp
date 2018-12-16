@@ -137,25 +137,21 @@ void runSimilarityCalculator(
 
     if (searchExtension) {
         anen.setMethod(AnEn::simMethod::ONE_TO_MANY);
-
-        AnEn::SearchStationMatrix i_search_stations;
-        
-        anen.handleError(anen.computeSearchStations(
-                test_forecasts.getStations(),
-                search_forecasts.getStations(),
-                i_search_stations, max_neighbors,
-                distance, num_neighbors, true));
-        anen.handleError(anen.computeSimilarity(
-                search_forecasts, sds, sims, observations, mapping,
-                i_search_stations, observation_id, max_par_nan, max_flt_nan));
-
     } else {
         anen.setMethod(AnEn::simMethod::ONE_TO_ONE);
-
-        anen.handleError(anen.computeSimilarity(
-                search_forecasts, sds, sims, observations,
-                mapping, observation_id, max_par_nan, max_flt_nan));
     }
+    
+    AnEn::SearchStationMatrix i_search_stations;
+
+    anen.handleError(anen.computeSearchStations(
+            test_forecasts.getStations(),
+            search_forecasts.getStations(),
+            i_search_stations, max_neighbors,
+            distance, num_neighbors, true));
+    
+    anen.handleError(anen.computeSimilarity(
+            search_forecasts, sds, sims, observations, mapping,
+            i_search_stations, observation_id, max_par_nan, max_flt_nan));
 
 #if defined(_CODE_PROFILING)
     clock_t time_end_of_sim = clock();

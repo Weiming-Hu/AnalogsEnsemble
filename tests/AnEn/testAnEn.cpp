@@ -161,6 +161,7 @@ void testAnEn::testComputeSimilarity() {
 
     // Construct AnEn object
     AnEn anen(2);
+    anen.setMethod(AnEn::simMethod::ONE_TO_ONE);
 
     // Construct SimilarityMatrices
     SimilarityMatrices sims(test_forecasts);
@@ -176,9 +177,16 @@ void testAnEn::testComputeSimilarity() {
             search_forecasts.getTimes(), search_forecasts.getFLTs(),
             search_observations.getTimes(), mapping));
     
+    // Compute search stations for each test station
+    AnEn::SearchStationMatrix i_search_stations;
+
+    anen.handleError(anen.computeSearchStations(
+            test_forecasts.getStations(), search_forecasts.getStations(),
+            i_search_stations));
+    
     // Compute similarity
     anen.computeSimilarity(search_forecasts, sds, sims,
-            search_observations, mapping);
+            search_observations, mapping, i_search_stations);
     
     vector<double> results{
         32.81278, 32.51099, 32.21302, 31.91898, 31.62899, 31.34315, 31.06157,
@@ -313,6 +321,7 @@ void testAnEn::testComputeObservationTimeIndices() {
         110, 111, 112, 113, 114, 115, 116, 117, 118, 119,
         210, 211, 212, 213, 214, 215, 216, 217, 218, 219,
         510, 511, 512, 513, 514, 515, 516, 517, 518, 519};
+        
     for (size_t i_row = 0; i_row < mapping.size1(); i_row++) {
         for (size_t i_col = 0; i_col < mapping.size2(); i_col++, pos++) {
             CPPUNIT_ASSERT(mapping(i_row, i_col) == results[pos]);
@@ -389,6 +398,7 @@ void testAnEn::testSelectAnalogs() {
             search_stations, search_observation_times, values);
     // Construct AnEn object
     AnEn anen(2);
+    anen.setMethod(AnEn::simMethod::ONE_TO_ONE);
 
     // Construct SimilarityMatrices
     SimilarityMatrices sims(test_forecasts);
@@ -397,16 +407,24 @@ void testAnEn::testSelectAnalogs() {
     StandardDeviation sds(parameters.size(),
             search_stations.size(), flts.size());
     anen.handleError(anen.computeStandardDeviation(search_forecasts, sds));
+    
     // Pre compute the time mapping from forecasts to observations
     AnEn::TimeMapMatrix mapping;
     anen.handleError(anen.computeObservationsTimeIndices(
             search_forecasts.getTimes(), search_forecasts.getFLTs(),
             search_observations.getTimes(), mapping));
 
+    // Compute search stations for each test station
+    AnEn::SearchStationMatrix i_search_stations;
+
+    anen.handleError(anen.computeSearchStations(
+            test_forecasts.getStations(), search_forecasts.getStations(),
+            i_search_stations));
+    
     // Compute similarity
     anen.handleError(anen.computeSimilarity(
             search_forecasts, sds, sims,
-            search_observations, mapping));
+            search_observations, mapping, i_search_stations));
     
     // Select analogs
     Analogs analogs1, analogs2;
@@ -483,6 +501,7 @@ void testAnEn::testComputeSearchStations() {
 
     AnEn::SearchStationMatrix i_search_stations;
     AnEn anen(2);
+    anen.setMethod(AnEn::simMethod::ONE_TO_MANY);
 
     vector<size_t> results;
 

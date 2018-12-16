@@ -3,8 +3,15 @@ project(gribConverter)
 
 set (gribConverter_VERSION "1.0.0")
 
+find_package(eccodes)
+if(eccodes_FOUND)
+    message(STATUS "The library eccodes is found. Build gribConverter.")
+else(eccodes_FOUND)
+    message(STATUS "The library eccodes is not found. gribConverter is NOT built.")
+    return()
+endif(eccodes_FOUND)
+
 enable_language(C CXX)
-message(STATUS "build application GRIB Converter")
 
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}")
 set(SOURCE_MAIN "${CMAKE_CURRENT_SOURCE_DIR}/gribConverter.cpp;${CMAKE_CURRENT_SOURCE_DIR}/gribConverterFunctions.cpp")
@@ -20,7 +27,6 @@ include_directories("${CMAKE_SOURCE_DIR}/CAnEn/include")
 add_dependencies(${PROJECT_NAME} AnEn)
 target_link_libraries(${PROJECT_NAME} AnEn)
 
-find_package(eccodes REQUIRED)
 include_directories(${ECCODES_INCLUDE_DIRS})
 target_link_libraries(${PROJECT_NAME} eccodes)
 

@@ -178,81 +178,110 @@ AnEn::computeSearchStations(
         const anenSta::Stations & search_stations,
         AnEn::SearchStationMatrix & i_search_stations_ref,
         size_t max_num_search_stations,
-        double distance, size_t num_nearest_stations, bool return_index) {
+        double distance, size_t num_nearest_stations, bool return_index) const {
 
+    // Create a new i_search_stations with the fill value
     AnEn::SearchStationMatrix i_search_stations(
             test_stations.size(), max_num_search_stations,
             AnEn::_FILL_VALUE);
 
-    auto & test_stations_by_insert = test_stations.get<anenSta::by_insert>();
-
-    if (verbose_ >= 3) cout << "Computing search space extension ... " << endl;
-
-    // Define variables for perfectly nexted paralle loops with collapse
+    // Define variables for perfectly nested parallel loops for collapse
+    const auto & test_stations_by_insert = test_stations.get<anenSta::by_insert>();
     auto limit_test = test_stations_by_insert.size();
 
-    if (num_nearest_stations == 0) {
+    if (method_ == ONE_TO_ONE) {
+        if (verbose_ >= 3) cout << "Computing one-on-one match between search and test stations ... " << endl;
+        
+        // Resize the table because each test station will be assigned with 
+        // only one search station.
+        //
+        i_search_stations.resize(test_stations.size(), 1);
 
-        if (distance == 0) {
-            if (verbose_ >= 1) cout << BOLDRED << "Error: Please specify"
-                    << " distance or/and number of nearest stations to find."
-                    << RESET << endl;
-            return (MISSING_VALUE);
+#if defined(_OPENMP)
+#pragma omp parallel for default(none) schedule(static) \
+shared(test_stations_by_insert, search_stations, i_search_stations, limit_test)
+#endif
+        for (size_t i_test = 0; i_test < limit_test; i_test++) {
+
+            // Find the nearest search stations
+            size_t i_search_station = search_stations.getNearestStationsId(
+                    test_stations_by_insert[i_test].getX(),
+                    test_stations_by_insert[i_test].getY(), 1)[0];
+
+            i_search_stations(i_test, 0) = i_search_station;
         }
+        
+    } else if (method_ == ONE_TO_MANY) {
+        if (verbose_ >= 3) cout << "Computing search space extension ... " << endl;
+
+        if (num_nearest_stations == 0) {
+
+            if (distance == 0) {
+                if (verbose_ >= 1) cout << BOLDRED << "Error: Please specify"
+                        << " distance or/and number of nearest stations to find."
+                        << RESET << endl;
+                return (MISSING_VALUE);
+            }
 
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(static) \
 shared(test_stations_by_insert, search_stations, i_search_stations, \
 distance, max_num_search_stations, limit_test)
 #endif
-        for (size_t i_test = 0; i_test < limit_test; i_test++) {
+            for (size_t i_test = 0; i_test < limit_test; i_test++) {
 
-            // Find search stations based on the distance
-            vector<size_t> i_search_station =
-                    search_stations.getStationsIdByDistance(
-                    test_stations_by_insert[i_test].getX(),
-                    test_stations_by_insert[i_test].getY(),
-                    distance);
+                // Find search stations based on the distance
+                vector<size_t> i_search_station =
+                        search_stations.getStationsIdByDistance(
+                        test_stations_by_insert[i_test].getX(),
+                        test_stations_by_insert[i_test].getY(),
+                        distance);
 
-            // Assign search stations to matrix
-            for (size_t i_search = 0; i_search < max_num_search_stations &&
-                    i_search < i_search_station.size(); i_search++) {
-                i_search_stations(i_test, i_search) = i_search_station[i_search];
+                // Assign search stations to matrix
+                for (size_t i_search = 0; i_search < max_num_search_stations &&
+                        i_search < i_search_station.size(); i_search++) {
+                    i_search_stations(i_test, i_search) = i_search_station[i_search];
+                }
             }
-        }
 
-    } else {
+        } else {
 
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(static) \
 shared(test_stations_by_insert, search_stations, i_search_stations, \
 num_nearest_stations, distance, max_num_search_stations, limit_test)
 #endif
-        for (size_t i_test = 0; i_test < limit_test; i_test++) {
+            for (size_t i_test = 0; i_test < limit_test; i_test++) {
 
-            // Find nearest search stations also considering the threshold
-            // distance.
-            //
-            vector<size_t> i_search_station =
-                    search_stations.getNearestStationsId(
-                    test_stations_by_insert[i_test].getX(),
-                    test_stations_by_insert[i_test].getY(),
-                    num_nearest_stations, distance);
+                // Find nearest search stations also considering the threshold
+                // distance.
+                //
+                vector<size_t> i_search_station =
+                        search_stations.getNearestStationsId(
+                        test_stations_by_insert[i_test].getX(),
+                        test_stations_by_insert[i_test].getY(),
+                        num_nearest_stations, distance);
 
-            // Assign search stations to matrix
-            for (size_t i_search = 0; i_search < max_num_search_stations &&
-                    i_search < i_search_station.size(); i_search++) {
-                i_search_stations(i_test, i_search) = i_search_station[i_search];
+                // Assign search stations to matrix
+                for (size_t i_search = 0; i_search < max_num_search_stations &&
+                        i_search < i_search_station.size(); i_search++) {
+                    i_search_stations(i_test, i_search) = i_search_station[i_search];
+                }
             }
         }
+
+    } else {
+        if (verbose_ >= 1) cout << BOLDRED << "Error: Unknown method ("
+                << method_ << ")!" << RESET << endl;
+        return (UNKNOWN_METHOD);
     }
 
     if (return_index) {
         auto & search_stations_by_ID = search_stations.get<anenSta::by_ID>();
         auto & search_stations_by_insert =
                 search_stations.get<anenSta::by_insert>();
-        
-        // Define variables for perfectly nexted paralle loops with collapse
+
+        // Define variables for perfectly nested parallel loops with collapse
         auto limit_search_row = i_search_stations.size1();
         auto limit_search_col = i_search_stations.size2();
 
@@ -307,25 +336,33 @@ AnEn::computeSimilarity(
     size_t num_flts = test_forecasts.getFLTsSize();
     size_t num_test_stations = test_forecasts.getStationsSize();
     size_t num_test_times = test_forecasts.getTimesSize();
-    size_t num_search_stations = search_forecasts.getStationsSize();
+    size_t num_search_stations = i_search_stations.size2();
     size_t num_search_times = search_forecasts.getTimesSize();
     double num_par_nan = 0.0;
 
     using COL_TAG_SIM = SimilarityMatrices::COL_TAG;
 
-    if (method_ == ONE_TO_MANY) {
-        if (i_search_stations.size1() == 0 || i_search_stations.size2() == 0) {
-            if (verbose_ >= 1) cout << BOLDRED
-                    << "Error: Please Provide the search station matrix."
-                    << RESET << endl;
-            return (MISSING_VALUE);
-        };
+    // Check i_search_stations
+    if (i_search_stations.size1() == 0 || num_search_stations == 0) {
+        if (verbose_ >= 1) cout << BOLDRED
+                << "Error: The search station lookup table is empty." << RESET << endl;
+        return (MISSING_VALUE);
+    }
+    
+    if (i_search_stations.size1() != num_test_stations) {
+        if (verbose_ >= 1) cout << BOLDRED
+                << "Error: Number of rows in i_search_stations ("
+                << i_search_stations.size1() << ") should equal the number of test stations ("
+                << num_test_stations << ")." << RESET << endl;
+        return (WRONG_SHAPE);
+    }
 
-        if (i_search_stations.size1() != num_test_stations) {
-            if (verbose_ >= 1) cout << BOLDRED
-                    << "Error: Number of rows in i_search_stations should equal the number of test stations."
+    if (method_ == ONE_TO_ONE) {
+        if (num_search_stations != 1) {
+            cout << BOLDRED
+                    << "Error: More than one search stations are assigned."
                     << RESET << endl;
-            return (WRONG_SHAPE);
+            return (WRONG_METHOD);
         }
     }
 
@@ -335,7 +372,7 @@ AnEn::computeSimilarity(
                 << "# of FLTs: " << num_flts << endl
                 << "# of test stations: " << num_test_stations << endl
                 << "# of test times: " << num_test_times << endl
-                << "# of search stations: " << num_search_stations << endl
+                << "# of maximum search stations: " << num_search_stations << endl
                 << "# of search times: " << num_search_times << endl;
     }
 
@@ -361,34 +398,40 @@ AnEn::computeSimilarity(
 
     if (verbose_ >= 3) cout << "Computing similarity matrices ... " << endl;
 
-    // TODO: potential bug because
-    // the three methods might be combined so that we clean the code.
-    //
-    if (method_ == ONE_TO_ALL) {
-
-        // Resize similarity matrices according to the search space
-        sims.setMaxEntries(num_search_stations * num_search_times);
-        sims.resize();
-        fill(sims.data(), sims.data() + sims.num_elements(), NAN);
+    // Resize similarity matrices according to the search space
+    sims.setMaxEntries(num_search_stations * num_search_times);
+    sims.resize();
+    fill(sims.data(), sims.data() + sims.num_elements(), NAN);
 
 #if defined(_OPENMP)
-#pragma omp parallel for default(none) schedule(static) collapse(5) \
+#pragma omp parallel for default(none) schedule(static) collapse(4) \
 shared(num_test_stations, num_flts, num_test_times, num_search_stations, \
 num_search_times, circular_flags, num_parameters, data_search_observations, \
 flts_window, mapping, weights, data_search_forecasts, data_test_forecasts, \
-sims, sds, i_observation_parameter, max_flt_nan, max_par_nan) firstprivate(num_par_nan)
+sims, sds, i_observation_parameter, i_search_stations, max_flt_nan, max_par_nan) \
+firstprivate(num_par_nan)
 #endif
-        for (size_t i_test_station = 0; i_test_station < num_test_stations; i_test_station++) {
-            for (size_t i_test_time = 0; i_test_time < num_test_times; i_test_time++) {
-                for (size_t i_flt = 0; i_flt < num_flts; i_flt++) {
-                    for (size_t i_search_station = 0; i_search_station < num_search_stations; i_search_station++) {
+    for (size_t i_test_station = 0; i_test_station < num_test_stations; i_test_station++) {
+        for (size_t i_test_time = 0; i_test_time < num_test_times; i_test_time++) {
+            for (size_t i_flt = 0; i_flt < num_flts; i_flt++) {
+                for (size_t i_search_station_index = 0; i_search_station_index < num_search_stations; i_search_station_index++) {
+
+                    double i_search_station = i_search_stations(i_test_station, i_search_station_index);
+
+                    // Check if search station is NAN, which is the _FILL_VALUE
+                    if (!std::isnan(i_search_station)) {
                         for (size_t i_search_time = 0; i_search_time < num_search_times; i_search_time++) {
 
                             if (!std::isnan(mapping(i_search_time, i_flt))) {
-                                if (!std::isnan(data_search_observations[i_observation_parameter][i_search_station]
-                                            [mapping(i_search_time, i_flt)])) {
 
-                                    size_t i_sim_row = i_search_station * num_search_times + i_search_time;
+                                // TODO: potential bug here when extend_observations is set to false. We should check the observation
+                                // from target station and this dependents on whether the target station is from the search stations
+                                // or it is the test station.
+                                //
+                                if (!std::isnan(data_search_observations[i_observation_parameter][i_search_station]
+                                        [mapping(i_search_time, i_flt)])) {
+
+                                    size_t i_sim_row = i_search_station_index * num_search_times + i_search_time;
                                     if (std::isnan(sims[i_test_station][i_test_time][i_flt][i_sim_row][COL_TAG_SIM::VALUE]))
                                         sims[i_test_station][i_test_time][i_flt][i_sim_row][COL_TAG_SIM::VALUE] = 0;
 
@@ -404,9 +447,9 @@ sims, sds, i_observation_parameter, max_flt_nan, max_par_nan) firstprivate(num_p
                                                     i_window_flt <= flts_window(i_flt, 1); i_window_flt++, pos++) {
 
                                                 double value_search = data_search_forecasts
-                                                    [i_parameter][i_search_station][i_search_time][i_window_flt];
+                                                        [i_parameter][i_search_station][i_search_time][i_window_flt];
                                                 double value_test = data_test_forecasts
-                                                    [i_parameter][i_test_station][i_test_time][i_window_flt];
+                                                        [i_parameter][i_test_station][i_test_time][i_window_flt];
 
                                                 if (std::isnan(value_search) || std::isnan(value_test)) window[pos] = NAN;
 
@@ -422,7 +465,7 @@ sims, sds, i_observation_parameter, max_flt_nan, max_par_nan) firstprivate(num_p
                                             if (!std::isnan(average)) {
                                                 if (sds[i_parameter][i_search_station][i_flt] > 0) {
                                                     sims[i_test_station][i_test_time][i_flt][i_sim_row][COL_TAG_SIM::VALUE]
-                                                    += weights[i_parameter] * (sqrt(average) / sds[i_parameter][i_search_station][i_flt]);
+                                                            += weights[i_parameter] * (sqrt(average) / sds[i_parameter][i_search_station][i_flt]);
                                                 }
                                             } else {
                                                 // Record this nan parameter average
@@ -444,213 +487,13 @@ sims, sds, i_observation_parameter, max_flt_nan, max_par_nan) firstprivate(num_p
                                 } // End of isnan(observation value)
                             } // End of isnan(mapping value)
                         } // End loop of search times
-                    } // End loop of search stations
-                } // End loop of FLTs
-            } // End loop of test times
-        } // End loop of test stations
-
-    } else if (method_ == ONE_TO_MANY) {
-
-        // Resize similarity matrices according to the search space
-        sims.setMaxEntries(i_search_stations.size2() * num_search_times);
-        sims.resize();
-        fill(sims.data(), sims.data() + sims.num_elements(), NAN);
-
-        num_search_stations = i_search_stations.size2();
-
-#if defined(_OPENMP)
-#pragma omp parallel for default(none) schedule(static) collapse(4) \
-shared(num_test_stations, num_flts, num_test_times, num_search_stations, \
-num_search_times, circular_flags, num_parameters, data_search_observations, \
-flts_window, mapping, weights, data_search_forecasts, data_test_forecasts, \
-sims, sds, i_observation_parameter, i_search_stations, max_flt_nan, max_par_nan) \
-firstprivate(num_par_nan)
-#endif
-        for (size_t i_test_station = 0; i_test_station < num_test_stations; i_test_station++) {
-            for (size_t i_test_time = 0; i_test_time < num_test_times; i_test_time++) {
-                for (size_t i_flt = 0; i_flt < num_flts; i_flt++) {
-                    for (size_t i_search_station_index = 0; i_search_station_index < num_search_stations; i_search_station_index++) {
-
-                        double i_search_station = i_search_stations(i_test_station, i_search_station_index);
-
-                        // Check if search station is NAN, which is the _FILL_VALUE
-                        if (!std::isnan(i_search_station)) {
-                            for (size_t i_search_time = 0; i_search_time < num_search_times; i_search_time++) {
-
-                                if (!std::isnan(mapping(i_search_time, i_flt))) {
-
-                                    // TODO: potential bug here when extend_observations is set to false. We should check the observation
-                                    // from target station and this dependents on whether the target station is from the search stations
-                                    // or it is the test station.
-                                    //
-                                    if (!std::isnan(data_search_observations[i_observation_parameter][i_search_station]
-                                                [mapping(i_search_time, i_flt)])) {
-
-                                        size_t i_sim_row = i_search_station_index * num_search_times + i_search_time;
-                                        if (std::isnan(sims[i_test_station][i_test_time][i_flt][i_sim_row][COL_TAG_SIM::VALUE]))
-                                            sims[i_test_station][i_test_time][i_flt][i_sim_row][COL_TAG_SIM::VALUE] = 0;
-
-                                        num_par_nan = 0;
-
-                                        for (size_t i_parameter = 0; i_parameter < num_parameters; i_parameter++) {
-
-                                            if (weights[i_parameter] != 0) {
-                                                vector<double> window(flts_window(i_flt, 1) - flts_window(i_flt, 0) + 1);
-                                                short pos = 0;
-
-                                                for (size_t i_window_flt = flts_window(i_flt, 0);
-                                                        i_window_flt <= flts_window(i_flt, 1); i_window_flt++, pos++) {
-
-                                                    double value_search = data_search_forecasts
-                                                        [i_parameter][i_search_station][i_search_time][i_window_flt];
-                                                    double value_test = data_test_forecasts
-                                                        [i_parameter][i_test_station][i_test_time][i_window_flt];
-
-                                                    if (std::isnan(value_search) || std::isnan(value_test)) window[pos] = NAN;
-
-                                                    if (circular_flags[i_parameter]) {
-                                                        window[pos] = pow(diffCircular(value_search, value_test), 2);
-                                                    } else {
-                                                        window[pos] = pow(value_search - value_test, 2);
-                                                    }
-                                                } // End loop of search window FLTs
-
-                                                double average = mean(window, max_flt_nan);
-
-                                                if (!std::isnan(average)) {
-                                                    if (sds[i_parameter][i_search_station][i_flt] > 0) {
-                                                        sims[i_test_station][i_test_time][i_flt][i_sim_row][COL_TAG_SIM::VALUE]
-                                                            += weights[i_parameter] * (sqrt(average) / sds[i_parameter][i_search_station][i_flt]);
-                                                    }
-                                                } else {
-                                                    // Record this nan parameter average
-                                                    num_par_nan++;
-
-                                                    if (!std::isnan(max_par_nan)) {
-                                                        // If a maximum of nan parameter is set
-                                                        if (num_par_nan > max_par_nan) {
-                                                            sims[i_test_station][i_test_time][i_flt][i_sim_row][COL_TAG_SIM::VALUE] = NAN;
-                                                            break;
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        } // End loop of parameters
-
-                                        sims[i_test_station][i_test_time][i_flt][i_sim_row][COL_TAG_SIM::STATION] = i_search_station;
-                                        sims[i_test_station][i_test_time][i_flt][i_sim_row][COL_TAG_SIM::TIME] = i_search_time;
-                                    } // End of isnan(observation value)
-                                } // End of isnan(mapping value)
-                            } // End loop of search times
-                        }
-                    } // End loop of search stations
-                } // End loop of FLTs
-            } // End loop of test times
-        } // End loop of test stations
-
-    } else if (method_ == ONE_TO_ONE) {
-
-        // Resize similarity matrices according to the search space
-        sims.setMaxEntries(num_search_times);
-        sims.resize();
-        fill(sims.data(), sims.data() + sims.num_elements(), NAN);
-
-#if defined(_OPENMP)
-#pragma omp parallel for default(none) schedule(static) collapse(4) \
-shared(num_test_stations, num_flts, num_test_times, num_search_stations, \
-num_search_times, circular_flags, num_parameters, data_search_observations, \
-flts_window, mapping, weights, data_search_forecasts, data_test_forecasts, \
-sims, sds, i_observation_parameter, max_flt_nan, max_par_nan) firstprivate(num_par_nan)
-#endif
-        for (size_t i_station = 0; i_station < num_test_stations; i_station++) {
-            for (size_t i_test_time = 0; i_test_time < num_test_times; i_test_time++) {
-                for (size_t i_flt = 0; i_flt < num_flts; i_flt++) {
-                    for (size_t i_search_time = 0; i_search_time < num_search_times; i_search_time++) {
-
-                        if (!std::isnan(mapping(i_search_time, i_flt))) {
-                            if (!std::isnan(data_search_observations[i_observation_parameter][i_station]
-                                        [mapping(i_search_time, i_flt)])) {
-
-                                if (std::isnan(sims[i_station][i_test_time][i_flt][i_search_time][COL_TAG_SIM::VALUE]))
-                                    sims[i_station][i_test_time][i_flt][i_search_time][COL_TAG_SIM::VALUE] = 0;
-
-                                num_par_nan = 0;
-
-                                for (size_t i_parameter = 0; i_parameter < num_parameters; i_parameter++) {
-
-                                    if (weights[i_parameter] != 0) {
-                                        vector<double> window(flts_window(i_flt, 1) - flts_window(i_flt, 0) + 1);
-                                        short pos = 0;
-
-                                        for (size_t i_window_flt = flts_window(i_flt, 0);
-                                                i_window_flt <= flts_window(i_flt, 1); i_window_flt++, pos++) {
-
-                                            double value_search = data_search_forecasts
-                                                [i_parameter][i_station][i_search_time][i_window_flt];
-                                            double value_test = data_test_forecasts
-                                                [i_parameter][i_station][i_test_time][i_window_flt];
-
-                                            if (std::isnan(value_search) || std::isnan(value_test)) window[pos] = NAN;
-
-                                            if (circular_flags[i_parameter]) {
-                                                window[pos] = pow(diffCircular(value_search, value_test), 2);
-                                            } else {
-                                                window[pos] = pow(value_search - value_test, 2);
-                                            }
-                                        } // End loop of search window FLTs
-
-                                        double average = mean(window, max_flt_nan);
-
-                                        if (!std::isnan(average)) {
-                                            if (sds[i_parameter][i_station][i_flt] > 0) {
-                                                sims[i_station][i_test_time][i_flt][i_search_time][COL_TAG_SIM::VALUE]
-                                                    += weights[i_parameter] * (sqrt(average) / sds[i_parameter][i_station][i_flt]);
-                                            }
-                                        } else {
-                                            // Record this nan parameter average
-                                            num_par_nan++;
-
-                                            if (!std::isnan(max_par_nan)) {
-                                                // If a maximum of nan parameter is set
-                                                if (num_par_nan > max_par_nan) {
-                                                    sims[i_station][i_test_time][i_flt][i_search_time][COL_TAG_SIM::VALUE] = NAN;
-                                                    break;
-                                                }
-                                            }
-                                        }
-                                    }
-
-                                } // End loop of parameters
-
-                                sims[i_station][i_test_time][i_flt][i_search_time][COL_TAG_SIM::STATION] = i_station;
-                                sims[i_station][i_test_time][i_flt][i_search_time][COL_TAG_SIM::TIME] = i_search_time;
-                            } // End of isnan(observation value)
-                        } // End of isnan(mapping value)
-                    } // End loop of search times
-                } // End loop of FLTs
-            } // End loop of test times
-        } // End loop of test stations
-    } else {
-        return (UNKNOWN_METHOD);
-    }
+                    }
+                } // End loop of search stations
+            } // End loop of FLTs
+        } // End loop of test times
+    } // End loop of test stations
 
     return (SUCCESS);
-}
-
-errorType
-AnEn::computeSimilarity(
-        const Forecasts_array& search_forecasts,
-        const StandardDeviation& sds,
-        SimilarityMatrices& sims,
-        const Observations_array& search_observations,
-        const AnEn::TimeMapMatrix & mapping,
-        size_t i_observation_parameter,
-        double max_par_nan, double max_flt_nan) const {
-
-    boost::numeric::ublas::matrix<double> i_search_stations(0, 0);
-    return (computeSimilarity(search_forecasts, sds, sims, search_observations,
-            mapping, i_search_stations, i_observation_parameter,
-            max_par_nan, max_flt_nan));
 }
 
 errorType
@@ -834,8 +677,8 @@ AnEn::getMethod() const {
 
 void
 AnEn::setMethod(simMethod method) {
-    if (method == ONE_TO_ALL || method == ONE_TO_MANY || method == ONE_TO_ONE)
-        this->method_ = method;
+    if (method == ONE_TO_MANY || method == ONE_TO_ONE) this->method_ = method;
+    else throw runtime_error("Failed to set an unknown method.");
 }
 
 void
@@ -940,7 +783,6 @@ AnEn::check_input_(
     const Forecasts_array & test_forecasts = sims.getTargets();
 
     size_t num_parameters = test_forecasts.getParametersSize();
-    size_t num_test_stations = test_forecasts.getStationsSize();
     size_t num_flts = test_forecasts.getFLTsSize();
     size_t num_search_stations = search_forecasts.getStationsSize();
 
@@ -1003,15 +845,6 @@ AnEn::check_input_(
                 << "Error: Search forecasts and observations should have same numbers of stations!"
                 << RESET << endl;
         return (WRONG_SHAPE);
-    }
-
-    if (method_ == ONE_TO_ONE) {
-        if (num_test_stations != search_forecasts.getStationsSize()) {
-            if (verbose_ >= 1) cout << BOLDRED
-                    << "Error: Search and test forecasts should have same numbers of stations!"
-                    << RESET << endl;
-            return (WRONG_SHAPE);
-        }
     }
 
     return (SUCCESS);

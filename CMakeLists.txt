@@ -13,7 +13,7 @@ endif(POLICY CMP0042)
 enable_language(CXX C)
 option(VERBOSE "verbose standout output" OFF)
 option(CMAKE_BUILD_TESTS "Build tests" OFF)
-option (BUILD_GRIBCONVERTER "Build gribConverter utility. Eccodes required." OFF)
+option (BUILD_GRIBCONVERTER "Build gribConverter utility. Eccodes required." ON)
 option (CODE_PROFILING "Insert profiling code and print time information." OFF)
 
 set(IMPORTANT_PATH "${CMAKE_SOURCE_DIR}/important")

@@ -48,23 +48,19 @@ public:
     using SearchStationMatrix = boost::numeric::ublas::matrix<double>;
 
     /**
-     * Specifies the method that AnEn::computeSimilarity function uses:
-     * - ONE_TO_ONE Stations of search and test forecasts are aligned; each
-     * test station only search its own station;
-     * - ONE_TO_MANY Stations of search are extended; search extension is 
-     * defined by a search station list.
-     * - ONE_TO_ALL Each of test station searches all search stations.
+     * Specifies the how similarity is computed across stations.
      * 
-     * The ONE, MANY, ALL are concepts for stations, like one station,
-     * many stations, and all stations.
+     * - ONE_TO_ONE: Each test station is assigned with the closest station in the
+     * search stations;
+     * - ONE_TO_MANY: Each test station is assigned with a set of nearby stations
+     * in the search stations (Search space extension);
+     * 
      */
     enum simMethod {
         /// 1
         ONE_TO_ONE = 1, 
         /// 2
-        ONE_TO_MANY = 2, 
-        /// 3
-        ONE_TO_ALL = 3 
+        ONE_TO_MANY = 2
     };
 
     /**
@@ -159,9 +155,9 @@ public:
             const anenSta::Stations & test_stations,
             const anenSta::Stations & search_stations,
             SearchStationMatrix & i_search_stations,
-            size_t max_num_search_stations,
+            size_t max_num_search_stations = 1,
             double distance = 0, size_t num_nearest_stations = 0,
-            bool return_index = true);
+            bool return_index = true) const;
 
     /**
      * Computes the similarity matrices.
@@ -193,15 +189,6 @@ public:
             const Observations_array& search_observations,
             const TimeMapMatrix & mapping,
             const SearchStationMatrix & i_search_stations,
-            size_t i_observation_parameter = 0,
-            double max_par_nan = 0, double max_flt_nan = 0) const;
-    
-    errorType computeSimilarity(
-            const Forecasts_array & search_forecasts,
-            const StandardDeviation & sds,
-            SimilarityMatrices & sims,
-            const Observations_array& search_observations,
-            const TimeMapMatrix & mapping,
             size_t i_observation_parameter = 0,
             double max_par_nan = 0, double max_flt_nan = 0) const;
 
@@ -297,11 +284,9 @@ private:
     int verbose_ = 2;
 
     /*
-     * This variable specifies the way similarity matrices are computed.
-     * It is used by function AnEn::computeSimilarity. The ONE, MANY, ALL are
-     * concepts for stations, like one station, many stations, and all stations.
+     * This variable specifies how similarity matrices are computed across stations.
      */
-    simMethod method_ = ONE_TO_ALL;
+    simMethod method_ = ONE_TO_ONE;
 
     /**
      * Check input.
