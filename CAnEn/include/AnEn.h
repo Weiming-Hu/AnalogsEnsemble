@@ -29,7 +29,22 @@ public:
 
     virtual ~AnEn();
     
+    /**
+     * AnEn::TimeMapMatrix is a lookup table to map time and FLT from
+     * forecasts to time of observations. The number of rows is the number
+     * of times in forecasts, and the number of columns is the number
+     * of FLTs in forecasts. The values are the times of the corresponding
+     * observation to the forecast at a specific time and FLT.
+     */
     using TimeMapMatrix = boost::numeric::ublas::matrix<double>;
+    
+    /**
+     * AnEn::SearchStationMatrix is a lookup table for search stations of each
+     * test station. The number of rows is the number of test stations, and
+     * the number of column is the maximum number of search stations for
+     * each test stations. NA values can exist in the table because the 
+     * numbers of search stations can vary for test stations.
+     */
     using SearchStationMatrix = boost::numeric::ublas::matrix<double>;
 
     /**
