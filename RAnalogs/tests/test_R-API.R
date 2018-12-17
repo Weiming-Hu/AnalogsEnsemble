@@ -66,6 +66,10 @@ config$verbose <- 1
 config$weights <- rep(1, dim(test.forecasts)[1])
 config$circulars <- forecasts.circulars
 
+config$max_par_nan <- NA
+config$max_flt_nan <- NA
+config$time_match_mode <- 0
+
 validateConfiguration(config)
 AnEn.cpp <- generateAnalogs(config)
 
@@ -112,6 +116,10 @@ config$preserve_similarity <- F
 config$verbose <- 1
 config$weights <- rep(1, dim(test.forecasts)[1])
 config$circulars <- forecasts.circulars
+
+config$max_par_nan <- NA
+config$max_flt_nan <- NA
+config$time_match_mode <- 0
 
 validateConfiguration(config)
 AnEn.cpp <- generateAnalogs(config)

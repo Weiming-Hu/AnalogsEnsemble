@@ -120,8 +120,6 @@ int main(int argc, char** argv) {
                 pars_new_name.push_back(to_string(i));
             }
         }
-        
-        
 
         if (output_type == "Forecasts") {
             if (!vm.count("flt-interval")) {

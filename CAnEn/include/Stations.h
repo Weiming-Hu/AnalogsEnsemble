@@ -174,6 +174,12 @@ namespace anenSta {
                 double main_station_y, std::size_t num_stations,
                 double threshold = 0) const;
 
+        /**
+         * Check whether x and y are provided for all stations.
+         * @return A boolean.
+         */
+        bool haveXY() const;
+
         void print(std::ostream &) const;
         friend std::ostream& operator<<(std::ostream&, Stations const &);
     };

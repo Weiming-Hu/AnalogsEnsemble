@@ -52,6 +52,10 @@ test_count <- c(dim(fc)[1], dim(fc)[2], test.end - test.start + 1, dim(fc)[4])
 search_start <- c(0, 0, train.start - 1, 0)
 search_count <- c(dim(fc)[1], dim(fc)[2], train.end - train.start + 1, dim(fc)[4])
 
+max_par_nan <- -1
+max_flt_nan <- -1
+time_match_mode <- 0
+
 command1 <- paste(exe1, ' --test-forecast-nc=', test_forecasts,
                   ' --search-forecast-nc=', search_forecasts,
                   ' --observation-nc=', search_observations,
@@ -61,6 +65,9 @@ command1 <- paste(exe1, ' --test-forecast-nc=', test_forecasts,
                   ' --test-count=', paste(test_count, collapse = ' '),
                   ' --search-start=', paste(search_start, collapse = ' '),
                   ' --search-count=', paste(search_count, collapse = ' '),
+                  ' --max-par-nan=', max_par_nan,
+                  ' --max-flt-nan=', max_flt_nan,
+                  ' --time-match-mode=', time_match_mode,
                   sep = '')
 
 command2 <- paste(exe2, ' --test-forecast-nc=', test_forecasts,
@@ -72,6 +79,9 @@ command2 <- paste(exe2, ' --test-forecast-nc=', test_forecasts,
                   ' --test-count=', paste(test_count, collapse = ' '),
                   ' --search-start=', paste(search_start, collapse = ' '),
                   ' --search-count=', paste(search_count, collapse = ' '),
+                  ' --max-par-nan=', max_par_nan,
+                  ' --max-flt-nan=', max_flt_nan,
+                  ' --time-match-mode=', time_match_mode,
                   ' --verbose=', verbose,
                   sep = '')
 
@@ -135,6 +145,10 @@ test_count <- c(dim(fc)[1], dim(fc)[2], test.end - test.start + 1, dim(fc)[4])
 search_start <- c(0, 0, train.start - 1, 0)
 search_count <- c(dim(fc)[1], dim(fc)[2], train.end - train.start + 1, dim(fc)[4])
 
+max_par_nan <- -1
+max_flt_nan <- -1
+time_match_mode <- 0
+
 command1 <- paste(exe, ' --test-forecast-nc=', test_forecasts,
                   ' --search-forecast-nc=', search_forecasts,
                   ' --observation-nc=', search_observations,
@@ -144,6 +158,9 @@ command1 <- paste(exe, ' --test-forecast-nc=', test_forecasts,
                   ' --test-count=', paste(test_count, collapse = ' '),
                   ' --search-start=', paste(search_start, collapse = ' '),
                   ' --search-count=', paste(search_count, collapse = ' '),
+                  ' --max-par-nan=', max_par_nan,
+                  ' --max-flt-nan=', max_flt_nan,
+                  ' --time-match-mode=', time_match_mode,
                   sep = '')
 
 command2 <- paste(exe2, ' --test-forecast-nc=', test_forecasts,
@@ -155,6 +172,9 @@ command2 <- paste(exe2, ' --test-forecast-nc=', test_forecasts,
                   ' --test-count=', paste(test_count, collapse = ' '),
                   ' --search-start=', paste(search_start, collapse = ' '),
                   ' --search-count=', paste(search_count, collapse = ' '),
+                  ' --max-par-nan=', max_par_nan,
+                  ' --max-flt-nan=', max_flt_nan,
+                  ' --time-match-mode=', time_match_mode,
                   ' --verbose=', verbose,
                   sep = '')
 

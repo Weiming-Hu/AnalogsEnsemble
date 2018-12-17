@@ -8,6 +8,7 @@
 #include "AnEn.h"
 #include "exception"
 #include "colorTexts.h"
+#include <boost/numeric/ublas/io.hpp>
 
 #define _USE_MATH_DEFINES
 #include <cmath>
@@ -188,131 +189,172 @@ AnEn::computeSearchStations(
     // Define variables for perfectly nested parallel loops for collapse
     const auto & test_stations_by_insert = test_stations.get<anenSta::by_insert>();
     auto limit_test = test_stations_by_insert.size();
+    
+    // Check whether stations have xs and ys
+    bool have_xy = test_stations.haveXY() && search_stations.haveXY();
 
-    if (method_ == ONE_TO_ONE) {
-        if (verbose_ >= 3) cout << "Computing one-on-one match between search and test stations ... " << endl;
-        
-        // Resize the table because each test station will be assigned with 
-        // only one search station.
-        //
-        i_search_stations.resize(test_stations.size(), 1);
+    try {
+        if (method_ == ONE_TO_ONE) {
+
+            // Resize the table because each test station will be assigned with 
+            // only one search station.
+            //
+            i_search_stations.resize(test_stations.size(), 1);
+            
+            if (have_xy) {
+                if (verbose_ >= 3) cout << "Computing one-on-one match between search and test stations based on xs and ys ... " << endl;
 
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(static) \
 shared(test_stations_by_insert, search_stations, i_search_stations, limit_test)
 #endif
-        for (size_t i_test = 0; i_test < limit_test; i_test++) {
+                for (size_t i_test = 0; i_test < limit_test; i_test++) {
 
-            // Find the nearest search stations
-            size_t i_search_station = search_stations.getNearestStationsId(
-                    test_stations_by_insert[i_test].getX(),
-                    test_stations_by_insert[i_test].getY(), 1)[0];
+                    // Find the nearest search stations
+                    size_t i_search_station = search_stations.getNearestStationsId(
+                            test_stations_by_insert[i_test].getX(),
+                            test_stations_by_insert[i_test].getY(), 1)[0];
 
-            i_search_stations(i_test, 0) = i_search_station;
-        }
-        
-    } else if (method_ == ONE_TO_MANY) {
-        if (verbose_ >= 3) cout << "Computing search space extension ... " << endl;
-
-        if (num_nearest_stations == 0) {
-
-            if (distance == 0) {
-                if (verbose_ >= 1) cout << BOLDRED << "Error: Please specify"
-                        << " distance or/and number of nearest stations to find."
-                        << RESET << endl;
-                return (MISSING_VALUE);
+                    i_search_stations(i_test, 0) = i_search_station;
+                }
+            } else {
+                if (verbose_ >= 3) cout << "Computing one-on-one match between search and test stations based on indices ... " << endl;
+                
+                // If location info is not provided for search and test stations, I'm going to assume they are
+                // perfectly aligned with each other.
+                //
+                if (search_stations.size() != test_stations.size()) {
+                    cout << BOLDRED << "Error: Search stations and test stations must be the same when no location info is provided."
+                            << RESET << endl;
+                    return (WRONG_METHOD);
+                }
+                
+                // Fill the table with incremental values
+                size_t index = 0;
+                for (size_t i_test = 0; i_test < limit_test; i_test++) {
+                    i_search_stations(i_test, 0) = index;
+                    ++index;
+                }
             }
+
+        } else if (method_ == ONE_TO_MANY) {
+            
+            if (!have_xy) {
+                cout << BOLDRED << "Error: Xs and ys are required for search space extension." 
+                        << RESET << endl;
+                return (WRONG_METHOD);
+            }
+            
+            if (verbose_ >= 3) cout << "Computing search space extension ... " << endl;
+
+            if (num_nearest_stations == 0) {
+
+                if (distance == 0) {
+                    if (verbose_ >= 1) cout << BOLDRED << "Error: Please specify"
+                            << " distance or/and number of nearest stations to find."
+                            << RESET << endl;
+                    return (MISSING_VALUE);
+                }
 
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(static) \
 shared(test_stations_by_insert, search_stations, i_search_stations, \
 distance, max_num_search_stations, limit_test)
 #endif
-            for (size_t i_test = 0; i_test < limit_test; i_test++) {
+                for (size_t i_test = 0; i_test < limit_test; i_test++) {
 
-                // Find search stations based on the distance
-                vector<size_t> i_search_station =
-                        search_stations.getStationsIdByDistance(
-                        test_stations_by_insert[i_test].getX(),
-                        test_stations_by_insert[i_test].getY(),
-                        distance);
+                    // Find search stations based on the distance
+                    vector<size_t> i_search_station =
+                            search_stations.getStationsIdByDistance(
+                            test_stations_by_insert[i_test].getX(),
+                            test_stations_by_insert[i_test].getY(),
+                            distance);
 
-                // Assign search stations to matrix
-                for (size_t i_search = 0; i_search < max_num_search_stations &&
-                        i_search < i_search_station.size(); i_search++) {
-                    i_search_stations(i_test, i_search) = i_search_station[i_search];
+                    // Assign search stations to matrix
+                    for (size_t i_search = 0; i_search < max_num_search_stations &&
+                            i_search < i_search_station.size(); i_search++) {
+                        i_search_stations(i_test, i_search) = i_search_station[i_search];
+                    }
                 }
-            }
 
-        } else {
+            } else {
 
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(static) \
 shared(test_stations_by_insert, search_stations, i_search_stations, \
 num_nearest_stations, distance, max_num_search_stations, limit_test)
 #endif
-            for (size_t i_test = 0; i_test < limit_test; i_test++) {
+                for (size_t i_test = 0; i_test < limit_test; i_test++) {
 
-                // Find nearest search stations also considering the threshold
-                // distance.
-                //
-                vector<size_t> i_search_station =
-                        search_stations.getNearestStationsId(
-                        test_stations_by_insert[i_test].getX(),
-                        test_stations_by_insert[i_test].getY(),
-                        num_nearest_stations, distance);
+                    // Find nearest search stations also considering the threshold
+                    // distance.
+                    //
+                    vector<size_t> i_search_station =
+                            search_stations.getNearestStationsId(
+                            test_stations_by_insert[i_test].getX(),
+                            test_stations_by_insert[i_test].getY(),
+                            num_nearest_stations, distance);
 
-                // Assign search stations to matrix
-                for (size_t i_search = 0; i_search < max_num_search_stations &&
-                        i_search < i_search_station.size(); i_search++) {
-                    i_search_stations(i_test, i_search) = i_search_station[i_search];
+                    // Assign search stations to matrix
+                    for (size_t i_search = 0; i_search < max_num_search_stations &&
+                            i_search < i_search_station.size(); i_search++) {
+                        i_search_stations(i_test, i_search) = i_search_station[i_search];
+                    }
                 }
             }
+
+        } else {
+            if (verbose_ >= 1) cout << BOLDRED << "Error: Unknown method ("
+                    << method_ << ")!" << RESET << endl;
+            return (UNKNOWN_METHOD);
         }
 
-    } else {
-        if (verbose_ >= 1) cout << BOLDRED << "Error: Unknown method ("
-                << method_ << ")!" << RESET << endl;
-        return (UNKNOWN_METHOD);
-    }
+        if (return_index && have_xy) {
+            auto & search_stations_by_ID = search_stations.get<anenSta::by_ID>();
+            auto & search_stations_by_insert =
+                    search_stations.get<anenSta::by_insert>();
 
-    if (return_index) {
-        auto & search_stations_by_ID = search_stations.get<anenSta::by_ID>();
-        auto & search_stations_by_insert =
-                search_stations.get<anenSta::by_insert>();
-
-        // Define variables for perfectly nested parallel loops with collapse
-        auto limit_search_row = i_search_stations.size1();
-        auto limit_search_col = i_search_stations.size2();
+            // Define variables for perfectly nested parallel loops with collapse
+            auto limit_search_row = i_search_stations.size1();
+            auto limit_search_col = i_search_stations.size2();
 
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(static) \
 shared(search_stations_by_ID, search_stations_by_insert, i_search_stations, \
 search_stations, limit_search_row, limit_search_col)
 #endif
-        for (size_t i_row = 0; i_row < limit_search_row; i_row++) {
-            for (size_t i_col = 0; i_col < limit_search_col; i_col++) {
+            for (size_t i_row = 0; i_row < limit_search_row; i_row++) {
+                for (size_t i_col = 0; i_col < limit_search_col; i_col++) {
 
-                // Check if the value is _FILL_VALUE
-                if (!std::isnan(i_search_stations(i_row, i_col))) {
-                    auto it_ID = search_stations_by_ID.find(
-                            i_search_stations(i_row, i_col));
+                    // Check if the value is _FILL_VALUE
+                    if (!std::isnan(i_search_stations(i_row, i_col))) {
+                        auto it_ID = search_stations_by_ID.find(
+                                i_search_stations(i_row, i_col));
 
-                    if (it_ID != search_stations_by_ID.end()) {
-                        i_search_stations(i_row, i_col) = std::distance(
-                                search_stations_by_insert.begin(),
-                                search_stations.project<anenSta::by_insert>(it_ID));
-                    } else {
-                        throw out_of_range("Can't find the station ID "
-                                + to_string((long long) i_search_stations(i_row, i_col)));
+                        if (it_ID != search_stations_by_ID.end()) {
+                            i_search_stations(i_row, i_col) = std::distance(
+                                    search_stations_by_insert.begin(),
+                                    search_stations.project<anenSta::by_insert>(it_ID));
+                        } else {
+                            throw out_of_range("Can't find the station ID "
+                                    + to_string((long long) i_search_stations(i_row, i_col)));
+                        }
                     }
-                }
 
-            } // End loop of columns
-        } // End of loop of rows
+                } // End loop of columns
+            } // End of loop of rows
+        }
+    } catch (...) {
+        cout << BOLDRED << "Error occurred in computeSearchStations!" << RESET << endl;
+        throw;
     }
 
     swap(i_search_stations, i_search_stations_ref);
+    
+    if (verbose_ >= 4) {
+        cout << "i_search_stations: " << i_search_stations_ref << endl;
+    }
+    
     return (SUCCESS);
 }
 
@@ -542,7 +584,6 @@ AnEn::selectAnalogs(
         // find the corresponding station index in the search stations to the main station which
         // comes from the test stations.
         //
-        if (verbose_ >= 3) cout << "Finding the corresponding indices of test stations in search stations ..." << endl;
 
         const auto & search_observation_stations = search_observations.getStations();
         if (search_observation_stations.size() == 0) {
@@ -557,14 +598,28 @@ AnEn::selectAnalogs(
                 << "Error: There is no location information provided for test stations in SimilarityMatrices." << RESET << endl;
             return(MISSING_VALUE);
         }
+        
+        if (search_observation_stations.haveXY() && test_stations.haveXY()) {
+            if (verbose_ >= 3) cout << "Finding the corresponding indices of test stations in search stations based on xs and ys ..." << endl;
+            const auto & test_stations_by_insert = test_stations.get<anenSta::by_insert>();
 
-        const auto & test_stations_by_insert = test_stations.get<anenSta::by_insert>();
-
-        for_each(test_stations_by_insert.begin(), test_stations_by_insert.end(),
-            [&test_stations_index_in_search, &search_observation_stations](anenSta::Station test) {
-                size_t id = search_observation_stations.getNearestStationsId(test.getX(), test.getY(), 1)[0];
-                test_stations_index_in_search.push_back(search_observation_stations.getStationIndex(id)); 
-        });
+            for_each(test_stations_by_insert.begin(), test_stations_by_insert.end(),
+                    [&test_stations_index_in_search, &search_observation_stations](anenSta::Station test) {
+                        size_t id = search_observation_stations.getNearestStationsId(test.getX(), test.getY(), 1)[0];
+                        test_stations_index_in_search.push_back(search_observation_stations.getStationIndex(id));
+                    });
+        } else {
+            if (verbose_ >= 3) cout << "Finding the corresponding indices of test stations in search stations based on indices ..." << endl;
+            
+            if (search_observation_stations.size() != test_stations.size()) {
+                cout << BOLDRED << "Error: Search stations and test stations must be the same when no location info is provided."
+                        << RESET << endl;
+                return (WRONG_METHOD);
+            }
+            
+            test_stations_index_in_search.resize(num_test_stations);
+            iota(test_stations_index_in_search.begin(), test_stations_index_in_search.end(), 0);
+        }
     }
 
     if (verbose_ >= 3) cout << "Selecting analogs ..." << endl;

@@ -289,19 +289,19 @@ int main(int argc, char** argv) {
             }
         }
 
-        if (vm.count("max_par_nan")) {
-            if (vm["max_par_nan"].as<double>() < 0) {
+        notify(vm);
+
+        if (vm.count("max-par-nan")) {
+            if (vm["max-par-nan"].as<double>() < 0) {
                 max_par_nan = NAN;
             }
         }
 
-        if (vm.count("max_flt_nan")) {
-            if (vm["max_flt_nan"].as<double>() < 0) {
+        if (vm.count("max-flt-nan")) {
+            if (vm["max-flt-nan"].as<double>() < 0) {
                 max_flt_nan = NAN;
             }
         }
-
-        notify(vm);
         
     } catch (...) {
         handle_exception(current_exception());

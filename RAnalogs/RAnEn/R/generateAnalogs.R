@@ -54,10 +54,21 @@ generateAnalogs <- function(configuration) {
 	if (configuration$mode == 'independentSearch') {
 		
 		# Create default values
-		test_forecasts_station_x <- vector(mode = 'numeric', length = 0)
-		test_forecasts_station_y <- vector(mode = 'numeric', length = 0)
-		search_forecasts_station_x <- vector(mode = 'numeric', length = 0)
-		search_forecasts_station_y <- vector(mode = 'numeric', length = 0)
+	  if ("test_stations_x" %in% names(configuration) &&
+	      "test_stations_y" %in% names(configuration) &&
+	      "search_stations_x" %in% names(configuration) &&
+	      "search_stations_y" %in% names(configuration)) {
+	    test_forecasts_station_x <- configuration$test_stations_x
+	    test_forecasts_station_y <- configuration$test_stations_y
+	    search_forecasts_station_x <- configuration$search_stations_x
+	    search_forecasts_station_y <- configuration$search_stations_y
+	  } else {
+	    test_forecasts_station_x <- vector(mode = 'numeric', length = 0)
+	    test_forecasts_station_y <- vector(mode = 'numeric', length = 0)
+	    search_forecasts_station_x <- vector(mode = 'numeric', length = 0)
+	    search_forecasts_station_y <- vector(mode = 'numeric', length = 0)
+	  }
+	  
 		search_extension <- F
 		preserve_search_stations <- F
 		max_num_search_stations <- 0

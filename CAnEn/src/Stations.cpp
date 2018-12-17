@@ -222,6 +222,9 @@ namespace anenSta {
             double main_station_y, double half_edge) const {
 
         using namespace boost::lambda;
+        
+        if (std::isnan(main_station_x) || std::isnan(main_station_y))
+            throw runtime_error("X and Y cannot be NA values (getStationsIdBySquare).");
 
         // Order the stations by x
         auto & stations_by_x = this->get<by_x>();
@@ -253,6 +256,9 @@ namespace anenSta {
     vector<size_t>
     Stations::getStationsIdByDistance(double main_station_x,
             double main_station_y, double radius) const {
+
+        if (std::isnan(main_station_x) || std::isnan(main_station_y))
+            throw runtime_error("X and Y cannot be NA values (getStationsIdByDistance).");
 
         // Use the range function to get a square area of the stations
         vector<size_t> search_stations_ID,
@@ -290,6 +296,9 @@ namespace anenSta {
     Stations::getNearestStationsId(double main_station_x,
             double main_station_y, size_t num_stations,
             double threshold) const {
+
+        if (std::isnan(main_station_x) || std::isnan(main_station_y))
+            throw runtime_error("X and Y cannot be NA values (getNearestStationsId).");
 
         using point = bg::model::point<double, 2, bg::cs::cartesian>;
         using value = pair<point, size_t>;
@@ -329,6 +338,16 @@ namespace anenSta {
         }
 
         return (results_ID);
+    }
+    
+    bool
+    Stations::haveXY() const {
+        const auto & stations_by_insert = get<by_insert>();
+        bool ret = all_of(stations_by_insert.begin(),
+                stations_by_insert.end(), [](Station i) {
+                    return (!(std::isnan(i.getX()) || std::isnan(i.getY())));
+                });
+        return (ret);
     }
 
     void
