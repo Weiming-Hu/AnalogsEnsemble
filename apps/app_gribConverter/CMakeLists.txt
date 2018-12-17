@@ -5,9 +5,9 @@ set (gribConverter_VERSION "1.0.0")
 
 find_package(eccodes)
 if(eccodes_FOUND)
-    message(STATUS "The library eccodes is found. Build gribConverter.")
+    message(STATUS "Eccodes library is found. Build gribConverter.")
 else(eccodes_FOUND)
-    message(STATUS "The library eccodes is not found. gribConverter is NOT built.")
+    message(STATUS "Eccodes library is not found. gribConverter is NOT built.")
     return()
 endif(eccodes_FOUND)
 

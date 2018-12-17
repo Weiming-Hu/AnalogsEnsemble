@@ -186,10 +186,6 @@ AnEn::computeSearchStations(
             test_stations.size(), max_num_search_stations,
             AnEn::_FILL_VALUE);
 
-    // Define variables for perfectly nested parallel loops for collapse
-    const auto & test_stations_by_insert = test_stations.get<anenSta::by_insert>();
-    auto limit_test = test_stations_by_insert.size();
-    
     // Check whether stations have xs and ys
     bool have_xy = test_stations.haveXY() && search_stations.haveXY();
 
@@ -201,43 +197,21 @@ AnEn::computeSearchStations(
             //
             i_search_stations.resize(test_stations.size(), 1);
             
-            if (have_xy) {
-                if (verbose_ >= 3) cout << "Computing one-on-one match between search and test stations based on xs and ys ... " << endl;
-
-#if defined(_OPENMP)
-#pragma omp parallel for default(none) schedule(static) \
-shared(test_stations_by_insert, search_stations, i_search_stations, limit_test)
-#endif
-                for (size_t i_test = 0; i_test < limit_test; i_test++) {
-
-                    // Find the nearest search stations
-                    size_t i_search_station = search_stations.getNearestStationsId(
-                            test_stations_by_insert[i_test].getX(),
-                            test_stations_by_insert[i_test].getY(), 1)[0];
-
-                    i_search_stations(i_test, 0) = i_search_station;
-                }
-            } else {
-                if (verbose_ >= 3) cout << "Computing one-on-one match between search and test stations based on indices ... " << endl;
-                
-                // If location info is not provided for search and test stations, I'm going to assume they are
-                // perfectly aligned with each other.
-                //
-                if (search_stations.size() != test_stations.size()) {
-                    cout << BOLDRED << "Error: Search stations and test stations must be the same when no location info is provided."
-                            << RESET << endl;
-                    return (WRONG_METHOD);
-                }
-                
-                // Fill the table with incremental values
-                size_t index = 0;
-                for (size_t i_test = 0; i_test < limit_test; i_test++) {
-                    i_search_stations(i_test, 0) = index;
-                    ++index;
-                }
+            // Match test and search stations
+            vector<size_t> test_stations_index_in_search(0);
+            handleError(find_nearest_station_match_(
+                    test_stations, search_stations, test_stations_index_in_search));
+            
+            // Assign the match result to the lookup table
+            for (size_t i_test = 0; i_test < test_stations_index_in_search.size(); i_test++) {
+                i_search_stations(i_test, 0) = test_stations_index_in_search.at(i_test);
             }
 
         } else if (method_ == ONE_TO_MANY) {
+
+            // Define variables for perfectly nested parallel loops for collapse
+            const auto & test_stations_by_insert = test_stations.get<anenSta::by_insert>();
+            auto limit_test = test_stations_by_insert.size();
             
             if (!have_xy) {
                 cout << BOLDRED << "Error: Xs and ys are required for search space extension." 
@@ -366,7 +340,7 @@ AnEn::computeSimilarity(
         const Observations_array& search_observations,
         const AnEn::TimeMapMatrix & mapping,
         const AnEn::SearchStationMatrix & i_search_stations,
-        size_t i_observation_parameter,
+        size_t i_observation_parameter, bool extend_observations,
         double max_par_nan, double max_flt_nan) const {
 
     // Check input
@@ -437,6 +411,17 @@ AnEn::computeSimilarity(
         weights[i_parameter] = parameters_by_insert[i_parameter].getWeight();
         if (std::isnan(weights[i_parameter])) weights[i_parameter] = 1;
     }
+    
+    vector<size_t> test_stations_index_in_search(0);
+    if (!extend_observations) {
+        // If only observations from the main (center) station are used in the analogs, I need to
+        // find the corresponding search station index to the main test station.
+        //
+        const auto & search_observation_stations = search_observations.getStations();
+        const auto & test_stations = sims.getTargets().getStations();
+        handleError(find_nearest_station_match_(
+                test_stations, search_observation_stations, test_stations_index_in_search));
+    }
 
     if (verbose_ >= 3) cout << "Computing similarity matrices ... " << endl;
 
@@ -450,28 +435,29 @@ AnEn::computeSimilarity(
 shared(num_test_stations, num_flts, num_test_times, num_search_stations, \
 num_search_times, circular_flags, num_parameters, data_search_observations, \
 flts_window, mapping, weights, data_search_forecasts, data_test_forecasts, \
-sims, sds, i_observation_parameter, i_search_stations, max_flt_nan, max_par_nan) \
-firstprivate(num_par_nan)
+sims, sds, i_observation_parameter, i_search_stations, max_flt_nan, max_par_nan, \
+test_stations_index_in_search, extend_observations) firstprivate(num_par_nan)
 #endif
     for (size_t i_test_station = 0; i_test_station < num_test_stations; i_test_station++) {
         for (size_t i_test_time = 0; i_test_time < num_test_times; i_test_time++) {
             for (size_t i_flt = 0; i_flt < num_flts; i_flt++) {
                 for (size_t i_search_station_index = 0; i_search_station_index < num_search_stations; i_search_station_index++) {
 
-                    double i_search_station = i_search_stations(i_test_station, i_search_station_index);
-
+                    // Search station is different based on whether to extend observation stations.
+                    double i_search_station = NAN;
+                    if (extend_observations) {
+                        i_search_station = i_search_stations(i_test_station, i_search_station_index);
+                    } else {
+                        i_search_station = test_stations_index_in_search[i_test_station];
+                    }
+                    
                     // Check if search station is NAN, which is the _FILL_VALUE
                     if (!std::isnan(i_search_station)) {
                         for (size_t i_search_time = 0; i_search_time < num_search_times; i_search_time++) {
 
                             if (!std::isnan(mapping(i_search_time, i_flt))) {
-
-                                // TODO: potential bug here when extend_observations is set to false. We should check the observation
-                                // from target station and this dependents on whether the target station is from the search stations
-                                // or it is the test station.
-                                //
-                                if (!std::isnan(data_search_observations[i_observation_parameter][i_search_station]
-                                        [mapping(i_search_time, i_flt)])) {
+                                if (!std::isnan(data_search_observations
+                                        [i_observation_parameter][i_search_station][mapping(i_search_time, i_flt)])) {
 
                                     size_t i_sim_row = i_search_station_index * num_search_times + i_search_time;
                                     if (std::isnan(sims[i_test_station][i_test_time][i_flt][i_sim_row][COL_TAG_SIM::VALUE]))
@@ -581,131 +567,62 @@ AnEn::selectAnalogs(
     vector<size_t> test_stations_index_in_search(0);
     if (!extend_observations) {
         // If only observations from the main (center) station are used in the analogs, I need to
-        // find the corresponding station index in the search stations to the main station which
-        // comes from the test stations.
+        // find the corresponding search station index to the main test station.
         //
-
         const auto & search_observation_stations = search_observations.getStations();
-        if (search_observation_stations.size() == 0) {
-            if (verbose_ >= 1) cout << BOLDRED
-                << "Error: There is no location information provided for search stations in observations." << RESET << endl;
-            return(MISSING_VALUE);
-        }
-
         const auto & test_stations = sims.getTargets().getStations();
-        if (test_stations.size() == 0) {
-            if (verbose_ >= 1) cout << BOLDRED
-                << "Error: There is no location information provided for test stations in SimilarityMatrices." << RESET << endl;
-            return(MISSING_VALUE);
-        }
-        
-        if (search_observation_stations.haveXY() && test_stations.haveXY()) {
-            if (verbose_ >= 3) cout << "Finding the corresponding indices of test stations in search stations based on xs and ys ..." << endl;
-            const auto & test_stations_by_insert = test_stations.get<anenSta::by_insert>();
-
-            for_each(test_stations_by_insert.begin(), test_stations_by_insert.end(),
-                    [&test_stations_index_in_search, &search_observation_stations](anenSta::Station test) {
-                        size_t id = search_observation_stations.getNearestStationsId(test.getX(), test.getY(), 1)[0];
-                        test_stations_index_in_search.push_back(search_observation_stations.getStationIndex(id));
-                    });
-        } else {
-            if (verbose_ >= 3) cout << "Finding the corresponding indices of test stations in search stations based on indices ..." << endl;
-            
-            if (search_observation_stations.size() != test_stations.size()) {
-                cout << BOLDRED << "Error: Search stations and test stations must be the same when no location info is provided."
-                        << RESET << endl;
-                return (WRONG_METHOD);
-            }
-            
-            test_stations_index_in_search.resize(num_test_stations);
-            iota(test_stations_index_in_search.begin(), test_stations_index_in_search.end(), 0);
-        }
+        handleError(find_nearest_station_match_(
+                test_stations, search_observation_stations, test_stations_index_in_search));
     }
 
     if (verbose_ >= 3) cout << "Selecting analogs ..." << endl;
 
-    if (preserve_real_time) {
-        auto & observation_times_by_insert =
-                search_observations.getTimes().get<anenTime::by_insert>();
+    auto & observation_times_by_insert = search_observations.getTimes().get<anenTime::by_insert>();
 
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(dynamic) collapse(4) \
 shared(data_observations, sims, num_members, mapping, analogs, num_test_stations, \
 i_parameter, num_test_times, num_flts, observation_times_by_insert, max_members, \
-extend_observations, test_stations_index_in_search)
+extend_observations, test_stations_index_in_search, preserve_real_time)
 #endif
-        for (size_t i_test_station = 0; i_test_station < num_test_stations; i_test_station++) {
-            for (size_t i_test_time = 0; i_test_time < num_test_times; i_test_time++) {
-                for (size_t i_flt = 0; i_flt < num_flts; i_flt++) {
-                    for (size_t i_member = 0; i_member < num_members; i_member++) {
+    for (size_t i_test_station = 0; i_test_station < num_test_stations; i_test_station++) {
+        for (size_t i_test_time = 0; i_test_time < num_test_times; i_test_time++) {
+            for (size_t i_flt = 0; i_flt < num_flts; i_flt++) {
+                for (size_t i_member = 0; i_member < num_members; i_member++) {
 
-                        if (i_member < max_members) {
-                            if (!std::isnan(sims[i_test_station][i_test_time][i_flt][i_member][COL_TAG_SIM::VALUE])) {
+                    if (i_member < max_members) {
+                        if (!std::isnan(sims[i_test_station][i_test_time][i_flt][i_member][COL_TAG_SIM::VALUE])) {
 
-                                size_t i_search_station = 0;
-                                if (extend_observations) {
-                                    i_search_station = (size_t) sims[i_test_station][i_test_time][i_flt][i_member][COL_TAG_SIM::STATION];
-                                } else {
-                                    i_search_station = test_stations_index_in_search[i_test_station];
-                                }
+                            size_t i_search_station = 0;
+                            if (extend_observations) {
+                                i_search_station = (size_t) sims[i_test_station][i_test_time][i_flt][i_member][COL_TAG_SIM::STATION];
+                            } else {
+                                i_search_station = test_stations_index_in_search[i_test_station];
+                            }
 
-                                size_t i_search_forecast_time = (size_t) sims[i_test_station][i_test_time][i_flt][i_member][COL_TAG_SIM::TIME];
+                            size_t i_search_forecast_time = (size_t) sims[i_test_station][i_test_time][i_flt][i_member][COL_TAG_SIM::TIME];
 
-                                if (!std::isnan(mapping(i_search_forecast_time, i_flt))) {
-                                    size_t i_observation_time = mapping(i_search_forecast_time, i_flt);
+                            if (!std::isnan(mapping(i_search_forecast_time, i_flt))) {
+                                size_t i_observation_time = mapping(i_search_forecast_time, i_flt);
 
-                                    analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::STATION] = i_search_station;
-                                    analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::TIME] =
-                                        observation_times_by_insert[i_observation_time];
-                                    analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::VALUE] =
+                                analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::STATION] = i_search_station;
+                                analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::VALUE] =
                                         data_observations[i_parameter][i_search_station][i_observation_time];
-                                }
-                            }   
-                        }
-                    }
-                }
-            }
-        }
 
-    } else {
-#if defined(_OPENMP)
-#pragma omp parallel for default(none) schedule(dynamic) collapse(4) \
-shared(data_observations, sims, num_members, mapping, analogs, num_test_stations, \
-i_parameter, num_test_times, num_flts, max_members, \
-extend_observations, test_stations_index_in_search)
-#endif
-        for (size_t i_test_station = 0; i_test_station < num_test_stations; i_test_station++) {
-            for (size_t i_test_time = 0; i_test_time < num_test_times; i_test_time++) {
-                for (size_t i_flt = 0; i_flt < num_flts; i_flt++) {
-                    for (size_t i_member = 0; i_member < num_members; i_member++) {
-                        
-                        if (i_member < max_members) {
-                            if (!std::isnan(sims[i_test_station][i_test_time][i_flt][i_member][COL_TAG_SIM::VALUE])) {
-
-                                size_t i_search_station = 0;
-                                if (extend_observations) {
-                                    i_search_station = (size_t) sims[i_test_station][i_test_time][i_flt][i_member][COL_TAG_SIM::STATION];
+                                if (preserve_real_time) {
+                                    analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::TIME] =
+                                            observation_times_by_insert[i_observation_time];
                                 } else {
-                                    i_search_station = test_stations_index_in_search[i_test_station];
-                                }
-
-                                size_t i_search_forecast_time = (size_t) sims[i_test_station][i_test_time][i_flt][i_member][COL_TAG_SIM::TIME];
-
-                                if (!std::isnan(mapping(i_search_forecast_time, i_flt))) {
-                                    analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::STATION] = i_search_station;
-                                    analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::TIME] = mapping(i_search_forecast_time, i_flt);
-                                    analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::VALUE] =
-                                        data_observations[i_parameter][i_search_station][mapping(i_search_forecast_time, i_flt)];
+                                    analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::TIME] = 
+                                            i_observation_time;
                                 }
                             }
                         }
-
                     }
-                }
-            }
-        }
-
-    }
+                } // End loop of members
+            } // End loop of FLTs
+        } // End loop of test times
+    } // End loop of test stations
 
     return (SUCCESS);
 }
@@ -721,7 +638,6 @@ AnEn::handleError(const errorType & indicator) const {
 
 int
 AnEn::getVerbose() const {
-
     return verbose_;
 }
 
@@ -902,5 +818,52 @@ AnEn::check_input_(
         return (WRONG_SHAPE);
     }
 
+    return (SUCCESS);
+}
+
+errorType
+AnEn::find_nearest_station_match_(
+        const anenSta::Stations& test_stations,
+        const anenSta::Stations& search_stations,
+        vector<size_t>& test_stations_index_in_search) const {
+
+    if (search_stations.size() == 0) {
+        if (verbose_ >= 1) cout << BOLDRED
+                << "Error: There is no location information provided for search stations in observations." << RESET << endl;
+        return (MISSING_VALUE);
+    }
+
+    if (test_stations.size() == 0) {
+        if (verbose_ >= 1) cout << BOLDRED
+                << "Error: There is no location information provided for test stations in SimilarityMatrices." << RESET << endl;
+        return (MISSING_VALUE);
+    }
+
+    if (search_stations.haveXY() && test_stations.haveXY()) {
+        // If location information is complete, find the matching search station based on locations.
+        if (verbose_ >= 3) cout << "One-on-one matching search and test stations based on xs and ys ..." << endl;
+        const auto & test_stations_by_insert = test_stations.get<anenSta::by_insert>();
+
+        for_each(test_stations_by_insert.begin(), test_stations_by_insert.end(),
+                [&test_stations_index_in_search, &search_stations](anenSta::Station test) {
+                    size_t id = search_stations.getNearestStationsId(test.getX(), test.getY(), 1)[0];
+                    test_stations_index_in_search.push_back(search_stations.getStationIndex(id));
+                });
+    } else {
+        // If location information is NOT complete, match search and test stations based on indices.
+        // This assumes the numbers of test and search stations are the same.
+        //
+        if (verbose_ >= 3) cout << "One-on-one matching search and test stations based on indices ..." << endl;
+
+        if (search_stations.size() != test_stations.size()) {
+            cout << BOLDRED << "Error: Search stations and test stations must be the same when no location info is provided."
+                    << RESET << endl;
+            return (WRONG_METHOD);
+        }
+
+        test_stations_index_in_search.resize(test_stations.size());
+        iota(test_stations_index_in_search.begin(), test_stations_index_in_search.end(), 0);
+    }
+    
     return (SUCCESS);
 }

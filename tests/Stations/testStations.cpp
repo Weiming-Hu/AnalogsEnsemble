@@ -475,3 +475,33 @@ void testStations::testGetStationsIndex() {
         compare++;
     }
 }
+
+void testStations::testHaveXY() {
+    
+    /**
+     * Test haveXY()
+     */
+    Station s1("1", 1, 1), s2(6, 1), s3("3", 1, 3),
+            s4("4", 4, 3), s5("5", 8, 3), s6;
+    
+    Stations stations;
+    auto & stations_by_insert = stations.get<anenSta::by_insert>();
+    
+    stations_by_insert.push_back(s1);
+    CPPUNIT_ASSERT(stations.haveXY());
+    
+    stations_by_insert.push_back(s2);
+    CPPUNIT_ASSERT(stations.haveXY());
+    
+    stations_by_insert.push_back(s3);
+    CPPUNIT_ASSERT(stations.haveXY());
+    
+    stations_by_insert.push_back(s6);
+    CPPUNIT_ASSERT(!stations.haveXY());
+    
+    stations_by_insert.push_back(s4);
+    CPPUNIT_ASSERT(!stations.haveXY());
+    
+    stations_by_insert.push_back(s5);
+    CPPUNIT_ASSERT(!stations.haveXY());
+}

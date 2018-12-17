@@ -30,9 +30,9 @@ if(NOT CMAKE_INSTALL_LIBDIR)
 endif(NOT CMAKE_INSTALL_LIBDIR)
 
 set(COMMON_OUTPUT_DIR "${CMAKE_SOURCE_DIR}/output")
-if (EXISTS ${COMMON_OUTPUT_DIR})
-    file(REMOVE_RECURSE ${COMMON_OUTPUT_DIR})
-endif(EXISTS ${COMMON_OUTPUT_DIR})
+#if (EXISTS ${COMMON_OUTPUT_DIR})
+#    file(REMOVE_RECURSE ${COMMON_OUTPUT_DIR})
+#endif(EXISTS ${COMMON_OUTPUT_DIR})
 
 # set this variable to prevent CMake from removing
 # non-standard build paths. This would be helpful on

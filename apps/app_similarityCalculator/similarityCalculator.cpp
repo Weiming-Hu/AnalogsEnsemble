@@ -46,7 +46,8 @@ void runSimilarityCalculator(
         const vector<size_t> & sds_count,
 
         size_t observation_id,
-
+        bool extend_observations, 
+        
         bool searchExtension, size_t max_neighbors,
         size_t num_neighbors, double distance,
         int time_match_mode, double max_par_nan,
@@ -151,7 +152,8 @@ void runSimilarityCalculator(
     
     anen.handleError(anen.computeSimilarity(
             search_forecasts, sds, sims, observations, mapping,
-            i_search_stations, observation_id, max_par_nan, max_flt_nan));
+            i_search_stations, observation_id, extend_observations,
+            max_par_nan, max_flt_nan));
 
 #if defined(_CODE_PROFILING)
     clock_t time_end_of_sim = clock();
@@ -203,7 +205,7 @@ int main(int argc, char** argv) {
     int verbose = 0, time_match_mode = 1;
     size_t observation_id = 0, max_neighbors = 0, num_neighbors = 0;
     string config_file, file_mapping, file_sds;
-    bool searchExtension = false;
+    bool searchExtension = false, extend_observations = false;
     double distance = 0.0, max_par_nan = 0.0, max_flt_nan = 0.0;
     vector<size_t> test_start, test_count, search_start, search_count,
             obs_start, obs_count, sds_start, sds_count;
@@ -228,6 +230,7 @@ int main(int argc, char** argv) {
                 ("observation-id", po::value<size_t>(&observation_id)->default_value(0), "Set the index of the observation variable that will be used.")
                 ("searchExtension", po::bool_switch(&searchExtension)->default_value(false), "Use search extension.")
                 ("distance", po::value<double>(&distance)->default_value(0.0), "Set the radius for selecting neighbors.")
+                ("extend-obs", po::bool_switch(&extend_observations)->default_value(false), "After getting the most similar forecast indices, take the corresponding observations from the search station.")
                 ("max-neighbors", po::value<size_t>(&max_neighbors)->default_value(0), "Set the maximum neighbors allowed to keep.")
                 ("num-neighbors", po::value<size_t>(&num_neighbors)->default_value(0), "Set the number of neighbors to find.")
                 ("test-start", po::value< vector<size_t> >(&test_start)->multitoken(), "Set the start indices in the test forecast NetCDF where the program starts reading.")
@@ -320,6 +323,7 @@ int main(int argc, char** argv) {
                 << "verbose: " << verbose << endl
                 << "max_par_nan: " << max_par_nan << endl
                 << "max_flt_nan: " << max_flt_nan << endl
+                << "extend_observations: " << extend_observations << endl
                 << "time_match_mode: " << time_match_mode << endl
                 << "observation_id: " << observation_id << endl
                 << "searchExtension: " << searchExtension << endl
@@ -342,7 +346,7 @@ int main(int argc, char** argv) {
                 file_search_forecasts, search_start, search_count,
                 file_observations, obs_start, obs_count, file_similarity,
                 file_mapping, file_sds, sds_start, sds_count,
-                observation_id, searchExtension,
+                observation_id, extend_observations, searchExtension,
                 max_neighbors, num_neighbors, distance, time_match_mode,
                 max_par_nan, max_flt_nan, verbose);
     } catch (...) {

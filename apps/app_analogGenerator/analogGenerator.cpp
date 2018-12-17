@@ -166,7 +166,8 @@ void runAnalogGenerator(
     
     anen.handleError(anen.computeSimilarity(
             search_forecasts, sds, sims, search_observations, mapping,
-            i_search_stations, observation_id, max_par_nan, max_flt_nan));
+            i_search_stations, observation_id, extend_observations,
+            max_par_nan, max_flt_nan));
 
 
     if (!file_similarity.empty()) {

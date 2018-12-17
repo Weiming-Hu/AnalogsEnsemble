@@ -342,6 +342,9 @@ namespace anenSta {
     
     bool
     Stations::haveXY() const {
+        
+        if (size() == 0) return(false);
+        
         const auto & stations_by_insert = get<by_insert>();
         bool ret = all_of(stations_by_insert.begin(),
                 stations_by_insert.end(), [](Station i) {

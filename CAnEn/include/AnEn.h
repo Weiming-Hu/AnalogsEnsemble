@@ -174,6 +174,8 @@ public:
      * @param i_observation_parameter The parameter in observations that will
      * be checked for NAN values. By default it is 0 pointing at the first
      * parameter.
+     * @param extend_observations Whether to extend observation stations to
+     * search stations. This only works when search space extension is used.
      * @param max_par_nan The number of NAN values allowed when computing
      * similarity across different parameters. Set it to NAN to allow any number
      * of NAN values.
@@ -190,6 +192,7 @@ public:
             const TimeMapMatrix & mapping,
             const SearchStationMatrix & i_search_stations,
             size_t i_observation_parameter = 0,
+            bool extend_observations = false,
             double max_par_nan = 0, double max_flt_nan = 0) const;
 
     /**
@@ -204,8 +207,8 @@ public:
      * @param i_parameter The index of the parameter to select in Observations.
      * @param num_members How many members each analog should have.
      * @param quick Whether to use quick sort mechanism.
-     * @param extend_observations Whether to select observations from the current
-     * station or the extended search stations.
+     * @param extend_observations Whether to extend observation stations to
+     * search stations. This only works when search space extension is used.
      * @param preserve_real_time Whether to replace the observation time index
      * with the actual observation time.
      * @return An AnEn::errorType.
@@ -302,6 +305,25 @@ private:
             const Observations_array& search_observations,
             TimeMapMatrix mapping,
             size_t i_observation_parameter) const;
+
+    /**
+     * This function is a special case of AnEn::computeSearchStations.
+     * It finds the nearest search station to a specific test station.
+     * If location information is not provided, test and search stations
+     * are assumed to be the same, and they are matched based on their
+     * respective index.
+     * 
+     * @param test_stations Test anenSta::Stations.
+     * @param search_stations Search anenSta::Stations.
+     * @param test_stations_index_in_search A size_t vector to store the
+     * matching search indices for each test station.
+     * 
+     * @return An AnEn::errorType.
+     */
+    errorType find_nearest_station_match_(
+            const anenSta::Stations & test_stations,
+            const anenSta::Stations & search_stations,
+            std::vector<size_t> & test_stations_index_in_search) const;
 };
 
 #endif /* ANEN_H */

@@ -160,16 +160,54 @@ namespace anenSta {
         Stations();
         virtual ~Stations();
 
+        /**
+         * Get station index based on the ID
+         * 
+         * @param station_ID The ID of the station.
+         * @return Station index.
+         */
         std::size_t getStationIndex(std::size_t station_ID) const;
+        
+        /**
+         * Get a vector of indices for stations.
+         * 
+         * @param stations_ID A vector of station IDs.
+         * @return A vector of station indices.
+         */
         std::vector<std::size_t> getStationsIndex(
                 const std::vector<std::size_t> & stations_ID) const;
 
+        /**
+         * Get nearby station IDs using a square buffer.
+         * 
+         * @param main_station_x The X of main (center) station.
+         * @param main_station_y The Y of main (center) station.
+         * @param half_edge The half size of the edge of the square.
+         * @return A vector of nearby station IDs.
+         */
         std::vector<std::size_t> getStationsIdBySquare(double main_station_x,
                 double main_station_y, double half_edge) const;
 
+        /**
+         * Get nearby station IDs using distance.
+         * 
+         * @param main_station_x The X of main (center) station.
+         * @param main_station_y The Y of main (center) station.
+         * @param radius The buffer radius.
+         * @return A vector of nearby station IDs.
+         */
         std::vector<std::size_t> getStationsIdByDistance(double main_station_x,
                 double main_station_y, double radius) const;
 
+        /**
+         * Get k-nearest station IDs.
+         * 
+         * @param main_station_x The X of main (center) station.
+         * @param main_station_y The Y of main (center) station.
+         * @param num_stations Number of nearest.
+         * @param threshold A maximum radius threshold for searching.
+         * @return A vector of nearby station IDs.
+         */
         std::vector<std::size_t> getNearestStationsId(double main_station_x,
                 double main_station_y, std::size_t num_stations,
                 double threshold = 0) const;

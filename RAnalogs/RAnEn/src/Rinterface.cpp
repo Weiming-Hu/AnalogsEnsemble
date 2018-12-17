@@ -172,8 +172,9 @@ List generateAnalogs(
             num_nearest_stations));
 
     anen.handleError(anen.computeSimilarity(search_forecasts, sds, sims,
-            search_observations, mapping,
-            i_search_stations, observation_parameter, max_par_nan, max_flt_nan));
+            search_observations, mapping, i_search_stations,
+            observation_parameter, extend_observations,
+            max_par_nan, max_flt_nan));
 
     // Select analogs
     anen.handleError(anen.selectAnalogs(analogs, sims, search_observations,
