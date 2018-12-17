@@ -92,8 +92,8 @@ biasCorrection <- function(
         index <- cbind(
           rep(forecast.ID, members.size),                                          # variable index
           AnEn$analogs[i, j, k, , 2],                                              # station index
-          unlist(lapply(AnEn$analogs[i, j, k, , 3], function(x, mapping, k) {
-            return(which(x == mapping[k, ]))}, mapping = AnEn$mapping, k = k)),    # forecast day index
+          sapply(AnEn$analogs[i, j, k, , 3], function(x, mapping, k) {
+            return(which(x == mapping[k, ]))}, mapping = AnEn$mapping, k = k),    # forecast day index
           rep(k, members.size)                                                     # flt index
         )
         

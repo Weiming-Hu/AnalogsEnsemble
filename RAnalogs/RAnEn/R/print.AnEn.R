@@ -65,6 +65,20 @@ print.AnEn <- function (x) {
   	cat("\n")
   }
   
+  if ('bias' %in% names(x)) {
+    empty <- F
+    cat("Member 'bias': [test station][test time][FLT] ")
+    cat(dim(x$bias))
+    cat("\n")
+  }
+  
+  if ('bias.model' %in% names(x)) {
+    empty <- F
+    cat("Member 'bias.model':  ")
+    cat(class(x$bias.model))
+    cat("\n")
+  }
+  
   if (empty) {
     cat('[empty list]\n')
   }
