@@ -18,11 +18,12 @@ Depends:
 Imports:
     Rcpp (>= 0.12.9),
     BH (>= 1.62.0-1),
-    pbapply,
-    parallel,
-    nnet,
 LinkingTo:
     Rcpp,
     BH,
+Suggests:
+    pbapply,
+    parallel,
+    nnet,
 RoxygenNote: 6.1.0
 Encoding: UTF-8

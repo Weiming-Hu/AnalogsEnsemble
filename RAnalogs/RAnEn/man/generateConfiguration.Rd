@@ -14,11 +14,14 @@ generateConfiguration(mode)
 A configuration list with all the parameters you need to specify.
 Please don't change the mode of the configuration mode. If you need a configuration
 with a different mode, you need to call the function again with the desired mode.
-
-Please find detailed terminology explanation in the
-\href{https://weiming-hu.github.io/AnalogsEnsemble/2018/10/06/vocabulary.html}{Vocabulary post}.
-If you still can't find helpful information or can't understand the parameters, please open a ticket.
-
+}
+\description{
+RAnEn::generateConfiguration generates a templated configuration object to
+be passed to the function \code{\link{generateAnalogs}} instead of passing various
+parameters one by one. This object can be validated before use by the function
+\code{\link{validateConfiguration}}.
+}
+\details{
 For configuration with mode 'independentSearch':
 \itemize{
 \item mode: 'independentSearch' indicates only searching the forecasts at the current location.
@@ -66,12 +69,10 @@ set it to a number that is wierdly off, the selected nearby stations will be gau
 \item distance: The distance to search for nearby stations/grid points.
 \item preserve_search_stations: Whether to preserve the search station list in returned AnEn.
 }
-}
-\description{
-RAnEn::generateConfiguration generates a templated configuration object to
-be passed to the function \code{\link{generateAnalogs}} instead of passing various
-parameters one by one. This object can be validated before use by the function
-\code{\link{validateConfiguration}}.
+
+Please find detailed terminology explanation in the
+\href{https://weiming-hu.github.io/AnalogsEnsemble/2018/10/06/vocabulary.html}{Vocabulary post}.
+If you still can't find helpful information or can't understand the parameters, please open a ticket.
 }
 \author{
 Weiming Hu \email{weiming@psu.edu}

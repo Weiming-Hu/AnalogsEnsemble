@@ -24,9 +24,12 @@
 #' individual bias can be calculated as well.
 #' 
 #' Then, a neural network is trained potentially using the following variables:
-#' - all variables from the model;
-#' - locations if provided or loaction indices
-#' - FLT indices
+#' \itemize{
+#'   \item all variables from the model;
+#'   \item locations if provided or loaction indices;
+#'   \item FLT indices;
+#' }
+#' 
 #' The output of the neural network will be bias. Which variables to use depends on
 #' the correlation between variables and bias. the threshold can be set using
 #' cor.threshold.
@@ -70,11 +73,11 @@ biasCorrectionNeuralNet <- function(
   if (!show.progress) pbo <- pboptions(type = "none")
   
   # Check for overwriting
-  if ('analogs.cor' %in% names(AnEn) ||
-      'bias' %in% names(AnEn) ||
-      'bias.model' %in% names(AnEn)) {
+  if ('analogs.cor.nnet' %in% names(AnEn) ||
+      'bias.model.nnet' %in% names(AnEn) ||
+      'bias.nnet' %in% names(AnEn)) {
     if (!overwrite) {
-      stop('Corrected AnEn already exists. Use overwrite = T to orverwrite them.')
+      stop('Corrected (nnet) AnEn already exists. Use overwrite = T to orverwrite them.')
     }
   }
   
@@ -274,20 +277,20 @@ biasCorrectionNeuralNet <- function(
   dim(bias.pred) <- c(dim(bias.pred), 1)
   
   if (show.progress) cat("Apply bias to analogs ...\n")
-  AnEn$analogs.cor <- AnEn$analogs
-  AnEn$analogs.cor[, , , , 1] <- AnEn$analogs.cor[, , , , 1, drop = F] + bias.pred
+  AnEn$analogs.cor.nnet <- AnEn$analogs
+  AnEn$analogs.cor.nnet[, , , , 1] <- AnEn$analogs.cor.nnet[, , , , 1, drop = F] + bias.pred
   
   if (keep.bias) {
     # Return the single bias for each station, each time, and each FLT
-    AnEn$bias <- bias.pred[, , , 1, 1, drop = F]
-    dim(AnEn$bias) <- dim(AnEn$bias)[1:3]
+    AnEn$bias.nnet <- bias.pred[, , , 1, 1, drop = F]
+    dim(AnEn$bias.nnet) <- dim(AnEn$bias.nnet)[1:3]
   }
   
   if (keep.model) {
-    AnEn$bias.model <- list(model = model.nn,
-                            train = data.nn.train.norm,
-                            test = data.nn.test.norm,
-                            normalize.factor = col.max)
+    AnEn$bias.model.nnet <- list(model = model.nn,
+                                 train = data.nn.train.norm,
+                                 test = data.nn.test.norm,
+                                 normalize.factor = col.max)
   }
   
   if (!show.progress) on.exit(pboptions(pbo))  

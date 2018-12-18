@@ -35,14 +35,6 @@ print.AnEn <- function (x) {
     cat("\n")
   }
   
-  if ('analogs.cor' %in% names(x)) {
-    empty <- F
-    cat("Member 'analogs.cor': [test station][test time][FLT][member][type]\n")
-    cat(dim(x$analogs))
-    cat(" (value, search station, search observation time)")
-    cat("\n")
-  }
-  
   if ('similarity' %in% names(x)) {
   	empty <- F
   	cat("Member 'similarity': [test station][test time][FLT][member][type]\n")
@@ -65,17 +57,40 @@ print.AnEn <- function (x) {
   	cat("\n")
   }
   
-  if ('bias' %in% names(x)) {
+  if ('analogs.cor.insitu' %in% names(x)) {
     empty <- F
-    cat("Member 'bias': [test station][test time][FLT] ")
-    cat(dim(x$bias))
+    cat("Member 'analogs.cor.insitu': [test station][test time][FLT][member][type]\n")
+    cat(dim(x$analogs.cor.insitu))
+    cat(" (value, search station, search observation time)")
     cat("\n")
   }
   
-  if ('bias.model' %in% names(x)) {
+  if ('bias.insitu' %in% names(x)) {
     empty <- F
-    cat("Member 'bias.model':  ")
-    cat(class(x$bias.model))
+    cat("Member 'bias.insitu': [test station][test time][FLT] ")
+    cat(dim(x$bias.insitu))
+    cat("\n")
+  }
+  
+  if ('analogs.cor.nnet' %in% names(x)) {
+    empty <- F
+    cat("Member 'analogs.cor.insitu': [test station][test time][FLT][member][type]\n")
+    cat(dim(x$analogs.cor.nnet))
+    cat(" (value, search station, search observation time)")
+    cat("\n")
+  }
+  
+  if ('bias.nnet' %in% names(x)) {
+    empty <- F
+    cat("Member 'bias.nnet': [test station][test time][FLT] ")
+    cat(dim(x$bias.nnet))
+    cat("\n")
+  }
+  
+  if ('bias.model.nnet' %in% names(x)) {
+    empty <- F
+    cat("Member 'bias.model.nnet':  ")
+    cat(class(x$bias.model.nnet))
     cat("\n")
   }
   

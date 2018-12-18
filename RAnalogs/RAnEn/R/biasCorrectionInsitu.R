@@ -39,16 +39,25 @@
 #' @param ... Extra parameters to function group.func.
 #' 
 #' @param keep.bias A logical for whether to keep the bias array
-#'
 #' @param show.progress A logical for whether to show the progress bar
+#' @param overwrite A logical for whether to overwrite correction results.
 #' 
 #' @return An AnEn object.
 #' 
 #' @export
 biasCorrectionInsitu <- function(
-  AnEn, config, forecast.ID, group.func = mean, ..., keep.bias = F, show.progress = T) {
+  AnEn, config, forecast.ID, group.func = mean, ...,
+  keep.bias = F, show.progress = T, overwrite = F) {
   
   require(RAnEn)
+  
+  # Check for overwriting
+  if ('analogs.cor.insitu' %in% names(AnEn) ||
+      'bias.insitu' %in% names(AnEn)) {
+    if (!overwrite) {
+      stop('Corrected (in situ) AnEn already exists. Use overwrite = T to orverwrite them.')
+    }
+  }
   
   # parameter checks
   if (class(AnEn) != 'AnEn') {
@@ -127,10 +136,10 @@ biasCorrectionInsitu <- function(
     close(pb)
   }
   
-  AnEn$analogs.cor <- analogs.cor
+  AnEn$analogs.cor.insitu <- analogs.cor
   
   if (keep.bias) {
-    AnEn$bias <- bias
+    AnEn$bias.insitu <- bias
   }
   
   return(AnEn)

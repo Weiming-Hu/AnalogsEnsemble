@@ -61,9 +61,12 @@ After analogs are generated for samples, analog means are calculated and their
 individual bias can be calculated as well.
 
 Then, a neural network is trained potentially using the following variables:
-- all variables from the model;
-- locations if provided or loaction indices
-- FLT indices
+\itemize{
+  \item all variables from the model;
+  \item locations if provided or loaction indices;
+  \item FLT indices;
+}
+
 The output of the neural network will be bias. Which variables to use depends on
 the correlation between variables and bias. the threshold can be set using
 cor.threshold.

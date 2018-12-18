@@ -149,21 +149,21 @@ rmse.anen.cor <- sqrt(mean((values(rast.anen.cor - rast.anly))^2, na.rm = T))
 cols <- colorRampPalette(brewer.pal(11, 'Spectral')[11:1])(100)
 
 # Define value limit
-ylim <- range(c(values(rast.fcts), values(rast.anen),
+zlim <- range(c(values(rast.fcts), values(rast.anen),
                 values(rast.anly), values(rast.anen.cor)),
               na.rm = T)
 # Visualization
 par(mfrow = c(2, 2), mar = c(4, 1, 3, 3))
-plot(rast.anly, main = 'NAM Analysis', col = cols, zlim = ylim, legend = F)
+plot(rast.anly, main = 'NAM Analysis', col = cols, zlim = zlim, legend = F)
 map(col = 'grey', add = T); map('state', add = T)
-plot(rast.fcts, main = 'NAM Forecasts', col = cols, ylim = ylim,
+plot(rast.fcts, main = 'NAM Forecasts', col = cols, zlim = zlim,
      xlab = paste('RMSE =', round(rmse.fcts, 4)))
 map(col = 'grey', add = T); map('state', add = T)
-plot(rast.anen, main = 'AnEn Averaged', col = cols, ylim = ylim,
+plot(rast.anen, main = 'AnEn Averaged', col = cols, zlim = zlim,
      legend = F, xlab = paste('RMSE =', round(rmse.anen, 4)))
 map(col = 'grey', add = T); map('state', add = T)
 plot(rast.anen.cor, main = 'Bias Corrected AnEn Averaged', col = cols,
-     ylim = ylim, xlab = paste('RMSE =', round(rmse.anen.cor, 4)))
+     zlim = zlim, xlab = paste('RMSE =', round(rmse.anen.cor, 4)))
 map(col = 'grey', add = T); map('state', add = T)
 ```
 

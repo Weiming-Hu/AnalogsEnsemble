@@ -17,19 +17,6 @@
 #' parameters one by one. This object can be validated before use by the function
 #' \code{\link{validateConfiguration}}.
 #' 
-#' @author Weiming Hu \email{weiming@@psu.edu}
-#' 
-#' @param mode A character string of either 'independentSearch' or
-#' 'extendedSearch'.
-#' 
-#' @return A configuration list with all the parameters you need to specify.
-#' Please don't change the mode of the configuration mode. If you need a configuration
-#' with a different mode, you need to call the function again with the desired mode.
-#' 
-#' Please find detailed terminology explanation in the
-#' [Vocabulary post](https://weiming-hu.github.io/AnalogsEnsemble/2018/10/06/vocabulary.html).
-#' If you still can't find helpful information or can't understand the parameters, please open a ticket.
-#' 
 #' For configuration with mode 'independentSearch':
 #' - mode: 'independentSearch' indicates only searching the forecasts at the current location.
 #' - test_forecasts: The forecasts for which anlog ensembles will be generated.
@@ -74,10 +61,21 @@
 #' - distance: The distance to search for nearby stations/grid points.
 #' - preserve_search_stations: Whether to preserve the search station list in returned AnEn.
 #' 
-#' @export
+#' Please find detailed terminology explanation in the
+#' [Vocabulary post](https://weiming-hu.github.io/AnalogsEnsemble/2018/10/06/vocabulary.html).
+#' If you still can't find helpful information or can't understand the parameters, please open a ticket.
+#' 
+#' @author Weiming Hu \email{weiming@@psu.edu}
+#' 
+#' @param mode A character string of either 'independentSearch' or
+#' 'extendedSearch'.
+#' 
+#' @return A configuration list with all the parameters you need to specify.
+#' Please don't change the mode of the configuration mode. If you need a configuration
+#' with a different mode, you need to call the function again with the desired mode.
 #' 
 #' @md
-#' 
+#' @export
 generateConfiguration <- function(mode) {
 	
 	if (mode != 'independentSearch' && mode != 'extendedSearch') {

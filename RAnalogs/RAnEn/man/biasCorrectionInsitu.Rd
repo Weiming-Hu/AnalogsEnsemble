@@ -5,7 +5,7 @@
 \title{RAnEn::biasCorrectionInsitu}
 \usage{
 biasCorrectionInsitu(AnEn, config, forecast.ID, group.func = mean, ...,
-  keep.bias = F, show.progress = T)
+  keep.bias = F, show.progress = T, overwrite = F)
 }
 \arguments{
 \item{AnEn}{An AnEn object.}
@@ -23,6 +23,8 @@ into one value. For example, it can be 'mean', 'median', 'max', or
 \item{keep.bias}{A logical for whether to keep the bias array}
 
 \item{show.progress}{A logical for whether to show the progress bar}
+
+\item{overwrite}{A logical for whether to overwrite correction results.}
 }
 \value{
 An AnEn object.
