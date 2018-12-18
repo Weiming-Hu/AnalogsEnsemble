@@ -15,18 +15,6 @@
 #' @details 
 #' RAnEn is the R package implementing the Analog Ensemble method and more with data processing and visualization tasks.
 #' 
-#' Currently the available functions are:\cr
-#' - \code{\link{biasCorrection}}\cr
-#' - \code{\link{generateAnalogs}}\cr
-#' - \code{\link{generateCircleCoords}}\cr
-#' - \code{\link{generateConfiguration}}\cr
-#' - \code{\link{plotAnEnMap}}\cr
-#' - \code{\link{plotAnEnTimesSeries}}\cr
-#' - \code{\link{validateConfiguration}}\cr
-#' - \code{\link{computeWindSpeed}}\cr
-#' - \code{\link{computeWindDir}}\cr
-#' - \code{\link{checkOpenMP}}\cr
-#' 
 #' @keywords Analog Ensemble, Probabilistic Weather Forecasts, Bias Correction
 #' 
 #' @author Weiming Hu \email{weiming@@psu.edu}

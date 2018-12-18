@@ -4,7 +4,10 @@ Title: Analog Ensemble Package
 Version: @LIBRARY_VERSION@
 Date: @LIBRARY_CONFIGURE_TIMESTAMP@
 Author: Weiming Hu
-Authors@R: c(person("Weiming", "Hu", , "weiming@psu.edu", comment = c(ORCID = "0000-0003-4501-1435")), person("Guido", "Cervone", , "cervone@psu.edu"))
+Authors@R: c(
+    person("Weiming", "Hu", , "weiming@psu.edu", role = c("aut", "cre"),
+        comment = c(ORCID = "0000-0003-4501-1435")),
+    person("Guido", "Cervone", , "cervone@psu.edu", role = "aut"))
 BugReports: https://github.com/Weiming-Hu/AnalogsEnsemble/issues
 Maintainer: Weiming Hu <weiming@psu.edu>
 Description: The Analog Ensemble Package computes and manages analog ensembles. It is implemented in C++ and exported to R interface.
