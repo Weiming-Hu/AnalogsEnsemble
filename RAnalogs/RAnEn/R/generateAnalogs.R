@@ -39,8 +39,6 @@
 #' 
 #' @import Rcpp BH
 #' 
-#' @importFrom Rcpp evalCpp
-#' 
 #' @useDynLib RAnEn
 #' 
 #' @export

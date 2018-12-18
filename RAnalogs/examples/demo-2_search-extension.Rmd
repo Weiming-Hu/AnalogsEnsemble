@@ -154,7 +154,7 @@ ylim <- range(c(values(rast.fcts), values(rast.anen),
               na.rm = T)
 # Visualization
 par(mfrow = c(2, 2), mar = c(4, 1, 3, 3))
-plot(rast.anly, main = 'NAM Analysis', col = cols, ylim = ylim, legend = F)
+plot(rast.anly, main = 'NAM Analysis', col = cols, zlim = ylim, legend = F)
 map(col = 'grey', add = T); map('state', add = T)
 plot(rast.fcts, main = 'NAM Forecasts', col = cols, ylim = ylim,
      xlab = paste('RMSE =', round(rmse.fcts, 4)))
