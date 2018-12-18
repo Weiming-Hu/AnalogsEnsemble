@@ -100,6 +100,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aabd35eb66f02092534941be3e55f0d80"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae523208bbe19a812280dedacb4233e61"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::size_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classanen_sta_1_1_stations.html#ae523208bbe19a812280dedacb4233e61">getNearestStationsId</a> (double main_station_x, double main_station_y, std::size_t num_stations, double threshold=0) const</td></tr>
 <tr class="separator:ae523208bbe19a812280dedacb4233e61"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adc0f7129832ae8e4e92e1ae67e3c278a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classanen_sta_1_1_stations.html#adc0f7129832ae8e4e92e1ae67e3c278a">haveXY</a> () const</td></tr>
+<tr class="separator:adc0f7129832ae8e4e92e1ae67e3c278a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad7e588bc0b3f01ec564109f72b544f12"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classanen_sta_1_1_stations.html#ad7e588bc0b3f01ec564109f72b544f12">print</a> (std::ostream &amp;) const</td></tr>
 <tr class="separator:ad7e588bc0b3f01ec564109f72b544f12"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -196,6 +198,17 @@ Friends</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Get k-nearest station IDs.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">main_station_x</td><td>The X of main (center) station. </td></tr>
+    <tr><td class="paramname">main_station_y</td><td>The Y of main (center) station. </td></tr>
+    <tr><td class="paramname">num_stations</td><td>Number of nearest. </td></tr>
+    <tr><td class="paramname">threshold</td><td>A maximum radius threshold for searching. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A vector of nearby station IDs. </dd></dl>
 
 </div>
 </div>
@@ -214,6 +227,14 @@ Friends</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Get station index based on the ID</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">station_ID</td><td>The ID of the station. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="classanen_sta_1_1_station.html" title="Class Station stores station information including name, X, and Y. Each Station Object is assigned wi...">Station</a> index. </dd></dl>
 
 </div>
 </div>
@@ -248,6 +269,16 @@ Friends</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Get nearby station IDs using distance.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">main_station_x</td><td>The X of main (center) station. </td></tr>
+    <tr><td class="paramname">main_station_y</td><td>The Y of main (center) station. </td></tr>
+    <tr><td class="paramname">radius</td><td>The buffer radius. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A vector of nearby station IDs. </dd></dl>
 
 </div>
 </div>
@@ -282,6 +313,16 @@ Friends</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Get nearby station IDs using a square buffer.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">main_station_x</td><td>The X of main (center) station. </td></tr>
+    <tr><td class="paramname">main_station_y</td><td>The Y of main (center) station. </td></tr>
+    <tr><td class="paramname">half_edge</td><td>The half size of the edge of the square. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A vector of nearby station IDs. </dd></dl>
 
 </div>
 </div>
@@ -300,6 +341,32 @@ Friends</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Get a vector of indices for stations.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">stations_ID</td><td>A vector of station IDs. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A vector of station indices. </dd></dl>
+
+</div>
+</div>
+<a id="adc0f7129832ae8e4e92e1ae67e3c278a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adc0f7129832ae8e4e92e1ae67e3c278a">&#9670;&nbsp;</a></span>haveXY()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool anenSta::Stations::haveXY </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Check whether x and y are provided for all stations. </p><dl class="section return"><dt>Returns</dt><dd>A boolean. </dd></dl>
 
 </div>
 </div>

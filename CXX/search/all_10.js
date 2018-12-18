@@ -36,7 +36,7 @@ var searchData=
   ['runnerstation_2ecpp',['runnerStation.cpp',['../runner_station_8cpp.html',1,'']]],
   ['runnerstations_2ecpp',['runnerStations.cpp',['../runner_stations_8cpp.html',1,'']]],
   ['runnertimes_2ecpp',['runnerTimes.cpp',['../runner_times_8cpp.html',1,'']]],
-  ['runsimilaritycalculator',['runSimilarityCalculator',['../similarity_calculator_8cpp.html#a37685dc5b4cd4e965bc7cab81eb9a696',1,'similarityCalculator.cpp']]],
+  ['runsimilaritycalculator',['runSimilarityCalculator',['../similarity_calculator_8cpp.html#ab327cc1dd3a6b3ff6249d844aa66e7ff',1,'similarityCalculator.cpp']]],
   ['runstandarddeviationcalculator',['runStandardDeviationCalculator',['../standard_deviation_calculator_8cpp.html#a9d8fe6c59cc7aa89007ef58071aa1c2f',1,'standardDeviationCalculator.cpp']]],
   ['runwindfieldcalculator',['runWindFieldCalculator',['../wind_field_calculator_8cpp.html#a76753e43d00cfaef85409e6a2ec18dcf',1,'windFieldCalculator.cpp']]]
 ];

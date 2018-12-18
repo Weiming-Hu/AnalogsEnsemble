@@ -19,7 +19,7 @@ var searchData=
   ['runanalogselector',['runAnalogSelector',['../analog_selector_8cpp.html#adb29f7722ce825606751312feb1a7420',1,'analogSelector.cpp']]],
   ['runfileaggregate',['runFileAggregate',['../file_aggregate_8cpp.html#a56d33cafd2e8bb69391dc90d15f512fd',1,'fileAggregate.cpp']]],
   ['runforecaststoobservations',['runForecastsToObservations',['../forecasts_to_observations_8cpp.html#a260ecc0ad2b8ae001ead0c28d11dd3bf',1,'forecastsToObservations.cpp']]],
-  ['runsimilaritycalculator',['runSimilarityCalculator',['../similarity_calculator_8cpp.html#a37685dc5b4cd4e965bc7cab81eb9a696',1,'similarityCalculator.cpp']]],
+  ['runsimilaritycalculator',['runSimilarityCalculator',['../similarity_calculator_8cpp.html#ab327cc1dd3a6b3ff6249d844aa66e7ff',1,'similarityCalculator.cpp']]],
   ['runstandarddeviationcalculator',['runStandardDeviationCalculator',['../standard_deviation_calculator_8cpp.html#a9d8fe6c59cc7aa89007ef58071aa1c2f',1,'standardDeviationCalculator.cpp']]],
   ['runwindfieldcalculator',['runWindFieldCalculator',['../wind_field_calculator_8cpp.html#a76753e43d00cfaef85409e6a2ec18dcf',1,'windFieldCalculator.cpp']]]
 ];

@@ -31,6 +31,7 @@ var searchData=
   ['testgribconverter',['testGribConverter',['../classtest_grib_converter.html',1,'testGribConverter'],['../classtest_grib_converter.html#a3314c2929635c2bdd2529b33868db34b',1,'testGribConverter::testGribConverter()']]],
   ['testgribconverter_2ecpp',['testGribConverter.cpp',['../test_grib_converter_8cpp.html',1,'']]],
   ['testgribconverter_2eh',['testGribConverter.h',['../test_grib_converter_8h.html',1,'']]],
+  ['testhavexy',['testHaveXY',['../classtest_stations.html#a25fa65f2cd9d395385def9fcd2824b03',1,'testStations']]],
   ['testmatricesconstructor',['testMatricesConstructor',['../classtest_similarity_matrices.html#a2c4692bd19c9b8273208ce0378bf21f3',1,'testSimilarityMatrices']]],
   ['testmatricessort',['testMatricesSort',['../classtest_similarity_matrices.html#aba9d96a88634e02a999f73371874c67e',1,'testSimilarityMatrices']]],
   ['testmean',['testMean',['../classtest_an_en.html#a86facbd3fc93a49b45ef9bb0d18fd67a',1,'testAnEn']]],

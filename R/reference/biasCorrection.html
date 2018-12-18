@@ -61,7 +61,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAnEn</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">3.0.9</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">3.1.0</span>
       </span>
     </div>
 
@@ -75,6 +75,9 @@
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
@@ -103,41 +106,19 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>biasCorrection</span>(<span class='no'>AnEn</span>, <span class='no'>config</span>, <span class='no'>forecast.ID</span>, <span class='kw'>group.func</span> <span class='kw'>=</span> <span class='no'>mean</span>, <span class='no'>...</span>,
-  <span class='kw'>keep.bias</span> <span class='kw'>=</span> <span class='no'>F</span>, <span class='kw'>show.progress</span> <span class='kw'>=</span> <span class='no'>T</span>)</pre>
+    <pre class="usage"><span class='fu'>biasCorrection</span>(<span class='no'>...</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"insitu"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>AnEn</th>
-      <td><p>An AnEn object.</p></td>
-    </tr>
-    <tr>
-      <th>config</th>
-      <td><p>The configuration object used to generate the AnEn results.</p></td>
-    </tr>
-    <tr>
-      <th>forecast.ID</th>
-      <td><p>Which parameter in the forecasts should be used to generate bias.</p></td>
-    </tr>
-    <tr>
-      <th>group.func</th>
-      <td><p>A function that summarizes all the member values
-into one value. For example, it can be 'mean', 'median', 'max', or
-'min'.</p></td>
-    </tr>
-    <tr>
       <th>...</th>
-      <td><p>Extra parameters to function group.func.</p></td>
+      <td><p>Paramters that are passed to the subsequent function.</p></td>
     </tr>
     <tr>
-      <th>keep.bias</th>
-      <td><p>A logical for whether to keep the bias array</p></td>
-    </tr>
-    <tr>
-      <th>show.progress</th>
-      <td><p>A logical for whether to show the progress bar</p></td>
+      <th>method</th>
+      <td><p>Which bias correction method to use. It can be one of
+'insitu' and 'nnet'.</p></td>
     </tr>
     </table>
     
@@ -159,16 +140,11 @@ into one value. For example, it can be 'mean', 'median', 'max', or
     
 Weiming Hu <a href='mailto:weiming@psu.edu'>weiming@psu.edu</a>
 
-Statical bias correction function for analog ensembles. For a given forecast from AnEn for a
-certain station/grid point, day, and FLT, first, the mean of the selected forecasts, also
-the most similar past forecasts, is calculated; then the difference of the mean of the selected
-forecasts and the current forecast is calculated. This difference is then added to the AnEn
-forecasts.
+This is a wrapper function for different bias correction methods.
 
-This method only works when the vairable forecasted by AnEn also exists in the model forecasts.
-For example, temperature is a model forecast variable. So we can bias correct AnEn forecasts for
-temperature using the model forecasts. If the AnEn forecast variable does not exist in the model,
-this method is not applicable.
+Currently, it supports the following methods:
+- Insitu bias correction <code><a href='biasCorrectionInsitu.html'>RAnEn::biasCorrectionInsitu</a></code>;
+- Neural network bias correction <code><a href='biasCorrectionNeuralNet.html'>RAnEn::biasCorrectionNeuralNet</a></code>;
 
   </div>
 </div>

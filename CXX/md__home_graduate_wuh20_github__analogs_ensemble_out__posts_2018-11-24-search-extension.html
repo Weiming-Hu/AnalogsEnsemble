@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>AnalogEnsemble: Introduction</title>
+<title>AnalogEnsemble: 2018-11-24-search-extension</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -59,17 +59,26 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">Introduction </div>  </div>
+<div class="title">2018-11-24-search-extension </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>This article demonstrate how to use the <code>RAnEn</code> package with the search extension functionality. If you haven't done so, please read <a href="https://weiming-hu.github.io/AnalogsEnsemble/2018/11/04/demo-1-RAnEn-basics.html">the instructions for basic usage of <code>RAnEn</code></a> first. This article skips the part that has been covered in the previous article.</p>
+<div class="textblock"><hr/>
+<p> layout: post title: RAnEn Search Space Extension tags: </p><h2>- tutorial </h2>
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#data-description">Data Description</a></li>
+<li><a href="#generate-temperature-forecasts">Generate Temperature Forecasts</a></li>
+<li><a href="#visualization">Visualization</a></li>
+</ul>
+<h2>Introduction</h2>
+<p>This article demonstrate how to use the <code>RAnEn</code> package with the search extension functionality. If you haven't done so, please read <a href="https://weiming-hu.github.io/AnalogsEnsemble/2018/11/04/demo-1-RAnEn-basics.html">the instructions for basic usage of <code>RAnEn</code></a> first. This article skips the part that has been covered in the previous article.</p>
 <p>The classic <code><a class="el" href="class_an_en.html" title="AnEn class provides interfaces for computing Analog Ensembles. ">AnEn</a></code> algorithm searches for the most similar historical foreasts at its current location. Therefore, only forecasts from the current station/grid point will be traversed and compared. This search style is referred to as the <em>independent search</em>. Another possible search style is <em>extended search</em>, which is also referred to as <em>search space extension</em>. It simply indicates that forecasts at nearby stations/grid points are included in the search process. As a result, the search space is significantly larger by using the search space extension.</p>
 <p>There are currently two ways to define what nearby locations to be included into the search. Users can set the nearest number of neighbors to be included or a distance threshold. Two restraints can be used together.</p>
 <p>You will learn how to use these functions:</p>
 <ul>
 <li><code>generateAnalogs</code></li>
 </ul>
-<h2>Data Description </h2>
+<h2>Data Description</h2>
 <p>We reuse the data from the <a href="https://weiming-hu.github.io/AnalogsEnsemble/2018/11/04/demo-1-RAnEn-basics.html">demo 1 AnEn Basics</a>. Please refer to the article for more detailed data description. The message shows the name of variables loaded.</p>
 <div class="fragment"><div class="line">load(&#39;analysis.RData&#39;)</div><div class="line">load(&#39;forecasts.RData&#39;)</div><div class="line">print(ls())</div></div><!-- fragment --> <pre class="fragment">##  [1] "analysis"               "analysis.circular.pars"
 ##  [3] "analysis.indices"       "analysis.par.names"    
@@ -79,7 +88,7 @@ $(function() {
 ## [11] "forecast.par.names"     "forecast.times"        
 ## [13] "forecast.xs"            "forecast.ys"           
 ## [15] "forecasts"
-</pre><h2>Generate Temperature <a class="el" href="class_forecasts.html" title="Forecasts class provides interface for reading and writing forecast data from and to a NetCDF file...">Forecasts</a> </h2>
+</pre><h2>Generate Temperature <a class="el" href="class_forecasts.html" title="Forecasts class provides interface for reading and writing forecast data from and to a NetCDF file...">Forecasts</a></h2>
 <p>It is similar to generate <a class="el" href="class_an_en.html" title="AnEn class provides interfaces for computing Analog Ensembles. ">AnEn</a> forecasts with search space extension functionaltiy. First, we create a configuration and set up some common parameters to what we have done for independent search. <b>Please note that we specify the type of configuration when we create it</b>.</p>
 <p>If you don't understand any of the options, please see the <a href="https://weiming-hu.github.io/AnalogsEnsemble/R/reference/generateConfiguration.html">document</a>.</p>
 <p>Now that we have set up the basic parameters, we need to set up the parameters for search space extension. A list of parameters that should be set is shown below:</p>
@@ -116,7 +125,7 @@ $(function() {
 ## 121 1 36 19 3 (value, search station, search observation time)
 ## Member 'mapping': [FLT][forecast time] 36 370
 ## Member 'searchStations': [search station][test station] 15 121
-</pre><h1>Visualization </h1>
+</pre><h2>Visualization</h2>
 <p>Finally, we can make some plots.</p>
 <div class="fragment"><div class="line"># Choose a FLT to plot</div><div class="line">i.flt &lt;- 31</div><div class="line"></div><div class="line"># Calculate ensemble means</div><div class="line">mean.analogs &lt;- apply(AnEn$analogs[, , , , 1, drop = F], c(1, 2, 3), mean, na.rm = T)</div><div class="line">mean.analogs.cor &lt;- apply(AnEn$analogs.cor[, , , , 1, drop = F], c(1, 2, 3), mean, na.rm = T)</div><div class="line"></div><div class="line"># Create an empty raster for the geographical region</div><div class="line">xy &lt;- cbind(as.numeric(forecast.xs) - 360, as.numeric(forecast.ys))</div><div class="line">colnames(xy) = c(&#39;x&#39;, &#39;y&#39;)</div><div class="line">ext &lt;- extent(xy[, c(&#39;x&#39;, &#39;y&#39;)])</div><div class="line">rast &lt;- raster(ext, nrow = 11, ncol = 11, crs = CRS(&quot;+proj=longlat +datum=WGS84&quot;))</div><div class="line"></div><div class="line"># Rasterize the data values</div><div class="line">rast.anen &lt;- rasterize(xy[, c(&#39;x&#39;, &#39;y&#39;)], rast, mean.analogs[, 1, i.flt], fun = mean)</div><div class="line">rast.anen.cor &lt;- rasterize(xy[, c(&#39;x&#39;, &#39;y&#39;)], rast, mean.analogs.cor[, 1, i.flt], fun = mean)</div><div class="line">rast.fcts &lt;- rasterize(xy[, c(&#39;x&#39;, &#39;y&#39;)], rast, forecasts[1, , test.start, i.flt], fun = mean)</div><div class="line">rast.anly &lt;- rasterize(xy[, c(&#39;x&#39;, &#39;y&#39;)], rast, analysis[</div><div class="line">  1, , which(analysis.times == forecast.times[test.start] + flts[i.flt])], fun = mean)</div><div class="line"></div><div class="line"># Calculate RMSE</div><div class="line">rmse.fcts &lt;- sqrt(mean((values(rast.fcts - rast.anly))^2, na.rm = T))</div><div class="line">rmse.anen &lt;- sqrt(mean((values(rast.anen - rast.anly))^2, na.rm = T))</div><div class="line">rmse.anen.cor &lt;- sqrt(mean((values(rast.anen.cor - rast.anly))^2, na.rm = T))</div><div class="line"></div><div class="line"># Create a color scale with 100 colors</div><div class="line">cols &lt;- colorRampPalette(brewer.pal(11, &#39;Spectral&#39;)[11:1])(100)</div><div class="line"></div><div class="line"># Define value limit</div><div class="line">ylim &lt;- range(c(values(rast.fcts), values(rast.anen),</div><div class="line">                values(rast.anly), values(rast.anen.cor)),</div><div class="line">              na.rm = T)</div><div class="line"># Visualization</div><div class="line">par(mfrow = c(2, 2), mar = c(4, 1, 3, 3))</div><div class="line">plot(rast.anly, main = &#39;NAM Analysis&#39;, col = cols, ylim = ylim, legend = F)</div><div class="line">map(col = &#39;grey&#39;, add = T); map(&#39;state&#39;, add = T)</div><div class="line">plot(rast.fcts, main = &#39;NAM Forecasts&#39;, col = cols, ylim = ylim,</div><div class="line">     xlab = paste(&#39;RMSE =&#39;, round(rmse.fcts, 4)))</div><div class="line">map(col = &#39;grey&#39;, add = T); map(&#39;state&#39;, add = T)</div><div class="line">plot(rast.anen, main = &#39;AnEn Averaged&#39;, col = cols, ylim = ylim,</div><div class="line">     legend = F, xlab = paste(&#39;RMSE =&#39;, round(rmse.anen, 4)))</div><div class="line">map(col = &#39;grey&#39;, add = T); map(&#39;state&#39;, add = T)</div><div class="line">plot(rast.anen.cor, main = &#39;Bias Corrected AnEn Averaged&#39;, col = cols,</div><div class="line">     ylim = ylim, xlab = paste(&#39;RMSE =&#39;, round(rmse.anen.cor, 4)))</div><div class="line">map(col = &#39;grey&#39;, add = T); map(&#39;state&#39;, add = T)</div></div><!-- fragment --><div class="image">
 <img src="https://github.com/Weiming-Hu/AnalogsEnsemble/raw/gh-pages/assets/posts/2018-11-24-search-extension/unnamed-chunk-6-1.png" alt="Result comparison"/>

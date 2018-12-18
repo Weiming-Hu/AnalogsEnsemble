@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>RAnEn::plotAnEnMap — plotAnEnMap • RAnEn</title>
+<title>Changelog • RAnEn</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,10 +30,7 @@
 
 
 
-<meta property="og:title" content="RAnEn::plotAnEnMap — plotAnEnMap" />
-
-<meta property="og:description" content="RAnEn::plotAnEnMap documentation underdevelopment." />
-<meta name="twitter:card" content="summary" />
+<meta property="og:title" content="Changelog" />
 
 
 
@@ -49,7 +46,7 @@
   </head>
 
   <body>
-    <div class="container template-reference-topic">
+    <div class="container template-news">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -95,38 +92,31 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>RAnEn::plotAnEnMap</h1>
-    
-    <div class="hidden name"><code>plotAnEnMap.Rd</code></div>
+      <h1>Changelog <small></small></h1>
+      
     </div>
 
-    <div class="ref-description">
-    
-    <p>RAnEn::plotAnEnMap documentation underdevelopment.</p>
-    
-    </div>
-
-    <pre class="usage"><span class='fu'>plotAnEnMap</span>(<span class='no'>ras</span>, <span class='kw'>z</span> <span class='kw'>=</span> <span class='st'>"obs"</span>, <span class='kw'>spdf</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>spdf.bg</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>spdf.coastline</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='fu'>rainbow</span>(<span class='fl'>9</span>),
-  <span class='kw'>col.coastline</span> <span class='kw'>=</span> <span class='st'>"darkgrey"</span>, <span class='kw'>col.bg</span> <span class='kw'>=</span> <span class='st'>"white"</span>, <span class='kw'>col.text</span> <span class='kw'>=</span> <span class='st'>"black"</span>,
-  <span class='kw'>col.interpolate</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='kw'>border</span> <span class='kw'>=</span> <span class='st'>"darkgrey"</span>, <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='st'>"Longitude"</span>,
-  <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='st'>"Latitude"</span>, <span class='kw'>lwd</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>cex</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>lwd.coastline</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>lwd.bg</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>smallplot</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0.1</span>, <span class='fl'>0.14</span>, <span class='fl'>0.6</span>, <span class='fl'>0.9</span>), <span class='kw'>legend</span> <span class='kw'>=</span> <span class='st'>""</span>,
-  <span class='kw'>legend.line</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>legend.adj</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>add.legend</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='kw'>zlim</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>ext</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
-        
-
+    <div id="ranen-3-1-0" class="section level1">
+<h1 class="page-header">
+<a href="#ranen-3-1-0" class="anchor"></a>RAnEn 3.1.0</h1>
+<ul>
+<li>Reduce code size of the <code>computeSimilarity</code> function;</li>
+<li>Resolve a potential bug in <code>computeSimilarity</code> and introduce a new parameter <code>extend_observations</code> to this function. Now, <code>extend_observations</code> is supported by both <code>computeSimilarity</code> and <code>selectAnalogs</code> functions.</li>
+<li>Minor changes to <code><a href="../reference/biasCorrection.html">RAnEn::biasCorrection</a></code>;</li>
+<li>Introduce a new function for bias correction using a neural network;</li>
+</ul>
+</div>
   </div>
+
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-                </ul>
-
-    <h2>Author</h2>
-    
-Guido Cervone <a href='mailto:cervone@psu.edu'>cervone@psu.edu</a>
-
+    <div id="tocnav">
+      <h2>Contents</h2>
+      <ul class="nav nav-pills nav-stacked">
+        <li><a href="#ranen-3-1-0">3.1.0</a></li>
+      </ul>
+    </div>
   </div>
+
 </div>
 
       <footer>

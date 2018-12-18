@@ -63,7 +63,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><hr/>
-<p> layout: post </p><h2>title: Known Issues </h2>
+<p> layout: post title: Known Issues tags: </p><h2>- issue </h2>
 <h4><code>RAnEn</code> is built with GNU compiler and CMake process. But it shows up not supporting <code>OpenMP</code>.</h4>
 <p>If you have run the <code>roxygen</code> command before the make process, the library will not be supporting <code>OpenMP</code>. Make sure that before your CMake's runtime, you have a <code>clean</code> directory under <code>RAnalogs/RAnEn/src</code>. An easy way to do this is to run <code>make clean-roxygen</code>, and repeat the build and make process.</p>
 <h4>Linking errors when building the C++ library during the second time.</h4>

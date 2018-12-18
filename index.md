@@ -54,7 +54,7 @@ A list of requirement and dependency is provided below. Note that you don't nece
 |  GCC/Clang |                                   Required for the C++ program.                                  |
 |  NetCDF-C  |        Optional for the C++ program. If it is not found, the project will try to build it.       |
 |  Boost C++ | Optional for the C++ program. It is recommended to let the project build it for the C++ program. |
-|   CppUnit  |                         Optional for the C++ program when building tests.                        |
+|   CppUnit  |                         Required for the C++ program when building tests.                        |
 |      R     |                                    Required for the R library.                                   |
 |   OpenMP   |                                   Optional for both R and C++.                                   |
 
@@ -262,7 +262,7 @@ make clean
 |      BUILD\_HDF5     |                            Build `HDF5` library regardless of its existence.                            |         OFF        |
 |        VERBOSE       |                          Print detailed messages during the compiling process.                          |         OFF        |
 |    CODE\_PROFILING   |                                     Print time profiling information.                                   |         OFF        |
-| BUILD\_GRIBCONVERTER | Build the GRIB Converter utility. [Eccodes](https://confluence.ecmwf.int/display/ECC) library required. |         OFF        |
+| BUILD\_GRIBCONVERTER | Build the GRIB Converter utility. [Eccodes](https://confluence.ecmwf.int/display/ECC) library required. |         ON         |
 
 ## Known Issues
 
