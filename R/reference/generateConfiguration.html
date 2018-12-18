@@ -129,10 +129,10 @@ parameters one by one. This object can be validated before use by the function
     <p>A configuration list with all the parameters you need to specify.
 Please don't change the mode of the configuration mode. If you need a configuration
 with a different mode, you need to call the function again with the desired mode.</p>
-<p>Please find detailed terminology explanation in the
-<a href='https://weiming-hu.github.io/AnalogsEnsemble/2018/10/06/vocabulary.html'>Vocabulary post</a>.
-If you still can't find helpful information or can't understand the parameters, please open a ticket.</p>
-<p>For configuration with mode 'independentSearch':</p><ul>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>For configuration with mode 'independentSearch':</p><ul>
 <li><p>mode: 'independentSearch' indicates only searching the forecasts at the current location.</p></li>
 <li><p>test_forecasts: The forecasts for which anlog ensembles will be generated.</p></li>
 <li><p>search_forecasts: The forecasts from which analogs are searched.</p></li>
@@ -160,8 +160,7 @@ Set it to NA to allow any number of NAN values.</p></li>
 <li><p>max_flt_nan: The number of NAN values allowed when computing FLT window averages.
 Set it to NA to allow any number of NAN values.</p></li>
 </ul>
-
-<p>For configuration with mode 'extendedSearch': (skipping the aforementioned parameters)</p><ul>
+    <p>For configuration with mode 'extendedSearch': (skipping the aforementioned parameters)</p><ul>
 <li><p>mode: 'extendedSearch' indicates search the forecasts from both the current location and the nearby locations.</p></li>
 <li><p>test_stations_x: X coordinates of test stations/grid points.</p></li>
 <li><p>test_stations_y: Y coordinates of test stations/grid points.</p></li>
@@ -177,7 +176,9 @@ set it to a number that is wierdly off, the selected nearby stations will be gau
 <li><p>distance: The distance to search for nearby stations/grid points.</p></li>
 <li><p>preserve_search_stations: Whether to preserve the search station list in returned AnEn.</p></li>
 </ul>
-
+    <p>Please find detailed terminology explanation in the
+<a href='https://weiming-hu.github.io/AnalogsEnsemble/2018/10/06/vocabulary.html'>Vocabulary post</a>.
+If you still can't find helpful information or can't understand the parameters, please open a ticket.</p>
     
 
   </div>
@@ -187,6 +188,8 @@ set it to a number that is wierdly off, the selected nearby stations will be gau
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
           </ul>
 
     <h2>Author</h2>

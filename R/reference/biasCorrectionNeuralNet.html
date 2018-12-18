@@ -192,11 +192,12 @@ and FLTs using leave-one-out method. Leave-one-out method remoev only the sample
 day from the search data set and use the rest of the search data as search.</p>
 <p>After analogs are generated for samples, analog means are calculated and their
 individual bias can be calculated as well.</p>
-<p>Then, a neural network is trained potentially using the following variables:
-- all variables from the model;
-- locations if provided or loaction indices
-- FLT indices
-The output of the neural network will be bias. Which variables to use depends on
+<p>Then, a neural network is trained potentially using the following variables:</p><ul>
+<li><p>all variables from the model;</p></li>
+<li><p>locations if provided or loaction indices;</p></li>
+<li><p>FLT indices;</p></li>
+</ul>
+    <p>The output of the neural network will be bias. Which variables to use depends on
 the correlation between variables and bias. the threshold can be set using
 cor.threshold.</p>
 <p>Finally, the bias for tests are calculated using the neural network and AnEn 
