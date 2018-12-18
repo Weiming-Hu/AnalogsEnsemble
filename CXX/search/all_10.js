@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['released_20under_20mit_20license',['Released under MIT License',['../md__home_graduate_wuh20_github__analogs_ensemble__site__l_i_c_e_n_s_e.html',1,'']]],
   ['released_20under_20mit_20license',['Released under MIT License',['../md__home_graduate_wuh20_github__analogs_ensemble_out__l_i_c_e_n_s_e.html',1,'']]],
   ['randomize',['randomize',['../class_array4_d.html#a15626fe44d3792ccc2822afb30bcbd98',1,'Array4D']]],
   ['read_5fstring_5fvector_5f',['read_string_vector_',['../class_an_en_i_o.html#ae9cf0a8cde2b742992295ccc2bed17ef',1,'AnEnIO::read_string_vector_(std::string var_name, std::vector&lt; std::string &gt; &amp;results) const'],['../class_an_en_i_o.html#a8c7e28931fd88831922e64ad87ee03f2',1,'AnEnIO::read_string_vector_(std::string var_name, std::vector&lt; std::string &gt; &amp;results, size_t start, size_t count, ptrdiff_t stride=1) const']]],
@@ -8,7 +9,7 @@ var searchData=
   ['readdimlength',['readDimLength',['../class_an_en_i_o.html#a5ca1c7df3da9720967d7ed06f2dfe09b',1,'AnEnIO']]],
   ['readflts',['readFLTs',['../class_an_en_i_o.html#aa58735032dd6f54c83d6450842922d3f',1,'AnEnIO::readFLTs(anenTime::FLTs &amp;flts)'],['../class_an_en_i_o.html#a521772f8c969c2fa4ca8ebf1ffa0a460',1,'AnEnIO::readFLTs(anenTime::FLTs &amp;flts, size_t start, size_t count, ptrdiff_t stride=1)']]],
   ['readforecasts',['readForecasts',['../class_an_en_i_o.html#a7048d8b13138c2cabb07a4a82a6032f1',1,'AnEnIO::readForecasts(Forecasts_array &amp;forecasts)'],['../class_an_en_i_o.html#a79da666f555989ce4640623be116efe9',1,'AnEnIO::readForecasts(Forecasts_array &amp;forecasts, std::vector&lt; size_t &gt; start, std::vector&lt; size_t &gt; count, std::vector&lt; ptrdiff_t &gt; stride={1, 1, 1, 1})']]],
-  ['readme_2emd',['README.md',['../out_2_r_e_a_d_m_e_8md.html',1,'(Global Namespace)'],['../_r_e_a_d_m_e_8md.html',1,'(Global Namespace)']]],
+  ['readme_2emd',['README.md',['../__site_2_r_e_a_d_m_e_8md.html',1,'(Global Namespace)'],['../out_2_r_e_a_d_m_e_8md.html',1,'(Global Namespace)'],['../_r_e_a_d_m_e_8md.html',1,'(Global Namespace)']]],
   ['readobservations',['readObservations',['../class_an_en_i_o.html#a41f9d4be43463330384942cde49cd932',1,'AnEnIO::readObservations(Observations_array &amp;observations)'],['../class_an_en_i_o.html#af35a512d7a7e85aae99e57c669ac8817',1,'AnEnIO::readObservations(Observations_array &amp;observations, std::vector&lt; size_t &gt; start, std::vector&lt; size_t &gt; count, std::vector&lt; ptrdiff_t &gt; stride={1, 1, 1})']]],
   ['readparameters',['readParameters',['../class_an_en_i_o.html#a2b21ff04fcc0464017a5a717a6b19065',1,'AnEnIO::readParameters(anenPar::Parameters &amp;parameters)'],['../class_an_en_i_o.html#a0ff7e8d615ed2127ab66b83ee78fc820',1,'AnEnIO::readParameters(anenPar::Parameters &amp;parameters, size_t start, size_t count, ptrdiff_t stride=1)']]],
   ['readsimilaritymatrices',['readSimilarityMatrices',['../class_an_en_i_o.html#a237d03f50bb9101c40f7842694d25c5e',1,'AnEnIO']]],
