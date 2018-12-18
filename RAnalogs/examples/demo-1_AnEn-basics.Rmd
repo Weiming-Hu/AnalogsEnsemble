@@ -121,7 +121,7 @@ print(AnEn)
 
 Finally, we can plot together the analysis, the forecasts, the AnEn, and the bias corrected AnEn. Below the figures are the respective RMSE.
 
-```{r, echo=F}
+```{r}
 # Choose a FLT to plot
 i.flt <- 31
 

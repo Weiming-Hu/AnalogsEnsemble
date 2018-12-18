@@ -92,20 +92,26 @@ biasCorrectionInsitu <- function(
         index <- cbind(
           rep(forecast.ID, members.size),                                          # variable index
           AnEn$analogs[i, j, k, , 2],                                              # station index
-          sapply(AnEn$analogs[i, j, k, , 3], function(x, mapping, k) {
-            return(which(x == mapping[k, ]))}, mapping = AnEn$mapping, k = k),    # forecast day index
+          unlist(lapply(AnEn$analogs[i, j, k, , 3], function(x, mapping, k) {
+            return(which(x == mapping[k, ]))}, mapping = AnEn$mapping, k = k)),    # forecast day index
           rep(k, members.size)                                                     # flt index
         )
         
-        members.forecast <- config$search_forecasts[index]
-        
-        # current forecast - mean of selected forecasts
-        bias[i, j, k] <- 
-          config$test_forecasts[forecast.ID, i, j, k] -
-          group.func(members.forecast, ...)
-        
-        analogs.cor[i, j, k, , 1] <-
-          analogs.cor[i, j, k, , 1] + bias[i, j, k]
+        if (nrow(index) != members.size || ncol(index) != 4) {
+          bias[i, j, k] <- NA
+          analogs.cor[i, j, k, , 1] <- NA
+          
+        } else {
+          members.forecast <- config$search_forecasts[index]
+          
+          # current forecast - mean of selected forecasts
+          bias[i, j, k] <- 
+            config$test_forecasts[forecast.ID, i, j, k] -
+            group.func(members.forecast, ...)
+          
+          analogs.cor[i, j, k, , 1] <-
+            analogs.cor[i, j, k, , 1] + bias[i, j, k]  
+        }
         
         if (show.progress) {
           setTxtProgressBar(pb, counter)
