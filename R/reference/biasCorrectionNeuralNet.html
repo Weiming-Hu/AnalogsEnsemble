@@ -32,7 +32,7 @@
 
 <meta property="og:title" content="RAnEn::biasCorrectionNeuralNet — biasCorrectionNeuralNet" />
 
-<meta property="og:description" content="RAnEn::biasCorrectionNeuralNet" />
+<meta property="og:description" content="Use a neural network to correct AnEn bias." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -102,7 +102,7 @@
 
     <div class="ref-description">
     
-    <p>RAnEn::biasCorrectionNeuralNet</p>
+    <p>Use a neural network to correct AnEn bias.</p>
     
     </div>
 
@@ -183,6 +183,25 @@ into one value. For example, it can be 'mean', 'median', 'max', or min'.</p></td
 
     <p>An AnEn object.</p>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>First, a group of search day samples are selected, either systematically or
+randomly.</p>
+<p>Then, analogs are generated for these sample days at all available locations
+and FLTs using leave-one-out method. Leave-one-out method remoev only the sample
+day from the search data set and use the rest of the search data as search.</p>
+<p>After analogs are generated for samples, analog means are calculated and their
+individual bias can be calculated as well.</p>
+<p>Then, a neural network is trained potentially using the following variables:
+- all variables from the model;
+- locations if provided or loaction indices
+- FLT indices
+The output of the neural network will be bias. Which variables to use depends on
+the correlation between variables and bias. the threshold can be set using
+cor.threshold.</p>
+<p>Finally, the bias for tests are calculated using the neural network and AnEn 
+results are corrected.</p>
+    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -191,34 +210,13 @@ into one value. For example, it can be 'mean', 'median', 'max', or min'.</p></td
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
           </ul>
 
     <h2>Author</h2>
     
 Weiming Hu <a href='mailto:weiming@psu.edu'>weiming@psu.edu</a>
-
-Use a neural network to correct AnEn bias.
-
-First, a group of search day samples are selected, either systematically or
-randomly.
-
-Then, analogs are generated for these sample days at all available locations
-and FLTs using leave-one-out method. Leave-one-out method remoev only the sample
-day from the search data set and use the rest of the search data as search.
-
-After analogs are generated for samples, analog means are calculated and their
-individual bias can be calculated as well.
-
-Then, a neural network is trained potentially using the following variables:
-- all variables from the model;
-- locations if provided or loaction indices
-- FLT indices
-The output of the neural network will be bias. Which variables to use depends on
-the correlation between variables and bias. the threshold can be set using
-cor.threshold.
-
-Finally, the bias for tests are calculated using the neural network and AnEn 
-results are corrected.
 
   </div>
 </div>

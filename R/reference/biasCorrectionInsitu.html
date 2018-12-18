@@ -32,7 +32,8 @@
 
 <meta property="og:title" content="RAnEn::biasCorrectionInsitu — biasCorrectionInsitu" />
 
-<meta property="og:description" content="RAnEn::biasCorrectionInsitu" />
+<meta property="og:description" content="Statical bias correction function for analog ensembles. This method uses the bias of the 
+forecast model to correct AnEn, therefore the word 'in situ'." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -102,7 +103,8 @@
 
     <div class="ref-description">
     
-    <p>RAnEn::biasCorrectionInsitu</p>
+    <p>Statical bias correction function for analog ensembles. This method uses the bias of the 
+forecast model to correct AnEn, therefore the word 'in situ'.</p>
     
     </div>
 
@@ -148,6 +150,17 @@ into one value. For example, it can be 'mean', 'median', 'max', or
 
     <p>An AnEn object.</p>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>For a given forecast from AnEn for a certain station/grid point, day, and FLT, first,
+the mean of the selected forecasts, also the most similar past forecasts, is calculated;
+then the difference of the mean of the selected forecasts and the current forecast is calculated.
+This difference is then added to the AnEn forecasts.</p>
+<p>This method only works when the vairable forecasted by AnEn also exists in the model forecasts.
+For example, temperature is a model forecast variable. So we can bias correct AnEn forecasts for
+temperature using the model forecasts. If the AnEn forecast variable does not exist in the model,
+this method is not applicable.</p>
+    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -156,22 +169,13 @@ into one value. For example, it can be 'mean', 'median', 'max', or
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
           </ul>
 
     <h2>Author</h2>
     
 Weiming Hu <a href='mailto:weiming@psu.edu'>weiming@psu.edu</a>
-
-Statical bias correction function for analog ensembles. For a given forecast from AnEn for a
-certain station/grid point, day, and FLT, first, the mean of the selected forecasts, also
-the most similar past forecasts, is calculated; then the difference of the mean of the selected
-forecasts and the current forecast is calculated. This difference is then added to the AnEn
-forecasts.
-
-This method only works when the vairable forecasted by AnEn also exists in the model forecasts.
-For example, temperature is a model forecast variable. So we can bias correct AnEn forecasts for
-temperature using the model forecasts. If the AnEn forecast variable does not exist in the model,
-this method is not applicable.
 
   </div>
 </div>
