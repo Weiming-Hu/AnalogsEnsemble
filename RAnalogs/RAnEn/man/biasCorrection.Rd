@@ -4,25 +4,13 @@
 \alias{biasCorrection}
 \title{RAnEn::biasCorrection}
 \usage{
-biasCorrection(AnEn, config, forecast.ID, group.func = mean, ...,
-  keep.bias = F, show.progress = T)
+biasCorrection(..., method = "insitu")
 }
 \arguments{
-\item{AnEn}{An AnEn object.}
+\item{...}{Paramters that are passed to the subsequent function.}
 
-\item{config}{The configuration object used to generate the AnEn results.}
-
-\item{forecast.ID}{Which parameter in the forecasts should be used to generate bias.}
-
-\item{group.func}{A function that summarizes all the member values
-into one value. For example, it can be 'mean', 'median', 'max', or
-'min'.}
-
-\item{...}{Extra parameters to function group.func.}
-
-\item{keep.bias}{A logical for whether to keep the bias array}
-
-\item{show.progress}{A logical for whether to show the progress bar}
+\item{method}{Which bias correction method to use. It can be one of
+'insitu' and 'nnet'.}
 }
 \value{
 An AnEn object.
@@ -33,14 +21,9 @@ RAnEn::biasCorrection
 \author{
 Weiming Hu \email{weiming@psu.edu}
 
-Statical bias correction function for analog ensembles. For a given forecast from AnEn for a
-certain station/grid point, day, and FLT, first, the mean of the selected forecasts, also
-the most similar past forecasts, is calculated; then the difference of the mean of the selected
-forecasts and the current forecast is calculated. This difference is then added to the AnEn
-forecasts.
+This is a wrapper function for different bias correction methods.
 
-This method only works when the vairable forecasted by AnEn also exists in the model forecasts.
-For example, temperature is a model forecast variable. So we can bias correct AnEn forecasts for
-temperature using the model forecasts. If the AnEn forecast variable does not exist in the model,
-this method is not applicable.
+Currently, it supports the following methods:
+- Insitu bias correction \code{\link{RAnEn::biasCorrectionInsitu}};
+- Neural network bias correction \code{\link{RAnEn::biasCorrectionNeuralNet}};
 }
