@@ -12,9 +12,9 @@
 
 #' RAnEn::print.Configuration
 #' 
-#' @author Weiming Hu \email{weiming@@psu.edu}
-#' 
 #' Overload print function for class Configuration
+#' 
+#' @author Weiming Hu \email{weiming@@psu.edu}
 #' 
 #' @param x a Configuration object
 #' 

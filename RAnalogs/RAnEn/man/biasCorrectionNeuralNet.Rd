@@ -47,13 +47,9 @@ into one value. For example, it can be 'mean', 'median', 'max', or min'.}
 An AnEn object.
 }
 \description{
-RAnEn::biasCorrectionNeuralNet
-}
-\author{
-Weiming Hu \email{weiming@psu.edu}
-
 Use a neural network to correct AnEn bias.
-
+}
+\details{
 First, a group of search day samples are selected, either systematically or
 randomly.
 
@@ -74,4 +70,7 @@ cor.threshold.
 
 Finally, the bias for tests are calculated using the neural network and AnEn 
 results are corrected.
+}
+\author{
+Weiming Hu \email{weiming@psu.edu}
 }

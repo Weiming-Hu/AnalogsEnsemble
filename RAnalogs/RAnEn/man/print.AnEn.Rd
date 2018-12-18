@@ -10,7 +10,7 @@
 \item{x}{an AnEn object}
 }
 \description{
-RAnEn::print.AnEn
+Overload print function for class AnEn
 }
 \examples{
 AnEn <- list()
@@ -20,6 +20,4 @@ print(AnEn)
 }
 \author{
 Weiming Hu \email{weiming@psu.edu}
-
-Overload print function for class AnEn
 }

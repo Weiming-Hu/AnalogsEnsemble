@@ -10,7 +10,7 @@
 \item{x}{a Configuration object}
 }
 \description{
-RAnEn::print.Configuration
+Overload print function for class Configuration
 }
 \examples{
 config <- generateConfiguration('independentSearch')
@@ -19,6 +19,4 @@ print(config)
 }
 \author{
 Weiming Hu \email{weiming@psu.edu}
-
-Overload print function for class Configuration
 }

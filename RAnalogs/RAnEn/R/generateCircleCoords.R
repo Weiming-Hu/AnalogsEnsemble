@@ -27,7 +27,7 @@
 #' 
 #' @examples
 #' pts <- generateCircleCoords(3, 5, 2)
-#' plot(pts, pch = 19, cex = 1)
+#' plot(pts, pch = 19, cex = 0.5, asp = 1)
 #' points(3, 5, pch = 19, col = 'red')
 #' 
 #' @export

@@ -11,8 +11,6 @@
 
 #' RAnEn::biasCorrectionNeuralNet
 #' 
-#' @author Weiming Hu \email{weiming@@psu.edu}
-#' 
 #' Use a neural network to correct AnEn bias.
 #' 
 #' First, a group of search day samples are selected, either systematically or
@@ -35,6 +33,8 @@
 #' 
 #' Finally, the bias for tests are calculated using the neural network and AnEn 
 #' results are corrected.
+#' 
+#' @author Weiming Hu \email{weiming@@psu.edu}
 #' 
 #' @param AnEn An AnEn object.
 #' @param config The configuration object used to generate the AnEn results.

@@ -11,9 +11,9 @@
 
 #' RAnEn::print.AnEn
 #' 
-#' @author Weiming Hu \email{weiming@@psu.edu}
-#' 
 #' Overload print function for class AnEn
+#' 
+#' @author Weiming Hu \email{weiming@@psu.edu}
 #' 
 #' @param x an AnEn object
 #' 

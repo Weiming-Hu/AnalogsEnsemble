@@ -16,14 +16,13 @@ biasCorrection(..., method = "insitu")
 An AnEn object.
 }
 \description{
-RAnEn::biasCorrection
-}
-\author{
-Weiming Hu \email{weiming@psu.edu}
-
 This is a wrapper function for different bias correction methods.
-
+}
+\details{
 Currently, it supports the following methods:
 - Insitu bias correction \code{\link{RAnEn::biasCorrectionInsitu}};
 - Neural network bias correction \code{\link{RAnEn::biasCorrectionNeuralNet}};
+}
+\author{
+Weiming Hu \email{weiming@psu.edu}
 }

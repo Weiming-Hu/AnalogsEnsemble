@@ -28,19 +28,20 @@ into one value. For example, it can be 'mean', 'median', 'max', or
 An AnEn object.
 }
 \description{
-RAnEn::biasCorrectionInsitu
+Statical bias correction function for analog ensembles. This method uses the bias of the 
+forecast model to correct AnEn, therefore the word 'in situ'.
 }
-\author{
-Weiming Hu \email{weiming@psu.edu}
-
-Statical bias correction function for analog ensembles. For a given forecast from AnEn for a
-certain station/grid point, day, and FLT, first, the mean of the selected forecasts, also
-the most similar past forecasts, is calculated; then the difference of the mean of the selected
-forecasts and the current forecast is calculated. This difference is then added to the AnEn
-forecasts.
+\details{
+For a given forecast from AnEn for a certain station/grid point, day, and FLT, first,
+the mean of the selected forecasts, also the most similar past forecasts, is calculated;
+then the difference of the mean of the selected forecasts and the current forecast is calculated.
+This difference is then added to the AnEn forecasts.
 
 This method only works when the vairable forecasted by AnEn also exists in the model forecasts.
 For example, temperature is a model forecast variable. So we can bias correct AnEn forecasts for
 temperature using the model forecasts. If the AnEn forecast variable does not exist in the model,
 this method is not applicable.
+}
+\author{
+Weiming Hu \email{weiming@psu.edu}
 }
