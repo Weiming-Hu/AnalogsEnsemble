@@ -74,7 +74,7 @@ print.AnEn <- function (x) {
   
   if ('analogs.cor.nnet' %in% names(x)) {
     empty <- F
-    cat("Member 'analogs.cor.insitu': [test station][test time][FLT][member][type]\n")
+    cat("Member 'analogs.cor.nnet': [test station][test time][FLT][member][type]\n")
     cat(dim(x$analogs.cor.nnet))
     cat(" (value, search station, search observation time)")
     cat("\n")
