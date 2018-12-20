@@ -180,7 +180,7 @@ biasCorrectionNeuralNet <- function(
   }, config = config, group.func = group.func)
   
   if (parallel) {
-    stopCluster(cl)
+    parallel::stopCluster(cl)
   }
   
   # Make sure bias is of class array
