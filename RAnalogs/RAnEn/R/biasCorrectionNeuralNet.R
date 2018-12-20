@@ -69,7 +69,14 @@ biasCorrectionNeuralNet <- function(
   maxit = 2000, nnet.size = NA, group.func, ..., show.progress = T, keep.bias = F,
   keep.model = F, overwrite = F, parallel = F, num.cores = stop("Please specify num.cores!")) {
   
-  require(pbapply)
+	if (!requireNamespace("pbapply", quietly = TRUE)) {
+		stop("Package \"pbapply\" needed for this function to work. Please install it.", call. = FALSE)
+	}
+	
+	if (!requireNamespace("nnet", quietly = TRUE)) {
+		stop("Package \"nnet\" needed for this function to work. Please install it.", call. = FALSE)
+	}
+	
   if (!show.progress) pbo <- pboptions(type = "none")
   
   # Check for overwriting
@@ -119,7 +126,9 @@ biasCorrectionNeuralNet <- function(
   if (show.progress) cat("Compute Bias for sampled days using the left-one-out method ...\n")
   
   if (parallel) {
-    require(parallel)
+  	if (!requireNamespace("parallel", quietly = TRUE)) {
+  		stop("Package \"parallel\" needed for this function to work. Please install it.", call. = FALSE)
+  	}
     cl <- makeCluster(num.cores)
   } else {
     cl <- NULL
@@ -228,7 +237,6 @@ biasCorrectionNeuralNet <- function(
   formula <- as.formula(paste("bias ~", paste(colnames(data.nn.train)[selected], collapse = "+")))
   
   # Train an ANN for bias correction
-  require(nnet)
   if (show.progress) cat("Train the neural network ...\n")
   if (is.na(nnet.size)) nnet.size <- ncol(data.nn.train) - 1
   model.nn <- nnet(formula = formula, data = data.nn.train.norm,
