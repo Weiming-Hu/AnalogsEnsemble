@@ -58,9 +58,6 @@
 #' @param num.cores The number of cores to use for parallelization.
 #' @return An AnEn object.
 #' 
-#' @importFrom pbapply pbsapply
-#' @importFrom parallel detectCores
-#' @importFrom nnet nnet
 #' @useDynLib RAnEn
 #' 
 #' @export
@@ -129,12 +126,12 @@ biasCorrectionNeuralNet <- function(
   	if (!requireNamespace("parallel", quietly = TRUE)) {
   		stop("Package \"parallel\" needed for this function to work. Please install it.", call. = FALSE)
   	}
-    cl <- makeCluster(num.cores)
+    cl <- parallel::makeCluster(num.cores)
   } else {
     cl <- NULL
   }
   
-  bias <- pbsapply(simplify = "array", cl = cl, X = test.days,
+  bias <- pbapply::pbsapply(simplify = "array", cl = cl, X = test.days,
                    FUN = function(test.day, config, group.func, ...) {
     require(RAnEn)
     
@@ -239,7 +236,7 @@ biasCorrectionNeuralNet <- function(
   # Train an ANN for bias correction
   if (show.progress) cat("Train the neural network ...\n")
   if (is.na(nnet.size)) nnet.size <- ncol(data.nn.train) - 1
-  model.nn <- nnet(formula = formula, data = data.nn.train.norm,
+  model.nn <- nnet::nnet(formula = formula, data = data.nn.train.norm,
                    size = nnet.size, decay = 5e-4, maxit = maxit, linout = T)
   
   # Generate the bias for test forecasts

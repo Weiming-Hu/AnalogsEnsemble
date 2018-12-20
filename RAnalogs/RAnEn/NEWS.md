@@ -7,3 +7,4 @@
 - Change authors of the package.
 - Update documentation.
 - Change names of members from bias correction.
+- Change import functions to suggested for `parallel`, `nnet`, and `pbapply`.
