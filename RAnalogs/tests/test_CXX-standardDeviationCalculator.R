@@ -32,6 +32,7 @@ system(command)
 nc <- nc_open(file_out)
 sds.c <- ncvar_get(nc, "StandardDeviation");
 nc_close(nc)
+unlink(file_out)
 
 nc <- nc_open(file_in_1)
 fcsts.1 <- ncvar_get(nc, 'Data')
