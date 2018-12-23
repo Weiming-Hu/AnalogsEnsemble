@@ -7,8 +7,6 @@
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/Weiming-Hu/AnalogsEnsemble/master)
 
-_This document is still under development._
-
 <!-- vim-markdown-toc GitLab -->
 
 * [About](#about)
@@ -29,6 +27,8 @@ _This document is still under development._
 ## About
 
 Parallel Ensemble Forecast package uses a numerical weather prediction algorithm, called Analog Ensemble (AnEn), to generate ensemble forecasts. Ensemble members, also referred to as analogs, are selected based on the similarity between the current multivariate forecasts and the historical forecasts. It has been successfully applied to forecasts of several weather variables, for example, short-term temperature and wind speed predictions.
+
+A more detailed description of the Analog Ensemble technique can be found in [this post](https://weiming-hu.github.io/AnalogsEnsemble/2018/12/14/AnEn-explained.html).
 
 This package contains several libraries and applications:
 
@@ -237,9 +237,8 @@ make install
 Clean up the files after the make process.
 
 ```
-make clean-rsrc
-make clean-roxygen
 make clean
+make clean-all
 ```
 
 ### CMake Tunable Parameters Look-up
