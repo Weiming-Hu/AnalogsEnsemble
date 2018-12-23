@@ -22,6 +22,8 @@ Please navigate through the following slides to see the example.
 
 <iframe src="https://onedrive.live.com/embed?cid=BCFC2A6DB1591BCA&amp;resid=BCFC2A6DB1591BCA%212248&amp;authkey=AHAAoXCKyl1NiTs&amp;em=2&amp;wdAr=1.7777777777777777&amp;wdEaa=1" width="1186px" height="691px" frameborder="0">This is an embedded <a target="_blank" href="https://office.com">Microsoft Office</a> presentation, powered by <a target="_blank" href="https://office.com/webapps">Office Online</a>.</iframe>
 
+*Animation credited to [Laura Clemente-Harding](http://geoinf.psu.edu/people.shtml) and [Guido Cervone](http://geoinf.psu.edu/people.shtml)*
+
 - Step 1: A deterministic model has been running for a week and a new prediction is generated from the model. Red dots are temperature observations, and black dots are model predictions.
 - Step 2: By comparing current and historical model predictions (black dots), most similar past forecasts are identified.
 - Step 3: The corresponding observations are selected that are associated with the identified past predictions.
