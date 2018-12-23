@@ -78,6 +78,12 @@ add_custom_target(
     COMMAND ${CMAKE_COMMAND} -E remove ${FILES_TO_DELETE}
     COMMENT "clean the copied files in RAnEn/src. You will need to cmake again if you want to make.")
 
+if(TARGET clean-all)
+    add_dependencies(clean-all clean-rsrc)
+else(TARGET clean-all)
+    add_custom_target(clean-all DEPENDS clean-rsrc)
+endif(TARGET clean-all)
+
 # Add target to build release
 add_custom_target(build-release)	
 

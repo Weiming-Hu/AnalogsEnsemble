@@ -149,3 +149,10 @@ add_custom_target(
     clean-roxygen
     COMMAND ${CMAKE_COMMAND} -E remove ${FILES_TO_DELETE_ROXYGEN}
     COMMENT "clean *.o *.so files possibly created by Roxygen.")
+
+if(TARGET clean-all)
+    add_dependencies(clean-all clean-roxygen)
+else(TARGET clean-all)
+    add_custom_target(clean-all DEPENDS clean-roxygen)
+endif(TARGET clean-all)
+
