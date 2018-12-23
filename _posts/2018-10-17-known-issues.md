@@ -5,6 +5,12 @@ tags:
   - issue
 ---
 
+#### `NetBeans` does not recognize the executables after building the C++ programs.
+
+With Linux, by default, the GCC compiler will compile executable shared libraries that act like executables to a user, but `NetBeans` will not recognize this type. To resolve this issue with `NetBeans`,  add `-no-pie` to the `CMAKE_CXX_FLAGS` or/and `CMAKE_C_FLAGS` depending on which compiler is used.
+
+Some references include [Q&A 1](https://www.linuxquestions.org/questions/arch-29/netbeans-will-not-recognize-build-as-executable-4175620457/); [Q&A 2](https://askubuntu.com/questions/911538/disable-pie-and-pic-defaults-in-gcc-on-ubuntu-17-04); [GCC Options for linking](http://gcc.gnu.org/onlinedocs/gcc/Link-Options.html).
+
 #### `RAnEn` is built with GNU compiler and CMake process. But it shows up not supporting `OpenMP`.
 
 If you have run the `roxygen` command before the make process, the library will not be supporting `OpenMP`. Make sure that before your CMake's runtime, you have a `clean` directory under `RAnalogs/RAnEn/src`. An easy way to do this is to run `make clean-roxygen`, and repeat the build and make process.
