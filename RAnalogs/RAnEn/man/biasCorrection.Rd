@@ -26,6 +26,23 @@ Currently, it supports the following methods:
   \item Neural network bias correction \code{\link{RAnEn::biasCorrectionNeuralNet}};
 }
 }
+\examples{
+\dontrun{
+config <- generateConfiguration('independentSearch')
+
+#
+# Set up your configuration ...
+#
+
+AnEn <- generateAnalogs(config)
+AnEn <- biasCorrection(AnEn, config, forecast.ID = config$observation_id, group.func = mean, na.rm = T,
+                       keep.bias = T, show.progress = T, overwrite = F, method = 'insitu')
+AnEn <- biasCorrection(AnEn, config, keep.bias = T, keep.model = T, group.func = mean,
+                       na.rm = T,  show.progress = T, overwrite = F, parallel = T,
+                       num.cores = 5, method = 'nnet')
+}
+
+}
 \author{
 Weiming Hu \email{weiming@psu.edu}
 }

@@ -78,8 +78,21 @@
 #' @export
 generateConfiguration <- function(mode) {
   
-  if (mode != 'independentSearch' && mode != 'extendedSearch') {
-    stop(paste("Unknown mode", mode))	
+  available.modes <- c('independentSearch', 'extendedSearch')
+  
+  if (mode %in% available.modes) {
+    # This is a valid mode
+    
+  } else {
+    dists <- adist(mode, available.modes) / nchar(available.modes)
+    
+    if (length(unique(dists)) == length(dists)) {
+      cat("Did you mean", available.modes[order(dists)[1]], "?\n")
+    } else {
+      cat("Available modes:", available.modes)
+    }
+    
+    stop(paste("Unknown input mode", mode))	
   }
   
   config <- list(

@@ -25,8 +25,23 @@
 #' @param ... Paramters that are passed to the subsequent function.
 #' @param method Which bias correction method to use. It can be one of
 #' 'insitu' and 'nnet'.
-#' 
 #' @return An AnEn object.
+#' 
+#' @examples
+#' \dontrun{
+#' config <- generateConfiguration('independentSearch')
+#' 
+#' #
+#' # Set up your configuration ...
+#' #
+#' 
+#' AnEn <- generateAnalogs(config)
+#' AnEn <- biasCorrection(AnEn, config, forecast.ID = config$observation_id, group.func = mean, na.rm = T,
+#'                        keep.bias = T, show.progress = T, overwrite = F, method = 'insitu')
+#' AnEn <- biasCorrection(AnEn, config, keep.bias = T, keep.model = T, group.func = mean,
+#'                        na.rm = T,  show.progress = T, overwrite = F, parallel = T,
+#'                        num.cores = 5, method = 'nnet')
+#' }
 #' 
 #' @export
 biasCorrection <- function(..., method = 'insitu') {

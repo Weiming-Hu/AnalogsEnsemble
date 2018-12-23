@@ -99,29 +99,34 @@ biasCorrectionInsitu <- function(
     for (j in 1:dim(bias)[2]) {
       for (k in 1:dim(bias)[3]) {
         
-        # matrix indexing for members forecast
-        index <- cbind(
-          rep(forecast.ID, members.size),                                          # variable index
-          AnEn$analogs[i, j, k, , 2],                                              # station index
-          unlist(lapply(AnEn$analogs[i, j, k, , 3], function(x, mapping, k) {
-            return(which(x == mapping[k, ]))}, mapping = AnEn$mapping, k = k)),    # forecast day index
-          rep(k, members.size)                                                     # flt index
-        )
-        
-        if (nrow(index) != members.size || ncol(index) != 4) {
+        # If this ensemble only contains NA values, skip the bias calculation
+        if (all(is.na(AnEn$analogs[i, j, k, , ]))) {
           bias[i, j, k] <- NA
           analogs.cor[i, j, k, , 1] <- NA
-          
         } else {
-          members.forecast <- config$search_forecasts[index]
           
-          # current forecast - mean of selected forecasts
-          bias[i, j, k] <- 
-            config$test_forecasts[forecast.ID, i, j, k] -
-            group.func(members.forecast, ...)
+          # matrix indexing for members forecast
+          index <- cbind(
+            rep(forecast.ID, members.size),                                          # variable index
+            AnEn$analogs[i, j, k, , 2],                                              # station index
+            unlist(lapply(AnEn$analogs[i, j, k, , 3], function(x, mapping, k) {
+              return(which(x == mapping[k, ]))}, mapping = AnEn$mapping, k = k)),    # forecast day index
+            rep(k, members.size)                                                     # flt index
+          )
           
-          analogs.cor[i, j, k, , 1] <-
-            analogs.cor[i, j, k, , 1] + bias[i, j, k]  
+          if (nrow(index) != members.size || ncol(index) != 4) {
+            stop("Something went wrong inside the AnEn computation. Please report to the developer.")
+          } else {
+            members.forecast <- config$search_forecasts[index]
+            
+            # current forecast - mean of selected forecasts
+            bias[i, j, k] <- 
+              config$test_forecasts[forecast.ID, i, j, k] -
+              group.func(members.forecast, na.rm = T)
+            
+            analogs.cor[i, j, k, , 1] <-
+              analogs.cor[i, j, k, , 1] + bias[i, j, k]  
+          }
         }
         
         if (show.progress) {
