@@ -256,7 +256,10 @@ int main(int argc, char** argv) {
         
         if (vm.count("help") || argc == 1) {
             cout << GREEN << "Analog Ensemble program --- Similarity Calculator"
-                    << RESET << endl << desc << endl;
+#if defined(_CODE_PROFILING)
+                << " (with code profiling)"
+#endif
+                << RESET << endl << desc << endl;
             return 0;
         }
         
