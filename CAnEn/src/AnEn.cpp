@@ -447,13 +447,17 @@ shared(num_test_stations, num_flts, num_test_times, num_search_stations, \
 num_search_times, circular_flags, num_parameters, data_search_observations, \
 flts_window, mapping, weights, search_forecasts, test_forecasts, \
 sims, sds, i_observation_parameter, i_search_stations, max_flt_nan, max_par_nan, \
-test_stations_index_in_search, extend_observations)
+test_stations_index_in_search, extend_observations, cout)
 #endif
     for (size_t i_test_station = 0; i_test_station < num_test_stations; i_test_station++) {
         for (size_t i_test_time = 0; i_test_time < num_test_times; i_test_time++) {
             for (size_t i_flt = 0; i_flt < num_flts; i_flt++) {
                 for (size_t i_search_station_index = 0; i_search_station_index < num_search_stations; i_search_station_index++) {
                     
+                    cout << i_test_station << " " << i_test_time << " " << i_flt << " " << i_search_station_index;
+                    size_t counter_times = 0;
+                    
+                            
                     double i_search_station_current = NAN, i_search_station =
                             i_search_stations(i_test_station, i_search_station_index);
                     if (!extend_observations) {
@@ -484,7 +488,7 @@ test_stations_index_in_search, extend_observations)
                                 }
                                 
                                 if (!nan_observation) {
-
+                                    counter_times++;
                                     // Determine which row in the similarity matrix should be updated
                                     size_t i_sim_row = i_search_station_index * num_search_times + i_search_time;
                                     
@@ -492,6 +496,7 @@ test_stations_index_in_search, extend_observations)
                                     sims[i_test_station][i_test_time][i_flt][i_sim_row][COL_TAG_SIM::VALUE] = compute_single_similarity_(
                                             test_forecasts, search_forecasts, sims, sds, weights, flts_window, circular_flags,
                                             i_test_station, i_test_time, i_search_station, i_search_time, i_flt, max_par_nan, max_flt_nan);
+
                                     sims[i_test_station][i_test_time][i_flt][i_sim_row][COL_TAG_SIM::STATION] = i_search_station;
                                     sims[i_test_station][i_test_time][i_flt][i_sim_row][COL_TAG_SIM::TIME] = i_search_time;
                                     
@@ -499,6 +504,8 @@ test_stations_index_in_search, extend_observations)
                             } // End of isnan(mapping value)
                         } // End loop of search times
                     }
+                    
+                    cout << counter_times << endl;
                 } // End loop of search stations
             } // End loop of FLTs
         } // End loop of test times
