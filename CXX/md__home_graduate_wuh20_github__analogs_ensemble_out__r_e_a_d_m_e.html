@@ -63,7 +63,6 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a href="https://opensource.org/licenses/MIT"></a> <a href="https://www.codacy.com?utm_source=github.com&amp;amp;utm_medium=referral&amp;amp;utm_content=Weiming-Hu/AnalogsEnsemble&amp;amp;utm_campaign=Badge_Grade"></a> <a href="https://travis-ci.com/Weiming-Hu/AnalogsEnsemble"></a> <a href="https://codecov.io/gh/Weiming-Hu/AnalogsEnsemble"></a> <a href="https://www.tidyverse.org/lifecycle/#experimental"></a> <a href="https://mybinder.org/v2/gh/Weiming-Hu/AnalogsEnsemble/master"></a></p>
-<p><em>This document is still under development.</em></p>
 <ul>
 <li><a href="#about">About</a></li>
 <li><a href="#requirement-and-dependencies">Requirement and Dependencies</a><ul>
@@ -86,6 +85,7 @@ $(function() {
 </ul>
 <h2>About</h2>
 <p>Parallel Ensemble Forecast package uses a numerical weather prediction algorithm, called Analog Ensemble (<a class="el" href="class_an_en.html" title="AnEn class provides interfaces for computing Analog Ensembles. ">AnEn</a>), to generate ensemble forecasts. Ensemble members, also referred to as analogs, are selected based on the similarity between the current multivariate forecasts and the historical forecasts. It has been successfully applied to forecasts of several weather variables, for example, short-term temperature and wind speed predictions.</p>
+<p>A more detailed description of the Analog Ensemble technique can be found in <a href="https://weiming-hu.github.io/AnalogsEnsemble/2018/12/14/AnEn-explained.html">this post</a>.</p>
 <p>This package contains several libraries and applications:</p>
 <ul>
 <li><b><a class="el" href="class_an_en.html" title="AnEn class provides interfaces for computing Analog Ensembles. ">AnEn</a></b>: This is the main library that is implemented in C++. It provides main functionality of the <a class="el" href="class_an_en.html" title="AnEn class provides interfaces for computing Analog Ensembles. ">AnEn</a> method;</li>
@@ -158,7 +158,7 @@ $(function() {
 <p>After the make files have been generated, go ahead and install the R package.</p>
 <div class="fragment"><div class="line">make</div></div><!-- fragment --><p>The following command installs the R package.</p>
 <div class="fragment"><div class="line">make install</div></div><!-- fragment --><p>Clean up the files after the make process.</p>
-<div class="fragment"><div class="line">make clean-rsrc</div><div class="line">make clean-roxygen</div><div class="line">make clean</div></div><!-- fragment --><h3>CMake Tunable Parameters Look-up</h3>
+<div class="fragment"><div class="line">make clean</div><div class="line">make clean-all</div></div><!-- fragment --><h3>CMake Tunable Parameters Look-up</h3>
 <table class="doxtable">
 <tr>
 <th align="center">Parameter </th><th align="center">Explanation </th><th align="center">Default  </th></tr>

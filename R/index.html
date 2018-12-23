@@ -35,7 +35,7 @@ title: R Documentation
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">RAnEn</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">3.1.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">3.1.1</span>
       </span>
     </div>
 
@@ -70,7 +70,6 @@ title: R Documentation
 <a href="#parallel-ensemble-forecast-package" class="anchor"></a><a href="https://weiming-hu.github.io/AnalogsEnsemble/">Parallel Ensemble Forecast Package</a>
 </h1></div>
 
-<p><em>This document is still under development.</em></p>
 <!-- vim-markdown-toc GitLab -->
 <ul>
 <li><a href="#about">About</a></li>
@@ -98,6 +97,7 @@ title: R Documentation
 <h2 class="hasAnchor">
 <a href="#about" class="anchor"></a>About</h2>
 <p>Parallel Ensemble Forecast package uses a numerical weather prediction algorithm, called Analog Ensemble (AnEn), to generate ensemble forecasts. Ensemble members, also referred to as analogs, are selected based on the similarity between the current multivariate forecasts and the historical forecasts. It has been successfully applied to forecasts of several weather variables, for example, short-term temperature and wind speed predictions.</p>
+<p>A more detailed description of the Analog Ensemble technique can be found in <a href="https://weiming-hu.github.io/AnalogsEnsemble/2018/12/14/AnEn-explained.html">this post</a>.</p>
 <p>This package contains several libraries and applications:</p>
 <ul>
 <li>
@@ -280,9 +280,8 @@ cd build</code></pre>
 <p>The following command installs the R package.</p>
 <pre><code>make install</code></pre>
 <p>Clean up the files after the make process.</p>
-<pre><code>make clean-rsrc
-make clean-roxygen
-make clean</code></pre>
+<pre><code>make clean
+make clean-all</code></pre>
 </div>
 </div>
 <div id="cmake-tunable-parameters-look-up" class="section level3">

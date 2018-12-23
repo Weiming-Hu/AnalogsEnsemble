@@ -151,6 +151,8 @@ Private Member Functions</h2></td></tr>
 <tr class="separator:aa1db07390245fcb5af4b563ece5d5c4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afbccb0a25e09ef2353d0f754afe7273e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en.html#a0e256eb89d102d318a47d936b02242bf">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en.html#afbccb0a25e09ef2353d0f754afe7273e">find_nearest_station_match_</a> (const <a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> &amp;test_stations, const <a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> &amp;search_stations, std::vector&lt; size_t &gt; &amp;test_stations_index_in_search) const</td></tr>
 <tr class="separator:afbccb0a25e09ef2353d0f754afe7273e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3cc832a28c8ba59708c53b53a7edc71a"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en.html#a3cc832a28c8ba59708c53b53a7edc71a">compute_single_similarity_</a> (const <a class="el" href="class_forecasts__array.html">Forecasts_array</a> &amp;test_forecasts, const <a class="el" href="class_forecasts__array.html">Forecasts_array</a> &amp;search_forecasts, const <a class="el" href="class_similarity_matrices.html">SimilarityMatrices</a> &amp;sims, const <a class="el" href="class_standard_deviation.html">StandardDeviation</a> &amp;sds, const std::vector&lt; double &gt; &amp;weights, const boost::numeric::ublas::matrix&lt; size_t &gt; &amp;flts_window, const std::vector&lt; bool &gt; &amp;circular_flags, size_t i_test_station, size_t i_test_time, size_t i_search_station, size_t i_search_time, size_t i_flt, double max_par_nan, double max_flt_nan) const</td></tr>
+<tr class="separator:a3cc832a28c8ba59708c53b53a7edc71a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -401,6 +403,135 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>An <a class="el" href="class_an_en.html#a0e256eb89d102d318a47d936b02242bf">AnEn::errorType</a>. </dd></dl>
+
+</div>
+</div>
+<a id="a3cc832a28c8ba59708c53b53a7edc71a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3cc832a28c8ba59708c53b53a7edc71a">&#9670;&nbsp;</a></span>compute_single_similarity_()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double AnEn::compute_single_similarity_ </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_forecasts__array.html">Forecasts_array</a> &amp;&#160;</td>
+          <td class="paramname"><em>test_forecasts</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="class_forecasts__array.html">Forecasts_array</a> &amp;&#160;</td>
+          <td class="paramname"><em>search_forecasts</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="class_similarity_matrices.html">SimilarityMatrices</a> &amp;&#160;</td>
+          <td class="paramname"><em>sims</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="class_standard_deviation.html">StandardDeviation</a> &amp;&#160;</td>
+          <td class="paramname"><em>sds</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramname"><em>weights</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const boost::numeric::ublas::matrix&lt; size_t &gt; &amp;&#160;</td>
+          <td class="paramname"><em>flts_window</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; bool &gt; &amp;&#160;</td>
+          <td class="paramname"><em>circular_flags</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>i_test_station</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>i_test_time</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>i_search_station</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>i_search_time</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>i_flt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>max_par_nan</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>max_flt_nan</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This function is the core function for computing a single similarity metric value between two forecasts (usually one test forecast and one historical search forecast).</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">test_forecasts</td><td>The test forecasts. </td></tr>
+    <tr><td class="paramname">search_forecasts</td><td>The search forecasts. </td></tr>
+    <tr><td class="paramname">sims</td><td>A <a class="el" href="class_similarity_matrices.html" title="SimilarityMatrices class stores similarity metrics. Default dimensions of SimilarityMatrices are: [te...">SimilarityMatrices</a>. </td></tr>
+    <tr><td class="paramname">sds</td><td>A <a class="el" href="class_standard_deviation.html" title="StandardDeviation class is designed for storing the standard deviation of a Forecasts object...">StandardDeviation</a>. </td></tr>
+    <tr><td class="paramname">weights</td><td>A vector of weights for each parameter in the forecasts. </td></tr>
+    <tr><td class="paramname">flts_window</td><td>A matrix specifying the time window for each FLT. </td></tr>
+    <tr><td class="paramname">circular_flags</td><td>A vector of boolean for whether a parameter is circular or not. </td></tr>
+    <tr><td class="paramname">i_test_station</td><td>The index of the test station in test forecasts. </td></tr>
+    <tr><td class="paramname">i_test_time</td><td>The index of the test time in test forecasts. </td></tr>
+    <tr><td class="paramname">i_search_station</td><td>The index of search station in search forecasts. </td></tr>
+    <tr><td class="paramname">i_search_time</td><td>The index of search time in search forecasts. </td></tr>
+    <tr><td class="paramname">i_flt</td><td>The index of FLT of both the search and test forecasts. </td></tr>
+    <tr><td class="paramname">max_par_nan</td><td>The maximum number of NAN allowed in parameters. </td></tr>
+    <tr><td class="paramname">max_flt_nan</td><td>The maximum number of NAN allowed in the FLT window. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A similarity metric value. </dd></dl>
 
 </div>
 </div>
