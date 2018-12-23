@@ -354,7 +354,7 @@ private:
             const StandardDeviation & sds,
             const std::vector<double> & weights,
             const boost::numeric::ublas::matrix<size_t>& flts_window,
-            const std::vector<bool> circular_flags,
+            const std::vector<bool> & circular_flags,
             size_t i_test_station,
             size_t i_test_time,
             size_t i_search_station,

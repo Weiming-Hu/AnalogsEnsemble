@@ -453,7 +453,7 @@ test_stations_index_in_search, extend_observations)
         for (size_t i_test_time = 0; i_test_time < num_test_times; i_test_time++) {
             for (size_t i_flt = 0; i_flt < num_flts; i_flt++) {
                 for (size_t i_search_station_index = 0; i_search_station_index < num_search_stations; i_search_station_index++) {
-
+                    
                     double i_search_station_current = NAN, i_search_station =
                             i_search_stations(i_test_station, i_search_station_index);
                     if (!extend_observations) {
@@ -859,7 +859,7 @@ AnEn::compute_single_similarity_(
         const StandardDeviation & sds,
         const vector<double> & weights,
         const boost::numeric::ublas::matrix<size_t>& flts_window,
-        const vector<bool> circular_flags,
+        const vector<bool> & circular_flags,
         
         size_t i_test_station,
         size_t i_test_time,
