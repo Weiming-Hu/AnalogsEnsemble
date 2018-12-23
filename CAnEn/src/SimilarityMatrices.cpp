@@ -12,6 +12,7 @@
 #include <algorithm>
 #include <exception>
 #include <iostream>
+#include <set>
 
 #if defined(_OPENMP)
 #include <omp.h>
@@ -87,6 +88,30 @@ SimilarityMatrices::resize(size_t dim0, size_t dim1, size_t dim2) {
             << dim0 * dim1 * dim2 * max_entries_ * _NUM_COLS_ << " double values!" << endl;
         throw;
     }
+}
+
+bool
+SimilarityMatrices::checkSearchSpaceExtension() const {
+    size_t dim0 = this->shape()[0], dim1 = this->shape()[1],
+            dim2 = this->shape()[2], dim3 = this->shape()[3];
+            
+    for (size_t i_dim0 = 0; i_dim0 < dim0; i_dim0++) {
+        for (size_t i_dim1 = 0; i_dim1 < dim1; i_dim1++) {
+            for (size_t i_dim2 = 0; i_dim2 < dim2; i_dim2++) {
+                set<double> stations;
+
+                for (size_t i_dim3 = 0; i_dim3 < dim3; i_dim3++) {
+                    stations.insert((*this)[i_dim0][i_dim1][i_dim2][i_dim3][COL_TAG::STATION]);
+                }
+                
+                if (stations.size() != 1) {
+                    return(true);
+                }
+            }
+        }
+    }
+
+    return(false);
 }
 
 void
