@@ -130,6 +130,7 @@ generateAnalogs <- function(configuration) {
 	#
 	if (configuration$preserve_similarity) {
 		AnEn$similarity <- aperm(AnEn$similarity, length(dim(AnEn$similarity)):1)
+        AnEn$similarity[, , , , 2:3] <- AnEn$similarity[, , , , 2:3, drop = F] + 1
 	}
 	
 	if (configuration$mode == 'extendedSearch') {
@@ -144,7 +145,6 @@ generateAnalogs <- function(configuration) {
 	
 	# Convert the station index from C counting to R counting
 	AnEn$analogs[, , , , 2] <- AnEn$analogs[, , , , 2, drop = F] + 1
-	AnEn$similarity[, , , , 2:3] <- AnEn$similarity[, , , , 2:3, drop = F] + 1
 	
 	if (configuration$preserve_mapping) AnEn$mapping <- AnEn$mapping + 1
 
