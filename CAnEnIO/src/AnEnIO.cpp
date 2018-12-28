@@ -694,7 +694,7 @@ AnEnIO::readFLTs(anenTime::FLTs& flts,
         size_t start, size_t count, ptrdiff_t stride) {
 
     if (verbose_ >= 3) {
-        cout << "Reading FLTs  from file ("
+        cout << "Reading FLTs from file ("
                 << file_path_ << ") ..." << endl;
     }
 

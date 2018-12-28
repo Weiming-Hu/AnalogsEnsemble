@@ -22,8 +22,8 @@
  *  of SimilarityMatrices are:
  *  [test stations][test times][test FLTs][Number of entries for comparison][3]
  * 
- * The second dimension stores in sequence similarity metric value, time
- * indicator, and station indication.
+ * The second dimension stores in sequence similarity metric value, station
+ * indicator, and time indication.
  * 
  * SimilarityMatrices data order is row-major.
  */
@@ -80,6 +80,12 @@ public:
 
     void resize();
     void resize(size_t dim0, size_t dim1, size_t dim2);
+    
+    /**
+     * Check whether the similarity metrics are computed using search space extension.
+     * @return A boolean for whether search space extension is used.
+     */
+    bool checkSearchSpaceExtension() const;
 
     /**
      * Set the target forecast.

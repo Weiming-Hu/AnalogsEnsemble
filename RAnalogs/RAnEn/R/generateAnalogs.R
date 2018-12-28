@@ -43,7 +43,7 @@
 #' 
 #' @export
 generateAnalogs <- function(configuration) {
-	
+
 	valid <- validateConfiguration(configuration, configuration$verbose)
 	if (!valid) return(valid)
 	

@@ -77,25 +77,58 @@
 #' @md
 #' @export
 generateConfiguration <- function(mode) {
-	
-	if (mode != 'independentSearch' && mode != 'extendedSearch') {
-		stop(paste("Unknown mode", mode))	
-	}
-	
-	config <- list(
-		mode = mode, test_forecasts = NULL, search_forecasts = NULL, search_times = NULL, search_flts = NULL,
-		search_observations = NULL, observation_times = NULL, observation_id = 1, num_members = NULL,
-		circulars = vector(mode = 'numeric', length = 0), weights = NULL, quick = T,
-        extend_observations = F, preserve_real_time = F, preserve_similarity = F,
-        preserve_mapping = T, time_match_mode = 1, max_par_nan = 0, max_flt_nan= 0, verbose = 1)
-	
-	if (mode == 'extendedSearch') {
-		config <- c(config, list(test_stations_x = NULL, test_stations_y = NULL,
-                                 search_stations_x = NULL, search_stations_y = NULL,
-                                 max_num_search_stations = NULL, num_nearest = 0,
-                                 distance = 0, preserve_search_stations = F))
-	}
-	
-	class(config) <- "Configuration"
-	return(config)
+  
+  available.modes <- c('independentSearch', 'extendedSearch')
+  
+  if (mode %in% available.modes) {
+    # This is a valid mode
+    
+  } else {
+    dists <- adist(mode, available.modes) / nchar(available.modes)
+    
+    if (length(unique(dists)) == length(dists)) {
+      cat("Did you mean", available.modes[order(dists)[1]], "?\n")
+    } else {
+      cat("Available modes:", available.modes)
+    }
+    
+    stop(paste("Unknown input mode", mode))	
+  }
+  
+  config <- list(
+    mode = mode,
+    test_forecasts = NULL,
+    search_forecasts = NULL, 
+    search_times = NULL, 
+    search_flts = NULL,
+    search_observations = NULL, 
+    observation_times = NULL,
+    num_members = NULL,
+    observation_id = 1,
+    circulars = vector(mode = 'numeric', length = 0), 
+    weights = vector(mode = 'numeric', length = 0), 
+    quick = T,
+    extend_observations = F, 
+    preserve_real_time = F, 
+    preserve_similarity = F,
+    preserve_mapping = T, 
+    time_match_mode = 1, 
+    max_par_nan = 0, 
+    max_flt_nan= 0, 
+    verbose = 1)
+  
+  if (mode == 'extendedSearch') {
+    config <- c(config, list(
+      test_stations_x = NULL,
+      test_stations_y = NULL,
+      search_stations_x = NULL, 
+      search_stations_y = NULL,
+      num_nearest = 0,
+      distance = 0,
+      max_num_search_stations = 0,
+      preserve_search_stations = F))
+  }
+  
+  class(config) <- "Configuration"
+  return(config)
 }

@@ -54,6 +54,10 @@
 */*Rhistory
 *Rhistory
 *autom4te.cache*
+*RData
+*Rdata
+*rdata
+*rData
 
 # Customize
 build*

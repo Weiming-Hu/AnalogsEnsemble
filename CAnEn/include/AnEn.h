@@ -324,6 +324,44 @@ private:
             const anenSta::Stations & test_stations,
             const anenSta::Stations & search_stations,
             std::vector<size_t> & test_stations_index_in_search) const;
+    
+    /**
+     * This function is the core function for computing a single similarity
+     * metric value between two forecasts (usually one test forecast and one
+     * historical search forecast).
+     * 
+     * @param test_forecasts The test forecasts.
+     * @param search_forecasts The search forecasts.
+     * @param sims A SimilarityMatrices.
+     * @param sds A StandardDeviation.
+     * @param weights A vector of weights for each parameter in the forecasts.
+     * @param flts_window A matrix specifying the time window for each FLT.
+     * @param circular_flags A vector of boolean for whether a parameter
+     * is circular or not.
+     * @param i_test_station The index of the test station in test forecasts.
+     * @param i_test_time The index of the test time in test forecasts.
+     * @param i_search_station The index of search station in search forecasts.
+     * @param i_search_time The index of search time in search forecasts.
+     * @param i_flt The index of FLT of both the search and test forecasts.
+     * @param max_par_nan The maximum number of NAN allowed in parameters.
+     * @param max_flt_nan The maximum number of NAN allowed in the FLT window.
+     * @return A similarity metric value.
+     */
+    double compute_single_similarity_(
+            const Forecasts_array & test_forecasts,
+            const Forecasts_array & search_forecasts,
+            const SimilarityMatrices & sims,
+            const StandardDeviation & sds,
+            const std::vector<double> & weights,
+            const boost::numeric::ublas::matrix<size_t>& flts_window,
+            const std::vector<bool> & circular_flags,
+            size_t i_test_station,
+            size_t i_test_time,
+            size_t i_search_station,
+            size_t i_search_time,
+            size_t i_flt,
+            double max_par_nan,
+            double max_flt_nan) const;
 };
 
 #endif /* ANEN_H */

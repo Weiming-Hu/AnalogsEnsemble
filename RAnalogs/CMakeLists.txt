@@ -2,7 +2,7 @@ cmake_minimum_required (VERSION 3.1)
 project (RAnalogs LANGUAGES NONE)
 
 set(LIBRARY_NAME "RAnEn")
-set(LIBRARY_VERSION "3.1.0")
+set(LIBRARY_VERSION "3.1.1")
 message(STATUS "RAnEn version ${LIBRARY_VERSION}")
 
 set(RAnEn_PACKAGE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/${LIBRARY_NAME}")
@@ -77,6 +77,12 @@ add_custom_target(
     clean-rsrc 
     COMMAND ${CMAKE_COMMAND} -E remove ${FILES_TO_DELETE}
     COMMENT "clean the copied files in RAnEn/src. You will need to cmake again if you want to make.")
+
+if(TARGET clean-all)
+    add_dependencies(clean-all clean-rsrc)
+else(TARGET clean-all)
+    add_custom_target(clean-all DEPENDS clean-rsrc)
+endif(TARGET clean-all)
 
 # Add target to build release
 add_custom_target(build-release)	

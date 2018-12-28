@@ -346,6 +346,20 @@ AnEn::computeSimilarity(
     // Check input
     handleError(check_input_(search_forecasts, sds, sims,
             search_observations, mapping, i_observation_parameter));
+    
+    // Check max_par_nan
+    if (max_par_nan >= 0 && max_par_nan <= search_forecasts.getParametersSize()) {
+        // valid input
+    } else {
+        max_par_nan = 0;
+    }
+    
+    // Check max_flt_nan
+    if (max_flt_nan >= 0 && max_flt_nan <= search_forecasts.getFLTsSize()) {
+        // valid input
+    } else {
+        max_flt_nan = 0;
+    }
 
     const Forecasts_array & test_forecasts = sims.getTargets();
     size_t num_parameters = test_forecasts.getParametersSize();
@@ -354,7 +368,6 @@ AnEn::computeSimilarity(
     size_t num_test_times = test_forecasts.getTimesSize();
     size_t num_search_stations = i_search_stations.size2();
     size_t num_search_times = search_forecasts.getTimesSize();
-    double num_par_nan = 0.0;
 
     using COL_TAG_SIM = SimilarityMatrices::COL_TAG;
 
@@ -394,8 +407,6 @@ AnEn::computeSimilarity(
 
     // Get data
     auto data_search_observations = search_observations.data();
-    auto data_search_forecasts = search_forecasts.data();
-    auto data_test_forecasts = test_forecasts.data();
 
     // Pre compute the window size for each FLT
     size_t window_half_size = 1;
@@ -434,88 +445,61 @@ AnEn::computeSimilarity(
 #pragma omp parallel for default(none) schedule(static) collapse(4) \
 shared(num_test_stations, num_flts, num_test_times, num_search_stations, \
 num_search_times, circular_flags, num_parameters, data_search_observations, \
-flts_window, mapping, weights, data_search_forecasts, data_test_forecasts, \
+flts_window, mapping, weights, search_forecasts, test_forecasts, \
 sims, sds, i_observation_parameter, i_search_stations, max_flt_nan, max_par_nan, \
-test_stations_index_in_search, extend_observations) firstprivate(num_par_nan)
+test_stations_index_in_search, extend_observations)
 #endif
     for (size_t i_test_station = 0; i_test_station < num_test_stations; i_test_station++) {
         for (size_t i_test_time = 0; i_test_time < num_test_times; i_test_time++) {
             for (size_t i_flt = 0; i_flt < num_flts; i_flt++) {
                 for (size_t i_search_station_index = 0; i_search_station_index < num_search_stations; i_search_station_index++) {
-
-                    // Search station is different based on whether to extend observation stations.
-                    double i_search_station = NAN;
-                    if (extend_observations) {
-                        i_search_station = i_search_stations(i_test_station, i_search_station_index);
-                    } else {
-                        i_search_station = test_stations_index_in_search[i_test_station];
+                    
+                    double i_search_station_current = NAN, i_search_station =
+                            i_search_stations(i_test_station, i_search_station_index);
+                    if (!extend_observations) {
+                        i_search_station_current = test_stations_index_in_search[i_test_station];
+                        
+                        if (std::isnan(i_search_station_current)) {
+                            // If the search station is NAN, do not continue for this search station
+                            continue;
+                        }
                     }
                     
-                    // Check if search station is NAN, which is the _FILL_VALUE
+                    // Check if search station is NAN
                     if (!std::isnan(i_search_station)) {
                         for (size_t i_search_time = 0; i_search_time < num_search_times; i_search_time++) {
 
                             if (!std::isnan(mapping(i_search_time, i_flt))) {
-                                if (!std::isnan(data_search_observations
-                                        [i_observation_parameter][i_search_station][mapping(i_search_time, i_flt)])) {
-
+                                
+                                // Check whether the observation is NAN. There are two cases,
+                                // extending observations or not extending observations.
+                                //
+                                bool nan_observation = true;
+                                if (extend_observations) {
+                                    nan_observation = std::isnan(data_search_observations
+                                        [i_observation_parameter][i_search_station][mapping(i_search_time, i_flt)]);
+                                } else {
+                                    nan_observation = std::isnan(data_search_observations
+                                            [i_observation_parameter][i_search_station_current][mapping(i_search_time, i_flt)]);
+                                }
+                                
+                                if (!nan_observation) {
+                                    // Determine which row in the similarity matrix should be updated
                                     size_t i_sim_row = i_search_station_index * num_search_times + i_search_time;
-                                    if (std::isnan(sims[i_test_station][i_test_time][i_flt][i_sim_row][COL_TAG_SIM::VALUE]))
-                                        sims[i_test_station][i_test_time][i_flt][i_sim_row][COL_TAG_SIM::VALUE] = 0;
-
-                                    num_par_nan = 0;
-
-                                    for (size_t i_parameter = 0; i_parameter < num_parameters; i_parameter++) {
-
-                                        if (weights[i_parameter] != 0) {
-                                            vector<double> window(flts_window(i_flt, 1) - flts_window(i_flt, 0) + 1);
-                                            short pos = 0;
-
-                                            for (size_t i_window_flt = flts_window(i_flt, 0);
-                                                    i_window_flt <= flts_window(i_flt, 1); i_window_flt++, pos++) {
-
-                                                double value_search = data_search_forecasts
-                                                        [i_parameter][i_search_station][i_search_time][i_window_flt];
-                                                double value_test = data_test_forecasts
-                                                        [i_parameter][i_test_station][i_test_time][i_window_flt];
-
-                                                if (std::isnan(value_search) || std::isnan(value_test)) window[pos] = NAN;
-
-                                                if (circular_flags[i_parameter]) {
-                                                    window[pos] = pow(diffCircular(value_search, value_test), 2);
-                                                } else {
-                                                    window[pos] = pow(value_search - value_test, 2);
-                                                }
-                                            } // End loop of search window FLTs
-
-                                            double average = mean(window, max_flt_nan);
-
-                                            if (!std::isnan(average)) {
-                                                if (sds[i_parameter][i_search_station][i_flt] > 0) {
-                                                    sims[i_test_station][i_test_time][i_flt][i_sim_row][COL_TAG_SIM::VALUE]
-                                                            += weights[i_parameter] * (sqrt(average) / sds[i_parameter][i_search_station][i_flt]);
-                                                }
-                                            } else {
-                                                // Record this nan parameter average
-                                                num_par_nan++;
-
-                                                if (!std::isnan(max_par_nan)) {
-                                                    // If a maximum of nan parameter is set
-                                                    if (num_par_nan > max_par_nan) {
-                                                        sims[i_test_station][i_test_time][i_flt][i_sim_row][COL_TAG_SIM::VALUE] = NAN;
-                                                        break;
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    } // End loop of parameters
+                                    
+                                    // compute single similarity
+                                    sims[i_test_station][i_test_time][i_flt][i_sim_row][COL_TAG_SIM::VALUE] = compute_single_similarity_(
+                                            test_forecasts, search_forecasts, sims, sds, weights, flts_window, circular_flags,
+                                            i_test_station, i_test_time, i_search_station, i_search_time, i_flt, max_par_nan, max_flt_nan);
 
                                     sims[i_test_station][i_test_time][i_flt][i_sim_row][COL_TAG_SIM::STATION] = i_search_station;
                                     sims[i_test_station][i_test_time][i_flt][i_sim_row][COL_TAG_SIM::TIME] = i_search_time;
+                                    
                                 } // End of isnan(observation value)
                             } // End of isnan(mapping value)
                         } // End loop of search times
                     }
+                    
                 } // End loop of search stations
             } // End loop of FLTs
         } // End loop of test times
@@ -866,4 +850,86 @@ AnEn::find_nearest_station_match_(
     }
     
     return (SUCCESS);
+}
+
+double
+AnEn::compute_single_similarity_(
+        const Forecasts_array & test_forecasts,
+        const Forecasts_array & search_forecasts,
+        const SimilarityMatrices & sims,
+        const StandardDeviation & sds,
+        const vector<double> & weights,
+        const boost::numeric::ublas::matrix<size_t>& flts_window,
+        const vector<bool> & circular_flags,
+        
+        size_t i_test_station,
+        size_t i_test_time,
+        size_t i_search_station,
+        size_t i_search_time,
+        size_t i_flt,
+        
+        double max_par_nan,
+        double max_flt_nan) const {
+    
+    // Initialize similarity metric value.
+    double sim = 0;
+    
+    // Count the number of NAN parameters.
+    double num_par_nan = 0.0;
+    
+    // Define the number of parameters.
+    size_t num_parameters = test_forecasts.getParametersSize();
+    
+    // Get data objects for test and search forecasts.
+    const auto & data_search_forecasts = search_forecasts.data();
+    const auto & data_test_forecasts = test_forecasts.data();
+    
+    for (size_t i_parameter = 0; i_parameter < num_parameters; i_parameter++) {
+
+        if (weights[i_parameter] != 0) {
+            vector<double> window(flts_window(i_flt, 1) - flts_window(i_flt, 0) + 1);
+            short pos = 0;
+
+            for (size_t i_window_flt = flts_window(i_flt, 0);
+                    i_window_flt <= flts_window(i_flt, 1); i_window_flt++, pos++) {
+
+                double value_search = data_search_forecasts
+                        [i_parameter][i_search_station][i_search_time][i_window_flt];
+                double value_test = data_test_forecasts
+                        [i_parameter][i_test_station][i_test_time][i_window_flt];
+
+                if (std::isnan(value_search) || std::isnan(value_test)) {
+                    window[pos] = NAN;
+                }
+
+                if (circular_flags[i_parameter]) {
+                    window[pos] = pow(diffCircular(value_search, value_test), 2);
+                } else {
+                    window[pos] = pow(value_search - value_test, 2);
+                }
+            } // End loop of search window FLTs
+
+            double average = mean(window, max_flt_nan);
+
+            if (!std::isnan(average)) {
+                if (sds[i_parameter][i_search_station][i_flt] > 0) {
+                    sim += weights[i_parameter] * (sqrt(average) / sds[i_parameter][i_search_station][i_flt]);
+                }
+            } else {
+                // Record this nan parameter average
+                num_par_nan++;
+
+                // If a maximum of nan parameter is set
+                if (num_par_nan > max_par_nan) {
+                    
+                    sim = NAN;
+                    break;
+                }
+            }
+            
+        } // End of check of the paramter weight
+    } // End loop of parameters
+    
+    return (sim);
+    
 }
