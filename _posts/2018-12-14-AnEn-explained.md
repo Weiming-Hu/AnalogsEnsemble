@@ -20,7 +20,7 @@ The following schematic diagram shows the four steps to generate a four-member e
 
 Please navigate through the following slides to see the example.
 
-<iframe src="https://onedrive.live.com/embed?cid=BCFC2A6DB1591BCA&amp;resid=BCFC2A6DB1591BCA%212248&amp;authkey=AHAAoXCKyl1NiTs&amp;em=2&amp;wdAr=1.7777777777777777&amp;wdEaa=1" width="1186px" height="691px" frameborder="0">This is an embedded <a target="_blank" href="https://office.com">Microsoft Office</a> presentation, powered by <a target="_blank" href="https://office.com/webapps">Office Online</a>.</iframe>
+<iframe src="https://onedrive.live.com/embed?resid=BCFC2A6DB1591BCA%212248&amp;authkey=%21AHAAoXCKyl1NiTs&amp;em=2&amp;wdAr=1.7777777777777777" width="610px" height="367px" frameborder="0">This is an embedded <a target="_blank" href="https://office.com">Microsoft Office</a> presentation, powered by <a target="_blank" href="https://office.com/webapps">Office Online</a>.</iframe>
 
 *Animation credited to [Laura Clemente-Harding](http://geoinf.psu.edu/people.shtml) and [Guido Cervone](http://geoinf.psu.edu/people.shtml)*
 
