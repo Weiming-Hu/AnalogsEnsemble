@@ -1,7 +1,8 @@
 # RAnEn 3.1.1
 
-- Refactor Simialrity Calculation core function and improve readability.
-- Resolve the potential bug in in situ bias correction function.
+- Refactor Similarity Calculation core function and improve readability.
+- Resolve the potential bug in the function `biasCorrectionInsitu`.
+- Skip processing the similarity array if it is not preserved in the result.
 - Update documentation.
 - Update README file.
 
