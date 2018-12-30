@@ -23,7 +23,7 @@ int main(int argc, char** argv) {
 
     // Optional variables
     int verbose = 0;
-    bool delimited = false, overwrite_output = false;
+    bool delimited = false, overwrite_output = false, skip_data = false;
     string ext, config_file, par_key, level_key, type_key, val_key;
     vector<long> crcl_pars_id;
     vector<string> pars_new_name;
@@ -56,6 +56,7 @@ int main(int argc, char** argv) {
                 ("circulars-id", po::value< vector<long> >(&crcl_pars_id)->multitoken(), "Set the IDs of circular parameters.")
                 ("parameters-new-name", po::value< vector<string> >(&pars_new_name)->multitoken(), "Set the new names of each parameter.")
                 ("overwrite", po::bool_switch(&overwrite_output)->default_value(false), "Overwrite the output file.")
+                ("skip-data", po::bool_switch(&skip_data)->default_value(false), "Skip writing data to the file. Use this option to only write header information to the file.")
                 ("verbose,v", po::value<int>(&verbose)->default_value(0), "Set the verbose level.");
 
         // process unregistered keys and notify users about my guesses
@@ -175,9 +176,18 @@ int main(int argc, char** argv) {
                 << "verbose: " << verbose << endl
                 << "delimited: " << delimited << endl
                 << "ext: " << ext << endl
+                << "unit_flt: " << unit_flt << endl
+                << "level_types: " << level_types << endl
+                << "par_key: " << par_key << endl
+                << "level_key: " << level_key << endl
+                << "type_key: " << type_key << endl
+                << "val_key: " << val_key << endl
                 << "config_file: " << config_file << endl
                 << "crcl_pars_id: " << crcl_pars_id << endl
-                << "pars_new_name: " << pars_new_name << endl;
+                << "pars_new_name: " << pars_new_name << endl
+                << "overwrite_output: " << overwrite_output << endl
+                << "skip_data: " << skip_data << endl;
+        
     }
 
     // Basic checks
@@ -194,11 +204,11 @@ int main(int argc, char** argv) {
     if (output_type == "Forecasts") {
         toForecasts(files_in, file_out, pars_id, pars_new_name, crcl_pars_id,
                 levels, level_types, par_key, level_key, type_key, val_key, 
-                regex_time_str, regex_flt_str, unit_flt, delimited, verbose);
+                regex_time_str, regex_flt_str, unit_flt, delimited, skip_data, verbose);
     } else if (output_type == "Observations") {
         toObservations(files_in, file_out, pars_id, pars_new_name, crcl_pars_id,
                 levels, level_types, par_key, level_key, type_key, val_key,
-                regex_time_str, delimited, verbose);
+                regex_time_str, delimited, skip_data, verbose);
     } else {
         cout << BOLDRED << "Error: Output type " << output_type << " is not supported!"
                 << RESET << endl;

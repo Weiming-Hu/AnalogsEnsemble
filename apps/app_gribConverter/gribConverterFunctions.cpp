@@ -243,7 +243,7 @@ namespace gribConverter {
             const string & par_key, const string & level_key,
             const string & type_key, const string & val_key,
             string regex_time_str, string regex_flt_str,
-            double flt_interval, bool delimited, int verbose) {
+            double flt_interval, bool delimited, bool skip_data, int verbose) {
 
         if (verbose >= 3) cout << GREEN << "Convert GRIB2 files to Forecasts" << RESET << endl;
 
@@ -354,20 +354,27 @@ namespace gribConverter {
         if (verbose >= 4) {
             cout << times << flts;
         }
-
-        // Read data
+        
+        // Allocating memory for data
         if (verbose >= 3) {
             cout << GREEN << "Allocating memory for double array [" << parameters.size()
-                << "][" << stations.size() << "][" << times.size() << "]["
-                << flts.size() << "] ... " << RESET << endl;
+                    << "][" << stations.size() << "][" << times.size() << "]["
+                    << flts.size() << "] ... " << RESET << endl;
         }
         Forecasts_array forecasts(parameters, stations, times, flts);
-        auto & data = forecasts.data();
+        
+        if (skip_data) {
+            // If data will not be written to the file
+            if (verbose >= 3) cout << GREEN << "Do not write data values ... " << RESET << endl;
+            
+        } else {
+            // Read data
+            auto & data = forecasts.data();
 
-        // This is created to keep track of the return condition for each file
-        vector<bool> file_flags(files_in.size(), true);
+            // This is created to keep track of the return condition for each file
+            vector<bool> file_flags(files_in.size(), true);
 
-        if (verbose >= 3) cout << GREEN << "Reading data ... " << RESET << endl;
+            if (verbose >= 3) cout << GREEN << "Reading data ... " << RESET << endl;
 
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(dynamic) \
@@ -376,72 +383,73 @@ namespace gribConverter {
                 level_types, par_key, level_key, type_key, val_key) \
         private(match_time, match_flt, time_end)
 #endif
-        for (size_t i = 0; i < files_in.size(); i++) {
+            for (size_t i = 0; i < files_in.size(); i++) {
 
-            // Create a const reference to the file list to avoid modification.
-            // Regex function requires a const string otherwise it gives error.
-            //
-            const string & file_in = files_in[i];
+                // Create a const reference to the file list to avoid modification.
+                // Regex function requires a const string otherwise it gives error.
+                //
+                const string & file_in = files_in[i];
 
-            if (verbose >= 3) {
+                if (verbose >= 3) {
 #if defined(_OPENMP)
 #pragma omp critical
 #endif
-                cout << "\t reading data from file " << file_in << endl;
-            }
-
-            // Find out flt index
-            if (!regex_search(file_in.begin(), file_in.end(), match_flt, regex_flt))
-                throw runtime_error("Error: Counld not find flt index in flts.");
-            size_t index_flt = flts.getTimeIndex(stoi(match_flt[1]) * flt_interval);
-
-            // Find out time index
-            if (!regex_search(file_in.begin(), file_in.end(), match_time, regex_time))
-                throw runtime_error("Error: Could not find time index in times.");
-
-            if (delimited) {
-                time_end = boost::gregorian::from_string(string(match_time[1]));
-            } else {
-                time_end = boost::gregorian::from_undelimited_string(string(match_time[1]));
-            }
-            boost::gregorian::date_duration duration = time_end - time_start;
-            size_t index_time = times.getTimeIndex(duration.days() * _SECS_IN_DAY);
-
-            vector<double> data_vec;
-            for (size_t j = 0; j < pars_id.size(); j++) {
-
-                if (file_flags[i]) {
-                    try {
-                        getDoubles(data_vec, file_in, pars_id[j], levels[j],
-                                level_types[j], par_key, level_key, type_key, val_key);
-                    } catch (...) {
-#if defined(_OPENMP)
-#pragma omp critical
-#endif
-                        cout << BOLDRED << "Error when reading " << pars_id[j] << " "
-                            << levels[j] << " " << level_types[j] << " from file " << file_in
-                            << RESET << endl;
-                        continue;
-                    }
-
-                    if (data_vec.size() == forecasts.getStations().size()) {
-
-                        for (size_t k = 0; k < data_vec.size(); k++) {
-                            data[j][k][index_time][index_flt] = data_vec[k];
-                        } // End of loop for stations
-
-                    } else {
-                        file_flags[i] = false;
-                    }
+                    cout << "\t reading data from file " << file_in << endl;
                 }
 
-            } // End of loop for parameters
-        } // End of loop for files
+                // Find out flt index
+                if (!regex_search(file_in.begin(), file_in.end(), match_flt, regex_flt))
+                    throw runtime_error("Error: Counld not find flt index in flts.");
+                size_t index_flt = flts.getTimeIndex(stoi(match_flt[1]) * flt_interval);
 
-        for (size_t i = 0; i < file_flags.size(); i++) {
-            if (!file_flags[i]) cout << BOLDRED << "Error: The " << i+1
-                << "th file in the input file lists caused a problem while reading data!"
-                    << RESET << endl;
+                // Find out time index
+                if (!regex_search(file_in.begin(), file_in.end(), match_time, regex_time))
+                    throw runtime_error("Error: Could not find time index in times.");
+
+                if (delimited) {
+                    time_end = boost::gregorian::from_string(string(match_time[1]));
+                } else {
+                    time_end = boost::gregorian::from_undelimited_string(string(match_time[1]));
+                }
+                boost::gregorian::date_duration duration = time_end - time_start;
+                size_t index_time = times.getTimeIndex(duration.days() * _SECS_IN_DAY);
+
+                vector<double> data_vec;
+                for (size_t j = 0; j < pars_id.size(); j++) {
+
+                    if (file_flags[i]) {
+                        try {
+                            getDoubles(data_vec, file_in, pars_id[j], levels[j],
+                                    level_types[j], par_key, level_key, type_key, val_key);
+                        } catch (...) {
+#if defined(_OPENMP)
+#pragma omp critical
+#endif
+                            cout << BOLDRED << "Error when reading " << pars_id[j] << " "
+                                    << levels[j] << " " << level_types[j] << " from file " << file_in
+                                    << RESET << endl;
+                            continue;
+                        }
+
+                        if (data_vec.size() == forecasts.getStations().size()) {
+
+                            for (size_t k = 0; k < data_vec.size(); k++) {
+                                data[j][k][index_time][index_flt] = data_vec[k];
+                            } // End of loop for stations
+
+                        } else {
+                            file_flags[i] = false;
+                        }
+                    }
+
+                } // End of loop for parameters
+            } // End of loop for files
+
+            for (size_t i = 0; i < file_flags.size(); i++) {
+                if (!file_flags[i]) cout << BOLDRED << "Error: The " << i + 1
+                        << "th file in the input file lists caused a problem while reading data!"
+                        << RESET << endl;
+            }
         }
 
         // Write forecasts
@@ -459,7 +467,7 @@ namespace gribConverter {
             const vector<string> & level_types,
             const string & par_key, const string & level_key,
             const string & type_key, const string & val_key,
-            string regex_time_str, bool delimited, int verbose) {
+            string regex_time_str, bool delimited, bool skip_data, int verbose) {
 
         if (verbose >= 3) cout << GREEN << "Convert GRIB2 files to Observations" << RESET << endl;
 
@@ -552,13 +560,26 @@ namespace gribConverter {
         times.insert(times.end(), times_vec.begin(), times_vec.end());
 
         if (verbose >= 4) cout << times;
-        // Read data
-        if (verbose >= 3) cout << GREEN << "Reading data information ..." << RESET << endl;
+        
+        // Allocating memory for data        
+        if (verbose >= 3) {
+            cout << GREEN << "Allocating memory for double array [" << parameters.size()
+                    << "][" << stations.size() << "][" << times.size() << "] ... "
+                    << RESET << endl;
+        }
         Observations_array observations(parameters, stations, times);
-        auto & data = observations.data();
+        
+        if (skip_data) {
+            // If data will not be written to the file
+            if (verbose >= 3) cout << GREEN << "Do not write data values ... " << RESET << endl;
+            
+        } else {
+            // Read data
+            if (verbose >= 3) cout << GREEN << "Reading data information ..." << RESET << endl;
+            auto & data = observations.data();
 
-        // This is created to keep track of the return condition for each file
-        vector<bool> file_flags(files_in.size(), true);
+            // This is created to keep track of the return condition for each file
+            vector<bool> file_flags(files_in.size(), true);
 
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(dynamic) \
@@ -566,65 +587,66 @@ namespace gribConverter {
                 observations, pars_id, levels, file_flags, cout, verbose, level_types, \
                 par_key, level_key, type_key, val_key) private(match, time_end)
 #endif
-        for (size_t i = 0; i < files_in.size(); i++) {
+            for (size_t i = 0; i < files_in.size(); i++) {
 
-            // Create a const reference to the file list to avoid modification.
-            // Regex function requires a const string otherwise it gives error.
-            //
-            const string & file_in = files_in[i];
+                // Create a const reference to the file list to avoid modification.
+                // Regex function requires a const string otherwise it gives error.
+                //
+                const string & file_in = files_in[i];
 
-            if (verbose >= 3) {
+                if (verbose >= 3) {
 #if defined(_OPENMP)
 #pragma omp critical
 #endif
-                cout << "\t reading data from file " << file_in << endl;
-            }
-
-            // Find out time index
-            if (delimited) {
-                time_end = boost::gregorian::from_string(string(match[1]));
-            } else {
-                time_end = boost::gregorian::from_undelimited_string(string(match[1]));
-            }
-            boost::gregorian::date_duration duration = time_end - time_start;
-            size_t index_time = times.getTimeIndex(duration.days() * _SECS_IN_DAY);
-
-            for (size_t j = 0; j < pars_id.size(); j++) {
-                if (file_flags[i]) {
-                    vector<double> data_vec;
-                    try {
-                        getDoubles(data_vec, file_in, pars_id[j], levels[j],
-                                level_types[j], par_key, level_key, type_key, val_key);
-                    } catch (...) {
-#if defined(_OPENMP)
-#pragma omp critical
-#endif
-                        cout << BOLDRED << "Error when reading " << pars_id[j] << " "
-                            << levels[j] << " " << level_types[j] << " from file " << file_in
-                            << RESET << endl;
-                        continue;
-                    }
-
-                    if (data_vec.size() == observations.getStations().size()) {
-
-                        for (size_t k = 0; k < data_vec.size(); k++) {
-                            data[j][k][index_time] = data_vec[k];
-                        } // End of loop for stations
-
-                    } else {
-                        file_flags[i] = false;
-                    }
+                    cout << "\t reading data from file " << file_in << endl;
                 }
 
-            } // End of loop for parameters
-        } // End of loop for files
+                // Find out time index
+                if (delimited) {
+                    time_end = boost::gregorian::from_string(string(match[1]));
+                } else {
+                    time_end = boost::gregorian::from_undelimited_string(string(match[1]));
+                }
+                boost::gregorian::date_duration duration = time_end - time_start;
+                size_t index_time = times.getTimeIndex(duration.days() * _SECS_IN_DAY);
 
-        for (size_t i = 0; i < file_flags.size(); i++) {
-            if (!file_flags[i]) cout << BOLDRED << "Error: The " << i+1
-                << "th file in the input file lists caused a problem while reading data!"
-                    << RESET << endl;
+                for (size_t j = 0; j < pars_id.size(); j++) {
+                    if (file_flags[i]) {
+                        vector<double> data_vec;
+                        try {
+                            getDoubles(data_vec, file_in, pars_id[j], levels[j],
+                                    level_types[j], par_key, level_key, type_key, val_key);
+                        } catch (...) {
+#if defined(_OPENMP)
+#pragma omp critical
+#endif
+                            cout << BOLDRED << "Error when reading " << pars_id[j] << " "
+                                    << levels[j] << " " << level_types[j] << " from file " << file_in
+                                    << RESET << endl;
+                            continue;
+                        }
+
+                        if (data_vec.size() == observations.getStations().size()) {
+
+                            for (size_t k = 0; k < data_vec.size(); k++) {
+                                data[j][k][index_time] = data_vec[k];
+                            } // End of loop for stations
+
+                        } else {
+                            file_flags[i] = false;
+                        }
+                    }
+
+                } // End of loop for parameters
+            } // End of loop for files
+
+            for (size_t i = 0; i < file_flags.size(); i++) {
+                if (!file_flags[i]) cout << BOLDRED << "Error: The " << i + 1
+                        << "th file in the input file lists caused a problem while reading data!"
+                        << RESET << endl;
+            }
         }
-
+        
         // Write observations
         if (verbose >= 3) cout << GREEN << "Writing Observations file ... " << RESET << endl;
         AnEnIO io("Write", file_out, "Observations", verbose);

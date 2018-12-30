@@ -124,7 +124,7 @@ namespace gribConverter {
             const string & type_key, const string & val_key,
             string regex_time_str, string regex_flt_str,
             double flt_interval, bool delimited = false,
-            int verbose = 0);
+            bool skip_data = false, int verbose = 0);
 
     /**
      * toObservations function reads data from multiple observation files and write them 
@@ -167,7 +167,8 @@ namespace gribConverter {
             const vector<string> & level_types,
             const string & par_key, const string & level_key,
             const string & type_key, const string & val_key,
-            string regex_time_str, bool delimited = false, int verbose = 0);
+            string regex_time_str, bool delimited = false,
+            bool skip_data = false, int verbose = 0);
 }
 
 #endif
