@@ -11,11 +11,11 @@ rm -f sds.nc
 
 verbose=1
 
-analogGenerator --test-forecast-nc ../../../tests/Data/test_forecasts.nc --search-forecast-nc ../../../tests/Data/test_forecasts.nc --observation-nc ../../../tests/Data/test_observations.nc -v $verbose --test-start 0 0 9 0 --test-count 5 20 1 8 --search-start 0 0 0 0 --search-count 5 20 9 8 --time-match-mode 1 --analog-nc analogs.nc --members 5
+../../../output/bin/analogGenerator --test-forecast-nc ../../../tests/Data/test_forecasts.nc --search-forecast-nc ../../../tests/Data/test_forecasts.nc --observation-nc ../../../tests/Data/test_observations.nc -v $verbose --test-start 0 0 9 0 --test-count 5 20 1 8 --search-start 0 0 0 0 --search-count 5 20 9 8 --time-match-mode 1 --analog-nc analogs.nc --members 5
 
-standardDeviationCalculator -i ../../../tests/Data/test_forecasts.nc -o sds.nc -v $verbose --start 0 0 0 0 --count 5 20 9 8
+../../../output/bin/standardDeviationCalculator -i ../../../tests/Data/test_forecasts.nc -o sds.nc -v $verbose --start 0 0 0 0 --count 5 20 9 8
 
-analogGenerator --test-forecast-nc ../../../tests/Data/test_forecasts.nc --search-forecast-nc ../../../tests/Data/test_forecasts.nc --observation-nc ../../../tests/Data/test_observations.nc -v $verbose --test-start 0 0 9 0 --test-count 5 20 1 8 --search-start 0 0 0 0 --search-count 5 20 9 8 --time-match-mode 1 --analog-nc analogs_sds.nc --members 5 --sds-nc sds.nc
+../../../output/bin/analogGenerator --test-forecast-nc ../../../tests/Data/test_forecasts.nc --search-forecast-nc ../../../tests/Data/test_forecasts.nc --observation-nc ../../../tests/Data/test_observations.nc -v $verbose --test-start 0 0 9 0 --test-count 5 20 1 8 --search-start 0 0 0 0 --search-count 5 20 9 8 --time-match-mode 1 --analog-nc analogs_sds.nc --members 5 --sds-nc sds.nc
 
 diff analogs.nc analogs_sds.nc
 status=$?

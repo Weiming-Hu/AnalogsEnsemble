@@ -159,12 +159,12 @@ limit_row, limit_col) firstprivate(index)
 
         if (time_match_mode == 0) {
             if (verbose_ >= 1) cout << BOLDRED
-                << "Error: Could not find some search forecast times in observation times."
+                    << "Error: Could not find some search forecast times in observation times."
                     << RESET << endl;
             return (OUT_OF_RANGE);
         } else {
             if (verbose_ >= 2) cout << RED
-                << "Warning: Could not find some search forecast times in observation times."
+                    << "Warning: Could not find some search forecast times in observation times."
                     << RESET << endl;
         }
     }
@@ -179,7 +179,7 @@ AnEn::computeSearchStations(
         const anenSta::Stations & search_stations,
         AnEn::SearchStationMatrix & i_search_stations_ref,
         size_t max_num_search_stations,
-        double distance, size_t num_nearest_stations, bool return_index) const {
+        double distance, size_t num_nearest_stations) const {
 
     // Create a new i_search_stations with the fill value
     AnEn::SearchStationMatrix i_search_stations(
@@ -189,19 +189,26 @@ AnEn::computeSearchStations(
     // Check whether stations have xs and ys
     bool have_xy = test_stations.haveXY() && search_stations.haveXY();
 
+    // The following code snippet generates i_search_stations. This is a table
+    // including all the search stations for each test stations. Each row inclues
+    // the index for the search stations for each test station, and the table has
+    // the same number of rows as the number of test stations.
+    //
     try {
+
         if (method_ == ONE_TO_ONE) {
 
             // Resize the table because each test station will be assigned with 
             // only one search station.
             //
             i_search_stations.resize(test_stations.size(), 1);
-            
+
             // Match test and search stations
             vector<size_t> test_stations_index_in_search(0);
+
             handleError(find_nearest_station_match_(
                     test_stations, search_stations, test_stations_index_in_search));
-            
+
             // Assign the match result to the lookup table
             for (size_t i_test = 0; i_test < test_stations_index_in_search.size(); i_test++) {
                 i_search_stations(i_test, 0) = test_stations_index_in_search.at(i_test);
@@ -212,13 +219,13 @@ AnEn::computeSearchStations(
             // Define variables for perfectly nested parallel loops for collapse
             const auto & test_stations_by_insert = test_stations.get<anenSta::by_insert>();
             auto limit_test = test_stations_by_insert.size();
-            
+
             if (!have_xy) {
-                cout << BOLDRED << "Error: Xs and ys are required for search space extension." 
+                cout << BOLDRED << "Error: Xs and ys are required for search space extension."
                         << RESET << endl;
                 return (WRONG_METHOD);
             }
-            
+
             if (verbose_ >= 3) cout << "Computing search space extension ... " << endl;
 
             if (num_nearest_stations == 0) {
@@ -277,13 +284,7 @@ num_nearest_stations, distance, max_num_search_stations, limit_test)
                 }
             }
 
-        } else {
-            if (verbose_ >= 1) cout << BOLDRED << "Error: Unknown method ("
-                    << method_ << ")!" << RESET << endl;
-            return (UNKNOWN_METHOD);
-        }
-
-        if (return_index && have_xy) {
+            // After the station IDs are found, we might need to convert the ID to index
             auto & search_stations_by_ID = search_stations.get<anenSta::by_ID>();
             auto & search_stations_by_insert =
                     search_stations.get<anenSta::by_insert>();
@@ -294,8 +295,8 @@ num_nearest_stations, distance, max_num_search_stations, limit_test)
 
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(static) \
-shared(search_stations_by_ID, search_stations_by_insert, i_search_stations, \
-search_stations, limit_search_row, limit_search_col)
+                shared(search_stations_by_ID, search_stations_by_insert, i_search_stations, \
+                        search_stations, limit_search_row, limit_search_col)
 #endif
             for (size_t i_row = 0; i_row < limit_search_row; i_row++) {
                 for (size_t i_col = 0; i_col < limit_search_col; i_col++) {
@@ -317,18 +318,25 @@ search_stations, limit_search_row, limit_search_col)
 
                 } // End loop of columns
             } // End of loop of rows
+
+        } else {
+            if (verbose_ >= 1) cout << BOLDRED << "Error: Unknown method ("
+                    << method_ << ")!" << RESET << endl;
+            return (UNKNOWN_METHOD);
         }
+
     } catch (...) {
         cout << BOLDRED << "Error occurred in computeSearchStations!" << RESET << endl;
+        cout << "here" << endl;
         throw;
     }
 
     swap(i_search_stations, i_search_stations_ref);
-    
+
     if (verbose_ >= 4) {
         cout << "i_search_stations: " << i_search_stations_ref << endl;
     }
-    
+
     return (SUCCESS);
 }
 
@@ -346,14 +354,14 @@ AnEn::computeSimilarity(
     // Check input
     handleError(check_input_(search_forecasts, sds, sims,
             search_observations, mapping, i_observation_parameter));
-    
+
     // Check max_par_nan
     if (max_par_nan >= 0 && max_par_nan <= search_forecasts.getParametersSize()) {
         // valid input
     } else {
         max_par_nan = 0;
     }
-    
+
     // Check max_flt_nan
     if (max_flt_nan >= 0 && max_flt_nan <= search_forecasts.getFLTsSize()) {
         // valid input
@@ -377,12 +385,12 @@ AnEn::computeSimilarity(
                 << "Error: The search station lookup table is empty." << RESET << endl;
         return (MISSING_VALUE);
     }
-    
+
     if (i_search_stations.size1() != num_test_stations) {
         if (verbose_ >= 1) cout << BOLDRED
                 << "Error: Number of rows in i_search_stations ("
                 << i_search_stations.size1() << ") should equal the number of test stations ("
-                << num_test_stations << ")." << RESET << endl;
+            << num_test_stations << ")." << RESET << endl;
         return (WRONG_SHAPE);
     }
 
@@ -422,7 +430,7 @@ AnEn::computeSimilarity(
         weights[i_parameter] = parameters_by_insert[i_parameter].getWeight();
         if (std::isnan(weights[i_parameter])) weights[i_parameter] = 1;
     }
-    
+
     vector<size_t> test_stations_index_in_search(0);
     if (!extend_observations) {
         // If only observations from the main (center) station are used in the analogs, I need to
@@ -453,40 +461,40 @@ test_stations_index_in_search, extend_observations)
         for (size_t i_test_time = 0; i_test_time < num_test_times; i_test_time++) {
             for (size_t i_flt = 0; i_flt < num_flts; i_flt++) {
                 for (size_t i_search_station_index = 0; i_search_station_index < num_search_stations; i_search_station_index++) {
-                    
+
                     double i_search_station_current = NAN, i_search_station =
                             i_search_stations(i_test_station, i_search_station_index);
                     if (!extend_observations) {
                         i_search_station_current = test_stations_index_in_search[i_test_station];
-                        
+
                         if (std::isnan(i_search_station_current)) {
                             // If the search station is NAN, do not continue for this search station
                             continue;
                         }
                     }
-                    
+
                     // Check if search station is NAN
                     if (!std::isnan(i_search_station)) {
                         for (size_t i_search_time = 0; i_search_time < num_search_times; i_search_time++) {
 
                             if (!std::isnan(mapping(i_search_time, i_flt))) {
-                                
+
                                 // Check whether the observation is NAN. There are two cases,
                                 // extending observations or not extending observations.
                                 //
                                 bool nan_observation = true;
                                 if (extend_observations) {
                                     nan_observation = std::isnan(data_search_observations
-                                        [i_observation_parameter][i_search_station][mapping(i_search_time, i_flt)]);
+                                            [i_observation_parameter][i_search_station][mapping(i_search_time, i_flt)]);
                                 } else {
                                     nan_observation = std::isnan(data_search_observations
                                             [i_observation_parameter][i_search_station_current][mapping(i_search_time, i_flt)]);
                                 }
-                                
+
                                 if (!nan_observation) {
                                     // Determine which row in the similarity matrix should be updated
                                     size_t i_sim_row = i_search_station_index * num_search_times + i_search_time;
-                                    
+
                                     // compute single similarity
                                     sims[i_test_station][i_test_time][i_flt][i_sim_row][COL_TAG_SIM::VALUE] = compute_single_similarity_(
                                             test_forecasts, search_forecasts, sims, sds, weights, flts_window, circular_flags,
@@ -494,12 +502,12 @@ test_stations_index_in_search, extend_observations)
 
                                     sims[i_test_station][i_test_time][i_flt][i_sim_row][COL_TAG_SIM::STATION] = i_search_station;
                                     sims[i_test_station][i_test_time][i_flt][i_sim_row][COL_TAG_SIM::TIME] = i_search_time;
-                                    
+
                                 } // End of isnan(observation value)
                             } // End of isnan(mapping value)
                         } // End loop of search times
                     }
-                    
+
                 } // End loop of search stations
             } // End loop of FLTs
         } // End loop of test times
@@ -597,7 +605,7 @@ extend_observations, test_stations_index_in_search, preserve_real_time)
                                     analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::TIME] =
                                             observation_times_by_insert[i_observation_time];
                                 } else {
-                                    analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::TIME] = 
+                                    analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::TIME] =
                                             i_observation_time;
                                 }
                             }
@@ -769,13 +777,13 @@ AnEn::check_input_(
             cout << BOLDRED << "Error: Standard deviation array has a different shape to search forecasts!" << endl;
             if (sds.shape()[0] != search_forecasts.getParametersSize())
                 cout << "-- Number of parameters differs: sds have " << sds.shape()[0]
-                    << " and search forecasts have " << search_forecasts.getParametersSize() << endl;
+                << " and search forecasts have " << search_forecasts.getParametersSize() << endl;
             if (sds.shape()[1] != search_forecasts.getStationsSize())
                 cout << "-- Number of stations differs: sds have " << sds.shape()[1]
-                   << " and search forecasts have " << search_forecasts.getStationsSize() << endl;
+                << " and search forecasts have " << search_forecasts.getStationsSize() << endl;
             if (sds.shape()[2] != search_forecasts.getFLTsSize())
                 cout << "-- Number of FLTs differs: sds have " << sds.shape()[2]
-                   << " and search forecasts have " << search_forecasts.getFLTsSize() << endl;
+                << " and search forecasts have " << search_forecasts.getFLTsSize() << endl;
             cout << RESET << endl;
         }
         return (WRONG_SHAPE);
@@ -848,7 +856,7 @@ AnEn::find_nearest_station_match_(
         test_stations_index_in_search.resize(test_stations.size());
         iota(test_stations_index_in_search.begin(), test_stations_index_in_search.end(), 0);
     }
-    
+
     return (SUCCESS);
 }
 
@@ -861,29 +869,29 @@ AnEn::compute_single_similarity_(
         const vector<double> & weights,
         const boost::numeric::ublas::matrix<size_t>& flts_window,
         const vector<bool> & circular_flags,
-        
+
         size_t i_test_station,
         size_t i_test_time,
         size_t i_search_station,
         size_t i_search_time,
         size_t i_flt,
-        
+
         double max_par_nan,
         double max_flt_nan) const {
-    
+
     // Initialize similarity metric value.
     double sim = 0;
-    
+
     // Count the number of NAN parameters.
     double num_par_nan = 0.0;
-    
+
     // Define the number of parameters.
     size_t num_parameters = test_forecasts.getParametersSize();
-    
+
     // Get data objects for test and search forecasts.
     const auto & data_search_forecasts = search_forecasts.data();
     const auto & data_test_forecasts = test_forecasts.data();
-    
+
     for (size_t i_parameter = 0; i_parameter < num_parameters; i_parameter++) {
 
         if (weights[i_parameter] != 0) {
@@ -921,15 +929,15 @@ AnEn::compute_single_similarity_(
 
                 // If a maximum of nan parameter is set
                 if (num_par_nan > max_par_nan) {
-                    
+
                     sim = NAN;
                     break;
                 }
             }
-            
+
         } // End of check of the paramter weight
     } // End loop of parameters
-    
+
     return (sim);
-    
+
 }

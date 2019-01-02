@@ -148,7 +148,7 @@ void runSimilarityCalculator(
             test_forecasts.getStations(),
             search_forecasts.getStations(),
             i_search_stations, max_neighbors,
-            distance, num_neighbors, true));
+            distance, num_neighbors));
     
     anen.handleError(anen.computeSimilarity(
             search_forecasts, sds, sims, observations, mapping,

@@ -135,7 +135,8 @@ public:
             TimeMapMatrix & mapping, int time_match_mode = 1) const;
 
     /**
-     * Computes the search stations of each test stations.
+     * Computes the search stations of each test stations. Search stations are 
+     * represented using the their index.
      * 
      * @param test_stations Test anenSta::Stations.
      * @param search_stations Search anenSta::Stations.
@@ -147,8 +148,6 @@ public:
      * for search stations.
      * @param num_nearest_stations The number of KNN search stations to look
      * for for each test stations.
-     * @param return_index Whether to return the index of the ID of the search
-     * stations.
      * @return An AnEn::errorType;
      */
     errorType computeSearchStations(
@@ -156,8 +155,7 @@ public:
             const anenSta::Stations & search_stations,
             SearchStationMatrix & i_search_stations,
             size_t max_num_search_stations = 1,
-            double distance = 0, size_t num_nearest_stations = 0,
-            bool return_index = true) const;
+            double distance = 0, size_t num_nearest_stations = 0) const;
 
     /**
      * Computes the similarity matrices.

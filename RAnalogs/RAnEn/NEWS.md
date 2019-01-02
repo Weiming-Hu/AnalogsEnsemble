@@ -2,6 +2,7 @@
 
 - Refactor Similarity Calculation core function and improve readability.
 - Resolve the potential bug in the function `biasCorrectionInsitu`.
+- Remove return\_index option from computeSearchStations.
 - Skip processing the similarity array if it is not preserved in the result.
 - Update documentation.
 - Update README file.
