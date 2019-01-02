@@ -38,7 +38,7 @@ void testSimilarityMatrices::testMatricesConstructor() {
     stations.push_back(s1);
 
     anenPar::Parameter p1, p2("temperature", 0.6),
-            p3("humidity", 0.3), p4("wind direction", 0.05, true);
+        p3("humidity", 0.3), p4("wind direction", 0.05, true);
     p1.setWeight(0.05);
     anenPar::Parameters parameters;
     parameters.insert(parameters.end(),{p1, p2, p3, p4});
@@ -140,3 +140,43 @@ void testSimilarityMatrices::testMatricesSort() {
                             sims[i][j][k][2][SimilarityMatrices::COL_TAG::TIME]) != results3[pos].end());
             }
 }
+
+void testSimilarityMatrices::testHasTargets() {
+
+    /**
+     * Test the function hasTargets().
+     */
+
+    anenSta::Station s1("Beijing", 30, 30), s2;
+    anenSta::Stations stations;
+    stations.push_back(s1);
+
+    anenPar::Parameter p1, p2("temperature", 0.6),
+        p3("humidity", 0.3), p4("wind direction", 0.05, true);
+    p1.setWeight(0.05);
+    anenPar::Parameters parameters;
+    parameters.insert(parameters.end(),{p1, p2, p3, p4});
+
+    anenTime::Times times;
+    times.push_back(12.34);
+    times.push_back(1.34);
+    times.push_back(12.3);
+
+    anenTime::FLTs flts;
+    flts.push_back(100);
+    flts.push_back(200);
+
+    vector<double> values(parameters.size() * stations.size() *
+            times.size() * flts.size());
+    iota(values.begin(), values.end(), 0);
+
+    Forecasts_array forecasts(parameters, stations, times, flts, values);
+
+
+    SimilarityMatrices sims1(10), sims2(forecasts, 20), sims3(4, 3, 1, 4);
+
+    CPPUNIT_ASSERT(!sims1.hasTargets());
+    CPPUNIT_ASSERT(sims2.hasTargets());
+    CPPUNIT_ASSERT(!sims3.hasTargets());
+}
+

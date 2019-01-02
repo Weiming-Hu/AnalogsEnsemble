@@ -42,9 +42,9 @@ public:
     anenSta::Stations getStations() const;
     anenTime::Times getTimes() const;
 
-    void setFLTs(anenTime::FLTs flts);
-    void setStations(anenSta::Stations stations);
-    void setTimes(anenTime::Times times);
+    void setFLTs(const anenTime::FLTs & flts);
+    void setStations(const anenSta::Stations & stations);
+    void setTimes(const anenTime::Times & times);
 
     void print(std::ostream &) const;
     friend std::ostream & operator<<(std::ostream &, const Analogs &);

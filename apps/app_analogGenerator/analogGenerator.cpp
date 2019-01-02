@@ -183,7 +183,7 @@ void runAnalogGenerator(
 #endif
 #endif
 
-    Analogs analogs;
+    Analogs analogs(test_forecasts, num_members);
     anen.handleError(anen.selectAnalogs(analogs, sims, search_observations,
             mapping, observation_id, num_members, quick,
             extend_observations, preserve_real_time));

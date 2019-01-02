@@ -112,6 +112,11 @@ public:
      */
     const Forecasts_array & getTargets() const;
 
+    /**
+     * Check whether the targets have been set.
+     */
+    bool hasTargets() const;
+
     void setOrderTag(COL_TAG order_tag);
     void setMaxEntries(size_t max_entries);
 

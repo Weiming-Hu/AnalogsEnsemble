@@ -55,17 +55,17 @@ Analogs::getTimes() const {
 }
 
 void
-Analogs::setFLTs(anenTime::FLTs flts) {
+Analogs::setFLTs(const anenTime::FLTs & flts) {
     flts_ = flts;
 }
 
 void
-Analogs::setStations(anenSta::Stations stations) {
+Analogs::setStations(const anenSta::Stations & stations) {
     stations_ = stations;
 }
 
 void
-Analogs::setTimes(anenTime::Times times) {
+Analogs::setTimes(const anenTime::Times & times) {
     times_ = times;
 }
 

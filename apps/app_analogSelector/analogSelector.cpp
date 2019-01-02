@@ -41,7 +41,6 @@ void runAnalogSelector(const string & file_sim, const string & file_obs,
      **************************************************************************/
     if (verbose >= 3) cout << GREEN << "Start selecting analogs ... " << RESET << endl;
 
-    Analogs analogs;
     AnEn anen(verbose);
     
     AnEnIO io("Read", file_sim, "Similarity", verbose);
@@ -90,6 +89,12 @@ void runAnalogSelector(const string & file_sim, const string & file_obs,
     /**************************************************************************
      *                             Select Analogs                             *
      **************************************************************************/
+    Analogs analogs;
+    if (sims.hasTargets()) {
+        analogs.setStations(sims.getTargets().getStations());
+        analogs.setTimes(sims.getTargets().getTimes());
+        analogs.setFLTs(sims.getTargets().getFLTs());
+    }
     anen.handleError(anen.selectAnalogs(analogs, sims, search_observations,
             mapping, observation_id, num_members, quick,
             extend_observations, preserve_real_time));

@@ -190,6 +190,11 @@ SimilarityMatrices::getTargets() const {
     return (targets_);
 }
 
+bool
+SimilarityMatrices::hasTargets() const {
+    return (targets_.getDataLength() != 0);
+}
+
 void
 SimilarityMatrices::setOrderTag(COL_TAG order_tag) {
     if (order_tag >= STATION || order_tag <= VALUE) order_tag_ = order_tag;

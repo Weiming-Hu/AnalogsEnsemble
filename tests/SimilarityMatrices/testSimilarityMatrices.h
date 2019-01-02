@@ -24,6 +24,7 @@ class testSimilarityMatrices : public CPPUNIT_NS::TestFixture {
     
     CPPUNIT_TEST(testMatricesConstructor);
     CPPUNIT_TEST(testMatricesSort);
+    CPPUNIT_TEST(testHasTargets);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -34,6 +35,7 @@ public:
 private:
     void testMatricesConstructor();
     void testMatricesSort();
+    void testHasTargets();
 };
 
 #endif /* TESTSIMILARITYMATRIX_H */
