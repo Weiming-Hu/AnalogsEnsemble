@@ -73,10 +73,10 @@ Functions</h2></td></tr>
 <tr class="separator:aa213ac534131bde37b762fa74a1ec61d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6afae08bb7a59096d2d523c4e5ec9d9f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegrib_converter.html#a6afae08bb7a59096d2d523c4e5ec9d9f">getDoubles</a> (vector&lt; double &gt; &amp;vals, string file, long par_id, long level, string type, string par_key, string level_key, string type_key, string val_key)</td></tr>
 <tr class="separator:a6afae08bb7a59096d2d523c4e5ec9d9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae5d63c8047289652e8eaafb329998bfe"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegrib_converter.html#ae5d63c8047289652e8eaafb329998bfe">toForecasts</a> (vector&lt; string &gt; &amp;files_in, const string &amp;file_out, const vector&lt; long &gt; &amp;pars_id, const vector&lt; string &gt; &amp;pars_new_name, const vector&lt; long &gt; &amp;crcl_pars_id, const vector&lt; long &gt; &amp;levels, const vector&lt; string &gt; &amp;level_types, const string &amp;par_key, const string &amp;level_key, const string &amp;type_key, const string &amp;val_key, string regex_time_str, string regex_flt_str, double flt_interval, bool delimited, int verbose)</td></tr>
-<tr class="separator:ae5d63c8047289652e8eaafb329998bfe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aed91b29db63636bb942fa12d761f5f22"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegrib_converter.html#aed91b29db63636bb942fa12d761f5f22">toObservations</a> (vector&lt; string &gt; &amp;files_in, const string &amp;file_out, const vector&lt; long &gt; &amp;pars_id, const vector&lt; string &gt; &amp;pars_new_name, const vector&lt; long &gt; &amp;crcl_pars_id, const vector&lt; long &gt; &amp;levels, const vector&lt; string &gt; &amp;level_types, const string &amp;par_key, const string &amp;level_key, const string &amp;type_key, const string &amp;val_key, string regex_time_str, bool delimited, int verbose)</td></tr>
-<tr class="separator:aed91b29db63636bb942fa12d761f5f22"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c0f758977326e48f50ef4d818186e0d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegrib_converter.html#a9c0f758977326e48f50ef4d818186e0d">toForecasts</a> (vector&lt; string &gt; &amp;files_in, const string &amp;file_out, const vector&lt; long &gt; &amp;pars_id, const vector&lt; string &gt; &amp;pars_new_name, const vector&lt; long &gt; &amp;crcl_pars_id, const vector&lt; long &gt; &amp;levels, const vector&lt; string &gt; &amp;level_types, const string &amp;par_key, const string &amp;level_key, const string &amp;type_key, const string &amp;val_key, string regex_time_str, string regex_flt_str, double flt_interval, bool delimited, bool skip_data, int verbose)</td></tr>
+<tr class="separator:a9c0f758977326e48f50ef4d818186e0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0bc3c18837388c93dc3126b43775b392"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegrib_converter.html#a0bc3c18837388c93dc3126b43775b392">toObservations</a> (vector&lt; string &gt; &amp;files_in, const string &amp;file_out, const vector&lt; long &gt; &amp;pars_id, const vector&lt; string &gt; &amp;pars_new_name, const vector&lt; long &gt; &amp;crcl_pars_id, const vector&lt; long &gt; &amp;levels, const vector&lt; string &gt; &amp;level_types, const string &amp;par_key, const string &amp;level_key, const string &amp;type_key, const string &amp;val_key, string regex_time_str, bool delimited, bool skip_data, int verbose)</td></tr>
+<tr class="separator:a0bc3c18837388c93dc3126b43775b392"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="a6afae08bb7a59096d2d523c4e5ec9d9f"></a>
@@ -270,8 +270,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ae5d63c8047289652e8eaafb329998bfe"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae5d63c8047289652e8eaafb329998bfe">&#9670;&nbsp;</a></span>toForecasts()</h2>
+<a id="a9c0f758977326e48f50ef4d818186e0d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9c0f758977326e48f50ef4d818186e0d">&#9670;&nbsp;</a></span>toForecasts()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -369,6 +369,12 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>skip_data</em> = <code>false</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>verbose</em> = <code>0</code>&#160;</td>
         </tr>
@@ -407,8 +413,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="aed91b29db63636bb942fa12d761f5f22"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aed91b29db63636bb942fa12d761f5f22">&#9670;&nbsp;</a></span>toObservations()</h2>
+<a id="a0bc3c18837388c93dc3126b43775b392"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0bc3c18837388c93dc3126b43775b392">&#9670;&nbsp;</a></span>toObservations()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -490,6 +496,12 @@ Functions</h2></td></tr>
           <td></td>
           <td class="paramtype">bool&#160;</td>
           <td class="paramname"><em>delimited</em> = <code>false</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>skip_data</em> = <code>false</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>

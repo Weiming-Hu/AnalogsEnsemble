@@ -31,6 +31,7 @@ var searchData=
   ['testgribconverter',['testGribConverter',['../classtest_grib_converter.html',1,'testGribConverter'],['../classtest_grib_converter.html#a3314c2929635c2bdd2529b33868db34b',1,'testGribConverter::testGribConverter()']]],
   ['testgribconverter_2ecpp',['testGribConverter.cpp',['../test_grib_converter_8cpp.html',1,'']]],
   ['testgribconverter_2eh',['testGribConverter.h',['../test_grib_converter_8h.html',1,'']]],
+  ['testhastargets',['testHasTargets',['../classtest_similarity_matrices.html#a8e442bd0b8358726ef0ae8aebd895dff',1,'testSimilarityMatrices']]],
   ['testhavexy',['testHaveXY',['../classtest_stations.html#a25fa65f2cd9d395385def9fcd2824b03',1,'testStations']]],
   ['testmatricesconstructor',['testMatricesConstructor',['../classtest_similarity_matrices.html#a2c4692bd19c9b8273208ce0378bf21f3',1,'testSimilarityMatrices']]],
   ['testmatricessort',['testMatricesSort',['../classtest_similarity_matrices.html#aba9d96a88634e02a999f73371874c67e',1,'testSimilarityMatrices']]],
@@ -83,6 +84,6 @@ var searchData=
   ['times_2ecpp',['Times.cpp',['../_times_8cpp.html',1,'']]],
   ['times_2eh',['Times.h',['../_times_8h.html',1,'']]],
   ['times_5f',['times_',['../class_analogs.html#a31efe80ad9eac5afc26b96d9f3b72efc',1,'Analogs::times_()'],['../class_forecasts.html#a5db6d70382b21bc6621b7765d21f6d61',1,'Forecasts::times_()'],['../class_observations.html#ad379be63239b03e0db53dc31014a2d74',1,'Observations::times_()']]],
-  ['toforecasts',['toForecasts',['../namespacegrib_converter.html#ae5d63c8047289652e8eaafb329998bfe',1,'gribConverter']]],
-  ['toobservations',['toObservations',['../namespacegrib_converter.html#aed91b29db63636bb942fa12d761f5f22',1,'gribConverter']]]
+  ['toforecasts',['toForecasts',['../namespacegrib_converter.html#a9c0f758977326e48f50ef4d818186e0d',1,'gribConverter']]],
+  ['toobservations',['toObservations',['../namespacegrib_converter.html#a0bc3c18837388c93dc3126b43775b392',1,'gribConverter']]]
 ];

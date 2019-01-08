@@ -22,6 +22,7 @@ var searchData=
   ['testgetstationsinsquare',['testGetStationsInSquare',['../classtest_stations.html#af0b3bff31fe6fa8833b1ac2f58ac1234',1,'testStations']]],
   ['testgettimeindex',['testGetTimeIndex',['../classtest_times.html#a1b437683694e3b641a0e469bbe6c46bf',1,'testTimes']]],
   ['testgribconverter',['testGribConverter',['../classtest_grib_converter.html#a3314c2929635c2bdd2529b33868db34b',1,'testGribConverter']]],
+  ['testhastargets',['testHasTargets',['../classtest_similarity_matrices.html#a8e442bd0b8358726ef0ae8aebd895dff',1,'testSimilarityMatrices']]],
   ['testhavexy',['testHaveXY',['../classtest_stations.html#a25fa65f2cd9d395385def9fcd2824b03',1,'testStations']]],
   ['testmatricesconstructor',['testMatricesConstructor',['../classtest_similarity_matrices.html#a2c4692bd19c9b8273208ce0378bf21f3',1,'testSimilarityMatrices']]],
   ['testmatricessort',['testMatricesSort',['../classtest_similarity_matrices.html#aba9d96a88634e02a999f73371874c67e',1,'testSimilarityMatrices']]],
@@ -57,6 +58,6 @@ var searchData=
   ['testwritereadforecastfile',['testWriteReadForecastFile',['../classtest_an_en_i_o.html#a53ff722b99bd2f1b2e05bdd6c737fd7e',1,'testAnEnIO']]],
   ['testwritereadobservationfile',['testWriteReadObservationFile',['../classtest_an_en_i_o.html#aa7906bfbbf98a81bb6c449968c9bae9e',1,'testAnEnIO']]],
   ['times',['Times',['../classanen_time_1_1_times.html#a66161eb232f580fe090579b8e19e3618',1,'anenTime::Times::Times()'],['../classanen_time_1_1_times.html#a2bd2c89fd910120a72eab80017792125',1,'anenTime::Times::Times(std::string unit)'],['../classanen_time_1_1_times.html#a73794184536377320073427409a63da6',1,'anenTime::Times::Times(std::string unit, std::string origin)']]],
-  ['toforecasts',['toForecasts',['../namespacegrib_converter.html#ae5d63c8047289652e8eaafb329998bfe',1,'gribConverter']]],
-  ['toobservations',['toObservations',['../namespacegrib_converter.html#aed91b29db63636bb942fa12d761f5f22',1,'gribConverter']]]
+  ['toforecasts',['toForecasts',['../namespacegrib_converter.html#a9c0f758977326e48f50ef4d818186e0d',1,'gribConverter']]],
+  ['toobservations',['toObservations',['../namespacegrib_converter.html#a0bc3c18837388c93dc3126b43775b392',1,'gribConverter']]]
 ];
