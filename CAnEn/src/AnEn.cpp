@@ -327,7 +327,6 @@ num_nearest_stations, distance, max_num_search_stations, limit_test)
 
     } catch (...) {
         cout << BOLDRED << "Error occurred in computeSearchStations!" << RESET << endl;
-        cout << "here" << endl;
         throw;
     }
 

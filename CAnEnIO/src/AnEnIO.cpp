@@ -427,7 +427,7 @@ AnEnIO::readObservations(Observations_array & observations, vector<size_t> start
         vector<size_t> count, vector<ptrdiff_t> stride) {
 
     if (verbose_ >= 3) {
-        cout << "Reading observation file ..." << endl;
+        cout << "Reading observation file according to start and count ..." << endl;
     }
 
     if (mode_ != "Read") {
@@ -581,7 +581,7 @@ AnEnIO::readForecasts(Forecasts_array & forecasts,
         vector<ptrdiff_t> stride) {
 
     if (verbose_ >= 3) {
-        cout << "Reading forecast file ..." << endl;
+        cout << "Reading forecast file according to start and count ..." << endl;
     }
 
     if (mode_ != "Read") {
