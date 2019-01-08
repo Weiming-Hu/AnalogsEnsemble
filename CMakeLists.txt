@@ -90,26 +90,30 @@ message (STATUS "CMAKE_BUILD_TYPE is ${CMAKE_BUILD_TYPE}")
 
 # Extensive warnings for Debug mode
 if (CMAKE_CXX_FLAGS_DEBUG)
-    set (CMAKE_CXX_FLAGS_DEBUG "-Wall -Wextra ${CMAKE_CXX_FLAGS_DEBUG}")
+    # -Wall print all regular warnings
+    # -Wextra print extra warnings
+    #
+    set (CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -Wextra")
 else (CMAKE_CXX_FLAGS_DEBUG)
     set (CMAKE_CXX_FLAGS_DEBUG "-Wall -Wextra")
 endif (CMAKE_CXX_FLAGS_DEBUG)
 
 # Suppress warning for Release mode
 if (CMAKE_CXX_FLAGS_RELEASE)
-    set (CMAKE_CXX_FLAGS_RELEASE "-w ${CMAKE_CXX_FLAGS_RELEASE}")
+    # -s strip out the debugging symbols
+    # -w suppress all compiler and linker warnings
+    # 
+    set (CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -s -w")
 else (CMAKE_CXX_FLAGS_RELEASE)
-    set (CMAKE_CXX_FLAGS_RELEASE "-w")
+    set (CMAKE_CXX_FLAGS_RELEASE "-s -w")
 endif (CMAKE_CXX_FLAGS_RELEASE)
 
 if (CMAKE_BUILD_TYPE STREQUAL "Release")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CMAKE_CXX_FLAGS_RELEASE}")
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${CMAKE_CXX_FLAGS_RELEASE}")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS_RELEASE} ${CMAKE_CXX_FLAGS}")
 endif(CMAKE_BUILD_TYPE STREQUAL "Release")
 
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CMAKE_CXX_FLAGS_DEBUG}")
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${CMAKE_CXX_FLAGS_DEBUG}")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS_DEBUG} ${CMAKE_CXX_FLAGS}")
 endif(CMAKE_BUILD_TYPE STREQUAL "Debug")
 
 message(STATUS "C++ compiler options are: ${CMAKE_CXX_FLAGS}")
@@ -118,8 +122,8 @@ message(STATUS "C++ compiler options are: ${CMAKE_CXX_FLAGS}")
 find_package (OpenMP)
 if (${OPENMP_FOUND})
     message(STATUS "Using OpenMP ${OpenMP_CXX_FLAGS}")
-    set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
-    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+    set (CMAKE_C_FLAGS "${OpenMP_C_FLAGS} ${CMAKE_C_FLAGS}")
+    set (CMAKE_CXX_FLAGS "${OpenMP_CXX_FLAGS} ${CMAKE_CXX_FLAGS}")
 else (${OPENMP_FOUND})
     message (WARNING "No OpenMP support found for the compiler: ${CMAKE_CXX_COMPILER}
     The process goes on, but the executable won't support multi-threading.
