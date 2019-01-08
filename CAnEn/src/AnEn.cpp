@@ -497,7 +497,7 @@ test_stations_index_in_search, extend_observations)
 
                                     // compute single similarity
                                     sims[i_test_station][i_test_time][i_flt][i_sim_row][COL_TAG_SIM::VALUE] = compute_single_similarity_(
-                                            test_forecasts, search_forecasts, sims, sds, weights, flts_window, circular_flags,
+                                            test_forecasts, search_forecasts, sds, weights, flts_window, circular_flags,
                                             i_test_station, i_test_time, i_search_station, i_search_time, i_flt, max_par_nan, max_flt_nan);
 
                                     sims[i_test_station][i_test_time][i_flt][i_sim_row][COL_TAG_SIM::STATION] = i_search_station;
@@ -864,7 +864,6 @@ double
 AnEn::compute_single_similarity_(
         const Forecasts_array & test_forecasts,
         const Forecasts_array & search_forecasts,
-        const SimilarityMatrices & sims,
         const StandardDeviation & sds,
         const vector<double> & weights,
         const boost::numeric::ublas::matrix<size_t>& flts_window,
@@ -939,5 +938,4 @@ AnEn::compute_single_similarity_(
     } // End loop of parameters
 
     return (sim);
-
 }

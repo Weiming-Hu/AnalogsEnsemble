@@ -348,7 +348,6 @@ private:
     double compute_single_similarity_(
             const Forecasts_array & test_forecasts,
             const Forecasts_array & search_forecasts,
-            const SimilarityMatrices & sims,
             const StandardDeviation & sds,
             const std::vector<double> & weights,
             const boost::numeric::ublas::matrix<size_t>& flts_window,
