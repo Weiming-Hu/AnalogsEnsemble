@@ -10,7 +10,7 @@
 #
 if (NOT BOOST_TYPE)
     set (BOOST_TYPE "BUILD" CACHE STRING
-        "The type of boost library that is going to use by the make process. Should be either SYSTEM or BUILD.")
+        "The type of boost library that is going to be used by the make process. Should be either SYSTEM or BUILD.")
 endif (NOT BOOST_TYPE)
 message (STATUS "BOOST_TYPE is set to ${BOOST_TYPE}")
 

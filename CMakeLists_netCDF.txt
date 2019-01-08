@@ -33,7 +33,6 @@ endif(VERBOSE)
 ###########
 # NetCDF4 #
 ###########
-# set (NETCDF_CXX "YES")
 find_package(NetCDF)
 
 if(NETCDF_FOUND)
@@ -58,7 +57,14 @@ if(BUILD_NETCDF)
     set(NETCDF_FOUND FALSE)
 endif(BUILD_NETCDF)
 
-if(NOT NETCDF_FOUND)
+if(NETCDF_FOUND)
+    # NETCDF_INCLUDES and NETCDF_LIBRARIES
+    # should have been set by the module
+    #
+    set(NETCDF_BUILT FALSE)
+    #message(WARNING "NETCDF is found. But make sure you are using the
+    #same compiler used for NETCDF to compile the CAnalogs program")
+else(NETCDF_FOUND)
     message(STATUS "netCDF is not found or does not meet the requirement. Try to build it.")
     message(STATUS "Or please specify the variable CMAKE_PREFIX_PATH which contains /bin, /lib, and /include.")
 
@@ -148,81 +154,106 @@ if(NOT NETCDF_FOUND)
         ${CURL_INCLUDE_DIRS} ${ZLIB_INCLUDE_DIRS})
 
     set(NETCDF_BUILT TRUE)
-else(NOT NETCDF_FOUND)
-    # NETCDF_INCLUDES and NETCDF_LIBRARIES
-    # should have been set by the module
-    #
-    set(NETCDF_BUILT FALSE)
-    #message(WARNING "NETCDF is found. But make sure you are using the
-    #same compiler used for NETCDF to compile the CAnalogs program")
-endif(NOT NETCDF_FOUND)
+endif(NETCDF_FOUND)
 
 
 ###############
 # NetCDF-CXX4 #
 ###############
-set(NETCDF_CXX4_URL "https://github.com/Unidata/netcdf-cxx4/archive/v4.3.0.tar.gz")
-set(NETCDF_CXX4_ROOT_PATH ${DEPENDENCY_PATH})
-set(NETCDF_CXX4_INSTALL_PREFIX "${NETCDF_CXX4_ROOT_PATH}/install")
-set(NETCDF_CXX4_BUILD_TYPE "-DCMAKE_BUILD_TYPE=${CMAKE_EXTERNAL_PROJECT_BUILD_TYPE}")
+if (NOT NETCDF_CXX4_TYPE)
+    set (NETCDF_CXX4_TYPE "BUILD" CACHE STRING
+        "The type of NetCDF C++4 library that is going to be used by the make process. Should be either SYSTEM or BUILD.")
+endif (NOT NETCDF_CXX4_TYPE)
+message (STATUS "NETCDF_CXX4_TYPE is set to ${NETCDF_CXX4_TYPE}")
 
-# By default, CXX4 library is built as a shared library. However, if this library is
-# already installed in the system, this built version by this project will mess up
-# with the system version because they share runpath and the program won't be able
-# to choose the correct version during runtime. Therefore, I'm building a static library 
-# to ensure that this library is always selected.
-#
-set(NETCDF_CXX4_SHARED "-DBUILD_SHARED_LIBS=OFF")
+if (NETCDF_CXX4_TYPE STREQUAL SYSTEM)
 
-set(NETCDF_CXX4_LIB_DIR "-DCMAKE_INSTALL_LIBDIR=${CMAKE_INSTALL_LIBDIR}")
-set(NETCDF_CXX4_CMAKE_ARGS "-DCMAKE_INSTALL_PREFIX=${NETCDF_CXX4_INSTALL_PREFIX}")
-set(NETCDF_CXX4_CMAKE_ARGS ${NETCDF_CXX4_CMAKE_ARGS} ${NETCDF_CXX4_LIB_DIR} 
-    ${NETCDF_CXX4_BUILD_TYPE} ${NETCDF_CXX4_SHARED})
+    if (NETCDF_BUILT)
+        message(STATUS "NetCDF is built. Therefore, NetCDF C++4 library will be built.")
+        set (NETCDF_CXX4_TYPE "BUILD")
+        
+    else (NETCDF_BUILT)
+        set (NETCDF_CXX "YES")
+        find_package(NetCDF)
 
-if(NETCDF_BUILT)
-    set(NETCDF_CXX4_DEPENDENCY "NETCDF_PROJECT")
-    set (CMAKE_PREFIX_PATH "${CMAKE_PREFIX_PATH};${NETCDF_INSTALL_PREFIX}")
+        if (NETCDF_FOUND)
+            message(STATUS "NetCDF C++4 library is found.")
+            message(STATUS "Add NetCDF C++4 libraries: ${NETCDF_LIBRARIES_CXX}")
+            set(NETCDF_LIBRARIES ${NETCDF_LIBRARIES} ${NETCDF_LIBRARIES_CXX})
+        else (NETCDF_FOUND)
+            message(STATUS "NetCDF C++4 library cannot be found. NETCDF_CXX4_TYPE is set to BUILD.")
+            set (NETCDF_CXX4_TYPE "BUILD")
+        endif (NETCDF_FOUND)
 
-else(NETCDF_BUILT)
-    set(NETCDF_CXX4_DEPENDENCY "")
-endif(NETCDF_BUILT)
+    endif (NETCDF_BUILT)
 
-if (CMAKE_PREFIX_PATH)
-    # This if statement and the code have several purposes:
-    # - If CMAKE_PREFIX_PATH is set, pass it to external project.
-    # - Deal with CMAKE_PREFIX_PATH with multiple folders by changing the separator.
+endif (NETCDF_CXX4_TYPE STREQUAL SYSTEM)
+
+if (NETCDF_CXX4_TYPE STREQUAL BUILD)
+    set(NETCDF_CXX4_URL "https://github.com/Unidata/netcdf-cxx4/archive/v4.3.0.tar.gz")
+    set(NETCDF_CXX4_ROOT_PATH ${DEPENDENCY_PATH})
+    set(NETCDF_CXX4_INSTALL_PREFIX "${NETCDF_CXX4_ROOT_PATH}/install")
+    set(NETCDF_CXX4_BUILD_TYPE "-DCMAKE_BUILD_TYPE=${CMAKE_EXTERNAL_PROJECT_BUILD_TYPE}")
+
+    # By default, CXX4 library is built as a shared library. However, if this library is
+    # already installed in the system, this built version by this project will mess up
+    # with the system version because they share runpath and the program won't be able
+    # to choose the correct version during runtime. Therefore, I'm building a static library 
+    # to ensure that this library is always selected.
     #
-    string(REPLACE ";" "|" NETCDF_CXX4_ALT_CMAKE_PREFIX_PATH "${CMAKE_PREFIX_PATH}")
-    set(NETCDF_CXX4_PREFIX_PATH "-DCMAKE_PREFIX_PATH=${NETCDF_CXX4_ALT_CMAKE_PREFIX_PATH}")
-    set(NETCDF_CXX4_CMAKE_ARGS ${NETCDF_CXX4_CMAKE_ARGS} ${NETCDF_CXX4_PREFIX_PATH})
-endif(CMAKE_PREFIX_PATH)
+    set(NETCDF_CXX4_SHARED "-DBUILD_SHARED_LIBS=OFF")
 
-set(NETCDF_CXX4_C_COMPILER "-DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}")
-set(NETCDF_CXX4_CXX_COMPILER "-DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}")
-set(NETCDF_CXX4_CMAKE_ARGS ${NETCDF_CXX4_CMAKE_ARGS}
-    ${NETCDF_CXX4_C_COMPILER} ${NETCDF_CXX4_CXX_COMPILER} ${RPATH_ARGS}
-    "-DNCXX_ENABLE_TESTS=OFF")
+    set(NETCDF_CXX4_LIB_DIR "-DCMAKE_INSTALL_LIBDIR=${CMAKE_INSTALL_LIBDIR}")
+    set(NETCDF_CXX4_CMAKE_ARGS "-DCMAKE_INSTALL_PREFIX=${NETCDF_CXX4_INSTALL_PREFIX}")
+    set(NETCDF_CXX4_CMAKE_ARGS ${NETCDF_CXX4_CMAKE_ARGS} ${NETCDF_CXX4_LIB_DIR} 
+        ${NETCDF_CXX4_BUILD_TYPE} ${NETCDF_CXX4_SHARED})
 
-if(VERBOSE)
-    message(STATUS "NETCD_CXX4_CMAKE_ARGS: ${NETCDF_CXX4_CMAKE_ARGS}")
-endif(VERBOSE)
+    if(NETCDF_BUILT)
+        set(NETCDF_CXX4_DEPENDENCY "NETCDF_PROJECT")
+        set (CMAKE_PREFIX_PATH "${CMAKE_PREFIX_PATH};${NETCDF_INSTALL_PREFIX}")
 
-ExternalProject_add(NETCDF_CXX4_PROJECT
-    DEPENDS ${NETCDF_CXX4_DEPENDENCY}
-    PREFIX ${NETCDF_CXX4_ROOT_PATH}
-    URL ${NETCDF_CXX4_URL}
-    PATCH_COMMAND ""
-    UPDATE_COMMAND ""
-    LIST_SEPARATOR | # Use the alternate list separator
-    CMAKE_ARGS ${NETCDF_CXX4_CMAKE_ARGS}
-    BUILD_COMMAND ${MAKE}
-    LOG_TEST ${VERBOSE_TEST}
-    LOG_DOWNLOAD ${VERBOSE_DOWNLOAD}
-    LOG_CONFIGURE ${VERBOSE_CONFIGURE}
-    LOG_BUILD ${VERBOSE_BUILD}
-    LOG_INSTALL ${VERBOSE_INSTALL})
+    else(NETCDF_BUILT)
+        set(NETCDF_CXX4_DEPENDENCY "")
+    endif(NETCDF_BUILT)
 
-set(NETCDF_CXX4_INCLUDE_DIR "${NETCDF_CXX4_INSTALL_PREFIX}/include")
-set(NETCDF_CXX4_INCLUDE_DIR ${NETCDF_CXX4_INCLUDE_DIR} ${NETCDF_INCLUDES})
+    if (CMAKE_PREFIX_PATH)
+        # This if statement and the code have several purposes:
+        # - If CMAKE_PREFIX_PATH is set, pass it to external project.
+        # - Deal with CMAKE_PREFIX_PATH with multiple folders by changing the separator.
+        #
+        string(REPLACE ";" "|" NETCDF_CXX4_ALT_CMAKE_PREFIX_PATH "${CMAKE_PREFIX_PATH}")
+        set(NETCDF_CXX4_PREFIX_PATH "-DCMAKE_PREFIX_PATH=${NETCDF_CXX4_ALT_CMAKE_PREFIX_PATH}")
+        set(NETCDF_CXX4_CMAKE_ARGS ${NETCDF_CXX4_CMAKE_ARGS} ${NETCDF_CXX4_PREFIX_PATH})
+    endif(CMAKE_PREFIX_PATH)
 
-set(NETCDF_CXX4_BUILT TRUE)
+    set(NETCDF_CXX4_C_COMPILER "-DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}")
+    set(NETCDF_CXX4_CXX_COMPILER "-DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}")
+    set(NETCDF_CXX4_CMAKE_ARGS ${NETCDF_CXX4_CMAKE_ARGS}
+        ${NETCDF_CXX4_C_COMPILER} ${NETCDF_CXX4_CXX_COMPILER} ${RPATH_ARGS}
+        "-DNCXX_ENABLE_TESTS=OFF")
+
+    if(VERBOSE)
+        message(STATUS "NETCD_CXX4_CMAKE_ARGS: ${NETCDF_CXX4_CMAKE_ARGS}")
+    endif(VERBOSE)
+
+    ExternalProject_add(NETCDF_CXX4_PROJECT
+        DEPENDS ${NETCDF_CXX4_DEPENDENCY}
+        PREFIX ${NETCDF_CXX4_ROOT_PATH}
+        URL ${NETCDF_CXX4_URL}
+        PATCH_COMMAND ""
+        UPDATE_COMMAND ""
+        LIST_SEPARATOR | # Use the alternate list separator
+        CMAKE_ARGS ${NETCDF_CXX4_CMAKE_ARGS}
+        BUILD_COMMAND ${MAKE}
+        LOG_TEST ${VERBOSE_TEST}
+        LOG_DOWNLOAD ${VERBOSE_DOWNLOAD}
+        LOG_CONFIGURE ${VERBOSE_CONFIGURE}
+        LOG_BUILD ${VERBOSE_BUILD}
+        LOG_INSTALL ${VERBOSE_INSTALL})
+
+    set(NETCDF_CXX4_INCLUDE_DIR "${NETCDF_CXX4_INSTALL_PREFIX}/include")
+    set(NETCDF_CXX4_INCLUDE_DIR ${NETCDF_CXX4_INCLUDE_DIR} ${NETCDF_INCLUDES})
+
+    set(NETCDF_CXX4_BUILT TRUE)
+endif (NETCDF_CXX4_TYPE STREQUAL BUILD)
+
