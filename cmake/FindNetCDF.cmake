@@ -11,6 +11,8 @@
 # Your package can require certain interfaces to be FOUND by setting these
 #
 #  NETCDF_CXX         - require the C++ interface and link the C++ library
+#
+#  (The following two options have been removed)
 #  NETCDF_F77         - require the F77 interface and link the fortran library
 #  NETCDF_F90         - require the F90 interface and link the fortran library
 #
@@ -36,10 +38,11 @@ endif (NETCDF_INCLUDES AND NETCDF_LIBRARIES)
 find_path (NETCDF_INCLUDES netcdf.h
   HINTS NETCDF_DIR ENV NETCDF_DIR)
 
-find_library (NETCDF_LIBRARIES_C       NAMES netcdf)
+find_library (NETCDF_LIBRARIES_C NAMES netcdf)
 mark_as_advanced(NETCDF_LIBRARIES_C)
 
-set (NetCDF_has_interfaces "YES") # will be set to NO if we're missing any interfaces
+# Will be set to YES if we found any of the combination
+set (NetCDF_has_interfaces "NO")
 set (NetCDF_libs "${NETCDF_LIBRARIES_C}")
 
 get_filename_component (NetCDF_lib_dirs "${NETCDF_LIBRARIES_C}" PATH)
@@ -47,29 +50,60 @@ get_filename_component (NetCDF_lib_dirs "${NETCDF_LIBRARIES_C}" PATH)
 macro (NetCDF_check_interface lang header libs)
   if (NETCDF_${lang})
     find_path (NETCDF_INCLUDES_${lang} NAMES ${header}
-      HINTS "${NETCDF_INCLUDES}" NO_DEFAULT_PATH)
+        #HINTS "${NETCDF_INCLUDES}" NO_DEFAULT_PATH)
+        # Weiming: Search in all possible directories
+      HINTS "${NETCDF_INCLUDES}")
     find_library (NETCDF_LIBRARIES_${lang} NAMES ${libs}
-      HINTS "${NetCDF_lib_dirs}" NO_DEFAULT_PATH)
+        # HINTS "${NetCDF_lib_dirs}" NO_DEFAULT_PATH)
+        # Weiming: Search in all possible directories
+      HINTS "${NetCDF_lib_dirs}")
     mark_as_advanced (NETCDF_INCLUDES_${lang} NETCDF_LIBRARIES_${lang})
     if (NETCDF_INCLUDES_${lang} AND NETCDF_LIBRARIES_${lang})
       list (INSERT NetCDF_libs 0 ${NETCDF_LIBRARIES_${lang}}) # prepend so that -lnetcdf is last
-    else (NETCDF_INCLUDES_${lang} AND NETCDF_LIBRARIES_${lang})
-      set (NetCDF_has_interfaces "NO")
-      message (STATUS "Failed to find NetCDF interface for ${lang}")
+      set (NetCDF_has_interfaces "Yes")
+      # else (NETCDF_INCLUDES_${lang} AND NETCDF_LIBRARIES_${lang})
+      # message (STATUS "Failed to find NetCDF interface for ${lang}")
     endif (NETCDF_INCLUDES_${lang} AND NETCDF_LIBRARIES_${lang})
   endif (NETCDF_${lang})
 endmacro (NetCDF_check_interface)
 
-NetCDF_check_interface (CXX netcdfcpp.h netcdf-cxx4)
+# NetCDF_check_interface (CXX netcdf netcdf_c++4)
+# NetCDF_check_interface (CXX netcdfcpp.h netcdf-cxx4)
 # NetCDF_check_interface (CXX netcdfcpp.h netcdf_c++)
-NetCDF_check_interface (F77 netcdf.inc  netcdff)
-NetCDF_check_interface (F90 netcdf.mod  netcdff)
+if (NETCDF_CXX STREQUAL "YES")
+    set (possible_include_names "netcdf;netcdfcpp.h")
+    set (possible_library_names "netcdf_c++4;netcdf-cxx4")
+    list(LENGTH possible_include_names num_possible_include_names)
+    list(LENGTH possible_library_names num_possible_library_names)
+
+    set(i_include "0")
+    while (i_include LESS ${num_possible_include_names})
+        set(i_library "0")
+        while (i_library LESS ${num_possible_library_names})
+            list(GET possible_include_names ${i_include} find_CXX_include)
+            list(GET possible_library_names ${i_library} find_CXX_library)
+            NetCDF_check_interface (CXX ${find_CXX_include} ${find_CXX_library})
+
+            math(EXPR i_library "${i_library} + 1")
+        endwhile (i_library LESS ${num_possible_library_names})
+
+        math(EXPR i_include "${i_include} + 1")
+    endwhile (i_include LESS ${num_possible_include_names})
+endif (NETCDF_CXX STREQUAL "YES")
+
+# NetCDF_check_interface (F77 netcdf.inc  netcdff)
+# NetCDF_check_interface (F90 netcdf.mod  netcdff)
 
 set (NETCDF_LIBRARIES "${NetCDF_libs}" CACHE STRING "All NetCDF libraries required for interface level")
 
 # handle the QUIETLY and REQUIRED arguments and set NETCDF_FOUND to TRUE if
 # all listed variables are TRUE
 include (FindPackageHandleStandardArgs)
-find_package_handle_standard_args (NetCDF DEFAULT_MSG NETCDF_LIBRARIES NETCDF_INCLUDES NetCDF_has_interfaces)
+
+if (NETCDF_CXX STREQUAL "YES")
+    find_package_handle_standard_args (NetCDF DEFAULT_MSG NETCDF_LIBRARIES NETCDF_INCLUDES NetCDF_has_interfaces)
+else (NETCDF_CXX STREQUAL "YES")
+    find_package_handle_standard_args (NetCDF DEFAULT_MSG NETCDF_LIBRARIES NETCDF_INCLUDES)
+endif (NETCDF_CXX STREQUAL "YES")
 
 mark_as_advanced (NETCDF_LIBRARIES NETCDF_INCLUDES)
