@@ -1,6 +1,6 @@
 ---
 layout: post
-title: RAnEn Search Space Extension
+title: Search Space Extension with RAnEn
 tags:
   - tutorial
 ---
