@@ -1,6 +1,6 @@
 ---
 layout: post
-title: RAnEn Basics
+title: Basics of RAnEn
 tags:
   - tutorial
 ---
