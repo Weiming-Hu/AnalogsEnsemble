@@ -65,7 +65,7 @@ mkdir build && cd build
 # This is the path for the NetCDF C++4 library. You can find it in the system
 # environment variable CPLUS_INCLUDE_PATH
 #
-cmake -DCMAKE_CXX_FLAGS='-pg' -DCMAKE_PREFIX_PATH="$BOOST_ROOT;$NETCDF;/opt/aci/sw/netcdf-cxx/4.3.0_gcc-5.3.1" -DCMAKE_BUILD_TESTS=ON -DBOOST_TYPE=SYSTEM -DNETCDF_CXX4_TYPE=SYSTEM -DCMAKE_INSTALL_PREFIX=release ..
+cmake -DCMAKE_CXX_FLAGS='-O3 -pg' -DCMAKE_BUILD_TYPE=Debug -DCMAKE_PREFIX_PATH="$BOOST_ROOT;$NETCDF;/opt/aci/sw/netcdf-cxx/4.3.0_gcc-5.3.1" -DCMAKE_BUILD_TESTS=ON -DBOOST_TYPE=SYSTEM -DNETCDF_CXX4_TYPE=SYSTEM -DCMAKE_INSTALL_PREFIX=release ..
 make -j 8
 
 # Test programs. Make sure all tests are shown passed.
