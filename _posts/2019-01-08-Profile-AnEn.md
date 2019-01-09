@@ -8,23 +8,32 @@ tags:
 <!-- vim-markdown-toc GFM -->
 
 * [Introduction](#introduction)
+* [Result Preview](#result-preview)
 * [Preparation and Clarification](#preparation-and-clarification)
 * [Profiling with `GProf`](#profiling-with-gprof)
-    * [Build programs for `GProf`](#build-programs-for-gprof)
-    * [Profile AnEn](#profile-anen)
-    * [Visualize](#visualize)
+    * [Build Programs for `GProf`](#build-programs-for-gprof)
+    * [Profiling AnEn](#profiling-anen)
+    * [Visualization](#visualization)
 * [Profiling with TAU](#profiling-with-tau)
-    * [Build programs with TAU](#build-programs-with-tau)
-    * [Profile AnEn](#profile-anen-1)
+    * [Build Programs with TAU](#build-programs-with-tau)
+    * [Profiling AnEn](#profiling-anen-1)
+    * [Visualization](#visualization-1)
 
 <!-- vim-markdown-toc -->
-
 
 ## Introduction
 
 This file documents the process of profiling analysis of the weather forecast technique [`Analog Ensemble`](https://weiming-hu.github.io/AnalogsEnsemble/).
 
 Experiments are carried out on Penn State ICS cluster ACI-b.
+
+## Result Preview
+
+These figures are generated using TAU profiler and the visualization tools `paraprof`.
+
+![time-breakdown](https://github.com/Weiming-Hu/AnalogsEnsemble/raw/gh-pages/assets/posts/2019-01-08-Profile-AnEn/tau-breakdown-by-thread.png)
+![time-3D](https://github.com/Weiming-Hu/AnalogsEnsemble/raw/gh-pages/assets/posts/2019-01-08-Profile-AnEn/tau-3D.png)
+![time-threads](https://github.com/Weiming-Hu/AnalogsEnsemble/raw/gh-pages/assets/posts/2019-01-08-Profile-AnEn/tau-threads.png)
 
 ## Preparation and Clarification
 
@@ -37,7 +46,7 @@ Please note a couple of placeholders in this tutorial. It is recommended to use 
 
 ## Profiling with `GProf`
 
-### Build programs for `GProf`
+### Build Programs for `GProf`
 
 Load modules needed by AnEn programs.
 
@@ -77,7 +86,7 @@ cd release/bin
 file gmon.out
 ```
 
-### Profile AnEn
+### Profiling AnEn
 
 The data used here are synthetic data. They are generated using the provided R script. First, run the program normally to generate profile data.
 
@@ -99,7 +108,7 @@ This should generate a `gmon.out` file. Then this file can be used by `gprof` to
 gprof [Analog Ensemble Source Dir]/build/release/bin/analogGenerator gmon.out > profile.txt
 ```
 
-### Visualize
+### Visualization
 
 To visualize the `GProf` output, we can convert the text file to a dot graph and then an image. I'm using the [gprof2dot](https://github.com/jrfonseca/gprof2dot) program to do that. I'm using the python program and I'm doing this on my local machine so that I have `sudo` permission.
 
@@ -120,7 +129,7 @@ gprof2dot.py -w -s profile.txt | dot -Tpng -Gdpi=500 -o profile-gprof.png
 
 ## Profiling with TAU
 
-### Build programs with TAU
+### Build Programs with TAU
 First, several modules need to be loaded.
 
 ```
@@ -166,7 +175,7 @@ make test
 make install
 ```
 
-### Profile AnEn
+### Profiling AnEn
 
 ```
 # Submit an interactive job
@@ -181,7 +190,9 @@ rm output.nc
 OMP_NUM_THREADS=20 [Analog Ensemble Source Dir]/build/release/bin/analogGenerator -c config.cfg --analog-nc output.nc --test-start 0 0 0 0 --test-count 10 100 10 5 --search-start 0 0 0 0 --search-count 10 100 500 5 --obs-start 0 0 0 --obs-count 1 100 13140
 ```
 
-Once the profile is done, profile files with names like `profile.0.0.*` will be generated. We can use the following tools to visualize the results.
+### Visualization
+
+Once the profile is generated, profile files with names like `profile.0.0.*` will be generated. We can use the following tools to visualize the results.
 
 ```
 # Run this command in the folder with the profile log files.
