@@ -2,7 +2,7 @@
 layout: post
 title: Tutorial on AnEn Profiling
 tags:
-  - document
+  - tutorial
 ---
 
 <!-- vim-markdown-toc GFM -->
