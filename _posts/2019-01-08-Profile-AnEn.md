@@ -90,7 +90,7 @@ module load gcc/5.3.1 boost/1.61.0 netcdf/4.4.1 git hdf5/1.8.18 netcdf-cxx/4.3.0
 
 cd [Profile Data Dir]
 rm output.nc
-[Analog Ensemble Source Dir]/build/release/bin/analogGenerator -c config.cfg --analog-nc output.nc
+OMP_NUM_THREADS=20 [Analog Ensemble Source Dir]/build/release/bin/analogGenerator -c config.cfg --analog-nc output.nc
 ```
 
 This should generate a `gmon.out` file. Then this file can be used by `gprof` to generate profile information.
