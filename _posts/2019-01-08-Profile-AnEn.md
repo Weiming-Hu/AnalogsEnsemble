@@ -35,6 +35,10 @@ These figures are generated using TAU profiler and the visualization tools `para
 ![time-3D](https://github.com/Weiming-Hu/AnalogsEnsemble/raw/gh-pages/assets/posts/2019-01-08-Profile-AnEn/tau-3D.png)
 ![time-threads](https://github.com/Weiming-Hu/AnalogsEnsemble/raw/gh-pages/assets/posts/2019-01-08-Profile-AnEn/tau-threads.png)
 
+The following figure is generated from `gprof`.
+
+![time-dot-graph](https://github.com/Weiming-Hu/AnalogsEnsemble/raw/gh-pages/assets/posts/2019-01-08-Profile-AnEn/gprof.png)
+
 ## Preparation and Clarification
 
 Please note a couple of placeholders in this tutorial. It is recommended to use the absolute full path to replace them.
@@ -123,7 +127,7 @@ pip install gprof2dot
 # -w for wrapping function names
 # -s for stripping detailed function information to reduce texts
 #
-gprof2dot.py -w -s profile.txt | dot -Tpng -Gdpi=500 -o profile-gprof.png
+gprof2dot -w -s profile.txt | dot -Tpng -Gdpi=500 -o profile-gprof.png
 ```
 
 
