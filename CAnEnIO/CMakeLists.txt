@@ -82,8 +82,9 @@ if(NETCDF_CXX4_BUILT)
 
 endif(NETCDF_CXX4_BUILT)
 
+include_directories(SYSTEM ${NETCDF_INCLUDES})
 if (NETCDF_BUILT)
-    include_directories(SYSTEM ${NETCDF_INCLUDE_DIR})
+    include_directories(SYSTEM ${})
     add_dependencies(${LIBRARY_NAME} NETCDF_PROJECT)
 
     ExternalProject_Get_Property(NETCDF_PROJECT install_dir)
@@ -98,7 +99,6 @@ if (NETCDF_BUILT)
     set(AnEnIO_RPATH "${AnEnIO_RPATH};${install_dir}/install/lib")
 
 else (NETCDF_BUILT)
-    include_directories(SYSTEM ${NETCDF_INCLUDES})
     target_link_libraries (${LIBRARY_NAME} ${NETCDF_LIBRARIES})
 endif (NETCDF_BUILT)
 

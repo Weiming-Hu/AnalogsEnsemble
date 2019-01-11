@@ -3,30 +3,72 @@ project(gribConverter)
 
 set (gribConverter_VERSION "1.0.0")
 
-find_package(eccodes)
-if(eccodes_FOUND)
-    message(STATUS "Build application Grib Converter.")
-    message(STATUS "Eccodes include dir is found at ${ECCODES_INCLUDE_DIRS}.")
+if (NOT ECCODES_TYPE)
+    set(ECCODES_TYPE "BUILD" CACHE STRING
+        "The type of Eccodes library that is going to be used. Should be either SYSTEM or BUILD.")
+endif (NOT ECCODES_TYPE)
+message (STATUS "ECCODES_TYPE is set to ${ECCODES_TYPE}")
 
-    string(FIND "${ECCODES_FEATURES}" "ECCODES_THREADS" PTHREADS_POS)
-    string(FIND "${ECCODES_FEATURES}" "ECCODES_OMP_THREADS" OMP_POS)
+if (ECCODES_TYPE STREQUAL "SYSTEM")
+    find_package(eccodes)
+    if(eccodes_FOUND)
+        message(STATUS "Build application Grib Converter.")
+        message(STATUS "Eccodes include dir is found at ${ECCODES_INCLUDE_DIRS}.")
 
-    if (${PTHREADS_POS} STREQUAL "-1" AND ${OMP_POS} STREQUAL "-1")
-        message(FATAL_ERROR "Required feature not found: ECCODES_THREADS or ECCODES_OMP_THREADS.")
-    endif (${PTHREADS_POS} STREQUAL "-1" AND ${OMP_POS} STREQUAL "-1")
+        string(FIND "${ECCODES_FEATURES}" "ECCODES_THREADS" PTHREADS_POS)
+        string(FIND "${ECCODES_FEATURES}" "ECCODES_OMP_THREADS" OMP_POS)
 
-    if (NOT ${PTHREADS_POS} STREQUAL "-1")
-        message(STATUS "Required feature found: ECCODES_THREADS")
-    endif (NOT ${PTHREADS_POS} STREQUAL "-1")
+        if (${PTHREADS_POS} STREQUAL "-1" AND ${OMP_POS} STREQUAL "-1")
+            message(STATUS "Eccodes lib is not multithreading.")
+        else (${PTHREADS_POS} STREQUAL "-1" AND ${OMP_POS} STREQUAL "-1")
+            message(WARNING "Eccodes lib is multithreading.\nThis might cause unexpected slowdown of gribConverter if it is also multithreaded.\nSet ECCODES_TYPE to BUILD to build it.")
+        endif (${PTHREADS_POS} STREQUAL "-1" AND ${OMP_POS} STREQUAL "-1")
+    else(eccodes_FOUND)
+        message(WARNING "Eccodes library is not found. Set the type to BUILD.")
+        set(ECCODES_TYPE "BUILD")
+    endif(eccodes_FOUND)
+endif (ECCODES_TYPE STREQUAL "SYSTEM")
 
-    if (NOT ${OMP_POS} STREQUAL "-1")
-        message(STATUS "Required feature found: ECCODES_OMP_THREADS")
-    endif (NOT ${OMP_POS} STREQUAL "-1")
+if (ECCODES_TYPE STREQUAL "BUILD")
+    message(STATUS "Building Eccodes library")
+    include(ExternalProject)
+    # This is copied from the Eccodes website
+    # https://confluence.ecmwf.int/display/ECC/Releases
+    #
+    set(ECCODES_URL "https://confluence.ecmwf.int/download/attachments/45757960/eccodes-2.10.0-Source.tar.gz?api=v2")
+    set(ECCODES_INSTALL_PREFIX "-DCMAKE_INSTALL_PREFIX=${DEPENDENCY_PATH}/install")
+    set(ECCODES_BUILD_SHARED "-DBUILD_SHARED_LIBS=ON")
+    set(ECCODES_ROOT_PATH ${DEPENDENCY_PATH})
+    set(ECCODES_CMAKE_ARGS ${ECCODES_INSTALL_PREFIX} ${ECCODES_BUILD_SHARED})
 
-else(eccodes_FOUND)
-    message(STATUS "Eccodes library is not found. gribConverter is NOT built.")
-    return()
-endif(eccodes_FOUND)
+    if(VERBOSE)
+        set(VERBOSE_DOWNLOAD 0)
+        set(VERBOSE_CONFIGURE 0)
+        set(VERBOSE_BUILD 0) 
+        set(VERBOSE_INSTALL 0) 
+        set(VERBOSE_TEST 0)
+    else(VERBOSE)
+        set(VERBOSE_DOWNLOAD 1)
+        set(VERBOSE_CONFIGURE 1)
+        set(VERBOSE_BUILD 1) 
+        set(VERBOSE_INSTALL 1) 
+        set(VERBOSE_TEST 1)
+    endif(VERBOSE)
+    ExternalProject_add(ECCODES_PROJECT
+        PREFIX ${ECCODES_ROOT_PATH}
+        URL ${ECCODES_URL}
+        PATCH_COMMAND ""
+        UPDATE_COMMAND ""
+        CMAKE_ARGS ${ECCODES_CMAKE_ARGS}
+        BUILD_COMMAND ${MAKE}
+        LOG_TEST ${VERBOSE_TEST}
+        LOG_DOWNLOAD ${VERBOSE_DOWNLOAD}
+        LOG_CONFIGURE ${VERBOSE_CONFIGURE}
+        LOG_BUILD ${VERBOSE_BUILD}
+        LOG_INSTALL ${VERBOSE_INSTALL})
+
+    set (ECCODES_INCLUDE_DIRS "${DEPENDENCY_PATH}/install/include" CACHE STRING "ECCODES include dirs")
+endif (ECCODES_TYPE STREQUAL "BUILD")
 
 enable_language(C CXX)
 
@@ -47,7 +89,17 @@ add_dependencies(${PROJECT_NAME} AnEn)
 target_link_libraries(${PROJECT_NAME} AnEn)
 
 include_directories(${ECCODES_INCLUDE_DIRS})
-target_link_libraries(${PROJECT_NAME} eccodes)
+if (ECCODES_TYPE STREQUAL "SYSTEM")
+    target_link_libraries(${PROJECT_NAME} eccodes)
+else (ECCODES_TYPE STREQUAL "SYSTEM")
+    ExternalProject_Get_Property(ECCODES_PROJECT install_dir)
+    add_library(eccodes_built SHARED IMPORTED)
+    set_target_properties(eccodes_built PROPERTIES
+        IMPORTED_LOCATION "${install_dir}/install/lib/${CMAKE_SHARED_LIBRARY_PREFIX}eccodes${CMAKE_SHARED_LIBRARY_SUFFIX}")
+    add_dependencies(eccodes_built ECCODES_PROJECT)
+    target_link_libraries(${PROJECT_NAME} eccodes_built)
+
+endif (ECCODES_TYPE STREQUAL "SYSTEM")
 
 if(BOOST_TYPE STREQUAL "BUILD")
     target_link_libraries (${PROJECT_NAME} datetime)

@@ -22,15 +22,27 @@ else(CPPUNIT_FOUND)
     target_link_libraries (runGribConverter cppunit testGribConverter AnEnIO AnEn)
 endif(CPPUNIT_FOUND)
 
-find_package(eccodes REQUIRED)
-include_directories(${ECCODES_INCLUDE_DIRS})
-target_link_libraries (testGribConverter eccodes)
+
+if (ECCODES_TYPE STREQUAL "SYSTEM")
+    find_package(eccodes REQUIRED)
+    include_directories(${ECCODES_INCLUDE_DIRS})
+    target_link_libraries(testGribConverter eccodes)
+    target_link_libraries (runGribConverter eccodes)
+else (ECCODES_TYPE STREQUAL "SYSTEM")
+    include_directories(${ECCODES_INCLUDE_DIRS})
+    ExternalProject_Get_Property(ECCODES_PROJECT install_dir)
+    add_library(eccodes_built SHARED IMPORTED)
+    set_target_properties(eccodes_built PROPERTIES
+        IMPORTED_LOCATION "${install_dir}/install/lib/${CMAKE_SHARED_LIBRARY_PREFIX}eccodes${CMAKE_SHARED_LIBRARY_SUFFIX}")
+    add_dependencies(eccodes_built ECCODES_PROJECT)
+    target_link_libraries(testGribConverter eccodes_built)
+    target_link_libraries (runGribConverter eccodes_built)
+
+endif (ECCODES_TYPE STREQUAL "SYSTEM")
 
 if(BOOST_TYPE STREQUAL "BUILD")
     target_link_libraries (testGribConverter datetime)
 endif(BOOST_TYPE STREQUAL "BUILD")
-
-target_link_libraries (runGribConverter eccodes)
 
 add_definitions(-D_PATH_GRIB1="${CMAKE_SOURCE_DIR}/tests/Data/test_multi_fields.grib2")
 

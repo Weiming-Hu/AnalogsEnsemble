@@ -11,7 +11,7 @@ if(POLICY CMP0042)
 endif(POLICY CMP0042)
 
 enable_language(CXX C)
-option(VERBOSE "verbose standout output" OFF)
+option(VERBOSE "Verbose standout output" OFF)
 option(CMAKE_BUILD_TESTS "Build tests" OFF)
 option (BUILD_GRIBCONVERTER "Build gribConverter utility. Eccodes required." OFF)
 option (CODE_PROFILING "Insert profiling code and print time information." OFF)
