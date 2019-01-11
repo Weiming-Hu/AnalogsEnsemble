@@ -15,6 +15,11 @@
 #include <omp.h>
 #endif
 
+#if defined(_CODE_PROFILING)
+#include <ctime>
+#include <iomanip>
+#endif
+
 // http://www.wmo.int/pages/prog/www/WMOCodes/WMO306_vI2/LatestVERSION/WMO306_vI2_GRIB2_CodeFlag_en.pdf
 // http://www.cosmo-model.org/content/model/documentation/grib/pdtemplate_4.11.htm
 
@@ -24,7 +29,7 @@ namespace gribConverter {
             long level, string par_key, string level_key, string val_key) {
 
         int ret;
-        double *p_xs, *p_ys, *p_vals;
+        double *p_vals;
         size_t len;
         codes_index* index;
         codes_handle* h;
@@ -54,23 +59,16 @@ namespace gribConverter {
 
         // Get data values
         p_vals = (double*) malloc(len * sizeof (double));
-        p_xs = (double*) malloc(len * sizeof (double));
-        p_ys = (double*) malloc(len * sizeof (double));
-
-        CODES_CHECK(codes_grib_get_data(h, p_ys, p_xs, p_vals), 0);
 
         // Copy lat/lon to vector
         xs.clear();
         ys.clear();
         xs.resize(len);
         ys.resize(len);
-        copy(p_xs, p_xs + len, xs.begin());
-        copy(p_ys, p_ys + len, ys.begin());
+        CODES_CHECK(codes_grib_get_data(h, ys.data(), xs.data(), p_vals), 0);
 
         // Housekeeping
         free(p_vals);
-        free(p_xs);
-        free(p_ys);
         CODES_CHECK(codes_handle_delete(h), 0);
         codes_index_delete(index);
 
@@ -88,48 +86,33 @@ namespace gribConverter {
             string type, string par_key, string level_key,
             string type_key, string val_key) {
 
+#if defined(_CODE_PROFILING)
+        clock_t time_start = clock();
+#if defined(_OPENMP)
+        double wtime_start = omp_get_wtime();
+#endif
+#endif   
+        
         int ret;
-        double* p_vals;
         size_t vals_len;
         codes_index* index = NULL;
         codes_handle* h = NULL;
 
         long par_id_h = 0, level_h = 0;
-        string type_h;
         char* type_tmp;
         size_t str_len;
+        
+        query_grib_eccodes_(
+                file, par_id, level, type,
+                par_key, level_key, type_key,
+                &index, &ret);
 
-        // Turning multi field support on is dangerous because the indexing functions will
-        // only find the message and the handle created from the message points to the first
-        // field. For example, if a message has multiple fields, say U and V component, the 
-        // message containing V can be found, but then handle created to read the message will
-        // only point to the first field which is U. Please read on and see how I take care of
-        // this situation.
-        //
-        codes_grib_multi_support_on(0);
-
-        // First we use the fast way to index the message.
-
-        // Construct query string
-        string query_str(par_key);
-        query_str.append(":l,");
-        query_str.append(level_key);
-        query_str.append(":l,");
-        query_str.append(type_key);
-        query_str.append(":s");
-
-        // Send query request
-        // The select string function requires a char* rather than const char*,
-        // hence the following cast
-        //
-        index = codes_index_new_from_file(0, const_cast<char*>(file.c_str()), query_str.c_str(), &ret);
-        MY_CODES_CHECK(ret, 0);
-
-        // Select index based on par_key and level_key, level_type
-        MY_CODES_CHECK(codes_index_select_string(index, type_key.c_str(),
-                    const_cast<char*> (type.c_str())), 0);
-        MY_CODES_CHECK(codes_index_select_long(index, par_key.c_str(), par_id), 0);
-        MY_CODES_CHECK(codes_index_select_long(index, level_key.c_str(), level), 0);
+#if defined(_CODE_PROFILING)
+        clock_t time_pre = clock();
+#if defined(_OPENMP)
+        double wtime_pre = omp_get_wtime();
+#endif
+#endif
 
         while ((h = codes_handle_new_from_index(index, &ret)) != NULL ) {
 
@@ -156,24 +139,44 @@ namespace gribConverter {
             MY_CODES_CHECK(ret, 0);
             MY_CODES_CHECK(codes_get_size(h, val_key.c_str(), &vals_len), 0);
 
-            // Get data values
-            p_vals = (double*) malloc(vals_len * sizeof (double));
-            MY_CODES_CHECK(codes_get_double_array(h, val_key.c_str(), p_vals, &vals_len), 0);
-
             // Copy data to vector
             vals.clear();
             vals.resize(vals_len);
-            copy(p_vals, p_vals + vals_len, vals.begin());
+            MY_CODES_CHECK(codes_get_double_array(h, val_key.c_str(), vals.data(), &vals_len), 0);
 
             // Housekeeping
-            free(p_vals);
             MY_CODES_CHECK(codes_handle_delete(h), 0);
             codes_index_delete(index);
-
             free(type_tmp);
+            
+#if defined(_CODE_PROFILING)
+            clock_t time_end = clock();
+#if defined(_OPENMP)
+            double wtime_end = omp_get_wtime();
+            
+            double wduration_full = wtime_end - wtime_start;
+            double wduration_pre = wtime_pre - wtime_start;
+            double wduration_while_1 = wtime_end - wtime_pre;
+            
+            cout << "-----------------------------------------------------" << endl
+                    << "Wall Time profiling for gribConverterFunctions::getDoubles:" << endl
+                    << "Total time: " << wduration_full << " seconds (100%)" << endl
+                    << "Query time: " << wduration_pre << " seconds (" << wduration_pre / wduration_full * 100 << "%)" << endl
+                    << "Reading time (phase 1): " << wduration_while_1 << " seconds (" << wduration_while_1 / wduration_full * 100 << "%)" << endl;
+#endif
+            double duration_full = (float) (time_end - time_start) / CLOCKS_PER_SEC;
+            double duration_pre = (float) (time_pre - time_start) / CLOCKS_PER_SEC;
+            double duration_while_1 = (float) (time_end - time_pre) / CLOCKS_PER_SEC;
+            
+            cout << endl << "CPU Time profiling for gribConverterFunctions::getDoubles:" << endl
+                    << "Total time: " << duration_full << " seconds (100%)" << endl
+                    << "Query time: " << duration_pre << " seconds (" << duration_pre / duration_full * 100 << "%)" << endl
+                    << "Reading time (phase 1): " << duration_while_1 << " seconds (" << duration_while_1 / duration_full * 100 << "%)" << endl
+                    << "-----------------------------------------------------" << endl;
+#endif
             return;
         }
-
+        
         // If the field is still not found, try the third way to access data by traversing all
         // the messaging individually without using the index mechanism.
         //
@@ -207,21 +210,43 @@ namespace gribConverter {
             MY_CODES_CHECK(ret, 0);
             MY_CODES_CHECK(codes_get_size(h, val_key.c_str(), &vals_len), 0);
 
-            // Get data values
-            p_vals = (double*) malloc(vals_len * sizeof (double));
-            MY_CODES_CHECK(codes_get_double_array(h, val_key.c_str(), p_vals, &vals_len), 0);
-
             // Copy data to vector
             vals.clear();
             vals.resize(vals_len);
-            copy(p_vals, p_vals + vals_len, vals.begin());
+            MY_CODES_CHECK(codes_get_double_array(h, val_key.c_str(), vals.data(), &vals_len), 0);
 
             // Housekeeping
-            free(p_vals);
             free(type_tmp);
+            codes_index_delete(index);
             codes_handle_delete(h);
             fclose(in);
+            
+#if defined(_CODE_PROFILING)
+            clock_t time_end = clock();
+#if defined(_OPENMP)
+            double wtime_end = omp_get_wtime();
 
+            double wduration_full = wtime_end - wtime_start;
+            double wduration_pre = wtime_pre - wtime_start;
+            double wduration_while_1 = wtime_end - wtime_pre;
+
+            cout << "-----------------------------------------------------" << endl
+                    << "Wall Time profiling for gribConverterFunctions::getDoubles:" << endl
+                    << "Total time: " << wduration_full << " seconds (100%)" << endl
+                    << "Query time: " << wduration_pre << " seconds (" << wduration_pre / wduration_full * 100 << "%)" << endl
+                    << "Reading time (phase 1 + 2): " << wduration_while_1 << " seconds (" << wduration_while_1 / wduration_full * 100 << "%)" << endl;
+#endif
+            double duration_full = (float) (time_end - time_start) / CLOCKS_PER_SEC;
+            double duration_pre = (float) (time_pre - time_start) / CLOCKS_PER_SEC;
+            double duration_while_1 = (float) (time_end - time_pre) / CLOCKS_PER_SEC;
+
+            cout << endl << "CPU Time profiling for gribConverterFunctions::getDoubles:" << endl
+                    << "Total time: " << duration_full << " seconds (100%)" << endl
+                    << "Query time: " << duration_pre << " seconds (" << duration_pre / duration_full * 100 << "%)" << endl
+                    << "Reading time (phase 1 + 2): " << duration_while_1 << " seconds (" << duration_while_1 / duration_full * 100 << "%)" << endl
+                    << "-----------------------------------------------------" << endl;
+#endif
+            
             return;
         }
 
@@ -257,7 +282,7 @@ namespace gribConverter {
                 getXY(xs, ys, files_in[i_file], pars_id[i_file],
                         levels[i_file], par_key, level_key, val_key);
                 break;
-            } catch (std::exception & e) {
+            } catch (exception & e) {
                 cout << RED << "Skipping file ( " << files_in[i_file]
                     << " ): " << e.what() << RESET << endl;
             }
@@ -294,7 +319,7 @@ namespace gribConverter {
 
         try {
             regex_time = regex(regex_time_str);
-        } catch (const std::regex_error& e) {
+        } catch (const regex_error& e) {
             cout << BOLDRED << "Error: Can't use the regular expression " << regex_time_str << RESET << endl;
             throw;
         }
@@ -305,7 +330,7 @@ namespace gribConverter {
 
         try {
             regex_flt = regex(regex_flt_str);
-        } catch (const std::regex_error& e) {
+        } catch (const regex_error& e) {
             cout << BOLDRED << "Error: Can't use the regular expression " << regex_flt_str << RESET << endl;
             throw;
         }
@@ -421,11 +446,19 @@ namespace gribConverter {
                         try {
                             getDoubles(data_vec, file_in, pars_id[j], levels[j],
                                     level_types[j], par_key, level_key, type_key, val_key);
-                        } catch (...) {
+                        } catch (const exception & e) {
 #if defined(_OPENMP)
 #pragma omp critical
 #endif
                             cout << BOLDRED << "Error when reading " << pars_id[j] << " "
+                                    << levels[j] << " " << level_types[j] << " from file " << file_in
+                                    << " (" << e.what() << ")" << RESET << endl;
+                            continue;
+                        } catch (...) {
+#if defined(_OPENMP)
+#pragma omp critical
+#endif
+                            cout << BOLDRED << "Unknown error when reading " << pars_id[j] << " "
                                     << levels[j] << " " << level_types[j] << " from file " << file_in
                                     << RESET << endl;
                             continue;
@@ -481,7 +514,7 @@ namespace gribConverter {
                 getXY(xs, ys, files_in[i_file], pars_id[i_file],
                         levels[i_file], par_key, level_key, val_key);
                 break;
-            } catch (std::exception & e) {
+            } catch (exception & e) {
                 cout << RED << "Skipping file ( " << files_in[i_file]
                     << " ): " << e.what() << RESET << endl;
             }
@@ -518,7 +551,7 @@ namespace gribConverter {
 
         try {
             regex_time = regex(regex_time_str);
-        } catch (const std::regex_error& e) {
+        } catch (const regex_error& e) {
             cout << BOLDRED << "Error: Can't use the regular expression " << regex_time_str << RESET << endl;
             throw;
         }
@@ -582,7 +615,7 @@ namespace gribConverter {
             vector<bool> file_flags(files_in.size(), true);
 
 #if defined(_OPENMP)
-#pragma omp parallel for default(none) schedule(dynamic) \
+#pragma omp parallel for default(none) schedule(static) \
         shared(files_in, regex_time, delimited, time_start, times, data, \
                 observations, pars_id, levels, file_flags, cout, verbose, level_types, \
                 par_key, level_key, type_key, val_key) private(match, time_end)
@@ -616,11 +649,19 @@ namespace gribConverter {
                         try {
                             getDoubles(data_vec, file_in, pars_id[j], levels[j],
                                     level_types[j], par_key, level_key, type_key, val_key);
-                        } catch (...) {
+                        } catch (const exception & e) {
 #if defined(_OPENMP)
 #pragma omp critical
 #endif
                             cout << BOLDRED << "Error when reading " << pars_id[j] << " "
+                                    << levels[j] << " " << level_types[j] << " from file " << file_in
+                                    << " (" << e.what() << ")" << RESET << endl;
+                            continue;
+                        } catch (...) {
+#if defined(_OPENMP)
+#pragma omp critical
+#endif
+                            cout << BOLDRED << "Unknown error when reading " << pars_id[j] << " "
                                     << levels[j] << " " << level_types[j] << " from file " << file_in
                                     << RESET << endl;
                             continue;
@@ -656,4 +697,49 @@ namespace gribConverter {
         return;
     }
 
+    void query_grib_eccodes_(
+            string file, long par_id, long level, string type,
+            string par_key, string level_key, string type_key,
+            codes_index** p_index, int* p_ret) {
+
+        // Turning multi field support on is dangerous because the indexing functions will
+        // only find the message and the handle created from the message points to the first
+        // field. For example, if a message has multiple fields, say U and V component, the 
+        // message containing V can be found, but then handle created to read the message will
+        // only point to the first field which is U. Please read on and see how I take care of
+        // this situation.
+        //
+        codes_grib_multi_support_on(0);
+
+        // First we use the fast way to index the message.
+
+        // Construct query string
+        string query_str(par_key);
+        query_str.append(":l,");
+        query_str.append(level_key);
+        query_str.append(":l,");
+        query_str.append(type_key);
+        query_str.append(":s");
+
+        // Send query request
+        // The select string function requires a char* rather than const char*,
+        // hence the following cast
+        //
+        *p_index = codes_index_new_from_file(0, const_cast<char*>(file.c_str()), query_str.c_str(), p_ret);
+        MY_CODES_CHECK(*p_ret, 0);
+        if (!*p_index) {
+            throw runtime_error("Eccodes index is empty after creation.");
+        }
+
+        // Select index based on par_key and level_key, level_type
+        MY_CODES_CHECK(codes_index_select_string(*p_index, type_key.c_str(),
+                    const_cast<char*> (type.c_str())), 0);
+        MY_CODES_CHECK(codes_index_select_long(*p_index, par_key.c_str(), par_id), 0);
+        MY_CODES_CHECK(codes_index_select_long(*p_index, level_key.c_str(), level), 0);
+        if (!*p_index) {
+            throw runtime_error("Eccodes index is empty after query.");
+        }
+                
+        return;
+    }
 }

@@ -169,6 +169,11 @@ namespace gribConverter {
             const string & type_key, const string & val_key,
             string regex_time_str, bool delimited = false,
             bool skip_data = false, int verbose = 0);
+
+    void query_grib_eccodes_(
+            string file, long par_id, long level, string type,
+            string par_key, string level_key, string type_key,
+            codes_index** p_index, int* p_ret);
 }
 
 #endif
