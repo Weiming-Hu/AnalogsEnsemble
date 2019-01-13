@@ -25,6 +25,13 @@
 
 namespace gribConverter {
 
+    void MY_CODES_CHECK(int ret, int caller) {
+        if (ret != CODES_SUCCESS) {
+            const char* p_str = codes_get_error_message(ret);
+            throw runtime_error(p_str);
+        }
+    }
+
     void getXY(vector<double> & xs, vector<double> & ys, string file, long par_id,
             long level, string par_key, string level_key, string val_key) {
 
@@ -50,12 +57,12 @@ namespace gribConverter {
         // CODES_CHECK(ret, 0);
 
         // Select index based on par_key and level_key
-        CODES_CHECK(codes_index_select_long(index, par_key.c_str(), par_id), 0);
-        CODES_CHECK(codes_index_select_long(index, level_key.c_str(), level), 0);
+        MY_CODES_CHECK(codes_index_select_long(index, par_key.c_str(), par_id), 0);
+        MY_CODES_CHECK(codes_index_select_long(index, level_key.c_str(), level), 0);
 
         // Get data size
         h = codes_handle_new_from_index(index, &ret);
-        CODES_CHECK(codes_get_size(h, val_key.c_str(), &len), 0);
+        MY_CODES_CHECK(codes_get_size(h, val_key.c_str(), &len), 0);
 
         // Get data values
         p_vals = (double*) malloc(len * sizeof (double));
@@ -65,21 +72,14 @@ namespace gribConverter {
         ys.clear();
         xs.resize(len);
         ys.resize(len);
-        CODES_CHECK(codes_grib_get_data(h, ys.data(), xs.data(), p_vals), 0);
+        MY_CODES_CHECK(codes_grib_get_data(h, ys.data(), xs.data(), p_vals), 0);
 
         // Housekeeping
         free(p_vals);
-        CODES_CHECK(codes_handle_delete(h), 0);
+        MY_CODES_CHECK(codes_handle_delete(h), 0);
         codes_index_delete(index);
 
         return;
-    }
-
-    void MY_CODES_CHECK(int ret, int caller) {
-        if (ret != CODES_SUCCESS) {
-            const char* p_str = codes_get_error_message(ret);
-            throw runtime_error(p_str);
-        }
     }
 
     void getDoubles(vector<double> & vals, string file, long par_id, long level,
@@ -120,11 +120,11 @@ namespace gribConverter {
             // that we want to read. However, we should deal with the multi field
             // situation. We check whether the first field is what we want.
             //
-            CODES_CHECK(codes_get_length(h, type_key.c_str(), &str_len), 0);
+            MY_CODES_CHECK(codes_get_length(h, type_key.c_str(), &str_len), 0);
             type_tmp = (char*)malloc(str_len*sizeof(char));
-            CODES_CHECK(codes_get_string(h, type_key.c_str(), type_tmp, &str_len),0);
-            CODES_CHECK(codes_get_long(h, par_key.c_str(), &par_id_h),0);
-            CODES_CHECK(codes_get_long(h, level_key.c_str(), &level_h),0);
+            MY_CODES_CHECK(codes_get_string(h, type_key.c_str(), type_tmp, &str_len),0);
+            MY_CODES_CHECK(codes_get_long(h, par_key.c_str(), &par_id_h),0);
+            MY_CODES_CHECK(codes_get_long(h, level_key.c_str(), &level_h),0);
 
             if ((par_id_h != par_id) || (level_h != level) || (type != string(type_tmp))) {
                 // Not this field, skip it and read the next one
@@ -184,23 +184,23 @@ namespace gribConverter {
 
         while ((h = codes_handle_new_from_file(0, in, PRODUCT_GRIB, &ret)) != NULL ) {
 
-            CODES_CHECK(ret,0);
+            MY_CODES_CHECK(ret,0);
 
-            CODES_CHECK(codes_get_long(h, par_key.c_str(), &par_id_h),0);
+            MY_CODES_CHECK(codes_get_long(h, par_key.c_str(), &par_id_h),0);
             if (par_id_h != par_id) {
                 codes_handle_delete(h);
                 continue;
             }
 
-            CODES_CHECK(codes_get_long(h, level_key.c_str(), &level_h),0);
+            MY_CODES_CHECK(codes_get_long(h, level_key.c_str(), &level_h),0);
             if (level_h != level) {
                 codes_handle_delete(h);
                 continue;
             }
 
-            CODES_CHECK(codes_get_length(h, type_key.c_str(), &str_len), 0);
+            MY_CODES_CHECK(codes_get_length(h, type_key.c_str(), &str_len), 0);
             type_tmp = (char*)malloc(str_len*sizeof(char));
-            CODES_CHECK(codes_get_string(h, type_key.c_str(), type_tmp, &str_len),0);
+            MY_CODES_CHECK(codes_get_string(h, type_key.c_str(), type_tmp, &str_len),0);
             if (type != string(type_tmp)) {
                 codes_handle_delete(h);
                 free(type_tmp);
