@@ -29,7 +29,7 @@ The `gribConverter` tool provided in this package offers the convenience for con
 
 #### gribConverter
 
-`gribConverter` is by default not built, because it depends on the [ECMWF ecCodes library](https://confluence.ecmwf.int/display/ECC/ecCodes+Home). Please install the library using your preferred package management tool, for example, `HomeBrew` or `apt-get`.
+`gribConverter` is by default not built, because it depends on the [ECMWF ecCodes library](https://confluence.ecmwf.int/display/ECC/ecCodes+Home). 
 
 To build `gribConverter`, you can specify the parameter to `CMake`.
 
@@ -39,6 +39,8 @@ cmake -DBUILD_GRIBCONVERTER=ON ..
 # If the eccodes library cannot be found, try to tell where it is explicitly
 cmake -DBUILD_GRIBCONVERTER=ON -CMAKE_PREFIX_PATH=<path to eccodes> ..
 ```
+
+The library `eccodes` will be automatically built by default if `gribConverter` is built. However, in cases of failure during building `eccodes`, please install the library using your preferred package management tool, for example, `HomeBrew` on Mac OS or `apt-get` on Debian.
 
 More details please see [the documentation](https://weiming-hu.github.io/AnalogsEnsemble/#installation)
 
