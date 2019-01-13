@@ -41,6 +41,17 @@ if (ECCODES_TYPE STREQUAL "BUILD")
     set(ECCODES_ROOT_PATH ${DEPENDENCY_PATH})
     set(ECCODES_CMAKE_ARGS ${ECCODES_INSTALL_PREFIX} ${ECCODES_BUILD_SHARED})
 
+    if (CMAKE_PREFIX_PATH)
+        # This if statement and the code have several purposes:
+        # - If CMAKE_PREFIX_PATH is set, pass it to external project.
+        # - Deal with CMAKE_PREFIX_PATH with multiple folders by changing the separator.
+        #
+        string(REPLACE ";" "|" ECCODES_ALT_CMAKE_PREFIX_PATH "${CMAKE_PREFIX_PATH}")
+        set(ECCODES_PREFIX_PATH "-DCMAKE_PREFIX_PATH=${ECCODES_ALT_CMAKE_PREFIX_PATH}")
+        set(ECCODES_CMAKE_ARGS ${ECCODES_CMAKE_ARGS} ${ECCODES_PREFIX_PATH})
+    endif(CMAKE_PREFIX_PATH)
+
+
     if(VERBOSE)
         set(VERBOSE_DOWNLOAD 0)
         set(VERBOSE_CONFIGURE 0)
@@ -59,6 +70,7 @@ if (ECCODES_TYPE STREQUAL "BUILD")
         URL ${ECCODES_URL}
         PATCH_COMMAND ""
         UPDATE_COMMAND ""
+        LIST_SEPARATOR | # Use the alternate list separator
         CMAKE_ARGS ${ECCODES_CMAKE_ARGS}
         BUILD_COMMAND ${MAKE}
         LOG_TEST ${VERBOSE_TEST}
