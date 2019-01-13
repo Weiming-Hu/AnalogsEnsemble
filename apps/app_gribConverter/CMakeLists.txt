@@ -9,10 +9,10 @@ if (NOT ECCODES_TYPE)
 endif (NOT ECCODES_TYPE)
 message (STATUS "ECCODES_TYPE is set to ${ECCODES_TYPE}")
 
+message(STATUS "Build application Grib Converter.")
 if (ECCODES_TYPE STREQUAL "SYSTEM")
     find_package(eccodes)
     if(eccodes_FOUND)
-        message(STATUS "Build application Grib Converter.")
         message(STATUS "Eccodes include dir is found at ${ECCODES_INCLUDE_DIRS}.")
 
         string(FIND "${ECCODES_FEATURES}" "ECCODES_THREADS" PTHREADS_POS)
