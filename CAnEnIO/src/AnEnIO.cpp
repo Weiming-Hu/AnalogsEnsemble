@@ -2658,6 +2658,83 @@ shared(sds, sds_vec, along, same_dimensions, element_accumulated_counts)
 }
 
 errorType
+AnEnIO::combineSimilarityMatrices(
+        const std::vector<SimilarityMatrices> & sims_vec,
+        SimilarityMatrices & sims, size_t along, int verbose) {
+    
+    if (sims.num_elements() != 0) {
+        if (verbose >= 1) cout << BOLDRED
+                << "Error: Please provide an empty SimilarityMatrices container."
+                << RESET << endl;
+        return (ERROR_SETTING_VALUES);
+    }
+    
+    // Get the initial dimensions from the first sims
+    vector<size_t> dims = {
+        sims_vec[0].shape()[0], sims_vec[0].shape()[1], sims_vec[0].shape()[2],
+        sims_vec[0].shape()[3], sims_vec[0].shape()[4]
+    };
+    
+    // Decide the full dimension of the aggregated dimension.
+    // Keep track of the dimensions that should be the same.
+    //
+    size_t count = 0;
+    vector<size_t> same_dimensions = {0, 1, 2, 3, 4};
+    vector<size_t> element_accumulated_counts(1, 0);
+    same_dimensions.erase(find(same_dimensions.begin(), same_dimensions.end(), along));
+    if (along <= 3) {
+        for_each(sims_vec.begin(), sims_vec.end(), [&count, &along, &element_accumulated_counts]
+                (const SimilarityMatrices & rhs) {
+            count += rhs.shape()[along];
+            element_accumulated_counts.push_back(
+                rhs.shape()[along] + element_accumulated_counts.back());
+        });
+        
+        dims[along] = count;
+    } else {
+        if (verbose >= 1) cout << BOLDRED << "Error: invalid along ("
+                << along << ")!" << RESET << endl;
+        return (ERROR_SETTING_VALUES);
+    }
+
+    // Because we added one extra count to the accumulated vector,
+    // we need to pop it out. So that the length of accumulated 
+    // vector and forecasts vector match.
+    //
+    element_accumulated_counts.pop_back();
+
+    // Update the dimensions of combined sims
+    if (verbose >= 3) cout << "Update dimensions of similarity matrices ..." << endl;
+    sims.setMaxEntries(dims[3]);
+    sims.resize(dims[0], dims[1], dims[2]);
+    
+#if defined(_OPENMP)
+#pragma omp parallel for default(none) schedule(static) collapse(5) \
+shared(sims, sims_vec, along, same_dimensions, element_accumulated_counts)
+#endif
+    for (size_t v = 0; v < sims.shape()[same_dimensions[3]]; v++) {
+        for (size_t k = 0; k < sims.shape()[same_dimensions[2]]; k++) {
+            for (size_t j = 0; j < sims.shape()[same_dimensions[1]]; j++) {
+                for (size_t m = 0; m < sims.shape()[same_dimensions[0]]; m++) {
+                    for (size_t n = 0; n < sims_vec.size(); n++) {
+
+                        const auto & i_data = sims_vec[n];
+
+                        for (size_t l = 0; l < i_data.shape()[along]; l++) {
+                            if (along == 0) sims[element_accumulated_counts[n] + l][m][j][k][v] = i_data[l][m][j][k][v];
+                            else if (along == 1) sims[m][element_accumulated_counts[n] + l][j][k][v] = i_data[m][l][j][k][v];
+                            else if (along == 2) sims[m][j][element_accumulated_counts[n] + l][k][v] = i_data[m][j][l][k][v];
+                            else if (along == 3) sims[m][j][k][element_accumulated_counts[n] + l][v] = i_data[m][j][k][l][v];
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+}
+
+errorType
 AnEnIO::read_string_vector_(string var_name, vector<string> & results) const {
 
     if (mode_ != "Read") {

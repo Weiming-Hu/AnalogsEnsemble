@@ -33,10 +33,7 @@ void runFileAggregate(const string & file_type, const vector<string> & in_files,
     //
     bool partial_read = true;
     
-    if (starts.size() == in_files.size() * 4)
-    if (starts.size() == counts.size() && counts.size() != 0) {
-        partial_read = true;
-    }
+    AnEnIO io_out("Write", out_file, file_type, verbose);
 
     if (file_type == "Forecasts") {
         
@@ -86,8 +83,7 @@ void runFileAggregate(const string & file_type, const vector<string> & in_files,
         
         // Write combined forecasts
         if (verbose >= 3) cout << GREEN << "Writing forecasts ..." << RESET << endl;
-        AnEnIO io("Write", out_file, file_type, verbose);
-        io.handleError(io.writeForecasts(forecasts));
+        io_out.handleError(io_out.writeForecasts(forecasts));
         if (verbose >= 3) cout << GREEN << "Done!" << RESET << endl;
         
         return;
@@ -154,8 +150,7 @@ void runFileAggregate(const string & file_type, const vector<string> & in_files,
         
         // Write combined forecasts
         if (verbose >= 3) cout << GREEN << "Writing observations ..." << RESET << endl;
-        AnEnIO io("Write", out_file, file_type, verbose);
-        io.handleError(io.writeObservations(observations));
+        io_out.handleError(io_out.writeObservations(observations));
         if (verbose >= 3) cout << GREEN << "Done!" << RESET << endl;
         
         return;
@@ -224,16 +219,99 @@ void runFileAggregate(const string & file_type, const vector<string> & in_files,
         // Read parameters
         AnEnIO ioPar("Read", in_files[0], file_type, verbose);
         anenPar::Parameters parameters;
-        ioPar.readParameters(parameters);
+        if (partial_read) ioPar.readParameters(parameters, starts[0], counts[0]);
+        else ioPar.readParameters(parameters);
 
-        // Write combined forecasts
+        // Write combined standard deviation
         if (verbose >= 3) cout << GREEN << "Writing standard deviation ..." << RESET << endl;
-        AnEnIO io("Write", out_file, file_type, verbose);
-        io.handleError(io.writeStandardDeviation(sds, parameters));
+        io_out.handleError(io_out.writeStandardDeviation(sds, parameters));
+        
+        // Write meta info from the first file in list
+        AnEnIO io_meta("Read", in_files[0], file_type, verbose);
+        if (io_meta.checkVariable("StationNames", true) == AnEnIO::errorType::SUCCESS) {
+            anenSta::Stations stations;
+            if (partial_read) io_meta.readStations(stations, starts[1], counts[1]);
+            else io_meta.readStations(stations);
+            io_meta.handleError(io_meta.writeStations(stations, false));
+        }
+        if (io_meta.checkVariable("FLTs", true) == AnEnIO::errorType::SUCCESS) {
+            anenTime::FLTs flts;
+            if (partial_read) io_meta.readFLTs(flts, starts[2], counts[2]);
+            else io_meta.readFLTs(flts);
+            io_meta.handleError(io_meta.writeFLTs(flts, false));
+        }
+        
         if (verbose >= 3) cout << GREEN << "Done!" << RESET << endl;
 
         return;
         
+    } else if (file_type == "Similarity") {
+        
+        // Check input indices starts and counts
+        if (starts.size() == 0 && counts.size() == 0) {
+            // This is implemented. No further action needed.
+        } else {
+            throw runtime_error("Error: Function not implemented for partial IO of similarity files.");
+        }
+        
+        // Read files
+        if (verbose >= 3) cout << GREEN << "Reading files ... " << RESET << endl;
+        vector<SimilarityMatrices> sims_vec(in_files.size());
+        vector<bool> flags(in_files.size(), false);
+
+        for (size_t i = 0; i < in_files.size(); i++) {
+            try {
+                AnEnIO io("Read", in_files[i], file_type, verbose);
+                io.handleError(io.readSimilarityMatrices(sims_vec[i]));
+
+                flags[i] = true;
+            } catch (...) {
+                flags[i] = false;
+            }
+        }
+
+        // Check if all elements in flags are true.
+        for (size_t i = 0; i < flags.size(); i++) {
+            if (!flags[i]) {
+                if (verbose >= 1) cout << BOLDRED << "Error: Error occurred when"
+                        << " reading file " << in_files[i] << RESET << endl;
+                return;
+            }
+        }
+
+        // Reshape data
+        if (verbose >= 3) cout << GREEN << "Combining similarity matrices ..." << RESET << endl;
+        SimilarityMatrices sims;
+        auto ret = AnEnIO::combineSimilarityMatrices(sims_vec, sims, along, verbose);
+        if (ret != AnEnIO::errorType::SUCCESS) {
+            throw runtime_error("Error: Failed when combining similarity matrices.");
+        }
+
+        // Write combined similarity matrices
+        if (verbose >= 3) cout << GREEN << "Writing similarity matrices ..." << RESET << endl;
+        io_out.handleError(io_out.writeSimilarityMatrices(sims));
+        
+        // Write meta info from the first file in list
+        AnEnIO io_meta("Read", in_files[0], file_type, verbose);
+        if (io_meta.checkVariable("StationNames", true) == AnEnIO::errorType::SUCCESS) {
+            anenSta::Stations stations;
+            io_meta.readStations(stations);
+            io_meta.handleError(io_meta.writeStations(stations, false));
+        }
+        if (io_meta.checkVariable("Times", true) == AnEnIO::errorType::SUCCESS) {
+            anenTime::Times times;
+            io_meta.readTimes(times);
+            io_meta.handleError(io_meta.writeTimes(times, false));
+        }
+        if (io_meta.checkVariable("FLTs", true) == AnEnIO::errorType::SUCCESS) {
+            anenTime::FLTs flts;
+            io_meta.readFLTs(flts);
+            io_meta.handleError(io_meta.writeFLTs(flts, false)); 
+        }
+        
+        if (verbose >= 3) cout << GREEN << "Done!" << RESET << endl;
+        
+        return;
     } else {
         if (verbose >= 1) cout << BOLDRED << "Error: File type " << file_type
                 << " is not supported." << RESET << endl;
@@ -261,7 +339,7 @@ int main(int argc, char** argv) {
                 ("help,h", "Print help information for options.")
                 ("config,c", po::value<string>(&config_file), "Set the configuration file path. Command line options overwrite options in configuration file. ")
 
-                ("type,t", po::value<string>(&file_type)->required(), "Set the type of the files to read. It can be either Forecasts ,Observations, or StandardDeviation.")
+                ("type,t", po::value<string>(&file_type)->required(), "Set the type of the files to read. It can be either Forecasts ,Observations, Similarity, or StandardDeviation.")
                 ("in,i", po::value< vector<string> >(&in_files)->multitoken()->required(), "Set the file names to read separated by a space.")
                 ("out,o", po::value<string>(&out_file)->required(), "Set the name of the output file.")
                 ("along,a", po::value<size_t>(&along)->required(), "Set the dimension index to be appended. It counts from 0.")

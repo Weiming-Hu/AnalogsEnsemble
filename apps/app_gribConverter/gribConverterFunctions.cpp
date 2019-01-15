@@ -272,6 +272,11 @@ namespace gribConverter {
 
         if (verbose >= 3) cout << GREEN << "Convert GRIB2 files to Forecasts" << RESET << endl;
 
+        // Create write io device early in the process to make sure the file does
+        // not alreay exist.
+        //
+        AnEnIO io("Write", file_out, "Forecasts", verbose);
+
         // Read station xs and ys from the first available file from the list
         if (verbose >= 3) cout << GREEN << "Reading station information ... " << RESET << endl;
         anenSta::Stations stations;
@@ -487,7 +492,6 @@ namespace gribConverter {
 
         // Write forecasts
         if (verbose >= 3) cout << GREEN << "Writing Forecasts file ... " << RESET << endl;
-        AnEnIO io("Write", file_out, "Forecasts", verbose);
         io.handleError(io.writeForecasts(forecasts));
 
         if (verbose >= 3) cout << GREEN << "Done!" << RESET << endl;
@@ -503,6 +507,11 @@ namespace gribConverter {
             string regex_time_str, bool delimited, bool skip_data, int verbose) {
 
         if (verbose >= 3) cout << GREEN << "Convert GRIB2 files to Observations" << RESET << endl;
+
+        // Create write io device early in the process to make sure the file does
+        // not alreay exist.
+        //
+        AnEnIO io("Write", file_out, "Observations", verbose);
 
         // Read station xs and ys based on the first parameter in the list
         if (verbose >= 3) cout << GREEN << "Reading station information ... " << RESET << endl;
@@ -690,7 +699,6 @@ namespace gribConverter {
         
         // Write observations
         if (verbose >= 3) cout << GREEN << "Writing Observations file ... " << RESET << endl;
-        AnEnIO io("Write", file_out, "Observations", verbose);
         io.handleError(io.writeObservations(observations));
 
         if (verbose >= 3) cout << GREEN << "Done!" << RESET << endl;

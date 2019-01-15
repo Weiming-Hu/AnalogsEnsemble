@@ -73,7 +73,8 @@ void runAnalogGenerator(
     Forecasts_array test_forecasts, search_forecasts;
     Observations_array search_observations;
 
-    AnEnIO io("Read", file_test_forecasts, "Forecasts", verbose);
+    AnEnIO io("Read", file_test_forecasts, "Forecasts", verbose),
+           io_out("Write", file_analogs, "Analogs", verbose);
 
     if (test_start.empty() || test_count.empty()) {
         io.handleError(io.readForecasts(test_forecasts));
@@ -174,6 +175,9 @@ void runAnalogGenerator(
         io.setMode("Write", file_similarity);
         io.setFileType("Similarity");
         io.handleError(io.writeSimilarityMatrices(sims));
+        io.handleError(io.writeStations(test_forecasts.getStations(), false));
+        io.handleError(io.writeTimes(test_forecasts.getTimes(), false));
+        io.handleError(io.writeFLTs(test_forecasts.getFLTs(), false));
     }
 
 #if defined(_CODE_PROFILING)
@@ -198,9 +202,7 @@ void runAnalogGenerator(
     /************************************************************************
      *                           Write Analogs                              *
      ************************************************************************/
-    io.setMode("Write", file_analogs);
-    io.setFileType("Analogs");
-    io.handleError(io.writeAnalogs(analogs));
+    io_out.handleError(io_out.writeAnalogs(analogs));
 
     if (verbose >= 3) cout << GREEN << "Done!" << RESET << endl;
 

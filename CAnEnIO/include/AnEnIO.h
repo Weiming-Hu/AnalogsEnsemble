@@ -365,7 +365,8 @@ public:
      * Write StandardDeviation.
      * 
      * @param sds StandardDeviation.
-     * @param parameters anenPar::Parameters.
+     * @param parameters anenPar::Parameters. Parameters are required because
+     * there can be circular parameters that must be identified.
      * @return An AnEnIO::errorType. 
      */
     errorType writeStandardDeviation(
@@ -519,6 +520,19 @@ public:
     static errorType
     combineStandardDeviation(const std::vector<StandardDeviation> & sds_vec,
             StandardDeviation & sds, size_t along, int verbose = 2);
+    
+    /**
+     * Binds a vector of SimilarityMatrices.
+     * @param sims_vec A vector of SimialrityMatrices.
+     * @param sims A SimilarityMatrices.
+     * @param along Which dimension to append counting from 0. Do NOT change 
+     * this unless you know what you are doing!
+     * @param verbose Verbose level.
+     * @return  An AnEnIO::errorType;
+     */
+    static errorType
+    combineSimilarityMatrices(const std::vector<SimilarityMatrices> & sims_vec,
+            SimilarityMatrices & sims, size_t along = 3, int verbose = 2);
 
 protected:
 

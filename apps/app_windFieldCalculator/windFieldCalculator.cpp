@@ -69,6 +69,7 @@ void runWindFieldCalculator(
             i_U, i_V, i_speed, i_dir;
 
     AnEnIO io("Read", file_in, file_type, verbose);
+    AnEnIO io_out("Write", file_out, file_type, verbose);
 
     // Define parameters
     anenPar::Parameter windSpeed(var_speed_name, false),
@@ -120,8 +121,7 @@ func_dir, func_speed)
         }
 
         if (verbose >= 3) cout << GREEN << "Writing file " << file_out << " ... " << RESET << endl;
-        io.setMode("Write", file_out);
-        io.handleError(io.writeForecasts(forecasts));
+        io_out.handleError(io_out.writeForecasts(forecasts));
 
     } else if (file_type == "Observations") {
 
@@ -167,8 +167,7 @@ func_dir, func_speed)
         }
 
         if (verbose >= 3) cout << GREEN << "Writing file " << file_out << " ... " << RESET << endl;
-        io.setMode("Write", file_out);
-        io.handleError(io.writeObservations(observations));
+        io_out.handleError(io_out.writeObservations(observations));
 
     } else {
         stringstream ss;

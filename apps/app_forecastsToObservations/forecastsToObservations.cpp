@@ -30,7 +30,8 @@ void runForecastsToObservations( const string & file_in, const string & file_out
     Observations_array observations;
 
     // Read forecasts
-    AnEnIO io("Read", file_in, "Forecasts", verbose);
+    AnEnIO io("Read", file_in, "Forecasts", verbose),
+           io_out("Write", file_out, "Observations", verbose);
     io.readForecasts(forecasts);
 
     // Copy parameters and stations from forecasts to observations
@@ -90,9 +91,7 @@ num_stations, num_times, num_flts, obs_data, fcsts_data, mapping) collapse(4)
     }
 
     // Write observations
-    io.setMode("Write", file_out);
-    io.setFileType("Observations");
-    io.handleError(io.writeObservations(observations));
+    io_out.handleError(io_out.writeObservations(observations));
 
     if (verbose >= 3) cout << GREEN << "Done!" << RESET << endl;
 

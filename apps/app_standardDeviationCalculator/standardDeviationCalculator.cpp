@@ -44,6 +44,9 @@ void runStandardDeviationCalculator(
         }
     }
 
+    // Create an output device
+    AnEnIO io_out("Write", out_file, "StandardDeviation", verbose);
+
     // Read files
     vector<Forecasts_array> forecasts_vec(in_files.size());
     vector<bool> flags(in_files.size(), false);
@@ -98,9 +101,10 @@ void runStandardDeviationCalculator(
     if (verbose >= 3) cout << GREEN
             << "Write the standard deviation ..." << RESET << endl;
 
-    AnEnIO io("Write", out_file, "StandardDeviation", verbose);
-    io.handleError(io.writeStandardDeviation(sds, forecasts.getParameters()));
-
+    io_out.handleError(io_out.writeStandardDeviation(sds, forecasts.getParameters()));
+    io_out.handleError(io_out.writeStations(forecasts.getStations(), false));
+    io_out.handleError(io_out.writeFLTs(forecasts.getFLTs(), false));
+    
     if (verbose >= 3)
         cout << GREEN << "Done!" << RESET << endl;
     

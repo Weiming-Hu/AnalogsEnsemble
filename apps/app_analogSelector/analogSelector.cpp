@@ -42,8 +42,8 @@ void runAnalogSelector(const string & file_sim, const string & file_obs,
     if (verbose >= 3) cout << GREEN << "Start selecting analogs ... " << RESET << endl;
 
     AnEn anen(verbose);
-    
-    AnEnIO io("Read", file_sim, "Similarity", verbose);
+    AnEnIO io("Read", file_sim, "Similarity", verbose),
+           io_out("Write", file_analogs, "Analogs", verbose);
     SimilarityMatrices sims;
     io.handleError(io.readSimilarityMatrices(sims));
     
@@ -107,9 +107,7 @@ void runAnalogSelector(const string & file_sim, const string & file_obs,
     /**************************************************************************
      *                             Write Analogs                              *
      **************************************************************************/
-    io.setMode("Write", file_analogs);
-    io.setFileType("Analogs");
-    io.handleError(io.writeAnalogs(analogs));
+    io_out.handleError(io_out.writeAnalogs(analogs));
     
     if (verbose >= 3) cout << GREEN << "Done!" << RESET << endl;
 

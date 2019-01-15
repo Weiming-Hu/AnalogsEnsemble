@@ -66,7 +66,8 @@ void runSimilarityCalculator(
     Forecasts_array test_forecasts, search_forecasts;
     Observations_array observations;
 
-    AnEnIO io("Read", file_test_forecasts, "Forecasts", verbose);
+    AnEnIO io("Read", file_test_forecasts, "Forecasts", verbose),
+           io_out("Write", file_similarity, "Similarity", verbose);
 
     if (test_start.empty() || test_count.empty()) {
         io.handleError(io.readForecasts(test_forecasts));
@@ -163,9 +164,10 @@ void runSimilarityCalculator(
     /************************************************************************
      *                         Write Similarity                             *
      ************************************************************************/
-    io.setMode("Write", file_similarity);
-    io.setFileType("Similarity");
-    io.handleError(io.writeSimilarityMatrices(sims));
+    io_out.handleError(io_out.writeSimilarityMatrices(sims));
+    io.handleError(io.writeStations(test_forecasts.getStations(), false));
+    io.handleError(io.writeTimes(test_forecasts.getTimes(), false));
+    io.handleError(io.writeFLTs(test_forecasts.getFLTs(), false));
 
     if (verbose >= 3) cout << GREEN << "Done!" << RESET << endl;
 
