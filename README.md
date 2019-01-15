@@ -278,11 +278,12 @@ Thank you!
 # 
 # Authors: 
 #     Weiming Hu <weiming@psu.edu>
-#     Guido Cervone
+#     Guido Cervone <cervone@psu.edu>
 #
 # Contributors: 
-#     Laura Clemente-Harding
-#     Martina Calovi
+#     Laura Clemente-Harding <lec170@psu.edu>
+#     Martina Calovi <mcalovi@psu.edu>
+#     Luca Delle Monache
 #         
 # Geoinformatics and Earth Observation Laboratory (http://geolab.psu.edu)
 # Department of Geography and Institute for CyberScience
