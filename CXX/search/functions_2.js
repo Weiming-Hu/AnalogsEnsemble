@@ -11,6 +11,7 @@ var searchData=
   ['checkvariables',['checkVariables',['../class_an_en_i_o.html#a44347f497bdf775fcf214ec75d8b6470',1,'AnEnIO']]],
   ['combineforecastsarray',['combineForecastsArray',['../class_an_en_i_o.html#af0b54c8ef087ffc01db83dab8fabadd4',1,'AnEnIO']]],
   ['combineobservationsarray',['combineObservationsArray',['../class_an_en_i_o.html#ae1fc8bfc7b6570acccfe86d22be3829a',1,'AnEnIO']]],
+  ['combinesimilaritymatrices',['combineSimilarityMatrices',['../class_an_en_i_o.html#ab446fbd387f0b99cba2a02e6977aac24',1,'AnEnIO']]],
   ['combinestandarddeviation',['combineStandardDeviation',['../class_an_en_i_o.html#ad3b3b71614fd5d617609eafb1c3f034f',1,'AnEnIO']]],
   ['compare',['compare',['../classanen_par_1_1_parameter.html#ac7bf17c016c65c6eba495a75cacf5431',1,'anenPar::Parameter::compare()'],['../classanen_sta_1_1_station.html#a071a6c089a2c00a61606d7b4e2766194',1,'anenSta::Station::compare()']]],
   ['compute_5fsingle_5fsimilarity_5f',['compute_single_similarity_',['../class_an_en.html#a9b2132b93af1850fe2a6cb358936ea19',1,'AnEn']]],

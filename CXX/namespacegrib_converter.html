@@ -67,16 +67,18 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a43c29f4542514b8c9fcd0862b214cff7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegrib_converter.html#a43c29f4542514b8c9fcd0862b214cff7">getXY</a> (vector&lt; double &gt; &amp;xs, vector&lt; double &gt; &amp;ys, string file, long par_id, long level, string par_key, string level_key, string val_key)</td></tr>
-<tr class="separator:a43c29f4542514b8c9fcd0862b214cff7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa213ac534131bde37b762fa74a1ec61d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegrib_converter.html#aa213ac534131bde37b762fa74a1ec61d">MY_CODES_CHECK</a> (int ret, int caller)</td></tr>
 <tr class="separator:aa213ac534131bde37b762fa74a1ec61d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a43c29f4542514b8c9fcd0862b214cff7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegrib_converter.html#a43c29f4542514b8c9fcd0862b214cff7">getXY</a> (vector&lt; double &gt; &amp;xs, vector&lt; double &gt; &amp;ys, string file, long par_id, long level, string par_key, string level_key, string val_key)</td></tr>
+<tr class="separator:a43c29f4542514b8c9fcd0862b214cff7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6afae08bb7a59096d2d523c4e5ec9d9f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegrib_converter.html#a6afae08bb7a59096d2d523c4e5ec9d9f">getDoubles</a> (vector&lt; double &gt; &amp;vals, string file, long par_id, long level, string type, string par_key, string level_key, string type_key, string val_key)</td></tr>
 <tr class="separator:a6afae08bb7a59096d2d523c4e5ec9d9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9c0f758977326e48f50ef4d818186e0d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegrib_converter.html#a9c0f758977326e48f50ef4d818186e0d">toForecasts</a> (vector&lt; string &gt; &amp;files_in, const string &amp;file_out, const vector&lt; long &gt; &amp;pars_id, const vector&lt; string &gt; &amp;pars_new_name, const vector&lt; long &gt; &amp;crcl_pars_id, const vector&lt; long &gt; &amp;levels, const vector&lt; string &gt; &amp;level_types, const string &amp;par_key, const string &amp;level_key, const string &amp;type_key, const string &amp;val_key, string regex_time_str, string regex_flt_str, double flt_interval, bool delimited, bool skip_data, int verbose)</td></tr>
 <tr class="separator:a9c0f758977326e48f50ef4d818186e0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0bc3c18837388c93dc3126b43775b392"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegrib_converter.html#a0bc3c18837388c93dc3126b43775b392">toObservations</a> (vector&lt; string &gt; &amp;files_in, const string &amp;file_out, const vector&lt; long &gt; &amp;pars_id, const vector&lt; string &gt; &amp;pars_new_name, const vector&lt; long &gt; &amp;crcl_pars_id, const vector&lt; long &gt; &amp;levels, const vector&lt; string &gt; &amp;level_types, const string &amp;par_key, const string &amp;level_key, const string &amp;type_key, const string &amp;val_key, string regex_time_str, bool delimited, bool skip_data, int verbose)</td></tr>
 <tr class="separator:a0bc3c18837388c93dc3126b43775b392"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a03dec2b24cd9fdbcea6e2933fc456a2c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegrib_converter.html#a03dec2b24cd9fdbcea6e2933fc456a2c">query_grib_eccodes_</a> (string file, long par_id, long level, string type, string par_key, string level_key, string type_key, codes_index **p_index, int *p_ret)</td></tr>
+<tr class="separator:a03dec2b24cd9fdbcea6e2933fc456a2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="a6afae08bb7a59096d2d523c4e5ec9d9f"></a>
@@ -259,6 +261,76 @@ Functions</h2></td></tr>
           <td></td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>caller</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a03dec2b24cd9fdbcea6e2933fc456a2c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a03dec2b24cd9fdbcea6e2933fc456a2c">&#9670;&nbsp;</a></span>query_grib_eccodes_()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gribConverter::query_grib_eccodes_ </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>file</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">long&#160;</td>
+          <td class="paramname"><em>par_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">long&#160;</td>
+          <td class="paramname"><em>level</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>par_key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>level_key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>type_key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">codes_index **&#160;</td>
+          <td class="paramname"><em>p_index</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int *&#160;</td>
+          <td class="paramname"><em>p_ret</em>&#160;</td>
         </tr>
         <tr>
           <td></td>

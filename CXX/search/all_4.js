@@ -14,6 +14,7 @@ var searchData=
   ['colortexts_2eh',['colorTexts.h',['../color_texts_8h.html',1,'']]],
   ['combineforecastsarray',['combineForecastsArray',['../class_an_en_i_o.html#af0b54c8ef087ffc01db83dab8fabadd4',1,'AnEnIO']]],
   ['combineobservationsarray',['combineObservationsArray',['../class_an_en_i_o.html#ae1fc8bfc7b6570acccfe86d22be3829a',1,'AnEnIO']]],
+  ['combinesimilaritymatrices',['combineSimilarityMatrices',['../class_an_en_i_o.html#ab446fbd387f0b99cba2a02e6977aac24',1,'AnEnIO']]],
   ['combinestandarddeviation',['combineStandardDeviation',['../class_an_en_i_o.html#ad3b3b71614fd5d617609eafb1c3f034f',1,'AnEnIO']]],
   ['commonexefunctions',['CommonExeFunctions',['../namespace_common_exe_functions.html',1,'']]],
   ['commonexefunctions_2eh',['CommonExeFunctions.h',['../_common_exe_functions_8h.html',1,'']]],
