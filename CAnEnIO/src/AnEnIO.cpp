@@ -509,7 +509,7 @@ AnEnIO::readForecasts(Forecasts_array & forecasts) {
 
     if (file_type_ != "Forecasts") {
         if (verbose_ >= 1) {
-            cout << BOLDGREEN << "Error: File type should be Forecasts."
+            cout << BOLDRED << "Error: File type should be Forecasts."
                     << RESET << endl;
         }
         return (WRONG_FILE_TYPE);
@@ -2662,18 +2662,6 @@ AnEnIO::combineSimilarityMatrices(
         const std::vector<SimilarityMatrices> & sims_vec,
         SimilarityMatrices & sims, size_t along, int verbose) {
     
-    if (along != 3 && verbose >= 1) {
-        cout << RED << "Warning: You changed the default appending dimension (default: 3). MAKE SURE YOU KNOW WHAT YOU ARE DOING!"
-                << RESET << endl;
-    }
-    
-    if (sims.num_elements() != 0) {
-        if (verbose >= 1) cout << BOLDRED
-                << "Error: Please provide an empty SimilarityMatrices container."
-                << RESET << endl;
-        return (ERROR_SETTING_VALUES);
-    }
-    
     // Get the initial dimensions from the first sims
     vector<size_t> dims = {
         sims_vec[0].shape()[0], sims_vec[0].shape()[1], sims_vec[0].shape()[2],
@@ -2713,6 +2701,22 @@ AnEnIO::combineSimilarityMatrices(
     // Update the dimensions of combined sims
     if (verbose >= 3) cout << "Update dimensions of similarity matrices ..." << endl;
     sims.setMaxEntries(dims[3]);
+
+    if (sims.num_elements() != 0) {
+        if (sims.getTargets().getStationsSize() == dims[0] &&
+                sims.getTargets().getTimesSize() == dims[1] &&
+                sims.getTargets().getFLTsSize() == dims[2]) {
+            // The expected similarity matrices dimensions are the same with 
+            // the attached target forecast array. Check has passed.
+            //
+        } else {
+            if (verbose >= 1) cout << BOLDRED
+                    << "Error: The dimensions of target forecasts array do not match similarity matrices."
+                    << RESET << endl;
+            return (ERROR_SETTING_VALUES);
+        }
+    }
+    
     sims.resize(dims[0], dims[1], dims[2]);
     
 #if defined(_OPENMP)

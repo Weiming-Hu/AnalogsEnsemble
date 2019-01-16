@@ -258,7 +258,8 @@ void runFileAggregate(const string & file_type, const vector<string> & in_files,
         if (verbose >= 3) cout << GREEN << "Reading files ... " << RESET << endl;
         vector<SimilarityMatrices> sims_vec(in_files.size());
         vector<bool> flags_read(in_files.size(), false),
-                flags_has_entryTimes(in_files.size(), false);
+                flags_has_entryTimes(in_files.size(), false),
+                flags_has_target(in_files.size(), false);
 
         for (size_t i = 0; i < in_files.size(); i++) {
             try {
@@ -267,6 +268,10 @@ void runFileAggregate(const string & file_type, const vector<string> & in_files,
                 
                 if (io.checkVariable("EntryTimes", true) == AnEnIO::errorType::SUCCESS) {
                     flags_has_entryTimes[i] = true;
+                }
+                
+                if (io.checkVariable("Data", true) == AnEnIO::errorType::SUCCESS) {
+                    flags_has_target[i] = true;
                 }
 
                 flags_read[i] = true;
@@ -287,6 +292,29 @@ void runFileAggregate(const string & file_type, const vector<string> & in_files,
         // Reshape data
         if (verbose >= 3) cout << GREEN << "Combining similarity matrices ..." << RESET << endl;
         SimilarityMatrices sims;
+
+        // Write combined targets if they are exist in individual file
+        bool all_true = all_of(
+                flags_has_target.begin(),
+                flags_has_target.end(), [](bool v) {
+                    return v; });
+
+        if (all_true && along < 3) {
+            vector<Forecasts_array> forecasts_vec(in_files.size());
+            for (size_t i = 0; i < in_files.size(); i++) {
+                AnEnIO io("Read", in_files[i], "Forecasts", verbose);
+                io.handleError(io.readForecasts(forecasts_vec[i]));
+            }
+
+            Forecasts_array forecasts;
+            // ASSUMPTION:
+            // SimilarityMatrices [stations][times][flts][entries][3]
+            // ForecastsArray [parameters][stations][times][flts]
+            //
+            AnEnIO::combineForecastsArray(forecasts_vec, forecasts, along + 1, verbose);
+            sims.setTargets(forecasts);
+        }
+                    
         auto ret = AnEnIO::combineSimilarityMatrices(sims_vec, sims, along, verbose);
         if (ret != AnEnIO::errorType::SUCCESS) {
             throw runtime_error("Error: Failed when combining similarity matrices.");
@@ -295,9 +323,9 @@ void runFileAggregate(const string & file_type, const vector<string> & in_files,
         // Write combined similarity matrices
         if (verbose >= 3) cout << GREEN << "Writing similarity matrices ..." << RESET << endl;
         io_out.handleError(io_out.writeSimilarityMatrices(sims));
-
+                    
         // Write entry times if all files have it
-        bool all_true = all_of(
+        all_true = all_of(
                 flags_has_entryTimes.begin(),
                 flags_has_entryTimes.end(), [](bool v) {
                     return v; });
