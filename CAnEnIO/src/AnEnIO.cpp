@@ -1053,7 +1053,7 @@ AnEnIO::readStations(anenSta::Stations& stations,
 }
 
 errorType
-AnEnIO::readTimes(anenTime::Times& times) {
+AnEnIO::readTimes(anenTime::Times& times, const string & var_name) {
 
     if (verbose_ >= 3) {
         cout << "Reading Times from file (" << file_path_
@@ -1066,7 +1066,6 @@ AnEnIO::readTimes(anenTime::Times& times) {
         return (WRONG_MODE);
     }
 
-    string var_name = "Times";
     handleError(checkVariable(var_name, false));
 
     vector<double> vec;
@@ -1088,7 +1087,8 @@ AnEnIO::readTimes(anenTime::Times& times) {
 
 errorType
 AnEnIO::readTimes(anenTime::Times& times,
-        size_t start, size_t count, ptrdiff_t stride) {
+        size_t start, size_t count, ptrdiff_t stride,
+        const string & var_name) {
 
     if (verbose_ >= 3) {
         cout << "Reading Times from file ("
@@ -1101,7 +1101,6 @@ AnEnIO::readTimes(anenTime::Times& times,
         return (WRONG_MODE);
     }
 
-    string var_name = "Times";
     handleError(checkVariable(var_name, false));
 
     size_t dim_len;
@@ -1569,9 +1568,10 @@ shared(stations_by_insert, p_names, p_xs, p_ys, _max_chars)
 }
 
 errorType
-AnEnIO::writeTimes(const anenTime::Times& times, bool unlimited) const {
+AnEnIO::writeTimes(const anenTime::Times& times, bool unlimited,
+        const string & dim_name, const string & var_name) const {
 
-    if (verbose_ >= 3) cout << "Writing variable (Times) ..." << endl;
+    if (verbose_ >= 3) cout << "Writing variable (" << var_name << ") ..." << endl;
 
     if (mode_ != "Write") {
         if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Write'."
@@ -1582,12 +1582,12 @@ AnEnIO::writeTimes(const anenTime::Times& times, bool unlimited) const {
     NcFile nc(file_path_, NcFile::FileMode::write);
 
     // Check if file already has dimension
-    NcDim dim_times = nc.getDim("num_times");
+    NcDim dim_times = nc.getDim(dim_name);
     if (!dim_times.isNull()) {
         if (dim_times.getSize() != times.size() ||
                 dim_times.isUnlimited() != unlimited) {
-            if (verbose_ >= 1) cout << BOLDRED << "Error: Dimension (num_times)"
-                    << " with a different length exists in file ("
+            if (verbose_ >= 1) cout << BOLDRED << "Error: Dimension ("
+                    << dim_name << ") with a different length exists in file ("
                     << file_path_ << ")." << RESET << endl;
             nc.close();
             return (DIMENSION_EXISTS);
@@ -1595,22 +1595,22 @@ AnEnIO::writeTimes(const anenTime::Times& times, bool unlimited) const {
     } else {
         // Create dimension
         if (unlimited) {
-            dim_times = nc.addDim("num_times");
+            dim_times = nc.addDim(dim_name);
         } else {
-            dim_times = nc.addDim("num_times", times.size());
+            dim_times = nc.addDim(dim_name, times.size());
         }
     }
 
     // Check if file already has variable
-    NcVar var = nc.getVar("Times");
+    NcVar var = nc.getVar(var_name);
     if (!var.isNull()) {
-        if (verbose_ >= 1) cout << BOLDRED << "Error: Variable (Times)"
-                << " exists in file (" << file_path_ << ")." << RESET << endl;
+        if (verbose_ >= 1) cout << BOLDRED << "Error: Variable (" << var_name
+                <<") exists in file (" << file_path_ << ")." << RESET << endl;
         nc.close();
         return (VARIABLE_EXISTS);
     }
 
-    var = nc.addVar("Times", NcType::nc_DOUBLE, dim_times);
+    var = nc.addVar(var_name, NcType::nc_DOUBLE, dim_times);
 
     // Convert from multi-index container type to a double pointer
     double* p = nullptr;

@@ -165,6 +165,8 @@ void runSimilarityCalculator(
      *                         Write Similarity                             *
      ************************************************************************/
     io_out.handleError(io_out.writeSimilarityMatrices(sims));
+    io.handleError(io_out.writeTimes(search_forecasts.getTimes(),
+            false, "num_search_times", "EntryTimes"));
 
     if (verbose >= 3) cout << GREEN << "Done!" << RESET << endl;
 

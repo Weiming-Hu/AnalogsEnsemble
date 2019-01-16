@@ -257,22 +257,27 @@ void runFileAggregate(const string & file_type, const vector<string> & in_files,
         // Read files
         if (verbose >= 3) cout << GREEN << "Reading files ... " << RESET << endl;
         vector<SimilarityMatrices> sims_vec(in_files.size());
-        vector<bool> flags(in_files.size(), false);
+        vector<bool> flags_read(in_files.size(), false),
+                flags_has_entryTimes(in_files.size(), false);
 
         for (size_t i = 0; i < in_files.size(); i++) {
             try {
                 AnEnIO io("Read", in_files[i], file_type, verbose);
                 io.handleError(io.readSimilarityMatrices(sims_vec[i]));
+                
+                if (io.checkVariable("EntryTimes", true) == AnEnIO::errorType::SUCCESS) {
+                    flags_has_entryTimes[i] = true;
+                }
 
-                flags[i] = true;
+                flags_read[i] = true;
             } catch (...) {
-                flags[i] = false;
+                flags_read[i] = false;
             }
         }
 
         // Check if all elements in flags are true.
-        for (size_t i = 0; i < flags.size(); i++) {
-            if (!flags[i]) {
+        for (size_t i = 0; i < flags_read.size(); i++) {
+            if (!flags_read[i]) {
                 if (verbose >= 1) cout << BOLDRED << "Error: Error occurred when"
                         << " reading file " << in_files[i] << RESET << endl;
                 return;
@@ -290,6 +295,26 @@ void runFileAggregate(const string & file_type, const vector<string> & in_files,
         // Write combined similarity matrices
         if (verbose >= 3) cout << GREEN << "Writing similarity matrices ..." << RESET << endl;
         io_out.handleError(io_out.writeSimilarityMatrices(sims));
+
+        // Write entry times if all files have it
+        bool all_true = all_of(
+                flags_has_entryTimes.begin(),
+                flags_has_entryTimes.end(), [](bool v) {
+                    return v; });
+
+        if (all_true) {
+            anenTime::Times entry_times, times_append;
+
+            // Read entry times
+            for (size_t i = 0; i < in_files.size(); i++) {
+                AnEnIO io("Read", in_files[i], file_type, verbose);
+                io.handleError(io.readTimes(entry_times, "EntryTimes"));
+                times_append.insert(times_append.end(), entry_times.begin(), entry_times.end());
+            }
+
+            // Write entry times
+            io_out.handleError(io_out.writeTimes(times_append, false, "num_search_times", "EntryTimes"));
+        }
 
         if (!sims.hasTargets() && along == 3) {
             // Write meta info from the first file in list

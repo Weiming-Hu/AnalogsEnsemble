@@ -219,6 +219,27 @@ public:
             size_t i_parameter, size_t num_members,
             bool quick = true, bool extend_observations = false,
             bool preserve_real_time = false) const;
+    
+    /**
+     * Select analogs based on the similarity matrices when observations are
+     * not provided. 
+     * @param analogs Analogs object to write the analogs
+     * @param sims SimilarityMatrices on which the selection is based
+     * @param mapping A Boost Matrix for the mapping of times between
+     * forecasts and observations. This is computed from the function
+     * AnEn::computeObservationsTimeIndices.
+     * @param num_members How many members each analog should have.
+     * @param quick Whether to use quick sort mechanism.
+     * @param preserve_real_time Whether to replace the observation time index
+     * with the actual observation time.
+     * @return An AnEn::errorType.
+     */
+    errorType selectAnalogs(
+            Analogs & analogs,
+            SimilarityMatrices & sims,
+            const AnEn::TimeMapMatrix & mapping,
+            size_t num_members, bool quick,
+            bool preserve_real_time = false) const;
 
     /**
      * Handles the errorType.

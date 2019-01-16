@@ -48,13 +48,18 @@ void runAnalogSelector(const string & file_sim, const string & file_obs,
     io.handleError(io.readSimilarityMatrices(sims));
     
     Observations_array search_observations;
-    io.setFileType("Observations");
-    io.setFilePath(file_obs);
-    if (obs_start.empty() || obs_count.empty()) {
-        io.handleError(io.readObservations(search_observations));
-    } else {
-        io.handleError(io.readObservations(search_observations,
-                obs_start, obs_count));
+    
+    if (!file_obs.empty()) {
+
+        io.setFileType("Observations");
+        io.setFilePath(file_obs);
+        
+        if (obs_start.empty() || obs_count.empty()) {
+            io.handleError(io.readObservations(search_observations));
+        } else {
+            io.handleError(io.readObservations(search_observations,
+                    obs_start, obs_count));
+        }
     }
     
     AnEn::TimeMapMatrix mapping;
@@ -95,9 +100,16 @@ void runAnalogSelector(const string & file_sim, const string & file_obs,
         analogs.setTimes(sims.getTargets().getTimes());
         analogs.setFLTs(sims.getTargets().getFLTs());
     }
-    anen.handleError(anen.selectAnalogs(analogs, sims, search_observations,
-            mapping, observation_id, num_members, quick,
-            extend_observations, preserve_real_time));
+    
+    if (file_obs.empty()) {
+        anen.handleError(anen.selectAnalogs(analogs, sims,
+                mapping, num_members, quick, preserve_real_time));
+    } else {
+        anen.handleError(anen.selectAnalogs(analogs, sims, search_observations,
+                mapping, observation_id, num_members, quick,
+                extend_observations, preserve_real_time));
+    }
+    
     
 #if defined(_CODE_PROFILING)
     clock_t time_end_of_select = clock();
@@ -134,12 +146,12 @@ int main(int argc, char** argv) {
     namespace po = boost::program_options;
     
     // Required variables
-    string file_sim, file_obs, file_mapping, file_analogs;
+    string file_sim, file_mapping, file_analogs;
     size_t num_members;
 
     // Optional variables
     int verbose = 0;
-    string config_file;
+    string file_obs, config_file;
     size_t observation_id = 0;
     vector<size_t>  obs_start, obs_count;
     bool quick = false, extend_observations = false,
@@ -152,12 +164,12 @@ int main(int argc, char** argv) {
                 ("config,c", po::value<string>(&config_file), "Set the configuration file path. Command line options overwrite options in configuration file. ")
                 
                 ("similarity-nc", po::value<string>(&file_sim)->required(), "Set the input file for the similarity matrix.")
-                ("observation-nc", po::value<string>(&file_obs)->required(), "Set the input file for search observations.")
                 ("mapping-txt", po::value<string>(&file_mapping)->required(), "Set the input file for time mapping matrix")
                 ("analog-nc", po::value<string>(&file_analogs)->required(), "Set the output file for analogs.")
                 ("members", po::value<size_t>(&num_members)->required(), "Set the number of analog members to keep in an ensemble.")
                 
                 ("verbose,v", po::value<int>(&verbose)->default_value(2), "Set the verbose level.")
+                ("observation-nc", po::value<string>(&file_obs)->default_value(""), "Set the input file for search observations.")
                 ("observation-id", po::value<size_t>(&observation_id)->default_value(0), "Set the index of the observation variable that will be used.")
                 ("obs-start", po::value< vector<size_t> >(&obs_start)->multitoken(), "Set the start indices in the search observation NetCDF where the program starts reading.")
                 ("obs-count", po::value< vector<size_t> >(&obs_count)->multitoken(), "Set the count numbers for each dimension in the search observation NetCDF.")
@@ -223,22 +235,22 @@ int main(int argc, char** argv) {
         handle_exception(current_exception());
         return 1;
     }
-    
+
     if (verbose >= 4) {
         cout << "Input parameters:" << endl
-            << "file_sim: " << file_sim << endl
-            << "file_obs: " << file_obs << endl
-            << "file_mapping: " << file_mapping << endl
-            << "file_analogs: " << file_analogs << endl
-            << "num_members: " << num_members << endl
-            << "verbose: " << verbose << endl
-            << "config_file: " << config_file << endl
-            << "observation_id: " << observation_id << endl
-            << "obs_start: " << obs_start << endl
-            << "obs_count: " << obs_count << endl
-            << "quick: " << quick << endl
-            << "extend_observations: " << extend_observations << endl
-            << "preserve_real_time: " << preserve_real_time << endl;
+                << "file_sim: " << file_sim << endl
+                << "file_mapping: " << file_mapping << endl
+                << "file_analogs: " << file_analogs << endl
+                << "num_members: " << num_members << endl
+                << "verbose: " << verbose << endl
+                << "config_file: " << config_file << endl
+                << "observation_id: " << observation_id << endl
+                << "file_obs: " << file_obs << endl
+                << "obs_start: " << obs_start << endl
+                << "obs_count: " << obs_count << endl
+                << "quick: " << quick << endl
+                << "extend_observations: " << extend_observations << endl
+                << "preserve_real_time: " << preserve_real_time << endl;
     }
     
     try {

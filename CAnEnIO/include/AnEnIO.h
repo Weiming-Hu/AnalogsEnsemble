@@ -252,11 +252,14 @@ public:
      * This function assumes the dimension name "Times".
      * 
      * @param times The anenTime::Times object to store information.
+     * @param var_name The variable name of the Time variable to be written.
      * @return An AnEnIO::errorType.
      */
-    errorType readTimes(anenTime::Times & times);
     errorType readTimes(anenTime::Times & times,
-            size_t start, size_t count, ptrdiff_t stride = 1);
+            const std::string & var_name = "Times");
+    errorType readTimes(anenTime::Times & times,
+            size_t start, size_t count, ptrdiff_t stride = 1,
+            const std::string & var_name = "Times");
 
     /**
      * Reads the length of a dimension.
@@ -316,9 +319,13 @@ public:
      * for Times will be created.
      * @param times anenTime::Times to write.
      * @param unlimited Whether this dimension is unlimited.
+     * @param dim_name The dimension name associated with the time variable.
+     * @param var_name The name of the time variable to be written.
      * @return An AnEnIO::errorType.
      */
-    errorType writeTimes(const anenTime::Times & times, bool unlimited) const;
+    errorType writeTimes(const anenTime::Times & times, bool unlimited,
+            const std::string & dim_name = "num_times",
+            const std::string & var_name = "Times") const;
 
     /**
      * Read SimilarityMatrices.
