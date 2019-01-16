@@ -13,6 +13,7 @@
 
 #if defined(_OPENMP)
 #include <omp.h>
+#include <boost/multi_array/base.hpp>
 #endif
 
 size_t _max_chars = 50;
@@ -63,7 +64,7 @@ AnEnIO::~AnEnIO() {
 
 errorType
 AnEnIO::checkMode() const {
-    if (verbose_ >= 3) {
+    if (verbose_ >= 4) {
         cout << "Checking mode ..." << endl;
     }
 
@@ -82,7 +83,7 @@ AnEnIO::checkMode() const {
 errorType
 AnEnIO::checkFilePath() const {
 
-    if (verbose_ >= 3) {
+    if (verbose_ >= 4) {
         cout << "Checking file (" << file_path_ << ") ..." << endl;
     }
 
@@ -91,7 +92,7 @@ AnEnIO::checkFilePath() const {
     if (file_exists && mode_ == "Write") {
         if (add_) {
 
-            if (verbose_ >= 3) cout << "Writing to existing file "
+            if (verbose_ >= 4) cout << "Writing to existing file "
                     << file_path_ << "!" << RESET << endl;
 
         } else {
@@ -134,7 +135,7 @@ AnEnIO::checkFilePath() const {
 errorType
 AnEnIO::checkFileType() const {
 
-    if (verbose_ >= 3) {
+    if (verbose_ >= 4) {
         cout << "Checking file type (" << file_type_ << ") ..." << endl;
     }
 
@@ -209,7 +210,7 @@ AnEnIO::checkFileType() const {
 errorType
 AnEnIO::checkVariable(string var_name, bool optional) const {
 
-    if (verbose_ >= 3) {
+    if (verbose_ >= 4) {
         cout << "Checking variable (" << var_name << ") ..." << endl;
     }
 
@@ -249,7 +250,7 @@ AnEnIO::checkVariable(string var_name, bool optional) const {
 errorType
 AnEnIO::checkDim(string dim_name) const {
 
-    if (verbose_ >= 3) {
+    if (verbose_ >= 4) {
         cout << "Checking dimension (" << dim_name << ") ..." << endl;
     }
 
@@ -283,7 +284,7 @@ AnEnIO::checkVariables() const {
     //
     errorType return_status = SUCCESS;
 
-    if (verbose_ >= 3) {
+    if (verbose_ >= 4) {
         cout << "Checking variables ..." << endl;
     }
 
@@ -320,7 +321,7 @@ AnEnIO::checkDimensions() const {
     //
     errorType return_status = SUCCESS;
 
-    if (verbose_ >= 3) {
+    if (verbose_ >= 4) {
         cout << "Checking dimensions ..." << endl;
     }
 
@@ -898,7 +899,9 @@ AnEnIO::readParameters(anenPar::Parameters& parameters,
 }
 
 errorType
-AnEnIO::readStations(anenSta::Stations& stations) {
+AnEnIO::readStations(anenSta::Stations& stations,
+        const std::string & dim_name_prefix,
+        const std::string & var_name_prefix) {
 
     if (verbose_ >= 3) {
         cout << "Reading Stations from file (" << file_path_ << ") ..." << endl;
@@ -911,18 +914,18 @@ AnEnIO::readStations(anenSta::Stations& stations) {
     }
 
     size_t dim_len;
-    handleError(readDimLength("num_stations", dim_len));
+    handleError(readDimLength(dim_name_prefix + "num_stations", dim_len));
 
     // Read variable StationNames
     vector<string> names;
     bool with_names = false;
-    if (SUCCESS == checkVariable("StationNames", false)) {
-        read_string_vector_("StationNames", names);
+    if (SUCCESS == checkVariable(var_name_prefix + "StationNames", false)) {
+        read_string_vector_(var_name_prefix + "StationNames", names);
         with_names = true;
 
         if (names.size() != dim_len) {
             if (verbose_ >= 2) {
-                cout << RED << "Warning: There should be " << dim_len
+                cout << RED << "Warning: There should be " << dim_len << " "
                         << " station names! Variable not used!"
                         << RESET << endl;
             }
@@ -933,10 +936,10 @@ AnEnIO::readStations(anenSta::Stations& stations) {
     // Read variables xs and ys (coordinates)
     vector<double> xs, ys;
     bool with_coordinates = false;
-    if (SUCCESS == checkVariable("Xs", true) &&
-            SUCCESS == checkVariable("Ys", true)) {
-        handleError(read_vector_("Xs", xs));
-        handleError(read_vector_("Ys", ys));
+    if (SUCCESS == checkVariable(var_name_prefix + "Xs", true) &&
+            SUCCESS == checkVariable(var_name_prefix + "Ys", true)) {
+        handleError(read_vector_(var_name_prefix + "Xs", xs));
+        handleError(read_vector_(var_name_prefix + "Ys", ys));
         with_coordinates = true;
 
         if (xs.size() != dim_len) {
@@ -984,10 +987,12 @@ AnEnIO::readStations(anenSta::Stations& stations) {
 
 errorType
 AnEnIO::readStations(anenSta::Stations& stations,
-        size_t start, size_t count, ptrdiff_t stride) {
+        size_t start, size_t count, ptrdiff_t stride,
+        const std::string & dim_name_prefix,
+        const std::string & var_name_prefix) {
 
     if (verbose_ >= 3) {
-        cout << "Reading Stations  from file ("
+        cout << "Reading " << var_name_prefix << "Stations from file ("
                 << file_path_ << ") ..." << endl;
     }
 
@@ -998,7 +1003,7 @@ AnEnIO::readStations(anenSta::Stations& stations,
     }
 
     size_t dim_len;
-    handleError(readDimLength("num_stations", dim_len));
+    handleError(readDimLength(dim_name_prefix + "num_stations", dim_len));
 
     // Check parameters
     if (start + (count - 1) * stride >= dim_len) {
@@ -1011,8 +1016,8 @@ AnEnIO::readStations(anenSta::Stations& stations,
     // Read variable StationNames
     vector<string> names;
     bool with_names = false;
-    if (SUCCESS == checkVariable("StationNames", false)) {
-        read_string_vector_("StationNames",
+    if (SUCCESS == checkVariable(var_name_prefix + "StationNames", false)) {
+        read_string_vector_(var_name_prefix + "StationNames",
                 names, start, count, stride);
         with_names = true;
     }
@@ -1020,10 +1025,10 @@ AnEnIO::readStations(anenSta::Stations& stations,
     // Read variables xs and ys (coordinates)
     vector<double> xs, ys;
     bool with_coordinates = false;
-    if (SUCCESS == checkVariable("Xs", true) &&
-            SUCCESS == checkVariable("Ys", true)) {
-        handleError(read_vector_("Xs", xs, start, count, stride));
-        handleError(read_vector_("Ys", ys, start, count, stride));
+    if (SUCCESS == checkVariable(var_name_prefix + "Xs", true) &&
+            SUCCESS == checkVariable(var_name_prefix + "Ys", true)) {
+        handleError(read_vector_(var_name_prefix + "Xs", xs, start, count, stride));
+        handleError(read_vector_(var_name_prefix + "Ys", ys, start, count, stride));
         with_coordinates = true;
     }
 
@@ -1056,7 +1061,7 @@ errorType
 AnEnIO::readTimes(anenTime::Times& times, const string & var_name) {
 
     if (verbose_ >= 3) {
-        cout << "Reading Times from file (" << file_path_
+        cout << "Reading " << var_name << " from file (" << file_path_
                 << ")  ..." << endl;
     }
 
@@ -1470,10 +1475,11 @@ shared(parameters_by_insert, p_circulars, p_names, p_weights, _max_chars)
 
 errorType
 AnEnIO::writeStations(
-        const anenSta::Stations& stations,
-        bool unlimited) const {
+        const anenSta::Stations& stations, bool unlimited,
+        const string & dim_name_prefix,
+        const string & var_name_prefix) const {
 
-    if (verbose_ >= 3) cout << "Writing variable (Stations) ..." << endl;
+    if (verbose_ >= 3) cout << "Writing variable (" << var_name_prefix << "Stations) ..." << endl;
 
     if (mode_ != "Write") {
         if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Write'."
@@ -1484,12 +1490,13 @@ AnEnIO::writeStations(
     NcFile nc(file_path_, NcFile::FileMode::write);
 
     // Check if file already has dimensions
-    NcDim dim_stations = nc.getDim("num_stations");
+    NcDim dim_stations = nc.getDim(dim_name_prefix + "num_stations");
     if (!dim_stations.isNull()) {
         if (dim_stations.getSize() != stations.size() ||
                 dim_stations.isUnlimited() != unlimited) {
             if (verbose_ >= 1) cout << BOLDRED
-                    << "Error: Dimension (num_stations) exists with a "
+                    << "Error: Dimension (" << dim_name_prefix
+                    << "num_stations) exists with a "
                     << "different length in file (" << file_path_ << ")."
                     << RESET << endl;
             nc.close();
@@ -1497,9 +1504,9 @@ AnEnIO::writeStations(
         }
     } else {
         if (unlimited) {
-            dim_stations = nc.addDim("num_stations");
+            dim_stations = nc.addDim(dim_name_prefix + "num_stations");
         } else {
-            dim_stations = nc.addDim("num_stations", stations.size());
+            dim_stations = nc.addDim(dim_name_prefix + "num_stations", stations.size());
         }
     }
 
@@ -1510,7 +1517,8 @@ AnEnIO::writeStations(
 
     // Check if file already has variable
     NcVar var;
-    vector<string> var_names_to_check = {"StationNames", "Xs", "Ys"};
+    vector<string> var_names_to_check = 
+        {var_name_prefix + "StationNames", var_name_prefix + "Xs", var_name_prefix + "Ys"};
     for (auto name : var_names_to_check) {
         var = nc.getVar(name);
         if (!var.isNull()) {
@@ -1523,9 +1531,9 @@ AnEnIO::writeStations(
     }
 
     vector<NcDim> dim_names = {dim_stations, dim_chars};
-    NcVar var_names = nc.addVar("StationNames", NcType::nc_CHAR, dim_names);
-    NcVar var_xs = nc.addVar("Xs", NcType::nc_DOUBLE, dim_stations);
-    NcVar var_ys = nc.addVar("Ys", NcType::nc_DOUBLE, dim_stations);
+    NcVar var_names = nc.addVar(var_name_prefix + "StationNames", NcType::nc_CHAR, dim_names);
+    NcVar var_xs = nc.addVar(var_name_prefix + "Xs", NcType::nc_DOUBLE, dim_stations);
+    NcVar var_ys = nc.addVar(var_name_prefix + "Ys", NcType::nc_DOUBLE, dim_stations);
 
     // Convert types for writing
     char* p_names = nullptr;
@@ -1767,30 +1775,44 @@ AnEnIO::readAnalogs(Analogs & analogs) {
     handleError(checkFilePath());
     handleError(checkFileType());
 
-    if (checkVariable("StationNames", true) == SUCCESS &&
-            checkVariable("FLTs", true) == SUCCESS &&
-            checkVariable("Times", true) == SUCCESS) {
-        anenSta::Stations stations;
+    if (checkVariable("Times", true) == SUCCESS) {
         anenTime::Times times;
-        anenTime::FLTs flts;
-
         readTimes(times);
-        readFLTs(flts);
-        readStations(stations);
-
         analogs.setTimes(times);
-        analogs.setFLTs(flts);
-        analogs.setStations(stations);
-    } else {
-        NcFile nc(file_path_, NcFile::FileMode::read);
-        analogs.resize(boost::extents
-                [nc.getDim("num_test_stations").getSize()]
-                [nc.getDim("num_test_times").getSize()]
-                [nc.getDim("num_flts").getSize()]
-                [nc.getDim("num_members").getSize()]
-                [nc.getDim("num_cols").getSize()]);
-        nc.close();
     }
+
+    if (checkVariable("StationNames", true) == SUCCESS) {
+        anenSta::Stations stations;
+        readStations(stations);
+        analogs.setStations(stations);
+    }
+
+    if (checkVariable("FLTs", true) == SUCCESS) {
+        anenTime::FLTs flts;
+        readFLTs(flts);
+        analogs.setFLTs(flts);
+    }
+
+    if (checkVariable("MemberStationNames", true) == SUCCESS) {
+        anenSta::Stations stations;
+        readStations(stations, "member_", "Member");
+        analogs.setMemberStations(stations);
+    }
+
+    if (checkVariable("MemberTimes", true) == SUCCESS) {
+        anenTime::Times times;
+        readTimes(times, "MemberTimes");
+        analogs.setMemberTimes(times);
+    }
+    
+    NcFile nc(file_path_, NcFile::FileMode::read);
+    analogs.resize(boost::extents
+            [nc.getDim("num_test_stations").getSize()]
+            [nc.getDim("num_test_times").getSize()]
+            [nc.getDim("num_flts").getSize()]
+            [nc.getDim("num_members").getSize()]
+            [nc.getDim("num_cols").getSize()]);
+    nc.close();
 
     vector<double> values;
     handleError(read_vector_("Analogs", values));
@@ -1845,7 +1867,11 @@ AnEnIO::writeAnalogs(const Analogs & analogs) const {
         handleError(writeStations(analogs.getStations(), false));
     if (analogs.getTimes().size() != 0)
         handleError(writeTimes(analogs.getTimes(), false));
-
+    if (analogs.getMemberStations().size() != 0)
+        handleError(writeStations(analogs.getMemberStations(), false, "member_", "Member"));
+    if (analogs.getMemberTimes().size() != 0)
+        handleError(writeTimes(analogs.getMemberTimes(), false, "member_num_times", "MemberTimes"));
+    
     return (SUCCESS);
 }
 
@@ -2743,6 +2769,117 @@ shared(sims, sims_vec, along, same_dimensions, element_accumulated_counts)
             }
         }
     }
+    
+    return (SUCCESS);
+}
+
+errorType
+AnEnIO::combineAnalogs(const std::vector<Analogs> & analogs_vec,
+        Analogs & analogs, size_t along, int verbose) {
+
+    // Get the initial dimensions from the first sims
+    vector<size_t> dims = {
+        analogs_vec[0].shape()[0], analogs_vec[0].shape()[1], analogs_vec[0].shape()[2],
+        analogs_vec[0].shape()[3], analogs_vec[0].shape()[4]
+    };
+    
+    if (along == 3 || along == 4) {
+        cout << BOLDRED << "Error: Method not implemented for appending the specified dimension."
+                << RESET << endl;
+        return (METHOD_NOT_IMPLEMENTED);
+    }
+
+    // Decide the full dimension of the aggregated dimension.
+    // Keep track of the dimensions that should be the same.
+    //
+    size_t count = 0;
+    vector<size_t> same_dimensions = {0, 1, 2, 3, 4};
+    vector<size_t> element_accumulated_counts(1, 0);
+    same_dimensions.erase(find(same_dimensions.begin(), same_dimensions.end(), along));
+    
+    anenTime::Times times;
+    anenSta::Stations stations;
+    anenTime::FLTs flts;
+
+    if (along <= 3) {
+        for_each(analogs_vec.begin(), analogs_vec.end(),
+                [&count, &along, &element_accumulated_counts,
+                &times, &stations, &flts]
+                (const Analogs & rhs) {
+                    count += rhs.shape()[along];
+                    element_accumulated_counts.push_back(
+                            rhs.shape()[along] + element_accumulated_counts.back());
+                    cout << "here 1" << endl;
+
+                    if (along == 0)
+                            stations.insert(stations.end(), rhs.getStations().begin(), rhs.getStations().end());
+                    else if (along == 1)
+                            times.insert(times.end(), rhs.getTimes().begin(), rhs.getTimes().end());
+                    else if (along == 2)
+                            flts.insert(flts.end(), rhs.getFLTs().begin(), rhs.getFLTs().end());
+
+                    });
+
+        dims[along] = count;
+    } else {
+        if (verbose >= 1) cout << BOLDRED << "Error: invalid along ("
+                << along << ")!" << RESET << endl;
+        return (ERROR_SETTING_VALUES);
+    }
+    
+    cout << "here 2" << endl;
+    if (times.size() == 0) times = analogs_vec[0].getTimes();
+    if (stations.size() == 0) stations = analogs_vec[0].getStations();
+    if (flts.size() == 0) flts = analogs_vec[0].getFLTs();
+
+    // Because we added one extra count to the accumulated vector,
+    // we need to pop it out. So that the length of accumulated 
+    // vector and forecasts vector match.
+    //
+    element_accumulated_counts.pop_back();
+
+    // Update the dimensions of combined analogs
+    if (verbose >= 3) cout << "Update dimensions of analogs ..." << endl;
+    
+    if (stations.size() == dims[0] && times.size() == dims[1] && flts.size() == dims[2]) {
+        analogs.resize(boost::extents[dims[0]][dims[1]][dims[2]][dims[3]][dims[4]]);
+        analogs.setFLTs(flts);
+        analogs.setStations(stations);
+        analogs.setTimes(times);
+        analogs.setMemberStations(analogs_vec[0].getMemberStations());
+        analogs.setMemberTimes(analogs_vec[0].getMemberTimes());
+    } else {
+        cout << BOLDRED << "Error: Meta fields and Analogs have different dimensions. There might be duplicates in meta fields when appending."
+                << RESET << endl;
+        return (WRONG_VARIABLE_SHAPE);
+    }
+    cout << "here 3" << endl;
+
+#if defined(_OPENMP)
+#pragma omp parallel for default(none) schedule(static) collapse(5) \
+shared(analogs, analogs_vec, along, same_dimensions, element_accumulated_counts)
+#endif
+    for (size_t v = 0; v < analogs.shape()[same_dimensions[3]]; v++) {
+        for (size_t k = 0; k < analogs.shape()[same_dimensions[2]]; k++) {
+            for (size_t j = 0; j < analogs.shape()[same_dimensions[1]]; j++) {
+                for (size_t m = 0; m < analogs.shape()[same_dimensions[0]]; m++) {
+                    for (size_t n = 0; n < analogs_vec.size(); n++) {
+
+                        const auto & i_data = analogs_vec[n];
+
+                        for (size_t l = 0; l < i_data.shape()[along]; l++) {
+                            if (along == 0) analogs[element_accumulated_counts[n] + l][m][j][k][v] = i_data[l][m][j][k][v];
+                            else if (along == 1) analogs[m][element_accumulated_counts[n] + l][j][k][v] = i_data[m][l][j][k][v];
+                            else if (along == 2) analogs[m][j][element_accumulated_counts[n] + l][k][v] = i_data[m][j][l][k][v];
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+    
+    return (SUCCESS);
 }
 
 errorType

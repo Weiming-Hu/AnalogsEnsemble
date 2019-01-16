@@ -166,7 +166,7 @@ void runSimilarityCalculator(
      ************************************************************************/
     io_out.handleError(io_out.writeSimilarityMatrices(sims));
     io.handleError(io_out.writeTimes(search_forecasts.getTimes(),
-            false, "num_search_times", "EntryTimes"));
+            false, "num_search_times", "SearchTimes"));
 
     if (verbose >= 3) cout << GREEN << "Done!" << RESET << endl;
 
@@ -315,7 +315,7 @@ int main(int argc, char** argv) {
         return 1;
     }
     
-    if (verbose >= 4) {
+    if (verbose >= 5) {
         cout << "Input parameters:" << endl
                 << "file_test_forecasts: " << file_test_forecasts << endl
                 << "file_search_forecasts: " << file_search_forecasts << endl

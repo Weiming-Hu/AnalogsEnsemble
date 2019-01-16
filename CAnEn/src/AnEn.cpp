@@ -332,7 +332,7 @@ num_nearest_stations, distance, max_num_search_stations, limit_test)
 
     swap(i_search_stations, i_search_stations_ref);
 
-    if (verbose_ >= 4) {
+    if (verbose_ >= 5) {
         cout << "i_search_stations: " << i_search_stations_ref << endl;
     }
 
@@ -402,7 +402,7 @@ AnEn::computeSimilarity(
         }
     }
 
-    if (verbose_ >= 4) {
+    if (verbose_ >= 5) {
         cout << "Session information for computeSimilarity: " << endl
                 << "# of parameters: " << num_parameters << endl
                 << "# of FLTs: " << num_flts << endl
@@ -519,77 +519,6 @@ errorType
 AnEn::selectAnalogs(
         Analogs & analogs,
         SimilarityMatrices & sims,
-        const AnEn::TimeMapMatrix & mapping,
-        size_t num_members, bool quick,
-        bool preserve_real_time) const {
-
-    if (verbose_ >= 3) {
-        cout << "Selecting analogs without observations ..." << endl;
-        
-        if (preserve_real_time) cout << RED
-                << "Warning: Cannot preserve real time when observations are not provided."
-                << RESET << endl;
-    }
-    
-    size_t num_test_stations = sims.getTargets().getStationsSize();
-    size_t num_test_times = sims.getTargets().getTimesSize();
-    size_t num_flts = sims.getTargets().getFLTsSize();
-    size_t max_members = sims.getMaxEntries();
-
-    if (num_members >= max_members) {
-        if (verbose_ >= 2) cout << BOLDRED << "Warning: Number of members is "
-                << "bigger than the number of entries in SimilarityMatrices! "
-                << " NAN will exist in Analogs." << RESET << endl;
-    }
-
-    Analogs::extent_gen extents;
-    analogs.resize(extents[0][0][0][0][0]);
-    analogs.resize(extents[num_test_stations][num_test_times][num_flts][num_members][3]);
-    fill_n(analogs.data(), analogs.num_elements(), NAN);
-
-    using COL_TAG_ANALOG = Analogs::COL_TAG;
-    using COL_TAG_SIM = SimilarityMatrices::COL_TAG;
-
-    sims.sortRows(quick, num_members);
-
-#if defined(_OPENMP)
-#pragma omp parallel for default(none) schedule(dynamic) collapse(4) \
-shared(sims, num_members, mapping, analogs, num_test_stations, \
-num_test_times, num_flts, max_members)
-#endif
-    for (size_t i_test_station = 0; i_test_station < num_test_stations; i_test_station++) {
-        for (size_t i_test_time = 0; i_test_time < num_test_times; i_test_time++) {
-            for (size_t i_flt = 0; i_flt < num_flts; i_flt++) {
-                for (size_t i_member = 0; i_member < num_members; i_member++) {
-
-                    if (i_member < max_members) {
-                        if (!std::isnan(sims[i_test_station][i_test_time][i_flt][i_member][COL_TAG_SIM::VALUE])) {
-
-                            size_t i_search_station = (size_t) sims[i_test_station][i_test_time][i_flt][i_member][COL_TAG_SIM::STATION];
-                            size_t i_search_forecast_time = (size_t) sims[i_test_station][i_test_time][i_flt][i_member][COL_TAG_SIM::TIME];
-
-                            if (!std::isnan(mapping(i_search_forecast_time, i_flt))) {
-                                size_t i_observation_time = mapping(i_search_forecast_time, i_flt);
-
-                                analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::STATION] = i_search_station;
-                                analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::VALUE] = NAN;
-                                analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::TIME] = i_observation_time;
-                            }
-                        }
-                    }
-                } // End loop of members
-            } // End loop of FLTs
-        } // End loop of test times
-    } // End loop of test stations
-
-    return (SUCCESS);
-}
-
-
-errorType
-AnEn::selectAnalogs(
-        Analogs & analogs,
-        SimilarityMatrices & sims,
         const Observations_array & search_observations,
         const AnEn::TimeMapMatrix & mapping,
         size_t i_parameter, size_t num_members,
@@ -601,6 +530,12 @@ AnEn::selectAnalogs(
                 << "There are only " << search_observations.getParametersSize()
             << " parameters available." << RESET << endl;
         return (OUT_OF_RANGE);
+    }
+    
+    if (!sims.hasTargets()) {
+        cout << BOLDRED << "Error: Similarity does not have target forecasts." 
+                << RESET << endl;
+        return (MISSING_VALUE);
     }
 
     size_t num_test_stations = sims.getTargets().getStationsSize();
@@ -686,6 +621,10 @@ extend_observations, test_stations_index_in_search, preserve_real_time)
         } // End loop of test times
     } // End loop of test stations
 
+
+    analogs.setMemberTimes(search_observations.getTimes());
+    analogs.setMemberStations(search_observations.getStations());
+    
     return (SUCCESS);
 }
 

@@ -49,9 +49,19 @@ Analogs::getStations() const {
     return stations_;
 }
 
+anenSta::Stations
+Analogs::getMemberStations() const {
+    return member_stations_;
+}
+
 anenTime::Times
 Analogs::getTimes() const {
     return times_;
+}
+
+anenTime::Times
+Analogs::getMemberTimes() const {
+    return member_times_;
 }
 
 void
@@ -65,8 +75,18 @@ Analogs::setStations(const anenSta::Stations & stations) {
 }
 
 void
+Analogs::setMemberStations(const anenSta::Stations & stations) {
+    member_stations_ = stations;
+}
+
+void
 Analogs::setTimes(const anenTime::Times & times) {
     times_ = times;
+}
+
+void
+Analogs::setMemberTimes(const anenTime::Times & times) {
+    member_times_ = times;
 }
 
 void

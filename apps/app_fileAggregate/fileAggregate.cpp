@@ -258,17 +258,12 @@ void runFileAggregate(const string & file_type, const vector<string> & in_files,
         if (verbose >= 3) cout << GREEN << "Reading files ... " << RESET << endl;
         vector<SimilarityMatrices> sims_vec(in_files.size());
         vector<bool> flags_read(in_files.size(), false),
-                flags_has_entryTimes(in_files.size(), false),
                 flags_has_target(in_files.size(), false);
 
         for (size_t i = 0; i < in_files.size(); i++) {
             try {
                 AnEnIO io("Read", in_files[i], file_type, verbose);
                 io.handleError(io.readSimilarityMatrices(sims_vec[i]));
-                
-                if (io.checkVariable("EntryTimes", true) == AnEnIO::errorType::SUCCESS) {
-                    flags_has_entryTimes[i] = true;
-                }
                 
                 if (io.checkVariable("Data", true) == AnEnIO::errorType::SUCCESS) {
                     flags_has_target[i] = true;
@@ -324,24 +319,12 @@ void runFileAggregate(const string & file_type, const vector<string> & in_files,
         if (verbose >= 3) cout << GREEN << "Writing similarity matrices ..." << RESET << endl;
         io_out.handleError(io_out.writeSimilarityMatrices(sims));
                     
-        // Write entry times if all files have it
-        all_true = all_of(
-                flags_has_entryTimes.begin(),
-                flags_has_entryTimes.end(), [](bool v) {
-                    return v; });
-
-        if (all_true) {
-            anenTime::Times entry_times, times_append;
-
-            // Read entry times
-            for (size_t i = 0; i < in_files.size(); i++) {
-                AnEnIO io("Read", in_files[i], file_type, verbose);
-                io.handleError(io.readTimes(entry_times, "EntryTimes"));
-                times_append.insert(times_append.end(), entry_times.begin(), entry_times.end());
-            }
-
-            // Write entry times
-            io_out.handleError(io_out.writeTimes(times_append, false, "num_search_times", "EntryTimes"));
+        // Write entry times if the first file has it
+        AnEnIO io("Read", in_files[0], file_type, verbose);
+        if (io.checkVariable("SearchTimes", true) == AnEnIO::errorType::SUCCESS) {
+            anenTime::Times times;
+            io.handleError(io.readTimes(times, "SearchTimes"));
+            io_out.handleError(io_out.writeTimes(times, false, "num_search_times", "SearchTimes"));
         }
 
         if (!sims.hasTargets() && along == 3) {
@@ -368,6 +351,39 @@ void runFileAggregate(const string & file_type, const vector<string> & in_files,
         if (verbose >= 3) cout << GREEN << "Done!" << RESET << endl;
         
         return;
+    } else if (file_type == "Analogs") {
+        
+        // Check input indices starts and counts
+        if (starts.size() == 0 && counts.size() == 0) {
+            // This is implemented. No further action needed.
+        } else {
+            throw runtime_error("Error: Function not implemented for partial IO of analog files.");
+        }
+        
+        // Read files
+        if (verbose >= 3) cout << GREEN << "Reading files ... " << RESET << endl;
+        vector<Analogs> analogs_vec(in_files.size());
+        vector<bool> flags_read(in_files.size(), false);
+
+        for (size_t i = 0; i < in_files.size(); i++) {
+            AnEnIO io("Read", in_files[i], file_type, verbose);
+            io.handleError(io.readAnalogs(analogs_vec[i]));
+        }
+        
+        // Reshape data
+        if (verbose >= 3) cout << GREEN << "Combining analogs ..." << RESET << endl;
+        Analogs analogs;
+        auto ret = AnEnIO::combineAnalogs(analogs_vec, analogs, along, verbose);
+
+        if (ret != AnEnIO::errorType::SUCCESS) {
+            throw runtime_error("Error: Failed when combining analogs.");
+        }
+
+        if (verbose >= 3) cout << GREEN << "Writing analogs ..." << RESET << endl;
+        io_out.handleError(io_out.writeAnalogs(analogs));
+        
+        return;
+        
     } else {
         if (verbose >= 1) cout << BOLDRED << "Error: File type " << file_type
                 << " is not supported." << RESET << endl;
@@ -395,7 +411,7 @@ int main(int argc, char** argv) {
                 ("help,h", "Print help information for options.")
                 ("config,c", po::value<string>(&config_file), "Set the configuration file path. Command line options overwrite options in configuration file. ")
 
-                ("type,t", po::value<string>(&file_type)->required(), "Set the type of the files to read. It can be either Forecasts ,Observations, Similarity, or StandardDeviation.")
+                ("type,t", po::value<string>(&file_type)->required(), "Set the type of the files to read. It can be either Forecasts ,Observations, Similarity, Analogs, or StandardDeviation.")
                 ("in,i", po::value< vector<string> >(&in_files)->multitoken()->required(), "Set the file names to read separated by a space.")
                 ("out,o", po::value<string>(&out_file)->required(), "Set the name of the output file.")
                 ("along,a", po::value<size_t>(&along)->required(), "Set the dimension index to be appended. It counts from 0.")
@@ -460,7 +476,7 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    if (verbose >= 4) {
+    if (verbose >= 5) {
         cout << "Input parameters: " << endl
                 << "file_type: " << file_type << endl
                 << "in_files: " << in_files << endl

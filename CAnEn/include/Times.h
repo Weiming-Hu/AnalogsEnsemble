@@ -92,8 +92,7 @@ namespace anenTime {
         std::string unit_ = "seconds";
 
         /**
-         * The origin of time. By default, it is 1970-01-01 00:00:00. No time zone is
-         * assumed.
+         * The origin of time. By default, it is 1970-01-01 00:00:00 UTC.
          */
         std::string origin_;
     };

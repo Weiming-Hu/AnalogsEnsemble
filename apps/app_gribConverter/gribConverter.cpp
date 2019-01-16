@@ -165,7 +165,7 @@ int main(int argc, char** argv) {
         }
     }
 
-    if (verbose >= 4) {
+    if (verbose >= 5) {
         cout << "folder: " << folder << endl
                 << "file_out: " << file_out << endl
                 << "regex_time_str: " << regex_time_str << endl

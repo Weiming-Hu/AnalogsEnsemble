@@ -264,7 +264,7 @@ int main(int argc, char** argv) {
         return 1;
     }
     
-    if (verbose >= 4) {
+    if (verbose >= 5) {
         cout << "Input parameters: " << endl
             << "file_in: " << file_in << endl
             << "file_type: " << file_type << endl

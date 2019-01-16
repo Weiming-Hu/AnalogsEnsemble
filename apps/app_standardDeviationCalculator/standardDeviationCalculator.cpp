@@ -193,7 +193,7 @@ int main(int argc, char** argv) {
         return 1;
     }
     
-    if (verbose >= 4) {
+    if (verbose >= 5) {
         cout << "Input parameters:" << endl
                 << "in_files: " << in_files << endl
                 << "out_file: " << out_file << endl

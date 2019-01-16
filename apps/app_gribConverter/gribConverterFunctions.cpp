@@ -313,7 +313,7 @@ namespace gribConverter {
             anenPar::Parameter parameter(pars_new_name[i], circular);
             parameters.push_back(parameter);
         }
-        if (verbose >= 4) cout << parameters;
+        if (verbose >= 5) cout << parameters;
         assert(parameters.size() == pars_new_name.size());
 
         // Prepare times
@@ -371,7 +371,7 @@ namespace gribConverter {
         }
 
         swap(files_in, files_in_selected);
-        if (verbose >= 4) {
+        if (verbose >= 5) {
             cout << "Input files (computed internally): " << files_in << endl;
         }
 
@@ -381,7 +381,7 @@ namespace gribConverter {
         sort(times_vec.begin(), times_vec.end());
         times.insert(times.end(), times_vec.begin(), times_vec.end());
 
-        if (verbose >= 4) {
+        if (verbose >= 5) {
             cout << times << flts;
         }
         
@@ -549,7 +549,7 @@ namespace gribConverter {
             anenPar::Parameter parameter(pars_new_name[i], circular);
             parameters.push_back(parameter);
         }
-        if (verbose >= 4) cout << parameters;
+        if (verbose >= 5) cout << parameters;
         assert(parameters.size() == pars_new_name.size());
 
         // Prepare times
@@ -594,14 +594,14 @@ namespace gribConverter {
         }
 
         swap(files_in, files_in_selected);
-        if (verbose >= 4) {
+        if (verbose >= 5) {
             cout << "Input files (computed internally): " << files_in << endl;
         }
 
         sort(times_vec.begin(), times_vec.end());
         times.insert(times.end(), times_vec.begin(), times_vec.end());
 
-        if (verbose >= 4) cout << times;
+        if (verbose >= 5) cout << times;
         
         // Allocating memory for data        
         if (verbose >= 3) {

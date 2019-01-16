@@ -176,7 +176,7 @@ void runAnalogGenerator(
         io.setFileType("Similarity");
         io.handleError(io.writeSimilarityMatrices(sims));
         io.handleError(io.writeTimes(search_forecasts.getTimes(),
-                false, "num_search_times", "EntryTimes"));
+                false, "num_search_times", "SearchTimes"));
     }
 
 #if defined(_CODE_PROFILING)
@@ -187,6 +187,7 @@ void runAnalogGenerator(
 #endif
 
     Analogs analogs(test_forecasts, num_members);
+    
     anen.handleError(anen.selectAnalogs(analogs, sims, search_observations,
             mapping, observation_id, num_members, quick,
             extend_observations, preserve_real_time));
@@ -386,7 +387,7 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    if (verbose >= 4) {
+    if (verbose >= 5) {
         cout << "Input parameters:" << endl
             << "file_test_forecasts: " << file_test_forecasts << endl
             << "file_search_forecasts: " << file_search_forecasts << endl

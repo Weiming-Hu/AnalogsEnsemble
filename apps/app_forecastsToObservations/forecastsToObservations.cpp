@@ -59,10 +59,10 @@ void runForecastsToObservations( const string & file_in, const string & file_out
             forecasts.getTimes(), forecasts.getFLTs(),
             observations.getTimes(), mapping, time_match_mode));
 
-    if (verbose >= 4) cout << "Time mapping from Forecasts to Observations:"
+    if (verbose >= 5) cout << "Time mapping from Forecasts to Observations:"
         << endl << mapping << endl;
 
-    if (verbose >= 4)
+    if (verbose >= 5)
         cout << "Forecasts Times:" << endl << fcsts_times
             << "Forecasts FLTs: " << fcsts_flts << "Observations Times: "
             << endl << obs_times;
@@ -177,7 +177,7 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    if (verbose >= 4) {
+    if (verbose >= 5) {
         cout << "Input parameters: " << endl
             << "file_in: " << file_in << endl
             << "file_out: " << file_out << endl

@@ -69,6 +69,8 @@ public:
         WRONG_MODE = -6, 
         /// -7
         FILEIO_ERROR = -7, 
+        /// -8
+        METHOD_NOT_IMPLEMENTED = -8,
 
         /// -10
         FILE_NOT_FOUND = -10, 
@@ -240,9 +242,13 @@ public:
      * @param stations The anenSta::Stations object to store information.
      * @return An AnEnIO::errorType.
      */
-    errorType readStations(anenSta::Stations & stations);
     errorType readStations(anenSta::Stations & stations,
-            size_t start, size_t count, ptrdiff_t stride = 1);
+            const std::string & dim_name_prefix = "",
+            const std::string & var_name_prefix = "");
+    errorType readStations(anenSta::Stations & stations,
+            size_t start, size_t count, ptrdiff_t stride = 1,
+            const std::string & dim_name_prefix = "",
+            const std::string & var_name_prefix = "");
 
     /**
      * Reads time information from the file. You should use the function 
@@ -312,7 +318,9 @@ public:
      * @return An AnEnIO::errorType.
      */
     errorType writeStations(
-            const anenSta::Stations & stations, bool unlimited) const;
+            const anenSta::Stations & stations, bool unlimited,
+            const std::string & dim_name_prefix = "",
+            const std::string & var_name_prefix = "") const;
     
     /**
      * Write anenTime::Times. A dimension (num_times) will be created; Variables
@@ -540,7 +548,11 @@ public:
      */
     static errorType
     combineSimilarityMatrices(const std::vector<SimilarityMatrices> & sims_vec,
-            SimilarityMatrices & sims, size_t along = 3, int verbose = 2);
+            SimilarityMatrices & sims, size_t along, int verbose = 2);
+    
+    static errorType
+    combineAnalogs(const std::vector<Analogs> & analogs_vec,
+            Analogs & analogs, size_t along, int verbose = 2);
 
 protected:
 
@@ -578,7 +590,8 @@ protected:
      * - 1: Errors.
      * - 2: The above plus Warnings.
      * - 3: The above plus program progress information.
-     * - 4: The above plus session information.
+     * - 4: The above plus check information.
+     * - 5: The above plus session information.
      */
     int verbose_ = 2;
 
