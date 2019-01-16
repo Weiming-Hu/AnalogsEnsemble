@@ -19,7 +19,7 @@ author:
  name: 'Weiming Hu'
  url: https://weiming.ddns.net
 
-paginate: 5
+paginate: 8
 paginate_path: "/posts/page:num/"
 
 # Custom vars
