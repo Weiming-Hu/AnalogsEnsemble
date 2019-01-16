@@ -24,7 +24,7 @@ ret <- system(scripts)
 setwd(old.wd)
 
 if (ret == 0) {
-  print("You survived the tests for analogGenerator!")
+  cat("You survived the tests for analogGenerator!\n")
 } else {
   stop("Error: Something is wrong for analogGenerator tests.")
 }

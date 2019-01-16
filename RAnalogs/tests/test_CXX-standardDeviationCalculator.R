@@ -48,7 +48,7 @@ sds.r <- apply(fcsts, c(1, 2, 4), sd, na.rm = T)
 dif <- abs(sds.r - sds.c)
 dif <- dif[dif < 1e+10]
 if (sum(dif, na.rm = T) < 1e-8) {
-  print("You passed the test!")
+  cat("You passed the test!\n")
 } else {
   stop("Something is wrong.")
 }

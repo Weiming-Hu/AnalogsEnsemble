@@ -228,17 +228,17 @@ void runFileAggregate(const string & file_type, const vector<string> & in_files,
         
         // Write meta info from the first file in list
         AnEnIO io_meta("Read", in_files[0], file_type, verbose);
-        if (io_meta.checkVariable("StationNames", true) == AnEnIO::errorType::SUCCESS) {
+        if (io_meta.checkVariable("StationNames", true) != AnEnIO::errorType::SUCCESS) {
             anenSta::Stations stations;
             if (partial_read) io_meta.readStations(stations, starts[1], counts[1]);
             else io_meta.readStations(stations);
-            io_meta.handleError(io_meta.writeStations(stations, false));
+            io_out.handleError(io_out.writeStations(stations, false));
         }
-        if (io_meta.checkVariable("FLTs", true) == AnEnIO::errorType::SUCCESS) {
+        if (io_meta.checkVariable("FLTs", true) != AnEnIO::errorType::SUCCESS) {
             anenTime::FLTs flts;
             if (partial_read) io_meta.readFLTs(flts, starts[2], counts[2]);
             else io_meta.readFLTs(flts);
-            io_meta.handleError(io_meta.writeFLTs(flts, false));
+            io_out.handleError(io_out.writeFLTs(flts, false));
         }
         
         if (verbose >= 3) cout << GREEN << "Done!" << RESET << endl;
@@ -290,23 +290,26 @@ void runFileAggregate(const string & file_type, const vector<string> & in_files,
         // Write combined similarity matrices
         if (verbose >= 3) cout << GREEN << "Writing similarity matrices ..." << RESET << endl;
         io_out.handleError(io_out.writeSimilarityMatrices(sims));
-        
-        // Write meta info from the first file in list
-        AnEnIO io_meta("Read", in_files[0], file_type, verbose);
-        if (io_meta.checkVariable("StationNames", true) == AnEnIO::errorType::SUCCESS) {
-            anenSta::Stations stations;
-            io_meta.readStations(stations);
-            io_meta.handleError(io_meta.writeStations(stations, false));
-        }
-        if (io_meta.checkVariable("Times", true) == AnEnIO::errorType::SUCCESS) {
-            anenTime::Times times;
-            io_meta.readTimes(times);
-            io_meta.handleError(io_meta.writeTimes(times, false));
-        }
-        if (io_meta.checkVariable("FLTs", true) == AnEnIO::errorType::SUCCESS) {
-            anenTime::FLTs flts;
-            io_meta.readFLTs(flts);
-            io_meta.handleError(io_meta.writeFLTs(flts, false)); 
+
+        if (!sims.hasTargets() && along == 3) {
+            // Write meta info from the first file in list
+            AnEnIO io_meta("Read", in_files[0], file_type, verbose);
+            if (io_meta.checkVariable("StationNames", true) == AnEnIO::errorType::SUCCESS) {
+                anenSta::Stations stations;
+                io_meta.readStations(stations);
+                io_out.handleError(io_out.writeStations(stations, false));
+            }
+            if (io_meta.checkVariable("Times", true) == AnEnIO::errorType::SUCCESS) {
+                anenTime::Times times;
+                io_meta.readTimes(times);
+                io_out.handleError(io_out.writeTimes(times, false));
+            }
+            if (io_meta.checkVariable("FLTs", true) == AnEnIO::errorType::SUCCESS) {
+                anenTime::FLTs flts;
+                io_meta.readFLTs(flts);
+                io_out.handleError(io_out.writeFLTs(flts, false));
+            }
+
         }
         
         if (verbose >= 3) cout << GREEN << "Done!" << RESET << endl;

@@ -139,4 +139,4 @@ unlink('wind-forecasts.nc')
 unlink('wind-observations.nc')
 unlink(file_out)
 
-print("You survived the Wind and the Solar tests!")
+cat("You survived the Wind and the Solar tests!\n")

@@ -175,9 +175,6 @@ void runAnalogGenerator(
         io.setMode("Write", file_similarity);
         io.setFileType("Similarity");
         io.handleError(io.writeSimilarityMatrices(sims));
-        io.handleError(io.writeStations(test_forecasts.getStations(), false));
-        io.handleError(io.writeTimes(test_forecasts.getTimes(), false));
-        io.handleError(io.writeFLTs(test_forecasts.getFLTs(), false));
     }
 
 #if defined(_CODE_PROFILING)

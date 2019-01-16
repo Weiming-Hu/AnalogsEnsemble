@@ -170,4 +170,4 @@ for (along in c(0, 1, 2)) {
   unlink(out_file) 
 }
 
-print("You survived the combining tests!")
+cat("You survived the combining tests!\n")

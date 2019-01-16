@@ -86,4 +86,4 @@ if (!identical(analogs_WU[1,,],analogs.java[1,,])) {
     stop('Solar test failed!')
 }
 
-print("You survived the Wind and the Solar tests!")
+cat("You survived the Wind and the Solar tests!\n")

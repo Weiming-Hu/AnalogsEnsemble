@@ -68,9 +68,9 @@ nc_close(nc)
 dif <- abs(sds.r - sds.c)
 dif <- dif[dif < 1e+10]
 if (sum(dif, na.rm = T) < 1e-8) {
-  print("You passed the test for partial computatin of sd!")
+  cat("You passed the test for partial computatin of standard deviation!\n")
 } else {
-  stop("Something is wrong for partial computation of sd.")
+  stop("Something is wrong for partial computation of standard deviation!")
 }
 
 # Aggregate sd files
@@ -103,9 +103,9 @@ sds.c <- ncvar_get(nc, 'StandardDeviation')
 nc_close(nc)
 
 if (identical(as.vector(sds.c), as.vector(sds.r))) {
-  print("You passed the test for aggregating sds!")
+  cat("You passed the test for aggregating standard deviations!\n")
 } else {
-  stop("Something is wrong for aggregating sds.")
+  stop("Something is wrong for aggregating standard deviations.")
 }
 
 unlink(file_out1)

@@ -17,3 +17,5 @@ for (file in files) {
   cat(paste("Executing", file, "\n"))
   source(file, echo = F)
 }
+
+cat("You have survived all the tests!\n")

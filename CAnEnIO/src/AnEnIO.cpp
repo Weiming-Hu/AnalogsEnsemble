@@ -663,9 +663,9 @@ AnEnIO::readFLTs(anenTime::FLTs& flts) {
         return (WRONG_MODE);
     }
 
-    if (file_type_ != "Forecasts") {
+    if (file_type_ == "Observations") {
         if (verbose_ >= 1) cout << BOLDRED
-                << "Error: File type should be Forecasts!" << RESET << endl;
+                << "Error: File type is set as Observations but observations do not have FLTs!" << RESET << endl;
         return (WRONG_FILE_TYPE);
     }
 
@@ -2662,6 +2662,11 @@ AnEnIO::combineSimilarityMatrices(
         const std::vector<SimilarityMatrices> & sims_vec,
         SimilarityMatrices & sims, size_t along, int verbose) {
     
+    if (along != 3 && verbose >= 1) {
+        cout << RED << "Warning: You changed the default appending dimension (default: 3). MAKE SURE YOU KNOW WHAT YOU ARE DOING!"
+                << RESET << endl;
+    }
+    
     if (sims.num_elements() != 0) {
         if (verbose >= 1) cout << BOLDRED
                 << "Error: Please provide an empty SimilarityMatrices container."
@@ -2682,8 +2687,10 @@ AnEnIO::combineSimilarityMatrices(
     vector<size_t> same_dimensions = {0, 1, 2, 3, 4};
     vector<size_t> element_accumulated_counts(1, 0);
     same_dimensions.erase(find(same_dimensions.begin(), same_dimensions.end(), along));
+    
     if (along <= 3) {
-        for_each(sims_vec.begin(), sims_vec.end(), [&count, &along, &element_accumulated_counts]
+        for_each(sims_vec.begin(), sims_vec.end(),
+                [&count, &along, &element_accumulated_counts]
                 (const SimilarityMatrices & rhs) {
             count += rhs.shape()[along];
             element_accumulated_counts.push_back(

@@ -522,7 +522,8 @@ public:
             StandardDeviation & sds, size_t along, int verbose = 2);
     
     /**
-     * Binds a vector of SimilarityMatrices.
+     * Binds a vector of SimilarityMatrices. This function does not assign the
+     * target values of SimilarityMatrices.
      * @param sims_vec A vector of SimialrityMatrices.
      * @param sims A SimilarityMatrices.
      * @param along Which dimension to append counting from 0. Do NOT change 
