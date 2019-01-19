@@ -78,7 +78,6 @@ public:
         };
     };
 
-    void resize();
     void resize(size_t dim0, size_t dim1, size_t dim2);
     
     /**
@@ -88,34 +87,12 @@ public:
     bool checkSearchSpaceExtension() const;
 
     /**
-     * Set the target forecast.
-     * 
-     * @param targets A Forecasts with one station, one time, one FLT,
-     * and all parameters.
-     */
-    void setTargets(const Forecasts & targets);
-
-    /**
      * Order all SimilarityMatrix using a specific column.
      * 
      * @return Whether the order succeeded.
      */
     bool sortRows(bool quick = true, size_t length = 0,
             COL_TAG col_tag = VALUE);
-
-    /**
-     * Get the target forecast values. Since forecasts only have parameters
-     * for one station, one FLT, and one time. Values would a vector of
-     * all the parameters.
-     * 
-     * @return A vector of double.
-     */
-    const Forecasts_array & getTargets() const;
-
-    /**
-     * Check whether the targets have been set.
-     */
-    bool hasTargets() const;
 
     void setOrderTag(COL_TAG order_tag);
     void setMaxEntries(size_t max_entries);
@@ -128,18 +105,13 @@ public:
     void printSize(std::ostream &) const;
     friend std::ostream & operator<<(std::ostream &,
             const SimilarityMatrices&);
+    
+    const static int _NUM_COLS = 3;
 
 private:
 
-    /**
-     * The corresponding forecasts for each SimilarityMatrix.
-     */
-    Forecasts_array targets_;
-
     COL_TAG order_tag_ = VALUE;
     size_t max_entries_;
-
-    const static int _NUM_COLS_ = 3;
 };
 
 

@@ -25,58 +25,16 @@
 using namespace std;
 
 void runFileAggregate(const string & file_type, const vector<string> & in_files, 
-        const size_t & along, const string & out_file,
-        const vector<size_t> & starts, const vector<size_t> & counts, const int & verbose) {
+        const size_t & along, const string & out_file, const int & verbose) {
 
-    // This variable determines whether we are reading the complete or partial
-    // data from files
-    //
-    bool partial_read = true;
-    
     AnEnIO io_out("Write", out_file, file_type, verbose);
 
     if (file_type == "Forecasts") {
         
-        // Check input indices starts and counts
-        if (starts.size() == 0 || counts.size() == 0) {
-            partial_read = false;
-        } else {
-            if (starts.size() != in_files.size() * 4) {
-                if (verbose >= 1) cout << BOLDRED << "Error: The length of start indices"
-                        << " should be an integer multiplication of 4. "
-                        << starts.size() << " indices found instead." << RESET << endl;
-                return;
-            }
-
-            if (counts.size() != in_files.size() * 4) {
-                if (verbose >= 1) cout << BOLDRED << "Error: The length of count indices"
-                        << " should be an integer multiplication of 4. "
-                        << counts.size() << " indices found instead." << RESET << endl;
-                return;
-            }
-        }
-        
-        // Read files
-        vector<Forecasts_array> forecasts_vec(in_files.size());
-        vector<bool> flags(in_files.size(), false);
-        if (verbose >= 3) cout << GREEN << "Reading files ... " << RESET << endl;
-          
-        for (size_t i = 0; i < in_files.size(); i++) {
-            AnEnIO io("Read", in_files[i], file_type, verbose);
-
-            if (partial_read) {
-                io.handleError(io.readForecasts(forecasts_vec[i],
-                            {starts[i*4], starts[i*4+1], starts[i*4+2], starts[i*4+3]},
-                            {counts[i*4], counts[i*4+1], counts[i*4+2], counts[i*4+3]}));
-            } else {
-                io.handleError(io.readForecasts(forecasts_vec[i]));
-            }
-        }
-        
         // Reshape data
         Forecasts_array forecasts;
         if (verbose >= 3) cout << GREEN << "Combining forecasts ..." << RESET << endl;
-        auto ret = AnEnIO::combineForecastsArray(forecasts_vec, forecasts, along, verbose);
+        auto ret = AnEnIO::combineForecastsArray(in_files, forecasts, along, verbose);
         if (ret != AnEnIO::errorType::SUCCESS) {
             throw runtime_error("Error: Failed when combining forecasts.");
         }
@@ -89,61 +47,10 @@ void runFileAggregate(const string & file_type, const vector<string> & in_files,
         return;
     } else if (file_type == "Observations") {
         
-        // Check input indices starts and counts
-        if (starts.size() == 0 && counts.size() == 0) {
-            partial_read = false;
-        } else {
-            if (starts.size() != in_files.size() * 3) {
-                if (verbose >= 1) cout << BOLDRED << "Error: The length of start indices"
-                        << " should be an integer multiplication of 3. "
-                        << starts.size() << " indices found instead." << RESET << endl;
-                return;
-            }
-
-            if (counts.size() != in_files.size() * 3) {
-                if (verbose >= 1) cout << BOLDRED << "Error: The length of count indices"
-                        << " should be an integer multiplication of 3. "
-                        << counts.size() << " indices found instead." << RESET << endl;
-                return;
-            }
-        }
-        
-        // Read files
-        if (verbose >= 3) cout << GREEN << "Reading files ... " << RESET << endl;
-        vector<Observations_array> observations_vec(in_files.size());
-        vector<bool> flags(in_files.size(), false);
-          
-        for (size_t i = 0; i < in_files.size(); i++) {
-            try{
-                AnEnIO io("Read", in_files[i], file_type, verbose);
-                
-                if (partial_read) {
-                    io.handleError(io.readObservations(observations_vec[i],
-                            {starts[i*3], starts[i*3+1], starts[i*3+2]},
-                            {counts[i*3], counts[i*3+1], counts[i*3+2]}));
-                } else {
-                    io.handleError(io.readObservations(observations_vec[i]));
-                }
-                
-                flags[i] = true;
-            } catch (...) {
-                flags[i] = false;
-            }
-        }
-        
-        // Check if all elements in flags are true.
-        for (size_t i = 0; i < flags.size(); i++) {
-            if (!flags[i]) {
-                if (verbose>=1) cout << BOLDRED << "Error: Error occurred when"
-                        << " reading file " << in_files[i] << RESET << endl;
-                return;
-            }
-        }
-
         // Reshape data
         if (verbose >= 3) cout << GREEN << "Combining observations ..." << RESET << endl;
         Observations_array observations;
-        auto ret = AnEnIO::combineObservationsArray(observations_vec, observations, along, verbose);
+        auto ret = AnEnIO::combineObservationsArray(in_files, observations, along, verbose);
         if (ret != AnEnIO::errorType::SUCCESS) {
             throw runtime_error("Error: Failed when combining observations.");
         }
@@ -157,231 +64,81 @@ void runFileAggregate(const string & file_type, const vector<string> & in_files,
         
     } else if (file_type == "StandardDeviation") {
         
-        // Check input indices starts and counts
-        if (starts.size() == 0 && counts.size() == 0) {
-            partial_read = false;
-        } else {
-            if (starts.size() != in_files.size() * 4) {
-                if (verbose >= 1) cout << BOLDRED << "Error: The length of start indices"
-                        << " should be an integer multiplication of 3. "
-                        << starts.size() << " indices found instead." << RESET << endl;
-                return;
-            }
-
-            if (counts.size() != in_files.size() * 4) {
-                if (verbose >= 1) cout << BOLDRED << "Error: The length of count indices"
-                        << " should be an integer multiplication of 3. "
-                        << counts.size() << " indices found instead." << RESET << endl;
-                return;
-            }
-        }
-
-        // Read files
-        if (verbose >= 3) cout << GREEN << "Reading files ... " << RESET << endl;
-        vector<StandardDeviation> sds_vec(in_files.size());
-        vector<bool> flags(in_files.size(), false);
-
-        for (size_t i = 0; i < in_files.size(); i++) {
-            try {
-                AnEnIO io("Read", in_files[i], file_type, verbose);
-
-                if (partial_read) {
-                    io.handleError(io.readStandardDeviation(sds_vec[i],
-                        {starts[i * 3], starts[i * 3 + 1], starts[i * 3 + 2]},
-                        {counts[i * 3], counts[i * 3 + 1], counts[i * 3 + 2]}));
-                } else {
-                    io.handleError(io.readStandardDeviation(sds_vec[i]));
-                }
-
-                flags[i] = true;
-            } catch (...) {
-                flags[i] = false;
-            }
-        }
-
-        // Check if all elements in flags are true.
-        for (size_t i = 0; i < flags.size(); i++) {
-            if (!flags[i]) {
-                if (verbose >= 1) cout << BOLDRED << "Error: Error occurred when"
-                        << " reading file " << in_files[i] << RESET << endl;
-                return;
-            }
-        }
-
         // Reshape data
         if (verbose >= 3) cout << GREEN << "Combining standard deviation ..." << RESET << endl;
+
         StandardDeviation sds;
-        auto ret = AnEnIO::combineStandardDeviation(sds_vec, sds, along, verbose);
+        anenPar::Parameters parameters;
+        anenSta::Stations stations;
+        anenTime::FLTs flts;
+
+        auto ret = AnEnIO::combineStandardDeviation(
+                in_files, sds, parameters, stations, flts, along, verbose);
         if (ret != AnEnIO::errorType::SUCCESS) {
             throw runtime_error("Error: Failed when combining standard deviation.");
         }
         
-        // Read parameters
-        AnEnIO ioPar("Read", in_files[0], file_type, verbose);
-        anenPar::Parameters parameters;
-        if (partial_read) ioPar.readParameters(parameters, starts[0], counts[0]);
-        else ioPar.readParameters(parameters);
-
-        // Write combined standard deviation
         if (verbose >= 3) cout << GREEN << "Writing standard deviation ..." << RESET << endl;
-        io_out.handleError(io_out.writeStandardDeviation(sds, parameters));
-        
-        // Write meta info from the first file in list
-        AnEnIO io_meta("Read", in_files[0], file_type, verbose);
-        if (io_meta.checkVariable("StationNames", true) != AnEnIO::errorType::SUCCESS) {
-            anenSta::Stations stations;
-            if (partial_read) io_meta.readStations(stations, starts[1], counts[1]);
-            else io_meta.readStations(stations);
-            io_out.handleError(io_out.writeStations(stations, false));
-        }
-        if (io_meta.checkVariable("FLTs", true) != AnEnIO::errorType::SUCCESS) {
-            anenTime::FLTs flts;
-            if (partial_read) io_meta.readFLTs(flts, starts[2], counts[2]);
-            else io_meta.readFLTs(flts);
-            io_out.handleError(io_out.writeFLTs(flts, false));
-        }
-        
+        io_out.writeStandardDeviation(sds, parameters, stations, flts);
         if (verbose >= 3) cout << GREEN << "Done!" << RESET << endl;
 
         return;
         
     } else if (file_type == "Similarity") {
         
-        // Check input indices starts and counts
-        if (starts.size() == 0 && counts.size() == 0) {
-            // This is implemented. No further action needed.
-        } else {
-            throw runtime_error("Error: Function not implemented for partial IO of similarity files.");
-        }
-        
-        // Read files
-        if (verbose >= 3) cout << GREEN << "Reading files ... " << RESET << endl;
-        vector<SimilarityMatrices> sims_vec(in_files.size());
-        vector<bool> flags_read(in_files.size(), false),
-                flags_has_target(in_files.size(), false);
-
-        for (size_t i = 0; i < in_files.size(); i++) {
-            try {
-                AnEnIO io("Read", in_files[i], file_type, verbose);
-                io.handleError(io.readSimilarityMatrices(sims_vec[i]));
-                
-                if (io.checkVariable("Data", true) == AnEnIO::errorType::SUCCESS) {
-                    flags_has_target[i] = true;
-                }
-
-                flags_read[i] = true;
-            } catch (...) {
-                flags_read[i] = false;
-            }
-        }
-
-        // Check if all elements in flags are true.
-        for (size_t i = 0; i < flags_read.size(); i++) {
-            if (!flags_read[i]) {
-                if (verbose >= 1) cout << BOLDRED << "Error: Error occurred when"
-                        << " reading file " << in_files[i] << RESET << endl;
-                return;
-            }
-        }
-
         // Reshape data
         if (verbose >= 3) cout << GREEN << "Combining similarity matrices ..." << RESET << endl;
+        
         SimilarityMatrices sims;
-
-        // Write combined targets if they are exist in individual file
-        bool all_true = all_of(
-                flags_has_target.begin(),
-                flags_has_target.end(), [](bool v) {
-                    return v; });
-
-        if (all_true && along < 3) {
-            vector<Forecasts_array> forecasts_vec(in_files.size());
-            for (size_t i = 0; i < in_files.size(); i++) {
-                AnEnIO io("Read", in_files[i], "Forecasts", verbose);
-                io.handleError(io.readForecasts(forecasts_vec[i]));
-            }
-
-            Forecasts_array forecasts;
-            // ASSUMPTION:
-            // SimilarityMatrices [stations][times][flts][entries][3]
-            // ForecastsArray [parameters][stations][times][flts]
-            //
-            AnEnIO::combineForecastsArray(forecasts_vec, forecasts, along + 1, verbose);
-            sims.setTargets(forecasts);
-        }
+        anenPar::Parameters parameters;
+        anenSta::Stations stations, search_stations;
+        anenTime::Times times, search_times;
+        anenTime::FLTs flts;
                     
-        auto ret = AnEnIO::combineSimilarityMatrices(sims_vec, sims, along, verbose);
+        auto ret = AnEnIO::combineSimilarityMatrices(
+                in_files, sims, stations, times, flts, along, verbose);
         if (ret != AnEnIO::errorType::SUCCESS) {
             throw runtime_error("Error: Failed when combining similarity matrices.");
         }
+        
+        AnEnIO io("Read", in_files[0], file_type, verbose);
+        io.readTimes(search_times, "SearchTimes");
+        io.readStations(search_stations, "search_", "Search");
 
         // Write combined similarity matrices
         if (verbose >= 3) cout << GREEN << "Writing similarity matrices ..." << RESET << endl;
-        io_out.handleError(io_out.writeSimilarityMatrices(sims));
-                    
-        // Write entry times if the first file has it
-        AnEnIO io("Read", in_files[0], file_type, verbose);
-        if (io.checkVariable("SearchTimes", true) == AnEnIO::errorType::SUCCESS) {
-            anenTime::Times times;
-            io.handleError(io.readTimes(times, "SearchTimes"));
-            io_out.handleError(io_out.writeTimes(times, false, "num_search_times", "SearchTimes"));
-        }
-
-        if (!sims.hasTargets() && along == 3) {
-            // Write meta info from the first file in list
-            AnEnIO io_meta("Read", in_files[0], file_type, verbose);
-            if (io_meta.checkVariable("StationNames", true) == AnEnIO::errorType::SUCCESS) {
-                anenSta::Stations stations;
-                io_meta.readStations(stations);
-                io_out.handleError(io_out.writeStations(stations, false));
-            }
-            if (io_meta.checkVariable("Times", true) == AnEnIO::errorType::SUCCESS) {
-                anenTime::Times times;
-                io_meta.readTimes(times);
-                io_out.handleError(io_out.writeTimes(times, false));
-            }
-            if (io_meta.checkVariable("FLTs", true) == AnEnIO::errorType::SUCCESS) {
-                anenTime::FLTs flts;
-                io_meta.readFLTs(flts);
-                io_out.handleError(io_out.writeFLTs(flts, false));
-            }
-
-        }
-        
+        io_out.handleError(io_out.writeSimilarityMatrices(
+                sims, parameters, stations, times, flts, search_stations, search_times));
         if (verbose >= 3) cout << GREEN << "Done!" << RESET << endl;
         
         return;
+        
     } else if (file_type == "Analogs") {
-        
-        // Check input indices starts and counts
-        if (starts.size() == 0 && counts.size() == 0) {
-            // This is implemented. No further action needed.
-        } else {
-            throw runtime_error("Error: Function not implemented for partial IO of analog files.");
-        }
-        
-        // Read files
-        if (verbose >= 3) cout << GREEN << "Reading files ... " << RESET << endl;
-        vector<Analogs> analogs_vec(in_files.size());
-        vector<bool> flags_read(in_files.size(), false);
 
-        for (size_t i = 0; i < in_files.size(); i++) {
-            AnEnIO io("Read", in_files[i], file_type, verbose);
-            io.handleError(io.readAnalogs(analogs_vec[i]));
-        }
-        
         // Reshape data
         if (verbose >= 3) cout << GREEN << "Combining analogs ..." << RESET << endl;
-        Analogs analogs;
-        auto ret = AnEnIO::combineAnalogs(analogs_vec, analogs, along, verbose);
 
+        Analogs analogs;
+        anenSta::Stations stations, member_stations;
+        anenTime::Times times, member_times;
+        anenTime::FLTs flts;
+
+        auto ret = AnEnIO::combineAnalogs(
+                in_files, analogs, stations, times, flts, along, verbose);
         if (ret != AnEnIO::errorType::SUCCESS) {
             throw runtime_error("Error: Failed when combining analogs.");
         }
 
+        AnEnIO io("Read", in_files[0], file_type, verbose);
+        io.readTimes(member_times, "MemberTimes");
+        io.readStations(member_stations, "member_", "Member");
+
+        // Write combined analogs
         if (verbose >= 3) cout << GREEN << "Writing analogs ..." << RESET << endl;
-        io_out.handleError(io_out.writeAnalogs(analogs));
-        
+        io_out.handleError(io_out.writeAnalogs(
+                analogs, stations, times, flts, member_stations, member_times));
+        if (verbose >= 3) cout << GREEN << "Done!" << RESET << endl;
+
         return;
         
     } else {
@@ -403,7 +160,6 @@ int main(int argc, char** argv) {
     // Optional variables
     int verbose = 0;
     string config_file;
-    vector<size_t> starts(0), counts(0);
 
     try {
         po::options_description desc("Available options");
@@ -416,8 +172,6 @@ int main(int argc, char** argv) {
                 ("out,o", po::value<string>(&out_file)->required(), "Set the name of the output file.")
                 ("along,a", po::value<size_t>(&along)->required(), "Set the dimension index to be appended. It counts from 0.")
 
-                ("start", po::value<vector<size_t> >(&starts)->multitoken(), "Set the start indices for each files.")
-                ("count", po::value<vector<size_t> >(&counts)->multitoken(), "Set the count numbers for each files.")
                 ("verbose,v", po::value<int>(&verbose)->default_value(2), "Set the verbose level.");
 
         // process unregistered keys and notify users about my guesses
@@ -482,9 +236,7 @@ int main(int argc, char** argv) {
                 << "in_files: " << in_files << endl
                 << "out_file: " << out_file << endl
                 << "along: " << along << endl
-                << "verbose: " << verbose << endl
-                << "starts: " << starts << endl
-                << "counts: " << counts << endl;
+                << "verbose: " << verbose << endl;
     }
     
     if (file_type == "Forecasts" && along >= 4) {
@@ -500,7 +252,7 @@ int main(int argc, char** argv) {
     }
 
     try {
-        runFileAggregate(file_type, in_files, along, out_file, starts, counts, verbose);
+        runFileAggregate(file_type, in_files, along, out_file, verbose);
     } catch (...) {
         handle_exception(current_exception());
         return 1;
@@ -508,5 +260,3 @@ int main(int argc, char** argv) {
 
     return 0;
 }
-
-

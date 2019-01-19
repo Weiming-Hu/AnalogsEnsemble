@@ -160,6 +160,7 @@ public:
     /**
      * Computes the similarity matrices.
      * 
+     * @param test_forecasts Forecasts to test.
      * @param search_forecasts Forecasts to search.
      * @param sds Pre-computed standard deviation of the forecasts to search. 
      * This can be computed from the function AnEn::computeStandardDeviation;
@@ -183,6 +184,7 @@ public:
      * @return An AnEn::errorType.
      */
     errorType computeSimilarity(
+            const Forecasts_array & test_forecasts,
             const Forecasts_array & search_forecasts,
             const StandardDeviation & sds,
             SimilarityMatrices & sims,
@@ -197,6 +199,7 @@ public:
      * Select analogs based on the similarity matrices.
      * @param analogs Analogs object to write the analogs
      * @param sims SimilarityMatrices on which the selection is based
+     * @param test_stations anenSta::Stations for the test.
      * @param search_observations Observations_array where the analog values
      * come from.
      * @param mapping A Boost Matrix for the mapping of times between
@@ -214,6 +217,7 @@ public:
     errorType selectAnalogs(
             Analogs & analogs,
             SimilarityMatrices & sims,
+            const anenSta::Stations & test_stations,
             const Observations_array& search_observations,
             const TimeMapMatrix & mapping,
             size_t i_parameter, size_t num_members,
@@ -292,15 +296,18 @@ private:
 
     /**
      * Check input.
+     * @param test_forecasts Test forecasts.
      * @param search_forecasts Search forecasts.
-     * @param sims Similarity matrices provides the test forecasts.
+     * @param sds StandardDeviation.
      * @param search_observations Search observations.
+     * @param mapping Time and FLT mapping matrix.
+     * @param i_observation_parameter The index of observation parameter used.
      * @return An AnEn::errorType.
      */
     errorType check_input_(
+            const Forecasts_array& test_forecasts,
             const Forecasts_array& search_forecasts,
             const StandardDeviation& sds,
-            SimilarityMatrices& sims,
             const Observations_array& search_observations,
             TimeMapMatrix mapping,
             size_t i_observation_parameter) const;

@@ -11,14 +11,14 @@ using namespace std;
 
 Analogs::Analogs() :
 boost::multi_array<double, 5>(
-boost::extents[0][0][0][0][3],
+boost::extents[0][0][0][0][_NUM_COLS],
 boost::fortran_storage_order()) {
 }
 
 Analogs::Analogs(size_t num_stations, size_t num_times,
         size_t num_flts, size_t num_members) :
 boost::multi_array<double, 5>(
-boost::extents[num_stations][num_times][num_flts][num_members][3],
+boost::extents[num_stations][num_times][num_flts][num_members][_NUM_COLS],
 boost::fortran_storage_order()) {
     Analogs::extent_gen extents;
     search_stations.resize(num_stations);
@@ -27,66 +27,13 @@ boost::fortran_storage_order()) {
 Analogs::Analogs(const Forecasts& forecasts, size_t num_members) :
 boost::multi_array<double, 5>(
 boost::extents[forecasts.getStationsSize()][forecasts.getTimesSize()]
-[forecasts.getFLTsSize()][num_members][3],
+[forecasts.getFLTsSize()][num_members][_NUM_COLS],
 boost::fortran_storage_order()) {
-    stations_ = forecasts.getStations();
-    times_ = forecasts.getTimes();
-    flts_ = forecasts.getFLTs();
 
     search_stations.resize(forecasts.getStationsSize());
 }
 
 Analogs::~Analogs() {
-}
-
-anenTime::FLTs
-Analogs::getFLTs() const {
-    return flts_;
-}
-
-anenSta::Stations
-Analogs::getStations() const {
-    return stations_;
-}
-
-anenSta::Stations
-Analogs::getMemberStations() const {
-    return member_stations_;
-}
-
-anenTime::Times
-Analogs::getTimes() const {
-    return times_;
-}
-
-anenTime::Times
-Analogs::getMemberTimes() const {
-    return member_times_;
-}
-
-void
-Analogs::setFLTs(const anenTime::FLTs & flts) {
-    flts_ = flts;
-}
-
-void
-Analogs::setStations(const anenSta::Stations & stations) {
-    stations_ = stations;
-}
-
-void
-Analogs::setMemberStations(const anenSta::Stations & stations) {
-    member_stations_ = stations;
-}
-
-void
-Analogs::setTimes(const anenTime::Times & times) {
-    times_ = times;
-}
-
-void
-Analogs::setMemberTimes(const anenTime::Times & times) {
-    member_times_ = times;
 }
 
 void

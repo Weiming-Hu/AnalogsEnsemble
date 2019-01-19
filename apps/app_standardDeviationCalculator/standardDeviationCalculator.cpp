@@ -85,7 +85,7 @@ void runStandardDeviationCalculator(
     Forecasts_array forecasts;
     if (verbose >= 3)
         cout << GREEN << "Combining forecasts along the time dimension..." << RESET << endl;
-    auto ret = AnEnIO::combineForecastsArray(forecasts_vec, forecasts, 2, verbose);
+    auto ret = AnEnIO::combineForecastsArray(in_files, forecasts, 2, verbose);
     if (ret != AnEnIO::errorType::SUCCESS) {
         throw runtime_error("Error: Failed when combining forecasts.");
     }
@@ -101,9 +101,10 @@ void runStandardDeviationCalculator(
     if (verbose >= 3) cout << GREEN
             << "Write the standard deviation ..." << RESET << endl;
 
-    io_out.handleError(io_out.writeStandardDeviation(sds, forecasts.getParameters()));
-    io_out.handleError(io_out.writeStations(forecasts.getStations(), false));
-    io_out.handleError(io_out.writeFLTs(forecasts.getFLTs(), false));
+    io_out.handleError(io_out.writeStandardDeviation(sds,
+            forecasts.getParameters(),
+            forecasts.getStations(),
+            forecasts.getFLTs()));
     
     if (verbose >= 3)
         cout << GREEN << "Done!" << RESET << endl;

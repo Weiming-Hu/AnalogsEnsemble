@@ -78,11 +78,14 @@ void runAnalogSelector(const string & file_sim, const string & file_obs,
     /**************************************************************************
      *                                Check Input                             *
      **************************************************************************/
-    if (mapping.size2() != sims.getTargets().getFLTsSize()) {
+    anenTime::FLTs flts;
+    io.readFLTs(flts);
+    
+    if (mapping.size2() != flts.size()) {
         stringstream ss;
         ss << BOLDRED << "Error: Number of columns in mapping (" << mapping.size2()
             << ") should match number of forecast forecast lead times ("
-            << sims.getTargets().getFLTsSize() << ")!" << RESET << endl;
+            << flts.size() << ")!" << RESET << endl;
         throw runtime_error(ss.str());
     }
     
@@ -90,16 +93,16 @@ void runAnalogSelector(const string & file_sim, const string & file_obs,
     /**************************************************************************
      *                             Select Analogs                             *
      **************************************************************************/
+    anenSta::Stations test_stations;
+    io.readStations(test_stations);
+
     Analogs analogs;
 
-    anen.handleError(anen.selectAnalogs(analogs, sims, search_observations,
+    anen.handleError(anen.selectAnalogs(analogs, sims,
+            test_stations, search_observations,
             mapping, observation_id, num_members, quick,
             extend_observations, preserve_real_time));
 
-    analogs.setStations(sims.getTargets().getStations());
-    analogs.setTimes(sims.getTargets().getTimes());
-    analogs.setFLTs(sims.getTargets().getFLTs());
-    
 #if defined(_CODE_PROFILING)
     clock_t time_end_of_select = clock();
 #endif
@@ -108,7 +111,15 @@ void runAnalogSelector(const string & file_sim, const string & file_obs,
     /**************************************************************************
      *                             Write Analogs                              *
      **************************************************************************/
-    io_out.handleError(io_out.writeAnalogs(analogs));
+    anenTime::Times test_times;
+    io.readTimes(test_times);
+    
+    io_out.handleError(io_out.writeAnalogs(
+            analogs, test_stations,
+            test_times, flts,
+            search_observations.getStations(),
+            search_observations.getTimes()));
+
     
     if (verbose >= 3) cout << GREEN << "Done!" << RESET << endl;
 

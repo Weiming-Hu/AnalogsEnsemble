@@ -7,13 +7,13 @@
 
 #include "AnEnIO.h"
 #include "boost/filesystem.hpp"
+#include "AnEn.h"
 
 #include <algorithm>
 #include <exception>
 
 #if defined(_OPENMP)
 #include <omp.h>
-#include <boost/multi_array/base.hpp>
 #endif
 
 size_t _max_chars = 50;
@@ -150,31 +150,37 @@ AnEnIO::checkFileType() const {
         if (file_type_ == "Observations") {
 
             dim_names = {"num_parameters", "num_stations", "num_times", "num_chars"};
-            var_names = {"Data", "Times", "StationNames", "ParameterNames"};
+            var_names = {"Data", "Times", "StationNames", "ParameterNames",
+            "ParameterCirculars", "Xs", "Ys"};
 
         } else if (file_type_ == "Forecasts") {
 
             dim_names = {"num_parameters", "num_stations",
                 "num_times", "num_flts", "num_chars"};
-            var_names = {"Data", "FLTs", "Times",
-                "StationNames", "ParameterNames"};
+            var_names = {"Data", "FLTs", "Times", "StationNames", "ParameterWeights",
+                "ParameterNames", "ParameterCirculars", "Xs", "Ys"};
 
         } else if (file_type_ == "Similarity") {
 
-            dim_names = {"num_test_stations", "num_test_times",
-                "num_flts", "num_entries", "num_cols"};
-            var_names = {"SimilarityMatrices"};
+            dim_names = {"num_stations", "num_times", "num_flts", "num_entries",
+                "num_cols", "num_parameters", "num_chars", "search_num_statios",
+                "search_num_times"};
+            var_names = {"SimilarityMatrices", "ParameterNames", "ParameterWeights",
+                "ParameterCirculars", "StationNames", "Xs", "Ys", "Times", "FLTs",
+                "SearchTimes", "SearchStationNames", "SearchXs", "SearchYs"};
 
         } else if (file_type_ == "Analogs") {
 
-            dim_names = {"num_test_stations", "num_test_times",
-                "num_flts", "num_members", "num_cols"};
-            var_names = {"Analogs"};
-            
+            dim_names = {"num_stations", "num_times", "num_flts", "num_members",
+                "num_cols", "num_chars", "member_num_stations", "member_num_times"};
+            var_names = {"Analogs", "StationNames", "Xs", "Ys", "Times", "FLTs",
+                "MemberTimes", "MemberStationNames", "MemberXs", "MemberYs"};
+
         } else if (file_type_ == "StandardDeviation") {
-            
+
             dim_names = {"num_parameters", "num_stations", "num_flts"};
-            var_names = {"StandardDeviation"};
+            var_names = {"StandardDeviation", "FLTs", "StationNames", "ParameterWeights",
+                "ParameterNames", "ParameterCirculars", "Xs", "Ys"};
 
         } else if (file_type_ == "Matrix") {
 
@@ -346,7 +352,7 @@ AnEnIO::checkDimensions() const {
 }
 
 errorType
-AnEnIO::readObservations(Observations_array & observations) {
+AnEnIO::readObservations(Observations_array & observations) const {
 
     if (verbose_ >= 3) {
         cout << "Reading observation file ..." << endl;
@@ -366,9 +372,6 @@ AnEnIO::readObservations(Observations_array & observations) {
         return (WRONG_FILE_TYPE);
     }
 
-    handleError(checkFilePath());
-    handleError(checkFileType());
-
     // Read meta information
     anenPar::Parameters parameters;
     anenSta::Stations stations;
@@ -387,45 +390,14 @@ AnEnIO::readObservations(Observations_array & observations) {
     // Read data
     if (verbose_ >= 3) cout << "Reading observation values from file ("
             << file_path_ << ") ..." << endl;
-
-    try {
-
-        string var_name = "Data";
-        double *p_vals = observations.data().data();
-        NcFile nc(file_path_, NcFile::FileMode::read);
-        NcVar var = nc.getVar(var_name);
-
-        if (var.isNull()) {
-            if (verbose_ >= 1) cout << BOLDRED << "Error: Could not"
-                    << " find variable " << var_name << "!" << RESET << endl;
-            return (WRONG_INDEX_SHAPE);
-        }
-
-        // Please realize that I'm directly reading to the forecasts data
-        // pointer which can be dangerous if handled uncautionsly. But I
-        // don't have to create a copy of the data by doing this so I
-        // think the benefit in memory and speed outweighs the downside.
-        //
-        var.getVar(p_vals);
-
-        nc.close();
-    } catch (...) {
-        throw;
-    }
-
-    // I didn't use the following function because it requires copy of 
-    // the data which might cause insufficient memory problem.
-    //
-    // handleError(read_vector_("Data", vals));
-    // observations.setValues(vals);
-    // 
+    handleError(readObservationsArrayData_(observations));
 
     return (SUCCESS);
 }
 
 errorType
 AnEnIO::readObservations(Observations_array & observations, vector<size_t> start,
-        vector<size_t> count, vector<ptrdiff_t> stride) {
+        vector<size_t> count, vector<ptrdiff_t> stride) const {
 
     if (verbose_ >= 3) {
         cout << "Reading observation file according to start and count ..." << endl;
@@ -444,9 +416,6 @@ AnEnIO::readObservations(Observations_array & observations, vector<size_t> start
         }
         return (WRONG_FILE_TYPE);
     }
-
-    handleError(checkFilePath());
-    handleError(checkFileType());
 
     // Check indices
     if (start.size() != 3) {
@@ -479,24 +448,21 @@ AnEnIO::readObservations(Observations_array & observations, vector<size_t> start
     handleError(readStations(stations, start[1], count[1], stride[1]));
     handleError(readTimes(times, start[2], count[2], stride[2]));
 
-    // Read data
-    if (verbose_ >= 3)
-        cout << "Reading observation values from file ("
-            << file_path_ << ") ..." << endl;
-    vector<double> vals;
-    handleError(read_vector_("Data", vals, start, count, stride));
-
     observations.setParameters(parameters);
     observations.setStations(stations);
     observations.setTimes(times);
     observations.updateDataDims();
-    observations.setValues(vals);
+
+    // Read data
+    if (verbose_ >= 3) cout << "Reading observation values from file ("
+            << file_path_ << ") ..." << endl;
+    handleError(readObservationsArrayData_(observations, start, count, stride));
 
     return (SUCCESS);
 }
 
 errorType
-AnEnIO::readForecasts(Forecasts_array & forecasts) {
+AnEnIO::readForecasts(Forecasts_array & forecasts) const {
 
     if (verbose_ >= 3) {
         cout << "Reading forecast file ..." << endl;
@@ -515,9 +481,6 @@ AnEnIO::readForecasts(Forecasts_array & forecasts) {
         }
         return (WRONG_FILE_TYPE);
     }
-
-    handleError(checkFilePath());
-    handleError(checkFileType());
 
     anenPar::Parameters parameters;
     anenSta::Stations stations;
@@ -540,38 +503,10 @@ AnEnIO::readForecasts(Forecasts_array & forecasts) {
     // Read data
     if (verbose_ >= 3) cout << "Reading forecast values from file ("
             << file_path_ << ") ..." << endl;
+    vector<double> vals;
+    handleError(read_vector_("Data", vals));
+    forecasts.setValues(vals);
 
-    try {
-
-        string var_name = "Data";
-        double *p_vals = forecasts.data().data();
-        NcFile nc(file_path_, NcFile::FileMode::read);
-        NcVar var = nc.getVar(var_name);
-
-        if (var.isNull()) {
-            if (verbose_ >= 1) cout << BOLDRED << "Error: Could not"
-                    << " find variable " << var_name << "!" << RESET << endl;
-            return (WRONG_INDEX_SHAPE);
-        }
-
-        // Please realize that I'm directly reading to the forecasts data
-        // pointer which can be dangerous if handled uncautionsly. But I
-        // don't have to create a copy of the data by doing this so I
-        // think the benefit in memory and speed outweighs the downside.
-        //
-        var.getVar(p_vals);
-
-        nc.close();
-    } catch (...) {
-        throw;
-    }
-
-    // I didn't use the following function because it requires copy of 
-    // the data which might cause insufficient memory problem.
-    //
-    // handleError(read_vector_("Data", vals));
-    // forecasts.setValues(vals);
-    //
 
     return (SUCCESS);
 }
@@ -579,7 +514,7 @@ AnEnIO::readForecasts(Forecasts_array & forecasts) {
 errorType
 AnEnIO::readForecasts(Forecasts_array & forecasts,
         vector<size_t> start, vector<size_t> count,
-        vector<ptrdiff_t> stride) {
+        vector<ptrdiff_t> stride) const {
 
     if (verbose_ >= 3) {
         cout << "Reading forecast file according to start and count ..." << endl;
@@ -598,9 +533,6 @@ AnEnIO::readForecasts(Forecasts_array & forecasts,
         }
         return (WRONG_FILE_TYPE);
     }
-
-    handleError(checkFilePath());
-    handleError(checkFileType());
 
     // Check indices
     if (start.size() != 4) {
@@ -635,24 +567,25 @@ AnEnIO::readForecasts(Forecasts_array & forecasts,
     handleError(readTimes(times, start[2], count[2], stride[2]));
     handleError(readFLTs(flts, start[3], count[3], stride[3]));
 
-    // Read data
-    if (verbose_ >= 3) cout << "Reading forecast values from file ("
-            << file_path_ << ") ..." << endl;
-    vector<double> vals;
-    handleError(read_vector_("Data", vals, start, count, stride));
-
+    // Prepare the meta information in forecasts first
     forecasts.setParameters(parameters);
     forecasts.setStations(stations);
     forecasts.setTimes(times);
     forecasts.setFlts(flts);
     forecasts.updateDataDims();
+
+    // Read data
+    if (verbose_ >= 3) cout << "Reading partial forecast values from file ("
+            << file_path_ << ") ..." << endl;
+    vector<double> vals;
+    handleError(read_vector_("Data", vals, start, count, stride));
     forecasts.setValues(vals);
 
     return (SUCCESS);
 }
 
 errorType
-AnEnIO::readFLTs(anenTime::FLTs& flts) {
+AnEnIO::readFLTs(anenTime::FLTs& flts) const {
 
     if (verbose_ >= 3) {
         cout << "Reading FLTs from file (" << file_path_ << ") ..." << endl;
@@ -671,7 +604,6 @@ AnEnIO::readFLTs(anenTime::FLTs& flts) {
     }
 
     string var_name = "FLTs";
-    handleError(checkVariable(var_name, false));
 
     vector<double> vec;
     handleError(read_vector_(var_name, vec));
@@ -692,7 +624,7 @@ AnEnIO::readFLTs(anenTime::FLTs& flts) {
 
 errorType
 AnEnIO::readFLTs(anenTime::FLTs& flts,
-        size_t start, size_t count, ptrdiff_t stride) {
+        size_t start, size_t count, ptrdiff_t stride) const {
 
     if (verbose_ >= 3) {
         cout << "Reading FLTs from file ("
@@ -706,7 +638,6 @@ AnEnIO::readFLTs(anenTime::FLTs& flts,
     }
 
     string var_name = "FLTs";
-    handleError(checkVariable(var_name, false));
 
     size_t dim_len;
     handleError(readDimLength("num_flts", dim_len));
@@ -738,7 +669,7 @@ AnEnIO::readFLTs(anenTime::FLTs& flts,
 }
 
 errorType
-AnEnIO::readParameters(anenPar::Parameters & parameters) {
+AnEnIO::readParameters(anenPar::Parameters & parameters) const {
 
     if (verbose_ >= 3) {
         cout << "Reading Parameters from file ("
@@ -756,32 +687,24 @@ AnEnIO::readParameters(anenPar::Parameters & parameters) {
 
     // Read variable ParameterNames
     vector<string> names;
-    bool with_names = false;
-    if (SUCCESS == checkVariable("ParameterNames", true)) {
-        read_string_vector_("ParameterNames", names);
-        with_names = true;
+    read_string_vector_("ParameterNames", names);
 
-        if (names.size() != dim_len) {
-            if (verbose_ >= 2) {
-                cout << RED << "Warning: There should be " << dim_len
-                        << " parameter names! Variable not used!"
-                        << RESET << endl;
-            }
-            with_names = false;
+    if (names.size() != dim_len) {
+        if (verbose_ >= 1) {
+            cout << BOLDRED << "Error: There should be " << dim_len
+                    << " parameter names!" << RESET << endl;
         }
+
+        return (WRONG_VARIABLE_SHAPE);
     }
 
     // Read variable ParameterCirculars
     vector<string> circulars;
-    if (SUCCESS == checkVariable("ParameterCirculars", true)) {
-        handleError(read_string_vector_("ParameterCirculars", circulars));
-    }
+    handleError(read_string_vector_("ParameterCirculars", circulars));
 
     // Read variable ParameterWeights
     vector<double> weights;
-    if (SUCCESS == checkVariable("ParameterWeights", true)) {
-        handleError(read_vector_("ParameterWeights", weights));
-    }
+    handleError(read_vector_("ParameterWeights", weights));
 
     // Construct anenPar::Parameter objects and
     // insert them into anenPar::Parameters
@@ -790,15 +713,12 @@ AnEnIO::readParameters(anenPar::Parameters & parameters) {
 
         anenPar::Parameter parameter;
 
-        if (with_names) {
+        string name = names.at(i);
+        parameter.setName(name);
 
-            string name = names.at(i);
-            parameter.setName(name);
-
-            // Set circular if name is present
-            auto it_circular = find(circulars.begin(), circulars.end(), name);
-            if (it_circular != circulars.end()) parameter.setCircular(true);
-        }
+        // Set circular if name is present
+        auto it_circular = find(circulars.begin(), circulars.end(), name);
+        if (it_circular != circulars.end()) parameter.setCircular(true);
 
         if (!(weights.empty()))
             parameter.setWeight(weights.at(i));
@@ -818,7 +738,7 @@ AnEnIO::readParameters(anenPar::Parameters & parameters) {
 
 errorType
 AnEnIO::readParameters(anenPar::Parameters& parameters,
-        size_t start, size_t count, ptrdiff_t stride) {
+        size_t start, size_t count, ptrdiff_t stride) const {
 
     if (verbose_ >= 3) {
         cout << "Reading Parameters from file ("
@@ -844,26 +764,16 @@ AnEnIO::readParameters(anenPar::Parameters& parameters,
 
     // Read variable ParameterNames
     vector<string> names;
-    bool with_names = false;
-    if (SUCCESS == checkVariable("ParameterNames", true)) {
-        read_string_vector_("ParameterNames",
-                names, start, count, stride);
-        with_names = true;
-    }
+    read_string_vector_("ParameterNames", names, start, count, stride);
 
     // Read variable ParameterCirculars
     vector<string> circulars;
-    if (SUCCESS == checkVariable("ParameterCirculars", true)) {
-        handleError(read_string_vector_("ParameterCirculars",
-                circulars, start, count, stride));
-    }
+    handleError(read_string_vector_("ParameterCirculars",
+            circulars, start, count, stride));
 
     // Read variable ParameterWeights
     vector<double> weights;
-    if (SUCCESS == checkVariable("ParameterWeights", true)) {
-        handleError(read_vector_("ParameterWeights",
-                weights, start, count, stride));
-    }
+    handleError(read_vector_("ParameterWeights", weights, start, count, stride));
 
     // Construct anenPar::Parameter objects and
     // insert them into anenPar::Parameters
@@ -872,15 +782,12 @@ AnEnIO::readParameters(anenPar::Parameters& parameters,
 
         anenPar::Parameter parameter;
 
-        if (with_names) {
+        string name = names.at(i);
+        parameter.setName(name);
 
-            string name = names.at(i);
-            parameter.setName(name);
-
-            // Set circular if name is present
-            auto it_circular = find(circulars.begin(), circulars.end(), name);
-            if (it_circular != circulars.end()) parameter.setCircular(true);
-        }
+        // Set circular if name is present
+        auto it_circular = find(circulars.begin(), circulars.end(), name);
+        if (it_circular != circulars.end()) parameter.setCircular(true);
 
         if (!(weights.empty()))
             parameter.setWeight(weights.at(i));
@@ -900,8 +807,8 @@ AnEnIO::readParameters(anenPar::Parameters& parameters,
 
 errorType
 AnEnIO::readStations(anenSta::Stations& stations,
-        const std::string & dim_name_prefix,
-        const std::string & var_name_prefix) {
+        const string & dim_name_prefix,
+        const string & var_name_prefix) const {
 
     if (verbose_ >= 3) {
         cout << "Reading Stations from file (" << file_path_ << ") ..." << endl;
@@ -918,60 +825,44 @@ AnEnIO::readStations(anenSta::Stations& stations,
 
     // Read variable StationNames
     vector<string> names;
-    bool with_names = false;
-    if (SUCCESS == checkVariable(var_name_prefix + "StationNames", false)) {
-        read_string_vector_(var_name_prefix + "StationNames", names);
-        with_names = true;
+    read_string_vector_(var_name_prefix + "StationNames", names);
 
-        if (names.size() != dim_len) {
-            if (verbose_ >= 2) {
-                cout << RED << "Warning: There should be " << dim_len << " "
-                        << " station names! Variable not used!"
-                        << RESET << endl;
-            }
-            with_names = false;
+    if (names.size() != dim_len) {
+        if (verbose_ >= 1) {
+            cout << BOLDRED << "Error: There should be " << dim_len << " "
+                    << " station names!" << RESET << endl;
         }
+        return (WRONG_VARIABLE_SHAPE);
     }
 
     // Read variables xs and ys (coordinates)
     vector<double> xs, ys;
-    bool with_coordinates = false;
-    if (SUCCESS == checkVariable(var_name_prefix + "Xs", true) &&
-            SUCCESS == checkVariable(var_name_prefix + "Ys", true)) {
-        handleError(read_vector_(var_name_prefix + "Xs", xs));
-        handleError(read_vector_(var_name_prefix + "Ys", ys));
-        with_coordinates = true;
+    handleError(read_vector_(var_name_prefix + "Xs", xs));
+    handleError(read_vector_(var_name_prefix + "Ys", ys));
 
-        if (xs.size() != dim_len) {
-            if (verbose_ >= 2) {
-                cout << RED << "Warning: There should be " << dim_len
-                        << " Xs! Coordinate variables not used!"
-                        << RESET << endl;
-            }
-            with_coordinates = false;
+    if (xs.size() != dim_len) {
+        if (verbose_ >= 1) {
+            cout << BOLDRED << "Error: There should be " << dim_len
+                    << " Xs!" << RESET << endl;
         }
-        if (ys.size() != dim_len) {
-            if (verbose_ >= 2) {
-                cout << RED << "Warning: There should be " << dim_len
-                        << " Ys! Coordinate variables not used!"
-                        << RESET << endl;
-            }
-            with_coordinates = false;
+        return (WRONG_VARIABLE_SHAPE);
+    }
+    if (ys.size() != dim_len) {
+        if (verbose_ >= 1) {
+            cout << BOLDRED << "Error: There should be " << dim_len
+                    << " Ys!" << RESET << endl;
         }
+        return (WRONG_VARIABLE_SHAPE);
     }
 
     // Construct Station object and insert them into anenSta::Stations
     for (size_t i = 0; i < dim_len; i++) {
         anenSta::Station station;
 
-        if (with_names) {
-            station.setName(names.at(i));
-        }
+        station.setName(names.at(i));
 
-        if (with_coordinates) {
-            station.setX(xs.at(i));
-            station.setY(ys.at(i));
-        }
+        station.setX(xs.at(i));
+        station.setY(ys.at(i));
 
         if (!stations.push_back(station).second) {
             if (verbose_ >= 1) {
@@ -988,8 +879,8 @@ AnEnIO::readStations(anenSta::Stations& stations,
 errorType
 AnEnIO::readStations(anenSta::Stations& stations,
         size_t start, size_t count, ptrdiff_t stride,
-        const std::string & dim_name_prefix,
-        const std::string & var_name_prefix) {
+        const string & dim_name_prefix,
+        const string & var_name_prefix) const {
 
     if (verbose_ >= 3) {
         cout << "Reading " << var_name_prefix << "Stations from file ("
@@ -1015,35 +906,21 @@ AnEnIO::readStations(anenSta::Stations& stations,
 
     // Read variable StationNames
     vector<string> names;
-    bool with_names = false;
-    if (SUCCESS == checkVariable(var_name_prefix + "StationNames", false)) {
-        read_string_vector_(var_name_prefix + "StationNames",
-                names, start, count, stride);
-        with_names = true;
-    }
+    read_string_vector_(var_name_prefix + "StationNames",
+            names, start, count, stride);
 
     // Read variables xs and ys (coordinates)
     vector<double> xs, ys;
-    bool with_coordinates = false;
-    if (SUCCESS == checkVariable(var_name_prefix + "Xs", true) &&
-            SUCCESS == checkVariable(var_name_prefix + "Ys", true)) {
-        handleError(read_vector_(var_name_prefix + "Xs", xs, start, count, stride));
-        handleError(read_vector_(var_name_prefix + "Ys", ys, start, count, stride));
-        with_coordinates = true;
-    }
+    handleError(read_vector_(var_name_prefix + "Xs", xs, start, count, stride));
+    handleError(read_vector_(var_name_prefix + "Ys", ys, start, count, stride));
 
     // Construct Station object and insert them into anenSta::Stations
     for (size_t i = 0; i < count; i++) {
         anenSta::Station station;
 
-        if (with_names) {
-            station.setName(names.at(i));
-        }
-
-        if (with_coordinates) {
-            station.setX(xs.at(i));
-            station.setY(ys.at(i));
-        }
+        station.setName(names.at(i));
+        station.setX(xs.at(i));
+        station.setY(ys.at(i));
 
         if (!stations.push_back(station).second) {
             if (verbose_ >= 1) {
@@ -1058,7 +935,7 @@ AnEnIO::readStations(anenSta::Stations& stations,
 }
 
 errorType
-AnEnIO::readTimes(anenTime::Times& times, const string & var_name) {
+AnEnIO::readTimes(anenTime::Times& times, const string & var_name) const {
 
     if (verbose_ >= 3) {
         cout << "Reading " << var_name << " from file (" << file_path_
@@ -1070,8 +947,6 @@ AnEnIO::readTimes(anenTime::Times& times, const string & var_name) {
                 << RESET << endl;
         return (WRONG_MODE);
     }
-
-    handleError(checkVariable(var_name, false));
 
     vector<double> vec;
     handleError(read_vector_(var_name, vec));
@@ -1093,7 +968,7 @@ AnEnIO::readTimes(anenTime::Times& times, const string & var_name) {
 errorType
 AnEnIO::readTimes(anenTime::Times& times,
         size_t start, size_t count, ptrdiff_t stride,
-        const string & var_name) {
+        const string & var_name) const {
 
     if (verbose_ >= 3) {
         cout << "Reading Times from file ("
@@ -1105,8 +980,6 @@ AnEnIO::readTimes(anenTime::Times& times,
                 << RESET << endl;
         return (WRONG_MODE);
     }
-
-    handleError(checkVariable(var_name, false));
 
     size_t dim_len;
     handleError(readDimLength("num_times", dim_len));
@@ -1137,7 +1010,7 @@ AnEnIO::readTimes(anenTime::Times& times,
 }
 
 errorType
-AnEnIO::readDimLength(string dim_name, size_t & len) {
+AnEnIO::readDimLength(string dim_name, size_t & len) const {
 
     if (verbose_ >= 3) {
         cout << "Reading dimension (" << dim_name << ") length ..." << endl;
@@ -1148,8 +1021,6 @@ AnEnIO::readDimLength(string dim_name, size_t & len) {
                 << RESET << endl;
         return (WRONG_MODE);
     }
-
-    handleError(checkDim(dim_name));
 
     NcFile nc(file_path_, NcFile::FileMode::read);
     NcDim dim = nc.getDim(dim_name);
@@ -1221,8 +1092,6 @@ AnEnIO::writeObservations(const Observations & observations) const {
                 << RESET << endl;
         return (WRONG_MODE);
     }
-
-    handleError(checkFilePath());
 
     // Create an empty NetCDF file
     if (checkFilePath() != FILE_EXISTS) {
@@ -1517,8 +1386,7 @@ AnEnIO::writeStations(
 
     // Check if file already has variable
     NcVar var;
-    vector<string> var_names_to_check = 
-        {var_name_prefix + "StationNames", var_name_prefix + "Xs", var_name_prefix + "Ys"};
+    vector<string> var_names_to_check ={var_name_prefix + "StationNames", var_name_prefix + "Xs", var_name_prefix + "Ys"};
     for (auto name : var_names_to_check) {
         var = nc.getVar(name);
         if (!var.isNull()) {
@@ -1613,7 +1481,7 @@ AnEnIO::writeTimes(const anenTime::Times& times, bool unlimited,
     NcVar var = nc.getVar(var_name);
     if (!var.isNull()) {
         if (verbose_ >= 1) cout << BOLDRED << "Error: Variable (" << var_name
-                <<") exists in file (" << file_path_ << ")." << RESET << endl;
+                << ") exists in file (" << file_path_ << ")." << RESET << endl;
         nc.close();
         return (VARIABLE_EXISTS);
     }
@@ -1667,33 +1535,17 @@ AnEnIO::readSimilarityMatrices(SimilarityMatrices & sims) {
         return (WRONG_FILE_TYPE);
     }
 
-    handleError(checkFilePath());
-    handleError(checkFileType());
-
     // Resize similarity matrices to clear any leftover values
     SimilarityMatrices::extent_gen extens;
     sims.resize(0, 0, 0);
 
-    // Read forecasts
-    if (checkVariable("Data", true) == SUCCESS) {
-        setFileType("Forecasts");
-        Forecasts_array forecasts;
-        handleError(readForecasts(forecasts));
-        setFileType("Similarity");
-
-        // Set forecast target for similarity matrices
-        NcFile nc(file_path_, NcFile::FileMode::read);
-        sims.setMaxEntries(nc.getDim("num_entries").getSize());
-        sims.setTargets(forecasts);
-        nc.close();
-    } else {
-        NcFile nc(file_path_, NcFile::FileMode::read);
-        sims.setMaxEntries(nc.getDim("num_entries").getSize());
-        sims.resize(nc.getDim("num_test_stations").getSize(),
-                nc.getDim("num_test_times").getSize(),
-                nc.getDim("num_flts").getSize());
-        nc.close();
-    }
+    // Resize similarity matrices to the correct dimensions
+    NcFile nc(file_path_, NcFile::FileMode::read);
+    sims.setMaxEntries(nc.getDim("num_entries").getSize());
+    sims.resize(nc.getDim("num_stations").getSize(),
+            nc.getDim("num_times").getSize(),
+            nc.getDim("num_flts").getSize());
+    nc.close();
 
     vector<double> values;
     handleError(read_vector_("SimilarityMatrices", values));
@@ -1703,7 +1555,14 @@ AnEnIO::readSimilarityMatrices(SimilarityMatrices & sims) {
 }
 
 errorType
-AnEnIO::writeSimilarityMatrices(const SimilarityMatrices & sims) {
+AnEnIO::writeSimilarityMatrices(
+        const SimilarityMatrices & sims,
+        const anenPar::Parameters & parameters,
+        const anenSta::Stations & test_stations,
+        const anenTime::Times & test_times,
+        const anenTime::FLTs & flts,
+        const anenSta::Stations & search_stations,
+        const anenTime::Times & search_times) const {
 
     if (verbose_ >= 3) cout << "Writing similarity matrices ..." << endl;
 
@@ -1721,36 +1580,14 @@ AnEnIO::writeSimilarityMatrices(const SimilarityMatrices & sims) {
         return (FILE_EXISTS);
     }
 
-    size_t num_test_stations = sims.shape()[0],
-            num_test_times = sims.shape()[1],
-            num_flts = sims.shape()[2],
-            num_entries = sims.shape()[3],
-            num_cols = sims.shape()[4];
-
-    NcFile nc(file_path_, NcFile::FileMode::write);
-
-    // Create dimensions
-    NcDim dim_stations = nc.addDim("num_test_stations", num_test_stations);
-    NcDim dim_times = nc.addDim("num_test_times", num_test_times);
-    NcDim dim_flts = nc.addDim("num_flts", num_flts);
-    NcDim dim_entries = nc.addDim("num_entries", num_entries);
-    NcDim dim_cols = nc.addDim("num_cols", num_cols);
-
-    // Create similarity matrices variable
-    NcVar var_sims = nc.addVar("SimilarityMatrices", NC_DOUBLE,{
-        dim_stations, dim_times, dim_flts, dim_entries, dim_cols
-    });
-
-    var_sims.putVar(sims.data());
-    nc.close();
-
-    // Add Forecasts
-    if (sims.getTargets().getDataLength() != 0) {
-        bool ori = isAdd();
-        setAdd(true);
-        handleError(writeForecasts(sims.getTargets()));
-        setAdd(ori);
-    }
+    handleError(writeSimilarityMatricesOnly_(sims));
+    handleError(writeParameters(parameters, false));
+    handleError(writeStations(test_stations, false));
+    handleError(writeTimes(test_times, false));
+    handleError(writeFLTs(flts, false));
+    handleError(writeStations(search_stations, false, "search_", "Search"));
+    handleError(writeTimes(search_times,
+            false, "search_num_times", "SearchTimes"));
 
     return (SUCCESS);
 }
@@ -1772,43 +1609,10 @@ AnEnIO::readAnalogs(Analogs & analogs) {
         return (WRONG_FILE_TYPE);
     }
 
-    handleError(checkFilePath());
-    handleError(checkFileType());
-
-    if (checkVariable("Times", true) == SUCCESS) {
-        anenTime::Times times;
-        readTimes(times);
-        analogs.setTimes(times);
-    }
-
-    if (checkVariable("StationNames", true) == SUCCESS) {
-        anenSta::Stations stations;
-        readStations(stations);
-        analogs.setStations(stations);
-    }
-
-    if (checkVariable("FLTs", true) == SUCCESS) {
-        anenTime::FLTs flts;
-        readFLTs(flts);
-        analogs.setFLTs(flts);
-    }
-
-    if (checkVariable("MemberStationNames", true) == SUCCESS) {
-        anenSta::Stations stations;
-        readStations(stations, "member_", "Member");
-        analogs.setMemberStations(stations);
-    }
-
-    if (checkVariable("MemberTimes", true) == SUCCESS) {
-        anenTime::Times times;
-        readTimes(times, "MemberTimes");
-        analogs.setMemberTimes(times);
-    }
-    
     NcFile nc(file_path_, NcFile::FileMode::read);
     analogs.resize(boost::extents
-            [nc.getDim("num_test_stations").getSize()]
-            [nc.getDim("num_test_times").getSize()]
+            [nc.getDim("num_stations").getSize()]
+            [nc.getDim("num_times").getSize()]
             [nc.getDim("num_flts").getSize()]
             [nc.getDim("num_members").getSize()]
             [nc.getDim("num_cols").getSize()]);
@@ -1822,7 +1626,14 @@ AnEnIO::readAnalogs(Analogs & analogs) {
 }
 
 errorType
-AnEnIO::writeAnalogs(const Analogs & analogs) const {
+AnEnIO::writeAnalogs(
+        const Analogs & analogs,
+        const anenSta::Stations & test_stations,
+        const anenTime::Times & test_times,
+        const anenTime::FLTs & flts,
+        const anenSta::Stations & search_stations,
+        const anenTime::Times & search_times) const {
+
     if (verbose_ >= 3) cout << "Writing analogs ..." << endl;
 
     if (mode_ != "Write") {
@@ -1839,42 +1650,15 @@ AnEnIO::writeAnalogs(const Analogs & analogs) const {
         return (FILE_EXISTS);
     }
 
-    size_t num_test_stations = analogs.shape()[0],
-            num_test_times = analogs.shape()[1],
-            num_flts = analogs.shape()[2],
-            num_members = analogs.shape()[3],
-            num_cols = analogs.shape()[4];
+    handleError(writeAnalogsOnly_(analogs));
+    handleError(writeStations(test_stations, false));
+    handleError(writeTimes(test_times, false));
+    handleError(writeFLTs(flts, false));
+    handleError(writeStations(search_stations, false, "member_", "Member"));
+    handleError(writeTimes(search_times, false, "member_num_times", "MemberTimes"));
 
-    NcFile nc(file_path_, NcFile::FileMode::write);
-
-    NcDim dim_stations = nc.addDim("num_test_stations", num_test_stations);
-    NcDim dim_times = nc.addDim("num_test_times", num_test_times);
-    NcDim dim_flts = nc.addDim("num_flts", num_flts);
-    NcDim dim_members = nc.addDim("num_members", num_members);
-    NcDim dim_cols = nc.addDim("num_cols", num_cols);
-
-    // Create Analogs variable
-    NcVar var_sims = nc.addVar("Analogs", NC_DOUBLE,{
-        dim_cols, dim_members, dim_flts, dim_times, dim_stations
-    });
-            
-    var_sims.putVar(analogs.data());
-    nc.close();
-
-    if (analogs.getFLTs().size() != 0)
-        handleError(writeFLTs(analogs.getFLTs(), false));
-    if (analogs.getStations().size() != 0)
-        handleError(writeStations(analogs.getStations(), false));
-    if (analogs.getTimes().size() != 0)
-        handleError(writeTimes(analogs.getTimes(), false));
-    if (analogs.getMemberStations().size() != 0)
-        handleError(writeStations(analogs.getMemberStations(), false, "member_", "Member"));
-    if (analogs.getMemberTimes().size() != 0)
-        handleError(writeTimes(analogs.getMemberTimes(), false, "member_num_times", "MemberTimes"));
-    
     return (SUCCESS);
 }
-
 
 errorType
 AnEnIO::readStandardDeviation(StandardDeviation & sds) {
@@ -1893,16 +1677,13 @@ AnEnIO::readStandardDeviation(StandardDeviation & sds) {
         return (WRONG_FILE_TYPE);
     }
 
-    handleError(checkFilePath());
-    handleError(checkFileType());
-
     NcFile nc(file_path_, NcFile::FileMode::read);
     sds.resize(boost::extents
             [nc.getDim("num_parameters").getSize()]
             [nc.getDim("num_stations").getSize()]
             [nc.getDim("num_flts").getSize()]);
     nc.close();
-    
+
     vector<double> values;
     handleError(read_vector_("StandardDeviation", values));
     sds.assign(values.begin(), values.end());
@@ -1928,9 +1709,6 @@ AnEnIO::readStandardDeviation(StandardDeviation & sds,
         return (WRONG_FILE_TYPE);
     }
 
-    handleError(checkFilePath());
-    handleError(checkFileType());
-    
     // Check indices
     if (start.size() != 3) {
         if (verbose_ >= 1) cout << BOLDRED
@@ -1952,7 +1730,7 @@ AnEnIO::readStandardDeviation(StandardDeviation & sds,
                 << RESET << endl;
         return (WRONG_INDEX_SHAPE);
     }
-    
+
     sds.resize(boost::extents[count[0]][count[1]][count[2]]);
 
     // Read data
@@ -1969,16 +1747,18 @@ AnEnIO::readStandardDeviation(StandardDeviation & sds,
 errorType
 AnEnIO::writeStandardDeviation(
         const StandardDeviation & sds,
-        const anenPar::Parameters & parameters
-        ) const {
+        const anenPar::Parameters & parameters,
+        const anenSta::Stations & stations,
+        const anenTime::FLTs & flts) const {
+
     if (verbose_ >= 3) cout << "Writing standard deviation ..." << endl;
-    
+
     if (mode_ != "Write") {
         if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Write'."
                 << RESET << endl;
         return (WRONG_MODE);
     }
-    
+
     if (checkFilePath() != FILE_EXISTS) {
         NcFile nc_empty(file_path_, NcFile::FileMode::newFile,
                 NcFile::FileFormat::nc4);
@@ -1987,24 +1767,11 @@ AnEnIO::writeStandardDeviation(
         return (FILE_EXISTS);
     }
 
-    size_t num_parameters = sds.shape()[0],
-            num_stations = sds.shape()[1],
-            num_flts = sds.shape()[2];
-            
-    NcFile nc(file_path_, NcFile::FileMode::write);
-    NcDim dim_parameters = nc.addDim("num_parameters", num_parameters),
-            dim_stations = nc.addDim("num_stations", num_stations),
-            dim_flts = nc.addDim("num_flts", num_flts);
-    NcVar var_sds = nc.addVar("StandardDeviation", NC_DOUBLE, {
-        dim_flts, dim_stations, dim_parameters
-    });
-    
-    var_sds.putVar(sds.data());
-    nc.close();
-    
-    if (parameters.size() != 0)
-        handleError(writeParameters(parameters, false));
-    
+    handleError(writeStandardDeviationOnly_(sds));
+    handleError(writeParameters(parameters, false));
+    handleError(writeStations(stations, false));
+    handleError(writeFLTs(flts, false));
+
     return (SUCCESS);
 }
 
@@ -2242,643 +2009,534 @@ AnEnIO::dumpVariable(string var_name, size_t start, size_t count) const {
 }
 
 errorType
-AnEnIO::combineForecastsArray(const std::vector<Forecasts_array> & forecasts_vec,
+AnEnIO::combineParameters(
+        const vector<string> & in_files,
+        const string & file_type,
+        anenPar::Parameters & parameters, int verbose) {
+
+    if (verbose >= 3) cout << "Combining parameters ..." << endl;
+
+    parameters.clear();
+    for_each(in_files.begin(), in_files.end(),
+            [&parameters, &file_type]
+            (const string & file) {
+                AnEnIO io("Read", file, file_type, 2);
+                anenPar::Parameters parameters_single;
+                io.handleError(io.readParameters(parameters_single));
+                parameters.insert(parameters.end(),
+                        parameters_single.begin(), parameters_single.end());
+            }
+    );
+
+    return (SUCCESS);
+}
+
+errorType
+AnEnIO::combineStations(
+        const vector<string> & in_files,
+        const string & file_type,
+        anenSta::Stations & stations, int verbose) {
+
+    if (verbose >= 3) cout << "Combining stations ..." << endl;
+
+    stations.clear();
+    for_each(in_files.begin(), in_files.end(),
+            [&stations, &file_type]
+            (const string & file) {
+                AnEnIO io("Read", file, file_type, 2);
+                anenSta::Stations stations_single;
+                io.handleError(io.readStations(stations_single));
+                stations.insert(stations.end(),
+                        stations_single.begin(), stations_single.end());
+            }
+    );
+
+    return (SUCCESS);
+}
+
+errorType
+AnEnIO::combineTimes(
+        const vector<string> & in_files,
+        const string & file_type,
+        anenTime::Times & times, int verbose) {
+
+    if (verbose >= 3) cout << "Combining times ..." << endl;
+
+    times.clear();
+    for_each(in_files.begin(), in_files.end(),
+            [&times, &file_type]
+            (const string & file) {
+                AnEnIO io("Read", file, file_type, 2);
+                anenTime::Times times_single;
+                io.handleError(io.readTimes(times_single));
+                times.insert(times.end(),
+                        times_single.begin(), times_single.end());
+            }
+    );
+
+    return (SUCCESS);
+}
+
+errorType
+AnEnIO::combineFLTs(
+        const vector<string> & in_files,
+        const string & file_type,
+        anenTime::FLTs & flts, int verbose) {
+
+    if (verbose >= 3) cout << "Combining FLTs ..." << endl;
+
+    flts.clear();
+    for_each(in_files.begin(), in_files.end(),
+            [&flts, &file_type]
+            (const string & file) {
+                AnEnIO io("Read", file, file_type, 2);
+                anenTime::FLTs flts_single;
+                io.handleError(io.readFLTs(flts_single));
+                flts.insert(flts.end(),
+                        flts_single.begin(), flts_single.end());
+            }
+    );
+
+    return (SUCCESS);
+}
+
+errorType
+AnEnIO::combineForecastsArray(const vector<string> & in_files,
         Forecasts_array & forecasts, size_t along, int verbose) {
 
-    if (forecasts.getDataLength() != 0) {
-        if (verbose >= 1) cout << BOLDRED << "Error: Please provide an empty forecasts." << RESET << endl;
-        return (ERROR_SETTING_VALUES);
-    }
-    
-    auto & parameters_combined = forecasts.getParameters();
-    auto & stations_combined = forecasts.getStations();
-    auto & times_combined = forecasts.getTimes();
-    auto & flts_combined = forecasts.getFLTs();
-    
-    const auto & first_parameters = forecasts_vec[0].getParameters();
-    const auto & first_stations = forecasts_vec[0].getStations();
-    const auto & first_times = forecasts_vec[0].getTimes();
-    const auto & first_flts = forecasts_vec[0].getFLTs();
-    
-    size_t count = 0;
-    vector<size_t> element_accumulated_counts(1, 0);
+    // Clear values in forecasts array data
+    forecasts.data().resize(boost::extents[0][0][0][0]);
 
-    // Append meta information
+    // Create meta information from the first file
     if (verbose >= 3) cout << "Processing meta information ..." << endl;
-    if (along == 0) {
-        for_each(forecasts_vec.begin(), forecasts_vec.end(),
-                [&count, &element_accumulated_counts, &parameters_combined]
-                (const Forecasts_array & rhs) {
-                    const auto & rhs_parameters = rhs.getParameters();
-                    element_accumulated_counts.push_back(
-                            rhs_parameters.size() + element_accumulated_counts.back());
-                    parameters_combined.insert(parameters_combined.end(),
-                            rhs_parameters.begin(), rhs_parameters.end());
-                    count += rhs_parameters.size();
-                });
-        
-        if (count != parameters_combined.size()) {
-            if (verbose >= 1) cout << BOLDRED << "Error: Duplicate parameters found in files. The number of parameters from files ("
-                    << count << ") does not equal to the parameters in the container (" << parameters_combined.size() << ")." << RESET << endl;
-            return (ELEMENT_NOT_UNIQUE);
-        }
-                    
-    } else if (along == 1) {
-        for_each(forecasts_vec.begin(), forecasts_vec.end(),
-                [&count, &element_accumulated_counts, &stations_combined]
-                (const Forecasts_array & rhs) {
-                    const auto & rhs_stations = rhs.getStations();
-                    element_accumulated_counts.push_back(
-                            rhs_stations.size() + element_accumulated_counts.back());
-                    stations_combined.insert(stations_combined.end(), rhs_stations.begin(), rhs_stations.end());
-                    count += rhs_stations.size();
-                });
-        
-        if (count != stations_combined.size()) {
-            if (verbose >= 1) cout << BOLDRED << "Error: Duplicate stations found in files. The number of stations from files ("
-                    << count << ") does not equal to stations in the container (" << stations_combined.size() << ")." << RESET << endl;
-            return (ELEMENT_NOT_UNIQUE);
-        }
+    AnEnIO io("Read", in_files[0], "Forecasts", 2);
 
-    } else if (along == 2) {
-        for_each(forecasts_vec.begin(), forecasts_vec.end(),
-                [&count, &element_accumulated_counts, &times_combined]
-                (const Forecasts_array & rhs) {
-                    const auto & rhs_times = rhs.getTimes();
-                    element_accumulated_counts.push_back(
-                            rhs_times.size() + element_accumulated_counts.back());
-                    times_combined.insert(times_combined.end(), rhs_times.begin(), rhs_times.end());
-                    count += rhs_times.size();
-                });
-        
-        if (count != times_combined.size()) {
-            if (verbose >= 1) cout << BOLDRED << "Error: Duplicate times found in files. The number of times from files ("
-                    << count << ") does not equal to times in the container (" << times_combined.size() << ")." << RESET << endl;
-            return (ELEMENT_NOT_UNIQUE);
-        }
+    anenPar::Parameters parameters;
+    io.handleError(io.readParameters(parameters));
 
-    } else if (along == 3) {
-        for_each(forecasts_vec.begin(), forecasts_vec.end(),
-                [&count, &element_accumulated_counts, &flts_combined]
-                (const Forecasts_array & rhs) {
-                    const auto & rhs_flts = rhs.getFLTs();
-                    element_accumulated_counts.push_back(
-                            rhs_flts.size() + element_accumulated_counts.back());
-                    flts_combined.insert(flts_combined.end(), rhs_flts.begin(), rhs_flts.end());
-                    count += rhs_flts.size();
-                });
-        
-        if (count != flts_combined.size()) {
-            if (verbose >= 1) cout << BOLDRED << "Error: Duplicate flts found in files. The number of flts from files ("
-                    << count << ") does not equal to flts in the container (" << flts_combined.size() << ")." << RESET << endl;
-            return (ELEMENT_NOT_UNIQUE);
-        }
+    anenSta::Stations stations;
+    io.handleError(io.readStations(stations));
 
-    } else {
-        if (verbose >= 1) cout << BOLDRED << "Error: invalid along ("
-                << along << ")!" << RESET << endl;
-        return (ERROR_SETTING_VALUES);
-    }
-    
-    // Because we added one extra count to the accumulated vector,
-    // we need to pop it out. So that the length of accumulated 
-    // vector and forecasts vector match.
-    //
-    element_accumulated_counts.pop_back();
+    anenTime::Times times;
+    io.handleError(io.readTimes(times));
 
-    // Remove the along dimension from the vector of same dimension indices
-    vector<size_t> same_dimensions = {0, 1, 2, 3};
-    same_dimensions.erase(find(same_dimensions.begin(), same_dimensions.end(), along));
-    
-    // Read the other meta info that does not need to be appended
-    if (find(same_dimensions.begin(), same_dimensions.end(), 0) != same_dimensions.end()) {
-        // If parameter is included in the same dimension list
-        parameters_combined.insert(parameters_combined.end(),
-                first_parameters.begin(), first_parameters.end());
-        size_t size_expected = parameters_combined.size();
-        bool flag = all_of(forecasts_vec.begin(), forecasts_vec.end(),
-                [&size_expected](const Forecasts_array & f) {
-                    return (f.getParameters().size() == size_expected); });
-        if (!flag) {
-            if (verbose >= 3) cout << BOLDRED
-                    << "Error: Different number of parameters found in the list of forecasts."
-                    << RESET << endl;
-            return (WRONG_INDEX_SHAPE);
-        }
-    }
-    
-    if (find(same_dimensions.begin(), same_dimensions.end(), 1) != same_dimensions.end()) {
-        // If station is included in the same dimension list
-        stations_combined.insert(stations_combined.end(),
-                first_stations.begin(), first_stations.end());
-        size_t size_expected = stations_combined.size();
-        bool flag = all_of(forecasts_vec.begin(), forecasts_vec.end(),
-                [&size_expected](const Forecasts_array & f) {
-                    return (f.getStations().size() == size_expected); });
-        if (!flag) {
-            if (verbose >= 3) cout << BOLDRED
-                    << "Error: Different number of stations found in the list of forecasts."
-                    << RESET << endl;
-            return (WRONG_INDEX_SHAPE);
-        }
-    }
-    
-    if (find(same_dimensions.begin(), same_dimensions.end(), 2) != same_dimensions.end()) {
-        // If time is included in the same dimension list
-        times_combined.insert(times_combined.end(),
-                first_times.begin(), first_times.end());
-        size_t size_expected = times_combined.size();
-        bool flag = all_of(forecasts_vec.begin(), forecasts_vec.end(),
-                [&size_expected](const Forecasts_array & f) {
-                    return (f.getTimes().size() == size_expected); });
-        if (!flag) {
-            if (verbose >= 3) cout << BOLDRED
-                    << "Error: Different number of times found in the list of forecasts."
-                    << RESET << endl;
-            return (WRONG_INDEX_SHAPE);
-        }
-    }
-    
-    if (find(same_dimensions.begin(), same_dimensions.end(), 3) != same_dimensions.end()) {
-        // If FLT is included in the same dimension list
-        flts_combined.insert(flts_combined.end(),
-                first_flts.begin(), first_flts.end());
-        size_t size_expected = flts_combined.size();
-        bool flag = all_of(forecasts_vec.begin(), forecasts_vec.end(),
-                [&size_expected](const Forecasts_array & f) {
-                    return (f.getFLTs().size() == size_expected); });
-        if (!flag) {
-            if (verbose >= 3) cout << BOLDRED
-                    << "Error: Different number of parameters found in the list of forecasts."
-                    << RESET << endl;
-            return (WRONG_INDEX_SHAPE);
-        }
-    }
-    
+    anenTime::FLTs flts;
+    io.handleError(io.readFLTs(flts));
+
+    if (along == 0) io.handleError(io.combineParameters(in_files, "Forecasts", parameters, verbose));
+    else if (along == 1) io.handleError(io.combineStations(in_files, "Forecasts", stations, verbose));
+    else if (along == 2) io.handleError(io.combineTimes(in_files, "Forecasts", times, verbose));
+    else if (along == 3) io.handleError(io.combineFLTs(in_files, "Forecasts", flts, verbose));
+    else return (ERROR_SETTING_VALUES);
+
     // Update the dimensions of combined forecasts
     if (verbose >= 3) cout << "Update dimensions of forecasts ..." << endl;
+    forecasts.setParameters(parameters);
+    forecasts.setStations(stations);
+    forecasts.setTimes(times);
+    forecasts.setFlts(flts);
     forecasts.updateDataDims(false);
     auto & data = forecasts.data();
-    
-    if (verbose >= 3) cout << "Copy data values into the new array ..." << endl;
+
+    // Identify which dimension is being appended. The appended dimension number
+    // will be removed, and the remain dimensions will stay the same after the
+    // data combination.
+    //
+    vector<size_t> same_dimensions = {0, 1, 2, 3};
+    same_dimensions.erase(find(same_dimensions.begin(), same_dimensions.end(), along));
+
+    if (verbose >= 3) cout << "Copy data values into the new format ..." << endl;
+
+    size_t append_count = 0;
+
 #if defined(_OPENMP)
-#pragma omp parallel for default(none) schedule(static) collapse(4) \
-shared(data, same_dimensions, forecasts_vec, along, element_accumulated_counts)
+#pragma omp parallel default(none) \
+shared(data, same_dimensions, along, append_count, in_files)
 #endif
-    for (size_t i = 0; i < data.shape()[same_dimensions[2]]; i++) {
-        for (size_t j = 0; j < data.shape()[same_dimensions[1]]; j++) {
-            for (size_t m = 0; m < data.shape()[same_dimensions[0]]; m++) {
-                for (size_t n = 0; n < forecasts_vec.size(); n++) {
-                
-                    const auto & i_data = forecasts_vec[n].data();
-                    for (size_t l = 0; l < i_data.shape()[along]; l++) {
-                        if (along == 0)      data[element_accumulated_counts[n] + l][m][j][i] = i_data[l][m][j][i];
-                        else if (along == 1) data[m][element_accumulated_counts[n] + l][j][i] = i_data[m][l][j][i];
-                        else if (along == 2) data[m][j][element_accumulated_counts[n] + l][i] = i_data[m][j][l][i];
-                        else if (along == 3) data[m][j][i][element_accumulated_counts[n] + l] = i_data[m][j][i][l];
+    for (const auto & file : in_files) {
+        AnEnIO io_thread("Read", in_files[0], "Forecasts", 2);
+        Forecasts_array forecasts_single;
+
+        io_thread.setFilePath(file);
+        io_thread.readForecasts(forecasts_single);
+        const auto & data_single = forecasts_single.data();
+
+#if defined(_OPENMP)
+#pragma omp for schedule(static) collapse(4)
+#endif
+        for (size_t i = 0; i < data.shape()[same_dimensions[2]]; i++) {
+            for (size_t j = 0; j < data.shape()[same_dimensions[1]]; j++) {
+                for (size_t m = 0; m < data.shape()[same_dimensions[0]]; m++) {
+                    for (size_t l = 0; l < data_single.shape()[along]; l++) {
+                        if (along == 0) data[append_count + l][m][j][i] = data_single[l][m][j][i];
+                        else if (along == 1) data[m][append_count + l][j][i] = data_single[m][l][j][i];
+                        else if (along == 2) data[m][j][append_count + l][i] = data_single[m][j][l][i];
+                        else if (along == 3) data[m][j][i][append_count + l] = data_single[m][j][i][l];
                     }
-                    
                 }
             }
         }
+
+#if defined(_OPENMP)
+#pragma omp single
+#endif
+        append_count += data_single.shape()[along];
     }
 
     return (SUCCESS);
 }
 
 errorType
-AnEnIO::combineObservationsArray(const std::vector<Observations_array> & observations_vec,
+AnEnIO::combineObservationsArray(const vector<string> & in_files,
         Observations_array & observations, size_t along, int verbose) {
 
-    if (observations.getDataLength() != 0) {
-        if (verbose >= 1) cout << BOLDRED << "Error: Please provide an empty observations." << RESET << endl;
-        return (ERROR_SETTING_VALUES);
-    }
+    // Clear values in observations array data
+    observations.data().resize(boost::extents[0][0][0]);
 
-    auto & parameters_combined = observations.getParameters();
-    auto & stations_combined = observations.getStations();
-    auto & times_combined = observations.getTimes();
-
-    const auto & first_parameters = observations_vec[0].getParameters();
-    const auto & first_stations = observations_vec[0].getStations();
-    const auto & first_times = observations_vec[0].getTimes();
-
-    size_t count = 0;
-    vector<size_t> element_accumulated_counts(1, 0);
-
-    // Append meta information
+    // Create meta information from the first file
     if (verbose >= 3) cout << "Processing meta information ..." << endl;
-    if (along == 0) {
-        for_each(observations_vec.begin(), observations_vec.end(),
-                [&count, &element_accumulated_counts, &parameters_combined]
-                (const Observations_array & rhs) {
-                    const auto & rhs_parameters = rhs.getParameters();
-                    element_accumulated_counts.push_back(
-                            rhs_parameters.size() + element_accumulated_counts.back());
-                    parameters_combined.insert(parameters_combined.end(),
-                            rhs_parameters.begin(), rhs_parameters.end());
-                    count += rhs_parameters.size();
-                });
+    AnEnIO io("Read", in_files[0], "Observations", 2);
 
-        if (count != parameters_combined.size()) {
-            if (verbose >= 1) cout << BOLDRED << "Error: Duplicate parameters found in files. The number of parameters from files ("
-                    << count << ") does not equal to the parameters in the container (" << parameters_combined.size() << ")." << RESET << endl;
-            return (ELEMENT_NOT_UNIQUE);
-        }
+    anenPar::Parameters parameters;
+    io.handleError(io.readParameters(parameters));
 
-    } else if (along == 1) {
-        for_each(observations_vec.begin(), observations_vec.end(),
-                [&count, &element_accumulated_counts, &stations_combined]
-                (const Observations_array & rhs) {
-                    const auto & rhs_stations = rhs.getStations();
-                    element_accumulated_counts.push_back(
-                            rhs_stations.size() + element_accumulated_counts.back());
-                    stations_combined.insert(stations_combined.end(), rhs_stations.begin(), rhs_stations.end());
-                    count += rhs_stations.size();
-                });
+    anenSta::Stations stations;
+    io.handleError(io.readStations(stations));
 
-        if (count != stations_combined.size()) {
-            if (verbose >= 1) cout << BOLDRED << "Error: Duplicate stations found in files. The number of stations from files ("
-                    << count << ") does not equal to stations in the container (" << stations_combined.size() << ")." << RESET << endl;
-            return (ELEMENT_NOT_UNIQUE);
-        }
+    anenTime::Times times;
+    io.handleError(io.readTimes(times));
 
-    } else if (along == 2) {
-        for_each(observations_vec.begin(), observations_vec.end(),
-                [&count, &element_accumulated_counts, &times_combined]
-                (const Observations_array & rhs) {
-                    const auto & rhs_times = rhs.getTimes();
-                    element_accumulated_counts.push_back(
-                            rhs_times.size() + element_accumulated_counts.back());
-                    times_combined.insert(times_combined.end(), rhs_times.begin(), rhs_times.end());
-                    count += rhs_times.size();
-                });
+    if (along == 0) io.handleError(io.combineParameters(in_files, "Observations", parameters, verbose));
+    else if (along == 1) io.handleError(io.combineStations(in_files, "Observations", stations, verbose));
+    else if (along == 2) io.handleError(io.combineTimes(in_files, "Observations", times, verbose));
+    else return (ERROR_SETTING_VALUES);
 
-        if (count != times_combined.size()) {
-            if (verbose >= 1) cout << BOLDRED << "Error: Duplicate times found in files. The number of times from files ("
-                    << count << ") does not equal to times in the container (" << times_combined.size() << ")." << RESET << endl;
-            return (ELEMENT_NOT_UNIQUE);
-        }
-
-    } else {
-        if (verbose >= 1) cout << BOLDRED << "Error: invalid along ("
-                << along << ")!" << RESET << endl;
-        return (ERROR_SETTING_VALUES);
-    }
-
-    // Because we added one extra count to the accumulated vector,
-    // we need to pop it out. So that the length of accumulated 
-    // vector and forecasts vector match.
-    //
-    element_accumulated_counts.pop_back();
-
-    // Remove the along dimension from the vector of same dimension indices
-    vector<size_t> same_dimensions = {0, 1, 2};
-    same_dimensions.erase(find(same_dimensions.begin(), same_dimensions.end(), along));
-
-    // Read the other meta info that does not need to be appended
-    if (find(same_dimensions.begin(), same_dimensions.end(), 0) != same_dimensions.end()) {
-        // If parameter is included in the same dimension list
-        parameters_combined.insert(parameters_combined.end(),
-                first_parameters.begin(), first_parameters.end());
-        size_t size_expected = parameters_combined.size();
-        bool flag = all_of(observations_vec.begin(), observations_vec.end(),
-                [&size_expected](const Observations_array & f) {
-                    return (f.getParameters().size() == size_expected); });
-        if (!flag) {
-            if (verbose >= 3) cout << BOLDRED
-                    << "Error: Different number of parameters found in the list of observations."
-                    << RESET << endl;
-            return (WRONG_INDEX_SHAPE);
-        }
-    }
-
-    if (find(same_dimensions.begin(), same_dimensions.end(), 1) != same_dimensions.end()) {
-        // If station is included in the same dimension list
-        stations_combined.insert(stations_combined.end(),
-                first_stations.begin(), first_stations.end());
-        size_t size_expected = stations_combined.size();
-        bool flag = all_of(observations_vec.begin(), observations_vec.end(),
-                [&size_expected](const Observations_array & f) {
-                    return (f.getStations().size() == size_expected); });
-        if (!flag) {
-            if (verbose >= 3) cout << BOLDRED
-                    << "Error: Different number of stations found in the list of observations."
-                    << RESET << endl;
-            return (WRONG_INDEX_SHAPE);
-        }
-    }
-
-    if (find(same_dimensions.begin(), same_dimensions.end(), 2) != same_dimensions.end()) {
-        // If time is included in the same dimension list
-        times_combined.insert(times_combined.end(),
-                first_times.begin(), first_times.end());
-        size_t size_expected = times_combined.size();
-        bool flag = all_of(observations_vec.begin(), observations_vec.end(),
-                [&size_expected](const Observations_array & f) {
-                    return (f.getTimes().size() == size_expected); });
-        if (!flag) {
-            if (verbose >= 3) cout << BOLDRED
-                    << "Error: Different number of times found in the list of observations."
-                    << RESET << endl;
-            return (WRONG_INDEX_SHAPE);
-        }
-    }
-
-    // Update the dimensions of combined forecasts
+    // Update dimensions
     if (verbose >= 3) cout << "Update dimensions of observations ..." << endl;
+    observations.setParameters(parameters);
+    observations.setStations(stations);
+    observations.setTimes(times);
     observations.updateDataDims(false);
     auto & data = observations.data();
 
+    // Identify which dimension is being appended. The appended dimension number
+    // will be removed, and the remain dimensions will stay the same after the
+    // data combination.
+    //
+    vector<size_t> same_dimensions = {0, 1, 2};
+    same_dimensions.erase(find(same_dimensions.begin(), same_dimensions.end(), along));
+
+    if (verbose >= 3) cout << "Copy data values into the new format ..." << endl;
+
+    size_t append_count = 0;
+
 #if defined(_OPENMP)
-#pragma omp parallel for default(none) schedule(static) collapse(3) \
-shared(data, same_dimensions, observations_vec, along, element_accumulated_counts)
+#pragma omp parallel default(none) \
+shared(data, same_dimensions, along, append_count, in_files)
 #endif
-    for (size_t j = 0; j < data.shape()[same_dimensions[1]]; j++) {
-        for (size_t m = 0; m < data.shape()[same_dimensions[0]]; m++) {
-            for (size_t n = 0; n < observations_vec.size(); n++) {
+    for (const auto & file : in_files) {
+        AnEnIO io_thread("Read", in_files[0], "Observations", 2);
+        Observations_array observations_single;
 
-                const auto & i_data = observations_vec[n].data();
-                for (size_t l = 0; l < i_data.shape()[along]; l++) {
-                    if (along == 0) data[element_accumulated_counts[n] + l][m][j] = i_data[l][m][j];
-                    else if (along == 1) data[m][element_accumulated_counts[n] + l][j] = i_data[m][l][j];
-                    else if (along == 2) data[m][j][element_accumulated_counts[n] + l] = i_data[m][j][l];
+        io_thread.setFilePath(file);
+        io_thread.readObservations(observations_single);
+        const auto & data_single = observations_single.data();
+
+#if defined(_OPENMP)
+#pragma omp for schedule(static) collapse(3)
+#endif
+        for (size_t j = 0; j < data.shape()[same_dimensions[1]]; j++) {
+            for (size_t m = 0; m < data.shape()[same_dimensions[0]]; m++) {
+                for (size_t l = 0; l < data_single.shape()[along]; l++) {
+                    if (along == 0) data[append_count + l][m][j] = data_single[l][m][j];
+                    else if (along == 1) data[m][append_count + l][j] = data_single[m][l][j];
+                    else if (along == 2) data[m][j][append_count + l] = data_single[m][j][l];
                 }
-
             }
         }
+
+#if defined(_OPENMP)
+#pragma omp single
+#endif
+        append_count += data_single.shape()[along];
     }
 
     return (SUCCESS);
 }
 
 errorType
-AnEnIO::combineStandardDeviation(const std::vector<StandardDeviation> & sds_vec,
-        StandardDeviation & sds, size_t along, int verbose) {
-    
-    if (sds.num_elements() != 0) {
-        if (verbose >= 1) cout << BOLDRED
-                << "Error: Please provide an empty standard deviation container."
-                << RESET << endl;
-        return (ERROR_SETTING_VALUES);
-    }
-    
-    // Get the initial dimensions from the first sds
-    vector<size_t> dims = {
-        sds_vec[0].shape()[0], sds_vec[0].shape()[1], sds_vec[0].shape()[2]
-    };
+AnEnIO::combineStandardDeviation(const vector<string> & in_files,
+        StandardDeviation & sds, 
+        anenPar::Parameters & parameters,
+        anenSta::Stations & stations,
+        anenTime::FLTs & flts,
+        size_t along, int verbose) {
 
-    // Decide the full dimension of the aggregated dimension.
-    // Keep track of the dimensions that should be the same.
+    // Clear values in sds
+    sds.resize(boost::extents[0][0][0]);
+
+    // Create meta information from the first file
+    if (verbose >= 3) cout << "Processing meta information ..." << endl;
+    AnEnIO io("Read", in_files[0], "StandardDeviation", 2);
+
+    io.handleError(io.readParameters(parameters));
+    io.handleError(io.readStations(stations));
+    io.handleError(io.readFLTs(flts));
+    
+    if (along == 0) io.handleError(io.combineParameters(in_files, "StandardDeviation", parameters, verbose));
+    else if (along == 1) io.handleError(io.combineStations(in_files, "StandardDeviation", stations, verbose));
+    else if (along == 2) io.handleError(io.combineFLTs(in_files, "StandardDeviation", flts, verbose));
+    else return (ERROR_SETTING_VALUES);
+    
+    // Identify which dimension is being appended. The appended dimension number
+    // will be removed, and the remain dimensions will stay the same after the
+    // data combination.
     //
-    size_t count = 0;
     vector<size_t> same_dimensions = {0, 1, 2};
-    vector<size_t> element_accumulated_counts(1, 0);
     same_dimensions.erase(find(same_dimensions.begin(), same_dimensions.end(), along));
-    if (along <= 2) {
-        for_each(sds_vec.begin(), sds_vec.end(), [&count, &along, &element_accumulated_counts]
-                (const StandardDeviation & rhs) {
-            count += rhs.shape()[along];
-            element_accumulated_counts.push_back(
-                rhs.shape()[along] + element_accumulated_counts.back());
-        });
-        
-        dims[along] = count;
-    } else {
-        if (verbose >= 1) cout << BOLDRED << "Error: invalid along ("
-                << along << ")!" << RESET << endl;
-        return (ERROR_SETTING_VALUES);
-    }
-
-    // Because we added one extra count to the accumulated vector,
-    // we need to pop it out. So that the length of accumulated 
-    // vector and forecasts vector match.
-    //
-    element_accumulated_counts.pop_back();
-
-    // Update the dimensions of combined sds
+    
+    // Update dimensions
     if (verbose >= 3) cout << "Update dimensions of standard deviation ..." << endl;
-    sds.resize(boost::extents[dims[0]][dims[1]][dims[2]]);
+    sds.resize(boost::extents[parameters.size()][stations.size()][flts.size()]);
+
+    if (verbose >= 3) cout << "Copy data values into the new format ..." << endl;
+
+    size_t append_count = 0;
 
 #if defined(_OPENMP)
-#pragma omp parallel for default(none) schedule(static) collapse(3) \
-shared(sds, sds_vec, along, same_dimensions, element_accumulated_counts)
+#pragma omp parallel default(none) \
+shared(sds, same_dimensions, along, append_count, in_files)
 #endif
-    for (size_t j = 0; j < sds.shape()[same_dimensions[1]]; j++) {
-        for (size_t m = 0; m < sds.shape()[same_dimensions[0]]; m++) {
-            for (size_t n = 0; n < sds_vec.size(); n++) {
+    for (const auto & file : in_files) {
+        AnEnIO io_thread("Read", in_files[0], "StandardDeviation", 2);
+        StandardDeviation sds_single;
 
-                const auto & i_data = sds_vec[n];
-                
-                for (size_t l = 0; l < i_data.shape()[along]; l++) {
-                    if (along == 0) sds[element_accumulated_counts[n] + l][m][j] = i_data[l][m][j];
-                    else if (along == 1) sds[m][element_accumulated_counts[n] + l][j] = i_data[m][l][j];
-                    else if (along == 2) sds[m][j][element_accumulated_counts[n] + l] = i_data[m][j][l];
+        io_thread.setFilePath(file);
+        io_thread.readStandardDeviation(sds_single);
+
+#if defined(_OPENMP)
+#pragma omp for schedule(static) collapse(3)
+#endif
+        for (size_t j = 0; j < sds.shape()[same_dimensions[1]]; j++) {
+            for (size_t m = 0; m < sds.shape()[same_dimensions[0]]; m++) {
+                for (size_t l = 0; l < sds_single.shape()[along]; l++) {
+                    if (along == 0) sds[append_count + l][m][j] = sds_single[l][m][j];
+                    else if (along == 1) sds[m][append_count + l][j] = sds_single[m][l][j];
+                    else if (along == 2) sds[m][j][append_count + l] = sds_single[m][j][l];
                 }
-
             }
         }
+
+#if defined(_OPENMP)
+#pragma omp single
+#endif
+        append_count += sds_single.shape()[along];
     }
-    
+
     return (SUCCESS);
 }
 
 errorType
 AnEnIO::combineSimilarityMatrices(
-        const std::vector<SimilarityMatrices> & sims_vec,
-        SimilarityMatrices & sims, size_t along, int verbose) {
+        const std::vector<std::string> & in_files,
+        SimilarityMatrices & sims,
+        anenSta::Stations & stations,
+        anenTime::Times & times,
+        anenTime::FLTs & flts,
+        size_t along, int verbose) {
     
-    // Get the initial dimensions from the first sims
-    vector<size_t> dims = {
-        sims_vec[0].shape()[0], sims_vec[0].shape()[1], sims_vec[0].shape()[2],
-        sims_vec[0].shape()[3], sims_vec[0].shape()[4]
-    };
+    // Clear values
+    sims.resize(0, 0, 0);
+
+    // Create meta information from the first file
+    if (verbose >= 3) cout << "Processing meta information ..." << endl;
+    AnEnIO io("Read", in_files[0], "Similarity", 2);
     
-    // Decide the full dimension of the aggregated dimension.
-    // Keep track of the dimensions that should be the same.
+    size_t num_entries;
+    io.readDimLength("num_entries", num_entries);
+
+    io.handleError(io.readStations(stations));
+    io.handleError(io.readTimes(times));
+    io.handleError(io.readFLTs(flts));
+
+    if (along == 0) {
+        if (verbose >= 1) cout << BOLDRED << "Error: Can not append along the dimension."
+                << RESET << endl;
+        return (ERROR_SETTING_VALUES);
+    } else if (along == 1) {
+        num_entries = 0;
+        size_t num_entries_single = 0;
+        for_each(in_files.begin(), in_files.end(),
+                [&num_entries, &num_entries_single]
+                (const string & file) {
+                    AnEnIO io_each("Read", file, "Similarity", 2);
+                    io_each.readDimLength("num_entries", num_entries_single);
+                    num_entries += num_entries_single;
+                }
+        );
+    } else if (along == 2)
+        io.handleError(io.combineFLTs(in_files, "Similarity", flts, verbose));
+    else if (along == 3)
+        io.handleError(io.combineTimes(in_files, "Similarity", times, verbose));
+    else if (along == 4)
+        io.handleError(io.combineStations(in_files, "Similarity", stations, verbose));
+    else
+        return (ERROR_SETTING_VALUES);
+
+    // Identify which dimension is being appended. The appended dimension number
+    // will be removed, and the remain dimensions will stay the same after the
+    // data combination.
     //
-    size_t count = 0;
-    vector<size_t> same_dimensions = {0, 1, 2, 3, 4};
-    vector<size_t> element_accumulated_counts(1, 0);
+    vector<size_t> same_dimensions = {1, 2, 3, 4};
     same_dimensions.erase(find(same_dimensions.begin(), same_dimensions.end(), along));
     
-    if (along <= 3) {
-        for_each(sims_vec.begin(), sims_vec.end(),
-                [&count, &along, &element_accumulated_counts]
-                (const SimilarityMatrices & rhs) {
-            count += rhs.shape()[along];
-            element_accumulated_counts.push_back(
-                rhs.shape()[along] + element_accumulated_counts.back());
-        });
-        
-        dims[along] = count;
-    } else {
-        if (verbose >= 1) cout << BOLDRED << "Error: invalid along ("
-                << along << ")!" << RESET << endl;
-        return (ERROR_SETTING_VALUES);
-    }
+    // Update dimensions
+    if (verbose >= 3) cout << "Update dimensions of standard deviation ..." << endl;
+    sims.resize(flts.size(), times.size(), stations.size());
 
-    // Because we added one extra count to the accumulated vector,
-    // we need to pop it out. So that the length of accumulated 
-    // vector and forecasts vector match.
-    //
-    element_accumulated_counts.pop_back();
+    if (verbose >= 3) cout << "Copy data values into the new format ..." << endl;
 
-    // Update the dimensions of combined sims
-    if (verbose >= 3) cout << "Update dimensions of similarity matrices ..." << endl;
-    sims.setMaxEntries(dims[3]);
+    size_t append_count = 0;
 
-    if (sims.num_elements() != 0) {
-        if (sims.getTargets().getStationsSize() == dims[0] &&
-                sims.getTargets().getTimesSize() == dims[1] &&
-                sims.getTargets().getFLTsSize() == dims[2]) {
-            // The expected similarity matrices dimensions are the same with 
-            // the attached target forecast array. Check has passed.
-            //
-        } else {
-            if (verbose >= 1) cout << BOLDRED
-                    << "Error: The dimensions of target forecasts array do not match similarity matrices."
-                    << RESET << endl;
-            return (ERROR_SETTING_VALUES);
-        }
-    }
-    
-    sims.resize(dims[0], dims[1], dims[2]);
-    
 #if defined(_OPENMP)
-#pragma omp parallel for default(none) schedule(static) collapse(5) \
-shared(sims, sims_vec, along, same_dimensions, element_accumulated_counts)
+#pragma omp parallel default(none) \
+shared(sims, same_dimensions, along, append_count, in_files)
 #endif
-    for (size_t v = 0; v < sims.shape()[same_dimensions[3]]; v++) {
+    for (const auto & file : in_files) {
+        AnEnIO io_thread("Read", in_files[0], "Similarity", 2);
+        SimilarityMatrices sims_single;
+
+        io_thread.setFilePath(file);
+        io_thread.readSimilarityMatrices(sims_single);
+
+#if defined(_OPENMP)
+#pragma omp for schedule(static) collapse(5)
+#endif
         for (size_t k = 0; k < sims.shape()[same_dimensions[2]]; k++) {
             for (size_t j = 0; j < sims.shape()[same_dimensions[1]]; j++) {
                 for (size_t m = 0; m < sims.shape()[same_dimensions[0]]; m++) {
-                    for (size_t n = 0; n < sims_vec.size(); n++) {
-
-                        const auto & i_data = sims_vec[n];
-
-                        for (size_t l = 0; l < i_data.shape()[along]; l++) {
-                            if (along == 0) sims[element_accumulated_counts[n] + l][m][j][k][v] = i_data[l][m][j][k][v];
-                            else if (along == 1) sims[m][element_accumulated_counts[n] + l][j][k][v] = i_data[m][l][j][k][v];
-                            else if (along == 2) sims[m][j][element_accumulated_counts[n] + l][k][v] = i_data[m][j][l][k][v];
-                            else if (along == 3) sims[m][j][k][element_accumulated_counts[n] + l][v] = i_data[m][j][k][l][v];
+                    for (size_t l = 0; l < sims_single.shape()[along]; l++) {
+                        for (size_t i = 0; i < SimilarityMatrices::_NUM_COLS; i++) {
+                            
+                            if (along == 1) sims[i][append_count + l][m][j][k] = sims_single[i][l][m][j][k];
+                            else if (along == 2) sims[i][m][append_count + l][j][k] = sims_single[i][m][l][j][k];
+                            else if (along == 3) sims[i][m][j][append_count + l][k] = sims_single[i][m][j][l][k];
+                            else if (along == 4) sims[i][m][j][k][append_count + l] = sims_single[i][m][j][k][l];
+                            
                         }
-
                     }
                 }
             }
         }
+
+#if defined(_OPENMP)
+#pragma omp single
+#endif
+        append_count += sims_single.shape()[along];
     }
-    
+
     return (SUCCESS);
 }
 
 errorType
-AnEnIO::combineAnalogs(const std::vector<Analogs> & analogs_vec,
-        Analogs & analogs, size_t along, int verbose) {
+AnEnIO::combineAnalogs(const vector<string> & in_files,
+        Analogs & analogs, 
+        anenSta::Stations & stations,
+        anenTime::Times & times,
+        anenTime::FLTs & flts,
+        size_t along, int verbose) {
 
-    // Get the initial dimensions from the first sims
-    vector<size_t> dims = {
-        analogs_vec[0].shape()[0], analogs_vec[0].shape()[1], analogs_vec[0].shape()[2],
-        analogs_vec[0].shape()[3], analogs_vec[0].shape()[4]
-    };
-    
-    if (along == 3 || along == 4) {
-        cout << BOLDRED << "Error: Method not implemented for appending the specified dimension."
+    // Clear values
+    analogs.resize(boost::extents[0][0][0][0][0]);
+
+    // Create meta information from the first file
+    if (verbose >= 3) cout << "Processing meta information ..." << endl;
+    AnEnIO io("Read", in_files[0], "Analogs", 2);
+
+    size_t num_members;
+    io.readDimLength("num_entries", num_members);
+
+    io.handleError(io.readStations(stations));
+    io.handleError(io.readTimes(times));
+    io.handleError(io.readFLTs(flts));
+
+    if (along == 4) {
+        if (verbose >= 1) cout << BOLDRED << "Error: Can not append along the dimension."
                 << RESET << endl;
-        return (METHOD_NOT_IMPLEMENTED);
-    }
-
-    // Decide the full dimension of the aggregated dimension.
-    // Keep track of the dimensions that should be the same.
-    //
-    size_t count = 0;
-    vector<size_t> same_dimensions = {0, 1, 2, 3, 4};
-    vector<size_t> element_accumulated_counts(1, 0);
-    same_dimensions.erase(find(same_dimensions.begin(), same_dimensions.end(), along));
-    
-    anenTime::Times times;
-    anenSta::Stations stations;
-    anenTime::FLTs flts;
-
-    if (along <= 3) {
-        for_each(analogs_vec.begin(), analogs_vec.end(),
-                [&count, &along, &element_accumulated_counts,
-                &times, &stations, &flts]
-                (const Analogs & rhs) {
-                    count += rhs.shape()[along];
-                    element_accumulated_counts.push_back(
-                            rhs.shape()[along] + element_accumulated_counts.back());
-                    cout << "here 1" << endl;
-
-                    if (along == 0)
-                            stations.insert(stations.end(), rhs.getStations().begin(), rhs.getStations().end());
-                    else if (along == 1)
-                            times.insert(times.end(), rhs.getTimes().begin(), rhs.getTimes().end());
-                    else if (along == 2)
-                            flts.insert(flts.end(), rhs.getFLTs().begin(), rhs.getFLTs().end());
-
-                    });
-
-        dims[along] = count;
-    } else {
-        if (verbose >= 1) cout << BOLDRED << "Error: invalid along ("
-                << along << ")!" << RESET << endl;
         return (ERROR_SETTING_VALUES);
-    }
-    
-    cout << "here 2" << endl;
-    if (times.size() == 0) times = analogs_vec[0].getTimes();
-    if (stations.size() == 0) stations = analogs_vec[0].getStations();
-    if (flts.size() == 0) flts = analogs_vec[0].getFLTs();
+    } else if (along == 3) {
+        num_members = 0;
+        size_t num_entries_single = 0;
+        for_each(in_files.begin(), in_files.end(),
+                [&num_members, &num_entries_single]
+                (const string & file) {
+                    AnEnIO io_each("Read", file, "Analogs", 2);
+                    io_each.readDimLength("num_members", num_entries_single);
+                    num_members += num_entries_single;
+                }
+        );
+    } else if (along == 2)
+        io.handleError(io.combineFLTs(in_files, "Analogs", flts, verbose));
+    else if (along == 1)
+        io.handleError(io.combineTimes(in_files, "Analogs", times, verbose));
+    else if (along == 0)
+        io.handleError(io.combineStations(in_files, "Analogs", stations, verbose));
+    else
+        return (ERROR_SETTING_VALUES);
 
-    // Because we added one extra count to the accumulated vector,
-    // we need to pop it out. So that the length of accumulated 
-    // vector and forecasts vector match.
+    // Identify which dimension is being appended. The appended dimension number
+    // will be removed, and the remain dimensions will stay the same after the
+    // data combination.
     //
-    element_accumulated_counts.pop_back();
+    vector<size_t> same_dimensions = {0, 1, 2, 3};
+    same_dimensions.erase(find(same_dimensions.begin(), same_dimensions.end(), along));
 
-    // Update the dimensions of combined analogs
-    if (verbose >= 3) cout << "Update dimensions of analogs ..." << endl;
-    
-    if (stations.size() == dims[0] && times.size() == dims[1] && flts.size() == dims[2]) {
-        analogs.resize(boost::extents[dims[0]][dims[1]][dims[2]][dims[3]][dims[4]]);
-        analogs.setFLTs(flts);
-        analogs.setStations(stations);
-        analogs.setTimes(times);
-        analogs.setMemberStations(analogs_vec[0].getMemberStations());
-        analogs.setMemberTimes(analogs_vec[0].getMemberTimes());
-    } else {
-        cout << BOLDRED << "Error: Meta fields and Analogs have different dimensions. There might be duplicates in meta fields when appending."
-                << RESET << endl;
-        return (WRONG_VARIABLE_SHAPE);
-    }
-    cout << "here 3" << endl;
+    // Update dimensions
+    if (verbose >= 3) cout << "Update dimensions of Analogs ..." << endl;
+    analogs.resize(boost::extents
+            [stations.size()][times.size()][flts.size()][num_members][Analogs::_NUM_COLS]);
+
+    if (verbose >= 3) cout << "Copy data values into the new format ..." << endl;
+
+    size_t append_count = 0;
 
 #if defined(_OPENMP)
-#pragma omp parallel for default(none) schedule(static) collapse(5) \
-shared(analogs, analogs_vec, along, same_dimensions, element_accumulated_counts)
+#pragma omp parallel default(none) \
+shared(analogs, same_dimensions, along, append_count, in_files)
 #endif
-    for (size_t v = 0; v < analogs.shape()[same_dimensions[3]]; v++) {
+    for (const auto & file : in_files) {
+        AnEnIO io_thread("Read", in_files[0], "Analogs", 2);
+        Analogs analogs_single;
+
+        io_thread.setFilePath(file);
+        io_thread.readAnalogs(analogs_single);
+
+#if defined(_OPENMP)
+#pragma omp for schedule(static) collapse(5)
+#endif
         for (size_t k = 0; k < analogs.shape()[same_dimensions[2]]; k++) {
             for (size_t j = 0; j < analogs.shape()[same_dimensions[1]]; j++) {
                 for (size_t m = 0; m < analogs.shape()[same_dimensions[0]]; m++) {
-                    for (size_t n = 0; n < analogs_vec.size(); n++) {
+                    for (size_t l = 0; l < analogs_single.shape()[along]; l++) {
+                        for (size_t i = 0; i < Analogs::_NUM_COLS; i++) {
 
-                        const auto & i_data = analogs_vec[n];
+                            if (along == 0) analogs[append_count + l][m][j][k][i] = analogs_single[l][m][j][k][i];
+                            else if (along == 1) analogs[m][append_count + l][j][k][i] = analogs_single[m][l][j][k][i];
+                            else if (along == 2) analogs[m][j][append_count + l][k][i] = analogs_single[m][j][l][k][i];
+                            else if (along == 3) analogs[m][j][k][append_count + l][i] = analogs_single[m][j][k][l][i];
 
-                        for (size_t l = 0; l < i_data.shape()[along]; l++) {
-                            if (along == 0) analogs[element_accumulated_counts[n] + l][m][j][k][v] = i_data[l][m][j][k][v];
-                            else if (along == 1) analogs[m][element_accumulated_counts[n] + l][j][k][v] = i_data[m][l][j][k][v];
-                            else if (along == 2) analogs[m][j][element_accumulated_counts[n] + l][k][v] = i_data[m][j][l][k][v];
                         }
-
                     }
                 }
             }
         }
+
+#if defined(_OPENMP)
+#pragma omp single
+#endif
+        append_count += analogs_single.shape()[along];
     }
-    
+
     return (SUCCESS);
 }
 
@@ -3042,4 +2700,145 @@ void AnEnIO::purge_(string & str) const {
 void AnEnIO::purge_(vector<string> & strs) const {
 
     for (auto & str : strs) purge_(str);
+}
+
+errorType
+AnEnIO::writeSimilarityMatricesOnly_(const SimilarityMatrices& sims) const {
+
+    size_t num_test_stations = sims.shape()[0],
+            num_test_times = sims.shape()[1],
+            num_flts = sims.shape()[2],
+            num_entries = sims.shape()[3],
+            num_cols = sims.shape()[4];
+
+    NcFile nc(file_path_, NcFile::FileMode::write);
+
+    // Create dimensions
+    NcDim dim_stations = nc.addDim("num_stations", num_test_stations);
+    NcDim dim_times = nc.addDim("num_times", num_test_times);
+    NcDim dim_flts = nc.addDim("num_flts", num_flts);
+    NcDim dim_entries = nc.addDim("num_entries", num_entries);
+    NcDim dim_cols = nc.addDim("num_cols", num_cols);
+
+    // Create similarity matrices variable
+    NcVar var_sims = nc.addVar("SimilarityMatrices", NC_DOUBLE,{
+        dim_stations, dim_times, dim_flts, dim_entries, dim_cols
+    });
+
+    var_sims.putVar(sims.data());
+    nc.close();
+
+    return (SUCCESS);
+}
+
+errorType
+AnEnIO::writeAnalogsOnly_(const Analogs& analogs) const {
+
+    size_t num_test_stations = analogs.shape()[0],
+            num_test_times = analogs.shape()[1],
+            num_flts = analogs.shape()[2],
+            num_members = analogs.shape()[3],
+            num_cols = analogs.shape()[4];
+
+    NcFile nc(file_path_, NcFile::FileMode::write);
+
+    NcDim dim_stations = nc.addDim("num_stations", num_test_stations);
+    NcDim dim_times = nc.addDim("num_times", num_test_times);
+    NcDim dim_flts = nc.addDim("num_flts", num_flts);
+    NcDim dim_members = nc.addDim("num_members", num_members);
+    NcDim dim_cols = nc.addDim("num_cols", num_cols);
+
+    // Create Analogs variable
+    NcVar var_sims = nc.addVar("Analogs", NC_DOUBLE,{
+        dim_cols, dim_members, dim_flts, dim_times, dim_stations
+    });
+
+    var_sims.putVar(analogs.data());
+    nc.close();
+
+    return (SUCCESS);
+}
+
+errorType
+AnEnIO::writeStandardDeviationOnly_(const StandardDeviation& sds) const {
+
+    size_t num_parameters = sds.shape()[0],
+            num_stations = sds.shape()[1],
+            num_flts = sds.shape()[2];
+
+    NcFile nc(file_path_, NcFile::FileMode::write);
+    NcDim dim_parameters = nc.addDim("num_parameters", num_parameters),
+            dim_stations = nc.addDim("num_stations", num_stations),
+            dim_flts = nc.addDim("num_flts", num_flts);
+    NcVar var_sds = nc.addVar("StandardDeviation", NC_DOUBLE,{
+        dim_flts, dim_stations, dim_parameters
+    });
+
+    var_sds.putVar(sds.data());
+    nc.close();
+
+    return (SUCCESS);
+}
+
+errorType
+AnEnIO::readObservationsArrayData_(Observations_array & observations) const {
+
+    try {
+
+        string var_name = "Data";
+        double *p_vals = observations.data().data();
+        NcFile nc(file_path_, NcFile::FileMode::read);
+        NcVar var = nc.getVar(var_name);
+
+        if (var.isNull()) {
+            if (verbose_ >= 1) cout << BOLDRED << "Error: Could not"
+                    << " find variable " << var_name << "!" << RESET << endl;
+            return (WRONG_INDEX_SHAPE);
+        }
+
+        // Please realize that I'm directly reading to the forecasts data
+        // pointer which can be dangerous if handled uncautionsly. But I
+        // don't have to create a copy of the data by doing this so I
+        // think the benefit in memory and speed outweighs the downside.
+        //
+        var.getVar(p_vals);
+
+        nc.close();
+    } catch (...) {
+        throw;
+    }
+
+    return (SUCCESS);
+}
+
+errorType
+AnEnIO::readObservationsArrayData_(Observations_array & observations,
+        vector<size_t> start, vector<size_t> count, vector<ptrdiff_t> stride) const {
+
+    try {
+
+        string var_name = "Data";
+        double *p_vals = observations.data().data();
+        NcFile nc(file_path_, NcFile::FileMode::read);
+        NcVar var = nc.getVar(var_name);
+
+        if (var.isNull()) {
+            if (verbose_ >= 1) cout << BOLDRED << "Error: Could not"
+                    << " find variable " << var_name << "!" << RESET << endl;
+            return (WRONG_INDEX_SHAPE);
+        }
+
+        // Please realize that I'm directly reading to the forecasts data
+        // pointer which can be dangerous if handled uncautionsly. But I
+        // don't have to create a copy of the data by doing this so I
+        // think the benefit in memory and speed outweighs the downside.
+        //
+        var.getVar(start, count, stride, p_vals);
+
+        nc.close();
+    } catch (...) {
+        throw;
+    }
+
+    return (SUCCESS);
 }

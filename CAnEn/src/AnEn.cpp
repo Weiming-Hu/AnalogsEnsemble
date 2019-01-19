@@ -341,6 +341,7 @@ num_nearest_stations, distance, max_num_search_stations, limit_test)
 
 errorType
 AnEn::computeSimilarity(
+        const Forecasts_array& test_forecasts, 
         const Forecasts_array& search_forecasts,
         const StandardDeviation& sds,
         SimilarityMatrices& sims,
@@ -351,7 +352,7 @@ AnEn::computeSimilarity(
         double max_par_nan, double max_flt_nan) const {
 
     // Check input
-    handleError(check_input_(search_forecasts, sds, sims,
+    handleError(check_input_(test_forecasts, search_forecasts, sds,
             search_observations, mapping, i_observation_parameter));
 
     // Check max_par_nan
@@ -368,7 +369,6 @@ AnEn::computeSimilarity(
         max_flt_nan = 0;
     }
 
-    const Forecasts_array & test_forecasts = sims.getTargets();
     size_t num_parameters = test_forecasts.getParametersSize();
     size_t num_flts = test_forecasts.getFLTsSize();
     size_t num_test_stations = test_forecasts.getStationsSize();
@@ -436,7 +436,7 @@ AnEn::computeSimilarity(
         // find the corresponding search station index to the main test station.
         //
         const auto & search_observation_stations = search_observations.getStations();
-        const auto & test_stations = sims.getTargets().getStations();
+        const auto & test_stations = test_forecasts.getStations();
         handleError(find_nearest_station_match_(
                 test_stations, search_observation_stations, test_stations_index_in_search));
     }
@@ -445,7 +445,7 @@ AnEn::computeSimilarity(
 
     // Resize similarity matrices according to the search space
     sims.setMaxEntries(num_search_stations * num_search_times);
-    sims.resize();
+    sims.resize(num_test_stations, num_test_times, num_flts);
     fill(sims.data(), sims.data() + sims.num_elements(), NAN);
 
 #if defined(_OPENMP)
@@ -519,6 +519,7 @@ errorType
 AnEn::selectAnalogs(
         Analogs & analogs,
         SimilarityMatrices & sims,
+        const anenSta::Stations & test_stations,
         const Observations_array & search_observations,
         const AnEn::TimeMapMatrix & mapping,
         size_t i_parameter, size_t num_members,
@@ -532,15 +533,9 @@ AnEn::selectAnalogs(
         return (OUT_OF_RANGE);
     }
     
-    if (!sims.hasTargets()) {
-        cout << BOLDRED << "Error: Similarity does not have target forecasts." 
-                << RESET << endl;
-        return (MISSING_VALUE);
-    }
-
-    size_t num_test_stations = sims.getTargets().getStationsSize();
-    size_t num_test_times = sims.getTargets().getTimesSize();
-    size_t num_flts = sims.getTargets().getFLTsSize();
+    size_t num_test_stations = sims.shape()[0];
+    size_t num_test_times = sims.shape()[1];
+    size_t num_flts = sims.shape()[2];
     size_t max_members = sims.getMaxEntries();
 
     if (num_members >= max_members) {
@@ -567,7 +562,6 @@ AnEn::selectAnalogs(
         // find the corresponding search station index to the main test station.
         //
         const auto & search_observation_stations = search_observations.getStations();
-        const auto & test_stations = sims.getTargets().getStations();
         handleError(find_nearest_station_match_(
                 test_stations, search_observation_stations, test_stations_index_in_search));
     }
@@ -621,10 +615,6 @@ extend_observations, test_stations_index_in_search, preserve_real_time)
         } // End loop of test times
     } // End loop of test stations
 
-
-    analogs.setMemberTimes(search_observations.getTimes());
-    analogs.setMemberStations(search_observations.getStations());
-    
     return (SUCCESS);
 }
 
@@ -745,14 +735,12 @@ AnEn::diffCircular(double i, double j) const {
 
 errorType
 AnEn::check_input_(
+        const Forecasts_array& test_forecasts,
         const Forecasts_array& search_forecasts,
         const StandardDeviation& sds,
-        SimilarityMatrices& sims,
         const Observations_array& search_observations,
         const AnEn::TimeMapMatrix mapping,
         size_t i_observation_parameter) const {
-
-    const Forecasts_array & test_forecasts = sims.getTargets();
 
     size_t num_parameters = test_forecasts.getParametersSize();
     size_t num_flts = test_forecasts.getFLTsSize();
