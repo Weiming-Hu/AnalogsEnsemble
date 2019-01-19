@@ -152,7 +152,7 @@ void runSimilarityCalculator(
             distance, num_neighbors));
     
     anen.handleError(anen.computeSimilarity(
-            search_forecasts, sds, sims, observations, mapping,
+            test_forecasts, search_forecasts, sds, sims, observations, mapping,
             i_search_stations, observation_id, extend_observations,
             max_par_nan, max_flt_nan));
 
@@ -164,9 +164,13 @@ void runSimilarityCalculator(
     /************************************************************************
      *                         Write Similarity                             *
      ************************************************************************/
-    io_out.handleError(io_out.writeSimilarityMatrices(sims));
-    io.handleError(io_out.writeTimes(search_forecasts.getTimes(),
-            false, "num_search_times", "SearchTimes"));
+    io_out.handleError(io_out.writeSimilarityMatrices(
+            sims, test_forecasts.getParameters(),
+            test_forecasts.getStations(),
+            test_forecasts.getTimes(),
+            test_forecasts.getFLTs(),
+            search_forecasts.getStations(),
+            search_forecasts.getTimes()));
 
     if (verbose >= 3) cout << GREEN << "Done!" << RESET << endl;
 

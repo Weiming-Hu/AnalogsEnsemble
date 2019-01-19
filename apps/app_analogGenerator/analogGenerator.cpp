@@ -166,17 +166,22 @@ void runAnalogGenerator(
             distance, num_neighbors));
     
     anen.handleError(anen.computeSimilarity(
-            search_forecasts, sds, sims, search_observations, mapping,
-            i_search_stations, observation_id, extend_observations,
+            test_forecasts, search_forecasts, sds, sims, search_observations,
+            mapping, i_search_stations, observation_id, extend_observations,
             max_par_nan, max_flt_nan));
 
 
     if (!file_similarity.empty()) {
         io.setMode("Write", file_similarity);
         io.setFileType("Similarity");
-        io.handleError(io.writeSimilarityMatrices(sims));
-        io.handleError(io.writeTimes(search_forecasts.getTimes(),
-                false, "num_search_times", "SearchTimes"));
+
+        io_out.handleError(io_out.writeSimilarityMatrices(
+                sims, test_forecasts.getParameters(),
+                test_forecasts.getStations(),
+                test_forecasts.getTimes(),
+                test_forecasts.getFLTs(),
+                search_forecasts.getStations(),
+                search_forecasts.getTimes()));
     }
 
 #if defined(_CODE_PROFILING)
@@ -188,7 +193,8 @@ void runAnalogGenerator(
 
     Analogs analogs(test_forecasts, num_members);
     
-    anen.handleError(anen.selectAnalogs(analogs, sims, search_observations,
+    anen.handleError(anen.selectAnalogs(analogs, sims,
+            test_forecasts.getStations(), search_observations,
             mapping, observation_id, num_members, quick,
             extend_observations, preserve_real_time));
 
@@ -202,7 +208,12 @@ void runAnalogGenerator(
     /************************************************************************
      *                           Write Analogs                              *
      ************************************************************************/
-    io_out.handleError(io_out.writeAnalogs(analogs));
+    io_out.handleError(io_out.writeAnalogs(
+            analogs, test_forecasts.getStations(),
+            test_forecasts.getTimes(),
+            test_forecasts.getFLTs(),
+            search_observations.getStations(),
+            search_observations.getTimes()));
 
     if (verbose >= 3) cout << GREEN << "Done!" << RESET << endl;
 

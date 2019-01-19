@@ -51,41 +51,29 @@ max_entries_(max_entries) {
 SimilarityMatrices::SimilarityMatrices(
         const Forecasts& forecasts, size_t max_entries) {
     max_entries_ = max_entries;
-    setTargets(forecasts);
+    resize(forecasts.getStationsSize(),
+            forecasts.getTimesSize(),
+            forecasts.getFLTsSize());
 }
 
 SimilarityMatrices::SimilarityMatrices(const size_t& num_stations,
         const size_t& num_times, const size_t& num_flts,
         const size_t& max_entries) :
 boost::multi_array<double, 5>(boost::extents[num_stations][num_times]
-[num_flts][max_entries][_NUM_COLS_]), max_entries_(max_entries) {
+[num_flts][max_entries][_NUM_COLS]), max_entries_(max_entries) {
 }
 
 SimilarityMatrices::~SimilarityMatrices() {
 }
 
 void
-SimilarityMatrices::resize() {
-    try {
-        boost::multi_array < double, 5 >::resize(
-                boost::extents[targets_.getStationsSize()][targets_.getTimesSize()]
-                [targets_.getFLTsSize()][max_entries_][_NUM_COLS_]);
-    } catch (bad_alloc & e) {
-        cerr << "ERROR: Insufficient memory to resize similarity matrix to store "
-            << targets_.getStationsSize() * targets_.getTimesSize() * targets_.getFLTsSize() * max_entries_ * _NUM_COLS_
-            << " double values!" << endl;
-        throw;
-    }
-}
-
-void
 SimilarityMatrices::resize(size_t dim0, size_t dim1, size_t dim2) {
     try {
         boost::multi_array < double, 5 >::resize(
-                boost::extents[dim0][dim1][dim2][max_entries_][_NUM_COLS_]);
+                boost::extents[dim0][dim1][dim2][max_entries_][_NUM_COLS]);
     } catch (bad_alloc & e) {
         cerr << "ERROR: Insufficient memory to resize similarity matrix to store "
-            << dim0 * dim1 * dim2 * max_entries_ * _NUM_COLS_ << " double values!" << endl;
+            << dim0 * dim1 * dim2 * max_entries_ * _NUM_COLS << " double values!" << endl;
         throw;
     }
 }
@@ -112,24 +100,6 @@ SimilarityMatrices::checkSearchSpaceExtension() const {
     }
 
     return(false);
-}
-
-void
-SimilarityMatrices::setTargets(const Forecasts & targets) {
-
-    targets_.setParameters(targets.getParameters());
-    targets_.setStations(targets.getStations());
-    targets_.setTimes(targets.getTimes());
-    targets_.setFlts(targets.getFLTs());
-    targets_.updateDataDims();
-
-    auto p_vals = targets.getValues();
-    vector<double> vec(p_vals, p_vals + targets.getDataLength());
-    targets_.setValues(vec);
-
-    // Resize the multi array values
-    resize(targets.getStationsSize(),
-            targets.getTimesSize(), targets.getFLTsSize());
 }
 
 bool
@@ -185,16 +155,6 @@ collapse(3) shared(sortFunc, limit_i, limit_j, limit_k)
     return true;
 }
 
-const Forecasts_array &
-SimilarityMatrices::getTargets() const {
-    return (targets_);
-}
-
-bool
-SimilarityMatrices::hasTargets() const {
-    return (targets_.getDataLength() != 0);
-}
-
 void
 SimilarityMatrices::setOrderTag(COL_TAG order_tag) {
     if (order_tag >= STATION || order_tag <= VALUE) order_tag_ = order_tag;
@@ -208,7 +168,7 @@ SimilarityMatrices::setMaxEntries(size_t max_entries) {
 
 int
 SimilarityMatrices::getNumCols() {
-    return _NUM_COLS_;
+    return _NUM_COLS;
 }
 
 size_t
@@ -223,15 +183,10 @@ SimilarityMatrices::getOrderTag() const {
 
 void
 SimilarityMatrices::print(ostream& os) const {
-    //    cout << "Associated forecasts:" << endl
-    //            << targets_.getStations()
-    //            << targets_.getParameters()
-    //            << targets_.getTimes()
-    //            << targets_.getFLTs() << endl;
     printSize(os);
 
     size_t O = shape()[3];
-    size_t P = _NUM_COLS_;
+    size_t P = _NUM_COLS;
 
     for (size_t i = 0; i < shape()[0]; i++) {
         for (size_t j = 0; j < shape()[1]; j++) {

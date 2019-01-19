@@ -185,7 +185,7 @@ void testAnEn::testComputeSimilarity() {
             i_search_stations));
     
     // Compute similarity
-    anen.computeSimilarity(search_forecasts, sds, sims,
+    anen.computeSimilarity(test_forecasts, search_forecasts, sds, sims,
             search_observations, mapping, i_search_stations);
     
     vector<double> results{
@@ -423,16 +423,16 @@ void testAnEn::testSelectAnalogs() {
     
     // Compute similarity
     anen.handleError(anen.computeSimilarity(
-            search_forecasts, sds, sims,
+            test_forecasts, search_forecasts, sds, sims,
             search_observations, mapping, i_search_stations));
     
     // Select analogs
     Analogs analogs1, analogs2;
-    anen.selectAnalogs(analogs1, sims, search_observations, mapping,
+    anen.selectAnalogs(analogs1, sims, test_stations, search_observations, mapping,
             0, // I know there is only one parameter
             4, // I only want 4 members
             false, false, true);
-    anen.selectAnalogs(analogs2, sims, search_observations, mapping,
+    anen.selectAnalogs(analogs2, sims, test_stations, search_observations, mapping,
             0, // I know there is only one parameter
             4, // I only want 4 members
             false, true, true);
