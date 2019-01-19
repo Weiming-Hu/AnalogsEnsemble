@@ -172,10 +172,8 @@ void runAnalogGenerator(
 
 
     if (!file_similarity.empty()) {
-        io.setMode("Write", file_similarity);
-        io.setFileType("Similarity");
-
-        io_out.handleError(io_out.writeSimilarityMatrices(
+        AnEnIO io_sim("Write", file_similarity, "Similarity");
+        io_sim.handleError(io_sim.writeSimilarityMatrices(
                 sims, test_forecasts.getParameters(),
                 test_forecasts.getStations(),
                 test_forecasts.getTimes(),

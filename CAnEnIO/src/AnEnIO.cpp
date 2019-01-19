@@ -163,7 +163,7 @@ AnEnIO::checkFileType() const {
         } else if (file_type_ == "Similarity") {
 
             dim_names = {"num_stations", "num_times", "num_flts", "num_entries",
-                "num_cols", "num_parameters", "num_chars", "search_num_statios",
+                "num_cols", "num_parameters", "num_chars", "search_num_stations",
                 "search_num_times"};
             var_names = {"SimilarityMatrices", "ParameterNames", "ParameterWeights",
                 "ParameterCirculars", "StationNames", "Xs", "Ys", "Times", "FLTs",
@@ -1211,34 +1211,8 @@ AnEnIO::writeParameters(const anenPar::Parameters& parameters,
         return (WRONG_MODE);
     }
 
-    // Check if parameters have weights
-    size_t num_nan = 0;
-    double sum = 0.0;
     const anenPar::multiIndexParameters::index<anenPar::by_insert>::type &
             parameters_by_insert = parameters.get<anenPar::by_insert>();
-    for (const auto & parameter : parameters_by_insert) {
-        double tmp = parameter.getWeight();
-        if (std::isnan(tmp)) {
-            num_nan++;
-        } else {
-            sum += tmp;
-        }
-    }
-
-    if (num_nan == 0) {
-        if (sum != 1) {
-            if (verbose_ >= 1) cout << BOLDRED
-                    << "Error: Parameter weights do not"
-                    << " add up to 1." << RESET << endl;
-            return (ERROR_SETTING_VALUES);
-        }
-    } else if (num_nan != parameters_by_insert.size()) {
-
-        if (verbose_ >= 1) cout << BOLDRED
-                << "Error: Weights can either be all NAN or all numbers."
-                << RESET << endl;
-        return (NAN_VALUES);
-    }
 
     NcFile nc(file_path_, NcFile::FileMode::write);
 

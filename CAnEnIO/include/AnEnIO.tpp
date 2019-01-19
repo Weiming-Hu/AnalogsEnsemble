@@ -127,9 +127,6 @@ AnEnIO::readTextMatrix(boost::numeric::ublas::matrix<T> & mat) {
         return (WRONG_MODE);
     }
     
-    handleError(checkFilePath());
-    handleError(checkFileType());
-    
     ifstream in;
     
     in.open(file_path_);
@@ -170,8 +167,6 @@ AnEnIO::writeTextMatrix(
         return (WRONG_MODE);
     }
     
-    handleError(checkFilePath());
-
     ifstream in;
     ofstream out;
     out.open(file_path_);

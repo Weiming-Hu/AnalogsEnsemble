@@ -43,18 +43,17 @@ void runAnalogSelector(const string & file_sim, const string & file_obs,
 
     AnEn anen(verbose);
     AnEnIO io("Read", file_sim, "Similarity", verbose),
-           io_out("Write", file_analogs, "Analogs", verbose);
+            io_out("Write", file_analogs, "Analogs", verbose),
+            io_obs("Read", file_obs, "Observations", verbose);
     SimilarityMatrices sims;
     io.handleError(io.readSimilarityMatrices(sims));
 
     Observations_array search_observations;
-    io.setFileType("Observations");
-    io.setFilePath(file_obs);
 
     if (obs_start.empty() || obs_count.empty()) {
-        io.handleError(io.readObservations(search_observations));
+        io_obs.handleError(io_obs.readObservations(search_observations));
     } else {
-        io.handleError(io.readObservations(search_observations,
+        io_obs.handleError(io_obs.readObservations(search_observations,
                 obs_start, obs_count));
     }
     
@@ -65,9 +64,8 @@ void runAnalogSelector(const string & file_sim, const string & file_obs,
                 << "currently not supported." << RESET << endl;
         throw runtime_error(ss.str());
     } else {
-        io.setMode("Read", file_mapping);
-        io.setFileType("Matrix");
-        io.handleError(io.readTextMatrix(mapping));
+        AnEnIO io_mat("Read", file_mapping, "Matrix", verbose);
+        io_mat.handleError(io_mat.readTextMatrix(mapping));
     }
     
 #if defined(_CODE_PROFILING)
