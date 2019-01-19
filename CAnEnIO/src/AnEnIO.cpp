@@ -2855,7 +2855,7 @@ AnEnIO::readObservationsArrayData_(Observations_array & observations) const {
 errorType
 AnEnIO::readObservationsArrayData_(Observations_array & observations,
         vector<size_t> start, vector<size_t> count, vector<ptrdiff_t> stride) const {
-    
+
     // Reverse the order because of the storage style of NetCDF
     reverse(start.begin(), start.end());
     reverse(count.begin(), count.end());
