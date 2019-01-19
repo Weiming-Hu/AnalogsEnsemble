@@ -503,9 +503,7 @@ AnEnIO::readForecasts(Forecasts_array & forecasts) const {
     // Read data
     if (verbose_ >= 3) cout << "Reading forecast values from file ("
             << file_path_ << ") ..." << endl;
-    vector<double> vals;
-    handleError(read_vector_("Data", vals));
-    forecasts.setValues(vals);
+    readForecastsArrayData_(forecasts);
 
 
     return (SUCCESS);
@@ -577,9 +575,7 @@ AnEnIO::readForecasts(Forecasts_array & forecasts,
     // Read data
     if (verbose_ >= 3) cout << "Reading partial forecast values from file ("
             << file_path_ << ") ..." << endl;
-    vector<double> vals;
-    handleError(read_vector_("Data", vals, start, count, stride));
-    forecasts.setValues(vals);
+    readForecastsArrayData_(forecasts, start, count, stride);
 
     return (SUCCESS);
 }
@@ -2781,6 +2777,77 @@ AnEnIO::writeStandardDeviationOnly_(const StandardDeviation& sds) const {
 }
 
 errorType
+AnEnIO::readForecastsArrayData_(Forecasts_array & forecasts) const {
+    
+    try {
+
+        string var_name = "Data";
+        double *p_vals = forecasts.data().data();
+        NcFile nc(file_path_, NcFile::FileMode::read);
+        NcVar var = nc.getVar(var_name);
+
+        if (var.isNull()) {
+            if (verbose_ >= 1) cout << BOLDRED << "Error: Could not"
+                    << " find variable " << var_name << "!" << RESET << endl;
+            return (WRONG_INDEX_SHAPE);
+        }
+
+        // Please realize that I'm directly reading to the forecasts data
+        // pointer which can be dangerous if handled uncautionsly. But I
+        // don't have to create a copy of the data by doing this so I
+        // think the benefit in memory and speed outweighs the downside.
+        //
+        var.getVar(p_vals);
+
+        nc.close();
+    } catch (...) {
+        throw;
+    }
+
+    return (SUCCESS);
+}
+
+errorType
+AnEnIO::readForecastsArrayData_(Forecasts_array & forecasts,
+        std::vector<size_t> start,
+        std::vector<size_t> count,
+        std::vector<ptrdiff_t> stride) const {
+    
+    // Reverse the order because of the storage style of NetCDF
+    reverse(start.begin(), start.end());
+    reverse(count.begin(), count.end());
+    reverse(stride.begin(), stride.end());
+
+    try {
+
+        string var_name = "Data";
+        double *p_vals = forecasts.data().data();
+        NcFile nc(file_path_, NcFile::FileMode::read);
+        NcVar var = nc.getVar(var_name);
+
+        if (var.isNull()) {
+            if (verbose_ >= 1) cout << BOLDRED << "Error: Could not"
+                    << " find variable " << var_name << "!" << RESET << endl;
+            return (WRONG_INDEX_SHAPE);
+        }
+
+        // Please realize that I'm directly reading to the forecasts data
+        // pointer which can be dangerous if handled uncautionsly. But I
+        // don't have to create a copy of the data by doing this so I
+        // think the benefit in memory and speed outweighs the downside.
+        //
+        var.getVar(start, count, stride, p_vals);
+
+        nc.close();
+    } catch (...) {
+        throw;
+    }
+
+    return (SUCCESS);
+}
+
+
+errorType
 AnEnIO::readObservationsArrayData_(Observations_array & observations) const {
 
     try {
@@ -2814,7 +2881,12 @@ AnEnIO::readObservationsArrayData_(Observations_array & observations) const {
 errorType
 AnEnIO::readObservationsArrayData_(Observations_array & observations,
         vector<size_t> start, vector<size_t> count, vector<ptrdiff_t> stride) const {
-
+    
+    // Reverse the order because of the storage style of NetCDF
+    reverse(start.begin(), start.end());
+    reverse(count.begin(), count.end());
+    reverse(stride.begin(), stride.end());
+    
     try {
 
         string var_name = "Data";

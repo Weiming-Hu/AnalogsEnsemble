@@ -472,7 +472,7 @@ void testAnEnIO::testReadPartForecasts() {
      */
 
     string file = file_forecasts;
-    AnEnIO io("Read", file, "Forecasts", 3);
+    AnEnIO io("Read", file, "Forecasts", 2);
 
     Forecasts_array forecasts, forecasts_full;
 

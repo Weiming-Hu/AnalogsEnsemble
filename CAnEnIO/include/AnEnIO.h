@@ -755,6 +755,29 @@ protected:
     errorType writeStandardDeviationOnly_(const StandardDeviation & sds) const;
 
     /**
+     * Reads forecasts array data. Forecasts data should be
+     * allocated by Forecasts_array::updateDataDims.
+     * @param forecasts
+     * @return An AnEnIO::errorType.
+     */
+    errorType readForecastsArrayData_(Forecasts_array & forecasts) const;
+
+    /**
+     * Reads forecasts array data. Forecasts data should be
+     * allocated by Forecasts_array::updateDataDims.
+     * @param forecasts The Forecasts object to store data.
+     * @param start A vector of indices of the start of the data to read.
+     * @param count A vector of numbers of data to read for each dimension.
+     * @param stride A vector of numbers of the length of the stride for
+     * each dimension.
+     * @return An AnEnIO::errorType.
+     */
+    errorType readForecastsArrayData_(Forecasts_array & forecasts,
+            std::vector<size_t> start,
+            std::vector<size_t> count,
+            std::vector<ptrdiff_t> stride = {1, 1, 1}) const;
+
+    /**
      * Reads observation array data. Observations data should be
      * allocated by Observations_array::updateDataDims.
      * @param observations
