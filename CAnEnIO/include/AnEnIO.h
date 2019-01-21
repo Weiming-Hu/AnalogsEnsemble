@@ -628,8 +628,8 @@ public:
             anenSta::Stations & stations,
             anenTime::Times & times,
             anenTime::FLTs & flts,
-//            anenSta::Stations & member_stations,
-//            anenTime::Times & member_times,
+            anenSta::Stations & search_stations,
+            anenTime::Times & search_times,
             size_t along, int verbose = 2);
 
     /**

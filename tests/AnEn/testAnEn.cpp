@@ -431,11 +431,11 @@ void testAnEn::testSelectAnalogs() {
     anen.selectAnalogs(analogs1, sims, test_stations, search_observations, mapping,
             0, // I know there is only one parameter
             4, // I only want 4 members
-            false, false, true);
+            false, false);
     anen.selectAnalogs(analogs2, sims, test_stations, search_observations, mapping,
             0, // I know there is only one parameter
             4, // I only want 4 members
-            false, true, true);
+            false, true);
 
     vector<double> results{34, 10, 11, 11, 12, 12, 13, 13, 30,
         14, 15, 15, 16, 16, 17, 17, 26, 18, 19, 19, 20, 20, 21, 21,
@@ -450,6 +450,8 @@ void testAnEn::testSelectAnalogs() {
     size_t dim3 = analogs1.shape()[2];
     size_t dim4 = analogs1.shape()[3];
     size_t dim5 = analogs1.shape()[4];
+    
+    const auto & search_observation_times_by_insert = search_observation_times.get<anenTime::by_insert>();
 
     size_t i = 0;
     for (size_t i_dim5 = 0; i_dim5 < dim5; i_dim5++) {
@@ -457,8 +459,15 @@ void testAnEn::testSelectAnalogs() {
             for (size_t i_dim3 = 0; i_dim3 < dim3; i_dim3++) {
                 for (size_t i_dim2 = 0; i_dim2 < dim2; i_dim2++) {
                     for (size_t i_dim1 = 0; i_dim1 < dim1; i_dim1++, i++) {
-                        CPPUNIT_ASSERT(results[i] == analogs1[i_dim1][i_dim2][i_dim3][i_dim4][i_dim5]);
-                        CPPUNIT_ASSERT(results[i] == analogs2[i_dim1][i_dim2][i_dim3][i_dim4][i_dim5]);
+                        if (i_dim5 == Analogs::COL_TAG::TIME) {
+                            CPPUNIT_ASSERT(results[i] == 
+                                    search_observation_times_by_insert[analogs1[i_dim1][i_dim2][i_dim3][i_dim4][i_dim5]]);
+                            CPPUNIT_ASSERT(results[i] == 
+                                    search_observation_times_by_insert[analogs2[i_dim1][i_dim2][i_dim3][i_dim4][i_dim5]]);
+                        } else {
+                            CPPUNIT_ASSERT(results[i] == analogs1[i_dim1][i_dim2][i_dim3][i_dim4][i_dim5]);
+                            CPPUNIT_ASSERT(results[i] == analogs2[i_dim1][i_dim2][i_dim3][i_dim4][i_dim5]);
+                        }
                     }
                 }
             }

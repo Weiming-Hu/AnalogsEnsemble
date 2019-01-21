@@ -1377,7 +1377,7 @@ AnEnIO::writeStations(
 
     // Check if file already has variable
     NcVar var;
-    vector<string> var_names_to_check ={var_name_prefix + "StationNames", var_name_prefix + "Xs", var_name_prefix + "Ys"};
+    vector<string> var_names_to_check = {var_name_prefix + "StationNames", var_name_prefix + "Xs", var_name_prefix + "Ys"};
     for (auto name : var_names_to_check) {
         var = nc.getVar(name);
         if (!var.isNull()) {
@@ -2010,7 +2010,7 @@ AnEnIO::combineParameters(
     if (verbose >= 3) cout << "Combining parameters ..." << endl;
 
     size_t count = 0;
-    
+
     parameters.clear();
     for_each(in_files.begin(), in_files.end(),
             [&parameters, &file_type, &count]
@@ -2044,7 +2044,7 @@ AnEnIO::combineStations(
     if (verbose >= 3) cout << "Combining stations ..." << endl;
 
     size_t count = 0;
-    
+
     stations.clear();
     for_each(in_files.begin(), in_files.end(),
             [&stations, &file_type, &count, &dim_name_prefix, &var_name_prefix]
@@ -2078,7 +2078,7 @@ AnEnIO::combineTimes(
     if (verbose >= 3) cout << "Combining times ..." << endl;
 
     size_t count = 0;
-    
+
     times.clear();
     for_each(in_files.begin(), in_files.end(),
             [&times, &file_type, &count, &var_name]
@@ -2108,7 +2108,7 @@ AnEnIO::combineFLTs(
         anenTime::FLTs & flts, int verbose) {
 
     if (verbose >= 3) cout << "Combining FLTs ..." << endl;
-    
+
     size_t count = 0;
 
     flts.clear();
@@ -2123,11 +2123,11 @@ AnEnIO::combineFLTs(
                 count += flts_single.size();
             }
     );
-    
+
     if (flts.size() != count) {
-        if (verbose >= 1) cout << BOLDRED <<"Error: Duplicates in FLTs."
+        if (verbose >= 1) cout << BOLDRED << "Error: Duplicates in FLTs."
                 << RESET << endl;
-        return(ELEMENT_NOT_UNIQUE);
+        return (ELEMENT_NOT_UNIQUE);
     }
 
     return (SUCCESS);
@@ -2279,7 +2279,7 @@ AnEnIO::combineObservationsArray(const vector<string> & in_files,
 
 errorType
 AnEnIO::combineStandardDeviation(const vector<string> & in_files,
-        StandardDeviation & sds, 
+        StandardDeviation & sds,
         anenPar::Parameters & parameters,
         anenSta::Stations & stations,
         anenTime::FLTs & flts,
@@ -2295,19 +2295,19 @@ AnEnIO::combineStandardDeviation(const vector<string> & in_files,
     io.handleError(io.readParameters(parameters));
     io.handleError(io.readStations(stations));
     io.handleError(io.readFLTs(flts));
-    
+
     if (along == 0) io.handleError(io.combineParameters(in_files, "StandardDeviation", parameters, verbose));
     else if (along == 1) io.handleError(io.combineStations(in_files, "StandardDeviation", stations, verbose));
     else if (along == 2) io.handleError(io.combineFLTs(in_files, "StandardDeviation", flts, verbose));
     else return (ERROR_SETTING_VALUES);
-    
+
     // Identify which dimension is being appended. The appended dimension number
     // will be removed, and the remain dimensions will stay the same after the
     // data combination.
     //
     vector<size_t> same_dimensions = {0, 1, 2};
     same_dimensions.erase(find(same_dimensions.begin(), same_dimensions.end(), along));
-    
+
     // Update dimensions
     if (verbose >= 3) cout << "Update dimensions of standard deviation ..." << endl;
     sds.resize(boost::extents[parameters.size()][stations.size()][flts.size()]);
@@ -2346,15 +2346,19 @@ AnEnIO::combineSimilarityMatrices(
         anenSta::Stations & stations,
         anenTime::Times & times,
         anenTime::FLTs & flts,
+        anenSta::Stations & search_stations,
+        anenTime::Times & search_times,
         size_t along, int verbose) {
-    
+
     // Clear values
     sims.resize(0, 0, 0);
+    search_times.clear();
+    search_stations.clear();
 
     // Create meta information from the first file
     if (verbose >= 3) cout << "Processing meta information ..." << endl;
     AnEnIO io("Read", in_files[0], "Similarity", 2);
-    
+
     size_t num_entries;
     io.readDimLength("num_entries", num_entries);
 
@@ -2392,7 +2396,7 @@ AnEnIO::combineSimilarityMatrices(
     //
     vector<size_t> same_dimensions = {1, 2, 3, 4};
     same_dimensions.erase(find(same_dimensions.begin(), same_dimensions.end(), along));
-    
+
     // Update dimensions
     if (verbose >= 3) cout << "Update dimensions of standard deviation ..." << endl;
     sims.resize(flts.size(), times.size(), stations.size());
@@ -2404,21 +2408,55 @@ AnEnIO::combineSimilarityMatrices(
     for (const auto & file : in_files) {
         AnEnIO io_thread("Read", in_files[0], "Similarity", 2);
         SimilarityMatrices sims_single;
+        anenSta::Stations search_stations_single;
+        anenTime::Times search_times_single;
 
         io_thread.setFilePath(file);
         io_thread.readSimilarityMatrices(sims_single);
+
+        io_thread.readStations(search_stations_single, AnEnIO::SEARCH_DIM_PREFIX_, AnEnIO::SEARCH_VAR_PREFIX_);
+        io_thread.readTimes(search_times_single, AnEnIO::SEARCH_VAR_PREFIX_ + "Times");
+
+        const auto & search_stations_single_by_insert = search_stations_single.get<anenSta::by_insert>();
+        const auto & search_times_single_by_insert = search_times_single.get<anenTime::by_insert>();
+
+        search_stations.insert(search_stations.end(),
+                search_stations_single.begin(), search_stations_single.end());
+        search_times.insert(search_times.end(),
+                search_times_single.begin(), search_times_single.end());
 
         for (size_t k = 0; k < sims.shape()[same_dimensions[2]]; k++) {
             for (size_t j = 0; j < sims.shape()[same_dimensions[1]]; j++) {
                 for (size_t m = 0; m < sims.shape()[same_dimensions[0]]; m++) {
                     for (size_t l = 0; l < sims_single.shape()[along]; l++) {
-                        for (size_t i = 0; i < SimilarityMatrices::_NUM_COLS; i++) {
-                            
-                            if (along == 1) sims[i][append_count + l][m][j][k] = sims_single[i][l][m][j][k];
-                            else if (along == 2) sims[i][m][append_count + l][j][k] = sims_single[i][m][l][j][k];
-                            else if (along == 3) sims[i][m][j][append_count + l][k] = sims_single[i][m][j][l][k];
-                            else if (along == 4) sims[i][m][j][k][append_count + l] = sims_single[i][m][j][k][l];
-                            
+
+                        if (along == 1) {
+                            sims[SimilarityMatrices::COL_TAG::VALUE][append_count + l][m][j][k] = sims_single[SimilarityMatrices::COL_TAG::VALUE][l][m][j][k];
+                            sims[SimilarityMatrices::COL_TAG::STATION][append_count + l][m][j][k] =
+                                    search_stations.getStationIndex(search_stations_single_by_insert[sims_single[SimilarityMatrices::COL_TAG::STATION][l][m][j][k]].getID());
+                            sims[SimilarityMatrices::COL_TAG::TIME][append_count + l][m][j][k] =
+                                    search_times.getTimeIndex(search_times_single_by_insert[sims_single[SimilarityMatrices::COL_TAG::TIME][l][m][j][k]]);
+
+                        } else if (along == 2) {
+                            sims[SimilarityMatrices::COL_TAG::VALUE][m][append_count + l][j][k] = sims_single[SimilarityMatrices::COL_TAG::VALUE][m][l][j][k];
+                            sims[SimilarityMatrices::COL_TAG::STATION][m][append_count + l][j][k] =
+                                    search_stations.getStationIndex(search_stations_single_by_insert[sims_single[SimilarityMatrices::COL_TAG::STATION][m][l][j][k]].getID());
+                            sims[SimilarityMatrices::COL_TAG::TIME][m][append_count + l][j][k] =
+                                    search_times.getTimeIndex(search_times_single_by_insert[sims_single[SimilarityMatrices::COL_TAG::TIME][m][l][j][k]]);
+
+                        } else if (along == 3) {
+                            sims[SimilarityMatrices::COL_TAG::VALUE][m][j][append_count + l][k] = sims_single[SimilarityMatrices::COL_TAG::VALUE][m][j][l][k];
+                            sims[SimilarityMatrices::COL_TAG::STATION][m][j][append_count + l][k] =
+                                    search_stations.getStationIndex(search_stations_single_by_insert[sims_single[SimilarityMatrices::COL_TAG::STATION][m][j][l][k]].getID());
+                            sims[SimilarityMatrices::COL_TAG::TIME][m][j][append_count + l][k] =
+                                    search_times.getTimeIndex(search_times_single_by_insert[sims_single[SimilarityMatrices::COL_TAG::TIME][m][j][l][k]]);
+
+                        } else if (along == 4) {
+                            sims[SimilarityMatrices::COL_TAG::VALUE][m][j][k][append_count + l] = sims_single[SimilarityMatrices::COL_TAG::VALUE][m][j][k][l];
+                            sims[SimilarityMatrices::COL_TAG::STATION][m][j][k][append_count + l] =
+                                    search_stations.getStationIndex(search_stations_single_by_insert[sims_single[SimilarityMatrices::COL_TAG::STATION][m][j][k][l]].getID());
+                            sims[SimilarityMatrices::COL_TAG::TIME][m][j][k][append_count + l] =
+                                    search_times.getTimeIndex(search_times_single_by_insert[sims_single[SimilarityMatrices::COL_TAG::TIME][m][j][k][l]]);
                         }
                     }
                 }
@@ -2433,7 +2471,7 @@ AnEnIO::combineSimilarityMatrices(
 
 errorType
 AnEnIO::combineAnalogs(const vector<string> & in_files,
-        Analogs & analogs, 
+        Analogs & analogs,
         anenSta::Stations & stations,
         anenTime::Times & times,
         anenTime::FLTs & flts,
@@ -2480,7 +2518,7 @@ AnEnIO::combineAnalogs(const vector<string> & in_files,
         io.handleError(io.combineStations(in_files, "Analogs", stations, verbose));
     else
         return (ERROR_SETTING_VALUES);
-    
+
     // Identify which dimension is being appended. The appended dimension number
     // will be removed, and the remain dimensions will stay the same after the
     // data combination.
@@ -2501,63 +2539,63 @@ AnEnIO::combineAnalogs(const vector<string> & in_files,
         Analogs analogs_single;
         anenSta::Stations member_stations_single;
         anenTime::Times member_times_single;
-        
+
         io_thread.setFilePath(file);
         io_thread.readAnalogs(analogs_single);
-        
+
         io_thread.readStations(member_stations_single, AnEnIO::MEMBER_DIM_PREFIX_, AnEnIO::MEMBER_VAR_PREFIX_);
         io_thread.readTimes(member_times_single, AnEnIO::MEMBER_VAR_PREFIX_ + "Times");
-        
+
         const auto & member_stations_single_by_insert = member_stations_single.get<anenSta::by_insert>();
         const auto & member_times_single_by_insert = member_times_single.get<anenTime::by_insert>();
-        
+
         member_stations.insert(member_stations.end(),
                 member_stations_single.begin(), member_stations_single.end());
         member_times.insert(member_times.end(),
                 member_times_single.begin(), member_times_single.end());
-        
+
         for (size_t k = 0; k < analogs.shape()[same_dimensions[2]]; k++) {
             for (size_t j = 0; j < analogs.shape()[same_dimensions[1]]; j++) {
                 for (size_t m = 0; m < analogs.shape()[same_dimensions[0]]; m++) {
                     for (size_t l = 0; l < analogs_single.shape()[along]; l++) {
 
-                            if (along == 0) {
-                                analogs[append_count + l][m][j][k][Analogs::COL_TAG::VALUE] = analogs_single[l][m][j][k][Analogs::COL_TAG::VALUE];
-                                analogs[append_count + l][m][j][k][Analogs::COL_TAG::STATION] = 
-                                        member_stations.getStationIndex(member_stations_single_by_insert[analogs_single[l][m][j][k][Analogs::COL_TAG::STATION]].getID());
-                                analogs[append_count + l][m][j][k][Analogs::COL_TAG::TIME] =
+                        if (along == 0) {
+                            analogs[append_count + l][m][j][k][Analogs::COL_TAG::VALUE] = analogs_single[l][m][j][k][Analogs::COL_TAG::VALUE];
+                            analogs[append_count + l][m][j][k][Analogs::COL_TAG::STATION] =
+                                    member_stations.getStationIndex(member_stations_single_by_insert[analogs_single[l][m][j][k][Analogs::COL_TAG::STATION]].getID());
+                            analogs[append_count + l][m][j][k][Analogs::COL_TAG::TIME] =
                                     member_times.getTimeIndex(member_times_single_by_insert[analogs_single[l][m][j][k][Analogs::COL_TAG::TIME]]);
-                                
-                            } else if (along == 1) {
-                                analogs[m][append_count + l][j][k][Analogs::COL_TAG::VALUE] = analogs_single[m][l][j][k][Analogs::COL_TAG::VALUE];
-                                analogs[m][append_count + l][j][k][Analogs::COL_TAG::STATION] = 
-                                        member_stations.getStationIndex(member_stations_single_by_insert[analogs_single[m][l][j][k][Analogs::COL_TAG::STATION]].getID());
-                                analogs[m][append_count + l][j][k][Analogs::COL_TAG::TIME] = 
-                                        member_times.getTimeIndex(member_times_single_by_insert[analogs_single[m][l][j][k][Analogs::COL_TAG::TIME]]);
-                                
-                            } else if (along == 2) {
-                                analogs[m][j][append_count + l][k][Analogs::COL_TAG::VALUE] = analogs_single[m][j][l][k][Analogs::COL_TAG::VALUE];
-                                analogs[m][j][append_count + l][k][Analogs::COL_TAG::STATION] = 
-                                        member_stations.getStationIndex(member_stations_single_by_insert[analogs_single[m][j][l][k][Analogs::COL_TAG::STATION]].getID());
-                                analogs[m][j][append_count + l][k][Analogs::COL_TAG::TIME] = 
-                                        member_times.getTimeIndex(member_times_single_by_insert[analogs_single[m][j][l][k][Analogs::COL_TAG::TIME]]);
-                                
-                            } else if (along == 3) {
-                                analogs[m][j][k][append_count + l][Analogs::COL_TAG::VALUE] = analogs_single[m][j][k][l][Analogs::COL_TAG::VALUE];
-                                analogs[m][j][k][append_count + l][Analogs::COL_TAG::STATION] =
-                                        member_stations.getStationIndex(member_stations_single_by_insert[analogs_single[m][j][k][l][Analogs::COL_TAG::STATION]].getID());
-                                analogs[m][j][k][append_count + l][Analogs::COL_TAG::TIME] = 
-                                        member_times.getTimeIndex(member_times_single_by_insert[analogs_single[m][j][k][l][Analogs::COL_TAG::TIME]]);
-                                
-                            }
+
+                        } else if (along == 1) {
+                            analogs[m][append_count + l][j][k][Analogs::COL_TAG::VALUE] = analogs_single[m][l][j][k][Analogs::COL_TAG::VALUE];
+                            analogs[m][append_count + l][j][k][Analogs::COL_TAG::STATION] =
+                                    member_stations.getStationIndex(member_stations_single_by_insert[analogs_single[m][l][j][k][Analogs::COL_TAG::STATION]].getID());
+                            analogs[m][append_count + l][j][k][Analogs::COL_TAG::TIME] =
+                                    member_times.getTimeIndex(member_times_single_by_insert[analogs_single[m][l][j][k][Analogs::COL_TAG::TIME]]);
+
+                        } else if (along == 2) {
+                            analogs[m][j][append_count + l][k][Analogs::COL_TAG::VALUE] = analogs_single[m][j][l][k][Analogs::COL_TAG::VALUE];
+                            analogs[m][j][append_count + l][k][Analogs::COL_TAG::STATION] =
+                                    member_stations.getStationIndex(member_stations_single_by_insert[analogs_single[m][j][l][k][Analogs::COL_TAG::STATION]].getID());
+                            analogs[m][j][append_count + l][k][Analogs::COL_TAG::TIME] =
+                                    member_times.getTimeIndex(member_times_single_by_insert[analogs_single[m][j][l][k][Analogs::COL_TAG::TIME]]);
+
+                        } else if (along == 3) {
+                            analogs[m][j][k][append_count + l][Analogs::COL_TAG::VALUE] = analogs_single[m][j][k][l][Analogs::COL_TAG::VALUE];
+                            analogs[m][j][k][append_count + l][Analogs::COL_TAG::STATION] =
+                                    member_stations.getStationIndex(member_stations_single_by_insert[analogs_single[m][j][k][l][Analogs::COL_TAG::STATION]].getID());
+                            analogs[m][j][k][append_count + l][Analogs::COL_TAG::TIME] =
+                                    member_times.getTimeIndex(member_times_single_by_insert[analogs_single[m][j][k][l][Analogs::COL_TAG::TIME]]);
+
+                        }
                     }
                 }
             }
         }
-        
+
         append_count += analogs_single.shape()[along];
     }
-    
+
     return (SUCCESS);
 }
 
@@ -2803,7 +2841,7 @@ AnEnIO::writeStandardDeviationOnly_(const StandardDeviation& sds) const {
 
 errorType
 AnEnIO::readForecastsArrayData_(Forecasts_array & forecasts) const {
-    
+
     try {
 
         string var_name = "Data";
@@ -2837,7 +2875,7 @@ AnEnIO::readForecastsArrayData_(Forecasts_array & forecasts,
         std::vector<size_t> start,
         std::vector<size_t> count,
         std::vector<ptrdiff_t> stride) const {
-    
+
     // Reverse the order because of the storage style of NetCDF
     reverse(start.begin(), start.end());
     reverse(count.begin(), count.end());
@@ -2870,7 +2908,6 @@ AnEnIO::readForecastsArrayData_(Forecasts_array & forecasts,
 
     return (SUCCESS);
 }
-
 
 errorType
 AnEnIO::readObservationsArrayData_(Observations_array & observations) const {
@@ -2911,7 +2948,7 @@ AnEnIO::readObservationsArrayData_(Observations_array & observations,
     reverse(start.begin(), start.end());
     reverse(count.begin(), count.end());
     reverse(stride.begin(), stride.end());
-    
+
     try {
 
         string var_name = "Data";
