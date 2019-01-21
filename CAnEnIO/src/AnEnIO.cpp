@@ -169,7 +169,7 @@ AnEnIO::checkFileType() const {
             dim_names = {"num_stations", "num_times", "num_flts", "num_entries",
                 "num_cols", "num_parameters", "num_chars",
                 SEARCH_DIM_PREFIX_ + "num_stations",
-                SEARCH_DIM_PREFIX_ + "search_num_times"};
+                SEARCH_DIM_PREFIX_ + "num_times"};
             var_names = {"SimilarityMatrices", "ParameterNames", "StationNames",
                 "Xs", "Ys", "Times", "FLTs",
                 SEARCH_VAR_PREFIX_ + "Times",
