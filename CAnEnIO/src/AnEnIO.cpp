@@ -2481,6 +2481,9 @@ AnEnIO::combineSimilarityMatrices(
     if (verbose >= 3) cout << "Copy similarity values into the new format ..." << endl;
 
     size_t append_count = 0;
+    
+    auto & search_stations_by_name = search_stations.get<anenSta::by_name>();
+    auto & search_stations_by_insert = search_stations.get<anenSta::by_insert>();
 
     for (const auto & file : in_files) {
         AnEnIO io_thread("Read", in_files[0], "Similarity", 2);
@@ -2497,8 +2500,19 @@ AnEnIO::combineSimilarityMatrices(
         const auto & search_stations_single_by_insert = search_stations_single.get<anenSta::by_insert>();
         const auto & search_times_single_by_insert = search_times_single.get<anenTime::by_insert>();
 
+        for_each(search_stations_single.begin(), search_stations_single.end(),
+                [&search_stations_by_name, &search_stations_by_insert]
+                (const anenSta::Station & rhs) {
+                    // Add this station if it has a unique name in the group
+                    if (search_stations_by_name.find(rhs.getName()) == search_stations_by_name.end())
+                        search_stations_by_insert.push_back(rhs);
+                }
+        );
+        
         search_stations.insert(search_stations.end(),
                 search_stations_single.begin(), search_stations_single.end());
+        
+        
         search_times.insert(search_times.end(),
                 search_times_single.begin(), search_times_single.end());
 
@@ -2508,30 +2522,38 @@ AnEnIO::combineSimilarityMatrices(
                     for (size_t l = 0; l < sims_single.shape()[along]; l++) {
 
                         if (along == 0) {
+                            string station_name = search_stations_single_by_insert[sims_single[l][m][j][k][SimilarityMatrices::COL_TAG::STATION]].getName();
+                            
                             sims[append_count + l][m][j][k][SimilarityMatrices::COL_TAG::VALUE] = sims_single[l][m][j][k][SimilarityMatrices::COL_TAG::VALUE];
                             sims[append_count + l][m][j][k][SimilarityMatrices::COL_TAG::STATION] =
-                                    search_stations.getStationIndex(search_stations_single_by_insert[sims_single[l][m][j][k][SimilarityMatrices::COL_TAG::STATION]].getID());
+                                    search_stations.getStationIndex(search_stations_by_name.find(station_name)->getID());
                             sims[append_count + l][m][j][k][SimilarityMatrices::COL_TAG::TIME] =
                                     search_times.getTimeIndex(search_times_single_by_insert[sims_single[l][m][j][k][SimilarityMatrices::COL_TAG::TIME]]);
 
                         } else if (along == 1) {
+                            string station_name = search_stations_single_by_insert[sims_single[m][l][j][k][SimilarityMatrices::COL_TAG::STATION]].getName();
+                            
                             sims[m][append_count + l][j][k][SimilarityMatrices::COL_TAG::VALUE] = sims_single[m][l][j][k][SimilarityMatrices::COL_TAG::VALUE];
                             sims[m][append_count + l][j][k][SimilarityMatrices::COL_TAG::STATION] =
-                                    search_stations.getStationIndex(search_stations_single_by_insert[sims_single[m][l][j][k][SimilarityMatrices::COL_TAG::STATION]].getID());
+                                    search_stations.getStationIndex(search_stations_by_name.find(station_name)->getID());
                             sims[m][append_count + l][j][k][SimilarityMatrices::COL_TAG::TIME] =
                                     search_times.getTimeIndex(search_times_single_by_insert[sims_single[m][l][j][k][SimilarityMatrices::COL_TAG::TIME]]);
 
                         } else if (along == 2) {
+                            string station_name = search_stations_single_by_insert[sims_single[m][j][l][k][SimilarityMatrices::COL_TAG::STATION]].getName();
+                            
                             sims[m][j][append_count + l][k][SimilarityMatrices::COL_TAG::VALUE] = sims_single[m][j][l][k][SimilarityMatrices::COL_TAG::VALUE];
                             sims[m][j][append_count + l][k][SimilarityMatrices::COL_TAG::STATION] =
-                                    search_stations.getStationIndex(search_stations_single_by_insert[sims_single[m][j][l][k][SimilarityMatrices::COL_TAG::STATION]].getID());
+                                    search_stations.getStationIndex(search_stations_by_name.find(station_name)->getID());
                             sims[m][j][append_count + l][k][SimilarityMatrices::COL_TAG::TIME] =
                                     search_times.getTimeIndex(search_times_single_by_insert[sims_single[m][j][l][k][SimilarityMatrices::COL_TAG::TIME]]);
 
                         } else if (along == 3) {
+                            string station_name = search_stations_single_by_insert[sims_single[m][j][k][l][SimilarityMatrices::COL_TAG::STATION]].getName();
+                            
                             sims[m][j][k][append_count + l][SimilarityMatrices::COL_TAG::VALUE] = sims_single[m][j][k][l][SimilarityMatrices::COL_TAG::VALUE];
                             sims[m][j][k][append_count + l][SimilarityMatrices::COL_TAG::STATION] =
-                                    search_stations.getStationIndex(search_stations_single_by_insert[sims_single[m][j][k][l][SimilarityMatrices::COL_TAG::STATION]].getID());
+                                    search_stations.getStationIndex(search_stations_by_name.find(station_name)->getID());
                             sims[m][j][k][append_count + l][SimilarityMatrices::COL_TAG::TIME] =
                                     search_times.getTimeIndex(search_times_single_by_insert[sims_single[m][j][k][l][SimilarityMatrices::COL_TAG::TIME]]);
                         }

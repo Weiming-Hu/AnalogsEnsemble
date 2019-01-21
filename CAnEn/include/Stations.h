@@ -11,6 +11,7 @@
 #endif
 
 #include <boost/multi_index/random_access_index.hpp>
+#include <boost/multi_index/hashed_index_fwd.hpp>
 #include <boost/multi_index/ordered_index.hpp>
 #include <boost/multi_index/hashed_index.hpp>
 #include <boost/multi_index_container.hpp>
@@ -53,7 +54,7 @@ namespace anenSta {
         bool operator==(const Station &) const;
         bool operator!=(const Station &) const;
         bool operator<(const Station &) const;
-        bool compare(const Station &) const;
+        bool literalCompare(const Station &) const;
 
         std::string getName() const;
         std::size_t getID() const;
@@ -112,6 +113,12 @@ namespace anenSta {
          * The tag for the order based on y
          */
     };
+    
+    struct by_name {
+        /**
+         * The tag of names
+         */
+    };
 
     /**
      * Base class for Stations
@@ -125,6 +132,12 @@ namespace anenSta {
             boost::multi_index::random_access<
             boost::multi_index::tag<by_insert> >,
 
+            // Order by name
+            boost::multi_index::hashed_non_unique<
+            boost::multi_index::tag<by_name>,
+            boost::multi_index::const_mem_fun<
+            Station, std::string, &Station::getName> >,
+            
             // Order by ID
             boost::multi_index::hashed_unique<
             boost::multi_index::tag<by_ID>,
