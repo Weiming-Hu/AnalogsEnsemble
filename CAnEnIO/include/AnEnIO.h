@@ -539,7 +539,10 @@ public:
     combineParameters(
             const std::vector<std::string> & in_files,
             const std::string & file_type,
-            anenPar::Parameters & parameters, int verbose);
+            anenPar::Parameters & parameters, int verbose,
+            const std::vector<size_t> & start = {},
+            const std::vector<size_t> & count = {}, 
+            bool allow_duplicates = false);
 
     static errorType
     combineStations(
@@ -547,7 +550,10 @@ public:
             const std::string & file_type,
             anenSta::Stations & stations, int verbose,
             const std::string & dim_name_prefix = "",
-            const std::string & var_name_prefix = "");
+            const std::string & var_name_prefix = "",
+            const std::vector<size_t> & start = {},
+            const std::vector<size_t> & count = {}, 
+            bool allow_duplicates = false);
 
 
     static errorType
@@ -555,13 +561,19 @@ public:
             const std::vector<std::string> & in_files,
             const std::string & file_type,
             anenTime::Times & times, int verbose,
-            const std::string & var_name = "Times");
+            const std::string & var_name = "Times",
+            const std::vector<size_t> & start = {},
+            const std::vector<size_t> & count = {}, 
+            bool allow_duplicates = false);
 
     static errorType
     combineFLTs(
             const std::vector<std::string> & in_files,
             const std::string & file_type,
-            anenTime::FLTs & flts, int verbose);
+            anenTime::FLTs & flts, int verbose,
+            const std::vector<size_t> & start = {},
+            const std::vector<size_t> & count = {}, 
+            bool allow_duplicates = false);
 
     /**
      * Binds a vector of Forecasts_array.
@@ -570,12 +582,16 @@ public:
      * @param forecasts A Forecasts_arary to store the binded sub arrays.
      * @param along Which dimension to append counting from 0.
      * @param verbose Verbose level.
+     * @param starts The start index for each dimension.
+     * @param counts The count number for each dimension.
      * @return An AnEnIO::errorType;
      */
     static errorType
     combineForecastsArray(
             const std::vector<std::string> & in_files,
-            Forecasts_array & forecasts, size_t along, int verbose = 2);
+            Forecasts_array & forecasts, size_t along, int verbose = 2,
+            const std::vector<size_t> & starts = {},
+            const std::vector<size_t> & counts = {});
 
     /**
      * Binds a vector of Observations_array.

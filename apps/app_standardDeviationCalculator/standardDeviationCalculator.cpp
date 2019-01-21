@@ -47,47 +47,21 @@ void runStandardDeviationCalculator(
     // Create an output device
     AnEnIO io_out("Write", out_file, "StandardDeviation", verbose);
 
-    // Read files
-    vector<Forecasts_array> forecasts_vec(in_files.size());
-    vector<bool> flags(in_files.size(), false);
-    if (verbose >= 3)
-        cout << GREEN << "Reading files ... " << RESET << endl;
-
-    for (size_t i = 0; i < in_files.size(); i++) {
-        try {
-            AnEnIO io("Read", in_files[i], "Forecasts", verbose);
-
-            if (partial_read) {
-                io.handleError(io.readForecasts(forecasts_vec[i], 
-                    {starts[i*4], starts[i*4+1], starts[i*4+2], starts[i*4+3]},
-                    {counts[i*4], counts[i*4+1], counts[i*4+2], counts[i*4+3]}));
-            } else {
-                io.handleError(io.readForecasts(forecasts_vec[i]));
-            }
-
-            flags[i] = true;
-        } catch (...) {
-            flags[i] = false;
-        }
-    }
-
-    // Check if all elements in flags are true.
-    for (size_t i = 0; i < flags.size(); i++) {
-        if (!flags[i]) {
-            if (verbose >= 1)
-                cout << BOLDRED << "Error: Error occurred when reading file " 
-                        << in_files[i] << RESET << endl;
-            return;
-        }
-    }
-    
     // Reshape data
     Forecasts_array forecasts;
     if (verbose >= 3)
         cout << GREEN << "Combining forecasts along the time dimension..." << RESET << endl;
-    auto ret = AnEnIO::combineForecastsArray(in_files, forecasts, 2, verbose);
-    if (ret != AnEnIO::errorType::SUCCESS) {
-        throw runtime_error("Error: Failed when combining forecasts.");
+
+    if (partial_read) {
+        if (AnEnIO::combineForecastsArray(in_files, forecasts, 2, verbose, starts, counts) !=
+                AnEnIO::errorType::SUCCESS) {
+            throw runtime_error("Error: Failed when combining forecasts.");
+        }
+    } else {
+        if (AnEnIO::combineForecastsArray(in_files, forecasts, 2, verbose) !=
+                AnEnIO::errorType::SUCCESS) {
+            throw runtime_error("Error: Failed when combining forecasts.");
+        }
     }
     
     // Compute standard deviation

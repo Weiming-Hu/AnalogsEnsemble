@@ -22,7 +22,7 @@ exe <- '../../output/bin/standardDeviationCalculator'
 files_in <- list.files(path = '.', pattern = "forecasts-part-", full.names = T)
 file_out1 <- 'sds1.nc'
 file_out2 <- 'sds2.nc'
-verbose <- 1
+verbose <- 3
 
 start <- c()
 count <- c()

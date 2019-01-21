@@ -20,12 +20,13 @@
  * 
  * \brief SimilarityMatrices class stores similarity metrics. Default dimensions
  *  of SimilarityMatrices are:
- *  [3][Number of entries for comparison][test FLTs][test times][test stations]
+ *  [test stations][test times][test FLTs][Number of entries for comparison][3]
  * 
  * The second dimension stores in sequence similarity metric value, station
  * indicator, and time indication.
  * 
- * SimilarityMatrices data order is row-major.
+ * SimilarityMatrices data order is row-major. This is not implemented as column-
+ * major because it needs to have the ability to be ordered by rows.
  */
 class SimilarityMatrices : public boost::multi_array <double, 5> {
 public:

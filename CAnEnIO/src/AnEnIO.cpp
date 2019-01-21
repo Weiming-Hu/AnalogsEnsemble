@@ -2005,29 +2005,36 @@ errorType
 AnEnIO::combineParameters(
         const vector<string> & in_files,
         const string & file_type,
-        anenPar::Parameters & parameters, int verbose) {
+        anenPar::Parameters & parameters, int verbose,
+        const vector<size_t> & start, const vector<size_t> & count, 
+        bool allow_duplicates) {
 
     if (verbose >= 3) cout << "Combining parameters ..." << endl;
 
-    size_t count = 0;
+    bool partial_read = false;
+    if (start.size() == in_files.size() && count.size() == in_files.size())
+        partial_read = true;
+
+    size_t counter = 0;
 
     parameters.clear();
-    for_each(in_files.begin(), in_files.end(),
-            [&parameters, &file_type, &count]
-            (const string & file) {
-                AnEnIO io("Read", file, file_type, 2);
-                anenPar::Parameters parameters_single;
-                io.handleError(io.readParameters(parameters_single));
-                parameters.insert(parameters.end(),
-                        parameters_single.begin(), parameters_single.end());
-                count += parameters_single.size();
-            }
-    );
+    for (size_t i = 0; i < in_files.size(); i++) {
+        AnEnIO io("Read", in_files[i], file_type, 2);
+        anenPar::Parameters parameters_single;
 
-    if (parameters.size() != count) {
-        if (verbose >= 1) cout << BOLDRED << "Error: Duplicates in parameters."
+        if (partial_read) io.handleError(io.readParameters(parameters_single, start[i], count[i]));
+        else io.handleError(io.readParameters(parameters_single));
+
+        parameters.insert(parameters.end(), parameters_single.begin(), parameters_single.end());
+        counter += parameters_single.size();
+    }
+
+    if (!allow_duplicates) {
+        if (parameters.size() != counter) {
+            if (verbose >= 1) cout << BOLDRED << "Error: Duplicates in parameters."
                 << RESET << endl;
-        return (ELEMENT_NOT_UNIQUE);
+            return (ELEMENT_NOT_UNIQUE);
+        }
     }
 
     return (SUCCESS);
@@ -2039,30 +2046,38 @@ AnEnIO::combineStations(
         const string & file_type,
         anenSta::Stations & stations, int verbose,
         const string & dim_name_prefix,
-        const string & var_name_prefix) {
+        const string & var_name_prefix,
+        const vector<size_t> & start, const vector<size_t> & count, 
+        bool allow_duplicates) {
 
     if (verbose >= 3) cout << "Combining stations ..." << endl;
 
-    size_t count = 0;
+    bool partial_read = false;
+    if (start.size() == in_files.size() && count.size() == in_files.size())
+        partial_read = true;
+
+    size_t counter = 0;
 
     stations.clear();
-    for_each(in_files.begin(), in_files.end(),
-            [&stations, &file_type, &count, &dim_name_prefix, &var_name_prefix]
-            (const string & file) {
-                AnEnIO io("Read", file, file_type, 2);
-                anenSta::Stations stations_single;
-                io.handleError(io.readStations(
-                        stations_single, dim_name_prefix, var_name_prefix));
-                stations.insert(stations.end(),
-                        stations_single.begin(), stations_single.end());
-                count += stations_single.size();
-            }
-    );
 
-    if (stations.size() != count) {
-        if (verbose >= 1) cout << BOLDRED << "Error: Duplicates in stations."
+    for (size_t i = 0; i < in_files.size(); i++) {
+        AnEnIO io("Read", in_files[i], file_type, 2);
+        anenSta::Stations stations_single;
+
+        if (partial_read) io.handleError(io.readStations(stations_single, start[i], count[i], 1, dim_name_prefix, var_name_prefix));
+        else io.handleError(io.readStations(stations_single, dim_name_prefix, var_name_prefix));
+
+        stations.insert(stations.end(),
+                stations_single.begin(), stations_single.end());
+        counter += stations_single.size();
+    }
+
+    if (!allow_duplicates) {
+        if (stations.size() != counter) {
+            if (verbose >= 1) cout << BOLDRED << "Error: Duplicates in stations."
                 << RESET << endl;
-        return (ELEMENT_NOT_UNIQUE);
+            return (ELEMENT_NOT_UNIQUE);
+        }
     }
 
     return (SUCCESS);
@@ -2073,29 +2088,36 @@ AnEnIO::combineTimes(
         const vector<string> & in_files,
         const string & file_type,
         anenTime::Times & times, int verbose,
-        const string & var_name) {
+        const string & var_name,
+        const vector<size_t> & start, const vector<size_t> & count, 
+        bool allow_duplicates) {
 
     if (verbose >= 3) cout << "Combining times ..." << endl;
 
-    size_t count = 0;
+    bool partial_read = false;
+    if (start.size() == in_files.size() && count.size() == in_files.size())
+        partial_read = true;
 
+    size_t counter = 0;
     times.clear();
-    for_each(in_files.begin(), in_files.end(),
-            [&times, &file_type, &count, &var_name]
-            (const string & file) {
-                AnEnIO io("Read", file, file_type, 2);
-                anenTime::Times times_single;
-                io.handleError(io.readTimes(times_single, var_name));
-                times.insert(times.end(),
-                        times_single.begin(), times_single.end());
-                count += times_single.size();
-            }
-    );
 
-    if (times.size() != count) {
-        if (verbose >= 1) cout << BOLDRED << "Error: Duplicates in times."
+    for (size_t i = 0; i < in_files.size(); i++) {
+        AnEnIO io("Read", in_files[i], file_type, 2);
+        anenTime::Times times_single;
+
+        if (partial_read) io.handleError(io.readTimes(times_single, start[i], count[i], 1, var_name));
+        else io.handleError(io.readTimes(times_single, var_name));
+        times.insert(times.end(),
+                times_single.begin(), times_single.end());
+        counter += times_single.size();
+    }
+
+    if (!allow_duplicates) {
+        if (times.size() != counter) {
+            if (verbose >= 1) cout << BOLDRED << "Error: Duplicates in times."
                 << RESET << endl;
-        return (ELEMENT_NOT_UNIQUE);
+            return (ELEMENT_NOT_UNIQUE);
+        }
     }
 
     return (SUCCESS);
@@ -2105,29 +2127,37 @@ errorType
 AnEnIO::combineFLTs(
         const vector<string> & in_files,
         const string & file_type,
-        anenTime::FLTs & flts, int verbose) {
+        anenTime::FLTs & flts, int verbose,
+        const vector<size_t> & start, const vector<size_t> & count, 
+        bool allow_duplicates) {
 
     if (verbose >= 3) cout << "Combining FLTs ..." << endl;
 
-    size_t count = 0;
+    bool partial_read = false;
+    if (start.size() == in_files.size() && count.size() == in_files.size())
+        partial_read = true;
+
+    size_t counter = 0;
 
     flts.clear();
-    for_each(in_files.begin(), in_files.end(),
-            [&flts, &file_type, &count]
-            (const string & file) {
-                AnEnIO io("Read", file, file_type, 2);
-                anenTime::FLTs flts_single;
-                io.handleError(io.readFLTs(flts_single));
-                flts.insert(flts.end(),
-                        flts_single.begin(), flts_single.end());
-                count += flts_single.size();
-            }
-    );
 
-    if (flts.size() != count) {
-        if (verbose >= 1) cout << BOLDRED << "Error: Duplicates in FLTs."
+    for (size_t i = 0; i < in_files.size(); i++) {
+        AnEnIO io("Read", in_files[i], file_type, 2);
+        anenTime::FLTs flts_single;
+
+        if (partial_read) io.handleError(io.readFLTs(flts_single, start[i], count[i]));
+        else io.handleError(io.readFLTs(flts_single));
+        flts.insert(flts.end(),
+                flts_single.begin(), flts_single.end());
+        counter += flts_single.size();
+    }
+
+    if (!allow_duplicates) {
+        if (flts.size() != counter) {
+            if (verbose >= 1) cout << BOLDRED << "Error: Duplicates in FLTs."
                 << RESET << endl;
-        return (ELEMENT_NOT_UNIQUE);
+            return (ELEMENT_NOT_UNIQUE);
+        }
     }
 
     return (SUCCESS);
@@ -2135,32 +2165,69 @@ AnEnIO::combineFLTs(
 
 errorType
 AnEnIO::combineForecastsArray(const vector<string> & in_files,
-        Forecasts_array & forecasts, size_t along, int verbose) {
+        Forecasts_array & forecasts, size_t along, int verbose,
+        const vector<size_t> & starts, const vector<size_t> & counts) {
+
+    // Check whether partial reading is selected
+    bool partial_read = false;
+    if (starts.size() == 4 * in_files.size() && counts.size() == 4 * in_files.size()) {
+        partial_read = true;
+    }
 
     // Clear values in forecasts array data
     forecasts.data().resize(boost::extents[0][0][0][0]);
 
     // Create meta information from the first file
-    if (verbose >= 3) cout << "Processing meta information ..." << endl;
-    AnEnIO io("Read", in_files[0], "Forecasts", 2);
+    AnEnIO io("Read", in_files[0], "Forecasts", verbose);
 
     anenPar::Parameters parameters;
-    io.handleError(io.readParameters(parameters));
-
     anenSta::Stations stations;
-    io.handleError(io.readStations(stations));
-
     anenTime::Times times;
-    io.handleError(io.readTimes(times));
-
     anenTime::FLTs flts;
-    io.handleError(io.readFLTs(flts));
 
-    if (along == 0) io.handleError(io.combineParameters(in_files, "Forecasts", parameters, verbose));
-    else if (along == 1) io.handleError(io.combineStations(in_files, "Forecasts", stations, verbose));
-    else if (along == 2) io.handleError(io.combineTimes(in_files, "Forecasts", times, verbose));
-    else if (along == 3) io.handleError(io.combineFLTs(in_files, "Forecasts", flts, verbose));
-    else return (ERROR_SETTING_VALUES);
+    if (partial_read) {
+        if (verbose >= 3) cout << "Processing partial meta information ..." << endl;
+        io.handleError(io.readParameters(parameters, starts[0], counts[0]));
+        io.handleError(io.readStations(stations, starts[1], counts[1]));
+        io.handleError(io.readTimes(times, starts[2], counts[2]));
+        io.handleError(io.readFLTs(flts, starts[3], counts[3]));
+
+        size_t len = in_files.size() / 4;
+        vector<size_t> starts_parameter(len), counts_parameter(len),
+            starts_stations(len), counts_stations(len),
+            starts_times(len), counts_times(len),
+            starts_flts(len), counts_flts(len);
+
+        for (size_t i = 0, j = 0; i < starts.size(); i+=4, j++) {
+            starts_parameter[j] = starts[i]; counts_parameter[j] = counts[i];
+            starts_stations[j] = starts[i+1]; counts_stations[j] = counts[i+1];
+            starts_times[j] = starts[i+2]; counts_times[j] = counts[i+2];
+            starts_flts[j] = starts[i+3]; counts_flts[j] = counts[i+3];
+        }
+
+        if (along == 0) io.handleError(io.combineParameters(in_files, "Forecasts",
+                    parameters, verbose, starts_parameter, counts_parameter));
+        else if (along == 1) io.handleError(io.combineStations(in_files, "Forecasts",
+                    stations, verbose, "", "", starts_stations, counts_stations));
+        else if (along == 2) io.handleError(io.combineTimes(in_files, "Forecasts",
+                    times, verbose, "Times", starts_times, counts_times));
+        else if (along == 3) io.handleError(io.combineFLTs(in_files, "Forecasts",
+                    flts, verbose, starts_flts, counts_flts));
+        else return (ERROR_SETTING_VALUES);
+
+    } else {
+        if (verbose >= 3) cout << "Processing meta information ..." << endl;
+        io.handleError(io.readParameters(parameters));
+        io.handleError(io.readStations(stations));
+        io.handleError(io.readTimes(times));
+        io.handleError(io.readFLTs(flts));
+
+        if (along == 0) io.handleError(io.combineParameters(in_files, "Forecasts", parameters, verbose));
+        else if (along == 1) io.handleError(io.combineStations(in_files, "Forecasts", stations, verbose));
+        else if (along == 2) io.handleError(io.combineTimes(in_files, "Forecasts", times, verbose));
+        else if (along == 3) io.handleError(io.combineFLTs(in_files, "Forecasts", flts, verbose));
+        else return (ERROR_SETTING_VALUES);
+    }
 
     // Update the dimensions of combined forecasts
     if (verbose >= 3) cout << "Update dimensions of forecasts ..." << endl;
@@ -2178,16 +2245,24 @@ AnEnIO::combineForecastsArray(const vector<string> & in_files,
     vector<size_t> same_dimensions = {0, 1, 2, 3};
     same_dimensions.erase(find(same_dimensions.begin(), same_dimensions.end(), along));
 
-    if (verbose >= 3) cout << "Copy forecasts values into the new format ..." << endl;
+    if (verbose >= 3) {
+        if (partial_read) cout << "Copy partial forecasts values into the new format ..." << endl;
+        else cout << "Copy forecasts values into the new format ..." << endl;
+    }
 
     size_t append_count = 0;
 
-    for (const auto & file : in_files) {
+    for (size_t i = 0; i < in_files.size(); i++) {
+        const auto & file = in_files[i];
+
         AnEnIO io_thread("Read", in_files[0], "Forecasts", 2);
         Forecasts_array forecasts_single;
 
         io_thread.setFilePath(file);
-        io_thread.readForecasts(forecasts_single);
+        if (partial_read) io_thread.readForecasts(forecasts_single,
+                {starts[i*4], starts[i*4+1], starts[i*4+2], starts[i*4+3]},
+                {counts[i*4], counts[i*4+1], counts[i*4+2], counts[i*4+3]});
+        else io_thread.readForecasts(forecasts_single);
         const auto & data_single = forecasts_single.data();
 
         for (size_t i = 0; i < data.shape()[same_dimensions[2]]; i++) {
@@ -2366,11 +2441,11 @@ AnEnIO::combineSimilarityMatrices(
     io.handleError(io.readTimes(times));
     io.handleError(io.readFLTs(flts));
 
-    if (along == 0) {
+    if (along == 4) {
         if (verbose >= 1) cout << BOLDRED << "Error: Can not append along the dimension."
                 << RESET << endl;
         return (ERROR_SETTING_VALUES);
-    } else if (along == 1) {
+    } else if (along == 3) {
         num_entries = 0;
         size_t num_entries_single = 0;
         for_each(in_files.begin(), in_files.end(),
@@ -2383,9 +2458,9 @@ AnEnIO::combineSimilarityMatrices(
         );
     } else if (along == 2)
         io.handleError(io.combineFLTs(in_files, "Similarity", flts, verbose));
-    else if (along == 3)
+    else if (along == 1)
         io.handleError(io.combineTimes(in_files, "Similarity", times, verbose));
-    else if (along == 4)
+    else if (along == 0)
         io.handleError(io.combineStations(in_files, "Similarity", stations, verbose));
     else
         return (ERROR_SETTING_VALUES);
@@ -2394,12 +2469,14 @@ AnEnIO::combineSimilarityMatrices(
     // will be removed, and the remain dimensions will stay the same after the
     // data combination.
     //
-    vector<size_t> same_dimensions = {1, 2, 3, 4};
+    vector<size_t> same_dimensions = {0, 1, 2, 3};
     same_dimensions.erase(find(same_dimensions.begin(), same_dimensions.end(), along));
+
 
     // Update dimensions
     if (verbose >= 3) cout << "Update dimensions of standard deviation ..." << endl;
-    sims.resize(flts.size(), times.size(), stations.size());
+    sims.setMaxEntries(num_entries);
+    sims.resize(stations.size(), times.size(), flts.size());
 
     if (verbose >= 3) cout << "Copy similarity values into the new format ..." << endl;
 
@@ -2430,33 +2507,33 @@ AnEnIO::combineSimilarityMatrices(
                 for (size_t m = 0; m < sims.shape()[same_dimensions[0]]; m++) {
                     for (size_t l = 0; l < sims_single.shape()[along]; l++) {
 
-                        if (along == 1) {
-                            sims[SimilarityMatrices::COL_TAG::VALUE][append_count + l][m][j][k] = sims_single[SimilarityMatrices::COL_TAG::VALUE][l][m][j][k];
-                            sims[SimilarityMatrices::COL_TAG::STATION][append_count + l][m][j][k] =
-                                    search_stations.getStationIndex(search_stations_single_by_insert[sims_single[SimilarityMatrices::COL_TAG::STATION][l][m][j][k]].getID());
-                            sims[SimilarityMatrices::COL_TAG::TIME][append_count + l][m][j][k] =
-                                    search_times.getTimeIndex(search_times_single_by_insert[sims_single[SimilarityMatrices::COL_TAG::TIME][l][m][j][k]]);
+                        if (along == 0) {
+                            sims[append_count + l][m][j][k][SimilarityMatrices::COL_TAG::VALUE] = sims_single[l][m][j][k][SimilarityMatrices::COL_TAG::VALUE];
+                            sims[append_count + l][m][j][k][SimilarityMatrices::COL_TAG::STATION] =
+                                    search_stations.getStationIndex(search_stations_single_by_insert[sims_single[l][m][j][k][SimilarityMatrices::COL_TAG::STATION]].getID());
+                            sims[append_count + l][m][j][k][SimilarityMatrices::COL_TAG::TIME] =
+                                    search_times.getTimeIndex(search_times_single_by_insert[sims_single[l][m][j][k][SimilarityMatrices::COL_TAG::TIME]]);
+
+                        } else if (along == 1) {
+                            sims[m][append_count + l][j][k][SimilarityMatrices::COL_TAG::VALUE] = sims_single[m][l][j][k][SimilarityMatrices::COL_TAG::VALUE];
+                            sims[m][append_count + l][j][k][SimilarityMatrices::COL_TAG::STATION] =
+                                    search_stations.getStationIndex(search_stations_single_by_insert[sims_single[m][l][j][k][SimilarityMatrices::COL_TAG::STATION]].getID());
+                            sims[m][append_count + l][j][k][SimilarityMatrices::COL_TAG::TIME] =
+                                    search_times.getTimeIndex(search_times_single_by_insert[sims_single[m][l][j][k][SimilarityMatrices::COL_TAG::TIME]]);
 
                         } else if (along == 2) {
-                            sims[SimilarityMatrices::COL_TAG::VALUE][m][append_count + l][j][k] = sims_single[SimilarityMatrices::COL_TAG::VALUE][m][l][j][k];
-                            sims[SimilarityMatrices::COL_TAG::STATION][m][append_count + l][j][k] =
-                                    search_stations.getStationIndex(search_stations_single_by_insert[sims_single[SimilarityMatrices::COL_TAG::STATION][m][l][j][k]].getID());
-                            sims[SimilarityMatrices::COL_TAG::TIME][m][append_count + l][j][k] =
-                                    search_times.getTimeIndex(search_times_single_by_insert[sims_single[SimilarityMatrices::COL_TAG::TIME][m][l][j][k]]);
+                            sims[m][j][append_count + l][k][SimilarityMatrices::COL_TAG::VALUE] = sims_single[m][j][l][k][SimilarityMatrices::COL_TAG::VALUE];
+                            sims[m][j][append_count + l][k][SimilarityMatrices::COL_TAG::STATION] =
+                                    search_stations.getStationIndex(search_stations_single_by_insert[sims_single[m][j][l][k][SimilarityMatrices::COL_TAG::STATION]].getID());
+                            sims[m][j][append_count + l][k][SimilarityMatrices::COL_TAG::TIME] =
+                                    search_times.getTimeIndex(search_times_single_by_insert[sims_single[m][j][l][k][SimilarityMatrices::COL_TAG::TIME]]);
 
                         } else if (along == 3) {
-                            sims[SimilarityMatrices::COL_TAG::VALUE][m][j][append_count + l][k] = sims_single[SimilarityMatrices::COL_TAG::VALUE][m][j][l][k];
-                            sims[SimilarityMatrices::COL_TAG::STATION][m][j][append_count + l][k] =
-                                    search_stations.getStationIndex(search_stations_single_by_insert[sims_single[SimilarityMatrices::COL_TAG::STATION][m][j][l][k]].getID());
-                            sims[SimilarityMatrices::COL_TAG::TIME][m][j][append_count + l][k] =
-                                    search_times.getTimeIndex(search_times_single_by_insert[sims_single[SimilarityMatrices::COL_TAG::TIME][m][j][l][k]]);
-
-                        } else if (along == 4) {
-                            sims[SimilarityMatrices::COL_TAG::VALUE][m][j][k][append_count + l] = sims_single[SimilarityMatrices::COL_TAG::VALUE][m][j][k][l];
-                            sims[SimilarityMatrices::COL_TAG::STATION][m][j][k][append_count + l] =
-                                    search_stations.getStationIndex(search_stations_single_by_insert[sims_single[SimilarityMatrices::COL_TAG::STATION][m][j][k][l]].getID());
-                            sims[SimilarityMatrices::COL_TAG::TIME][m][j][k][append_count + l] =
-                                    search_times.getTimeIndex(search_times_single_by_insert[sims_single[SimilarityMatrices::COL_TAG::TIME][m][j][k][l]]);
+                            sims[m][j][k][append_count + l][SimilarityMatrices::COL_TAG::VALUE] = sims_single[m][j][k][l][SimilarityMatrices::COL_TAG::VALUE];
+                            sims[m][j][k][append_count + l][SimilarityMatrices::COL_TAG::STATION] =
+                                    search_stations.getStationIndex(search_stations_single_by_insert[sims_single[m][j][k][l][SimilarityMatrices::COL_TAG::STATION]].getID());
+                            sims[m][j][k][append_count + l][SimilarityMatrices::COL_TAG::TIME] =
+                                    search_times.getTimeIndex(search_times_single_by_insert[sims_single[m][j][k][l][SimilarityMatrices::COL_TAG::TIME]]);
                         }
                     }
                 }

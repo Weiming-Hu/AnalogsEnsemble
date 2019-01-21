@@ -567,12 +567,10 @@ AnEn::selectAnalogs(
 
     if (verbose_ >= 3) cout << "Selecting analogs ..." << endl;
 
-    auto & observation_times_by_insert = search_observations.getTimes().get<anenTime::by_insert>();
-
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(dynamic) collapse(4) \
 shared(data_observations, sims, num_members, mapping, analogs, num_test_stations, \
-i_parameter, num_test_times, num_flts, observation_times_by_insert, max_members, \
+i_parameter, num_test_times, num_flts, max_members, \
 extend_observations, test_stations_index_in_search)
 #endif
     for (size_t i_test_station = 0; i_test_station < num_test_stations; i_test_station++) {

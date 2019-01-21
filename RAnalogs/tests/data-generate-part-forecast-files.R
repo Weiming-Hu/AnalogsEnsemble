@@ -1,6 +1,7 @@
 # Generate forecast part files
 
 library(ncdf4)
+library(stringr)
 
 rm(list = ls())
 
@@ -32,7 +33,7 @@ num_chars <- 10
 start_time <- 0
 for (i in 1:length(num_times_seq)) {
   
-  file_forecasts <- paste(file_prefix, i, '.nc', sep = '')
+  file_forecasts <- paste(file_prefix, str_pad(i, 2, pad = '0'), '.nc', sep = '')
   num_times <- num_times_seq[i]
   
   fc <- runif(num_parameters * num_stations * num_times * num_flts,
@@ -45,6 +46,7 @@ for (i in 1:length(num_times_seq)) {
   value_ys <- 1:num_stations
   value_parameter_names <- paste("parameter", 1:num_parameters, sep = '')
   value_circulars <- rep('', num_parameters)
+  value_weights <- rep(1, num_parameters)
   
   dim_parameters <- ncdim_def("num_parameters", "", 1:num_parameters, create_dimvar = F)
   dim_stations <- ncdim_def("num_stations", "", 1:num_stations, create_dimvar = F)
@@ -59,10 +61,11 @@ for (i in 1:length(num_times_seq)) {
   var_station_names <- ncvar_def("StationNames", "char", list(dim_chars, dim_stations), prec = 'char')
   var_circulars <- ncvar_def("ParameterCirculars", "char", list(dim_chars, dim_parameters), prec = 'char')
   var_parameter_names <- ncvar_def("ParameterNames", "char", list(dim_chars, dim_parameters), prec = 'char')
+  var_parameter_weights <- ncvar_def("ParameterWeights", "", list(dim_parameters), prec = 'double')
   var_data <- ncvar_def("Data", "", list(dim_parameters, dim_stations, dim_times, dim_flts), missval = NA, prec = 'double')
   
   unlink(file_forecasts)
-  ncout <- nc_create(file_forecasts, list(var_flts, var_data, var_times, var_station_names, var_xs, var_ys, var_parameter_names, var_circulars), force_v4 = T)
+  ncout <- nc_create(file_forecasts, list(var_flts, var_data, var_times, var_station_names, var_xs, var_ys, var_parameter_names, var_circulars, var_parameter_weights), force_v4 = T)
   
   ncvar_put(ncout, var_ys, value_ys)
   ncvar_put(ncout, var_xs, value_xs)
@@ -71,6 +74,7 @@ for (i in 1:length(num_times_seq)) {
   ncvar_put(ncout, var_station_names, value_station_names)
   ncvar_put(ncout, var_parameter_names, value_parameter_names)
   ncvar_put(ncout, var_circulars, value_circulars)
+  ncvar_put(ncout, var_parameter_weights, value_weights)
   ncvar_put(ncout, var_data, fc)
   nc_close(ncout)
   

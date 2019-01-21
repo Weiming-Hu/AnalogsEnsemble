@@ -42,9 +42,7 @@ void runFileAggregate(const string & file_type, const vector<string> & in_files,
         // Write combined forecasts
         if (verbose >= 3) cout << GREEN << "Writing forecasts ..." << RESET << endl;
         io_out.handleError(io_out.writeForecasts(forecasts));
-        if (verbose >= 3) cout << GREEN << "Done!" << RESET << endl;
-        
-        return;
+
     } else if (file_type == "Observations") {
         
         // Reshape data
@@ -58,9 +56,6 @@ void runFileAggregate(const string & file_type, const vector<string> & in_files,
         // Write combined forecasts
         if (verbose >= 3) cout << GREEN << "Writing observations ..." << RESET << endl;
         io_out.handleError(io_out.writeObservations(observations));
-        if (verbose >= 3) cout << GREEN << "Done!" << RESET << endl;
-        
-        return;
         
     } else if (file_type == "StandardDeviation") {
         
@@ -80,9 +75,6 @@ void runFileAggregate(const string & file_type, const vector<string> & in_files,
         
         if (verbose >= 3) cout << GREEN << "Writing standard deviation ..." << RESET << endl;
         io_out.writeStandardDeviation(sds, parameters, stations, flts);
-        if (verbose >= 3) cout << GREEN << "Done!" << RESET << endl;
-
-        return;
         
     } else if (file_type == "Similarity") {
         
@@ -106,9 +98,6 @@ void runFileAggregate(const string & file_type, const vector<string> & in_files,
         if (verbose >= 3) cout << GREEN << "Writing similarity matrices ..." << RESET << endl;
         io_out.handleError(io_out.writeSimilarityMatrices(
                 sims, parameters, stations, times, flts, search_stations, search_times));
-        if (verbose >= 3) cout << GREEN << "Done!" << RESET << endl;
-        
-        return;
         
     } else if (file_type == "Analogs") {
 
@@ -132,15 +121,15 @@ void runFileAggregate(const string & file_type, const vector<string> & in_files,
         if (verbose >= 3) cout << GREEN << "Writing analogs ..." << RESET << endl;
         io_out.handleError(io_out.writeAnalogs(
                 analogs, stations, times, flts, member_stations, member_times));
-        if (verbose >= 3) cout << GREEN << "Done!" << RESET << endl;
-
-        return;
         
     } else {
         if (verbose >= 1) cout << BOLDRED << "Error: File type " << file_type
                 << " is not supported." << RESET << endl;
         return;
     }
+
+    if (verbose >= 3) cout << GREEN << "Done!" << RESET << endl;
+    return;
 }
 
 int main(int argc, char** argv) {
