@@ -2192,7 +2192,7 @@ AnEnIO::combineForecastsArray(const vector<string> & in_files,
         io.handleError(io.readTimes(times, starts[2], counts[2]));
         io.handleError(io.readFLTs(flts, starts[3], counts[3]));
 
-        size_t len = in_files.size() / 4;
+        size_t len = in_files.size();
         vector<size_t> starts_parameter(len), counts_parameter(len),
             starts_stations(len), counts_stations(len),
             starts_times(len), counts_times(len),
