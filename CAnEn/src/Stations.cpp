@@ -97,19 +97,13 @@ namespace anenSta {
     }
 
     bool
-    Station::compare(const Station & rhs) const {
+    Station::literalCompare(const Station & rhs) const {
 
         if (name_ != rhs.getName()) return false;
         if (x_ != rhs.getX()) return false;
         if (y_ != rhs.getY()) return false;
 
         return true;
-    }
-
-    void
-    Station::setID_() {
-        ID_ = Station::_static_ID_;
-        Station::_static_ID_++;
     }
 
     size_t
@@ -135,16 +129,19 @@ namespace anenSta {
     void
     Station::setName(string name) {
         this->name_ = name;
+        setID_();
     }
 
     void
     Station::setX(double x) {
         this->x_ = x;
+        setID_();
     }
 
     void
     Station::setY(double y) {
         this->y_ = y;
+        setID_();
     }
 
     void
@@ -160,6 +157,12 @@ namespace anenSta {
         return os;
     }
 
+    void
+    Station::setID_() {
+        ID_ = Station::_static_ID_;
+        Station::_static_ID_++;
+    }
+    
     /**************************************************************************
      *                            Stations                                    *
      **************************************************************************/

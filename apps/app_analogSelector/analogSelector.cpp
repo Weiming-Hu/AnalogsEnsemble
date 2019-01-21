@@ -29,8 +29,7 @@ using namespace std;
 void runAnalogSelector(const string & file_sim, const string & file_obs,
         const vector<size_t> & obs_start, const vector<size_t> & obs_count,
         const string & file_mapping, const string & file_analogs, size_t observation_id,
-        size_t num_members, bool quick, bool extend_observations,
-        bool preserve_real_time, int verbose) {
+        size_t num_members, bool quick, bool extend_observations, int verbose) {
     
 #if defined(_CODE_PROFILING)
     clock_t time_start = clock();
@@ -43,18 +42,17 @@ void runAnalogSelector(const string & file_sim, const string & file_obs,
 
     AnEn anen(verbose);
     AnEnIO io("Read", file_sim, "Similarity", verbose),
-           io_out("Write", file_analogs, "Analogs", verbose);
+            io_out("Write", file_analogs, "Analogs", verbose),
+            io_obs("Read", file_obs, "Observations", verbose);
     SimilarityMatrices sims;
     io.handleError(io.readSimilarityMatrices(sims));
 
     Observations_array search_observations;
-    io.setFileType("Observations");
-    io.setFilePath(file_obs);
 
     if (obs_start.empty() || obs_count.empty()) {
-        io.handleError(io.readObservations(search_observations));
+        io_obs.handleError(io_obs.readObservations(search_observations));
     } else {
-        io.handleError(io.readObservations(search_observations,
+        io_obs.handleError(io_obs.readObservations(search_observations,
                 obs_start, obs_count));
     }
     
@@ -65,9 +63,8 @@ void runAnalogSelector(const string & file_sim, const string & file_obs,
                 << "currently not supported." << RESET << endl;
         throw runtime_error(ss.str());
     } else {
-        io.setMode("Read", file_mapping);
-        io.setFileType("Matrix");
-        io.handleError(io.readTextMatrix(mapping));
+        AnEnIO io_mat("Read", file_mapping, "Matrix", verbose);
+        io_mat.handleError(io_mat.readTextMatrix(mapping));
     }
     
 #if defined(_CODE_PROFILING)
@@ -78,11 +75,14 @@ void runAnalogSelector(const string & file_sim, const string & file_obs,
     /**************************************************************************
      *                                Check Input                             *
      **************************************************************************/
-    if (mapping.size2() != sims.getTargets().getFLTsSize()) {
+    anenTime::FLTs flts;
+    io.readFLTs(flts);
+    
+    if (mapping.size2() != flts.size()) {
         stringstream ss;
         ss << BOLDRED << "Error: Number of columns in mapping (" << mapping.size2()
             << ") should match number of forecast forecast lead times ("
-            << sims.getTargets().getFLTsSize() << ")!" << RESET << endl;
+            << flts.size() << ")!" << RESET << endl;
         throw runtime_error(ss.str());
     }
     
@@ -90,16 +90,16 @@ void runAnalogSelector(const string & file_sim, const string & file_obs,
     /**************************************************************************
      *                             Select Analogs                             *
      **************************************************************************/
+    anenSta::Stations test_stations;
+    io.readStations(test_stations);
+
     Analogs analogs;
 
-    anen.handleError(anen.selectAnalogs(analogs, sims, search_observations,
+    anen.handleError(anen.selectAnalogs(analogs, sims,
+            test_stations, search_observations,
             mapping, observation_id, num_members, quick,
-            extend_observations, preserve_real_time));
+            extend_observations));
 
-    analogs.setStations(sims.getTargets().getStations());
-    analogs.setTimes(sims.getTargets().getTimes());
-    analogs.setFLTs(sims.getTargets().getFLTs());
-    
 #if defined(_CODE_PROFILING)
     clock_t time_end_of_select = clock();
 #endif
@@ -108,7 +108,15 @@ void runAnalogSelector(const string & file_sim, const string & file_obs,
     /**************************************************************************
      *                             Write Analogs                              *
      **************************************************************************/
-    io_out.handleError(io_out.writeAnalogs(analogs));
+    anenTime::Times test_times;
+    io.readTimes(test_times);
+    
+    io_out.handleError(io_out.writeAnalogs(
+            analogs, test_stations,
+            test_times, flts,
+            search_observations.getStations(),
+            search_observations.getTimes()));
+
     
     if (verbose >= 3) cout << GREEN << "Done!" << RESET << endl;
 
@@ -143,8 +151,7 @@ int main(int argc, char** argv) {
     string config_file;
     size_t observation_id = 0;
     vector<size_t>  obs_start, obs_count;
-    bool quick = false, extend_observations = false,
-         preserve_real_time = false;
+    bool quick = false, extend_observations = false;
     
     try {
         po::options_description desc("Avaialble options");
@@ -163,8 +170,7 @@ int main(int argc, char** argv) {
                 ("obs-start", po::value< vector<size_t> >(&obs_start)->multitoken(), "Set the start indices in the search observation NetCDF where the program starts reading.")
                 ("obs-count", po::value< vector<size_t> >(&obs_count)->multitoken(), "Set the count numbers for each dimension in the search observation NetCDF.")
                 ("quick", po::bool_switch(&quick)->default_value(false), "Use quick sort when selecting analog members.")
-                ("extend-obs", po::bool_switch(&extend_observations)->default_value(false), "After getting the most similar forecast indices, take the corresponding observations from the search station.")
-                ("real-time", po::bool_switch(&preserve_real_time)->default_value(false), "Convert observation time index to real time information.");
+                ("extend-obs", po::bool_switch(&extend_observations)->default_value(false), "After getting the most similar forecast indices, take the corresponding observations from the search station.");
         
         // process unregistered keys and notify users about my guesses
         vector<string> available_options;
@@ -238,14 +244,13 @@ int main(int argc, char** argv) {
                 << "obs_start: " << obs_start << endl
                 << "obs_count: " << obs_count << endl
                 << "quick: " << quick << endl
-                << "extend_observations: " << extend_observations << endl
-                << "preserve_real_time: " << preserve_real_time << endl;
+                << "extend_observations: " << extend_observations << endl;
     }
     
     try {
         runAnalogSelector(file_sim, file_obs, obs_start, obs_count,
                 file_mapping, file_analogs, observation_id, num_members,
-                quick, extend_observations, preserve_real_time, verbose);
+                quick, extend_observations, verbose);
     } catch (...) {
         handle_exception(current_exception());
         return 1;

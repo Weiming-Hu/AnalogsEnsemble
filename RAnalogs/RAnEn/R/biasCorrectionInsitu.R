@@ -63,9 +63,6 @@ biasCorrectionInsitu <- function(
   if (class(AnEn) != 'AnEn') {
     stop("AnEn should be an AnEn object.")
   }
-  if (config$preserve_real_time) {
-    stop("Please don't use the option preserve_real_time in configuration when generating AnEn. This slows down the bias correction significantly.")
-  }
   if (!config$preserve_mapping) {
     stop("Please use the option preserve_mapping in configuration when generating AnEn. If not, it slows down the bias correction significantly.")
   }

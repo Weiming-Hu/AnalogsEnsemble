@@ -36,9 +36,6 @@ public:
     void printSize(std::ostream &) const;
     friend std::ostream & operator<<(std::ostream &,
             const StandardDeviation&);
-
-private:
-
 };
 
 #endif /* STANDARDDEVIATION_H */

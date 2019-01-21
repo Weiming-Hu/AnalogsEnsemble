@@ -38,31 +38,12 @@ public:
         TIME = 2
     };
 
-    anenTime::FLTs getFLTs() const;
-    anenSta::Stations getStations() const;
-    anenSta::Stations getMemberStations() const;
-    anenTime::Times getTimes() const;
-    anenTime::Times getMemberTimes() const;
-
-    void setFLTs(const anenTime::FLTs & flts);
-    void setStations(const anenSta::Stations & stations);
-    void setMemberStations(const anenSta::Stations & stations);
-    void setTimes(const anenTime::Times & times);
-    void setMemberTimes(const anenTime::Times & times);
-    
-
     void print(std::ostream &) const;
     friend std::ostream & operator<<(std::ostream &, const Analogs &);
 
     std::vector< std::vector<size_t> > search_stations;
-
-private:
-    anenSta::Stations stations_;
-    anenSta::Stations member_stations_;
-    anenTime::Times times_;
-    anenTime::Times member_times_;
-    anenTime::FLTs flts_;
     
+    const static int _NUM_COLS = 3;
 };
 
 #endif /* ANALOGS_H */

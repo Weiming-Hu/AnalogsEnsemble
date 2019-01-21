@@ -72,6 +72,12 @@ testStations::testUnique() {
     CPPUNIT_ASSERT(!stations.push_back(s4).second);
     CPPUNIT_ASSERT(!stations.push_back(s2).second);
     CPPUNIT_ASSERT(stations.size() == 5);
+    
+    auto & stations_insert = stations.get<anenSta::by_insert>();
+    CPPUNIT_ASSERT(stations_insert[0] == s0);
+    CPPUNIT_ASSERT(stations_insert[1] == s5);
+    CPPUNIT_ASSERT(stations_insert[2] == s6);
+    CPPUNIT_ASSERT(stations_insert[3] == s4);
 }
 
 void

@@ -432,7 +432,6 @@ compute_analogs <- function(forecasts,
       config$observation_id, config$quick,
       config$circulars, search_extension,
       config$extend_observations,
-      config$preserve_real_time,
       config$preserve_similarity, 
       config$preserve_mapping, preserve_search_stations,
       max_num_search_stations, distance,
@@ -459,7 +458,6 @@ compute_analogs <- function(forecasts,
       config$observation_id, config$quick,
       config$circulars, search_extension,
       config$extend_observations,
-      config$preserve_real_time,
       config$preserve_similarity,
       config$preserve_mapping,
       config$preserve_search_stations,
@@ -489,9 +487,7 @@ compute_analogs <- function(forecasts,
     }
   }
   
-  if (!config$preserve_real_time) {
-    AnEn$analogs[, , , , 3] <- AnEn$analogs[, , , , 3, drop = F] %/% dim(config$test_forecasts)[4] + 1
-  }
+  AnEn$analogs[, , , , 3] <- AnEn$analogs[, , , , 3, drop = F] %/% dim(config$test_forecasts)[4] + 1
   
   # Convert the station index from C counting to R counting
   AnEn$analogs[, , , , 2] <- AnEn$analogs[, , , , 2, drop = F] + 1

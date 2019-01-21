@@ -44,7 +44,7 @@ void testAnEnIO::testReadObservationFile() {
     string mode("Read");
 
     AnEnIO io(mode, file);
-    io.setVerbose(0);
+    io.setVerbose(2);
     io.setFileType("Observations");
 
     Observations_array observations;
@@ -79,7 +79,7 @@ void testAnEnIO::testReadForecastFile() {
     string file = file_forecasts;
 
     AnEnIO io("Read", file);
-    io.setVerbose(0);
+    io.setVerbose(2);
     io.setFileType("Forecasts");
 
     Forecasts_array forecasts;
@@ -327,7 +327,7 @@ void testAnEnIO::testReadPartParameters() {
 
     string file = file_observations;
 
-    AnEnIO io("Read", file, "Observations", 1);
+    AnEnIO io("Read", file, "Observations", 2);
 
     anenPar::Parameters parameters;
     io.readParameters(parameters, 1, 2);
@@ -355,16 +355,16 @@ void testAnEnIO::testReadPartStations() {
      */
 
     string file = file_observations;
-    AnEnIO io("Read", file, "Observations", 1);
+    AnEnIO io("Read", file, "Observations", 2);
 
     anenSta::Stations stations;
 
     io.readStations(stations, 3, 2);
-    const anenSta::multiIndexStations::index<anenSta::by_insert>::type &
+const anenSta::multiIndexStations::index<anenSta::by_insert>::type &
             stations_by_insert_1 = stations.get<anenSta::by_insert>();
     CPPUNIT_ASSERT(stations_by_insert_1[0].getName() == "station_4");
     CPPUNIT_ASSERT(stations_by_insert_1[1].getName() == "station_5");
-
+    
     io.setVerbose(0);
     CPPUNIT_ASSERT(io.readStations(stations, 1, 10, 4)
             == AnEnIO::errorType::WRONG_INDEX_SHAPE);
@@ -427,7 +427,7 @@ void testAnEnIO::testReadPartObservations() {
      */
 
     string file = file_observations;
-    AnEnIO io("Read", file, "Observations", 1);
+    AnEnIO io("Read", file, "Observations", 2);
 
     Observations_array observations, observations_full;
 
@@ -435,8 +435,8 @@ void testAnEnIO::testReadPartObservations() {
     vector<ptrdiff_t> vec_stride{2, 5, 1};
 
     io.readObservations(observations_full);
-
     io.readObservations(observations, vec_start, vec_count);
+    
     CPPUNIT_ASSERT(observations.getValueByIndex(0, 0, 0)
             == observations_full.getValueByIndex(0, 5, 5));
     CPPUNIT_ASSERT(observations.getValueByIndex(1, 0, 0)
@@ -472,7 +472,7 @@ void testAnEnIO::testReadPartForecasts() {
      */
 
     string file = file_forecasts;
-    AnEnIO io("Read", file, "Forecasts", 1);
+    AnEnIO io("Read", file, "Forecasts", 2);
 
     Forecasts_array forecasts, forecasts_full;
 
@@ -480,8 +480,8 @@ void testAnEnIO::testReadPartForecasts() {
     vector<ptrdiff_t> vec_stride{2, 5, 1, 1};
 
     io.readForecasts(forecasts_full);
-
     io.readForecasts(forecasts, vec_start, vec_count);
+
     CPPUNIT_ASSERT(forecasts.getValueByIndex(0, 0, 0, 0)
             == forecasts_full.getValueByIndex(0, 5, 5, 4));
     CPPUNIT_ASSERT(forecasts.getValueByIndex(1, 0, 0, 0)
@@ -552,7 +552,8 @@ void testAnEnIO::testReadWriteSimilarityMatrices() {
     string file_path = "read-write-similarity.nc";
     remove(file_path.c_str());
     AnEnIO io("Write", file_path, "Similarity", 2);
-    io.writeSimilarityMatrices(sims_write);
+    io.writeSimilarityMatrices(sims_write, parameters_write, stations_write,
+            times_write, flts_write, stations_write, times_write);
 
     SimilarityMatrices sims_read;
     io.setMode("Read");
@@ -580,8 +581,23 @@ void testAnEnIO::testReadWriteAnalogs() {
     /**
      * Test functions for reading and writing analogs
      */
+    
+    anenSta::Stations stations;
+    anenTime::Times times;
+    anenTime::FLTs flts;
+    
+    auto & stations_insert = stations.get<anenSta::by_insert>();
+    auto & times_insert = times.get<anenTime::by_insert>();
+    auto & flts_insert = flts.get<anenTime::by_insert>();
+    
+    for (size_t i = 0; i < 10; i++) {
+        anenSta::Station station("station" + to_string(i));
+        stations_insert.push_back(station);
+        times_insert.push_back(i * 10000);
+        flts_insert.push_back(i);
+    }
 
-    Analogs analogs_write(10, 20, 15, 11);
+    Analogs analogs_write(10, 10, 10, 11);
     generate(analogs_write.data(), analogs_write.data() +
             analogs_write.num_elements(), rand);
 
@@ -589,7 +605,7 @@ void testAnEnIO::testReadWriteAnalogs() {
     remove(file_path.c_str());
 
     AnEnIO io("Write", file_path, "Analogs", 1);
-    io.writeAnalogs(analogs_write);
+    io.writeAnalogs(analogs_write, stations, times, flts, stations, times);
 
     Analogs analogs_read;
     io.setMode("Read");
@@ -681,7 +697,10 @@ void testAnEnIO::testReadWriteStandardDeviation() {
                 sds_write[i][j][k] = i * 100 + j * 10 + k;
 
     AnEnIO io("Write", file_path, "StandardDeviation", 2);
-    io.writeStandardDeviation(sds_write, forecasts_write.getParameters());
+    io.writeStandardDeviation(sds_write,
+            forecasts_write.getParameters(),
+            forecasts_write.getStations(),
+            forecasts_write.getFLTs());
 
     StandardDeviation sds_read;
     io.setMode("Read");

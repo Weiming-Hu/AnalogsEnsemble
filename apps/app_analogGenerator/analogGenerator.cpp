@@ -54,7 +54,7 @@ void runAnalogGenerator(
         size_t num_neighbors, double distance, 
 
         size_t num_members, bool quick,
-        bool extend_observations, bool preserve_real_time,
+        bool extend_observations,
         int time_match_mode, double max_par_nan,
         double max_flt_nan, int verbose) {
 
@@ -166,17 +166,20 @@ void runAnalogGenerator(
             distance, num_neighbors));
     
     anen.handleError(anen.computeSimilarity(
-            search_forecasts, sds, sims, search_observations, mapping,
-            i_search_stations, observation_id, extend_observations,
+            test_forecasts, search_forecasts, sds, sims, search_observations,
+            mapping, i_search_stations, observation_id, extend_observations,
             max_par_nan, max_flt_nan));
 
 
     if (!file_similarity.empty()) {
-        io.setMode("Write", file_similarity);
-        io.setFileType("Similarity");
-        io.handleError(io.writeSimilarityMatrices(sims));
-        io.handleError(io.writeTimes(search_forecasts.getTimes(),
-                false, "num_search_times", "SearchTimes"));
+        AnEnIO io_sim("Write", file_similarity, "Similarity");
+        io_sim.handleError(io_sim.writeSimilarityMatrices(
+                sims, test_forecasts.getParameters(),
+                test_forecasts.getStations(),
+                test_forecasts.getTimes(),
+                test_forecasts.getFLTs(),
+                search_forecasts.getStations(),
+                search_forecasts.getTimes()));
     }
 
 #if defined(_CODE_PROFILING)
@@ -188,9 +191,10 @@ void runAnalogGenerator(
 
     Analogs analogs(test_forecasts, num_members);
     
-    anen.handleError(anen.selectAnalogs(analogs, sims, search_observations,
+    anen.handleError(anen.selectAnalogs(analogs, sims,
+            test_forecasts.getStations(), search_observations,
             mapping, observation_id, num_members, quick,
-            extend_observations, preserve_real_time));
+            extend_observations));
 
 #if defined(_CODE_PROFILING)
     clock_t time_end_of_select = clock();
@@ -202,7 +206,12 @@ void runAnalogGenerator(
     /************************************************************************
      *                           Write Analogs                              *
      ************************************************************************/
-    io_out.handleError(io_out.writeAnalogs(analogs));
+    io_out.handleError(io_out.writeAnalogs(
+            analogs, test_forecasts.getStations(),
+            test_forecasts.getTimes(),
+            test_forecasts.getFLTs(),
+            search_observations.getStations(),
+            search_observations.getTimes()));
 
     if (verbose >= 3) cout << GREEN << "Done!" << RESET << endl;
 
@@ -271,8 +280,7 @@ int main(int argc, char** argv) {
     int verbose = 0, time_match_mode = 1;
     size_t observation_id = 0;
     string config_file, file_mapping, file_similarity, file_sds;
-    bool quick = false, preserve_real_time = false,
-         searchExtension = false, extend_observations = false;
+    bool quick = false, searchExtension = false, extend_observations = false;
 
     double distance = 0.0, max_par_nan = 0.0, max_flt_nan = 0.0;
     size_t max_neighbors = 0, num_neighbors = 0;
@@ -312,8 +320,7 @@ int main(int argc, char** argv) {
                 ("sds-start", po::value< vector<size_t> >(&sds_start)->multitoken(), "Set the start indices in the standard deviation NetCDF where the program starts reading.")
                 ("sds-count", po::value< vector<size_t> >(&sds_count)->multitoken(), "Set the count numbers for each dimension in the standard deviation NetCDF.")
                 ("quick", po::bool_switch(&quick)->default_value(false), "Use quick sort when selecting analog members.")
-                ("extend-obs", po::bool_switch(&extend_observations)->default_value(false), "After getting the most similar forecast indices, take the corresponding observations from the search station.")
-                ("real-time", po::bool_switch(&preserve_real_time)->default_value(false), "Convert observation time index to real time information.");
+                ("extend-obs", po::bool_switch(&extend_observations)->default_value(false), "After getting the most similar forecast indices, take the corresponding observations from the search station.");
         
         // process unregistered keys and notify users about my guesses
         vector<string> available_options;
@@ -401,7 +408,6 @@ int main(int argc, char** argv) {
             << "observation_id: " << observation_id << endl
             << "searchExtension: " << searchExtension << endl
             << "quick: " << quick << endl
-            << "preserve_real_time: " << preserve_real_time << endl
             << "extend_observations: " << extend_observations << endl
             << "time_match_mode: " << time_match_mode << endl
             << "max_par_nan: " << max_par_nan << endl
@@ -429,7 +435,7 @@ int main(int argc, char** argv) {
                 file_similarity, file_analogs,
                 observation_id, searchExtension, max_neighbors,
                 num_neighbors, distance, num_members, quick,
-                extend_observations, preserve_real_time,
+                extend_observations,
                 time_match_mode, max_par_nan,
                 max_flt_nan, verbose);
     } catch (...) {

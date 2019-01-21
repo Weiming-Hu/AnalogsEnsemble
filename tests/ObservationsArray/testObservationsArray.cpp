@@ -69,14 +69,14 @@ void testObservationsArray::testColumnMajor() {
     Observations_array observations(parameters, stations, times, data);
 
     // This variable is used to read the value. It does no real computation.
-    double read_only;
+    double read_only = 0.0;
 
     // Traverse the data structure in row-major order
     clock_t begin_row_major = clock();
     for (size_t i = 0; i < num_pars; i++) {
         for (size_t j = 0; j < num_stations; j++) {
             for (size_t k = 0; k < num_times; k++) {
-                read_only = observations.getValueByIndex(i, j, k);
+                read_only += observations.getValueByIndex(i, j, k);
             }
         }
     }
@@ -87,7 +87,7 @@ void testObservationsArray::testColumnMajor() {
     for (size_t k = 0; k < num_times; k++) {
         for (size_t j = 0; j < num_stations; j++) {
             for (size_t i = 0; i < num_pars; i++) {
-                read_only = observations.getValueByIndex(i, j, k);
+                read_only += observations.getValueByIndex(i, j, k);
             }
         }
     }

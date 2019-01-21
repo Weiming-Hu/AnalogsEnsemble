@@ -18,71 +18,31 @@ library(ncdf4)
 unlink('sim_1.nc')
 unlink('sim_2.nc')
 unlink('sim_c.nc')
+unlink('sim_ctn.nc')
 
 # Generate sims separate files
-system('../../output/bin/similarityCalculator --test-forecast-nc ../../tests/Data/test_forecasts.nc --search-forecast-nc ../../tests/Data/test_forecasts.nc --observation-nc ../../tests/Data/test_observations.nc -v 1 --test-start 0 0 8 0 --test-count 5 20 2 8 --search-start 0 0 0 0 --search-count 5 20 9 8 --time-match-mode 1 --similarity-nc sim_1.nc')
-system('cp sim_1.nc sim_2.nc')
+system('../../output/bin/similarityCalculator --test-forecast-nc ../../tests/Data/test_forecasts.nc --search-forecast-nc ../../tests/Data/test_forecasts.nc --observation-nc ../../tests/Data/test_observations.nc -v 1 --obs-start 0 0 0  --obs-count 1 13 80 --test-start 0 0 0 0 --test-count 5 13 4 8 --search-start 0 0 0 0 --search-count 5 13 4 8 --time-match-mode 1 --similarity-nc sim_1.nc')
+system('../../output/bin/similarityCalculator --test-forecast-nc ../../tests/Data/test_forecasts.nc --search-forecast-nc ../../tests/Data/test_forecasts.nc --observation-nc ../../tests/Data/test_observations.nc -v 1 --obs-start 0 13 0  --obs-count 1 2 80 --test-start 0 13 0 0 --test-count 5 2 4 8 --search-start 0 13 0 0 --search-count 5 2 4 8 --time-match-mode 1 --similarity-nc sim_2.nc')
+system('../../output/bin/similarityCalculator --test-forecast-nc ../../tests/Data/test_forecasts.nc --search-forecast-nc ../../tests/Data/test_forecasts.nc --observation-nc ../../tests/Data/test_observations.nc -v 1 --obs-start 0 0 0  --obs-count 1 15 80 --test-start 0 0 0 0 --test-count 5 15 4 8 --search-start 0 0 0 0 --search-count 5 15 4 8 --time-match-mode 1 --similarity-nc sim_ctn.nc')
 
 # Combine sims
-system('../../output/bin/fileAggregate -t Similarity -i sim_1.nc sim_2.nc -o sim_c.nc -v 1 -a 3')
+system('../../output/bin/fileAggregate -t Similarity -i sim_1.nc sim_2.nc -o sim_c.nc -v 2 -a 0')
 
 # Combine sims in R
-nc <- nc_open('sim_1.nc')
-sims1 <- ncvar_get(nc, 'SimilarityMatrices')
-nc_close(nc)
-
-nc <- nc_open('sim_2.nc')
-sims2 <- ncvar_get(nc, 'SimilarityMatrices')
+nc <- nc_open('sim_ctn.nc')
+simsr <- ncvar_get(nc, 'SimilarityMatrices')
 nc_close(nc)
 
 nc <- nc_open('sim_c.nc')
 simsc <- ncvar_get(nc, 'SimilarityMatrices')
 nc_close(nc)
 
-simsr <- abind(sims1, sims2, along = 2)
-
-if (sum(abs(simsc - simsr)) == 0) {
-  cat("You passed the test for aggregating similarity matrices along entry times!\n")
-} else {
+if (sum(abs(simsc - simsr)) != 0) {
   stop("Something is wrong for aggregating similarity matrices along entry times!")
 }
 
-unlink('sim_1.nc')
-unlink('sim_2.nc')
-unlink('sim_c.nc')
-
-# Generate sims separate files
-system('../../output/bin/similarityCalculator --test-forecast-nc ../../tests/Data/test_forecasts.nc --search-forecast-nc ../../tests/Data/test_forecasts.nc --observation-nc ../../tests/Data/test_observations.nc -v 1 --test-start 0 0 8 0 --test-count 5 20 2 8 --search-start 0 0 0 0 --search-count 5 20 9 8 --time-match-mode 1 --similarity-nc sim_1.nc')
-system('cp sim_1.nc sim_2.nc')
-
-# Combine sims
-system('../../output/bin/fileAggregate -t Similarity -i sim_1.nc sim_2.nc -o sim_c.nc -v 1 -a 0')
-
-# Combine sims in R
-nc <- nc_open('sim_1.nc')
-sims1 <- ncvar_get(nc, 'SimilarityMatrices')
-data1 <- ncvar_get(nc, 'Data')
-nc_close(nc)
-
-nc <- nc_open('sim_2.nc')
-sims2 <- ncvar_get(nc, 'SimilarityMatrices')
-data2 <- ncvar_get(nc, 'Data')
-nc_close(nc)
-
-nc <- nc_open('sim_c.nc')
-simsc <- ncvar_get(nc, 'SimilarityMatrices')
-datac <- ncvar_get(nc, 'Data')
-nc_close(nc)
-
-simsr <- abind(sims1, sims2, along = 5)
-datar <- abind(data1, data2, along = 2)
-
-if (sum(abs(datar - datac)) != 0) {
-  stop("Forecasts are wrong for aggregating similarity matrices along stations!")
-}
-
-if (sum(abs(simsc - simsr)) != 0) {
-  stop("Similarity is wrong for aggregating similarity matrices along stations!")
+if (system('diff sim_c.nc sim_ctn.nc', intern = FALSE)) {
+  stop("File aggregate does not generate same similarity matrices")
 }
 
 cat("You passed the test for aggregating similarity matrices along stations!\n")
@@ -90,3 +50,36 @@ cat("You passed the test for aggregating similarity matrices along stations!\n")
 unlink('sim_1.nc')
 unlink('sim_2.nc')
 unlink('sim_c.nc')
+unlink('sim_ctn.nc')
+
+# Generate sims separate files
+system('../../output/bin/similarityCalculator --test-forecast-nc ../../tests/Data/test_forecasts.nc --search-forecast-nc ../../tests/Data/test_forecasts.nc --observation-nc ../../tests/Data/test_observations.nc -v 1 --obs-start 0 0 0  --obs-count 1 20 80 --test-start 0 0 0 0 --test-count 5 20 10 3 --search-start 0 0 0 0 --search-count 5 20 4 3 --time-match-mode 1 --similarity-nc sim_1.nc')
+system('../../output/bin/similarityCalculator --test-forecast-nc ../../tests/Data/test_forecasts.nc --search-forecast-nc ../../tests/Data/test_forecasts.nc --observation-nc ../../tests/Data/test_observations.nc -v 1 --obs-start 0 0 0  --obs-count 1 20 80 --test-start 0 0 0 3 --test-count 5 20 10 4 --search-start 0 0 0 3 --search-count 5 20 4 4 --time-match-mode 1 --similarity-nc sim_2.nc')
+system('../../output/bin/similarityCalculator --test-forecast-nc ../../tests/Data/test_forecasts.nc --search-forecast-nc ../../tests/Data/test_forecasts.nc --observation-nc ../../tests/Data/test_observations.nc -v 1 --obs-start 0 0 0  --obs-count 1 20 80 --test-start 0 0 0 0 --test-count 5 20 10 7 --search-start 0 0 0 0 --search-count 5 20 4 7 --time-match-mode 1 --similarity-nc sim_ctn.nc')
+
+# Combine sims
+system('../../output/bin/fileAggregate -t Similarity -i sim_1.nc sim_2.nc -o sim_c.nc -v 2 -a 2')
+
+# Combine sims in R
+nc <- nc_open('sim_ctn.nc')
+simsr <- ncvar_get(nc, 'SimilarityMatrices')
+nc_close(nc)
+
+nc <- nc_open('sim_c.nc')
+simsc <- ncvar_get(nc, 'SimilarityMatrices')
+nc_close(nc)
+
+if (sum(abs(simsc - simsr)) != 0) {
+  stop("Something is wrong for aggregating similarity matrices along entry times!")
+}
+
+if (system('diff sim_c.nc sim_ctn.nc', intern = FALSE)) {
+  stop("File aggregate does not generate same similarity matrices")
+}
+
+cat("You passed the test for aggregating similarity matrices along FLTs!\n")
+
+unlink('sim_1.nc')
+unlink('sim_2.nc')
+unlink('sim_c.nc')
+unlink('sim_ctn.nc')

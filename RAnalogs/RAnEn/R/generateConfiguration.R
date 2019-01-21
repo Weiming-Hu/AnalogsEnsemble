@@ -33,7 +33,6 @@
 #' - weights: The weight for forecast parameters in search forecasts.
 #' - quick: Whether to use quick sort algorithm.
 #' - extend_observations: After getting the most similar forecast indices, take the corresponding observations from the search station.
-#' - preserve_real_time: Whether to preserve the real time information in returned AnEn.
 #' - preserve_similarity: Whether to preserve the similarity matrix in returned AnEn.
 #' - preserve_mapping: Whether to preserve the mapping matrix in return AnEn.
 #' - verbose: Verbose level. You can find settings for different values in the
@@ -109,7 +108,6 @@ generateConfiguration <- function(mode) {
     weights = vector(mode = 'numeric', length = 0), 
     quick = T,
     extend_observations = F, 
-    preserve_real_time = F, 
     preserve_similarity = F,
     preserve_mapping = T, 
     time_match_mode = 1, 

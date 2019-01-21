@@ -53,7 +53,7 @@ List generateAnalogs(
         NumericVector R_observation_times,
         size_t num_members, size_t observation_parameter, bool quick,
         IntegerVector R_circulars, bool search_extension,
-        bool extend_observations, bool preserve_real_time,
+        bool extend_observations,
         bool preserve_similarity, bool preserve_mapping,
         bool preserve_search_stations,
         size_t max_num_search_stations, double distance,
@@ -147,7 +147,7 @@ List generateAnalogs(
 
     if (verbose >= 4) {
         cout << "A summary of test forecast parameters:" << endl
-                << sims.getTargets().getParameters();
+                << test_forecasts.getParameters();
     }
 
     if (search_extension) anen.setMethod(AnEn::simMethod::ONE_TO_MANY);
@@ -171,15 +171,16 @@ List generateAnalogs(
             i_search_stations, max_num_search_stations, distance,
             num_nearest_stations));
 
-    anen.handleError(anen.computeSimilarity(search_forecasts, sds, sims,
-            search_observations, mapping, i_search_stations,
+    anen.handleError(anen.computeSimilarity(test_forecasts, search_forecasts,
+            sds, sims, search_observations, mapping, i_search_stations,
             observation_parameter, extend_observations,
             max_par_nan, max_flt_nan));
 
     // Select analogs
-    anen.handleError(anen.selectAnalogs(analogs, sims, search_observations,
+    anen.handleError(anen.selectAnalogs(analogs, sims, 
+            test_stations, search_observations,
             mapping, observation_parameter, num_members, quick,
-            extend_observations, preserve_real_time));
+            extend_observations));
 
     /***************************************************************************
      *                           Wrap Up Results                               *
