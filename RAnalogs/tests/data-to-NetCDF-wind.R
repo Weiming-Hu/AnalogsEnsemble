@@ -31,6 +31,8 @@ num_times <- dim(fc)[3]
 num_flts <- dim(fc)[4]
 num_chars <- 10
 
+value_xs <- 1:num_stations
+value_ys <- 1:num_stations
 value_flts <- ((1:num_flts) - 1) * 3 * 60 * 60
 value_times <- ((1:num_times) - 1) * 24 * 60 * 60
 value_station_names <- paste("station", 1:num_stations, sep = '')
@@ -44,6 +46,8 @@ dim_times <- ncdim_def("num_times", "", 1:num_times, create_dimvar = F)
 dim_flts <- ncdim_def("num_flts", "", 1:num_flts, create_dimvar = F)
 dim_chars <- ncdim_def('num_chars', "", 1:num_chars, create_dimvar = F)
 
+var_xs <- ncvar_def("Xs", "", list(dim_stations))
+var_ys <- ncvar_def("Ys", "", list(dim_stations))
 var_flts <- ncvar_def("FLTs", "second", list(dim_flts))
 var_times <- ncvar_def("Times", "second", list(dim_times))
 var_station_names <- ncvar_def("StationNames", "char", list(dim_chars, dim_stations), prec = 'char')
@@ -52,8 +56,11 @@ var_parameter_names <- ncvar_def("ParameterNames", "char", list(dim_chars, dim_p
 var_data <- ncvar_def("Data", "", list(dim_parameters, dim_stations, dim_times, dim_flts), missval = NA, prec = 'double')
 
 unlink(file_forecasts)
-ncout <- nc_create(file_forecasts, list(var_flts, var_data, var_times, var_station_names, var_parameter_names, var_circulars), force_v4 = T)
+ncout <- nc_create(file_forecasts, list(
+  var_flts, var_data, var_times, var_station_names, var_xs, var_ys, var_parameter_names, var_circulars), force_v4 = T)
 
+ncvar_put(ncout, var_ys, value_ys)
+ncvar_put(ncout, var_xs, value_xs)
 ncvar_put(ncout, var_flts, value_flts)
 ncvar_put(ncout, var_times, value_times)
 ncvar_put(ncout, var_station_names, value_station_names)
@@ -90,6 +97,8 @@ num_stations <- dim(ob)[2]
 num_days <- dim(ob)[3] + 1
 num_times <- num_days * 8
 
+value_xs <- 1:num_stations
+value_ys <- 1:num_stations
 value_data <- ob[, , , 1:8, drop = F]
 tmp.search.observations <- abind(value_data, ob[, , 457, 9:16, drop = F], along = 3)
 search.observations <- aperm(tmp.search.observations, c(4, 3, 2, 1))
@@ -108,14 +117,19 @@ dim_parameters <- ncdim_def("num_parameters", "", 1:num_parameters, create_dimva
 dim_stations <- ncdim_def("num_stations", "", 1:num_stations, create_dimvar = F)
 dim_times <- ncdim_def("num_times", "", 1:num_times, create_dimvar = F)
 
+var_xs <- ncvar_def("Xs", "", list(dim_stations))
+var_ys <- ncvar_def("Ys", "", list(dim_stations))
 var_times <- ncvar_def("Times", "second", list(dim_times))
 var_station_names <- ncvar_def("StationNames", "char", list(dim_chars, dim_stations), prec = 'char')
 var_parameter_names <- ncvar_def("ParameterNames", "char", list(dim_chars, dim_parameters), prec = 'char')
 var_data <- ncvar_def("Data", "", list(dim_parameters, dim_stations, dim_times), missval = NA, prec = 'double')
 
 unlink(file_observations)
-ncout <- nc_create(file_observations, list(var_data, var_times, var_station_names, var_parameter_names), force_v4 = T)
+ncout <- nc_create(file_observations, list(
+  var_data, var_times, var_station_names, var_xs, var_ys , var_parameter_names), force_v4 = T)
 
+ncvar_put(ncout, var_ys, value_ys)
+ncvar_put(ncout, var_xs, value_xs)
 ncvar_put(ncout, var_times, value_times)
 ncvar_put(ncout, var_station_names, value_station_names)
 ncvar_put(ncout, var_parameter_names, value_parameter_names)

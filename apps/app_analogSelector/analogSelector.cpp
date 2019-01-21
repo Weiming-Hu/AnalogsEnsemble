@@ -29,8 +29,7 @@ using namespace std;
 void runAnalogSelector(const string & file_sim, const string & file_obs,
         const vector<size_t> & obs_start, const vector<size_t> & obs_count,
         const string & file_mapping, const string & file_analogs, size_t observation_id,
-        size_t num_members, bool quick, bool extend_observations,
-        bool preserve_real_time, int verbose) {
+        size_t num_members, bool quick, bool extend_observations, int verbose) {
     
 #if defined(_CODE_PROFILING)
     clock_t time_start = clock();
@@ -99,7 +98,7 @@ void runAnalogSelector(const string & file_sim, const string & file_obs,
     anen.handleError(anen.selectAnalogs(analogs, sims,
             test_stations, search_observations,
             mapping, observation_id, num_members, quick,
-            extend_observations, preserve_real_time));
+            extend_observations));
 
 #if defined(_CODE_PROFILING)
     clock_t time_end_of_select = clock();
@@ -152,8 +151,7 @@ int main(int argc, char** argv) {
     string config_file;
     size_t observation_id = 0;
     vector<size_t>  obs_start, obs_count;
-    bool quick = false, extend_observations = false,
-         preserve_real_time = false;
+    bool quick = false, extend_observations = false;
     
     try {
         po::options_description desc("Avaialble options");
@@ -172,8 +170,7 @@ int main(int argc, char** argv) {
                 ("obs-start", po::value< vector<size_t> >(&obs_start)->multitoken(), "Set the start indices in the search observation NetCDF where the program starts reading.")
                 ("obs-count", po::value< vector<size_t> >(&obs_count)->multitoken(), "Set the count numbers for each dimension in the search observation NetCDF.")
                 ("quick", po::bool_switch(&quick)->default_value(false), "Use quick sort when selecting analog members.")
-                ("extend-obs", po::bool_switch(&extend_observations)->default_value(false), "After getting the most similar forecast indices, take the corresponding observations from the search station.")
-                ("real-time", po::bool_switch(&preserve_real_time)->default_value(false), "Convert observation time index to real time information.");
+                ("extend-obs", po::bool_switch(&extend_observations)->default_value(false), "After getting the most similar forecast indices, take the corresponding observations from the search station.");
         
         // process unregistered keys and notify users about my guesses
         vector<string> available_options;
@@ -247,14 +244,13 @@ int main(int argc, char** argv) {
                 << "obs_start: " << obs_start << endl
                 << "obs_count: " << obs_count << endl
                 << "quick: " << quick << endl
-                << "extend_observations: " << extend_observations << endl
-                << "preserve_real_time: " << preserve_real_time << endl;
+                << "extend_observations: " << extend_observations << endl;
     }
     
     try {
         runAnalogSelector(file_sim, file_obs, obs_start, obs_count,
                 file_mapping, file_analogs, observation_id, num_members,
-                quick, extend_observations, preserve_real_time, verbose);
+                quick, extend_observations, verbose);
     } catch (...) {
         handle_exception(current_exception());
         return 1;

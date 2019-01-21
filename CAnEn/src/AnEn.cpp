@@ -523,8 +523,7 @@ AnEn::selectAnalogs(
         const Observations_array & search_observations,
         const AnEn::TimeMapMatrix & mapping,
         size_t i_parameter, size_t num_members,
-        bool quick, bool extend_observations,
-        bool preserve_real_time) const {
+        bool quick, bool extend_observations) const {
 
     if (i_parameter >= search_observations.getParametersSize()) {
         if (verbose_ >= 1) cout << BOLDRED << "Error: i_parameter exceeds the limits. "
@@ -574,7 +573,7 @@ AnEn::selectAnalogs(
 #pragma omp parallel for default(none) schedule(dynamic) collapse(4) \
 shared(data_observations, sims, num_members, mapping, analogs, num_test_stations, \
 i_parameter, num_test_times, num_flts, observation_times_by_insert, max_members, \
-extend_observations, test_stations_index_in_search, preserve_real_time)
+extend_observations, test_stations_index_in_search)
 #endif
     for (size_t i_test_station = 0; i_test_station < num_test_stations; i_test_station++) {
         for (size_t i_test_time = 0; i_test_time < num_test_times; i_test_time++) {
@@ -599,14 +598,8 @@ extend_observations, test_stations_index_in_search, preserve_real_time)
                                 analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::STATION] = i_search_station;
                                 analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::VALUE] =
                                         data_observations[i_parameter][i_search_station][i_observation_time];
-
-                                if (preserve_real_time) {
-                                    analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::TIME] =
-                                            observation_times_by_insert[i_observation_time];
-                                } else {
-                                    analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::TIME] =
-                                            i_observation_time;
-                                }
+                                analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::TIME] =
+                                        i_observation_time;
                             }
                         }
                     }

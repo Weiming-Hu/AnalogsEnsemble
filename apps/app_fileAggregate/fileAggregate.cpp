@@ -102,8 +102,9 @@ void runFileAggregate(const string & file_type, const vector<string> & in_files,
         }
         
         AnEnIO io("Read", in_files[0], file_type, verbose);
-        io.readTimes(search_times, "SearchTimes");
-        io.readStations(search_stations, "search_", "Search");
+        io.readTimes(search_times, AnEnIO::SEARCH_VAR_PREFIX_ + "Times");
+        io.readStations(search_stations,
+                AnEnIO::SEARCH_DIM_PREFIX_, AnEnIO::SEARCH_VAR_PREFIX_);
 
         // Write combined similarity matrices
         if (verbose >= 3) cout << GREEN << "Writing similarity matrices ..." << RESET << endl;
@@ -124,14 +125,12 @@ void runFileAggregate(const string & file_type, const vector<string> & in_files,
         anenTime::FLTs flts;
 
         auto ret = AnEnIO::combineAnalogs(
-                in_files, analogs, stations, times, flts, along, verbose);
+                in_files, analogs, stations, times, flts,
+                member_stations, member_times, along, verbose);
         if (ret != AnEnIO::errorType::SUCCESS) {
             throw runtime_error("Error: Failed when combining analogs.");
         }
 
-        AnEnIO io("Read", in_files[0], file_type, verbose);
-        io.readTimes(member_times, "MemberTimes");
-        io.readStations(member_stations, "member_", "Member");
 
         // Write combined analogs
         if (verbose >= 3) cout << GREEN << "Writing analogs ..." << RESET << endl;

@@ -34,6 +34,11 @@
  */
 class AnEnIO {
 public:
+    const static std::string MEMBER_DIM_PREFIX_;
+    const static std::string MEMBER_VAR_PREFIX_;
+    const static std::string SEARCH_DIM_PREFIX_;
+    const static std::string SEARCH_VAR_PREFIX_;
+    
     AnEnIO() = delete;
     AnEnIO(const AnEnIO& orig) = delete;
 
@@ -540,14 +545,17 @@ public:
     combineStations(
             const std::vector<std::string> & in_files,
             const std::string & file_type,
-            anenSta::Stations & stations, int verbose);
+            anenSta::Stations & stations, int verbose,
+            const std::string & dim_name_prefix = "",
+            const std::string & var_name_prefix = "");
 
 
     static errorType
     combineTimes(
             const std::vector<std::string> & in_files,
             const std::string & file_type,
-            anenTime::Times & times, int verbose);
+            anenTime::Times & times, int verbose,
+            const std::string & var_name = "Times");
 
     static errorType
     combineFLTs(
@@ -620,6 +628,8 @@ public:
             anenSta::Stations & stations,
             anenTime::Times & times,
             anenTime::FLTs & flts,
+//            anenSta::Stations & member_stations,
+//            anenTime::Times & member_times,
             size_t along, int verbose = 2);
 
     /**
@@ -639,6 +649,8 @@ public:
             anenSta::Stations & stations,
             anenTime::Times & times,
             anenTime::FLTs & flts,
+            anenSta::Stations & member_stations,
+            anenTime::Times & member_times,
             size_t along, int verbose = 2);
 
 protected:

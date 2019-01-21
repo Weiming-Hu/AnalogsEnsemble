@@ -23,7 +23,34 @@ unlink('analogs2.nc')
 unlink('analogs1.nc')
 unlink('analogs_c.nc')
 
-system("../../../output/bin/analogGenerator --test-forecast-nc ../../../tests/Data/test_forecasts.nc --search-forecast-nc ../../../tests/Data/test_forecasts.nc --observation-nc ../../../tests/Data/test_observations.nc -v 3 --obs-start 0 0 0 --obs-count 1 5 80 --test-start 0 0 0 0 --test-count 5 5 3 8 --search-start 0 0 0 0 --search-count 5 5 9 8 --time-match-mode 1 --analog-nc analogs1.nc --members 5")
-system("../../../output/bin/analogGenerator --test-forecast-nc ../../../tests/Data/test_forecasts.nc --search-forecast-nc ../../../tests/Data/test_forecasts.nc --observation-nc ../../../tests/Data/test_observations.nc  -v 3 --obs-start 0 5 0 --obs-count 1 10 80 --test-start 0 5 0 0 --test-count 5 10 3 8 --search-start 0 5 0 0 --search-count 5 10 9 8 --time-match-mode 1 --analog-nc analogs2.nc --members 5")
-system('../../../output/bin/fileAggregate -t Analogs -i analogs1.nc analogs2.nc -o analogs_c.nc -v 3 -a 2')
-system("../../../output/bin/analogGenerator --test-forecast-nc ../../../tests/Data/test_forecasts.nc --search-forecast-nc ../../../tests/Data/test_forecasts.nc --observation-nc ../../../tests/Data/test_observations.nc  -v 3 --obs-start 0 0 0 --obs-count 1 15 80 --test-start 0 0 0 0 --test-count 5 15 3 8 --search-start 0 0 0 0 --search-count 5 15 9 8 --time-match-mode 1 --analog-nc analogs-ctn.nc --members 5")
+system("../../../output/bin/analogGenerator --test-forecast-nc ../../../tests/Data/test_forecasts.nc --search-forecast-nc ../../../tests/Data/test_forecasts.nc --observation-nc ../../../tests/Data/test_observations.nc -v 2 --obs-start 0 0 0 --obs-count 1 5 80 --test-start 0 0 0 0 --test-count 5 5 3 8 --search-start 0 0 0 0 --search-count 5 5 9 8 --time-match-mode 1 --analog-nc analogs1.nc --members 5")
+system("../../../output/bin/analogGenerator --test-forecast-nc ../../../tests/Data/test_forecasts.nc --search-forecast-nc ../../../tests/Data/test_forecasts.nc --observation-nc ../../../tests/Data/test_observations.nc  -v 2 --obs-start 0 5 0 --obs-count 1 10 80 --test-start 0 5 0 0 --test-count 5 10 3 8 --search-start 0 5 0 0 --search-count 5 10 9 8 --time-match-mode 1 --analog-nc analogs2.nc --members 5")
+system('../../../output/bin/fileAggregate -t Analogs -i analogs1.nc analogs2.nc -o analogs_c.nc -v 2 -a 0')
+system("../../../output/bin/analogGenerator --test-forecast-nc ../../../tests/Data/test_forecasts.nc --search-forecast-nc ../../../tests/Data/test_forecasts.nc --observation-nc ../../../tests/Data/test_observations.nc  -v 2 --obs-start 0 0 0 --obs-count 1 15 80 --test-start 0 0 0 0 --test-count 5 15 3 8 --search-start 0 0 0 0 --search-count 5 15 9 8 --time-match-mode 1 --analog-nc analogs_ctn.nc --members 5")
+
+nc <- nc_open('analogs_ctn.nc')
+analogs.ctn <- ncvar_get(nc, 'Analogs')
+member.times.ctn <- ncvar_get(nc, "MemberTimes")
+member.xs.ctn <- ncvar_get(nc, "MemberXs")
+nc_close(nc)
+
+nc <- nc_open('analogs_c.nc')
+analogs.c <- ncvar_get(nc, 'Analogs')
+member.times.c <- ncvar_get(nc, "MemberTimes")
+member.xs.c <- ncvar_get(nc, "MemberXs")
+nc_close(nc)
+
+if (sum(abs(analogs.c[, , , , 1] - analogs.ctn[, , , , 1]), na.rm = T) != 0) {
+  stop("File aggregate does not generate same values for combined analogs.")
+}
+
+if (!identical(analogs.c, analogs.ctn)) {
+  stop("File aggregate does not generate same analogs.")
+}
+
+unlink('analogs_ctn.nc')
+unlink('analogs2.nc')
+unlink('analogs1.nc')
+unlink('analogs_c.nc')
+
+setwd(old.wd)

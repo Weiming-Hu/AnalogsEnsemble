@@ -75,6 +75,8 @@ biasCorrectionNeuralNet <- function(
 	}
 	
   if (!show.progress) pbo <- pboptions(type = "none")
+
+  stop("This functions does not work without preserve_real_time")
   
   # Check for overwriting
   if ('analogs.cor.nnet' %in% names(AnEn) ||
@@ -90,9 +92,6 @@ biasCorrectionNeuralNet <- function(
   config$preserve_similarity <- F
   config$preserve_search_stations <- F
   config$verbose <- 1
-  
-  # Preserve real time because this makes the query for observation easier
-  config$preserve_real_time <- T
   
   if (dim(AnEn$analogs)[1] == 1) {
     stop("The current implementation does not work for 1 grid point.")

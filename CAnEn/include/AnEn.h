@@ -210,8 +210,6 @@ public:
      * @param quick Whether to use quick sort mechanism.
      * @param extend_observations Whether to extend observation stations to
      * search stations. This only works when search space extension is used.
-     * @param preserve_real_time Whether to replace the observation time index
-     * with the actual observation time.
      * @return An AnEn::errorType.
      */
     errorType selectAnalogs(
@@ -221,8 +219,7 @@ public:
             const Observations_array& search_observations,
             const TimeMapMatrix & mapping,
             size_t i_parameter, size_t num_members,
-            bool quick = true, bool extend_observations = false,
-            bool preserve_real_time = false) const;
+            bool quick = true, bool extend_observations = false) const;
 
     /**
      * Handles the errorType.

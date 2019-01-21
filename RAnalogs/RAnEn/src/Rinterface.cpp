@@ -53,7 +53,7 @@ List generateAnalogs(
         NumericVector R_observation_times,
         size_t num_members, size_t observation_parameter, bool quick,
         IntegerVector R_circulars, bool search_extension,
-        bool extend_observations, bool preserve_real_time,
+        bool extend_observations,
         bool preserve_similarity, bool preserve_mapping,
         bool preserve_search_stations,
         size_t max_num_search_stations, double distance,
@@ -180,7 +180,7 @@ List generateAnalogs(
     anen.handleError(anen.selectAnalogs(analogs, sims, 
             test_stations, search_observations,
             mapping, observation_parameter, num_members, quick,
-            extend_observations, preserve_real_time));
+            extend_observations));
 
     /***************************************************************************
      *                           Wrap Up Results                               *
