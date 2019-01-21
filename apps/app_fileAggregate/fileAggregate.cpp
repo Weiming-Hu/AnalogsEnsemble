@@ -86,6 +86,9 @@ void runFileAggregate(const string & file_type, const vector<string> & in_files,
         anenSta::Stations stations, search_stations;
         anenTime::Times times, search_times;
         anenTime::FLTs flts;
+        
+        AnEnIO io_par("Read", in_files[0], "Similarity", verbose);
+        io_par.readParameters(parameters);
                     
         auto ret = AnEnIO::combineSimilarityMatrices(
                 in_files, sims, stations, times, flts,
