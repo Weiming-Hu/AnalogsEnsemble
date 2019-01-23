@@ -124,7 +124,7 @@ int main(int argc, char** argv) {
         po::parsed_options parsed = po::command_line_parser(argc, argv).options(desc).allow_unregistered().run();
         store(parsed, vm);
 
-        cout << GREEN << "Parallel Ensemble Forecasts --- Standard Deviation Calculator" << RESET << endl;
+        cout << BOLDGREEN << "Parallel Ensemble Forecasts --- Standard Deviation Calculator" << RESET << endl;
 
         if (vm.count("help") || argc == 1) {
             cout << desc << endl;
