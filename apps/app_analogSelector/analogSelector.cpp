@@ -185,7 +185,7 @@ int main(int argc, char** argv) {
         store(parsed, vm);
         
         if (vm.count("help") || argc == 1) {
-            cout << GREEN << "Analog Ensemble program --- Similarity Calculator"
+            cout << GREEN << "Analog Ensemble program --- Analog Selector"
 #if defined(_CODE_PROFILING)
                 << " (with code profiling)"
 #endif
