@@ -2265,6 +2265,10 @@ AnEnIO::combineForecastsArray(const vector<string> & in_files,
         else io_thread.readForecasts(forecasts_single);
         const auto & data_single = forecasts_single.data();
 
+#if defined(_OPENMP)
+#pragma omp parallel for default(none) schedule(static) collapse(4) \
+shared(data, same_dimensions, along, append_count, data_single)
+#endif
         for (size_t i = 0; i < data.shape()[same_dimensions[2]]; i++) {
             for (size_t j = 0; j < data.shape()[same_dimensions[1]]; j++) {
                 for (size_t m = 0; m < data.shape()[same_dimensions[0]]; m++) {
@@ -2277,7 +2281,7 @@ AnEnIO::combineForecastsArray(const vector<string> & in_files,
                 }
             }
         }
-
+        
         append_count += data_single.shape()[along];
     }
 
@@ -2336,6 +2340,10 @@ AnEnIO::combineObservationsArray(const vector<string> & in_files,
         io_thread.readObservations(observations_single);
         const auto & data_single = observations_single.data();
 
+#if defined(_OPENMP)
+#pragma omp parallel for default(none) schedule(static) collapse(3) \
+shared(data, same_dimensions, along, append_count, data_single)
+#endif
         for (size_t j = 0; j < data.shape()[same_dimensions[1]]; j++) {
             for (size_t m = 0; m < data.shape()[same_dimensions[0]]; m++) {
                 for (size_t l = 0; l < data_single.shape()[along]; l++) {
@@ -2397,6 +2405,11 @@ AnEnIO::combineStandardDeviation(const vector<string> & in_files,
 
         io_thread.setFilePath(file);
         io_thread.readStandardDeviation(sds_single);
+
+#if defined(_OPENMP)
+#pragma omp parallel for default(none) schedule(static) collapse(3) \
+shared(sds, same_dimensions, along, append_count, sds_single)
+#endif
 
         for (size_t j = 0; j < sds.shape()[same_dimensions[1]]; j++) {
             for (size_t m = 0; m < sds.shape()[same_dimensions[0]]; m++) {
@@ -2512,6 +2525,12 @@ AnEnIO::combineSimilarityMatrices(
         search_times.insert(search_times.end(),
                 search_times_single.begin(), search_times_single.end());
 
+#if defined(_OPENMP)
+#pragma omp parallel for default(none) schedule(static) collapse(4) \
+shared(sims, same_dimensions, sims_single, along, search_stations_single_by_insert, \
+search_stations, search_times_single_by_insert, search_stations_by_name, append_count, \
+search_times)
+#endif
         for (size_t k = 0; k < sims.shape()[same_dimensions[2]]; k++) {
             for (size_t j = 0; j < sims.shape()[same_dimensions[1]]; j++) {
                 for (size_t m = 0; m < sims.shape()[same_dimensions[0]]; m++) {
@@ -2660,6 +2679,13 @@ AnEnIO::combineAnalogs(const vector<string> & in_files,
         member_times.insert(member_times.end(),
                 member_times_single.begin(), member_times_single.end());
 
+#if defined(_OPENMP)
+#pragma omp parallel for default(none) schedule(static) collapse(4) \
+shared(analogs, same_dimensions, analogs_single, along, member_stations_single_by_insert, \
+member_stations, member_times, member_times_single_by_insert, member_stations_by_name, \
+append_count)
+#endif
+        
         for (size_t k = 0; k < analogs.shape()[same_dimensions[2]]; k++) {
             for (size_t j = 0; j < analogs.shape()[same_dimensions[1]]; j++) {
                 for (size_t m = 0; m < analogs.shape()[same_dimensions[0]]; m++) {

@@ -668,7 +668,7 @@ public:
             anenSta::Stations & member_stations,
             anenTime::Times & member_times,
             size_t along, int verbose = 2);
-
+    
 protected:
 
     /**
