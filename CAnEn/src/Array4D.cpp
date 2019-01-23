@@ -46,7 +46,7 @@ boost::multi_array<double, 4>(view) {
 //}
 
 Array4D & Array4D::operator=(const Array4D &rhs) {
-
+    
     if (this != &rhs) {
         try {
             resize(boost::extents

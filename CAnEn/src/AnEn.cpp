@@ -48,7 +48,7 @@ AnEn::computeStandardDeviation(
     size_t num_times = forecasts.getTimesSize();
     size_t num_flts = forecasts.getFLTsSize();
 
-    auto array = forecasts.data();
+    auto & array = forecasts.data();
 
     vector<bool> circular_flags(num_parameters, false);
     auto & parameters_by_insert = forecasts.getParameters().get<anenPar::by_insert>();
@@ -413,7 +413,7 @@ AnEn::computeSimilarity(
     }
 
     // Get data
-    auto data_search_observations = search_observations.data();
+    auto & data_search_observations = search_observations.data();
 
     // Pre compute the window size for each FLT
     size_t window_half_size = 1;

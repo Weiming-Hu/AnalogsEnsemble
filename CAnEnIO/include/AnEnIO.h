@@ -579,7 +579,7 @@ public:
      * Binds a vector of Forecasts_array.
      * 
      * @param in_files A vector of input Forecasts files.
-     * @param forecasts A Forecasts_arary to store the binded sub arrays.
+     * @param forecasts A Forecasts_array to store the binded sub arrays.
      * @param along Which dimension to append counting from 0.
      * @param verbose Verbose level.
      * @param starts The start index for each dimension.
