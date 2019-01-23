@@ -258,13 +258,16 @@ int main(int argc, char** argv) {
         po::variables_map vm;
         po::parsed_options parsed = po::command_line_parser(argc, argv).options(desc).allow_unregistered().run();
         store(parsed, vm);
-        
-        if (vm.count("help") || argc == 1) {
-            cout << GREEN << "Analog Ensemble program --- Similarity Calculator"
+
+
+        cout << BOLDGREEN << "Parallel Ensemble Forecasts --- Similarity Calculator"
 #if defined(_CODE_PROFILING)
-                << " (with code profiling)"
+            << " (with code profiling)"
 #endif
-                << RESET << endl << desc << endl;
+            << RESET << endl;
+
+        if (vm.count("help") || argc == 1) {
+            cout << desc << endl;
             return 0;
         }
         
