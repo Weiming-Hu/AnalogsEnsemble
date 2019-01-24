@@ -2252,19 +2252,21 @@ AnEnIO::combineForecastsArray(const vector<string> & in_files,
 
     size_t append_count = 0;
 
-    for (size_t i = 0; i < in_files.size(); i++) {
-        const auto & file = in_files[i];
+    for (size_t k = 0; k < in_files.size(); k++) {
+        const auto & file = in_files[k];
 
-        AnEnIO io_thread("Read", in_files[0], "Forecasts", 2);
+        AnEnIO io_thread("Read", file, "Forecasts", 2);
         Forecasts_array forecasts_single;
 
-        io_thread.setFilePath(file);
+        if (verbose >= 4) cout << "Read file " << file << " ..." << endl;
         if (partial_read) io_thread.readForecasts(forecasts_single,
-                {starts[i*4], starts[i*4+1], starts[i*4+2], starts[i*4+3]},
-                {counts[i*4], counts[i*4+1], counts[i*4+2], counts[i*4+3]});
+                {starts[k*4], starts[k*4+1], starts[k*4+2], starts[k*4+3]},
+                {counts[k*4], counts[k*4+1], counts[k*4+2], counts[k*4+3]});
         else io_thread.readForecasts(forecasts_single);
         const auto & data_single = forecasts_single.data();
 
+        if (verbose >= 4) cout << "Reformat file " << file << " ..." << endl;
+        
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(static) collapse(4) \
 shared(data, same_dimensions, along, append_count, data_single)
@@ -2333,13 +2335,15 @@ AnEnIO::combineObservationsArray(const vector<string> & in_files,
     size_t append_count = 0;
 
     for (const auto & file : in_files) {
-        AnEnIO io_thread("Read", in_files[0], "Observations", 2);
+        AnEnIO io_thread("Read", file, "Observations", 2);
         Observations_array observations_single;
 
+        if (verbose >= 4) cout << "Read file " << file << " ..." << endl;
         io_thread.setFilePath(file);
         io_thread.readObservations(observations_single);
         const auto & data_single = observations_single.data();
-
+        
+        if (verbose >= 4) cout << "Reformat file " << file << " ..." << endl;
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(static) collapse(3) \
 shared(data, same_dimensions, along, append_count, data_single)
@@ -2400,12 +2404,14 @@ AnEnIO::combineStandardDeviation(const vector<string> & in_files,
     size_t append_count = 0;
 
     for (const auto & file : in_files) {
-        AnEnIO io_thread("Read", in_files[0], "StandardDeviation", 2);
+        AnEnIO io_thread("Read", file, "StandardDeviation", 2);
         StandardDeviation sds_single;
 
+        if (verbose >= 4) cout << "Read file " << file << " ..." << endl;
         io_thread.setFilePath(file);
         io_thread.readStandardDeviation(sds_single);
 
+        if (verbose >= 4) cout << "Reformat file " << file << " ..." << endl;
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(static) collapse(3) \
 shared(sds, same_dimensions, along, append_count, sds_single)
@@ -2499,11 +2505,12 @@ AnEnIO::combineSimilarityMatrices(
     auto & search_stations_by_insert = search_stations.get<anenSta::by_insert>();
 
     for (const auto & file : in_files) {
-        AnEnIO io_thread("Read", in_files[0], "Similarity", 2);
+        AnEnIO io_thread("Read", file, "Similarity", 2);
         SimilarityMatrices sims_single;
         anenSta::Stations search_stations_single;
         anenTime::Times search_times_single;
 
+        if (verbose >= 4) cout << "Read file " << file << " ..." << endl;
         io_thread.setFilePath(file);
         io_thread.readSimilarityMatrices(sims_single);
 
@@ -2525,6 +2532,7 @@ AnEnIO::combineSimilarityMatrices(
         search_times.insert(search_times.end(),
                 search_times_single.begin(), search_times_single.end());
 
+        if (verbose >= 4) cout << "Reformat file " << file << " ..." << endl;
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(static) collapse(4) \
 shared(sims, same_dimensions, sims_single, along, search_stations_single_by_insert, \
@@ -2653,11 +2661,12 @@ AnEnIO::combineAnalogs(const vector<string> & in_files,
     auto & member_stations_by_insert = member_stations.get<anenSta::by_insert>();
     
     for (const auto & file : in_files) {
-        AnEnIO io_thread("Read", in_files[0], "Analogs", 2);
+        AnEnIO io_thread("Read", file, "Analogs", 2);
         Analogs analogs_single;
         anenSta::Stations member_stations_single;
         anenTime::Times member_times_single;
 
+        if (verbose >= 4) cout << "Read file " << file << " ..." << endl;
         io_thread.setFilePath(file);
         io_thread.readAnalogs(analogs_single);
 
@@ -2679,6 +2688,7 @@ AnEnIO::combineAnalogs(const vector<string> & in_files,
         member_times.insert(member_times.end(),
                 member_times_single.begin(), member_times_single.end());
 
+        if (verbose >= 4) cout << "Reformat file " << file << " ..." << endl;
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(static) collapse(4) \
 shared(analogs, same_dimensions, analogs_single, along, member_stations_single_by_insert, \
