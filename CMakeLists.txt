@@ -56,6 +56,9 @@ set(RPATH_ARGS "-DCMAKE_INSTALL_RPATH_USE_LINK_PATH=${CMAKE_INSTALL_RPATH_USE_LI
 set(RPATH_ARGS ${RPATH_ARGS} "-DCMAKE_INSTALL_RPATH=${CMAKE_INSTALL_RPATH}")
 set(RPATH_ARGS ${RPATH_ARGS} "-DCMAKE_MACOSX_RPATH=${CMAKE_MACOSX_RPATH}")
 
+# Define copyright message
+add_definitions(-D_COPYRIGHT_MSG="Copyright \(c\) 2018 Weiming Hu @ GEOlab")
+
 
 ###################
 # build libraries #

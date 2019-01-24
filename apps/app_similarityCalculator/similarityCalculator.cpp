@@ -260,11 +260,12 @@ int main(int argc, char** argv) {
         store(parsed, vm);
 
 
-        cout << BOLDGREEN << "Parallel Ensemble Forecasts --- Similarity Calculator"
+        cout << BOLDGREEN << "Parallel Ensemble Forecasts --- Similarity Calculator "
 #if defined(_CODE_PROFILING)
-            << " (with code profiling)"
+            << "(with code profiling) "
 #endif
-            << RESET << endl;
+            << _APPVERSION << RESET << endl << GREEN << _COPYRIGHT_MSG << RESET << endl;
+
 
         if (vm.count("help") || argc == 1) {
             cout << desc << endl;

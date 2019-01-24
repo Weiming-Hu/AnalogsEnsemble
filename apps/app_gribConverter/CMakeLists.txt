@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
 project(gribConverter)
 
-set (gribConverter_VERSION "1.0.0")
+add_definitions(-D_APPVERSION="v 1.0.1")
 
 if (NOT ECCODES_TYPE)
     set(ECCODES_TYPE "BUILD" CACHE STRING

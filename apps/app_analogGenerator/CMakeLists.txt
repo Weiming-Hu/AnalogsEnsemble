@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
 project(analogGenerator)
 
-set (analogGenerator_VERSION "3.0.0")
+add_definitions(-D_APPVERSION="v 1.0.1")
 
 enable_language(C CXX)
 message(STATUS "build application Analog Generator")

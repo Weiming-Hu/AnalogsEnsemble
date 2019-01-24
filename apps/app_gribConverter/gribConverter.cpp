@@ -71,7 +71,8 @@ int main(int argc, char** argv) {
         po::parsed_options parsed = po::command_line_parser(argc, argv).options(desc).allow_unregistered().run();
         store(parsed, vm);
 
-        cout << BOLDGREEN << "Parallel Ensemble Forecasts --- GRIB Converter" << RESET << endl;
+        cout << BOLDGREEN << "Parallel Ensemble Forecasts --- GRIB Converter "
+            << _APPVERSION << RESET << endl << GREEN << _COPYRIGHT_MSG << RESET << endl;
 
         if (vm.count("help") || argc == 1) {
             cout << desc << endl;
