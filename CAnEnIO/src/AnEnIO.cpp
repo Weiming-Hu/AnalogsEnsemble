@@ -2339,7 +2339,6 @@ AnEnIO::combineObservationsArray(const vector<string> & in_files,
         Observations_array observations_single;
 
         if (verbose >= 4) cout << "Read file " << file << " ..." << endl;
-        io_thread.setFilePath(file);
         io_thread.readObservations(observations_single);
         const auto & data_single = observations_single.data();
         
@@ -2408,7 +2407,6 @@ AnEnIO::combineStandardDeviation(const vector<string> & in_files,
         StandardDeviation sds_single;
 
         if (verbose >= 4) cout << "Read file " << file << " ..." << endl;
-        io_thread.setFilePath(file);
         io_thread.readStandardDeviation(sds_single);
 
         if (verbose >= 4) cout << "Reformat file " << file << " ..." << endl;
@@ -2511,7 +2509,6 @@ AnEnIO::combineSimilarityMatrices(
         anenTime::Times search_times_single;
 
         if (verbose >= 4) cout << "Read file " << file << " ..." << endl;
-        io_thread.setFilePath(file);
         io_thread.readSimilarityMatrices(sims_single);
 
         io_thread.readStations(search_stations_single, AnEnIO::SEARCH_DIM_PREFIX_, AnEnIO::SEARCH_VAR_PREFIX_);
@@ -2667,7 +2664,6 @@ AnEnIO::combineAnalogs(const vector<string> & in_files,
         anenTime::Times member_times_single;
 
         if (verbose >= 4) cout << "Read file " << file << " ..." << endl;
-        io_thread.setFilePath(file);
         io_thread.readAnalogs(analogs_single);
 
         io_thread.readStations(member_stations_single, AnEnIO::MEMBER_DIM_PREFIX_, AnEnIO::MEMBER_VAR_PREFIX_);
