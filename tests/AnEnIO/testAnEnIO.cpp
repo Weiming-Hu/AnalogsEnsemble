@@ -713,7 +713,7 @@ void testAnEnIO::testReadWriteStandardDeviation() {
     for (size_t i = 0; i < 4; i++)
         for (size_t j = 0; j < 6; j++)
             for (size_t k = 0; k < 5; k++)
-                sds_write[i][j][k] = sds_read[i][j][k];
+                CPPUNIT_ASSERT(sds_write[i][j][k] == sds_read[i][j][k]);
 
     remove(file_path.c_str());
 }

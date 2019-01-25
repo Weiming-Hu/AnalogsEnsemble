@@ -13,9 +13,8 @@
 #include <iostream>
 #include <fstream>
 
-    
 // Boost does not provide the correct functions to read nan values 
-// for duoble, the operator is overloaded.
+// for double, the operator is overloaded.
 //
 namespace boost { namespace numeric { namespace ublas {
     template<class E, class T, class MF, class MA>
@@ -282,7 +281,6 @@ AnEnIO::read_vector_(std::string var_name, std::vector<T> & results,
     reverse(stride.begin(), stride.end());
 
     var.getVar(start, count, stride, p_vals);
-
     nc.close();
     // Don't delete pointer because it is managed by the vector object
     // delete [] p_vals;

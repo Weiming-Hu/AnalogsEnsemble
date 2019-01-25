@@ -1422,7 +1422,7 @@ shared(stations_by_insert, p_names, p_xs, p_ys, _max_chars)
         p_xs[i] = stations_by_insert[i].getX();
         p_ys[i] = stations_by_insert[i].getY();
     }
-
+    
     var_names.putVar(p_names);
     var_xs.putVar(p_xs);
     var_ys.putVar(p_ys);
@@ -2954,11 +2954,11 @@ AnEnIO::writeAnalogsOnly_(const Analogs& analogs) const {
     NcDim dim_cols = nc.addDim("num_cols", num_cols);
 
     // Create Analogs variable
-    NcVar var_sims = nc.addVar("Analogs", NC_DOUBLE,{
+    NcVar var_analogs = nc.addVar("Analogs", NC_DOUBLE,{
         dim_cols, dim_members, dim_flts, dim_times, dim_stations
     });
 
-    var_sims.putVar(analogs.data());
+    var_analogs.putVar(analogs.data());
     nc.close();
 
     return (SUCCESS);
@@ -3109,7 +3109,7 @@ AnEnIO::readObservationsArrayData_(Observations_array & observations,
         }
 
         // Please realize that I'm directly reading to the forecasts data
-        // pointer which can be dangerous if handled uncautionsly. But I
+        // pointer which can be dangerous if handled cautiously. But I
         // don't have to create a copy of the data by doing this so I
         // think the benefit in memory and speed outweighs the downside.
         //

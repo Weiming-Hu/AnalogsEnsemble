@@ -34,10 +34,27 @@
  */
 class AnEnIO {
 public:
+    /*
+     * The name prefix for member dimensions in file type Analogs
+     */
     const static std::string MEMBER_DIM_PREFIX_;
+    
+    /*
+     * The name prefix for member variables in file type Analogs
+     */
     const static std::string MEMBER_VAR_PREFIX_;
+    
+    /*
+     * The name prefix for search dimensions in file type SimilarityMatrices
+     */
     const static std::string SEARCH_DIM_PREFIX_;
+    
+    /*
+     * The name prefix for search variables in file type SimilarityMatrices
+     */
     const static std::string SEARCH_VAR_PREFIX_;
+    
+    const static size_t SERIAL_LENGTH_LIMIT_;
     
     AnEnIO() = delete;
     AnEnIO(const AnEnIO& orig) = delete;
@@ -832,7 +849,7 @@ protected:
      * Reads variables as a atomic vector.
      * 
      * @param var_name The variable name.
-     * @param results An atmoic container.
+     * @param results An atomic container.
      * @return AnEnIO::errorType.
      */
     template<typename T>
