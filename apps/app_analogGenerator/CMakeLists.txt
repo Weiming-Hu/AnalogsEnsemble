@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 2.8)
 project(analogGenerator)
+enable_language(C CXX)
 
 add_definitions(-D_APPVERSION="v 1.0.1")
 
-enable_language(C CXX)
 message(STATUS "build application Analog Generator")
 set(SOURCE_MAIN "${CMAKE_CURRENT_SOURCE_DIR}/analogGenerator.cpp")
 add_executable(${PROJECT_NAME} ${SOURCE_MAIN})

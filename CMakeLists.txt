@@ -199,6 +199,10 @@ add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_analogGenerator")
 add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_analogSelector")
 add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_fileAggregate")
 
+if(ENABLE_MPI)
+    add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_mpiIO")
+endif(ENABLE_MPI)
+
 if (BUILD_GRIBCONVERTER)
     add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_gribConverter")
 endif (BUILD_GRIBCONVERTER)

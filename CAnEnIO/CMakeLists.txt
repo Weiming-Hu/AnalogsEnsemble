@@ -60,8 +60,10 @@ elseif(BOOST_TYPE STREQUAL "SYSTEM")
     target_link_libraries (${LIBRARY_NAME} ${Boost_LIBRARIES})
 endif(BOOST_TYPE STREQUAL "BUILD")
 
-# TODO: install external libraries
+# TODO: Install external libraries
+# The external libraries are not installed to destinations. This might be changed.
 # https://stackoverflow.com/questions/35934112/installing-an-externalproject-with-cmake
+#
 set(AnEnIO_RPATH "")
 
 if(NETCDF_CXX4_BUILT)
@@ -83,7 +85,6 @@ endif(NETCDF_CXX4_BUILT)
 
 include_directories(SYSTEM ${NETCDF_INCLUDES})
 if (NETCDF_BUILT)
-    include_directories(SYSTEM ${})
     add_dependencies(${LIBRARY_NAME} NETCDF_PROJECT)
 
     ExternalProject_Get_Property(NETCDF_PROJECT install_dir)
