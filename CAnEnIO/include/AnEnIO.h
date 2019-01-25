@@ -54,8 +54,6 @@ public:
      */
     const static std::string SEARCH_VAR_PREFIX_;
     
-    const static size_t SERIAL_LENGTH_LIMIT_;
-    
     AnEnIO() = delete;
     AnEnIO(const AnEnIO& orig) = delete;
 
