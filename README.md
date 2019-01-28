@@ -257,6 +257,7 @@ make clean-all
 |      BUILD\_HDF5     |                            Build `HDF5` library regardless of its existence.                            |         OFF        |
 |        VERBOSE       |                          Print detailed messages during the compiling process.                          |         OFF        |
 |    CODE\_PROFILING   |                                     Print time profiling information.                                   |         OFF        |
+|     ENABLE\_MPI      |                         Build the MPI version of the CAnEnIO library for parallel I/O.                  |         OFF        |
 | BUILD\_GRIBCONVERTER | Build the GRIB Converter utility. [Eccodes](https://confluence.ecmwf.int/display/ECC) library required. |         ON         |
 
 ## Known Issues

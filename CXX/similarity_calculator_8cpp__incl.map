@@ -1,16 +1,16 @@
 <map id="/home/graduate/wuh20/github/AnalogsEnsemble/apps/app_similarityCalculator/similarityCalculator.cpp" name="/home/graduate/wuh20/github/AnalogsEnsemble/apps/app_similarityCalculator/similarityCalculator.cpp">
-<area shape="rect" id="node2" href="$_an_en_i_o_8h.html" title="AnEnIO.h" alt="" coords="1120,124,1199,151"/>
-<area shape="rect" id="node34" href="$_an_en_8h.html" title="AnEn.h" alt="" coords="1847,124,1912,151"/>
-<area shape="rect" id="node35" href="$_common_exe_functions_8h.html" title="CommonExeFunctions.h" alt="" coords="591,124,757,151"/>
-<area shape="rect" id="node7" href="$_times_8h.html" title="Times.h" alt="" coords="743,363,813,389"/>
-<area shape="rect" id="node15" href="$_stations_8h.html" title="Stations.h" alt="" coords="1040,363,1121,389"/>
-<area shape="rect" id="node19" href="$_parameters_8h.html" title="Parameters.h" alt="" coords="916,363,1016,389"/>
-<area shape="rect" id="node20" href="$_forecasts_8h.html" title="Forecasts.h" alt="" coords="1546,288,1637,315"/>
-<area shape="rect" id="node25" href="$_analogs_8h.html" title="Analogs.h" alt="" coords="1917,206,1997,233"/>
-<area shape="rect" id="node26" href="$_observations_8h.html" title="Observations.h" alt="" coords="1303,288,1413,315"/>
-<area shape="rect" id="node27" href="$color_texts_8h.html" title="colorTexts.h" alt="" coords="507,206,601,233"/>
-<area shape="rect" id="node28" href="$_similarity_matrices_8h.html" title="SimilarityMatrices.h" alt="" coords="1704,206,1841,233"/>
-<area shape="rect" id="node29" href="$_standard_deviation_8h.html" title="StandardDeviation.h" alt="" coords="1697,288,1837,315"/>
-<area shape="rect" id="node23" href="$_array4_d_8h.html" title="Array4D.h" alt="" coords="1860,363,1941,389"/>
-<area shape="rect" id="node36" href="$_levenshtein_8h.html" title="Levenshtein.h" alt="" coords="208,288,311,315"/>
+<area shape="rect" id="node2" href="$_an_en_i_o_8h.html" title="AnEnIO.h" alt="" coords="1235,124,1313,151"/>
+<area shape="rect" id="node35" href="$_an_en_8h.html" title="AnEn.h" alt="" coords="2013,124,2079,151"/>
+<area shape="rect" id="node36" href="$_common_exe_functions_8h.html" title="CommonExeFunctions.h" alt="" coords="664,124,831,151"/>
+<area shape="rect" id="node7" href="$_times_8h.html" title="Times.h" alt="" coords="726,363,795,389"/>
+<area shape="rect" id="node15" href="$_stations_8h.html" title="Stations.h" alt="" coords="1129,363,1211,389"/>
+<area shape="rect" id="node19" href="$_parameters_8h.html" title="Parameters.h" alt="" coords="1005,363,1105,389"/>
+<area shape="rect" id="node20" href="$_forecasts_8h.html" title="Forecasts.h" alt="" coords="1547,288,1638,315"/>
+<area shape="rect" id="node25" href="$_analogs_8h.html" title="Analogs.h" alt="" coords="2006,206,2086,233"/>
+<area shape="rect" id="node26" href="$_observations_8h.html" title="Observations.h" alt="" coords="1388,288,1499,315"/>
+<area shape="rect" id="node27" href="$color_texts_8h.html" title="colorTexts.h" alt="" coords="563,206,657,233"/>
+<area shape="rect" id="node28" href="$_similarity_matrices_8h.html" title="SimilarityMatrices.h" alt="" coords="1844,206,1981,233"/>
+<area shape="rect" id="node29" href="$_standard_deviation_8h.html" title="StandardDeviation.h" alt="" coords="1800,288,1940,315"/>
+<area shape="rect" id="node23" href="$_array4_d_8h.html" title="Array4D.h" alt="" coords="1859,363,1940,389"/>
+<area shape="rect" id="node37" href="$_levenshtein_8h.html" title="Levenshtein.h" alt="" coords="268,288,371,315"/>
 </map>

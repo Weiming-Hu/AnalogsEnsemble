@@ -2,12 +2,9 @@ var searchData=
 [
   ['sdcircular',['sdCircular',['../class_an_en.html#aa06ebc1ce7ac87369156dc88976042a1',1,'AnEn']]],
   ['sdlinear',['sdLinear',['../class_an_en.html#a7d7b0d5d3a607ebd4b624ddc07e55c57',1,'AnEn']]],
-  ['search_5fdim_5fprefix_5f',['SEARCH_DIM_PREFIX_',['../class_an_en_i_o.html#a39c831e099f575320965130081716eb6',1,'AnEnIO']]],
   ['search_5fstations',['search_stations',['../class_analogs.html#a32cff6e74cb1c15dc7fd769ab9835bca',1,'Analogs']]],
-  ['search_5fvar_5fprefix_5f',['SEARCH_VAR_PREFIX_',['../class_an_en_i_o.html#ade3c84ab5b11ecdb4a947fd126c3b361',1,'AnEnIO']]],
   ['searchstationmatrix',['SearchStationMatrix',['../class_an_en.html#adc55d358a20ee6bb711ca5efb33a1bb0',1,'AnEn']]],
   ['selectanalogs',['selectAnalogs',['../class_an_en.html#a8e2b88cda5cc9fce8ea4703a3236719c',1,'AnEn']]],
-  ['serial_5flength_5flimit_5f',['SERIAL_LENGTH_LIMIT_',['../class_an_en_i_o.html#a6005c694daca423512381a0177e66970',1,'AnEnIO']]],
   ['set_5fnx_5fny',['set_nx_ny',['../class_array4_d.html#a4071001d8fd5248bcaf89c54556a6fe2',1,'Array4D']]],
   ['set_5fxs',['set_xs',['../class_array4_d.html#a92afa660eb005779a0c2cf602aa4c6fe',1,'Array4D']]],
   ['set_5fys',['set_ys',['../class_array4_d.html#a03ed88518d6991a55f3e48ad7de15d73',1,'Array4D']]],

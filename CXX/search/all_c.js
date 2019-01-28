@@ -6,8 +6,6 @@ var searchData=
   ['matrixsort',['matrixSort',['../struct_similarity_matrices_1_1matrix_sort.html',1,'SimilarityMatrices']]],
   ['max_5fentries_5f',['max_entries_',['../class_similarity_matrices.html#a0c210f55d915f79c640eb4bd50ab14cf',1,'SimilarityMatrices']]],
   ['mean',['mean',['../class_an_en.html#ad6a465ee838dd6cb6f4f1eff78390bcf',1,'AnEn']]],
-  ['member_5fdim_5fprefix_5f',['MEMBER_DIM_PREFIX_',['../class_an_en_i_o.html#adc6b104e6689cdc1b19ebbc9cef0b958',1,'AnEnIO']]],
-  ['member_5fvar_5fprefix_5f',['MEMBER_VAR_PREFIX_',['../class_an_en_i_o.html#a954d412b29f951a96de85a58c91f0324',1,'AnEnIO']]],
   ['method_5f',['method_',['../class_an_en.html#a3c503cbae77244126d1616e90a07c92f',1,'AnEn']]],
   ['method_5fnot_5fimplemented',['METHOD_NOT_IMPLEMENTED',['../class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0a3495961e36591a1d7942e9a46c266d5e',1,'AnEnIO']]],
   ['missing_5fvalue',['MISSING_VALUE',['../class_an_en.html#a0e256eb89d102d318a47d936b02242bfaf6d409a770839dc0964130ca4049472f',1,'AnEn']]],
