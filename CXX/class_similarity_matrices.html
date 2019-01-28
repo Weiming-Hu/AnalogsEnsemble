@@ -62,8 +62,8 @@ $(function() {
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
 <a href="#pri-attribs">Private Attributes</a> &#124;
-<a href="#pri-static-attribs">Static Private Attributes</a> &#124;
 <a href="#friends">Friends</a> &#124;
 <a href="class_similarity_matrices-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -87,13 +87,6 @@ Collaboration diagram for SimilarityMatrices:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_similarity_matrices__coll__graph.png" border="0" usemap="#_similarity_matrices_coll__map" alt="Collaboration graph"/></div>
 <map name="_similarity_matrices_coll__map" id="_similarity_matrices_coll__map">
-<area shape="rect" id="node3" href="class_forecasts__array.html" title="Forecasts_array class is an implementation of class Forecasts. Data are stored using the Array4D clas..." alt="" coords="361,935,505,1159"/>
-<area shape="rect" id="node4" href="class_forecasts.html" title="Forecasts class provides interface for reading and writing forecast data from and to a NetCDF file..." alt="" coords="255,626,396,850"/>
-<area shape="rect" id="node5" href="classanen_time_1_1_f_l_ts.html" title="FLTs class is used to store time information for prediction forecast lead times (FLTs). If a temperature forecast on January 1st, 2028 contains predictions at 00h, 06h, 12h, 18h on that day, this forecast has 4 FLTs, which are 0, 6, 12, 18. " alt="" coords="99,405,216,483"/>
-<area shape="rect" id="node6" href="classanen_time_1_1_times.html" title="Times class is used to store time information for predictions. By default this is the number of secon..." alt="" coords="5,132,128,297"/>
-<area shape="rect" id="node8" href="classanen_par_1_1_parameters.html" title="Parameters class stores Parameter objects. " alt="" coords="240,376,411,512"/>
-<area shape="rect" id="node10" href="classanen_sta_1_1_stations.html" title="Stations class stores Station objects. " alt="" coords="435,347,621,541"/>
-<area shape="rect" id="node12" href="class_array4_d.html" title="{Array4D\n|# nx_\l# ny_\l# xs_\l# ys_\l|+ Array4D()\l+ Array4D()\l+ Array4D()\l+ Array4D()\l+ Array4D()\l+ ~Array4D()\l+ operator=()\l+ setFirstDimension()\l+ getFirstDimensionData()\l+ setDataFromVector()\land 29 more...\l}" alt="" coords="520,604,696,872"/>
 </map>
 </div>
 <table class="memberdecls">
@@ -122,20 +115,12 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a5ea02e3aad08277c862accea5e5eccd8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a255b73355331573de8e038b9f1c28b6b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_similarity_matrices.html#a255b73355331573de8e038b9f1c28b6b">~SimilarityMatrices</a> ()</td></tr>
 <tr class="separator:a255b73355331573de8e038b9f1c28b6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afc8b529a0d1bed232c63b6c96a1432dd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_similarity_matrices.html#afc8b529a0d1bed232c63b6c96a1432dd">resize</a> ()</td></tr>
-<tr class="separator:afc8b529a0d1bed232c63b6c96a1432dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6fd85de464f978b2767f907df5f95513"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_similarity_matrices.html#a6fd85de464f978b2767f907df5f95513">resize</a> (size_t dim0, size_t dim1, size_t dim2)</td></tr>
 <tr class="separator:a6fd85de464f978b2767f907df5f95513"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a44d5536e444e932e7f005b592350ed37"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_similarity_matrices.html#a44d5536e444e932e7f005b592350ed37">checkSearchSpaceExtension</a> () const</td></tr>
 <tr class="separator:a44d5536e444e932e7f005b592350ed37"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a639c9702983460a7c0b443f3da7b18f4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_similarity_matrices.html#a639c9702983460a7c0b443f3da7b18f4">setTargets</a> (const <a class="el" href="class_forecasts.html">Forecasts</a> &amp;targets)</td></tr>
-<tr class="separator:a639c9702983460a7c0b443f3da7b18f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a784407b5eee0d0436c03bf55f214160c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_similarity_matrices.html#a784407b5eee0d0436c03bf55f214160c">sortRows</a> (bool quick=true, size_t length=0, <a class="el" href="class_similarity_matrices.html#a8fea56a2e7c8a9f692753c8f706e5706">COL_TAG</a> col_tag=<a class="el" href="class_similarity_matrices.html#a8fea56a2e7c8a9f692753c8f706e5706a7e2e95a0186387323e96d06c26d90280">VALUE</a>)</td></tr>
 <tr class="separator:a784407b5eee0d0436c03bf55f214160c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a17f864e7a279029be249e5f0d3abb9e6"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="class_forecasts__array.html">Forecasts_array</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_similarity_matrices.html#a17f864e7a279029be249e5f0d3abb9e6">getTargets</a> () const</td></tr>
-<tr class="separator:a17f864e7a279029be249e5f0d3abb9e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9dd0514019bc63d9dbbfd27ab08446c9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_similarity_matrices.html#a9dd0514019bc63d9dbbfd27ab08446c9">hasTargets</a> () const</td></tr>
-<tr class="separator:a9dd0514019bc63d9dbbfd27ab08446c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a622de4627aa3f6ac6dab361127a5c365"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_similarity_matrices.html#a622de4627aa3f6ac6dab361127a5c365">setOrderTag</a> (<a class="el" href="class_similarity_matrices.html#a8fea56a2e7c8a9f692753c8f706e5706">COL_TAG</a> order_tag)</td></tr>
 <tr class="separator:a622de4627aa3f6ac6dab361127a5c365"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1032538b8ffafc174d1aca5826bb22d7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_similarity_matrices.html#a1032538b8ffafc174d1aca5826bb22d7">setMaxEntries</a> (size_t max_entries)</td></tr>
@@ -151,19 +136,17 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a7ab85a46c3d93d519b6ea89a4856938a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_similarity_matrices.html#a7ab85a46c3d93d519b6ea89a4856938a">printSize</a> (std::ostream &amp;) const</td></tr>
 <tr class="separator:a7ab85a46c3d93d519b6ea89a4856938a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
+Static Public Attributes</h2></td></tr>
+<tr class="memitem:ae0116556d286c6fb488dcee361345982"><td class="memItemLeft" align="right" valign="top">static const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_similarity_matrices.html#ae0116556d286c6fb488dcee361345982">_NUM_COLS</a> = 3</td></tr>
+<tr class="separator:ae0116556d286c6fb488dcee361345982"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr class="memitem:a9fcc30af46581ad961f4dc6a10e28b21"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_forecasts__array.html">Forecasts_array</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_similarity_matrices.html#a9fcc30af46581ad961f4dc6a10e28b21">targets_</a></td></tr>
-<tr class="separator:a9fcc30af46581ad961f4dc6a10e28b21"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ace23a7f408676b3ab0624d019b84317e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_similarity_matrices.html#a8fea56a2e7c8a9f692753c8f706e5706">COL_TAG</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_similarity_matrices.html#ace23a7f408676b3ab0624d019b84317e">order_tag_</a> = <a class="el" href="class_similarity_matrices.html#a8fea56a2e7c8a9f692753c8f706e5706a7e2e95a0186387323e96d06c26d90280">VALUE</a></td></tr>
 <tr class="separator:ace23a7f408676b3ab0624d019b84317e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0c210f55d915f79c640eb4bd50ab14cf"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_similarity_matrices.html#a0c210f55d915f79c640eb4bd50ab14cf">max_entries_</a></td></tr>
 <tr class="separator:a0c210f55d915f79c640eb4bd50ab14cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-static-attribs"></a>
-Static Private Attributes</h2></td></tr>
-<tr class="memitem:abba810d81f16a3881d8bb0a50efd1d1a"><td class="memItemLeft" align="right" valign="top">static const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_similarity_matrices.html#abba810d81f16a3881d8bb0a50efd1d1a">_NUM_COLS_</a> = 3</td></tr>
-<tr class="separator:abba810d81f16a3881d8bb0a50efd1d1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
@@ -173,7 +156,7 @@ Friends</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><a class="el" href="class_similarity_matrices.html" title="SimilarityMatrices class stores similarity metrics. Default dimensions of SimilarityMatrices are: [te...">SimilarityMatrices</a> class stores similarity metrics. Default dimensions of <a class="el" href="class_similarity_matrices.html" title="SimilarityMatrices class stores similarity metrics. Default dimensions of SimilarityMatrices are: [te...">SimilarityMatrices</a> are: [test stations][test times][test FLTs][Number of entries for comparison][3]. </p>
 <p>The second dimension stores in sequence similarity metric value, station indicator, and time indication.</p>
-<p><a class="el" href="class_similarity_matrices.html" title="SimilarityMatrices class stores similarity metrics. Default dimensions of SimilarityMatrices are: [te...">SimilarityMatrices</a> data order is row-major. </p>
+<p><a class="el" href="class_similarity_matrices.html" title="SimilarityMatrices class stores similarity metrics. Default dimensions of SimilarityMatrices are: [te...">SimilarityMatrices</a> data order is row-major. This is not implemented as column- major because it needs to have the ability to be ordered by rows. </p>
 </div><h2 class="groupheader">Member Enumeration Documentation</h2>
 <a id="a8fea56a2e7c8a9f692753c8f706e5706"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8fea56a2e7c8a9f692753c8f706e5706">&#9670;&nbsp;</a></span>COL_TAG</h2>
@@ -394,43 +377,6 @@ Friends</h2></td></tr>
 
 </div>
 </div>
-<a id="a17f864e7a279029be249e5f0d3abb9e6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a17f864e7a279029be249e5f0d3abb9e6">&#9670;&nbsp;</a></span>getTargets()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const <a class="el" href="class_forecasts__array.html">Forecasts_array</a> &amp; SimilarityMatrices::getTargets </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Get the target forecast values. Since forecasts only have parameters for one station, one FLT, and one time. Values would a vector of all the parameters.</p>
-<dl class="section return"><dt>Returns</dt><dd>A vector of double. </dd></dl>
-
-</div>
-</div>
-<a id="a9dd0514019bc63d9dbbfd27ab08446c9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9dd0514019bc63d9dbbfd27ab08446c9">&#9670;&nbsp;</a></span>hasTargets()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool SimilarityMatrices::hasTargets </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Check whether the targets have been set. </p>
-
-</div>
-</div>
 <a id="a4c179c4c5ea3bb2f187ea5e26b4b853b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4c179c4c5ea3bb2f187ea5e26b4b853b">&#9670;&nbsp;</a></span>print()</h2>
 
@@ -467,25 +413,8 @@ Friends</h2></td></tr>
 
 </div>
 </div>
-<a id="afc8b529a0d1bed232c63b6c96a1432dd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afc8b529a0d1bed232c63b6c96a1432dd">&#9670;&nbsp;</a></span>resize() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void SimilarityMatrices::resize </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="a6fd85de464f978b2767f907df5f95513"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6fd85de464f978b2767f907df5f95513">&#9670;&nbsp;</a></span>resize() <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a6fd85de464f978b2767f907df5f95513">&#9670;&nbsp;</a></span>resize()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -551,31 +480,6 @@ Friends</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-</div>
-</div>
-<a id="a639c9702983460a7c0b443f3da7b18f4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a639c9702983460a7c0b443f3da7b18f4">&#9670;&nbsp;</a></span>setTargets()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void SimilarityMatrices::setTargets </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="class_forecasts.html">Forecasts</a> &amp;&#160;</td>
-          <td class="paramname"><em>targets</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Set the target forecast.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">targets</td><td>A <a class="el" href="class_forecasts.html" title="Forecasts class provides interface for reading and writing forecast data from and to a NetCDF file...">Forecasts</a> with one station, one time, one FLT, and all parameters. </td></tr>
-  </table>
-  </dd>
-</dl>
 
 </div>
 </div>
@@ -653,8 +557,8 @@ Friends</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a id="abba810d81f16a3881d8bb0a50efd1d1a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abba810d81f16a3881d8bb0a50efd1d1a">&#9670;&nbsp;</a></span>_NUM_COLS_</h2>
+<a id="ae0116556d286c6fb488dcee361345982"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae0116556d286c6fb488dcee361345982">&#9670;&nbsp;</a></span>_NUM_COLS</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -663,12 +567,12 @@ Friends</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const int SimilarityMatrices::_NUM_COLS_ = 3</td>
+          <td class="memname">const int SimilarityMatrices::_NUM_COLS = 3</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -716,29 +620,6 @@ Friends</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-</div>
-</div>
-<a id="a9fcc30af46581ad961f4dc6a10e28b21"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9fcc30af46581ad961f4dc6a10e28b21">&#9670;&nbsp;</a></span>targets_</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_forecasts__array.html">Forecasts_array</a> SimilarityMatrices::targets_</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>The corresponding forecasts for each SimilarityMatrix. </p>
 
 </div>
 </div>

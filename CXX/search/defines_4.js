@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['red',['RED',['../color_texts_8h.html#a8d23feea868a983c8c2b661e1e16972f',1,'colorTexts.h']]],
-  ['reset',['RESET',['../color_texts_8h.html#ab702106cf3b3e96750b6845ded4e0299',1,'colorTexts.h']]]
+  ['m_5fpi',['M_PI',['../wind_field_calculator_8cpp.html#ae71449b1cc6e6250b91f539153a7a0d3',1,'windFieldCalculator.cpp']]]
 ];

@@ -22,7 +22,6 @@ var searchData=
   ['testgetstationsinsquare',['testGetStationsInSquare',['../classtest_stations.html#af0b3bff31fe6fa8833b1ac2f58ac1234',1,'testStations']]],
   ['testgettimeindex',['testGetTimeIndex',['../classtest_times.html#a1b437683694e3b641a0e469bbe6c46bf',1,'testTimes']]],
   ['testgribconverter',['testGribConverter',['../classtest_grib_converter.html#a3314c2929635c2bdd2529b33868db34b',1,'testGribConverter']]],
-  ['testhastargets',['testHasTargets',['../classtest_similarity_matrices.html#a8e442bd0b8358726ef0ae8aebd895dff',1,'testSimilarityMatrices']]],
   ['testhavexy',['testHaveXY',['../classtest_stations.html#a25fa65f2cd9d395385def9fcd2824b03',1,'testStations']]],
   ['testmatricesconstructor',['testMatricesConstructor',['../classtest_similarity_matrices.html#a2c4692bd19c9b8273208ce0378bf21f3',1,'testSimilarityMatrices']]],
   ['testmatricessort',['testMatricesSort',['../classtest_similarity_matrices.html#aba9d96a88634e02a999f73371874c67e',1,'testSimilarityMatrices']]],

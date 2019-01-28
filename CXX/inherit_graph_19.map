@@ -1,3 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$class_progress_listener.html" title="ProgressListener" alt="" coords="5,29,125,56"/>
+<area shape="rect" id="node1" href="$class_observations.html" title="Observations class provides interface for reading and writing observations from and to a NetCDF file..." alt="" coords="5,5,104,32"/>
+<area shape="rect" id="node2" href="$class_observations__array.html" title="Observations_array class is an implementation of the class Observations. Data are stored using the bo..." alt="" coords="152,5,287,32"/>
 </map>

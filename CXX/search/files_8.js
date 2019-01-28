@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['parameters_2ecpp',['Parameters.cpp',['../_parameters_8cpp.html',1,'']]],
-  ['parameters_2eh',['Parameters.h',['../_parameters_8h.html',1,'']]]
+  ['news_2emd',['NEWS.md',['../_n_e_w_s_8md.html',1,'']]]
 ];

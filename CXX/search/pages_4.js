@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['released_20under_20mit_20license',['Released under MIT License',['../md__home_graduate_wuh20_github__analogs_ensemble__site__l_i_c_e_n_s_e.html',1,'']]],
-  ['released_20under_20mit_20license',['Released under MIT License',['../md__home_graduate_wuh20_github__analogs_ensemble_out__l_i_c_e_n_s_e.html',1,'']]]
+  ['notes_20for_20generating_20docker_20image',['Notes for Generating Docker Image',['../md__home_graduate_wuh20_github__analogs_ensemble_developer_guides_generate_docker_image.html',1,'']]]
 ];

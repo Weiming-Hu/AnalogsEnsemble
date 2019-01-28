@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['stations_5fh',['STATIONS_H',['../_stations_8h.html#a963ee566fedf82276595d8d78aa7a1cf',1,'Stations.h']]]
+  ['red',['RED',['../color_texts_8h.html#a8d23feea868a983c8c2b661e1e16972f',1,'colorTexts.h']]],
+  ['reset',['RESET',['../color_texts_8h.html#ab702106cf3b3e96750b6845ded4e0299',1,'colorTexts.h']]]
 ];
