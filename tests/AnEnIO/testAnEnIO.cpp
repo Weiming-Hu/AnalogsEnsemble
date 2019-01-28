@@ -18,6 +18,10 @@
 #include <cstdlib>
 #include <cstdio>
 
+#if defined(_ENABLE_MPI)
+#include <mpi.h>
+#endif
+
 using namespace std;
 
 CPPUNIT_TEST_SUITE_REGISTRATION(testAnEnIO);
@@ -26,6 +30,7 @@ testAnEnIO::testAnEnIO() {
 }
 
 testAnEnIO::~testAnEnIO() {
+
 }
 
 void testAnEnIO::setUp() {
@@ -717,3 +722,75 @@ void testAnEnIO::testReadWriteStandardDeviation() {
 
     remove(file_path.c_str());
 }
+
+#if defined(_ENABLE_MPI)
+void testAnEnIO::testMPIIO() {
+    
+    /**
+     * Test writing and reading large amount of data with MPI
+     */
+    
+    int verbose = 2;
+    if (verbose >= 3) cout << "Preparing data ..." << endl;
+    
+    string file_path = "read-write-forecasts-mpi.nc";
+    remove(file_path.c_str());
+    
+     // Create an example forecast object
+    anenSta::Stations stations_write;
+    auto & stations_write_by_insert = stations_write.get<anenSta::by_insert>();
+    
+    for (size_t i = 0; i < 90000 + AnEnIO::SERIAL_LENGTH_LIMIT_; i++) {
+        anenSta::Station station(i, i);
+        stations_write_by_insert.push_back(station);
+    }
+    
+    anenPar::Parameter p1, p2("temperature", 0.6), p3("humidity", 0.3),
+            p4("wind direction", 0.05, true);
+    p1.setWeight(0.05);
+
+    anenPar::Parameters parameters_write;
+    parameters_write.insert(parameters_write.end(),{p1, p2, p3, p4});
+
+    anenTime::Times times_write;
+    times_write.insert(times_write.end(),{1, 2, 3, 4, 5, 6, 7, 8, 9, 10});
+
+    anenTime::FLTs flts_write;
+    flts_write.insert(flts_write.end(),{100, 200, 300, 400, 500});
+
+    vector<double> values_write(parameters_write.size()
+            * stations_write.size() * times_write.size() * flts_write.size());
+    generate(values_write.begin(), values_write.end(), rand);
+
+    Forecasts_array forecasts_write(
+            parameters_write, stations_write,
+            times_write, flts_write, values_write);
+    
+    AnEnIO io("Write", file_path, "Forecasts", verbose);
+    io.writeForecasts(forecasts_write);
+    
+    io.setMode("Read");
+    Forecasts_array forecasts_read;
+    
+    vector<size_t> start = {0,0,0,0}, count = {
+        parameters_write.size(), stations_write.size(),
+        times_write.size(), flts_write.size()
+    };
+    
+    io.readForecasts(forecasts_read, start, count);
+    
+    const auto & data_read = forecasts_read.data();
+    const auto & data_write = forecasts_write.data();
+    
+    if (verbose >= 3) cout << "Comparing results ..." << endl;
+    
+    for (size_t i = 0; i < forecasts_read.getParametersSize(); i++)
+        for (size_t j = 0; j < forecasts_read.getStationsSize(); j++)
+            for(size_t m = 0; m < forecasts_read.getTimesSize(); m++)
+                for(size_t n = 0; n < forecasts_read.getFLTsSize(); n++)
+                    CPPUNIT_ASSERT(data_read[i][j][m][n] == data_write[i][j][m][n]);
+    
+    remove(file_path.c_str());
+    if (verbose >= 3) cout << "Done!" << endl;
+}
+#endif

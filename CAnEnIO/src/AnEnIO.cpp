@@ -5,9 +5,10 @@
  * Created on May 4, 2018, 11:16 AM
  */
 
-#include "AnEnIO.h"
-#include "boost/filesystem.hpp"
 #include "AnEn.h"
+#include "AnEnIO.h"
+#include "functions_netcdf.h"
+#include "boost/filesystem.hpp"
 
 #include <algorithm>
 #include <exception>
@@ -28,6 +29,11 @@ const string AnEnIO::MEMBER_DIM_PREFIX_ = "member_";
 const string AnEnIO::MEMBER_VAR_PREFIX_ = "Member";
 const string AnEnIO::SEARCH_DIM_PREFIX_ = "search_";
 const string AnEnIO::SEARCH_VAR_PREFIX_ = "Search";
+const size_t AnEnIO::SERIAL_LENGTH_LIMIT_ = 1000;
+
+#if defined(_ENABLE_MPI)
+int AnEnIO::times_of_MPI_init_ = 0;
+#endif
 
 AnEnIO::AnEnIO(string mode, string file_path) :
 mode_(mode), file_path_(file_path) {
@@ -66,6 +72,26 @@ optional_variables_(optional_variables) {
 
 AnEnIO::~AnEnIO() {
 }
+
+#if defined(_ENABLE_MPI)
+void
+AnEnIO::handle_MPI_Init() {
+    if (AnEnIO::times_of_MPI_init_ == 0)
+        MPI_Init(NULL, NULL);
+    AnEnIO::times_of_MPI_init_++;
+    // cout << "Initialized once. Now " << AnEnIO::times_of_MPI_init_ << endl;
+    return;
+}
+
+void
+AnEnIO::handle_MPI_Finalize() {
+    if (AnEnIO::times_of_MPI_init_ == 1)
+        MPI_Finalize();
+    AnEnIO::times_of_MPI_init_--;
+    // cout << "Finalized once. Now " << AnEnIO::times_of_MPI_init_ << endl;
+    return;
+}
+#endif
 
 errorType
 AnEnIO::checkMode() const {
@@ -1914,43 +1940,8 @@ AnEnIO::dumpVariable(string var_name, size_t start, size_t count) const {
         count = len - start;
     }
 
-    void *p_vals;
-    try {
-        switch (var_type.getTypeClass()) {
-            case NcType::nc_CHAR:
-                p_vals = new char[len];
-                break;
-            case NcType::nc_BYTE:
-            case NcType::nc_SHORT:
-            case NcType::nc_INT:
-                p_vals = new int[len];
-                break;
-            case NcType::nc_FLOAT:
-                p_vals = new float[len];
-                break;
-            case NcType::nc_DOUBLE:
-                p_vals = new double[len];
-                break;
-            case NcType::nc_UBYTE:
-            case NcType::nc_USHORT:
-            case NcType::nc_UINT:
-            case NcType::nc_INT64:
-            case NcType::nc_UINT64:
-                p_vals = new unsigned int[len];
-                break;
-            default:
-                if (verbose_ >= 1) cout << BOLDRED << "Error: Variable ("
-                        << var_name << ") type not supported!"
-                        << RESET << endl;
-                return;
-        }
-    } catch (bad_alloc & e) {
-        nc.close();
-        if (verbose_ >= 1) cout << BOLDRED <<
-                "Error: Insufficient memory when reading variable ("
-                << var_name << ")!" << RESET << endl;
-        return;
-    }
+    void *p_vals = nullptr;
+    allocate_memory(p_vals, var_type.getTypeClass(), len, verbose_);
 
     var.getVar(p_vals);
 
@@ -1992,6 +1983,9 @@ AnEnIO::dumpVariable(string var_name, size_t start, size_t count) const {
                     << var_name << ") type not supported!" << RESET << endl;
             return;
     }
+    
+    deallocate_memory(p_vals, var_type.getTypeClass(), verbose_);
+    
     cout << endl;
 
     if (verbose_ >= 3)

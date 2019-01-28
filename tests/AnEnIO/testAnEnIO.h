@@ -39,7 +39,11 @@ class testAnEnIO : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST(testReadWriteAnalogs);
     CPPUNIT_TEST(testReadWriteTextMatrix);
     CPPUNIT_TEST(testReadWriteStandardDeviation);
-    
+
+#if defined(_ENABLE_MPI)
+    CPPUNIT_TEST(testMPIIO);
+#endif
+
     CPPUNIT_TEST_SUITE_END();
 
 public:
@@ -66,6 +70,10 @@ private:
     void testReadWriteAnalogs();
     void testReadWriteTextMatrix();
     void testReadWriteStandardDeviation();
+    
+#if defined(_ENABLE_MPI)
+    void testMPIIO();
+#endif
 };
 
 #endif /* TESTANENIO_H */

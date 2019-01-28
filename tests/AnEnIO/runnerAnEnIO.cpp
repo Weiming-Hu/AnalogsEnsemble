@@ -69,6 +69,9 @@ private:
 };
 
 int main() {
+
+    AnEnIO::handle_MPI_Init();
+    
     // Create the event manager and test controller
     CPPUNIT_NS::TestResult controller;
 
@@ -90,6 +93,8 @@ int main() {
     // Print test in a compiler compatible format.
     CPPUNIT_NS::CompilerOutputter outputter(&result, CPPUNIT_NS::stdCOut());
     outputter.write();
+
+    AnEnIO::handle_MPI_Finalize();
 
     return result.wasSuccessful() ? 0 : 1;
 }
