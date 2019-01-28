@@ -2773,8 +2773,16 @@ AnEnIO::read_string_vector_(string var_name, vector<string> & results) const {
                 return (INSUFFICIENT_MEMORY);
             }
 
-            var.getVar(p_vals);
-
+#if defined(_ENABLE_MPI)
+            if (len > _SERIAL_LENGTH_LIMIT) {
+                vector<size_t> start(0), count(0);
+                MPI_read_vector_(var, p_vals, start, count);
+            } else {
+#endif
+                var.getVar(p_vals);
+#if defined(_ENABLE_MPI)
+            }
+#endif
             size_t num_strs, num_chars;
 
             // Figure out which dimension is the number of chars and 
@@ -2858,7 +2866,23 @@ AnEnIO::read_string_vector_(string var_name, vector<string>& results,
             vector<size_t> vec_start{start, 0}, vec_count{count, num_chars};
             vector<ptrdiff_t> vec_stride{stride, 1};
 
-            var.getVar(vec_start, vec_count, vec_stride, p_vals);
+#if defined(_ENABLE_MPI)
+            // Check whether stride is used.
+            bool use_MPI = all_of(vec_stride.begin(), vec_stride.end(), [](ptrdiff_t i) {
+                    return (i == 1);
+                    });
+
+            // Check whether there are enough value to write
+            use_MPI &= total > _SERIAL_LENGTH_LIMIT;
+
+            if (use_MPI) {
+                MPI_read_vector_(var, p_vals, vec_start, vec_count);
+            } else {
+#endif
+                var.getVar(vec_start, vec_count, vec_stride, p_vals);
+#if defined(_ENABLE_MPI)
+            }
+#endif
 
             results.resize(count);
             for (size_t i = 0; i < count; i++) {
