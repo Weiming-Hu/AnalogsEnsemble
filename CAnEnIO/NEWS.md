@@ -5,3 +5,9 @@
 # CAnEnIO 1.1.0
 
 - Add MPI read functions.
+
+# CAnEnIO 1.1.1
+
+- Fix bug for MPI functions in reading.
+- Add serial program limit to AnEn library.
+- Speed up the station matching process.

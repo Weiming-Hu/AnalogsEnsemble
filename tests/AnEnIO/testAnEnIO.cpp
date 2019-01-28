@@ -740,7 +740,7 @@ void testAnEnIO::testMPIIO() {
     anenSta::Stations stations_write;
     auto & stations_write_by_insert = stations_write.get<anenSta::by_insert>();
     
-    for (size_t i = 0; i < 90000 + AnEnIO::SERIAL_LENGTH_LIMIT_; i++) {
+    for (size_t i = 0; i < 90000 + AnEnIO::_SERIAL_LENGTH_LIMIT; i++) {
         anenSta::Station station(i, i);
         stations_write_by_insert.push_back(station);
     }

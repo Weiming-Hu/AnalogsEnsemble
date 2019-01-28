@@ -26,6 +26,7 @@ const double MULTIPLY = M_PI / 180;
 const double MULTIPLY_REVERSE = 180 / M_PI;
 
 const double AnEn::_FILL_VALUE = NAN;
+const size_t AnEn::_SERIAL_LENGTH_LIMIT = 500;
 
 AnEn::AnEn() {
 }
@@ -62,8 +63,7 @@ AnEn::computeStandardDeviation(
 
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(static) collapse(3) \
-shared(num_parameters, num_stations, num_flts, num_times, array, \
-circular_flags, sds) 
+shared(num_parameters, num_stations, num_flts, num_times, array, circular_flags, sds) 
 #endif
     for (size_t i_parameter = 0; i_parameter < num_parameters; i_parameter++) {
         for (size_t i_station = 0; i_station < num_stations; i_station++) {
@@ -818,18 +818,24 @@ AnEn::find_nearest_station_match_(
                 << "Error: There is no location information provided for test stations in SimilarityMatrices." << RESET << endl;
         return (MISSING_VALUE);
     }
-
-    if (search_stations.haveXY() && test_stations.haveXY()) {
-        // If location information is complete, find the matching search station based on locations.
-        if (verbose_ >= 3) cout << "One-on-one matching search and test stations based on xs and ys ..." << endl;
-        const auto & test_stations_by_insert = test_stations.get<anenSta::by_insert>();
-
-        for_each(test_stations_by_insert.begin(), test_stations_by_insert.end(),
-                [&test_stations_index_in_search, &search_stations](anenSta::Station test) {
-                    size_t id = search_stations.getNearestStationsId(test.getX(), test.getY(), 1)[0];
-                    test_stations_index_in_search.push_back(search_stations.getStationIndex(id));
-                });
+    
+    bool same_station_order = true, same_station_numer = true;
+    
+    const auto & test_stations_by_insert = test_stations.get<anenSta::by_insert>();
+    const auto & search_stations_by_insert = search_stations.get<anenSta::by_insert>();
+    
+    if (search_stations.size() == test_stations.size()) {
+        for (size_t i = 0; i < search_stations.size(); i++) {
+            if (!test_stations_by_insert[i].literalCompare(search_stations_by_insert[i])) {
+                same_station_order = false;
+                break;
+            }
+        }
     } else {
+        same_station_numer = false;
+    }
+    
+    if (same_station_numer && same_station_order) {
         // If location information is NOT complete, match search and test stations based on indices.
         // This assumes the numbers of test and search stations are the same.
         //
@@ -843,6 +849,42 @@ AnEn::find_nearest_station_match_(
 
         test_stations_index_in_search.resize(test_stations.size());
         iota(test_stations_index_in_search.begin(), test_stations_index_in_search.end(), 0);
+        
+    } else {
+        // If location information is complete, find the matching search station based on locations.
+        if (verbose_ >= 3) cout << "One-on-one matching search and test stations based on xs and ys ..." << endl;
+
+        if (search_stations.haveXY() && test_stations.haveXY()) {
+
+#if defined(_OPENMP)
+            if (test_stations.size() > _SERIAL_LENGTH_LIMIT) {
+                vector<size_t> index_vec(test_stations.size());
+
+#pragma omp parallel for default(none) schedule(static) \
+shared(test_stations, test_stations_by_insert, search_stations, index_vec)
+                for (size_t i = 0; i < index_vec.size(); i++) {
+                    const anenSta::Station & test = test_stations_by_insert[i];
+                    size_t id = search_stations.getNearestStationsId(test.getX(), test.getY(), 1)[0];
+                    index_vec[i] = search_stations.getStationIndex(id);
+                }
+
+                test_stations_index_in_search.insert(test_stations_index_in_search.end(), index_vec.begin(), index_vec.end());
+
+            } else {
+#endif
+                for_each(test_stations_by_insert.begin(), test_stations_by_insert.end(),
+                        [&test_stations_index_in_search, &search_stations](const anenSta::Station & test) {
+                            size_t id = search_stations.getNearestStationsId(test.getX(), test.getY(), 1)[0];
+                            test_stations_index_in_search.push_back(search_stations.getStationIndex(id));
+                        });
+#if defined(_OPENMP)
+            }
+#endif
+        } else {
+            if (verbose_ >= 1) cout << BOLDRED << "Error: Cannot match stations." << RESET << endl;
+            return (MISSING_VALUE);
+        }
+
     }
 
     return (SUCCESS);

@@ -25,11 +25,11 @@ using namespace std;
 
 using errorType = AnEnIO::errorType;
 
-const string AnEnIO::MEMBER_DIM_PREFIX_ = "member_";
-const string AnEnIO::MEMBER_VAR_PREFIX_ = "Member";
-const string AnEnIO::SEARCH_DIM_PREFIX_ = "search_";
-const string AnEnIO::SEARCH_VAR_PREFIX_ = "Search";
-const size_t AnEnIO::SERIAL_LENGTH_LIMIT_ = 1000;
+const string AnEnIO::_MEMBER_DIM_PREFIX = "member_";
+const string AnEnIO::_MEMBER_VAR_PREFIX = "Member";
+const string AnEnIO::_SEARCH_DIM_PREFIX = "search_";
+const string AnEnIO::_SEARCH_VAR_PREFIX = "Search";
+const size_t AnEnIO::_SERIAL_LENGTH_LIMIT = 1000;
 
 #if defined(_ENABLE_MPI)
 int AnEnIO::times_of_MPI_init_ = 0;
@@ -194,26 +194,26 @@ AnEnIO::checkFileType() const {
 
             dim_names = {"num_stations", "num_times", "num_flts", "num_entries",
                 "num_cols", "num_parameters", "num_chars",
-                SEARCH_DIM_PREFIX_ + "num_stations",
-                SEARCH_DIM_PREFIX_ + "num_times"};
+                _SEARCH_DIM_PREFIX + "num_stations",
+                _SEARCH_DIM_PREFIX + "num_times"};
             var_names = {"SimilarityMatrices", "ParameterNames", "StationNames",
                 "Xs", "Ys", "Times", "FLTs",
-                SEARCH_VAR_PREFIX_ + "Times",
-                SEARCH_VAR_PREFIX_ + "StationNames",
-                SEARCH_VAR_PREFIX_ + "Xs",
-                SEARCH_VAR_PREFIX_ + "Ys"};
+                _SEARCH_VAR_PREFIX + "Times",
+                _SEARCH_VAR_PREFIX + "StationNames",
+                _SEARCH_VAR_PREFIX + "Xs",
+                _SEARCH_VAR_PREFIX + "Ys"};
 
         } else if (file_type_ == "Analogs") {
 
             dim_names = {"num_stations", "num_times", "num_flts", "num_members",
                 "num_cols", "num_chars",
-                MEMBER_DIM_PREFIX_ + "num_stations",
-                MEMBER_DIM_PREFIX_ + "num_times"};
+                _MEMBER_DIM_PREFIX + "num_stations",
+                _MEMBER_DIM_PREFIX + "num_times"};
             var_names = {"Analogs", "StationNames", "Xs", "Ys", "Times", "FLTs",
-                MEMBER_VAR_PREFIX_ + "Times",
-                MEMBER_VAR_PREFIX_ + "StationNames",
-                MEMBER_VAR_PREFIX_ + "Xs",
-                MEMBER_VAR_PREFIX_ + "Ys"};
+                _MEMBER_VAR_PREFIX + "Times",
+                _MEMBER_VAR_PREFIX + "StationNames",
+                _MEMBER_VAR_PREFIX + "Xs",
+                _MEMBER_VAR_PREFIX + "Ys"};
 
         } else if (file_type_ == "StandardDeviation") {
 
@@ -1604,10 +1604,10 @@ AnEnIO::writeSimilarityMatrices(
     handleError(writeStations(test_stations, false));
     handleError(writeTimes(test_times, false));
     handleError(writeFLTs(flts, false));
-    handleError(writeStations(search_stations, false, SEARCH_DIM_PREFIX_, SEARCH_VAR_PREFIX_));
+    handleError(writeStations(search_stations, false, _SEARCH_DIM_PREFIX, _SEARCH_VAR_PREFIX));
     handleError(writeTimes(search_times,
-                false, SEARCH_DIM_PREFIX_ + "num_times",
-                SEARCH_VAR_PREFIX_ + "Times"));
+                false, _SEARCH_DIM_PREFIX + "num_times",
+                _SEARCH_VAR_PREFIX + "Times"));
 
     return (SUCCESS);
 }
@@ -1674,9 +1674,9 @@ AnEnIO::writeAnalogs(
     handleError(writeStations(test_stations, false));
     handleError(writeTimes(test_times, false));
     handleError(writeFLTs(flts, false));
-    handleError(writeStations(search_stations, false, MEMBER_DIM_PREFIX_, MEMBER_VAR_PREFIX_));
+    handleError(writeStations(search_stations, false, _MEMBER_DIM_PREFIX, _MEMBER_VAR_PREFIX));
     handleError(writeTimes(search_times, false,
-                MEMBER_DIM_PREFIX_ + "num_times", MEMBER_VAR_PREFIX_ + "Times"));
+                _MEMBER_DIM_PREFIX + "num_times", _MEMBER_VAR_PREFIX + "Times"));
 
     return (SUCCESS);
 }
@@ -2507,8 +2507,8 @@ AnEnIO::combineSimilarityMatrices(
         if (verbose >= 4) cout << "Read file " << file << " ..." << endl;
         io_thread.readSimilarityMatrices(sims_single);
 
-        io_thread.readStations(search_stations_single, AnEnIO::SEARCH_DIM_PREFIX_, AnEnIO::SEARCH_VAR_PREFIX_);
-        io_thread.readTimes(search_times_single, AnEnIO::SEARCH_VAR_PREFIX_ + "Times");
+        io_thread.readStations(search_stations_single, AnEnIO::_SEARCH_DIM_PREFIX, AnEnIO::_SEARCH_VAR_PREFIX);
+        io_thread.readTimes(search_times_single, AnEnIO::_SEARCH_VAR_PREFIX + "Times");
 
         const auto & search_stations_single_by_insert = search_stations_single.get<anenSta::by_insert>();
         const auto & search_times_single_by_insert = search_times_single.get<anenTime::by_insert>();
@@ -2662,8 +2662,8 @@ AnEnIO::combineAnalogs(const vector<string> & in_files,
         if (verbose >= 4) cout << "Read file " << file << " ..." << endl;
         io_thread.readAnalogs(analogs_single);
 
-        io_thread.readStations(member_stations_single, AnEnIO::MEMBER_DIM_PREFIX_, AnEnIO::MEMBER_VAR_PREFIX_);
-        io_thread.readTimes(member_times_single, AnEnIO::MEMBER_VAR_PREFIX_ + "Times");
+        io_thread.readStations(member_stations_single, AnEnIO::_MEMBER_DIM_PREFIX, AnEnIO::_MEMBER_VAR_PREFIX);
+        io_thread.readTimes(member_times_single, AnEnIO::_MEMBER_VAR_PREFIX + "Times");
 
         const auto & member_stations_single_by_insert = member_stations_single.get<anenSta::by_insert>();
         const auto & member_times_single_by_insert = member_times_single.get<anenTime::by_insert>();

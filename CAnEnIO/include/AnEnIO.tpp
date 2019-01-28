@@ -12,6 +12,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <cstdlib>
 
 // Boost does not provide the correct functions to read nan values 
 // for double, the operator is overloaded.
@@ -231,7 +232,7 @@ AnEnIO::read_vector_(std::string var_name, std::vector<T> & results) const {
     p_vals = results.data();
 
 #if defined(_ENABLE_MPI)
-    if (total > SERIAL_LENGTH_LIMIT_) {
+    if (total > _SERIAL_LENGTH_LIMIT) {
         vector<size_t> start(0), count(0);
         MPI_read_vector_(var, p_vals, start, count);
     } else {
@@ -297,7 +298,7 @@ AnEnIO::read_vector_(std::string var_name, std::vector<T> & results,
     });
 
     // Check whether there are enough value to write
-    use_MPI &= total > SERIAL_LENGTH_LIMIT_;
+    use_MPI &= total > _SERIAL_LENGTH_LIMIT;
     
     if (use_MPI) {
         MPI_read_vector_(var, p_vals, start, count);
@@ -381,12 +382,21 @@ AnEnIO::MPI_read_vector_(const netCDF::NcVar var, T* & p_vals,
     MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
 
     int num_children = var_dims[0].getSize();
+    int num_procs_sys = num_children;
 
+    char *num_procs_str = getenv("OMP_NUM_THREADS");
+    if (num_procs_str) {
+        sscanf(num_procs_str, "%d", &num_procs_sys);
 #if defined(_OPENMP)
-    if (num_children > omp_get_num_procs()) {
-        num_children = omp_get_num_procs();
-    }
+    } else {
+        num_procs_sys = omp_get_num_procs();
 #endif
+    }
+
+    if (num_children > num_procs_sys) {
+        num_children = num_procs_sys;
+    }
+
     if (world_rank == 0) {
 
         // Spawn child processes

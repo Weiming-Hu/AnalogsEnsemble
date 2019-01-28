@@ -100,8 +100,18 @@ namespace anenSta {
     Station::literalCompare(const Station & rhs) const {
 
         if (name_ != rhs.getName()) return false;
-        if (x_ != rhs.getX()) return false;
-        if (y_ != rhs.getY()) return false;
+        
+        if (std::isnan(x_) && std::isnan(rhs.getX())) {
+            // Pass! X coordinates are the same.
+        } else {
+            if (x_ != rhs.getX()) return false;
+        }
+        
+        if (std::isnan(y_) && std::isnan(rhs.getY())) {
+            // Pass! Y coordinates are the same.
+        } else {
+            if (y_ != rhs.getY()) return false;
+        }
 
         return true;
     }

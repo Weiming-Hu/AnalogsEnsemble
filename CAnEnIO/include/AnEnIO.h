@@ -44,28 +44,28 @@ public:
     /*
      * The name prefix for member dimensions in file type Analogs
      */
-    const static std::string MEMBER_DIM_PREFIX_;
+    const static std::string _MEMBER_DIM_PREFIX;
     
     /*
      * The name prefix for member variables in file type Analogs
      */
-    const static std::string MEMBER_VAR_PREFIX_;
+    const static std::string _MEMBER_VAR_PREFIX;
     
     /*
      * The name prefix for search dimensions in file type SimilarityMatrices
      */
-    const static std::string SEARCH_DIM_PREFIX_;
+    const static std::string _SEARCH_DIM_PREFIX;
     
     /*
      * The name prefix for search variables in file type SimilarityMatrices
      */
-    const static std::string SEARCH_VAR_PREFIX_;
+    const static std::string _SEARCH_VAR_PREFIX;
     
     /*
      * The length upper limit of data for serial file I/O. If data have a
      * length longer than this, the I/O will be parallelized using MPI.
      */
-    const static size_t SERIAL_LENGTH_LIMIT_;
+    const static size_t _SERIAL_LENGTH_LIMIT;
     
     AnEnIO() = delete;
     AnEnIO(const AnEnIO& orig) = delete;

@@ -272,7 +272,16 @@ public:
      */
     double diffCircular(double i, double j) const;
 
+    /**
+     * The default fill value for analogs.
+     */
     static const double _FILL_VALUE;
+    
+    /**
+     * The upper limit for running program serially. If the length is larger
+     * than the limit, it will be parallelized.
+     */
+    static const size_t _SERIAL_LENGTH_LIMIT;
 
 private:
     /**

@@ -126,7 +126,7 @@ int main(int argc, char** argv) {
     MPI_Bcast(&num_indices, 1, MPI_INT, 0, parent);
     MPI_Bcast(&verbose, 1, MPI_INT, 0, parent);
 
-    if (verbose >= 3) cout << GREEN << "Child rank #" << world_rank
+    if (verbose >= 4) cout << GREEN << "Child rank #" << world_rank
             << " received from the parent's broadcast ..." << RESET << endl;
 
     int *p_start = new int[num_indices](),
@@ -145,7 +145,7 @@ int main(int argc, char** argv) {
     else
         p_count[0] = p_count[0] / world_size;
 
-    if (verbose >= 3) {
+    if (verbose >= 4) {
         cout << GREEN << "Child rank #" << world_rank
             << " reading " << string(p_var_name) << " with start/count ( ";
         for (int i = 0; i < num_indices; i++) {
@@ -206,7 +206,7 @@ int main(int argc, char** argv) {
     // Make sure all children have completed reading files.
     MPI_Barrier(parent);
     
-    if (verbose >= 3) cout << GREEN << "Rank #" << world_rank << " sending data ("
+    if (verbose >= 4) cout << GREEN << "Rank #" << world_rank << " sending data ("
             << len << ") back to the parent ..." << RESET << endl;
 
     if (MPI_Gatherv(p_vals, len, datatype, NULL, NULL, NULL,
@@ -230,7 +230,7 @@ int main(int argc, char** argv) {
     }
 
     MPI_Finalize();
-    if (verbose >= 3) cout << GREEN << "Rank #" << world_rank
+    if (verbose >= 4) cout << GREEN << "Rank #" << world_rank
             << " terminated successfully." << RESET << endl;
 
     return 0;
