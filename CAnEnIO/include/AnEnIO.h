@@ -895,9 +895,31 @@ protected:
             size_t start, size_t count, ptrdiff_t stride = 1) const;
 
 #if defined(_ENABLE_MPI)
+    /**
+     * This function returns the MPI_Datatype variable based on the template
+     * type name. This is useful for a generic programming purpose.
+     * 
+     * @return The MPI_Datatype to be passed.
+     */
     template<typename T>
     MPI_Datatype get_mpi_type() const;
     
+    /**
+     * This function reads values using MPI functions. A group of children will
+     * be spawned and coordinated within this function to read the specific 
+     * variable. At the end of this function before it returns, these spawned
+     * processes will be killed and data will be collected from the children.
+     * 
+     * IF YOU ARE USING MPI, please call the AnEnIO::handle_MPI_Init once 
+     * when the program starts and the AnEnIO::handle_MPI_Finalize once when
+     * the program is about to end.
+     * 
+     * @param var A netCDF::NcVar object. This is used to get the name of the
+     * variable and the dimensions of the variable.
+     * @param results The pointer to store data.
+     * @param start The start indices.
+     * @param count The count number.
+     */
     template<typename T>
     void MPI_read_vector_(const netCDF::NcVar var, T* & results,
         const std::vector<size_t> & start, const std::vector<size_t> & count) const;

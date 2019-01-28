@@ -399,6 +399,9 @@ AnEnIO::MPI_read_vector_(const netCDF::NcVar var, T* & p_vals,
             throw runtime_error("Spawning children failed.");
         }
 
+        // Since MPI does not allow send/receive size_t, I create a copy
+        // of the start and count indices.
+        //
         int num_indices = (int) var_dims.size();
         int *p_start = new int[num_indices], *p_count = new int[num_indices];
 
@@ -445,6 +448,9 @@ AnEnIO::MPI_read_vector_(const netCDF::NcVar var, T* & p_vals,
                 recvcounts[i] = (p_count[0] / num_children) * multiply;
         }
 
+        // CAUTIOUS: Please leave this barrier here to ensure the execution of
+        // parent and children, otherwise the execution is not predictable.
+        //
         MPI_Barrier(children);
 
         if (verbose_ >= 4) cout << "Parent waiting to gather data from processes ..." << endl;
@@ -452,10 +458,6 @@ AnEnIO::MPI_read_vector_(const netCDF::NcVar var, T* & p_vals,
         MPI_Datatype datatype = get_mpi_type<T>();
         MPI_Gatherv(NULL, 0, MPI_DATATYPE_NULL, p_vals, recvcounts.data(),
                 displs.data(), datatype, MPI_ROOT, children);
-
-        // Scatter data to children
-        //                MPI_Scatter(p_vals, count[0] / num_children, datatype,
-        //                        NULL, 0, datatype, world_rank, MPI_COMM_WORLD);
 
         delete [] p_file_path;
         delete [] p_var_name;
