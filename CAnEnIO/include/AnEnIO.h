@@ -24,6 +24,13 @@
 #include "StandardDeviation.h"
 #include "boost/numeric/ublas/matrix.hpp"
 
+#if defined(_ENABLE_MPI)
+#include <mpi.h>
+#if defined(_OPENMP)
+#include <omp.h>
+#endif
+#endif
+
 /**
  * \class AnEnIO
  * 
@@ -53,6 +60,12 @@ public:
      * The name prefix for search variables in file type SimilarityMatrices
      */
     const static std::string SEARCH_VAR_PREFIX_;
+    
+    /*
+     * The length upper limit of data for serial file I/O. If data have a
+     * length longer than this, the I/O will be parallelized using MPI.
+     */
+    const static size_t SERIAL_LENGTH_LIMIT_;
     
     AnEnIO() = delete;
     AnEnIO(const AnEnIO& orig) = delete;
@@ -121,6 +134,20 @@ public:
         /// -51
         INSUFFICIENT_MEMORY = -100
     };
+    
+#if defined(_ENABLE_MPI)
+    /*
+     * This function handles the MPI Init. It makes sure that MPI_Init only gets
+     * called once during the lifetime of the program.
+     */
+    static void handle_MPI_Init();
+    
+    /*
+     * This function handles the MPI Finalize. It makes sure that MPI_Finalize 
+     * only gets called once during the lifetime of the program.
+     */
+    static void handle_MPI_Finalize();
+#endif
 
     /**
      * Checks object mode for input/output.
@@ -686,6 +713,10 @@ public:
     
 protected:
 
+#if defined(_ENABLE_MPI)
+    static int times_of_MPI_init_;
+#endif
+    
     /**
      * Specifies the mode of the object. Values can be:
      * - Read
@@ -862,6 +893,37 @@ protected:
     template<typename T>
     errorType read_vector_(std::string var_name, std::vector<T> & results,
             size_t start, size_t count, ptrdiff_t stride = 1) const;
+
+#if defined(_ENABLE_MPI)
+    /**
+     * This function returns the MPI_Datatype variable based on the template
+     * type name. This is useful for a generic programming purpose.
+     * 
+     * @return The MPI_Datatype to be passed.
+     */
+    template<typename T>
+    MPI_Datatype get_mpi_type() const;
+    
+    /**
+     * This function reads values using MPI functions. A group of children will
+     * be spawned and coordinated within this function to read the specific 
+     * variable. At the end of this function before it returns, these spawned
+     * processes will be killed and data will be collected from the children.
+     * 
+     * IF YOU ARE USING MPI, please call the AnEnIO::handle_MPI_Init once 
+     * when the program starts and the AnEnIO::handle_MPI_Finalize once when
+     * the program is about to end.
+     * 
+     * @param var A netCDF::NcVar object. This is used to get the name of the
+     * variable and the dimensions of the variable.
+     * @param results The pointer to store data.
+     * @param start The start indices.
+     * @param count The count number.
+     */
+    template<typename T>
+    void MPI_read_vector_(const netCDF::NcVar var, T* & results,
+        const std::vector<size_t> & start, const std::vector<size_t> & count) const;
+#endif
 
 };
 

@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
 project(gribConverter)
 
-add_definitions(-D_APPVERSION="v 1.0.1")
+add_definitions(-D_APPVERSION="v 1.0.2")
 
 if (NOT ECCODES_TYPE)
     set(ECCODES_TYPE "BUILD" CACHE STRING
@@ -116,6 +116,19 @@ endif (ECCODES_TYPE STREQUAL "SYSTEM")
 if(BOOST_TYPE STREQUAL "BUILD")
     target_link_libraries (${PROJECT_NAME} datetime)
 endif(BOOST_TYPE STREQUAL "BUILD")
+
+if(${ENABLE_MPI})
+    include_directories(SYSTEM ${MPI_INCLUDE_PATH})
+    target_link_libraries(${PROJECT_NAME} ${MPI_CXX_LIBRARIES})
+    if(MPI_CXX_COMPILE_FLAGS)
+        set_target_properties(${PROJECT_NAME} PROPERTIES
+            COMPILE_FLAGS ${MPI_CXX_COMPILE_FLAGS})
+    endif(MPI_CXX_COMPILE_FLAGS)
+    if(MPI_CXX_LINK_FLAGS)
+        set_target_properties(${PROJECT_NAME} PROPERTIES
+            LINK_FLAGS ${MPI_CXX_LINK_FLAGS})
+    endif(MPI_CXX_LINK_FLAGS)
+endif(${ENABLE_MPI}) 
 
 #add_executable(gribConverter "${CMAKE_CURRENT_SOURCE_DIR}/gribConverter.cpp")
 #target_link_libraries(gribConverter ${PROJECT_NAME})

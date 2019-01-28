@@ -212,13 +212,13 @@ AnEnIO::read_vector_(std::string var_name, std::vector<T> & results) const {
     auto var_dims = var.getDims();
     T *p_vals = nullptr;
 
-    size_t len = 1;
+    size_t total = 1;
     for (const auto & dim : var_dims) {
-        len *= dim.getSize();
+        total *= dim.getSize();
     }
 
     try {
-        results.resize(len);
+        results.resize(total);
     } catch (bad_alloc & e) {
         nc.close();
         if (verbose_ >= 1) cout << BOLDRED
@@ -229,7 +229,17 @@ AnEnIO::read_vector_(std::string var_name, std::vector<T> & results) const {
     }
 
     p_vals = results.data();
-    var.getVar(p_vals);
+
+#if defined(_ENABLE_MPI)
+    if (total > SERIAL_LENGTH_LIMIT_) {
+        vector<size_t> start(0), count(0);
+        MPI_read_vector_(var, p_vals, start, count);
+    } else {
+#endif
+        var.getVar(p_vals);
+#if defined(_ENABLE_MPI)
+    }
+#endif
 
     nc.close();
 
@@ -279,8 +289,24 @@ AnEnIO::read_vector_(std::string var_name, std::vector<T> & results,
     reverse(start.begin(), start.end());
     reverse(count.begin(), count.end());
     reverse(stride.begin(), stride.end());
+    
+#if defined(_ENABLE_MPI)
+    // Check whether stride is used.
+    bool use_MPI = all_of(stride.begin(), stride.end(), [](ptrdiff_t i) {
+        return (i == 1);
+    });
 
-    var.getVar(start, count, stride, p_vals);
+    // Check whether there are enough value to write
+    use_MPI &= total > SERIAL_LENGTH_LIMIT_;
+    
+    if (use_MPI) {
+        MPI_read_vector_(var, p_vals, start, count);
+    } else {
+#endif
+        var.getVar(start, count, stride, p_vals);
+#if defined(_ENABLE_MPI)
+    }
+#endif
     nc.close();
     // Don't delete pointer because it is managed by the vector object
     // delete [] p_vals;
@@ -297,3 +323,153 @@ AnEnIO::read_vector_(std::string var_name, std::vector<T> & results,
     return (read_vector_(var_name, results,
             vec_start, vec_count, vec_stride));
 };
+
+#if defined(_ENABLE_MPI)
+template<typename T>
+MPI_Datatype
+AnEnIO::get_mpi_type() const {
+    
+    char name = typeid (T).name()[0];
+    
+    switch (name) {
+        case 'i':
+            return MPI_INT;
+            break;
+//        case 'j':
+//            return MPI_UNSIGNED;
+//            break;
+        case 'f':
+            // I convert float values to double
+            // return MPI_FLOAT;
+            // break;
+        case 'd':
+            return MPI_DOUBLE;
+            break;
+        case 'c':
+            return MPI_CHAR;
+            break;
+        case 's':
+            return MPI_SHORT;
+            break;
+//        case 'l':
+//            return MPI_LONG;
+//            break;
+//        case 'm':
+//            return MPI_UNSIGNED_LONG;
+//            break;
+        case 'b':
+            return MPI_BYTE;
+            break;
+    }
+
+    throw std::runtime_error("Cannot deduce the MPI Datatype.");
+}
+
+template<typename T>
+void
+AnEnIO::MPI_read_vector_(const netCDF::NcVar var, T* & p_vals,
+        const std::vector<size_t> & start, const std::vector<size_t> & count) const {
+
+    using namespace netCDF;
+    using namespace std;
+    
+    auto var_name = var.getName();
+    auto var_dims = var.getDims();
+    
+    handle_MPI_Init();
+    int world_rank;
+    MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
+
+    int num_children = var_dims[0].getSize();
+
+#if defined(_OPENMP)
+    if (num_children > omp_get_num_procs()) {
+        num_children = omp_get_num_procs();
+    }
+#endif
+    if (world_rank == 0) {
+
+        // Spawn child processes
+        if (verbose_ >= 4) cout << "Spawning " << num_children
+                << " processes to read " << var_name << " ..." << endl;
+
+        MPI_Comm children;
+        if (MPI_Comm_spawn("mpiAnEnIO", MPI_ARGV_NULL, num_children, MPI_INFO_NULL,
+                0, MPI_COMM_SELF, &children, MPI_ERRCODES_IGNORE) != MPI_SUCCESS) {
+            throw runtime_error("Spawning children failed.");
+        }
+
+        // Since MPI does not allow send/receive size_t, I create a copy
+        // of the start and count indices.
+        //
+        int num_indices = (int) var_dims.size();
+        int *p_start = new int[num_indices], *p_count = new int[num_indices];
+
+        if (start.size() == (size_t) num_indices ||
+                count.size() == (size_t) num_indices) {
+            for (int i = 0; i < num_indices; i++) {
+                p_start[i] = (int) start[i];
+                p_count[i] = (int) count[i];
+            }
+        } else {
+            for (int i = 0; i < num_indices; i++) {
+                p_start[i] = 0;
+                p_count[i] = (int) var_dims[i].getSize();
+            }
+        }
+        
+        char *p_file_path = new char[file_path_.length() + 1];
+        char *p_var_name = new char[var_name.length() + 1];
+        strcpy(p_file_path, file_path_.c_str());
+        strcpy(p_var_name, var_name.c_str());
+
+        // Broadcast some variables to children
+        if (verbose_ >= 4) cout << "Broadcasting variables ..." << endl;
+        MPI_Bcast(p_file_path, file_path_.length() + 1, MPI_CHAR, MPI_ROOT, children);
+        MPI_Bcast(p_var_name, var_name.length() + 1, MPI_CHAR, MPI_ROOT, children);
+        MPI_Bcast(&num_indices, 1, MPI_INT, MPI_ROOT, children);
+
+        int verbose = verbose_;
+        MPI_Bcast(&verbose, 1, MPI_INT, MPI_ROOT, children);
+
+        MPI_Bcast(p_start, num_indices, MPI_INT, MPI_ROOT, children);
+        MPI_Bcast(p_count, num_indices, MPI_INT, MPI_ROOT, children);
+
+        // Collect data from children
+        vector<int> recvcounts(num_children), displs(num_children);
+        int multiply = accumulate(p_count + 1, p_count + num_indices, 1, std::multiplies<int>());
+
+        for (int i = 0; i < num_children; i++) {
+            displs[i] = (i * (int)(p_count[0] / num_children) + p_start[0]) * multiply;
+
+            if (i == num_children - 1)
+                recvcounts[i] = (p_count[0] - i * (int)(p_count[0] / num_children) + p_start[0]) * multiply;
+            else
+                recvcounts[i] = (p_count[0] / num_children) * multiply;
+        }
+
+        // CAUTIOUS: Please leave this barrier here to ensure the execution of
+        // parent and children, otherwise the execution is not predictable.
+        //
+        MPI_Barrier(children);
+
+        if (verbose_ >= 4) cout << "Parent waiting to gather data from processes ..." << endl;
+        
+        MPI_Datatype datatype = get_mpi_type<T>();
+        MPI_Gatherv(NULL, 0, MPI_DATATYPE_NULL, p_vals, recvcounts.data(),
+                displs.data(), datatype, MPI_ROOT, children);
+
+        delete [] p_file_path;
+        delete [] p_var_name;
+        delete [] p_start;
+        delete [] p_count;
+
+        handle_MPI_Finalize();
+    } else {
+        cout << RED << "Warning: Please only run with 1 processor because child processes are automatically spawned."
+                << RESET << endl;
+        handle_MPI_Finalize();
+        throw runtime_error("Terminate non-root processes.");
+    }
+}
+#endif

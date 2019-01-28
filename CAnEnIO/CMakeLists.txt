@@ -3,7 +3,7 @@ project (AnEnIO)
 enable_language (CXX)
 
 set (LIBRARY_NAME "AnEnIO")
-set (LIBRARY_VERSION "1.0.0")
+set (LIBRARY_VERSION "1.1.1")
 
 file (GLOB SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
 include_directories ("${CMAKE_CURRENT_SOURCE_DIR}/include")
@@ -60,8 +60,10 @@ elseif(BOOST_TYPE STREQUAL "SYSTEM")
     target_link_libraries (${LIBRARY_NAME} ${Boost_LIBRARIES})
 endif(BOOST_TYPE STREQUAL "BUILD")
 
-# TODO: install external libraries
+# TODO: Install external libraries
+# The external libraries are not installed to destinations. This might be changed.
 # https://stackoverflow.com/questions/35934112/installing-an-externalproject-with-cmake
+#
 set(AnEnIO_RPATH "")
 
 if(NETCDF_CXX4_BUILT)
@@ -83,7 +85,6 @@ endif(NETCDF_CXX4_BUILT)
 
 include_directories(SYSTEM ${NETCDF_INCLUDES})
 if (NETCDF_BUILT)
-    include_directories(SYSTEM ${})
     add_dependencies(${LIBRARY_NAME} NETCDF_PROJECT)
 
     ExternalProject_Get_Property(NETCDF_PROJECT install_dir)
@@ -103,18 +104,18 @@ endif (NETCDF_BUILT)
 
 set_target_properties(${LIBRARY_NAME} PROPERTIES INSTALL_RPATH "${AnEnIO_RPATH}")
 
-#if(${ENABLE_MPI})
-#        include_directories(SYSTEM ${MPI_INCLUDE_PATH})
-#        target_link_libraries(${LIBRARY_NAME} ${MPI_CXX_LIBRARIES})
-#        if(MPI_CXX_COMPILE_FLAGS)
-#            set_target_properties(${LIBRARY_NAME} PROPERTIES
-#                COMPILE_FLAGS ${MPI_CXX_COMPILE_FLAGS})
-#        endif(MPI_CXX_COMPILE_FLAGS)
-#        if(MPI_CXX_LINK_FLAGS)
-#            set_target_properties(${LIBRARY_NAME} PROPERTIES
-#                LINK_FLAGS ${MPI_CXX_LINK_FLAGS})
-#        endif(MPI_CXX_LINK_FLAGS)
-#endif(${ENABLE_MPI}) 
+if(${ENABLE_MPI})
+        include_directories(SYSTEM ${MPI_INCLUDE_PATH})
+        target_link_libraries(${LIBRARY_NAME} ${MPI_CXX_LIBRARIES})
+        if(MPI_CXX_COMPILE_FLAGS)
+            set_target_properties(${LIBRARY_NAME} PROPERTIES
+                COMPILE_FLAGS ${MPI_CXX_COMPILE_FLAGS})
+        endif(MPI_CXX_COMPILE_FLAGS)
+        if(MPI_CXX_LINK_FLAGS)
+            set_target_properties(${LIBRARY_NAME} PROPERTIES
+                LINK_FLAGS ${MPI_CXX_LINK_FLAGS})
+        endif(MPI_CXX_LINK_FLAGS)
+endif(${ENABLE_MPI}) 
 
 # Set default make output folder
 # set_target_properties(${LIBRARY_NAME} PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${COMMON_OUTPUT_DIR}/lib")

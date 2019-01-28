@@ -21,6 +21,19 @@ target_link_libraries (testStations cppunit AnEnIO AnEn)
 target_link_libraries (runStations cppunit testStations AnEnIO AnEn)
 endif(CPPUNIT_FOUND)
 
+if(${ENABLE_MPI})
+    include_directories(SYSTEM ${MPI_INCLUDE_PATH})
+    target_link_libraries(testStations ${MPI_CXX_LIBRARIES})
+    if(MPI_CXX_COMPILE_FLAGS)
+        set_target_properties(testStations PROPERTIES
+            COMPILE_FLAGS ${MPI_CXX_COMPILE_FLAGS})
+    endif(MPI_CXX_COMPILE_FLAGS)
+    if(MPI_CXX_LINK_FLAGS)
+        set_target_properties(testStations PROPERTIES
+            LINK_FLAGS ${MPI_CXX_LINK_FLAGS})
+    endif(MPI_CXX_LINK_FLAGS)
+endif(${ENABLE_MPI}) 
+
 set_target_properties(runStations PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${COMMON_OUTPUT_DIR}/test")
 add_test(NAME ${PROJECT_NAME} COMMAND runStations)
 install(TARGETS runStations RUNTIME DESTINATION bin)

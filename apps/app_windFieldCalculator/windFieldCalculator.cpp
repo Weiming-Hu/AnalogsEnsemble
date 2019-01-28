@@ -183,6 +183,10 @@ func_dir, func_speed)
 int main(int argc, char** argv) {
 
     namespace po = boost::program_options;
+
+#if defined(_ENABLE_MPI)
+    AnEnIO::handle_MPI_Init();
+#endif
     
     // Required variables
     string file_in, file_type, file_out,
@@ -287,5 +291,9 @@ int main(int argc, char** argv) {
         return 1;
     }
     
+#if defined(_ENABLE_MPI)
+    AnEnIO::handle_MPI_Finalize();
+#endif
+
     return 0;
 }
