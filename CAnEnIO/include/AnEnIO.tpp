@@ -335,12 +335,13 @@ AnEnIO::get_mpi_type() const {
         case 'i':
             return MPI_INT;
             break;
+//        case 'j':
+//            return MPI_UNSIGNED;
+//            break;
         case 'f':
-            return MPI_FLOAT;
-            break;
-        case 'j':
-            return MPI_UNSIGNED;
-            break;
+            // I convert float values to double
+            // return MPI_FLOAT;
+            // break;
         case 'd':
             return MPI_DOUBLE;
             break;
@@ -350,12 +351,12 @@ AnEnIO::get_mpi_type() const {
         case 's':
             return MPI_SHORT;
             break;
-        case 'l':
-            return MPI_LONG;
-            break;
-        case 'm':
-            return MPI_UNSIGNED_LONG;
-            break;
+//        case 'l':
+//            return MPI_LONG;
+//            break;
+//        case 'm':
+//            return MPI_UNSIGNED_LONG;
+//            break;
         case 'b':
             return MPI_BYTE;
             break;
@@ -436,10 +437,10 @@ AnEnIO::MPI_read_vector_(const netCDF::NcVar var, T* & p_vals,
         int multiply = accumulate(p_count + 1, p_count + num_indices, 1, std::multiplies<int>());
 
         for (int i = 0; i < num_children; i++) {
-            displs[i] = (i * p_count[0] / num_children + p_start[0]) * multiply;
+            displs[i] = (i * (int)(p_count[0] / num_children) + p_start[0]) * multiply;
 
             if (i == num_children - 1)
-                recvcounts[i] = (p_count[0] - i * p_count[0] / num_children + p_start[0]) * multiply;
+                recvcounts[i] = (p_count[0] - i * (int)(p_count[0] / num_children) + p_start[0]) * multiply;
             else
                 recvcounts[i] = (p_count[0] / num_children) * multiply;
         }

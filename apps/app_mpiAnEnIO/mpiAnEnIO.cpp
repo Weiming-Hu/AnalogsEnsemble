@@ -26,6 +26,8 @@
 #include <numeric>
 #include <string>
 
+#include <set>
+
 using namespace std;
 using namespace netCDF;
 
@@ -50,18 +52,20 @@ MPI_Datatype get_mpi_type(const nc_type & c) {
             return MPI_INT;
             break;
         case NC_FLOAT:
-            return MPI_FLOAT;
-            break;
+            // I do not want to pass float values because they are handled as double in AnEnIO.
+            // I will convert them explicitly/
+            //
+            // return MPI_FLOAT;
+            // break;
         case NC_DOUBLE:
             return MPI_DOUBLE;
             break;
-        case NC_UBYTE:
-        case NC_USHORT:
-        case NC_UINT:
-        case NC_INT64:
-        case NC_UINT64:
-            return MPI_UNSIGNED;
-            break;
+//        case NC_UBYTE:
+//        case NC_USHORT:
+//        case NC_UINT:
+//        case NC_UINT64:
+//            return MPI_UNSIGNED;
+//            break;
         default:
             throw std::runtime_error("Unknown NcType");
     }
@@ -132,16 +136,23 @@ int main(int argc, char** argv) {
     MPI_Bcast(p_count, num_indices, MPI_INT, 0, parent);
 
     // Define the start and count indices
-    if (verbose >= 3) cout << GREEN << "Child rank #" << world_rank
-            << " reading " << string(p_var_name) << "..." << RESET <<  endl;
-
     // Distribution only happens to the first dimension for simplicity.
-    p_start[0] += world_rank * p_count[0] / world_size;
+    //
+    p_start[0] += world_rank * (int)(p_count[0] / world_size);
 
     if (world_rank == world_size - 1)
         p_count[0] = p_count[0] - p_start[0];
     else
         p_count[0] = p_count[0] / world_size;
+
+    if (verbose >= 3) {
+        cout << GREEN << "Child rank #" << world_rank
+            << " reading " << string(p_var_name) << " with start/count ( ";
+        for (int i = 0; i < num_indices; i++) {
+            cout << p_start[i] << "," << p_count[i] << " ";
+        }
+        cout << ") ..." << RESET << endl;
+    }
 
     int len = accumulate(p_count, p_count + num_indices, 1, std::multiplies<int>());
 
@@ -173,12 +184,31 @@ int main(int argc, char** argv) {
     res = nc_close(ncid);
     ERR;
 
+    if (var_type == NC_FLOAT) {
+        if (verbose >= 4) cout << GREEN << "Rank #" << world_rank
+            << " converting float to double ..." << RESET << endl;
+        float *p_float = (float*)p_vals;
+        double *p_double = new double[len];
+
+        for (int i = 0; i < len; i++)
+            p_double[i] = p_float[i];
+
+        set<float> s1(p_float, p_float + len);
+        set<double> s2(p_double, p_double + len);
+
+        // Release the memory for the old float values
+        deallocate_memory(p_vals, var_type, verbose);
+
+        // Change the value pointer to the new double values
+        p_vals = p_double;
+    }
+
     // Make sure all children have completed reading files.
     MPI_Barrier(parent);
     
     if (verbose >= 3) cout << GREEN << "Rank #" << world_rank << " sending data ("
             << len << ") back to the parent ..." << RESET << endl;
-    
+
     if (MPI_Gatherv(p_vals, len, datatype, NULL, NULL, NULL,
             MPI_DATATYPE_NULL, 0, parent) != MPI_SUCCESS) {
         if (verbose >= 1) cout << BOLDRED << "Rank #" << world_rank 
@@ -192,7 +222,12 @@ int main(int argc, char** argv) {
     delete [] p_file_name;
     delete [] p_var_name;
 
-    deallocate_memory(p_vals, var_type, verbose);
+    if (var_type == NC_FLOAT) {
+        // I already converted this to a double pointer. 
+        delete [] (double*) p_vals;
+    } else {
+        deallocate_memory(p_vals, var_type, verbose);
+    }
 
     MPI_Finalize();
     if (verbose >= 3) cout << GREEN << "Rank #" << world_rank

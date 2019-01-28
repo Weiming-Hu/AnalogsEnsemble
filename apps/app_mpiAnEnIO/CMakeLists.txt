@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8)
 project(mpiAnEnIO)
 enable_language(C CXX)
 
-add_definitions(-D_APPVERSION="v 0.0.0")
+add_definitions(-D_APPVERSION="v 0.0.2")
 
 message(STATUS "Build MPI functions and utilities for NetCDF I/O")
 set(SOURCE_MAIN "${CMAKE_CURRENT_SOURCE_DIR}/mpiAnEnIO.cpp")

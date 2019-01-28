@@ -36,39 +36,39 @@ int AnEnIO::times_of_MPI_init_ = 0;
 #endif
 
 AnEnIO::AnEnIO(string mode, string file_path) :
-mode_(mode), file_path_(file_path) {
-    handleError(checkMode());
-    handleError(checkFilePath());
-}
+    mode_(mode), file_path_(file_path) {
+        handleError(checkMode());
+        handleError(checkFilePath());
+    }
 
 AnEnIO::AnEnIO(string mode, string file_path, string file_type) :
-mode_(mode), file_path_(file_path), file_type_(file_type) {
-    handleError(checkMode());
-    handleError(checkFilePath());
-    if (mode_ != "Write") handleError(checkFileType());
-}
+    mode_(mode), file_path_(file_path), file_type_(file_type) {
+        handleError(checkMode());
+        handleError(checkFilePath());
+        if (mode_ != "Write") handleError(checkFileType());
+    }
 
 AnEnIO::AnEnIO(string mode, string file_path,
         string file_type, int verbose) :
-mode_(mode), file_path_(file_path),
-file_type_(file_type), verbose_(verbose) {
-    handleError(checkMode());
-    handleError(checkFilePath());
-    if (mode_ != "Write") handleError(checkFileType());
-}
+    mode_(mode), file_path_(file_path),
+    file_type_(file_type), verbose_(verbose) {
+        handleError(checkMode());
+        handleError(checkFilePath());
+        if (mode_ != "Write") handleError(checkFileType());
+    }
 
 AnEnIO::AnEnIO(string mode, string file_path,
         string file_type, int verbose,
         vector<string> required_variables,
         vector<string> optional_variables) :
-mode_(mode), file_path_(file_path),
-file_type_(file_type), verbose_(verbose),
-required_variables_(required_variables),
-optional_variables_(optional_variables) {
-    handleError(checkMode());
-    handleError(checkFilePath());
-    if (mode_ != "Write") handleError(checkFileType());
-}
+    mode_(mode), file_path_(file_path),
+    file_type_(file_type), verbose_(verbose),
+    required_variables_(required_variables),
+    optional_variables_(optional_variables) {
+        handleError(checkMode());
+        handleError(checkFilePath());
+        if (mode_ != "Write") handleError(checkFileType());
+    }
 
 AnEnIO::~AnEnIO() {
 }
@@ -102,7 +102,7 @@ AnEnIO::checkMode() const {
     if (mode_ != "Read" && mode_ != "Write") {
         if (verbose_ >= 1) {
             cout << BOLDRED << "Error: Mode should be 'Read' or 'Write'."
-                    << endl;
+                << endl;
         }
 
         return (UNKNOWN_MODE);
@@ -124,12 +124,12 @@ AnEnIO::checkFilePath() const {
         if (add_) {
 
             if (verbose_ >= 4) cout << "Writing to existing file "
-                    << file_path_ << "!" << RESET << endl;
+                << file_path_ << "!" << RESET << endl;
 
         } else {
             if (verbose_ >= 1) {
                 cout << BOLDRED << "Error: File exists at "
-                        << file_path_ << RESET << endl;
+                    << file_path_ << RESET << endl;
             }
         }
 
@@ -139,7 +139,7 @@ AnEnIO::checkFilePath() const {
 
         if (verbose_ >= 1) {
             cout << BOLDRED << "Error: File not found "
-                    << file_path_ << RESET << endl;
+                << file_path_ << RESET << endl;
         }
 
         return (FILE_NOT_FOUND);
@@ -156,7 +156,7 @@ AnEnIO::checkFilePath() const {
 
         if (verbose_ >= 1) {
             cout << BOLDRED << "Error: Unknown file extension "
-                    << file_path_ << RESET << endl;
+                << file_path_ << RESET << endl;
         }
 
         return (UNKOWN_FILE_TYPE);
@@ -172,7 +172,7 @@ AnEnIO::checkFileType() const {
 
     if (mode_ == "Write") {
         if (verbose_ >= 2) cout << RED << "Warning: No need to check "
-                << "for mode 'Write'." << RESET << endl;
+            << "for mode 'Write'." << RESET << endl;
         return (SUCCESS);
     } else if (mode_ == "Read") {
 
@@ -231,7 +231,7 @@ AnEnIO::checkFileType() const {
         } else {
             if (verbose_ >= 1) {
                 cout << BOLDRED << "Error: Unknown file type "
-                        << file_type_ << RESET << endl;
+                    << file_type_ << RESET << endl;
             }
             return (UNKOWN_FILE_TYPE);
         }
@@ -247,7 +247,7 @@ AnEnIO::checkFileType() const {
         return (SUCCESS);
     } else {
         if (verbose_ >= 1) cout << BOLDRED << "Error: Unknown mode."
-                << RESET << endl;
+            << RESET << endl;
         return (WRONG_MODE);
     }
 }
@@ -261,7 +261,7 @@ AnEnIO::checkVariable(string var_name, bool optional) const {
 
     if (mode_ != "Read") {
         if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Read'."
-                << RESET << endl;
+            << RESET << endl;
         return (WRONG_MODE);
     }
 
@@ -274,16 +274,16 @@ AnEnIO::checkVariable(string var_name, bool optional) const {
 
             if (verbose_ >= 2) {
                 cout << RED << "Warning: Optional variable (" << var_name
-                        << ") is missing in file (" << file_path_
-                        << ")!" << RESET << endl;
+                    << ") is missing in file (" << file_path_
+                    << ")!" << RESET << endl;
             }
             return (OPTIONAL_VARIABLE_MISSING);
         } else {
 
             if (verbose_ >= 1) {
                 cout << BOLDRED << "Error: Variable (" << var_name
-                        << ") is missing in file (" << file_path_
-                        << ")!" << RESET << endl;
+                    << ") is missing in file (" << file_path_
+                    << ")!" << RESET << endl;
                 return (REQUIRED_VARIABLE_MISSING);
             }
         }
@@ -301,7 +301,7 @@ AnEnIO::checkDim(string dim_name) const {
 
     if (mode_ != "Read") {
         if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Read'."
-                << RESET << endl;
+            << RESET << endl;
         return (WRONG_MODE);
     }
 
@@ -313,7 +313,7 @@ AnEnIO::checkDim(string dim_name) const {
     if (is_null) {
         if (verbose_ >= 1) {
             cout << BOLDRED << "Error: Dimension (" << dim_name
-                    << ") missing!" << RESET << endl;
+                << ") missing!" << RESET << endl;
         }
         return (DIMENSION_MISSING);
     }
@@ -335,7 +335,7 @@ AnEnIO::checkVariables() const {
 
     if (mode_ != "Read") {
         if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Read'."
-                << RESET << endl;
+            << RESET << endl;
         return (WRONG_MODE);
     }
 
@@ -372,7 +372,7 @@ AnEnIO::checkDimensions() const {
 
     if (mode_ != "Read") {
         if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Read'."
-                << RESET << endl;
+            << RESET << endl;
         return (WRONG_MODE);
     }
 
@@ -399,14 +399,14 @@ AnEnIO::readObservations(Observations_array & observations) const {
 
     if (mode_ != "Read") {
         if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Read'."
-                << RESET << endl;
+            << RESET << endl;
         return (WRONG_MODE);
     }
 
     if (file_type_ != "Observations") {
         if (verbose_ >= 1) {
             cout << BOLDGREEN << "Error: File type should be Observations."
-                    << RESET << endl;
+                << RESET << endl;
         }
         return (WRONG_FILE_TYPE);
     }
@@ -428,7 +428,7 @@ AnEnIO::readObservations(Observations_array & observations) const {
 
     // Read data
     if (verbose_ >= 3) cout << "Reading observation values from file ("
-            << file_path_ << ") ..." << endl;
+        << file_path_ << ") ..." << endl;
     handleError(readObservationsArrayData_(observations));
 
     return (SUCCESS);
@@ -444,14 +444,14 @@ AnEnIO::readObservations(Observations_array & observations, vector<size_t> start
 
     if (mode_ != "Read") {
         if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Read'."
-                << RESET << endl;
+            << RESET << endl;
         return (WRONG_MODE);
     }
 
     if (file_type_ != "Observations") {
         if (verbose_ >= 1) {
             cout << BOLDGREEN << "Error: File type should be Observations."
-                    << RESET << endl;
+                << RESET << endl;
         }
         return (WRONG_FILE_TYPE);
     }
@@ -459,21 +459,21 @@ AnEnIO::readObservations(Observations_array & observations, vector<size_t> start
     // Check indices
     if (start.size() != 3) {
         if (verbose_ >= 1) cout << BOLDRED
-                << "Error: Start should have 3 indices for observations."
+            << "Error: Start should have 3 indices for observations."
                 << RESET << endl;
         return (WRONG_INDEX_SHAPE);
     }
 
     if (count.size() != 3) {
         if (verbose_ >= 1) cout << BOLDRED
-                << "Error: Count should have 3 indices for observations."
+            << "Error: Count should have 3 indices for observations."
                 << RESET << endl;
         return (WRONG_INDEX_SHAPE);
     }
 
     if (stride.size() != 3) {
         if (verbose_ >= 1) cout << BOLDRED
-                << "Error: Stride should have 3 indices for observations."
+            << "Error: Stride should have 3 indices for observations."
                 << RESET << endl;
         return (WRONG_INDEX_SHAPE);
     }
@@ -494,7 +494,7 @@ AnEnIO::readObservations(Observations_array & observations, vector<size_t> start
 
     // Read data
     if (verbose_ >= 3) cout << "Reading observation values from file ("
-            << file_path_ << ") ..." << endl;
+        << file_path_ << ") ..." << endl;
     handleError(readObservationsArrayData_(observations, start, count, stride));
 
     return (SUCCESS);
@@ -509,14 +509,14 @@ AnEnIO::readForecasts(Forecasts_array & forecasts) const {
 
     if (mode_ != "Read") {
         if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Read'."
-                << RESET << endl;
+            << RESET << endl;
         return (WRONG_MODE);
     }
 
     if (file_type_ != "Forecasts") {
         if (verbose_ >= 1) {
             cout << BOLDRED << "Error: File type should be Forecasts."
-                    << RESET << endl;
+                << RESET << endl;
         }
         return (WRONG_FILE_TYPE);
     }
@@ -541,7 +541,7 @@ AnEnIO::readForecasts(Forecasts_array & forecasts) const {
 
     // Read data
     if (verbose_ >= 3) cout << "Reading forecast values from file ("
-            << file_path_ << ") ..." << endl;
+        << file_path_ << ") ..." << endl;
     readForecastsArrayData_(forecasts);
 
 
@@ -559,14 +559,14 @@ AnEnIO::readForecasts(Forecasts_array & forecasts,
 
     if (mode_ != "Read") {
         if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Read'."
-                << RESET << endl;
+            << RESET << endl;
         return (WRONG_MODE);
     }
 
     if (file_type_ != "Forecasts") {
         if (verbose_ >= 1) {
             cout << BOLDGREEN << "Error: File type should be Forecasts."
-                    << RESET << endl;
+                << RESET << endl;
         }
         return (WRONG_FILE_TYPE);
     }
@@ -574,21 +574,21 @@ AnEnIO::readForecasts(Forecasts_array & forecasts,
     // Check indices
     if (start.size() != 4) {
         if (verbose_ >= 1) cout << BOLDRED
-                << "Error: Start should have 4 indices for forecasts."
+            << "Error: Start should have 4 indices for forecasts."
                 << RESET << endl;
         return (WRONG_INDEX_SHAPE);
     }
 
     if (count.size() != 4) {
         if (verbose_ >= 1) cout << BOLDRED
-                << "Error: Count should have 4 indices for forecasts."
+            << "Error: Count should have 4 indices for forecasts."
                 << RESET << endl;
         return (WRONG_INDEX_SHAPE);
     }
 
     if (stride.size() != 4) {
         if (verbose_ >= 1) cout << BOLDRED
-                << "Error: Stride should have 4 indices for forecasts."
+            << "Error: Stride should have 4 indices for forecasts."
                 << RESET << endl;
         return (WRONG_INDEX_SHAPE);
     }
@@ -613,7 +613,7 @@ AnEnIO::readForecasts(Forecasts_array & forecasts,
 
     // Read data
     if (verbose_ >= 3) cout << "Reading partial forecast values from file ("
-            << file_path_ << ") ..." << endl;
+        << file_path_ << ") ..." << endl;
     readForecastsArrayData_(forecasts, start, count, stride);
 
     return (SUCCESS);
@@ -628,13 +628,13 @@ AnEnIO::readFLTs(anenTime::FLTs& flts) const {
 
     if (mode_ != "Read") {
         if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Read'."
-                << RESET << endl;
+            << RESET << endl;
         return (WRONG_MODE);
     }
 
     if (file_type_ == "Observations") {
         if (verbose_ >= 1) cout << BOLDRED
-                << "Error: File type is set as Observations but observations do not have FLTs!" << RESET << endl;
+            << "Error: File type is set as Observations but observations do not have FLTs!" << RESET << endl;
         return (WRONG_FILE_TYPE);
     }
 
@@ -649,7 +649,7 @@ AnEnIO::readFLTs(anenTime::FLTs& flts) const {
     if (flts.size() != vec.size()) {
         if (verbose_ >= 1) {
             cout << BOLDRED << "Error: The variable (FLTs)"
-                    << " has duplicate elements!" << RESET << endl;
+                << " has duplicate elements!" << RESET << endl;
         }
         return (ELEMENT_NOT_UNIQUE);
     }
@@ -663,12 +663,12 @@ AnEnIO::readFLTs(anenTime::FLTs& flts,
 
     if (verbose_ >= 3) {
         cout << "Reading FLTs from file ("
-                << file_path_ << ") ..." << endl;
+            << file_path_ << ") ..." << endl;
     }
 
     if (mode_ != "Read") {
         if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Read'."
-                << RESET << endl;
+            << RESET << endl;
         return (WRONG_MODE);
     }
 
@@ -680,7 +680,7 @@ AnEnIO::readFLTs(anenTime::FLTs& flts,
     // Check parameters
     if (start + (count - 1) * stride >= dim_len) {
         if (verbose_ >= 1) cout << BOLDRED
-                << "Error: The FLT indices are not valid."
+            << "Error: The FLT indices are not valid."
                 << " The length of FLTs is " << dim_len << RESET << endl;
         return (WRONG_INDEX_SHAPE);
     }
@@ -694,7 +694,7 @@ AnEnIO::readFLTs(anenTime::FLTs& flts,
     if (flts.size() != vec.size()) {
         if (verbose_ >= 1) {
             cout << BOLDRED << "Error: The variable (FLTs)"
-                    << " has duplicate elements!" << RESET << endl;
+                << " has duplicate elements!" << RESET << endl;
         }
         return (ELEMENT_NOT_UNIQUE);
     }
@@ -708,12 +708,12 @@ AnEnIO::readParameters(anenPar::Parameters & parameters) const {
 
     if (verbose_ >= 3) {
         cout << "Reading Parameters from file ("
-                << file_path_ << ") ..." << endl;
+            << file_path_ << ") ..." << endl;
     }
 
     if (mode_ != "Read") {
         if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Read'."
-                << RESET << endl;
+            << RESET << endl;
         return (WRONG_MODE);
     }
 
@@ -727,7 +727,7 @@ AnEnIO::readParameters(anenPar::Parameters & parameters) const {
     if (names.size() != dim_len) {
         if (verbose_ >= 1) {
             cout << BOLDRED << "Error: There should be " << dim_len
-                    << " parameter names!" << RESET << endl;
+                << " parameter names!" << RESET << endl;
         }
 
         return (WRONG_VARIABLE_SHAPE);
@@ -766,7 +766,7 @@ AnEnIO::readParameters(anenPar::Parameters & parameters) const {
 
             if (verbose_ >= 1) {
                 cout << BOLDRED << "Error: Parameter (ID: " << parameter.getID()
-                        << ") is duplicate!" << RESET << endl;
+                    << ") is duplicate!" << RESET << endl;
             }
             return (ELEMENT_NOT_UNIQUE);
         }
@@ -781,12 +781,12 @@ AnEnIO::readParameters(anenPar::Parameters& parameters,
 
     if (verbose_ >= 3) {
         cout << "Reading Parameters from file ("
-                << file_path_ << ") ..." << endl;
+            << file_path_ << ") ..." << endl;
     }
 
     if (mode_ != "Read") {
         if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Read'."
-                << RESET << endl;
+            << RESET << endl;
         return (WRONG_MODE);
     }
 
@@ -796,7 +796,7 @@ AnEnIO::readParameters(anenPar::Parameters& parameters,
     // Check parameters
     if (start + (count - 1) * stride >= dim_len) {
         if (verbose_ >= 1) cout << BOLDRED
-                << "Error: The parameter indices are not valid."
+            << "Error: The parameter indices are not valid."
                 << " The length of parameters is " << dim_len << RESET << endl;
         return (WRONG_INDEX_SHAPE);
     }
@@ -809,7 +809,7 @@ AnEnIO::readParameters(anenPar::Parameters& parameters,
     vector<string> circulars;
     if (checkVariable("ParameterCirculars", true) == AnEnIO::errorType::SUCCESS) {
         handleError(read_string_vector_("ParameterCirculars",
-                circulars, start, count, stride));
+                    circulars, start, count, stride));
     }
 
     // Read variable ParameterWeights
@@ -839,7 +839,7 @@ AnEnIO::readParameters(anenPar::Parameters& parameters,
 
             if (verbose_ >= 1) {
                 cout << BOLDRED << "Error: Parameter (ID: " << parameter.getID()
-                        << ") is duplicate!" << RESET << endl;
+                    << ") is duplicate!" << RESET << endl;
             }
             return (ELEMENT_NOT_UNIQUE);
         }
@@ -859,7 +859,7 @@ AnEnIO::readStations(anenSta::Stations& stations,
 
     if (mode_ != "Read") {
         if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Read'."
-                << RESET << endl;
+            << RESET << endl;
         return (WRONG_MODE);
     }
 
@@ -873,7 +873,7 @@ AnEnIO::readStations(anenSta::Stations& stations,
     if (names.size() != dim_len) {
         if (verbose_ >= 1) {
             cout << BOLDRED << "Error: There should be " << dim_len << " "
-                    << " station names!" << RESET << endl;
+                << " station names!" << RESET << endl;
         }
         return (WRONG_VARIABLE_SHAPE);
     }
@@ -886,14 +886,14 @@ AnEnIO::readStations(anenSta::Stations& stations,
     if (xs.size() != dim_len) {
         if (verbose_ >= 1) {
             cout << BOLDRED << "Error: There should be " << dim_len
-                    << " Xs!" << RESET << endl;
+                << " Xs!" << RESET << endl;
         }
         return (WRONG_VARIABLE_SHAPE);
     }
     if (ys.size() != dim_len) {
         if (verbose_ >= 1) {
             cout << BOLDRED << "Error: There should be " << dim_len
-                    << " Ys!" << RESET << endl;
+                << " Ys!" << RESET << endl;
         }
         return (WRONG_VARIABLE_SHAPE);
     }
@@ -910,7 +910,7 @@ AnEnIO::readStations(anenSta::Stations& stations,
         if (!stations.push_back(station).second) {
             if (verbose_ >= 1) {
                 cout << BOLDRED << "Error: Station (ID: " << station.getID()
-                        << ") is duplicate!" << RESET << endl;
+                    << ") is duplicate!" << RESET << endl;
             }
             return (ELEMENT_NOT_UNIQUE);
         }
@@ -927,12 +927,12 @@ AnEnIO::readStations(anenSta::Stations& stations,
 
     if (verbose_ >= 3) {
         cout << "Reading " << var_name_prefix << "Stations from file ("
-                << file_path_ << ") ..." << endl;
+            << file_path_ << ") ..." << endl;
     }
 
     if (mode_ != "Read") {
         if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Read'."
-                << RESET << endl;
+            << RESET << endl;
         return (WRONG_MODE);
     }
 
@@ -942,7 +942,7 @@ AnEnIO::readStations(anenSta::Stations& stations,
     // Check parameters
     if (start + (count - 1) * stride >= dim_len) {
         if (verbose_ >= 1) cout << BOLDRED
-                << "Error: The station indices are not valid."
+            << "Error: The station indices are not valid."
                 << " The length of stations is " << dim_len << RESET << endl;
         return (WRONG_INDEX_SHAPE);
     }
@@ -968,7 +968,7 @@ AnEnIO::readStations(anenSta::Stations& stations,
         if (!stations.push_back(station).second) {
             if (verbose_ >= 1) {
                 cout << BOLDRED << "Error: Station (ID: " << station.getID()
-                        << ") is duplicate!" << RESET << endl;
+                    << ") is duplicate!" << RESET << endl;
             }
             return (ELEMENT_NOT_UNIQUE);
         }
@@ -982,12 +982,12 @@ AnEnIO::readTimes(anenTime::Times& times, const string & var_name) const {
 
     if (verbose_ >= 3) {
         cout << "Reading " << var_name << " from file (" << file_path_
-                << ")  ..." << endl;
+            << ")  ..." << endl;
     }
 
     if (mode_ != "Read") {
         if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Read'."
-                << RESET << endl;
+            << RESET << endl;
         return (WRONG_MODE);
     }
 
@@ -1000,7 +1000,9 @@ AnEnIO::readTimes(anenTime::Times& times, const string & var_name) const {
     if (times.size() != vec.size()) {
         if (verbose_ >= 1) {
             cout << BOLDRED << "Error: The variable (Times)"
-                    << " has duplicate elements!" << RESET << endl;
+                << " has duplicate elements! Total: "
+                << vec.size() << " Unique: " << times.size()
+                << RESET << endl;
         }
         return (ELEMENT_NOT_UNIQUE);
     }
@@ -1015,12 +1017,12 @@ AnEnIO::readTimes(anenTime::Times& times,
 
     if (verbose_ >= 3) {
         cout << "Reading Times from file ("
-                << file_path_ << ")   ..." << endl;
+            << file_path_ << ")   ..." << endl;
     }
 
     if (mode_ != "Read") {
         if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Read'."
-                << RESET << endl;
+            << RESET << endl;
         return (WRONG_MODE);
     }
 
@@ -1030,7 +1032,7 @@ AnEnIO::readTimes(anenTime::Times& times,
     // Check parameters
     if (start + (count - 1) * stride >= dim_len) {
         if (verbose_ >= 1) cout << BOLDRED
-                << "Error: The time indices are not valid."
+            << "Error: The time indices are not valid."
                 << " The length of times is " << dim_len << RESET << endl;
         return (WRONG_INDEX_SHAPE);
     }
@@ -1044,7 +1046,7 @@ AnEnIO::readTimes(anenTime::Times& times,
     if (times.size() != vec.size()) {
         if (verbose_ >= 1) {
             cout << BOLDRED << "Error: The variable (Times)"
-                    << " has duplicate elements!" << RESET << endl;
+                << " has duplicate elements!" << RESET << endl;
         }
         return (ELEMENT_NOT_UNIQUE);
     }
@@ -1061,7 +1063,7 @@ AnEnIO::readDimLength(string dim_name, size_t & len) const {
 
     if (mode_ != "Read") {
         if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Read'."
-                << RESET << endl;
+            << RESET << endl;
         return (WRONG_MODE);
     }
 
@@ -1081,7 +1083,7 @@ AnEnIO::writeForecasts(const Forecasts & forecasts) const {
 
     if (mode_ != "Write") {
         if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Write'."
-                << RESET << endl;
+            << RESET << endl;
         return (WRONG_MODE);
     }
 
@@ -1108,14 +1110,14 @@ AnEnIO::writeForecasts(const Forecasts & forecasts) const {
     NcVar var_data = nc.getVar("Data");
     if (!var_data.isNull()) {
         if (verbose_ >= 1) cout << BOLDRED << "Error: Variable (Data)"
-                << " exists in file (" << file_path_ << ")." << RESET << endl;
+            << " exists in file (" << file_path_ << ")." << RESET << endl;
         nc.close();
         return (VARIABLE_EXISTS);
     }
 
     // Create data variable
     vector<string> dim_data
-            = {"num_flts", "num_times", "num_stations", "num_parameters"};
+        = {"num_flts", "num_times", "num_stations", "num_parameters"};
     var_data = nc.addVar("Data", "double", dim_data);
     var_data.putVar(forecasts.getValues());
 
@@ -1132,7 +1134,7 @@ AnEnIO::writeObservations(const Observations & observations) const {
 
     if (mode_ != "Write") {
         if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Write'."
-                << RESET << endl;
+            << RESET << endl;
         return (WRONG_MODE);
     }
 
@@ -1158,7 +1160,7 @@ AnEnIO::writeObservations(const Observations & observations) const {
     NcVar var_data = nc.getVar("Data");
     if (!var_data.isNull()) {
         if (verbose_ >= 1) cout << BOLDRED << "Error: Variable (Data)"
-                << " exists in file (" << file_path_ << ")." << RESET << endl;
+            << " exists in file (" << file_path_ << ")." << RESET << endl;
         nc.close();
         return (VARIABLE_EXISTS);
     }
@@ -1179,7 +1181,7 @@ AnEnIO::writeFLTs(const anenTime::FLTs& flts, bool unlimited) const {
 
     if (mode_ != "Write") {
         if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Write'."
-                << RESET << endl;
+            << RESET << endl;
         return (WRONG_MODE);
     }
 
@@ -1191,7 +1193,7 @@ AnEnIO::writeFLTs(const anenTime::FLTs& flts, bool unlimited) const {
         if (dim_flts.getSize() != flts.size() ||
                 dim_flts.isUnlimited() != unlimited) {
             if (verbose_ >= 1) cout << BOLDRED
-                    << "Error: Dimension (num_flts) with different length"
+                << "Error: Dimension (num_flts) with different length"
                     << " exists in file (" << file_path_ << ")."
                     << RESET << endl;
             nc.close();
@@ -1210,7 +1212,7 @@ AnEnIO::writeFLTs(const anenTime::FLTs& flts, bool unlimited) const {
     NcVar var = nc.getVar("FLTs");
     if (!var.isNull()) {
         if (verbose_ >= 1) cout << BOLDRED << "Error: Variable (FLTs)"
-                << " exists in file (" << file_path_ << ")." << RESET << endl;
+            << " exists in file (" << file_path_ << ")." << RESET << endl;
         nc.close();
         return (VARIABLE_EXISTS);
     }
@@ -1223,17 +1225,17 @@ AnEnIO::writeFLTs(const anenTime::FLTs& flts, bool unlimited) const {
         p = new double [flts.size()]();
     } catch (bad_alloc & e) {
         cout << BOLDRED << "Error: Insufficient memory to write FLTs ("
-                << flts.size() << ")." << RESET << endl;
+            << flts.size() << ")." << RESET << endl;
         nc.close();
         return (INSUFFICIENT_MEMORY);
     }
 
     const anenTime::multiIndexTimes::index<anenTime::by_insert>::type&
-            flts_by_insert = flts.get<anenTime::by_insert>();
+        flts_by_insert = flts.get<anenTime::by_insert>();
 
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(static) \
-shared(flts_by_insert, p)
+    shared(flts_by_insert, p)
 #endif
     for (size_t i = 0; i < flts_by_insert.size(); i++) {
         p[i] = flts_by_insert[i];
@@ -1254,12 +1256,12 @@ AnEnIO::writeParameters(const anenPar::Parameters& parameters,
 
     if (mode_ != "Write") {
         if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Write'."
-                << RESET << endl;
+            << RESET << endl;
         return (WRONG_MODE);
     }
 
     const anenPar::multiIndexParameters::index<anenPar::by_insert>::type &
-            parameters_by_insert = parameters.get<anenPar::by_insert>();
+        parameters_by_insert = parameters.get<anenPar::by_insert>();
 
     NcFile nc(file_path_, NcFile::FileMode::write);
 
@@ -1269,7 +1271,7 @@ AnEnIO::writeParameters(const anenPar::Parameters& parameters,
         if (dim_parameters.getSize() != parameters.size() ||
                 dim_parameters.isUnlimited() != unlimited) {
             if (verbose_ >= 1) cout << BOLDRED
-                    << "Error: Dimension (num_parameters) with a different"
+                << "Error: Dimension (num_parameters) with a different"
                     << " length exists in file (" << file_path_ << ")."
                     << RESET << endl;
             nc.close();
@@ -1291,12 +1293,12 @@ AnEnIO::writeParameters(const anenPar::Parameters& parameters,
     // Check if file already has variable
     NcVar var;
     vector<string> var_names_to_check
-            = {"ParameterNames", "ParameterWeights", "ParameterCirculars"};
+        = {"ParameterNames", "ParameterWeights", "ParameterCirculars"};
     for (auto name : var_names_to_check) {
         var = nc.getVar(name);
         if (!var.isNull()) {
             if (verbose_ >= 1) cout << BOLDRED
-                    << "Error: Variable (" << name << ") exists in file ("
+                << "Error: Variable (" << name << ") exists in file ("
                     << file_path_ << ")." << RESET << endl;
             nc.close();
             return (VARIABLE_EXISTS);
@@ -1328,14 +1330,14 @@ AnEnIO::writeParameters(const anenPar::Parameters& parameters,
         p_circulars = new char [_max_chars * parameters.size()]();
     } catch (bad_alloc & e) {
         cout << BOLDRED << "Error: Insufficient memory to write Parameters ("
-                << parameters.size() << ")." << RESET << endl;
+            << parameters.size() << ")." << RESET << endl;
         nc.close();
         return (INSUFFICIENT_MEMORY);
     }
 
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(static) \
-shared(parameters_by_insert, p_circulars, p_names, p_weights, _max_chars)
+    shared(parameters_by_insert, p_circulars, p_names, p_weights, _max_chars)
 #endif
     for (size_t i = 0; i < parameters_by_insert.size(); i++) {
         parameters_by_insert[i].getName().copy(
@@ -1369,7 +1371,7 @@ AnEnIO::writeStations(
 
     if (mode_ != "Write") {
         if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Write'."
-                << RESET << endl;
+            << RESET << endl;
         return (WRONG_MODE);
     }
 
@@ -1381,7 +1383,7 @@ AnEnIO::writeStations(
         if (dim_stations.getSize() != stations.size() ||
                 dim_stations.isUnlimited() != unlimited) {
             if (verbose_ >= 1) cout << BOLDRED
-                    << "Error: Dimension (" << dim_name_prefix
+                << "Error: Dimension (" << dim_name_prefix
                     << "num_stations) exists with a "
                     << "different length in file (" << file_path_ << ")."
                     << RESET << endl;
@@ -1408,7 +1410,7 @@ AnEnIO::writeStations(
         var = nc.getVar(name);
         if (!var.isNull()) {
             if (verbose_ >= 1) cout << BOLDRED
-                    << "Error: Variable (" << name << ") exists in file ("
+                << "Error: Variable (" << name << ") exists in file ("
                     << file_path_ << ")." << RESET << endl;
             nc.close();
             return (VARIABLE_EXISTS);
@@ -1430,17 +1432,17 @@ AnEnIO::writeStations(
         p_ys = new double [stations.size()]();
     } catch (bad_alloc & e) {
         cout << BOLDRED << "Error: Insufficient memory to write Parameters ("
-                << stations.size() << ")." << RESET << endl;
+            << stations.size() << ")." << RESET << endl;
         nc.close();
         return (INSUFFICIENT_MEMORY);
     }
 
     const anenSta::multiIndexStations::index<anenSta::by_insert>::type&
-            stations_by_insert = stations.get<anenSta::by_insert>();
+        stations_by_insert = stations.get<anenSta::by_insert>();
 
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(static) \
-shared(stations_by_insert, p_names, p_xs, p_ys, _max_chars)
+    shared(stations_by_insert, p_names, p_xs, p_ys, _max_chars)
 #endif
     for (size_t i = 0; i < stations_by_insert.size(); i++) {
         stations_by_insert[i].getName().copy(
@@ -1448,7 +1450,7 @@ shared(stations_by_insert, p_names, p_xs, p_ys, _max_chars)
         p_xs[i] = stations_by_insert[i].getX();
         p_ys[i] = stations_by_insert[i].getY();
     }
-    
+
     var_names.putVar(p_names);
     var_xs.putVar(p_xs);
     var_ys.putVar(p_ys);
@@ -1468,7 +1470,7 @@ AnEnIO::writeTimes(const anenTime::Times& times, bool unlimited,
 
     if (mode_ != "Write") {
         if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Write'."
-                << RESET << endl;
+            << RESET << endl;
         return (WRONG_MODE);
     }
 
@@ -1480,7 +1482,7 @@ AnEnIO::writeTimes(const anenTime::Times& times, bool unlimited,
         if (dim_times.getSize() != times.size() ||
                 dim_times.isUnlimited() != unlimited) {
             if (verbose_ >= 1) cout << BOLDRED << "Error: Dimension ("
-                    << dim_name << ") with a different length exists in file ("
+                << dim_name << ") with a different length exists in file ("
                     << file_path_ << ")." << RESET << endl;
             nc.close();
             return (DIMENSION_EXISTS);
@@ -1498,7 +1500,7 @@ AnEnIO::writeTimes(const anenTime::Times& times, bool unlimited,
     NcVar var = nc.getVar(var_name);
     if (!var.isNull()) {
         if (verbose_ >= 1) cout << BOLDRED << "Error: Variable (" << var_name
-                << ") exists in file (" << file_path_ << ")." << RESET << endl;
+            << ") exists in file (" << file_path_ << ")." << RESET << endl;
         nc.close();
         return (VARIABLE_EXISTS);
     }
@@ -1511,17 +1513,17 @@ AnEnIO::writeTimes(const anenTime::Times& times, bool unlimited,
         p = new double [times.size()]();
     } catch (bad_alloc e) {
         cout << BOLDRED << "Error: Insufficient memory to write Times ("
-                << times.size() << ")." << RESET << endl;
+            << times.size() << ")." << RESET << endl;
         nc.close();
         return (INSUFFICIENT_MEMORY);
     }
 
     const anenTime::multiIndexTimes::index<anenTime::by_insert>::type&
-            times_by_insert = times.get<anenTime::by_insert>();
+        times_by_insert = times.get<anenTime::by_insert>();
 
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(static) \
-shared(times_by_insert, p)
+    shared(times_by_insert, p)
 #endif
     for (size_t i = 0; i < times_by_insert.size(); i++) {
         p[i] = times_by_insert[i];
@@ -1541,7 +1543,7 @@ AnEnIO::readSimilarityMatrices(SimilarityMatrices & sims) {
 
     if (mode_ != "Read") {
         if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Read'."
-                << RESET << endl;
+            << RESET << endl;
         return (WRONG_MODE);
     }
 
@@ -1585,7 +1587,7 @@ AnEnIO::writeSimilarityMatrices(
 
     if (mode_ != "Write") {
         if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Write'."
-                << RESET << endl;
+            << RESET << endl;
         return (WRONG_MODE);
     }
 
@@ -1604,8 +1606,8 @@ AnEnIO::writeSimilarityMatrices(
     handleError(writeFLTs(flts, false));
     handleError(writeStations(search_stations, false, SEARCH_DIM_PREFIX_, SEARCH_VAR_PREFIX_));
     handleError(writeTimes(search_times,
-            false, SEARCH_DIM_PREFIX_ + "num_times",
-            SEARCH_VAR_PREFIX_ + "Times"));
+                false, SEARCH_DIM_PREFIX_ + "num_times",
+                SEARCH_VAR_PREFIX_ + "Times"));
 
     return (SUCCESS);
 }
@@ -1616,7 +1618,7 @@ AnEnIO::readAnalogs(Analogs & analogs) {
 
     if (mode_ != "Read") {
         if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Read'."
-                << RESET << endl;
+            << RESET << endl;
         return (WRONG_MODE);
     }
 
@@ -1656,7 +1658,7 @@ AnEnIO::writeAnalogs(
 
     if (mode_ != "Write") {
         if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Write'."
-                << RESET << endl;
+            << RESET << endl;
         return (WRONG_MODE);
     }
 
@@ -1674,7 +1676,7 @@ AnEnIO::writeAnalogs(
     handleError(writeFLTs(flts, false));
     handleError(writeStations(search_stations, false, MEMBER_DIM_PREFIX_, MEMBER_VAR_PREFIX_));
     handleError(writeTimes(search_times, false,
-            MEMBER_DIM_PREFIX_ + "num_times", MEMBER_VAR_PREFIX_ + "Times"));
+                MEMBER_DIM_PREFIX_ + "num_times", MEMBER_VAR_PREFIX_ + "Times"));
 
     return (SUCCESS);
 }
@@ -1685,7 +1687,7 @@ AnEnIO::readStandardDeviation(StandardDeviation & sds) {
 
     if (mode_ != "Read") {
         if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Read'."
-                << RESET << endl;
+            << RESET << endl;
         return (WRONG_MODE);
     }
 
@@ -1717,7 +1719,7 @@ AnEnIO::readStandardDeviation(StandardDeviation & sds,
 
     if (mode_ != "Read") {
         if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Read'."
-                << RESET << endl;
+            << RESET << endl;
         return (WRONG_MODE);
     }
 
@@ -1731,21 +1733,21 @@ AnEnIO::readStandardDeviation(StandardDeviation & sds,
     // Check indices
     if (start.size() != 3) {
         if (verbose_ >= 1) cout << BOLDRED
-                << "Error: Start should have 3 indices for StandardDeviation."
+            << "Error: Start should have 3 indices for StandardDeviation."
                 << RESET << endl;
         return (WRONG_INDEX_SHAPE);
     }
 
     if (count.size() != 3) {
         if (verbose_ >= 1) cout << BOLDRED
-                << "Error: Count should have 3 indices for StandardDeviation."
+            << "Error: Count should have 3 indices for StandardDeviation."
                 << RESET << endl;
         return (WRONG_INDEX_SHAPE);
     }
 
     if (stride.size() != 3) {
         if (verbose_ >= 1) cout << BOLDRED
-                << "Error: Stride should have 3 indices for StandardDeviation."
+            << "Error: Stride should have 3 indices for StandardDeviation."
                 << RESET << endl;
         return (WRONG_INDEX_SHAPE);
     }
@@ -1754,10 +1756,10 @@ AnEnIO::readStandardDeviation(StandardDeviation & sds,
 
     // Read data
     if (verbose_ >= 3) cout << "Reading StandardDeviation values from file ("
-            << file_path_ << ") ..." << endl;
+        << file_path_ << ") ..." << endl;
     vector<double> values;
     handleError(read_vector_("StandardDeviation", values,
-            start, count, stride));
+                start, count, stride));
     sds.assign(values.begin(), values.end());
 
     return (SUCCESS);
@@ -1774,7 +1776,7 @@ AnEnIO::writeStandardDeviation(
 
     if (mode_ != "Write") {
         if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Write'."
-                << RESET << endl;
+            << RESET << endl;
         return (WRONG_MODE);
     }
 
@@ -1910,7 +1912,7 @@ AnEnIO::dumpVariable(string var_name, size_t start, size_t count) const {
 
     if (mode_ != "Read") {
         if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Read'."
-                << RESET << endl;
+            << RESET << endl;
         return;
     }
 
@@ -1980,12 +1982,12 @@ AnEnIO::dumpVariable(string var_name, size_t start, size_t count) const {
             break;
         default:
             if (verbose_ >= 1) cout << BOLDRED << "Error: Variable ("
-                    << var_name << ") type not supported!" << RESET << endl;
+                << var_name << ") type not supported!" << RESET << endl;
             return;
     }
-    
+
     deallocate_memory(p_vals, var_type.getTypeClass(), verbose_);
-    
+
     cout << endl;
 
     if (verbose_ >= 3)
@@ -2260,10 +2262,10 @@ AnEnIO::combineForecastsArray(const vector<string> & in_files,
         const auto & data_single = forecasts_single.data();
 
         if (verbose >= 4) cout << "Reformat file " << file << " ..." << endl;
-        
+
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(static) collapse(4) \
-shared(data, same_dimensions, along, append_count, data_single)
+        shared(data, same_dimensions, along, append_count, data_single)
 #endif
         for (size_t i = 0; i < data.shape()[same_dimensions[2]]; i++) {
             for (size_t j = 0; j < data.shape()[same_dimensions[1]]; j++) {
@@ -2277,7 +2279,7 @@ shared(data, same_dimensions, along, append_count, data_single)
                 }
             }
         }
-        
+
         append_count += data_single.shape()[along];
     }
 
@@ -2335,11 +2337,11 @@ AnEnIO::combineObservationsArray(const vector<string> & in_files,
         if (verbose >= 4) cout << "Read file " << file << " ..." << endl;
         io_thread.readObservations(observations_single);
         const auto & data_single = observations_single.data();
-        
+
         if (verbose >= 4) cout << "Reformat file " << file << " ..." << endl;
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(static) collapse(3) \
-shared(data, same_dimensions, along, append_count, data_single)
+        shared(data, same_dimensions, along, append_count, data_single)
 #endif
         for (size_t j = 0; j < data.shape()[same_dimensions[1]]; j++) {
             for (size_t m = 0; m < data.shape()[same_dimensions[0]]; m++) {
@@ -2406,7 +2408,7 @@ AnEnIO::combineStandardDeviation(const vector<string> & in_files,
         if (verbose >= 4) cout << "Reformat file " << file << " ..." << endl;
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(static) collapse(3) \
-shared(sds, same_dimensions, along, append_count, sds_single)
+        shared(sds, same_dimensions, along, append_count, sds_single)
 #endif
 
         for (size_t j = 0; j < sds.shape()[same_dimensions[1]]; j++) {
@@ -2454,7 +2456,7 @@ AnEnIO::combineSimilarityMatrices(
 
     if (along == 4) {
         if (verbose >= 1) cout << BOLDRED << "Error: Can not append along the dimension."
-                << RESET << endl;
+            << RESET << endl;
         return (ERROR_SETTING_VALUES);
     } else if (along == 3) {
         num_entries = 0;
@@ -2462,11 +2464,11 @@ AnEnIO::combineSimilarityMatrices(
         for_each(in_files.begin(), in_files.end(),
                 [&num_entries, &num_entries_single]
                 (const string & file) {
-                    AnEnIO io_each("Read", file, "Similarity", 2);
-                    io_each.readDimLength("num_entries", num_entries_single);
-                    num_entries += num_entries_single;
+                AnEnIO io_each("Read", file, "Similarity", 2);
+                io_each.readDimLength("num_entries", num_entries_single);
+                num_entries += num_entries_single;
                 }
-        );
+                );
     } else if (along == 2)
         io.handleError(io.combineFLTs(in_files, "Similarity", flts, verbose));
     else if (along == 1)
@@ -2492,7 +2494,7 @@ AnEnIO::combineSimilarityMatrices(
     if (verbose >= 3) cout << "Copy similarity values into the new format ..." << endl;
 
     size_t append_count = 0;
-    
+
     auto & search_stations_by_name = search_stations.get<anenSta::by_name>();
     auto & search_stations_by_insert = search_stations.get<anenSta::by_insert>();
 
@@ -2514,21 +2516,21 @@ AnEnIO::combineSimilarityMatrices(
         for_each(search_stations_single.begin(), search_stations_single.end(),
                 [&search_stations_by_name, &search_stations_by_insert]
                 (const anenSta::Station & rhs) {
-                    // Add this station if it has a unique name in the group
-                    if (search_stations_by_name.find(rhs.getName()) == search_stations_by_name.end())
-                        search_stations_by_insert.push_back(rhs);
+                // Add this station if it has a unique name in the group
+                if (search_stations_by_name.find(rhs.getName()) == search_stations_by_name.end())
+                search_stations_by_insert.push_back(rhs);
                 }
-        );
-        
+                );
+
         search_times.insert(search_times.end(),
                 search_times_single.begin(), search_times_single.end());
 
         if (verbose >= 4) cout << "Reformat file " << file << " ..." << endl;
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(static) collapse(4) \
-shared(sims, same_dimensions, sims_single, along, search_stations_single_by_insert, \
-search_stations, search_times_single_by_insert, search_stations_by_name, append_count, \
-search_times)
+        shared(sims, same_dimensions, sims_single, along, search_stations_single_by_insert, \
+                search_stations, search_times_single_by_insert, search_stations_by_name, append_count, \
+                search_times)
 #endif
         for (size_t k = 0; k < sims.shape()[same_dimensions[2]]; k++) {
             for (size_t j = 0; j < sims.shape()[same_dimensions[1]]; j++) {
@@ -2537,39 +2539,39 @@ search_times)
 
                         if (along == 0) {
                             string station_name = search_stations_single_by_insert[sims_single[l][m][j][k][SimilarityMatrices::COL_TAG::STATION]].getName();
-                            
+
                             sims[append_count + l][m][j][k][SimilarityMatrices::COL_TAG::VALUE] = sims_single[l][m][j][k][SimilarityMatrices::COL_TAG::VALUE];
                             sims[append_count + l][m][j][k][SimilarityMatrices::COL_TAG::STATION] =
-                                    search_stations.getStationIndex(search_stations_by_name.find(station_name)->getID());
+                                search_stations.getStationIndex(search_stations_by_name.find(station_name)->getID());
                             sims[append_count + l][m][j][k][SimilarityMatrices::COL_TAG::TIME] =
-                                    search_times.getTimeIndex(search_times_single_by_insert[sims_single[l][m][j][k][SimilarityMatrices::COL_TAG::TIME]]);
+                                search_times.getTimeIndex(search_times_single_by_insert[sims_single[l][m][j][k][SimilarityMatrices::COL_TAG::TIME]]);
 
                         } else if (along == 1) {
                             string station_name = search_stations_single_by_insert[sims_single[m][l][j][k][SimilarityMatrices::COL_TAG::STATION]].getName();
-                            
+
                             sims[m][append_count + l][j][k][SimilarityMatrices::COL_TAG::VALUE] = sims_single[m][l][j][k][SimilarityMatrices::COL_TAG::VALUE];
                             sims[m][append_count + l][j][k][SimilarityMatrices::COL_TAG::STATION] =
-                                    search_stations.getStationIndex(search_stations_by_name.find(station_name)->getID());
+                                search_stations.getStationIndex(search_stations_by_name.find(station_name)->getID());
                             sims[m][append_count + l][j][k][SimilarityMatrices::COL_TAG::TIME] =
-                                    search_times.getTimeIndex(search_times_single_by_insert[sims_single[m][l][j][k][SimilarityMatrices::COL_TAG::TIME]]);
+                                search_times.getTimeIndex(search_times_single_by_insert[sims_single[m][l][j][k][SimilarityMatrices::COL_TAG::TIME]]);
 
                         } else if (along == 2) {
                             string station_name = search_stations_single_by_insert[sims_single[m][j][l][k][SimilarityMatrices::COL_TAG::STATION]].getName();
-                            
+
                             sims[m][j][append_count + l][k][SimilarityMatrices::COL_TAG::VALUE] = sims_single[m][j][l][k][SimilarityMatrices::COL_TAG::VALUE];
                             sims[m][j][append_count + l][k][SimilarityMatrices::COL_TAG::STATION] =
-                                    search_stations.getStationIndex(search_stations_by_name.find(station_name)->getID());
+                                search_stations.getStationIndex(search_stations_by_name.find(station_name)->getID());
                             sims[m][j][append_count + l][k][SimilarityMatrices::COL_TAG::TIME] =
-                                    search_times.getTimeIndex(search_times_single_by_insert[sims_single[m][j][l][k][SimilarityMatrices::COL_TAG::TIME]]);
+                                search_times.getTimeIndex(search_times_single_by_insert[sims_single[m][j][l][k][SimilarityMatrices::COL_TAG::TIME]]);
 
                         } else if (along == 3) {
                             string station_name = search_stations_single_by_insert[sims_single[m][j][k][l][SimilarityMatrices::COL_TAG::STATION]].getName();
-                            
+
                             sims[m][j][k][append_count + l][SimilarityMatrices::COL_TAG::VALUE] = sims_single[m][j][k][l][SimilarityMatrices::COL_TAG::VALUE];
                             sims[m][j][k][append_count + l][SimilarityMatrices::COL_TAG::STATION] =
-                                    search_stations.getStationIndex(search_stations_by_name.find(station_name)->getID());
+                                search_stations.getStationIndex(search_stations_by_name.find(station_name)->getID());
                             sims[m][j][k][append_count + l][SimilarityMatrices::COL_TAG::TIME] =
-                                    search_times.getTimeIndex(search_times_single_by_insert[sims_single[m][j][k][l][SimilarityMatrices::COL_TAG::TIME]]);
+                                search_times.getTimeIndex(search_times_single_by_insert[sims_single[m][j][k][l][SimilarityMatrices::COL_TAG::TIME]]);
                         }
                     }
                 }
@@ -2610,7 +2612,7 @@ AnEnIO::combineAnalogs(const vector<string> & in_files,
 
     if (along == 4) {
         if (verbose >= 1) cout << BOLDRED << "Error: Can not append along the dimension."
-                << RESET << endl;
+            << RESET << endl;
         return (ERROR_SETTING_VALUES);
     } else if (along == 3) {
         num_members = 0;
@@ -2618,11 +2620,11 @@ AnEnIO::combineAnalogs(const vector<string> & in_files,
         for_each(in_files.begin(), in_files.end(),
                 [&num_members, &num_members_single]
                 (const string & file) {
-                    AnEnIO io_each("Read", file, "Analogs", 2);
-                    io_each.readDimLength("num_members", num_members_single);
-                    num_members += num_members_single;
+                AnEnIO io_each("Read", file, "Analogs", 2);
+                io_each.readDimLength("num_members", num_members_single);
+                num_members += num_members_single;
                 }
-        );
+                );
     } else if (along == 2)
         io.handleError(io.combineFLTs(in_files, "Analogs", flts, verbose));
     else if (along == 1)
@@ -2647,10 +2649,10 @@ AnEnIO::combineAnalogs(const vector<string> & in_files,
     if (verbose >= 3) cout << "Copy analogs values into the new format ..." << endl;
 
     size_t append_count = 0;
-    
+
     auto & member_stations_by_name = member_stations.get<anenSta::by_name>();
     auto & member_stations_by_insert = member_stations.get<anenSta::by_insert>();
-    
+
     for (const auto & file : in_files) {
         AnEnIO io_thread("Read", file, "Analogs", 2);
         Analogs analogs_single;
@@ -2669,23 +2671,23 @@ AnEnIO::combineAnalogs(const vector<string> & in_files,
         for_each(member_stations_single.begin(), member_stations_single.end(),
                 [&member_stations_by_name, &member_stations_by_insert]
                 (const anenSta::Station & rhs) {
-                    // Add this station if it has a unique name in the group
-                    if (member_stations_by_name.find(rhs.getName()) == member_stations_by_name.end())
-                        member_stations_by_insert.push_back(rhs);
+                // Add this station if it has a unique name in the group
+                if (member_stations_by_name.find(rhs.getName()) == member_stations_by_name.end())
+                member_stations_by_insert.push_back(rhs);
                 }
-        );
-        
+                );
+
         member_times.insert(member_times.end(),
                 member_times_single.begin(), member_times_single.end());
 
         if (verbose >= 4) cout << "Reformat file " << file << " ..." << endl;
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(static) collapse(4) \
-shared(analogs, same_dimensions, analogs_single, along, member_stations_single_by_insert, \
-member_stations, member_times, member_times_single_by_insert, member_stations_by_name, \
-append_count)
+        shared(analogs, same_dimensions, analogs_single, along, member_stations_single_by_insert, \
+                member_stations, member_times, member_times_single_by_insert, member_stations_by_name, \
+                append_count)
 #endif
-        
+
         for (size_t k = 0; k < analogs.shape()[same_dimensions[2]]; k++) {
             for (size_t j = 0; j < analogs.shape()[same_dimensions[1]]; j++) {
                 for (size_t m = 0; m < analogs.shape()[same_dimensions[0]]; m++) {
@@ -2693,39 +2695,39 @@ append_count)
 
                         if (along == 0) {
                             string station_name = member_stations_single_by_insert[analogs_single[l][m][j][k][Analogs::COL_TAG::STATION]].getName();
-                            
+
                             analogs[append_count + l][m][j][k][Analogs::COL_TAG::VALUE] = analogs_single[l][m][j][k][Analogs::COL_TAG::VALUE];
                             analogs[append_count + l][m][j][k][Analogs::COL_TAG::STATION] =
-                                    member_stations.getStationIndex(member_stations_by_name.find(station_name)->getID());
+                                member_stations.getStationIndex(member_stations_by_name.find(station_name)->getID());
                             analogs[append_count + l][m][j][k][Analogs::COL_TAG::TIME] =
-                                    member_times.getTimeIndex(member_times_single_by_insert[analogs_single[l][m][j][k][Analogs::COL_TAG::TIME]]);
+                                member_times.getTimeIndex(member_times_single_by_insert[analogs_single[l][m][j][k][Analogs::COL_TAG::TIME]]);
 
                         } else if (along == 1) {
                             string station_name = member_stations_single_by_insert[analogs_single[m][l][j][k][Analogs::COL_TAG::STATION]].getName();
-                            
+
                             analogs[m][append_count + l][j][k][Analogs::COL_TAG::VALUE] = analogs_single[m][l][j][k][Analogs::COL_TAG::VALUE];
                             analogs[m][append_count + l][j][k][Analogs::COL_TAG::STATION] =
-                                    member_stations.getStationIndex(member_stations_by_name.find(station_name)->getID());
+                                member_stations.getStationIndex(member_stations_by_name.find(station_name)->getID());
                             analogs[m][append_count + l][j][k][Analogs::COL_TAG::TIME] =
-                                    member_times.getTimeIndex(member_times_single_by_insert[analogs_single[m][l][j][k][Analogs::COL_TAG::TIME]]);
+                                member_times.getTimeIndex(member_times_single_by_insert[analogs_single[m][l][j][k][Analogs::COL_TAG::TIME]]);
 
                         } else if (along == 2) {
                             string station_name = member_stations_single_by_insert[analogs_single[m][j][l][k][Analogs::COL_TAG::STATION]].getName();
-                            
+
                             analogs[m][j][append_count + l][k][Analogs::COL_TAG::VALUE] = analogs_single[m][j][l][k][Analogs::COL_TAG::VALUE];
                             analogs[m][j][append_count + l][k][Analogs::COL_TAG::STATION] =
-                                    member_stations.getStationIndex(member_stations_by_name.find(station_name)->getID());
+                                member_stations.getStationIndex(member_stations_by_name.find(station_name)->getID());
                             analogs[m][j][append_count + l][k][Analogs::COL_TAG::TIME] =
-                                    member_times.getTimeIndex(member_times_single_by_insert[analogs_single[m][j][l][k][Analogs::COL_TAG::TIME]]);
+                                member_times.getTimeIndex(member_times_single_by_insert[analogs_single[m][j][l][k][Analogs::COL_TAG::TIME]]);
 
                         } else if (along == 3) {
                             string station_name = member_stations_single_by_insert[analogs_single[m][j][k][l][Analogs::COL_TAG::STATION]].getName();
-                            
+
                             analogs[m][j][k][append_count + l][Analogs::COL_TAG::VALUE] = analogs_single[m][j][k][l][Analogs::COL_TAG::VALUE];
                             analogs[m][j][k][append_count + l][Analogs::COL_TAG::STATION] =
-                                    member_stations.getStationIndex(member_stations_by_name.find(station_name)->getID());
+                                member_stations.getStationIndex(member_stations_by_name.find(station_name)->getID());
                             analogs[m][j][k][append_count + l][Analogs::COL_TAG::TIME] =
-                                    member_times.getTimeIndex(member_times_single_by_insert[analogs_single[m][j][k][l][Analogs::COL_TAG::TIME]]);
+                                member_times.getTimeIndex(member_times_single_by_insert[analogs_single[m][j][k][l][Analogs::COL_TAG::TIME]]);
 
                         }
                     }
@@ -2744,7 +2746,7 @@ AnEnIO::read_string_vector_(string var_name, vector<string> & results) const {
 
     if (mode_ != "Read") {
         if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Read'."
-                << RESET << endl;
+            << RESET << endl;
         return (WRONG_MODE);
     }
 
@@ -2766,7 +2768,7 @@ AnEnIO::read_string_vector_(string var_name, vector<string> & results) const {
             } catch (bad_alloc & e) {
                 nc.close();
                 if (verbose_ >= 1) cout << BOLDRED <<
-                        "Error: Insufficient memory reading variable ("
+                    "Error: Insufficient memory reading variable ("
                         << var_name << ")!" << RESET << endl;
                 return (INSUFFICIENT_MEMORY);
             }
@@ -2787,8 +2789,8 @@ AnEnIO::read_string_vector_(string var_name, vector<string> & results) const {
             } else {
                 if (verbose_ >= 1) {
                     cout << BOLDRED << "Error: The dimension (num_chars)"
-                            << " is expected in variable (" << var_name
-                            << ")!" << RESET << endl;
+                        << " is expected in variable (" << var_name
+                        << ")!" << RESET << endl;
                 }
                 return (WRONG_VARIABLE_SHAPE);
             }
@@ -2808,7 +2810,7 @@ AnEnIO::read_string_vector_(string var_name, vector<string> & results) const {
 
             if (verbose_ >= 1) {
                 cout << BOLDRED << "Error: Variable (" << var_name <<
-                        ") is not nc_CHAR type!" << RESET << endl;
+                    ") is not nc_CHAR type!" << RESET << endl;
             }
             return (WRONG_VARIABLE_SHAPE);
         }
@@ -2816,7 +2818,7 @@ AnEnIO::read_string_vector_(string var_name, vector<string> & results) const {
 
         if (verbose_ >= 1) {
             cout << BOLDRED << "Error: Variable (" << var_name <<
-                    ") should only have 2 dimensions!" << RESET << endl;
+                ") should only have 2 dimensions!" << RESET << endl;
         }
         return (WRONG_VARIABLE_SHAPE);
     }
@@ -2828,7 +2830,7 @@ AnEnIO::read_string_vector_(string var_name, vector<string>& results,
 
     if (mode_ != "Read") {
         if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Read'."
-                << RESET << endl;
+            << RESET << endl;
         return (WRONG_MODE);
     }
 
@@ -2848,7 +2850,7 @@ AnEnIO::read_string_vector_(string var_name, vector<string>& results,
             } catch (bad_alloc & e) {
                 nc.close();
                 if (verbose_ >= 1) cout << BOLDRED <<
-                        "Error: Insufficient memory reading variable ("
+                    "Error: Insufficient memory reading variable ("
                         << var_name << ")!" << RESET << endl;
                 return (INSUFFICIENT_MEMORY);
             }
@@ -2873,7 +2875,7 @@ AnEnIO::read_string_vector_(string var_name, vector<string>& results,
 
             if (verbose_ >= 1) {
                 cout << BOLDRED << "Error: Variable (" << var_name <<
-                        ") is not nc_CHAR type!" << RESET << endl;
+                    ") is not nc_CHAR type!" << RESET << endl;
             }
             return (WRONG_VARIABLE_SHAPE);
         }
@@ -2881,7 +2883,7 @@ AnEnIO::read_string_vector_(string var_name, vector<string>& results,
 
         if (verbose_ >= 1) {
             cout << BOLDRED << "Error: Variable (" << var_name <<
-                    ") should only have 2 dimensions!" << RESET << endl;
+                ") should only have 2 dimensions!" << RESET << endl;
         }
         return (WRONG_VARIABLE_SHAPE);
     }
@@ -2890,9 +2892,9 @@ AnEnIO::read_string_vector_(string var_name, vector<string>& results,
 void AnEnIO::purge_(string & str) const {
 
     str.erase(remove_if(str.begin(), str.end(), [](const unsigned char & c) {
-        bool remove = !(isalpha(c) || isdigit(c) || ispunct(c) || isspace(c));
-        return (remove);
-    }), str.end());
+                bool remove = !(isalpha(c) || isdigit(c) || ispunct(c) || isspace(c));
+                return (remove);
+                }), str.end());
 
 }
 
@@ -2905,10 +2907,10 @@ errorType
 AnEnIO::writeSimilarityMatricesOnly_(const SimilarityMatrices& sims) const {
 
     size_t num_test_stations = sims.shape()[0],
-            num_test_times = sims.shape()[1],
-            num_flts = sims.shape()[2],
-            num_entries = sims.shape()[3],
-            num_cols = sims.shape()[4];
+    num_test_times = sims.shape()[1],
+    num_flts = sims.shape()[2],
+    num_entries = sims.shape()[3],
+    num_cols = sims.shape()[4];
 
     NcFile nc(file_path_, NcFile::FileMode::write);
 
@@ -2921,8 +2923,8 @@ AnEnIO::writeSimilarityMatricesOnly_(const SimilarityMatrices& sims) const {
 
     // Create similarity matrices variable
     NcVar var_sims = nc.addVar("SimilarityMatrices", NC_DOUBLE,{
-        dim_stations, dim_times, dim_flts, dim_entries, dim_cols
-    });
+            dim_stations, dim_times, dim_flts, dim_entries, dim_cols
+            });
 
     var_sims.putVar(sims.data());
     nc.close();
@@ -2934,10 +2936,10 @@ errorType
 AnEnIO::writeAnalogsOnly_(const Analogs& analogs) const {
 
     size_t num_test_stations = analogs.shape()[0],
-            num_test_times = analogs.shape()[1],
-            num_flts = analogs.shape()[2],
-            num_members = analogs.shape()[3],
-            num_cols = analogs.shape()[4];
+    num_test_times = analogs.shape()[1],
+    num_flts = analogs.shape()[2],
+    num_members = analogs.shape()[3],
+    num_cols = analogs.shape()[4];
 
     NcFile nc(file_path_, NcFile::FileMode::write);
 
@@ -2949,8 +2951,8 @@ AnEnIO::writeAnalogsOnly_(const Analogs& analogs) const {
 
     // Create Analogs variable
     NcVar var_analogs = nc.addVar("Analogs", NC_DOUBLE,{
-        dim_cols, dim_members, dim_flts, dim_times, dim_stations
-    });
+            dim_cols, dim_members, dim_flts, dim_times, dim_stations
+            });
 
     var_analogs.putVar(analogs.data());
     nc.close();
@@ -2962,16 +2964,16 @@ errorType
 AnEnIO::writeStandardDeviationOnly_(const StandardDeviation& sds) const {
 
     size_t num_parameters = sds.shape()[0],
-            num_stations = sds.shape()[1],
-            num_flts = sds.shape()[2];
+    num_stations = sds.shape()[1],
+    num_flts = sds.shape()[2];
 
     NcFile nc(file_path_, NcFile::FileMode::write);
     NcDim dim_parameters = nc.addDim("num_parameters", num_parameters),
-            dim_stations = nc.addDim("num_stations", num_stations),
-            dim_flts = nc.addDim("num_flts", num_flts);
+          dim_stations = nc.addDim("num_stations", num_stations),
+          dim_flts = nc.addDim("num_flts", num_flts);
     NcVar var_sds = nc.addVar("StandardDeviation", NC_DOUBLE,{
-        dim_flts, dim_stations, dim_parameters
-    });
+            dim_flts, dim_stations, dim_parameters
+            });
 
     var_sds.putVar(sds.data());
     nc.close();
@@ -2991,7 +2993,7 @@ AnEnIO::readForecastsArrayData_(Forecasts_array & forecasts) const {
 
         if (var.isNull()) {
             if (verbose_ >= 1) cout << BOLDRED << "Error: Could not"
-                    << " find variable " << var_name << "!" << RESET << endl;
+                << " find variable " << var_name << "!" << RESET << endl;
             return (WRONG_INDEX_SHAPE);
         }
 
@@ -3030,7 +3032,7 @@ AnEnIO::readForecastsArrayData_(Forecasts_array & forecasts,
 
         if (var.isNull()) {
             if (verbose_ >= 1) cout << BOLDRED << "Error: Could not"
-                    << " find variable " << var_name << "!" << RESET << endl;
+                << " find variable " << var_name << "!" << RESET << endl;
             return (WRONG_INDEX_SHAPE);
         }
 
@@ -3061,7 +3063,7 @@ AnEnIO::readObservationsArrayData_(Observations_array & observations) const {
 
         if (var.isNull()) {
             if (verbose_ >= 1) cout << BOLDRED << "Error: Could not"
-                    << " find variable " << var_name << "!" << RESET << endl;
+                << " find variable " << var_name << "!" << RESET << endl;
             return (WRONG_INDEX_SHAPE);
         }
 
@@ -3098,7 +3100,7 @@ AnEnIO::readObservationsArrayData_(Observations_array & observations,
 
         if (var.isNull()) {
             if (verbose_ >= 1) cout << BOLDRED << "Error: Could not"
-                    << " find variable " << var_name << "!" << RESET << endl;
+                << " find variable " << var_name << "!" << RESET << endl;
             return (WRONG_INDEX_SHAPE);
         }
 
