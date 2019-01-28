@@ -873,6 +873,40 @@ protected:
             std::vector<size_t> start,
             std::vector<size_t> count,
             std::vector<ptrdiff_t> stride = {1, 1, 1}) const;
+    
+    /**
+     * Creates parameters and insert individual parameter into the container.
+     * This is an optimized implementation of the common insert function provided
+     * by the container. It will parallelize the function if OpenMP is supported
+     * and there are enough values to be written.
+     * 
+     * @param parameters anenPar::Parameters container.
+     * @param dim_len The number of parameters to be written.
+     * @param names The names of parameters.
+     * @param circulars The names of circular parameters.
+     * @param weights The weights of parameters.
+     * @return An AnEnIO::errorType;
+     */
+    errorType insertParameters_(anenPar::Parameters & parameters, size_t dim_len,
+        const std::vector<std::string> & names, std::vector<std::string> & circulars, 
+        const std::vector<double> & weights) const;
+    
+    /**
+     * Creates stations and insert individual station into the container.
+     * This is an optimized implementation of the common insert function provided
+     * by the container. It will parallelize the function if OpenMP is supported
+     * and there are enough values to be written.
+     * 
+     * @param stations anenSta::Stations container.
+     * @param dim_len The number of stations to be written.
+     * @param names, The names of stations.
+     * @param xs the x coordinates of stations.
+     * @param ys the y coordinates of stations.
+     * @return An AnEnIO::errorType.
+     */
+    errorType insertStations_(anenSta::Stations & stations, size_t dim_len,
+            const std::vector<std::string> & names, const std::vector<double> & xs,
+            const std::vector<double> & ys) const;
 
     /**
      * Reads variables as a atomic vector.

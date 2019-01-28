@@ -139,19 +139,16 @@ namespace anenSta {
     void
     Station::setName(string name) {
         this->name_ = name;
-        setID_();
     }
 
     void
     Station::setX(double x) {
         this->x_ = x;
-        setID_();
     }
 
     void
     Station::setY(double y) {
         this->y_ = y;
-        setID_();
     }
 
     void

@@ -745,32 +745,7 @@ AnEnIO::readParameters(anenPar::Parameters & parameters) const {
         handleError(read_vector_("ParameterWeights", weights));
     }
 
-    // Construct anenPar::Parameter objects and
-    // insert them into anenPar::Parameters
-    //
-    for (size_t i = 0; i < dim_len; i++) {
-
-        anenPar::Parameter parameter;
-
-        string name = names.at(i);
-        parameter.setName(name);
-
-        // Set circular if name is present
-        auto it_circular = find(circulars.begin(), circulars.end(), name);
-        if (it_circular != circulars.end()) parameter.setCircular(true);
-
-        if (!(weights.empty()))
-            parameter.setWeight(weights.at(i));
-
-        if (!parameters.push_back(parameter).second) {
-
-            if (verbose_ >= 1) {
-                cout << BOLDRED << "Error: Parameter (ID: " << parameter.getID()
-                    << ") is duplicate!" << RESET << endl;
-            }
-            return (ELEMENT_NOT_UNIQUE);
-        }
-    }
+    handleError(insertParameters_(parameters, dim_len, names, circulars, weights));
 
     return (SUCCESS);
 }
@@ -818,32 +793,7 @@ AnEnIO::readParameters(anenPar::Parameters& parameters,
         handleError(read_vector_("ParameterWeights", weights, start, count, stride));
     }
 
-    // Construct anenPar::Parameter objects and
-    // insert them into anenPar::Parameters
-    //
-    for (size_t i = 0; i < count; i++) {
-
-        anenPar::Parameter parameter;
-
-        string name = names.at(i);
-        parameter.setName(name);
-
-        // Set circular if name is present
-        auto it_circular = find(circulars.begin(), circulars.end(), name);
-        if (it_circular != circulars.end()) parameter.setCircular(true);
-
-        if (!(weights.empty()))
-            parameter.setWeight(weights.at(i));
-
-        if (!parameters.push_back(parameter).second) {
-
-            if (verbose_ >= 1) {
-                cout << BOLDRED << "Error: Parameter (ID: " << parameter.getID()
-                    << ") is duplicate!" << RESET << endl;
-            }
-            return (ELEMENT_NOT_UNIQUE);
-        }
-    }
+    handleError(insertParameters_(parameters, count, names, circulars, weights));
 
     return (SUCCESS);
 }
@@ -898,23 +848,7 @@ AnEnIO::readStations(anenSta::Stations& stations,
         return (WRONG_VARIABLE_SHAPE);
     }
 
-    // Construct Station object and insert them into anenSta::Stations
-    for (size_t i = 0; i < dim_len; i++) {
-        anenSta::Station station;
-
-        station.setName(names.at(i));
-
-        station.setX(xs.at(i));
-        station.setY(ys.at(i));
-
-        if (!stations.push_back(station).second) {
-            if (verbose_ >= 1) {
-                cout << BOLDRED << "Error: Station (ID: " << station.getID()
-                    << ") is duplicate!" << RESET << endl;
-            }
-            return (ELEMENT_NOT_UNIQUE);
-        }
-    }
+    handleError(insertStations_(stations, dim_len, names, xs, ys));
 
     return (SUCCESS);
 }
@@ -957,22 +891,7 @@ AnEnIO::readStations(anenSta::Stations& stations,
     handleError(read_vector_(var_name_prefix + "Xs", xs, start, count, stride));
     handleError(read_vector_(var_name_prefix + "Ys", ys, start, count, stride));
 
-    // Construct Station object and insert them into anenSta::Stations
-    for (size_t i = 0; i < count; i++) {
-        anenSta::Station station;
-
-        station.setName(names.at(i));
-        station.setX(xs.at(i));
-        station.setY(ys.at(i));
-
-        if (!stations.push_back(station).second) {
-            if (verbose_ >= 1) {
-                cout << BOLDRED << "Error: Station (ID: " << station.getID()
-                    << ") is duplicate!" << RESET << endl;
-            }
-            return (ELEMENT_NOT_UNIQUE);
-        }
-    }
+    handleError(insertStations_(stations, count, names, xs, ys));
 
     return (SUCCESS);
 }
@@ -3140,5 +3059,107 @@ AnEnIO::readObservationsArrayData_(Observations_array & observations,
         throw;
     }
 
+    return (SUCCESS);
+}
+
+errorType
+AnEnIO::insertParameters_(anenPar::Parameters & parameters, size_t dim_len,
+        const vector<string> & names, vector<string> & circulars, 
+        const vector<double> & weights) const {
+    
+    // Construct anenPar::Parameter objects and
+    // prepare them for insertion into anenPar::Parameters
+    //
+    vector<anenPar::Parameter> vec_parameters(dim_len);
+
+#if defined(_OPENMP)
+    int num_cores = 1;
+    if (dim_len <= _SERIAL_LENGTH_LIMIT)
+        num_cores = 1;
+    else {
+        char *num_procs_str = getenv("OMP_NUM_THREADS");
+        if (num_procs_str) sscanf(num_procs_str, "%d", &num_cores);
+        else num_cores = omp_get_num_procs();
+    }
+    
+#pragma omp parallel for default(none) schedule(static) \
+    shared(dim_len, vec_parameters, names, circulars, weights) \
+    num_threads(num_cores)
+#endif
+    for (size_t i = 0; i < dim_len; i++) {
+
+        auto & parameter = vec_parameters[i];
+
+        string name = names.at(i);
+        parameter.setName(name);
+
+        // Set circular if name is present
+        auto it_circular = find(circulars.begin(), circulars.end(), name);
+        if (it_circular != circulars.end()) parameter.setCircular(true);
+
+        if (!(weights.empty()))
+            parameter.setWeight(weights.at(i));
+
+    }
+
+    // Insert
+    parameters.insert(parameters.end(), vec_parameters.begin(), vec_parameters.end());
+
+    if (parameters.size() != vec_parameters.size()) {
+
+        if (verbose_ >= 1) {
+            cout << BOLDRED << "Error: Parameters have duplicate! Total: "
+                    << vec_parameters.size() << " Unique: " << parameters.size()
+                    << RESET << endl;
+        }
+        return (ELEMENT_NOT_UNIQUE);
+    }
+    
+    return (SUCCESS);
+}
+
+errorType
+AnEnIO::insertStations_(anenSta::Stations & stations, size_t dim_len,
+        const vector<string> & names, const vector<double> & xs,
+        const vector<double> & ys) const {
+    
+    // Construct Station object
+    vector<anenSta::Station> vec_stations(dim_len);
+
+#if defined(_OPENMP)
+    int num_cores = 1;
+    if (dim_len <= _SERIAL_LENGTH_LIMIT)
+        num_cores = 1;
+    else {
+        char *num_procs_str = getenv("OMP_NUM_THREADS");
+        if (num_procs_str) sscanf(num_procs_str, "%d", &num_cores);
+        else num_cores = omp_get_num_procs();
+    }
+
+#pragma omp parallel for default(none) schedule(static) \
+    shared(dim_len, vec_stations, xs, ys, names) \
+    num_threads(num_cores)
+#endif
+    for (size_t i = 0; i < dim_len; i++) {
+        auto & station = vec_stations[i];
+
+        station.setName(names.at(i));
+
+        station.setX(xs.at(i));
+        station.setY(ys.at(i));
+    }
+    
+    // Insert
+    stations.insert(stations.end(), vec_stations.begin(), vec_stations.end());
+    
+    if (stations.size() != vec_stations.size()) {
+        if (verbose_ >= 1) {
+            cout << BOLDRED << "Error: Stations have duplicates! Total: "
+                    << vec_stations.size() << " Unique: " << stations.size()
+                    << RESET << endl;
+        }
+        return (ELEMENT_NOT_UNIQUE);
+    }
+    
     return (SUCCESS);
 }
