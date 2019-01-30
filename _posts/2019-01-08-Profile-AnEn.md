@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Tutorial on AnEn Profiling
+title: Tutorial on AnEn Profiling with gprof and TAU
 tags:
   - tutorial
 ---
@@ -18,6 +18,7 @@ tags:
     * [Build Programs with TAU](#build-programs-with-tau)
     * [Profiling AnEn](#profiling-anen-1)
     * [Visualization](#visualization-1)
+* [Sequel on TAU Installation](#sequel-on-tau-installation)
 
 <!-- vim-markdown-toc -->
 
@@ -207,3 +208,47 @@ paraprof
 ```
 
 The 3D visulizer might not be working properly on the ICS ACI cluster. You can [install TAU locally](http://www.paratools.com/tau). The TAU user manual is [here](https://www.cs.uoregon.edu/research/paracomp/tau/tauprofile/docs/usersguide.pdf).
+
+## Sequel on TAU Installation
+
+I found [TAU](https://www.cs.uoregon.edu/research/tau/home.php) profiler to be very powerful and convenient to use. It is a piece of software from the University of Oregon. However, I always have problem installing the software locally. The [video](http://www.paratools.com/tau) that I found is very helpful but there are several typos and I really prefer looking at the code to the video.
+
+Therefore, here is the code I used to build `TAU` with OpenMP and MPI support, and the visualizer on a Ubuntu system. These codes are compiled and modified from the video.
+
+```
+# Please note that I have installed MPI in my system.
+
+# Download all modules required and unzip them
+wget http://tau.uoregon.edu/tau.tgz
+tar xzf tau.tgz
+cd tau-[x.x]/
+wget http://tau.uoregon.edu/pdt.tgz
+wget http://tau.uoregon.edu/ext.tgz
+tar xzf pdt.tgz
+tar xzf ext.tgz
+
+# Configure pdtoolkit
+# Look out for messages that ask you to add a directory to your PATH
+#
+cd pdtoolkit-[x.x]/
+./configure
+
+# Use -j on Linux to parallelize the build process
+make 
+make install
+cd ..
+
+# Configure TAU
+# Look out for messages that ask you to add a directory to your PATH
+#
+./configure -mpi -openmp -bfd=download -unwind=download -pdt=[path to pdt]
+
+# Use -j on Linux to parallelize the build process
+make
+make install
+
+# Add the Makefile file path as a system variable
+export TAU_MAKEFILE=[your path to tau dir]/tau/x86_64/lib/Makefile.tau-mpi-pdt-openmp
+```
+
+At this point, I have successfully built `TAU` with the visualizer `paraprof`.
