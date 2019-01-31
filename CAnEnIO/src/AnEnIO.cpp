@@ -32,7 +32,7 @@ const string AnEnIO::_SEARCH_VAR_PREFIX = "Search";
 const size_t AnEnIO::_SERIAL_LENGTH_LIMIT = 1000;
 
 #if defined(_ENABLE_MPI)
-int AnEnIO::times_of_MPI_init_ = 0;
+int AnEnIO::_times_of_MPI_init = 0;
 #endif
 
 AnEnIO::AnEnIO(string mode, string file_path) :
@@ -76,19 +76,19 @@ AnEnIO::~AnEnIO() {
 #if defined(_ENABLE_MPI)
 void
 AnEnIO::handle_MPI_Init() {
-    if (AnEnIO::times_of_MPI_init_ == 0)
+    if (AnEnIO::_times_of_MPI_init == 0)
         MPI_Init(NULL, NULL);
-    AnEnIO::times_of_MPI_init_++;
-    // cout << "Initialized once. Now " << AnEnIO::times_of_MPI_init_ << endl;
+    AnEnIO::_times_of_MPI_init++;
+    // cout << "Initialized once. Now " << AnEnIO::_times_of_MPI_init << endl;
     return;
 }
 
 void
 AnEnIO::handle_MPI_Finalize() {
-    if (AnEnIO::times_of_MPI_init_ == 1)
+    if (AnEnIO::_times_of_MPI_init == 1)
         MPI_Finalize();
-    AnEnIO::times_of_MPI_init_--;
-    // cout << "Finalized once. Now " << AnEnIO::times_of_MPI_init_ << endl;
+    AnEnIO::_times_of_MPI_init--;
+    // cout << "Finalized once. Now " << AnEnIO::_times_of_MPI_init << endl;
     return;
 }
 #endif

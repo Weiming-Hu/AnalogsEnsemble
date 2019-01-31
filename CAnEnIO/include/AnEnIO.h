@@ -714,7 +714,7 @@ public:
 protected:
 
 #if defined(_ENABLE_MPI)
-    static int times_of_MPI_init_;
+    static int _times_of_MPI_init;
 #endif
     
     /**
@@ -955,7 +955,7 @@ protected:
      * @param count The count number.
      */
     template<typename T>
-    void MPI_read_vector_(const netCDF::NcVar var, T* & results,
+    void MPI_read_vector_(const netCDF::NcVar & var, T* & results,
         const std::vector<size_t> & start, const std::vector<size_t> & count) const;
 #endif
 

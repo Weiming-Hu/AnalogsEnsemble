@@ -368,7 +368,7 @@ AnEnIO::get_mpi_type() const {
 
 template<typename T>
 void
-AnEnIO::MPI_read_vector_(const netCDF::NcVar var, T* & p_vals,
+AnEnIO::MPI_read_vector_(const netCDF::NcVar & var, T* & p_vals,
         const std::vector<size_t> & start, const std::vector<size_t> & count) const {
 
     using namespace netCDF;
@@ -441,7 +441,6 @@ AnEnIO::MPI_read_vector_(const netCDF::NcVar var, T* & p_vals,
 
         int verbose = verbose_;
         MPI_Bcast(&verbose, 1, MPI_INT, MPI_ROOT, children);
-
         MPI_Bcast(p_start, num_indices, MPI_INT, MPI_ROOT, children);
         MPI_Bcast(p_count, num_indices, MPI_INT, MPI_ROOT, children);
 
