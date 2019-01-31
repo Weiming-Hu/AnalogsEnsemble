@@ -241,7 +241,7 @@ cd ..
 # Configure TAU
 # Look out for messages that ask you to add a directory to your PATH
 #
-./configure -mpi -openmp -bfd=download -unwind=download -pdt=[path to pdt]
+./configure -c++=mpicxx -cc=mpicc -mpi -openmp -bfd=download -unwind=download -pdt=[path to pdt]
 
 # Use -j on Linux to parallelize the build process
 make
@@ -249,6 +249,12 @@ make install
 
 # Add the Makefile file path as a system variable
 export TAU_MAKEFILE=[your path to tau dir]/tau/x86_64/lib/Makefile.tau-mpi-pdt-openmp
+
+# Also add the TAU Option.
+# I used -optCompInst to let the compiler insert instrumentation automatically.
+# I used -optNoRevert to force the compiler causes hard-failure when there is a TAU error.
+#
+export TAU_OPTIONS="-optCompInst -optNoRevert"
 ```
 
-At this point, I have successfully built `TAU` with the visualizer `paraprof`.
+For `TAU_OPTIONS`, you can find the references [here](https://www.alcf.anl.gov/user-guides/tuning-and-analysis-utilities-tau). At this point, I have successfully built `TAU` with the visualizer `paraprof`. 
