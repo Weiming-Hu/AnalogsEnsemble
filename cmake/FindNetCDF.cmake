@@ -53,7 +53,7 @@ if (NETCDF_NCCONFIG)
     string (REPLACE " " ";" NETCDF_LINKING "${NETCDF_LINKING}")
 
 else (NETCDF_NCCONFIG)
-    message(FATAL_ERROR "nc-config is NOT found. I have to guess the location and there might be linking problem.")
+    message(WARNING "nc-config is NOT found. I have to guess the location and there might be linking problem.")
 endif (NETCDF_NCCONFIG)
 
 find_library (NETCDF_LIBRARIES_C NAMES netcdf)
