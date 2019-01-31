@@ -12,7 +12,7 @@ endif(POLICY CMP0042)
 
 enable_language(CXX C)
 option(VERBOSE "Verbose standout output" OFF)
-option(CMAKE_BUILD_TESTS "Build tests" OFF)
+option(CMAKE_BUILD_TESTS "Build tests" ON)
 option (BUILD_GRIBCONVERTER "Build gribConverter utility. Eccodes required." OFF)
 option (CODE_PROFILING "Insert profiling code and print time information." OFF)
 
@@ -272,7 +272,7 @@ if(CMAKE_BUILD_TESTS)
     add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/tests")
 
 else(CMAKE_BUILD_TESTS)
-    message(STATUS "By default, no tests built (CMAKE_BUILD_TESTS OFF)")
+    message(STATUS "No tests built (CMAKE_BUILD_TESTS OFF)")
 endif(CMAKE_BUILD_TESTS)
 
 
