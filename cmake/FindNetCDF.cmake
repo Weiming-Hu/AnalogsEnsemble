@@ -7,6 +7,8 @@
 #  NETCDF_INCLUDES    - where to find netcdf.h, etc
 #  NETCDF_LIBRARIES   - Link these libraries when using NetCDF
 #  NETCDF_FOUND       - True if NetCDF found including required interfaces (see below)
+#  NETCDF_CFLAGS      - The C flags for NetCDF if nc-config is found
+#  NETCDF_LINKING     - The linking command to link to NetCDF if nc-config is found
 #
 # Your package can require certain interfaces to be FOUND by setting these
 #
@@ -37,6 +39,24 @@ endif (NETCDF_INCLUDES AND NETCDF_LIBRARIES)
 
 find_path (NETCDF_INCLUDES netcdf.h
   HINTS NETCDF_DIR ENV NETCDF_DIR)
+
+find_program (NETCDF_NCCONFIG nc-config HINTS NETCDF_DIR ENV NETCDF_DIR)
+if (NETCDF_NCCONFIG)
+    message(STATUS "nc-config is found at ${NETCDF_NCCONFIG}. Use this program to define include path and libs")
+
+    execute_process(COMMAND ${NETCDF_NCCONFIG} "--cflags" OUTPUT_VARIABLE NETCDF_CFLAGS)
+    string(STRIP ${NETCDF_CFLAGS} NETCDF_CFLAGS)
+    string (REPLACE " " ";" NETCDF_CFLAGS "${NETCDF_CFLAGS}")
+
+    execute_process(COMMAND ${NETCDF_NCCONFIG} "--libs" OUTPUT_VARIABLE NETCDF_LINKING)
+    string(STRIP ${NETCDF_LINKING} NETCDF_LINKING)
+    string (REPLACE " " ";" NETCDF_LINKING "${NETCDF_LINKING}")
+
+else (NETCDF_NCCONFIG)
+    message(WARNING "nc-config is NOT found. I have to guess the location and there might be linking problem.")
+    set(NETCDF_CFLAGS "")
+    set(NETCDF_LINKING "")
+endif (NETCDF_NCCONFIG)
 
 find_library (NETCDF_LIBRARIES_C NAMES netcdf)
 mark_as_advanced(NETCDF_LIBRARIES_C)
@@ -106,4 +126,4 @@ else (NETCDF_CXX STREQUAL "YES")
     find_package_handle_standard_args (NetCDF DEFAULT_MSG NETCDF_LIBRARIES NETCDF_INCLUDES)
 endif (NETCDF_CXX STREQUAL "YES")
 
-mark_as_advanced (NETCDF_LIBRARIES NETCDF_INCLUDES)
+mark_as_advanced (NETCDF_LIBRARIES NETCDF_INCLUDES NETCDF_CFLAGS NETCDF_LINKING)

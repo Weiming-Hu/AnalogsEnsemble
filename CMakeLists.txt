@@ -169,7 +169,7 @@ if(ENABLE_MPI)
         message(STATUS "Configure support with MPI compiler")
     else(CMAKE_C_COMPILER MATCHES "^.*mpi.*$" AND
             CMAKE_CXX_COMPILER MATCHES "^.*mpi.*$")
-        message(FATAL_ERROR "Please specify CC and CXX to mpicc compiler/wrapper.")
+        message(WARNING "Please specify CC and CXX to mpicc compiler/wrapper.")
     endif(CMAKE_C_COMPILER MATCHES "^.*mpi.*$" AND
         CMAKE_CXX_COMPILER MATCHES "^.*mpi.*$")
 

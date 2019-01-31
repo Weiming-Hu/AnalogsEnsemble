@@ -10,6 +10,7 @@ add_executable(${PROJECT_NAME} ${SOURCE_MAIN})
 
 include_directories ("${CMAKE_SOURCE_DIR}/CAnEn/include")
 include_directories ("${CMAKE_SOURCE_DIR}/CAnEnIO/include")
+target_link_libraries(${PROJECT_NAME} AnEnIO)
 
 if(NETCDF_CXX4_BUILT)
     include_directories(SYSTEM ${NETCDF_CXX4_INCLUDE_DIR})
