@@ -6,6 +6,7 @@
 - Skip processing the similarity array if it is not preserved in the result.
 - Update documentation.
 - Update README file.
+- Add function RAnEn::version.
 
 # RAnEn 3.1.0
 
