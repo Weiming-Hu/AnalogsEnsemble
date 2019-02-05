@@ -99,28 +99,26 @@ An example `Analogs` file includes the following content:
 
 ```
 10 variables (excluding dimension variables):
-   double Analogs[num_test_stations,num_test_times,num_flts,num_members,num_cols]   (Contiguous storage)  
-   double FLTs[num_flts]   (Contiguous storage)  
-   char StationNames[num_chars,num_stations]   (Contiguous storage)  
-   double Xs[num_stations]   (Contiguous storage)  
-   double Ys[num_stations]   (Contiguous storage)  
-   double Times[num_times]   (Contiguous storage)  
-   char MemberStationNames[num_chars,member_num_stations]   (Contiguous storage)  
-   double MemberXs[member_num_stations]   (Contiguous storage)  
-   double MemberYs[member_num_stations]   (Contiguous storage)  
-   double MemberTimes[member_num_times]   (Contiguous storage)  
+    double Analogs[num_stations,num_times,num_flts,num_members,num_cols]   (Contiguous storage)  
+    char StationNames[num_chars,num_stations]   (Contiguous storage)  
+    double Xs[num_stations]   (Contiguous storage)  
+    double Ys[num_stations]   (Contiguous storage)  
+    double Times[num_times]   (Contiguous storage)  
+    double FLTs[num_flts]   (Contiguous storage)  
+    char MemberStationNames[num_chars,member_num_stations]   (Contiguous storage)  
+    double MemberXs[member_num_stations]   (Contiguous storage)  
+    double MemberYs[member_num_stations]   (Contiguous storage)  
+    double MemberTimes[member_num_times]   (Contiguous storage)  
 
-10 dimensions:
-   num_test_stations  Size:20
-   num_test_times  Size:1
-   num_flts  Size:8
-   num_members  Size:5
-   num_cols  Size:3
-   num_stations  Size:20
-   num_chars  Size:50
-   num_times  Size:1
-   member_num_stations  Size:20
-   member_num_times  Size:80
+8 dimensions:
+    num_stations  Size:10
+    num_times  Size:100
+    num_flts  Size:10
+    num_members  Size:5
+    num_cols  Size:3
+    num_chars  Size:50
+    member_num_stations  Size:10
+    member_num_times  Size:1000
 ```
 
 - **Analogs** is a 5-dimensional array that stores analog forecasts. More information about analogs can be found at [here](https://weiming-hu.github.io/AnalogsEnsemble/CXX/class_analogs.html).
@@ -139,33 +137,31 @@ An example `Analogs` file includes the following content:
 An example `Similarity` file includes the following content:
 
 ```
-11 variables (excluding dimension variables):
-   double SimilarityMatrices[num_cols,num_entries,num_flts,num_test_times,num_test_stations]   (Contiguous storage)  
-   char ParameterNames[num_chars,num_parameters]   (Contiguous storage)  
-   double ParameterWeights[num_parameters]   (Contiguous storage)  
-   char ParameterCirculars[num_chars,num_parameters]   (Contiguous storage)  
-   char StationNames[num_chars,num_stations]   (Contiguous storage)  
-   double Xs[num_stations]   (Contiguous storage)  
-   double Ys[num_stations]   (Contiguous storage)  
-   double Times[num_times]   (Contiguous storage)  
-   double FLTs[num_flts]   (Contiguous storage)  
-   double SearchTimes[num_search_times]   (Contiguous storage)  
-   char SearchStationNames[num_chars,num_search_stations]   (Contiguous storage)  
-   double SearchXs[num_search_stations]   (Contiguous storage)  
-   double SearchYs[num_search_stations]   (Contiguous storage)  
+13 variables (excluding dimension variables):
+    double SimilarityMatrices[num_cols,num_entries,num_flts,num_times,num_stations]   (Contiguous storage)  
+    char ParameterNames[num_chars,num_parameters]   (Contiguous storage)  
+    double ParameterWeights[num_parameters]   (Contiguous storage)  
+    char ParameterCirculars[num_chars,num_parameters]   (Contiguous storage)  
+    char StationNames[num_chars,num_stations]   (Contiguous storage)  
+    double Xs[num_stations]   (Contiguous storage)  
+    double Ys[num_stations]   (Contiguous storage)  
+    double Times[num_times]   (Contiguous storage)  
+    double FLTs[num_flts]   (Contiguous storage)  
+    char SearchStationNames[num_chars,search_num_stations]   (Contiguous storage)  
+    double SearchXs[search_num_stations]   (Contiguous storage)  
+    double SearchYs[search_num_stations]   (Contiguous storage)  
+    double SearchTimes[search_num_times]   (Contiguous storage)  
 
-10 dimensions:
-   num_test_stations  Size:20
-   num_test_times  Size:1
-   num_flts  Size:8
-   num_entries  Size:9
-   num_cols  Size:3
-   num_parameters  Size:5
-   num_chars  Size:50
-   num_stations  Size:20
-   num_times  Size:1
-   num_search_times  Size:9
-   num_search_stations  Size:20
+9 dimensions:
+    num_stations  Size:10
+    num_times  Size:100
+    num_flts  Size:10
+    num_entries  Size:100
+    num_cols  Size:3
+    num_parameters  Size:10
+    num_chars  Size:50
+    search_num_stations  Size:10
+    search_num_times  Size:100
 ```
 
 - **SimilarityMatrices** is a 5-dimensional array that stores similarity metric values.
@@ -188,20 +184,20 @@ An example `StandardDeviation` file includes the following content:
 
 ```
 8 variables (excluding dimension variables):
-   double StandardDeviation[num_parameters,num_stations,num_flts]   (Contiguous storage)  
-   char ParameterNames[num_chars,num_parameters]   (Contiguous storage)  
-   double ParameterWeights[num_parameters]   (Contiguous storage)  
-   char ParameterCirculars[num_chars,num_parameters]   (Contiguous storage)  
-   char StationNames[num_chars,num_stations]   (Contiguous storage)  
-   double Xs[num_stations]   (Contiguous storage)  
-   double Ys[num_stations]   (Contiguous storage)  
-   double FLTs[num_flts]   (Contiguous storage)  
+    double StandardDeviation[num_parameters,num_stations,num_flts]   (Contiguous storage)  
+    char ParameterNames[num_chars,num_parameters]   (Contiguous storage)  
+    double ParameterWeights[num_parameters]   (Contiguous storage)  
+    char ParameterCirculars[num_chars,num_parameters]   (Contiguous storage)  
+    char StationNames[num_chars,num_stations]   (Contiguous storage)  
+    double Xs[num_stations]   (Contiguous storage)  
+    double Ys[num_stations]   (Contiguous storage)  
+    double FLTs[num_flts]   (Contiguous storage)  
 
 4 dimensions:
-   num_parameters  Size:4
-   num_stations  Size:4
-   num_flts  Size:4
-   num_chars  Size:50
+    num_parameters  Size:10
+    num_stations  Size:10
+    num_flts  Size:10
+    num_chars  Size:50
 ```
 
 - **StandardDeviation** is a 3-dimensional array that stores standard deviation values.
