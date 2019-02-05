@@ -34,7 +34,7 @@ using namespace netCDF;
 const static int _MAX_FILE_NAME = 1000;
 const static int _MAX_VAR_NAME = 100;
 
-#define ERR {if(res!=NC_NOERR) {cout << "Error at line=" << __LINE__ << ": "<< nc_strerror(res) << endl;MPI_Finalize();return res;}}
+#define ERR {if(res!=NC_NOERR) {cout << "Error at line=" << __LINE__ << ": (" << res << ") "<< nc_strerror(res) << endl;MPI_Finalize();return res;}}
 
 MPI_Datatype get_mpi_type(const nc_type & c) {
 
@@ -53,7 +53,7 @@ MPI_Datatype get_mpi_type(const nc_type & c) {
             break;
         case NC_FLOAT:
             // I do not want to pass float values because they are handled as double in AnEnIO.
-            // I will convert them explicitly/
+            // I will convert them explicitly.
             //
             // return MPI_FLOAT;
             // break;
@@ -159,6 +159,25 @@ int main(int argc, char** argv) {
     // Open file
     int ncid = -1, varid = -1, res = -1;
     nc_type var_type;
+
+    // Check whether the file supported parallel access
+    if (world_rank == 0) {
+        res = nc_open(p_file_name, NC_NOWRITE, &ncid);
+        ERR;
+
+        int format = -1;
+        res = nc_inq_format(ncid, &format);
+        ERR;
+
+        if (format != NC_FORMAT_NETCDF4 || format != NC_FORMAT_NETCDF4_CLASSIC) {
+            if (verbose >= 1) cout << BOLDRED << "Error: The NetCDF file ("
+                << format << ") is not NETCDF4 format. Please reinstall the program without MPI." << RESET << endl;
+            MPI_Finalize();
+            return 1;
+        }
+    }
+
+    MPI_Barrier(MPI_COMM_WORLD);
 
     res = nc_open_par(p_file_name, NC_MPIIO | NC_NOWRITE, MPI_COMM_SELF,
             MPI_INFO_NULL, &ncid);

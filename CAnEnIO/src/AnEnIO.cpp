@@ -181,13 +181,13 @@ AnEnIO::checkFileType() const {
         if (file_type_ == "Observations") {
 
             dim_names = {"num_parameters", "num_stations", "num_times", "num_chars"};
-            var_names = {"Data", "Times", "StationNames", "ParameterNames", "Xs", "Ys"};
+            var_names = {"Data", "Times", "ParameterNames", "Xs", "Ys"};
 
         } else if (file_type_ == "Forecasts") {
 
             dim_names = {"num_parameters", "num_stations",
                 "num_times", "num_flts", "num_chars"};
-            var_names = {"Data", "FLTs", "Times", "StationNames",
+            var_names = {"Data", "FLTs", "Times",
                 "ParameterNames", "Xs", "Ys"};
 
         } else if (file_type_ == "Similarity") {
@@ -818,14 +818,17 @@ AnEnIO::readStations(anenSta::Stations& stations,
 
     // Read variable StationNames
     vector<string> names;
-    read_string_vector_(var_name_prefix + "StationNames", names);
+    if (checkVariable(var_name_prefix + "StationNames", true)
+            == AnEnIO::errorType::SUCCESS) {
+        handleError(read_string_vector_(var_name_prefix + "StationNames", names));
 
-    if (names.size() != dim_len) {
-        if (verbose_ >= 1) {
-            cout << BOLDRED << "Error: There should be " << dim_len << " "
-                << " station names!" << RESET << endl;
+        if (names.size() != dim_len) {
+            if (verbose_ >= 1) {
+                cout << BOLDRED << "Error: There should be " << dim_len << " "
+                    << " station names!" << RESET << endl;
+            }
+            return (WRONG_VARIABLE_SHAPE);
         }
-        return (WRONG_VARIABLE_SHAPE);
     }
 
     // Read variables xs and ys (coordinates)
@@ -3143,7 +3146,8 @@ AnEnIO::insertStations_(anenSta::Stations & stations, size_t dim_len,
     for (size_t i = 0; i < dim_len; i++) {
         auto & station = vec_stations[i];
 
-        station.setName(names.at(i));
+        if (names.size() != 0)
+            station.setName(names.at(i));
 
         station.setX(xs.at(i));
         station.setY(ys.at(i));
