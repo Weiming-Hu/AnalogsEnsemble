@@ -257,7 +257,7 @@ make clean-all
 |  NETCDF\_CXX4\_TYPE  | `BUILD` for building `Netcdf C++4` library; `SYSTEM` for using the library on the system.               |        BUILD       |
 |     CPPUNIT\_TYPE    | `BUILD` for building `CppUnit` library; `SYSTEM` for using the `CppUnit` library from the system.       |        BUILD       |
 |   CMAKE\_BUILD\_TYPE |                          `Release` for release mode; `Debug` for debug mode.                            |       Release      |
-|  CMAKE\_BUILD\_TESTS |                                             Build tests.                                                |         OFF        |
+|  CMAKE\_BUILD\_TESTS |                                             Build tests.                                                |         ON         |
 |     BUILD\_NETCDF    |                           Build `NetCDF` library regardless of its existence.                           |         OFF        |
 |      BUILD\_HDF5     |                            Build `HDF5` library regardless of its existence.                            |         OFF        |
 |        VERBOSE       |                          Print detailed messages during the compiling process.                          |         OFF        |

@@ -95,7 +95,7 @@ Include dependency graph for mpiAnEnIO.cpp:</div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a735563036dced0b7d6cc98f97ea4978b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mpi_an_en_i_o_8cpp.html#a735563036dced0b7d6cc98f97ea4978b">ERR</a>&#160;&#160;&#160;{if(res!=NC_NOERR) {cout &lt;&lt; &quot;Error at line=&quot; &lt;&lt; __LINE__ &lt;&lt; &quot;: &quot;&lt;&lt; nc_strerror(res) &lt;&lt; endl;MPI_Finalize();return res;}}</td></tr>
+<tr class="memitem:a735563036dced0b7d6cc98f97ea4978b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mpi_an_en_i_o_8cpp.html#a735563036dced0b7d6cc98f97ea4978b">ERR</a>&#160;&#160;&#160;{if(res!=NC_NOERR) {cout &lt;&lt; &quot;Error at line=&quot; &lt;&lt; __LINE__ &lt;&lt; &quot;: (&quot; &lt;&lt; res &lt;&lt; &quot;) &quot;&lt;&lt; nc_strerror(res) &lt;&lt; endl;MPI_Finalize();return res;}}</td></tr>
 <tr class="separator:a735563036dced0b7d6cc98f97ea4978b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
@@ -113,7 +113,7 @@ Functions</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define ERR&#160;&#160;&#160;{if(res!=NC_NOERR) {cout &lt;&lt; &quot;Error at line=&quot; &lt;&lt; __LINE__ &lt;&lt; &quot;: &quot;&lt;&lt; nc_strerror(res) &lt;&lt; endl;MPI_Finalize();return res;}}</td>
+          <td class="memname">#define ERR&#160;&#160;&#160;{if(res!=NC_NOERR) {cout &lt;&lt; &quot;Error at line=&quot; &lt;&lt; __LINE__ &lt;&lt; &quot;: (&quot; &lt;&lt; res &lt;&lt; &quot;) &quot;&lt;&lt; nc_strerror(res) &lt;&lt; endl;MPI_Finalize();return res;}}</td>
         </tr>
       </table>
 </div><div class="memdoc">
