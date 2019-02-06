@@ -400,7 +400,7 @@ compute_analogs <- function(forecasts,
   if (recompute_sd_for_extended_station)
     cat('Warning: recompute_sd_for_extended_station is not supported.\n')
   
-  if (rolling < 0) cat('Warning: rolling is not supported.\n')
+  if (rolling < 0) cat('Warning: rolling is no longer supported. Test forecasts will search through the same historical forecasts.\n')
   
   if (cores != 0) cat('Warning: cores are automatically detected.\n')
   
