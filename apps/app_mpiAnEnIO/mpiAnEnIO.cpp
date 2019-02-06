@@ -8,10 +8,9 @@
 /** @file */
 
 //#include "CommonExeFunctions.h"
+#include "mpi.h"
 #include "colorTexts.h"
 #include "functions_netcdf.h"
-
-#include "mpi.h"
 
 #include <netcdf_par.h>
 #include <stdlib.h>
