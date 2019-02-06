@@ -4,9 +4,10 @@ LABEL description="A Linux Distribution of the C++ Program - Parallel Ensemble F
 
 COPY . /PEF_source
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get update
+RUN DEBIAN_FRONTEND=noninteractive apt-get update \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 RUN DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y gcc cmake \
-    libnetcdf-dev git make r-base  && apt-get clean  && rm -rf /var/lib/apt/lists/*
+    libnetcdf-dev git make r-base  && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /PEF_source
 RUN mkdir build
