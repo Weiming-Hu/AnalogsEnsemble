@@ -907,7 +907,7 @@ protected:
     errorType insertStations_(anenSta::Stations & stations, size_t dim_len,
             const std::vector<std::string> & names, const std::vector<double> & xs,
             const std::vector<double> & ys) const;
-
+    
     /**
      * Reads variables as a atomic vector.
      * 
