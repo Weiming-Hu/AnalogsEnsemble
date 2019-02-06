@@ -38,4 +38,5 @@ reference:
       contents:
           - RAnEn-package
           - checkOpenMP
-          - print
+          - print.AnEn
+          - print.Configuration
