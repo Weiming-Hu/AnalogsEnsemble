@@ -11,32 +11,31 @@ reference:
     - title: Analog Ensemble Computation
       desc: Functions to generate analog ensemble forecasts.
       contents:
-          - generateConfiguration()
-          - compute_analogs()
-          - generateAnalogs()
-          - validateConfiguration()
-          - rcpp_compute_analogs()
+          - generateConfiguration
+          - compute_analogs
+          - generateAnalogs
+          - validateConfiguration
+          - rcpp_compute_analogs
 
     - title: Data Pre-/Post- Processing
       desc: Functions for bias correction or generating wind-related fields, and more.
       contents:
-          - biasCorrection()
-          - biasCorrectionInsitu()
-          - biasCorrectionNeuralNet()
-          - computeWindDir()
-          - computeWindSpeed()
-          - generateCircleCoords()
+          - biasCorrection
+          - biasCorrectionInsitu
+          - biasCorrectionNeuralNet
+          - computeWindDir
+          - computeWindSpeed
+          - generateCircleCoords
 
     - title: Visualization
       desc: Functions for visualization of observations, forecasts, analogs, and more.
       contents:
-          - plotAnEnMap()
-          - plotAnEnTimesSeries()
+          - plotAnEnMap
+          - plotAnEnTimesSeries
 
     - title: General Information
       desc: Functions to provide generate information.
       contents:
           - RAnEn-package
-          - checkOpenMP()
-          - print(<AnEn>)
-          - print(<Configuration>)
+          - checkOpenMP
+          - print
