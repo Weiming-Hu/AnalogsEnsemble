@@ -7,7 +7,7 @@
 # Exit with nonzero exit code if anything fails
 set -e
 
-SOURCE_BRANCH="master"
+# SOURCE_BRANCH="master"
 TARGET_BRANCH="gh-pages"
 
 function doCompileCXX {
@@ -65,8 +65,8 @@ function doCompileR {
 
 # Save some useful information
 REPO=$(git config remote.origin.url)
-SSH_REPO=${REPO/https:\/\/github.com\//git@github.com:}
-SHA=$(git rev-parse --verify HEAD)
+# SSH_REPO=${REPO/https:\/\/github.com\//git@github.com:}
+# SHA=$(git rev-parse --verify HEAD)
 
 # Clone the existing gh-pages for this repo into out/
 # Create a new empty branch if gh-pages doesn't exist yet (should only happen on first deply)

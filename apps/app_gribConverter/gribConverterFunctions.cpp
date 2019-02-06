@@ -82,9 +82,9 @@ namespace gribConverter {
         return;
     }
 
-    void getDoubles(vector<double> & vals, string file, long par_id, long level,
-            string type, string par_key, string level_key,
-            string type_key, string val_key) {
+    void getDoubles(vector<double> & vals, const string & file, long par_id, long level,
+            const string & type, const string & par_key, const string & level_key,
+            const string & type_key, const string & val_key) {
 
 #if defined(_CODE_PROFILING)
         clock_t time_start = clock();

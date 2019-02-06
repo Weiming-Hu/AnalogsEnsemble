@@ -24,10 +24,10 @@
 using namespace std;
 
 void runStandardDeviationCalculator(
-        const vector<string> in_files,
+        const vector<string> & in_files,
         const vector<size_t> & starts,
         const vector<size_t> & counts,
-        const string out_file,
+        const string & out_file,
         int verbose) {
     
     // Check start and count

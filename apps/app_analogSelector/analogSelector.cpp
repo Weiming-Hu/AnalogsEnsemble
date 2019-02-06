@@ -148,7 +148,7 @@ int main(int argc, char** argv) {
     
     // Required variables
     string file_obs, file_sim, file_mapping, file_analogs;
-    size_t num_members;
+    size_t num_members = 0;
 
     // Optional variables
     int verbose = 0;

@@ -73,9 +73,9 @@ namespace gribConverter {
      * @param type_key The key name of the typeOfLevel.
      * @param val_key The key name of the value.
      */
-    void getDoubles(vector<double> & vals, string file, long par_id, long level,
-            string type, string par_key = "parameter", string level_key = "level",
-            string type_key = "typeOfLevel", string val_key = "values");
+    void getDoubles(vector<double> & vals, const string & file, long par_id, long level,
+            const string & type, const string & par_key = "parameter", const string & level_key = "level",
+            const string & type_key = "typeOfLevel", const string & val_key = "values");
 
     /**
      * toForecasts function reads data multiple forecast files and write them in

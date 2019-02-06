@@ -1,5 +1,5 @@
 FROM ubuntu:18.04
-MAINTAINER Weiming Hu <weiming@psu.edu>
+LABEL maintainer="weiming@psu.edu"
 LABEL description="A Linux Distribution of the C++ Program - Parallel Ensemble Forecasts"
 
 COPY . /PEF_source

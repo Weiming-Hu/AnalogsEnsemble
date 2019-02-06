@@ -1433,7 +1433,7 @@ AnEnIO::writeTimes(const anenTime::Times& times, bool unlimited,
     double* p = nullptr;
     try {
         p = new double [times.size()]();
-    } catch (bad_alloc e) {
+    } catch (bad_alloc & e) {
         cout << BOLDRED << "Error: Insufficient memory to write Times ("
             << times.size() << ")." << RESET << endl;
         nc.close();

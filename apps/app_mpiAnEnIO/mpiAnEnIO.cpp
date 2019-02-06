@@ -89,7 +89,7 @@ MPI_Datatype get_mpi_type(const nc_type & c) {
 int main(int argc, char** argv) {
 
     MPI_Init(&argc, &argv);
-    int world_size, world_rank;
+    int world_size = -1, world_rank = -1;
 
     // Get the parent communicator
     MPI_Comm parent;

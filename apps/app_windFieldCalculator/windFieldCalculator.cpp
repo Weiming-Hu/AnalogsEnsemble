@@ -65,7 +65,7 @@ void runWindFieldCalculator(
                 return (dir < 0 ? (dir + 360) : dir);
             };
 
-    size_t num_stations, num_times, num_flts,
+    size_t num_stations, num_times,
             i_U, i_V, i_speed, i_dir;
 
     AnEnIO io("Read", file_in, file_type, verbose);
@@ -78,6 +78,8 @@ void runWindFieldCalculator(
     if (file_type == "Forecasts") {
 
         if (verbose >= 3) cout << GREEN << "Processing forecasts file ..." << RESET << endl;
+
+        size_t num_flts;
 
         Forecasts_array forecasts;
         io.handleError(io.readForecasts(forecasts));
