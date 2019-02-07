@@ -7,7 +7,7 @@
 
 /** @file */
 
-#include "MathFunctions.h"
+#include "Functions.h"
 #include "AnEnIO.h"
 #include "CommonExeFunctions.h"
 
@@ -67,7 +67,7 @@ void runStandardDeviationCalculator(
     // Compute standard deviation
     if (verbose >= 3)
         cout << GREEN << "Compute standard deviation ..." << RESET << endl;
-    MathFunctions functions(verbose);
+    Functions functions(verbose);
     StandardDeviation sds;
     handleError(functions.computeStandardDeviation(forecasts, sds));
 

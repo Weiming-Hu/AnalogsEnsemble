@@ -9,7 +9,7 @@
 
 #include "AnEnIO.h"
 #include "colorTexts.h"
-#include "MathFunctions.h"
+#include "Functions.h"
 #include "CommonExeFunctions.h"
 
 #include "boost/program_options.hpp"
@@ -53,8 +53,8 @@ void runForecastsToObservations( const string & file_in, const string & file_out
     observations.setTimes(obs_times);
     observations.updateDataDims();
 
-    MathFunctions functions(verbose);
-    MathFunctions::TimeMapMatrix mapping;
+    Functions functions(verbose);
+    Functions::TimeMapMatrix mapping;
     handleError(functions.computeObservationsTimeIndices(
             forecasts.getTimes(), forecasts.getFLTs(),
             observations.getTimes(), mapping, time_match_mode));

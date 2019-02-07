@@ -34,7 +34,7 @@ void testAnEn::testComputeStandardDeviation() {
      */
 
     AnEn anen(2);
-    MathFunctions functions(2);
+    Functions functions(2);
 
     anenSta::Station s1, s2("Hunan", 10, 20);
     anenSta::Stations stations;
@@ -73,7 +73,7 @@ void testAnEn::testComputeSearchWindows() {
     boost::numeric::ublas::matrix<size_t> test;
     size_t num_flts = 5, half_window_size = 2;
 
-    MathFunctions functions(2);
+    Functions functions(2);
     functions.computeSearchWindows(test, num_flts, half_window_size);
 
     CPPUNIT_ASSERT(test(0, 0) == 0);
@@ -162,7 +162,7 @@ void testAnEn::testComputeSimilarity() {
 
     // Construct AnEn object
     AnEn anen(2);
-    MathFunctions functions(2);
+    Functions functions(2);
     anen.setMethod(AnEn::simMethod::ONE_TO_ONE);
 
     // Construct SimilarityMatrices
@@ -174,7 +174,7 @@ void testAnEn::testComputeSimilarity() {
     functions.computeStandardDeviation(search_forecasts, sds);
     
     // Pre compute the time mapping from forecasts to observations
-    MathFunctions::TimeMapMatrix mapping;
+    Functions::TimeMapMatrix mapping;
     handleError(functions.computeObservationsTimeIndices(
             search_forecasts.getTimes(), search_forecasts.getFLTs(),
             search_observations.getTimes(), mapping));
@@ -223,7 +223,7 @@ void testAnEn::testSdCircular() {
      * Test the behavior of sdCircular function with and without NAN values.
      */
 
-    MathFunctions functions(2);
+    Functions functions(2);
     vector<double> values;
 
     values = {1, 2, 3, 4, 5};
@@ -251,7 +251,7 @@ void testAnEn::testSdLinear() {
      * Test the behavior of sdLinear function with and without NAN values.
      */
 
-    MathFunctions functions(2);
+    Functions functions(2);
     vector<double> values;
 
     values = {1, 2, 3, 4, 5};
@@ -279,7 +279,7 @@ void testAnEn::testMean() {
      * Test the behavior of mean function.
      */
 
-    MathFunctions functions(2);
+    Functions functions(2);
 
     vector<double> v1 = {1, 2, 3}, v2 = {1, NAN, 2},
         v3 = {NAN, 1, NAN}, v4 = {NAN, NAN, NAN};
@@ -312,8 +312,8 @@ void testAnEn::testComputeObservationTimeIndices() {
     times_observations.insert(times_observations.end(),
             values.begin(), values.end());
 
-    MathFunctions functions(2);
-    MathFunctions::TimeMapMatrix mapping;
+    Functions functions(2);
+    Functions::TimeMapMatrix mapping;
 
     functions.computeObservationsTimeIndices(times_forecasts, flts_forecasts,
             times_observations, mapping);
@@ -402,7 +402,7 @@ void testAnEn::testSelectAnalogs() {
     // Construct AnEn object
     AnEn anen(2);
     anen.setMethod(AnEn::simMethod::ONE_TO_ONE);
-    MathFunctions functions(2);
+    Functions functions(2);
 
     // Construct SimilarityMatrices
     SimilarityMatrices sims(test_forecasts);
@@ -413,7 +413,7 @@ void testAnEn::testSelectAnalogs() {
     handleError(functions.computeStandardDeviation(search_forecasts, sds));
     
     // Pre compute the time mapping from forecasts to observations
-    MathFunctions::TimeMapMatrix mapping;
+    Functions::TimeMapMatrix mapping;
     handleError(functions.computeObservationsTimeIndices(
             search_forecasts.getTimes(), search_forecasts.getFLTs(),
             search_observations.getTimes(), mapping));

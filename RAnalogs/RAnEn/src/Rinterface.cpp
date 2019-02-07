@@ -139,7 +139,7 @@ List generateAnalogs(
      *                           AnEn Computation                              *
      **************************************************************************/
     AnEn anen(verbose);
-    MathFunctions functions(verbose);
+    Functions functions(verbose);
     
     Analogs analogs;
     SimilarityMatrices sims(test_forecasts);

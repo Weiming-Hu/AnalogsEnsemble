@@ -5,7 +5,7 @@
  * Created on July 23, 2018, 10:56 PM
  */
 
-#include "MathFunctions.h"
+#include "Functions.h"
 
 #include <exception>
 #include <string>

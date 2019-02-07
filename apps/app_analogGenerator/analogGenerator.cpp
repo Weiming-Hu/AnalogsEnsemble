@@ -111,7 +111,7 @@ void runAnalogGenerator(
      *                           Analog Generation                          *
      ************************************************************************/
     AnEn anen(verbose);
-    MathFunctions functions(verbose);
+    Functions functions(verbose);
 
     SimilarityMatrices sims(test_forecasts);
 

@@ -102,7 +102,7 @@ void runSimilarityCalculator(
      *                     Similarity Computation                           *
      ************************************************************************/
     AnEn anen(verbose);
-    MathFunctions functions(verbose);
+    Functions functions(verbose);
 
     SimilarityMatrices sims(test_forecasts);
 

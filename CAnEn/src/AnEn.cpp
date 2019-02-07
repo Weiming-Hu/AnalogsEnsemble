@@ -216,7 +216,7 @@ AnEn::computeSimilarity(
             search_observations, mapping, i_observation_parameter));
     
     // Create object for functions
-    MathFunctions functions(verbose_);
+    Functions functions(verbose_);
 
     // Check max_par_nan
     if (max_par_nan >= 0 && max_par_nan <= search_forecasts.getParametersSize()) {
@@ -384,7 +384,7 @@ AnEn::selectAnalogs(
         SimilarityMatrices & sims,
         const anenSta::Stations & test_stations,
         const Observations_array & search_observations,
-        const MathFunctions::TimeMapMatrix & mapping,
+        const Functions::TimeMapMatrix & mapping,
         size_t i_parameter, size_t num_members,
         bool quick, bool extend_observations) const {
 
@@ -678,7 +678,7 @@ AnEn::compute_single_similarity_(
         double max_flt_nan) const {
     
     // Create function object
-    MathFunctions functions(verbose_);
+    Functions functions(verbose_);
 
     // Initialize similarity metric value.
     double sim = 0;

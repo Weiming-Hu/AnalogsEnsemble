@@ -8,7 +8,7 @@
 #ifndef ANEN_H
 #define ANEN_H
 
-#include "MathFunctions.h"
+#include "Functions.h"
 
 /**
  * \class AnEn
@@ -24,7 +24,7 @@ public:
 
     virtual ~AnEn();
 
-    using TimeMapMatrix = MathFunctions::TimeMapMatrix;
+    using TimeMapMatrix = Functions::TimeMapMatrix;
 
     /**
      * AnEn::SearchStationMatrix is a lookup table for search stations of each

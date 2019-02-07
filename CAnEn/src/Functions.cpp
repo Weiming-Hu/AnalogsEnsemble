@@ -1,17 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /* 
- * File:   MathFunctions.cpp
- * Author: guido
+ * File:   Functions.cpp
+ * Author: Weiming Hu <weiming@psu.edu>
  * 
  * Created on February 6, 2019, 2:58 PM
  */
 
-#include "MathFunctions.h"
+#include "Functions.h"
 #include "colorTexts.h"
 
 using namespace std;
@@ -24,17 +18,17 @@ const double MULTIPLY = M_PI / 180;
 const double MULTIPLY_REVERSE = 180 / M_PI;
 const double FILL_VALUE = NAN;
 
-MathFunctions::MathFunctions(int verbose) : verbose_(verbose) {
+Functions::Functions(int verbose) : verbose_(verbose) {
 }
 
-//MathFunctions::MathFunctions(const MathFunctions& orig) {
+//Functions::Functions(const Functions& orig) {
 //}
 
-MathFunctions::~MathFunctions() {
+Functions::~Functions() {
 }
 
 errorType
-MathFunctions::computeStandardDeviation(
+Functions::computeStandardDeviation(
         const Forecasts_array& forecasts, StandardDeviation& sds) const {
 
     if (verbose_ >= 3) cout << "Computing standard deviation ... " << endl;
@@ -86,7 +80,7 @@ shared(num_parameters, num_stations, num_flts, num_times, array, circular_flags,
 }
 
 errorType
-MathFunctions::computeSearchWindows(boost::numeric::ublas::matrix<size_t> & windows,
+Functions::computeSearchWindows(boost::numeric::ublas::matrix<size_t> & windows,
         size_t num_flts, size_t window_half_size) const {
 
     if (verbose_ >= 3) cout << "Computing search windows for FLT ... " << endl;
@@ -107,16 +101,16 @@ MathFunctions::computeSearchWindows(boost::numeric::ublas::matrix<size_t> & wind
 }
 
 errorType
-MathFunctions::computeObservationsTimeIndices(
+Functions::computeObservationsTimeIndices(
         const anenTime::Times & times_forecasts,
         const anenTime::Times & flts_forecasts,
         const anenTime::Times & times_observations,
-        MathFunctions::TimeMapMatrix & mapping_ref,
+        Functions::TimeMapMatrix & mapping_ref,
         int time_match_mode) const {
 
     if (verbose_ >= 3) cout << "Computing mapping from forecast [Time, FLT] to observation [Time]  ... " << endl;
 
-    MathFunctions::TimeMapMatrix mapping(times_forecasts.size(), flts_forecasts.size(), FILL_VALUE);
+    Functions::TimeMapMatrix mapping(times_forecasts.size(), flts_forecasts.size(), FILL_VALUE);
 
     const auto & times_forecasts_by_insert = times_forecasts.get<anenTime::by_insert>();
     const auto & flts_forecasts_by_insert = flts_forecasts.get<anenTime::by_insert>();
@@ -169,12 +163,12 @@ limit_row, limit_col) firstprivate(index)
 }
 
 double
-MathFunctions::sdLinear(const vector<double>& values) const {
+Functions::sdLinear(const vector<double>& values) const {
     return (sqrt(variance(values)));
 }
 
 double
-MathFunctions::sdCircular(const vector<double>& values) const {
+Functions::sdCircular(const vector<double>& values) const {
 
     vector<double> sins(values.size());
     vector<double> coss(values.size());
@@ -209,7 +203,7 @@ MathFunctions::sdCircular(const vector<double>& values) const {
 }
 
 double
-MathFunctions::mean(const std::vector<double>& values, const double max_nan_allowed) const {
+Functions::mean(const std::vector<double>& values, const double max_nan_allowed) const {
     double sum = 0.0;
     size_t nan_count = 0, vec_size = values.size();
 
@@ -228,7 +222,7 @@ MathFunctions::mean(const std::vector<double>& values, const double max_nan_allo
 }
 
 double
-MathFunctions::variance(const std::vector<double>& values) const {
+Functions::variance(const std::vector<double>& values) const {
     double average = mean(values);
     if (std::isnan(average)) return NAN;
 
@@ -247,7 +241,7 @@ MathFunctions::variance(const std::vector<double>& values) const {
 }
 
 double
-MathFunctions::diffCircular(double i, double j) const {
+Functions::diffCircular(double i, double j) const {
     double res1 = abs(i - j);
     double res2 = abs(res1 - 360);
     return (min(res1, res2));
