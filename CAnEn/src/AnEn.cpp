@@ -6,7 +6,6 @@
  */
 
 #include "AnEn.h"
-#include "exception"
 #include "colorTexts.h"
 #include <boost/numeric/ublas/io.hpp>
 
@@ -19,11 +18,7 @@
 #endif
 
 using namespace std;
-using errorType = AnEn::errorType;
 using simMethod = AnEn::simMethod;
-
-const double MULTIPLY = M_PI / 180;
-const double MULTIPLY_REVERSE = 180 / M_PI;
 
 const double AnEn::_FILL_VALUE = NAN;
 const size_t AnEn::_SERIAL_LENGTH_LIMIT = 500;
@@ -36,141 +31,6 @@ verbose_(verbose) {
 }
 
 AnEn::~AnEn() {
-}
-
-errorType
-AnEn::computeStandardDeviation(
-        const Forecasts_array& forecasts, StandardDeviation& sds) {
-
-    if (verbose_ >= 3) cout << "Computing standard deviation ... " << endl;
-
-    size_t num_parameters = forecasts.getParametersSize();
-    size_t num_stations = forecasts.getStationsSize();
-    size_t num_times = forecasts.getTimesSize();
-    size_t num_flts = forecasts.getFLTsSize();
-
-    auto & array = forecasts.data();
-
-    vector<bool> circular_flags(num_parameters, false);
-    auto & parameters_by_insert = forecasts.getParameters().get<anenPar::by_insert>();
-    for (size_t i_parameter = 0; i_parameter < num_parameters; i_parameter++) {
-        circular_flags[i_parameter] = parameters_by_insert[i_parameter].getCircular();
-    }
-
-    // Resize sds according to forecasts
-    StandardDeviation::extent_gen extents;
-    sds.resize(extents[num_parameters][num_stations][num_flts]);
-
-#if defined(_OPENMP)
-#pragma omp parallel for default(none) schedule(static) collapse(3) \
-shared(num_parameters, num_stations, num_flts, num_times, array, circular_flags, sds) 
-#endif
-    for (size_t i_parameter = 0; i_parameter < num_parameters; i_parameter++) {
-        for (size_t i_station = 0; i_station < num_stations; i_station++) {
-            for (size_t i_flt = 0; i_flt < num_flts; i_flt++) {
-
-                // Extract values for times
-                vector<double> values(num_times);
-                for (size_t i_time = 0; i_time < num_times; i_time++) {
-                    values[i_time] = array [i_parameter][i_station][i_time][i_flt];
-                } // End of times loop
-
-                if (circular_flags[i_parameter]) {
-                    // If the parameter is circular
-                    sds[i_parameter][i_station][i_flt] = sdCircular(values);
-                } else {
-                    // If the parameter is not circular
-                    sds[i_parameter][i_station][i_flt] = sdLinear(values);
-                } // End of if statement of is_circular
-
-            } // End of FLTs loop
-        } // End of stations loop
-    } // End of parameters loop
-
-    return (SUCCESS);
-}
-
-errorType
-AnEn::computeSearchWindows(boost::numeric::ublas::matrix<size_t> & windows,
-        size_t num_flts, size_t window_half_size) const {
-
-    if (verbose_ >= 3) cout << "Computing search windows for FLT ... " << endl;
-
-    windows.resize(num_flts, 2);
-
-    for (size_t i_flt = 0; i_flt < num_flts; i_flt++) {
-        int begin = 0;
-        size_t end = 0;
-
-        begin = i_flt - window_half_size;
-        end = i_flt + window_half_size;
-        windows(i_flt, 0) = (begin < 0) ? 0 : begin;
-        windows(i_flt, 1) = (end >= num_flts) ? (num_flts - 1) : end;
-    }
-
-    return (SUCCESS);
-}
-
-errorType
-AnEn::computeObservationsTimeIndices(
-        const anenTime::Times & times_forecasts,
-        const anenTime::Times & flts_forecasts,
-        const anenTime::Times & times_observations,
-        AnEn::TimeMapMatrix & mapping_ref,
-        int time_match_mode) const {
-
-    if (verbose_ >= 3) cout << "Computing mapping from forecast [Time, FLT] to observation [Time]  ... " << endl;
-
-    AnEn::TimeMapMatrix mapping(times_forecasts.size(), flts_forecasts.size(), AnEn::_FILL_VALUE);
-
-    const auto & times_forecasts_by_insert = times_forecasts.get<anenTime::by_insert>();
-    const auto & flts_forecasts_by_insert = flts_forecasts.get<anenTime::by_insert>();
-
-    size_t index = 0;
-
-    // OpenMP does not allow return status. So this flag is used to keep track
-    // of return status of the loop
-    //
-    int loop_flag = 0;
-
-    // Define vairables for perfectly nexted parallel loops with collapse
-    auto limit_row = mapping.size1();
-    auto limit_col = mapping.size2();
-
-#if defined(_OPENMP)
-#pragma omp parallel for default(none) schedule(static) collapse(2) reduction(max:loop_flag) \
-shared(mapping, times_observations, times_forecasts_by_insert, flts_forecasts_by_insert, cout, \
-limit_row, limit_col) firstprivate(index)
-#endif
-    for (size_t i_row = 0; i_row < limit_row; i_row++) {
-        for (size_t i_col = 0; i_col < limit_col; i_col++) {
-
-            try {
-                index = times_observations.getTimeIndex(
-                        times_forecasts_by_insert[i_row] + flts_forecasts_by_insert[i_col]);
-                mapping(i_row, i_col) = index;
-            } catch (...) {
-                loop_flag = 1;
-            }
-        }
-    }
-
-    if (loop_flag > 0) {
-
-        if (time_match_mode == 0) {
-            if (verbose_ >= 1) cout << BOLDRED
-                    << "Error: Could not find some search forecast times in observation times."
-                    << RESET << endl;
-            return (OUT_OF_RANGE);
-        } else {
-            if (verbose_ >= 2) cout << RED
-                    << "Warning: Could not find some search forecast times in observation times."
-                    << RESET << endl;
-        }
-    }
-
-    swap(mapping_ref, mapping);
-    return (SUCCESS);
 }
 
 errorType
@@ -354,6 +214,9 @@ AnEn::computeSimilarity(
     // Check input
     handleError(check_input_(test_forecasts, search_forecasts, sds,
             search_observations, mapping, i_observation_parameter));
+    
+    // Create object for functions
+    MathFunctions functions(verbose_);
 
     // Check max_par_nan
     if (max_par_nan >= 0 && max_par_nan <= search_forecasts.getParametersSize()) {
@@ -418,7 +281,7 @@ AnEn::computeSimilarity(
     // Pre compute the window size for each FLT
     size_t window_half_size = 1;
     boost::numeric::ublas::matrix<size_t> flts_window;
-    handleError(computeSearchWindows(flts_window, num_flts, window_half_size));
+    handleError(functions.computeSearchWindows(flts_window, num_flts, window_half_size));
 
     // Get circular parameters and parameter weights
     vector<bool> circular_flags(num_parameters, false);
@@ -521,7 +384,7 @@ AnEn::selectAnalogs(
         SimilarityMatrices & sims,
         const anenSta::Stations & test_stations,
         const Observations_array & search_observations,
-        const AnEn::TimeMapMatrix & mapping,
+        const MathFunctions::TimeMapMatrix & mapping,
         size_t i_parameter, size_t num_members,
         bool quick, bool extend_observations) const {
 
@@ -609,15 +472,6 @@ extend_observations, test_stations_index_in_search)
     return (SUCCESS);
 }
 
-void
-AnEn::handleError(const errorType & indicator) const {
-    if (indicator != SUCCESS) {
-        throw runtime_error("Error code "
-                + to_string((long long) indicator)
-                + "\nCode reference: https://weiming-hu.github.io/AnalogsEnsemble/CXX/class_an_en.html#a0e256eb89d102d318a47d936b02242bf");
-    }
-}
-
 int
 AnEn::getVerbose() const {
     return verbose_;
@@ -637,91 +491,6 @@ AnEn::setMethod(simMethod method) {
 void
 AnEn::setVerbose(int verbose) {
     verbose_ = verbose;
-}
-
-double
-AnEn::sdLinear(const vector<double>& values) const {
-    return (sqrt(variance(values)));
-}
-
-double
-AnEn::sdCircular(const vector<double>& values) const {
-
-    vector<double> sins(values.size());
-    vector<double> coss(values.size());
-
-    for (unsigned int i = 0; i < values.size(); i++) {
-
-        // This is to convert from degrees to radians
-        //
-        double rad = values[i] * MULTIPLY;
-
-        sins[i] = sin(rad);
-        coss[i] = cos(rad);
-    }
-
-    double s = mean(sins);
-    double c = mean(coss);
-
-    // Yamartino estimator
-    double e = sqrt(1.0 - (pow(s, 2.0) + pow(c, 2.0)));
-    double asine = asin(e);
-    double ex3 = pow(e, 3);
-
-    // This is the best estimator that Yamartino has found
-    //              2 / sqrt(3) - 1 = 0.1547
-    //
-    const double b = 0.1547;
-
-    double q = asine * (1 + b * ex3);
-
-    // Convert back to degrees
-    return (q * MULTIPLY_REVERSE);
-}
-
-double
-AnEn::mean(const std::vector<double>& values, const double max_nan_allowed) const {
-    double sum = 0.0;
-    size_t nan_count = 0, vec_size = values.size();
-
-    for (const auto & value : values) {
-        if (std::isnan(value)) {
-            nan_count++;
-        } else {
-            sum += value;
-        }
-    }
-
-    if (!std::isnan(max_nan_allowed) && nan_count > max_nan_allowed) return NAN;
-    if (nan_count == vec_size) return NAN;
-
-    return (sum / (double) (vec_size - nan_count));
-}
-
-double
-AnEn::variance(const std::vector<double>& values) const {
-    double average = mean(values);
-    if (std::isnan(average)) return NAN;
-
-    double sum = 0.0;
-    size_t valid = 0;
-
-    for (const auto & value : values) {
-        if (!std::isnan(value)) {
-
-            sum += pow(value - average, 2);
-            valid++;
-        }
-    }
-
-    return (sum / ((double) valid - 1.0));
-}
-
-double
-AnEn::diffCircular(double i, double j) const {
-    double res1 = abs(i - j);
-    double res2 = abs(res1 - 360);
-    return (min(res1, res2));
 }
 
 errorType
@@ -907,6 +676,9 @@ AnEn::compute_single_similarity_(
 
         double max_par_nan,
         double max_flt_nan) const {
+    
+    // Create function object
+    MathFunctions functions(verbose_);
 
     // Initialize similarity metric value.
     double sim = 0;
@@ -940,13 +712,13 @@ AnEn::compute_single_similarity_(
                 }
 
                 if (circular_flags[i_parameter]) {
-                    window[pos] = pow(diffCircular(value_search, value_test), 2);
+                    window[pos] = pow(functions.diffCircular(value_search, value_test), 2);
                 } else {
                     window[pos] = pow(value_search - value_test, 2);
                 }
             } // End loop of search window FLTs
 
-            double average = mean(window, max_flt_nan);
+            double average = functions.mean(window, max_flt_nan);
 
             if (!std::isnan(average)) {
                 if (sds[i_parameter][i_search_station][i_flt] > 0) {

@@ -14,12 +14,12 @@
 #include <cstddef>
 
 #include "Times.h"
-#include "Stations.h"
-#include "Parameters.h"
-#include "Forecasts.h"
 #include "Analogs.h"
-#include "Observations.h"
+#include "Stations.h"
+#include "Forecasts.h"
+#include "Parameters.h"
 #include "colorTexts.h"
+#include "Observations.h"
 #include "SimilarityMatrices.h"
 #include "StandardDeviation.h"
 #include "boost/numeric/ublas/matrix.hpp"
@@ -80,60 +80,6 @@ public:
             std::vector<std::string> optional_variables);
 
     virtual ~AnEnIO();
-
-    /**
-     * Specifies the return error type of a function. Use 
-     * AnEnIO::handleError to handle the returned errorType.
-     */
-    enum errorType {
-        /// 0
-        SUCCESS = 0,
-        /// -1
-        UNKNOWN_ERROR = -1,
-        /// -2
-        UNKOWN_FILE_TYPE = -2,
-        /// -3
-        WRONG_FILE_TYPE = -3,
-        /// -4
-        FILE_EXISTS = -4,
-        /// -5
-        UNKNOWN_MODE = -5,
-        /// -6
-        WRONG_MODE = -6,
-        /// -7
-        FILEIO_ERROR = -7,
-        /// -8
-        METHOD_NOT_IMPLEMENTED = -8,
-
-        /// -10
-        FILE_NOT_FOUND = -10,
-        /// -11
-        REQUIRED_VARIABLE_MISSING = -11,
-        /// -12
-        OPTIONAL_VARIABLE_MISSING = -12,
-        /// -13
-        DIMENSION_MISSING = -13,
-        /// -14
-        WRONG_VARIABLE_SHAPE = -14,
-        /// -15
-        WRONG_VARIABLE_TYPE = -15,
-        /// -16
-        ELEMENT_NOT_UNIQUE = -16,
-        /// -17
-        DIMENSION_EXISTS = -17,
-        /// -18
-        VARIABLE_EXISTS = -18,
-        /// -19
-        WRONG_INDEX_SHAPE = -19,
-
-        /// -50
-        ERROR_SETTING_VALUES = -50,
-        /// -51
-        NAN_VALUES = -51,
-
-        /// -51
-        INSUFFICIENT_MEMORY = -100
-    };
     
 #if defined(_ENABLE_MPI)
     /*
@@ -152,14 +98,14 @@ public:
     /**
      * Checks object mode for input/output.
      * 
-     * @return AnEnIO::errorType
+     * @return errorType
      */
     errorType checkMode() const;
 
     /**
      * Checks file path and file extension.
      * 
-     * @return AnEnIO::errorType.
+     * @return errorType.
      */
     errorType checkFilePath() const;
 
@@ -170,7 +116,7 @@ public:
      * - Observations
      * - Forecasts
      * 
-     * @return AnEnIO::errorType.
+     * @return errorType.
      */
     errorType checkFileType() const;
 
@@ -178,7 +124,7 @@ public:
      * Checks whether the variable exists.
      * @param var_name The variable name.
      * @param optional Whether the variable is optional.
-     * @return AnEnIO::errorType.
+     * @return errorType.
      */
     errorType checkVariable(std::string var_name, bool optional) const;
 
@@ -186,19 +132,19 @@ public:
      * Checks whether the dimension exists.
      * 
      * @param dim_name The dimension name.
-     * @return AnEnIO::errorType.
+     * @return errorType.
      */
     errorType checkDim(std::string dim_name) const;
 
     /**
      * Checks the required and optional variables.
-     * @return AnEnIO::errorType.
+     * @return errorType.
      */
     errorType checkVariables() const;
 
     /**
      * Checks the required dimensions.
-     * @return AnEnIO::errorType.
+     * @return errorType.
      */
     errorType checkDimensions() const;
 
@@ -206,7 +152,7 @@ public:
      * Reads observation file into an Observations object.
      * 
      * @param observations The Observations_array object to store data.
-     * @return An AnEnIO::errorType.
+     * @return An errorType.
      */
     errorType readObservations(Observations_array & observations) const;
 
@@ -219,7 +165,7 @@ public:
      * @param count A vector of numbers of data to read for each dimension.
      * @param stride A vector of numbers of the length of the stride for
      * each dimension.
-     * @return An AnEnIO::errorType.
+     * @return An errorType.
      */
     errorType readObservations(Observations_array & observations,
             std::vector<size_t> start,
@@ -230,7 +176,7 @@ public:
      * Reads forecast file into an Forecasts object.
      * 
      * @param forecasts The Forecasts_array object to store data.
-     * @return An AnEnIO::errorType.
+     * @return An errorType.
      */
     errorType readForecasts(Forecasts_array & forecasts) const;
 
@@ -242,7 +188,7 @@ public:
      * @param count A vector of numbers of data to read for each dimension.
      * @param stride A vector of numbers of the length of the stride for
      * each dimension.
-     * @return An AnEnIO::errorType.
+     * @return An errorType.
      */
     errorType readForecasts(Forecasts_array & forecasts,
             std::vector<size_t> start,
@@ -257,7 +203,7 @@ public:
      * This function assumes the name of the variable is "FLTs".
      * 
      * @param flts The anenTime::FLTs object to store the information.
-     * @return An AnEnIO::errorType.
+     * @return An errorType.
      */
     errorType readFLTs(anenTime::FLTs & flts) const;
     errorType readFLTs(anenTime::FLTs & flts,
@@ -272,7 +218,7 @@ public:
      * optional variable names "ParameterNames" and "ParameterCirculars".
      * 
      * @param parameters The anenPar::Parameters object to store the information.
-     * @return An AnEnIO::errorType.
+     * @return An errorType.
      */
     errorType readParameters(anenPar::Parameters & parameters) const;
     errorType readParameters(anenPar::Parameters & parameters,
@@ -287,7 +233,7 @@ public:
      * variable names "StationNames", "Xs", and "Ys".
      * 
      * @param stations The anenSta::Stations object to store information.
-     * @return An AnEnIO::errorType.
+     * @return An errorType.
      */
     errorType readStations(anenSta::Stations & stations,
             const std::string & dim_name_prefix = "",
@@ -306,7 +252,7 @@ public:
      * 
      * @param times The anenTime::Times object to store information.
      * @param var_name The variable name of the Time variable to be written.
-     * @return An AnEnIO::errorType.
+     * @return An errorType.
      */
     errorType readTimes(anenTime::Times & times,
             const std::string & var_name = "Times") const;
@@ -319,21 +265,21 @@ public:
      * 
      * @param dim_name The name of the dimension to read.
      * @param len The variable to store the length information.
-     * @return An AnEnIO::errorType.
+     * @return An errorType.
      */
     errorType readDimLength(std::string dim_name, std::size_t & len) const;
 
     /**
      * Write forecasts.
      * @param forecasts Forecasts to write.
-     * @return An AnEnIO::errorType.
+     * @return An errorType.
      */
     errorType writeForecasts(const Forecasts & forecasts) const;
 
     /**
      * Write observations.
      * @param observations Observations to write.
-     * @return An AnEnIO::errorType.
+     * @return An errorType.
      */
     errorType writeObservations(const Observations & observations) const;
 
@@ -342,7 +288,7 @@ public:
      * will be created; Variables for FLTs will be created.
      * @param flts anenTime::FLTs to write.
      * @param unlimited Whether this dimension is unlimited.
-     * @return An AnEnIO::errorType.
+     * @return An errorType.
      */
     errorType writeFLTs(const anenTime::FLTs & flts, bool unlimited) const;
 
@@ -352,7 +298,7 @@ public:
      * will be created.
      * @param parameters anenPar::Parameters to write.
      * @param unlimited Whether this dimension is unlimited.
-     * @return An AnEnIO::errorType.
+     * @return An errorType.
      */
     errorType writeParameters(
             const anenPar::Parameters & parameters, bool unlimited) const;
@@ -362,7 +308,7 @@ public:
      * Variables for name of stations, Xs, and Ys will be created.
      * @param stations anenSta::Stations to write.
      * @param unlimited Whether this dimension is unlimited.
-     * @return An AnEnIO::errorType.
+     * @return An errorType.
      */
     errorType writeStations(
             const anenSta::Stations & stations, bool unlimited,
@@ -376,7 +322,7 @@ public:
      * @param unlimited Whether this dimension is unlimited.
      * @param dim_name The dimension name associated with the time variable.
      * @param var_name The name of the time variable to be written.
-     * @return An AnEnIO::errorType.
+     * @return An errorType.
      */
     errorType writeTimes(const anenTime::Times & times, bool unlimited,
             const std::string & dim_name = "num_times",
@@ -385,7 +331,7 @@ public:
     /**
      * Read SimilarityMatrices.
      * @param sims SimilarityMatrices to store data.
-     * @return An AnEnIO::errorType.
+     * @return An errorType.
      */
     errorType readSimilarityMatrices(SimilarityMatrices & sims);
 
@@ -401,7 +347,7 @@ public:
      * @param flts anenTime::FLTs.
      * @param search_stations anenSta::Stations.
      * @param search_times anenTime::Times.
-     * @return An AnEnIO::errorType.
+     * @return An errorType.
      */
     errorType writeSimilarityMatrices(
             const SimilarityMatrices & sims,
@@ -415,7 +361,7 @@ public:
     /**
      * Read Analogs.
      * @param analogs Analogs to store the data.
-     * @return An AnEnIO::errorType.
+     * @return An errorType.
      */
     errorType readAnalogs(Analogs & analogs);
 
@@ -430,7 +376,7 @@ public:
      * @param flts anenTime::FLTs.
      * @param search_stations anenSta::Stations.
      * @param search_times anenTime::Times.
-     * @return An AnEnIO::errorType.
+     * @return An errorType.
      */
     errorType writeAnalogs(
             const Analogs & analogs,
@@ -444,7 +390,7 @@ public:
      * Read StandardDeviation.
      * 
      * @param sds StandardDeviation.
-     * @return An AnEnIO::errorType. 
+     * @return An errorType. 
      */
     errorType readStandardDeviation(StandardDeviation & sds);
     errorType readStandardDeviation(StandardDeviation & sds,
@@ -462,20 +408,13 @@ public:
      * there can be circular parameters that must be identified.
      * @param stations anenSta::Stations.
      * @param flts anenTime::FLTs.
-     * @return AnEnIO::errorType.
+     * @return errorType.
      */
     errorType writeStandardDeviation(
             const StandardDeviation & sds,
             const anenPar::Parameters & parameters,
             const anenSta::Stations & stations,
             const anenTime::FLTs & flts) const;
-
-    /**
-     * Handles the errorType variable.
-     * 
-     * @param indicator An AnEnIO::errorType item.
-     */
-    void handleError(const errorType & indicator) const;
 
     /**
      * Whether the write function should be writing to an existing file.
@@ -559,7 +498,7 @@ public:
      * this template.
      * 
      * @param matrix A boost matrix to store the data.
-     * @return An AnEnIO::errorType.
+     * @return An errorType.
      */
     template <typename T>
     errorType
@@ -571,7 +510,7 @@ public:
      * this template.
      * 
      * @param mapping A boost matrix to write.
-     * @return An AnEnIO::errorType.
+     * @return An errorType.
      */
     template <typename T>
     errorType
@@ -626,7 +565,7 @@ public:
      * @param verbose Verbose level.
      * @param starts The start index for each dimension.
      * @param counts The count number for each dimension.
-     * @return An AnEnIO::errorType;
+     * @return An errorType;
      */
     static errorType
     combineForecastsArray(
@@ -642,7 +581,7 @@ public:
      * @param observations An Observations_array to store the binded sub arrays.
      * @param along Which dimension to append counting from 0.
      * @param verbose Verbose level.
-     * @return An AnEnIO::errorType;
+     * @return An errorType;
      */
     static errorType
     combineObservationsArray(
@@ -659,7 +598,7 @@ public:
      * @param flts anenTime::FLTs.
      * @param along Which dimension to append counting from 0.
      * @param verbose Verbose level.
-     * @return An AnEnIO::errorType;
+     * @return An errorType;
      */
     static errorType
     combineStandardDeviation(const std::vector<std::string> & in_files,
@@ -678,7 +617,7 @@ public:
      * @param flts anenTime::FLTs.
      * @param along Which dimension to append counting from 0.
      * @param verbose Verbose level.
-     * @return  An AnEnIO::errorType;
+     * @return  An errorType;
      */
     static errorType
     combineSimilarityMatrices(const std::vector<std::string> & in_files,
@@ -699,7 +638,7 @@ public:
      * @param flts anenTime::FLTs.
      * @param along Which dimension to append, counting from 0. 
      * @param verbose Verbose level.
-     * @return An AnEnIO::errorType.
+     * @return An errorType.
      */
     static errorType
     combineAnalogs(const std::vector<std::string> & in_files,
@@ -777,7 +716,7 @@ protected:
      * 
      * @param var_name The variable name.
      * @param results A string container.
-     * @return AnEnIO::errorType.
+     * @return errorType.
      */
     errorType read_string_vector_(std::string var_name,
             std::vector<std::string> & results) const;
@@ -824,7 +763,7 @@ protected:
      * writing a standard deviation file requires more than just the
      * StandardDeviation. 
      * @param sds StandardDeviation to be written.
-     * @return AnEnIO::errorType.
+     * @return errorType.
      */
     errorType writeStandardDeviationOnly_(const StandardDeviation & sds) const;
 
@@ -832,7 +771,7 @@ protected:
      * Reads forecasts array data. Forecasts data should be
      * allocated by Forecasts_array::updateDataDims.
      * @param forecasts
-     * @return An AnEnIO::errorType.
+     * @return An errorType.
      */
     errorType readForecastsArrayData_(Forecasts_array & forecasts) const;
 
@@ -844,7 +783,7 @@ protected:
      * @param count A vector of numbers of data to read for each dimension.
      * @param stride A vector of numbers of the length of the stride for
      * each dimension.
-     * @return An AnEnIO::errorType.
+     * @return An errorType.
      */
     errorType readForecastsArrayData_(Forecasts_array & forecasts,
             std::vector<size_t> start,
@@ -855,7 +794,7 @@ protected:
      * Reads observation array data. Observations data should be
      * allocated by Observations_array::updateDataDims.
      * @param observations
-     * @return An AnEnIO::errorType.
+     * @return An errorType.
      */
     errorType readObservationsArrayData_(Observations_array & observations) const;
 
@@ -867,7 +806,7 @@ protected:
      * @param count A vector of numbers of data to read for each dimension.
      * @param stride A vector of numbers of the length of the stride for
      * each dimension.
-     * @return An AnEnIO::errorType.
+     * @return An errorType.
      */
     errorType readObservationsArrayData_(Observations_array & observations,
             std::vector<size_t> start,
@@ -885,7 +824,7 @@ protected:
      * @param names The names of parameters.
      * @param circulars The names of circular parameters.
      * @param weights The weights of parameters.
-     * @return An AnEnIO::errorType;
+     * @return An errorType;
      */
     errorType insertParameters_(anenPar::Parameters & parameters, size_t dim_len,
         const std::vector<std::string> & names, std::vector<std::string> & circulars, 
@@ -902,7 +841,7 @@ protected:
      * @param names, The names of stations.
      * @param xs the x coordinates of stations.
      * @param ys the y coordinates of stations.
-     * @return An AnEnIO::errorType.
+     * @return An errorType.
      */
     errorType insertStations_(anenSta::Stations & stations, size_t dim_len,
             const std::vector<std::string> & names, const std::vector<double> & xs,
@@ -913,7 +852,7 @@ protected:
      * 
      * @param var_name The variable name.
      * @param results An atomic container.
-     * @return AnEnIO::errorType.
+     * @return errorType.
      */
     template<typename T>
     errorType

@@ -77,26 +77,26 @@ void runAnalogGenerator(
            io_out("Write", file_analogs, "Analogs", verbose);
 
     if (test_start.empty() || test_count.empty()) {
-        io.handleError(io.readForecasts(test_forecasts));
+        handleError(io.readForecasts(test_forecasts));
     } else {
-        io.handleError(io.readForecasts(test_forecasts,
+        handleError(io.readForecasts(test_forecasts,
                 test_start, test_count));
     }
 
     io.setFilePath(file_search_forecasts);
     if (search_start.empty() || search_count.empty()) {
-        io.handleError(io.readForecasts(search_forecasts));
+        handleError(io.readForecasts(search_forecasts));
     } else {
-        io.handleError(io.readForecasts(search_forecasts,
+        handleError(io.readForecasts(search_forecasts,
                 search_start, search_count));
     }
 
     io.setFileType("Observations");
     io.setFilePath(file_observations);
     if (obs_start.empty() || obs_count.empty()) {
-        io.handleError(io.readObservations(search_observations));
+        handleError(io.readObservations(search_observations));
     } else {
-        io.handleError(io.readObservations(search_observations,
+        handleError(io.readObservations(search_observations,
                 obs_start, obs_count));
     }
 
@@ -111,6 +111,7 @@ void runAnalogGenerator(
      *                           Analog Generation                          *
      ************************************************************************/
     AnEn anen(verbose);
+    MathFunctions functions(verbose);
 
     SimilarityMatrices sims(test_forecasts);
 
@@ -119,12 +120,12 @@ void runAnalogGenerator(
         // If the standard deviation file is provided, read the file
         AnEnIO io_sds("Read", file_sds, "StandardDeviation", verbose);
         if (sds_start.empty() || sds_count.empty()) {
-            io_sds.handleError(io_sds.readStandardDeviation(sds));
+            handleError(io_sds.readStandardDeviation(sds));
         } else {
-            io_sds.handleError(io_sds.readStandardDeviation(sds, sds_start, sds_count));
+            handleError(io_sds.readStandardDeviation(sds, sds_start, sds_count));
         }
     } else {
-        anen.handleError(anen.computeStandardDeviation(search_forecasts, sds));
+        handleError(functions.computeStandardDeviation(search_forecasts, sds));
     }
 
 #if defined(_CODE_PROFILING)
@@ -135,13 +136,13 @@ void runAnalogGenerator(
 #endif
 
     AnEn::TimeMapMatrix mapping;
-    anen.handleError(anen.computeObservationsTimeIndices(
+    handleError(functions.computeObservationsTimeIndices(
                 search_forecasts.getTimes(), search_forecasts.getFLTs(),
                 search_observations.getTimes(), mapping, time_match_mode));
     if (!file_mapping.empty()) {
         io.setMode("Write", file_mapping);
         io.setFileType("Matrix");
-        io.handleError(io.writeTextMatrix(mapping));
+        handleError(io.writeTextMatrix(mapping));
     }
 
 #if defined(_CODE_PROFILING)
@@ -159,13 +160,13 @@ void runAnalogGenerator(
     
     AnEn::SearchStationMatrix i_search_stations;
 
-    anen.handleError(anen.computeSearchStations(
+    handleError(anen.computeSearchStations(
             test_forecasts.getStations(),
             search_forecasts.getStations(),
             i_search_stations, max_neighbors,
             distance, num_neighbors));
     
-    anen.handleError(anen.computeSimilarity(
+    handleError(anen.computeSimilarity(
             test_forecasts, search_forecasts, sds, sims, search_observations,
             mapping, i_search_stations, observation_id, extend_observations,
             max_par_nan, max_flt_nan));
@@ -173,7 +174,7 @@ void runAnalogGenerator(
 
     if (!file_similarity.empty()) {
         AnEnIO io_sim("Write", file_similarity, "Similarity");
-        io_sim.handleError(io_sim.writeSimilarityMatrices(
+        handleError(io_sim.writeSimilarityMatrices(
                 sims, test_forecasts.getParameters(),
                 test_forecasts.getStations(),
                 test_forecasts.getTimes(),
@@ -191,7 +192,7 @@ void runAnalogGenerator(
 
     Analogs analogs(test_forecasts, num_members);
     
-    anen.handleError(anen.selectAnalogs(analogs, sims,
+    handleError(anen.selectAnalogs(analogs, sims,
             test_forecasts.getStations(), search_observations,
             mapping, observation_id, num_members, quick,
             extend_observations));
@@ -206,7 +207,7 @@ void runAnalogGenerator(
     /************************************************************************
      *                           Write Analogs                              *
      ************************************************************************/
-    io_out.handleError(io_out.writeAnalogs(
+    handleError(io_out.writeAnalogs(
             analogs, test_forecasts.getStations(),
             test_forecasts.getTimes(),
             test_forecasts.getFLTs(),

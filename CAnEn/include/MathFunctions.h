@@ -14,10 +14,17 @@
 #ifndef MATHFUNCTIONS_H
 #define MATHFUNCTIONS_H
 
+#include "Analogs.h"
+#include "errorType.h"
+#include "Observations.h"
+#include "SimilarityMatrices.h"
+#include "StandardDeviation.h"
+#include "boost/numeric/ublas/matrix.hpp"
+
 class MathFunctions {
 public:
-    MathFunctions();
-    MathFunctions(const MathFunctions& orig);
+    MathFunctions(int verbose);
+    MathFunctions(const MathFunctions& orig) = delete;
     virtual ~MathFunctions();
     
     /**
@@ -28,15 +35,6 @@ public:
      * observation to the forecast at a specific time and FLT.
      */
     using TimeMapMatrix = boost::numeric::ublas::matrix<double>;
-    
-    /**
-     * AnEn::SearchStationMatrix is a lookup table for search stations of each
-     * test station. The number of rows is the number of test stations, and
-     * the number of column is the maximum number of search stations for
-     * each test stations. NA values can exist in the table because the 
-     * numbers of search stations can vary for test stations.
-     */
-    using SearchStationMatrix = boost::numeric::ublas::matrix<double>;
 
     /**
      * Computes the standard deviation of times of forecasts for each 
@@ -52,7 +50,7 @@ public:
      */
     errorType computeStandardDeviation(
             const Forecasts_array & forecasts,
-            StandardDeviation & sds);
+            StandardDeviation & sds) const;
 
     /**
      * Computes the search window for each FLT. the ranges are stored in a 
@@ -89,32 +87,6 @@ public:
             const anenTime::Times & flts_forecasts,
             const anenTime::Times & times_observations,
             TimeMapMatrix & mapping, int time_match_mode = 1) const;
-
-    /**
-     * Select analogs based on the similarity matrices.
-     * @param analogs Analogs object to write the analogs
-     * @param sims SimilarityMatrices on which the selection is based
-     * @param test_stations anenSta::Stations for the test.
-     * @param search_observations Observations_array where the analog values
-     * come from.
-     * @param mapping A Boost Matrix for the mapping of times between
-     * forecasts and observations. This is computed from the function
-     * AnEn::computeObservationsTimeIndices.
-     * @param i_parameter The index of the parameter to select in Observations.
-     * @param num_members How many members each analog should have.
-     * @param quick Whether to use quick sort mechanism.
-     * @param extend_observations Whether to extend observation stations to
-     * search stations. This only works when search space extension is used.
-     * @return An AnEn::errorType.
-     */
-    errorType selectAnalogs(
-            Analogs & analogs,
-            SimilarityMatrices & sims,
-            const anenSta::Stations & test_stations,
-            const Observations_array& search_observations,
-            const TimeMapMatrix & mapping,
-            size_t i_parameter, size_t num_members,
-            bool quick = true, bool extend_observations = false) const;
 
     /**
      * Computes the standard deviation for linear numbers.

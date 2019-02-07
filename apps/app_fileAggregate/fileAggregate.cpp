@@ -35,13 +35,13 @@ void runFileAggregate(const string & file_type, const vector<string> & in_files,
         Forecasts_array forecasts;
         if (verbose >= 3) cout << GREEN << "Combining forecasts ..." << RESET << endl;
         auto ret = AnEnIO::combineForecastsArray(in_files, forecasts, along, verbose);
-        if (ret != AnEnIO::errorType::SUCCESS) {
+        if (ret != errorType::SUCCESS) {
             throw runtime_error("Error: Failed when combining forecasts.");
         }
         
         // Write combined forecasts
         if (verbose >= 3) cout << GREEN << "Writing forecasts ..." << RESET << endl;
-        io_out.handleError(io_out.writeForecasts(forecasts));
+        handleError(io_out.writeForecasts(forecasts));
 
     } else if (file_type == "Observations") {
         
@@ -49,13 +49,13 @@ void runFileAggregate(const string & file_type, const vector<string> & in_files,
         if (verbose >= 3) cout << GREEN << "Combining observations ..." << RESET << endl;
         Observations_array observations;
         auto ret = AnEnIO::combineObservationsArray(in_files, observations, along, verbose);
-        if (ret != AnEnIO::errorType::SUCCESS) {
+        if (ret != errorType::SUCCESS) {
             throw runtime_error("Error: Failed when combining observations.");
         }
         
         // Write combined forecasts
         if (verbose >= 3) cout << GREEN << "Writing observations ..." << RESET << endl;
-        io_out.handleError(io_out.writeObservations(observations));
+        handleError(io_out.writeObservations(observations));
         
     } else if (file_type == "StandardDeviation") {
         
@@ -69,7 +69,7 @@ void runFileAggregate(const string & file_type, const vector<string> & in_files,
 
         auto ret = AnEnIO::combineStandardDeviation(
                 in_files, sds, parameters, stations, flts, along, verbose);
-        if (ret != AnEnIO::errorType::SUCCESS) {
+        if (ret != errorType::SUCCESS) {
             throw runtime_error("Error: Failed when combining standard deviation.");
         }
         
@@ -93,13 +93,13 @@ void runFileAggregate(const string & file_type, const vector<string> & in_files,
         auto ret = AnEnIO::combineSimilarityMatrices(
                 in_files, sims, stations, times, flts,
                 search_stations, search_times, along, verbose);
-        if (ret != AnEnIO::errorType::SUCCESS) {
+        if (ret != errorType::SUCCESS) {
             throw runtime_error("Error: Failed when combining similarity matrices.");
         }
         
         // Write combined similarity matrices
         if (verbose >= 3) cout << GREEN << "Writing similarity matrices ..." << RESET << endl;
-        io_out.handleError(io_out.writeSimilarityMatrices(
+        handleError(io_out.writeSimilarityMatrices(
                 sims, parameters, stations, times, flts, search_stations, search_times));
         
     } else if (file_type == "Analogs") {
@@ -115,14 +115,14 @@ void runFileAggregate(const string & file_type, const vector<string> & in_files,
         auto ret = AnEnIO::combineAnalogs(
                 in_files, analogs, stations, times, flts,
                 member_stations, member_times, along, verbose);
-        if (ret != AnEnIO::errorType::SUCCESS) {
+        if (ret != errorType::SUCCESS) {
             throw runtime_error("Error: Failed when combining analogs.");
         }
 
 
         // Write combined analogs
         if (verbose >= 3) cout << GREEN << "Writing analogs ..." << RESET << endl;
-        io_out.handleError(io_out.writeAnalogs(
+        handleError(io_out.writeAnalogs(
                 analogs, stations, times, flts, member_stations, member_times));
         
     } else {

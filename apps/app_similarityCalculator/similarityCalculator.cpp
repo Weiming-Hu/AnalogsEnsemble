@@ -70,26 +70,26 @@ void runSimilarityCalculator(
            io_out("Write", file_similarity, "Similarity", verbose);
 
     if (test_start.empty() || test_count.empty()) {
-        io.handleError(io.readForecasts(test_forecasts));
+        handleError(io.readForecasts(test_forecasts));
     } else {
-        io.handleError(io.readForecasts(test_forecasts,
+        handleError(io.readForecasts(test_forecasts,
                 test_start, test_count));
     }
 
     io.setFilePath(file_search_forecasts);
     if (search_start.empty() || search_count.empty()) {
-        io.handleError(io.readForecasts(search_forecasts));
+        handleError(io.readForecasts(search_forecasts));
     } else {
-        io.handleError(io.readForecasts(search_forecasts,
+        handleError(io.readForecasts(search_forecasts,
                 search_start, search_count));
     }
 
     io.setFileType("Observations");
     io.setFilePath(file_observations);
     if (obs_start.empty() || obs_count.empty()) {
-        io.handleError(io.readObservations(observations));
+        handleError(io.readObservations(observations));
     } else {
-        io.handleError(io.readObservations(observations,
+        handleError(io.readObservations(observations,
                 obs_start, obs_count));
     }
 
@@ -102,6 +102,7 @@ void runSimilarityCalculator(
      *                     Similarity Computation                           *
      ************************************************************************/
     AnEn anen(verbose);
+    MathFunctions functions(verbose);
 
     SimilarityMatrices sims(test_forecasts);
 
@@ -111,12 +112,12 @@ void runSimilarityCalculator(
         AnEnIO io_sds("Read", file_sds, "StandardDeviation", verbose);
 
         if (sds_start.empty() || sds_count.empty()) {
-            io_sds.handleError(io_sds.readStandardDeviation(sds));
+            handleError(io_sds.readStandardDeviation(sds));
         } else {
-            io_sds.handleError(io_sds.readStandardDeviation(sds, sds_start, sds_count));
+            handleError(io_sds.readStandardDeviation(sds, sds_start, sds_count));
         }
     } else {
-        anen.handleError(anen.computeStandardDeviation(search_forecasts, sds));
+        handleError(functions.computeStandardDeviation(search_forecasts, sds));
     }
 
 #if defined(_CODE_PROFILING)
@@ -124,13 +125,13 @@ void runSimilarityCalculator(
 #endif
 
     AnEn::TimeMapMatrix mapping;
-    anen.handleError(anen.computeObservationsTimeIndices(
+    handleError(functions.computeObservationsTimeIndices(
             search_forecasts.getTimes(), search_forecasts.getFLTs(),
             observations.getTimes(), mapping, time_match_mode));
     if (!file_mapping.empty()) {
         io.setMode("Write", file_mapping);
         io.setFileType("Matrix");
-        io.handleError(io.writeTextMatrix(mapping));
+        handleError(io.writeTextMatrix(mapping));
     }
 
 #if defined(_CODE_PROFILING)
@@ -145,13 +146,13 @@ void runSimilarityCalculator(
     
     AnEn::SearchStationMatrix i_search_stations;
 
-    anen.handleError(anen.computeSearchStations(
+    handleError(anen.computeSearchStations(
             test_forecasts.getStations(),
             search_forecasts.getStations(),
             i_search_stations, max_neighbors,
             distance, num_neighbors));
     
-    anen.handleError(anen.computeSimilarity(
+    handleError(anen.computeSimilarity(
             test_forecasts, search_forecasts, sds, sims, observations, mapping,
             i_search_stations, observation_id, extend_observations,
             max_par_nan, max_flt_nan));
@@ -164,7 +165,7 @@ void runSimilarityCalculator(
     /************************************************************************
      *                         Write Similarity                             *
      ************************************************************************/
-    io_out.handleError(io_out.writeSimilarityMatrices(
+    handleError(io_out.writeSimilarityMatrices(
             sims, test_forecasts.getParameters(),
             test_forecasts.getStations(),
             test_forecasts.getTimes(),

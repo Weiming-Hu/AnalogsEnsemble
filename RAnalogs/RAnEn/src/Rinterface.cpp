@@ -139,6 +139,8 @@ List generateAnalogs(
      *                           AnEn Computation                              *
      **************************************************************************/
     AnEn anen(verbose);
+    MathFunctions functions(verbose);
+    
     Analogs analogs;
     SimilarityMatrices sims(test_forecasts);
     AnEn::TimeMapMatrix mapping;
@@ -154,30 +156,30 @@ List generateAnalogs(
     else anen.setMethod(AnEn::simMethod::ONE_TO_ONE);
 
     // Pre compute the standard deviation
-    anen.handleError(anen.computeStandardDeviation(search_forecasts, sds));
+    handleError(functions.computeStandardDeviation(search_forecasts, sds));
 
     // Pre compute the time mapping from forecasts [Times, FLTs] 
     // to observations [Times]
     //
-    anen.handleError(anen.computeObservationsTimeIndices(
+    handleError(functions.computeObservationsTimeIndices(
             search_forecasts.getTimes(), search_forecasts.getFLTs(),
             search_observations.getTimes(), mapping, time_match_mode));
 
     // Compute similarity
     boost::numeric::ublas::matrix<double> i_search_stations;
     
-    anen.handleError(anen.computeSearchStations(
+    handleError(anen.computeSearchStations(
             test_forecasts.getStations(), search_forecasts.getStations(),
             i_search_stations, max_num_search_stations, distance,
             num_nearest_stations));
 
-    anen.handleError(anen.computeSimilarity(test_forecasts, search_forecasts,
+    handleError(anen.computeSimilarity(test_forecasts, search_forecasts,
             sds, sims, search_observations, mapping, i_search_stations,
             observation_parameter, extend_observations,
             max_par_nan, max_flt_nan));
 
     // Select analogs
-    anen.handleError(anen.selectAnalogs(analogs, sims, 
+    handleError(anen.selectAnalogs(analogs, sims, 
             test_stations, search_observations,
             mapping, observation_parameter, num_members, quick,
             extend_observations));

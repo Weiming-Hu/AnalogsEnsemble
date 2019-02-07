@@ -8,12 +8,7 @@
 #ifndef ANEN_H
 #define ANEN_H
 
-#include "Analogs.h"
-#include "Forecasts.h"
-#include "Observations.h"
-#include "SimilarityMatrices.h"
-#include "StandardDeviation.h"
-#include "boost/numeric/ublas/matrix.hpp"
+#include "MathFunctions.h"
 
 /**
  * \class AnEn
@@ -29,6 +24,17 @@ public:
 
     virtual ~AnEn();
 
+    using TimeMapMatrix = MathFunctions::TimeMapMatrix;
+
+    /**
+     * AnEn::SearchStationMatrix is a lookup table for search stations of each
+     * test station. The number of rows is the number of test stations, and
+     * the number of column is the maximum number of search stations for
+     * each test stations. NA values can exist in the table because the 
+     * numbers of search stations can vary for test stations.
+     */
+    using SearchStationMatrix = boost::numeric::ublas::matrix<double>;
+
     /**
      * Specifies the how similarity is computed across stations.
      * 
@@ -43,25 +49,6 @@ public:
         ONE_TO_ONE = 1, 
         /// 2
         ONE_TO_MANY = 2
-    };
-
-    /**
-     * Specifies the return error type of a function. Use AnEn::handleError
-     * to handle the returned errorType.
-     */
-    enum errorType {
-        /// 0
-        SUCCESS = 0, 
-        /// -1
-        UNKNOWN_METHOD = -1, 
-        /// -2
-        MISSING_VALUE = -2, 
-        /// -10
-        WRONG_SHAPE = -10, 
-        /// -11
-        WRONG_METHOD = -11, 
-        /// -20
-        OUT_OF_RANGE = -20 
     };
 
     /**
@@ -126,11 +113,30 @@ public:
             double max_par_nan = 0, double max_flt_nan = 0) const;
 
     /**
-     * Handles the errorType.
-     * 
-     * @param indicator An AnEn::errorType.
+     * Select analogs based on the similarity matrices.
+     * @param analogs Analogs object to write the analogs
+     * @param sims SimilarityMatrices on which the selection is based
+     * @param test_stations anenSta::Stations for the test.
+     * @param search_observations Observations_array where the analog values
+     * come from.
+     * @param mapping A Boost Matrix for the mapping of times between
+     * forecasts and observations. This is computed from the function
+     * AnEn::computeObservationsTimeIndices.
+     * @param i_parameter The index of the parameter to select in Observations.
+     * @param num_members How many members each analog should have.
+     * @param quick Whether to use quick sort mechanism.
+     * @param extend_observations Whether to extend observation stations to
+     * search stations. This only works when search space extension is used.
+     * @return An AnEn::errorType.
      */
-    void handleError(const errorType & indicator) const;
+    errorType selectAnalogs(
+            Analogs & analogs,
+            SimilarityMatrices & sims,
+            const anenSta::Stations & test_stations,
+            const Observations_array& search_observations,
+            const TimeMapMatrix & mapping,
+            size_t i_parameter, size_t num_members,
+            bool quick = true, bool extend_observations = false) const;
 
     int getVerbose() const;
     simMethod getMethod() const;

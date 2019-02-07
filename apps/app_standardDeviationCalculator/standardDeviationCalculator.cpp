@@ -7,7 +7,7 @@
 
 /** @file */
 
-#include "AnEn.h"
+#include "MathFunctions.h"
 #include "AnEnIO.h"
 #include "CommonExeFunctions.h"
 
@@ -54,12 +54,12 @@ void runStandardDeviationCalculator(
 
     if (partial_read) {
         if (AnEnIO::combineForecastsArray(in_files, forecasts, 2, verbose, starts, counts) !=
-                AnEnIO::errorType::SUCCESS) {
+                errorType::SUCCESS) {
             throw runtime_error("Error: Failed when combining forecasts.");
         }
     } else {
         if (AnEnIO::combineForecastsArray(in_files, forecasts, 2, verbose) !=
-                AnEnIO::errorType::SUCCESS) {
+                errorType::SUCCESS) {
             throw runtime_error("Error: Failed when combining forecasts.");
         }
     }
@@ -67,15 +67,15 @@ void runStandardDeviationCalculator(
     // Compute standard deviation
     if (verbose >= 3)
         cout << GREEN << "Compute standard deviation ..." << RESET << endl;
-    AnEn anen(verbose);
+    MathFunctions functions(verbose);
     StandardDeviation sds;
-    anen.handleError(anen.computeStandardDeviation(forecasts, sds));
+    handleError(functions.computeStandardDeviation(forecasts, sds));
 
     // Write standard deviation
     if (verbose >= 3) cout << GREEN
             << "Write the standard deviation ..." << RESET << endl;
 
-    io_out.handleError(io_out.writeStandardDeviation(sds,
+    handleError(io_out.writeStandardDeviation(sds,
             forecasts.getParameters(),
             forecasts.getStations(),
             forecasts.getFLTs()));

@@ -7,9 +7,9 @@
 
 /** @file */
 
-#include "AnEn.h"
 #include "AnEnIO.h"
 #include "colorTexts.h"
+#include "MathFunctions.h"
 #include "CommonExeFunctions.h"
 
 #include "boost/program_options.hpp"
@@ -53,9 +53,9 @@ void runForecastsToObservations( const string & file_in, const string & file_out
     observations.setTimes(obs_times);
     observations.updateDataDims();
 
-    AnEn anen(verbose);
-    AnEn::TimeMapMatrix mapping;
-    anen.handleError(anen.computeObservationsTimeIndices(
+    MathFunctions functions(verbose);
+    MathFunctions::TimeMapMatrix mapping;
+    handleError(functions.computeObservationsTimeIndices(
             forecasts.getTimes(), forecasts.getFLTs(),
             observations.getTimes(), mapping, time_match_mode));
 
@@ -91,7 +91,7 @@ num_stations, num_times, num_flts, obs_data, fcsts_data, mapping) collapse(4)
     }
 
     // Write observations
-    io_out.handleError(io_out.writeObservations(observations));
+    handleError(io_out.writeObservations(observations));
 
     if (verbose >= 3) cout << GREEN << "Done!" << RESET << endl;
 

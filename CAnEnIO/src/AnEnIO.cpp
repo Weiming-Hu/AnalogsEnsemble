@@ -23,7 +23,7 @@ namespace filesys = boost::filesystem;
 using namespace netCDF;
 using namespace std;
 
-using errorType = AnEnIO::errorType;
+using errorType = errorType;
 
 const string AnEnIO::_MEMBER_DIM_PREFIX = "member_";
 const string AnEnIO::_MEMBER_VAR_PREFIX = "Member";
@@ -735,13 +735,13 @@ AnEnIO::readParameters(anenPar::Parameters & parameters) const {
 
     // Read variable ParameterCirculars
     vector<string> circulars;
-    if (checkVariable("ParameterCirculars", true) == AnEnIO::errorType::SUCCESS) {
+    if (checkVariable("ParameterCirculars", true) == errorType::SUCCESS) {
         handleError(read_string_vector_("ParameterCirculars", circulars));
     }
 
     // Read variable ParameterWeights
     vector<double> weights;
-    if (checkVariable("ParameterWeights", true) == AnEnIO::errorType::SUCCESS) {
+    if (checkVariable("ParameterWeights", true) == errorType::SUCCESS) {
         handleError(read_vector_("ParameterWeights", weights));
     }
 
@@ -782,14 +782,14 @@ AnEnIO::readParameters(anenPar::Parameters& parameters,
 
     // Read variable ParameterCirculars
     vector<string> circulars;
-    if (checkVariable("ParameterCirculars", true) == AnEnIO::errorType::SUCCESS) {
+    if (checkVariable("ParameterCirculars", true) == errorType::SUCCESS) {
         handleError(read_string_vector_("ParameterCirculars",
                     circulars, start, count, stride));
     }
 
     // Read variable ParameterWeights
     vector<double> weights;
-    if (checkVariable("ParameterWeights", true) == AnEnIO::errorType::SUCCESS) {
+    if (checkVariable("ParameterWeights", true) == errorType::SUCCESS) {
         handleError(read_vector_("ParameterWeights", weights, start, count, stride));
     }
 
@@ -819,7 +819,7 @@ AnEnIO::readStations(anenSta::Stations& stations,
     // Read variable StationNames
     vector<string> names;
     if (checkVariable(var_name_prefix + "StationNames", true)
-            == AnEnIO::errorType::SUCCESS) {
+            == errorType::SUCCESS) {
         handleError(read_string_vector_(var_name_prefix + "StationNames", names));
 
         if (names.size() != dim_len) {
@@ -1718,18 +1718,6 @@ AnEnIO::writeStandardDeviation(
     return (SUCCESS);
 }
 
-void
-AnEnIO::handleError(const errorType & indicator) const {
-    if (indicator == SUCCESS ||
-            indicator == OPTIONAL_VARIABLE_MISSING) {
-        return;
-    } else {
-        throw runtime_error("Error code "
-                + to_string((long long) indicator)
-                + "\nCode reference: https://weiming-hu.github.io/AnalogsEnsemble/CXX/class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0");
-    }
-}
-
 bool
 AnEnIO::isAdd() const {
     return add_;
@@ -1940,8 +1928,8 @@ AnEnIO::combineParameters(
         AnEnIO io("Read", in_files[i], file_type, 2);
         anenPar::Parameters parameters_single;
 
-        if (partial_read) io.handleError(io.readParameters(parameters_single, start[i], count[i]));
-        else io.handleError(io.readParameters(parameters_single));
+        if (partial_read) handleError(io.readParameters(parameters_single, start[i], count[i]));
+        else handleError(io.readParameters(parameters_single));
 
         parameters.insert(parameters.end(), parameters_single.begin(), parameters_single.end());
         counter += parameters_single.size();
@@ -1982,8 +1970,8 @@ AnEnIO::combineStations(
         AnEnIO io("Read", in_files[i], file_type, 2);
         anenSta::Stations stations_single;
 
-        if (partial_read) io.handleError(io.readStations(stations_single, start[i], count[i], 1, dim_name_prefix, var_name_prefix));
-        else io.handleError(io.readStations(stations_single, dim_name_prefix, var_name_prefix));
+        if (partial_read) handleError(io.readStations(stations_single, start[i], count[i], 1, dim_name_prefix, var_name_prefix));
+        else handleError(io.readStations(stations_single, dim_name_prefix, var_name_prefix));
 
         stations.insert(stations.end(),
                 stations_single.begin(), stations_single.end());
@@ -2023,8 +2011,8 @@ AnEnIO::combineTimes(
         AnEnIO io("Read", in_files[i], file_type, 2);
         anenTime::Times times_single;
 
-        if (partial_read) io.handleError(io.readTimes(times_single, start[i], count[i], 1, var_name));
-        else io.handleError(io.readTimes(times_single, var_name));
+        if (partial_read) handleError(io.readTimes(times_single, start[i], count[i], 1, var_name));
+        else handleError(io.readTimes(times_single, var_name));
         times.insert(times.end(),
                 times_single.begin(), times_single.end());
         counter += times_single.size();
@@ -2063,8 +2051,8 @@ AnEnIO::combineFLTs(
         AnEnIO io("Read", in_files[i], file_type, 2);
         anenTime::FLTs flts_single;
 
-        if (partial_read) io.handleError(io.readFLTs(flts_single, start[i], count[i]));
-        else io.handleError(io.readFLTs(flts_single));
+        if (partial_read) handleError(io.readFLTs(flts_single, start[i], count[i]));
+        else handleError(io.readFLTs(flts_single));
         flts.insert(flts.end(),
                 flts_single.begin(), flts_single.end());
         counter += flts_single.size();
@@ -2105,10 +2093,10 @@ AnEnIO::combineForecastsArray(const vector<string> & in_files,
 
     if (partial_read) {
         if (verbose >= 3) cout << "Processing partial meta information ..." << endl;
-        io.handleError(io.readParameters(parameters, starts[0], counts[0]));
-        io.handleError(io.readStations(stations, starts[1], counts[1]));
-        io.handleError(io.readTimes(times, starts[2], counts[2]));
-        io.handleError(io.readFLTs(flts, starts[3], counts[3]));
+        handleError(io.readParameters(parameters, starts[0], counts[0]));
+        handleError(io.readStations(stations, starts[1], counts[1]));
+        handleError(io.readTimes(times, starts[2], counts[2]));
+        handleError(io.readFLTs(flts, starts[3], counts[3]));
 
         size_t len = in_files.size();
         vector<size_t> starts_parameter(len), counts_parameter(len),
@@ -2123,27 +2111,27 @@ AnEnIO::combineForecastsArray(const vector<string> & in_files,
             starts_flts[j] = starts[i+3]; counts_flts[j] = counts[i+3];
         }
 
-        if (along == 0) io.handleError(io.combineParameters(in_files, "Forecasts",
+        if (along == 0) handleError(io.combineParameters(in_files, "Forecasts",
                     parameters, verbose, starts_parameter, counts_parameter));
-        else if (along == 1) io.handleError(io.combineStations(in_files, "Forecasts",
+        else if (along == 1) handleError(io.combineStations(in_files, "Forecasts",
                     stations, verbose, "", "", starts_stations, counts_stations));
-        else if (along == 2) io.handleError(io.combineTimes(in_files, "Forecasts",
+        else if (along == 2) handleError(io.combineTimes(in_files, "Forecasts",
                     times, verbose, "Times", starts_times, counts_times));
-        else if (along == 3) io.handleError(io.combineFLTs(in_files, "Forecasts",
+        else if (along == 3) handleError(io.combineFLTs(in_files, "Forecasts",
                     flts, verbose, starts_flts, counts_flts));
         else return (ERROR_SETTING_VALUES);
 
     } else {
         if (verbose >= 3) cout << "Processing meta information ..." << endl;
-        io.handleError(io.readParameters(parameters));
-        io.handleError(io.readStations(stations));
-        io.handleError(io.readTimes(times));
-        io.handleError(io.readFLTs(flts));
+        handleError(io.readParameters(parameters));
+        handleError(io.readStations(stations));
+        handleError(io.readTimes(times));
+        handleError(io.readFLTs(flts));
 
-        if (along == 0) io.handleError(io.combineParameters(in_files, "Forecasts", parameters, verbose));
-        else if (along == 1) io.handleError(io.combineStations(in_files, "Forecasts", stations, verbose));
-        else if (along == 2) io.handleError(io.combineTimes(in_files, "Forecasts", times, verbose));
-        else if (along == 3) io.handleError(io.combineFLTs(in_files, "Forecasts", flts, verbose));
+        if (along == 0) handleError(io.combineParameters(in_files, "Forecasts", parameters, verbose));
+        else if (along == 1) handleError(io.combineStations(in_files, "Forecasts", stations, verbose));
+        else if (along == 2) handleError(io.combineTimes(in_files, "Forecasts", times, verbose));
+        else if (along == 3) handleError(io.combineFLTs(in_files, "Forecasts", flts, verbose));
         else return (ERROR_SETTING_VALUES);
     }
 
@@ -2220,17 +2208,17 @@ AnEnIO::combineObservationsArray(const vector<string> & in_files,
     AnEnIO io("Read", in_files[0], "Observations", 2);
 
     anenPar::Parameters parameters;
-    io.handleError(io.readParameters(parameters));
+    handleError(io.readParameters(parameters));
 
     anenSta::Stations stations;
-    io.handleError(io.readStations(stations));
+    handleError(io.readStations(stations));
 
     anenTime::Times times;
-    io.handleError(io.readTimes(times));
+    handleError(io.readTimes(times));
 
-    if (along == 0) io.handleError(io.combineParameters(in_files, "Observations", parameters, verbose));
-    else if (along == 1) io.handleError(io.combineStations(in_files, "Observations", stations, verbose));
-    else if (along == 2) io.handleError(io.combineTimes(in_files, "Observations", times, verbose));
+    if (along == 0) handleError(io.combineParameters(in_files, "Observations", parameters, verbose));
+    else if (along == 1) handleError(io.combineStations(in_files, "Observations", stations, verbose));
+    else if (along == 2) handleError(io.combineTimes(in_files, "Observations", times, verbose));
     else return (ERROR_SETTING_VALUES);
 
     // Update dimensions
@@ -2296,13 +2284,13 @@ AnEnIO::combineStandardDeviation(const vector<string> & in_files,
     if (verbose >= 3) cout << "Processing meta information ..." << endl;
     AnEnIO io("Read", in_files[0], "StandardDeviation", 2);
 
-    io.handleError(io.readParameters(parameters));
-    io.handleError(io.readStations(stations));
-    io.handleError(io.readFLTs(flts));
+    handleError(io.readParameters(parameters));
+    handleError(io.readStations(stations));
+    handleError(io.readFLTs(flts));
 
-    if (along == 0) io.handleError(io.combineParameters(in_files, "StandardDeviation", parameters, verbose));
-    else if (along == 1) io.handleError(io.combineStations(in_files, "StandardDeviation", stations, verbose));
-    else if (along == 2) io.handleError(io.combineFLTs(in_files, "StandardDeviation", flts, verbose));
+    if (along == 0) handleError(io.combineParameters(in_files, "StandardDeviation", parameters, verbose));
+    else if (along == 1) handleError(io.combineStations(in_files, "StandardDeviation", stations, verbose));
+    else if (along == 2) handleError(io.combineFLTs(in_files, "StandardDeviation", flts, verbose));
     else return (ERROR_SETTING_VALUES);
 
     // Identify which dimension is being appended. The appended dimension number
@@ -2372,9 +2360,9 @@ AnEnIO::combineSimilarityMatrices(
     size_t num_entries;
     io.readDimLength("num_entries", num_entries);
 
-    io.handleError(io.readStations(stations));
-    io.handleError(io.readTimes(times));
-    io.handleError(io.readFLTs(flts));
+    handleError(io.readStations(stations));
+    handleError(io.readTimes(times));
+    handleError(io.readFLTs(flts));
 
     if (along == 4) {
         if (verbose >= 1) cout << BOLDRED << "Error: Can not append along the dimension."
@@ -2392,11 +2380,11 @@ AnEnIO::combineSimilarityMatrices(
                 }
                 );
     } else if (along == 2)
-        io.handleError(io.combineFLTs(in_files, "Similarity", flts, verbose));
+        handleError(io.combineFLTs(in_files, "Similarity", flts, verbose));
     else if (along == 1)
-        io.handleError(io.combineTimes(in_files, "Similarity", times, verbose));
+        handleError(io.combineTimes(in_files, "Similarity", times, verbose));
     else if (along == 0)
-        io.handleError(io.combineStations(in_files, "Similarity", stations, verbose));
+        handleError(io.combineStations(in_files, "Similarity", stations, verbose));
     else
         return (ERROR_SETTING_VALUES);
 
@@ -2528,9 +2516,9 @@ AnEnIO::combineAnalogs(const vector<string> & in_files,
     size_t num_members;
     io.readDimLength("num_members", num_members);
 
-    io.handleError(io.readStations(stations));
-    io.handleError(io.readTimes(times));
-    io.handleError(io.readFLTs(flts));
+    handleError(io.readStations(stations));
+    handleError(io.readTimes(times));
+    handleError(io.readFLTs(flts));
 
     if (along == 4) {
         if (verbose >= 1) cout << BOLDRED << "Error: Can not append along the dimension."
@@ -2548,11 +2536,11 @@ AnEnIO::combineAnalogs(const vector<string> & in_files,
                 }
                 );
     } else if (along == 2)
-        io.handleError(io.combineFLTs(in_files, "Analogs", flts, verbose));
+        handleError(io.combineFLTs(in_files, "Analogs", flts, verbose));
     else if (along == 1)
-        io.handleError(io.combineTimes(in_files, "Analogs", times, verbose));
+        handleError(io.combineTimes(in_files, "Analogs", times, verbose));
     else if (along == 0)
-        io.handleError(io.combineStations(in_files, "Analogs", stations, verbose));
+        handleError(io.combineStations(in_files, "Analogs", stations, verbose));
     else
         return (ERROR_SETTING_VALUES);
 

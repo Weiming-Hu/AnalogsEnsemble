@@ -34,6 +34,7 @@ void testAnEn::testComputeStandardDeviation() {
      */
 
     AnEn anen(2);
+    MathFunctions functions(2);
 
     anenSta::Station s1, s2("Hunan", 10, 20);
     anenSta::Stations stations;
@@ -56,7 +57,7 @@ void testAnEn::testComputeStandardDeviation() {
     Forecasts_array forecasts(parameters, stations, times, flts, values);
 
     StandardDeviation sds;
-    anen.computeStandardDeviation(forecasts, sds);
+    functions.computeStandardDeviation(forecasts, sds);
 
     for (auto p = sds.data(); p != sds.data() + sds.num_elements(); p++) {
         CPPUNIT_ASSERT((int) (*p * 1000) == 18165);
@@ -169,18 +170,18 @@ void testAnEn::testComputeSimilarity() {
     // Construct standard deviation
     StandardDeviation sds(parameters.size(),
             search_stations.size(), flts.size());
-    anen.computeStandardDeviation(search_forecasts, sds);
+    functions.computeStandardDeviation(search_forecasts, sds);
     
     // Pre compute the time mapping from forecasts to observations
-    AnEn::TimeMapMatrix mapping;
-    anen.handleError(anen.computeObservationsTimeIndices(
+    MathFunctions::TimeMapMatrix mapping;
+    handleError(functions.computeObservationsTimeIndices(
             search_forecasts.getTimes(), search_forecasts.getFLTs(),
             search_observations.getTimes(), mapping));
     
     // Compute search stations for each test station
     AnEn::SearchStationMatrix i_search_stations;
 
-    anen.handleError(anen.computeSearchStations(
+    handleError(anen.computeSearchStations(
             test_forecasts.getStations(), search_forecasts.getStations(),
             i_search_stations));
     
@@ -309,10 +310,10 @@ void testAnEn::testComputeObservationTimeIndices() {
     times_observations.insert(times_observations.end(),
             values.begin(), values.end());
 
-    AnEn anen(2);
-    AnEn::TimeMapMatrix mapping;
+    MathFunctions functions(2);
+    MathFunctions::TimeMapMatrix mapping;
 
-    anen.computeObservationsTimeIndices(times_forecasts, flts_forecasts,
+    functions.computeObservationsTimeIndices(times_forecasts, flts_forecasts,
             times_observations, mapping);
 
     size_t pos = 0;
@@ -399,6 +400,7 @@ void testAnEn::testSelectAnalogs() {
     // Construct AnEn object
     AnEn anen(2);
     anen.setMethod(AnEn::simMethod::ONE_TO_ONE);
+    MathFunctions functions(2);
 
     // Construct SimilarityMatrices
     SimilarityMatrices sims(test_forecasts);
@@ -406,23 +408,23 @@ void testAnEn::testSelectAnalogs() {
     // Construct standard deviation
     StandardDeviation sds(parameters.size(),
             search_stations.size(), flts.size());
-    anen.handleError(anen.computeStandardDeviation(search_forecasts, sds));
+    handleError(functions.computeStandardDeviation(search_forecasts, sds));
     
     // Pre compute the time mapping from forecasts to observations
-    AnEn::TimeMapMatrix mapping;
-    anen.handleError(anen.computeObservationsTimeIndices(
+    MathFunctions::TimeMapMatrix mapping;
+    handleError(functions.computeObservationsTimeIndices(
             search_forecasts.getTimes(), search_forecasts.getFLTs(),
             search_observations.getTimes(), mapping));
 
     // Compute search stations for each test station
     AnEn::SearchStationMatrix i_search_stations;
 
-    anen.handleError(anen.computeSearchStations(
+    handleError(anen.computeSearchStations(
             test_forecasts.getStations(), search_forecasts.getStations(),
             i_search_stations));
     
     // Compute similarity
-    anen.handleError(anen.computeSimilarity(
+    handleError(anen.computeSimilarity(
             test_forecasts, search_forecasts, sds, sims,
             search_observations, mapping, i_search_stations));
     
