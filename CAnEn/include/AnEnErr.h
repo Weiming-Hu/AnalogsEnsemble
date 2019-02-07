@@ -26,6 +26,6 @@ namespace std {
     struct is_error_code_enum<AnEnErr> : true_type {};
 }
 
-std::error_code make_error_code(AnEnErr);
+std::error_code make_error_code(const AnEnErr &);
 
 #endif /* ANENERR_H */

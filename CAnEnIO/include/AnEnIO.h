@@ -14,14 +14,15 @@
 #include <cstddef>
 
 #include "Times.h"
-#include "Stations.h"
-#include "Parameters.h"
-#include "Forecasts.h"
 #include "Analogs.h"
-#include "Observations.h"
+#include "Stations.h"
+#include "Forecasts.h"
+#include "AnEnIOErr.h"
+#include "Parameters.h"
 #include "colorTexts.h"
-#include "SimilarityMatrices.h"
+#include "Observations.h"
 #include "StandardDeviation.h"
+#include "SimilarityMatrices.h"
 #include "boost/numeric/ublas/matrix.hpp"
 
 #if defined(_ENABLE_MPI)

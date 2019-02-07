@@ -48,7 +48,7 @@ namespace std {
     struct is_error_code_enum<AnEnIOErr> : true_type {};
 }
 
-std::error_code make_error_code(AnEnIOErr);
+std::error_code make_error_code(const AnEnIOErr &);
 
 #endif /* ANENIOERR_H */
 

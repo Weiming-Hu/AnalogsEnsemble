@@ -28,15 +28,6 @@ public:
      * observation to the forecast at a specific time and FLT.
      */
     using TimeMapMatrix = boost::numeric::ublas::matrix<double>;
-    
-    /**
-     * AnEn::SearchStationMatrix is a lookup table for search stations of each
-     * test station. The number of rows is the number of test stations, and
-     * the number of column is the maximum number of search stations for
-     * each test stations. NA values can exist in the table because the 
-     * numbers of search stations can vary for test stations.
-     */
-    using SearchStationMatrix = boost::numeric::ublas::matrix<double>;
 
     /**
      * Computes the standard deviation of times of forecasts for each 

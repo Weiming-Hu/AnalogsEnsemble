@@ -45,6 +45,15 @@ public:
         /// 2
         ONE_TO_MANY = 2
     };
+    
+    /**
+     * AnEn::SearchStationMatrix is a lookup table for search stations of each
+     * test station. The number of rows is the number of test stations, and
+     * the number of column is the maximum number of search stations for
+     * each test stations. NA values can exist in the table because the 
+     * numbers of search stations can vary for test stations.
+     */
+    using SearchStationMatrix = boost::numeric::ublas::matrix<double>;
 
     /**
      * Computes the search stations of each test stations. Search stations are 
