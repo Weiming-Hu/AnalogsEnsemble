@@ -81,7 +81,7 @@ AnEn::computeSearchStations(
             auto limit_test = test_stations_by_insert.size();
 
             if (!have_xy) {
-                cout << BOLDRED << "Error: Xs and ys are required for search space extension."
+                cerr << BOLDRED << "Error: Xs and ys are required for search space extension."
                         << RESET << endl;
                 return (WRONG_METHOD);
             }
@@ -320,6 +320,10 @@ sims, sds, i_observation_parameter, i_search_stations, max_flt_nan, max_par_nan,
 test_stations_index_in_search, extend_observations)
 #endif
     for (size_t i_test_station = 0; i_test_station < num_test_stations; i_test_station++) {
+        
+        // i_test_time = i_search_time + num_search_times - exclude
+        
+        
         for (size_t i_test_time = 0; i_test_time < num_test_times; i_test_time++) {
             for (size_t i_flt = 0; i_flt < num_flts; i_flt++) {
                 for (size_t i_search_station_index = 0; i_search_station_index < num_search_stations; i_search_station_index++) {
@@ -339,6 +343,10 @@ test_stations_index_in_search, extend_observations)
                     if (!std::isnan(i_search_station)) {
                         for (size_t i_search_time = 0; i_search_time < num_search_times; i_search_time++) {
 
+                            // This in case we are running a leave one out scheme
+                            // If test_forecasts==search_forecasts AND i_search_time == i_test_time, do nothing
+                            
+                            
                             if (!std::isnan(mapping(i_search_time, i_flt))) {
 
                                 // Check whether the observation is NAN. There are two cases,
