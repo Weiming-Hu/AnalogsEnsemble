@@ -73,8 +73,8 @@ void testAnEn::testComputeSearchWindows() {
     boost::numeric::ublas::matrix<size_t> test;
     size_t num_flts = 5, half_window_size = 2;
 
-    AnEn anen;
-    anen.computeSearchWindows(test, num_flts, half_window_size);
+    MathFunctions functions(2);
+    functions.computeSearchWindows(test, num_flts, half_window_size);
 
     CPPUNIT_ASSERT(test(0, 0) == 0);
     CPPUNIT_ASSERT(test(0, 1) == 2);
@@ -162,6 +162,7 @@ void testAnEn::testComputeSimilarity() {
 
     // Construct AnEn object
     AnEn anen(2);
+    MathFunctions functions(2);
     anen.setMethod(AnEn::simMethod::ONE_TO_ONE);
 
     // Construct SimilarityMatrices
@@ -222,26 +223,26 @@ void testAnEn::testSdCircular() {
      * Test the behavior of sdCircular function with and without NAN values.
      */
 
-    AnEn anen;
+    MathFunctions functions(2);
     vector<double> values;
 
     values = {1, 2, 3, 4, 5};
-    CPPUNIT_ASSERT((int) (anen.sdCircular(values) * 1000) == 1414);
+    CPPUNIT_ASSERT((int) (functions.sdCircular(values) * 1000) == 1414);
 
     values = {359, 360, 1, 2, 3};
-    CPPUNIT_ASSERT((int) (anen.sdCircular(values) * 1000) == 1414);
+    CPPUNIT_ASSERT((int) (functions.sdCircular(values) * 1000) == 1414);
 
     values = {1, 2, 3, NAN, 4, 5};
-    CPPUNIT_ASSERT((int) (anen.sdCircular(values) * 1000) == 1414);
+    CPPUNIT_ASSERT((int) (functions.sdCircular(values) * 1000) == 1414);
 
     values = {NAN, NAN, NAN, NAN};
-    CPPUNIT_ASSERT(std::isnan(anen.sdCircular(values)));
+    CPPUNIT_ASSERT(std::isnan(functions.sdCircular(values)));
 
     values = {1, 3, 5, NAN, 2, 4, NAN};
-    CPPUNIT_ASSERT((int) (anen.sdCircular(values) * 1000) == 1414);
+    CPPUNIT_ASSERT((int) (functions.sdCircular(values) * 1000) == 1414);
 
     values = {359, NAN, 360, 1, NAN, 2, 3};
-    CPPUNIT_ASSERT((int) (anen.sdCircular(values) * 1000) == 1414);
+    CPPUNIT_ASSERT((int) (functions.sdCircular(values) * 1000) == 1414);
 }
 
 void testAnEn::testSdLinear() {
@@ -250,26 +251,26 @@ void testAnEn::testSdLinear() {
      * Test the behavior of sdLinear function with and without NAN values.
      */
 
-    AnEn anen;
+    MathFunctions functions(2);
     vector<double> values;
 
     values = {1, 2, 3, 4, 5};
-    CPPUNIT_ASSERT((int) (anen.sdLinear(values) * 1000) == 1581);
+    CPPUNIT_ASSERT((int) (functions.sdLinear(values) * 1000) == 1581);
 
     values = {1, 350, 359, 4, 5};
-    CPPUNIT_ASSERT((int) (anen.sdLinear(values) * 100) == 19237);
+    CPPUNIT_ASSERT((int) (functions.sdLinear(values) * 100) == 19237);
 
     values = {1, 2, 3, NAN, 4, 5};
-    CPPUNIT_ASSERT((int) (anen.sdLinear(values) * 1000) == 1581);
+    CPPUNIT_ASSERT((int) (functions.sdLinear(values) * 1000) == 1581);
 
     values = {NAN, NAN, NAN, NAN};
-    CPPUNIT_ASSERT(std::isnan(anen.sdLinear(values)));
+    CPPUNIT_ASSERT(std::isnan(functions.sdLinear(values)));
 
     values = {1, 3, 5, NAN, 2, 4, NAN};
-    CPPUNIT_ASSERT((int) (anen.sdLinear(values) * 1000) == 1581);
+    CPPUNIT_ASSERT((int) (functions.sdLinear(values) * 1000) == 1581);
 
     values = {350, 359, 2, NAN, 4};
-    CPPUNIT_ASSERT((int) (anen.sdLinear(values) * 100) == 20297);
+    CPPUNIT_ASSERT((int) (functions.sdLinear(values) * 100) == 20297);
 }
 
 void testAnEn::testMean() {
@@ -278,18 +279,19 @@ void testAnEn::testMean() {
      * Test the behavior of mean function.
      */
 
-    AnEn anen;
+    MathFunctions functions(2);
+
     vector<double> v1 = {1, 2, 3}, v2 = {1, NAN, 2},
         v3 = {NAN, 1, NAN}, v4 = {NAN, NAN, NAN};
 
-    CPPUNIT_ASSERT(anen.mean(v1) == 2);
-    CPPUNIT_ASSERT(anen.mean(v2) == 1.5);
-    CPPUNIT_ASSERT(anen.mean(v3) == 1);
-    CPPUNIT_ASSERT(std::isnan(anen.mean(v4)));
+    CPPUNIT_ASSERT(functions.mean(v1) == 2);
+    CPPUNIT_ASSERT(functions.mean(v2) == 1.5);
+    CPPUNIT_ASSERT(functions.mean(v3) == 1);
+    CPPUNIT_ASSERT(std::isnan(functions.mean(v4)));
 
-    CPPUNIT_ASSERT(std::isnan(anen.mean(v2, 0)));
-    CPPUNIT_ASSERT(std::isnan(anen.mean(v3, 1)));
-    CPPUNIT_ASSERT(anen.mean(v3, 2) == 1);
+    CPPUNIT_ASSERT(std::isnan(functions.mean(v2, 0)));
+    CPPUNIT_ASSERT(std::isnan(functions.mean(v3, 1)));
+    CPPUNIT_ASSERT(functions.mean(v3, 2) == 1);
 }
 
 void testAnEn::testComputeObservationTimeIndices() {
