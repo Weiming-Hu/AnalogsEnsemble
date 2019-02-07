@@ -8,6 +8,7 @@
 #ifndef ANEN_H
 #define ANEN_H
 
+#include "AnEnErr.h"
 #include "Analogs.h"
 #include "Forecasts.h"
 #include "Observations.h"
@@ -43,25 +44,6 @@ public:
         ONE_TO_ONE = 1, 
         /// 2
         ONE_TO_MANY = 2
-    };
-
-    /**
-     * Specifies the return error type of a function. Use AnEn::handleError
-     * to handle the returned errorType.
-     */
-    enum errorType {
-        /// 0
-        SUCCESS = 0, 
-        /// -1
-        UNKNOWN_METHOD = -1, 
-        /// -2
-        MISSING_VALUE = -2, 
-        /// -10
-        WRONG_SHAPE = -10, 
-        /// -11
-        WRONG_METHOD = -11, 
-        /// -20
-        OUT_OF_RANGE = -20 
     };
 
     /**

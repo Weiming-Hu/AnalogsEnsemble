@@ -81,60 +81,6 @@ public:
 
     virtual ~AnEnIO();
 
-    /**
-     * Specifies the return error type of a function. Use 
-     * AnEnIO::handleError to handle the returned errorType.
-     */
-    enum errorType {
-        /// 0
-        SUCCESS = 0,
-        /// -1
-        UNKNOWN_ERROR = -1,
-        /// -2
-        UNKOWN_FILE_TYPE = -2,
-        /// -3
-        WRONG_FILE_TYPE = -3,
-        /// -4
-        FILE_EXISTS = -4,
-        /// -5
-        UNKNOWN_MODE = -5,
-        /// -6
-        WRONG_MODE = -6,
-        /// -7
-        FILEIO_ERROR = -7,
-        /// -8
-        METHOD_NOT_IMPLEMENTED = -8,
-
-        /// -10
-        FILE_NOT_FOUND = -10,
-        /// -11
-        REQUIRED_VARIABLE_MISSING = -11,
-        /// -12
-        OPTIONAL_VARIABLE_MISSING = -12,
-        /// -13
-        DIMENSION_MISSING = -13,
-        /// -14
-        WRONG_VARIABLE_SHAPE = -14,
-        /// -15
-        WRONG_VARIABLE_TYPE = -15,
-        /// -16
-        ELEMENT_NOT_UNIQUE = -16,
-        /// -17
-        DIMENSION_EXISTS = -17,
-        /// -18
-        VARIABLE_EXISTS = -18,
-        /// -19
-        WRONG_INDEX_SHAPE = -19,
-
-        /// -50
-        ERROR_SETTING_VALUES = -50,
-        /// -51
-        NAN_VALUES = -51,
-
-        /// -51
-        INSUFFICIENT_MEMORY = -100
-    };
-    
 #if defined(_ENABLE_MPI)
     /*
      * This function handles the MPI Init. It makes sure that MPI_Init only gets
