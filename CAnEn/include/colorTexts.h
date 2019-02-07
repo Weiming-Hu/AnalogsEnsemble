@@ -23,7 +23,5 @@
 #define GREEN       "\033[32m"
 #endif
 
-
-
 #endif /* COLORTEXTS_H */
 
