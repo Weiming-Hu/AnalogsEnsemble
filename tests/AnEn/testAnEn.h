@@ -15,16 +15,10 @@
 class testAnEn : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST_SUITE(testAnEn);
 
-    CPPUNIT_TEST(testComputeStandardDeviation);
-    CPPUNIT_TEST(testComputeSearchWindows);
     CPPUNIT_TEST(testComputeSimilarity);
-    CPPUNIT_TEST(testSdCircular);
-    CPPUNIT_TEST(testSdLinear);
-    CPPUNIT_TEST(testComputeObservationTimeIndices);
     CPPUNIT_TEST(testSelectAnalogs);
     CPPUNIT_TEST(testComputeSearchStations);
     CPPUNIT_TEST(testOpenMP);
-    CPPUNIT_TEST(testMean);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -33,9 +27,10 @@ public:
     virtual ~testAnEn();
 
 private:
-    void testComputeStandardDeviation();
-    void testComputeSearchWindows();
     void testComputeSimilarity();
+    void testComputeSearchWindows();
+    
+    void testComputeStandardDeviation();
     void testSdCircular();
     void testMean();
     void testSdLinear();
