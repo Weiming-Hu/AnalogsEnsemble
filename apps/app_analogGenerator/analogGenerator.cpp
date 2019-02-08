@@ -153,9 +153,9 @@ void runAnalogGenerator(
 #endif
 
     if (searchExtension) {
-        anen.setMethod(AnEn::simMethod::ONE_TO_MANY);
+        anen.setMethod(AnEn::simMethod::OneToMany);
     } else {
-        anen.setMethod(AnEn::simMethod::ONE_TO_ONE);
+        anen.setMethod(AnEn::simMethod::OneToOne);
     }
     
     AnEn::SearchStationMatrix i_search_stations;

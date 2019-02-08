@@ -27,16 +27,9 @@ public:
     virtual ~testAnEn();
 
 private:
-    void testComputeSimilarity();
-    void testComputeSearchWindows();
-    
-    void testComputeStandardDeviation();
-    void testSdCircular();
-    void testMean();
-    void testSdLinear();
-    void testComputeObservationTimeIndices();
-    void testSelectAnalogs();
     void testComputeSearchStations();
+    void testComputeSimilarity();
+    void testSelectAnalogs();
     void testOpenMP();
 };
 

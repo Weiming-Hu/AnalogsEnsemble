@@ -152,8 +152,8 @@ List generateAnalogs(
                 << test_forecasts.getParameters();
     }
 
-    if (search_extension) anen.setMethod(AnEn::simMethod::ONE_TO_MANY);
-    else anen.setMethod(AnEn::simMethod::ONE_TO_ONE);
+    if (search_extension) anen.setMethod(AnEn::simMethod::OneToMany);
+    else anen.setMethod(AnEn::simMethod::OneToOne);
 
     // Pre compute the standard deviation
     handleError(functions.computeStandardDeviation(search_forecasts, sds));

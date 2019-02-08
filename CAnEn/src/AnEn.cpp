@@ -56,7 +56,7 @@ AnEn::computeSearchStations(
     //
     try {
 
-        if (method_ == ONE_TO_ONE) {
+        if (method_ == OneToOne) {
 
             // Resize the table because each test station will be assigned with 
             // only one search station.
@@ -74,7 +74,7 @@ AnEn::computeSearchStations(
                 i_search_stations(i_test, 0) = test_stations_index_in_search.at(i_test);
             }
 
-        } else if (method_ == ONE_TO_MANY) {
+        } else if (method_ == OneToMany) {
 
             // Define variables for perfectly nested parallel loops for collapse
             const auto & test_stations_by_insert = test_stations.get<anenSta::by_insert>();
@@ -201,7 +201,7 @@ num_nearest_stations, distance, max_num_search_stations, limit_test)
 
 errorType
 AnEn::computeSimilarity(
-        const Forecasts_array& test_forecasts, 
+        const Forecasts_array& test_forecasts,
         const Forecasts_array& search_forecasts,
         const StandardDeviation& sds,
         SimilarityMatrices& sims,
@@ -209,7 +209,9 @@ AnEn::computeSimilarity(
         const AnEn::TimeMapMatrix & mapping,
         const AnEn::SearchStationMatrix & i_search_stations,
         size_t i_observation_parameter, bool extend_observations,
-        double max_par_nan, double max_flt_nan) const {
+        double max_par_nan, double max_flt_nan,
+        const anenTime::Times test_times,
+        const anenTime::Times search_times) const {
 
     // Check input
     handleError(check_input_(test_forecasts, search_forecasts, sds,
@@ -256,7 +258,7 @@ AnEn::computeSimilarity(
         return (WRONG_SHAPE);
     }
 
-    if (method_ == ONE_TO_ONE) {
+    if (method_ == OneToOne) {
         if (num_search_stations != 1) {
             cout << BOLDRED
                     << "Error: More than one search stations are assigned."
@@ -492,7 +494,7 @@ AnEn::getMethod() const {
 
 void
 AnEn::setMethod(simMethod method) {
-    if (method == ONE_TO_MANY || method == ONE_TO_ONE) this->method_ = method;
+    if (method == OneToMany || method == OneToOne) this->method_ = method;
     else throw runtime_error("Failed to set an unknown method.");
 }
 

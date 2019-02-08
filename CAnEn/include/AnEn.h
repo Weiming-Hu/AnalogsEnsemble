@@ -38,17 +38,40 @@ public:
     /**
      * Specifies the how similarity is computed across stations.
      * 
-     * - ONE_TO_ONE: Each test station is assigned with the closest station in the
+     * - OneToOne: Each test station is assigned with the closest station in the
      * search stations;
-     * - ONE_TO_MANY: Each test station is assigned with a set of nearby stations
+     * - OneToMany: Each test station is assigned with a set of nearby stations
      * in the search stations (Search space extension);
      * 
      */
     enum simMethod {
         /// 1
-        ONE_TO_ONE = 1, 
+        OneToOne = 1, 
         /// 2
-        ONE_TO_MANY = 2
+        OneToMany = 2
+    };
+    
+    /**
+     * Specifies the simulation mode.
+     * 
+     * - SeparateTestSearch: This is the class model of machine learning where
+     * the same search data are used for each case in test data;
+     * - LeaveOneOut: This is for hind-cast purpose. Each case in test data will
+     * use all the search data data, excluding the test case itself. This mode is
+     * only effective when test and search forecasts are the same.
+     * - OperationalSearch: This mimics an operational weather forecast model that
+     * cases in test data use all historical search data available in search data.
+     * This indicates that different cases in test data use a different amount
+     * of search data. This mode is only effective when test and search forecasts
+     * are the same.
+     */
+    enum simMode {
+        /// 1
+        SeparateTestSearch = 1,
+        /// 2
+        LeaveOneOut = 2,
+        /// 3
+        OperationalSearch = 3
     };
 
     /**
@@ -110,7 +133,9 @@ public:
             const SearchStationMatrix & i_search_stations,
             size_t i_observation_parameter = 0,
             bool extend_observations = false,
-            double max_par_nan = 0, double max_flt_nan = 0) const;
+            double max_par_nan = 0, double max_flt_nan = 0,
+            const anenTime::Times test_times = {},
+            const anenTime::Times search_times = {}) const;
 
     /**
      * Select analogs based on the similarity matrices.
@@ -170,7 +195,7 @@ private:
     /*
      * This variable specifies how similarity matrices are computed across stations.
      */
-    simMethod method_ = ONE_TO_ONE;
+    simMethod method_ = OneToOne;
 
     /**
      * Check input.
