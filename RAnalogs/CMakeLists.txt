@@ -2,7 +2,7 @@ cmake_minimum_required (VERSION 3.1)
 project (RAnalogs LANGUAGES NONE)
 
 set(LIBRARY_NAME "RAnEn")
-set(LIBRARY_VERSION "3.1.1")
+set(LIBRARY_VERSION "${GRAND_VERSION}")
 message(STATUS "RAnEn version ${LIBRARY_VERSION}")
 
 set(RAnEn_PACKAGE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/${LIBRARY_NAME}")
@@ -52,6 +52,7 @@ foreach(file_name ${REQUIRED_FILE_NAME})
 endforeach(file_name ${REQUIRED_FILE_NAME})
 
 file(COPY "${RAnEn_EXTRA_INCLUDE_DIR}/colorTexts.h" DESTINATION ${RAnEn_SOURCE_DIR})
+file(COPY "${CMAKE_SOURCE_DIR}/NEWS.md" DESTINATION ${RAnEn_PACKAGE_DIR})
 
 add_subdirectory(${RAnEn_PACKAGE_DIR})
 

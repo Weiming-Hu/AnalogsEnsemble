@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 2.8)
 project(ParallelEnsembleForecasts)
 
+set(GRAND_VERSION "3.2.0")
+message("You are building version ${GRAND_VERSION}")
+add_definitions(-D_APPVERSION="v ${GRAND_VERSION}")
+
 # policy setting for backward compatibility
 if(POLICY CMP0054)
     cmake_policy(SET CMP0054 NEW)

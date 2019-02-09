@@ -1,8 +1,6 @@
 cmake_minimum_required(VERSION 2.8)
 project(windFieldCalculator)
 
-add_definitions(-D_APPVERSION="v 1.0.2")
-
 enable_language(C CXX)
 message(STATUS "build application Wind Field Calculator")
 set(SOURCE_MAIN "${CMAKE_CURRENT_SOURCE_DIR}/windFieldCalculator.cpp")
