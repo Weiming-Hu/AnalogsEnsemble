@@ -56,7 +56,12 @@ void runAnalogGenerator(
         size_t num_members, bool quick,
         bool extend_observations,
         int time_match_mode, double max_par_nan,
-        double max_flt_nan, int verbose) {
+        double max_flt_nan, 
+        
+        vector<size_t> test_times_index,
+        vector<size_t> search_times_index,
+        
+        bool operational, int verbose) {
 
 #if defined(_CODE_PROFILING)
     clock_t time_start = clock();
@@ -125,7 +130,8 @@ void runAnalogGenerator(
             handleError(io_sds.readStandardDeviation(sds, sds_start, sds_count));
         }
     } else {
-        handleError(functions.computeStandardDeviation(search_forecasts, sds));
+        handleError(functions.computeStandardDeviation(
+                search_forecasts, sds, search_times_index));
     }
 
 #if defined(_CODE_PROFILING)
@@ -166,11 +172,18 @@ void runAnalogGenerator(
             i_search_stations, max_neighbors,
             distance, num_neighbors));
     
+    anenTime::Times test_times, search_times;
+    
+    auto & container = test_forecasts.getTimes().get<anenTime::by_insert>();
+    for (size_t i : test_times_index) test_times.push_back(container[i]);
+    
+    container = search_forecasts.getTimes().get<anenTime::by_insert>();
+    for (size_t i : search_times_index) search_times.push_back(container[i]);
+    
     handleError(anen.computeSimilarity(
             test_forecasts, search_forecasts, sds, sims, search_observations,
             mapping, i_search_stations, observation_id, extend_observations,
-            max_par_nan, max_flt_nan));
-
+            max_par_nan, max_flt_nan, test_times, search_times, operational));
 
     if (!file_similarity.empty()) {
         AnEnIO io_sim("Write", file_similarity, "Similarity");
@@ -285,12 +298,14 @@ int main(int argc, char** argv) {
     int verbose = 0, time_match_mode = 1;
     size_t observation_id = 0;
     string config_file, file_mapping, file_similarity, file_sds;
-    bool quick = false, searchExtension = false, extend_observations = false;
+    bool quick = false, searchExtension = false, extend_observations = false,
+            operational = false, continuous_time_index = false;
 
     double distance = 0.0, max_par_nan = 0.0, max_flt_nan = 0.0;
     size_t max_neighbors = 0, num_neighbors = 0;
     vector<size_t> test_start, test_count, search_start, search_count,
-            obs_start, obs_count, sds_start, sds_count;
+            obs_start, obs_count, sds_start, sds_count, test_times_index,
+            search_times_index;
 
     try {
         po::options_description desc("Available options");
@@ -316,14 +331,18 @@ int main(int argc, char** argv) {
                 ("distance", po::value<double>(&distance)->default_value(0.0), "Set the radius for selecting neighbors.")
                 ("max-neighbors", po::value<size_t>(&max_neighbors)->default_value(0), "Set the maximum neighbors allowed to keep.")
                 ("num-neighbors", po::value<size_t>(&num_neighbors)->default_value(0), "Set the number of neighbors to find.")
-                ("test-start", po::value< vector<size_t> >(&test_start)->multitoken(), "Set the start indices in the test forecast NetCDF where the program starts reading.")
-                ("test-count", po::value< vector<size_t> >(&test_count)->multitoken(), "Set the count numbers for each dimension in the test forecast NetCDF.")
-                ("search-start", po::value< vector<size_t> >(&search_start)->multitoken(), "Set the start indices in the search forecast NetCDF where the program starts reading.")
-                ("search-count", po::value< vector<size_t> >(&search_count)->multitoken(), "Set the count numbers for each dimension in the search forecast NetCDF.")
-                ("obs-start", po::value< vector<size_t> >(&obs_start)->multitoken(), "Set the start indices in the search observation NetCDF where the program starts reading.")
-                ("obs-count", po::value< vector<size_t> >(&obs_count)->multitoken(), "Set the count numbers for each dimension in the search observation NetCDF.")
-                ("sds-start", po::value< vector<size_t> >(&sds_start)->multitoken(), "Set the start indices in the standard deviation NetCDF where the program starts reading.")
-                ("sds-count", po::value< vector<size_t> >(&sds_count)->multitoken(), "Set the count numbers for each dimension in the standard deviation NetCDF.")
+                ("test-start", po::value< vector<size_t> >(&test_start)->multitoken(), "(File I/O) Set the start indices in the test forecast NetCDF where the program starts reading.")
+                ("test-count", po::value< vector<size_t> >(&test_count)->multitoken(), "(File I/O) Set the count numbers for each dimension in the test forecast NetCDF.")
+                ("search-start", po::value< vector<size_t> >(&search_start)->multitoken(), "(File I/O) Set the start indices in the search forecast NetCDF where the program starts reading.")
+                ("search-count", po::value< vector<size_t> >(&search_count)->multitoken(), "(File I/O) Set the count numbers for each dimension in the search forecast NetCDF.")
+                ("obs-start", po::value< vector<size_t> >(&obs_start)->multitoken(), "(File I/O) Set the start indices in the search observation NetCDF where the program starts reading.")
+                ("obs-count", po::value< vector<size_t> >(&obs_count)->multitoken(), "(File I/O) Set the count numbers for each dimension in the search observation NetCDF.")
+                ("sds-start", po::value< vector<size_t> >(&sds_start)->multitoken(), "(File I/O) Set the start indices in the standard deviation NetCDF where the program starts reading.")
+                ("sds-count", po::value< vector<size_t> >(&sds_count)->multitoken(), "(File I/O) Set the count numbers for each dimension in the standard deviation NetCDF.")
+                ("test-times-index", po::value< vector<size_t> >(&test_times_index)->multitoken(), "Set the indices or the index range (with --continuous-time) of test times in the actual forecasts after the reading.")
+                ("search-times-index", po::value< vector<size_t> >(&search_times_index)->multitoken(), "Set the indices or the index range (with --continuous-time) of search times in the actual forecasts after the reading.")
+                ("operational", po::bool_switch(&operational)->default_value(false), "Use operational search. This feature uses all the times from search times that are historical to each test time during comparison.")
+                ("continuous-time", po::bool_switch(&continuous_time_index)->default_value(false), "Whether to generate a sequence for test-times-index and search-times-index. If used, an inclusive sequence is generated when only 2 indices (start and end) are provided in test or search times index.")
                 ("quick", po::bool_switch(&quick)->default_value(false), "Use quick sort when selecting analog members.")
                 ("extend-obs", po::bool_switch(&extend_observations)->default_value(false), "After getting the most similar forecast indices, take the corresponding observations from the search station.");
         
@@ -400,37 +419,69 @@ int main(int argc, char** argv) {
         handle_exception(current_exception());
         return 1;
     }
+    
+    if (continuous_time_index) {
+        bool succeed = false;
+        
+        if (test_times_index.size() == 2) {
+            test_times_index.resize(test_times_index[1] - test_times_index[0] + 1);
+            iota(test_times_index.begin(), test_times_index.end(), test_times_index[0]);
+            succeed = true;
+            
+            if (verbose >= 4) {
+                cout << "A sequence of test times are generated: " << test_times_index << endl;
+            }
+        }
+        
+        if (search_times_index.size() == 2) {
+            search_times_index.resize(search_times_index[1] - search_times_index[0] + 1);
+            iota(search_times_index.begin(), search_times_index.end(), search_times_index[0]);
+            succeed = true;
+
+            if (verbose >= 4) {
+                cout << "A sequence of search times are generated: " << search_times_index << endl;
+            }
+        }
+        
+        if (!succeed) {
+            cout << BOLDRED << "Error: You have used --continuous-time, but "
+                    << "both --test-times-index and --search-times-index cannot "
+                    << "be converted to a range." << RESET << endl;
+            return 1;
+        }
+    }
 
     if (verbose >= 5) {
         cout << "Input parameters:" << endl
-            << "file_test_forecasts: " << file_test_forecasts << endl
-            << "file_search_forecasts: " << file_search_forecasts << endl
-            << "file_observations: " << file_observations << endl
-            << "file_similarity: " << file_similarity << endl
-            << "file_mapping: " << file_mapping << endl
-            << "file_sds: " << file_sds << endl
-            << "file_analogs: " << file_analogs << endl
-            << "config_file: " << config_file << endl
-            << "num_members: " << num_members << endl
-            << "observation_id: " << observation_id << endl
-            << "searchExtension: " << searchExtension << endl
-            << "quick: " << quick << endl
-            << "extend_observations: " << extend_observations << endl
-            << "time_match_mode: " << time_match_mode << endl
-            << "max_par_nan: " << max_par_nan << endl
-            << "max_flt_nan: " << max_flt_nan << endl
-            << "verbose: " << verbose << endl
-            << "distance: " << distance << endl
-            << "max_neighbors: " << max_neighbors << endl
-            << "num_neighbors: " << num_neighbors << endl
-            << "test_start: " << test_start << endl
-            << "test_count: " << test_count << endl
-            << "search_start: " << search_start << endl
-            << "search_count: " << search_count << endl
-            << "obs_start: " << obs_start << endl
-            << "obs_count: " << obs_count << endl
-            << "sds_start: " << sds_start << endl
-            << "sds_count: " << sds_count << endl;
+                << "file_test_forecasts: " << file_test_forecasts << endl
+                << "file_search_forecasts: " << file_search_forecasts << endl
+                << "file_observations: " << file_observations << endl
+                << "file_similarity: " << file_similarity << endl
+                << "file_mapping: " << file_mapping << endl
+                << "file_sds: " << file_sds << endl
+                << "file_analogs: " << file_analogs << endl
+                << "config_file: " << config_file << endl
+                << "num_members: " << num_members << endl
+                << "observation_id: " << observation_id << endl
+                << "searchExtension: " << searchExtension << endl
+                << "quick: " << quick << endl
+                << "extend_observations: " << extend_observations << endl
+                << "time_match_mode: " << time_match_mode << endl
+                << "max_par_nan: " << max_par_nan << endl
+                << "max_flt_nan: " << max_flt_nan << endl
+                << "verbose: " << verbose << endl
+                << "distance: " << distance << endl
+                << "max_neighbors: " << max_neighbors << endl
+                << "num_neighbors: " << num_neighbors << endl
+                << "test_start: " << test_start << endl
+                << "test_count: " << test_count << endl
+                << "search_start: " << search_start << endl
+                << "search_count: " << search_count << endl
+                << "obs_start: " << obs_start << endl
+                << "obs_count: " << obs_count << endl
+                << "sds_start: " << sds_start << endl
+                << "sds_count: " << sds_count << endl
+                << "operational: " << operational << endl;
     }
 
     try {
@@ -442,9 +493,9 @@ int main(int argc, char** argv) {
                 file_similarity, file_analogs,
                 observation_id, searchExtension, max_neighbors,
                 num_neighbors, distance, num_members, quick,
-                extend_observations,
-                time_match_mode, max_par_nan,
-                max_flt_nan, verbose);
+                extend_observations, time_match_mode, max_par_nan,
+                max_flt_nan, test_times_index, search_times_index,
+                operational, verbose);
     } catch (...) {
         handle_exception(current_exception());
         return 1;
