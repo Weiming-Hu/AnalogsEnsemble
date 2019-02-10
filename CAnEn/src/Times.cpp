@@ -47,6 +47,17 @@ namespace anenTime {
 
     Times::~Times() {
     }
+    
+    Times & Times::operator=(const Times & rhs) {
+        if (this != &rhs) {
+            multiIndexTimes::operator=(rhs);
+            
+            unit_ = rhs.unit_;
+            origin_ = rhs.origin_;
+        }
+        
+        return *this;
+    }
 
     size_t
     Times::getTimeIndex(double timestamp) const {

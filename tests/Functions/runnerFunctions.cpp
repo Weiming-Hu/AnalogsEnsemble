@@ -24,6 +24,8 @@
 #include <cppunit/TestFailure.h>
 #include <cppunit/portability/Stream.h>
 
+#include "testFunctions.h"
+
 class ProgressListener : public CPPUNIT_NS::TestListener {
 public:
 
@@ -78,7 +80,7 @@ int main() {
 
     // Add the top suite to the test runner
     CPPUNIT_NS::TestRunner runner;
-    runner.addTest(CPPUNIT_NS::TestFactoryRegistry::getRegistry().makeTest());
+    runner.addTest(testFunctions::suite());
     runner.run(controller);
 
     // Print test in a compiler compatible format.

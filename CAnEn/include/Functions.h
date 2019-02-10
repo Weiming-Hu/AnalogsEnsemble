@@ -40,11 +40,14 @@ public:
      * 
      * @param forecasts Forecasts for which standard deviation is generated for.
      * @param sds StandardDeviation to store the values.
-     * @return An AnEn::errorType.
+     * @param i_times the index for times that should be included in the 
+     * standard deviation calculation.
+     * @return An errorType.
      */
     errorType computeStandardDeviation(
             const Forecasts_array & forecasts,
-            StandardDeviation & sds) const;
+            StandardDeviation & sds,
+            std::vector<size_t> i_times = {}) const;
 
     /**
      * Computes the search window for each FLT. the ranges are stored in a 
@@ -56,7 +59,7 @@ public:
      * @param matrix A matrix to store the range of FLT windows.
      * @param num_flts Number of FLTs.
      * @param window_half_size Half size of the window.
-     * @return AnEn::errorType.
+     * @return errorType.
      */
     errorType computeSearchWindows(
             boost::numeric::ublas::matrix<size_t> & matrix,
@@ -74,13 +77,26 @@ public:
      * times. 0 stands for strict search. It will throw an error when a forecast time
      * cannot be found in observation times. 1 stands for loose search. It will insert
      * NA into the matrix when a observation time cannot be found for a foreacst time.
-     * @return An AnEn::errorType.
+     * @return An errorType.
      */
     errorType computeObservationsTimeIndices(
             const anenTime::Times & times_forecasts,
             const anenTime::Times & flts_forecasts,
             const anenTime::Times & times_observations,
             TimeMapMatrix & mapping, int time_match_mode = 1) const;
+
+    /**
+     * Computes the index of each target in the container.
+     * 
+     * @param targets Targets that index will be computed for.
+     * @param container Container that index will be based on.
+     * @param indexes Index for targets.
+     * @return An errorType
+     */
+    errorType convertToIndex(
+            const anenTime::Times & targets,
+            const anenTime::Times & container,
+            std::vector<size_t> & indexes) const;
 
     /**
      * Computes the standard deviation for linear numbers.
@@ -119,6 +135,9 @@ public:
      * @return  A double.
      */
     double diffCircular(double i, double j) const;
+    
+    void setVerbose(int verbose);
+    int getVerbose();
     
 private:
     

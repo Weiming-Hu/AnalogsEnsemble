@@ -82,6 +82,8 @@ namespace anenTime {
         Times(std::string unit, std::string origin);
 
         virtual ~Times();
+        
+        Times & operator=(const Times & rhs);
 
         size_t getTimeIndex(double timestamp) const;
 

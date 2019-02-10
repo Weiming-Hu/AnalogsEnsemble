@@ -29,13 +29,19 @@ Functions::~Functions() {
 
 errorType
 Functions::computeStandardDeviation(
-        const Forecasts_array& forecasts, StandardDeviation& sds) const {
+        const Forecasts_array& forecasts, StandardDeviation& sds,
+        vector<size_t> i_times) const {
 
     if (verbose_ >= 3) cout << "Computing standard deviation ... " << endl;
+    
+    if (i_times.size() == 0) {
+        i_times.resize(forecasts.getTimesSize());
+        iota(i_times.begin(), i_times.end(), 0);
+    }
 
     size_t num_parameters = forecasts.getParametersSize();
     size_t num_stations = forecasts.getStationsSize();
-    size_t num_times = forecasts.getTimesSize();
+    size_t num_times = i_times.size();
     size_t num_flts = forecasts.getFLTsSize();
 
     auto & array = forecasts.data();
@@ -52,7 +58,8 @@ Functions::computeStandardDeviation(
 
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(static) collapse(3) \
-shared(num_parameters, num_stations, num_flts, num_times, array, circular_flags, sds) 
+shared(num_parameters, num_stations, num_flts, num_times, array, \
+i_times, circular_flags, sds) 
 #endif
     for (size_t i_parameter = 0; i_parameter < num_parameters; i_parameter++) {
         for (size_t i_station = 0; i_station < num_stations; i_station++) {
@@ -60,7 +67,8 @@ shared(num_parameters, num_stations, num_flts, num_times, array, circular_flags,
 
                 // Extract values for times
                 vector<double> values(num_times);
-                for (size_t i_time = 0; i_time < num_times; i_time++) {
+                for (size_t pos_time = 0; pos_time < num_times; pos_time++) {
+                    size_t i_time = i_times[pos_time];
                     values[i_time] = array [i_parameter][i_station][i_time][i_flt];
                 } // End of times loop
 
@@ -162,6 +170,23 @@ limit_row, limit_col) firstprivate(index)
     return (SUCCESS);
 }
 
+errorType
+Functions::convertToIndex(
+        const anenTime::Times & targets,
+        const anenTime::Times & container,
+        std::vector<size_t> & indexes) const {
+    
+    indexes.clear();
+    
+    const auto & targets_by_insert = targets.get<anenTime::by_insert>();
+    
+    for (const auto & e : targets_by_insert) {
+        indexes.push_back(container.getTimeIndex(e));
+    }
+    
+    return (SUCCESS);
+}
+
 double
 Functions::sdLinear(const vector<double>& values) const {
     return (sqrt(variance(values)));
@@ -247,3 +272,12 @@ Functions::diffCircular(double i, double j) const {
     return (min(res1, res2));
 }
 
+void
+Functions::setVerbose(int verbose) {
+    verbose_ = verbose;
+}
+
+int
+Functions::getVerbose() {
+    return (verbose_);
+}

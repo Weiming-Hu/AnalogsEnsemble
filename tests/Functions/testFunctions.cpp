@@ -10,6 +10,7 @@
 #include "../../CAnEn/include/colorTexts.h"
 
 #include <vector>
+#include <iostream>
 #include <boost/numeric/ublas/io.hpp>
 
 using namespace std;
@@ -200,5 +201,38 @@ void testFunctions::testComputeObservationTimeIndices() {
         for (size_t i_col = 0; i_col < mapping.size2(); i_col++, pos++) {
             CPPUNIT_ASSERT(mapping(i_row, i_col) == results[pos]);
         }
+    }
+}
+
+void testFunctions::testConvertToIndex() {
+    
+    /**
+     * Test the function of convertToIndex().
+     */
+    
+    vector<double> vec_targets = {1, 4, 7, 3, 9},
+            vec_container = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    
+    anenTime::Times targets, container;
+    targets.insert(targets.end(), vec_targets.begin(), vec_targets.end());
+    container.insert(container.end(), vec_container.begin(), vec_container.end());
+    
+    vector<size_t> indexes, results = {0, 3, 6, 2, 8};
+
+    Functions functions(2);
+    functions.convertToIndex(targets, container, indexes);
+    
+    for (size_t i = 0; i < targets.size(); i++) {
+        CPPUNIT_ASSERT(indexes[i] == results[i]);
+    }
+    
+    // Catch the exception
+    targets.clear();
+    vec_targets = {5, 3, 10};
+    results = {4, 2, 9};
+    targets.insert(targets.end(), vec_targets.begin(), vec_targets.end());
+    functions.convertToIndex(targets, container, indexes);
+    for (size_t i = 0; i < targets.size(); i++) {
+        CPPUNIT_ASSERT(indexes[i] == results[i]);
     }
 }

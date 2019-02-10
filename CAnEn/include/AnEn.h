@@ -65,14 +65,6 @@ public:
      * of search data. This mode is only effective when test and search forecasts
      * are the same.
      */
-    enum simMode {
-        /// 1
-        SeparateTestSearch = 1,
-        /// 2
-        LeaveOneOut = 2,
-        /// 3
-        OperationalSearch = 3
-    };
 
     /**
      * Computes the search stations of each test stations. Search stations are 
@@ -98,6 +90,23 @@ public:
             double distance = 0, size_t num_nearest_stations = 0) const;
 
     /**
+     * Generates the search times and the corresponding index with an 
+     * operational mode.
+     * 
+     * @param test_times The test anenTime::Times;
+     * @param search_times The complete search anenTime::Times;
+     * @param search_times_operational The search anenTime::Times for operational mode.
+     * @param i_search_times_operational The index for search anenTime::Times for
+     * operational mode.
+     * @return 
+     */
+    errorType generateOperationalSearchTimes(
+            const anenTime::Times & test_times,
+            const anenTime::Times & search_times,
+            std::vector< anenTime::Times > & search_times_operational,
+            std::vector< std::vector<size_t> > & i_search_times_operational) const;
+
+    /**
      * Computes the similarity matrices.
      * 
      * @param test_forecasts Forecasts to test.
@@ -120,6 +129,7 @@ public:
      * of NAN values.
      * @param max_flt_nan The number of NAN values allowed when computing
      * FLT window averages. Set it to NAN to allow any number of NAN values.
+     * @param operational Whether to use operational search.
      * 
      * @return An AnEn::errorType.
      */
@@ -134,8 +144,9 @@ public:
             size_t i_observation_parameter = 0,
             bool extend_observations = false,
             double max_par_nan = 0, double max_flt_nan = 0,
-            const anenTime::Times test_times = {},
-            const anenTime::Times search_times = {}) const;
+            anenTime::Times test_times = {},
+            anenTime::Times search_times = {},
+            bool operational = false) const;
 
     /**
      * Select analogs based on the similarity matrices.
@@ -212,8 +223,11 @@ private:
             const Forecasts_array& search_forecasts,
             const StandardDeviation& sds,
             const Observations_array& search_observations,
-            TimeMapMatrix mapping,
-            size_t i_observation_parameter) const;
+            const TimeMapMatrix & mapping,
+            const AnEn::SearchStationMatrix & i_search_stations,
+            size_t i_observation_parameter,
+            double max_par_nan, double max_flt_nan,
+            bool operational) const;
 
     /**
      * This function is a special case of AnEn::computeSearchStations.
