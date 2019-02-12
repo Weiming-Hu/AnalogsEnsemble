@@ -3,6 +3,9 @@ title: "Demo 3: Analog Ensemble with Operational Search"
 author: "Weiming Hu"
 date: "February 12, 2019"
 output: html_document
+# output:
+#   md_document:
+#     variant: markdown_github
 ---
 
 ```{r setup, include=FALSE}

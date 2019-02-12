@@ -3,7 +3,7 @@ title: "Demo 2: Analog Ensemble with Search Space Extension"
 author: "Weiming Hu"
 date: "November 24, 2018"
 output: html_document
-# output: 
+# output:
 #   md_document:
 #     variant: markdown_github
 ---
