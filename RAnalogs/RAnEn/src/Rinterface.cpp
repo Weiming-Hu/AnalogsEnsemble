@@ -243,7 +243,10 @@ List generateAnalogs(
     // Pre compute the standard deviation
     std::vector<size_t> search_times_index;
     functions.convertToIndex(search_times_compare, search_times, search_times_index);
-    handleError(functions.computeStandardDeviation(search_forecasts, sds, search_times_index));
+
+    if (!operational) {
+        handleError(functions.computeStandardDeviation(search_forecasts, sds, search_times_index));
+    }
 
     // Pre compute the time mapping from forecasts [Times, FLTs] 
     // to observations [Times]

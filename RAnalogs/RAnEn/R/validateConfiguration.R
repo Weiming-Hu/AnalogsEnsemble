@@ -62,28 +62,26 @@ validateConfiguration <- function(x, verbose = 1) {
     valid <- F
   }
   
+  if (inherits(x$test_times, 'POSIXt')) {
+    x$test_times <- as.numeric(x$test_times)
+  } else if (is.array(x$test_times) && length(dim(x$test_times)) == 1) {
+    x$test_times <- as.vector(x$test_times)
+  }
   if (!(is.vector(x$test_times, mode = 'numeric') && length(x$test_times) == dim(x$test_forecasts)[3])) {
-    if (inherits(x$test_times, 'POSIXt')) {
-      x$test_times <- as.numeric(x$test_times)
-    } else if (is.array(x$test_times) && length(dim(x$test_times)) == 1) {
-      x$test_times <- as.vector(x$test_times)
-    } else {
-      print('ERROR: Test forecast times should be a numeric vector with the length of the third dimension of search forecasts!')
-      print('Please use is.vector() and length() to check!')
-      valid <- F
-    }
+    print('ERROR: Test forecast times should be a numeric vector with the length of the third dimension of search forecasts!')
+    print('Please use is.vector() and length() to check!')
+    valid <- F
   }
   
+  if (inherits(x$search_times, 'POSIXt')) {
+    x$search_times <- as.numeric(x$search_times)
+  } else if (is.array(x$search_times) && length(dim(x$search_times)) == 1) {
+    x$search_times <- as.vector(x$search_times)
+  }
   if (!(is.vector(x$search_times, mode = 'numeric') && length(x$search_times) == dim(x$search_forecasts)[3])) {
-    if (inherits(x$search_times, 'POSIXt')) {
-      x$search_times <- as.numeric(x$search_times)
-    } else if (is.array(x$search_times) && length(dim(x$search_times)) == 1) {
-      x$search_times <- as.vector(x$search_times)
-    } else {
-      print('ERROR: Search forecast times should be a numeric vector with the length of the third dimension of search forecasts!')
-      print('Please use is.vector() and length() to check!')
-      valid <- F
-    }
+    print('ERROR: Search forecast times should be a numeric vector with the length of the third dimension of search forecasts!')
+    print('Please use is.vector() and length() to check!')
+    valid <- F
   }
   
   if (!(is.vector(x$flts, mode = 'numeric') && length(x$flts) == dim(x$search_forecasts)[4])) {
@@ -102,16 +100,15 @@ validateConfiguration <- function(x, verbose = 1) {
     valid <- F
   }
   
+  if (inherits(x$observation_times, 'POSIXt')) {
+    x$observation_times <- as.numeric(x$observation_times)
+  } else if (is.array(x$observation_times) && length(dim(x$observation_times)) == 1) {
+    x$observation_times <- as.vector(x$observation_times)
+  }
   if (!(is.vector(x$observation_times, mode = 'numeric') && length(x$observation_times) == dim(x$search_observations)[3])) {
-    if (inherits(x$observation_times, 'POSIXt')) {
-      x$observation_times <- as.numeric(x$observation_times)
-    } else if (is.array(x$observation_times) && length(dim(x$observation_times)) == 1) {
-      x$observation_times <- as.vector(x$observation_times)
-    } else {
-      print('ERROR: Search observation times should be a numeric vector with the length of the third dimension of search observations!')
-      print('Please use is.vector() and length() to check!')
-      valid <- F
-    }
+    print('ERROR: Search observation times should be a numeric vector with the length of the third dimension of search observations!')
+    print('Please use is.vector() and length() to check!')
+    valid <- F
   }
   
   if (!(is.numeric(x$observation_id) && length(x$observation_id) == 1 && x$observation_id >= 1 && x$observation_id <= dim(x$search_observations)[1])) {
@@ -155,22 +152,32 @@ validateConfiguration <- function(x, verbose = 1) {
     valid <- F
   }
   
-  if (!(is.numeric(x$test_times_compare) && is.vector(x$test_times_compare))) {
-    print("Error: Test times for comparison should be a vector of double values. Please use is.numeric and is.vector to check.")
-    valid <- F
+  if (inherits(x$test_times_compare, 'POSIXt')) {
+    x$test_times_compare <- as.numeric(x$test_times_compare)
+  } else if (is.array(x$test_times_compare)) {
+    x$test_times_compare <- as.vector(x$test_times_compare)
   } else {
-    if (!all(x$test_times_compare %in% x$test_times)) {
-      print("Error: Some test times for comparison cannot be found in test times.")
-    }
+    print('ERROR: Test times for comparison should be a numeric vector!')
+    print('Please use is.vector() and is.numeric() to check!')
+    valid <- F
+  }
+  if (!all(x$test_times_compare %in% x$test_times)) {
+    print("Error: Some test times for comparison cannot be found in test times.")
+    valid <- F
   }
   
-  if (!(is.numeric(x$search_times_compare) && is.vector(x$search_times_compare))) {
-    print("Error: Search times for comparison should be a vector of double values. Please use is.numeric and is.vector to check.")
-    valid <- F
+  if (inherits(x$search_times_compare, 'POSIXt')) {
+    x$search_times_compare <- as.numeric(x$search_times_compare)
+  } else if (is.array(x$search_times_compare)) {
+    x$search_times_compare <- as.vector(x$search_times_compare)
   } else {
-    if (!all(x$search_times_compare %in% x$search_times)) {
-      print("Error: Some search times for comparison cannot be found in search times.")
-    }
+    print('ERROR: Search times for comparison should be a numeric vector!')
+    print('Please use is.vector() and is.numeric() to check!')
+    valid <- F
+  }
+  if (!all(x$search_times_compare %in% x$search_times)) {
+    print("Error: Some search times for comparison cannot be found in search times.")
+    valid <- F
   }
   
   if (x$mode == 'extendedSearch') {

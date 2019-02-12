@@ -1,0 +1,154 @@
+---
+title: "Demo 3: Analog Ensemble with Operational Search"
+author: "Weiming Hu"
+date: "February 12, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(RAnEn)
+library(maps)
+library(raster)
+library(RColorBrewer)
+```
+
+## Introduction
+
+The prediction accuracy of Analog Ensemble depends on the quality of analogs. Presumably, better analogs will generate better predictions. In real-time model operation, when historical forecasts increasing and the test forecast moving forward in time, it is most likely that the historical forecasts in the near past are the most similar ones. Therefore, in an operational prediction mode, it is desired to increment the search forecasts when test forecasts are moving towards the future.
+
+This article shows an example of how to use `RAnEn` with an operational search. It is strongly suggested to go over the [demo 1](https://weiming-hu.github.io/AnalogsEnsemble/2018/11/04/demo-1-RAnEn-basics.html) prior to this tutorial.
+
+
+## Data Description
+
+Same data are used from the [demo 1](https://weiming-hu.github.io/AnalogsEnsemble/2018/11/04/demo-1-RAnEn-basics.html).
+
+```{r}
+load('analysis.RData')
+load('forecasts.RData')
+print(ls())
+```
+
+## Generate Temperature Forecasts
+
+When generating forecasts with an operational search, we need to pay attention to two sets of configuration parameters:
+
+- `test_times` and `search_times`: These two parameters are the complete and the largest sets of test/search times that will be possibly generated and used. And these two parameters should be consistent with the number of times in test/search forecasts.
+- `test_times_compare` and `search_times_compare`: These two parameters are the actual test/search times that will be compared and simialrity will be generated for each combination of `test_times_compare` and `search_search_compare`. **However, if the operational search is desired, `search_search_compare` becomes meaningless because each test time will have a different set of search times, and search times will be regenerated for each test times. The generated search times will be a subset of or equal to `search_times`**.
+
+If you don't understand any of the options, please see the [document](https://weiming-hu.github.io/AnalogsEnsemble/R/reference/generateConfiguration.html).
+
+```{r, echo=FALSE}
+# We use independent search configuration.
+config <- generateConfiguration('independentSearch')
+
+# Set up options
+test.start <- 400
+test.end <- 405
+
+# Please note that same forecasts and forecast.times 
+# are passed to test_forecasts and search_forecasts
+# because, with operational search, search forecasts 
+# and test forecasts are overlapping. The simple
+# solution is to pass the same to both, and let the 
+# program to figure out the search times for each test time.
+#
+config$test_forecasts <- forecasts
+config$test_times <- forecast.times
+config$search_forecasts <- forecasts
+config$search_times <- forecast.times
+
+config$flts <- flts
+config$search_observations <- analysis
+config$observation_times <- analysis.times
+config$weights <- rep(1, dim(forecasts)[1])
+config$time_match_mode <- 1
+config$num_members <- 19
+config$max_flt_nan <- 1
+config$max_par_nan <- 0
+config$verbose <- 5
+
+# Set up test times to be compared
+config$test_times_compare <- as.numeric(forecast.times[test.start:test.end])
+
+# No need to set up search times and let the program figure this out
+# config$search_times_compare <- vector('numeric', 0)
+
+# Don't forget to trigger the operational search
+config$operational <- T
+```
+
+We then generate analogs.
+
+```{r}
+AnEn.opr <- generateAnalogs(config)
+AnEn.opr <- biasCorrection(AnEn, config, forecast.ID = 1, group.func = mean,
+                           na.rm = T, show.progress = F)
+```
+
+We generate another AnEn without operational search.
+
+``` {r}
+search.start <- 1
+
+# Remove the day to avoid overlapping between search and test forecasts
+search.end <- test.start - 2
+
+config$operational <- F
+config$search_times_compare <- as.numeric(forecast.times[search.start:search.end])
+AnEn.ind <- generateAnalogs(config)
+AnEn.ind <- biasCorrection(AnEn.ind, config, forecast.ID = 1, group.func = mean,
+                           na.rm = T, show.progress = F)
+```
+
+## Visualization
+
+We then compare the prediction accuracy on the last day in our test times.
+
+```{r}
+# Choose a FLT to plot
+i.flt <- 31
+
+# Calculate ensemble means
+mean.analogs.opr.cor <- apply(AnEn.opr$analogs.cor[, , , , 1, drop = F], c(1, 2, 3), mean, na.rm = T)
+mean.analogs.ind.cor <- apply(AnEn.ind$analogs.cor[, , , , 1, drop = F], c(1, 2, 3), mean, na.rm = T)
+
+# Create an empty raster for the geographical region
+xy <- cbind(as.numeric(forecast.xs) - 360, as.numeric(forecast.ys))
+colnames(xy) = c('x', 'y')
+ext <- extent(xy[, c('x', 'y')])
+rast <- raster(ext, nrow = 11, ncol = 11, crs = CRS("+proj=longlat +datum=WGS84"))
+
+# Rasterize the data values
+rast.anen.opr.cor <- rasterize(xy[, c('x', 'y')], rast, mean.analogs.opr.cor[, 1, i.flt], fun = mean)
+rast.anen.ind.cor <- rasterize(xy[, c('x', 'y')], rast, mean.analogs.ind.cor[, 1, i.flt], fun = mean)
+rast.fcts <- rasterize(xy[, c('x', 'y')], rast, forecasts[1, , test.start, i.flt], fun = mean)
+rast.anly <- rasterize(xy[, c('x', 'y')], rast, analysis[
+  1, , which(analysis.times == forecast.times[test.start] + flts[i.flt])], fun = mean)
+
+# Calculate RMSE
+rmse.fcts <- sqrt(mean((values(rast.fcts - rast.anly))^2, na.rm = T))
+rmse.anen.opr.cor <- sqrt(mean((values(rast.anen.opr.cor - rast.anly))^2, na.rm = T))
+rmse.anen.ind.cor <- sqrt(mean((values(rast.anen.ind.cor - rast.anly))^2, na.rm = T))
+
+# Create a color scale with 100 colors
+cols <- colorRampPalette(brewer.pal(11, 'Spectral')[11:1])(100)
+
+# Define value limit
+zlim <- range(c(values(rast.fcts), values(rast.anen.opr.cor),
+                values(rast.anly), values(rast.anen.ind.cor)),
+              na.rm = T)
+# Visualization
+par(mfrow = c(2, 2), mar = c(4, 1, 3, 3))
+plot(rast.anly, main = 'NAM Analysis', col = cols, zlim = zlim, legend = F)
+map(col = 'grey', add = T); map('state', add = T)
+plot(rast.fcts, main = 'NAM Forecasts', col = cols, zlim = zlim,
+     xlab = paste('RMSE =', round(rmse.fcts, 4)))
+map(col = 'grey', add = T); map('state', add = T)
+plot(rast.anen.ind.cor, main = 'AnEn Independent Search', col = cols, zlim = zlim,
+     legend = F, xlab = paste('RMSE =', round(rmse.anen.ind.cor, 4)))
+map(col = 'grey', add = T); map('state', add = T)
+plot(rast.anen.opr.cor, main = 'AnEn Operational Search', col = cols,
+     zlim = zlim, xlab = paste('RMSE =', round(rmse.anen.opr.cor, 4)))
+map(col = 'grey', add = T); map('state', add = T)
+```

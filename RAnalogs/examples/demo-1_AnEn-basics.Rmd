@@ -17,7 +17,7 @@ library(RColorBrewer)
 
 ## Introduction
 
-This article walks you through the basic usage of the `RAnEn` library in a practice of short-term surface temperature forecasts. Data are prepared using the `generate-data.R` script from [North American Mesoscale Forecast System (NAM)](https://www.ncdc.noaa.gov/data-access/model-data/model-datasets/north-american-mesoscale-forecast-system-nam). 
+This article walks you through the basic usage of the `RAnEn` library in a practice of short-term surface temperature forecasts. Data are prepared using the `generate-data.R` script, and collected from [North American Mesoscale Forecast System (NAM)](https://www.ncdc.noaa.gov/data-access/model-data/model-datasets/north-american-mesoscale-forecast-system-nam).
 
 You will learn how to use these functions:
 
@@ -85,9 +85,10 @@ test.end <- 400
 search.start <- 1
 search.end <- 370
 config$test_forecasts <- forecasts[, , test.start:test.end, , drop = F]
+config$test_times <- forecast.times[test.start:test.end]
 config$search_forecasts <- forecasts[, , search.start:search.end, , drop = F]
 config$search_times <- forecast.times[search.start:search.end]
-config$search_flts <- flts
+config$flts <- flts
 config$search_observations <- analysis
 config$observation_times <- analysis.times
 config$weights <- rep(1, dim(forecasts)[1])

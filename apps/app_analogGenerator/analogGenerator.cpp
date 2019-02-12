@@ -121,17 +121,19 @@ void runAnalogGenerator(
     SimilarityMatrices sims(test_forecasts);
 
     StandardDeviation sds;
-    if (!file_sds.empty()) {
-        // If the standard deviation file is provided, read the file
-        AnEnIO io_sds("Read", file_sds, "StandardDeviation", verbose);
-        if (sds_start.empty() || sds_count.empty()) {
-            handleError(io_sds.readStandardDeviation(sds));
+    if (!operational) {
+        if (!file_sds.empty()) {
+            // If the standard deviation file is provided, read the file
+            AnEnIO io_sds("Read", file_sds, "StandardDeviation", verbose);
+            if (sds_start.empty() || sds_count.empty()) {
+                handleError(io_sds.readStandardDeviation(sds));
+            } else {
+                handleError(io_sds.readStandardDeviation(sds, sds_start, sds_count));
+            }
         } else {
-            handleError(io_sds.readStandardDeviation(sds, sds_start, sds_count));
+            handleError(functions.computeStandardDeviation(
+                        search_forecasts, sds, search_times_index));
         }
-    } else {
-        handleError(functions.computeStandardDeviation(
-                search_forecasts, sds, search_times_index));
     }
 
 #if defined(_CODE_PROFILING)

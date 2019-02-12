@@ -1,4 +1,4 @@
 #!/bin/bash
 
-cd RAnalogs/examples/notebooks
+cd RAnalogs/examples
 exec "$@"

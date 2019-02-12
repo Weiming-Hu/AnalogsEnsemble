@@ -53,9 +53,10 @@ test.end <- 400
 search.start <- 1
 search.end <- 370
 config$test_forecasts <- forecasts[, , test.start:test.end, , drop = F]
+config$test_times <- forecast.times[test.start:test.end]
 config$search_forecasts <- forecasts[, , search.start:search.end, , drop = F]
 config$search_times <- forecast.times[search.start:search.end]
-config$search_flts <- flts
+config$flts <- flts
 config$search_observations <- analysis
 config$observation_times <- analysis.times
 config$weights <- rep(1, dim(forecasts)[1])
@@ -115,7 +116,7 @@ By now we have our AnEn forecasts. Note that we have the search stations stored 
 print(AnEn)
 ```
 
-# Visualization
+## Visualization
 
 Finally, we can make some plots.
 
