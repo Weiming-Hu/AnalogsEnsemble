@@ -61,15 +61,15 @@ config$search_times <- forecast.times
 config$flts <- flts
 config$search_observations <- analysis
 config$observation_times <- analysis.times
-config$weights <- rep(1, dim(forecasts)[1])
-config$time_match_mode <- 1
+config$weights <- rep(.01, dim(forecasts)[1])
+config$weights[1] <- .91
 config$num_members <- 19
-config$max_flt_nan <- 1
-config$max_par_nan <- 0
+config$preserve_similarity <- T
+config$quick <- F
 config$verbose <- 3
 
 # Set up test times to be compared
-config$test_times_compare <- as.numeric(forecast.times[test.start:test.end])
+config$test_times_compare <- forecast.times[test.start:test.end]
 
 # No need to set up search times and let the program figure this out
 # config$search_times_compare <- vector('numeric', 0)
@@ -95,7 +95,7 @@ search.start <- 1
 search.end <- test.start - 2
 
 config$operational <- F
-config$search_times_compare <- as.numeric(forecast.times[search.start:search.end])
+config$search_times_compare <- forecast.times[search.start:search.end]
 AnEn.ind <- generateAnalogs(config)
 AnEn.ind <- biasCorrection(AnEn.ind, config, forecast.ID = 1, group.func = mean,
                            na.rm = T, show.progress = F)
@@ -160,6 +160,10 @@ If we take a closer look at the analog members of inependent search and operatio
 
 ```{r}
 cat("First 3 columns are independent; last 3 are operational.\n")
-cbind(AnEn.ind$analogs[25, i.day, i.flt, , ],
-      AnEn.opr$analogs[25, i.day, i.flt, , ])
+cbind(AnEn.ind$analogs[121, i.day, i.flt, , ],
+      AnEn.opr$analogs[121, i.day, i.flt, , ])
+which(AnEn.ind$analogs[, i.day, i.flt, , ] != 
+      AnEn.opr$analogs[, i.day, i.flt, , ], arr.ind = T)
+cbind(AnEn.ind$similarity[121, i.day, i.flt, , ],
+      AnEn.opr$similarity[121, i.day, i.flt, , ])
 ```
