@@ -138,24 +138,24 @@ generateAnalogs <- function(configuration) {
   # Because similarity matrix was stored in row-major in C++ and the R object will be column-major.
   # So change the order of dimensions to make it conform with other objects.
   #
-  # if (configuration$preserve_similarity) {
-  #   AnEn$similarity <- aperm(AnEn$similarity, length(dim(AnEn$similarity)):1)
-  #   AnEn$similarity[, , , , 2:3] <- AnEn$similarity[, , , , 2:3, drop = F] + 1
-  # }
-  # 
-  # if (configuration$mode == 'extendedSearch') {
-  #   if (configuration$preserve_search_stations) {
-  #     AnEn$searchStations <- AnEn$searchStations + 1
-  #   }
-  # }
-  # 
-  # # Convert index from C counting to R counting
-  # AnEn$analogs[, , , , 3] <- AnEn$analogs[, , , , 3, drop = F] + 1
-  # AnEn$analogs[, , , , 2] <- AnEn$analogs[, , , , 2, drop = F] + 1
-  # 
-  # if (configuration$preserve_mapping) AnEn$mapping <- AnEn$mapping + 1
-  # 
-  # if (configuration$verbose >= 3)  cat("Done!\n")
+  if (configuration$preserve_similarity) {
+    AnEn$similarity <- aperm(AnEn$similarity, length(dim(AnEn$similarity)):1)
+    AnEn$similarity[, , , , 2:3] <- AnEn$similarity[, , , , 2:3, drop = F] + 1
+  }
+
+  if (configuration$mode == 'extendedSearch') {
+    if (configuration$preserve_search_stations) {
+      AnEn$searchStations <- AnEn$searchStations + 1
+    }
+  }
+
+  # Convert index from C counting to R counting
+  AnEn$analogs[, , , , 3] <- AnEn$analogs[, , , , 3, drop = F] + 1
+  AnEn$analogs[, , , , 2] <- AnEn$analogs[, , , , 2, drop = F] + 1
+
+  if (configuration$preserve_mapping) AnEn$mapping <- AnEn$mapping + 1
+
+  if (configuration$verbose >= 3)  cat("Done!\n")
   
   return(AnEn)
 }
