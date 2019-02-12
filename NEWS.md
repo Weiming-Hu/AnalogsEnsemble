@@ -2,6 +2,7 @@
 
 - Remove computing sds outside the loops when operational search is used.
 - Add demo for using operational search.
+- Performance improved for computing similarity.
 
 # PEF 3.2.0
 

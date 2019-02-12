@@ -24,7 +24,21 @@ boost::fortran_storage_order()) {
     resize(extents[dim1][dim2][dim3]);
 }
 
+StandardDeviation::StandardDeviation(const StandardDeviation& orig) {
+    *this = orig;
+}
+
 StandardDeviation::~StandardDeviation(){
+}
+
+StandardDeviation&
+        StandardDeviation::operator=(const StandardDeviation& right) {
+
+    if (this == &right) return *this;
+    
+    boost::multi_array<double, 3>::operator=(right);
+    
+    return *this;
 }
 
 void

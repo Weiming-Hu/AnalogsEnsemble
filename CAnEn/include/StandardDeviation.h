@@ -29,9 +29,11 @@ class StandardDeviation : public boost::multi_array<double, 3> {
 public:
     StandardDeviation();
     StandardDeviation(size_t dim1, size_t dim2, size_t dim3);
-    StandardDeviation(const StandardDeviation& orig) = delete;
+    StandardDeviation(const StandardDeviation& orig);
     virtual ~StandardDeviation();
-
+    
+    StandardDeviation& operator=(const StandardDeviation& right);
+    
     void print(std::ostream &) const;
     void printSize(std::ostream &) const;
     friend std::ostream & operator<<(std::ostream &,

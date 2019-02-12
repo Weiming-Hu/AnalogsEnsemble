@@ -298,6 +298,7 @@ AnEn::computeSimilarity(
     // Get the max time offset of FLT
     const auto & flt_by_insert = search_forecasts.getFLTs().get<anenTime::by_insert>();
     double max_flt = flt_by_insert[num_flts - 1];
+    vector<StandardDeviation> sds_operational_container;
 
     if (operational) {
         if (verbose_ >= 5) cout << "Operational search is selected. " 
@@ -318,7 +319,20 @@ AnEn::computeSimilarity(
                 [](const anenTime::Times & lhs, const anenTime::Times & rhs) {
                     return (lhs.size() < rhs.size());
                 })->size();
-                
+
+        if (verbose_ >= 3) cout << "Compute Standard deviation for each test time ..." << endl;
+        sds_operational_container.resize(num_test_times);
+
+#if defined(_OPENMP)
+#pragma omp parallel for default(none) schedule(static) \
+shared(functions, search_forecasts, sds_operational_container, \
+num_test_times, i_search_times_operational)
+#endif
+        for (size_t i = 0; i < num_test_times; i++) {
+            functions.computeStandardDeviation(search_forecasts,
+                    sds_operational_container[i], i_search_times_operational[i]);
+        }
+        
     } else {
         handleError(functions.convertToIndex(search_times, search_forecasts.getTimes(), i_search_times));
         num_search_times = i_search_times.size();
@@ -376,7 +390,7 @@ shared(num_test_stations, num_flts, num_search_stations, num_test_times, \
 circular_flags, num_parameters, data_search_observations, functions, \
 flts_window, mapping, weights, search_forecasts, test_forecasts, \
 sims, sds, i_observation_parameter, i_search_stations, max_flt_nan, max_par_nan, \
-test_stations_index_in_search, extend_observations, i_test_times, \
+test_stations_index_in_search, extend_observations, i_test_times, sds_operational_container, \
 test_times, max_flt, operational, search_times_operational, i_search_times_operational) \
 firstprivate(i_search_times, search_times, num_search_times)
 #endif
@@ -386,13 +400,11 @@ firstprivate(i_search_times, search_times, num_search_times)
                 for (size_t i_search_station_index = 0; i_search_station_index < num_search_stations; i_search_station_index++) {
 
                     size_t i_test_time = i_test_times[pos_test_time];
-                    StandardDeviation sds_operational;
                     
                     if (operational) {
                         // Update search_times and the relevant
                         search_times = search_times_operational[pos_test_time];
                         i_search_times = i_search_times_operational[pos_test_time];
-                        functions.computeStandardDeviation(search_forecasts, sds_operational, i_search_times);
                     }
                     
                     double i_search_station_current = NAN, i_search_station =
@@ -440,7 +452,7 @@ firstprivate(i_search_times, search_times, num_search_times)
                                         // compute single similarity
                                         if (operational) {
                                             sims[i_test_station][pos_test_time][i_flt][i_sim_row][COL_TAG_SIM::VALUE] = compute_single_similarity_(
-                                                    test_forecasts, search_forecasts, sds_operational, weights, flts_window, circular_flags,
+                                                    test_forecasts, search_forecasts, sds_operational_container[pos_test_time], weights, flts_window, circular_flags,
                                                     i_test_station, i_test_time, i_search_station, i_search_time, i_flt, max_par_nan, max_flt_nan);
                                         } else {
                                             sims[i_test_station][pos_test_time][i_flt][i_sim_row][COL_TAG_SIM::VALUE] = compute_single_similarity_(

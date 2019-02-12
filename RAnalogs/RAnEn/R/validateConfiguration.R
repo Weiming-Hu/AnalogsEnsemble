@@ -152,28 +152,32 @@ validateConfiguration <- function(x, verbose = 1) {
     valid <- F
   }
   
-  if (inherits(x$test_times_compare, 'POSIXt')) {
-    x$test_times_compare <- as.numeric(x$test_times_compare)
-  } else if (is.array(x$test_times_compare)) {
-    x$test_times_compare <- as.vector(x$test_times_compare)
-  } else {
-    print('ERROR: Test times for comparison should be a numeric vector!')
-    print('Please use is.vector() and is.numeric() to check!')
-    valid <- F
+  if (!(is.vector(x$test_times_compare) && is.numeric(x$test_times_compare))) {
+    if (inherits(x$test_times_compare, 'POSIXt')) {
+      x$test_times_compare <- as.numeric(x$test_times_compare)
+    } else if (is.array(x$test_times_compare)) {
+      x$test_times_compare <- as.vector(x$test_times_compare)
+    } else {
+      print('ERROR: Test times for comparison should be a numeric vector!')
+      print('Please use is.vector() and is.numeric() to check!')
+      valid <- F
+    }
   }
   if (!all(x$test_times_compare %in% x$test_times)) {
     print("Error: Some test times for comparison cannot be found in test times.")
     valid <- F
   }
   
-  if (inherits(x$search_times_compare, 'POSIXt')) {
-    x$search_times_compare <- as.numeric(x$search_times_compare)
-  } else if (is.array(x$search_times_compare)) {
-    x$search_times_compare <- as.vector(x$search_times_compare)
-  } else {
-    print('ERROR: Search times for comparison should be a numeric vector!')
-    print('Please use is.vector() and is.numeric() to check!')
-    valid <- F
+  if (!(is.vector(x$search_times_compare) && is.numeric(x$search_times_compare))) {
+    if (inherits(x$search_times_compare, 'POSIXt')) {
+      x$search_times_compare <- as.numeric(x$search_times_compare)
+    } else if (is.array(x$search_times_compare)) {
+      x$search_times_compare <- as.vector(x$search_times_compare)
+    } else {
+      print('ERROR: Search times for comparison should be a numeric vector!')
+      print('Please use is.vector() and is.numeric() to check!')
+      valid <- F
+    }
   }
   if (!all(x$search_times_compare %in% x$search_times)) {
     print("Error: Some search times for comparison cannot be found in search times.")
