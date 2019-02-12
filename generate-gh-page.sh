@@ -63,6 +63,31 @@ function doCompileR {
     mv RAnalogs/releases/RAnEn/docs out/R
 }
 
+function doGenerateNewsPost {
+    echo "Generate a post for news.md"
+
+    cd out
+    cp ../NEWS.md NEWS.md
+    postName=$(date +'%Y-%m-%d')
+    postName="$postName-news.md"
+    
+    rm _posts/$postName || true
+    mv ./NEWS.md ./_posts/$postName
+
+    cd _posts
+
+    echo -e '\n' | cat - $postName > temp && mv temp $postName
+    echo -e '---' | cat - $postName > temp && mv temp $postName
+    echo -e '  - document' | cat - $postName > temp && mv temp $postName
+    echo -e 'tags:' | cat - $postName > temp && mv temp $postName
+    echo -e 'title: Change Log' | cat - $postName > temp && mv temp $postName
+    echo -e 'layout: post' | cat - $postName > temp && mv temp $postName
+    echo -e '---' | cat - $postName > temp && mv temp $postName
+
+    cd ..
+    cd ..
+}
+
 # Save some useful information
 REPO=$(git config remote.origin.url)
 # SSH_REPO=${REPO/https:\/\/github.com\//git@github.com:}
@@ -85,6 +110,7 @@ echo -e '---' | cat - index.md > temp && mv temp index.md
 cd ..
 
 # Call the compile functions
+doGenerateNewsPost
 doCompileCXX
 doCompileR
 
