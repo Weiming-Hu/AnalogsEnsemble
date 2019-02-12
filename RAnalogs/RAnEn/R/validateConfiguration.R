@@ -45,11 +45,11 @@ validateConfiguration <- function(x, verbose = 1) {
   
   if (!valid) return(valid)
   
-  if (identical(x$test_times), NA) {
+  if (identical(x$test_times, NA)) {
     x$test_times <- x$search_times
   }
   
-  if (identical(x$test_forecasts), NA) {
+  if (identical(x$test_forecasts, NA)) {
     x$test_forecasts <- x$search_forecasts
   }
   
