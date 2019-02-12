@@ -101,8 +101,8 @@ generateConfiguration <- function(mode) {
   
   config <- list(
     mode = mode,
-    test_forecasts = NULL,
-    test_times = NULL,
+    test_forecasts = NA,
+    test_times = NA,
     search_forecasts = NULL, 
     search_times = NULL, 
     flts = NULL,

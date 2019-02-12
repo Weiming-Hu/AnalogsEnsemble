@@ -3,6 +3,7 @@
 - Remove computing sds outside the loops when operational search is used.
 - Add demo for using operational search.
 - Performance improved for computing similarity.
+- Add default value in `RAnEn` for `configuration$test_forecasts` and `configuration$test_times`. If they are not specified, they are copied from `configuration$search_forecasts` and `configuration$search_times` respectively.
 
 # PEF 3.2.0
 
