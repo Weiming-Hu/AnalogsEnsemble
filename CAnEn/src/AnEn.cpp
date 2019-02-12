@@ -323,6 +323,10 @@ AnEn::computeSimilarity(
         if (verbose_ >= 3) cout << "Compute Standard deviation for each test time ..." << endl;
         sds_operational_container.resize(num_test_times);
 
+        // TODO:
+        // To speed up the code, we might not want to re compute the standard deviation
+        // for each day. We can compute for a group of 5 days or more.
+        //
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(static) \
 shared(functions, search_forecasts, sds_operational_container, \
