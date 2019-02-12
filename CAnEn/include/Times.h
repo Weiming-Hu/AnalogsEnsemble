@@ -18,8 +18,9 @@
 
 #include <boost/multi_index/tag.hpp>
 #include <boost/multi_index/mem_fun.hpp>
-#include <boost/multi_index_container.hpp>
 #include <boost/multi_index/identity.hpp>
+#include <boost/multi_index_container.hpp>
+#include <boost/multi_index/global_fun.hpp>
 #include <boost/multi_index/hashed_index.hpp>
 #include <boost/multi_index/random_access_index.hpp>
 
@@ -31,6 +32,7 @@ namespace anenTime {
     const static int _ORIGIN_YEAR = 1970;
     const static int _ORIGIN_MONTH = 1;
     const static int _ORIGIN_DAY = 1;
+    static const int MULTIPLIER = 10000;
 
     struct by_insert {
         /**
@@ -43,6 +45,28 @@ namespace anenTime {
          * The tag for value-based indexing
          */
     };
+
+    /**
+     * Although times are implemented as double container, the precision is not
+     * exactly the same as double precious. This is because of two reasons:
+     * 
+     * - Double values are generally not recommended to be hashed because
+     * hash values are used to look up the exact element, and double values are
+     * too precise to be hashed;
+     * - Sometimes when reading from NetCDF files, values can be float and double.
+     * If exact match is desired, values from float will never be able to match
+     * double values because of the difference in precision;
+     * 
+     * Therefore, this function is provided to define a somewhat less precise
+     * precision level for times, as a balance between performance and precision.
+     * 
+     * The function simply multiply the double value with a multiplier and then
+     * disregard the decimals.
+     * 
+     * @param ori The original double value.
+     * @return The multiplier and truncated size_t value.
+     */
+    size_t roundPrecision(const double& ori);
 
     /**
      * Base class for Times
@@ -61,7 +85,8 @@ namespace anenTime {
             // Order by value
             boost::multi_index::hashed_unique<
             boost::multi_index::tag<by_value>,
-            boost::multi_index::identity<std::size_t> > > >;
+            boost::multi_index::global_fun<
+                const double&, size_t, &roundPrecision> > > >;
 
     /**
      * \class Times

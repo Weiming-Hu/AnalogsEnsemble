@@ -400,9 +400,12 @@ void testAnEnIO::testReadPartTimes() {
     io.readTimes(times, 1, 3, 10);
     const anenTime::multiIndexTimes::index<anenTime::by_insert>::type &
             times_by_insert = times.get<anenTime::by_insert>();
-    CPPUNIT_ASSERT(times_by_insert[0] == 2);
-    CPPUNIT_ASSERT(times_by_insert[1] == 12);
-    CPPUNIT_ASSERT(times_by_insert[2] == 22);
+
+    size_t MULTIPLIER = anenTime::MULTIPLIER;
+
+    CPPUNIT_ASSERT(round(times_by_insert[0] * MULTIPLIER) == round(1.1 * MULTIPLIER));
+    CPPUNIT_ASSERT(round(times_by_insert[1] * MULTIPLIER) == round(2.3 * MULTIPLIER));
+    CPPUNIT_ASSERT(round(times_by_insert[2] * MULTIPLIER) == round(3.5 * MULTIPLIER));
 }
 
 void testAnEnIO::testReadPartFLTs() {

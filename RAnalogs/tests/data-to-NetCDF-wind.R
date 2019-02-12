@@ -33,7 +33,7 @@ num_chars <- 10
 
 value_xs <- 1:num_stations
 value_ys <- 1:num_stations
-value_flts <- ((1:num_flts) - 1) * 3 * 60 * 60
+value_flts <- ((1:num_flts) - 1)
 value_times <- ((1:num_times) - 1) * 24 * 60 * 60
 value_station_names <- paste("station", 1:num_stations, sep = '')
 value_parameter_names <- paste("parameter", 1:num_parameters, sep = '')
@@ -49,7 +49,7 @@ dim_chars <- ncdim_def('num_chars', "", 1:num_chars, create_dimvar = F)
 var_xs <- ncvar_def("Xs", "", list(dim_stations))
 var_ys <- ncvar_def("Ys", "", list(dim_stations))
 var_flts <- ncvar_def("FLTs", "second", list(dim_flts))
-var_times <- ncvar_def("Times", "second", list(dim_times))
+var_times <- ncvar_def("Times", "second", list(dim_times), prec = 'double')
 var_station_names <- ncvar_def("StationNames", "char", list(dim_chars, dim_stations), prec = 'char')
 var_circulars <- ncvar_def("ParameterCirculars", "char", list(dim_chars, dim_parameters), prec = 'char')
 var_parameter_names <- ncvar_def("ParameterNames", "char", list(dim_chars, dim_parameters), prec = 'char')
@@ -94,13 +94,13 @@ file_observations <- "wind-observations.nc"
 dim(ob) <- c(1, dim(ob))
 num_parameters <- dim(ob)[1]
 num_stations <- dim(ob)[2]
-num_days <- dim(ob)[3] + 1
-num_times <- num_days * 8
+num_days <- dim(ob)[3]
+num_flts <- dim(ob)[4]
+num_times <- num_days * num_flts
 
 value_xs <- 1:num_stations
 value_ys <- 1:num_stations
-value_data <- ob[, , , 1:8, drop = F]
-tmp.search.observations <- abind(value_data, ob[, , 457, 9:16, drop = F], along = 3)
+tmp.search.observations <- ob
 search.observations <- aperm(tmp.search.observations, c(4, 3, 2, 1))
 search.observations <- array(
   search.observations, dim = c(
@@ -110,7 +110,7 @@ value_data <- aperm(search.observations, c(3, 2, 1))
 
 value_station_names <- paste("station", 1:num_stations, sep = '')
 value_parameter_names <- paste("parameter", 1:num_parameters, sep = '')
-value_times <- rep((1:num_days - 1) * 24 * 60 * 60, each = 8) + (1:8 - 1) * 3 * 60 * 60
+value_times <- rep((1:num_days - 1) * 24 * 60 * 60, each = num_flts) + (1:num_flts - 1)
 assertthat::are_equal(length(value_times), num_times)
 
 dim_parameters <- ncdim_def("num_parameters", "", 1:num_parameters, create_dimvar = F)
@@ -119,7 +119,7 @@ dim_times <- ncdim_def("num_times", "", 1:num_times, create_dimvar = F)
 
 var_xs <- ncvar_def("Xs", "", list(dim_stations))
 var_ys <- ncvar_def("Ys", "", list(dim_stations))
-var_times <- ncvar_def("Times", "second", list(dim_times))
+var_times <- ncvar_def("Times", "second", list(dim_times), prec = 'double')
 var_station_names <- ncvar_def("StationNames", "char", list(dim_chars, dim_stations), prec = 'char')
 var_parameter_names <- ncvar_def("ParameterNames", "char", list(dim_chars, dim_parameters), prec = 'char')
 var_data <- ncvar_def("Data", "", list(dim_parameters, dim_stations, dim_times), missval = NA, prec = 'double')

@@ -42,7 +42,7 @@ string(TIMESTAMP LIBRARY_CONFIGURE_TIMESTAMP "%Y-%m-%d_%H:%M")
 configure_file("${RAnEn_PACKAGE_DIR}/DESCRIPTION.in" "${RAnEn_PACKAGE_DIR}/DESCRIPTION")
 
 # copy files
-set(REQUIRED_FILE_NAME "Analogs;AnEn;Array4D;Forecasts;Observations;Parameters;SimilarityMatrices;StandardDeviation;Stations;Times;errorType")
+set(REQUIRED_FILE_NAME "Analogs;AnEn;Array4D;Forecasts;Observations;Parameters;SimilarityMatrices;StandardDeviation;Stations;Times;errorType;Functions")
 
 foreach(file_name ${REQUIRED_FILE_NAME})
     file(COPY "${RAnEn_EXTRA_INCLUDE_DIR}/${file_name}.h"

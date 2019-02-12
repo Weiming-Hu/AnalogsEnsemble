@@ -46,7 +46,7 @@ AnEn.cpp <- compute_analogs(
   train_ID_start = train.start,
   train_ID_end = train.end,
   weights = weights,
-  verbose = 0
+  verbose = 2
 )
 
 analogs.cpp <- AnEn.cpp$analogs[,,,,1]
@@ -78,7 +78,7 @@ analogs_c = compute_analogs(forecasts = fc,
                             cores = 6,
                             output_search_stations = F,
                             output_metric = F,
-                            verbose = 0)
+                            verbose = 2)
 
 analogs_WU = analogs_c$analogs[1,,,,1]
 

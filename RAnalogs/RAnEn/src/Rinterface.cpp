@@ -44,10 +44,12 @@ List generateAnalogs(
         NumericVector R_test_forecasts, NumericVector R_test_forecasts_dims,
         NumericVector R_test_forecasts_station_x,
         NumericVector R_test_forecasts_station_y,
+        NumericVector R_test_times,
         NumericVector R_search_forecasts, NumericVector R_search_forecasts_dims,
         NumericVector R_search_forecasts_station_x,
         NumericVector R_search_forecasts_station_y,
-        NumericVector R_search_times, NumericVector R_search_flts,
+        NumericVector R_search_times,
+        NumericVector R_flts,
         NumericVector R_search_observations,
         NumericVector R_search_observations_dims,
         NumericVector R_observation_times,
@@ -58,19 +60,27 @@ List generateAnalogs(
         bool preserve_search_stations,
         size_t max_num_search_stations, double distance,
         size_t num_nearest_stations, int time_match_mode,
-        double max_par_nan, double max_flt_nan, int verbose) {
+        double max_par_nan, double max_flt_nan,
+        NumericVector R_test_times_compare,
+        NumericVector R_search_times_compare,
+        bool operational, int verbose) {
 
     /***************************************************************************
      *                   Convert objects for AnEn computation                  *
      **************************************************************************/
     if (verbose >= 3)
         cout << "Convert R objects to C++ objects ..." << endl;
+
+    anenTime::Times test_times;
+    test_times.insert(test_times.end(),
+            R_test_times.begin(), R_test_times.end());
+
     anenTime::Times search_times;
     search_times.insert(search_times.end(),
             R_search_times.begin(), R_search_times.end());
 
     anenTime::FLTs flts;
-    flts.insert(flts.end(), R_search_flts.begin(), R_search_flts.end());
+    flts.insert(flts.end(), R_flts.begin(), R_flts.end());
 
     anenTime::Times observation_times;
     observation_times.insert(observation_times.end(),
@@ -96,12 +106,6 @@ List generateAnalogs(
         test_stations.get<anenSta::by_insert>().resize(
                 R_test_forecasts_dims[1]);
     }
-
-    std::vector<double> test_times_vec(R_test_forecasts_dims[2], 0);
-    iota(test_times_vec.begin(), test_times_vec.end(), 0);
-    anenTime::Times test_times;
-    test_times.insert(test_times.end(),
-            test_times_vec.begin(), test_times_vec.end());
 
     anenSta::Stations search_stations;
     if (search_extension) {
@@ -135,6 +139,12 @@ List generateAnalogs(
     search_observations.data().assign(
             R_search_observations.begin(), R_search_observations.end());
 
+    anenTime::Times test_times_compare, search_times_compare;
+    test_times_compare.insert(test_times_compare.end(), 
+            R_test_times_compare.begin(), R_test_times_compare.end());
+    search_times_compare.insert(search_times_compare.end(), 
+            R_search_times_compare.begin(), R_search_times_compare.end());
+
     /***************************************************************************
      *                           AnEn Computation                              *
      **************************************************************************/
@@ -156,7 +166,9 @@ List generateAnalogs(
     else anen.setMethod(AnEn::simMethod::OneToOne);
 
     // Pre compute the standard deviation
-    handleError(functions.computeStandardDeviation(search_forecasts, sds));
+    std::vector<size_t> search_times_index;
+    functions.convertToIndex(search_times_compare, search_times, search_times_index);
+    handleError(functions.computeStandardDeviation(search_forecasts, sds, search_times_index));
 
     // Pre compute the time mapping from forecasts [Times, FLTs] 
     // to observations [Times]
@@ -176,7 +188,8 @@ List generateAnalogs(
     handleError(anen.computeSimilarity(test_forecasts, search_forecasts,
             sds, sims, search_observations, mapping, i_search_stations,
             observation_parameter, extend_observations,
-            max_par_nan, max_flt_nan));
+            max_par_nan, max_flt_nan, test_times_compare,
+            search_times_compare, operational));
 
     // Select analogs
     handleError(anen.selectAnalogs(analogs, sims, 

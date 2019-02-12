@@ -174,11 +174,11 @@ void runAnalogGenerator(
     
     anenTime::Times test_times, search_times;
     
-    auto & container = test_forecasts.getTimes().get<anenTime::by_insert>();
-    for (size_t i : test_times_index) test_times.push_back(container[i]);
+    const auto & container_test = test_forecasts.getTimes().get<anenTime::by_insert>();
+    for (size_t i : test_times_index) test_times.push_back(container_test[i]);
     
-    container = search_forecasts.getTimes().get<anenTime::by_insert>();
-    for (size_t i : search_times_index) search_times.push_back(container[i]);
+    const auto & container_search = search_forecasts.getTimes().get<anenTime::by_insert>();
+    for (size_t i : search_times_index) search_times.push_back(container_search[i]);
     
     handleError(anen.computeSimilarity(
             test_forecasts, search_forecasts, sds, sims, search_observations,
@@ -481,6 +481,8 @@ int main(int argc, char** argv) {
                 << "obs_count: " << obs_count << endl
                 << "sds_start: " << sds_start << endl
                 << "sds_count: " << sds_count << endl
+                << "test_times_index: " << test_times_index << endl
+                << "search_times_index: " << search_times_index << endl
                 << "operational: " << operational << endl;
     }
 

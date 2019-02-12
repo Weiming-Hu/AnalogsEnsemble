@@ -215,10 +215,10 @@ compute_analogs <- function(forecasts,
   
   if (identical(NA, train_ID_end)) {
     if (rolling < 0) {
-      train_ID_end = test_ID_end + rolling
+      train_ID_end = test_ID_start + rolling
     }
     if (train_ID_end < 0) {
-      print("ERROR: train_ID_end = test_ID_end + rolling is negative!")
+      print("ERROR: train_ID_end = test_ID_start + rolling is negative!")
       return(0)
     }
   }
@@ -332,9 +332,8 @@ compute_analogs <- function(forecasts,
   }
   
   if (!(is.numeric(verbose) &&
-        length(verbose) == 1 &&
-        verbose %in% c(0, 1, 2))) {
-    print("ERROR: verbose should be 0, 1, or 2")
+        length(verbose) == 1)) {
+    print("ERROR: verbose should be an integer.")
     return(0)
   }
   
@@ -345,10 +344,10 @@ compute_analogs <- function(forecasts,
   if (search_extension) {
     config <- generateConfiguration('extendedSearch')
     
-    config$test_stations_x <- xs[test_ID_start:test_ID_end]
-    config$test_stations_y <- ys[test_ID_start:test_ID_end]
-    config$search_stations_x <- xs[train_ID_start:train_ID_end]
-    config$search_stations_y <- ys[train_ID_start:train_ID_end]
+    config$test_stations_x <- xs
+    config$test_stations_y <- ys
+    config$search_stations_x <- xs
+    config$search_stations_y <- ys
     config$num_nearest <- num_nearest
     config$distance <- distance
     config$preserve_search_stations <- output_search_stations
@@ -359,10 +358,10 @@ compute_analogs <- function(forecasts,
     config <- generateConfiguration('independentSearch')
   }
 
-  test.forecasts <- forecasts[, , test_ID_start:test_ID_end, , drop = F]
-  search.forecasts <- forecasts[, , train_ID_start:train_ID_end, , drop = F]
+  test.forecasts <- forecasts
+  search.forecasts <- forecasts
   
-  tmp.search.observations <- observations[, , train_ID_start:train_ID_end, , drop = F]
+  tmp.search.observations <- observations
   search.observations <- aperm(tmp.search.observations, c(4, 3, 2, 1))
   search.observations <- array(search.observations,
                                dim = c(dim(tmp.search.observations)[3] 
@@ -372,14 +371,26 @@ compute_analogs <- function(forecasts,
   search.observations <- aperm(search.observations, c(3, 2, 1))
   rm(tmp.search.observations)
   
-  search.times <- (1:dim(search.forecasts)[3]) * 100
-  search.flts <- 1:dim(search.forecasts)[4]
-  observation.times <- rep(search.times, each = length(search.flts)) + search.flts
+  test.times <- (1:dim(forecasts)[3])
+  search.times <- (1:dim(forecasts)[3])
+  
+  # Make sure rolling is an integer
+  if (rolling == 0) {
+    config$operational <- FALSE
+    flts <- seq(0, by = 1 / dim(forecasts)[4], length.out = dim(forecasts)[4])
+  } else {
+    config$operational <- TRUE
+    rolling <- floor(rolling)
+    flts <- seq(0, by = abs(rolling) / dim(forecasts)[4], length.out = dim(forecasts)[4])
+  }
+  
+  observation.times <- rep(search.times, each = length(flts)) + flts
   
   config$test_forecasts <- test.forecasts
+  config$test_times <- test.times
   config$search_forecasts <- search.forecasts
   config$search_times <- search.times
-  config$search_flts <- search.flts
+  config$flts <- flts
   config$search_observations <- search.observations
   config$observation_times <- observation.times
   config$observation_id <- observation_ID
@@ -391,6 +402,9 @@ compute_analogs <- function(forecasts,
   config$preserve_mapping <- F
   config$verbose <- verbose
   
+  config$test_times_compare <- test.times[test_ID_start:test_ID_end]
+  config$search_times_compare <- search.times[train_ID_start:train_ID_end]
+  
   valid <- validateConfiguration(config)
   if (!valid) return(valid)
   
@@ -399,14 +413,10 @@ compute_analogs <- function(forecasts,
   
   if (recompute_sd_for_extended_station)
     cat('Warning: recompute_sd_for_extended_station is not supported.\n')
-  
-  if (rolling < 0) cat('Warning: rolling is no longer supported. Test forecasts will search through the same historical forecasts.\n')
-  
+
   if (cores != 0) cat('Warning: cores are automatically detected.\n')
   
-  
   config$observation_id = config$observation_id - 1
-  
   
   if (config$mode == 'independentSearch') {
     
@@ -424,9 +434,11 @@ compute_analogs <- function(forecasts,
     AnEn <- .generateAnalogs(
       config$test_forecasts, dim(config$test_forecasts),
       test_forecasts_station_x, test_forecasts_station_y,
+      config$test_times,
       config$search_forecasts, dim(config$search_forecasts),
       search_forecasts_station_x, search_forecasts_station_y,
-      config$search_times, config$search_flts,
+      config$search_times,
+      config$flts,
       config$search_observations, dim(config$search_observations),
       config$observation_times, config$num_members,
       config$observation_id, config$quick,
@@ -439,6 +451,9 @@ compute_analogs <- function(forecasts,
       config$time_match_mode,
       config$max_par_nan,
       config$max_flt_nan,
+      config$test_times_compare,
+      config$search_times_compare,
+      config$operational,
       config$verbose)
     
   } else if (config$mode == 'extendedSearch') {
@@ -449,10 +464,12 @@ compute_analogs <- function(forecasts,
       config$test_forecasts, dim(config$test_forecasts),
       config$test_stations_x,
       config$test_stations_y,
+      config$test_times,
       config$search_forecasts, dim(config$search_forecasts),
       config$search_stations_x,
       config$search_stations_y,
-      config$search_times, config$search_flts,
+      config$search_times,
+      config$flts,
       config$search_observations, dim(config$search_observations),
       config$observation_times, config$num_members,
       config$observation_id, config$quick,
@@ -467,6 +484,9 @@ compute_analogs <- function(forecasts,
       config$time_match_mode,
       config$max_par_nan,
       config$max_flt_nan,
+      config$test_times_compare,
+      config$search_times_compare,
+      config$operational,
       config$verbose)
     
   } else {

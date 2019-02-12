@@ -98,6 +98,10 @@ RAnalogs/RAnEn/build
 RAnalogs/RAnEn/docs
 RAnalogs/RAnEn/README*
 RAnalogs/releases/RAnEn/
+RAnalogs/RAnEn/src/errorType.cpp
+RAnalogs/RAnEn/src/errorType.h
+RAnalogs/RAnEn/src/Functions.cpp
+RAnalogs/RAnEn/src/Functions.h
 
 # From the base theme and jekyll ignore
 # Ignore docs files

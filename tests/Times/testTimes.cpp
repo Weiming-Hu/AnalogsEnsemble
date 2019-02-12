@@ -13,6 +13,8 @@
 
 #include <cppunit/TestAssert.h>
 
+#include <iostream>
+
 #include "testTimes.h"
 
 
@@ -41,4 +43,35 @@ void testTimes::testGetTimeIndex() {
     CPPUNIT_ASSERT(i_time == 2);
     i_time = times.getTimeIndex(320);
     CPPUNIT_ASSERT(i_time == 14);
+}
+
+void testTimes::testDecimalValues() {
+
+    /**
+     * Test decimal values.
+     */
+
+    Times times;
+    std::vector<double> results = {0, 0.1, 0.2, 0.3, 1, 1.1, 4, 4.6};
+    times.insert(times.end(), results.begin(), results.end());
+
+    std::cout << "Times: " << times;
+
+    const auto & times_by_insert = times.get<by_insert>();
+    const auto & times_by_value = times.get<by_value>();
+
+    size_t i_time;
+
+    for (size_t i = 0; i < results.size(); i++) {
+        CPPUNIT_ASSERT(times_by_insert[i] == results[i]);
+
+        i_time = times.getTimeIndex(results[i]);
+        CPPUNIT_ASSERT(i_time == i);
+    }
+
+    i_time = times.getTimeIndex(1 + 0.1);
+    CPPUNIT_ASSERT(i_time == 5);
+
+    i_time = times.getTimeIndex(0.10000);
+    CPPUNIT_ASSERT(i_time == 1);
 }

@@ -6,6 +6,7 @@
  */
 
 #include "testFunctions.h"
+#include "../../CAnEnIO/include/AnEnIO.h"
 #include "../../CAnEn/include/Functions.h"
 #include "../../CAnEn/include/colorTexts.h"
 
@@ -166,7 +167,7 @@ void testFunctions::testMean() {
     CPPUNIT_ASSERT(functions.mean(v3, 2) == 1);
 }
 
-void testFunctions::testComputeObservationTimeIndices() {
+void testFunctions::testComputeObservationTimeIndices1() {
 
     /**
      * Test the function of computeObservationTimeIndices().
@@ -200,6 +201,42 @@ void testFunctions::testComputeObservationTimeIndices() {
     for (size_t i_row = 0; i_row < mapping.size1(); i_row++) {
         for (size_t i_col = 0; i_col < mapping.size2(); i_col++, pos++) {
             CPPUNIT_ASSERT(mapping(i_row, i_col) == results[pos]);
+        }
+    }
+}
+
+void testFunctions::testComputeObservationTimeIndices2() {
+
+    /**
+     * Test the function of computeObservationTimeIndices() by reading files.
+     */
+
+    AnEnIO io("Read", file_forecasts, "Forecasts", 2);
+    Forecasts_array forecasts;
+    io.readForecasts(forecasts);
+
+    io.setFilePath(file_observations);
+    io.setFileType("Observations");
+    Observations_array observations;
+    io.readObservations(observations);
+
+    Functions functions(2);
+    Functions::TimeMapMatrix mapping;
+
+    functions.computeObservationsTimeIndices(
+            forecasts.getTimes(), forecasts.getFLTs(),
+            observations.getTimes(), mapping, 0);
+
+    cout << "Forecasts times: " << forecasts.getTimes()
+        << "Forecasts FLTs: " << forecasts.getFLTs()
+        << "Observations times: " << observations.getTimes()
+        << "Mapping: " << endl << mapping << endl;
+
+    size_t i_start = 0;
+    for (size_t i_row = 0; i_row < mapping.size1(); i_row++) {
+        for (size_t i_col = 0; i_col < mapping.size2(); i_col++) {
+            CPPUNIT_ASSERT(mapping(i_row, i_col) == i_start);
+            i_start++;
         }
     }
 }

@@ -26,9 +26,10 @@ For configuration with mode 'independentSearch':
 \itemize{
 \item mode: 'independentSearch' indicates only searching the forecasts at the current location.
 \item test_forecasts: The forecasts for which anlog ensembles will be generated.
+\item test_times: Time information for test forecasts.
 \item search_forecasts: The forecasts from which analogs are searched.
 \item search_times: Time information for search forecasts.
-\item search_flts: FLT information for search forecasts.
+\item flts: FLT information for test and search forecasts.
 \item search_observations: The observations from which analog ensemble members are selected.
 \item observation_times: Time information for search observations.
 \item observation_id: The parameter index for which the observation parameter to use. For example,
@@ -49,6 +50,9 @@ package which observation parameter to use.
 Set it to NA to allow any number of NAN values.
 \item max_flt_nan: The number of NAN values allowed when computing FLT window averages.
 Set it to NA to allow any number of NAN values.
+\item test_times_compare: The times in test times that will be compared and similarity will be generated for them.
+\item search_times_compare: The times in search times that will be compared and similarity will be generated from them.
+\item operational: Whether to use operational serach mode and increase the number of search times while moving forward with test times.
 }
 
 For configuration with mode 'extendedSearch': (skipping the aforementioned parameters)

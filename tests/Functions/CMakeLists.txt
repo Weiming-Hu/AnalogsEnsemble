@@ -34,6 +34,9 @@ if(${ENABLE_MPI})
     endif(MPI_CXX_LINK_FLAGS)
 endif(${ENABLE_MPI}) 
 
+add_definitions(-D_PATH_OBSERVATIONS="${CMAKE_SOURCE_DIR}/tests/Data/test_observations.nc"
+    -D_PATH_FORECASTS="${CMAKE_SOURCE_DIR}/tests/Data/test_forecasts.nc")
+
 set_target_properties(runFunctions PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${COMMON_OUTPUT_DIR}/test")
 add_test(NAME ${PROJECT_NAME} COMMAND runFunctions)
 install(TARGETS runFunctions RUNTIME DESTINATION bin)

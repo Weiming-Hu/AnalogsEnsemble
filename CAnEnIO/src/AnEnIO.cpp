@@ -649,7 +649,9 @@ AnEnIO::readFLTs(anenTime::FLTs& flts) const {
     if (flts.size() != vec.size()) {
         if (verbose_ >= 1) {
             cout << BOLDRED << "Error: The variable (FLTs)"
-                << " has duplicate elements!" << RESET << endl;
+                << " has duplicate elements! Original: "
+                << vec.size() << " Unique: " << flts.size()
+                << RESET << endl;
         }
         return (ELEMENT_NOT_UNIQUE);
     }
@@ -694,7 +696,9 @@ AnEnIO::readFLTs(anenTime::FLTs& flts,
     if (flts.size() != vec.size()) {
         if (verbose_ >= 1) {
             cout << BOLDRED << "Error: The variable (FLTs)"
-                << " has duplicate elements!" << RESET << endl;
+                << " has duplicate elements! Original: "
+                << vec.size() << " Unique: " << flts.size()
+                << RESET << endl;
         }
         return (ELEMENT_NOT_UNIQUE);
     }
