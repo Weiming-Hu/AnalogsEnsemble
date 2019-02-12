@@ -19,6 +19,6 @@ Some applications of AnEn include:
 
 [This package](https://weiming-hu.github.io/AnalogsEnsemble/) is created to facilitate relevant research and projects.
 
-Currently, active research projects are going on to inspect both the scientific and the computational aspects of AnEn. [GEOlab](http://geoinf.psu.edu/) from Penn State is the main inspector on related issues. Contact us if you are looking for collaboration or if you have any questions.
+Currently, active research projects are going on to inspect both the scientific and the computational aspects of AnEn. [GEOLab](http://geoinf.psu.edu/) from Penn State is the main inspector on related issues. Contact us if you are looking for collaboration or if you have any questions.
 
 Thank you!
