@@ -66,7 +66,7 @@ config$time_match_mode <- 1
 config$num_members <- 19
 config$max_flt_nan <- 1
 config$max_par_nan <- 0
-config$verbose <- 5
+config$verbose <- 3
 
 # Set up test times to be compared
 config$test_times_compare <- as.numeric(forecast.times[test.start:test.end])
@@ -82,13 +82,13 @@ We then generate analogs.
 
 ```{r}
 AnEn.opr <- generateAnalogs(config)
-AnEn.opr <- biasCorrection(AnEn, config, forecast.ID = 1, group.func = mean,
+AnEn.opr <- biasCorrection(AnEn.opr, config, forecast.ID = 1, group.func = mean,
                            na.rm = T, show.progress = F)
 ```
 
 We generate another AnEn without operational search.
 
-``` {r}
+```{r}
 search.start <- 1
 
 # Remove the day to avoid overlapping between search and test forecasts
@@ -109,6 +109,9 @@ We then compare the prediction accuracy on the last day in our test times.
 # Choose a FLT to plot
 i.flt <- 31
 
+# Choose the last test time
+i.day <- 6
+
 # Calculate ensemble means
 mean.analogs.opr.cor <- apply(AnEn.opr$analogs.cor[, , , , 1, drop = F], c(1, 2, 3), mean, na.rm = T)
 mean.analogs.ind.cor <- apply(AnEn.ind$analogs.cor[, , , , 1, drop = F], c(1, 2, 3), mean, na.rm = T)
@@ -120,8 +123,8 @@ ext <- extent(xy[, c('x', 'y')])
 rast <- raster(ext, nrow = 11, ncol = 11, crs = CRS("+proj=longlat +datum=WGS84"))
 
 # Rasterize the data values
-rast.anen.opr.cor <- rasterize(xy[, c('x', 'y')], rast, mean.analogs.opr.cor[, 1, i.flt], fun = mean)
-rast.anen.ind.cor <- rasterize(xy[, c('x', 'y')], rast, mean.analogs.ind.cor[, 1, i.flt], fun = mean)
+rast.anen.opr.cor <- rasterize(xy[, c('x', 'y')], rast, mean.analogs.opr.cor[, i.day, i.flt], fun = mean)
+rast.anen.ind.cor <- rasterize(xy[, c('x', 'y')], rast, mean.analogs.ind.cor[, i.day, i.flt], fun = mean)
 rast.fcts <- rasterize(xy[, c('x', 'y')], rast, forecasts[1, , test.start, i.flt], fun = mean)
 rast.anly <- rasterize(xy[, c('x', 'y')], rast, analysis[
   1, , which(analysis.times == forecast.times[test.start] + flts[i.flt])], fun = mean)
@@ -151,4 +154,12 @@ map(col = 'grey', add = T); map('state', add = T)
 plot(rast.anen.opr.cor, main = 'AnEn Operational Search', col = cols,
      zlim = zlim, xlab = paste('RMSE =', round(rmse.anen.opr.cor, 4)))
 map(col = 'grey', add = T); map('state', add = T)
+```
+
+If we take a closer look at the analog members of inependent search and operational search, 
+
+```{r}
+cat("First 3 columns are independent; last 3 are operational.\n")
+cbind(AnEn.ind$analogs[25, i.day, i.flt, , ],
+      AnEn.opr$analogs[25, i.day, i.flt, , ])
 ```
