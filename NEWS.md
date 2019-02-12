@@ -3,6 +3,7 @@
 - Synchronize versions of all components.
 - Add similarity computing methods including SeparateTestSearch, LeaveOneOut, and OperationalSearch. This has brought an significant addition to similarity calculation function features.
 - Add automatic removal of the overlapping test and search times. For example, if forecasts are 3 days ahead, the historical forecast for yesterday will not be compared to the forecast of today even if the yesterday forecast is included in the search times (which is considered as a mistaken input from the user).
+- Add R function `generateTimeMapping`.
 
 # PEF 3.1.1
 

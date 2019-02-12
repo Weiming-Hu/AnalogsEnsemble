@@ -20,9 +20,9 @@
 #' For configuration with mode 'independentSearch':
 #' - mode: 'independentSearch' indicates only searching the forecasts at the current location.
 #' - test_forecasts: The forecasts for which anlog ensembles will be generated.
-#' - test_times: Time information for test forecasts.
+#' - test_times: Time information for test forecasts. This is the complete and the largest set of test times that can be possibly used.
 #' - search_forecasts: The forecasts from which analogs are searched.
-#' - search_times: Time information for search forecasts.
+#' - search_times: Time information for search forecasts. This is the complete and the largest set of search times that can be possibley used.
 #' - flts: FLT information for test and search forecasts.
 #' - search_observations: The observations from which analog ensemble members are selected.
 #' - observation_times: Time information for search observations.
@@ -47,6 +47,7 @@
 #' - test_times_compare: The times in test times that will be compared and similarity will be generated for them.
 #' - search_times_compare: The times in search times that will be compared and similarity will be generated from them.
 #' - operational: Whether to use operational serach mode and increase the number of search times while moving forward with test times.
+#' **Operational serach times are always generated from the search_times.** 
 #' 
 #' For configuration with mode 'extendedSearch': (skipping the aforementioned parameters)
 #' - mode: 'extendedSearch' indicates search the forecasts from both the current location and the nearby locations.

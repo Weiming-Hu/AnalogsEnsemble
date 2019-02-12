@@ -9,11 +9,8 @@
 #         Department of Geography and Institute for CyberScience
 #         The Pennsylvania State University
 
-# This script tests the different search modes of AnEn, including
-# - Leave One Out
-# - Operational Search
-# - Separate Test and Search
-#
+# This script tests rolling.
+
 # This scripts also tests the deprecated versions.
 
 library(RAnEn)
@@ -34,11 +31,11 @@ forecasts <- array(rnorm(num.pars * num.flts * num.days * num.stations, 0, 100),
 observations <- array(runif(1 * num.flts * length(observations.time), -10, 10),
                       dim = c(1, num.stations, length(observations.time)))
 
-# Case: Automatic removal of overlapping forecasts
+# Case: operational search + automatic removal
 test.start <- 90
-test.end <- 90
+test.end <- 94
 search.start <- 1
-search.end <- 89
+search.end <- 94
 
 config <- generateConfiguration('independentSearch')
 config$test_forecasts <- forecasts
@@ -51,47 +48,78 @@ config$flts <- forecasts.flt
 config$search_observations <- observations
 config$observation_times <- observations.time
 config$num_members <- num.members
+config$operational <- T
 config$preserve_similarity <- T
 config$quick <- F
 
 AnEn.auto <- generateAnalogs(config)
 
-# Case: Manual removal of overlapping forecasts
-test.start <- 90
-test.end <- 90
-search.start <- 1
-search.end <- 87
+# Case: Deprecated functions
+observations4D <- array(dim = c(1, dim(forecasts)[2:4]))
+for (i.time in 1:dim(observations4D)[3]) {
+  for (i.flt in 1:dim(observations4D)[4]) {
+    i.obs <- AnEn.auto$mapping[i.flt, i.time]
+    
+    for (i.par in 1:dim(observations4D)[1]) {
+      for (i.station in 1:dim(observations4D)[2]) {
+        observations4D[i.par, i.station, i.time, i.flt] <-
+          observations[i.par, i.station, i.obs]
+      }
+    }
+    
+  }
+}
 
-config <- generateConfiguration('independentSearch')
-config$test_forecasts <- forecasts
-config$test_times <- forecasts.time
+AnEn.dep <- compute_analogs(
+  forecasts, observations4D,
+  test_ID_start = test.start,
+  test_ID_end = test.end,
+  train_ID_start = search.start,
+  train_ID_end = search.end,
+  members_size = num.members,
+  rolling = -3,
+  quick = F)
+
+
+stopifnot(identical(
+  as.vector(AnEn.dep$analogs), 
+  as.vector(AnEn.auto$analogs)))
+
+print("Rolling results are the same between latest and deprecated version.")
+
+# Case: Manual removal of overlapping forecasts
+test.start <- 94
+test.end <- 94
+search.start <- 1
+search.end <- 91
+
 config$test_times_compare <- forecasts.time[test.start:test.end]
-config$search_forecasts <- forecasts
-config$search_times <- forecasts.time
 config$search_times_compare <- forecasts.time[search.start:search.end]
-config$flts <- forecasts.flt
-config$search_observations <- observations
-config$observation_times <- observations.time
-config$num_members <- num.members
-config$preserve_similarity <- T
-config$quick <- F
+config$operational <- F
 
 AnEn.man <- generateAnalogs(config)
 
-analogs <- AnEn.auto$analogs
-sims <- AnEn.auto$similarity
-
-sims <- aperm(sims, 5:1)
-
-analogs[4, 1, 3, ,]
-sims[4, 1, 3, 1:10,]
-
-forecasts.time[40]
-observations.time[81]
+# Case: Deprecated functions
+AnEn.dep <- compute_analogs(
+  forecasts, observations4D,
+  test_ID_start = test.start,
+  test_ID_end = test.end,
+  train_ID_start = search.start,
+  train_ID_end = search.end,
+  members_size = num.members,
+  quick = F)
 
 # Compare
-stopifnot(identical(AnEn.auto$analogs, AnEn.man$analogs))
+stopifnot(identical(
+  as.vector(AnEn.auto$analogs[, 5, , , ]), 
+  as.vector(AnEn.man$analogs)))
 
+print("Rolling results are the same between automatic removal and manual removal.")
 
+stopifnot(identical(
+  as.vector(AnEn.dep$analogs[, , , , 1]), 
+  as.vector(AnEn.man$analogs[, , , , 1])))
 
-cat("You survived the tests for search modes!\n")
+print("Results are the same without rolling between the latest and the deprecated verions.")
+
+cat("You survived the tests for rolling!\n")

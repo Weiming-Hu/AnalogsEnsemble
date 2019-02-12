@@ -536,7 +536,7 @@ void testAnEn::testGenerateOperationalSearchTimes() {
 
     AnEn anen(4);
     anen.generateOperationalSearchTimes(test_times, search_times,
-            search_times_operational, i_search_times_operational);
+            search_times_operational, i_search_times_operational, 0);
     
     const auto & search_times_by_insert = search_times.get<anenTime::by_insert>();
     

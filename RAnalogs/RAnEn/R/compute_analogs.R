@@ -361,16 +361,6 @@ compute_analogs <- function(forecasts,
   test.forecasts <- forecasts
   search.forecasts <- forecasts
   
-  tmp.search.observations <- observations
-  search.observations <- aperm(tmp.search.observations, c(4, 3, 2, 1))
-  search.observations <- array(search.observations,
-                               dim = c(dim(tmp.search.observations)[3] 
-                                       * dim(tmp.search.observations)[4], 
-                                       dim(tmp.search.observations)[2],
-                                       dim(tmp.search.observations)[1]))
-  search.observations <- aperm(search.observations, c(3, 2, 1))
-  rm(tmp.search.observations)
-  
   test.times <- (1:dim(forecasts)[3])
   search.times <- (1:dim(forecasts)[3])
   
@@ -384,7 +374,25 @@ compute_analogs <- function(forecasts,
     flts <- seq(0, by = abs(rolling) / dim(forecasts)[4], length.out = dim(forecasts)[4])
   }
   
-  observation.times <- rep(search.times, each = length(flts)) + flts
+  observation.times <- unique(rep(search.times, each = length(flts)) + flts)
+  
+  mapping <- generateTimeMapping(search.times, flts, observation.times, 1, verbose)
+  
+  search.observations <- array(dim = c(dim(observations)[1:2], length(observation.times)))
+  
+  for (i.time in 1:dim(observations)[3]) {
+    for (i.flt in 1:dim(observations)[4]) {
+      i.obs <- mapping[i.flt, i.time]
+      
+      for (i.par in 1:dim(observations)[1]) {
+        for (i.station in 1:dim(observations)[2]) {
+          search.observations[i.par, i.station, i.obs] <-
+            observations[i.par, i.station, i.time, i.flt]
+        }
+      }
+      
+    }
+  }
   
   config$test_forecasts <- test.forecasts
   config$test_times <- test.times
@@ -507,9 +515,8 @@ compute_analogs <- function(forecasts,
     }
   }
   
-  AnEn$analogs[, , , , 3] <- AnEn$analogs[, , , , 3, drop = F] %/% dim(config$test_forecasts)[4] + 1
-  
   # Convert the station index from C counting to R counting
+  AnEn$analogs[, , , , 3] <- AnEn$analogs[, , , , 3, drop = F] + 1
   AnEn$analogs[, , , , 2] <- AnEn$analogs[, , , , 2, drop = F] + 1
   
   if (config$preserve_mapping) AnEn$mapping <- AnEn$mapping + 1

@@ -14,6 +14,7 @@
 #include <iostream>
 
 #include <boost/numeric/ublas/io.hpp>
+#include <exception>
 
 #include "AnEn.h"
 
@@ -36,6 +37,80 @@ bool checkOpenMP() {
 #else
     return true;
 #endif
+}
+
+// [[Rcpp::export(".generateTimeMapping")]]
+
+NumericVector generateTimeMapping(
+        NumericVector R_times_forecasts,
+        NumericVector R_flts_forecasts,
+        NumericVector R_times_observations,
+        int time_match_mode, int verbose) {
+
+    /***************************************************************************
+     *                   Convert objects for mapping computation               *
+     **************************************************************************/
+
+    if (verbose >= 3)
+        cout << "Convert R objects to C++ objects ..." << endl;
+
+    anenTime::Times times_forecasts, flts_forecasts, times_observations;
+    Functions::TimeMapMatrix mapping;
+
+    times_forecasts.insert(times_forecasts.end(),
+            R_times_forecasts.begin(), R_times_forecasts.end());
+    flts_forecasts.insert(flts_forecasts.end(),
+            R_flts_forecasts.begin(), R_flts_forecasts.end());
+    times_observations.insert(times_observations.end(),
+            R_times_observations.begin(), R_times_observations.end());
+
+    if (R_times_forecasts.size() != times_forecasts.size()) {
+        if (verbose >= 1)
+            cout << "Error: Forecast times are not unique. "
+                << "Original: " << R_times_forecasts.size() << " Unique: " 
+                << times_forecasts.size() << endl;
+        throw std::runtime_error("Elements not unique.");
+    }
+    if (R_flts_forecasts.size() != flts_forecasts.size()) {
+        if (verbose >= 1)
+            cout << "Error: Forecast FLTs are not unique. "
+                << "Original: " << R_flts_forecasts.size() << " Unique: " 
+                << flts_forecasts.size() << endl;
+        throw std::runtime_error("Elements not unique.");
+    }
+    if (R_times_observations.size() != times_observations.size()) {
+        if (verbose >= 1)
+            cout << "Error: Observation times are not unique. "
+                << "Original: " << R_times_observations.size() << " Unique: " 
+                << times_observations.size() << endl;
+        throw std::runtime_error("Elements not unique.");
+    }
+
+    /***************************************************************************
+     *                        Mapping Computation                              *
+     **************************************************************************/
+    if (verbose >= 3)
+        cout << "Compute mapping from forecast times/flts to observation times ..." << endl;
+
+    Functions functions(verbose);
+
+    handleError(functions.computeObservationsTimeIndices(
+            times_forecasts, flts_forecasts, times_observations,
+            mapping, time_match_mode));
+
+    /***************************************************************************
+     *                           Wrap Up Results                               *
+     **************************************************************************/
+    if (verbose >= 3) cout << "Wrapping C++ object mapping ..." << endl;
+    IntegerVector R_mapping_dims{
+        static_cast<int> (mapping.size2()),
+        static_cast<int> (mapping.size1())
+    };
+
+    NumericVector R_mapping(mapping.data().begin(), mapping.data().end());
+    R_mapping.attr("dim") = R_mapping_dims;
+
+    return (R_mapping);
 }
 
 // [[Rcpp::export(".generateAnalogs")]]

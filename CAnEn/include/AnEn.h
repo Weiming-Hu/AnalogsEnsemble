@@ -80,7 +80,7 @@ public:
      * for search stations.
      * @param num_nearest_stations The number of KNN search stations to look
      * for for each test stations.
-     * @return An AnEn::errorType;
+     * @return An errorType;
      */
     errorType computeSearchStations(
             const anenSta::Stations & test_stations,
@@ -98,13 +98,15 @@ public:
      * @param search_times_operational The search anenTime::Times for operational mode.
      * @param i_search_times_operational The index for search anenTime::Times for
      * operational mode.
-     * @return 
+     * @param max_flt The maximum FLT.
+     * @return An errorType.
      */
     errorType generateOperationalSearchTimes(
             const anenTime::Times & test_times,
             const anenTime::Times & search_times,
             std::vector< anenTime::Times > & search_times_operational,
-            std::vector< std::vector<size_t> > & i_search_times_operational) const;
+            std::vector< std::vector<size_t> > & i_search_times_operational,
+            double max_flt) const;
 
     /**
      * Computes the similarity matrices.
@@ -131,7 +133,7 @@ public:
      * FLT window averages. Set it to NAN to allow any number of NAN values.
      * @param operational Whether to use operational search.
      * 
-     * @return An AnEn::errorType.
+     * @return An errorType.
      */
     errorType computeSimilarity(
             const Forecasts_array & test_forecasts,
@@ -163,7 +165,7 @@ public:
      * @param quick Whether to use quick sort mechanism.
      * @param extend_observations Whether to extend observation stations to
      * search stations. This only works when search space extension is used.
-     * @return An AnEn::errorType.
+     * @return An errorType.
      */
     errorType selectAnalogs(
             Analogs & analogs,
@@ -216,7 +218,7 @@ private:
      * @param search_observations Search observations.
      * @param mapping Time and FLT mapping matrix.
      * @param i_observation_parameter The index of observation parameter used.
-     * @return An AnEn::errorType.
+     * @return An errorType.
      */
     errorType check_input_(
             const Forecasts_array& test_forecasts,
@@ -241,7 +243,7 @@ private:
      * @param test_stations_index_in_search A size_t vector to store the
      * matching search indices for each test station.
      * 
-     * @return An AnEn::errorType.
+     * @return An errorType.
      */
     errorType find_nearest_station_match_(
             const anenSta::Stations & test_stations,

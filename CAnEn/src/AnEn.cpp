@@ -204,7 +204,8 @@ AnEn::generateOperationalSearchTimes(
         const anenTime::Times & test_times,
         const anenTime::Times & search_times,
         vector< anenTime::Times > & search_times_operational,
-        vector< vector<size_t> > & i_search_times_operational) const {
+        vector< vector<size_t> > & i_search_times_operational,
+        double max_flt) const {
 
     search_times_operational.clear();
     i_search_times_operational.clear();
@@ -219,7 +220,7 @@ AnEn::generateOperationalSearchTimes(
         tmp_times.clear();
 
         for (const auto & search_time : search_times) {
-            if (search_time < test_time) {
+            if (search_time + max_flt < test_time) {
                 tmp_times.push_back(search_time);
             }
         }
@@ -228,6 +229,10 @@ AnEn::generateOperationalSearchTimes(
 
         functions.convertToIndex(tmp_times, search_times, i_tmp_times);
         i_search_times_operational.push_back(i_tmp_times);
+
+        if (verbose_ >= 5)
+            cout << "Operational search times for " <<
+                test_time << " are: " << tmp_times;
     }
 
     return (SUCCESS);
@@ -265,7 +270,7 @@ AnEn::computeSimilarity(
     
     if (test_times.size() == 0) {
         // If test times are not provided, they are all test times available by default.
-        if (verbose_ >= 4) cout << "Include all test times available" << endl;
+        if (verbose_ >= 5) cout << "Include all test times available" << endl;
         test_times = test_forecasts.getTimes();
         i_test_times.resize(test_forecasts.getTimesSize());
         iota(i_test_times.begin(), i_test_times.end(), 0);
@@ -274,7 +279,7 @@ AnEn::computeSimilarity(
     handleError(functions.convertToIndex(test_times, test_forecasts.getTimes(), i_test_times));
     
     if (search_times.size() == 0) {
-        if (verbose_ >= 4) cout << "Include all search times available" << endl;
+        if (verbose_ >= 5) cout << "Include all search times available" << endl;
         search_times = search_forecasts.getTimes();
         i_search_times.resize(search_forecasts.getTimesSize());
         iota(i_search_times.begin(), i_search_times.end(), 0);
@@ -290,11 +295,16 @@ AnEn::computeSimilarity(
     vector< anenTime::Times > search_times_operational(0);
     size_t num_search_times;
     
+    // Get the max time offset of FLT
+    const auto & flt_by_insert = search_forecasts.getFLTs().get<anenTime::by_insert>();
+    double max_flt = flt_by_insert[num_flts - 1];
+
     if (operational) {
-        if (verbose_ >= 4) cout << "Operational search is selected. " 
+        if (verbose_ >= 5) cout << "Operational search is selected. " 
                 << "Pre-computing the search times for each test times ..." << endl;
         
-        generateOperationalSearchTimes(test_times, search_times, search_times_operational, i_search_times_operational);
+        generateOperationalSearchTimes(test_times, search_times, search_times_operational,
+                i_search_times_operational, max_flt);
 
         // Operational search will recompute standard deviation during similarity
         // calculation which will generate a lot of standout messages. I want to
@@ -327,10 +337,6 @@ AnEn::computeSimilarity(
     // Get data
     auto & data_search_observations = search_observations.data();
     
-    // Get the max time offset of FLT
-    const auto & flt_by_insert = search_forecasts.getFLTs().get<anenTime::by_insert>();
-    double max_flt = flt_by_insert[num_flts - 1];
-
     // Pre compute the window size for each FLT
     size_t window_half_size = 1;
     boost::numeric::ublas::matrix<size_t> flts_window;

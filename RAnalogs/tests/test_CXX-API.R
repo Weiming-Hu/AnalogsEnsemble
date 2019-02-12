@@ -126,7 +126,7 @@ if (ret == 0) {
 } else {
   stop("Error: wind test failed!")
 }
-
+unlink(output_sims)
 
 ##################################################################################
 #                                 Test 2: Solar                                  #
