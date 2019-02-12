@@ -26,6 +26,10 @@ Same data are used from the [demo 1](https://weiming-hu.github.io/AnalogsEnsembl
 ```{r}
 load('analysis.RData')
 load('forecasts.RData')
+
+# Only use one parameter, the surface temperature
+forecasts <- forecasts[1, , , , drop = F]
+
 print(ls())
 ```
 
@@ -43,8 +47,8 @@ If you don't understand any of the options, please see the [document](https://we
 config <- generateConfiguration('independentSearch')
 
 # Set up options
-test.start <- 400
-test.end <- 405
+test.start <- 427
+test.end <- 431
 
 # Please note that same forecasts and forecast.times 
 # are passed to test_forecasts and search_forecasts
@@ -61,8 +65,7 @@ config$search_times <- forecast.times
 config$flts <- flts
 config$search_observations <- analysis
 config$observation_times <- analysis.times
-config$weights <- rep(.01, dim(forecasts)[1])
-config$weights[1] <- .91
+config$weights <- rep(1, dim(forecasts)[1])
 config$num_members <- 19
 config$preserve_similarity <- T
 config$quick <- F
@@ -110,7 +113,7 @@ We then compare the prediction accuracy on the last day in our test times.
 i.flt <- 31
 
 # Choose the last test time
-i.day <- 6
+i.day <- 5
 
 # Calculate ensemble means
 mean.analogs.opr.cor <- apply(AnEn.opr$analogs.cor[, , , , 1, drop = F], c(1, 2, 3), mean, na.rm = T)
@@ -156,14 +159,10 @@ plot(rast.anen.opr.cor, main = 'AnEn Operational Search', col = cols,
 map(col = 'grey', add = T); map('state', add = T)
 ```
 
-If we take a closer look at the analog members of inependent search and operational search, 
+If we take a closer look at the analog members of inependent search and operational search. The search times of independent search and the operational search for a specific test time are different. This is indeed the results from the operational search.
 
 ```{r}
-cat("First 3 columns are independent; last 3 are operational.\n")
-cbind(AnEn.ind$analogs[121, i.day, i.flt, , ],
-      AnEn.opr$analogs[121, i.day, i.flt, , ])
-which(AnEn.ind$analogs[, i.day, i.flt, , ] != 
-      AnEn.opr$analogs[, i.day, i.flt, , ], arr.ind = T)
-cbind(AnEn.ind$similarity[121, i.day, i.flt, , ],
-      AnEn.opr$similarity[121, i.day, i.flt, , ])
+cat('The closest analog member time to the test time', as.character(forecast.times[test.start + i.day - 1] + flts[i.flt]), ':\n')
+cat('(independent search) ', as.character(analysis.times[range(AnEn.ind$analogs[, i.day, i.flt, , 3], na.rm = T)[2]]), '\n')
+cat('(operational search) ', as.character(analysis.times[range(AnEn.opr$analogs[, i.day, i.flt, , 3], na.rm = T)[2]]), '\n')
 ```
