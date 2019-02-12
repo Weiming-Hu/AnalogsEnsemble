@@ -64,27 +64,19 @@ function doCompileR {
 }
 
 function doGenerateNewsPost {
-    echo "Generate a post for news.md"
+    echo "Generate changelog site"
 
     cd out
-    cp ../NEWS.md NEWS.md
-    postName=$(date +'%Y-%m-%d')
-    postName="$postName-news.md"
+    cp ../NEWS.md Changelog.md
+    postName=Changelog.md
     
-    rm _posts/$postName || true
-    mv ./NEWS.md ./_posts/$postName
-
-    cd _posts
-
     echo -e '\n' | cat - $postName > temp && mv temp $postName
     echo -e '---' | cat - $postName > temp && mv temp $postName
-    echo -e '  - document' | cat - $postName > temp && mv temp $postName
-    echo -e 'tags:' | cat - $postName > temp && mv temp $postName
-    echo -e 'title: Change Log' | cat - $postName > temp && mv temp $postName
-    echo -e 'layout: post' | cat - $postName > temp && mv temp $postName
+    echo -e 'sidebar_link: true' | cat - $postName > temp && mv temp $postName
+    echo -e 'title: Changelog' | cat - $postName > temp && mv temp $postName
+    echo -e 'layout: page' | cat - $postName > temp && mv temp $postName
     echo -e '---' | cat - $postName > temp && mv temp $postName
 
-    cd ..
     cd ..
 }
 
