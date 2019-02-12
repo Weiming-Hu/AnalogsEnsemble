@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['handleerror',['handleError',['../class_an_en.html#a2c33c46f4bed8132aa2f6305fa702c0d',1,'AnEn::handleError()'],['../class_an_en_i_o.html#a92276aeba9c0b5bd1cd3d285271d505f',1,'AnEnIO::handleError()']]],
+  ['handleerror',['handleError',['../error_type_8h.html#a0e7e944c83c5ff96aea4d6129076fa5c',1,'handleError(const errorType &amp;indicator):&#160;errorType.cpp'],['../error_type_8cpp.html#a0e7e944c83c5ff96aea4d6129076fa5c',1,'handleError(const errorType &amp;indicator):&#160;errorType.cpp']]],
   ['havexy',['haveXY',['../classanen_sta_1_1_stations.html#adc0f7129832ae8e4e92e1ae67e3c278a',1,'anenSta::Stations']]]
 ];

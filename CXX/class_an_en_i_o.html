@@ -59,7 +59,6 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="#pub-static-attribs">Static Public Attributes</a> &#124;
@@ -83,40 +82,6 @@ Collaboration diagram for AnEnIO:</div>
 </map>
 </div>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
-Public Types</h2></td></tr>
-<tr class="memitem:aa56bc1ec6610b86db4349bce20f9ead0"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> { <br />
-&#160;&#160;<a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0afd4f6d99fa57b8fd2d3f2298b1781f6d">SUCCESS</a> = 0, 
-<a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0a307923ca3c0962a4fe341eb2d7eb1eaa">UNKNOWN_ERROR</a> = -1, 
-<a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0af27777283529d32c426e957fd4eba291">UNKOWN_FILE_TYPE</a> = -2, 
-<a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0aadfab3690e549e181b929711f8b9b804">WRONG_FILE_TYPE</a> = -3, 
-<br />
-&#160;&#160;<a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0a28c4093ff55045d651f1457dfe046e89">FILE_EXISTS</a> = -4, 
-<a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0a7d02135c2fa246d888f7498fa9ccb199">UNKNOWN_MODE</a> = -5, 
-<a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0a31bb5eebca1dcfce3f67aff4074412e9">WRONG_MODE</a> = -6, 
-<a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0abeb7bc485dd556be975f212197d037fe">FILEIO_ERROR</a> = -7, 
-<br />
-&#160;&#160;<a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0a3495961e36591a1d7942e9a46c266d5e">METHOD_NOT_IMPLEMENTED</a> = -8, 
-<a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0a12593564dc1e16d72a57ba6016b1324f">FILE_NOT_FOUND</a> = -10, 
-<a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0a77597f2d2fa33ef922bd74ea4580d8b4">REQUIRED_VARIABLE_MISSING</a> = -11, 
-<a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0a0523be11226bd2aa810f5a30c124ab19">OPTIONAL_VARIABLE_MISSING</a> = -12, 
-<br />
-&#160;&#160;<a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0ae1f7e1357e3be9b3312477eba02c07e0">DIMENSION_MISSING</a> = -13, 
-<a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0a83d4d08faaa4e794e6b7fbb9a89f203e">WRONG_VARIABLE_SHAPE</a> = -14, 
-<a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0ad8e12998f526437cb6b2450f16f46d51">WRONG_VARIABLE_TYPE</a> = -15, 
-<a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0a288f494fc6e909e8ee0b8a7f9c7ef9ca">ELEMENT_NOT_UNIQUE</a> = -16, 
-<br />
-&#160;&#160;<a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0a84a3c7e5b367ee64f2d15e585f8a0312">DIMENSION_EXISTS</a> = -17, 
-<a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0abb20ed9e5a08ecee4b09d132cbd2e120">VARIABLE_EXISTS</a> = -18, 
-<a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0a6b6638f4fbbc0d1fd5ca45eb1d4266f5">WRONG_INDEX_SHAPE</a> = -19, 
-<a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0af58b3b49fb1d75cbafd2d8859e4c3a55">ERROR_SETTING_VALUES</a> = -50, 
-<br />
-&#160;&#160;<a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0a10fe7987d62e727f90425025fa90a09f">NAN_VALUES</a> = -51, 
-<a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0a0d5615cd010b41d905091ddea91f74b7">INSUFFICIENT_MEMORY</a> = -100
-<br />
- }</td></tr>
-<tr class="separator:aa56bc1ec6610b86db4349bce20f9ead0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a199f4cd2569599820126ae27ec25a647"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a199f4cd2569599820126ae27ec25a647">AnEnIO</a> ()=delete</td></tr>
@@ -133,74 +98,72 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ac040fa1dad19178f28b719f247e11b0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1e7aef95fd2a0c6aaef55998f48368f4"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a1e7aef95fd2a0c6aaef55998f48368f4">~AnEnIO</a> ()</td></tr>
 <tr class="separator:a1e7aef95fd2a0c6aaef55998f48368f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2dbb61800810628c09158882d3727478"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a2dbb61800810628c09158882d3727478">checkMode</a> () const</td></tr>
+<tr class="memitem:a2dbb61800810628c09158882d3727478"><td class="memItemLeft" align="right" valign="top"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a2dbb61800810628c09158882d3727478">checkMode</a> () const</td></tr>
 <tr class="separator:a2dbb61800810628c09158882d3727478"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aac9e5ef017cb141eedbbda6583b699ad"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#aac9e5ef017cb141eedbbda6583b699ad">checkFilePath</a> () const</td></tr>
+<tr class="memitem:aac9e5ef017cb141eedbbda6583b699ad"><td class="memItemLeft" align="right" valign="top"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#aac9e5ef017cb141eedbbda6583b699ad">checkFilePath</a> () const</td></tr>
 <tr class="separator:aac9e5ef017cb141eedbbda6583b699ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa9b4700db58d0ef09af429d5d31ff55f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#aa9b4700db58d0ef09af429d5d31ff55f">checkFileType</a> () const</td></tr>
+<tr class="memitem:aa9b4700db58d0ef09af429d5d31ff55f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#aa9b4700db58d0ef09af429d5d31ff55f">checkFileType</a> () const</td></tr>
 <tr class="separator:aa9b4700db58d0ef09af429d5d31ff55f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab7f3ba245b7acb11184e0a5b3490a84b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#ab7f3ba245b7acb11184e0a5b3490a84b">checkVariable</a> (std::string var_name, bool optional) const</td></tr>
+<tr class="memitem:ab7f3ba245b7acb11184e0a5b3490a84b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#ab7f3ba245b7acb11184e0a5b3490a84b">checkVariable</a> (std::string var_name, bool optional) const</td></tr>
 <tr class="separator:ab7f3ba245b7acb11184e0a5b3490a84b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a60bc1958d57097e308643dad2c9d87d0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a60bc1958d57097e308643dad2c9d87d0">checkDim</a> (std::string dim_name) const</td></tr>
+<tr class="memitem:a60bc1958d57097e308643dad2c9d87d0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a60bc1958d57097e308643dad2c9d87d0">checkDim</a> (std::string dim_name) const</td></tr>
 <tr class="separator:a60bc1958d57097e308643dad2c9d87d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a44347f497bdf775fcf214ec75d8b6470"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a44347f497bdf775fcf214ec75d8b6470">checkVariables</a> () const</td></tr>
+<tr class="memitem:a44347f497bdf775fcf214ec75d8b6470"><td class="memItemLeft" align="right" valign="top"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a44347f497bdf775fcf214ec75d8b6470">checkVariables</a> () const</td></tr>
 <tr class="separator:a44347f497bdf775fcf214ec75d8b6470"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab6cd06f6402655924002fec4f83195eb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#ab6cd06f6402655924002fec4f83195eb">checkDimensions</a> () const</td></tr>
+<tr class="memitem:ab6cd06f6402655924002fec4f83195eb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#ab6cd06f6402655924002fec4f83195eb">checkDimensions</a> () const</td></tr>
 <tr class="separator:ab6cd06f6402655924002fec4f83195eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab84bcff8ddb59c95b0282ef21c9e4120"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#ab84bcff8ddb59c95b0282ef21c9e4120">readObservations</a> (<a class="el" href="class_observations__array.html">Observations_array</a> &amp;observations) const</td></tr>
+<tr class="memitem:ab84bcff8ddb59c95b0282ef21c9e4120"><td class="memItemLeft" align="right" valign="top"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#ab84bcff8ddb59c95b0282ef21c9e4120">readObservations</a> (<a class="el" href="class_observations__array.html">Observations_array</a> &amp;observations) const</td></tr>
 <tr class="separator:ab84bcff8ddb59c95b0282ef21c9e4120"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a577eb2648923c855e5d57f180fb967a7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a577eb2648923c855e5d57f180fb967a7">readObservations</a> (<a class="el" href="class_observations__array.html">Observations_array</a> &amp;observations, std::vector&lt; size_t &gt; start, std::vector&lt; size_t &gt; count, std::vector&lt; ptrdiff_t &gt; stride={1, 1, 1}) const</td></tr>
+<tr class="memitem:a577eb2648923c855e5d57f180fb967a7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a577eb2648923c855e5d57f180fb967a7">readObservations</a> (<a class="el" href="class_observations__array.html">Observations_array</a> &amp;observations, std::vector&lt; size_t &gt; start, std::vector&lt; size_t &gt; count, std::vector&lt; ptrdiff_t &gt; stride={1, 1, 1}) const</td></tr>
 <tr class="separator:a577eb2648923c855e5d57f180fb967a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5080589e911b405c8c48b203b0d7f9d0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a5080589e911b405c8c48b203b0d7f9d0">readForecasts</a> (<a class="el" href="class_forecasts__array.html">Forecasts_array</a> &amp;forecasts) const</td></tr>
+<tr class="memitem:a5080589e911b405c8c48b203b0d7f9d0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a5080589e911b405c8c48b203b0d7f9d0">readForecasts</a> (<a class="el" href="class_forecasts__array.html">Forecasts_array</a> &amp;forecasts) const</td></tr>
 <tr class="separator:a5080589e911b405c8c48b203b0d7f9d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad21f1df22ada3b93d79a16d492f20bf3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#ad21f1df22ada3b93d79a16d492f20bf3">readForecasts</a> (<a class="el" href="class_forecasts__array.html">Forecasts_array</a> &amp;forecasts, std::vector&lt; size_t &gt; start, std::vector&lt; size_t &gt; count, std::vector&lt; ptrdiff_t &gt; stride={1, 1, 1, 1}) const</td></tr>
+<tr class="memitem:ad21f1df22ada3b93d79a16d492f20bf3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#ad21f1df22ada3b93d79a16d492f20bf3">readForecasts</a> (<a class="el" href="class_forecasts__array.html">Forecasts_array</a> &amp;forecasts, std::vector&lt; size_t &gt; start, std::vector&lt; size_t &gt; count, std::vector&lt; ptrdiff_t &gt; stride={1, 1, 1, 1}) const</td></tr>
 <tr class="separator:ad21f1df22ada3b93d79a16d492f20bf3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a295ca8e0fae1d3cc2de3c74b50567649"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a295ca8e0fae1d3cc2de3c74b50567649">readFLTs</a> (<a class="el" href="classanen_time_1_1_f_l_ts.html">anenTime::FLTs</a> &amp;flts) const</td></tr>
+<tr class="memitem:a295ca8e0fae1d3cc2de3c74b50567649"><td class="memItemLeft" align="right" valign="top"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a295ca8e0fae1d3cc2de3c74b50567649">readFLTs</a> (<a class="el" href="classanen_time_1_1_f_l_ts.html">anenTime::FLTs</a> &amp;flts) const</td></tr>
 <tr class="separator:a295ca8e0fae1d3cc2de3c74b50567649"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae063e9174ce021744656a3fd44a6bbad"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#ae063e9174ce021744656a3fd44a6bbad">readFLTs</a> (<a class="el" href="classanen_time_1_1_f_l_ts.html">anenTime::FLTs</a> &amp;flts, size_t start, size_t count, ptrdiff_t stride=1) const</td></tr>
+<tr class="memitem:ae063e9174ce021744656a3fd44a6bbad"><td class="memItemLeft" align="right" valign="top"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#ae063e9174ce021744656a3fd44a6bbad">readFLTs</a> (<a class="el" href="classanen_time_1_1_f_l_ts.html">anenTime::FLTs</a> &amp;flts, size_t start, size_t count, ptrdiff_t stride=1) const</td></tr>
 <tr class="separator:ae063e9174ce021744656a3fd44a6bbad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a905c5a61b3f2d356e669dd9b1ef81b7d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a905c5a61b3f2d356e669dd9b1ef81b7d">readParameters</a> (<a class="el" href="classanen_par_1_1_parameters.html">anenPar::Parameters</a> &amp;parameters) const</td></tr>
+<tr class="memitem:a905c5a61b3f2d356e669dd9b1ef81b7d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a905c5a61b3f2d356e669dd9b1ef81b7d">readParameters</a> (<a class="el" href="classanen_par_1_1_parameters.html">anenPar::Parameters</a> &amp;parameters) const</td></tr>
 <tr class="separator:a905c5a61b3f2d356e669dd9b1ef81b7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abcc70cc3014f0b4c7a9962117bdf2a20"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#abcc70cc3014f0b4c7a9962117bdf2a20">readParameters</a> (<a class="el" href="classanen_par_1_1_parameters.html">anenPar::Parameters</a> &amp;parameters, size_t start, size_t count, ptrdiff_t stride=1) const</td></tr>
+<tr class="memitem:abcc70cc3014f0b4c7a9962117bdf2a20"><td class="memItemLeft" align="right" valign="top"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#abcc70cc3014f0b4c7a9962117bdf2a20">readParameters</a> (<a class="el" href="classanen_par_1_1_parameters.html">anenPar::Parameters</a> &amp;parameters, size_t start, size_t count, ptrdiff_t stride=1) const</td></tr>
 <tr class="separator:abcc70cc3014f0b4c7a9962117bdf2a20"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeeb44669bd49940234e16902f127fb7f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#aeeb44669bd49940234e16902f127fb7f">readStations</a> (<a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> &amp;stations, const std::string &amp;dim_name_prefix=&quot;&quot;, const std::string &amp;var_name_prefix=&quot;&quot;) const</td></tr>
+<tr class="memitem:aeeb44669bd49940234e16902f127fb7f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#aeeb44669bd49940234e16902f127fb7f">readStations</a> (<a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> &amp;stations, const std::string &amp;dim_name_prefix=&quot;&quot;, const std::string &amp;var_name_prefix=&quot;&quot;) const</td></tr>
 <tr class="separator:aeeb44669bd49940234e16902f127fb7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeb8b9f090d033e14d96c86f469833241"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#aeb8b9f090d033e14d96c86f469833241">readStations</a> (<a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> &amp;stations, size_t start, size_t count, ptrdiff_t stride=1, const std::string &amp;dim_name_prefix=&quot;&quot;, const std::string &amp;var_name_prefix=&quot;&quot;) const</td></tr>
+<tr class="memitem:aeb8b9f090d033e14d96c86f469833241"><td class="memItemLeft" align="right" valign="top"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#aeb8b9f090d033e14d96c86f469833241">readStations</a> (<a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> &amp;stations, size_t start, size_t count, ptrdiff_t stride=1, const std::string &amp;dim_name_prefix=&quot;&quot;, const std::string &amp;var_name_prefix=&quot;&quot;) const</td></tr>
 <tr class="separator:aeb8b9f090d033e14d96c86f469833241"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1bca1c6e941aecd4eaa52892ebe02260"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a1bca1c6e941aecd4eaa52892ebe02260">readTimes</a> (<a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a> &amp;times, const std::string &amp;var_name=&quot;Times&quot;) const</td></tr>
+<tr class="memitem:a1bca1c6e941aecd4eaa52892ebe02260"><td class="memItemLeft" align="right" valign="top"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a1bca1c6e941aecd4eaa52892ebe02260">readTimes</a> (<a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a> &amp;times, const std::string &amp;var_name=&quot;Times&quot;) const</td></tr>
 <tr class="separator:a1bca1c6e941aecd4eaa52892ebe02260"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0803e62b8db51caeacf72b8ef1339a81"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a0803e62b8db51caeacf72b8ef1339a81">readTimes</a> (<a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a> &amp;times, size_t start, size_t count, ptrdiff_t stride=1, const std::string &amp;var_name=&quot;Times&quot;) const</td></tr>
+<tr class="memitem:a0803e62b8db51caeacf72b8ef1339a81"><td class="memItemLeft" align="right" valign="top"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a0803e62b8db51caeacf72b8ef1339a81">readTimes</a> (<a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a> &amp;times, size_t start, size_t count, ptrdiff_t stride=1, const std::string &amp;var_name=&quot;Times&quot;) const</td></tr>
 <tr class="separator:a0803e62b8db51caeacf72b8ef1339a81"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afd12efa2d92453aa95583226008e0def"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#afd12efa2d92453aa95583226008e0def">readDimLength</a> (std::string dim_name, std::size_t &amp;len) const</td></tr>
+<tr class="memitem:afd12efa2d92453aa95583226008e0def"><td class="memItemLeft" align="right" valign="top"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#afd12efa2d92453aa95583226008e0def">readDimLength</a> (std::string dim_name, std::size_t &amp;len) const</td></tr>
 <tr class="separator:afd12efa2d92453aa95583226008e0def"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abc5b12bc4692f3ac303fa5430aecaf4c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#abc5b12bc4692f3ac303fa5430aecaf4c">writeForecasts</a> (const <a class="el" href="class_forecasts.html">Forecasts</a> &amp;forecasts) const</td></tr>
+<tr class="memitem:abc5b12bc4692f3ac303fa5430aecaf4c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#abc5b12bc4692f3ac303fa5430aecaf4c">writeForecasts</a> (const <a class="el" href="class_forecasts.html">Forecasts</a> &amp;forecasts) const</td></tr>
 <tr class="separator:abc5b12bc4692f3ac303fa5430aecaf4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae89350e02d93439e79aa76068062490a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#ae89350e02d93439e79aa76068062490a">writeObservations</a> (const <a class="el" href="class_observations.html">Observations</a> &amp;observations) const</td></tr>
+<tr class="memitem:ae89350e02d93439e79aa76068062490a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#ae89350e02d93439e79aa76068062490a">writeObservations</a> (const <a class="el" href="class_observations.html">Observations</a> &amp;observations) const</td></tr>
 <tr class="separator:ae89350e02d93439e79aa76068062490a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a150e3fc6fe249b11bac909e5ee843a58"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a150e3fc6fe249b11bac909e5ee843a58">writeFLTs</a> (const <a class="el" href="classanen_time_1_1_f_l_ts.html">anenTime::FLTs</a> &amp;flts, bool unlimited) const</td></tr>
+<tr class="memitem:a150e3fc6fe249b11bac909e5ee843a58"><td class="memItemLeft" align="right" valign="top"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a150e3fc6fe249b11bac909e5ee843a58">writeFLTs</a> (const <a class="el" href="classanen_time_1_1_f_l_ts.html">anenTime::FLTs</a> &amp;flts, bool unlimited) const</td></tr>
 <tr class="separator:a150e3fc6fe249b11bac909e5ee843a58"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9ae88d089b2de16571085cb6f7f4cefb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a9ae88d089b2de16571085cb6f7f4cefb">writeParameters</a> (const <a class="el" href="classanen_par_1_1_parameters.html">anenPar::Parameters</a> &amp;parameters, bool unlimited) const</td></tr>
+<tr class="memitem:a9ae88d089b2de16571085cb6f7f4cefb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a9ae88d089b2de16571085cb6f7f4cefb">writeParameters</a> (const <a class="el" href="classanen_par_1_1_parameters.html">anenPar::Parameters</a> &amp;parameters, bool unlimited) const</td></tr>
 <tr class="separator:a9ae88d089b2de16571085cb6f7f4cefb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab861b5da52f30f8a3006de75b644dbec"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#ab861b5da52f30f8a3006de75b644dbec">writeStations</a> (const <a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> &amp;stations, bool unlimited, const std::string &amp;dim_name_prefix=&quot;&quot;, const std::string &amp;var_name_prefix=&quot;&quot;) const</td></tr>
+<tr class="memitem:ab861b5da52f30f8a3006de75b644dbec"><td class="memItemLeft" align="right" valign="top"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#ab861b5da52f30f8a3006de75b644dbec">writeStations</a> (const <a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> &amp;stations, bool unlimited, const std::string &amp;dim_name_prefix=&quot;&quot;, const std::string &amp;var_name_prefix=&quot;&quot;) const</td></tr>
 <tr class="separator:ab861b5da52f30f8a3006de75b644dbec"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae6a2ad257b1ea3544b72747c95da3ac6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#ae6a2ad257b1ea3544b72747c95da3ac6">writeTimes</a> (const <a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a> &amp;times, bool unlimited, const std::string &amp;dim_name=&quot;num_times&quot;, const std::string &amp;var_name=&quot;Times&quot;) const</td></tr>
+<tr class="memitem:ae6a2ad257b1ea3544b72747c95da3ac6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#ae6a2ad257b1ea3544b72747c95da3ac6">writeTimes</a> (const <a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a> &amp;times, bool unlimited, const std::string &amp;dim_name=&quot;num_times&quot;, const std::string &amp;var_name=&quot;Times&quot;) const</td></tr>
 <tr class="separator:ae6a2ad257b1ea3544b72747c95da3ac6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a237d03f50bb9101c40f7842694d25c5e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a237d03f50bb9101c40f7842694d25c5e">readSimilarityMatrices</a> (<a class="el" href="class_similarity_matrices.html">SimilarityMatrices</a> &amp;sims)</td></tr>
+<tr class="memitem:a237d03f50bb9101c40f7842694d25c5e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a237d03f50bb9101c40f7842694d25c5e">readSimilarityMatrices</a> (<a class="el" href="class_similarity_matrices.html">SimilarityMatrices</a> &amp;sims)</td></tr>
 <tr class="separator:a237d03f50bb9101c40f7842694d25c5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a904c2953252dc6e810d6fefa220a6230"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a904c2953252dc6e810d6fefa220a6230">writeSimilarityMatrices</a> (const <a class="el" href="class_similarity_matrices.html">SimilarityMatrices</a> &amp;sims, const <a class="el" href="classanen_par_1_1_parameters.html">anenPar::Parameters</a> &amp;parameters, const <a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> &amp;test_stations, const <a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a> &amp;test_times, const <a class="el" href="classanen_time_1_1_f_l_ts.html">anenTime::FLTs</a> &amp;flts, const <a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> &amp;search_stations, const <a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a> &amp;search_times) const</td></tr>
+<tr class="memitem:a904c2953252dc6e810d6fefa220a6230"><td class="memItemLeft" align="right" valign="top"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a904c2953252dc6e810d6fefa220a6230">writeSimilarityMatrices</a> (const <a class="el" href="class_similarity_matrices.html">SimilarityMatrices</a> &amp;sims, const <a class="el" href="classanen_par_1_1_parameters.html">anenPar::Parameters</a> &amp;parameters, const <a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> &amp;test_stations, const <a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a> &amp;test_times, const <a class="el" href="classanen_time_1_1_f_l_ts.html">anenTime::FLTs</a> &amp;flts, const <a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> &amp;search_stations, const <a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a> &amp;search_times) const</td></tr>
 <tr class="separator:a904c2953252dc6e810d6fefa220a6230"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab9199c18d2a4a1e005dc5b1fefe6e75b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#ab9199c18d2a4a1e005dc5b1fefe6e75b">readAnalogs</a> (<a class="el" href="class_analogs.html">Analogs</a> &amp;analogs)</td></tr>
+<tr class="memitem:ab9199c18d2a4a1e005dc5b1fefe6e75b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#ab9199c18d2a4a1e005dc5b1fefe6e75b">readAnalogs</a> (<a class="el" href="class_analogs.html">Analogs</a> &amp;analogs)</td></tr>
 <tr class="separator:ab9199c18d2a4a1e005dc5b1fefe6e75b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a85fa5c49b01a74539e32f349a69b82f5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a85fa5c49b01a74539e32f349a69b82f5">writeAnalogs</a> (const <a class="el" href="class_analogs.html">Analogs</a> &amp;analogs, const <a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> &amp;test_stations, const <a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a> &amp;test_times, const <a class="el" href="classanen_time_1_1_f_l_ts.html">anenTime::FLTs</a> &amp;flts, const <a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> &amp;search_stations, const <a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a> &amp;search_times) const</td></tr>
+<tr class="memitem:a85fa5c49b01a74539e32f349a69b82f5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a85fa5c49b01a74539e32f349a69b82f5">writeAnalogs</a> (const <a class="el" href="class_analogs.html">Analogs</a> &amp;analogs, const <a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> &amp;test_stations, const <a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a> &amp;test_times, const <a class="el" href="classanen_time_1_1_f_l_ts.html">anenTime::FLTs</a> &amp;flts, const <a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> &amp;search_stations, const <a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a> &amp;search_times) const</td></tr>
 <tr class="separator:a85fa5c49b01a74539e32f349a69b82f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0ab02814e52b79d3b93ed0dd65019f76"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a0ab02814e52b79d3b93ed0dd65019f76">readStandardDeviation</a> (<a class="el" href="class_standard_deviation.html">StandardDeviation</a> &amp;sds)</td></tr>
+<tr class="memitem:a0ab02814e52b79d3b93ed0dd65019f76"><td class="memItemLeft" align="right" valign="top"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a0ab02814e52b79d3b93ed0dd65019f76">readStandardDeviation</a> (<a class="el" href="class_standard_deviation.html">StandardDeviation</a> &amp;sds)</td></tr>
 <tr class="separator:a0ab02814e52b79d3b93ed0dd65019f76"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a029d65319703463dbe81ac1934a7a0f8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a029d65319703463dbe81ac1934a7a0f8">readStandardDeviation</a> (<a class="el" href="class_standard_deviation.html">StandardDeviation</a> &amp;sds, std::vector&lt; size_t &gt; start, std::vector&lt; size_t &gt; count, std::vector&lt; ptrdiff_t &gt; stride={1, 1, 1})</td></tr>
+<tr class="memitem:a029d65319703463dbe81ac1934a7a0f8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a029d65319703463dbe81ac1934a7a0f8">readStandardDeviation</a> (<a class="el" href="class_standard_deviation.html">StandardDeviation</a> &amp;sds, std::vector&lt; size_t &gt; start, std::vector&lt; size_t &gt; count, std::vector&lt; ptrdiff_t &gt; stride={1, 1, 1})</td></tr>
 <tr class="separator:a029d65319703463dbe81ac1934a7a0f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a519901a35e7015331511f77e739323b1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a519901a35e7015331511f77e739323b1">writeStandardDeviation</a> (const <a class="el" href="class_standard_deviation.html">StandardDeviation</a> &amp;sds, const <a class="el" href="classanen_par_1_1_parameters.html">anenPar::Parameters</a> &amp;parameters, const <a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> &amp;stations, const <a class="el" href="classanen_time_1_1_f_l_ts.html">anenTime::FLTs</a> &amp;flts) const</td></tr>
+<tr class="memitem:a519901a35e7015331511f77e739323b1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a519901a35e7015331511f77e739323b1">writeStandardDeviation</a> (const <a class="el" href="class_standard_deviation.html">StandardDeviation</a> &amp;sds, const <a class="el" href="classanen_par_1_1_parameters.html">anenPar::Parameters</a> &amp;parameters, const <a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> &amp;stations, const <a class="el" href="classanen_time_1_1_f_l_ts.html">anenTime::FLTs</a> &amp;flts) const</td></tr>
 <tr class="separator:a519901a35e7015331511f77e739323b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a92276aeba9c0b5bd1cd3d285271d505f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a92276aeba9c0b5bd1cd3d285271d505f">handleError</a> (const <a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> &amp;indicator) const</td></tr>
-<tr class="separator:a92276aeba9c0b5bd1cd3d285271d505f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0cd2479fe69440fb8643b7b5e84e06b1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a0cd2479fe69440fb8643b7b5e84e06b1">isAdd</a> () const</td></tr>
 <tr class="separator:a0cd2479fe69440fb8643b7b5e84e06b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0bf0dab5e393c5597f97ab38c910e24d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a0bf0dab5e393c5597f97ab38c910e24d">getVerbose</a> () const</td></tr>
@@ -238,31 +201,31 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:acd5682e81361d75ff5566ae1df5fa023"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#acd5682e81361d75ff5566ae1df5fa023">dumpVariable</a> (std::string var_name, std::size_t start=0, std::size_t count=0) const</td></tr>
 <tr class="separator:acd5682e81361d75ff5566ae1df5fa023"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a08b76ea993d992b9b69dc2c985b13da9"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a08b76ea993d992b9b69dc2c985b13da9"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a08b76ea993d992b9b69dc2c985b13da9">readTextMatrix</a> (boost::numeric::ublas::matrix&lt; T &gt; &amp;mapping)</td></tr>
+<tr class="memitem:a08b76ea993d992b9b69dc2c985b13da9"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a08b76ea993d992b9b69dc2c985b13da9">readTextMatrix</a> (boost::numeric::ublas::matrix&lt; T &gt; &amp;mapping)</td></tr>
 <tr class="separator:a08b76ea993d992b9b69dc2c985b13da9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acf17e3e4854c9e41a65a14b46bdd8b99"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:acf17e3e4854c9e41a65a14b46bdd8b99"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#acf17e3e4854c9e41a65a14b46bdd8b99">writeTextMatrix</a> (const boost::numeric::ublas::matrix&lt; T &gt; &amp;mapping) const</td></tr>
+<tr class="memitem:acf17e3e4854c9e41a65a14b46bdd8b99"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#acf17e3e4854c9e41a65a14b46bdd8b99">writeTextMatrix</a> (const boost::numeric::ublas::matrix&lt; T &gt; &amp;mapping) const</td></tr>
 <tr class="separator:acf17e3e4854c9e41a65a14b46bdd8b99"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a775188249040c611c57c8f496462819e"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a775188249040c611c57c8f496462819e">combineParameters</a> (const std::vector&lt; std::string &gt; &amp;in_files, const std::string &amp;file_type, <a class="el" href="classanen_par_1_1_parameters.html">anenPar::Parameters</a> &amp;parameters, int verbose, const std::vector&lt; size_t &gt; &amp;start={}, const std::vector&lt; size_t &gt; &amp;count={}, bool allow_duplicates=false)</td></tr>
+<tr class="memitem:a775188249040c611c57c8f496462819e"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a775188249040c611c57c8f496462819e">combineParameters</a> (const std::vector&lt; std::string &gt; &amp;in_files, const std::string &amp;file_type, <a class="el" href="classanen_par_1_1_parameters.html">anenPar::Parameters</a> &amp;parameters, int verbose, const std::vector&lt; size_t &gt; &amp;start={}, const std::vector&lt; size_t &gt; &amp;count={}, bool allow_duplicates=false)</td></tr>
 <tr class="separator:a775188249040c611c57c8f496462819e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a27e0f087f011cba59018676be8db9dd2"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a27e0f087f011cba59018676be8db9dd2">combineStations</a> (const std::vector&lt; std::string &gt; &amp;in_files, const std::string &amp;file_type, <a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> &amp;stations, int verbose, const std::string &amp;dim_name_prefix=&quot;&quot;, const std::string &amp;var_name_prefix=&quot;&quot;, const std::vector&lt; size_t &gt; &amp;start={}, const std::vector&lt; size_t &gt; &amp;count={}, bool allow_duplicates=false)</td></tr>
+<tr class="memitem:a27e0f087f011cba59018676be8db9dd2"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a27e0f087f011cba59018676be8db9dd2">combineStations</a> (const std::vector&lt; std::string &gt; &amp;in_files, const std::string &amp;file_type, <a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> &amp;stations, int verbose, const std::string &amp;dim_name_prefix=&quot;&quot;, const std::string &amp;var_name_prefix=&quot;&quot;, const std::vector&lt; size_t &gt; &amp;start={}, const std::vector&lt; size_t &gt; &amp;count={}, bool allow_duplicates=false)</td></tr>
 <tr class="separator:a27e0f087f011cba59018676be8db9dd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3cefa1eb77f754be9dc5f34d92da944a"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a3cefa1eb77f754be9dc5f34d92da944a">combineTimes</a> (const std::vector&lt; std::string &gt; &amp;in_files, const std::string &amp;file_type, <a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a> &amp;times, int verbose, const std::string &amp;var_name=&quot;Times&quot;, const std::vector&lt; size_t &gt; &amp;start={}, const std::vector&lt; size_t &gt; &amp;count={}, bool allow_duplicates=false)</td></tr>
+<tr class="memitem:a3cefa1eb77f754be9dc5f34d92da944a"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a3cefa1eb77f754be9dc5f34d92da944a">combineTimes</a> (const std::vector&lt; std::string &gt; &amp;in_files, const std::string &amp;file_type, <a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a> &amp;times, int verbose, const std::string &amp;var_name=&quot;Times&quot;, const std::vector&lt; size_t &gt; &amp;start={}, const std::vector&lt; size_t &gt; &amp;count={}, bool allow_duplicates=false)</td></tr>
 <tr class="separator:a3cefa1eb77f754be9dc5f34d92da944a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a707ddcee4431571e5754097f6cf36489"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a707ddcee4431571e5754097f6cf36489">combineFLTs</a> (const std::vector&lt; std::string &gt; &amp;in_files, const std::string &amp;file_type, <a class="el" href="classanen_time_1_1_f_l_ts.html">anenTime::FLTs</a> &amp;flts, int verbose, const std::vector&lt; size_t &gt; &amp;start={}, const std::vector&lt; size_t &gt; &amp;count={}, bool allow_duplicates=false)</td></tr>
+<tr class="memitem:a707ddcee4431571e5754097f6cf36489"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a707ddcee4431571e5754097f6cf36489">combineFLTs</a> (const std::vector&lt; std::string &gt; &amp;in_files, const std::string &amp;file_type, <a class="el" href="classanen_time_1_1_f_l_ts.html">anenTime::FLTs</a> &amp;flts, int verbose, const std::vector&lt; size_t &gt; &amp;start={}, const std::vector&lt; size_t &gt; &amp;count={}, bool allow_duplicates=false)</td></tr>
 <tr class="separator:a707ddcee4431571e5754097f6cf36489"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a178908fb36f1e323533d281b6c5af0e8"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a178908fb36f1e323533d281b6c5af0e8">combineForecastsArray</a> (const std::vector&lt; std::string &gt; &amp;in_files, <a class="el" href="class_forecasts__array.html">Forecasts_array</a> &amp;forecasts, size_t along, int verbose=2, const std::vector&lt; size_t &gt; &amp;starts={}, const std::vector&lt; size_t &gt; &amp;counts={})</td></tr>
+<tr class="memitem:a178908fb36f1e323533d281b6c5af0e8"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a178908fb36f1e323533d281b6c5af0e8">combineForecastsArray</a> (const std::vector&lt; std::string &gt; &amp;in_files, <a class="el" href="class_forecasts__array.html">Forecasts_array</a> &amp;forecasts, size_t along, int verbose=2, const std::vector&lt; size_t &gt; &amp;starts={}, const std::vector&lt; size_t &gt; &amp;counts={})</td></tr>
 <tr class="separator:a178908fb36f1e323533d281b6c5af0e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a174aeb772f7a76cddd07efc2117cdf38"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a174aeb772f7a76cddd07efc2117cdf38">combineObservationsArray</a> (const std::vector&lt; std::string &gt; &amp;in_files, <a class="el" href="class_observations__array.html">Observations_array</a> &amp;observations, size_t along, int verbose=2)</td></tr>
+<tr class="memitem:a174aeb772f7a76cddd07efc2117cdf38"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a174aeb772f7a76cddd07efc2117cdf38">combineObservationsArray</a> (const std::vector&lt; std::string &gt; &amp;in_files, <a class="el" href="class_observations__array.html">Observations_array</a> &amp;observations, size_t along, int verbose=2)</td></tr>
 <tr class="separator:a174aeb772f7a76cddd07efc2117cdf38"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a450782fa82689da5163fcc8bb94587d8"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a450782fa82689da5163fcc8bb94587d8">combineStandardDeviation</a> (const std::vector&lt; std::string &gt; &amp;in_files, <a class="el" href="class_standard_deviation.html">StandardDeviation</a> &amp;sds, <a class="el" href="classanen_par_1_1_parameters.html">anenPar::Parameters</a> &amp;parameters, <a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> &amp;stations, <a class="el" href="classanen_time_1_1_f_l_ts.html">anenTime::FLTs</a> &amp;flts, size_t along, int verbose=2)</td></tr>
+<tr class="memitem:a450782fa82689da5163fcc8bb94587d8"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a450782fa82689da5163fcc8bb94587d8">combineStandardDeviation</a> (const std::vector&lt; std::string &gt; &amp;in_files, <a class="el" href="class_standard_deviation.html">StandardDeviation</a> &amp;sds, <a class="el" href="classanen_par_1_1_parameters.html">anenPar::Parameters</a> &amp;parameters, <a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> &amp;stations, <a class="el" href="classanen_time_1_1_f_l_ts.html">anenTime::FLTs</a> &amp;flts, size_t along, int verbose=2)</td></tr>
 <tr class="separator:a450782fa82689da5163fcc8bb94587d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8a58ff812fc1615897b8693326baabc4"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a8a58ff812fc1615897b8693326baabc4">combineSimilarityMatrices</a> (const std::vector&lt; std::string &gt; &amp;in_files, <a class="el" href="class_similarity_matrices.html">SimilarityMatrices</a> &amp;sims, <a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> &amp;stations, <a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a> &amp;times, <a class="el" href="classanen_time_1_1_f_l_ts.html">anenTime::FLTs</a> &amp;flts, <a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> &amp;search_stations, <a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a> &amp;search_times, size_t along, int verbose=2)</td></tr>
+<tr class="memitem:a8a58ff812fc1615897b8693326baabc4"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a8a58ff812fc1615897b8693326baabc4">combineSimilarityMatrices</a> (const std::vector&lt; std::string &gt; &amp;in_files, <a class="el" href="class_similarity_matrices.html">SimilarityMatrices</a> &amp;sims, <a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> &amp;stations, <a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a> &amp;times, <a class="el" href="classanen_time_1_1_f_l_ts.html">anenTime::FLTs</a> &amp;flts, <a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> &amp;search_stations, <a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a> &amp;search_times, size_t along, int verbose=2)</td></tr>
 <tr class="separator:a8a58ff812fc1615897b8693326baabc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa4d62035c61cf6dd43d84f0fde6c17e6"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#aa4d62035c61cf6dd43d84f0fde6c17e6">combineAnalogs</a> (const std::vector&lt; std::string &gt; &amp;in_files, <a class="el" href="class_analogs.html">Analogs</a> &amp;analogs, <a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> &amp;stations, <a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a> &amp;times, <a class="el" href="classanen_time_1_1_f_l_ts.html">anenTime::FLTs</a> &amp;flts, <a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> &amp;member_stations, <a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a> &amp;member_times, size_t along, int verbose=2)</td></tr>
+<tr class="memitem:aa4d62035c61cf6dd43d84f0fde6c17e6"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#aa4d62035c61cf6dd43d84f0fde6c17e6">combineAnalogs</a> (const std::vector&lt; std::string &gt; &amp;in_files, <a class="el" href="class_analogs.html">Analogs</a> &amp;analogs, <a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> &amp;stations, <a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a> &amp;times, <a class="el" href="classanen_time_1_1_f_l_ts.html">anenTime::FLTs</a> &amp;flts, <a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> &amp;member_stations, <a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a> &amp;member_times, size_t along, int verbose=2)</td></tr>
 <tr class="separator:aa4d62035c61cf6dd43d84f0fde6c17e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
@@ -280,40 +243,40 @@ Static Public Attributes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:ae9cf0a8cde2b742992295ccc2bed17ef"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#ae9cf0a8cde2b742992295ccc2bed17ef">read_string_vector_</a> (std::string var_name, std::vector&lt; std::string &gt; &amp;results) const</td></tr>
+<tr class="memitem:ae9cf0a8cde2b742992295ccc2bed17ef"><td class="memItemLeft" align="right" valign="top"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#ae9cf0a8cde2b742992295ccc2bed17ef">read_string_vector_</a> (std::string var_name, std::vector&lt; std::string &gt; &amp;results) const</td></tr>
 <tr class="separator:ae9cf0a8cde2b742992295ccc2bed17ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8c7e28931fd88831922e64ad87ee03f2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a8c7e28931fd88831922e64ad87ee03f2">read_string_vector_</a> (std::string var_name, std::vector&lt; std::string &gt; &amp;results, size_t start, size_t count, ptrdiff_t stride=1) const</td></tr>
+<tr class="memitem:a8c7e28931fd88831922e64ad87ee03f2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a8c7e28931fd88831922e64ad87ee03f2">read_string_vector_</a> (std::string var_name, std::vector&lt; std::string &gt; &amp;results, size_t start, size_t count, ptrdiff_t stride=1) const</td></tr>
 <tr class="separator:a8c7e28931fd88831922e64ad87ee03f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae8ed483b1dcdbf2a15148d60f8067595"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#ae8ed483b1dcdbf2a15148d60f8067595">purge_</a> (std::string &amp;str) const</td></tr>
 <tr class="separator:ae8ed483b1dcdbf2a15148d60f8067595"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7be5ab5c8c42fc9a04e4deeb0059a54d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a7be5ab5c8c42fc9a04e4deeb0059a54d">purge_</a> (std::vector&lt; std::string &gt; &amp;strs) const</td></tr>
 <tr class="separator:a7be5ab5c8c42fc9a04e4deeb0059a54d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeaed53540b345840ec03ec29cc36175e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#aeaed53540b345840ec03ec29cc36175e">writeSimilarityMatricesOnly_</a> (const <a class="el" href="class_similarity_matrices.html">SimilarityMatrices</a> &amp;sims) const</td></tr>
+<tr class="memitem:aeaed53540b345840ec03ec29cc36175e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#aeaed53540b345840ec03ec29cc36175e">writeSimilarityMatricesOnly_</a> (const <a class="el" href="class_similarity_matrices.html">SimilarityMatrices</a> &amp;sims) const</td></tr>
 <tr class="separator:aeaed53540b345840ec03ec29cc36175e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a99b49585c60a1f4cdbf9aed32b69ed5e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a99b49585c60a1f4cdbf9aed32b69ed5e">writeAnalogsOnly_</a> (const <a class="el" href="class_analogs.html">Analogs</a> &amp;analogs) const</td></tr>
+<tr class="memitem:a99b49585c60a1f4cdbf9aed32b69ed5e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a99b49585c60a1f4cdbf9aed32b69ed5e">writeAnalogsOnly_</a> (const <a class="el" href="class_analogs.html">Analogs</a> &amp;analogs) const</td></tr>
 <tr class="separator:a99b49585c60a1f4cdbf9aed32b69ed5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab6d2738c459d4913be345a07d6676909"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#ab6d2738c459d4913be345a07d6676909">writeStandardDeviationOnly_</a> (const <a class="el" href="class_standard_deviation.html">StandardDeviation</a> &amp;sds) const</td></tr>
+<tr class="memitem:ab6d2738c459d4913be345a07d6676909"><td class="memItemLeft" align="right" valign="top"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#ab6d2738c459d4913be345a07d6676909">writeStandardDeviationOnly_</a> (const <a class="el" href="class_standard_deviation.html">StandardDeviation</a> &amp;sds) const</td></tr>
 <tr class="separator:ab6d2738c459d4913be345a07d6676909"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeca4016d1f7d98500107d7d194f070a4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#aeca4016d1f7d98500107d7d194f070a4">readForecastsArrayData_</a> (<a class="el" href="class_forecasts__array.html">Forecasts_array</a> &amp;forecasts) const</td></tr>
+<tr class="memitem:aeca4016d1f7d98500107d7d194f070a4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#aeca4016d1f7d98500107d7d194f070a4">readForecastsArrayData_</a> (<a class="el" href="class_forecasts__array.html">Forecasts_array</a> &amp;forecasts) const</td></tr>
 <tr class="separator:aeca4016d1f7d98500107d7d194f070a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a367ada8cf6c9698c9f33fa45ba44804d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a367ada8cf6c9698c9f33fa45ba44804d">readForecastsArrayData_</a> (<a class="el" href="class_forecasts__array.html">Forecasts_array</a> &amp;forecasts, std::vector&lt; size_t &gt; start, std::vector&lt; size_t &gt; count, std::vector&lt; ptrdiff_t &gt; stride={1, 1, 1}) const</td></tr>
+<tr class="memitem:a367ada8cf6c9698c9f33fa45ba44804d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a367ada8cf6c9698c9f33fa45ba44804d">readForecastsArrayData_</a> (<a class="el" href="class_forecasts__array.html">Forecasts_array</a> &amp;forecasts, std::vector&lt; size_t &gt; start, std::vector&lt; size_t &gt; count, std::vector&lt; ptrdiff_t &gt; stride={1, 1, 1}) const</td></tr>
 <tr class="separator:a367ada8cf6c9698c9f33fa45ba44804d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa7dbf01b1516b3a4817a4eb06c9f03ee"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#aa7dbf01b1516b3a4817a4eb06c9f03ee">readObservationsArrayData_</a> (<a class="el" href="class_observations__array.html">Observations_array</a> &amp;observations) const</td></tr>
+<tr class="memitem:aa7dbf01b1516b3a4817a4eb06c9f03ee"><td class="memItemLeft" align="right" valign="top"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#aa7dbf01b1516b3a4817a4eb06c9f03ee">readObservationsArrayData_</a> (<a class="el" href="class_observations__array.html">Observations_array</a> &amp;observations) const</td></tr>
 <tr class="separator:aa7dbf01b1516b3a4817a4eb06c9f03ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3c2af3a24dcd8abc02adc8d19866c9c4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a3c2af3a24dcd8abc02adc8d19866c9c4">readObservationsArrayData_</a> (<a class="el" href="class_observations__array.html">Observations_array</a> &amp;observations, std::vector&lt; size_t &gt; start, std::vector&lt; size_t &gt; count, std::vector&lt; ptrdiff_t &gt; stride={1, 1, 1}) const</td></tr>
+<tr class="memitem:a3c2af3a24dcd8abc02adc8d19866c9c4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a3c2af3a24dcd8abc02adc8d19866c9c4">readObservationsArrayData_</a> (<a class="el" href="class_observations__array.html">Observations_array</a> &amp;observations, std::vector&lt; size_t &gt; start, std::vector&lt; size_t &gt; count, std::vector&lt; ptrdiff_t &gt; stride={1, 1, 1}) const</td></tr>
 <tr class="separator:a3c2af3a24dcd8abc02adc8d19866c9c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3bf5972d705554b3760d4450146f9b8e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a3bf5972d705554b3760d4450146f9b8e">insertParameters_</a> (<a class="el" href="classanen_par_1_1_parameters.html">anenPar::Parameters</a> &amp;parameters, size_t dim_len, const std::vector&lt; std::string &gt; &amp;names, std::vector&lt; std::string &gt; &amp;circulars, const std::vector&lt; double &gt; &amp;weights) const</td></tr>
+<tr class="memitem:a3bf5972d705554b3760d4450146f9b8e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a3bf5972d705554b3760d4450146f9b8e">insertParameters_</a> (<a class="el" href="classanen_par_1_1_parameters.html">anenPar::Parameters</a> &amp;parameters, size_t dim_len, const std::vector&lt; std::string &gt; &amp;names, std::vector&lt; std::string &gt; &amp;circulars, const std::vector&lt; double &gt; &amp;weights) const</td></tr>
 <tr class="separator:a3bf5972d705554b3760d4450146f9b8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a097e13b4c12eddd717e7a6355581b2a3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a097e13b4c12eddd717e7a6355581b2a3">insertStations_</a> (<a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> &amp;stations, size_t dim_len, const std::vector&lt; std::string &gt; &amp;names, const std::vector&lt; double &gt; &amp;xs, const std::vector&lt; double &gt; &amp;ys) const</td></tr>
+<tr class="memitem:a097e13b4c12eddd717e7a6355581b2a3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a097e13b4c12eddd717e7a6355581b2a3">insertStations_</a> (<a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> &amp;stations, size_t dim_len, const std::vector&lt; std::string &gt; &amp;names, const std::vector&lt; double &gt; &amp;xs, const std::vector&lt; double &gt; &amp;ys) const</td></tr>
 <tr class="separator:a097e13b4c12eddd717e7a6355581b2a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa135f278f8ff2a028b8119f483dd36bf"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:aa135f278f8ff2a028b8119f483dd36bf"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#aa135f278f8ff2a028b8119f483dd36bf">read_vector_</a> (std::string var_name, std::vector&lt; T &gt; &amp;results) const</td></tr>
+<tr class="memitem:aa135f278f8ff2a028b8119f483dd36bf"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#aa135f278f8ff2a028b8119f483dd36bf">read_vector_</a> (std::string var_name, std::vector&lt; T &gt; &amp;results) const</td></tr>
 <tr class="separator:aa135f278f8ff2a028b8119f483dd36bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4a4b8eedb372df1bb46b2104ae2761cd"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a4a4b8eedb372df1bb46b2104ae2761cd"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a4a4b8eedb372df1bb46b2104ae2761cd">read_vector_</a> (std::string var_name, std::vector&lt; T &gt; &amp;results, std::vector&lt; size_t &gt; start, std::vector&lt; size_t &gt; count, std::vector&lt; ptrdiff_t &gt; stride={1}) const</td></tr>
+<tr class="memitem:a4a4b8eedb372df1bb46b2104ae2761cd"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a4a4b8eedb372df1bb46b2104ae2761cd">read_vector_</a> (std::string var_name, std::vector&lt; T &gt; &amp;results, std::vector&lt; size_t &gt; start, std::vector&lt; size_t &gt; count, std::vector&lt; ptrdiff_t &gt; stride={1}) const</td></tr>
 <tr class="separator:a4a4b8eedb372df1bb46b2104ae2761cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9a0c27d0baddc7e27b25e1d13ac4f313"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a9a0c27d0baddc7e27b25e1d13ac4f313"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a9a0c27d0baddc7e27b25e1d13ac4f313">read_vector_</a> (std::string var_name, std::vector&lt; T &gt; &amp;results, size_t start, size_t count, ptrdiff_t stride=1) const</td></tr>
+<tr class="memitem:a9a0c27d0baddc7e27b25e1d13ac4f313"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a9a0c27d0baddc7e27b25e1d13ac4f313">read_vector_</a> (std::string var_name, std::vector&lt; T &gt; &amp;results, size_t start, size_t count, ptrdiff_t stride=1) const</td></tr>
 <tr class="separator:a9a0c27d0baddc7e27b25e1d13ac4f313"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
@@ -337,69 +300,7 @@ Protected Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><a class="el" href="class_an_en_i_o.html" title="AnEnIO class provides interfaces for reading and writing NetCDF files in forecast, observation, and prediction format. These formats are predefined for generating predictions. ">AnEnIO</a> class provides interfaces for reading and writing NetCDF files in forecast, observation, and prediction format. These formats are predefined for generating predictions. </p>
-</div><h2 class="groupheader">Member Enumeration Documentation</h2>
-<a id="aa56bc1ec6610b86db4349bce20f9ead0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa56bc1ec6610b86db4349bce20f9ead0">&#9670;&nbsp;</a></span>errorType</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum <a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">AnEnIO::errorType</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Specifies the return error type of a function. Use <a class="el" href="class_an_en_i_o.html#a92276aeba9c0b5bd1cd3d285271d505f">AnEnIO::handleError</a> to handle the returned errorType. </p>
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="aa56bc1ec6610b86db4349bce20f9ead0afd4f6d99fa57b8fd2d3f2298b1781f6d"></a>SUCCESS&#160;</td><td class="fielddoc"><p>0 </p>
-</td></tr>
-<tr><td class="fieldname"><a id="aa56bc1ec6610b86db4349bce20f9ead0a307923ca3c0962a4fe341eb2d7eb1eaa"></a>UNKNOWN_ERROR&#160;</td><td class="fielddoc"><p>-1 </p>
-</td></tr>
-<tr><td class="fieldname"><a id="aa56bc1ec6610b86db4349bce20f9ead0af27777283529d32c426e957fd4eba291"></a>UNKOWN_FILE_TYPE&#160;</td><td class="fielddoc"><p>-2 </p>
-</td></tr>
-<tr><td class="fieldname"><a id="aa56bc1ec6610b86db4349bce20f9ead0aadfab3690e549e181b929711f8b9b804"></a>WRONG_FILE_TYPE&#160;</td><td class="fielddoc"><p>-3 </p>
-</td></tr>
-<tr><td class="fieldname"><a id="aa56bc1ec6610b86db4349bce20f9ead0a28c4093ff55045d651f1457dfe046e89"></a>FILE_EXISTS&#160;</td><td class="fielddoc"><p>-4 </p>
-</td></tr>
-<tr><td class="fieldname"><a id="aa56bc1ec6610b86db4349bce20f9ead0a7d02135c2fa246d888f7498fa9ccb199"></a>UNKNOWN_MODE&#160;</td><td class="fielddoc"><p>-5 </p>
-</td></tr>
-<tr><td class="fieldname"><a id="aa56bc1ec6610b86db4349bce20f9ead0a31bb5eebca1dcfce3f67aff4074412e9"></a>WRONG_MODE&#160;</td><td class="fielddoc"><p>-6 </p>
-</td></tr>
-<tr><td class="fieldname"><a id="aa56bc1ec6610b86db4349bce20f9ead0abeb7bc485dd556be975f212197d037fe"></a>FILEIO_ERROR&#160;</td><td class="fielddoc"><p>-7 </p>
-</td></tr>
-<tr><td class="fieldname"><a id="aa56bc1ec6610b86db4349bce20f9ead0a3495961e36591a1d7942e9a46c266d5e"></a>METHOD_NOT_IMPLEMENTED&#160;</td><td class="fielddoc"><p>-8 </p>
-</td></tr>
-<tr><td class="fieldname"><a id="aa56bc1ec6610b86db4349bce20f9ead0a12593564dc1e16d72a57ba6016b1324f"></a>FILE_NOT_FOUND&#160;</td><td class="fielddoc"><p>-10 </p>
-</td></tr>
-<tr><td class="fieldname"><a id="aa56bc1ec6610b86db4349bce20f9ead0a77597f2d2fa33ef922bd74ea4580d8b4"></a>REQUIRED_VARIABLE_MISSING&#160;</td><td class="fielddoc"><p>-11 </p>
-</td></tr>
-<tr><td class="fieldname"><a id="aa56bc1ec6610b86db4349bce20f9ead0a0523be11226bd2aa810f5a30c124ab19"></a>OPTIONAL_VARIABLE_MISSING&#160;</td><td class="fielddoc"><p>-12 </p>
-</td></tr>
-<tr><td class="fieldname"><a id="aa56bc1ec6610b86db4349bce20f9ead0ae1f7e1357e3be9b3312477eba02c07e0"></a>DIMENSION_MISSING&#160;</td><td class="fielddoc"><p>-13 </p>
-</td></tr>
-<tr><td class="fieldname"><a id="aa56bc1ec6610b86db4349bce20f9ead0a83d4d08faaa4e794e6b7fbb9a89f203e"></a>WRONG_VARIABLE_SHAPE&#160;</td><td class="fielddoc"><p>-14 </p>
-</td></tr>
-<tr><td class="fieldname"><a id="aa56bc1ec6610b86db4349bce20f9ead0ad8e12998f526437cb6b2450f16f46d51"></a>WRONG_VARIABLE_TYPE&#160;</td><td class="fielddoc"><p>-15 </p>
-</td></tr>
-<tr><td class="fieldname"><a id="aa56bc1ec6610b86db4349bce20f9ead0a288f494fc6e909e8ee0b8a7f9c7ef9ca"></a>ELEMENT_NOT_UNIQUE&#160;</td><td class="fielddoc"><p>-16 </p>
-</td></tr>
-<tr><td class="fieldname"><a id="aa56bc1ec6610b86db4349bce20f9ead0a84a3c7e5b367ee64f2d15e585f8a0312"></a>DIMENSION_EXISTS&#160;</td><td class="fielddoc"><p>-17 </p>
-</td></tr>
-<tr><td class="fieldname"><a id="aa56bc1ec6610b86db4349bce20f9ead0abb20ed9e5a08ecee4b09d132cbd2e120"></a>VARIABLE_EXISTS&#160;</td><td class="fielddoc"><p>-18 </p>
-</td></tr>
-<tr><td class="fieldname"><a id="aa56bc1ec6610b86db4349bce20f9ead0a6b6638f4fbbc0d1fd5ca45eb1d4266f5"></a>WRONG_INDEX_SHAPE&#160;</td><td class="fielddoc"><p>-19 </p>
-</td></tr>
-<tr><td class="fieldname"><a id="aa56bc1ec6610b86db4349bce20f9ead0af58b3b49fb1d75cbafd2d8859e4c3a55"></a>ERROR_SETTING_VALUES&#160;</td><td class="fielddoc"><p>-50 </p>
-</td></tr>
-<tr><td class="fieldname"><a id="aa56bc1ec6610b86db4349bce20f9ead0a10fe7987d62e727f90425025fa90a09f"></a>NAN_VALUES&#160;</td><td class="fielddoc"><p>-51 </p>
-</td></tr>
-<tr><td class="fieldname"><a id="aa56bc1ec6610b86db4349bce20f9ead0a0d5615cd010b41d905091ddea91f74b7"></a>INSUFFICIENT_MEMORY&#160;</td><td class="fielddoc"><p>-51 </p>
-</td></tr>
-</table>
-
-</div>
-</div>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a199f4cd2569599820126ae27ec25a647"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a199f4cd2569599820126ae27ec25a647">&#9670;&nbsp;</a></span>AnEnIO() <span class="overload">[1/6]</span></h2>
 
@@ -638,7 +539,7 @@ Protected Attributes</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::checkDim </td>
+          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEnIO::checkDim </td>
           <td>(</td>
           <td class="paramtype">std::string&#160;</td>
           <td class="paramname"><em>dim_name</em></td><td>)</td>
@@ -653,7 +554,7 @@ Protected Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">AnEnIO::errorType</a>. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>errorType. </dd></dl>
 
 </div>
 </div>
@@ -664,14 +565,14 @@ Protected Attributes</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::checkDimensions </td>
+          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEnIO::checkDimensions </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Checks the required dimensions. </p><dl class="section return"><dt>Returns</dt><dd><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">AnEnIO::errorType</a>. </dd></dl>
+<p>Checks the required dimensions. </p><dl class="section return"><dt>Returns</dt><dd>errorType. </dd></dl>
 
 </div>
 </div>
@@ -682,7 +583,7 @@ Protected Attributes</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::checkFilePath </td>
+          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEnIO::checkFilePath </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -690,7 +591,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Checks file path and file extension.</p>
-<dl class="section return"><dt>Returns</dt><dd><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">AnEnIO::errorType</a>. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>errorType. </dd></dl>
 
 </div>
 </div>
@@ -701,7 +602,7 @@ Protected Attributes</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::checkFileType </td>
+          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEnIO::checkFileType </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -713,7 +614,7 @@ Protected Attributes</h2></td></tr>
 <li><a class="el" href="class_observations.html" title="Observations class provides interface for reading and writing observations from and to a NetCDF file...">Observations</a></li>
 <li><a class="el" href="class_forecasts.html" title="Forecasts class provides interface for reading and writing forecast data from and to a NetCDF file...">Forecasts</a></li>
 </ul>
-<dl class="section return"><dt>Returns</dt><dd><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">AnEnIO::errorType</a>. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>errorType. </dd></dl>
 
 </div>
 </div>
@@ -724,7 +625,7 @@ Protected Attributes</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::checkMode </td>
+          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEnIO::checkMode </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -732,7 +633,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Checks object mode for input/output.</p>
-<dl class="section return"><dt>Returns</dt><dd><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">AnEnIO::errorType</a> </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>errorType </dd></dl>
 
 </div>
 </div>
@@ -743,7 +644,7 @@ Protected Attributes</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::checkVariable </td>
+          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEnIO::checkVariable </td>
           <td>(</td>
           <td class="paramtype">std::string&#160;</td>
           <td class="paramname"><em>var_name</em>, </td>
@@ -768,7 +669,7 @@ Protected Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">AnEnIO::errorType</a>. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>errorType. </dd></dl>
 
 </div>
 </div>
@@ -779,14 +680,14 @@ Protected Attributes</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::checkVariables </td>
+          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEnIO::checkVariables </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Checks the required and optional variables. </p><dl class="section return"><dt>Returns</dt><dd><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">AnEnIO::errorType</a>. </dd></dl>
+<p>Checks the required and optional variables. </p><dl class="section return"><dt>Returns</dt><dd>errorType. </dd></dl>
 
 </div>
 </div>
@@ -800,7 +701,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::combineAnalogs </td>
+          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEnIO::combineAnalogs </td>
           <td>(</td>
           <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
           <td class="paramname"><em>in_files</em>, </td>
@@ -877,7 +778,7 @@ Protected Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>An <a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">AnEnIO::errorType</a>. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>An errorType. </dd></dl>
 
 </div>
 </div>
@@ -891,7 +792,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::combineFLTs </td>
+          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEnIO::combineFLTs </td>
           <td>(</td>
           <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
           <td class="paramname"><em>in_files</em>, </td>
@@ -957,7 +858,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::combineForecastsArray </td>
+          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEnIO::combineForecastsArray </td>
           <td>(</td>
           <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
           <td class="paramname"><em>in_files</em>, </td>
@@ -1016,7 +917,7 @@ Protected Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>An <a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">AnEnIO::errorType</a>; </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>An errorType; </dd></dl>
 
 </div>
 </div>
@@ -1030,7 +931,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::combineObservationsArray </td>
+          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEnIO::combineObservationsArray </td>
           <td>(</td>
           <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
           <td class="paramname"><em>in_files</em>, </td>
@@ -1075,7 +976,7 @@ Protected Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>An <a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">AnEnIO::errorType</a>; </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>An errorType; </dd></dl>
 
 </div>
 </div>
@@ -1089,7 +990,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::combineParameters </td>
+          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEnIO::combineParameters </td>
           <td>(</td>
           <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
           <td class="paramname"><em>in_files</em>, </td>
@@ -1155,7 +1056,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::combineSimilarityMatrices </td>
+          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEnIO::combineSimilarityMatrices </td>
           <td>(</td>
           <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
           <td class="paramname"><em>in_files</em>, </td>
@@ -1232,7 +1133,7 @@ Protected Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>An <a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">AnEnIO::errorType</a>; </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>An errorType; </dd></dl>
 
 </div>
 </div>
@@ -1246,7 +1147,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::combineStandardDeviation </td>
+          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEnIO::combineStandardDeviation </td>
           <td>(</td>
           <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
           <td class="paramname"><em>in_files</em>, </td>
@@ -1311,7 +1212,7 @@ Protected Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>An <a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">AnEnIO::errorType</a>; </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>An errorType; </dd></dl>
 
 </div>
 </div>
@@ -1325,7 +1226,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::combineStations </td>
+          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEnIO::combineStations </td>
           <td>(</td>
           <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
           <td class="paramname"><em>in_files</em>, </td>
@@ -1403,7 +1304,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::combineTimes </td>
+          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEnIO::combineTimes </td>
           <td>(</td>
           <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
           <td class="paramname"><em>in_files</em>, </td>
@@ -1634,31 +1535,6 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a92276aeba9c0b5bd1cd3d285271d505f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a92276aeba9c0b5bd1cd3d285271d505f">&#9670;&nbsp;</a></span>handleError()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void AnEnIO::handleError </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> &amp;&#160;</td>
-          <td class="paramname"><em>indicator</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Handles the errorType variable.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">indicator</td><td>An <a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">AnEnIO::errorType</a> item. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
 <a id="a3bf5972d705554b3760d4450146f9b8e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3bf5972d705554b3760d4450146f9b8e">&#9670;&nbsp;</a></span>insertParameters_()</h2>
 
@@ -1669,7 +1545,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::insertParameters_ </td>
+          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEnIO::insertParameters_ </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classanen_par_1_1_parameters.html">anenPar::Parameters</a> &amp;&#160;</td>
           <td class="paramname"><em>parameters</em>, </td>
@@ -1721,7 +1597,7 @@ Protected Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>An <a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">AnEnIO::errorType</a>; </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>An errorType; </dd></dl>
 
 </div>
 </div>
@@ -1735,7 +1611,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::insertStations_ </td>
+          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEnIO::insertStations_ </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> &amp;&#160;</td>
           <td class="paramname"><em>stations</em>, </td>
@@ -1787,7 +1663,7 @@ Protected Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>An <a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">AnEnIO::errorType</a>. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>An errorType. </dd></dl>
 
 </div>
 </div>
@@ -1886,7 +1762,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::read_string_vector_ </td>
+          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEnIO::read_string_vector_ </td>
           <td>(</td>
           <td class="paramtype">std::string&#160;</td>
           <td class="paramname"><em>var_name</em>, </td>
@@ -1917,7 +1793,7 @@ Protected Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">AnEnIO::errorType</a>. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>errorType. </dd></dl>
 
 </div>
 </div>
@@ -1931,7 +1807,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::read_string_vector_ </td>
+          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEnIO::read_string_vector_ </td>
           <td>(</td>
           <td class="paramtype">std::string&#160;</td>
           <td class="paramname"><em>var_name</em>, </td>
@@ -1987,7 +1863,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::read_vector_ </td>
+          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEnIO::read_vector_ </td>
           <td>(</td>
           <td class="paramtype">std::string&#160;</td>
           <td class="paramname"><em>var_name</em>, </td>
@@ -2018,7 +1894,7 @@ template&lt;typename T &gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">AnEnIO::errorType</a>. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>errorType. </dd></dl>
 
 </div>
 </div>
@@ -2034,7 +1910,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::read_vector_ </td>
+          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEnIO::read_vector_ </td>
           <td>(</td>
           <td class="paramtype">std::string&#160;</td>
           <td class="paramname"><em>var_name</em>, </td>
@@ -2090,7 +1966,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::read_vector_ </td>
+          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEnIO::read_vector_ </td>
           <td>(</td>
           <td class="paramtype">std::string&#160;</td>
           <td class="paramname"><em>var_name</em>, </td>
@@ -2141,7 +2017,7 @@ template&lt;typename T &gt; </div>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::readAnalogs </td>
+          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEnIO::readAnalogs </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_analogs.html">Analogs</a> &amp;&#160;</td>
           <td class="paramname"><em>analogs</em></td><td>)</td>
@@ -2155,7 +2031,7 @@ template&lt;typename T &gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>An <a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">AnEnIO::errorType</a>. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>An errorType. </dd></dl>
 
 </div>
 </div>
@@ -2166,7 +2042,7 @@ template&lt;typename T &gt; </div>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::readDimLength </td>
+          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEnIO::readDimLength </td>
           <td>(</td>
           <td class="paramtype">std::string&#160;</td>
           <td class="paramname"><em>dim_name</em>, </td>
@@ -2192,7 +2068,7 @@ template&lt;typename T &gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>An <a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">AnEnIO::errorType</a>. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>An errorType. </dd></dl>
 
 </div>
 </div>
@@ -2203,7 +2079,7 @@ template&lt;typename T &gt; </div>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::readFLTs </td>
+          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEnIO::readFLTs </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classanen_time_1_1_f_l_ts.html">anenTime::FLTs</a> &amp;&#160;</td>
           <td class="paramname"><em>flts</em></td><td>)</td>
@@ -2219,7 +2095,7 @@ template&lt;typename T &gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>An <a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">AnEnIO::errorType</a>. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>An errorType. </dd></dl>
 
 </div>
 </div>
@@ -2230,7 +2106,7 @@ template&lt;typename T &gt; </div>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::readFLTs </td>
+          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEnIO::readFLTs </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classanen_time_1_1_f_l_ts.html">anenTime::FLTs</a> &amp;&#160;</td>
           <td class="paramname"><em>flts</em>, </td>
@@ -2270,7 +2146,7 @@ template&lt;typename T &gt; </div>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::readForecasts </td>
+          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEnIO::readForecasts </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_forecasts__array.html">Forecasts_array</a> &amp;&#160;</td>
           <td class="paramname"><em>forecasts</em></td><td>)</td>
@@ -2285,7 +2161,7 @@ template&lt;typename T &gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>An <a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">AnEnIO::errorType</a>. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>An errorType. </dd></dl>
 
 </div>
 </div>
@@ -2296,7 +2172,7 @@ template&lt;typename T &gt; </div>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::readForecasts </td>
+          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEnIO::readForecasts </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_forecasts__array.html">Forecasts_array</a> &amp;&#160;</td>
           <td class="paramname"><em>forecasts</em>, </td>
@@ -2336,7 +2212,7 @@ template&lt;typename T &gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>An <a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">AnEnIO::errorType</a>. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>An errorType. </dd></dl>
 
 </div>
 </div>
@@ -2350,7 +2226,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::readForecastsArrayData_ </td>
+          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEnIO::readForecastsArrayData_ </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_forecasts__array.html">Forecasts_array</a> &amp;&#160;</td>
           <td class="paramname"><em>forecasts</em></td><td>)</td>
@@ -2369,7 +2245,7 @@ template&lt;typename T &gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>An <a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">AnEnIO::errorType</a>. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>An errorType. </dd></dl>
 
 </div>
 </div>
@@ -2383,7 +2259,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::readForecastsArrayData_ </td>
+          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEnIO::readForecastsArrayData_ </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_forecasts__array.html">Forecasts_array</a> &amp;&#160;</td>
           <td class="paramname"><em>forecasts</em>, </td>
@@ -2427,7 +2303,7 @@ template&lt;typename T &gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>An <a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">AnEnIO::errorType</a>. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>An errorType. </dd></dl>
 
 </div>
 </div>
@@ -2438,7 +2314,7 @@ template&lt;typename T &gt; </div>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::readObservations </td>
+          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEnIO::readObservations </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_observations__array.html">Observations_array</a> &amp;&#160;</td>
           <td class="paramname"><em>observations</em></td><td>)</td>
@@ -2453,7 +2329,7 @@ template&lt;typename T &gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>An <a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">AnEnIO::errorType</a>. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>An errorType. </dd></dl>
 
 </div>
 </div>
@@ -2464,7 +2340,7 @@ template&lt;typename T &gt; </div>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::readObservations </td>
+          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEnIO::readObservations </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_observations__array.html">Observations_array</a> &amp;&#160;</td>
           <td class="paramname"><em>observations</em>, </td>
@@ -2504,7 +2380,7 @@ template&lt;typename T &gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>An <a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">AnEnIO::errorType</a>. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>An errorType. </dd></dl>
 
 </div>
 </div>
@@ -2518,7 +2394,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::readObservationsArrayData_ </td>
+          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEnIO::readObservationsArrayData_ </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_observations__array.html">Observations_array</a> &amp;&#160;</td>
           <td class="paramname"><em>observations</em></td><td>)</td>
@@ -2537,7 +2413,7 @@ template&lt;typename T &gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>An <a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">AnEnIO::errorType</a>. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>An errorType. </dd></dl>
 
 </div>
 </div>
@@ -2551,7 +2427,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::readObservationsArrayData_ </td>
+          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEnIO::readObservationsArrayData_ </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_observations__array.html">Observations_array</a> &amp;&#160;</td>
           <td class="paramname"><em>observations</em>, </td>
@@ -2595,7 +2471,7 @@ template&lt;typename T &gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>An <a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">AnEnIO::errorType</a>. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>An errorType. </dd></dl>
 
 </div>
 </div>
@@ -2606,7 +2482,7 @@ template&lt;typename T &gt; </div>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::readParameters </td>
+          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEnIO::readParameters </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classanen_par_1_1_parameters.html">anenPar::Parameters</a> &amp;&#160;</td>
           <td class="paramname"><em>parameters</em></td><td>)</td>
@@ -2622,7 +2498,7 @@ template&lt;typename T &gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>An <a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">AnEnIO::errorType</a>. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>An errorType. </dd></dl>
 
 </div>
 </div>
@@ -2633,7 +2509,7 @@ template&lt;typename T &gt; </div>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::readParameters </td>
+          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEnIO::readParameters </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classanen_par_1_1_parameters.html">anenPar::Parameters</a> &amp;&#160;</td>
           <td class="paramname"><em>parameters</em>, </td>
@@ -2673,7 +2549,7 @@ template&lt;typename T &gt; </div>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::readSimilarityMatrices </td>
+          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEnIO::readSimilarityMatrices </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_similarity_matrices.html">SimilarityMatrices</a> &amp;&#160;</td>
           <td class="paramname"><em>sims</em></td><td>)</td>
@@ -2687,7 +2563,7 @@ template&lt;typename T &gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>An <a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">AnEnIO::errorType</a>. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>An errorType. </dd></dl>
 
 </div>
 </div>
@@ -2698,7 +2574,7 @@ template&lt;typename T &gt; </div>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::readStandardDeviation </td>
+          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEnIO::readStandardDeviation </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_standard_deviation.html">StandardDeviation</a> &amp;&#160;</td>
           <td class="paramname"><em>sds</em></td><td>)</td>
@@ -2713,7 +2589,7 @@ template&lt;typename T &gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>An <a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">AnEnIO::errorType</a>. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>An errorType. </dd></dl>
 
 </div>
 </div>
@@ -2724,7 +2600,7 @@ template&lt;typename T &gt; </div>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::readStandardDeviation </td>
+          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEnIO::readStandardDeviation </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_standard_deviation.html">StandardDeviation</a> &amp;&#160;</td>
           <td class="paramname"><em>sds</em>, </td>
@@ -2764,7 +2640,7 @@ template&lt;typename T &gt; </div>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::readStations </td>
+          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEnIO::readStations </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> &amp;&#160;</td>
           <td class="paramname"><em>stations</em>, </td>
@@ -2796,7 +2672,7 @@ template&lt;typename T &gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>An <a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">AnEnIO::errorType</a>. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>An errorType. </dd></dl>
 
 </div>
 </div>
@@ -2807,7 +2683,7 @@ template&lt;typename T &gt; </div>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::readStations </td>
+          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEnIO::readStations </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> &amp;&#160;</td>
           <td class="paramname"><em>stations</em>, </td>
@@ -2861,7 +2737,7 @@ template&lt;typename T &gt; </div>
 template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::readTextMatrix </td>
+          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEnIO::readTextMatrix </td>
           <td>(</td>
           <td class="paramtype">boost::numeric::ublas::matrix&lt; T &gt; &amp;&#160;</td>
           <td class="paramname"><em>mapping</em></td><td>)</td>
@@ -2869,14 +2745,14 @@ template&lt;typename T &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Reads the matrix of type boost::numeric::ublas::matrix&lt;T&gt;. Currently <a class="el" href="class_an_en.html#a865175e84d731f209b0c66d870e14101">AnEn::TimeMapMatrix</a> and <a class="el" href="class_an_en.html#adc55d358a20ee6bb711ca5efb33a1bb0">AnEn::SearchStationMatrix</a> are using this template.</p>
+<p>Reads the matrix of type boost::numeric::ublas::matrix&lt;T&gt;. Currently <a class="el" href="class_an_en.html#a44ceab50f0bf394bd35871469d5a36b2">AnEn::TimeMapMatrix</a> and <a class="el" href="class_an_en.html#adc55d358a20ee6bb711ca5efb33a1bb0">AnEn::SearchStationMatrix</a> are using this template.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">matrix</td><td>A boost matrix to store the data. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>An <a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">AnEnIO::errorType</a>. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>An errorType. </dd></dl>
 
 </div>
 </div>
@@ -2887,7 +2763,7 @@ template&lt;typename T &gt; </div>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::readTimes </td>
+          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEnIO::readTimes </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a> &amp;&#160;</td>
           <td class="paramname"><em>times</em>, </td>
@@ -2914,7 +2790,7 @@ template&lt;typename T &gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>An <a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">AnEnIO::errorType</a>. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>An errorType. </dd></dl>
 
 </div>
 </div>
@@ -2925,7 +2801,7 @@ template&lt;typename T &gt; </div>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::readTimes </td>
+          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEnIO::readTimes </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a> &amp;&#160;</td>
           <td class="paramname"><em>times</em>, </td>
@@ -3150,7 +3026,7 @@ template&lt;typename T &gt; </div>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::writeAnalogs </td>
+          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEnIO::writeAnalogs </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="class_analogs.html">Analogs</a> &amp;&#160;</td>
           <td class="paramname"><em>analogs</em>, </td>
@@ -3204,7 +3080,7 @@ template&lt;typename T &gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>An <a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">AnEnIO::errorType</a>. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>An errorType. </dd></dl>
 
 </div>
 </div>
@@ -3218,7 +3094,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::writeAnalogsOnly_ </td>
+          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEnIO::writeAnalogsOnly_ </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="class_analogs.html">Analogs</a> &amp;&#160;</td>
           <td class="paramname"><em>analogs</em></td><td>)</td>
@@ -3249,7 +3125,7 @@ template&lt;typename T &gt; </div>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::writeFLTs </td>
+          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEnIO::writeFLTs </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classanen_time_1_1_f_l_ts.html">anenTime::FLTs</a> &amp;&#160;</td>
           <td class="paramname"><em>flts</em>, </td>
@@ -3274,7 +3150,7 @@ template&lt;typename T &gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>An <a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">AnEnIO::errorType</a>. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>An errorType. </dd></dl>
 
 </div>
 </div>
@@ -3285,7 +3161,7 @@ template&lt;typename T &gt; </div>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::writeForecasts </td>
+          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEnIO::writeForecasts </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="class_forecasts.html">Forecasts</a> &amp;&#160;</td>
           <td class="paramname"><em>forecasts</em></td><td>)</td>
@@ -3299,7 +3175,7 @@ template&lt;typename T &gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>An <a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">AnEnIO::errorType</a>. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>An errorType. </dd></dl>
 
 </div>
 </div>
@@ -3310,7 +3186,7 @@ template&lt;typename T &gt; </div>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::writeObservations </td>
+          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEnIO::writeObservations </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="class_observations.html">Observations</a> &amp;&#160;</td>
           <td class="paramname"><em>observations</em></td><td>)</td>
@@ -3324,7 +3200,7 @@ template&lt;typename T &gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>An <a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">AnEnIO::errorType</a>. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>An errorType. </dd></dl>
 
 </div>
 </div>
@@ -3335,7 +3211,7 @@ template&lt;typename T &gt; </div>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::writeParameters </td>
+          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEnIO::writeParameters </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classanen_par_1_1_parameters.html">anenPar::Parameters</a> &amp;&#160;</td>
           <td class="paramname"><em>parameters</em>, </td>
@@ -3360,7 +3236,7 @@ template&lt;typename T &gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>An <a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">AnEnIO::errorType</a>. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>An errorType. </dd></dl>
 
 </div>
 </div>
@@ -3371,7 +3247,7 @@ template&lt;typename T &gt; </div>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::writeSimilarityMatrices </td>
+          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEnIO::writeSimilarityMatrices </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="class_similarity_matrices.html">SimilarityMatrices</a> &amp;&#160;</td>
           <td class="paramname"><em>sims</em>, </td>
@@ -3432,7 +3308,7 @@ template&lt;typename T &gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>An <a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">AnEnIO::errorType</a>. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>An errorType. </dd></dl>
 
 </div>
 </div>
@@ -3446,7 +3322,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::writeSimilarityMatricesOnly_ </td>
+          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEnIO::writeSimilarityMatricesOnly_ </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="class_similarity_matrices.html">SimilarityMatrices</a> &amp;&#160;</td>
           <td class="paramname"><em>sims</em></td><td>)</td>
@@ -3477,7 +3353,7 @@ template&lt;typename T &gt; </div>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::writeStandardDeviation </td>
+          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEnIO::writeStandardDeviation </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="class_standard_deviation.html">StandardDeviation</a> &amp;&#160;</td>
           <td class="paramname"><em>sds</em>, </td>
@@ -3517,7 +3393,7 @@ template&lt;typename T &gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">AnEnIO::errorType</a>. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>errorType. </dd></dl>
 
 </div>
 </div>
@@ -3531,7 +3407,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::writeStandardDeviationOnly_ </td>
+          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEnIO::writeStandardDeviationOnly_ </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="class_standard_deviation.html">StandardDeviation</a> &amp;&#160;</td>
           <td class="paramname"><em>sds</em></td><td>)</td>
@@ -3550,7 +3426,7 @@ template&lt;typename T &gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">AnEnIO::errorType</a>. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>errorType. </dd></dl>
 
 </div>
 </div>
@@ -3561,7 +3437,7 @@ template&lt;typename T &gt; </div>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::writeStations </td>
+          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEnIO::writeStations </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> &amp;&#160;</td>
           <td class="paramname"><em>stations</em>, </td>
@@ -3598,7 +3474,7 @@ template&lt;typename T &gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>An <a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">AnEnIO::errorType</a>. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>An errorType. </dd></dl>
 
 </div>
 </div>
@@ -3611,7 +3487,7 @@ template&lt;typename T &gt; </div>
 template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::writeTextMatrix </td>
+          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEnIO::writeTextMatrix </td>
           <td>(</td>
           <td class="paramtype">const boost::numeric::ublas::matrix&lt; T &gt; &amp;&#160;</td>
           <td class="paramname"><em>mapping</em></td><td>)</td>
@@ -3619,14 +3495,14 @@ template&lt;typename T &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Writes the matrix of type boost::numeric::ublas::matrix&lt;T&gt; into a file. Currently <a class="el" href="class_an_en.html#a865175e84d731f209b0c66d870e14101">AnEn::TimeMapMatrix</a> and <a class="el" href="class_an_en.html#adc55d358a20ee6bb711ca5efb33a1bb0">AnEn::SearchStationMatrix</a> are using this template.</p>
+<p>Writes the matrix of type boost::numeric::ublas::matrix&lt;T&gt; into a file. Currently <a class="el" href="class_an_en.html#a44ceab50f0bf394bd35871469d5a36b2">AnEn::TimeMapMatrix</a> and <a class="el" href="class_an_en.html#adc55d358a20ee6bb711ca5efb33a1bb0">AnEn::SearchStationMatrix</a> are using this template.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">mapping</td><td>A boost matrix to write. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>An <a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">AnEnIO::errorType</a>. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>An errorType. </dd></dl>
 
 </div>
 </div>
@@ -3637,7 +3513,7 @@ template&lt;typename T &gt; </div>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">errorType</a> AnEnIO::writeTimes </td>
+          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEnIO::writeTimes </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a> &amp;&#160;</td>
           <td class="paramname"><em>times</em>, </td>
@@ -3676,7 +3552,7 @@ template&lt;typename T &gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>An <a class="el" href="class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0">AnEnIO::errorType</a>. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>An errorType. </dd></dl>
 
 </div>
 </div>

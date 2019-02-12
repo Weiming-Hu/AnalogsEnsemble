@@ -58,7 +58,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAnEn</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">3.1.1</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">3.2.1</span>
       </span>
     </div>
 
@@ -96,9 +96,31 @@
       
     </div>
 
-    <div id="ranen-3-1-1" class="section level1">
+    <div id="pef-3-2-1" class="section level1">
 <h1 class="page-header">
-<a href="#ranen-3-1-1" class="anchor"></a>RAnEn 3.1.1</h1>
+<a href="#pef-3-2-1" class="anchor"></a>PEF 3.2.1</h1>
+<ul>
+<li>Remove computing sds outside the loops when operational search is used.</li>
+<li>Add demo for using operational search.</li>
+<li>Performance improved for computing similarity.</li>
+</ul>
+</div>
+    <div id="pef-3-2-0" class="section level1">
+<h1 class="page-header">
+<a href="#pef-3-2-0" class="anchor"></a>PEF 3.2.0</h1>
+<ul>
+<li>Synchronize versions of all components.</li>
+<li>Add similarity computing methods including SeparateTestSearch, LeaveOneOut, and OperationalSearch. This has brought an significant addition to similarity calculation function features.</li>
+<li>Add automatic removal of the overlapping test and search times. For example, if forecasts are 3 days ahead, the historical forecast for yesterday will not be compared to the forecast of today even if the yesterday forecast is included in the search times (which is considered as a mistaken input from the user).</li>
+<li>Add R function <code>generateTimeMapping</code>.</li>
+</ul>
+</div>
+    <div id="pef-3-1-1" class="section level1">
+<h1 class="page-header">
+<a href="#pef-3-1-1" class="anchor"></a>PEF 3.1.1</h1>
+<div id="ranen" class="section level2">
+<h2 class="hasAnchor">
+<a href="#ranen" class="anchor"></a>RAnEn</h2>
 <ul>
 <li>Refactor Similarity Calculation core function and improve readability.</li>
 <li>Resolve the potential bug in the function <code>biasCorrectionInsitu</code>.</li>
@@ -108,9 +130,24 @@
 <li>Update README file.</li>
 </ul>
 </div>
-    <div id="ranen-3-1-0" class="section level1">
+</div>
+    <div id="pef-3-1-0" class="section level1">
 <h1 class="page-header">
-<a href="#ranen-3-1-0" class="anchor"></a>RAnEn 3.1.0</h1>
+<a href="#pef-3-1-0" class="anchor"></a>PEF 3.1.0</h1>
+<div id="canenio" class="section level2">
+<h2 class="hasAnchor">
+<a href="#canenio" class="anchor"></a>CAnEnIO</h2>
+<ul>
+<li>Add MPI read functions for values only.</li>
+<li>Fix bug for MPI functions in reading.</li>
+<li>Add serial program limit to AnEn library.</li>
+<li>Add MPI read functions for strings.</li>
+<li>Speed up the station matching process.</li>
+</ul>
+</div>
+<div id="ranen-1" class="section level2">
+<h2 class="hasAnchor">
+<a href="#ranen-1" class="anchor"></a>RAnEn</h2>
 <ul>
 <li>Reduce code size of the <code>computeSimilarity</code> function.</li>
 <li>Resolve a potential bug in <code>computeSimilarity</code> and introduce a new parameter <code>extend_observations</code> to this function. Now, <code>extend_observations</code> is supported by both <code>computeSimilarity</code> and <code>selectAnalogs</code> functions.</li>
@@ -122,14 +159,29 @@
 <li>Change import functions to suggested for <code>parallel</code>, <code>nnet</code>, and <code>pbapply</code>.</li>
 </ul>
 </div>
+</div>
+    <div id="pef-3-0-0" class="section level1">
+<h1 class="page-header">
+<a href="#pef-3-0-0" class="anchor"></a>PEF 3.0.0</h1>
+<div id="canenio-1" class="section level2">
+<h2 class="hasAnchor">
+<a href="#canenio-1" class="anchor"></a>CAnEnIO</h2>
+<ul>
+<li>Basic AnEn I/O functions.</li>
+</ul>
+</div>
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-        <li><a href="#ranen-3-1-1">3.1.1</a></li>
-        <li><a href="#ranen-3-1-0">3.1.0</a></li>
+        <li><a href="#pef-3-2-1">3.2.1</a></li>
+        <li><a href="#pef-3-2-0">3.2.0</a></li>
+        <li><a href="#pef-3-1-1">3.1.1</a></li>
+        <li><a href="#pef-3-1-0">3.1.0</a></li>
+        <li><a href="#pef-3-0-0">3.0.0</a></li>
       </ul>
     </div>
   </div>

@@ -17,11 +17,12 @@ var searchData=
   ['readtextmatrix',['readTextMatrix',['../class_an_en_i_o.html#a08b76ea993d992b9b69dc2c985b13da9',1,'AnEnIO']]],
   ['readtimes',['readTimes',['../class_an_en_i_o.html#a1bca1c6e941aecd4eaa52892ebe02260',1,'AnEnIO::readTimes(anenTime::Times &amp;times, const std::string &amp;var_name=&quot;Times&quot;) const'],['../class_an_en_i_o.html#a0803e62b8db51caeacf72b8ef1339a81',1,'AnEnIO::readTimes(anenTime::Times &amp;times, size_t start, size_t count, ptrdiff_t stride=1, const std::string &amp;var_name=&quot;Times&quot;) const']]],
   ['resize',['resize',['../class_similarity_matrices.html#a6fd85de464f978b2767f907df5f95513',1,'SimilarityMatrices']]],
-  ['runanaloggenerator',['runAnalogGenerator',['../analog_generator_8cpp.html#a48687a63e782cd6e064a28ca8690dbbc',1,'analogGenerator.cpp']]],
+  ['roundprecision',['roundPrecision',['../namespaceanen_time.html#a77862f1a20488da00ab85170fee3a555',1,'anenTime']]],
+  ['runanaloggenerator',['runAnalogGenerator',['../analog_generator_8cpp.html#a21c65c15e37459cc54ec7d5e5ca57841',1,'analogGenerator.cpp']]],
   ['runanalogselector',['runAnalogSelector',['../analog_selector_8cpp.html#ac1989c915295f3b8fa44292ee43ddb37',1,'analogSelector.cpp']]],
   ['runfileaggregate',['runFileAggregate',['../file_aggregate_8cpp.html#a4d579fd5a4a741deee23bcb82389297e',1,'fileAggregate.cpp']]],
   ['runforecaststoobservations',['runForecastsToObservations',['../forecasts_to_observations_8cpp.html#a260ecc0ad2b8ae001ead0c28d11dd3bf',1,'forecastsToObservations.cpp']]],
-  ['runsimilaritycalculator',['runSimilarityCalculator',['../similarity_calculator_8cpp.html#ab327cc1dd3a6b3ff6249d844aa66e7ff',1,'similarityCalculator.cpp']]],
-  ['runstandarddeviationcalculator',['runStandardDeviationCalculator',['../standard_deviation_calculator_8cpp.html#a9d8fe6c59cc7aa89007ef58071aa1c2f',1,'standardDeviationCalculator.cpp']]],
+  ['runsimilaritycalculator',['runSimilarityCalculator',['../similarity_calculator_8cpp.html#a23b45a23e3f126365664f17077270f1a',1,'similarityCalculator.cpp']]],
+  ['runstandarddeviationcalculator',['runStandardDeviationCalculator',['../standard_deviation_calculator_8cpp.html#ad1444ac9c730215589c623f18a5670df',1,'standardDeviationCalculator.cpp']]],
   ['runwindfieldcalculator',['runWindFieldCalculator',['../wind_field_calculator_8cpp.html#a76753e43d00cfaef85409e6a2ec18dcf',1,'windFieldCalculator.cpp']]]
 ];

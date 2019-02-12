@@ -14,7 +14,8 @@ tags:
 
 <!-- vim-markdown-toc -->
 
-## Introduction
+Introduction
+------------
 
 This article demonstrate how to use the `RAnEn` package with the search extension functionality. If you haven't done so, please read [the instructions for basic usage of `RAnEn`](https://weiming-hu.github.io/AnalogsEnsemble/2018/11/04/demo-1-RAnEn-basics.html) first. This article skips the part that has been covered in the previous article.
 
@@ -26,7 +27,8 @@ You will learn how to use these functions:
 
 -   `generateAnalogs`
 
-## Data Description
+Data Description
+----------------
 
 We reuse the data from the [demo 1 AnEn Basics](https://weiming-hu.github.io/AnalogsEnsemble/2018/11/04/demo-1-RAnEn-basics.html). Please refer to the article for more detailed data description. The message shows the name of variables loaded.
 
@@ -45,7 +47,8 @@ print(ls())
     ## [13] "forecast.xs"            "forecast.ys"           
     ## [15] "forecasts"
 
-## Generate Temperature Forecasts
+Generate Temperature Forecasts
+------------------------------
 
 It is similar to generate AnEn forecasts with search space extension functionaltiy. First, we create a configuration and set up some common parameters to what we have done for independent search. **Please note that we specify the type of configuration when we create it**.
 
@@ -72,17 +75,10 @@ Similarly we can generate AnEn and bias correct the AnEn.
 AnEn <- generateAnalogs(config)
 ```
 
-    ## [1] "Warning: Converting data/time to numeric for search_times."
-    ## [1] "Warning: Converting search_flts to a numeric vector."
-    ## [1] "Warning: Converting data/time to numeric for search_observations"
-    ## [1] "Warning: Converting test_stations_x to a vector."
-    ## [1] "Warning: Converting test_stations_y to a vector."
-    ## [1] "Warning: Converting search_stations_x to a vector."
-    ## [1] "Warning: Converting test_stations_y to a vector."
     ## Convert R objects to C++ objects ...
-    ## Wraping C++ object mapping ...
-    ## Wraping C++ object search stations ...
-    ## Wraping C++ object analogs ...
+    ## Wrapping C++ object mapping ...
+    ## Wrapping C++ object search stations ...
+    ## Wrapping C++ object analogs ...
     ## Done!
 
 ``` r
@@ -99,12 +95,13 @@ print(AnEn)
     ## Class: AnEn list
     ## Member 'analogs': [test station][test time][FLT][member][type]
     ## 121 1 36 19 3 (value, search station, search observation time)
-    ## Member 'analogs.cor': [test station][test time][FLT][member][type]
-    ## 121 1 36 19 3 (value, search station, search observation time)
     ## Member 'mapping': [FLT][forecast time] 36 370
     ## Member 'searchStations': [search station][test station] 15 121
+    ## Member 'analogs.cor.insitu': [test station][test time][FLT][member][type]
+    ## 121 1 36 19 3 (value, search station, search observation time)
 
-## Visualization
+Visualization
+-------------
 
 Finally, we can make some plots.
 
@@ -138,21 +135,21 @@ rmse.anen.cor <- sqrt(mean((values(rast.anen.cor - rast.anly))^2, na.rm = T))
 cols <- colorRampPalette(brewer.pal(11, 'Spectral')[11:1])(100)
 
 # Define value limit
-ylim <- range(c(values(rast.fcts), values(rast.anen),
+zlim <- range(c(values(rast.fcts), values(rast.anen),
                 values(rast.anly), values(rast.anen.cor)),
               na.rm = T)
 # Visualization
 par(mfrow = c(2, 2), mar = c(4, 1, 3, 3))
-plot(rast.anly, main = 'NAM Analysis', col = cols, ylim = ylim, legend = F)
+plot(rast.anly, main = 'NAM Analysis', col = cols, zlim = zlim, legend = F)
 map(col = 'grey', add = T); map('state', add = T)
-plot(rast.fcts, main = 'NAM Forecasts', col = cols, ylim = ylim,
+plot(rast.fcts, main = 'NAM Forecasts', col = cols, zlim = zlim,
      xlab = paste('RMSE =', round(rmse.fcts, 4)))
 map(col = 'grey', add = T); map('state', add = T)
-plot(rast.anen, main = 'AnEn Averaged', col = cols, ylim = ylim,
+plot(rast.anen, main = 'AnEn Averaged', col = cols, zlim = zlim,
      legend = F, xlab = paste('RMSE =', round(rmse.anen, 4)))
 map(col = 'grey', add = T); map('state', add = T)
 plot(rast.anen.cor, main = 'Bias Corrected AnEn Averaged', col = cols,
-     ylim = ylim, xlab = paste('RMSE =', round(rmse.anen.cor, 4)))
+     zlim = zlim, xlab = paste('RMSE =', round(rmse.anen.cor, 4)))
 map(col = 'grey', add = T); map('state', add = T)
 ```
 
@@ -160,7 +157,7 @@ map(col = 'grey', add = T); map('state', add = T)
 
 We can also visualize the test and search stations.
 
-```
+``` r
 # Select a test location of which the search locations will be shown.
 test.station.index <- 41
 day.index <- 1

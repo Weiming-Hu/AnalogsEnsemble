@@ -1,25 +1,11 @@
 var searchData=
 [
-  ['testanen_2ecpp',['testAnEn.cpp',['../test_an_en_8cpp.html',1,'']]],
-  ['testanen_2eh',['testAnEn.h',['../test_an_en_8h.html',1,'']]],
-  ['testanenio_2ecpp',['testAnEnIO.cpp',['../test_an_en_i_o_8cpp.html',1,'']]],
-  ['testanenio_2eh',['testAnEnIO.h',['../test_an_en_i_o_8h.html',1,'']]],
-  ['testforecastsarray_2ecpp',['testForecastsArray.cpp',['../test_forecasts_array_8cpp.html',1,'']]],
-  ['testforecastsarray_2eh',['testForecastsArray.h',['../test_forecasts_array_8h.html',1,'']]],
-  ['testgribconverter_2ecpp',['testGribConverter.cpp',['../test_grib_converter_8cpp.html',1,'']]],
-  ['testgribconverter_2eh',['testGribConverter.h',['../test_grib_converter_8h.html',1,'']]],
-  ['testobservationsarray_2ecpp',['testObservationsArray.cpp',['../test_observations_array_8cpp.html',1,'']]],
-  ['testobservationsarray_2eh',['testObservationsArray.h',['../test_observations_array_8h.html',1,'']]],
-  ['testsimilaritymatrices_2ecpp',['testSimilarityMatrices.cpp',['../test_similarity_matrices_8cpp.html',1,'']]],
-  ['testsimilaritymatrices_2eh',['testSimilarityMatrices.h',['../test_similarity_matrices_8h.html',1,'']]],
-  ['teststandarddeviation_2ecpp',['testStandardDeviation.cpp',['../test_standard_deviation_8cpp.html',1,'']]],
-  ['teststandarddeviation_2eh',['testStandardDeviation.h',['../test_standard_deviation_8h.html',1,'']]],
-  ['teststation_2ecpp',['testStation.cpp',['../test_station_8cpp.html',1,'']]],
-  ['teststation_2eh',['testStation.h',['../test_station_8h.html',1,'']]],
-  ['teststations_2ecpp',['testStations.cpp',['../test_stations_8cpp.html',1,'']]],
-  ['teststations_2eh',['testStations.h',['../test_stations_8h.html',1,'']]],
-  ['testtimes_2ecpp',['testTimes.cpp',['../test_times_8cpp.html',1,'']]],
-  ['testtimes_2eh',['testTimes.h',['../test_times_8h.html',1,'']]],
-  ['times_2ecpp',['Times.cpp',['../_times_8cpp.html',1,'']]],
-  ['times_2eh',['Times.h',['../_times_8h.html',1,'']]]
+  ['similaritycalculator_2ecpp',['similarityCalculator.cpp',['../similarity_calculator_8cpp.html',1,'']]],
+  ['similaritymatrices_2ecpp',['SimilarityMatrices.cpp',['../_similarity_matrices_8cpp.html',1,'']]],
+  ['similaritymatrices_2eh',['SimilarityMatrices.h',['../_similarity_matrices_8h.html',1,'']]],
+  ['standarddeviation_2ecpp',['StandardDeviation.cpp',['../_standard_deviation_8cpp.html',1,'']]],
+  ['standarddeviation_2eh',['StandardDeviation.h',['../_standard_deviation_8h.html',1,'']]],
+  ['standarddeviationcalculator_2ecpp',['standardDeviationCalculator.cpp',['../standard_deviation_calculator_8cpp.html',1,'']]],
+  ['stations_2ecpp',['Stations.cpp',['../_stations_8cpp.html',1,'']]],
+  ['stations_2eh',['Stations.h',['../_stations_8h.html',1,'']]]
 ];

@@ -1,14 +1,15 @@
 var searchData=
 [
-  ['file_5fexists',['FILE_EXISTS',['../class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0a28c4093ff55045d651f1457dfe046e89',1,'AnEnIO']]],
-  ['file_5fforecasts',['file_forecasts',['../classtest_an_en_i_o.html#a67a7157b725a0049181d35dd1299050d',1,'testAnEnIO']]],
+  ['file_5fexists',['FILE_EXISTS',['../error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffda3d10ee4ca1907dc4bcc2047c2d90082b',1,'errorType.h']]],
+  ['file_5fforecasts',['file_forecasts',['../classtest_an_en_i_o.html#a67a7157b725a0049181d35dd1299050d',1,'testAnEnIO::file_forecasts()'],['../classtest_functions.html#a1f9d42bfa4e5d30585a8c1837db724e2',1,'testFunctions::file_forecasts()']]],
   ['file_5fgrib1',['file_grib1',['../classtest_grib_converter.html#a0b94abf43065df52d04fcb6c7d74510e',1,'testGribConverter']]],
-  ['file_5fnot_5ffound',['FILE_NOT_FOUND',['../class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0a12593564dc1e16d72a57ba6016b1324f',1,'AnEnIO']]],
-  ['file_5fobservations',['file_observations',['../classtest_an_en_i_o.html#aa5ba15bcfdeb1faec394116a342f2693',1,'testAnEnIO']]],
+  ['file_5fnot_5ffound',['FILE_NOT_FOUND',['../error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffdabc27a6b909296003973e169faf52f52d',1,'errorType.h']]],
+  ['file_5fobservations',['file_observations',['../classtest_an_en_i_o.html#aa5ba15bcfdeb1faec394116a342f2693',1,'testAnEnIO::file_observations()'],['../classtest_functions.html#aded84f41a6de1e5c5b6002ba4451a6d8',1,'testFunctions::file_observations()']]],
   ['file_5fpath_5f',['file_path_',['../class_an_en_i_o.html#ab892e06ca18be5e0c442c9e882e4475f',1,'AnEnIO']]],
   ['file_5ftype_5f',['file_type_',['../class_an_en_i_o.html#addbfb455f641a394c14907163874d8fe',1,'AnEnIO']]],
   ['fileaggregate_2ecpp',['fileAggregate.cpp',['../file_aggregate_8cpp.html',1,'']]],
-  ['fileio_5ferror',['FILEIO_ERROR',['../class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0abeb7bc485dd556be975f212197d037fe',1,'AnEnIO']]],
+  ['fileio_5ferror',['FILEIO_ERROR',['../error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffda2b3df1609e16f89dea87ba5a69df1c0e',1,'errorType.h']]],
+  ['fill_5fvalue',['FILL_VALUE',['../_functions_8cpp.html#a236b7d60f23e46fd758e426c24ad1491',1,'Functions.cpp']]],
   ['find_5fnearest_5fstation_5fmatch_5f',['find_nearest_station_match_',['../class_an_en.html#afbccb0a25e09ef2353d0f754afe7273e',1,'AnEn']]],
   ['flts',['FLTs',['../classanen_time_1_1_f_l_ts.html',1,'anenTime']]],
   ['flts_5f',['flts_',['../class_forecasts.html#ace7fb459c34db19dfb77bc6861f9cdf5',1,'Forecasts']]],
@@ -17,5 +18,8 @@ var searchData=
   ['forecasts_2eh',['Forecasts.h',['../_forecasts_8h.html',1,'']]],
   ['forecasts_5farray',['Forecasts_array',['../class_forecasts__array.html',1,'Forecasts_array'],['../class_forecasts__array.html#a4304d0d78a0c475b3392c99e14c0891b',1,'Forecasts_array::Forecasts_array()'],['../class_forecasts__array.html#a46a39594c6bc4f9b08ef3ff752147695',1,'Forecasts_array::Forecasts_array(const Forecasts_array &amp;rhs)=delete'],['../class_forecasts__array.html#a7102efd52c1ed471ac9d05960e73e4a0',1,'Forecasts_array::Forecasts_array(anenPar::Parameters, anenSta::Stations, anenTime::Times, anenTime::FLTs)'],['../class_forecasts__array.html#ac50579e66269d92ebdbc4dc1ea07f7c8',1,'Forecasts_array::Forecasts_array(anenPar::Parameters, anenSta::Stations, anenTime::Times, anenTime::FLTs, const std::vector&lt; double &gt; &amp;vals)']]],
   ['forecaststoobservations_2ecpp',['forecastsToObservations.cpp',['../forecasts_to_observations_8cpp.html',1,'']]],
+  ['functions',['Functions',['../class_functions.html',1,'Functions'],['../class_functions.html#a57c2ababa6891ee4409a7cf17f93718e',1,'Functions::Functions(int verbose)'],['../class_functions.html#ae23b026c27f15a8bb6ad6e2a1443c443',1,'Functions::Functions(const Functions &amp;orig)=delete']]],
+  ['functions_2ecpp',['Functions.cpp',['../_functions_8cpp.html',1,'']]],
+  ['functions_2eh',['Functions.h',['../_functions_8h.html',1,'']]],
   ['functions_5fnetcdf_2eh',['functions_netcdf.h',['../functions__netcdf_8h.html',1,'']]]
 ];

@@ -8,5 +8,6 @@ var searchData=
   ['2018_2d11_2d24_2dsearch_2dextension_2emd',['2018-11-24-search-extension.md',['../2018-11-24-search-extension_8md.html',1,'']]],
   ['2018_2d12_2d14_2danen_2dexplained_2emd',['2018-12-14-AnEn-explained.md',['../2018-12-14-_an_en-explained_8md.html',1,'']]],
   ['2019_2d01_2d08_2dprofile_2danen_2emd',['2019-01-08-Profile-AnEn.md',['../2019-01-08-_profile-_an_en_8md.html',1,'']]],
-  ['2019_2d01_2d16_2dnetcdf_2dfile_2dtypes_2emd',['2019-01-16-NetCDF-File-Types.md',['../2019-01-16-_net_c_d_f-_file-_types_8md.html',1,'']]]
+  ['2019_2d01_2d16_2dnetcdf_2dfile_2dtypes_2emd',['2019-01-16-NetCDF-File-Types.md',['../2019-01-16-_net_c_d_f-_file-_types_8md.html',1,'']]],
+  ['2019_2d02_2d12_2dnews_2emd',['2019-02-12-news.md',['../2019-02-12-news_8md.html',1,'']]]
 ];

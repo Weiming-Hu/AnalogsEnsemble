@@ -15,11 +15,11 @@ var searchData=
   ['writestations',['writeStations',['../class_an_en_i_o.html#ab861b5da52f30f8a3006de75b644dbec',1,'AnEnIO']]],
   ['writetextmatrix',['writeTextMatrix',['../class_an_en_i_o.html#acf17e3e4854c9e41a65a14b46bdd8b99',1,'AnEnIO']]],
   ['writetimes',['writeTimes',['../class_an_en_i_o.html#ae6a2ad257b1ea3544b72747c95da3ac6',1,'AnEnIO']]],
-  ['wrong_5ffile_5ftype',['WRONG_FILE_TYPE',['../class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0aadfab3690e549e181b929711f8b9b804',1,'AnEnIO']]],
-  ['wrong_5findex_5fshape',['WRONG_INDEX_SHAPE',['../class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0a6b6638f4fbbc0d1fd5ca45eb1d4266f5',1,'AnEnIO']]],
-  ['wrong_5fmethod',['WRONG_METHOD',['../class_an_en.html#a0e256eb89d102d318a47d936b02242bfa4978f2c734de1a3a9e14e68b8285e792',1,'AnEn']]],
-  ['wrong_5fmode',['WRONG_MODE',['../class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0a31bb5eebca1dcfce3f67aff4074412e9',1,'AnEnIO']]],
-  ['wrong_5fshape',['WRONG_SHAPE',['../class_an_en.html#a0e256eb89d102d318a47d936b02242bfaba4bb62ffbd9a9d41b7c830ca8aa6639',1,'AnEn']]],
-  ['wrong_5fvariable_5fshape',['WRONG_VARIABLE_SHAPE',['../class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0a83d4d08faaa4e794e6b7fbb9a89f203e',1,'AnEnIO']]],
-  ['wrong_5fvariable_5ftype',['WRONG_VARIABLE_TYPE',['../class_an_en_i_o.html#aa56bc1ec6610b86db4349bce20f9ead0ad8e12998f526437cb6b2450f16f46d51',1,'AnEnIO']]]
+  ['wrong_5ffile_5ftype',['WRONG_FILE_TYPE',['../error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffda5b51e541781cd375e49c2ed706911d3a',1,'errorType.h']]],
+  ['wrong_5findex_5fshape',['WRONG_INDEX_SHAPE',['../error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffda97750a7c2e5f5d443b9490472e3a56ed',1,'errorType.h']]],
+  ['wrong_5fmethod',['WRONG_METHOD',['../error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffdaa0813865eb6cf8b2e77d2f8d6fac7591',1,'errorType.h']]],
+  ['wrong_5fmode',['WRONG_MODE',['../error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffda53451c3197a4977917c97b30ad85a0a5',1,'errorType.h']]],
+  ['wrong_5fshape',['WRONG_SHAPE',['../error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffda7b45211950435db134fc2413101e70b1',1,'errorType.h']]],
+  ['wrong_5fvariable_5fshape',['WRONG_VARIABLE_SHAPE',['../error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffdac765020ade32b712db601406bbca82f2',1,'errorType.h']]],
+  ['wrong_5fvariable_5ftype',['WRONG_VARIABLE_TYPE',['../error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffda818a4665a215dd51439173a5d8ce47d4',1,'errorType.h']]]
 ];

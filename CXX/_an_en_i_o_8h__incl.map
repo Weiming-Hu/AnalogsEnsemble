@@ -1,12 +1,13 @@
 <map id="/home/graduate/wuh20/github/AnalogsEnsemble/CAnEnIO/include/AnEnIO.h" name="/home/graduate/wuh20/github/AnalogsEnsemble/CAnEnIO/include/AnEnIO.h">
-<area shape="rect" id="node6" href="$_times_8h.html" title="Times.h" alt="" coords="941,273,1010,300"/>
-<area shape="rect" id="node14" href="$_stations_8h.html" title="Stations.h" alt="" coords="1159,273,1240,300"/>
-<area shape="rect" id="node18" href="$_parameters_8h.html" title="Parameters.h" alt="" coords="1035,273,1135,300"/>
-<area shape="rect" id="node19" href="$_forecasts_8h.html" title="Forecasts.h" alt="" coords="1409,199,1499,225"/>
-<area shape="rect" id="node24" href="$_analogs_8h.html" title="Analogs.h" alt="" coords="1823,117,1903,143"/>
-<area shape="rect" id="node25" href="$_observations_8h.html" title="Observations.h" alt="" coords="1223,199,1333,225"/>
-<area shape="rect" id="node26" href="$color_texts_8h.html" title="colorTexts.h" alt="" coords="1704,117,1799,143"/>
-<area shape="rect" id="node27" href="$_similarity_matrices_8h.html" title="SimilarityMatrices.h" alt="" coords="1543,117,1680,143"/>
-<area shape="rect" id="node28" href="$_standard_deviation_8h.html" title="StandardDeviation.h" alt="" coords="1796,273,1936,300"/>
-<area shape="rect" id="node22" href="$_array4_d_8h.html" title="Array4D.h" alt="" coords="1639,273,1720,300"/>
+<area shape="rect" id="node6" href="$_times_8h.html" title="Times.h" alt="" coords="1123,273,1192,300"/>
+<area shape="rect" id="node15" href="$_analogs_8h.html" title="Analogs.h" alt="" coords="1939,117,2019,143"/>
+<area shape="rect" id="node17" href="$_forecasts_8h.html" title="Forecasts.h" alt="" coords="1708,199,1799,225"/>
+<area shape="rect" id="node20" href="$_stations_8h.html" title="Stations.h" alt="" coords="1341,273,1422,300"/>
+<area shape="rect" id="node24" href="$_parameters_8h.html" title="Parameters.h" alt="" coords="1217,273,1317,300"/>
+<area shape="rect" id="node26" href="$error_type_8h.html" title="errorType.h" alt="" coords="2235,117,2323,143"/>
+<area shape="rect" id="node27" href="$color_texts_8h.html" title="colorTexts.h" alt="" coords="2347,117,2442,143"/>
+<area shape="rect" id="node28" href="$_observations_8h.html" title="Observations.h" alt="" coords="1506,199,1617,225"/>
+<area shape="rect" id="node29" href="$_standard_deviation_8h.html" title="StandardDeviation.h" alt="" coords="1978,273,2118,300"/>
+<area shape="rect" id="node30" href="$_similarity_matrices_8h.html" title="SimilarityMatrices.h" alt="" coords="1777,117,1914,143"/>
+<area shape="rect" id="node25" href="$_array4_d_8h.html" title="Array4D.h" alt="" coords="1821,273,1902,300"/>
 </map>
