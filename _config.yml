@@ -23,7 +23,7 @@ paginate: 8
 paginate_path: "/posts/page:num/"
 
 # Custom vars
-version: 3.0
+version: 3
 hydeout: 
  repo: https://github.com/Weiming-Hu/AnalogsEnsemble
  issue: https://github.com/Weiming-Hu/AnalogsEnsemble/issues
