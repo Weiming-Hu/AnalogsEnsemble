@@ -111,10 +111,10 @@ namespace boost { namespace numeric { namespace ublas {
  * this template.
  * 
  * @param matrix A boost matrix to store the data.
- * @return An AnEnIO::errorType.
+ * @return An errorType.
  */
 template <typename T>
-AnEnIO::errorType
+errorType
 AnEnIO::readTextMatrix(boost::numeric::ublas::matrix<T> & mat) {
     
     using namespace std;
@@ -150,10 +150,10 @@ AnEnIO::readTextMatrix(boost::numeric::ublas::matrix<T> & mat) {
  * this template.
  * 
  * @param mat_in A boost matrix to write.
- * @return An AnEnIO::errorType.
+ * @return An errorType.
  */
 template <typename T>
-AnEnIO::errorType
+errorType
 AnEnIO::writeTextMatrix(
         const boost::numeric::ublas::matrix<T> & mat) const {
     
@@ -190,7 +190,7 @@ AnEnIO::writeTextMatrix(
  ************************************************************************/
 
 template<typename T>
-AnEnIO::errorType
+errorType
 AnEnIO::read_vector_(std::string var_name, std::vector<T> & results) const {
 
     using namespace netCDF;
@@ -251,7 +251,7 @@ AnEnIO::read_vector_(std::string var_name, std::vector<T> & results) const {
 };
 
 template<typename T>
-AnEnIO::errorType
+errorType
 AnEnIO::read_vector_(std::string var_name, std::vector<T> & results,
         std::vector<size_t> start, std::vector<size_t> count,
         std::vector<ptrdiff_t> stride) const {
@@ -316,7 +316,7 @@ AnEnIO::read_vector_(std::string var_name, std::vector<T> & results,
 };
 
 template<typename T>
-AnEnIO::errorType
+errorType
 AnEnIO::read_vector_(std::string var_name, std::vector<T> & results,
         size_t start, size_t count, ptrdiff_t stride) const {
     std::vector<size_t> vec_start{start}, vec_count{count};

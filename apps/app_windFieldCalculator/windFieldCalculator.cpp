@@ -82,7 +82,7 @@ void runWindFieldCalculator(
         size_t num_flts;
 
         Forecasts_array forecasts;
-        io.handleError(io.readForecasts(forecasts));
+        handleError(io.readForecasts(forecasts));
 
         auto & parameters = forecasts.getParameters();
         parameters.push_back(windSpeed);
@@ -123,14 +123,14 @@ func_dir, func_speed)
         }
 
         if (verbose >= 3) cout << GREEN << "Writing file " << file_out << " ... " << RESET << endl;
-        io_out.handleError(io_out.writeForecasts(forecasts));
+        handleError(io_out.writeForecasts(forecasts));
 
     } else if (file_type == "Observations") {
 
         if (verbose >= 3) cout << GREEN << "Processing forecasts file ..." << RESET << endl;
 
         Observations_array observations;
-        io.handleError(io.readObservations(observations));
+        handleError(io.readObservations(observations));
 
         auto & parameters = observations.getParameters();
 
@@ -169,7 +169,7 @@ func_dir, func_speed)
         }
 
         if (verbose >= 3) cout << GREEN << "Writing file " << file_out << " ... " << RESET << endl;
-        io_out.handleError(io_out.writeObservations(observations));
+        handleError(io_out.writeObservations(observations));
 
     } else {
         stringstream ss;

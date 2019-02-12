@@ -4,9 +4,6 @@ enable_language(CXX C)
 message(STATUS "install CAnEn library")
 set (LIBRARY_NAME "AnEn")
 
-set (LIBRARY_VERSION "1.0.1")
-message(STATUS "CAnEn version ${LIBRARY_VERSION}")
-
 file (GLOB SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
 include_directories ("${CMAKE_CURRENT_SOURCE_DIR}/include")
 

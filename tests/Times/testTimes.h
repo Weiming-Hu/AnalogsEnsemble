@@ -20,6 +20,7 @@
 class testTimes : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST_SUITE(testTimes);
     
+    CPPUNIT_TEST(testDecimalValues);
     CPPUNIT_TEST(testGetTimeIndex);
 
     CPPUNIT_TEST_SUITE_END();
@@ -29,6 +30,7 @@ public:
     virtual ~testTimes();
 
 private:
+    void testDecimalValues();
     void testGetTimeIndex();
 };
 

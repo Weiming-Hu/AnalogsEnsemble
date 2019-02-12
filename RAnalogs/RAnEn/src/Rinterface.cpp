@@ -14,6 +14,7 @@
 #include <iostream>
 
 #include <boost/numeric/ublas/io.hpp>
+#include <exception>
 
 #include "AnEn.h"
 
@@ -38,16 +39,92 @@ bool checkOpenMP() {
 #endif
 }
 
+// [[Rcpp::export(".generateTimeMapping")]]
+
+NumericVector generateTimeMapping(
+        NumericVector R_times_forecasts,
+        NumericVector R_flts_forecasts,
+        NumericVector R_times_observations,
+        int time_match_mode, int verbose) {
+
+    /***************************************************************************
+     *                   Convert objects for mapping computation               *
+     **************************************************************************/
+
+    if (verbose >= 3)
+        cout << "Convert R objects to C++ objects ..." << endl;
+
+    anenTime::Times times_forecasts, flts_forecasts, times_observations;
+    Functions::TimeMapMatrix mapping;
+
+    times_forecasts.insert(times_forecasts.end(),
+            R_times_forecasts.begin(), R_times_forecasts.end());
+    flts_forecasts.insert(flts_forecasts.end(),
+            R_flts_forecasts.begin(), R_flts_forecasts.end());
+    times_observations.insert(times_observations.end(),
+            R_times_observations.begin(), R_times_observations.end());
+
+    if (R_times_forecasts.size() != times_forecasts.size()) {
+        if (verbose >= 1)
+            cout << "Error: Forecast times are not unique. "
+                << "Original: " << R_times_forecasts.size() << " Unique: " 
+                << times_forecasts.size() << endl;
+        throw std::runtime_error("Elements not unique.");
+    }
+    if (R_flts_forecasts.size() != flts_forecasts.size()) {
+        if (verbose >= 1)
+            cout << "Error: Forecast FLTs are not unique. "
+                << "Original: " << R_flts_forecasts.size() << " Unique: " 
+                << flts_forecasts.size() << endl;
+        throw std::runtime_error("Elements not unique.");
+    }
+    if (R_times_observations.size() != times_observations.size()) {
+        if (verbose >= 1)
+            cout << "Error: Observation times are not unique. "
+                << "Original: " << R_times_observations.size() << " Unique: " 
+                << times_observations.size() << endl;
+        throw std::runtime_error("Elements not unique.");
+    }
+
+    /***************************************************************************
+     *                        Mapping Computation                              *
+     **************************************************************************/
+    if (verbose >= 3)
+        cout << "Compute mapping from forecast times/flts to observation times ..." << endl;
+
+    Functions functions(verbose);
+
+    handleError(functions.computeObservationsTimeIndices(
+            times_forecasts, flts_forecasts, times_observations,
+            mapping, time_match_mode));
+
+    /***************************************************************************
+     *                           Wrap Up Results                               *
+     **************************************************************************/
+    if (verbose >= 3) cout << "Wrapping C++ object mapping ..." << endl;
+    IntegerVector R_mapping_dims{
+        static_cast<int> (mapping.size2()),
+        static_cast<int> (mapping.size1())
+    };
+
+    NumericVector R_mapping(mapping.data().begin(), mapping.data().end());
+    R_mapping.attr("dim") = R_mapping_dims;
+
+    return (R_mapping);
+}
+
 // [[Rcpp::export(".generateAnalogs")]]
 
 List generateAnalogs(
         NumericVector R_test_forecasts, NumericVector R_test_forecasts_dims,
         NumericVector R_test_forecasts_station_x,
         NumericVector R_test_forecasts_station_y,
+        NumericVector R_test_times,
         NumericVector R_search_forecasts, NumericVector R_search_forecasts_dims,
         NumericVector R_search_forecasts_station_x,
         NumericVector R_search_forecasts_station_y,
-        NumericVector R_search_times, NumericVector R_search_flts,
+        NumericVector R_search_times,
+        NumericVector R_flts,
         NumericVector R_search_observations,
         NumericVector R_search_observations_dims,
         NumericVector R_observation_times,
@@ -58,19 +135,27 @@ List generateAnalogs(
         bool preserve_search_stations,
         size_t max_num_search_stations, double distance,
         size_t num_nearest_stations, int time_match_mode,
-        double max_par_nan, double max_flt_nan, int verbose) {
+        double max_par_nan, double max_flt_nan,
+        NumericVector R_test_times_compare,
+        NumericVector R_search_times_compare,
+        bool operational, int verbose) {
 
     /***************************************************************************
      *                   Convert objects for AnEn computation                  *
      **************************************************************************/
     if (verbose >= 3)
         cout << "Convert R objects to C++ objects ..." << endl;
+
+    anenTime::Times test_times;
+    test_times.insert(test_times.end(),
+            R_test_times.begin(), R_test_times.end());
+
     anenTime::Times search_times;
     search_times.insert(search_times.end(),
             R_search_times.begin(), R_search_times.end());
 
     anenTime::FLTs flts;
-    flts.insert(flts.end(), R_search_flts.begin(), R_search_flts.end());
+    flts.insert(flts.end(), R_flts.begin(), R_flts.end());
 
     anenTime::Times observation_times;
     observation_times.insert(observation_times.end(),
@@ -96,12 +181,6 @@ List generateAnalogs(
         test_stations.get<anenSta::by_insert>().resize(
                 R_test_forecasts_dims[1]);
     }
-
-    std::vector<double> test_times_vec(R_test_forecasts_dims[2], 0);
-    iota(test_times_vec.begin(), test_times_vec.end(), 0);
-    anenTime::Times test_times;
-    test_times.insert(test_times.end(),
-            test_times_vec.begin(), test_times_vec.end());
 
     anenSta::Stations search_stations;
     if (search_extension) {
@@ -135,10 +214,18 @@ List generateAnalogs(
     search_observations.data().assign(
             R_search_observations.begin(), R_search_observations.end());
 
+    anenTime::Times test_times_compare, search_times_compare;
+    test_times_compare.insert(test_times_compare.end(), 
+            R_test_times_compare.begin(), R_test_times_compare.end());
+    search_times_compare.insert(search_times_compare.end(), 
+            R_search_times_compare.begin(), R_search_times_compare.end());
+
     /***************************************************************************
      *                           AnEn Computation                              *
      **************************************************************************/
     AnEn anen(verbose);
+    Functions functions(verbose);
+    
     Analogs analogs;
     SimilarityMatrices sims(test_forecasts);
     AnEn::TimeMapMatrix mapping;
@@ -150,34 +237,37 @@ List generateAnalogs(
                 << test_forecasts.getParameters();
     }
 
-    if (search_extension) anen.setMethod(AnEn::simMethod::ONE_TO_MANY);
-    else anen.setMethod(AnEn::simMethod::ONE_TO_ONE);
+    if (search_extension) anen.setMethod(AnEn::simMethod::OneToMany);
+    else anen.setMethod(AnEn::simMethod::OneToOne);
 
     // Pre compute the standard deviation
-    anen.handleError(anen.computeStandardDeviation(search_forecasts, sds));
+    std::vector<size_t> search_times_index;
+    functions.convertToIndex(search_times_compare, search_times, search_times_index);
+    handleError(functions.computeStandardDeviation(search_forecasts, sds, search_times_index));
 
     // Pre compute the time mapping from forecasts [Times, FLTs] 
     // to observations [Times]
     //
-    anen.handleError(anen.computeObservationsTimeIndices(
+    handleError(functions.computeObservationsTimeIndices(
             search_forecasts.getTimes(), search_forecasts.getFLTs(),
             search_observations.getTimes(), mapping, time_match_mode));
 
     // Compute similarity
     boost::numeric::ublas::matrix<double> i_search_stations;
     
-    anen.handleError(anen.computeSearchStations(
+    handleError(anen.computeSearchStations(
             test_forecasts.getStations(), search_forecasts.getStations(),
             i_search_stations, max_num_search_stations, distance,
             num_nearest_stations));
 
-    anen.handleError(anen.computeSimilarity(test_forecasts, search_forecasts,
+    handleError(anen.computeSimilarity(test_forecasts, search_forecasts,
             sds, sims, search_observations, mapping, i_search_stations,
             observation_parameter, extend_observations,
-            max_par_nan, max_flt_nan));
+            max_par_nan, max_flt_nan, test_times_compare,
+            search_times_compare, operational));
 
     // Select analogs
-    anen.handleError(anen.selectAnalogs(analogs, sims, 
+    handleError(anen.selectAnalogs(analogs, sims, 
             test_stations, search_observations,
             mapping, observation_parameter, num_members, quick,
             extend_observations));

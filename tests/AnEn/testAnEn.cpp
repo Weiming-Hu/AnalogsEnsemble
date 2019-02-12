@@ -9,8 +9,8 @@
 #include "../../CAnEn/include/colorTexts.h"
 
 #include <numeric>
+#include <cstdlib>
 #include <cppunit/TestAssert.h>
-
 #include <boost/numeric/ublas/io.hpp>
 
 #if defined(_OPENMP)
@@ -25,66 +25,6 @@ testAnEn::testAnEn() {
 }
 
 testAnEn::~testAnEn() {
-}
-
-void testAnEn::testComputeStandardDeviation() {
-
-    /**
-     * Test the function computeStandardDeviation.
-     */
-
-    AnEn anen(2);
-
-    anenSta::Station s1, s2("Hunan", 10, 20);
-    anenSta::Stations stations;
-    stations.insert(stations.end(),{s1, s2});
-
-    anenPar::Parameter p1, p2("temperature"), p3("humidity");
-    anenPar::Parameters parameters;
-    parameters.insert(parameters.end(),{p1, p2, p3});
-
-    anenTime::Times times;
-    times.insert(times.end(),{1, 2, 3, 4, 5, 6, 7, 8, 9, 10});
-
-    anenTime::FLTs flts;
-    flts.insert(flts.end(),{100, 200, 300, 400, 500});
-
-    vector<double> values(parameters.size()
-            * stations.size() * times.size() * flts.size());
-    iota(values.begin(), values.end(), 0);
-
-    Forecasts_array forecasts(parameters, stations, times, flts, values);
-
-    StandardDeviation sds;
-    anen.computeStandardDeviation(forecasts, sds);
-
-    for (auto p = sds.data(); p != sds.data() + sds.num_elements(); p++) {
-        CPPUNIT_ASSERT((int) (*p * 1000) == 18165);
-    }
-}
-
-void testAnEn::testComputeSearchWindows() {
-
-    /**
-     * Test the function computeSearchWindows().
-     */
-
-    boost::numeric::ublas::matrix<size_t> test;
-    size_t num_flts = 5, half_window_size = 2;
-
-    AnEn anen;
-    anen.computeSearchWindows(test, num_flts, half_window_size);
-
-    CPPUNIT_ASSERT(test(0, 0) == 0);
-    CPPUNIT_ASSERT(test(0, 1) == 2);
-    CPPUNIT_ASSERT(test(1, 0) == 0);
-    CPPUNIT_ASSERT(test(1, 1) == 3);
-    CPPUNIT_ASSERT(test(2, 0) == 0);
-    CPPUNIT_ASSERT(test(2, 1) == 4);
-    CPPUNIT_ASSERT(test(3, 0) == 1);
-    CPPUNIT_ASSERT(test(3, 1) == 4);
-    CPPUNIT_ASSERT(test(4, 0) == 2);
-    CPPUNIT_ASSERT(test(4, 1) == 4);
 }
 
 void testAnEn::testComputeSimilarity() {
@@ -161,7 +101,8 @@ void testAnEn::testComputeSimilarity() {
 
     // Construct AnEn object
     AnEn anen(2);
-    anen.setMethod(AnEn::simMethod::ONE_TO_ONE);
+    Functions functions(2);
+    anen.setMethod(AnEn::simMethod::OneToOne);
 
     // Construct SimilarityMatrices
     SimilarityMatrices sims(test_forecasts);
@@ -169,18 +110,18 @@ void testAnEn::testComputeSimilarity() {
     // Construct standard deviation
     StandardDeviation sds(parameters.size(),
             search_stations.size(), flts.size());
-    anen.computeStandardDeviation(search_forecasts, sds);
+    functions.computeStandardDeviation(search_forecasts, sds);
     
     // Pre compute the time mapping from forecasts to observations
-    AnEn::TimeMapMatrix mapping;
-    anen.handleError(anen.computeObservationsTimeIndices(
+    Functions::TimeMapMatrix mapping;
+    handleError(functions.computeObservationsTimeIndices(
             search_forecasts.getTimes(), search_forecasts.getFLTs(),
             search_observations.getTimes(), mapping));
     
     // Compute search stations for each test station
     AnEn::SearchStationMatrix i_search_stations;
 
-    anen.handleError(anen.computeSearchStations(
+    handleError(anen.computeSearchStations(
             test_forecasts.getStations(), search_forecasts.getStations(),
             i_search_stations));
     
@@ -215,119 +156,107 @@ void testAnEn::testComputeSimilarity() {
     }
 }
 
-void testAnEn::testSdCircular() {
-
+void testAnEn::testOperationalSearch() {
+    
     /**
-     * Test the behavior of sdCircular function with and without NAN values.
+     * Test the operational search functionality by using the normal search
+     * multiple times.
      */
-
-    AnEn anen;
+    
+    // Construct data sets
+    anenPar::Parameters parameters;
+    for (int i = 0; i < 3; i++) {
+        anenPar::Parameter parameter;
+        parameters.push_back(parameter);
+    }
+    
+    anenSta::Stations stations;
+    for (int i = 0; i < 3; i++) {
+        anenSta::Station station((double)i, (double)i);
+        stations.push_back(station);
+    }
+    
+    anenTime::Times times;
+    for (int i = 0; i < 8; i++) {
+        times.push_back(i * 10000);
+    }
+    
+    anenTime::FLTs flts;
+    for (int i = 0; i < 2; i++) {
+        flts.push_back(i);
+    }
+    
+    anenTime::Times obs_times;
+    for (const auto & time : times) {
+        for (const auto & flt : flts) {
+            obs_times.push_back(time + flt);
+        }
+    }
+    
+    anenTime::Times test_times, search_times;
+    for (int i = 5; i < 8; i++) {
+        test_times.push_back(i * 10000);
+    }
+    
     vector<double> values;
 
-    values = {1, 2, 3, 4, 5};
-    CPPUNIT_ASSERT((int) (anen.sdCircular(values) * 1000) == 1414);
-
-    values = {359, 360, 1, 2, 3};
-    CPPUNIT_ASSERT((int) (anen.sdCircular(values) * 1000) == 1414);
-
-    values = {1, 2, 3, NAN, 4, 5};
-    CPPUNIT_ASSERT((int) (anen.sdCircular(values) * 1000) == 1414);
-
-    values = {NAN, NAN, NAN, NAN};
-    CPPUNIT_ASSERT(std::isnan(anen.sdCircular(values)));
-
-    values = {1, 3, 5, NAN, 2, 4, NAN};
-    CPPUNIT_ASSERT((int) (anen.sdCircular(values) * 1000) == 1414);
-
-    values = {359, NAN, 360, 1, NAN, 2, 3};
-    CPPUNIT_ASSERT((int) (anen.sdCircular(values) * 1000) == 1414);
-}
-
-void testAnEn::testSdLinear() {
-
-    /**
-     * Test the behavior of sdLinear function with and without NAN values.
-     */
-
-    AnEn anen;
-    vector<double> values;
-
-    values = {1, 2, 3, 4, 5};
-    CPPUNIT_ASSERT((int) (anen.sdLinear(values) * 1000) == 1581);
-
-    values = {1, 350, 359, 4, 5};
-    CPPUNIT_ASSERT((int) (anen.sdLinear(values) * 100) == 19237);
-
-    values = {1, 2, 3, NAN, 4, 5};
-    CPPUNIT_ASSERT((int) (anen.sdLinear(values) * 1000) == 1581);
-
-    values = {NAN, NAN, NAN, NAN};
-    CPPUNIT_ASSERT(std::isnan(anen.sdLinear(values)));
-
-    values = {1, 3, 5, NAN, 2, 4, NAN};
-    CPPUNIT_ASSERT((int) (anen.sdLinear(values) * 1000) == 1581);
-
-    values = {350, 359, 2, NAN, 4};
-    CPPUNIT_ASSERT((int) (anen.sdLinear(values) * 100) == 20297);
-}
-
-void testAnEn::testMean() {
-
-    /**
-     * Test the behavior of mean function.
-     */
-
-    AnEn anen;
-    vector<double> v1 = {1, 2, 3}, v2 = {1, NAN, 2},
-        v3 = {NAN, 1, NAN}, v4 = {NAN, NAN, NAN};
-
-    CPPUNIT_ASSERT(anen.mean(v1) == 2);
-    CPPUNIT_ASSERT(anen.mean(v2) == 1.5);
-    CPPUNIT_ASSERT(anen.mean(v3) == 1);
-    CPPUNIT_ASSERT(std::isnan(anen.mean(v4)));
-
-    CPPUNIT_ASSERT(std::isnan(anen.mean(v2, 0)));
-    CPPUNIT_ASSERT(std::isnan(anen.mean(v3, 1)));
-    CPPUNIT_ASSERT(anen.mean(v3, 2) == 1);
-}
-
-void testAnEn::testComputeObservationTimeIndices() {
-
-    /**
-     * Test the function of computeObservationTimeIndices().
-     */
-
-    anenTime::Times times_forecasts;
-    times_forecasts.insert(times_forecasts.end(),{100, 200, 300, 600});
-
-    anenTime::Times flts_forecasts;
-    flts_forecasts.insert(flts_forecasts.end(),{0, 1, 2, 3, 4, 5, 6, 7, 8, 9});
-
-    vector<double> values(700);
-    iota(values.begin(), values.end(), 90);
-    anenTime::Times times_observations;
-    times_observations.insert(times_observations.end(),
-            values.begin(), values.end());
-
-    AnEn anen(2);
+    values.resize(parameters.size() * stations.size() * times.size() * flts.size());
+    for (auto & value : values) value = rand() % 10000;
+    Forecasts_array forecasts(parameters, stations, times, flts, values);
+    
+    values.resize(parameters.size() * stations.size() * obs_times.size());
+    for (auto & value : values) value = rand() % 100000;
+    Observations_array obs(parameters, stations, obs_times, values);
+    
+    // Case 1: Operational search
+    AnEn anen(5);
+    Functions functions(5);
+    SimilarityMatrices sims1;
     AnEn::TimeMapMatrix mapping;
+    AnEn::SearchStationMatrix i_search_stations;
+    StandardDeviation sds(parameters.size(), stations.size(), flts.size());
 
-    anen.computeObservationsTimeIndices(times_forecasts, flts_forecasts,
-            times_observations, mapping);
+    functions.computeObservationsTimeIndices(
+            forecasts.getTimes(), forecasts.getFLTs(), obs.getTimes(), mapping, 0);
+    anen.computeSearchStations(
+            forecasts.getStations(), forecasts.getStations(), i_search_stations);
+    anen.computeSimilarity(forecasts, forecasts, sds, sims1, obs, mapping,
+            i_search_stations, 0, false, 0, 0, test_times, search_times, true);
+    
+    // Case 2: Manually compute similarity for the last test time
+    test_times.clear();
+    test_times.push_back(7 * 10000);
+    search_times.clear();
+    for (int i = 0; i < 7; i++) {
+        search_times.push_back(i * 10000);
+    }
+    
+    SimilarityMatrices sims2;
+    vector<size_t> i_search_times;
+    
+    functions.convertToIndex(search_times, forecasts.getTimes(), i_search_times);
+    functions.computeStandardDeviation(forecasts, sds, i_search_times);
+    functions.computeObservationsTimeIndices(
+            forecasts.getTimes(), forecasts.getFLTs(), obs.getTimes(), mapping, 0);
+    anen.computeSearchStations(
+            forecasts.getStations(), forecasts.getStations(), i_search_stations);
+    anen.computeSimilarity(forecasts, forecasts, sds, sims2, obs, mapping,
+            i_search_stations, 0, false, 0, 0, test_times, search_times, false);
 
-    size_t pos = 0;
-    vector<size_t> results{
-        10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
-        110, 111, 112, 113, 114, 115, 116, 117, 118, 119,
-        210, 211, 212, 213, 214, 215, 216, 217, 218, 219,
-        510, 511, 512, 513, 514, 515, 516, 517, 518, 519};
-        
-    for (size_t i_row = 0; i_row < mapping.size1(); i_row++) {
-        for (size_t i_col = 0; i_col < mapping.size2(); i_col++, pos++) {
-            CPPUNIT_ASSERT(mapping(i_row, i_col) == results[pos]);
+//    cout << sims1 << endl << sims2;
+    
+    // Results should be the same
+    for (size_t i = 0; i < sims1.shape()[0]; i++) {
+        for (size_t j = 0; j < sims1.shape()[2]; j++) {
+            for (size_t l = 0; l < sims1.shape()[3]; l++) {
+                for (size_t m = 0; m < sims1.shape()[4]; m++) {
+                    CPPUNIT_ASSERT(sims1[i][2][j][l][m] == sims2[i][0][j][l][m]);
+                }
+            }
         }
     }
 }
+
 
 void testAnEn::testSelectAnalogs() {
 
@@ -398,7 +327,8 @@ void testAnEn::testSelectAnalogs() {
             search_stations, search_observation_times, values);
     // Construct AnEn object
     AnEn anen(2);
-    anen.setMethod(AnEn::simMethod::ONE_TO_ONE);
+    anen.setMethod(AnEn::simMethod::OneToOne);
+    Functions functions(2);
 
     // Construct SimilarityMatrices
     SimilarityMatrices sims(test_forecasts);
@@ -406,23 +336,23 @@ void testAnEn::testSelectAnalogs() {
     // Construct standard deviation
     StandardDeviation sds(parameters.size(),
             search_stations.size(), flts.size());
-    anen.handleError(anen.computeStandardDeviation(search_forecasts, sds));
+    handleError(functions.computeStandardDeviation(search_forecasts, sds));
     
     // Pre compute the time mapping from forecasts to observations
-    AnEn::TimeMapMatrix mapping;
-    anen.handleError(anen.computeObservationsTimeIndices(
+    Functions::TimeMapMatrix mapping;
+    handleError(functions.computeObservationsTimeIndices(
             search_forecasts.getTimes(), search_forecasts.getFLTs(),
             search_observations.getTimes(), mapping));
 
     // Compute search stations for each test station
     AnEn::SearchStationMatrix i_search_stations;
 
-    anen.handleError(anen.computeSearchStations(
+    handleError(anen.computeSearchStations(
             test_forecasts.getStations(), search_forecasts.getStations(),
             i_search_stations));
     
     // Compute similarity
-    anen.handleError(anen.computeSimilarity(
+    handleError(anen.computeSimilarity(
             test_forecasts, search_forecasts, sds, sims,
             search_observations, mapping, i_search_stations));
     
@@ -510,7 +440,7 @@ void testAnEn::testComputeSearchStations() {
 
     AnEn::SearchStationMatrix i_search_stations;
     AnEn anen(2);
-    anen.setMethod(AnEn::simMethod::ONE_TO_MANY);
+    anen.setMethod(AnEn::simMethod::OneToMany);
 
     vector<size_t> results;
 
@@ -584,4 +514,270 @@ void testAnEn::testOpenMP() {
     cout << RED << "Warning: OpenMP is not supported." << RESET << endl;
 #endif
 
+}
+
+void testAnEn::testGenerateOperationalSearchTimes() {
+    
+    /*
+     * Test the generation of operational search times
+     */
+
+    anenTime::Times test_times, search_times;
+    for (int i = 0; i < 15; i++) {
+        search_times.push_back(i * 100);
+    }
+    
+    for (int i = 10; i < 15; i++) {
+        test_times.push_back(i * 100);
+    }
+    
+    vector<anenTime::Times> search_times_operational;
+    vector< vector<size_t> > i_search_times_operational;
+
+    AnEn anen(4);
+    anen.generateOperationalSearchTimes(test_times, search_times,
+            search_times_operational, i_search_times_operational, 0);
+    
+    const auto & search_times_by_insert = search_times.get<anenTime::by_insert>();
+    
+    for (size_t i = 0; i < test_times.size(); i++) {
+        
+        size_t len = search_times_operational[i].size();
+
+        vector<size_t> results(len);
+        iota(results.begin(), results.end(), 0);
+        
+        auto it = find(results.begin(), results.end(), i);
+        
+        if (it == results.end()) {
+            cerr << "Can't find value " << i << endl;
+            CPPUNIT_ASSERT(false); 
+        } else {
+            results.erase(it, results.end());
+        }
+
+        const auto & search_times_operational_by_insert =
+                search_times_operational[i].get<anenTime::by_insert>();
+        
+        for (size_t j = 0; j < len; j++) {
+            CPPUNIT_ASSERT(results[j] == i_search_times_operational[i][j]);
+            CPPUNIT_ASSERT(search_times_by_insert[i_search_times_operational[i][j]]
+                    == search_times_operational_by_insert[j]);
+        }
+        
+    }
+}
+
+void testAnEn::testAutomaticDelteOverlappingTimes() {
+
+    /*
+     * Test whether the overlapping times will be automatically removed
+     * during computation of similarity
+     */
+    
+    // Construct data sets
+    anenPar::Parameters parameters;
+    for (int i = 0; i < 3; i++) {
+        anenPar::Parameter parameter;
+        parameters.push_back(parameter);
+    }
+
+    anenSta::Stations stations;
+    for (int i = 0; i < 3; i++) {
+        anenSta::Station station((double) i, (double) i);
+        stations.push_back(station);
+    }
+
+    anenTime::Times times;
+    for (int i = 0; i < 8; i++) {
+        times.push_back(i * 10);
+    }
+
+    anenTime::FLTs flts;
+    for (int i = 0; i < 5; i++) {
+        flts.push_back(i * 3);
+    }
+
+    anenTime::Times obs_times;
+    for (const auto & time : times) {
+        for (const auto & flt : flts) {
+            obs_times.push_back(time + flt);
+        }
+    }
+
+    anenTime::Times test_times, search_times1, search_times2;
+    test_times.push_back(70);
+    
+    for (int i = 0; i < 7; i++) {
+        search_times1.push_back(i * 10);
+    }
+    
+    for (int i = 0; i < 6; i++) {
+        search_times2.push_back(i * 10);
+    }
+    
+    vector<double> values;
+
+    values.resize(parameters.size() * stations.size() * times.size() * flts.size());
+    for (auto & value : values) value = rand() % 10000;
+    Forecasts_array forecasts(parameters, stations, times, flts, values);
+
+    values.resize(parameters.size() * stations.size() * obs_times.size());
+    for (auto & value : values) value = rand() % 100000;
+    Observations_array obs(parameters, stations, obs_times, values);
+
+    // Case 1: let the program figure out what to delete
+    AnEn anen(5);
+    Functions functions(5);
+    SimilarityMatrices sims1;
+    AnEn::TimeMapMatrix mapping;
+    AnEn::SearchStationMatrix i_search_stations;
+    StandardDeviation sds(parameters.size(), stations.size(), flts.size());
+    vector<size_t> i_search_times;
+
+    functions.convertToIndex(search_times1, forecasts.getTimes(), i_search_times);
+    functions.computeStandardDeviation(forecasts, sds, i_search_times);
+    functions.computeObservationsTimeIndices(
+            forecasts.getTimes(), forecasts.getFLTs(), obs.getTimes(), mapping, 0);
+    anen.computeSearchStations(
+            forecasts.getStations(), forecasts.getStations(), i_search_stations);
+    anen.computeSimilarity(forecasts, forecasts, sds, sims1, obs, mapping,
+            i_search_stations, 0, false, 0, 0, test_times, search_times1, false);
+
+    // Case 2: manually remove the overlapping time
+    SimilarityMatrices sims2;
+    
+    // Here I'm using the sds from search times 1 because the program would not
+    // know about the overlapping when computing sds.
+    functions.convertToIndex(search_times1, forecasts.getTimes(), i_search_times);
+    functions.computeStandardDeviation(forecasts, sds, i_search_times);
+    functions.computeObservationsTimeIndices(
+            forecasts.getTimes(), forecasts.getFLTs(), obs.getTimes(), mapping, 0);
+    anen.computeSearchStations(
+            forecasts.getStations(), forecasts.getStations(), i_search_stations);
+    anen.computeSimilarity(forecasts, forecasts, sds, sims2, obs, mapping,
+            i_search_stations, 0, false, 0, 0, test_times, search_times2, false);
+    
+//        cout << sims1 << endl << sims2;
+
+    // Results should be the same
+    for (size_t i = 0; i < sims1.shape()[0]; i++) {
+        for (size_t j = 0; j < sims1.shape()[1]; j++) {
+            for (size_t l = 0; l < sims1.shape()[2]; l++) {
+                for (size_t m = 0; m < 6; m++) {
+                    for (size_t n = 0; n < sims1.shape()[4]; n++) {
+                        CPPUNIT_ASSERT(sims1[i][j][l][m][n] == sims2[i][j][l][m][n]);
+                    }
+                }
+
+                for (size_t n = 0; n < sims1.shape()[4]; n++) {
+                    CPPUNIT_ASSERT(std::isnan(sims1[i][j][l][6][n]));
+                }
+            }
+        }
+    }
+}
+
+void testAnEn::testLeaveOneOut() {
+    
+    /*
+     * Test the leave one out similarity computation
+     */
+    
+    // Construct data sets
+    anenPar::Parameters parameters;
+    for (int i = 0; i < 3; i++) {
+        anenPar::Parameter parameter;
+        parameters.push_back(parameter);
+    }
+
+    anenSta::Stations stations;
+    for (int i = 0; i < 3; i++) {
+        anenSta::Station station((double) i, (double) i);
+        stations.push_back(station);
+    }
+
+    anenTime::Times times;
+    for (int i = 0; i < 8; i++) {
+        times.push_back(i * 10);
+    }
+
+    anenTime::FLTs flts;
+    for (int i = 0; i < 5; i++) {
+        flts.push_back(i * 3);
+    }
+
+    anenTime::Times obs_times;
+    for (const auto & time : times) {
+        for (const auto & flt : flts) {
+            obs_times.push_back(time + flt);
+        }
+    }
+
+    anenTime::Times test_times, search_times;
+    test_times.push_back(50);
+
+    for (int i = 0; i < 4; i++) {
+        search_times.push_back(i * 10);
+    }
+
+    search_times.push_back(70);
+
+    vector<double> values;
+
+    values.resize(parameters.size() * stations.size() * times.size() * flts.size());
+    for (auto & value : values) value = rand() % 10000;
+    Forecasts_array forecasts(parameters, stations, times, flts, values);
+
+    values.resize(parameters.size() * stations.size() * obs_times.size());
+    for (auto & value : values) value = rand() % 100000;
+    Observations_array obs(parameters, stations, obs_times, values);
+
+    // Case 1: let the program figure out leave-one-out computation
+    AnEn anen(5);
+    Functions functions(5);
+    SimilarityMatrices sims1;
+    AnEn::TimeMapMatrix mapping;
+    AnEn::SearchStationMatrix i_search_stations;
+    StandardDeviation sds(parameters.size(), stations.size(), flts.size());
+
+    functions.computeStandardDeviation(forecasts, sds);
+    functions.computeObservationsTimeIndices(
+            forecasts.getTimes(), forecasts.getFLTs(), obs.getTimes(), mapping, 0);
+    anen.computeSearchStations(
+            forecasts.getStations(), forecasts.getStations(), i_search_stations);
+    anen.computeSimilarity(forecasts, forecasts, sds, sims1, obs, mapping,
+            i_search_stations, 0, false, 0, 0, test_times);
+
+    // Case 2: manually configure leave-one-out configuration
+    SimilarityMatrices sims2;
+
+    // Here I'm using the sds from search times 1 because the program would not
+    // know about the overlapping when computing sds.
+
+    functions.computeObservationsTimeIndices(
+            forecasts.getTimes(), forecasts.getFLTs(), obs.getTimes(), mapping, 0);
+    anen.computeSearchStations(
+            forecasts.getStations(), forecasts.getStations(), i_search_stations);
+    anen.computeSimilarity(forecasts, forecasts, sds, sims2, obs, mapping,
+            i_search_stations, 0, false, 0, 0, test_times, search_times);
+
+//    cout << sims1 << endl << sims2;
+
+    // Results should be the same
+    for (size_t i = 0; i < sims2.shape()[0]; i++) {
+        for (size_t j = 0; j < sims2.shape()[1]; j++) {
+            for (size_t l = 0; l < sims2.shape()[2]; l++) {
+                for (size_t m = 0; m < 4; m++) {
+                    for (size_t n = 0; n < sims2.shape()[4]; n++) {
+                        CPPUNIT_ASSERT(sims1[i][j][l][m][n] == sims2[i][j][l][m][n]);
+                    }
+                }
+                
+                for (size_t n = 0; n < sims2.shape()[4]; n++) {
+                    CPPUNIT_ASSERT(sims1[i][j][l][7][n] == sims2[i][j][l][4][n]);
+                }
+            }
+        }
+    }
 }

@@ -19,10 +19,15 @@
 #include "Times.h"
 #include <iterator>
 #include <sstream>
+#include <cmath>
 
 namespace anenTime {
 
     using namespace std;
+
+    size_t roundPrecision(const double& ori) {
+        return (std::round(ori * MULTIPLIER));
+    }
 
     /***************************************************************************
      *                               Times                                     *
@@ -47,6 +52,17 @@ namespace anenTime {
 
     Times::~Times() {
     }
+    
+    Times & Times::operator=(const Times & rhs) {
+        if (this != &rhs) {
+            multiIndexTimes::operator=(rhs);
+            
+            unit_ = rhs.unit_;
+            origin_ = rhs.origin_;
+        }
+        
+        return *this;
+    }
 
     size_t
     Times::getTimeIndex(double timestamp) const {
@@ -55,7 +71,8 @@ namespace anenTime {
         const multiIndexTimes::index<by_value>::type&
                 times_by_value = get<by_value>();
 
-        auto it_value = times_by_value.find(timestamp);
+        auto it_value = times_by_value.find(
+                roundPrecision(timestamp));
 
         if (it_value != times_by_value.end()) {
 
@@ -78,7 +95,7 @@ namespace anenTime {
     void
     Times::print(ostream &os) const {
         os << "[Time] size: " << size() << endl;
-        ostream_iterator<size_t> element_itr(os, ", ");
+        ostream_iterator<double> element_itr(os, ", ");
         copy(begin(), end(), element_itr);
         cout << endl;
     }
@@ -96,7 +113,7 @@ namespace anenTime {
     void
     FLTs::print(ostream &os) const {
         os << "[FLT] size: " << size() << endl;
-        ostream_iterator< int > element_itr(os, ", ");
+        ostream_iterator<double> element_itr(os, ", ");
         copy(begin(), end(), element_itr);
         cout << endl;
     }

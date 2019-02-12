@@ -28,22 +28,28 @@ system('../../output/bin/similarityCalculator --test-forecast-nc ../../tests/Dat
 # Combine sims
 system('../../output/bin/fileAggregate -t Similarity -i sim_1.nc sim_2.nc -o sim_c.nc -v 2 -a 0')
 
+# Names to compare
+names <- c('Xs', 'Ys', 'Times', 'FLTs', 'SearchXs', 'SearchYs', 'SearchTimes', 'SimilarityMatrices')
+
 # Combine sims in R
-nc <- nc_open('sim_ctn.nc')
-simsr <- ncvar_get(nc, 'SimilarityMatrices')
-nc_close(nc)
+nc1 <- nc_open('sim_ctn.nc')
+nc2 <- nc_open('sim_c.nc')
 
-nc <- nc_open('sim_c.nc')
-simsc <- ncvar_get(nc, 'SimilarityMatrices')
-nc_close(nc)
-
-if (sum(abs(simsc - simsr)) != 0) {
-  stop("Something is wrong for aggregating similarity matrices along entry times!")
+for (name in names) {
+  simsr <- ncvar_get(nc1, name)
+  simsc <- ncvar_get(nc2, name)
+  
+  if (sum(abs(simsc - simsr), na.rm = T) != 0) {
+    stop("Something is wrong for aggregating similarity matrices along entry times (", name, ")!")
+  }
 }
 
-if (system('diff sim_c.nc sim_ctn.nc', intern = FALSE)) {
-  stop("File aggregate does not generate same similarity matrices")
-}
+nc_close(nc2)
+nc_close(nc1)
+
+# if (system('diff sim_c.nc sim_ctn.nc', intern = FALSE)) {
+#   stop("File aggregate does not generate same similarity matrices")
+# }
 
 cat("You passed the test for aggregating similarity matrices along stations!\n")
 
@@ -60,22 +66,29 @@ system('../../output/bin/similarityCalculator --test-forecast-nc ../../tests/Dat
 # Combine sims
 system('../../output/bin/fileAggregate -t Similarity -i sim_1.nc sim_2.nc -o sim_c.nc -v 2 -a 2')
 
+
+# Names to compare
+names <- c('Xs', 'Ys', 'Times', 'FLTs', 'SearchXs', 'SearchYs', 'SearchTimes', 'SimilarityMatrices')
+
 # Combine sims in R
-nc <- nc_open('sim_ctn.nc')
-simsr <- ncvar_get(nc, 'SimilarityMatrices')
-nc_close(nc)
+nc1 <- nc_open('sim_ctn.nc')
+nc2 <- nc_open('sim_c.nc')
 
-nc <- nc_open('sim_c.nc')
-simsc <- ncvar_get(nc, 'SimilarityMatrices')
-nc_close(nc)
-
-if (sum(abs(simsc - simsr)) != 0) {
-  stop("Something is wrong for aggregating similarity matrices along entry times!")
+for (name in names) {
+  simsr <- ncvar_get(nc1, name)
+  simsc <- ncvar_get(nc2, name)
+  
+  if (sum(abs(simsc - simsr), na.rm = T) != 0) {
+    stop("Something is wrong for aggregating similarity matrices (", name, ")!")
+  }
 }
 
-if (system('diff sim_c.nc sim_ctn.nc', intern = FALSE)) {
-  stop("File aggregate does not generate same similarity matrices")
-}
+nc_close(nc2)
+nc_close(nc1)
+
+# if (system('diff sim_c.nc sim_ctn.nc', intern = FALSE)) {
+#   stop("File aggregate does not generate same similarity matrices")
+# }
 
 cat("You passed the test for aggregating similarity matrices along FLTs!\n")
 

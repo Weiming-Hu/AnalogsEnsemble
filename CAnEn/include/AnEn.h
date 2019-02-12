@@ -8,12 +8,7 @@
 #ifndef ANEN_H
 #define ANEN_H
 
-#include "Analogs.h"
-#include "Forecasts.h"
-#include "Observations.h"
-#include "SimilarityMatrices.h"
-#include "StandardDeviation.h"
-#include "boost/numeric/ublas/matrix.hpp"
+#include "Functions.h"
 
 /**
  * \class AnEn
@@ -28,16 +23,9 @@ public:
     AnEn(const AnEn& orig) = delete;
 
     virtual ~AnEn();
-    
-    /**
-     * AnEn::TimeMapMatrix is a lookup table to map time and FLT from
-     * forecasts to time of observations. The number of rows is the number
-     * of times in forecasts, and the number of columns is the number
-     * of FLTs in forecasts. The values are the times of the corresponding
-     * observation to the forecast at a specific time and FLT.
-     */
-    using TimeMapMatrix = boost::numeric::ublas::matrix<double>;
-    
+
+    using TimeMapMatrix = Functions::TimeMapMatrix;
+
     /**
      * AnEn::SearchStationMatrix is a lookup table for search stations of each
      * test station. The number of rows is the number of test stations, and
@@ -50,89 +38,33 @@ public:
     /**
      * Specifies the how similarity is computed across stations.
      * 
-     * - ONE_TO_ONE: Each test station is assigned with the closest station in the
+     * - OneToOne: Each test station is assigned with the closest station in the
      * search stations;
-     * - ONE_TO_MANY: Each test station is assigned with a set of nearby stations
+     * - OneToMany: Each test station is assigned with a set of nearby stations
      * in the search stations (Search space extension);
      * 
      */
     enum simMethod {
         /// 1
-        ONE_TO_ONE = 1, 
+        OneToOne = 1, 
         /// 2
-        ONE_TO_MANY = 2
+        OneToMany = 2
     };
-
+    
     /**
-     * Specifies the return error type of a function. Use AnEn::handleError
-     * to handle the returned errorType.
+     * Specifies the simulation mode.
+     * 
+     * - SeparateTestSearch: This is the class model of machine learning where
+     * the same search data are used for each case in test data;
+     * - LeaveOneOut: This is for hind-cast purpose. Each case in test data will
+     * use all the search data data, excluding the test case itself. This mode is
+     * only effective when test and search forecasts are the same.
+     * - OperationalSearch: This mimics an operational weather forecast model that
+     * cases in test data use all historical search data available in search data.
+     * This indicates that different cases in test data use a different amount
+     * of search data. This mode is only effective when test and search forecasts
+     * are the same.
      */
-    enum errorType {
-        /// 0
-        SUCCESS = 0, 
-        /// -1
-        UNKNOWN_METHOD = -1, 
-        /// -2
-        MISSING_VALUE = -2, 
-        /// -10
-        WRONG_SHAPE = -10, 
-        /// -11
-        WRONG_METHOD = -11, 
-        /// -20
-        OUT_OF_RANGE = -20 
-    };
-
-    /**
-     * Computes the standard deviation of times of forecasts for each 
-     * parameter, each station, and each FLT. This function is designed to 
-     * generate NAN values only when all values for a parameter, a station, and
-     * a FLT are NAN. Otherwise, NAN values will be ignored.
-     * 
-     * See StandardDeviation for more information about storage.
-     * 
-     * @param forecasts Forecasts for which standard deviation is generated for.
-     * @param sds StandardDeviation to store the values.
-     * @return An AnEn::errorType.
-     */
-    errorType computeStandardDeviation(
-            const Forecasts_array & forecasts,
-            StandardDeviation & sds);
-
-    /**
-     * Computes the search window for each FLT. the ranges are stored in a 
-     * matrix with the following shape:
-     *                   [num_flts][2]
-     * 
-     * The second dimension in sequence stores the start and the end FLT.
-     * 
-     * @param matrix A matrix to store the range of FLT windows.
-     * @param num_flts Number of FLTs.
-     * @param window_half_size Half size of the window.
-     * @return AnEn::errorType.
-     */
-    errorType computeSearchWindows(
-            boost::numeric::ublas::matrix<size_t> & matrix,
-            size_t num_flts, size_t window_half_size) const;
-
-    /**
-     * Computes the corresponding indices for observation times from 
-     * forecast times and FLTs.
-     * 
-     * @param times_forecasts Forecast anenTimes::Time.
-     * @param flts_forecasts Forecast anenTimes::FLTs.
-     * @param times_observations Observation anenTimes::Time.
-     * @param mapping A matrix stores the indices.
-     * @param time_match_mode An integer specifying how to deal with missing observation
-     * times. 0 stands for strict search. It will throw an error when a forecast time
-     * cannot be found in observation times. 1 stands for loose search. It will insert
-     * NA into the matrix when a observation time cannot be found for a foreacst time.
-     * @return An AnEn::errorType.
-     */
-    errorType computeObservationsTimeIndices(
-            const anenTime::Times & times_forecasts,
-            const anenTime::Times & flts_forecasts,
-            const anenTime::Times & times_observations,
-            TimeMapMatrix & mapping, int time_match_mode = 1) const;
 
     /**
      * Computes the search stations of each test stations. Search stations are 
@@ -148,7 +80,7 @@ public:
      * for search stations.
      * @param num_nearest_stations The number of KNN search stations to look
      * for for each test stations.
-     * @return An AnEn::errorType;
+     * @return An errorType;
      */
     errorType computeSearchStations(
             const anenSta::Stations & test_stations,
@@ -156,6 +88,25 @@ public:
             SearchStationMatrix & i_search_stations,
             size_t max_num_search_stations = 1,
             double distance = 0, size_t num_nearest_stations = 0) const;
+
+    /**
+     * Generates the search times and the corresponding index with an 
+     * operational mode.
+     * 
+     * @param test_times The test anenTime::Times;
+     * @param search_times The complete search anenTime::Times;
+     * @param search_times_operational The search anenTime::Times for operational mode.
+     * @param i_search_times_operational The index for search anenTime::Times for
+     * operational mode.
+     * @param max_flt The maximum FLT.
+     * @return An errorType.
+     */
+    errorType generateOperationalSearchTimes(
+            const anenTime::Times & test_times,
+            const anenTime::Times & search_times,
+            std::vector< anenTime::Times > & search_times_operational,
+            std::vector< std::vector<size_t> > & i_search_times_operational,
+            double max_flt) const;
 
     /**
      * Computes the similarity matrices.
@@ -180,8 +131,9 @@ public:
      * of NAN values.
      * @param max_flt_nan The number of NAN values allowed when computing
      * FLT window averages. Set it to NAN to allow any number of NAN values.
+     * @param operational Whether to use operational search.
      * 
-     * @return An AnEn::errorType.
+     * @return An errorType.
      */
     errorType computeSimilarity(
             const Forecasts_array & test_forecasts,
@@ -193,7 +145,10 @@ public:
             const SearchStationMatrix & i_search_stations,
             size_t i_observation_parameter = 0,
             bool extend_observations = false,
-            double max_par_nan = 0, double max_flt_nan = 0) const;
+            double max_par_nan = 0, double max_flt_nan = 0,
+            anenTime::Times test_times = {},
+            anenTime::Times search_times = {},
+            bool operational = false) const;
 
     /**
      * Select analogs based on the similarity matrices.
@@ -210,7 +165,7 @@ public:
      * @param quick Whether to use quick sort mechanism.
      * @param extend_observations Whether to extend observation stations to
      * search stations. This only works when search space extension is used.
-     * @return An AnEn::errorType.
+     * @return An errorType.
      */
     errorType selectAnalogs(
             Analogs & analogs,
@@ -221,56 +176,11 @@ public:
             size_t i_parameter, size_t num_members,
             bool quick = true, bool extend_observations = false) const;
 
-    /**
-     * Handles the errorType.
-     * 
-     * @param indicator An AnEn::errorType.
-     */
-    void handleError(const errorType & indicator) const;
-
     int getVerbose() const;
     simMethod getMethod() const;
 
     void setMethod(simMethod method);
     void setVerbose(int verbose);
-
-    /**
-     * Computes the standard deviation for linear numbers.
-     * 
-     * @param values A vector of values.
-     */
-    double sdLinear(const std::vector<double> & values) const;
-
-    /**
-     * Computes the standard deviation for circular numbers.
-     * 
-     * @param values A vector of values.
-     */
-    double sdCircular(const std::vector<double> & values) const;
-
-    /**
-     * Computes the mean of a vector.
-     * @param values A vector of values.
-     * @param max_nan_allowed The number of NAN values allowed in the
-     * vector. Set it to NAN to allow any number of NAN values.
-     */
-    double mean(const std::vector<double> & values,
-            const double max_nan_allowed = NAN) const;
-
-    /**
-     * Computes the variance of a vector.
-     * @param values A vector of values.
-     */
-    double variance(const std::vector<double> & values) const;
-
-    /**
-     * Computes the difference of two circular numbers
-     * 
-     * @param i A double.
-     * @param j A double.
-     * @return  A double.
-     */
-    double diffCircular(double i, double j) const;
 
     /**
      * The default fill value for analogs.
@@ -298,7 +208,7 @@ private:
     /*
      * This variable specifies how similarity matrices are computed across stations.
      */
-    simMethod method_ = ONE_TO_ONE;
+    simMethod method_ = OneToOne;
 
     /**
      * Check input.
@@ -308,15 +218,18 @@ private:
      * @param search_observations Search observations.
      * @param mapping Time and FLT mapping matrix.
      * @param i_observation_parameter The index of observation parameter used.
-     * @return An AnEn::errorType.
+     * @return An errorType.
      */
     errorType check_input_(
             const Forecasts_array& test_forecasts,
             const Forecasts_array& search_forecasts,
             const StandardDeviation& sds,
             const Observations_array& search_observations,
-            TimeMapMatrix mapping,
-            size_t i_observation_parameter) const;
+            const TimeMapMatrix & mapping,
+            const AnEn::SearchStationMatrix & i_search_stations,
+            size_t i_observation_parameter,
+            double max_par_nan, double max_flt_nan,
+            bool operational) const;
 
     /**
      * This function is a special case of AnEn::computeSearchStations.
@@ -330,7 +243,7 @@ private:
      * @param test_stations_index_in_search A size_t vector to store the
      * matching search indices for each test station.
      * 
-     * @return An AnEn::errorType.
+     * @return An errorType.
      */
     errorType find_nearest_station_match_(
             const anenSta::Stations & test_stations,

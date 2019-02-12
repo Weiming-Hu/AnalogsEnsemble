@@ -45,14 +45,14 @@ void runAnalogSelector(const string & file_sim, const string & file_obs,
             io_out("Write", file_analogs, "Analogs", verbose),
             io_obs("Read", file_obs, "Observations", verbose);
     SimilarityMatrices sims;
-    io.handleError(io.readSimilarityMatrices(sims));
+    handleError(io.readSimilarityMatrices(sims));
 
     Observations_array search_observations;
 
     if (obs_start.empty() || obs_count.empty()) {
-        io_obs.handleError(io_obs.readObservations(search_observations));
+        handleError(io_obs.readObservations(search_observations));
     } else {
-        io_obs.handleError(io_obs.readObservations(search_observations,
+        handleError(io_obs.readObservations(search_observations,
                 obs_start, obs_count));
     }
     
@@ -64,7 +64,7 @@ void runAnalogSelector(const string & file_sim, const string & file_obs,
         throw runtime_error(ss.str());
     } else {
         AnEnIO io_mat("Read", file_mapping, "Matrix", verbose);
-        io_mat.handleError(io_mat.readTextMatrix(mapping));
+        handleError(io_mat.readTextMatrix(mapping));
     }
     
 #if defined(_CODE_PROFILING)
@@ -95,7 +95,7 @@ void runAnalogSelector(const string & file_sim, const string & file_obs,
 
     Analogs analogs;
 
-    anen.handleError(anen.selectAnalogs(analogs, sims,
+    handleError(anen.selectAnalogs(analogs, sims,
             test_stations, search_observations,
             mapping, observation_id, num_members, quick,
             extend_observations));
@@ -111,7 +111,7 @@ void runAnalogSelector(const string & file_sim, const string & file_obs,
     anenTime::Times test_times;
     io.readTimes(test_times);
     
-    io_out.handleError(io_out.writeAnalogs(
+    handleError(io_out.writeAnalogs(
             analogs, test_stations,
             test_times, flts,
             search_observations.getStations(),
@@ -171,8 +171,8 @@ int main(int argc, char** argv) {
                 
                 ("verbose,v", po::value<int>(&verbose)->default_value(2), "Set the verbose level.")
                 ("observation-id", po::value<size_t>(&observation_id)->default_value(0), "Set the index of the observation variable that will be used.")
-                ("obs-start", po::value< vector<size_t> >(&obs_start)->multitoken(), "Set the start indices in the search observation NetCDF where the program starts reading.")
-                ("obs-count", po::value< vector<size_t> >(&obs_count)->multitoken(), "Set the count numbers for each dimension in the search observation NetCDF.")
+                ("obs-start", po::value< vector<size_t> >(&obs_start)->multitoken(), "(File I/O) Set the start indices in the search observation NetCDF where the program starts reading.")
+                ("obs-count", po::value< vector<size_t> >(&obs_count)->multitoken(), "(File I/O) Set the count numbers for each dimension in the search observation NetCDF.")
                 ("quick", po::bool_switch(&quick)->default_value(false), "Use quick sort when selecting analog members.")
                 ("extend-obs", po::bool_switch(&extend_observations)->default_value(false), "After getting the most similar forecast indices, take the corresponding observations from the search station.");
         

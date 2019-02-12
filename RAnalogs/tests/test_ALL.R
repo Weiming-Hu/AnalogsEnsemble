@@ -18,4 +18,7 @@ for (file in files) {
   source(file, echo = F)
 }
 
-cat("You have survived all the tests!\n")
+cat("
+*************************************
+*  You have survived all the tests! *
+*************************************\n")

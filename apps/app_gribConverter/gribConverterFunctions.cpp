@@ -492,7 +492,7 @@ namespace gribConverter {
 
         // Write forecasts
         if (verbose >= 3) cout << GREEN << "Writing Forecasts file ... " << RESET << endl;
-        io.handleError(io.writeForecasts(forecasts));
+        handleError(io.writeForecasts(forecasts));
 
         if (verbose >= 3) cout << GREEN << "Done!" << RESET << endl;
         return;
@@ -699,7 +699,7 @@ namespace gribConverter {
         
         // Write observations
         if (verbose >= 3) cout << GREEN << "Writing Observations file ... " << RESET << endl;
-        io.handleError(io.writeObservations(observations));
+        handleError(io.writeObservations(observations));
 
         if (verbose >= 3) cout << GREEN << "Done!" << RESET << endl;
         return;

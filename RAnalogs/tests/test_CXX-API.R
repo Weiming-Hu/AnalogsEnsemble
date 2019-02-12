@@ -45,6 +45,7 @@ test_forecasts <- 'wind-forecasts.nc'
 search_forecasts <- 'wind-forecasts.nc'
 search_observations <- 'wind-observations.nc'
 output_analog <- 'analog.nc'
+output_sims <- 'sim.nc'
 num_members <- members.size
 verbose <- 2
 test_start <- c(0, 0, test.start - 1, 0)
@@ -60,6 +61,7 @@ command1 <- paste(exe1, ' --test-forecast-nc=', test_forecasts,
                   ' --search-forecast-nc=', search_forecasts,
                   ' --observation-nc=', search_observations,
                   ' --analog-nc=', output_analog,
+                  ' --similarity-nc=', output_sims,
                   ' --members=', num_members, ' --verbose=', verbose,
                   ' --test-start=', paste(test_start, collapse = ' '),
                   ' --test-count=', paste(test_count, collapse = ' '),
@@ -104,6 +106,7 @@ if (verbose > 2) {
 
 # Calculation
 unlink(output_analog)
+unlink(output_sims)
 ret <- try(system(command1))
 ret <- try(system(command2)) + ret
 ret <- try(system(command3)) + ret
@@ -123,7 +126,7 @@ if (ret == 0) {
 } else {
   stop("Error: wind test failed!")
 }
-
+unlink(output_sims)
 
 ##################################################################################
 #                                 Test 2: Solar                                  #

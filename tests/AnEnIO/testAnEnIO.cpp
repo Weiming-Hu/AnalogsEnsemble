@@ -53,7 +53,7 @@ void testAnEnIO::testReadObservationFile() {
     io.setFileType("Observations");
 
     Observations_array observations;
-    io.handleError(io.readObservations(observations));
+    handleError(io.readObservations(observations));
 
     size_t num_pars = observations.getParametersSize();
     size_t num_stations = observations.getStationsSize();
@@ -88,7 +88,7 @@ void testAnEnIO::testReadForecastFile() {
     io.setFileType("Forecasts");
 
     Forecasts_array forecasts;
-    io.handleError(io.readForecasts(forecasts));
+    handleError(io.readForecasts(forecasts));
 
     size_t num_pars = forecasts.getParametersSize();
     size_t num_stations = forecasts.getStationsSize();
@@ -142,10 +142,10 @@ void testAnEnIO::testWriteReadObservationFile() {
     remove(file_path.c_str());
 
     AnEnIO io("Write", file_path, "Observations", 2);
-    io.handleError(io.writeObservations(observations_write));
+    handleError(io.writeObservations(observations_write));
     Observations_array observations_read;
     io.setMode("Read");
-    io.handleError(io.readObservations(observations_read));
+    handleError(io.readObservations(observations_read));
 
     /* I have to write my own comparing functions because the comparison
      * function (==) provided by the class is based on ID. But here I
@@ -246,11 +246,11 @@ void testAnEnIO::testWriteReadForecastFile() {
 
     AnEnIO io("Write", file_path, "Forecasts", 2);
 
-    io.handleError(io.writeForecasts(forecasts_write));
+    handleError(io.writeForecasts(forecasts_write));
 
     Forecasts_array forecasts_read;
     io.setMode("Read");
-    io.handleError(io.readForecasts(forecasts_read));
+    handleError(io.readForecasts(forecasts_read));
 
     /* I have to write my own comparing functions because the comparison
      * function (==) provided by the class is based on ID. But here I
@@ -372,7 +372,7 @@ const anenSta::multiIndexStations::index<anenSta::by_insert>::type &
     
     io.setVerbose(0);
     CPPUNIT_ASSERT(io.readStations(stations, 1, 10, 4)
-            == AnEnIO::errorType::WRONG_INDEX_SHAPE);
+            == errorType::WRONG_INDEX_SHAPE);
 
     stations.clear();
     io.setVerbose(2);
@@ -400,9 +400,12 @@ void testAnEnIO::testReadPartTimes() {
     io.readTimes(times, 1, 3, 10);
     const anenTime::multiIndexTimes::index<anenTime::by_insert>::type &
             times_by_insert = times.get<anenTime::by_insert>();
-    CPPUNIT_ASSERT(times_by_insert[0] == 2);
-    CPPUNIT_ASSERT(times_by_insert[1] == 12);
-    CPPUNIT_ASSERT(times_by_insert[2] == 22);
+
+    size_t MULTIPLIER = anenTime::MULTIPLIER;
+
+    CPPUNIT_ASSERT(round(times_by_insert[0] * MULTIPLIER) == round(1.1 * MULTIPLIER));
+    CPPUNIT_ASSERT(round(times_by_insert[1] * MULTIPLIER) == round(2.3 * MULTIPLIER));
+    CPPUNIT_ASSERT(round(times_by_insert[2] * MULTIPLIER) == round(3.5 * MULTIPLIER));
 }
 
 void testAnEnIO::testReadPartFLTs() {

@@ -33,7 +33,7 @@ num_chars <- 10
 
 value_xs <- 1:num_stations
 value_ys <- 1:num_stations
-value_flts <- ((1:num_flts) - 1) * 60 * 60
+value_flts <- ((1:num_flts) - 1)
 value_times <- ((1:num_times) - 1) * 24 * 60 * 60
 value_station_names <- paste("station", 1:num_stations, sep = '')
 value_parameter_names <- paste("parameter", 1:num_parameters, sep = '')
@@ -93,14 +93,13 @@ file_observations <- "solar-observations.nc"
 
 num_parameters <- dim(ob)[1]
 num_stations <- dim(ob)[2]
-num_days <- dim(ob)[3] + (dim(ob)[4]/24 - 1)
-num_times <- num_days * 24
+num_days <- dim(ob)[3]
+num_flts <- dim(ob)[4]
+num_times <- num_days * num_flts
 
 value_xs <- 1:num_stations
 value_ys <- 1:num_stations
-value_data <- ob[, , , 1:24, drop = F]
-tmp.search.observations <- abind(value_data, ob[, , 730, 25:48, drop = F],
-                    ob[, , 730, 49:72, drop = F], along = 3)
+tmp.search.observations <- ob
 search.observations <- aperm(tmp.search.observations, c(4, 3, 2, 1))
 search.observations <- array(
   search.observations, dim = c(
@@ -110,7 +109,7 @@ value_data <- aperm(search.observations, c(3, 2, 1))
 
 value_station_names <- paste("station", 1:num_stations, sep = '')
 value_parameter_names <- paste("parameter", 1:num_parameters, sep = '')
-value_times <- rep((1:num_days - 1) * 24 * 60 * 60, each = 24) + (1:24 - 1) * 60 * 60
+value_times <- rep((1:num_days - 1) * 24 * 60 * 60, each = num_flts) + (1:num_flts - 1)
 assertthat::are_equal(length(value_times), num_times)
 
 dim_parameters <- ncdim_def("num_parameters", "", 1:num_parameters, create_dimvar = F)
@@ -119,7 +118,7 @@ dim_times <- ncdim_def("num_times", "", 1:num_times, create_dimvar = F)
 
 var_xs <- ncvar_def("Xs", "", list(dim_stations))
 var_ys <- ncvar_def("Ys", "", list(dim_stations))
-var_times <- ncvar_def("Times", "second", list(dim_times))
+var_times <- ncvar_def("Times", "second", list(dim_times), prec = 'double')
 var_station_names <- ncvar_def("StationNames", "char", list(dim_chars, dim_stations), prec = 'char')
 var_parameter_names <- ncvar_def("ParameterNames", "char", list(dim_chars, dim_parameters), prec = 'char')
 var_data <- ncvar_def("Data", "", list(dim_parameters, dim_stations, dim_times), missval = NA, prec = 'double')
