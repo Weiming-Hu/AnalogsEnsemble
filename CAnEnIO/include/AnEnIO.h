@@ -473,7 +473,7 @@ public:
      */
     void setAdd(bool add);
 
-    void setVerbose(int verbose_);
+    void setVerbose(int verbose);
     void setMode(std::string mode);
     void setMode(std::string mode, std::string file_path);
     void setFilePath(std::string file_path);
@@ -698,6 +698,11 @@ protected:
      * - 3: The above plus program progress information.
      * - 4: The above plus check information.
      * - 5: The above plus session information.
+     *
+     * Please note that the verbose level of thread level messages
+     * is (verbose - 2). For example, if the main program verbose
+     * level is 5, program progress information from threads
+     * , which is for verbose 3, will be included.
      */
     int verbose_ = 2;
 

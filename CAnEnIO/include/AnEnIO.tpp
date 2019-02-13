@@ -326,6 +326,8 @@ AnEnIO::read_vector_(const netCDF::NcVar & var, T *p_vals,
         const std::vector<ptrdiff_t> & stride,
         const size_t & total) const {
 
+    // using namespace std;
+
 #if defined(_ENABLE_MPI)
     // Check whether stride is used.
     bool use_MPI = all_of(stride.begin(), stride.end(), [](ptrdiff_t i) {
@@ -336,9 +338,11 @@ AnEnIO::read_vector_(const netCDF::NcVar & var, T *p_vals,
     use_MPI &= total > _SERIAL_LENGTH_LIMIT;
 
     if (NC4_ && use_MPI) {
+        // cout << "************  using MPI " << var.getName() << "  ************" << endl;
         MPI_read_vector_(var, p_vals, start, count);
     } else {
 #endif
+        // cout << "************  NOT using MPI " << var.getName() << "************" << endl;
         var.getVar(start, count, stride, p_vals);
 #if defined(_ENABLE_MPI)
     }

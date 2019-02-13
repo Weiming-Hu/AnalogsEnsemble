@@ -38,13 +38,13 @@ int AnEnIO::_times_of_MPI_init = 0;
 AnEnIO::AnEnIO(string mode, string file_path) :
     mode_(mode), file_path_(file_path) {
         handleError(checkMode());
-        handleError(checkFilePath());
+        setFilePath(file_path);
     }
 
 AnEnIO::AnEnIO(string mode, string file_path, string file_type) :
     mode_(mode), file_path_(file_path), file_type_(file_type) {
         handleError(checkMode());
-        handleError(checkFilePath());
+        setFilePath(file_path);
         if (mode_ != "Write") handleError(checkFileType());
     }
 
@@ -53,7 +53,7 @@ AnEnIO::AnEnIO(string mode, string file_path,
     mode_(mode), file_path_(file_path),
     file_type_(file_type), verbose_(verbose) {
         handleError(checkMode());
-        handleError(checkFilePath());
+        setFilePath(file_path);
         if (mode_ != "Write") handleError(checkFileType());
     }
 
@@ -66,7 +66,7 @@ AnEnIO::AnEnIO(string mode, string file_path,
     required_variables_(required_variables),
     optional_variables_(optional_variables) {
         handleError(checkMode());
-        handleError(checkFilePath());
+        setFilePath(file_path);
         if (mode_ != "Write") handleError(checkFileType());
     }
 
@@ -1808,6 +1808,12 @@ AnEnIO::setFilePath(string file_path) {
                     format == NC_FORMAT_NETCDF4_CLASSIC) {
                 NC4_ = true;
             } else {
+#if defined(_ENABLE_MPI)
+                if (verbose_ >= 2) cout << RED
+                    << "Warning: MPI is enabled but the file ("
+                    << file_path_ << ") does not support parallel accesss."
+                    << RESET << endl;
+#endif
                 NC4_ = false;
             }
 
@@ -2188,7 +2194,7 @@ AnEnIO::combineForecastsArray(const vector<string> & in_files,
     for (size_t k = 0; k < in_files.size(); k++) {
         const auto & file = in_files[k];
 
-        AnEnIO io_thread("Read", file, "Forecasts", 2);
+        AnEnIO io_thread("Read", file, "Forecasts", verbose-2);
         Forecasts_array forecasts_single;
 
         if (verbose >= 4) cout << "Read file " << file << " ..." << endl;
@@ -2268,7 +2274,7 @@ AnEnIO::combineObservationsArray(const vector<string> & in_files,
     size_t append_count = 0;
 
     for (const auto & file : in_files) {
-        AnEnIO io_thread("Read", file, "Observations", 2);
+        AnEnIO io_thread("Read", file, "Observations", verbose-2);
         Observations_array observations_single;
 
         if (verbose >= 4) cout << "Read file " << file << " ..." << endl;
@@ -2336,7 +2342,7 @@ AnEnIO::combineStandardDeviation(const vector<string> & in_files,
     size_t append_count = 0;
 
     for (const auto & file : in_files) {
-        AnEnIO io_thread("Read", file, "StandardDeviation", 2);
+        AnEnIO io_thread("Read", file, "StandardDeviation", verbose-2);
         StandardDeviation sds_single;
 
         if (verbose >= 4) cout << "Read file " << file << " ..." << endl;
@@ -2436,7 +2442,7 @@ AnEnIO::combineSimilarityMatrices(
     auto & search_stations_by_insert = search_stations.get<anenSta::by_insert>();
 
     for (const auto & file : in_files) {
-        AnEnIO io_thread("Read", file, "Similarity", 2);
+        AnEnIO io_thread("Read", file, "Similarity", verbose-2);
         SimilarityMatrices sims_single;
         anenSta::Stations search_stations_single;
         anenTime::Times search_times_single;
@@ -2591,7 +2597,7 @@ AnEnIO::combineAnalogs(const vector<string> & in_files,
     auto & member_stations_by_insert = member_stations.get<anenSta::by_insert>();
 
     for (const auto & file : in_files) {
-        AnEnIO io_thread("Read", file, "Analogs", 2);
+        AnEnIO io_thread("Read", file, "Analogs", verbose-2);
         Analogs analogs_single;
         anenSta::Stations member_stations_single;
         anenTime::Times member_times_single;
