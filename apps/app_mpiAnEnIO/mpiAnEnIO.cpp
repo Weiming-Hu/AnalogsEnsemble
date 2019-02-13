@@ -174,7 +174,8 @@ int main(int argc, char** argv) {
             if (verbose >= 1) cout << BOLDRED << "Error: The NetCDF file ("
                 << format << ") is not NETCDF4 format ("
                     << NC_FORMAT_NETCDF4 << "," << NC_FORMAT_NETCDF4_CLASSIC
-                    << "). Please reinstall the program without MPI." << RESET << endl;
+                    << "). Please turn off MPI and reinstall the program. "
+                    "(This might be a signal of something is wrong. Please submit a ticket.)" << RESET << endl;
             MPI_Finalize();
             return 1;
         }

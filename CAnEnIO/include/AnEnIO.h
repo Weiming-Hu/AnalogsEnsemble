@@ -686,6 +686,11 @@ protected:
     bool add_ = false;
 
     /**
+     * Whether the file is a NetCDF 4 format.
+     */
+    bool NC4_ = false;
+
+    /**
      * Specifies the verbose level.
      * - 0: Quiet.
      * - 1: Errors.
@@ -860,6 +865,10 @@ protected:
     read_vector_(std::string var_name, std::vector<T> & results) const;
 
     template<typename T>
+    void read_vector_(const netCDF::NcVar & var, T *p_vals,
+            const size_t & total) const;
+
+    template<typename T>
     errorType read_vector_(std::string var_name, std::vector<T> & results,
             std::vector<size_t> start, std::vector<size_t> count,
             std::vector<ptrdiff_t> stride = {1}) const;
@@ -868,7 +877,21 @@ protected:
     errorType read_vector_(std::string var_name, std::vector<T> & results,
             size_t start, size_t count, ptrdiff_t stride = 1) const;
 
+    template<typename T>
+    void read_vector_(const netCDF::NcVar & var, T *p_vals,
+            const std::vector<size_t> & start,
+            const std::vector<size_t> & count,
+            const std::vector<ptrdiff_t> & stride,
+            const size_t & total) const;
+
 #if defined(_ENABLE_MPI)
+    /**
+     * The path of the executable mpiAnEnIO. By default, this is the name
+     * of the executable. It will be automatically found if it exists in
+     * PATH.
+     */
+    std::string mpiAnEnIO_ = "mpiAnEnIO";
+
     /**
      * This function returns the MPI_Datatype variable based on the template
      * type name. This is useful for a generic programming purpose.

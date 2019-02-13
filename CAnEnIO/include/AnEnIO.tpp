@@ -210,7 +210,7 @@ AnEnIO::read_vector_(std::string var_name, std::vector<T> & results) const {
         return (WRONG_INDEX_SHAPE);
     }
 
-    auto var_dims = var.getDims();
+    const auto & var_dims = var.getDims();
     T *p_vals = nullptr;
 
     size_t total = 1;
@@ -230,17 +230,7 @@ AnEnIO::read_vector_(std::string var_name, std::vector<T> & results) const {
     }
 
     p_vals = results.data();
-
-#if defined(_ENABLE_MPI)
-    if (total > _SERIAL_LENGTH_LIMIT) {
-        vector<size_t> start(0), count(0);
-        MPI_read_vector_(var, p_vals, start, count);
-    } else {
-#endif
-        var.getVar(p_vals);
-#if defined(_ENABLE_MPI)
-    }
-#endif
+    read_vector_(var, p_vals, total);
 
     nc.close();
 
@@ -249,6 +239,24 @@ AnEnIO::read_vector_(std::string var_name, std::vector<T> & results) const {
     
     return (SUCCESS);
 };
+
+template<typename T>
+void
+AnEnIO::read_vector_(const netCDF::NcVar & var, T *p_vals,
+        const size_t & total) const {
+
+#if defined(_ENABLE_MPI)
+    if (NC4_ && total > _SERIAL_LENGTH_LIMIT) {
+        std::vector<size_t> start(0), count(0);
+        MPI_read_vector_(var, p_vals, start, count);
+    } else {
+#endif
+        var.getVar(p_vals);
+#if defined(_ENABLE_MPI)
+    }
+#endif
+
+}
 
 template<typename T>
 errorType
@@ -290,24 +298,9 @@ AnEnIO::read_vector_(std::string var_name, std::vector<T> & results,
     reverse(start.begin(), start.end());
     reverse(count.begin(), count.end());
     reverse(stride.begin(), stride.end());
-    
-#if defined(_ENABLE_MPI)
-    // Check whether stride is used.
-    bool use_MPI = all_of(stride.begin(), stride.end(), [](ptrdiff_t i) {
-        return (i == 1);
-    });
 
-    // Check whether there are enough value to write
-    use_MPI &= total > _SERIAL_LENGTH_LIMIT;
+    read_vector_(var, p_vals, start, count, stride, total);
     
-    if (use_MPI) {
-        MPI_read_vector_(var, p_vals, start, count);
-    } else {
-#endif
-        var.getVar(start, count, stride, p_vals);
-#if defined(_ENABLE_MPI)
-    }
-#endif
     nc.close();
     // Don't delete pointer because it is managed by the vector object
     // delete [] p_vals;
@@ -324,6 +317,34 @@ AnEnIO::read_vector_(std::string var_name, std::vector<T> & results,
     return (read_vector_(var_name, results,
             vec_start, vec_count, vec_stride));
 };
+
+template<typename T>
+void
+AnEnIO::read_vector_(const netCDF::NcVar & var, T *p_vals,
+        const std::vector<size_t> & start,
+        const std::vector<size_t> & count,
+        const std::vector<ptrdiff_t> & stride,
+        const size_t & total) const {
+
+#if defined(_ENABLE_MPI)
+    // Check whether stride is used.
+    bool use_MPI = all_of(stride.begin(), stride.end(), [](ptrdiff_t i) {
+            return (i == 1);
+            });
+
+    // Check whether there are enough value to write
+    use_MPI &= total > _SERIAL_LENGTH_LIMIT;
+
+    if (NC4_ && use_MPI) {
+        MPI_read_vector_(var, p_vals, start, count);
+    } else {
+#endif
+        var.getVar(start, count, stride, p_vals);
+#if defined(_ENABLE_MPI)
+    }
+#endif
+
+}
 
 #if defined(_ENABLE_MPI)
 template<typename T>
@@ -375,7 +396,7 @@ AnEnIO::MPI_read_vector_(const netCDF::NcVar & var, T* & p_vals,
     using namespace std;
     
     auto var_name = var.getName();
-    auto var_dims = var.getDims();
+    const auto & var_dims = var.getDims();
     
     handle_MPI_Init();
     int world_rank;
@@ -404,7 +425,7 @@ AnEnIO::MPI_read_vector_(const netCDF::NcVar & var, T* & p_vals,
                 << " processes to read " << var_name << " ..." << endl;
 
         MPI_Comm children;
-        if (MPI_Comm_spawn("mpiAnEnIO", MPI_ARGV_NULL, num_children, MPI_INFO_NULL,
+        if (MPI_Comm_spawn(mpiAnEnIO_.c_str(), MPI_ARGV_NULL, num_children, MPI_INFO_NULL,
                 0, MPI_COMM_SELF, &children, MPI_ERRCODES_IGNORE) != MPI_SUCCESS) {
             throw runtime_error("Spawning children failed.");
         }

@@ -151,7 +151,9 @@ AnEnIO::checkFilePath() const {
             string ext = boost_path.extension().string();
 
             if (mode_ == "Matrix" || ext == ".txt") return (SUCCESS);
-            if (ext == ".nc") return (SUCCESS);
+            if (ext == ".nc") {
+                return (SUCCESS);
+            }
         }
 
         if (verbose_ >= 1) {
@@ -1791,6 +1793,27 @@ void
 AnEnIO::setFilePath(string file_path) {
     this->file_path_ = file_path;
     handleError(checkFilePath());
+
+    if (mode_ == "Read") {
+        filesys::path boost_path(file_path_);
+        string ext = boost_path.extension().string();
+        if (ext == ".nc") {
+
+            // Check for NetCDF file format
+            int format = -1, ncid = -1, res = -1;
+            res = nc_open(file_path_.c_str(), NC_NOWRITE, &ncid);
+            res = nc_inq_format(ncid, &format);
+
+            if (format == NC_FORMAT_NETCDF4 ||
+                    format == NC_FORMAT_NETCDF4_CLASSIC) {
+                NC4_ = true;
+            } else {
+                NC4_ = false;
+            }
+
+            nc_close(ncid);
+        }
+    }
 }
 
 void
@@ -2935,12 +2958,19 @@ AnEnIO::readForecastsArrayData_(Forecasts_array & forecasts) const {
             return (WRONG_INDEX_SHAPE);
         }
 
+        const auto & var_dims = var.getDims();
+        size_t total = 1;
+        for (const auto & dim : var_dims) {
+            total *= dim.getSize();
+        }
+
         // Please realize that I'm directly reading to the forecasts data
         // pointer which can be dangerous if handled uncautionsly. But I
         // don't have to create a copy of the data by doing this so I
         // think the benefit in memory and speed outweighs the downside.
         //
         var.getVar(p_vals);
+        read_vector_(var, p_vals, total);
 
         nc.close();
     } catch (...) {
@@ -2968,6 +2998,12 @@ AnEnIO::readForecastsArrayData_(Forecasts_array & forecasts,
         NcFile nc(file_path_, NcFile::FileMode::read);
         NcVar var = nc.getVar(var_name);
 
+        const auto & var_dims = var.getDims();
+        size_t total = 1;
+        for (const auto & dim : var_dims) {
+            total *= dim.getSize();
+        }
+
         if (var.isNull()) {
             if (verbose_ >= 1) cout << BOLDRED << "Error: Could not"
                 << " find variable " << var_name << "!" << RESET << endl;
@@ -2979,7 +3015,7 @@ AnEnIO::readForecastsArrayData_(Forecasts_array & forecasts,
         // don't have to create a copy of the data by doing this so I
         // think the benefit in memory and speed outweighs the downside.
         //
-        var.getVar(start, count, stride, p_vals);
+        read_vector_(var, p_vals, start, count, stride, total);
 
         nc.close();
     } catch (...) {
@@ -2999,6 +3035,12 @@ AnEnIO::readObservationsArrayData_(Observations_array & observations) const {
         NcFile nc(file_path_, NcFile::FileMode::read);
         NcVar var = nc.getVar(var_name);
 
+        const auto & var_dims = var.getDims();
+        size_t total = 1;
+        for (const auto & dim : var_dims) {
+            total *= dim.getSize();
+        }
+
         if (var.isNull()) {
             if (verbose_ >= 1) cout << BOLDRED << "Error: Could not"
                 << " find variable " << var_name << "!" << RESET << endl;
@@ -3010,7 +3052,7 @@ AnEnIO::readObservationsArrayData_(Observations_array & observations) const {
         // don't have to create a copy of the data by doing this so I
         // think the benefit in memory and speed outweighs the downside.
         //
-        var.getVar(p_vals);
+        read_vector_(var, p_vals, total);
 
         nc.close();
     } catch (...) {
@@ -3036,6 +3078,12 @@ AnEnIO::readObservationsArrayData_(Observations_array & observations,
         NcFile nc(file_path_, NcFile::FileMode::read);
         NcVar var = nc.getVar(var_name);
 
+        const auto & var_dims = var.getDims();
+        size_t total = 1;
+        for (const auto & dim : var_dims) {
+            total *= dim.getSize();
+        }
+
         if (var.isNull()) {
             if (verbose_ >= 1) cout << BOLDRED << "Error: Could not"
                 << " find variable " << var_name << "!" << RESET << endl;
@@ -3047,7 +3095,7 @@ AnEnIO::readObservationsArrayData_(Observations_array & observations,
         // don't have to create a copy of the data by doing this so I
         // think the benefit in memory and speed outweighs the downside.
         //
-        var.getVar(start, count, stride, p_vals);
+        read_vector_(var, p_vals, start, count, stride, total);
 
         nc.close();
     } catch (...) {
