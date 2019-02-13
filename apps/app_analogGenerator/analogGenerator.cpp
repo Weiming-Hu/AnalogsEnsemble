@@ -292,14 +292,13 @@ int main(int argc, char** argv) {
     namespace po = boost::program_options;
     
     // Required variables
-    string file_test_forecasts, file_search_forecasts,
-            file_observations, file_analogs;
+    string file_search_forecasts, file_observations, file_analogs;
     size_t num_members = 0;
 
     // Optional variables
     int verbose = 0, time_match_mode = 1;
     size_t observation_id = 0;
-    string config_file, file_mapping, file_similarity, file_sds;
+    string file_test_forecasts, config_file, file_mapping, file_similarity, file_sds;
     bool quick = false, searchExtension = false, extend_observations = false,
             operational = false, continuous_time_index = false;
 
@@ -315,13 +314,13 @@ int main(int argc, char** argv) {
                 ("help,h", "Print help information for options.")
                 ("config,c", po::value<string>(&config_file), "Set the configuration file path. Command line options overwrite options in configuration file. ")
 
-                ("test-forecast-nc", po::value<string>(&file_test_forecasts)->required(), "Set the input file path for test forecast NetCDF.")
                 ("search-forecast-nc", po::value<string>(&file_search_forecasts)->required(), "Set input the file path for search forecast NetCDF.")
                 ("observation-nc", po::value<string>(&file_observations)->required(), "Set the input file path for search observation NetCDF.")
                 ("analog-nc", po::value<string>(&file_analogs)->required(), "Set the output file for analogs.")
                 ("members", po::value<size_t>(&num_members)->required(), "Set the number of analog members to keep in an ensemble.")
 
                 ("verbose,v", po::value<int>(&verbose)->default_value(2), "Set the verbose level.")
+                ("test-forecast-nc", po::value<string>(&file_test_forecasts), "Set the input file path for test forecast NetCDF.")
                 ("time-match-mode", po::value<int>(&time_match_mode)->default_value(1), "Set the match mode for generating TimeMapMatrix. 0 for strict and 1 for loose search.")
                 ("max-par-nan", po::value<double>(&max_par_nan)->default_value(0), "The number of NAN values allowed when computing similarity across different parameters. Set it to a negative number (will be automatically converted to NAN) to allow any number of NAN values.")
                 ("max-flt-nan", po::value<double>(&max_flt_nan)->default_value(0), "The number of NAN values allowed when computing FLT window averages. Set it to a negative number (will be automatically converted to NAN) to allow any number of NAN values.")
@@ -378,6 +377,11 @@ int main(int argc, char** argv) {
         }
         
         // Then parse the configuration file
+        if (!vm.count("test-forecast-nc")) {
+            // If test forecast file is not provided, use the search forecast file
+            file_test_forecasts = vm["search-forecast-nc"].as<string>();
+        }
+        
         if (vm.count("config")) {
             // If configuration file is specified, read it first.
             // The variable won't be written until we call notify.

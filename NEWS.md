@@ -4,6 +4,7 @@
 - Add demo for using operational search.
 - Performance improved for computing similarity.
 - Add default value in `RAnEn` for `configuration$test_forecasts` and `configuration$test_times`. If they are not specified, they are copied from `configuration$search_forecasts` and `configuration$search_times` respectively.
+- Add default value for `test-forecast-nc` in `analogGenerator` and `similarityCalculator`. If they are not provided, the search file will be also used as a test file.
 
 # PEF 3.2.0
 
