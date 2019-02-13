@@ -559,7 +559,7 @@ void testAnEnIO::testReadWriteSimilarityMatrices() {
 
     string file_path = "read-write-similarity.nc";
     remove(file_path.c_str());
-    AnEnIO io("Write", file_path, "Similarity", 2);
+    AnEnIO io("Write", file_path, "Similarity", 4);
     io.writeSimilarityMatrices(sims_write, parameters_write, stations_write,
             times_write, flts_write, stations_write, times_write);
 

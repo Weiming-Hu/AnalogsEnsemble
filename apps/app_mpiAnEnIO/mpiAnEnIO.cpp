@@ -168,9 +168,13 @@ int main(int argc, char** argv) {
         res = nc_inq_format(ncid, &format);
         ERR;
 
-        if (format != NC_FORMAT_NETCDF4 || format != NC_FORMAT_NETCDF4_CLASSIC) {
+        if (format == NC_FORMAT_NETCDF4 || format == NC_FORMAT_NETCDF4_CLASSIC) {
+            // Correct! Expected NetCDF 4 format which can be accessed by MPI
+        } else {
             if (verbose >= 1) cout << BOLDRED << "Error: The NetCDF file ("
-                << format << ") is not NETCDF4 format. Please reinstall the program without MPI." << RESET << endl;
+                << format << ") is not NETCDF4 format ("
+                    << NC_FORMAT_NETCDF4 << "," << NC_FORMAT_NETCDF4_CLASSIC
+                    << "). Please reinstall the program without MPI." << RESET << endl;
             MPI_Finalize();
             return 1;
         }
