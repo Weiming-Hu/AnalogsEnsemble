@@ -108,8 +108,8 @@ biasCorrectionInsitu <- function(
           index <- cbind(
             rep(forecast.ID, members.size),                                          # variable index
             AnEn$analogs[i, j, k, , 2],                                              # station index
-            unlist(lapply(AnEn$analogs[i, j, k, , 3], function(x, mapping, k) {
-              return(which(x == mapping[k, ]))}, mapping = AnEn$mapping, k = k)),    # forecast day index
+            unlist(lapply(AnEn$analogs[i, j, k, , 3], function(x, cont) {
+              return(which(x == cont))}, cont = AnEn$mapping[k, ])),                 # forecast day index
             rep(k, members.size)                                                     # flt index
           )
           
@@ -120,7 +120,8 @@ biasCorrectionInsitu <- function(
             
             # current forecast - mean of selected forecasts
             bias[i, j, k] <- 
-              config$test_forecasts[forecast.ID, i, j, k] -
+              config$test_forecasts[forecast.ID, i, which(
+                config$test_times_compare[j] == config$test_times), k] -
               group.func(members.forecast, na.rm = T)
             
             analogs.cor[i, j, k, , 1] <-

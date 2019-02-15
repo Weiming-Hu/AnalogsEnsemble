@@ -116,7 +116,7 @@ Then we need to bias correct AnEn because we are using AnEn on a gridded product
 
 ```{r}
 AnEn <- biasCorrection(AnEn, config, forecast.ID = 1, group.func = mean,
-                       na.rm = T, show.progress = F)
+                       na.rm = T, show.progress = F, keep.bias = T)
 ```
 
 `AnEn` is a list of results. Let's check what we have in it.

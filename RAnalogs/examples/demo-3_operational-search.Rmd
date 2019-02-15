@@ -60,14 +60,13 @@ test.end <- 431
 # solution is to pass the same to both, and let the 
 # program to figure out the search times for each test time.
 #
-config$test_forecasts <- forecasts
-config$test_times <- forecast.times
-config$search_forecasts <- forecasts
-config$search_times <- forecast.times
-
+config$forecasts <- forecasts
+config$forecast_times <- forecast.times
 config$flts <- flts
+
 config$search_observations <- analysis
 config$observation_times <- analysis.times
+
 config$weights <- rep(1, dim(forecasts)[1])
 config$num_members <- 19
 config$preserve_similarity <- T

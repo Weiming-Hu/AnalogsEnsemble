@@ -52,29 +52,35 @@ test.start <- 400
 test.end <- 400
 search.start <- 1
 search.end <- 370
-config$test_forecasts <- forecasts[, , test.start:test.end, , drop = F]
-config$test_times <- forecast.times[test.start:test.end]
-config$search_forecasts <- forecasts[, , search.start:search.end, , drop = F]
-config$search_times <- forecast.times[search.start:search.end]
+
+# Set up forecasts and time, FLT information
+config$forecasts <- forecasts
+config$forecast_times <- forecast.times
 config$flts <- flts
+
+# Set up observations and time information
 config$search_observations <- analysis
 config$observation_times <- analysis.times
+
+# Set up other parameters
 config$weights <- rep(1, dim(forecasts)[1])
-config$time_match_mode <- 1
 config$num_members <- 19
-config$max_flt_nan <- 1
-config$max_par_nan <- 0
 config$verbose <- 3
+
+# Set up test times
+config$test_times_compare <- forecast.times[test.start:test.end]
+
+# Set up search times
+config$search_times_compare <- forecast.times[search.start:search.end]
 ```
 
 Now that we have set up the basic parameters, we need to set up the parameters for search space extension. A list of parameters that should be set is shown below:
 
-- test_stations_x
-- test_stations_y
-- search_stations_x
-- search_stations_y
+- forecast_stations_x
+- forecast_stations_y
 - num_nearest
 - distance
+- extend_observations
 - max_num_search_stations
 - preserve_search_stations
 
@@ -83,13 +89,11 @@ The first four parameters specify the locations of search and test stations/grid
 Once we understand the parameters, we set these parameters.
 
 ```{r, echo=FALSE}
-# Because our grid points are the same for test and search forecasts. Their locations are the same.
-config$test_stations_y <- forecast.ys
-config$search_stations_y <- forecast.ys
-
-# Change the range of x to[-180, 180]
-config$test_stations_x <- forecast.xs - 360
-config$search_stations_x <- forecast.xs - 360
+# Set up coordinates for forecast stations.
+# Change the range of x to [-180, 180] for visualization purpose,
+#
+config$forecast_stations_x <- forecast.xs - 360
+config$forecast_stations_y <- forecast.ys
 
 # Let's use the distance. The unit is in degree.
 config$distance <- 0.15
@@ -97,6 +101,9 @@ config$max_num_search_stations <- 15
 
 # Save search stations
 config$preserve_search_stations <- T
+
+# Take observation from nearby stations
+config$extend_observations <- T
 
 # Save similarity
 # config$preserve_similarity <- T
@@ -188,24 +195,34 @@ selected.stations <- unique(
 
 # plot different types of stations together
 par(mfrow = c(1, 1))
-plot(config$search_stations_x, config$search_stations_y, xlab = 'x', ylab = 'y',
+
+# Plot all forecast stations
+plot(config$forecast_stations_x, config$forecast_stations_y, xlab = 'x', ylab = 'y',
      main = title, pch = 19, cex = cex, col = 'grey', asp=1)
+
+# Plot a base map
 map(col = 'grey', add = T); map('state', add = T)
-points(config$search_stations_x[AnEn$searchStations[, test.station.index]],
-       config$search_stations_y[AnEn$searchStations[, test.station.index]],
+
+# Plot search stations for the current test station
+points(config$forecast_stations_x[AnEn$searchStations[, test.station.index]],
+       config$forecast_stations_y[AnEn$searchStations[, test.station.index]],
        pch = 19, cex = cex, col = 'green')
-points(config$test_stations_x[test.station.index],
-       config$test_stations_y[test.station.index],
+
+# Plot the test station
+points(config$forecast_stations_x[test.station.index],
+       config$forecast_stations_y[test.station.index],
        pch = 19, cex = cex/2, col = 'red')
-points(config$search_stations_x[selected.stations],
-       config$search_stations_y[selected.stations],
+
+# Plot the search stations that have contribution to the analog ensemble
+points(config$forecast_stations_x[selected.stations],
+       config$forecast_stations_y[selected.stations],
        cex = cex*1.6, col = 'red')
 
 
 if (config$distance > 0) {
   coords <- generateCircleCoords(
-    x = config$test_stations_x[test.station.index],
-    y = config$test_stations_y[test.station.index],
+    x = config$forecast_stations_x[test.station.index],
+    y = config$forecast_stations_y[test.station.index],
     radius = config$distance, np = 100)
   
   points(coords, cex = .1, pch = 19)

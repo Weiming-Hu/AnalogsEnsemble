@@ -31,6 +31,7 @@ print.Configuration <- function(x) {
 	
 	cat('Class: Configuration list\n')
 	cat('Mode: ', x$mode, '\n')
+	cat("Advanced:", x$advanced, '\n')
 	cat('Variables:\n')
 	print(attr(x, 'names'))
 	
