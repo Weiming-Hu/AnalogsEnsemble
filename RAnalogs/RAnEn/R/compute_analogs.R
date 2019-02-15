@@ -424,8 +424,6 @@ compute_analogs <- function(forecasts,
 
   if (cores != 0) cat('Warning: cores are automatically detected.\n')
   
-  config$observation_id = config$observation_id - 1
-  
   if (config$mode == 'independentSearch') {
     
     # Create default values
@@ -439,87 +437,27 @@ compute_analogs <- function(forecasts,
     distance <- 0
     num_nearest_stations <- 0
     
-    AnEn <- .generateAnalogs(
-      config$test_forecasts, dim(config$test_forecasts),
-      test_forecasts_station_x, test_forecasts_station_y,
-      config$test_times,
-      config$search_forecasts, dim(config$search_forecasts),
-      search_forecasts_station_x, search_forecasts_station_y,
-      config$search_times,
-      config$flts,
-      config$search_observations, dim(config$search_observations),
-      config$observation_times, config$num_members,
-      config$observation_id, config$quick,
-      config$circulars, search_extension,
-      config$extend_observations,
-      config$preserve_similarity, 
-      config$preserve_mapping, preserve_search_stations,
-      max_num_search_stations, distance,
-      num_nearest_stations,
-      config$time_match_mode,
-      config$max_par_nan,
-      config$max_flt_nan,
-      config$test_times_compare,
-      config$search_times_compare,
-      config$operational,
-      config$verbose)
-    
   } else if (config$mode == 'extendedSearch') {
     # Create default values
     search_extension <- T
-    
-    AnEn <- .generateAnalogs(
-      config$test_forecasts, dim(config$test_forecasts),
-      config$test_stations_x,
-      config$test_stations_y,
-      config$test_times,
-      config$search_forecasts, dim(config$search_forecasts),
-      config$search_stations_x,
-      config$search_stations_y,
-      config$search_times,
-      config$flts,
-      config$search_observations, dim(config$search_observations),
-      config$observation_times, config$num_members,
-      config$observation_id, config$quick,
-      config$circulars, search_extension,
-      config$extend_observations,
-      config$preserve_similarity,
-      config$preserve_mapping,
-      config$preserve_search_stations,
-      config$max_num_search_stations,
-      config$distance,
-      config$num_nearest,
-      config$time_match_mode,
-      config$max_par_nan,
-      config$max_flt_nan,
-      config$test_times_compare,
-      config$search_times_compare,
-      config$operational,
-      config$verbose)
     
   } else {
     stop('Unknown configuration mode!')
   }
   
-  # Because similarity matrix was stored in row-major in C++ and the R object will be column-major.
-  # So change the order of dimensions to make it conform with other objects.
-  #
-  if (config$preserve_similarity) {
-    AnEn$similarity <- aperm(AnEn$similarity, length(dim(AnEn$similarity)):1)
-    AnEn$similarity[, , , , 2:3] <- AnEn$similarity[, , , , 2:3, drop = F] + 1
+  AnEn <- generateAnalogs(config)
+  
+  # Convert index for 3D observations back to 4D observations
+  if (verbose >= 3)
+    cat("Convert observation index (use the latest API to avoid it and save some time) ...\n")
+  
+  for (i.flt in 1:dim(AnEn$analogs)[3]) {
+    AnEn$analogs[, , i.flt, , 3] <- sapply(AnEn$analogs[, , i.flt, , 3], function(x, cont) {
+      if (is.na(x)) return(NA)
+      else return (which(x == cont))}, cont = mapping[i.flt, ])
   }
   
-  if (config$mode == 'extendedSearch') {
-    if (config$preserve_search_stations) {
-      AnEn$searchStations <- AnEn$searchStations + 1
-    }
-  }
-  
-  # Convert the station index from C counting to R counting
-  AnEn$analogs[, , , , 3] <- AnEn$analogs[, , , , 3, drop = F] + 1
-  AnEn$analogs[, , , , 2] <- AnEn$analogs[, , , , 2, drop = F] + 1
-  
-  if (config$preserve_mapping) AnEn$mapping <- AnEn$mapping + 1
+  if (verbose >= 3) cat("Done!\n")
   
   return(AnEn)
 }

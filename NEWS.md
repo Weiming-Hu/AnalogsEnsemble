@@ -1,3 +1,6 @@
+# PEF 3.2.2
+- Improve backward compatibility of R function `compute_analogs`. This function now returns the analog member index in the 4D observations, rather than in the 3D observations.
+
 # PEF 3.2.1
 
 - Remove computing sds outside the loops when operational search is used.

@@ -78,7 +78,7 @@ analogs_c = compute_analogs(forecasts = fc,
                             cores = 6,
                             output_search_stations = F,
                             output_metric = F,
-                            verbose = 2)
+                            verbose = 3)
 
 analogs_WU = analogs_c$analogs[1,,,,1]
 
