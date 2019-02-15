@@ -51,6 +51,8 @@ biasCorrectionInsitu <- function(
   
   require(RAnEn)
   
+  config <- convertToAdvance(config)
+  
   # Check for overwriting
   if ('analogs.cor.insitu' %in% names(AnEn) ||
       'bias.insitu' %in% names(AnEn)) {

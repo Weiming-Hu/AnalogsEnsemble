@@ -37,7 +37,7 @@ test.end <- 94
 search.start <- 1
 search.end <- 94
 
-config <- generateConfiguration('independentSearch')
+config <- generateConfiguration('independentSearch', TRUE)
 config$test_forecasts <- forecasts
 config$test_times <- forecasts.time
 config$test_times_compare <- forecasts.time[test.start:test.end]
@@ -80,6 +80,9 @@ AnEn.dep <- compute_analogs(
   rolling = -3,
   quick = F)
 
+for (i.flt in 1:dim(AnEn.dep$analogs)[3]) {
+  AnEn.dep$analogs[, , i.flt, , 3] <- AnEn.auto$mapping[i.flt, AnEn.dep$analogs[, , i.flt, , 3]]
+}
 
 stopifnot(identical(
   as.vector(AnEn.dep$analogs), 
@@ -108,6 +111,10 @@ AnEn.dep <- compute_analogs(
   train_ID_end = search.end,
   members_size = num.members,
   quick = F)
+
+for (i.flt in 1:dim(AnEn.dep$analogs)[3]) {
+  AnEn.dep$analogs[, , i.flt, , 3] <- AnEn.man$mapping[i.flt, AnEn.dep$analogs[, , i.flt, , 3]]
+}
 
 # Compare
 stopifnot(identical(

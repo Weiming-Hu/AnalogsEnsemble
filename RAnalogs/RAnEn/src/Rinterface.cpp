@@ -128,7 +128,7 @@ List generateAnalogs(
         NumericVector R_search_observations,
         NumericVector R_search_observations_dims,
         NumericVector R_observation_times,
-        size_t num_members, size_t observation_parameter, bool quick,
+        size_t num_members, size_t observation_id, bool quick,
         IntegerVector R_circulars, bool search_extension,
         bool extend_observations,
         bool preserve_similarity, bool preserve_mapping,
@@ -195,8 +195,8 @@ List generateAnalogs(
                 R_search_forecasts_dims[1]);
     }
 
-    anenPar::Parameters observation_parameters;
-    observation_parameters.get<anenPar::by_insert>().resize(
+    anenPar::Parameters observation_ids;
+    observation_ids.get<anenPar::by_insert>().resize(
             R_search_observations_dims[0]);
 
     Forecasts_array test_forecasts(
@@ -210,7 +210,7 @@ List generateAnalogs(
             R_search_forecasts.begin(), R_search_forecasts.end());
 
     Observations_array search_observations(
-            observation_parameters, search_stations, observation_times);
+            observation_ids, search_stations, observation_times);
     search_observations.data().assign(
             R_search_observations.begin(), R_search_observations.end());
 
@@ -265,14 +265,14 @@ List generateAnalogs(
 
     handleError(anen.computeSimilarity(test_forecasts, search_forecasts,
             sds, sims, search_observations, mapping, i_search_stations,
-            observation_parameter, extend_observations,
+            observation_id, extend_observations,
             max_par_nan, max_flt_nan, test_times_compare,
             search_times_compare, operational));
 
     // Select analogs
     handleError(anen.selectAnalogs(analogs, sims, 
             test_stations, search_observations,
-            mapping, observation_parameter, num_members, quick,
+            mapping, observation_id, num_members, quick,
             extend_observations));
 
     /***************************************************************************

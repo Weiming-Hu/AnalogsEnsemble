@@ -31,11 +31,10 @@ print.Configuration <- function(x) {
 	
 	cat('Class: Configuration list\n')
 	cat('Mode: ', x$mode, '\n')
-	cat('Variables: ')
-	cat(paste(attr(x, 'names'), collapse = ', '))
-	cat('\n')
+	cat('Variables:\n')
+	print(attr(x, 'names'))
 	
 	if (!valid) {
-		cat('* The configuration is not complete. It is NOT ready to be used. *\n')
+		cat('*** The configuration is not complete. It is NOT ready to be used. ***\n')
 	}
 }

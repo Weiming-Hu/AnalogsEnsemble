@@ -4,11 +4,13 @@
 \alias{generateConfiguration}
 \title{RAnEn::generateConfiguration}
 \usage{
-generateConfiguration(mode)
+generateConfiguration(mode, advanced = F)
 }
 \arguments{
 \item{mode}{A character string of either 'independentSearch' or
 'extendedSearch'.}
+
+\item{advanced}{Whether to generate advanced configuration.}
 }
 \value{
 A configuration list with all the parameters you need to specify.

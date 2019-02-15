@@ -47,6 +47,8 @@ generateAnalogs <- function(configuration) {
   valid <- validateConfiguration(configuration, configuration$verbose)
   if (!valid) return(valid)
   
+  configuration <- convertToAdvance(configuration)
+  
   configuration$observation_id = configuration$observation_id - 1
   
   if (configuration$mode == 'independentSearch') {
@@ -88,7 +90,7 @@ generateAnalogs <- function(configuration) {
       configuration$observation_id, configuration$quick,
       configuration$circulars, search_extension,
       configuration$extend_observations,
-      configuration$preserve_similarity, 
+      configuration$preserve_similarity,
       configuration$preserve_mapping, preserve_search_stations,
       max_num_search_stations, distance,
       num_nearest_stations, configuration$time_match_mode,

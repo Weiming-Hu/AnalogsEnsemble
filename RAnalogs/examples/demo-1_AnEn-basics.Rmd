@@ -84,19 +84,26 @@ test.start <- 400
 test.end <- 400
 search.start <- 1
 search.end <- 370
-config$test_forecasts <- forecasts[, , test.start:test.end, , drop = F]
-config$test_times <- forecast.times[test.start:test.end]
-config$search_forecasts <- forecasts[, , search.start:search.end, , drop = F]
-config$search_times <- forecast.times[search.start:search.end]
+
+# Set up forecasts and the time, FLT information
+config$forecasts <- forecasts[, , , , drop = F]
+config$forecast_times <- forecast.times
 config$flts <- flts
+
+# Set up observations and the time information
 config$search_observations <- analysis
 config$observation_times <- analysis.times
+
+# Set up some other parameters
 config$weights <- rep(1, dim(forecasts)[1])
-config$time_match_mode <- 1
 config$num_members <- 19
-config$max_flt_nan <- 1
-config$max_par_nan <- 0
 config$verbose <- 3
+
+# Set the test times
+config$test_times_compare <- forecast.times[test.start:test.end]
+
+# Set the search times
+config$search_times_compare <- forecast.times[search.start:search.end]
 ```
 
 Now we can generate AnEn.

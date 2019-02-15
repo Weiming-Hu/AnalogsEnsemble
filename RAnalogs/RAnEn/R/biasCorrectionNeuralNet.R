@@ -66,6 +66,8 @@ biasCorrectionNeuralNet <- function(
   maxit = 2000, nnet.size = NA, group.func, ..., show.progress = T, keep.bias = F,
   keep.model = F, overwrite = F, parallel = F, num.cores = stop("Please specify num.cores!")) {
   
+  config <- convertToAdvance(config)
+  
 	if (!requireNamespace("pbapply", quietly = TRUE)) {
 		stop("Package \"pbapply\" needed for this function to work. Please install it.", call. = FALSE)
 	}

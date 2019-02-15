@@ -73,6 +73,7 @@
 #' 
 #' @param mode A character string of either 'independentSearch' or
 #' 'extendedSearch'.
+#' @param advanced Whether to generate advanced configuration.
 #' 
 #' @return A configuration list with all the parameters you need to specify.
 #' Please don't change the mode of the configuration mode. If you need a configuration
@@ -80,7 +81,7 @@
 #' 
 #' @md
 #' @export
-generateConfiguration <- function(mode) {
+generateConfiguration <- function(mode, advanced = F) {
   
   available.modes <- c('independentSearch', 'extendedSearch')
   
@@ -101,14 +102,11 @@ generateConfiguration <- function(mode) {
   
   config <- list(
     mode = mode,
-    test_forecasts = NA,
-    test_times = NA,
-    search_forecasts = NULL, 
-    search_times = NULL, 
-    flts = NULL,
-    search_observations = NULL, 
-    observation_times = NULL,
-    num_members = NULL,
+    advanced = advanced,
+    flts = NA,
+    search_observations = NA, 
+    observation_times = NA,
+    num_members = NA,
     observation_id = 1,
     circulars = vector(mode = 'numeric', length = 0), 
     weights = vector(mode = 'numeric', length = 0), 
@@ -124,16 +122,32 @@ generateConfiguration <- function(mode) {
     operational = FALSE,
     verbose = 1)
   
+  if (advanced) {
+    config$test_forecasts <- NA
+    config$test_times <- NA
+    config$search_forecasts <- NA
+    config$search_times <- NA
+  } else {
+    config$forecasts <- NA
+    config$forecast_times <- NA
+  }
+  
   if (mode == 'extendedSearch') {
     config <- c(config, list(
-      test_stations_x = NULL,
-      test_stations_y = NULL,
-      search_stations_x = NULL, 
-      search_stations_y = NULL,
       num_nearest = 0,
       distance = 0,
       max_num_search_stations = 0,
       preserve_search_stations = F))
+    
+    if (advanced) {
+      config$test_stations_x <- NA
+      config$test_stations_y <- NA
+      config$search_stations_x <- NA
+      config$search_stations_y <- NA
+    } else {
+      config$forecast_stations_x <- NA
+      config$forecast_stations_y <- NA
+    }
   }
   
   class(config) <- "Configuration"

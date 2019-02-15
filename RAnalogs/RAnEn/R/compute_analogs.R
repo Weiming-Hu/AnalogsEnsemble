@@ -342,7 +342,7 @@ compute_analogs <- function(forecasts,
   ###################################
   
   if (search_extension) {
-    config <- generateConfiguration('extendedSearch')
+    config <- generateConfiguration('extendedSearch', TRUE)
     
     config$test_stations_x <- xs
     config$test_stations_y <- ys
@@ -355,7 +355,7 @@ compute_analogs <- function(forecasts,
     config$max_num_search_stations <- 10
     
   } else {
-    config <- generateConfiguration('independentSearch')
+    config <- generateConfiguration('independentSearch', TRUE)
   }
 
   test.forecasts <- forecasts
