@@ -64,12 +64,20 @@ $(function() {
 <div class="contents">
 <div class="textblock"><hr/>
 <p> layout: page title: Changelog </p><h2>sidebar_link: true </h2>
+<h1>PEF 3.2.2</h1>
+<ul>
+<li>Improve backward compatibility of R function <code>compute_analogs</code>. This function now returns the analog member index in the 4D observations, rather than in the 3D observations.</li>
+<li>Add a cleaner version of configuration. Configuration now, by default, is the cleaner version. The old version can be accessed by using <code>advanced</code> parameter when generating a configuration.</li>
+<li>Remove some of the post contents to reduce redundant information. Tutorials are now only hosted on binder.</li>
+</ul>
 <h1>PEF 3.2.1</h1>
 <ul>
 <li>Remove computing sds outside the loops when operational search is used.</li>
 <li>Add demo for using operational search.</li>
 <li>Performance improved for computing similarity.</li>
 <li>Add default value in <code>RAnEn</code> for <code>configuration$test_forecasts</code> and <code>configuration$test_times</code>. If they are not specified, they are copied from <code>configuration$search_forecasts</code> and <code>configuration$search_times</code> respectively.</li>
+<li>Add default value for <code>test-forecast-nc</code> in <code>analogGenerator</code> and <code>similarityCalculator</code>. If they are not provided, the search file will be also used as a test file.</li>
+<li>When MPI is used, the reading function should automatically detect whether the file can be accessed with parallel processes.</li>
 </ul>
 <h1>PEF 3.2.0</h1>
 <ul>

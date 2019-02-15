@@ -5,12 +5,19 @@ sidebar_link: true
 ---
 
 
+# PEF 3.2.2
+- Improve backward compatibility of R function `compute_analogs`. This function now returns the analog member index in the 4D observations, rather than in the 3D observations.
+- Add a cleaner version of configuration. Configuration now, by default, is the cleaner version. The old version can be accessed by using `advanced` parameter when generating a configuration.
+- Remove some of the post contents to reduce redundant information. Tutorials are now only hosted on binder.
+
 # PEF 3.2.1
 
 - Remove computing sds outside the loops when operational search is used.
 - Add demo for using operational search.
 - Performance improved for computing similarity.
 - Add default value in `RAnEn` for `configuration$test_forecasts` and `configuration$test_times`. If they are not specified, they are copied from `configuration$search_forecasts` and `configuration$search_times` respectively.
+- Add default value for `test-forecast-nc` in `analogGenerator` and `similarityCalculator`. If they are not provided, the search file will be also used as a test file.
+- When MPI is used, the reading function should automatically detect whether the file can be accessed with parallel processes.
 
 # PEF 3.2.0
 

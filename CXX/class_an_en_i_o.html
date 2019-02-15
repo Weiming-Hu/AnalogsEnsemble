@@ -182,8 +182,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a80e8d2bc7f90b24b93c560a24aeb126e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ada3447ac52d460ae2cbc355dcd55bd35"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#ada3447ac52d460ae2cbc355dcd55bd35">setAdd</a> (bool add)</td></tr>
 <tr class="separator:ada3447ac52d460ae2cbc355dcd55bd35"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a696dff7bb250fc45b597e5f82e33e23e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a696dff7bb250fc45b597e5f82e33e23e">setVerbose</a> (int <a class="el" href="class_an_en_i_o.html#a4f6abd007730e4a8f54d57cc3572bd9e">verbose_</a>)</td></tr>
-<tr class="separator:a696dff7bb250fc45b597e5f82e33e23e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4628bfc5104f7a24d16f7b2729f8ad47"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a4628bfc5104f7a24d16f7b2729f8ad47">setVerbose</a> (int verbose)</td></tr>
+<tr class="separator:a4628bfc5104f7a24d16f7b2729f8ad47"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0f3889bc1652077a4b41016393f0b7c6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a0f3889bc1652077a4b41016393f0b7c6">setMode</a> (std::string mode)</td></tr>
 <tr class="separator:a0f3889bc1652077a4b41016393f0b7c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa199cf152c5c165e9c98d237830ba9ec"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#aa199cf152c5c165e9c98d237830ba9ec">setMode</a> (std::string mode, std::string file_path)</td></tr>
@@ -272,12 +272,18 @@ Protected Member Functions</h2></td></tr>
 <tr class="memitem:aa135f278f8ff2a028b8119f483dd36bf"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:aa135f278f8ff2a028b8119f483dd36bf"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#aa135f278f8ff2a028b8119f483dd36bf">read_vector_</a> (std::string var_name, std::vector&lt; T &gt; &amp;results) const</td></tr>
 <tr class="separator:aa135f278f8ff2a028b8119f483dd36bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa026adebf4a1195f13e7c01325ca4906"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:aa026adebf4a1195f13e7c01325ca4906"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#aa026adebf4a1195f13e7c01325ca4906">read_vector_</a> (const netCDF::NcVar &amp;var, T *p_vals, const size_t &amp;total) const</td></tr>
+<tr class="separator:aa026adebf4a1195f13e7c01325ca4906"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4a4b8eedb372df1bb46b2104ae2761cd"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a4a4b8eedb372df1bb46b2104ae2761cd"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a4a4b8eedb372df1bb46b2104ae2761cd">read_vector_</a> (std::string var_name, std::vector&lt; T &gt; &amp;results, std::vector&lt; size_t &gt; start, std::vector&lt; size_t &gt; count, std::vector&lt; ptrdiff_t &gt; stride={1}) const</td></tr>
 <tr class="separator:a4a4b8eedb372df1bb46b2104ae2761cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9a0c27d0baddc7e27b25e1d13ac4f313"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a9a0c27d0baddc7e27b25e1d13ac4f313"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a9a0c27d0baddc7e27b25e1d13ac4f313">read_vector_</a> (std::string var_name, std::vector&lt; T &gt; &amp;results, size_t start, size_t count, ptrdiff_t stride=1) const</td></tr>
 <tr class="separator:a9a0c27d0baddc7e27b25e1d13ac4f313"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae9c30f235b7ba990de42ad0b7decab73"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ae9c30f235b7ba990de42ad0b7decab73"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#ae9c30f235b7ba990de42ad0b7decab73">read_vector_</a> (const netCDF::NcVar &amp;var, T *p_vals, const std::vector&lt; size_t &gt; &amp;start, const std::vector&lt; size_t &gt; &amp;count, const std::vector&lt; ptrdiff_t &gt; &amp;stride, const size_t &amp;total) const</td></tr>
+<tr class="separator:ae9c30f235b7ba990de42ad0b7decab73"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -289,6 +295,8 @@ Protected Attributes</h2></td></tr>
 <tr class="separator:addbfb455f641a394c14907163874d8fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af41950dbc4fabfba3d00263c297b50ad"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#af41950dbc4fabfba3d00263c297b50ad">add_</a> = false</td></tr>
 <tr class="separator:af41950dbc4fabfba3d00263c297b50ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa80a8a2069c951f0d426feeaf19162c8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#aa80a8a2069c951f0d426feeaf19162c8">NC4_</a> = false</td></tr>
+<tr class="separator:aa80a8a2069c951f0d426feeaf19162c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4f6abd007730e4a8f54d57cc3572bd9e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a4f6abd007730e4a8f54d57cc3572bd9e">verbose_</a> = 2</td></tr>
 <tr class="separator:a4f6abd007730e4a8f54d57cc3572bd9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a119dcb81d3811547f0e37d6c3752f0a7"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a119dcb81d3811547f0e37d6c3752f0a7">required_variables_</a></td></tr>
@@ -1852,7 +1860,7 @@ Protected Attributes</h2></td></tr>
 </div>
 </div>
 <a id="aa135f278f8ff2a028b8119f483dd36bf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa135f278f8ff2a028b8119f483dd36bf">&#9670;&nbsp;</a></span>read_vector_() <span class="overload">[1/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aa135f278f8ff2a028b8119f483dd36bf">&#9670;&nbsp;</a></span>read_vector_() <span class="overload">[1/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1898,8 +1906,52 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
+<a id="aa026adebf4a1195f13e7c01325ca4906"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa026adebf4a1195f13e7c01325ca4906">&#9670;&nbsp;</a></span>read_vector_() <span class="overload">[2/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void AnEnIO::read_vector_ </td>
+          <td>(</td>
+          <td class="paramtype">const netCDF::NcVar &amp;&#160;</td>
+          <td class="paramname"><em>var</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">T *&#160;</td>
+          <td class="paramname"><em>p_vals</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const size_t &amp;&#160;</td>
+          <td class="paramname"><em>total</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a4a4b8eedb372df1bb46b2104ae2761cd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4a4b8eedb372df1bb46b2104ae2761cd">&#9670;&nbsp;</a></span>read_vector_() <span class="overload">[2/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a4a4b8eedb372df1bb46b2104ae2761cd">&#9670;&nbsp;</a></span>read_vector_() <span class="overload">[3/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1955,7 +2007,7 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <a id="a9a0c27d0baddc7e27b25e1d13ac4f313"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9a0c27d0baddc7e27b25e1d13ac4f313">&#9670;&nbsp;</a></span>read_vector_() <span class="overload">[3/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a9a0c27d0baddc7e27b25e1d13ac4f313">&#9670;&nbsp;</a></span>read_vector_() <span class="overload">[4/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1994,6 +2046,68 @@ template&lt;typename T &gt; </div>
           <td></td>
           <td class="paramtype">ptrdiff_t&#160;</td>
           <td class="paramname"><em>stride</em> = <code>1</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae9c30f235b7ba990de42ad0b7decab73"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae9c30f235b7ba990de42ad0b7decab73">&#9670;&nbsp;</a></span>read_vector_() <span class="overload">[5/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void AnEnIO::read_vector_ </td>
+          <td>(</td>
+          <td class="paramtype">const netCDF::NcVar &amp;&#160;</td>
+          <td class="paramname"><em>var</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">T *&#160;</td>
+          <td class="paramname"><em>p_vals</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; size_t &gt; &amp;&#160;</td>
+          <td class="paramname"><em>start</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; size_t &gt; &amp;&#160;</td>
+          <td class="paramname"><em>count</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; ptrdiff_t &gt; &amp;&#160;</td>
+          <td class="paramname"><em>stride</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const size_t &amp;&#160;</td>
+          <td class="paramname"><em>total</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -3001,8 +3115,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="a696dff7bb250fc45b597e5f82e33e23e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a696dff7bb250fc45b597e5f82e33e23e">&#9670;&nbsp;</a></span>setVerbose()</h2>
+<a id="a4628bfc5104f7a24d16f7b2729f8ad47"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4628bfc5104f7a24d16f7b2729f8ad47">&#9670;&nbsp;</a></span>setVerbose()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -3011,7 +3125,7 @@ template&lt;typename T &gt; </div>
           <td class="memname">void AnEnIO::setVerbose </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>verbose_</em></td><td>)</td>
+          <td class="paramname"><em>verbose</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -3769,6 +3883,29 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
+<a id="aa80a8a2069c951f0d426feeaf19162c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa80a8a2069c951f0d426feeaf19162c8">&#9670;&nbsp;</a></span>NC4_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool AnEnIO::NC4_ = false</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Whether the file is a NetCDF 4 format. </p>
+
+</div>
+</div>
 <a id="a43f82ffbafbbda7ab8c9471d0bce70df"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a43f82ffbafbbda7ab8c9471d0bce70df">&#9670;&nbsp;</a></span>optional_variables_</h2>
 
@@ -3863,8 +4000,9 @@ template&lt;typename T &gt; </div>
 <li>2: The above plus Warnings.</li>
 <li>3: The above plus program progress information.</li>
 <li>4: The above plus check information.</li>
-<li>5: The above plus session information. </li>
+<li>5: The above plus session information.</li>
 </ul>
+<p>Please note that the verbose level of thread level messages is (verbose - 2). For example, if the main program verbose level is 5, program progress information from threads , which is for verbose 3, will be included. </p>
 
 </div>
 </div>
