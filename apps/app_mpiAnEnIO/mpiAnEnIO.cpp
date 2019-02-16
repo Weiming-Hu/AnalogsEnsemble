@@ -27,6 +27,11 @@
 
 #include <set>
 
+// For linux system, get process id
+//
+#include <sys/types.h>
+#include <unistd.h>
+
 using namespace std;
 using namespace netCDF;
 
@@ -35,21 +40,20 @@ const static int _MAX_VAR_NAME = 100;
 
 #define ERR {if(res!=NC_NOERR) {cout << "Error at line=" << __LINE__ << ": (" << res << ") "<< nc_strerror(res) << endl;MPI_Finalize();return res;}}
 
-MPI_Datatype get_mpi_type(const nc_type & c) {
+int my_MPI_Gatherv(
+        const void* sendbuf, int sendcount, 
+        void* recvbuf, const int* recvcounts, const int* displs,
+        int root, MPI_Comm comm, const nc_type &c) {
 
     switch (c) {
         case NC_CHAR:
-            return MPI_CHAR;
-            break;
+            return (MPI_Gatherv(sendbuf, sendcount, MPI_CHAR, recvbuf, recvcounts, displs, MPI_CHAR, root, comm));
         case NC_BYTE:
-            return MPI_BYTE;
-            break;
+            return (MPI_Gatherv(sendbuf, sendcount, MPI_BYTE, recvbuf, recvcounts, displs, MPI_BYTE, root, comm));
         case NC_SHORT:
-            return MPI_SHORT;
-            break;
+            return (MPI_Gatherv(sendbuf, sendcount, MPI_SHORT, recvbuf, recvcounts, displs, MPI_SHORT, root, comm));
         case NC_INT:
-            return MPI_INT;
-            break;
+            return (MPI_Gatherv(sendbuf, sendcount, MPI_INT, recvbuf, recvcounts, displs, MPI_INT, root, comm));
         case NC_FLOAT:
             // I do not want to pass float values because they are handled as double in AnEnIO.
             // I will convert them explicitly.
@@ -57,26 +61,25 @@ MPI_Datatype get_mpi_type(const nc_type & c) {
             // return MPI_FLOAT;
             // break;
         case NC_DOUBLE:
-            return MPI_DOUBLE;
-            break;
-//        case NC_UBYTE:
-//        case NC_USHORT:
-//        case NC_UINT:
-//        case NC_UINT64:
-//            return MPI_UNSIGNED;
-//            break;
+            //        case NC_UBYTE:
+            //        case NC_USHORT:
+            //        case NC_UINT:
+            //        case NC_UINT64:
+            //            return MPI_UNSIGNED;
+            //            break;
+            return (MPI_Gatherv(sendbuf, sendcount, MPI_DOUBLE, recvbuf, recvcounts, displs, MPI_DOUBLE, root, comm));
         default:
             throw std::runtime_error("Unknown NcType");
     }
 }
-
+        
 /**
  * This is the child utility supporting the MPI I/O process
  * of NetCDF files. This utility should not be called 
  * directly by the user. Rather, this utility is automatically
  * called by the CAnEnIO library.
  *
- * This utility contains the child functino to read and write
+ * This utility contains the child functions to read and write
  * NetCDF files with MPI processes using the spawn function
  * from MPI.
  *
@@ -91,29 +94,35 @@ int main(int argc, char** argv) {
     int world_size = -1, world_rank = -1;
 
     // Get the parent communicator
-    MPI_Comm parent;
-    MPI_Comm_get_parent(&parent);
+    MPI_Comm inter_parent, parent;
+    MPI_Comm_get_parent(&inter_parent);
 
-    if (parent == MPI_COMM_NULL) {
-        cout << BOLDRED << "Child rank #" << world_rank
-                << " cannot get parent communicator. Something is wrong!"
+    if (inter_parent == MPI_COMM_NULL) {
+        cout << BOLDRED << "Child cannot get parent communicator. Something is wrong!"
                 << RESET << endl;
         MPI_Finalize();
         return 1;
     }
 
-    int parent_size = 0;
-    MPI_Comm_remote_size(parent, &parent_size);
-    if (parent_size != 1) {
-        cout << BOLDRED << "Child rank #" << world_rank
-                << " should be only 1 parent. Multiple found." << RESET << endl;
-        MPI_Finalize();
-        return 1;
-    }
+    //int parent_size = 0;
+    //MPI_Comm_remote_size(parent, &parent_size);
+    //if (parent_size != 1) {
+    //    cout << BOLDRED << "Child rank #" << world_rank
+    //            << " should be only 1 parent. Multiple found." << RESET << endl;
+    //    MPI_Finalize();
+    //    return 1;
+    //}
 
     // Get the size and rank of the current communicator
+    MPI_Intercomm_merge(inter_parent, 1, &parent);
     MPI_Comm_size(parent, &world_size);
     MPI_Comm_rank(parent, &world_rank);
+
+    // For linux system, get process id
+    //
+    pid_t pid = getpid();
+    cout << "***************** pid " << pid << " is world rank: "
+        << world_rank << " *****************" << endl;
 
     // Get variables broadcasted from parent
     char *p_file_name = new char[_MAX_FILE_NAME],
@@ -137,12 +146,12 @@ int main(int argc, char** argv) {
     // Define the start and count indices
     // Distribution only happens to the first dimension for simplicity.
     //
-    p_start[0] += world_rank * (int)(p_count[0] / world_size);
+    p_start[0] += (world_rank - 1) * (int)(p_count[0] / (world_size - 1));
 
     if (world_rank == world_size - 1)
         p_count[0] = p_count[0] - p_start[0];
     else
-        p_count[0] = p_count[0] / world_size;
+        p_count[0] = p_count[0] / (world_size - 1);
 
     if (verbose >= 4) {
         cout << GREEN << "Child rank #" << world_rank
@@ -160,7 +169,7 @@ int main(int argc, char** argv) {
     nc_type var_type;
 
     // Check whether the file supported parallel access
-    if (world_rank == 0) {
+    if (world_rank == 1) {
         res = nc_open(p_file_name, NC_NOWRITE, &ncid);
         ERR;
 
@@ -179,6 +188,8 @@ int main(int argc, char** argv) {
             MPI_Finalize();
             return 1;
         }
+
+        nc_close(ncid);
     }
 
     MPI_Barrier(MPI_COMM_WORLD);
@@ -203,7 +214,6 @@ int main(int argc, char** argv) {
 
     res = nc_get_vara(ncid, varid, start.data(), count.data(), p_vals);
     ERR;
-    MPI_Datatype datatype = get_mpi_type(var_type);
     res = nc_close(ncid);
     ERR;
 
@@ -229,11 +239,18 @@ int main(int argc, char** argv) {
     // Make sure all children have completed reading files.
     MPI_Barrier(parent);
     
-    if (verbose >= 4) cout << GREEN << "Rank #" << world_rank << " sending data ("
-            << len << ") back to the parent ..." << RESET << endl;
+    if (verbose >= 4) cout << GREEN << "Rank #" << world_rank
+            << " sending data (" << len << ") back to the parent ..."
+            << RESET << endl;
 
-    if (MPI_Gatherv(p_vals, len, datatype, NULL, NULL, NULL,
-            MPI_DATATYPE_NULL, 0, parent) != MPI_SUCCESS) {
+    //cout << "#" << world_rank << ": ";
+    //char *pd = (char*)p_vals;
+    //for (size_t i = 0; i < len; i++) {
+    //    cout << pd[i] << " ";
+    //}
+    //cout << endl;
+
+    if (my_MPI_Gatherv(p_vals, len, NULL, NULL, NULL, 0, parent, var_type) != MPI_SUCCESS) {
         if (verbose >= 1) cout << BOLDRED << "Rank #" << world_rank 
                 << " failed during sending data." << RESET << endl;
         MPI_Finalize();

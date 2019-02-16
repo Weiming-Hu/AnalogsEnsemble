@@ -98,25 +98,25 @@ void allocate_memory(void* &p,
     try {
         switch (vartype) {
             case NcType::nc_CHAR:
-                p = new char[len];
+                p = new char[len]();
                 break;
             case NcType::nc_BYTE:
             case NcType::nc_SHORT:
             case NcType::nc_INT:
-                p = new int[len];
+                p = new int[len]();
                 break;
             case NcType::nc_FLOAT:
-                p = new float[len];
+                p = new float[len]();
                 break;
             case NcType::nc_DOUBLE:
-                p = new double[len];
+                p = new double[len]();
                 break;
             case NcType::nc_UBYTE:
             case NcType::nc_USHORT:
             case NcType::nc_UINT:
             case NcType::nc_INT64:
             case NcType::nc_UINT64:
-                p = new unsigned int[len];
+                p = new unsigned int[len]();
                 break;
             default:
                 if (verbose >= 1) cout << "Error: Variable type not supported!" << endl;
@@ -145,25 +145,25 @@ void allocate_memory(void* & p, const nc_type & vartype, int len, int verbose) {
     try {
         switch (vartype) {
             case NC_CHAR:
-                p = new char[len];
+                p = new char[len]();
                 break;
             case NC_BYTE:
             case NC_SHORT:
             case NC_INT:
-                p = new int[len];
+                p = new int[len]();
                 break;
             case NC_FLOAT:
-                p = new float[len];
+                p = new float[len]();
                 break;
             case NC_DOUBLE:
-                p = new double[len];
+                p = new double[len]();
                 break;
             case NC_UBYTE:
             case NC_USHORT:
             case NC_UINT:
             case NC_INT64:
             case NC_UINT64:
-                p = new unsigned int[len];
+                p = new unsigned int[len]();
                 break;
             default:
                 if (verbose >= 1) cout << "A rank failed in allocating memory." << endl;

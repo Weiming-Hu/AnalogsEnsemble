@@ -892,8 +892,20 @@ AnEnIO::readStations(anenSta::Stations& stations,
 
     // Read variable StationNames
     vector<string> names;
-    read_string_vector_(var_name_prefix + "StationNames",
-            names, start, count, stride);
+    if (checkVariable(var_name_prefix + "StationNames", true)
+            == errorType::SUCCESS) {
+        read_string_vector_(var_name_prefix + "StationNames",
+                names, start, count, stride);
+
+        if (names.size() != dim_len) {
+            if (verbose_ >= 1) {
+                cout << BOLDRED << "Error: There should be " << dim_len << " "
+                    << " station names!" << RESET << endl;
+            }
+            return (WRONG_VARIABLE_SHAPE);
+        }
+    }
+
 
     // Read variables xs and ys (coordinates)
     vector<double> xs, ys;

@@ -352,6 +352,32 @@ AnEnIO::read_vector_(const netCDF::NcVar & var, T *p_vals,
 
 #if defined(_ENABLE_MPI)
 template<typename T>
+int
+AnEnIO::my_MPI_Gatherv(
+        const void* sendbuf, int sendcount, 
+        void* recvbuf, const int* recvcounts, const int* displs,
+        int root, MPI_Comm comm) const {
+
+    char name = typeid (T).name()[0];
+
+    switch (name) {
+        case 'i':
+            return (MPI_Gatherv(sendbuf, sendcount, MPI_INT, recvbuf, recvcounts, displs, MPI_INT, root, comm));
+        case 'f':
+        case 'd':
+            return (MPI_Gatherv(sendbuf, sendcount, MPI_DOUBLE, recvbuf, recvcounts, displs, MPI_DOUBLE, root, comm));
+        case 'c':
+            return (MPI_Gatherv(sendbuf, sendcount, MPI_CHAR, recvbuf, recvcounts, displs, MPI_CHAR, root, comm));
+        case 's':
+            return (MPI_Gatherv(sendbuf, sendcount, MPI_SHORT, recvbuf, recvcounts, displs, MPI_SHORT, root, comm));
+        case 'b':
+            return (MPI_Gatherv(sendbuf, sendcount, MPI_BYTE, recvbuf, recvcounts, displs, MPI_BYTE, root, comm));
+    }
+
+    throw std::runtime_error("Cannot deduce the MPI Datatype.");
+}
+
+template<typename T>
 MPI_Datatype
 AnEnIO::get_mpi_type() const {
     
@@ -428,11 +454,12 @@ AnEnIO::MPI_read_vector_(const netCDF::NcVar & var, T* & p_vals,
         if (verbose_ >= 4) cout << "Spawning " << num_children
                 << " processes to read " << var_name << " ..." << endl;
 
-        MPI_Comm children;
+        MPI_Comm children, intra_children;
         if (MPI_Comm_spawn(mpiAnEnIO_.c_str(), MPI_ARGV_NULL, num_children, MPI_INFO_NULL,
                 0, MPI_COMM_SELF, &children, MPI_ERRCODES_IGNORE) != MPI_SUCCESS) {
             throw runtime_error("Spawning children failed.");
         }
+        MPI_Intercomm_merge(children, 0, &intra_children);
 
         // Since MPI does not allow send/receive size_t, I create a copy
         // of the start and count indices.
@@ -460,14 +487,20 @@ AnEnIO::MPI_read_vector_(const netCDF::NcVar & var, T* & p_vals,
 
         // Broadcast some variables to children
         if (verbose_ >= 4) cout << "Broadcasting variables ..." << endl;
-        MPI_Bcast(p_file_path, file_path_.length() + 1, MPI_CHAR, MPI_ROOT, children);
-        MPI_Bcast(p_var_name, var_name.length() + 1, MPI_CHAR, MPI_ROOT, children);
-        MPI_Bcast(&num_indices, 1, MPI_INT, MPI_ROOT, children);
+        //MPI_Bcast(p_file_path, file_path_.length() + 1, MPI_CHAR, MPI_ROOT, children);
+        //MPI_Bcast(p_var_name, var_name.length() + 1, MPI_CHAR, MPI_ROOT, children);
+        //MPI_Bcast(&num_indices, 1, MPI_INT, MPI_ROOT, children);
+        MPI_Bcast(p_file_path, file_path_.length() + 1, MPI_CHAR, 0, intra_children);
+        MPI_Bcast(p_var_name, var_name.length() + 1, MPI_CHAR, 0, intra_children);
+        MPI_Bcast(&num_indices, 1, MPI_INT, 0, intra_children);
 
         int verbose = verbose_;
-        MPI_Bcast(&verbose, 1, MPI_INT, MPI_ROOT, children);
-        MPI_Bcast(p_start, num_indices, MPI_INT, MPI_ROOT, children);
-        MPI_Bcast(p_count, num_indices, MPI_INT, MPI_ROOT, children);
+        //MPI_Bcast(&verbose, 1, MPI_INT, MPI_ROOT, children);
+        //MPI_Bcast(p_start, num_indices, MPI_INT, MPI_ROOT, children);
+        //MPI_Bcast(p_count, num_indices, MPI_INT, MPI_ROOT, children);
+        MPI_Bcast(&verbose, 1, MPI_INT, 0, intra_children);
+        MPI_Bcast(p_start, num_indices, MPI_INT, 0, intra_children);
+        MPI_Bcast(p_count, num_indices, MPI_INT, 0, intra_children);
 
         // Collect data from children
         vector<int> recvcounts(num_children), displs(num_children);
@@ -485,13 +518,13 @@ AnEnIO::MPI_read_vector_(const netCDF::NcVar & var, T* & p_vals,
         // CAUTIOUS: Please leave this barrier here to ensure the execution of
         // parent and children, otherwise the execution is not predictable.
         //
-        MPI_Barrier(children);
+        MPI_Barrier(intra_children);
 
         if (verbose_ >= 4) cout << "Parent waiting to gather data from processes ..." << endl;
         
-        MPI_Datatype datatype = get_mpi_type<T>();
-        MPI_Gatherv(NULL, 0, MPI_DATATYPE_NULL, p_vals, recvcounts.data(),
-                displs.data(), datatype, MPI_ROOT, children);
+        my_MPI_Gatherv<T>(NULL, 0, p_vals, recvcounts.data(), displs.data(), 0, intra_children);
+        //MPI_Gatherv(NULL, 0, MPI_DATATYPE_NULL, p_vals, recvcounts.data(),
+        //        displs.data(), datatype, 0, intra_children);
 
         delete [] p_file_path;
         delete [] p_var_name;

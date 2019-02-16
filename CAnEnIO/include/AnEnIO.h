@@ -905,6 +905,13 @@ protected:
      */
     template<typename T>
     MPI_Datatype get_mpi_type() const;
+
+    template<typename T>
+    int my_MPI_Gatherv(
+            const void* sendbuf, int sendcount, 
+            void* recvbuf, const int* recvcounts, const int* displs,
+            int root, MPI_Comm comm) const;
+
     
     /**
      * This function reads values using MPI functions. A group of children will
