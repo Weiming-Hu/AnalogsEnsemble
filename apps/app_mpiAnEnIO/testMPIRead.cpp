@@ -7,54 +7,43 @@
 using namespace std;
 using namespace netCDF;
 
-//int main (int argc, char** argv) {
-//    MPI_Init(&argc, &argv);
-//    int num_children = 3;
+//int main(int argc, char** argv) {
 //
-//    
-//    
-////    MPI_Intercomm_merge(children, 0, &intra_children);
-//    
-//    int universe_size, *universe_sizep, flag; 
-//    MPI_Comm_get_attr(MPI_COMM_WORLD, MPI_UNIVERSE_SIZE,
-//            &universe_sizep, &flag);
-//    if (!flag) {
-//        cout << "This MPI does not support UNIVERSE_SIZE." << endl;
-//        MPI_Finalize();
-//        return 1;
+//    AnEnIO::handle_MPI_Init();
+//
+//    double wtime_start = MPI_Wtime();
+//
+//    string file_path;
+//
+//    if (argc == 2) {
+//        file_path = string(argv[argc - 1]);
 //    } else {
-//        universe_size = *universe_sizep;
+//        cout << "Usage: Only one parameter is accepted as the file path." << endl;
+//        return 1;
 //    }
-//    
-//    if (universe_size == 1) cout << "No room to start workers" << endl;
-//    
-//    MPI_Comm children, intra_children;
-//    if (MPI_Comm_spawn("mpiAnEnIO", MPI_ARGV_NULL, num_children, MPI_INFO_NULL,
-//            0, MPI_COMM_SELF, &children, MPI_ERRCODES_IGNORE) != MPI_SUCCESS) {
-//        throw runtime_error("Spawning children failed.");
-//    }
-//            
-//    
-//    char p_vals[15] = {'0','0','0','0','0','0','0','0','0','0','0','0','0','0','0'};
-//    
-//    int recvcounts[3] = {5, 5, 5}, displs[3] = {0, 5, 10};
-//    
-//    void *sendbuf = nullptr;
-//    MPI_Gatherv(sendbuf, 0, MPI_CHAR, p_vals, recvcounts, displs, MPI_CHAR, MPI_ROOT, children);
-//    
-//    cout << "received: ";
-//    for (int i = 0; i < 15; i++) {
-//        cout << p_vals[i] << " ";
-//    }
-//    cout << endl;
-//    
-//    MPI_Finalize();
-//    return 0;
+//
+//    AnEnIO io("Read", file_path, "Observations", 6);
+//    Observations_array observations;
+//    io.readObservations(observations);
+//
+//    AnEnIO::handle_MPI_Finalize();
+//
+//    double wtime_end = MPI_Wtime();
+//
+//    cout << endl << "********************************" << endl
+//            << "Total execution time: " << wtime_end - wtime_start << " s;" << endl
+//            << "********************************" << endl;
+//
+//
+//    return (0);
 //}
 
 int main (int argc, char** argv) {
  
     MPI_Init(&argc, &argv);
+    
+    double wtime_start = MPI_Wtime();
+    double wtime_barrier;
 
     string file_path;
 
@@ -69,7 +58,7 @@ int main (int argc, char** argv) {
     int verbose = 6;
 
     NcFile nc(file_path, NcFile::FileMode::read);
-    auto var = nc.getVar("StationNames");
+    auto var = nc.getVar("Data");
 
     auto var_name = var.getName();
     const auto & var_dims = var.getDims();
@@ -79,8 +68,8 @@ int main (int argc, char** argv) {
         total *= dim.getSize();
     }
 
-    char *p_vals = new char[total];
-    vector<size_t> start, count;
+    double *p_vals = new double[total];
+    vector<size_t> start = {0,0,0}, count = {496, 120000, 17};
     int world_rank, num_children;
     MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
 
@@ -139,16 +128,10 @@ int main (int argc, char** argv) {
         MPI_Bcast(p_file_path, file_path.length() + 1, MPI_CHAR, MPI_ROOT, children);
         MPI_Bcast(p_var_name, var_name.length() + 1, MPI_CHAR, MPI_ROOT, children);
         MPI_Bcast(&num_indices, 1, MPI_INT, MPI_ROOT, children);
-//        MPI_Bcast(p_file_path, file_path.length() + 1, MPI_CHAR, 0, intra_children);
-//        MPI_Bcast(p_var_name, var_name.length() + 1, MPI_CHAR, 0, intra_children);
-//        MPI_Bcast(&num_indices, 1, MPI_INT, 0, intra_children);
 
         MPI_Bcast(&verbose, 1, MPI_INT, MPI_ROOT, children);
         MPI_Bcast(p_start, num_indices, MPI_INT, MPI_ROOT, children);
         MPI_Bcast(p_count, num_indices, MPI_INT, MPI_ROOT, children);
-//        MPI_Bcast(&verbose, 1, MPI_INT, 0, intra_children);
-//        MPI_Bcast(p_start, num_indices, MPI_INT, 0, intra_children);
-//        MPI_Bcast(p_count, num_indices, MPI_INT, 0, intra_children);
 
         // Collect data from children
         vector<int> recvcounts(num_children), displs(num_children);
@@ -163,26 +146,24 @@ int main (int argc, char** argv) {
                 recvcounts[i] = (p_count[0] / num_children) * multiply;
         }
         
-        cout << "Master process recv counts/displs: " << endl;
-        for (size_t i = 0; i <recvcounts.size(); i ++)
-        {
-            cout << recvcounts[i] << "," << displs[i] << endl;
-        }
-        cout << endl;
+//        cout << "Master process recv counts/displs: " << endl;
+//        for (size_t i = 0; i <recvcounts.size(); i ++)
+//        {
+//            cout << recvcounts[i] << "," << displs[i] << endl;
+//        }
+//        cout << endl;
 
         // CAUTIOUS: Please leave this barrier here to ensure the execution of
         // parent and children, otherwise the execution is not predictable.
         //
         MPI_Barrier(children);
+        wtime_barrier = MPI_Wtime();
 
         if (verbose >= 4) cout << "Parent waiting to gather data from processes ..." << endl;
         
         void *sendbuf = nullptr;
         
-        MPI_Gatherv(sendbuf, 0, MPI_CHAR, p_vals, recvcounts.data(), displs.data(), MPI_CHAR, MPI_ROOT, children);
-        //MPI_Gatherv(NULL, 0, MPI_DATATYPE_NULL, p_vals, recvcounts.data(),
-        //
-        //        displs.data(), datatype, 0, intra_children);
+        MPI_Gatherv(sendbuf, 0, MPI_DOUBLE, p_vals, recvcounts.data(), displs.data(), MPI_DOUBLE, MPI_ROOT, children);
 
         delete [] p_file_path;
         delete [] p_var_name;
@@ -202,5 +183,15 @@ int main (int argc, char** argv) {
     nc.close();
 
     MPI_Finalize();
+    
+    double wtime_end = MPI_Wtime();
+    
+    cout << endl << "********************************" << endl
+            << "Total execution time: " << wtime_end - wtime_start << " s;" << endl
+            << "Time until the barrier: " << wtime_barrier - wtime_start << " s;" << endl
+            << "Time for MPI_Gatherv: " << wtime_end - wtime_barrier << " s;" << endl
+            << "********************************" << endl;
+    
+    
     return (0);
 }

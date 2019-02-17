@@ -72,15 +72,9 @@ set_target_properties(${PROJECT_NAME}
     PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${COMMON_OUTPUT_DIR}/bin")
 install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION bin)
 
-
-
-
-
-
-
-set(PROJECT_NAME "separateTest")
+set(PROJECT_NAME "testMPIRead")
 message(STATUS "Build MPI functions and utilities for NetCDF I/O")
-set(SOURCE_MAIN "${CMAKE_CURRENT_SOURCE_DIR}/separateTest.cpp")
+set(SOURCE_MAIN "${CMAKE_CURRENT_SOURCE_DIR}/testMPIRead.cpp")
 add_executable(${PROJECT_NAME} ${SOURCE_MAIN})
 
 include_directories ("${CMAKE_SOURCE_DIR}/CAnEn/include")

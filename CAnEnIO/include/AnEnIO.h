@@ -906,6 +906,16 @@ protected:
     template<typename T>
     MPI_Datatype get_mpi_type() const;
 
+    /**
+     * This function gathers a dynamic type from spawned children.
+     * 
+     * @param recvbuf Receiver buffer.
+     * @param recvcounts Receiver counts.
+     * @param displs Receiver displacement from the start.
+     * @param root The root rank.
+     * @param comm The communicator.
+     * @return Return status.
+     */
     template<typename T>
     int my_MPI_Gatherv(
             void* recvbuf, const int* recvcounts, const int* displs,

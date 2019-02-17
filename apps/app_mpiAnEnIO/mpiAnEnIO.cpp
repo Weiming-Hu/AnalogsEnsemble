@@ -90,51 +90,6 @@ int my_MPI_Gatherv(
  *        DIRECTLY IF YOU DO NOT KNOW WHAT IT IS.
  * ********************************************************
  */
-
-//int main(int argc, char** argv) {
-//    MPI_Init(&argc, &argv);
-//    int world_size = -1, world_rank = -1;
-//
-//    // Get the parent communicator
-//    MPI_Comm inter_parent, parent;
-//    MPI_Comm_get_parent(&inter_parent);
-//
-//    if (inter_parent == MPI_COMM_NULL) {
-//        cout << BOLDRED << "Child cannot get parent communicator. Something is wrong!"
-//                << RESET << endl;
-//        MPI_Finalize();
-//        return 1;
-//    }
-//
-//    //int parent_size = 0;
-//    //MPI_Comm_remote_size(parent, &parent_size);
-//    //if (parent_size != 1) {
-//    //    cout << BOLDRED << "Child rank #" << world_rank
-//    //            << " should be only 1 parent. Multiple found." << RESET << endl;
-//    //    MPI_Finalize();
-//    //    return 1;
-//    //}
-//
-//    // Get the size and rank of the current communicator
-////    MPI_Intercomm_merge(inter_parent, 1, &parent);
-//    MPI_Comm_size(inter_parent, &world_size);
-//    MPI_Comm_rank(inter_parent, &world_rank);
-//
-//    // For linux system, get process id
-//    //
-//    pid_t pid = getpid();
-//    cout << "***************** pid " << pid << " is world rank: "
-//        << world_rank << " *****************" << endl;
-//    
-//    char sendbuf[5] = {'a', 'b', 'd', 'e', 'f'};
-//    void* recvbuf;
-//    int *recvcounts, *displs;
-//    MPI_Gatherv(sendbuf, 5, MPI_CHAR, recvbuf, recvcounts, displs, MPI_CHAR, 0, inter_parent);
-//            
-//    MPI_Finalize();
-//    return 0;
-//}
-
 int main(int argc, char** argv) {
 
     MPI_Init(&argc, &argv);

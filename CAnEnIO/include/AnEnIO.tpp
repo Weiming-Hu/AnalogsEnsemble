@@ -439,10 +439,8 @@ AnEnIO::MPI_read_vector_(const netCDF::NcVar & var, T* & p_vals,
     char *num_procs_str = getenv("MPI_UNIVERSE_SIZE");
     if (num_procs_str) {
         sscanf(num_procs_str, "%d", &num_children);
-#if defined(_OPENMP)
     } else {
         throw runtime_error("Please set MPI_UNIVERSE_SIZE to limit the number of spawned children.");
-#endif
     }
     
     // The master process is already alive. I can create MPI_UNIVERSE_SIZE-1 new processes.
