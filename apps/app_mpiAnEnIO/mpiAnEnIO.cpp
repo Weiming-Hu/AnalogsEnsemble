@@ -284,7 +284,7 @@ int main(int argc, char** argv) {
     }
 
     // Make sure all children have completed reading files.
-    //MPI_Barrier(parent);
+    MPI_Barrier(parent);
     
     if (verbose >= 4) cout << GREEN << "Rank #" << world_rank
             << " sending data (" << len << ") back to the parent ..."

@@ -514,7 +514,7 @@ AnEnIO::MPI_read_vector_(const netCDF::NcVar & var, T* & p_vals,
         // CAUTIOUS: Please leave this barrier here to ensure the execution of
         // parent and children, otherwise the execution is not predictable.
         //
-        //MPI_Barrier(children);
+        MPI_Barrier(children);
 
         if (verbose_ >= 4) cout << "Parent waiting to gather data from processes ..." << endl;
         
