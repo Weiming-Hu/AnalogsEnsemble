@@ -354,9 +354,11 @@ AnEnIO::read_vector_(const netCDF::NcVar & var, T *p_vals,
 template<typename T>
 int
 AnEnIO::my_MPI_Gatherv(
-        const void* sendbuf, int sendcount, 
         void* recvbuf, const int* recvcounts, const int* displs,
         int root, MPI_Comm comm) const {
+
+    const void* sendbuf = nullptr;
+    int sendcount = 0;
 
     char name = typeid (T).name()[0];
 
@@ -433,19 +435,20 @@ AnEnIO::MPI_read_vector_(const netCDF::NcVar & var, T* & p_vals,
     MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
 
     int num_children = var_dims[0].getSize();
-    int num_procs_sys = num_children;
 
-    char *num_procs_str = getenv("OMP_NUM_THREADS");
+    char *num_procs_str = getenv("MPI_UNIVERSE_SIZE");
     if (num_procs_str) {
-        sscanf(num_procs_str, "%d", &num_procs_sys);
+        sscanf(num_procs_str, "%d", &num_children);
 #if defined(_OPENMP)
     } else {
-        num_procs_sys = omp_get_num_procs();
+        throw runtime_error("Please set MPI_UNIVERSE_SIZE to limit the number of spawned children.");
 #endif
     }
-
-    if (num_children > num_procs_sys) {
-        num_children = num_procs_sys;
+    
+    // The master process is already alive. I can create MPI_UNIVERSE_SIZE-1 new processes.
+    num_children -= 1;
+    if (num_children == 0) {
+        throw runtime_error("Please enlarge the MPI_UNIVERSE_SIZE to be at least 2.");
     }
 
     if (world_rank == 0) {
@@ -454,12 +457,11 @@ AnEnIO::MPI_read_vector_(const netCDF::NcVar & var, T* & p_vals,
         if (verbose_ >= 4) cout << "Spawning " << num_children
                 << " processes to read " << var_name << " ..." << endl;
 
-        MPI_Comm children, intra_children;
+        MPI_Comm children;
         if (MPI_Comm_spawn(mpiAnEnIO_.c_str(), MPI_ARGV_NULL, num_children, MPI_INFO_NULL,
                 0, MPI_COMM_SELF, &children, MPI_ERRCODES_IGNORE) != MPI_SUCCESS) {
             throw runtime_error("Spawning children failed.");
         }
-        MPI_Intercomm_merge(children, 0, &intra_children);
 
         // Since MPI does not allow send/receive size_t, I create a copy
         // of the start and count indices.
@@ -487,20 +489,14 @@ AnEnIO::MPI_read_vector_(const netCDF::NcVar & var, T* & p_vals,
 
         // Broadcast some variables to children
         if (verbose_ >= 4) cout << "Broadcasting variables ..." << endl;
-        //MPI_Bcast(p_file_path, file_path_.length() + 1, MPI_CHAR, MPI_ROOT, children);
-        //MPI_Bcast(p_var_name, var_name.length() + 1, MPI_CHAR, MPI_ROOT, children);
-        //MPI_Bcast(&num_indices, 1, MPI_INT, MPI_ROOT, children);
-        MPI_Bcast(p_file_path, file_path_.length() + 1, MPI_CHAR, 0, intra_children);
-        MPI_Bcast(p_var_name, var_name.length() + 1, MPI_CHAR, 0, intra_children);
-        MPI_Bcast(&num_indices, 1, MPI_INT, 0, intra_children);
+        MPI_Bcast(p_file_path, file_path_.length() + 1, MPI_CHAR, MPI_ROOT, children);
+        MPI_Bcast(p_var_name, var_name.length() + 1, MPI_CHAR, MPI_ROOT, children);
+        MPI_Bcast(&num_indices, 1, MPI_INT, MPI_ROOT, children);
 
         int verbose = verbose_;
-        //MPI_Bcast(&verbose, 1, MPI_INT, MPI_ROOT, children);
-        //MPI_Bcast(p_start, num_indices, MPI_INT, MPI_ROOT, children);
-        //MPI_Bcast(p_count, num_indices, MPI_INT, MPI_ROOT, children);
-        MPI_Bcast(&verbose, 1, MPI_INT, 0, intra_children);
-        MPI_Bcast(p_start, num_indices, MPI_INT, 0, intra_children);
-        MPI_Bcast(p_count, num_indices, MPI_INT, 0, intra_children);
+        MPI_Bcast(&verbose, 1, MPI_INT, MPI_ROOT, children);
+        MPI_Bcast(p_start, num_indices, MPI_INT, MPI_ROOT, children);
+        MPI_Bcast(p_count, num_indices, MPI_INT, MPI_ROOT, children);
 
         // Collect data from children
         vector<int> recvcounts(num_children), displs(num_children);
@@ -518,13 +514,11 @@ AnEnIO::MPI_read_vector_(const netCDF::NcVar & var, T* & p_vals,
         // CAUTIOUS: Please leave this barrier here to ensure the execution of
         // parent and children, otherwise the execution is not predictable.
         //
-        MPI_Barrier(intra_children);
+        //MPI_Barrier(children);
 
         if (verbose_ >= 4) cout << "Parent waiting to gather data from processes ..." << endl;
         
-        my_MPI_Gatherv<T>(NULL, 0, p_vals, recvcounts.data(), displs.data(), 0, intra_children);
-        //MPI_Gatherv(NULL, 0, MPI_DATATYPE_NULL, p_vals, recvcounts.data(),
-        //        displs.data(), datatype, 0, intra_children);
+        my_MPI_Gatherv<T>(p_vals, recvcounts.data(), displs.data(), MPI_ROOT, children);
 
         delete [] p_file_path;
         delete [] p_var_name;

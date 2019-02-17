@@ -908,7 +908,6 @@ protected:
 
     template<typename T>
     int my_MPI_Gatherv(
-            const void* sendbuf, int sendcount, 
             void* recvbuf, const int* recvcounts, const int* displs,
             int root, MPI_Comm comm) const;
 

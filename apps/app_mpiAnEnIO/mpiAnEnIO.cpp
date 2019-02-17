@@ -29,8 +29,8 @@
 
 // For linux system, get process id
 //
-#include <sys/types.h>
-#include <unistd.h>
+//#include <sys/types.h>
+//#include <unistd.h>
 
 using namespace std;
 using namespace netCDF;
@@ -42,9 +42,11 @@ const static int _MAX_VAR_NAME = 100;
 
 int my_MPI_Gatherv(
         const void* sendbuf, int sendcount, 
-        void* recvbuf, const int* recvcounts, const int* displs,
         int root, MPI_Comm comm, const nc_type &c) {
 
+    void* recvbuf;
+    int *recvcounts, *displs;
+    
     switch (c) {
         case NC_CHAR:
             return (MPI_Gatherv(sendbuf, sendcount, MPI_CHAR, recvbuf, recvcounts, displs, MPI_CHAR, root, comm));
@@ -88,41 +90,86 @@ int my_MPI_Gatherv(
  *        DIRECTLY IF YOU DO NOT KNOW WHAT IT IS.
  * ********************************************************
  */
+
+//int main(int argc, char** argv) {
+//    MPI_Init(&argc, &argv);
+//    int world_size = -1, world_rank = -1;
+//
+//    // Get the parent communicator
+//    MPI_Comm inter_parent, parent;
+//    MPI_Comm_get_parent(&inter_parent);
+//
+//    if (inter_parent == MPI_COMM_NULL) {
+//        cout << BOLDRED << "Child cannot get parent communicator. Something is wrong!"
+//                << RESET << endl;
+//        MPI_Finalize();
+//        return 1;
+//    }
+//
+//    //int parent_size = 0;
+//    //MPI_Comm_remote_size(parent, &parent_size);
+//    //if (parent_size != 1) {
+//    //    cout << BOLDRED << "Child rank #" << world_rank
+//    //            << " should be only 1 parent. Multiple found." << RESET << endl;
+//    //    MPI_Finalize();
+//    //    return 1;
+//    //}
+//
+//    // Get the size and rank of the current communicator
+////    MPI_Intercomm_merge(inter_parent, 1, &parent);
+//    MPI_Comm_size(inter_parent, &world_size);
+//    MPI_Comm_rank(inter_parent, &world_rank);
+//
+//    // For linux system, get process id
+//    //
+//    pid_t pid = getpid();
+//    cout << "***************** pid " << pid << " is world rank: "
+//        << world_rank << " *****************" << endl;
+//    
+//    char sendbuf[5] = {'a', 'b', 'd', 'e', 'f'};
+//    void* recvbuf;
+//    int *recvcounts, *displs;
+//    MPI_Gatherv(sendbuf, 5, MPI_CHAR, recvbuf, recvcounts, displs, MPI_CHAR, 0, inter_parent);
+//            
+//    MPI_Finalize();
+//    return 0;
+//}
+
 int main(int argc, char** argv) {
 
     MPI_Init(&argc, &argv);
     int world_size = -1, world_rank = -1;
 
     // Get the parent communicator
-    MPI_Comm inter_parent, parent;
-    MPI_Comm_get_parent(&inter_parent);
+    MPI_Comm parent;
+    MPI_Comm_get_parent(&parent);
 
-    if (inter_parent == MPI_COMM_NULL) {
+    if (parent == MPI_COMM_NULL) {
         cout << BOLDRED << "Child cannot get parent communicator. Something is wrong!"
                 << RESET << endl;
         MPI_Finalize();
         return 1;
     }
 
-    //int parent_size = 0;
-    //MPI_Comm_remote_size(parent, &parent_size);
-    //if (parent_size != 1) {
-    //    cout << BOLDRED << "Child rank #" << world_rank
-    //            << " should be only 1 parent. Multiple found." << RESET << endl;
-    //    MPI_Finalize();
-    //    return 1;
-    //}
+    int parent_size = 0;
+    MPI_Comm_remote_size(parent, &parent_size);
+    if (parent_size != 1) {
+        cout << BOLDRED << "Child rank #" << world_rank
+                << " should be only 1 parent. Multiple found." << RESET << endl;
+        MPI_Finalize();
+        return 1;
+    }
 
     // Get the size and rank of the current communicator
-    MPI_Intercomm_merge(inter_parent, 1, &parent);
+//    MPI_Intercomm_merge(inter_parent, 1, &parent);
     MPI_Comm_size(parent, &world_size);
     MPI_Comm_rank(parent, &world_rank);
 
     // For linux system, get process id
     //
-    pid_t pid = getpid();
-    cout << "***************** pid " << pid << " is world rank: "
-        << world_rank << " *****************" << endl;
+    //pid_t pid = getpid();
+    //cout << "***************** pid " << pid << " is world rank: "
+    //    << world_rank << " *****************" << endl;
 
     // Get variables broadcasted from parent
     char *p_file_name = new char[_MAX_FILE_NAME],
@@ -146,12 +193,12 @@ int main(int argc, char** argv) {
     // Define the start and count indices
     // Distribution only happens to the first dimension for simplicity.
     //
-    p_start[0] += (world_rank - 1) * (int)(p_count[0] / (world_size - 1));
+    p_start[0] += (world_rank) * (int)(p_count[0] / (world_size));
 
     if (world_rank == world_size - 1)
         p_count[0] = p_count[0] - p_start[0];
     else
-        p_count[0] = p_count[0] / (world_size - 1);
+        p_count[0] = p_count[0] / (world_size);
 
     if (verbose >= 4) {
         cout << GREEN << "Child rank #" << world_rank
@@ -192,7 +239,7 @@ int main(int argc, char** argv) {
         nc_close(ncid);
     }
 
-    MPI_Barrier(MPI_COMM_WORLD);
+    //MPI_Barrier(MPI_COMM_WORLD);
 
     res = nc_open_par(p_file_name, NC_MPIIO | NC_NOWRITE, MPI_COMM_SELF,
             MPI_INFO_NULL, &ncid);
@@ -237,7 +284,7 @@ int main(int argc, char** argv) {
     }
 
     // Make sure all children have completed reading files.
-    MPI_Barrier(parent);
+    //MPI_Barrier(parent);
     
     if (verbose >= 4) cout << GREEN << "Rank #" << world_rank
             << " sending data (" << len << ") back to the parent ..."
@@ -250,7 +297,7 @@ int main(int argc, char** argv) {
     //}
     //cout << endl;
 
-    if (my_MPI_Gatherv(p_vals, len, NULL, NULL, NULL, 0, parent, var_type) != MPI_SUCCESS) {
+    if (my_MPI_Gatherv(p_vals, len, 0, parent, var_type) != MPI_SUCCESS) {
         if (verbose >= 1) cout << BOLDRED << "Rank #" << world_rank 
                 << " failed during sending data." << RESET << endl;
         MPI_Finalize();

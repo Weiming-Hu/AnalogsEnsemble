@@ -897,7 +897,7 @@ AnEnIO::readStations(anenSta::Stations& stations,
         read_string_vector_(var_name_prefix + "StationNames",
                 names, start, count, stride);
 
-        if (names.size() != dim_len) {
+        if (names.size() != count) {
             if (verbose_ >= 1) {
                 cout << BOLDRED << "Error: There should be " << dim_len << " "
                     << " station names!" << RESET << endl;
