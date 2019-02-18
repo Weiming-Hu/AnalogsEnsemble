@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Tutorial on AnEn Profiling with gprof and TAU
+title: AnEn Profiling with gprof and TAU
 tags:
   - tutorial
 ---
