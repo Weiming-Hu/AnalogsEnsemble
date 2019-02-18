@@ -47,11 +47,25 @@ int main (int argc, char** argv) {
 
     string file_path;
 
-    if (argc == 2) {
-        file_path = string(argv[argc - 1]);
+    if (argc >= 2) {
+        file_path = string(argv[1]);
     } else {
-        cout << "Usage: Only one parameter is accepted as the file path." << endl;
+        cout << "Usage: testMPIRead <file path> [start index 0] [start index 1] [start index 2] [start index 3] [count index 0] [count index 1] [count index 2] [count index 3]." << endl;
         return 1;
+    }
+
+    vector<size_t> start, count;
+    if (argc == 10) {
+        start.resize(4);
+        start[0] = atoi(argv[2]);
+        start[1] = atoi(argv[3]);
+        start[2] = atoi(argv[4]);
+        start[3] = atoi(argv[5]);
+        count.resize(4);
+        count[0] = atoi(argv[6]);
+        count[1] = atoi(argv[7]);
+        count[2] = atoi(argv[8]);
+        count[3] = atoi(argv[9]);
     }
 
     cout << "The file to read is " << file_path << endl;
@@ -69,7 +83,6 @@ int main (int argc, char** argv) {
     }
 
     double *p_vals = new double[total];
-    vector<size_t> start = {0,0,0}, count = {496, 120000, 17};
     int world_rank, num_children;
     MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
 
