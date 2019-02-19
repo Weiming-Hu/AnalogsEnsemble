@@ -12,6 +12,7 @@
 
 #' RAnEn::convertToAdvance
 #' 
+#' @description 
 #' RAnEn::convertToAdvance converts a configuration to an advanced one.
 #' 
 #' @author Weiming Hu \email{weiming@@psu.edu}
@@ -23,6 +24,7 @@
 #' 
 #' @useDynLib RAnEn
 #' 
+#' @export
 convertToAdvance <- function(config) {
   if (config$advanced) {
     return (config)

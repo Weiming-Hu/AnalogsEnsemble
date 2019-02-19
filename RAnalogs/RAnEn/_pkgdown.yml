@@ -37,6 +37,7 @@ reference:
     - title: General Information
       desc: Functions to provide generate information.
       contents:
+          - convertToAdvance
           - RAnEn-package
           - checkOpenMP
           - print.AnEn

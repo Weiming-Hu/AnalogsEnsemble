@@ -35,12 +35,16 @@
 #' The dimension indication is the same with the member analogs. The list
 #' member \bold{searchStations} stores the search station index. The list member
 #' \bold{mapping} stores the mapping mechanism from the time and the flt in
-#' forecasts to the time in observations.
+#' forecasts to the time in observations. For negative values in the member time
+#' index column for analogs and similarity, please refer to
+#' [AnEn::selectAnalogs](https://weiming-hu.github.io/AnalogsEnsemble/CXX/class_an_en.html#a8e2b88cda5cc9fce8ea4703a3236719c) 
+#' and [AnEn::computeSimilarity](https://weiming-hu.github.io/AnalogsEnsemble/CXX/class_an_en.html#ad032b4a80d86c6c31ef26a3eb381cb5d).
 #' 
 #' @import Rcpp BH
 #' 
 #' @useDynLib RAnEn
 #' 
+#' @md
 #' @export
 generateAnalogs <- function(configuration) {
   
@@ -151,9 +155,13 @@ generateAnalogs <- function(configuration) {
     }
   }
 
-  # Convert index from C counting to R counting
-  AnEn$analogs[, , , , 3] <- AnEn$analogs[, , , , 3, drop = F] + 1
+  # Convert station index from C counting to R counting
   AnEn$analogs[, , , , 2] <- AnEn$analogs[, , , , 2, drop = F] + 1
+
+  # Convert time index from C to R if the index is non-negative
+  ori <- as.vector(AnEn$analogs[, , , , 3])
+  ori[which(ori >= 0)] <- ori[which(ori >= 0)] + 1
+  AnEn$analogs[, , , , 3] <- ori
 
   if (configuration$preserve_mapping) AnEn$mapping <- AnEn$mapping + 1
 

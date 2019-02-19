@@ -52,21 +52,6 @@ public:
     };
     
     /**
-     * Specifies the simulation mode.
-     * 
-     * - SeparateTestSearch: This is the class model of machine learning where
-     * the same search data are used for each case in test data;
-     * - LeaveOneOut: This is for hind-cast purpose. Each case in test data will
-     * use all the search data data, excluding the test case itself. This mode is
-     * only effective when test and search forecasts are the same.
-     * - OperationalSearch: This mimics an operational weather forecast model that
-     * cases in test data use all historical search data available in search data.
-     * This indicates that different cases in test data use a different amount
-     * of search data. This mode is only effective when test and search forecasts
-     * are the same.
-     */
-
-    /**
      * Computes the search stations of each test stations. Search stations are 
      * represented using the their index.
      * 
@@ -114,10 +99,10 @@ public:
      * If a particular value is NAN, you can inspect the reason for this value
      * being NAN by looking at the time index column. The value can
      * be any one from the following list:
-     *     -1: Cannot find the corresponding observation time. Mapping entry is NAN.
-     *     -2: Search forecast excluded because it overlaps with the current test
+     *     - -1: Cannot find the corresponding observation time. Mapping entry is NAN.
+     *     - -2: Search forecast excluded because it overlaps with the current test
      *     foreacst.
-     *     -NAN: Noun of the above. This can be caused by a NAN search station or 
+     *     - -NAN: Noun of the above. This can be caused by a NAN search station or 
      *     too many NAN parameters for the particular test or search forecasts.
      *
      * @param test_forecasts Forecasts to test.
@@ -165,10 +150,10 @@ public:
      * If a particular value is NAN, you can inspect the reason for this value
      * being NAN by looking at the time index column. The value can
      * be any one from the following list:
-     *     -1: Cannot find the corresponding observation time. Mapping entry is NAN.
-     *     -2: Similarity is NAN.
-     *     -3: Number of members is larger than number of similarity entries.
-     *     -NAN: Unknown reason.
+     *     - -1: Cannot find the corresponding observation time. Mapping entry is NAN.
+     *     - -2: Similarity is NAN.
+     *     - -3: Number of members is larger than number of similarity entries.
+     *     - NAN: Unknown reason.
      *
      * @param analogs Analogs object to write the analogs
      * @param sims SimilarityMatrices on which the selection is based
