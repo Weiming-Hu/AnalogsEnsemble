@@ -100,8 +100,8 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a375de56cf61300a8b3f39030b7784674"><td class="memItemLeft" align="right" valign="top">MPI_Datatype&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mpi_an_en_i_o_8cpp.html#a375de56cf61300a8b3f39030b7784674">get_mpi_type</a> (const nc_type &amp;c)</td></tr>
-<tr class="separator:a375de56cf61300a8b3f39030b7784674"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5fc7d30408fb91c69cbad70ab9ed675d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mpi_an_en_i_o_8cpp.html#a5fc7d30408fb91c69cbad70ab9ed675d">my_MPI_Gatherv</a> (const void *sendbuf, int sendcount, int root, MPI_Comm comm, const nc_type &amp;c)</td></tr>
+<tr class="separator:a5fc7d30408fb91c69cbad70ab9ed675d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3c04138a5bfe5d72780bb7e82a18e627"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mpi_an_en_i_o_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a> (int argc, char **argv)</td></tr>
 <tr class="separator:a3c04138a5bfe5d72780bb7e82a18e627"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -121,24 +121,6 @@ Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a375de56cf61300a8b3f39030b7784674"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a375de56cf61300a8b3f39030b7784674">&#9670;&nbsp;</a></span>get_mpi_type()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">MPI_Datatype get_mpi_type </td>
-          <td>(</td>
-          <td class="paramtype">const nc_type &amp;&#160;</td>
-          <td class="paramname"><em>c</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="a3c04138a5bfe5d72780bb7e82a18e627"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3c04138a5bfe5d72780bb7e82a18e627">&#9670;&nbsp;</a></span>main()</h2>
 
@@ -165,10 +147,56 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>This is the child utility supporting the MPI I/O process of NetCDF files. This utility should not be called directly by the user. Rather, this utility is automatically called by the CAnEnIO library.</p>
-<p>This utility contains the child functino to read and write NetCDF files with MPI processes using the spawn function from MPI.</p>
+<p>This utility contains the child functions to read and write NetCDF files with MPI processes using the spawn function from MPI.</p>
 <hr/>
 <p> USERS, PLEASE DO NOT USE THIS PROGRAM DIRECTLY IF YOU DO NOT KNOW WHAT IT IS. </p><hr/>
  
+</div>
+</div>
+<a id="a5fc7d30408fb91c69cbad70ab9ed675d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5fc7d30408fb91c69cbad70ab9ed675d">&#9670;&nbsp;</a></span>my_MPI_Gatherv()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int my_MPI_Gatherv </td>
+          <td>(</td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>sendbuf</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>sendcount</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>root</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">MPI_Comm&#160;</td>
+          <td class="paramname"><em>comm</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const nc_type &amp;&#160;</td>
+          <td class="paramname"><em>c</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
 </div>
 </div>
 </div><!-- contents -->

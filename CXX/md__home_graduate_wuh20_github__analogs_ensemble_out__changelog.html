@@ -69,6 +69,8 @@ $(function() {
 <li>Improve backward compatibility of R function <code>compute_analogs</code>. This function now returns the analog member index in the 4D observations, rather than in the 3D observations.</li>
 <li>Add a cleaner version of configuration. Configuration now, by default, is the cleaner version. The old version can be accessed by using <code>advanced</code> parameter when generating a configuration.</li>
 <li>Remove some of the post contents to reduce redundant information. Tutorials are now only hosted on binder.</li>
+<li>Add MPI implementation for "MPI_UNIVERSE_SIZE" to limit the number of child spawned processes.</li>
+<li>Add unique identifier in <code><a class="el" href="class_similarity_matrices.html" title="SimilarityMatrices class stores similarity metrics. Default dimensions of SimilarityMatrices are: [te...">SimilarityMatrices</a></code> and <code><a class="el" href="class_analogs.html" title="This is the class to store analogs. The default dimensions are: [test stations][test times][FLTs][mem...">Analogs</a></code> to distinguish the reason for the NAN value.</li>
 </ul>
 <h1>PEF 3.2.1</h1>
 <ul>

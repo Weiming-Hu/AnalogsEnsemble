@@ -676,6 +676,7 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Computes the similarity matrices.</p>
+<p>If a particular value is NAN, you can inspect the reason for this value being NAN by looking at the time index column. The value can be any one from the following list: -1: Cannot find the corresponding observation time. Mapping entry is NAN. -2: Search forecast excluded because it overlaps with the current test foreacst. -NAN: Noun of the above. This can be caused by a NAN search station or too many NAN parameters for the particular test or search forecasts.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">test_forecasts</td><td><a class="el" href="class_forecasts.html" title="Forecasts class provides interface for reading and writing forecast data from and to a NetCDF file...">Forecasts</a> to test. </td></tr>
@@ -908,7 +909,9 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Select analogs based on the similarity matrices. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Select analogs based on the similarity matrices.</p>
+<p>If a particular value is NAN, you can inspect the reason for this value being NAN by looking at the time index column. The value can be any one from the following list: -1: Cannot find the corresponding observation time. Mapping entry is NAN. -2: Similarity is NAN. -3: Number of members is larger than number of similarity entries. -NAN: Unknown reason.</p>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">analogs</td><td><a class="el" href="class_analogs.html" title="This is the class to store analogs. The default dimensions are: [test stations][test times][FLTs][mem...">Analogs</a> object to write the analogs </td></tr>
     <tr><td class="paramname">sims</td><td><a class="el" href="class_similarity_matrices.html" title="SimilarityMatrices class stores similarity metrics. Default dimensions of SimilarityMatrices are: [te...">SimilarityMatrices</a> on which the selection is based </td></tr>

@@ -1,7 +1,6 @@
 var searchData=
 [
   ['generateoperationalsearchtimes',['generateOperationalSearchTimes',['../class_an_en.html#a97bc8ce00b972749d4e4cbfbf4bf45b5',1,'AnEn']]],
-  ['get_5fmpi_5ftype',['get_mpi_type',['../mpi_an_en_i_o_8cpp.html#a375de56cf61300a8b3f39030b7784674',1,'mpiAnEnIO.cpp']]],
   ['get_5fnx',['get_nx',['../class_array4_d.html#a2f9f3a7f699f705ebbc3067adf923922',1,'Array4D']]],
   ['get_5fny',['get_ny',['../class_array4_d.html#a6f75a07d72213eff83aabbfd8442d1d3',1,'Array4D']]],
   ['get_5fxs',['get_xs',['../class_array4_d.html#a5b72fa60e0feacd807d4d2e7bd1bf5fd',1,'Array4D']]],
