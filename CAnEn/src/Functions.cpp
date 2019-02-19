@@ -157,12 +157,12 @@ limit_row, limit_col) firstprivate(index)
         if (time_match_mode == 0) {
             if (verbose_ >= 1) cout << BOLDRED
                     << "Error: Could not find some forecast times in observation times."
-                    << RESET << endl;
+                    << " NA values might exist." << RESET << endl;
             return (OUT_OF_RANGE);
         } else {
             if (verbose_ >= 2) cout << RED
                     << "Warning: Could not find some forecast times in observation times."
-                    << RESET << endl;
+                    << " NA values might exist." << RESET << endl;
         }
     }
 
