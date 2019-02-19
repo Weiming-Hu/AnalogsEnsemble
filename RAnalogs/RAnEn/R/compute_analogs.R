@@ -454,6 +454,7 @@ compute_analogs <- function(forecasts,
   for (i.flt in 1:dim(AnEn$analogs)[3]) {
     AnEn$analogs[, , i.flt, , 3] <- sapply(AnEn$analogs[, , i.flt, , 3], function(x, cont) {
       if (is.na(x)) return(NA)
+      else if (x < 0) return(x)
       else return (which(x == cont))}, cont = mapping[i.flt, ])
   }
   
