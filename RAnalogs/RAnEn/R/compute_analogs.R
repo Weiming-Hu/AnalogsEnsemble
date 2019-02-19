@@ -46,7 +46,9 @@ rcpp_compute_analogs <- function(forecasts,
                                  output_search_stations = F,
                                  output_metric = F,
                                  verbose = 1,
-                                 parameter_ID = NA) {
+                                 parameter_ID = NA,
+                                 max_par_nan = 0,
+                                 max_flt_nan = 0) {
   cat("Warning: Function rcpp_compute_analogs is deprecated. Please use generateAnalogs!\n")
   analogs <- compute_analogs(forecasts = forecasts,
                              observations = observations,
@@ -72,7 +74,9 @@ rcpp_compute_analogs <- function(forecasts,
                              output_search_stations = output_search_stations,
                              output_metric = output_metric,
                              verbose = verbose,
-                             parameter_ID = parameter_ID) 
+                             parameter_ID = parameter_ID,
+                             max_par_nan = max_par_nan,
+                             max_flt_nan = max_flt_nan) 
   return(analogs)
 }
 
@@ -109,7 +113,9 @@ compute_analogs <- function(forecasts,
                             output_search_stations = F,
                             output_metric = F,
                             verbose = 1,
-                            parameter_ID = NA) {
+                            parameter_ID = NA,
+                            max_par_nan = 0,
+                            max_flt_nan = 0) {
   cat("Warning: Function compute_analogs is deprecated. Please use generateAnalogs!\n")
   
   # check deprecation
@@ -409,6 +415,8 @@ compute_analogs <- function(forecasts,
   config$preserve_similarity <- output_metric
   config$preserve_mapping <- F
   config$verbose <- verbose
+  config$max_par_nan = max_par_nan
+  config$max_flt_nan = max_flt_nan
   
   config$test_times_compare <- test.times[test_ID_start:test_ID_end]
   config$search_times_compare <- search.times[train_ID_start:train_ID_end]

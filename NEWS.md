@@ -1,3 +1,6 @@
+# PEF 3.2.3
+- Port `max_flt_nan` and `max_par_nan` parameters to R function `compute_analogs`.
+
 # PEF 3.2.2
 - Improve backward compatibility of R function `compute_analogs`. This function now returns the analog member index in the 4D observations, rather than in the 3D observations.
 - Add a cleaner version of configuration. Configuration now, by default, is the cleaner version. The old version can be accessed by using `advanced` parameter when generating a configuration.
