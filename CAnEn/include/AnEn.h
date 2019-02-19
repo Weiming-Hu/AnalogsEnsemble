@@ -111,6 +111,15 @@ public:
     /**
      * Computes the similarity matrices.
      * 
+     * If a particular value is NAN, you can inspect the reason for this value
+     * being NAN by looking at the time index column. The value can
+     * be any one from the following list:
+     *     -1: Cannot find the corresponding observation time. Mapping entry is NAN.
+     *     -2: Search forecast excluded because it overlaps with the current test
+     *     foreacst.
+     *     -NAN: Noun of the above. This can be caused by a NAN search station or 
+     *     too many NAN parameters for the particular test or search forecasts.
+     *
      * @param test_forecasts Forecasts to test.
      * @param search_forecasts Forecasts to search.
      * @param sds Pre-computed standard deviation of the forecasts to search. 
@@ -152,6 +161,15 @@ public:
 
     /**
      * Select analogs based on the similarity matrices.
+     *
+     * If a particular value is NAN, you can inspect the reason for this value
+     * being NAN by looking at the time index column. The value can
+     * be any one from the following list:
+     *     -1: Cannot find the corresponding observation time. Mapping entry is NAN.
+     *     -2: Similarity is NAN.
+     *     -3: Number of members is larger than number of similarity entries.
+     *     -NAN: Unknown reason.
+     *
      * @param analogs Analogs object to write the analogs
      * @param sims SimilarityMatrices on which the selection is based
      * @param test_stations anenSta::Stations for the test.

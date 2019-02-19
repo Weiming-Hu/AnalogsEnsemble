@@ -426,7 +426,9 @@ firstprivate(i_search_times, search_times, num_search_times)
                     if (!std::isnan(i_search_station)) {
                         for (size_t pos_search_time = 0; pos_search_time < i_search_times.size(); pos_search_time++) {
                             
+                            // Determine which row in the similarity matrix should be updated
                             size_t i_search_time = i_search_times[pos_search_time];
+                            size_t i_sim_row = i_search_station_index * num_search_times + pos_search_time;
                             
                             // We take care of the overlapping cases when part of the FLTs of search covers FLTs of test forecasts.
                             if (max_flt + search_times[pos_search_time] < test_times[pos_test_time] ||
@@ -450,9 +452,6 @@ firstprivate(i_search_times, search_times, num_search_times)
                                     }
 
                                     if (!nan_observation) {
-                                        // Determine which row in the similarity matrix should be updated
-                                        size_t i_sim_row = i_search_station_index * num_search_times + pos_search_time;
-
                                         // compute single similarity
                                         if (operational) {
                                             sims[i_test_station][pos_test_time][i_flt][i_sim_row][COL_TAG_SIM::VALUE] = compute_single_similarity_(
@@ -463,13 +462,21 @@ firstprivate(i_search_times, search_times, num_search_times)
                                                 test_forecasts, search_forecasts, sds, weights, flts_window, circular_flags,
                                                 i_test_station, i_test_time, i_search_station, i_search_time, i_flt, max_par_nan, max_flt_nan);
                                         }
-                                        
-                                        sims[i_test_station][pos_test_time][i_flt][i_sim_row][COL_TAG_SIM::STATION] = i_search_station;
-                                        sims[i_test_station][pos_test_time][i_flt][i_sim_row][COL_TAG_SIM::TIME] = i_search_time;
-
                                     } // End of isnan(observation value)
+                                        
+                                    // Even if the observation value is NAN, I still record the search forecast index.
+                                    // The similarity metric will remain NAN which won't affect the selection.
+                                    //
+                                    sims[i_test_station][pos_test_time][i_flt][i_sim_row][COL_TAG_SIM::STATION] = i_search_station;
+                                    sims[i_test_station][pos_test_time][i_flt][i_sim_row][COL_TAG_SIM::TIME] = i_search_time;
+
+                                } else {
+                                    sims[i_test_station][pos_test_time][i_flt][i_sim_row][COL_TAG_SIM::TIME] = -1;
                                 } // End of isnan(mapping value)
-                            } // End if of non-overlapping test and search forecasts
+                            } else {
+                                sims[i_test_station][pos_test_time][i_flt][i_sim_row][COL_TAG_SIM::TIME] = -2;
+                            }// End if of non-overlapping test and search forecasts
+
                         } // End loop of search times
                     } // End if of valid search station
                 } // End loop of search stations
@@ -560,12 +567,17 @@ extend_observations, test_stations_index_in_search)
                                 size_t i_observation_time = mapping(i_search_forecast_time, i_flt);
 
                                 analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::STATION] = i_search_station;
+                                analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::TIME] = i_observation_time;
                                 analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::VALUE] =
                                         data_observations[i_parameter][i_search_station][i_observation_time];
-                                analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::TIME] =
-                                        i_observation_time;
+                            } else {
+                                analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::TIME] = -1;
                             }
+                        } else {
+                            analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::TIME] = -2;
                         }
+                    } else {
+                        analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::TIME] = -3;
                     }
                 } // End loop of members
             } // End loop of FLTs

@@ -2498,8 +2498,10 @@ AnEnIO::combineSimilarityMatrices(
                             sims[append_count + l][m][j][k][SimilarityMatrices::COL_TAG::VALUE] = sims_single[l][m][j][k][SimilarityMatrices::COL_TAG::VALUE];
                             sims[append_count + l][m][j][k][SimilarityMatrices::COL_TAG::STATION] =
                                 search_stations.getStationIndex(search_stations_by_name.find(station_name)->getID());
+
+                            double time_index = sims_single[l][m][j][k][SimilarityMatrices::COL_TAG::TIME];
                             sims[append_count + l][m][j][k][SimilarityMatrices::COL_TAG::TIME] =
-                                search_times.getTimeIndex(search_times_single_by_insert[sims_single[l][m][j][k][SimilarityMatrices::COL_TAG::TIME]]);
+                                (time_index < 0 ? time_index :search_times.getTimeIndex(search_times_single_by_insert[time_index]));
 
                         } else if (along == 1) {
                             string station_name = search_stations_single_by_insert[sims_single[m][l][j][k][SimilarityMatrices::COL_TAG::STATION]].getName();
@@ -2507,8 +2509,10 @@ AnEnIO::combineSimilarityMatrices(
                             sims[m][append_count + l][j][k][SimilarityMatrices::COL_TAG::VALUE] = sims_single[m][l][j][k][SimilarityMatrices::COL_TAG::VALUE];
                             sims[m][append_count + l][j][k][SimilarityMatrices::COL_TAG::STATION] =
                                 search_stations.getStationIndex(search_stations_by_name.find(station_name)->getID());
+
+                            double time_index = sims_single[m][l][j][k][SimilarityMatrices::COL_TAG::TIME];
                             sims[m][append_count + l][j][k][SimilarityMatrices::COL_TAG::TIME] =
-                                search_times.getTimeIndex(search_times_single_by_insert[sims_single[m][l][j][k][SimilarityMatrices::COL_TAG::TIME]]);
+                                (time_index < 0 ? time_index :search_times.getTimeIndex(search_times_single_by_insert[time_index]));
 
                         } else if (along == 2) {
                             string station_name = search_stations_single_by_insert[sims_single[m][j][l][k][SimilarityMatrices::COL_TAG::STATION]].getName();
@@ -2516,8 +2520,10 @@ AnEnIO::combineSimilarityMatrices(
                             sims[m][j][append_count + l][k][SimilarityMatrices::COL_TAG::VALUE] = sims_single[m][j][l][k][SimilarityMatrices::COL_TAG::VALUE];
                             sims[m][j][append_count + l][k][SimilarityMatrices::COL_TAG::STATION] =
                                 search_stations.getStationIndex(search_stations_by_name.find(station_name)->getID());
+
+                            double time_index = sims_single[m][j][l][k][SimilarityMatrices::COL_TAG::TIME];
                             sims[m][j][append_count + l][k][SimilarityMatrices::COL_TAG::TIME] =
-                                search_times.getTimeIndex(search_times_single_by_insert[sims_single[m][j][l][k][SimilarityMatrices::COL_TAG::TIME]]);
+                                (time_index < 0 ? time_index :search_times.getTimeIndex(search_times_single_by_insert[time_index]));
 
                         } else if (along == 3) {
                             string station_name = search_stations_single_by_insert[sims_single[m][j][k][l][SimilarityMatrices::COL_TAG::STATION]].getName();
@@ -2525,8 +2531,10 @@ AnEnIO::combineSimilarityMatrices(
                             sims[m][j][k][append_count + l][SimilarityMatrices::COL_TAG::VALUE] = sims_single[m][j][k][l][SimilarityMatrices::COL_TAG::VALUE];
                             sims[m][j][k][append_count + l][SimilarityMatrices::COL_TAG::STATION] =
                                 search_stations.getStationIndex(search_stations_by_name.find(station_name)->getID());
+
+                            double time_index = sims_single[m][j][k][l][SimilarityMatrices::COL_TAG::TIME];
                             sims[m][j][k][append_count + l][SimilarityMatrices::COL_TAG::TIME] =
-                                search_times.getTimeIndex(search_times_single_by_insert[sims_single[m][j][k][l][SimilarityMatrices::COL_TAG::TIME]]);
+                                (time_index < 0 ? time_index :search_times.getTimeIndex(search_times_single_by_insert[time_index]));
                         }
                     }
                 }
@@ -2654,8 +2662,10 @@ AnEnIO::combineAnalogs(const vector<string> & in_files,
                             analogs[append_count + l][m][j][k][Analogs::COL_TAG::VALUE] = analogs_single[l][m][j][k][Analogs::COL_TAG::VALUE];
                             analogs[append_count + l][m][j][k][Analogs::COL_TAG::STATION] =
                                 member_stations.getStationIndex(member_stations_by_name.find(station_name)->getID());
+
+                            double time_index = analogs_single[l][m][j][k][Analogs::COL_TAG::TIME];
                             analogs[append_count + l][m][j][k][Analogs::COL_TAG::TIME] =
-                                member_times.getTimeIndex(member_times_single_by_insert[analogs_single[l][m][j][k][Analogs::COL_TAG::TIME]]);
+                                (time_index < 0 ? time_index :member_times.getTimeIndex(member_times_single_by_insert[time_index]));
 
                         } else if (along == 1) {
                             string station_name = member_stations_single_by_insert[analogs_single[m][l][j][k][Analogs::COL_TAG::STATION]].getName();
@@ -2663,8 +2673,10 @@ AnEnIO::combineAnalogs(const vector<string> & in_files,
                             analogs[m][append_count + l][j][k][Analogs::COL_TAG::VALUE] = analogs_single[m][l][j][k][Analogs::COL_TAG::VALUE];
                             analogs[m][append_count + l][j][k][Analogs::COL_TAG::STATION] =
                                 member_stations.getStationIndex(member_stations_by_name.find(station_name)->getID());
+
+                            double time_index = analogs_single[m][l][j][k][Analogs::COL_TAG::TIME];
                             analogs[m][append_count + l][j][k][Analogs::COL_TAG::TIME] =
-                                member_times.getTimeIndex(member_times_single_by_insert[analogs_single[m][l][j][k][Analogs::COL_TAG::TIME]]);
+                                (time_index < 0 ? time_index :member_times.getTimeIndex(member_times_single_by_insert[time_index]));
 
                         } else if (along == 2) {
                             string station_name = member_stations_single_by_insert[analogs_single[m][j][l][k][Analogs::COL_TAG::STATION]].getName();
@@ -2672,8 +2684,10 @@ AnEnIO::combineAnalogs(const vector<string> & in_files,
                             analogs[m][j][append_count + l][k][Analogs::COL_TAG::VALUE] = analogs_single[m][j][l][k][Analogs::COL_TAG::VALUE];
                             analogs[m][j][append_count + l][k][Analogs::COL_TAG::STATION] =
                                 member_stations.getStationIndex(member_stations_by_name.find(station_name)->getID());
+
+                            double time_index = analogs_single[m][j][l][k][Analogs::COL_TAG::TIME];
                             analogs[m][j][append_count + l][k][Analogs::COL_TAG::TIME] =
-                                member_times.getTimeIndex(member_times_single_by_insert[analogs_single[m][j][l][k][Analogs::COL_TAG::TIME]]);
+                                (time_index < 0 ? time_index :member_times.getTimeIndex(member_times_single_by_insert[time_index]));
 
                         } else if (along == 3) {
                             string station_name = member_stations_single_by_insert[analogs_single[m][j][k][l][Analogs::COL_TAG::STATION]].getName();
@@ -2681,8 +2695,10 @@ AnEnIO::combineAnalogs(const vector<string> & in_files,
                             analogs[m][j][k][append_count + l][Analogs::COL_TAG::VALUE] = analogs_single[m][j][k][l][Analogs::COL_TAG::VALUE];
                             analogs[m][j][k][append_count + l][Analogs::COL_TAG::STATION] =
                                 member_stations.getStationIndex(member_stations_by_name.find(station_name)->getID());
+
+                            double time_index = analogs_single[m][j][k][l][Analogs::COL_TAG::TIME];
                             analogs[m][j][k][append_count + l][Analogs::COL_TAG::TIME] =
-                                member_times.getTimeIndex(member_times_single_by_insert[analogs_single[m][j][k][l][Analogs::COL_TAG::TIME]]);
+                                (time_index < 0 ? time_index :member_times.getTimeIndex(member_times_single_by_insert[time_index]));
 
                         }
                     }

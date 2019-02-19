@@ -670,9 +670,9 @@ void testAnEn::testAutomaticDelteOverlappingTimes() {
                     }
                 }
 
-                for (size_t n = 0; n < sims1.shape()[4]; n++) {
-                    CPPUNIT_ASSERT(std::isnan(sims1[i][j][l][6][n]));
-                }
+                CPPUNIT_ASSERT(std::isnan(sims1[i][j][l][6][0]));
+                CPPUNIT_ASSERT(std::isnan(sims1[i][j][l][6][1]));
+                CPPUNIT_ASSERT(sims1[i][j][l][6][2] == -2);
             }
         }
     }
