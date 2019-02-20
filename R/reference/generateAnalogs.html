@@ -65,7 +65,7 @@ function generateConfiguration." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAnEn</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">3.2.2</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">3.2.3</span>
       </span>
     </div>
 
@@ -130,16 +130,16 @@ usage.</p></td>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An AnEn list with customized members. The list member <b>analogs</b>
+    <p>An AnEn list with customized members. The list member <strong>analogs</strong>
 is a 5-dimensional array that contains values and indices of ensemble
 members from the variable observations. The dimensions are
-<b>analogstest stations, test days, FLT, members, ...</b>
+<strong>analogs[test stations, test days, FLT, members, ...]</strong>
 where FLT stands for forecast lead time. The size of the fifth dimension
-is 3, storing the value ,,,,1, station index ,,,,2, and day index
-,,,,3. The list member <b>similarity</b> stores the similarity metrics.
+is 3, storing the value [,,,,1], station index [,,,,2], and day index
+[,,,,3]. The list member <strong>similarity</strong> stores the similarity metrics.
 The dimension indication is the same with the member analogs. The list
-member <b>searchStations</b> stores the search station index. The list member
-<b>mapping</b> stores the mapping mechanism from the time and the flt in
+member <strong>searchStations</strong> stores the search station index. The list member
+<strong>mapping</strong> stores the mapping mechanism from the time and the flt in
 forecasts to the time in observations. For negative values in the member time
 index column for analogs and similarity, please refer to
 <a href='https://weiming-hu.github.io/AnalogsEnsemble/CXX/class_an_en.html#a8e2b88cda5cc9fce8ea4703a3236719c'>AnEn::selectAnalogs</a>
