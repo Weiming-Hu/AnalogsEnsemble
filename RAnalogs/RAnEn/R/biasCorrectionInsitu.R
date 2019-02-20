@@ -99,7 +99,7 @@ biasCorrectionInsitu <- function(
       for (k in 1:dim(bias)[3]) {
         
         # If this ensemble only contains NA values, skip the bias calculation
-        if (all(is.na(AnEn$analogs[i, j, k, , ]))) {
+        if (all(is.na(AnEn$analogs[i, j, k, , 1]))) {
           bias[i, j, k] <- NA
           analogs.cor[i, j, k, , 1] <- NA
         } else {

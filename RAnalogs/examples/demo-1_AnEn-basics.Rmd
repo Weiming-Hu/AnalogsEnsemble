@@ -17,7 +17,7 @@ library(RColorBrewer)
 
 ## Introduction
 
-This article walks you through the basic usage of the `RAnEn` library in a practice of short-term surface temperature forecasts. Data are prepared using the `generate-data.R` script, and collected from [North American Mesoscale Forecast System (NAM)](https://www.ncdc.noaa.gov/data-access/model-data/model-datasets/north-american-mesoscale-forecast-system-nam).
+This article walks you through the basic usage of the `RAnEn` library in a practice of short-term surface temperature forecasts. It is recommended to use [binder](https://mybinder.org/badge.svg) and the corresponding python notebook where you can directly run the script line by line.
 
 You will learn how to use these functions:
 
@@ -27,7 +27,7 @@ You will learn how to use these functions:
 
 ## Data Description
 
-First, let's load the prepared NAM model forecasts and analysis.
+First, let's load the prepared NAM model forecasts and analysis. You can find the data in this direct folder if you want to run this script locally.
 
 ```{r}
 load('analysis.RData')
@@ -35,20 +35,20 @@ load('forecasts.RData')
 print(ls())
 ```
 
-In total, `r length(forecast.par.names)` parameters are provided in the forecast data set.
+The following parameters are included and provided in the dataset.
 
 ```{r}
 print(forecast.par.names)
 ```
 
-Foreacsts and analysis have the following time range.
+Foreacsts and analysis have the following time span.
 
 ```{r}
 print(range(forecast.times))
 print(range(analysis.times))
 ```
 
-Coordinates in lat/lon are provided for grid points. We can plot them on maps. Note that coordinates start from the bottom left grid point and proceed in a row-wise order. There are 11 rows and 11 columns of grid points in the data sets.
+Coordinates in lat/lon are provided for each grid point. We can plot them on maps. **Note that coordinates start from the bottom left grid point and proceed in a row-wise order**. There are 11 rows and 11 columns of grid points in the data sets.
 
 ```{r}
 map('state', regions = c('pennsylvania', 'new york', 'virginia'), col = 'grey')
@@ -63,7 +63,7 @@ print(dim(forecasts))
 print(dim(analysis))
 ```
 
-Forecasts have 4 dimensions. They are parameters, stations/grid points, days, and Forecast Lead Times (FLTs). Analysis have 3 dimensions. They are parameters, stations/grid points, and time.
+Forecasts have 4 dimensions which are parameters, stations/grid points, days, and Forecast Lead Times (FLTs). Analysis have 3 dimensions which are parameters, stations/grid points, and time.
 
 ## Generate Temperature Forecasts
 
@@ -73,20 +73,23 @@ Now that we have a general idea of the data, we can generate temperature forecas
 - Set up options
 - Generate AnEn
 
-First, we set up the configuration. We generate AnEn for one day using about one year of historical data for all the grid points available. If you don't understand any of the options, please see the [document](https://weiming-hu.github.io/AnalogsEnsemble/R/reference/generateConfiguration.html).
+First, we set up the configuration. We generate AnEn for one day using about one year of historical data for all the grid points available. If you don't understand any of the options or you want to check out the full list of options available, please check the
+document for [RAnEn::generateConfiguration](https://weiming-hu.github.io/AnalogsEnsemble/R/reference/generateConfiguration.html).
 
 ```{r, echo=FALSE}
 # We use independent search configuration.
 config <- generateConfiguration('independentSearch')
 
-# Set up options
+# Set up the start and end indices for test times
 test.start <- 400
 test.end <- 400
+
+# Set up the start and end indices for search times
 search.start <- 1
 search.end <- 370
 
 # Set up forecasts and the time, FLT information
-config$forecasts <- forecasts[, , , , drop = F]
+config$forecasts <- forecasts
 config$forecast_times <- forecast.times
 config$flts <- flts
 
@@ -94,15 +97,21 @@ config$flts <- flts
 config$search_observations <- analysis
 config$observation_times <- analysis.times
 
-# Set up some other parameters
-config$weights <- rep(1, dim(forecasts)[1])
+# Set up the number of members to keep in the analog ensemble
 config$num_members <- 19
+
+# Set up the variable that we want to generate AnEn for.
+# This is the index of parameter in observation names, a.k.a analysis.par.names.
+#
+config$observation_id <- 1
+
+# Set up the verbose level for printing messages
 config$verbose <- 3
 
-# Set the test times
+# Set the test times to generate AnEn for
 config$test_times_compare <- forecast.times[test.start:test.end]
 
-# Set the search times
+# Set the search times to generate AnEn from
 config$search_times_compare <- forecast.times[search.start:search.end]
 ```
 
@@ -146,9 +155,9 @@ rast <- raster(ext, nrow = 11, ncol = 11, crs = CRS("+proj=longlat +datum=WGS84"
 # Rasterize the data values
 rast.anen <- rasterize(xy[, c('x', 'y')], rast, mean.analogs[, 1, i.flt], fun = mean)
 rast.anen.cor <- rasterize(xy[, c('x', 'y')], rast, mean.analogs.cor[, 1, i.flt], fun = mean)
-rast.fcts <- rasterize(xy[, c('x', 'y')], rast, forecasts[1, , test.start, i.flt], fun = mean)
+rast.fcts <- rasterize(xy[, c('x', 'y')], rast, forecasts[config$observation_id, , test.start, i.flt], fun = mean)
 rast.anly <- rasterize(xy[, c('x', 'y')], rast, analysis[
-  1, , which(analysis.times == forecast.times[test.start] + flts[i.flt])], fun = mean)
+  config$observation_id, , which(analysis.times == forecast.times[test.start] + flts[i.flt])], fun = mean)
 
 # Calculate RMSE
 rmse.fcts <- sqrt(mean((values(rast.fcts - rast.anly))^2, na.rm = T))

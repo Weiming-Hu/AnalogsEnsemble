@@ -44,8 +44,10 @@
 #' Set it to NA to allow any number of NAN values.
 #' - max_flt_nan: The number of NAN values allowed when computing FLT window averages.
 #' Set it to NA to allow any number of NAN values.
-#' - test_times_compare: The times in test times that will be compared and similarity will be generated for them.
+#' - test_times_compare: The times in test forecast times that will be compared and similarity will be generated for them. This time
+#' should be selected from the test_times field.
 #' - search_times_compare: The times in search times that will be compared and similarity will be generated from them.
+#' This time should be selected from the search_times field.
 #' - operational: Whether to use operational serach mode and increase the number of search times while moving forward with test times.
 #' **Operational serach times are always generated from the search_times.** 
 #' 

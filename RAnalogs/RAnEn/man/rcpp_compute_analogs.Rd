@@ -12,7 +12,8 @@ rcpp_compute_analogs(forecasts, observations, circulars = vector(mode =
   distance = 0, num_nearest = 0,
   observation_from_extended_station = F,
   recompute_sd_for_extended_station = F, output_search_stations = F,
-  output_metric = F, verbose = 1, parameter_ID = NA)
+  output_metric = F, verbose = 1, parameter_ID = NA,
+  max_par_nan = 0, max_flt_nan = 0)
 }
 \description{
 Deprecated function. Please see \code{\link{generateAnalogs}}.

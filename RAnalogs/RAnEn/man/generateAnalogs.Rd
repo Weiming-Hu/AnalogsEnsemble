@@ -13,16 +13,16 @@ should be validated by the function \code{\link{validateConfiguration}} before
 usage.}
 }
 \value{
-An AnEn list with customized members. The list member \bold{analogs}
+An AnEn list with customized members. The list member \strong{analogs}
 is a 5-dimensional array that contains values and indices of ensemble
 members from the variable observations. The dimensions are
-\bold{analogs\link{test stations, test days, FLT, members, ...}}
+\strong{analogs[test stations, test days, FLT, members, ...]}
 where FLT stands for forecast lead time. The size of the fifth dimension
-is 3, storing the value \link{,,,,1}, station index \link{,,,,2}, and day index
-\link{,,,,3}. The list member \bold{similarity} stores the similarity metrics.
+is 3, storing the value [,,,,1], station index [,,,,2], and day index
+[,,,,3]. The list member \strong{similarity} stores the similarity metrics.
 The dimension indication is the same with the member analogs. The list
-member \bold{searchStations} stores the search station index. The list member
-\bold{mapping} stores the mapping mechanism from the time and the flt in
+member \strong{searchStations} stores the search station index. The list member
+\strong{mapping} stores the mapping mechanism from the time and the flt in
 forecasts to the time in observations. For negative values in the member time
 index column for analogs and similarity, please refer to
 \href{https://weiming-hu.github.io/AnalogsEnsemble/CXX/class_an_en.html#a8e2b88cda5cc9fce8ea4703a3236719c}{AnEn::selectAnalogs}
