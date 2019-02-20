@@ -74,7 +74,6 @@ generateAnalogs <- function(configuration) {
     }
     
     search_extension <- F
-    preserve_search_stations <- F
     max_num_search_stations <- 0
     distance <- 0
     num_nearest_stations <- 0
@@ -95,7 +94,8 @@ generateAnalogs <- function(configuration) {
       configuration$circulars, search_extension,
       configuration$extend_observations,
       configuration$preserve_similarity,
-      configuration$preserve_mapping, preserve_search_stations,
+      configuration$preserve_mapping,
+      configuration$preserve_search_stations,
       max_num_search_stations, distance,
       num_nearest_stations, configuration$time_match_mode,
       configuration$max_par_nan, configuration$max_flt_nan,
@@ -149,10 +149,8 @@ generateAnalogs <- function(configuration) {
     AnEn$similarity[, , , , 2:3] <- AnEn$similarity[, , , , 2:3, drop = F] + 1
   }
 
-  if (configuration$mode == 'extendedSearch') {
-    if (configuration$preserve_search_stations) {
-      AnEn$searchStations <- AnEn$searchStations + 1
-    }
+  if (configuration$preserve_search_stations) {
+    AnEn$searchStations <- AnEn$searchStations + 1
   }
 
   # Convert station index from C counting to R counting

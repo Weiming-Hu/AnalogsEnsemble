@@ -890,7 +890,6 @@ AnEn::compute_single_similarity_(
 
                 // If a maximum of nan parameter is set
                 if (num_par_nan > max_par_nan) {
-
                     sim = NAN;
                     break;
                 }

@@ -36,6 +36,7 @@
 #' - extend_observations: After getting the most similar forecast indices, take the corresponding observations from the search station.
 #' - preserve_similarity: Whether to preserve the similarity matrix in returned AnEn.
 #' - preserve_mapping: Whether to preserve the mapping matrix in return AnEn.
+#' - preserve_search_stations: Whether to preserve the search station list in AnEn.
 #' - verbose: Verbose level. You can find settings for different values in the
 #' [C++ documentation verbose](https://weiming-hu.github.io/AnalogsEnsemble/CXX/class_an_en.html#a25984b953516a987e2e9eb23048e5d60).
 #' - time_match_mode: This is the method used to computed the mapping matrix between forecast times/flts and observation times.
@@ -65,7 +66,6 @@
 #' set it to a number that is wierdly off, the selected nearby stations will be gauranteed to fulfill your requirement.
 #' - num_nearest: The number of nearest neighbors.
 #' - distance: The distance to search for nearby stations/grid points.
-#' - preserve_search_stations: Whether to preserve the search station list in returned AnEn.
 #' 
 #' Please find detailed terminology explanation in the
 #' [Vocabulary post](https://weiming-hu.github.io/AnalogsEnsemble/2018/10/06/vocabulary.html).
@@ -115,7 +115,8 @@ generateConfiguration <- function(mode, advanced = F) {
     quick = T,
     extend_observations = F, 
     preserve_similarity = F,
-    preserve_mapping = T, 
+    preserve_mapping = T,
+    preserve_search_stations = F,
     time_match_mode = 1, 
     max_par_nan = 0, 
     max_flt_nan= 0,
@@ -138,8 +139,7 @@ generateConfiguration <- function(mode, advanced = F) {
     config <- c(config, list(
       num_nearest = 0,
       distance = 0,
-      max_num_search_stations = 0,
-      preserve_search_stations = F))
+      max_num_search_stations = 0))
     
     if (advanced) {
       config$test_stations_x <- NA
