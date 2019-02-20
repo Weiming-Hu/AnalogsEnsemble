@@ -102,7 +102,7 @@ public:
      *     - -1: Cannot find the corresponding observation time. Mapping entry is NAN.
      *     - -2: Search forecast excluded because it overlaps with the current test
      *     foreacst.
-     *     - -NAN: Noun of the above. This can be caused by a NAN search station or 
+     *     - NAN: Noun of the above. This can be caused by a NAN search station or 
      *     too many NAN parameters for the particular test or search forecasts.
      *
      * @param test_forecasts Forecasts to test.
