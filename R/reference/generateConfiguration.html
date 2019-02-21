@@ -155,6 +155,7 @@ package which observation parameter to use.</p></li>
 <li><p>extend_observations: After getting the most similar forecast indices, take the corresponding observations from the search station.</p></li>
 <li><p>preserve_similarity: Whether to preserve the similarity matrix in returned AnEn.</p></li>
 <li><p>preserve_mapping: Whether to preserve the mapping matrix in return AnEn.</p></li>
+<li><p>preserve_search_stations: Whether to preserve the search station list in AnEn.</p></li>
 <li><p>verbose: Verbose level. You can find settings for different values in the
 <a href='https://weiming-hu.github.io/AnalogsEnsemble/CXX/class_an_en.html#a25984b953516a987e2e9eb23048e5d60'>C++ documentation verbose</a>.</p></li>
 <li><p>time_match_mode: This is the method used to computed the mapping matrix between forecast times/flts and observation times.
@@ -184,7 +185,6 @@ is slightly bigger than the expexted number of stations that will be found withi
 set it to a number that is wierdly off, the selected nearby stations will be gauranteed to fulfill your requirement.</p></li>
 <li><p>num_nearest: The number of nearest neighbors.</p></li>
 <li><p>distance: The distance to search for nearby stations/grid points.</p></li>
-<li><p>preserve_search_stations: Whether to preserve the search station list in returned AnEn.</p></li>
 </ul>
     <p>Please find detailed terminology explanation in the
 <a href='https://weiming-hu.github.io/AnalogsEnsemble/2018/10/06/vocabulary.html'>Vocabulary post</a>.
