@@ -44,6 +44,7 @@ package which observation parameter to use.
 \item extend_observations: After getting the most similar forecast indices, take the corresponding observations from the search station.
 \item preserve_similarity: Whether to preserve the similarity matrix in returned AnEn.
 \item preserve_mapping: Whether to preserve the mapping matrix in return AnEn.
+\item preserve_search_stations: Whether to preserve the search station list in AnEn.
 \item verbose: Verbose level. You can find settings for different values in the
 \href{https://weiming-hu.github.io/AnalogsEnsemble/CXX/class_an_en.html#a25984b953516a987e2e9eb23048e5d60}{C++ documentation verbose}.
 \item time_match_mode: This is the method used to computed the mapping matrix between forecast times/flts and observation times.
@@ -75,7 +76,6 @@ is slightly bigger than the expexted number of stations that will be found withi
 set it to a number that is wierdly off, the selected nearby stations will be gauranteed to fulfill your requirement.
 \item num_nearest: The number of nearest neighbors.
 \item distance: The distance to search for nearby stations/grid points.
-\item preserve_search_stations: Whether to preserve the search station list in returned AnEn.
 }
 
 Please find detailed terminology explanation in the

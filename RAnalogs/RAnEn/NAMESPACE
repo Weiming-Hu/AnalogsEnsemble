@@ -2,6 +2,7 @@
 
 S3method(print,AnEn)
 S3method(print,Configuration)
+export(alignObservations)
 export(biasCorrection)
 export(biasCorrectionInsitu)
 export(biasCorrectionNeuralNet)
