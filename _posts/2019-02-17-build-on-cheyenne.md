@@ -64,9 +64,6 @@ CC=mpicc CXX=mpicxx cmake -DCMAKE_PREFIX_PATH=$NETCDF -DCMAKE_INSTALL_PREFIX=...
 make -j 72 install
 
 # Test 
-# 9 out of 10 will pass.
-make test
-
-# Test AnEnIO separately
-MPI_UNIVERSE_SIZE=10 mpiexec_mpt -np 1 ../output/test/runAnEnIO
+export MPI_UNIVERSE_SIZE=10
+mpiexec_mpt -np 1 ../output/test/runAnEnIO
 ```
