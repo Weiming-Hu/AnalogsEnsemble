@@ -91,7 +91,7 @@ AnEn::computeSearchStations(
             if (num_nearest_stations == 0) {
 
                 if (distance == 0) {
-                    if (verbose_ >= 1) cout << BOLDRED << "Error: Please specify"
+                    if (verbose_ >= 1) cerr << BOLDRED << "Error: Please specify"
                             << " distance or/and number of nearest stations to find."
                             << RESET << endl;
                     return (MISSING_VALUE);
@@ -180,13 +180,13 @@ num_nearest_stations, distance, max_num_search_stations, limit_test)
             } // End of loop of rows
 
         } else {
-            if (verbose_ >= 1) cout << BOLDRED << "Error: Unknown method ("
+            if (verbose_ >= 1) cerr << BOLDRED << "Error: Unknown method ("
                     << method_ << ")!" << RESET << endl;
             return (UNKNOWN_METHOD);
         }
 
     } catch (...) {
-        cout << BOLDRED << "Error occurred in computeSearchStations!" << RESET << endl;
+        cerr << BOLDRED << "Error occurred in computeSearchStations!" << RESET << endl;
         throw;
     }
 
@@ -498,7 +498,7 @@ AnEn::selectAnalogs(
         bool quick, bool extend_observations) const {
 
     if (i_parameter >= search_observations.getParametersSize()) {
-        if (verbose_ >= 1) cout << BOLDRED << "Error: i_parameter exceeds the limits. "
+        if (verbose_ >= 1) cerr << BOLDRED << "Error: i_parameter exceeds the limits. "
                 << "There are only " << search_observations.getParametersSize()
             << " parameters available." << RESET << endl;
         return (OUT_OF_RANGE);
@@ -640,21 +640,21 @@ AnEn::check_input_(
     }
 
     if (i_observation_parameter >= search_observations.getParametersSize()) {
-        if (verbose_ >= 1) cout << BOLDRED
+        if (verbose_ >= 1) cerr << BOLDRED
                 << "Error: Please specify a valid observation variable!"
                 << RESET << endl;
         return (OUT_OF_RANGE);
     }
 
     if (mapping.size1() != search_forecasts.getTimesSize()) {
-        if (verbose_ >= 1) cout << BOLDRED
+        if (verbose_ >= 1) cerr << BOLDRED
                 << "Error: The rows of mapping should equal the number of forecast times!"
                 << RESET << endl;
         return (WRONG_SHAPE);
     }
 
     if (mapping.size2() != search_forecasts.getFLTsSize()) {
-        if (verbose_ >= 1) cout << BOLDRED
+        if (verbose_ >= 1) cerr << BOLDRED
                 << "Error: The columns of mapping should equal the number of FLTs!"
                 << RESET << endl;
         return (WRONG_SHAPE);
@@ -665,7 +665,7 @@ AnEn::check_input_(
                 sds.shape()[1] == search_forecasts.getStationsSize() &&
                 sds.shape()[2] == search_forecasts.getFLTsSize())) {
             if (verbose_ >= 1) {
-                cout << BOLDRED << "Error: Standard deviation array has a different shape to search forecasts!" << endl;
+                cerr << BOLDRED << "Error: Standard deviation array has a different shape to search forecasts!" << endl;
                 if (sds.shape()[0] != search_forecasts.getParametersSize())
                     cout << "-- Number of parameters differs: sds have " << sds.shape()[0]
                     << " and search forecasts have " << search_forecasts.getParametersSize() << endl;
@@ -682,21 +682,21 @@ AnEn::check_input_(
     }
 
     if (num_parameters != search_forecasts.getParametersSize()) {
-        if (verbose_ >= 1) cout << BOLDRED
+        if (verbose_ >= 1) cerr << BOLDRED
                 << "Error: Search and test forecasts should have same numbers of parameters!"
                 << RESET << endl;
         return (WRONG_SHAPE);
     }
 
     if (num_flts != search_forecasts.getFLTsSize()) {
-        if (verbose_ >= 1) cout << BOLDRED
+        if (verbose_ >= 1) cerr << BOLDRED
                 << "Error: Search and test forecasts should have same numbers of FLTs!"
                 << RESET << endl;
         return (WRONG_SHAPE);
     }
 
     if (num_search_stations != search_observations.getStationsSize()) {
-        if (verbose_ >= 1) cout << BOLDRED
+        if (verbose_ >= 1) cerr << BOLDRED
                 << "Error: Search forecasts and observations should have same numbers of stations!"
                 << RESET << endl;
         return (WRONG_SHAPE);
@@ -706,13 +706,13 @@ AnEn::check_input_(
     size_t num_neighbor_stations = i_search_stations.size2();
     
     if (i_search_stations.size1() == 0 || num_neighbor_stations == 0) {
-        if (verbose_ >= 1) cout << BOLDRED
+        if (verbose_ >= 1) cerr << BOLDRED
                 << "Error: The search station lookup table is empty." << RESET << endl;
         return (MISSING_VALUE);
     }
 
     if (i_search_stations.size1() != num_test_stations) {
-        if (verbose_ >= 1) cout << BOLDRED
+        if (verbose_ >= 1) cerr << BOLDRED
                 << "Error: Number of rows in i_search_stations ("
                 << i_search_stations.size1() << ") should equal the number of test stations ("
             << num_test_stations << ")." << RESET << endl;
@@ -721,7 +721,7 @@ AnEn::check_input_(
 
     if (method_ == OneToOne) {
         if (num_neighbor_stations != 1) {
-            cout << BOLDRED << "Error: More than one search stations are assigned."
+            cerr << BOLDRED << "Error: More than one search stations are assigned."
                     << RESET << endl;
             return (WRONG_METHOD);
         }
@@ -737,13 +737,13 @@ AnEn::find_nearest_station_match_(
         vector<size_t>& test_stations_index_in_search) const {
 
     if (search_stations.size() == 0) {
-        if (verbose_ >= 1) cout << BOLDRED
+        if (verbose_ >= 1) cerr << BOLDRED
                 << "Error: There is no location information provided for search stations in observations." << RESET << endl;
         return (MISSING_VALUE);
     }
 
     if (test_stations.size() == 0) {
-        if (verbose_ >= 1) cout << BOLDRED
+        if (verbose_ >= 1) cerr << BOLDRED
                 << "Error: There is no location information provided for test stations in SimilarityMatrices." << RESET << endl;
         return (MISSING_VALUE);
     }
@@ -771,7 +771,7 @@ AnEn::find_nearest_station_match_(
         if (verbose_ >= 3) cout << "One-on-one matching search and test stations based on indices ..." << endl;
 
         if (search_stations.size() != test_stations.size()) {
-            cout << BOLDRED << "Error: Search stations and test stations must be the same when no location info is provided."
+            cerr << BOLDRED << "Error: Search stations and test stations must be the same when no location info is provided."
                     << RESET << endl;
             return (WRONG_METHOD);
         }
@@ -810,7 +810,7 @@ shared(test_stations, test_stations_by_insert, search_stations, index_vec)
             }
 #endif
         } else {
-            if (verbose_ >= 1) cout << BOLDRED << "Error: Cannot match stations." << RESET << endl;
+            if (verbose_ >= 1) cerr << BOLDRED << "Error: Cannot match stations." << RESET << endl;
             return (MISSING_VALUE);
         }
 

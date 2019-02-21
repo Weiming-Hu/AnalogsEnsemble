@@ -248,7 +248,7 @@ Forecasts_array::updateDataDims(bool initialize_values) {
         data_.myresize(getParametersSize(), getStationsSize(),
                 getTimesSize(), getFLTsSize());
     } catch (bad_alloc & e) {
-        cout << BOLDRED << "Error: insufficient memory while resizing the"
+        cerr << BOLDRED << "Error: insufficient memory while resizing the"
                 << " array4D to hold " << getParametersSize() << "x"
                 << getFLTsSize() << "x" << getStationsSize() << "x"
                 << getTimesSize() << " double values." << endl;

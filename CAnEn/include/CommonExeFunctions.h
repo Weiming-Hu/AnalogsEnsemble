@@ -30,7 +30,7 @@ namespace {
     void guess_arguments(const vector< std::basic_string<charT> > & unregistered_keys,
             const vector<string> available_options) {
         vector<int> distances;
-        cout << BOLDRED << "Found unknown parameters: " << RESET << endl;
+        cerr << BOLDRED << "Found unknown parameters: " << RESET << endl;
         for (auto arg : unregistered_keys) {
 
             // check for deprecated options

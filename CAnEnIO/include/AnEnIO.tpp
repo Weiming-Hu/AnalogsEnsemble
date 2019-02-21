@@ -122,7 +122,7 @@ AnEnIO::readTextMatrix(boost::numeric::ublas::matrix<T> & mat) {
     if (verbose_ >= 3) cout << "Reading text matrix ..." << endl;
     
     if (mode_ != "Read") {
-        if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Read'."
+        if (verbose_ >= 1) cerr << BOLDRED << "Error: Mode should be 'Read'."
                 << RESET << endl;
         return (WRONG_MODE);
     }
@@ -135,7 +135,7 @@ AnEnIO::readTextMatrix(boost::numeric::ublas::matrix<T> & mat) {
 
     if ( (in.rdstate() & std::ifstream::failbit ) != 0 ) {
         if (verbose_ >= 1) {
-            cout << BOLDRED << "Error occurred during reading matrix file "
+            cerr << BOLDRED << "Error occurred during reading matrix file "
                 << getFilePath() << RESET << endl;
         }
         return (FILEIO_ERROR);
@@ -162,7 +162,7 @@ AnEnIO::writeTextMatrix(
     if (verbose_ >= 3) cout << "Writing text matrix ..." << endl;
     
     if (mode_ != "Write") {
-        if (verbose_ >= 1) cout << BOLDRED << "Error: Mode should be 'Write'."
+        if (verbose_ >= 1) cerr << BOLDRED << "Error: Mode should be 'Write'."
                 << RESET << endl;
         return (WRONG_MODE);
     }
@@ -175,7 +175,7 @@ AnEnIO::writeTextMatrix(
 
     if ( (in.rdstate() & std::ifstream::failbit ) != 0 ) {
         if (verbose_ >= 1) {
-            cout << BOLDRED << "Error occurred during reading matrix file "
+            cerr << BOLDRED << "Error occurred during reading matrix file "
                 << getFilePath() << RESET << endl;
         }
         return (FILEIO_ERROR);
@@ -205,7 +205,7 @@ AnEnIO::read_vector_(std::string var_name, std::vector<T> & results) const {
 
     NcVar var = nc.getVar(var_name);
     if (var.isNull()) {
-        if (verbose_ >= 1) cout << BOLDRED << "Error: Could not"
+        if (verbose_ >= 1) cerr << BOLDRED << "Error: Could not"
                 << " find variable " << var_name << "!" << RESET << endl;
         return (WRONG_INDEX_SHAPE);
     }
@@ -222,7 +222,7 @@ AnEnIO::read_vector_(std::string var_name, std::vector<T> & results) const {
         results.resize(total);
     } catch (bad_alloc & e) {
         nc.close();
-        if (verbose_ >= 1) cout << BOLDRED
+        if (verbose_ >= 1) cerr << BOLDRED
                 << "Error: Insufficient memory when reading variable ("
                 << var_name << ")!" << RESET << endl;
         nc.close();
@@ -285,7 +285,7 @@ AnEnIO::read_vector_(std::string var_name, std::vector<T> & results,
         results.resize(total);
     } catch (bad_alloc & e) {
         nc.close();
-        if (verbose_ >= 1) cout << BOLDRED
+        if (verbose_ >= 1) cerr << BOLDRED
                 << "Error: Insufficient memory when reading variable ("
                 << var_name << ")!" << RESET << endl;
         nc.close();

@@ -223,7 +223,7 @@ Observations_array::updateDataDims(bool initialize_values) {
         data_.resize(boost::extents
                 [parameters_.size()][stations_.size()][times_.size()]);
     } catch (bad_alloc & e) {
-        cout << BOLDRED << "Error: insufficient memory while resizing the"
+        cerr << BOLDRED << "Error: insufficient memory while resizing the"
                 << " array4D to hold " << parameters_.size() << "x"
                 << stations_.size() << "x" << times_.size()
                 << " double values." << endl;
