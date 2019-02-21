@@ -128,6 +128,7 @@ List generateAnalogs(
         NumericVector R_search_observations,
         NumericVector R_search_observations_dims,
         NumericVector R_observation_times,
+        NumericVector R_weights,
         size_t num_members, size_t observation_id, bool quick,
         IntegerVector R_circulars, bool search_extension,
         bool extend_observations,
@@ -164,6 +165,9 @@ List generateAnalogs(
     std::vector<anenPar::Parameter> parameters_vec(R_test_forecasts_dims[0]);
     for (auto & pos : R_circulars) {
         parameters_vec[pos - 1].setCircular(true);
+    }
+    for (size_t i = 0; i < R_weights.size(); i++) {
+        parameters_vec[i].setWeight(R_weights[i]);
     }
     anenPar::Parameters parameters;
     parameters.insert(parameters.end(),

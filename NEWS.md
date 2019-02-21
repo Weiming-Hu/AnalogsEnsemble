@@ -1,4 +1,10 @@
+# PEF 3.2.4
+
+- Bug fixed for using weights.
+- Change the onload message of `RAnEn`.
+
 # PEF 3.2.3
+
 - Port `max_flt_nan` and `max_par_nan` parameters to R function `compute_analogs`.
 - Update R and C++ document.
 - Add R configuration `preserve_search_stations` to `independentSearch` as well. Now, both `independentSearch` and `extendedSearch` support this configuration.

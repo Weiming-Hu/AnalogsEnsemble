@@ -24,7 +24,9 @@ if (interactive()) {
                                        
 ------------------------------------------- 
 -------------------------------------------
-RAnEn Version", version, "from GEOlab @ Penn State
+RAnEn Version", version, "
+Geoinformatics and Earth Observation Laboratory
+The Pennsylvania State University
 Copyright (c) 2018 Weiming Hu")
     } else {
         message <- paste("Package 'RAnEn' version", version)
