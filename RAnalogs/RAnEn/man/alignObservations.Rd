@@ -5,7 +5,7 @@
 \title{RAnEn::alignObservations}
 \usage{
 alignObservations(observations, observation.times, forecast.times, flts,
-  return.na.index = F, show.progress = T)
+  return.na.index = F, show.progress = T, silent = F)
 }
 \arguments{
 \item{observations}{A 3-dimensional array for observations.}
@@ -21,7 +21,9 @@ observations with.}
 
 \item{return.na.index}{Whether to return the NA index.}
 
-\item{show.progress}{A logical for whether to show the progress bar}
+\item{show.progress}{A logical for whether to show the progress bar.}
+
+\item{silent}{No printing messages.}
 }
 \value{
 If return.na.index is fault, by default, it retuns the aligned observations;

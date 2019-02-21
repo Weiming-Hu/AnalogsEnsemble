@@ -43,7 +43,8 @@
 #' @param flts The offset time in seconds that you want to align 
 #' observations with.
 #' @param return.na.index Whether to return the NA index.
-#' @param show.progress A logical for whether to show the progress bar
+#' @param show.progress A logical for whether to show the progress bar.
+#' @param silent No printing messages.
 #' 
 #' @return If return.na.index is fault, by default, it retuns the aligned observations;
 #' otherwise, it returns a list with the aligned observations and a index matrix for which
@@ -52,7 +53,7 @@
 #' @md
 #' @export
 alignObservations <- function(observations, observation.times, forecast.times,
-                              flts, return.na.index = F, show.progress = T) {
+                              flts, return.na.index = F, show.progress = T, silent = F) {
   
   require(RAnEn)
   
@@ -93,7 +94,7 @@ alignObservations <- function(observations, observation.times, forecast.times,
     }
   }
   
-  if (nrow(na.pairs) != 0) {
+  if (!silent && nrow(na.pairs) != 0) {
     cat("Warning: some forecast times/flts are not found in observation times.\n")
     cat("Use return.na.index to get the indices. This will change the output to a list with 2 members.\n")
   }
