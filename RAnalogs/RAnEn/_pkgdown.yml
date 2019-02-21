@@ -27,6 +27,7 @@ reference:
           - computeWindDir
           - computeWindSpeed
           - generateCircleCoords
+          - alignObservations
 
     - title: Visualization
       desc: Functions for visualization of observations, forecasts, analogs, and more.
