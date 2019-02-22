@@ -6,7 +6,7 @@
 \usage{
 biasCorrectionInsitu(AnEn, config, forecast.ID, group.func = mean, ...,
   keep.bias = F, show.progress = T, overwrite = F,
-  compare.func = NA)
+  density.limit = 1)
 }
 \arguments{
 \item{AnEn}{An AnEn object.}
@@ -26,10 +26,10 @@ into one value. For example, it can be 'mean', 'median', 'max', or 'min'.}
 
 \item{overwrite}{A logical for whether to overwrite correction results.}
 
-\item{compare.func}{A function that takes only one numeric value, and returns
-a logical variable for whether or not to bias correct this input value. This parameter
-is useful when you only want to correct a portion of the forecast values, for example,
-those values that are uncommon in forecasts. Please remember to deal with NA values}
+\item{density.limit}{The probability density threshold. If the density of the bin including
+the current forecast is smaller than or equals to this value, the current forecast will be bias
+corrected. This parameter is useful when only a portion of the test
+forecasts need to be bias corrected.}
 }
 \value{
 An AnEn object.

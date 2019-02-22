@@ -37,17 +37,17 @@
 #' @param keep.bias A logical for whether to keep the bias array
 #' @param show.progress A logical for whether to show the progress bar
 #' @param overwrite A logical for whether to overwrite correction results.
-#' @param compare.func A function that takes only one numeric value, and returns
-#' a logical variable for whether or not to bias correct this input value. This parameter
-#' is useful when you only want to correct a portion of the forecast values, for example,
-#' those values that are uncommon in forecasts. Please remember to deal with NA values
+#' @param density.limit The probability density threshold. If the density of the bin including
+#' the current forecast is smaller than or equals to this value, the current forecast will be bias
+#' corrected. This parameter is useful when only a portion of the test
+#' forecasts need to be bias corrected.
 #' 
 #' @return An AnEn object.
 #' 
 #' @export
 biasCorrectionInsitu <- function(
   AnEn, config, forecast.ID, group.func = mean, ...,
-  keep.bias = F, show.progress = T, overwrite = F, compare.func = NA) {
+  keep.bias = F, show.progress = T, overwrite = F, density.limit = 1) {
   
   require(RAnEn)
   
@@ -89,6 +89,11 @@ biasCorrectionInsitu <- function(
   analogs.cor <- AnEn$analogs
   bc.counter <- 0
   
+  # Extract the index of search forecast days
+  index.search.fcst.days <- sapply(config$search_times_compare, function (t) {
+    return(which(t == config$search_times))
+  })
+  
   # progress bar
   if (show.progress) {
     pb <- txtProgressBar(min = 0, max = prod(dim(bias)[c(1, 2, 3)]), style = 3)
@@ -96,50 +101,65 @@ biasCorrectionInsitu <- function(
   }
   
   for (i in 1:dim(bias)[1]) {
-    for (j in 1:dim(bias)[2]) {
-      for (k in 1:dim(bias)[3]) {
+    for (k in 1:dim(bias)[3]) {
+      
+      # Build a histogram based on all search forecasts for station i and FLT k
+      hist <- hist(config$search_forecasts[forecast.ID, i, index.search.fcst.days, k], plot = F)
+      
+      for (j in 1:dim(bias)[2]) {
         
-        # If this ensemble only contains NA values, skip the bias calculation
         if (all(is.na(AnEn$analogs[i, j, k, , 1]))) {
-          analogs.cor[i, j, k, , 1] <- NA
+          # If this ensemble only contains NA values, skip the bias calculation
+          if (show.progress) {
+            setTxtProgressBar(pb, pb.counter)
+            pb.counter <- pb.counter + 1
+          }
+          next
+        }
+        
+        # Get the current forecast
+        index.current.test.day <- config$test_times_compare[j] == config$test_times
+        current.fcst <- config$test_forecasts[forecast.ID, i, which(index.current.test.day), k]
+        
+        if (is.na(current.fcst)) {
+          if (show.progress) {
+            setTxtProgressBar(pb, pb.counter)
+            pb.counter <- pb.counter + 1
+          }
+          next
+        }
+        
+        # Get the density of the bin where the current forecast is included.
+        diff <- abs(hist$mids - current.fcst)
+        density.current.bin <- hist$density[which(diff == min(diff))[1]]
+        
+        if (density.current.bin > density.limit) {
+          if (show.progress) {
+            setTxtProgressBar(pb, pb.counter)
+            pb.counter <- pb.counter + 1
+          }
+          next
+        }
+        
+        # matrix indexing for members forecast
+        index <- cbind(
+          rep(forecast.ID, members.size),                                          # variable index
+          AnEn$analogs[i, j, k, , 2],                                              # station index
+          unlist(lapply(AnEn$analogs[i, j, k, , 3], function(x, cont) {
+            return(which(x == cont))}, cont = AnEn$mapping[k, ])),                 # forecast day index
+          rep(k, members.size)                                                     # flt index
+        )
+        
+        if (nrow(index) != members.size || ncol(index) != 4) {
+          stop("Something went wrong inside the AnEn computation. Please report to the developer.")
         } else {
+          members.forecast <- config$search_forecasts[index]
           
-          index.current.test.day <- config$test_times_compare[j] == config$test_times
-          current.fcst <- config$test_forecasts[forecast.ID, i, which(index.current.test.day), k]
+          # current forecast - mean of selected forecasts
+          bias[i, j, k] <- current.fcst - group.func(members.forecast, ...)
           
-          if (is.function(compare.func)) {
-            if (!compare.func(current.fcst)) {
-              # If the compare function is provided and it returns FALSE for this
-              # current forecast value, skip the bias correction for this forecast.
-              #
-              if (show.progress) {
-                setTxtProgressBar(pb, pb.counter)
-                pb.counter <- pb.counter + 1
-              }
-              next
-            }
-          }
-          
-          # matrix indexing for members forecast
-          index <- cbind(
-            rep(forecast.ID, members.size),                                          # variable index
-            AnEn$analogs[i, j, k, , 2],                                              # station index
-            unlist(lapply(AnEn$analogs[i, j, k, , 3], function(x, cont) {
-              return(which(x == cont))}, cont = AnEn$mapping[k, ])),                 # forecast day index
-            rep(k, members.size)                                                     # flt index
-          )
-          
-          if (nrow(index) != members.size || ncol(index) != 4) {
-            stop("Something went wrong inside the AnEn computation. Please report to the developer.")
-          } else {
-            members.forecast <- config$search_forecasts[index]
-            
-            # current forecast - mean of selected forecasts
-            bias[i, j, k] <- current.fcst - group.func(members.forecast, ...)
-            
-            analogs.cor[i, j, k, , 1] <- analogs.cor[i, j, k, , 1] + bias[i, j, k]  
-            bc.counter <- bc.counter + 1
-          }
+          analogs.cor[i, j, k, , 1] <- analogs.cor[i, j, k, , 1] + bias[i, j, k]  
+          bc.counter <- bc.counter + 1
         }
         
         if (show.progress) {
@@ -152,7 +172,9 @@ biasCorrectionInsitu <- function(
   
   if (show.progress) {
     close(pb)
-    cat("RAnEn::biasCorrectionInsitu:", bc.counter, "test forecasts have been corrected.\n")
+    cat("RAnEn::biasCorrectionInsitu:", bc.counter, 
+        paste("(", round(bc.counter / prod(dim(bias)[1:3]), 1) * 100, "%)", sep = ''),
+        "test forecasts have been corrected.\n")
   }
   
   AnEn$analogs.cor.insitu <- analogs.cor

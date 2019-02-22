@@ -2,6 +2,7 @@
 
 - Bug fixed for using weights.
 - Change the onload message of `RAnEn`.
+- Add density limit parameter for `RAnEn::biasCorrectionInsitu`.
 
 # PEF 3.2.3
 
