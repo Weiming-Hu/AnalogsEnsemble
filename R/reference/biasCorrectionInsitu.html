@@ -109,7 +109,8 @@ forecast model to correct AnEn, therefore the word 'in situ'.</p>
     </div>
 
     <pre class="usage"><span class='fu'>biasCorrectionInsitu</span>(<span class='no'>AnEn</span>, <span class='no'>config</span>, <span class='no'>forecast.ID</span>, <span class='kw'>group.func</span> <span class='kw'>=</span> <span class='no'>mean</span>, <span class='no'>...</span>,
-  <span class='kw'>keep.bias</span> <span class='kw'>=</span> <span class='no'>F</span>, <span class='kw'>show.progress</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='no'>F</span>)</pre>
+  <span class='kw'>keep.bias</span> <span class='kw'>=</span> <span class='no'>F</span>, <span class='kw'>show.progress</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='no'>F</span>,
+  <span class='kw'>density.limit</span> <span class='kw'>=</span> <span class='fl'>1</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -129,8 +130,7 @@ forecast model to correct AnEn, therefore the word 'in situ'.</p>
     <tr>
       <th>group.func</th>
       <td><p>A function that summarizes all the member values
-into one value. For example, it can be 'mean', 'median', 'max', or
-'min'.</p></td>
+into one value. For example, it can be 'mean', 'median', 'max', or 'min'.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -147,6 +147,13 @@ into one value. For example, it can be 'mean', 'median', 'max', or
     <tr>
       <th>overwrite</th>
       <td><p>A logical for whether to overwrite correction results.</p></td>
+    </tr>
+    <tr>
+      <th>density.limit</th>
+      <td><p>The probability density threshold. If the density of the bin including
+the current forecast is smaller than or equals to this value, the current forecast will be bias
+corrected. This parameter is useful when only a portion of the test
+forecasts need to be bias corrected.</p></td>
     </tr>
     </table>
     
