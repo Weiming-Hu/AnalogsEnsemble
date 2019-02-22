@@ -29,18 +29,18 @@
 #' @param AnEn An AnEn object.
 #' 
 #' @param config The configuration object used to generate the AnEn results.
-#' 
 #' @param forecast.ID Which parameter in the forecasts should be used to generate bias.
-#' 
 #' @param group.func A function that summarizes all the member values
-#' into one value. For example, it can be 'mean', 'median', 'max', or
-#' 'min'.
+#' into one value. For example, it can be 'mean', 'median', 'max', or 'min'.
 #' 
 #' @param ... Extra parameters to function group.func.
-#' 
 #' @param keep.bias A logical for whether to keep the bias array
 #' @param show.progress A logical for whether to show the progress bar
 #' @param overwrite A logical for whether to overwrite correction results.
+#' @param compare.func A function that takes only one numeric value, and returns
+#' a logical variable for whether or not to bias correct this input value. This parameter
+#' is useful when you only want to correct a portion of the forecast values, for example,
+#' those values that are uncommon in forecasts. Please remember to deal with NA values
 #' 
 #' @return An AnEn object.
 #' 
@@ -130,7 +130,7 @@ biasCorrectionInsitu <- function(
             members.forecast <- config$search_forecasts[index]
             
             # current forecast - mean of selected forecasts
-            bias[i, j, k] <- current.fcst - group.func(members.forecast, na.rm = T)
+            bias[i, j, k] <- current.fcst - group.func(members.forecast, ...)
             
             analogs.cor[i, j, k, , 1] <- analogs.cor[i, j, k, , 1] + bias[i, j, k]  
           }
