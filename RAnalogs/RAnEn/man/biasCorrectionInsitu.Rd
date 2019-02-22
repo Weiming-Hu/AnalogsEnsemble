@@ -5,7 +5,8 @@
 \title{RAnEn::biasCorrectionInsitu}
 \usage{
 biasCorrectionInsitu(AnEn, config, forecast.ID, group.func = mean, ...,
-  keep.bias = F, show.progress = T, overwrite = F)
+  keep.bias = F, show.progress = T, overwrite = F,
+  compare.func = NA)
 }
 \arguments{
 \item{AnEn}{An AnEn object.}
@@ -15,8 +16,7 @@ biasCorrectionInsitu(AnEn, config, forecast.ID, group.func = mean, ...,
 \item{forecast.ID}{Which parameter in the forecasts should be used to generate bias.}
 
 \item{group.func}{A function that summarizes all the member values
-into one value. For example, it can be 'mean', 'median', 'max', or
-'min'.}
+into one value. For example, it can be 'mean', 'median', 'max', or 'min'.}
 
 \item{...}{Extra parameters to function group.func.}
 
@@ -25,6 +25,11 @@ into one value. For example, it can be 'mean', 'median', 'max', or
 \item{show.progress}{A logical for whether to show the progress bar}
 
 \item{overwrite}{A logical for whether to overwrite correction results.}
+
+\item{compare.func}{A function that takes only one numeric value, and returns
+a logical variable for whether or not to bias correct this input value. This parameter
+is useful when you only want to correct a portion of the forecast values, for example,
+those values that are uncommon in forecasts. Please remember to deal with NA values}
 }
 \value{
 An AnEn object.

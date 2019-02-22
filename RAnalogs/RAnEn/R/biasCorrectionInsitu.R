@@ -87,11 +87,12 @@ biasCorrectionInsitu <- function(
   # which has the same shape with analogs
   #
   analogs.cor <- AnEn$analogs
+  bc.counter <- 0
   
   # progress bar
   if (show.progress) {
     pb <- txtProgressBar(min = 0, max = prod(dim(bias)[c(1, 2, 3)]), style = 3)
-    counter <- 1
+    pb.counter <- 1
   }
   
   for (i in 1:dim(bias)[1]) {
@@ -111,6 +112,10 @@ biasCorrectionInsitu <- function(
               # If the compare function is provided and it returns FALSE for this
               # current forecast value, skip the bias correction for this forecast.
               #
+              if (show.progress) {
+                setTxtProgressBar(pb, pb.counter)
+                pb.counter <- pb.counter + 1
+              }
               next
             }
           }
@@ -133,12 +138,13 @@ biasCorrectionInsitu <- function(
             bias[i, j, k] <- current.fcst - group.func(members.forecast, ...)
             
             analogs.cor[i, j, k, , 1] <- analogs.cor[i, j, k, , 1] + bias[i, j, k]  
+            bc.counter <- bc.counter + 1
           }
         }
         
         if (show.progress) {
-          setTxtProgressBar(pb, counter)
-          counter <- counter + 1
+          setTxtProgressBar(pb, pb.counter)
+          pb.counter <- pb.counter + 1
         }
       }
     }
@@ -146,6 +152,7 @@ biasCorrectionInsitu <- function(
   
   if (show.progress) {
     close(pb)
+    cat("RAnEn::biasCorrectionInsitu:", bc.counter, "test forecasts have been corrected.\n")
   }
   
   AnEn$analogs.cor.insitu <- analogs.cor
