@@ -47,7 +47,7 @@
 #' @export
 biasCorrectionInsitu <- function(
   AnEn, config, forecast.ID, group.func = mean, ...,
-  keep.bias = F, show.progress = T, overwrite = F) {
+  keep.bias = F, show.progress = T, overwrite = F, compare.func = NA) {
   
   require(RAnEn)
   
@@ -100,9 +100,20 @@ biasCorrectionInsitu <- function(
         
         # If this ensemble only contains NA values, skip the bias calculation
         if (all(is.na(AnEn$analogs[i, j, k, , 1]))) {
-          bias[i, j, k] <- NA
           analogs.cor[i, j, k, , 1] <- NA
         } else {
+          
+          index.current.test.day <- config$test_times_compare[j] == config$test_times
+          current.fcst <- config$test_forecasts[forecast.ID, i, which(index.current.test.day), k]
+          
+          if (is.function(compare.func)) {
+            if (!compare.func(current.fcst)) {
+              # If the compare function is provided and it returns FALSE for this
+              # current forecast value, skip the bias correction for this forecast.
+              #
+              next
+            }
+          }
           
           # matrix indexing for members forecast
           index <- cbind(
@@ -119,13 +130,9 @@ biasCorrectionInsitu <- function(
             members.forecast <- config$search_forecasts[index]
             
             # current forecast - mean of selected forecasts
-            bias[i, j, k] <- 
-              config$test_forecasts[forecast.ID, i, which(
-                config$test_times_compare[j] == config$test_times), k] -
-              group.func(members.forecast, na.rm = T)
+            bias[i, j, k] <- current.fcst - group.func(members.forecast, na.rm = T)
             
-            analogs.cor[i, j, k, , 1] <-
-              analogs.cor[i, j, k, , 1] + bias[i, j, k]  
+            analogs.cor[i, j, k, , 1] <- analogs.cor[i, j, k, , 1] + bias[i, j, k]  
           }
         }
         
