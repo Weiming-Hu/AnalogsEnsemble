@@ -8,6 +8,7 @@ sidebar_link: true
 # PEF 3.2.4
 
 - Bug fixed for using weights.
+- Bug fixed for using partial compare times from test and search. This was causing stack overflow.
 - Change the onload message of `RAnEn`.
 - Add density limit parameter for `RAnEn::biasCorrectionInsitu`.
 
