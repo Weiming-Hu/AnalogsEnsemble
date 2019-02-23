@@ -93,6 +93,10 @@ alignObservations <- function(observations, observation.times, forecast.times,
       counter <- counter + 1
     }
   }
+
+  if (show.progress) {
+    close(pb)
+  }
   
   if (!silent && nrow(na.pairs) != 0) {
     cat("Warning: some forecast times/flts are not found in observation times.\n")
