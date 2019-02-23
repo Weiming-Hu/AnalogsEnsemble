@@ -69,7 +69,7 @@ i_times, circular_flags, sds)
                 vector<double> values(num_times);
                 for (size_t pos_time = 0; pos_time < num_times; pos_time++) {
                     size_t i_time = i_times[pos_time];
-                    values[i_time] = array [i_parameter][i_station][i_time][i_flt];
+                    values[pos_time] = array[i_parameter][i_station][i_time][i_flt];
                 } // End of times loop
 
                 if (circular_flags[i_parameter]) {
