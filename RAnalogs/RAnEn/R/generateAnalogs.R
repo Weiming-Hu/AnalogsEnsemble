@@ -150,7 +150,12 @@ generateAnalogs <- function(configuration) {
   #
   if (configuration$preserve_similarity) {
     AnEn$similarity <- aperm(AnEn$similarity, length(dim(AnEn$similarity)):1)
-    AnEn$similarity[, , , , 2:3] <- AnEn$similarity[, , , , 2:3, drop = F] + 1
+
+    ori <- as.vector(AnEn$similarity[, , , , 3])
+    ori[which(ori >= 0)] <- ori[which(ori >= 0)] + 1
+    AnEn$similarity[, , , , 3] <- ori
+
+    AnEn$similarity[, , , , 2] <- AnEn$similarity[, , , , 2, drop = F] + 1
   }
 
   if (configuration$preserve_search_stations) {
