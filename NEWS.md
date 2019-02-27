@@ -1,3 +1,7 @@
+# PEF 3.2.5
+
+- Add function `RAnEn::plotAnalogSelection`.
+
 # PEF 3.2.4
 
 - Bug fixed for using weights.

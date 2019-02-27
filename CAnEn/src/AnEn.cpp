@@ -444,9 +444,11 @@ firstprivate(i_search_times, search_times, num_search_times)
                                     bool nan_observation = true;
 
                                     if (extend_observations) {
+                                        // If observations are taken from the search stations
                                         nan_observation = std::isnan(data_search_observations
                                                 [i_observation_parameter][i_search_station][mapping(i_search_time, i_flt)]);
                                     } else {
+                                        // If observations are taken from the current test search station
                                         nan_observation = std::isnan(data_search_observations
                                                 [i_observation_parameter][i_search_station_current][mapping(i_search_time, i_flt)]);
                                     }

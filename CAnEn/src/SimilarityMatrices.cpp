@@ -108,7 +108,7 @@ SimilarityMatrices::sortRows(bool quick, size_t length, COL_TAG col_tag) {
     matrixSort sortFunc;
     sortFunc.order_tag = col_tag;
 
-    // Define variables for perfectly nexted parallel loops with collapse
+    // Define variables for perfectly nested parallel loops with collapse
     auto limit_i = this->shape()[0];
     auto limit_j = this->shape()[1];
     auto limit_k = this->shape()[2];
