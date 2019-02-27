@@ -259,6 +259,7 @@ make clean-all
 |   CMAKE\_BUILD\_TYPE |                          `Release` for release mode; `Debug` for debug mode.                            |       Release      |
 |  CMAKE\_BUILD\_TESTS |                                             Build tests.                                                |         ON         |
 |     BUILD\_NETCDF    |                           Build `NetCDF` library regardless of its existence.                           |         OFF        |
+|     USE\_NCCONFIG    |    Use the nc_config program if found. This might cause problems sometimes if not properly setup.       |         ON         |
 |      BUILD\_HDF5     |                            Build `HDF5` library regardless of its existence.                            |         OFF        |
 |        VERBOSE       |                          Print detailed messages during the compiling process.                          |         OFF        |
 |    CODE\_PROFILING   |                                     Print time profiling information.                                   |         OFF        |
