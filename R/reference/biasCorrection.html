@@ -130,20 +130,20 @@
 
     <p>Currently, it supports the following methods:</p>
 <ul>
-<li><p>Insitu bias correction <code>RAnEn::biasCorrectionInsitu</code>;</p></li>
-<li><p>Neural network bias correction <code>RAnEn::biasCorrectionNeuralNet</code>;</p></li>
+<li><p>Insitu bias correction <code><a href='biasCorrectionInsitu.html'>RAnEn::biasCorrectionInsitu</a></code>;</p></li>
+<li><p>Neural network bias correction <code><a href='biasCorrectionNeuralNet.html'>RAnEn::biasCorrectionNeuralNet</a></code>;</p></li>
 </ul>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='no'>config</span> <span class='kw'>&lt;-</span> <span class='fu'>generateConfiguration</span>(<span class='st'>'independentSearch'</span>)
+<span class='no'>config</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='generateConfiguration.html'>generateConfiguration</a></span>(<span class='st'>'independentSearch'</span>)
 
 <span class='co'>#</span>
 <span class='co'># Set up your configuration ...</span>
 <span class='co'>#</span>
 
-<span class='no'>AnEn</span> <span class='kw'>&lt;-</span> <span class='fu'>generateAnalogs</span>(<span class='no'>config</span>)
+<span class='no'>AnEn</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='generateAnalogs.html'>generateAnalogs</a></span>(<span class='no'>config</span>)
 <span class='no'>AnEn</span> <span class='kw'>&lt;-</span> <span class='fu'>biasCorrection</span>(<span class='no'>AnEn</span>, <span class='no'>config</span>, <span class='kw'>forecast.ID</span> <span class='kw'>=</span> <span class='no'>config</span>$<span class='no'>observation_id</span>, <span class='kw'>group.func</span> <span class='kw'>=</span> <span class='no'>mean</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='no'>T</span>,
                        <span class='kw'>keep.bias</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='kw'>show.progress</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='no'>F</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>'insitu'</span>)
 <span class='no'>AnEn</span> <span class='kw'>&lt;-</span> <span class='fu'>biasCorrection</span>(<span class='no'>AnEn</span>, <span class='no'>config</span>, <span class='kw'>keep.bias</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='kw'>keep.model</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='kw'>group.func</span> <span class='kw'>=</span> <span class='no'>mean</span>,

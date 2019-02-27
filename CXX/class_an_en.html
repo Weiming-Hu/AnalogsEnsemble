@@ -674,7 +674,7 @@ Private Attributes</h2></td></tr>
 <p>If a particular value is NAN, you can inspect the reason for this value being NAN by looking at the time index column. The value can be any one from the following list:</p><ul>
 <li>-1: Cannot find the corresponding observation time. Mapping entry is NAN.</li>
 <li>-2: Search forecast excluded because it overlaps with the current test foreacst.</li>
-<li>NAN: Noun of the above. This can be caused by a NAN search station or too many NAN parameters for the particular test or search forecasts.</li>
+<li>NAN: Noun of the above. This can be caused by a numebr of reaons: 1) the search station is NAN; 2) The observation associated with this historical forecast is NAN; 3) too many NAN parameters when computing the similarity and averaging across FLTs and multiple parameters.</li>
 </ul>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">

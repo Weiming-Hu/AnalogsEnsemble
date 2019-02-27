@@ -120,20 +120,21 @@ analogs.</p>
   <span class='kw'>border.anen.box</span> <span class='kw'>=</span> <span class='st'>"grey"</span>, <span class='kw'>lty.current.fcsts</span> <span class='kw'>=</span> <span class='st'>"longdash"</span>,
   <span class='kw'>col.current.fcsts</span> <span class='kw'>=</span> <span class='st'>"red"</span>, <span class='kw'>cex.current.fcst</span> <span class='kw'>=</span> <span class='fl'>1</span>,
   <span class='kw'>pch.current.obs</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>col.current.obs</span> <span class='kw'>=</span> <span class='st'>"black"</span>,
-  <span class='kw'>cex.current.obs</span> <span class='kw'>=</span> <span class='fl'>1.5</span>, <span class='kw'>legend.texts</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Observations"</span>, <span class='st'>"NAM"</span>),
-  <span class='kw'>legend.position</span> <span class='kw'>=</span> <span class='st'>"topleft"</span>, <span class='kw'>single.figure</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='kw'>mar</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>1.5</span>, <span class='fl'>5</span>, <span class='fl'>1</span>,
-  <span class='fl'>1</span>) + <span class='fl'>0.1</span>, <span class='kw'>omi</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0.3</span>, <span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>0</span>))</pre>
+  <span class='kw'>cex.current.obs</span> <span class='kw'>=</span> <span class='fl'>1.5</span>, <span class='kw'>cex.label</span> <span class='kw'>=</span> <span class='fl'>1.5</span>,
+  <span class='kw'>legend.texts</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Observations"</span>, <span class='st'>"NAM"</span>), <span class='kw'>legend.position</span> <span class='kw'>=</span> <span class='st'>"topleft"</span>,
+  <span class='kw'>single.figure</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='kw'>mar</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>1.5</span>, <span class='fl'>5</span>, <span class='fl'>1</span>, <span class='fl'>1</span>) + <span class='fl'>0.1</span>, <span class='kw'>omi</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0.3</span>, <span class='fl'>0</span>, <span class='fl'>0</span>,
+  <span class='fl'>0</span>))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>AnEn</th>
-      <td><p>An AnEn object generated from <code>generateAnalogs</code>.</p></td>
+      <td><p>An AnEn object generated from <code><a href='generateAnalogs.html'>generateAnalogs</a></code>.</p></td>
     </tr>
     <tr>
       <th>config</th>
-      <td><p>A Configuration object generated from <code>generateConfiguration</code>.</p></td>
+      <td><p>A Configuration object generated from <code><a href='generateConfiguration.html'>generateConfiguration</a></code>.</p></td>
     </tr>
     <tr>
       <th>i.station</th>
@@ -202,6 +203,10 @@ the x labels are in hours when FLTs are in seconds.</p></td>
     <tr>
       <th>cex.current.obs</th>
       <td><p>The size for current observations.</p></td>
+    </tr>
+    <tr>
+      <th>cex.label</th>
+      <td><p>The font size for x, y, and the legend labels.</p></td>
     </tr>
     <tr>
       <th>legend.texts</th>
