@@ -121,6 +121,10 @@ plotAnalogSample <- function(
   # Get the index for historical most similar forecasts
   day.index.similar.forecasts <- AnEn$similarity[i.station, i.test.day, , 1:config$num_members, 3]
   
+  # Remove the indices when the corresponding similarity is NA
+  day.index.similar.forecasts[which(is.na(
+    AnEn$similarity[i.station, i.test.day, , 1:config$num_members, 1]))] <- NA
+  
   # Remove the negative values because they are only for debugging purposes
   day.index.similar.forecasts[which(day.index.similar.forecasts<0)] <- NA
   
