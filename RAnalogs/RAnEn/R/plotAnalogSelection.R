@@ -71,6 +71,8 @@ plotAnalogSelection <- function(
   spikedash = 'solid', spikecolor = 'grey') {
   
   # Some of the cases that I don't deal with for now
+  stopifnot(config$preserve_similarity)
+  stopifnot(config$mode == 'independentSearch')
   stopifnot(!config$quick)
   stopifnot(!config$advanced)
   stopifnot(class(AnEn) == 'AnEn')
@@ -78,7 +80,7 @@ plotAnalogSelection <- function(
   
   # Check input parameters
   if (length(parameter.names) != dim(config$forecasts)[1]) {
-    cat("Error: Parameter names and the first dimension of configuration forecasts do not match.")
+    stop("Parameter names and the first dimension of configuration forecasts do not match.")
   }
   if (use.plotly) {
     require(plotly)

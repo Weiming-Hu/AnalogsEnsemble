@@ -32,8 +32,7 @@ reference:
     - title: Visualization
       desc: Functions for visualization of observations, forecasts, analogs, and more.
       contents:
-          - plotAnEnMap
-          - plotAnEnTimesSeries
+          - starts_with("plot")
 
     - title: General Information
       desc: Functions to provide generate information.

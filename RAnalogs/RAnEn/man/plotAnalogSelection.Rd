@@ -6,11 +6,13 @@
 \usage{
 plotAnalogSelection(AnEn, config, i.station, i.test.day, i.flt,
   parameter.names, cex.lab = 1.5, pch.selected = 16,
-  pch.unselected = 16, col.selected = "red",
+  pch.unselected = 16, pch.current = 1, col.selected = "red",
   col.unselected = "lightgrey", col.reference = "black",
-  lty.reference = "longdash", lwd.reference = 2,
-  origin = "1970-01-01", tz = "UTC", single.figure = T,
-  mar = c(1.5, 5, 1, 1) + 0.1, omi = c(0.3, 0, 0, 0), use.plotly = F)
+  col.current = "black", lty.reference = "longdash",
+  lwd.reference = 2, origin = "1970-01-01", tz = "UTC",
+  single.figure = T, mar = c(1.5, 5, 1, 1) + 0.1, omi = c(0.3, 0, 0,
+  0), use.plotly = F, hovermode = "compare", spikemode = "across",
+  spikethickness = 1, spikedash = "solid", spikecolor = "grey")
 }
 \arguments{
 \item{AnEn}{An AnEn object generated from \code{\link{generateAnalogs}}.}
@@ -31,20 +33,24 @@ plotAnalogSelection(AnEn, config, i.station, i.test.day, i.flt,
 
 \item{pch.unselected}{The point type for unselected points.}
 
+\item{pch.current}{The point type for current forecasts.}
+
 \item{col.selected}{The color for selected points.}
 
 \item{col.unselected}{The color for unselected points.}
 
 \item{col.reference}{The color for the reference line.}
 
+\item{col.current}{The color for current forecasts.}
+
 \item{lty.reference}{The line type for the reference line.}
 
 \item{lwd.reference}{The line width for the reference line.}
 
-\item{origin}{The origin for times in forecasts. This will be passed to as.POSIXct to convert 
+\item{origin}{The origin for times in forecasts. This will be passed to as.POSIXct to convert
 times in forecasts to date/time objects.}
 
-\item{tz}{The time zone in forecasts. This will be passed to as.POSIXct to convert 
+\item{tz}{The time zone in forecasts. This will be passed to as.POSIXct to convert
 times in forecasts to date/time objects.}
 
 \item{single.figure}{Whether to generate only a single figure.}
@@ -54,11 +60,27 @@ It is passed to the function par.}
 
 \item{omi}{Outer margin for the plot. This is effective only when single.figure is TURE.
 It is passed to the function par.}
+
+\item{use.plotly}{Whether to use plotly. The plotly referrence can be found
+\href{https://plot.ly/r/reference/}{here}.}
+
+\item{hovermode}{The hover mode for visualization. This is only effective when plotly is used.}
+
+\item{spikemode}{The spike mode for visualization. This is only effective when plotly is used.}
+
+\item{spikethickness}{The spike thickness for visualization. This is only effective when
+plotly is used.}
+
+\item{spikedash}{The spike dash style or the length in px for visualization. This is
+only effective when plotly is used.}
+
+\item{spikecolor}{The spike color for visualization. This is only effective when
+plotly is used.}
 }
 \description{
 RAnEn::plotAnalogSelection visualize the selection of analog ensemble members.
 It shows how ensemble members are selected based on the similarity metrics.
-It also shows the selected forecasts for each parameter used during the 
+It also shows the selected forecasts for each parameter used during the
 analog generation, compared with the other unselected forecasts.
 }
 \author{
