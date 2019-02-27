@@ -10,9 +10,10 @@ plotAnalogSample(AnEn, config, i.station, i.test.day, obs.id, fcst.id,
   border.anen.box = "grey", lty.current.fcsts = "longdash",
   col.current.fcsts = "red", cex.current.fcst = 1,
   pch.current.obs = 1, col.current.obs = "black",
-  cex.current.obs = 1.5, legend.texts = c("Observations", "NAM"),
-  legend.position = "topleft", single.figure = T, mar = c(1.5, 5, 1,
-  1) + 0.1, omi = c(0.3, 0, 0, 0))
+  cex.current.obs = 1.5, cex.label = 1.5,
+  legend.texts = c("Observations", "NAM"), legend.position = "topleft",
+  single.figure = T, mar = c(1.5, 5, 1, 1) + 0.1, omi = c(0.3, 0, 0,
+  0))
 }
 \arguments{
 \item{AnEn}{An AnEn object generated from \code{\link{generateAnalogs}}.}
@@ -54,6 +55,8 @@ the x labels are in hours when FLTs are in seconds.}
 \item{col.current.obs}{The color for current observations.}
 
 \item{cex.current.obs}{The size for current observations.}
+
+\item{cex.label}{The font size for x, y, and the legend labels.}
 
 \item{legend.texts}{A vector of characters of length 2. The first one
 is for observations, and the second one for forecasts.}
