@@ -37,14 +37,17 @@
 #' - preserve_similarity: Whether to preserve the similarity matrix in returned AnEn.
 #' - preserve_mapping: Whether to preserve the mapping matrix in return AnEn.
 #' - preserve_search_stations: Whether to preserve the search station list in AnEn.
+#' - preserve_std: Whether to preserve the standard deviation for search forecasts. The results might not
+#' not be correct if operational search is used because the standard deviation will be changed due to the 
+#' increase of search days. But the changes are not reflected in the R results.
 #' - verbose: Verbose level. You can find settings for different values in the
 #' [C++ documentation verbose](https://weiming-hu.github.io/AnalogsEnsemble/CXX/class_an_en.html#a25984b953516a987e2e9eb23048e5d60).
 #' - time_match_mode: This is the method used to computed the mapping matrix between forecast times/flts and observation times.
 #' 0 for strict search (return error when matching observation times cannot be found) and 1 for loose search.
 #' - max_par_nan: The number of NAN values allowed when computing similarity across different parameters.
-#' Set it to NA to allow any number of NAN values.
+#' Set it to a negative value to allow any number of NAN values.
 #' - max_flt_nan: The number of NAN values allowed when computing FLT window averages.
-#' Set it to NA to allow any number of NAN values.
+#' Set it to a negative value to allow any number of NAN values.
 #' - test_times_compare: The times in test forecast times that will be compared and similarity will be generated for them. This time
 #' should be selected from the test_times field.
 #' - search_times_compare: The times in search times that will be compared and similarity will be generated from them.
@@ -117,6 +120,7 @@ generateConfiguration <- function(mode, advanced = F) {
     preserve_similarity = F,
     preserve_mapping = T,
     preserve_search_stations = F,
+    preserve_std = F,
     time_match_mode = 1, 
     max_par_nan = 0, 
     max_flt_nan= 0,

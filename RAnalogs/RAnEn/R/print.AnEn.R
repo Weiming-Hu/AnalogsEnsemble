@@ -56,11 +56,19 @@ print.AnEn <- function (x) {
   }
   
   if ('searchStations' %in% names(x)) {
+    empty <- F
+    cat("Member 'searchStations': [search station][test station] ")
+    cat(dim(x$searchStations))
+    cat("\n")
+    existed.names <- existed.names[-which(existed.names == 'searchStations')]
+  }
+  
+  if ('std' %in% names(x)) {
   	empty <- F
-  	cat("Member 'searchStations': [search station][test station] ")
-  	cat(dim(x$searchStations))
+  	cat("Member 'std': [parameter][test station][FLT] ")
+  	cat(dim(x$std))
   	cat("\n")
-  	existed.names <- existed.names[-which(existed.names == 'searchStations')]
+  	existed.names <- existed.names[-which(existed.names == 'std')]
   }
   
   if ('analogs.cor.insitu' %in% names(x)) {

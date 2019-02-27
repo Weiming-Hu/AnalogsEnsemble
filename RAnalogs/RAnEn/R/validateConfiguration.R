@@ -288,6 +288,6 @@ validateConfiguration <- function(x, verbose = 1) {
       valid <- F
     }
   }
-  
+
   return(valid)
 }

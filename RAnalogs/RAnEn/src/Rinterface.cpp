@@ -17,6 +17,7 @@
 #include <exception>
 
 #include "AnEn.h"
+#include "colorTexts.h"
 
 using namespace Rcpp;
 
@@ -133,7 +134,7 @@ List generateAnalogs(
         IntegerVector R_circulars, bool search_extension,
         bool extend_observations,
         bool preserve_similarity, bool preserve_mapping,
-        bool preserve_search_stations,
+        bool preserve_search_stations, bool preserve_std,
         size_t max_num_search_stations, double distance,
         size_t num_nearest_stations, int time_match_mode,
         double max_par_nan, double max_flt_nan,
@@ -229,6 +230,9 @@ List generateAnalogs(
      **************************************************************************/
     AnEn anen(verbose);
     Functions functions(verbose);
+
+    if (max_par_nan < 0) max_par_nan = NAN;
+    if (max_flt_nan < 0) max_flt_nan = NAN;
     
     Analogs analogs;
     SimilarityMatrices sims(test_forecasts);
@@ -318,6 +322,29 @@ List generateAnalogs(
                 i_search_stations.data().end());
         R_search_stations.attr("dim") = R_search_stations_dims;
         ret["searchStations"] = R_search_stations;
+    }
+
+    if (preserve_std) {
+        if (operational) {
+            // If operational search is used, the standard deviation will be constantly updated
+            // because of the increase in the search forecasts for each test forecast. But the
+            // changes are not reflected in the results. For consistency, std can not be preserve
+            // when operational search is used.
+            //
+            if (verbose >= 2) cout << RED
+                << "Warning: Standard deviation cannot be preserved when operational search is used."
+                << RESET << endl;
+
+        } else {
+            if (verbose >= 3) cout << "Wrapping C++ object standard deviation matrices ..." << endl;
+            IntegerVector R_sds_dims{
+                static_cast<int> (sds.shape()[0]),
+                    static_cast<int> (sds.shape()[1]),
+                    static_cast<int> (sds.shape()[2])};
+            NumericVector R_sds(sds.data(), sds.data() + sds.num_elements());
+            R_sds.attr("dim") = R_sds_dims;
+            ret["std"] = R_sds;
+        }
     }
 
     if (verbose >= 3) cout << "Wrapping C++ object analogs ..." << endl;

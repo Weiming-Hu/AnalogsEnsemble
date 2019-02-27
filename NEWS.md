@@ -1,6 +1,8 @@
 # PEF 3.2.5
 
 - Add function `RAnEn::plotAnalogSelection`.
+- Add the feature for `RAnEn` to preserve standard deviations.
+- Add tests for R and C++ for similarity calculation and standard deviation calculation.
 
 # PEF 3.2.4
 

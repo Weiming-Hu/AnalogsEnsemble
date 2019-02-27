@@ -414,6 +414,7 @@ compute_analogs <- function(forecasts,
   config$quick <- quick
   config$preserve_similarity <- output_metric
   config$preserve_mapping <- F
+  config$preserve_std <- F
   config$verbose <- verbose
   config$max_par_nan = max_par_nan
   config$max_flt_nan = max_flt_nan

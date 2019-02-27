@@ -8,9 +8,9 @@ plotAnalogSelection(AnEn, config, i.station, i.test.day, i.flt,
   parameter.names, cex.lab = 1.5, pch.selected = 16,
   pch.unselected = 16, col.selected = "red",
   col.unselected = "lightgrey", col.reference = "black",
-  lty.reference = "dashed", lwd.reference = 2, origin = "1970-01-01",
-  tz = "UTC", single.figure = T, mar = c(1.5, 5, 1, 1) + 0.1,
-  omi = c(0.3, 0, 0, 0))
+  lty.reference = "longdash", lwd.reference = 2,
+  origin = "1970-01-01", tz = "UTC", single.figure = T,
+  mar = c(1.5, 5, 1, 1) + 0.1, omi = c(0.3, 0, 0, 0), use.plotly = F)
 }
 \arguments{
 \item{AnEn}{An AnEn object generated from \code{\link{generateAnalogs}}.}
