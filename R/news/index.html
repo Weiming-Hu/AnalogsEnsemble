@@ -100,7 +100,7 @@
 <h1 class="page-header">
 <a href="#pef-3-2-5" class="anchor"></a>PEF 3.2.5</h1>
 <ul>
-<li>Add function <code><a href="../reference/plotAnalogSelection.html">RAnEn::plotAnalogSelection</a></code>.</li>
+<li>Add function <code>RAnEn::plotAnalogSample</code> and <code>RAnEn::plotAnalogSelection</code>.</li>
 <li>Add the feature for <code>RAnEn</code> to preserve standard deviations.</li>
 <li>Add tests for R and C++ for similarity calculation and standard deviation calculation.</li>
 </ul>
@@ -112,7 +112,7 @@
 <li>Bug fixed for using weights.</li>
 <li>Bug fixed for using partial compare times from test and search. This was causing stack overflow.</li>
 <li>Change the onload message of <code>RAnEn</code>.</li>
-<li>Add density limit parameter for <code><a href="../reference/biasCorrectionInsitu.html">RAnEn::biasCorrectionInsitu</a></code>.</li>
+<li>Add density limit parameter for <code>RAnEn::biasCorrectionInsitu</code>.</li>
 </ul>
 </div>
     <div id="pef-3-2-3" class="section level1">
@@ -122,7 +122,7 @@
 <li>Port <code>max_flt_nan</code> and <code>max_par_nan</code> parameters to R function <code>compute_analogs</code>.</li>
 <li>Update R and C++ document.</li>
 <li>Add R configuration <code>preserve_search_stations</code> to <code>independentSearch</code> as well. Now, both <code>independentSearch</code> and <code>extendedSearch</code> support this configuration.</li>
-<li>Add <code><a href="../reference/alignObservations.html">RAnEn::alignObservations</a></code>
+<li>Add <code>RAnEn::alignObservations</code>
 </li>
 </ul>
 </div>
@@ -195,7 +195,7 @@
 <ul>
 <li>Reduce code size of the <code>computeSimilarity</code> function.</li>
 <li>Resolve a potential bug in <code>computeSimilarity</code> and introduce a new parameter <code>extend_observations</code> to this function. Now, <code>extend_observations</code> is supported by both <code>computeSimilarity</code> and <code>selectAnalogs</code> functions.</li>
-<li>Minor changes to <code><a href="../reference/biasCorrection.html">RAnEn::biasCorrection</a></code>.</li>
+<li>Minor changes to <code>RAnEn::biasCorrection</code>.</li>
 <li>Introduce a new function for bias correction using a neural network.</li>
 <li>Change authors of the package.</li>
 <li>Update documentation.</li>

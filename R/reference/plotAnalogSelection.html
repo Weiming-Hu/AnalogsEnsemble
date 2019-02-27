@@ -34,7 +34,7 @@
 
 <meta property="og:description" content="RAnEn::plotAnalogSelection visualize the selection of analog ensemble members.
 It shows how ensemble members are selected based on the similarity metrics.
-It also shows the selected forecasts for each parameter used during the 
+It also shows the selected forecasts for each parameter used during the
 analog generation, compared with the other unselected forecasts." />
 <meta name="twitter:card" content="summary" />
 
@@ -107,29 +107,31 @@ analog generation, compared with the other unselected forecasts." />
     
     <p>RAnEn::plotAnalogSelection visualize the selection of analog ensemble members.
 It shows how ensemble members are selected based on the similarity metrics.
-It also shows the selected forecasts for each parameter used during the 
+It also shows the selected forecasts for each parameter used during the
 analog generation, compared with the other unselected forecasts.</p>
     
     </div>
 
     <pre class="usage"><span class='fu'>plotAnalogSelection</span>(<span class='no'>AnEn</span>, <span class='no'>config</span>, <span class='no'>i.station</span>, <span class='no'>i.test.day</span>, <span class='no'>i.flt</span>,
   <span class='no'>parameter.names</span>, <span class='kw'>cex.lab</span> <span class='kw'>=</span> <span class='fl'>1.5</span>, <span class='kw'>pch.selected</span> <span class='kw'>=</span> <span class='fl'>16</span>,
-  <span class='kw'>pch.unselected</span> <span class='kw'>=</span> <span class='fl'>16</span>, <span class='kw'>col.selected</span> <span class='kw'>=</span> <span class='st'>"red"</span>,
+  <span class='kw'>pch.unselected</span> <span class='kw'>=</span> <span class='fl'>16</span>, <span class='kw'>pch.current</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>col.selected</span> <span class='kw'>=</span> <span class='st'>"red"</span>,
   <span class='kw'>col.unselected</span> <span class='kw'>=</span> <span class='st'>"lightgrey"</span>, <span class='kw'>col.reference</span> <span class='kw'>=</span> <span class='st'>"black"</span>,
-  <span class='kw'>lty.reference</span> <span class='kw'>=</span> <span class='st'>"longdash"</span>, <span class='kw'>lwd.reference</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-  <span class='kw'>origin</span> <span class='kw'>=</span> <span class='st'>"1970-01-01"</span>, <span class='kw'>tz</span> <span class='kw'>=</span> <span class='st'>"UTC"</span>, <span class='kw'>single.figure</span> <span class='kw'>=</span> <span class='no'>T</span>,
-  <span class='kw'>mar</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>1.5</span>, <span class='fl'>5</span>, <span class='fl'>1</span>, <span class='fl'>1</span>) + <span class='fl'>0.1</span>, <span class='kw'>omi</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0.3</span>, <span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>0</span>), <span class='kw'>use.plotly</span> <span class='kw'>=</span> <span class='no'>F</span>)</pre>
+  <span class='kw'>col.current</span> <span class='kw'>=</span> <span class='st'>"black"</span>, <span class='kw'>lty.reference</span> <span class='kw'>=</span> <span class='st'>"longdash"</span>,
+  <span class='kw'>lwd.reference</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>origin</span> <span class='kw'>=</span> <span class='st'>"1970-01-01"</span>, <span class='kw'>tz</span> <span class='kw'>=</span> <span class='st'>"UTC"</span>,
+  <span class='kw'>single.figure</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='kw'>mar</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>1.5</span>, <span class='fl'>5</span>, <span class='fl'>1</span>, <span class='fl'>1</span>) + <span class='fl'>0.1</span>, <span class='kw'>omi</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0.3</span>, <span class='fl'>0</span>, <span class='fl'>0</span>,
+  <span class='fl'>0</span>), <span class='kw'>use.plotly</span> <span class='kw'>=</span> <span class='no'>F</span>, <span class='kw'>hovermode</span> <span class='kw'>=</span> <span class='st'>"compare"</span>, <span class='kw'>spikemode</span> <span class='kw'>=</span> <span class='st'>"across"</span>,
+  <span class='kw'>spikethickness</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>spikedash</span> <span class='kw'>=</span> <span class='st'>"solid"</span>, <span class='kw'>spikecolor</span> <span class='kw'>=</span> <span class='st'>"grey"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>AnEn</th>
-      <td><p>An AnEn object generated from <code><a href='generateAnalogs.html'>generateAnalogs</a></code>.</p></td>
+      <td><p>An AnEn object generated from <code>generateAnalogs</code>.</p></td>
     </tr>
     <tr>
       <th>config</th>
-      <td><p>A Configuration object generated from <code><a href='generateConfiguration.html'>generateConfiguration</a></code>.</p></td>
+      <td><p>A Configuration object generated from <code>generateConfiguration</code>.</p></td>
     </tr>
     <tr>
       <th>i.station</th>
@@ -160,6 +162,10 @@ analog generation, compared with the other unselected forecasts.</p>
       <td><p>The point type for unselected points.</p></td>
     </tr>
     <tr>
+      <th>pch.current</th>
+      <td><p>The point type for current forecasts.</p></td>
+    </tr>
+    <tr>
       <th>col.selected</th>
       <td><p>The color for selected points.</p></td>
     </tr>
@@ -172,6 +178,10 @@ analog generation, compared with the other unselected forecasts.</p>
       <td><p>The color for the reference line.</p></td>
     </tr>
     <tr>
+      <th>col.current</th>
+      <td><p>The color for current forecasts.</p></td>
+    </tr>
+    <tr>
       <th>lty.reference</th>
       <td><p>The line type for the reference line.</p></td>
     </tr>
@@ -181,12 +191,12 @@ analog generation, compared with the other unselected forecasts.</p>
     </tr>
     <tr>
       <th>origin</th>
-      <td><p>The origin for times in forecasts. This will be passed to as.POSIXct to convert 
+      <td><p>The origin for times in forecasts. This will be passed to as.POSIXct to convert
 times in forecasts to date/time objects.</p></td>
     </tr>
     <tr>
       <th>tz</th>
-      <td><p>The time zone in forecasts. This will be passed to as.POSIXct to convert 
+      <td><p>The time zone in forecasts. This will be passed to as.POSIXct to convert
 times in forecasts to date/time objects.</p></td>
     </tr>
     <tr>
@@ -202,6 +212,34 @@ It is passed to the function par.</p></td>
       <th>omi</th>
       <td><p>Outer margin for the plot. This is effective only when single.figure is TURE.
 It is passed to the function par.</p></td>
+    </tr>
+    <tr>
+      <th>use.plotly</th>
+      <td><p>Whether to use plotly. The plotly referrence can be found
+<a href='https://plot.ly/r/reference/'>here</a>.</p></td>
+    </tr>
+    <tr>
+      <th>hovermode</th>
+      <td><p>The hover mode for visualization. This is only effective when plotly is used.</p></td>
+    </tr>
+    <tr>
+      <th>spikemode</th>
+      <td><p>The spike mode for visualization. This is only effective when plotly is used.</p></td>
+    </tr>
+    <tr>
+      <th>spikethickness</th>
+      <td><p>The spike thickness for visualization. This is only effective when
+plotly is used.</p></td>
+    </tr>
+    <tr>
+      <th>spikedash</th>
+      <td><p>The spike dash style or the length in px for visualization. This is
+only effective when plotly is used.</p></td>
+    </tr>
+    <tr>
+      <th>spikecolor</th>
+      <td><p>The spike color for visualization. This is only effective when
+plotly is used.</p></td>
     </tr>
     </table>
     
