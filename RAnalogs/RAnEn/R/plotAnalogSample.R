@@ -41,6 +41,7 @@
 #' @param pch.current.obs The point type for current observations.
 #' @param col.current.obs The color for current observations.
 #' @param cex.current.obs The size for current observations.
+#' @param cex.label The font size for x, y, and the legend labels.
 #' @param legend.texts A vector of characters of length 2. The first one
 #' is for observations, and the second one for forecasts.
 #' @param legend.position The legend position.
@@ -75,6 +76,7 @@ plotAnalogSample <- function(
   col.current.obs = 'black',
   cex.current.obs = 1.5,
   
+  cex.label = 1.5,
   legend.texts = c("Observations", "NAM"),
   legend.position = 'topleft',
   
@@ -132,14 +134,14 @@ plotAnalogSample <- function(
   
   ylim <- range(values.anen, values.fcsts, values.obs, na.rm = T)
   
-  boxplot(t(values.anen), names = xs, at = xs, outline = boxplot.outliers,
+  boxplot(t(values.anen), names = xs, at = xs, outline = boxplot.outliers, cex.lab = cex.label,
           border = border.anen.box, ylab = parameter.names[fcst.id], ylim = ylim)
   lines(xs, values.fcsts, lty = lty.current.fcsts, col = col.current.fcsts,
         cex = cex.current.fcst, type = 'b')
   points(xs, values.obs, pch = pch.current.obs, col = col.current.obs,
          cex = cex.current.obs)
   
-  legend(legend.position, legend = legend.texts,
+  legend(legend.position, legend = legend.texts, cex = cex.label,
          pch = c(pch.current.obs, NA), lty = c(NA, lty.current.fcsts),
          col = c(col.current.obs, col.current.fcsts))
   
@@ -157,7 +159,7 @@ plotAnalogSample <- function(
     
     boxplot(t(values.similar.forecasts), at = xs, names = xs, ylim = ylim,
             outline = boxplot.outliers, border = border.anen.box,
-            ylab = parameter.names[i.par])
+            ylab = parameter.names[i.par], cex.lab = cex.label)
     lines(xs, values.par.fcsts, lty = lty.current.fcsts, type = 'b',
           col = col.current.fcsts, cex = cex.current.fcst)
     
