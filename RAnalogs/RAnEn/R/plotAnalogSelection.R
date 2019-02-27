@@ -26,8 +26,10 @@
 #' @param cex.lab The font size of labels.
 #' @param pch.selected The point type for selected points.
 #' @param pch.unselected The point type for unselected points.
+#' @param pch.current The point type for current forecasts.
 #' @param col.selected The color for selected points.
 #' @param col.unselected The color for unselected points.
+#' @param col.current The color for current forecasts.
 #' @param col.reference The color for the reference line.
 #' @param lty.reference The line type for the reference line.
 #' @param lwd.reference The line width for the reference line.
@@ -40,19 +42,33 @@
 #' It is passed to the function par.
 #' @param omi Outer margin for the plot. This is effective only when single.figure is TURE.
 #' It is passed to the function par.
+#' @param use.plotly Whether to use plotly. The plotly referrence can be found
+#' [here](https://plot.ly/r/reference/).
+#' @param hovermode The hover mode for visualization. This is only effective when plotly is used.
+#' @param spikemode The spike mode for visualization. This is only effective when plotly is used.
+#' @param spikethickness The spike thickness for visualization. This is only effective when
+#' plotly is used.
+#' @param spikedash The spike dash style or the length in px for visualization. This is
+#' only effective when plotly is used.
+#' @param spikecolor The spike color for visualization. This is only effective when 
+#' plotly is used.
 #' 
 #' @author Weiming Hu \email{cervone@@psu.edu}
 #' @author Laura CLemente-Harding \email{lec170@@psu.edu}
 #' @author Martina Calovi \email{mcalovi@@psu.edu}
 #' @author Guido Cervone \email{cervone@@psu.edu}
 #' 
+#' @md
 #' @export
 plotAnalogSelection <- function(
   AnEn, config, i.station, i.test.day, i.flt, parameter.names,
-  cex.lab = 1.5, pch.selected = 16, pch.unselected = 16,
+  cex.lab = 1.5, pch.selected = 16, pch.unselected = 16, pch.current = 1, 
   col.selected = 'red', col.unselected = 'lightgrey', col.reference = 'black',
-  lty.reference = 'longdash', lwd.reference = 2, origin = '1970-01-01', tz = 'UTC',
-  single.figure = T, mar = c(1.5, 5, 1, 1) + 0.1, omi = c(.3, 0, 0, 0), use.plotly = F) {
+  col.current = 'black', lty.reference = 'longdash', lwd.reference = 2,
+  origin = '1970-01-01', tz = 'UTC', single.figure = T,
+  mar = c(1.5, 5, 1, 1) + 0.1, omi = c(.3, 0, 0, 0), use.plotly = F,
+  hovermode = 'compare', spikemode = 'across', spikethickness = 1,
+  spikedash = 'solid', spikecolor = 'grey') {
   
   # Some of the cases that I don't deal with for now
   stopifnot(!config$quick)
@@ -91,6 +107,8 @@ plotAnalogSelection <- function(
   #
   days.index <- sims[, 3] - search.start + 1
   
+  current.forecast.x <- as.POSIXct(config$forecast_times[test.start+i.test.day-1], origin = origin, tz = tz)
+  
   if (use.plotly) {
     
     if (single.figure) {
@@ -102,8 +120,12 @@ plotAnalogSelection <- function(
       add_markers(x = x.days[days.index[1:config$num_members]],
                   y = sims[1:config$num_members, 1], name = "Selected",
                   marker = list(color = col.selected, symbol= pch.selected)) %>%
-      layout(yaxis = list(title = 'Similarity', titlefont = cex.lab, showspikes = T),
-             xaxis = list(showspikes = T), showlegend = F, hovermode = 'closest')
+      layout(yaxis = list(title = 'Similarity', titlefont = cex.lab, showspikes = T, spikedash = spikedash,
+                          spikesnap = 'cursor', spikemode = spikemode, spikethickness = spikethickness,
+                          spikecolor = spikecolor),
+             xaxis = list(showspikes = T, spikesnap = 'cursor', spikemode = spikemode, spikedash = spikedash,
+                          spikethickness = spikethickness, spikecolor = spikecolor),
+             showlegend = F, hovermode = hovermode)
     
     if (single.figure) {
       plotly.list <- c(plotly.list, list(p))
@@ -129,12 +151,21 @@ plotAnalogSelection <- function(
         add_markers(x = x.days[days.index[1:config$num_members]],
                     y = forecast.values[days.index[1:config$num_members]], name = 'Selected',
                     marker = list(color = col.selected, symbol= pch.selected)) %>%
-        add_segments(x = x.days[1], xend = x.days[length(x.days)],
+        add_segments(x = x.days[1], xend = current.forecast.x,
                      y = current.forecast.value, yend = current.forecast.value,
                      name = 'Current forecast', line = list(
                        color = col.reference, width = lwd.reference, dash = lty.reference)) %>%
-        layout(yaxis = list(title = parameter.names[i.parameter], titlefont = cex.lab, showspikes = T),
-               xaxis = list(showspikes = T), showlegend = F, hovermode = 'closest')
+        add_markers(x = current.forecast.x, y = current.forecast.value,
+                    name = 'Current forecast', marker = list(
+                      color = col.current, symbol= pch.current)) %>%
+        layout(yaxis = list(title = parameter.names[i.parameter], titlefont = cex.lab,
+                            showspikes = T, spikesnap = 'cursor', spikemode = spikemode,
+                            spikethickness = spikethickness, spikedash = spikedash,
+                            spikecolor = spikecolor),
+               xaxis = list(showspikes = T, spikesnap = 'cursor', spikemode = spikemode,
+                            spikethickness = spikethickness, spikedash = spikedash,
+                            spikecolor = spikecolor),
+               showlegend = F, hovermode = hovermode)
       
       if (single.figure) {
         plotly.list <- c(plotly.list, list(p))
@@ -154,7 +185,8 @@ plotAnalogSelection <- function(
     }
     
     # Plot the similairty and the selected ones
-    plot(x.days[days.index], sims[, 1], xlab = '', ylab = 'Similarity',
+    plot(c(x.days[days.index], current.forecast.x),
+         c(sims[, 1], NA), xlab = '', ylab = 'Similarity',
          pch = pch.unselected, col = col.unselected, cex.lab = cex.lab)
     points(x.days[days.index[1:config$num_members]],
            sims[1:config$num_members, 1], pch = pch.selected, col = col.selected)
@@ -175,7 +207,11 @@ plotAnalogSelection <- function(
            xlab = '', ylab = parameter.names[i.parameter], cex.lab = cex.lab)
       points(x.days[days.index[1:config$num_members]], forecast.values[days.index[1:config$num_members]],
              pch = pch.selected, col = col.selected)
-      abline(h = current.forecast.value, col = col.reference, lty = lty.reference, lwd = lwd.reference)
+      
+      segments(x0 = x.days[1], y0 = current.forecast.value,
+               x1 = current.forecast.x, y1 = current.forecast.value, 
+               col = col.reference, lty = lty.reference, lwd = lwd.reference)
+      points(current.forecast.x, current.forecast.value, col = col.current, pch = pch.current)
     }
   }
 }
