@@ -113,8 +113,10 @@ plotAnalogSample <- function(
   # Get the observations for current forecasts. These are the values that really happen for 
   # for this test day and test station.
   #
-  time.index.obs <- sapply(config$forecast_times[i.test.day+test.start-1] + config$flts,
-                           function(x) {which(x == config$observation_times)})
+  time.index.obs <- sapply(config$forecast_times[i.test.day+test.start-1] + config$flts, function(x) {
+    i <- which(x == config$observation_times)
+    if (length(i) == 1) return(i)
+    else return(NA)})
   stopifnot(length(time.index.obs) == length(values.fcsts))
   values.obs <- config$search_observations[obs.id, i.station, time.index.obs]
   
