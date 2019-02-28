@@ -10,6 +10,8 @@ tags:
 * [Introduction](#introduction)
 * [Building AnEn without MPI](#building-anen-without-mpi)
 * [Building AnEn with MPI](#building-anen-with-mpi)
+* [Building `gribConverter`](#building-gribconverter)
+
 
 <!-- vim-markdown-toc -->
 
@@ -67,3 +69,10 @@ make -j 72 install
 export MPI_UNIVERSE_SIZE=10
 mpiexec_mpt -np 1 ../output/test/runAnEnIO
 ```
+
+Building `gribConverter`
+------------
+
+The package provides a utility ,`gribConverter`, for converting grib2 files. It relies on [Eccodes](https://confluence.ecmwf.int/display/ECC/ecCodes+installation) which can be automatically built.
+
+If you wish to build `gribConverter`, you only need to add `-DBUILD_GRIBCONVERTER=ON` in your cmake arguments and the utility will be built. The rest of the process stays the same.
