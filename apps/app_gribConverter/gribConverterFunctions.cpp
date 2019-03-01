@@ -11,10 +11,6 @@
 #include <stdlib.h>
 #include "gribConverterFunctions.h"
 
-#if defined(_OPENMP)
-#include <omp.h>
-#endif
-
 #if defined(_CODE_PROFILING)
 #include <ctime>
 #include <iomanip>
@@ -41,7 +37,7 @@ namespace gribConverter {
         codes_index* index;
         codes_handle* h;
 
-        // Turn on support for multi fields messages
+        // Turn off support for multi fields messages
         codes_grib_multi_support_off(0);
 
         // Construct query string
@@ -88,9 +84,6 @@ namespace gribConverter {
 
 #if defined(_CODE_PROFILING)
         clock_t time_start = clock();
-#if defined(_OPENMP)
-        double wtime_start = omp_get_wtime();
-#endif
 #endif   
         
         int ret;
@@ -109,9 +102,6 @@ namespace gribConverter {
 
 #if defined(_CODE_PROFILING)
         clock_t time_pre = clock();
-#if defined(_OPENMP)
-        double wtime_pre = omp_get_wtime();
-#endif
 #endif
 
         while ((h = codes_handle_new_from_index(index, &ret)) != NULL ) {
@@ -151,19 +141,6 @@ namespace gribConverter {
             
 #if defined(_CODE_PROFILING)
             clock_t time_end = clock();
-#if defined(_OPENMP)
-            double wtime_end = omp_get_wtime();
-            
-            double wduration_full = wtime_end - wtime_start;
-            double wduration_pre = wtime_pre - wtime_start;
-            double wduration_while_1 = wtime_end - wtime_pre;
-            
-            cout << "-----------------------------------------------------" << endl
-                    << "Wall Time profiling for gribConverterFunctions::getDoubles:" << endl
-                    << "Total time: " << wduration_full << " seconds (100%)" << endl
-                    << "Query time: " << wduration_pre << " seconds (" << wduration_pre / wduration_full * 100 << "%)" << endl
-                    << "Reading time (phase 1): " << wduration_while_1 << " seconds (" << wduration_while_1 / wduration_full * 100 << "%)" << endl;
-#endif
             double duration_full = (float) (time_end - time_start) / CLOCKS_PER_SEC;
             double duration_pre = (float) (time_pre - time_start) / CLOCKS_PER_SEC;
             double duration_while_1 = (float) (time_end - time_pre) / CLOCKS_PER_SEC;
@@ -223,19 +200,6 @@ namespace gribConverter {
             
 #if defined(_CODE_PROFILING)
             clock_t time_end = clock();
-#if defined(_OPENMP)
-            double wtime_end = omp_get_wtime();
-
-            double wduration_full = wtime_end - wtime_start;
-            double wduration_pre = wtime_pre - wtime_start;
-            double wduration_while_1 = wtime_end - wtime_pre;
-
-            cout << "-----------------------------------------------------" << endl
-                    << "Wall Time profiling for gribConverterFunctions::getDoubles:" << endl
-                    << "Total time: " << wduration_full << " seconds (100%)" << endl
-                    << "Query time: " << wduration_pre << " seconds (" << wduration_pre / wduration_full * 100 << "%)" << endl
-                    << "Reading time (phase 1 + 2): " << wduration_while_1 << " seconds (" << wduration_while_1 / wduration_full * 100 << "%)" << endl;
-#endif
             double duration_full = (float) (time_end - time_start) / CLOCKS_PER_SEC;
             double duration_pre = (float) (time_pre - time_start) / CLOCKS_PER_SEC;
             double duration_while_1 = (float) (time_end - time_pre) / CLOCKS_PER_SEC;
@@ -406,13 +370,6 @@ namespace gribConverter {
 
             if (verbose >= 3) cout << GREEN << "Reading data ... " << RESET << endl;
 
-#if defined(_OPENMP)
-#pragma omp parallel for default(none) schedule(dynamic) \
-        shared(files_in, regex_flt, flt_interval, regex_time, delimited, time_start, \
-                flts, times, data, forecasts, pars_id, levels, file_flags, cout, verbose, \
-                level_types, par_key, level_key, type_key, val_key) \
-        private(match_time, match_flt, time_end)
-#endif
             for (size_t i = 0; i < files_in.size(); i++) {
 
                 // Create a const reference to the file list to avoid modification.
@@ -421,9 +378,6 @@ namespace gribConverter {
                 const string & file_in = files_in[i];
 
                 if (verbose >= 3) {
-#if defined(_OPENMP)
-#pragma omp critical
-#endif
                     cout << "\t reading data from file " << file_in << endl;
                 }
 
@@ -452,17 +406,11 @@ namespace gribConverter {
                             getDoubles(data_vec, file_in, pars_id[j], levels[j],
                                     level_types[j], par_key, level_key, type_key, val_key);
                         } catch (const exception & e) {
-#if defined(_OPENMP)
-#pragma omp critical
-#endif
                             cout << BOLDRED << "Error when reading " << pars_id[j] << " "
                                     << levels[j] << " " << level_types[j] << " from file " << file_in
                                     << " (" << e.what() << ")" << RESET << endl;
                             continue;
                         } catch (...) {
-#if defined(_OPENMP)
-#pragma omp critical
-#endif
                             cout << BOLDRED << "Unknown error when reading " << pars_id[j] << " "
                                     << levels[j] << " " << level_types[j] << " from file " << file_in
                                     << RESET << endl;
@@ -623,12 +571,6 @@ namespace gribConverter {
             // This is created to keep track of the return condition for each file
             vector<bool> file_flags(files_in.size(), true);
 
-#if defined(_OPENMP)
-#pragma omp parallel for default(none) schedule(static) \
-        shared(files_in, regex_time, delimited, time_start, times, data, \
-                observations, pars_id, levels, file_flags, cout, verbose, level_types, \
-                par_key, level_key, type_key, val_key) private(match, time_end)
-#endif
             for (size_t i = 0; i < files_in.size(); i++) {
 
                 // Create a const reference to the file list to avoid modification.
@@ -637,9 +579,6 @@ namespace gribConverter {
                 const string & file_in = files_in[i];
 
                 if (verbose >= 3) {
-#if defined(_OPENMP)
-#pragma omp critical
-#endif
                     cout << "\t reading data from file " << file_in << endl;
                 }
 
@@ -659,17 +598,11 @@ namespace gribConverter {
                             getDoubles(data_vec, file_in, pars_id[j], levels[j],
                                     level_types[j], par_key, level_key, type_key, val_key);
                         } catch (const exception & e) {
-#if defined(_OPENMP)
-#pragma omp critical
-#endif
                             cout << BOLDRED << "Error when reading " << pars_id[j] << " "
                                     << levels[j] << " " << level_types[j] << " from file " << file_in
                                     << " (" << e.what() << ")" << RESET << endl;
                             continue;
                         } catch (...) {
-#if defined(_OPENMP)
-#pragma omp critical
-#endif
                             cout << BOLDRED << "Unknown error when reading " << pars_id[j] << " "
                                     << levels[j] << " " << level_types[j] << " from file " << file_in
                                     << RESET << endl;
@@ -710,12 +643,8 @@ namespace gribConverter {
             string par_key, string level_key, string type_key,
             codes_index** p_index, int* p_ret) {
 
-        // Turning multi field support on is dangerous because the indexing functions will
-        // only find the message and the handle created from the message points to the first
-        // field. For example, if a message has multiple fields, say U and V component, the 
-        // message containing V can be found, but then handle created to read the message will
-        // only point to the first field which is U. Please read on and see how I take care of
-        // this situation.
+        // Note: there are known thread safety issues when GRIB multi-field support is enabled for eccodes.
+        // Therefore, Eccodes should be built without thread support.
         //
         codes_grib_multi_support_on(0);
 
