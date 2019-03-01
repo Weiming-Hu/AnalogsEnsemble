@@ -100,63 +100,7 @@ namespace gribConverter {
                 par_key, level_key, type_key,
                 &index, &ret);
 
-#if defined(_CODE_PROFILING)
-        clock_t time_pre = clock();
-#endif
-
-        while ((h = codes_handle_new_from_index(index, &ret)) != NULL ) {
-
-            // At this point we should have a valid index that points to the message 
-            // that we want to read. However, we should deal with the multi field
-            // situation. We check whether the first field is what we want.
-            //
-            MY_CODES_CHECK(codes_get_length(h, type_key.c_str(), &str_len), 0);
-            type_tmp = (char*)malloc(str_len*sizeof(char));
-            MY_CODES_CHECK(codes_get_string(h, type_key.c_str(), type_tmp, &str_len),0);
-            MY_CODES_CHECK(codes_get_long(h, par_key.c_str(), &par_id_h),0);
-            MY_CODES_CHECK(codes_get_long(h, level_key.c_str(), &level_h),0);
-
-            if ((par_id_h != par_id) || (level_h != level) || (type != string(type_tmp))) {
-                // Not this field, skip it and read the next one
-                free(type_tmp);
-                MY_CODES_CHECK(codes_handle_delete(h), 0);
-                continue;
-            }
-
-            // If the first field is exactly what we want we read then read it
-
-            // Get data size
-            MY_CODES_CHECK(ret, 0);
-            MY_CODES_CHECK(codes_get_size(h, val_key.c_str(), &vals_len), 0);
-
-            // Copy data to vector
-            vals.clear();
-            vals.resize(vals_len);
-            MY_CODES_CHECK(codes_get_double_array(h, val_key.c_str(), vals.data(), &vals_len), 0);
-
-            // Housekeeping
-            MY_CODES_CHECK(codes_handle_delete(h), 0);
-            codes_index_delete(index);
-            free(type_tmp);
-            
-#if defined(_CODE_PROFILING)
-            clock_t time_end = clock();
-            double duration_full = (float) (time_end - time_start) / CLOCKS_PER_SEC;
-            double duration_pre = (float) (time_pre - time_start) / CLOCKS_PER_SEC;
-            double duration_while_1 = (float) (time_end - time_pre) / CLOCKS_PER_SEC;
-            
-            cout << endl << "CPU Time profiling for gribConverterFunctions::getDoubles:" << endl
-                    << "Total time: " << duration_full << " seconds (100%)" << endl
-                    << "Query time: " << duration_pre << " seconds (" << duration_pre / duration_full * 100 << "%)" << endl
-                    << "Reading time (phase 1): " << duration_while_1 << " seconds (" << duration_while_1 / duration_full * 100 << "%)" << endl
-                    << "-----------------------------------------------------" << endl;
-#endif
-            return;
-        }
-        
-        // If the field is still not found, try the third way to access data by traversing all
-        // the messaging individually without using the index mechanism.
-        //
+        // Traversing all the messaging individually without using the index mechanism.
         FILE* in = fopen(file.c_str(), "r");
 
         while ((h = codes_handle_new_from_file(0, in, PRODUCT_GRIB, &ret)) != NULL ) {
