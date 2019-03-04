@@ -18,11 +18,13 @@ tags:
 
 ## Introduction
 
-This tutorial shows how to use the data preprocessing tools (`gribConverter`, `windFieldCalculator`) in the AnEn package to prepare the data to the correct form that can be directly a number of computation tools (`similarityCalculator`, `analogGenerator`, `RAnEn`) to generate analog ensembles. Addition to that, this tutorial also shows how to automate and parallelize the process.
+This tutorial shows how to use the data preprocessing tools (`gribConverter`, `windFieldCalculator`) in the AnEn package to reformat the data to the correct form that can be directly used by a number of computation tools (`similarityCalculator`, `analogGenerator`, `RAnEn`) to generate analog ensembles. Addition to that, this tutorial also shows how to automate and parallelize the process on Cheyenne supercomputers.
 
 This tutorial assumes the basic knowledge on bash script language and that `AnEn` package has already been successfully installed. More information of how to install `AnEn` on Cheyenne can be found [here](https://weiming-hu.github.io/AnalogsEnsemble/2019/02/17/build-on-cheyenne.html).
 
-## Data Preparation
+This tutorial also assumes that you have already built the AnEn tools. Instructions for building the tools can be found [here](https://weiming-hu.github.io/AnalogsEnsemble/2019/02/17/build-on-cheyenne.html).
+
+## Data Preparation and Goals
 
 A large collection (~5.4TB) of data from [North American Mesoscale Forecast model](https://www.ncdc.noaa.gov/data-access/model-data/model-datasets/north-american-mesoscale-forecast-system-nam) have been downloaded for the time period from October, 2008, to July, 2018. The original files are `.g2.tar` files and an example for the file name is `nam_218_2008102900.g2.tar`. Files have already been arranged by `YearMonth` in each folder as follows:
 
@@ -39,9 +41,20 @@ A large collection (~5.4TB) of data from [North American Mesoscale Forecast mode
 200906  201003  201012  201109  201206  201303  201312  201409  201506  201603  201612  201709  201806
 ```
 
+Original NAM forecast files are organized by day, cycle time, and lead time. Each file is a compilation of parameters at all available locations/grid points. However, data that AnEn requires have a [different format](https://weiming-hu.github.io/AnalogsEnsemble/2019/01/16/NetCDF-File-Types.html#forecasts). This format requires the file to have parameters, grid points, times, and lead times information included. Our goal is convert the model output to this format.
+
+Since the total file size exceeds 5 TB, it would be a better practice to avoid a huge file, but to have it broken down to chunks. Therefore, the files are grouped by month.
+
 ## Scripts
 
-I have prepared two scripts. The first script is the resource PBS script. 
+I have prepared two scripts. The first script is the resource PBS script. This script does the following tasks:
+
+- Identifies which folders are currently being processed by search for a lock file and which folders have already been processed by searching for the expected output data file;
+- Selects *only one* folder that has not yet been processed;
+- Untars tarballs in the folders;
+- Converts grb2 files to NetCDF files;
+- Computes and adds wind direction and speed fields to the NetCDF file;
+- Exits normally.
 
 ```
 #!/bin/bash
@@ -50,7 +63,7 @@ I have prepared two scripts. The first script is the resource PBS script.
 #PBS -N process_each_month
 
 # The project account
-#PBS -A ****
+#PBS -A MY.PROJECT.ACCOUNT
 
 # The time resources requested
 #PBS -l walltime=10:00:00
@@ -70,16 +83,19 @@ I have prepared two scripts. The first script is the resource PBS script.
 #PBS -m abe
 
 # And this is the email
-#PBS -M *****
+#PBS -M my.email@server.com
                                          
 # Set TMPDIR as recommended
 setenv TMPDIR /glade/scratch/$USER/temp
 mkdir -p $TMPDIR
 
-# Loop through the folder names
+# These are the available folders. The folder names are also going to be the names of NetCDF files.
 declare -a arr=("200810" "200811" "200812" "200901" "200902" "200903" "200904" "200905" "200906" "200907" "200908" "200909" "200910" "200911" "200912" "201001" "201002" "201003" "201004" "201005" "201006" "201007" "201008" "201009" "201010" "201011" "201012" "201101" "201102" "201103" "201104" "201105" "201106" "201107" "201108" "201109" "201110" "201111" "201112" "201201" "201202" "201203" "201204" "201205" "201206" "201207" "201208" "201209" "201210" "201211" "201212" "201301" "201302" "201303" "201304" "201305" "201306" "201307" "201308" "201309" "201310" "201311" "201312" "201401" "201402" "201403" "201404" "201405" "201406" "201407" "201408" "201409" "201410" "201411" "201412" "201501" "201502" "201503" "201504" "201505" "201506" "201507" "201508" "201509" "201510" "201511" "201512" "201601" "201602" "201603" "201604" "201605" "201606" "201607" "201608" "201609" "201610" "201611" "201612" "201701" "201702" "201703" "201704" "201705" "201706" "201707" "201708" "201709" "201710" "201711" "201712" "201801" "201802" "201803" "201804" "201805" "201806" "201807")
 
-# Define the configuration file for gribConverter. This is enclosed at the end of this tutorial.
+# Define the configuration file for gribConverter.
+# The file can be found at 
+# https://github.com/Weiming-Hu/AnalogsEnsemble/blob/master/apps/app_gribConverter/example/commonConfig.cfg
+#
 converterConfig=/glade/u/home/wuh20/scratch/data/forecasts/forecasts.cfg
 
 # Define the output destination
@@ -89,13 +105,16 @@ destDir=/glade/u/home/wuh20/flash/forecasts_new/
 lockFile=.lock
 
 for month in "${arr[@]}"; do
+    # This is the data folder
     monthDir=/glade/u/home/wuh20/scratch/data/forecasts/$month
     
+    # Whether this folder has already been processed
     if [ -f $destDir/$month\.nc  ]; then
         echo Month $month has been processed. Skip this month.
         continue
     fi
     
+    # Whether this folder is currently being processed
     # Check whether this directory exists
     if [ ! -d $monthDir  ]; then
         echo Directory not found: $monthDir
@@ -149,14 +168,23 @@ for month in "${arr[@]}"; do
 done
 ```
 
+The first pbs script pretty much defines all the tasks that should be done. However, tasks for each month are entirely independent from each other and can be fully parallelized. Therefore, I decided that each task only processes one folder instead of continuing to the next folder available to avoid confusion between tasks. The following script simply deal with batch submitting the tasks to Cheyenne scheduler.
+
+We have another problem here that if two tasks are started simultaneously, there is a slight possibility that they will process the same folder and the folder lock mechanism based on file creating might not work. A simple workaround for that is to ensure submitting a new job when there is no queueing tasks meaning all tasksing have been started.
+
 ```
 #!/bin/bash
 
-totalJobs=84
+# Define the total number of jobs to create.
+totalJobs=118
+
+# Define the counter start.
 submittedJobs=0
 
 while true; do
+    # Get the number of queued jobs by looking at the queue status looking for the symbols
     number=`qstat | grep "Q regular" | wc -l`
+    
     echo The number of queued jobs: $number
     echo The number of submitted jobs: $submittedJobs
     if (( number == 0  )); then
@@ -174,120 +202,44 @@ done
 
 ## Results
 
-## Appendix
+By the completion of the scripts, we would have the following files in our destination folder:
 
 ```
-# This configuration file is generated for gribConverter to convert 201807 forecast
-# GRIB2 files to NetCDF files for computing analog ensembles.
-#
+> ls
+200810.nc  200910.nc  201010.nc  201110.nc  201210.nc  201310.nc  201410.nc  201510.nc	201610.nc  201710.nc
+200811.nc  200911.nc  201011.nc  201111.nc  201211.nc  201311.nc  201411.nc  201511.nc	201611.nc  201711.nc
+200812.nc  200912.nc  201012.nc  201112.nc  201212.nc  201312.nc  201412.nc  201512.nc	201612.nc  201712.nc
+200901.nc  201001.nc  201101.nc  201201.nc  201301.nc  201401.nc  201501.nc  201601.nc	201701.nc  201801.nc
+200902.nc  201002.nc  201102.nc  201202.nc  201302.nc  201402.nc  201502.nc  201602.nc	201702.nc  201802.nc
+200903.nc  201003.nc  201103.nc  201203.nc  201303.nc  201403.nc  201503.nc  201603.nc	201703.nc  201803.nc
+200904.nc  201004.nc  201104.nc  201204.nc  201304.nc  201404.nc  201504.nc  201604.nc	201704.nc  201804.nc
+200905.nc  201005.nc  201105.nc  201205.nc  201305.nc  201405.nc  201505.nc  201605.nc	201705.nc  201805.nc
+200906.nc  201006.nc  201106.nc  201206.nc  201306.nc  201406.nc  201506.nc  201606.nc	201706.nc  201806.nc
+200907.nc  201007.nc  201107.nc  201207.nc  201307.nc  201407.nc  201507.nc  201607.nc	201707.nc  201807.nc
+200908.nc  201008.nc  201108.nc  201208.nc  201308.nc  201408.nc  201508.nc  201608.nc	201708.nc
+200909.nc  201009.nc  201109.nc  201209.nc  201309.nc  201409.nc  201509.nc  201609.nc	201709.nc
+```
 
-# These two options are specified in command line arguments
-#folder = /home/graduate/wuh20/geolab_storage_V3/data/NAM/NCEI/forecasts/201807/extract/
-#output = 201807.nc
+And each file has the correct format for AnEn computation.
 
-output-type = Forecasts
-ext = .grb2
-flt-interval = 3600
-verbose = 3
-
-regex-time = .*nam_218_(\d{8})_\d{4}_\d{3}\.grb2$
-regex-flt = .*nam_218_\d{8}_\d{4}_(\d{3})\.grb2$
-
-# The following lines define the parameters.
-# Please refer to the post on how to get variable information
-# using Eccodes tools.
-#
-# paramId      level        typeOfLevel        name
-# 260242       2            heightAboveGround  2 metre relative humidity
-pars-id = 260242
-levels = 2
-level-types = heightAboveGround
-parameters-new-name = 2MetreRelativeHumidity
-
-# 168          2            heightAboveGround  2 metre dewpoint temperature 
-pars-id = 168
-levels = 2
-level-types = heightAboveGround
-parameters-new-name = 2MetreDewpoint
-
-# 167          2            heightAboveGround  2 metre temperature 
-pars-id = 167
-levels = 2
-level-types = heightAboveGround
-parameters-new-name = 2MetreTemperature
-
-# 228139       0            depthBelowLandLayer  Soil Temperature
-pars-id = 228139
-levels = 0
-level-types = depthBelowLandLayer
-parameters-new-name = SoilTemperature
-
-# 260509       0            surface      Albedo
-pars-id = 260509
-levels = 0
-level-types = surface
-parameters-new-name = SurfaceAlbedo
-
-# 131          1000         isobaricInhPa  U component of wind
-pars-id = 131
-levels = 1000
-level-types = isobaricInhPa
-parameters-new-name = 1000IsobaricInhPaU
-
-# 132          1000         isobaricInhPa  V component of wind
-pars-id = 132
-levels = 1000
-level-types = isobaricInhPa
-parameters-new-name = 1000IsobaricInhPaV
-
-# paramId     level       name
-# 130         0           Temperature 
-pars-id = 130
-levels = 0
-level-types = surface
-parameters-new-name = SurfaceTemperature
-
-# 134         0           Surface pressure 
-pars-id = 134
-levels = 0
-level-types = surface
-parameters-new-name = SurfacePressure
-
-# 228164      0           Total Cloud Cover 
-pars-id = 228164
-levels = 0
-level-types = unknown
-parameters-new-name = TotalCloudCover
-
-# 228228      0           Total Precipitation 
-pars-id = 228228
-levels = 0
-level-types = surface
-parameters-new-name = TotalPrecipitation
-
-# 260087      0           Downward short-wave radiation flux 
-pars-id = 260087
-levels = 0
-level-types = surface
-parameters-new-name = DownwardShortWaveRadiation
-
-# 260097      0           Downward long-wave radiation flux 
-pars-id = 260097
-levels = 0
-level-types = surface
-parameters-new-name = DownwardLongWaveRadiation
-
-# 260088      0           Upward short-wave radiation flux 
-pars-id = 260088
-levels = 0
-level-types = surface
-parameters-new-name = UpwardShortWaveRadiation
-
-# 260098      0           Upward long-wave radiation flux 
-pars-id = 260098
-levels = 0
-level-types = surface
-parameters-new-name = UpwardLongWaveRadiation
-
-# Difference between 2 metre above ground and surface temperature
-# http://mailman.ucar.edu/pipermail/wrf-users/2012/002776.html
+```
+> ncdump -h 201801.nc 
+netcdf \201801 {
+dimensions:
+	num_parameters = 17 ;
+	num_chars = 50 ;
+	num_stations = 262792 ;
+	num_times = 31 ;
+	num_flts = 53 ;
+variables:
+	char ParameterNames(num_parameters, num_chars) ;
+	double ParameterWeights(num_parameters) ;
+	char ParameterCirculars(num_parameters, num_chars) ;
+	char StationNames(num_stations, num_chars) ;
+	double Xs(num_stations) ;
+	double Ys(num_stations) ;
+	double Times(num_times) ;
+	double FLTs(num_flts) ;
+	double Data(num_flts, num_times, num_stations, num_parameters) ;
+}
+```
