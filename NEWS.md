@@ -3,6 +3,7 @@
 - Add function `RAnEn::plotAnalogSample` and `RAnEn::plotAnalogSelection`.
 - Add the feature for `RAnEn` to preserve standard deviations.
 - Add tests for R and C++ for similarity calculation and standard deviation calculation.
+- Change R interface input parameters to constant references.
 
 # PEF 3.2.4
 

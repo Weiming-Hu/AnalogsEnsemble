@@ -43,9 +43,9 @@ bool checkOpenMP() {
 // [[Rcpp::export(".generateTimeMapping")]]
 
 NumericVector generateTimeMapping(
-        NumericVector R_times_forecasts,
-        NumericVector R_flts_forecasts,
-        NumericVector R_times_observations,
+        const NumericVector & R_times_forecasts,
+        const NumericVector & R_flts_forecasts,
+        const NumericVector & R_times_observations,
         int time_match_mode, int verbose) {
 
     /***************************************************************************
@@ -117,29 +117,31 @@ NumericVector generateTimeMapping(
 // [[Rcpp::export(".generateAnalogs")]]
 
 List generateAnalogs(
-        NumericVector R_test_forecasts, NumericVector R_test_forecasts_dims,
-        NumericVector R_test_forecasts_station_x,
-        NumericVector R_test_forecasts_station_y,
-        NumericVector R_test_times,
-        NumericVector R_search_forecasts, NumericVector R_search_forecasts_dims,
-        NumericVector R_search_forecasts_station_x,
-        NumericVector R_search_forecasts_station_y,
-        NumericVector R_search_times,
-        NumericVector R_flts,
-        NumericVector R_search_observations,
-        NumericVector R_search_observations_dims,
-        NumericVector R_observation_times,
-        NumericVector R_weights,
+        const NumericVector & R_test_forecasts,
+        const NumericVector & R_test_forecasts_dims,
+        const NumericVector & R_test_forecasts_station_x,
+        const NumericVector & R_test_forecasts_station_y,
+        const NumericVector & R_test_times,
+        const NumericVector & R_search_forecasts,
+        const NumericVector & R_search_forecasts_dims,
+        const NumericVector & R_search_forecasts_station_x,
+        const NumericVector & R_search_forecasts_station_y,
+        const NumericVector & R_search_times,
+        const NumericVector & R_flts,
+        const NumericVector & R_search_observations,
+        const NumericVector & R_search_observations_dims,
+        const NumericVector & R_observation_times,
+        const NumericVector & R_weights,
         size_t num_members, size_t observation_id, bool quick,
-        IntegerVector R_circulars, bool search_extension,
-        bool extend_observations,
+        const IntegerVector & R_circulars,
+        bool search_extension, bool extend_observations,
         bool preserve_similarity, bool preserve_mapping,
         bool preserve_search_stations, bool preserve_std,
         size_t max_num_search_stations, double distance,
         size_t num_nearest_stations, int time_match_mode,
         double max_par_nan, double max_flt_nan,
-        NumericVector R_test_times_compare,
-        NumericVector R_search_times_compare,
+        const NumericVector & R_test_times_compare,
+        const NumericVector & R_search_times_compare,
         bool operational, int verbose) {
 
     /***************************************************************************
