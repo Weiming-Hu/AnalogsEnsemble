@@ -49,8 +49,6 @@ biasCorrectionInsitu <- function(
   AnEn, config, forecast.ID, group.func = mean, ...,
   keep.bias = F, show.progress = T, overwrite = F, density.limit = 1) {
   
-  require(RAnEn)
-  
   config <- convertToAdvance(config)
   
   # Check for overwriting

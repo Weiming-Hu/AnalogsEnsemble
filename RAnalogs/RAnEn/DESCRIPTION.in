@@ -25,5 +25,6 @@ Suggests:
     pbapply,
     parallel,
     nnet,
+    boot,
 RoxygenNote: 6.1.0
 Encoding: UTF-8

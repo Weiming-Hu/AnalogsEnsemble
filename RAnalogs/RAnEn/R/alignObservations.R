@@ -44,7 +44,7 @@
 #' observations with.
 #' @param return.na.index Whether to return the NA index.
 #' @param show.progress A logical for whether to show the progress bar.
-#' @param silent No printing messages.
+#' @param silent No printing warning messages.
 #' 
 #' @return If return.na.index is fault, by default, it retuns the aligned observations;
 #' otherwise, it returns a list with the aligned observations and a index matrix for which
@@ -54,8 +54,6 @@
 #' @export
 alignObservations <- function(observations, observation.times, forecast.times,
                               flts, return.na.index = F, show.progress = T, silent = F) {
-  
-  require(RAnEn)
   
   stopifnot(length(dim(observations)) == 3)
   stopifnot(dim(observations)[3] == length(observation.times))

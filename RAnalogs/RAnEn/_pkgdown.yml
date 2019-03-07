@@ -26,18 +26,23 @@ reference:
           - biasCorrectionNeuralNet
           - computeWindDir
           - computeWindSpeed
-          - generateCircleCoords
+          - convertToAdvance
           - alignObservations
+
+    - title: Verification
+      desc: Functions for verification.
+      contents:
+          - starts_with("verify")
 
     - title: Visualization
       desc: Functions for visualization of observations, forecasts, analogs, and more.
       contents:
           - starts_with("plot")
+          - generateCircleCoords
 
     - title: General Information
       desc: Functions to provide generate information.
       contents:
-          - convertToAdvance
           - RAnEn-package
           - checkOpenMP
           - print.AnEn

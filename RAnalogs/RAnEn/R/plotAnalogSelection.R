@@ -83,7 +83,7 @@ plotAnalogSelection <- function(
     stop("Parameter names and the first dimension of configuration forecasts do not match.")
   }
   if (use.plotly) {
-    require(plotly)
+    requireNamespace(plotly, quietly = T)
   }
   
   # Remove the parameters with weight equals to 0
@@ -117,7 +117,7 @@ plotAnalogSelection <- function(
       plotly.list <- list()
     }
     
-    p <- plot_ly(x = x.days[days.index], y = sims[, 1], type = 'scatter', name = "Similarity",
+    p <- plotly::plot_ly(x = x.days[days.index], y = sims[, 1], type = 'scatter', name = "Similarity",
                  mode = 'markers', marker = list(color = col.unselected, symbol= pch.unselected)) %>%
       add_markers(x = x.days[days.index[1:config$num_members]],
                   y = sims[1:config$num_members, 1], name = "Selected",
@@ -147,13 +147,13 @@ plotAnalogSelection <- function(
       # A sanity check
       stopifnot(length(x.days) == length(forecast.values))
       
-      p <- plot_ly(type = 'scatter', mode = 'markers+lines') %>%
-        add_markers(x = x.days, y = forecast.values, name = parameter.names[i.parameter],
+      p <- plotly::plot_ly(type = 'scatter', mode = 'markers+lines') %>%
+        plotly::add_markers(x = x.days, y = forecast.values, name = parameter.names[i.parameter],
                     marker = list(color = col.unselected, symbol= pch.unselected)) %>%
-        add_markers(x = x.days[days.index[1:config$num_members]],
+        plotly::add_markers(x = x.days[days.index[1:config$num_members]],
                     y = forecast.values[days.index[1:config$num_members]], name = 'Selected',
                     marker = list(color = col.selected, symbol= pch.selected)) %>%
-        add_segments(x = x.days[1], xend = current.forecast.x,
+        plotly::add_segments(x = x.days[1], xend = current.forecast.x,
                      y = current.forecast.value, yend = current.forecast.value,
                      name = 'Current forecast', line = list(
                        color = col.reference, width = lwd.reference, dash = lty.reference)) %>%
@@ -176,7 +176,7 @@ plotAnalogSelection <- function(
       }
     }
     
-    p <- subplot(plotly.list, nrows = length(plotly.list), titleY = T, shareX = T)
+    p <- plotly::subplot(plotly.list, nrows = length(plotly.list), titleY = T, shareX = T)
     print(p)
     
   } else {

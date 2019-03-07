@@ -23,7 +23,7 @@ observations with.}
 
 \item{show.progress}{A logical for whether to show the progress bar.}
 
-\item{silent}{No printing messages.}
+\item{silent}{No printing warning messages.}
 }
 \value{
 If return.na.index is fault, by default, it retuns the aligned observations;
