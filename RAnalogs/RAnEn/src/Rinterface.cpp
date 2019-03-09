@@ -191,19 +191,27 @@ List generateAnalogs(
 
     anenSta::Stations search_stations;
     if (search_extension) {
-        for (size_t i_station = 0; i_station < R_search_forecasts_dims[1];
-                i_station++) {
+        for (size_t i_station = 0; i_station < R_search_forecasts_dims[1]; i_station++) {
             anenSta::Station s(R_search_forecasts_station_x[i_station],
                     R_search_forecasts_station_y[i_station]);
             search_stations.push_back(s);
         }
     } else {
-        search_stations.get<anenSta::by_insert>().resize(
-                R_search_forecasts_dims[1]);
+        search_stations.get<anenSta::by_insert>().resize(R_search_forecasts_dims[1]);
     }
 
+    // There is an important assumption for observation stations that if the numbers
+    // of observation stations and the search stations are the same, the stations are
+    // the same. If they are not the same, since I haven't implemented passing
+    // coordinates for observation stations, the C++ library will report an error due to
+    // missing information for observation stations. 
+    //
     anenSta::Stations observation_stations;
-    observation_stations.resize(R_search_observations_dims[1]);
+    if (R_search_observations_dims[1] == R_search_forecasts_dims[1]) {
+        observation_stations = search_stations;
+    } else {
+        observation_stations.resize(R_search_observations_dims[1]);
+    }
 
     anenPar::Parameters observation_ids;
     observation_ids.get<anenPar::by_insert>().resize(
