@@ -348,7 +348,8 @@ num_test_times, i_search_times_operational)
                 << "# of FLTs: " << num_flts << endl
                 << "# of test stations: " << num_test_stations << endl
                 << "# of test times: " << num_test_times << endl
-                << "# of maximum search stations: " << num_search_stations << endl;
+                << "# of maximum search stations: " << num_search_stations << endl
+                << "# of observation stations: " << search_observations.getStationsSize() << endl;
         if (!operational) cout << "# of search times: " << num_search_times << endl;
     }
 
@@ -411,8 +412,8 @@ firstprivate(i_search_times, search_times, num_search_times)
                         i_search_times = i_search_times_operational[pos_test_time];
                     }
                     
-                    double i_search_station_current = NAN, i_search_station =
-                            i_search_stations(i_test_station, i_search_station_index);
+                    double i_search_station_current = NAN,
+                           i_search_station = i_search_stations(i_test_station, i_search_station_index);
                     if (!extend_observations) {
                         i_search_station_current = test_stations_index_in_search[i_test_station];
 
@@ -740,13 +741,13 @@ AnEn::find_nearest_station_match_(
 
     if (search_stations.size() == 0) {
         if (verbose_ >= 1) cerr << BOLDRED
-                << "Error: There is no location information provided for search stations in observations." << RESET << endl;
+                << "Error: Empty station container." << RESET << endl;
         return (MISSING_VALUE);
     }
 
     if (test_stations.size() == 0) {
         if (verbose_ >= 1) cerr << BOLDRED
-                << "Error: There is no location information provided for test stations in SimilarityMatrices." << RESET << endl;
+                << "Error: Empry station target." << RESET << endl;
         return (MISSING_VALUE);
     }
     

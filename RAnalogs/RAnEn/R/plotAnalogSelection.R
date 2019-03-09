@@ -33,6 +33,7 @@
 #' @param col.reference The color for the reference line.
 #' @param lty.reference The line type for the reference line.
 #' @param lwd.reference The line width for the reference line.
+#' @param as.POSIXct Whether the time information in config should be converted to R date/time.
 #' @param origin The origin for times in forecasts. This will be passed to as.POSIXct to convert 
 #' times in forecasts to date/time objects.
 #' @param tz The time zone in forecasts. This will be passed to as.POSIXct to convert 
@@ -65,7 +66,7 @@ plotAnalogSelection <- function(
   cex.lab = 1.5, pch.selected = 16, pch.unselected = 16, pch.current = 1, 
   col.selected = 'red', col.unselected = 'lightgrey', col.reference = 'black',
   col.current = 'black', lty.reference = 'longdash', lwd.reference = 2,
-  origin = '1970-01-01', tz = 'UTC', single.figure = T,
+  as.POSIXct = T, origin = '1970-01-01', tz = 'UTC', single.figure = T,
   mar = c(1.5, 5, 1, 1) + 0.1, omi = c(.3, 0, 0, 0), use.plotly = F,
   hovermode = 'compare', spikemode = 'across', spikethickness = 1,
   spikedash = 'solid', spikecolor = 'grey') {
@@ -83,11 +84,15 @@ plotAnalogSelection <- function(
     stop("Parameter names and the first dimension of configuration forecasts do not match.")
   }
   if (use.plotly) {
-    requireNamespace('plotly', quietly = T)
+    require(plotly)
   }
   
   # Remove the parameters with weight equals to 0
-  parameter.names.used <- parameter.names[which(config$weights != 0)]
+  if (length(config$weights) == 0) {
+    parameter.names.used <- parameter.names
+  } else {
+    parameter.names.used <- parameter.names[which(config$weights != 0)]
+  }
   
   # Get the similarity matrix of this particular station, test day, and flt
   sims <- AnEn$similarity[i.station, i.test.day, i.flt, , ]
@@ -101,15 +106,18 @@ plotAnalogSelection <- function(
     length(config$search_times_compare)])
   
   # Generate the x axis. The x axis will be the search days
-  x.days <- as.POSIXct(config$forecast_times[search.start:search.end],
-                       origin = origin, tz = tz)
+  if (as.POSIXct) {
+    x.days <- as.POSIXct(config$forecast_times[search.start:search.end], origin = origin, tz = tz)
+    current.forecast.x <- as.POSIXct(config$forecast_times[test.start+i.test.day-1], origin = origin, tz = tz)
+  } else {
+    x.days <- config$forecast_times[search.start:search.end]
+    current.forecast.x <- config$forecast_times[test.start+i.test.day-1]
+  }
   
   # This is the day index associated with each row in the similarity matrix.
   # Note this is sorted by the similarity values.
   #
   days.index <- sims[, 3] - search.start + 1
-  
-  current.forecast.x <- as.POSIXct(config$forecast_times[test.start+i.test.day-1], origin = origin, tz = tz)
   
   if (use.plotly) {
     
@@ -118,7 +126,7 @@ plotAnalogSelection <- function(
     }
     
     p <- plotly::plot_ly(x = x.days[days.index], y = sims[, 1], type = 'scatter', name = "Similarity",
-                 mode = 'markers', marker = list(color = col.unselected, symbol= pch.unselected)) %>%
+                         mode = 'markers', marker = list(color = col.unselected, symbol= pch.unselected)) %>%
       add_markers(x = x.days[days.index[1:config$num_members]],
                   y = sims[1:config$num_members, 1], name = "Selected",
                   marker = list(color = col.selected, symbol= pch.selected)) %>%
@@ -149,14 +157,14 @@ plotAnalogSelection <- function(
       
       p <- plotly::plot_ly(type = 'scatter', mode = 'markers+lines') %>%
         plotly::add_markers(x = x.days, y = forecast.values, name = parameter.names[i.parameter],
-                    marker = list(color = col.unselected, symbol= pch.unselected)) %>%
+                            marker = list(color = col.unselected, symbol= pch.unselected)) %>%
         plotly::add_markers(x = x.days[days.index[1:config$num_members]],
-                    y = forecast.values[days.index[1:config$num_members]], name = 'Selected',
-                    marker = list(color = col.selected, symbol= pch.selected)) %>%
+                            y = forecast.values[days.index[1:config$num_members]], name = 'Selected',
+                            marker = list(color = col.selected, symbol= pch.selected)) %>%
         plotly::add_segments(x = x.days[1], xend = current.forecast.x,
-                     y = current.forecast.value, yend = current.forecast.value,
-                     name = 'Current forecast', line = list(
-                       color = col.reference, width = lwd.reference, dash = lty.reference)) %>%
+                             y = current.forecast.value, yend = current.forecast.value,
+                             name = 'Current forecast', line = list(
+                               color = col.reference, width = lwd.reference, dash = lty.reference)) %>%
         add_markers(x = current.forecast.x, y = current.forecast.value,
                     name = 'Current forecast', marker = list(
                       color = col.current, symbol= pch.current)) %>%

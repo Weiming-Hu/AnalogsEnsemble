@@ -202,6 +202,9 @@ List generateAnalogs(
                 R_search_forecasts_dims[1]);
     }
 
+    anenSta::Stations observation_stations;
+    observation_stations.resize(R_search_observations_dims[1]);
+
     anenPar::Parameters observation_ids;
     observation_ids.get<anenPar::by_insert>().resize(
             R_search_observations_dims[0]);
@@ -217,7 +220,7 @@ List generateAnalogs(
             R_search_forecasts.begin(), R_search_forecasts.end());
 
     Observations_array search_observations(
-            observation_ids, search_stations, observation_times);
+            observation_ids, observation_stations, observation_times);
     search_observations.data().assign(
             R_search_observations.begin(), R_search_observations.end());
 
