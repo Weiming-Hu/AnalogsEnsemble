@@ -10,6 +10,9 @@
     <loc>https://weiming-hu.github.io/AnalogsEnsemble//reference/alignObservations.html</loc>
   </url>
   <url>
+    <loc>https://weiming-hu.github.io/AnalogsEnsemble//reference/anen.mean.html</loc>
+  </url>
+  <url>
     <loc>https://weiming-hu.github.io/AnalogsEnsemble//reference/biasCorrection.html</loc>
   </url>
   <url>
@@ -17,6 +20,9 @@
   </url>
   <url>
     <loc>https://weiming-hu.github.io/AnalogsEnsemble//reference/biasCorrectionNeuralNet.html</loc>
+  </url>
+  <url>
+    <loc>https://weiming-hu.github.io/AnalogsEnsemble//reference/boot.fun.ver.html</loc>
   </url>
   <url>
     <loc>https://weiming-hu.github.io/AnalogsEnsemble//reference/checkOpenMP.html</loc>
@@ -68,5 +74,32 @@
   </url>
   <url>
     <loc>https://weiming-hu.github.io/AnalogsEnsemble//reference/validateConfiguration.html</loc>
+  </url>
+  <url>
+    <loc>https://weiming-hu.github.io/AnalogsEnsemble//reference/verifyBias.html</loc>
+  </url>
+  <url>
+    <loc>https://weiming-hu.github.io/AnalogsEnsemble//reference/verifyCRPS.html</loc>
+  </url>
+  <url>
+    <loc>https://weiming-hu.github.io/AnalogsEnsemble//reference/verifyCorrelation.html</loc>
+  </url>
+  <url>
+    <loc>https://weiming-hu.github.io/AnalogsEnsemble//reference/verifyDispersion.html</loc>
+  </url>
+  <url>
+    <loc>https://weiming-hu.github.io/AnalogsEnsemble//reference/verifyMAE.html</loc>
+  </url>
+  <url>
+    <loc>https://weiming-hu.github.io/AnalogsEnsemble//reference/verifyRMSE.html</loc>
+  </url>
+  <url>
+    <loc>https://weiming-hu.github.io/AnalogsEnsemble//reference/verifyRankHist.html</loc>
+  </url>
+  <url>
+    <loc>https://weiming-hu.github.io/AnalogsEnsemble//reference/verifySpread.html</loc>
+  </url>
+  <url>
+    <loc>https://weiming-hu.github.io/AnalogsEnsemble//reference/verifySpreadSkill.html</loc>
   </url>
 </urlset>

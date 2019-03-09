@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>RAnEn::alignObservations — alignObservations • RAnEn</title>
+<title>RAnEn::verifyBias — verifyBias • RAnEn</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,10 +30,9 @@
 
 
 
-<meta property="og:title" content="RAnEn::alignObservations — alignObservations" />
+<meta property="og:title" content="RAnEn::verifyBias — verifyBias" />
 
-<meta property="og:description" content="This is a helper function that aligns the observations with the dimension
-format of a forecast for convenience of statistical analysis." />
+<meta property="og:description" content="Underdevelopment." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -96,94 +95,25 @@ format of a forecast for convenience of statistical analysis." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>RAnEn::alignObservations</h1>
+    <h1>RAnEn::verifyBias</h1>
     
-    <div class="hidden name"><code>alignObservations.Rd</code></div>
+    <div class="hidden name"><code>verifyBias.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>This is a helper function that aligns the observations with the dimension
-format of a forecast for convenience of statistical analysis.</p>
+    <p>Underdevelopment.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>alignObservations</span>(<span class='no'>observations</span>, <span class='no'>observation.times</span>, <span class='no'>forecast.times</span>, <span class='no'>flts</span>,
-  <span class='kw'>return.na.index</span> <span class='kw'>=</span> <span class='no'>F</span>, <span class='kw'>show.progress</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='kw'>silent</span> <span class='kw'>=</span> <span class='no'>F</span>)</pre>
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>observations</th>
-      <td><p>A 3-dimensional array for observations.</p></td>
-    </tr>
-    <tr>
-      <th>observation.times</th>
-      <td><p>The time of each observation. The length of
-times should equal the thrid dimension of observations.</p></td>
-    </tr>
-    <tr>
-      <th>forecast.times</th>
-      <td><p>The initial time for forecasts that you want to align
-observations with.</p></td>
-    </tr>
-    <tr>
-      <th>flts</th>
-      <td><p>The offset time in seconds that you want to align
-observations with.</p></td>
-    </tr>
-    <tr>
-      <th>return.na.index</th>
-      <td><p>Whether to return the NA index.</p></td>
-    </tr>
-    <tr>
-      <th>show.progress</th>
-      <td><p>A logical for whether to show the progress bar.</p></td>
-    </tr>
-    <tr>
-      <th>silent</th>
-      <td><p>No printing warning messages.</p></td>
-    </tr>
-    </table>
-    
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>If return.na.index is fault, by default, it retuns the aligned observations;
-otherwise, it returns a list with the aligned observations and a index matrix for which
-pair of forecast time/FLT could not be found in observation times provided.</p>
-    
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>For example, forecasts are usually 4-dimensional and observations are only
-3-dimensional. Forecasts have one extra dimension, FLTs, than observations.
-This function converts the dimensions of observations to forecasts and
-artificially add the FLTs dimension to observations by replicating
-values in observations.</p>
-<p>Imagine the following sequence of observation times</p>
-<p>00h 06h 12h 18h 24h 30h 36h 42h 48h 54h</p>
-<p>After the alignment with the daily forecasts with 6 FLTs, the aligned observations
-will be</p>
-<p>00h 06h 12h 18h 24h 30h
-24h 30h 36h 42h 48h 54h</p>
-<p>You note that there will be duplicates in observations which cannot
-be avoided in this format.</p>
-    
+    <pre class="usage"><span class='fu'>verifyBias</span>(<span class='no'>anen.ver</span>, <span class='no'>obs.ver</span>, <span class='kw'>boot</span> <span class='kw'>=</span> <span class='no'>F</span>, <span class='kw'>R</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='no'>T</span>)</pre>
+        
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#details">Details</a></li>
-          </ul>
-
-    <h2>Author</h2>
-    
-Weiming Hu <a href='mailto:weiming@psu.edu'>weiming@psu.edu</a>
+                </ul>
 
   </div>
 </div>
