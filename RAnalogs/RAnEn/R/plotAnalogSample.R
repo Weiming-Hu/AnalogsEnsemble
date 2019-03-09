@@ -99,7 +99,11 @@ plotAnalogSample <- function(
   }
   
   # Remove the parameters with weight equals to 0
-  parameter.names.used <- parameter.names[which(config$weights != 0)]
+  if (length(config$weights) == 0) {
+    parameter.names.used <- parameter.names
+  } else {
+    parameter.names.used <- parameter.names[which(config$weights != 0)]
+  }
   
   # Get the start and end index for searching in the forecasts
   test.start <- which(config$forecast_times == config$test_times_compare[1])
