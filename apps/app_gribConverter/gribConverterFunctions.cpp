@@ -352,7 +352,7 @@ namespace gribConverter {
                         } catch (const exception & e) {
                             cout << BOLDRED << "Error when reading " << pars_id[j] << " "
                                     << levels[j] << " " << level_types[j] << " from file " << file_in
-                                    << " (" << e.what() << ")" << RESET << endl;
+                                    << ": " << e.what() << RESET << endl;
                             continue;
                         } catch (...) {
                             cout << BOLDRED << "Unknown error when reading " << pars_id[j] << " "
@@ -544,7 +544,7 @@ namespace gribConverter {
                         } catch (const exception & e) {
                             cout << BOLDRED << "Error when reading " << pars_id[j] << " "
                                     << levels[j] << " " << level_types[j] << " from file " << file_in
-                                    << " (" << e.what() << ")" << RESET << endl;
+                                    << ": " << e.what() << RESET << endl;
                             continue;
                         } catch (...) {
                             cout << BOLDRED << "Unknown error when reading " << pars_id[j] << " "
@@ -587,10 +587,7 @@ namespace gribConverter {
             string par_key, string level_key, string type_key,
             codes_index** p_index, int* p_ret) {
 
-        // Note: there are known thread safety issues when GRIB multi-field support is enabled for eccodes.
-        // Therefore, Eccodes should be built without thread support.
-        //
-        codes_grib_multi_support_on(0);
+        codes_grib_multi_support_off(0);
 
         // First we use the fast way to index the message.
 
