@@ -51,7 +51,8 @@ I have prepared two scripts. The first script is the resource PBS script. This s
 
 - Identifies which folders are currently being processed by search for a lock file and which folders have already been processed by searching for the expected output data file;
 - Selects *only one* folder that has not yet been processed;
-- Untars tarballs in the folders;
+- Untars tarballs in a temporary folder;
+- Convert submessages to independent messages using `grib_copy` ([reference: grib_copy example 4](https://confluence.ecmwf.int/pages/viewpage.action?pageId=52462916#GRIBtoolsexamples-grib_copyexamples));
 - Converts grb2 files to NetCDF files;
 - Computes and adds wind direction and speed fields to the NetCDF file;
 - Exits normally.
@@ -84,10 +85,6 @@ I have prepared two scripts. The first script is the resource PBS script. This s
 
 # And this is the email
 #PBS -M my.email@server.com
-                                         
-# Set TMPDIR as recommended
-setenv TMPDIR /glade/scratch/$USER/temp
-mkdir -p $TMPDIR
 
 # These are the available folders. The folder names are also going to be the names of NetCDF files.
 declare -a arr=("200810" "200811" "200812" "200901" "200902" "200903" "200904" "200905" "200906" "200907" "200908" "200909" "200910" "200911" "200912" "201001" "201002" "201003" "201004" "201005" "201006" "201007" "201008" "201009" "201010" "201011" "201012" "201101" "201102" "201103" "201104" "201105" "201106" "201107" "201108" "201109" "201110" "201111" "201112" "201201" "201202" "201203" "201204" "201205" "201206" "201207" "201208" "201209" "201210" "201211" "201212" "201301" "201302" "201303" "201304" "201305" "201306" "201307" "201308" "201309" "201310" "201311" "201312" "201401" "201402" "201403" "201404" "201405" "201406" "201407" "201408" "201409" "201410" "201411" "201412" "201501" "201502" "201503" "201504" "201505" "201506" "201507" "201508" "201509" "201510" "201511" "201512" "201601" "201602" "201603" "201604" "201605" "201606" "201607" "201608" "201609" "201610" "201611" "201612" "201701" "201702" "201703" "201704" "201705" "201706" "201707" "201708" "201709" "201710" "201711" "201712" "201801" "201802" "201803" "201804" "201805" "201806" "201807")
@@ -114,7 +111,6 @@ for month in "${arr[@]}"; do
         continue
     fi
     
-    # Whether this folder is currently being processed
     # Check whether this directory exists
     if [ ! -d $monthDir  ]; then
         echo Directory not found: $monthDir
@@ -132,6 +128,12 @@ for month in "${arr[@]}"; do
         touch $lockFile
     fi
     
+    # Create a folder to store the original files
+    if [ ! -d original-extract-files ]; then
+        echo Create folder for original extract files ...
+        mkdir original-extract-files
+    fi
+    
     # Unpack tar files
     echo Extracting from tar files ...
     if [ -f log_extract  ]; then
@@ -139,23 +141,35 @@ for month in "${arr[@]}"; do
     fi
 
     for tarFile in *.g2.tar; do
-        tar --skip-old-files -xvf $tarFile >> log_extract
+        tar --skip-old-files -xvf $tarFile -C original-extract-files >> log_extract
+    done
+    
+    echo flattening messages with submessages ...
+    for file in `ls original-extract-files`; do
+        if [ ! -f $file ]; then
+            /glade/u/home/wuh20/github/AnalogsEnsemble/dependency/install/bin/grib_copy original-extract-files/$file $file
+        fi
     done
     
     # Convert grb2 files
     echo Converting grb2 files ...
-    /glade/u/home/wuh20/github/AnalogsEnsemble/output/bin/gribConverter -c $converterConfig --folder ./ -o $month-original.nc -v 3 > log_converter
-    
+    if [ ! -f $month-original.nc ]; then
+        /glade/u/home/wuh20/github/AnalogsEnsemble/output/bin/gribConverter -c $converterConfig --folder ./ -o $month-original.nc -v 3 > log_converter
+    fi
+
     # Add wind fields
     echo Adding wind fields ...
-    /glade/u/home/wuh20/github/AnalogsEnsemble/output/bin/windFieldCalculator --file-in $month-original.nc --file-type Forecasts --file-out $month\.nc -U 1000IsobaricInhPaU -V 1000IsobaricInhPaV --dir-name 1000IsobaricInhPaDir --speed-name 1000IsobaricInhPaSpeed -v 3 > log_wind
-    
+    if [ ! -f $month\.nc ]; then
+        /glade/u/home/wuh20/github/AnalogsEnsemble/output/bin/windFieldCalculator --file-in $month-original.nc --file-type Forecasts --file-out $month\.nc -U 1000IsobaricInhPaU -V 1000IsobaricInhPaV --dir-name 1000IsobaricInhPaDir --speed-name 1000IsobaricInhPaSpeed -v 3 > log_wind
+    fi
+
     # Move the data file elsewhere
     echo Moving data to $destDir
     mv $month\.nc $destDir
     
     # Cleaning
     echo Cleaning ...
+    rm -rf original-extract-files
     rm $month-original.nc
     rm *.grb2
     
