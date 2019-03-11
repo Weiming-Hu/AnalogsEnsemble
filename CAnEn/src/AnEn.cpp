@@ -41,6 +41,11 @@ AnEn::computeSearchStations(
         size_t max_num_search_stations,
         double distance, size_t num_nearest_stations) const {
 
+    // Check max number of search stations
+    if (num_nearest_stations != 0) {
+        max_num_search_stations = num_nearest_stations;
+    }
+
     // Create a new i_search_stations with the fill value
     AnEn::SearchStationMatrix i_search_stations(
             test_stations.size(), max_num_search_stations,

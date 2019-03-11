@@ -5,6 +5,7 @@
 - Add tests for R and C++ for similarity calculation and standard deviation calculation.
 - Add verification functions.
 - Change R interface input parameters to constant references.
+- Small fix to the `RAnEn` configuration parameter `num_nearest` and `num_max_search_stations`.
 
 # PEF 3.2.4
 
