@@ -127,7 +127,7 @@ generateConfiguration <- function(mode, advanced = F) {
     test_times_compare = vector(mode = 'numeric', length = 0),
     search_times_compare = vector(mode = 'numeric', length = 0),
     operational = FALSE,
-    verbose = 1)
+    verbose = 3)
   
   if (advanced) {
     config$test_forecasts <- NA

@@ -86,9 +86,18 @@ biasCorrectionInsitu <- function(
   #
   analogs.cor <- AnEn$analogs
   bc.counter <- 0
+  na.counter <- 0
+  
+  # Determine the test times
+  if (length(config$test_times_compare) == 0) test.times.compare <- config$test_times
+  else test.times.compare <- config$test_times_compare
+  
+  # Determine the search times
+  if (length(config$search_times_compare) == 0) search.times.compare <- config$search_times
+  else search.times.compare <- config$search_times_compare
   
   # Extract the index of search forecast days
-  index.search.fcst.days <- sapply(config$search_times_compare, function (t) {
+  index.search.fcst.days <- sapply(search.times.compare, function (t) {
     return(which(t == config$search_times))
   })
   
@@ -98,7 +107,7 @@ biasCorrectionInsitu <- function(
     pb.counter <- 1
   }
   
-  for (i in 1:dim(bias)[1]) {
+ for (i in 1:dim(bias)[1]) {
     for (k in 1:dim(bias)[3]) {
       
       # Build a histogram based on all search forecasts for station i and FLT k
@@ -108,6 +117,7 @@ biasCorrectionInsitu <- function(
         
         if (all(is.na(AnEn$analogs[i, j, k, , 1]))) {
           # If this ensemble only contains NA values, skip the bias calculation
+          na.counter <- na.counter + 1
           if (show.progress) {
             setTxtProgressBar(pb, pb.counter)
             pb.counter <- pb.counter + 1
@@ -116,7 +126,7 @@ biasCorrectionInsitu <- function(
         }
         
         # Get the current forecast
-        index.current.test.day <- config$test_times_compare[j] == config$test_times
+        index.current.test.day <- test.times.compare[j] == config$test_times
         current.fcst <- config$test_forecasts[forecast.ID, i, which(index.current.test.day), k]
         
         if (is.na(current.fcst)) {
@@ -172,7 +182,9 @@ biasCorrectionInsitu <- function(
     close(pb)
     cat("RAnEn::biasCorrectionInsitu:", bc.counter, 
         paste("(", round(bc.counter / prod(dim(bias)[1:3]), 1) * 100, "%)", sep = ''),
-        "test forecasts have been corrected.\n")
+        "test forecasts have been corrected. ", na.counter,
+        paste("(", round(na.counter / prod(dim(bias)[1:3]), 1) * 100, "%)", sep = ''),
+        "have been skipped due to the ensemble being all NA.\n")
   }
   
   AnEn$analogs.cor.insitu <- analogs.cor
