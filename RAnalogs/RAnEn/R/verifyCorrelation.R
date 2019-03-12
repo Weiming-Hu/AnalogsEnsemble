@@ -31,13 +31,16 @@ verifyCorrelation <- function(anen.ver, obs.ver, boot=F, R=1000, na.rm=T) {
     # corresponding observation for each station and day
     c <- cor(obs,anen,use="pairwise.complete.obs")
     
+    # Extract the diagonal of the correlation matrix
+    c.diag <- diag(c)
+    
     # The average total bias... perhaps we need it?
-    c.tot <- mean(c, na.rm=na.rm)
+    # c.tot <- mean(c, na.rm=na.rm)
     
     # Compute the mean 
-    c.mean <- apply(c, 2, mean, na.rm=na.rm)
+    c.mean <- mean(c.diag, na.rm=na.rm)
     
-    return(list(mean=c.tot, flt=c.mean, mat=c))
+    return(list(mean=c.mean, flt=c.diag, mat=c))
     
   } else {
     corr.fun=function(d,i){ 
