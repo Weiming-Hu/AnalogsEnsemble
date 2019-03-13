@@ -587,7 +587,9 @@ public:
     static errorType
     combineObservationsArray(
             const std::vector<std::string> & in_files,
-            Observations_array & observations, size_t along, int verbose = 2);
+            Observations_array & observations, size_t along, int verbose = 2,
+            const std::vector<size_t> & starts = {},
+            const std::vector<size_t> & counts = {});
 
 
     /**

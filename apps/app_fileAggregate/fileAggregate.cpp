@@ -25,7 +25,30 @@
 using namespace std;
 
 void runFileAggregate(const string & file_type, const vector<string> & in_files, 
-        const size_t & along, const string & out_file, const int & verbose) {
+        const size_t & along, const string & out_file, const int & verbose,
+        const vector<size_t> & starts, const vector<size_t> & counts) {
+
+    // Check start and count
+    bool partial_read = true;
+    if (starts.size() == 0 || counts.size() == 0) {
+        partial_read = false;
+        
+    } else {
+        if (!(starts.size() == 4 * in_files.size()
+                && counts.size() == 4 * in_files.size())) {
+            cout << BOLDRED << "Error: start and count should both have an integer multiplication of 4 values."
+                    << RESET << endl;
+            return;
+        }
+    }
+
+    if (partial_read && (file_type == "Forecasts" || file_type == "Observations")) {
+        // Currently, the partial read functionality only supports Forecasts and observations.
+    } else {
+        cout << BOLDRED << "Error: Currently, the partial read functionality only supports Forecasts and observations."
+            << RESET << endl;
+        return;
+    }
 
     AnEnIO io_out("Write", out_file, file_type, verbose);
 
@@ -34,7 +57,7 @@ void runFileAggregate(const string & file_type, const vector<string> & in_files,
         // Reshape data
         Forecasts_array forecasts;
         if (verbose >= 3) cout << GREEN << "Combining forecasts ..." << RESET << endl;
-        auto ret = AnEnIO::combineForecastsArray(in_files, forecasts, along, verbose);
+        auto ret = AnEnIO::combineForecastsArray(in_files, forecasts, along, verbose, starts, counts);
         if (ret != errorType::SUCCESS) {
             throw runtime_error("Error: Failed when combining forecasts.");
         }
@@ -48,7 +71,7 @@ void runFileAggregate(const string & file_type, const vector<string> & in_files,
         // Reshape data
         if (verbose >= 3) cout << GREEN << "Combining observations ..." << RESET << endl;
         Observations_array observations;
-        auto ret = AnEnIO::combineObservationsArray(in_files, observations, along, verbose);
+        auto ret = AnEnIO::combineObservationsArray(in_files, observations, along, verbose, starts, counts);
         if (ret != errorType::SUCCESS) {
             throw runtime_error("Error: Failed when combining observations.");
         }
@@ -151,6 +174,7 @@ int main(int argc, char** argv) {
     // Optional variables
     int verbose = 0;
     string config_file;
+    vector<size_t> starts, counts;
 
     try {
         po::options_description desc("Available options");
@@ -163,7 +187,9 @@ int main(int argc, char** argv) {
                 ("out,o", po::value<string>(&out_file)->required(), "Set the name of the output file.")
                 ("along,a", po::value<size_t>(&along)->required(), "Set the dimension index to be appended. It counts from 0.")
 
-                ("verbose,v", po::value<int>(&verbose)->default_value(2), "Set the verbose level.");
+                ("verbose,v", po::value<int>(&verbose)->default_value(2), "Set the verbose level.")
+                ("start", po::value< vector<size_t> >(&starts)->multitoken(), "Set the start indices for each file.")
+                ("count", po::value< vector<size_t> >(&counts)->multitoken(), "Set the count numbers for each file.");
 
         // process unregistered keys and notify users about my guesses
         vector<string> available_options;
@@ -229,7 +255,9 @@ int main(int argc, char** argv) {
                 << "in_files: " << in_files << endl
                 << "out_file: " << out_file << endl
                 << "along: " << along << endl
-                << "verbose: " << verbose << endl;
+                << "verbose: " << verbose << endl
+                << "start: " << starts << endl
+                << "count: " << counts << endl;
     }
     
     if (file_type == "Forecasts" && along >= 4) {
@@ -245,7 +273,7 @@ int main(int argc, char** argv) {
     }
 
     try {
-        runFileAggregate(file_type, in_files, along, out_file, verbose);
+        runFileAggregate(file_type, in_files, along, out_file, verbose, starts, counts);
     } catch (...) {
         handle_exception(current_exception());
         return 1;

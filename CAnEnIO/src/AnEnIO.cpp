@@ -2243,7 +2243,14 @@ AnEnIO::combineForecastsArray(const vector<string> & in_files,
 
 errorType
 AnEnIO::combineObservationsArray(const vector<string> & in_files,
-        Observations_array & observations, size_t along, int verbose) {
+        Observations_array & observations, size_t along, int verbose,
+        const vector<size_t> & starts, const vector<size_t> & counts) {
+
+    // Check whether partial reading is selected
+    bool partial_read = false;
+    if (starts.size() == 3 * in_files.size() && counts.size() == 3 * in_files.size()) {
+        partial_read = true;
+    }
 
     // Clear values in observations array data
     observations.data().resize(boost::extents[0][0][0]);
@@ -2253,18 +2260,44 @@ AnEnIO::combineObservationsArray(const vector<string> & in_files,
     AnEnIO io("Read", in_files[0], "Observations", 2);
 
     anenPar::Parameters parameters;
-    handleError(io.readParameters(parameters));
-
     anenSta::Stations stations;
-    handleError(io.readStations(stations));
-
     anenTime::Times times;
-    handleError(io.readTimes(times));
 
-    if (along == 0) handleError(io.combineParameters(in_files, "Observations", parameters, verbose));
-    else if (along == 1) handleError(io.combineStations(in_files, "Observations", stations, verbose));
-    else if (along == 2) handleError(io.combineTimes(in_files, "Observations", times, verbose));
-    else return (ERROR_SETTING_VALUES);
+    if (partial_read) {
+        if (verbose >= 3) cout << "Processing partial meta information ..." << endl;
+        handleError(io.readParameters(parameters, starts[0], counts[0]));
+        handleError(io.readStations(stations, starts[1], counts[1]));
+        handleError(io.readTimes(times, starts[2], counts[2]));
+
+        size_t len = in_files.size();
+        vector<size_t> starts_parameter(len), counts_parameter(len),
+            starts_stations(len), counts_stations(len),
+            starts_times(len), counts_times(len);
+
+        for (size_t i = 0, j = 0; i < starts.size(); i+=3, j++) {
+            starts_parameter[j] = starts[i]; counts_parameter[j] = counts[i];
+            starts_stations[j] = starts[i+1]; counts_stations[j] = counts[i+1];
+            starts_times[j] = starts[i+2]; counts_times[j] = counts[i+2];
+        }
+
+        if (along == 0) handleError(io.combineParameters(in_files, "Observations",
+                    parameters, verbose, starts_parameter, counts_parameter));
+        else if (along == 1) handleError(io.combineStations(in_files, "Observations",
+                    stations, verbose, "", "", starts_stations, counts_stations));
+        else if (along == 2) handleError(io.combineTimes(in_files, "Observations",
+                    times, verbose, "Times", starts_times, counts_times));
+        else return (ERROR_SETTING_VALUES);
+
+    } else {
+        handleError(io.readParameters(parameters));
+        handleError(io.readStations(stations));
+        handleError(io.readTimes(times));
+
+        if (along == 0) handleError(io.combineParameters(in_files, "Observations", parameters, verbose));
+        else if (along == 1) handleError(io.combineStations(in_files, "Observations", stations, verbose));
+        else if (along == 2) handleError(io.combineTimes(in_files, "Observations", times, verbose));
+        else return (ERROR_SETTING_VALUES);
+    }
 
     // Update dimensions
     if (verbose >= 3) cout << "Update dimensions of observations ..." << endl;
@@ -2281,16 +2314,24 @@ AnEnIO::combineObservationsArray(const vector<string> & in_files,
     vector<size_t> same_dimensions = {0, 1, 2};
     same_dimensions.erase(find(same_dimensions.begin(), same_dimensions.end(), along));
 
-    if (verbose >= 3) cout << "Copy observation values into the new format ..." << endl;
+    if (verbose >= 3) {
+        if (partial_read) cout << "Copy partial observation values into the new format ..." << endl;
+        else cout << "Copy observation values into the new format ..." << endl;
+    }
 
     size_t append_count = 0;
 
-    for (const auto & file : in_files) {
+    for (size_t k = 0; k < in_files.size(); k++) {
+        const auto & file = in_files[k];
+
         AnEnIO io_thread("Read", file, "Observations", verbose-2);
         Observations_array observations_single;
 
         if (verbose >= 4) cout << "Read file " << file << " ..." << endl;
-        io_thread.readObservations(observations_single);
+        if (partial_read) io_thread.readObservations(observations_single,
+                {starts[k*3], starts[k*3+1], starts[k*3+2]},
+                {counts[k*3], counts[k*3+1], counts[k*3+2]});
+        else io_thread.readObservations(observations_single);
         const auto & data_single = observations_single.data();
 
         if (verbose >= 4) cout << "Reformat file " << file << " ..." << endl;
