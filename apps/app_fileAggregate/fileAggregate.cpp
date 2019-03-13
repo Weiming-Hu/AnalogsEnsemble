@@ -36,18 +36,20 @@ void runFileAggregate(const string & file_type, const vector<string> & in_files,
     } else {
         if (!(starts.size() == 4 * in_files.size()
                 && counts.size() == 4 * in_files.size())) {
-            cout << BOLDRED << "Error: start and count should both have an integer multiplication of 4 values."
+            cerr << BOLDRED << "Error: start and count should both have an integer multiplication of 4 values."
                     << RESET << endl;
             return;
         }
     }
 
-    if (partial_read && (file_type == "Forecasts" || file_type == "Observations")) {
-        // Currently, the partial read functionality only supports Forecasts and observations.
-    } else {
-        cout << BOLDRED << "Error: Currently, the partial read functionality only supports Forecasts and observations."
-            << RESET << endl;
-        return;
+    if (partial_read) {
+        if (file_type == "Forecasts" || file_type == "Observations") {
+            // Currently, the partial read functionality only supports Forecasts and observations.
+        } else {
+            cerr << BOLDRED << "Error: Currently, the partial read functionality only supports Forecasts and observations."
+                << RESET << endl;
+            return;
+        }
     }
 
     AnEnIO io_out("Write", out_file, file_type, verbose);
@@ -149,7 +151,7 @@ void runFileAggregate(const string & file_type, const vector<string> & in_files,
                 analogs, stations, times, flts, member_stations, member_times));
         
     } else {
-        if (verbose >= 1) cout << BOLDRED << "Error: File type " << file_type
+        if (verbose >= 1) cerr << BOLDRED << "Error: File type " << file_type
                 << " is not supported." << RESET << endl;
         return;
     }
@@ -228,7 +230,7 @@ int main(int argc, char** argv) {
         if (!config_file.empty()) {
             ifstream ifs(config_file.c_str());
             if (!ifs) {
-                cout << BOLDRED << "Error: Can't open configuration file " << config_file << RESET << endl;
+                cerr << BOLDRED << "Error: Can't open configuration file " << config_file << RESET << endl;
                 return 1;
             } else {
                 auto parsed_config = parse_config_file(ifs, desc, true);
@@ -261,12 +263,12 @@ int main(int argc, char** argv) {
     }
     
     if (file_type == "Forecasts" && along >= 4) {
-        if (verbose >= 1) cout << BOLDRED 
+        if (verbose >= 1) cerr << BOLDRED 
                 << "Error: Forecasts should only have 4 dimensions. "
                 << "Invalid along parameter (" << along << ")!" << RESET << endl;
         return 1;
     } else if (file_type == "Observations" && along >= 3) {
-        if (verbose >= 1) cout << BOLDRED
+        if (verbose >= 1) cerr << BOLDRED
                 << "Error: Observations should only have 3 dimensions. "
                 << "Invalid along parameter (" << along << ")!" << RESET << endl;
         return 1;

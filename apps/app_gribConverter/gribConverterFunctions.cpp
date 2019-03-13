@@ -233,7 +233,7 @@ namespace gribConverter {
         try {
             regex_time = regex(regex_time_str);
         } catch (const regex_error& e) {
-            cout << BOLDRED << "Error: Can't use the regular expression " << regex_time_str << RESET << endl;
+            cerr << BOLDRED << "Error: Can't use the regular expression " << regex_time_str << RESET << endl;
             throw;
         }
 
@@ -244,7 +244,7 @@ namespace gribConverter {
         try {
             regex_flt = regex(regex_flt_str);
         } catch (const regex_error& e) {
-            cout << BOLDRED << "Error: Can't use the regular expression " << regex_flt_str << RESET << endl;
+            cerr << BOLDRED << "Error: Can't use the regular expression " << regex_flt_str << RESET << endl;
             throw;
         }
 
@@ -350,12 +350,12 @@ namespace gribConverter {
                             getDoubles(data_vec, file_in, pars_id[j], levels[j],
                                     level_types[j], par_key, level_key, type_key, val_key);
                         } catch (const exception & e) {
-                            cout << BOLDRED << "Error when reading " << pars_id[j] << " "
+                            cerr << BOLDRED << "Error when reading " << pars_id[j] << " "
                                     << levels[j] << " " << level_types[j] << " from file " << file_in
                                     << ": " << e.what() << RESET << endl;
                             continue;
                         } catch (...) {
-                            cout << BOLDRED << "Unknown error when reading " << pars_id[j] << " "
+                            cerr << BOLDRED << "Unknown error when reading " << pars_id[j] << " "
                                     << levels[j] << " " << level_types[j] << " from file " << file_in
                                     << RESET << endl;
                             continue;
@@ -376,7 +376,7 @@ namespace gribConverter {
             } // End of loop for files
 
             for (size_t i = 0; i < file_flags.size(); i++) {
-                if (!file_flags[i]) cout << BOLDRED << "Error: The " << i + 1
+                if (!file_flags[i]) cerr << BOLDRED << "Error: The " << i + 1
                         << "th file in the input file lists caused a problem while reading data!"
                         << RESET << endl;
             }
@@ -453,7 +453,7 @@ namespace gribConverter {
         try {
             regex_time = regex(regex_time_str);
         } catch (const regex_error& e) {
-            cout << BOLDRED << "Error: Can't use the regular expression " << regex_time_str << RESET << endl;
+            cerr << BOLDRED << "Error: Can't use the regular expression " << regex_time_str << RESET << endl;
             throw;
         }
 
@@ -542,12 +542,12 @@ namespace gribConverter {
                             getDoubles(data_vec, file_in, pars_id[j], levels[j],
                                     level_types[j], par_key, level_key, type_key, val_key);
                         } catch (const exception & e) {
-                            cout << BOLDRED << "Error when reading " << pars_id[j] << " "
+                            cerr << BOLDRED << "Error when reading " << pars_id[j] << " "
                                     << levels[j] << " " << level_types[j] << " from file " << file_in
                                     << ": " << e.what() << RESET << endl;
                             continue;
                         } catch (...) {
-                            cout << BOLDRED << "Unknown error when reading " << pars_id[j] << " "
+                            cerr << BOLDRED << "Unknown error when reading " << pars_id[j] << " "
                                     << levels[j] << " " << level_types[j] << " from file " << file_in
                                     << RESET << endl;
                             continue;
@@ -568,7 +568,7 @@ namespace gribConverter {
             } // End of loop for files
 
             for (size_t i = 0; i < file_flags.size(); i++) {
-                if (!file_flags[i]) cout << BOLDRED << "Error: The " << i + 1
+                if (!file_flags[i]) cerr << BOLDRED << "Error: The " << i + 1
                         << "th file in the input file lists caused a problem while reading data!"
                         << RESET << endl;
             }

@@ -100,7 +100,7 @@ int main(int argc, char** argv) {
         if (!config_file.empty()) {
             ifstream ifs(config_file.c_str());
             if (!ifs) {
-                cout << BOLDRED << "Error: Can't open configuration file " << config_file << RESET << endl;
+                cerr << BOLDRED << "Error: Can't open configuration file " << config_file << RESET << endl;
                 return 1;
             } else {
                 auto parsed_config = parse_config_file(ifs, desc, true);
@@ -130,17 +130,17 @@ int main(int argc, char** argv) {
 
         if (output_type == "Forecasts") {
             if (!vm.count("flt-interval")) {
-                cout << BOLDRED << "Error: flt-interval option is required for Forecasts." << RESET << endl;
+                cerr << BOLDRED << "Error: flt-interval option is required for Forecasts." << RESET << endl;
                 return 1;
             }
             
             if (!vm.count("regex-flt")) {
-                cout << BOLDRED << "Error: regex-flt option is required for Forecasts." << RESET << endl;
+                cerr << BOLDRED << "Error: regex-flt option is required for Forecasts." << RESET << endl;
                 return 1;
             }
             
         } else if (output_type != "Observations") {
-            cout << BOLDRED << "Error: Specified output type (" << output_type << ") is not supported." << RESET << endl;
+            cerr << BOLDRED << "Error: Specified output type (" << output_type << ") is not supported." << RESET << endl;
             return 1;
         }
 
@@ -166,7 +166,7 @@ int main(int argc, char** argv) {
             fs::remove(fs::path(file_out));
             if (verbose >= 3) cout << GREEN << "Remove existing output file " << file_out << RESET << endl;
         } else {
-            cout << BOLDRED << "Error: Output file exists!" << RESET << endl;
+            cerr << BOLDRED << "Error: Output file exists!" << RESET << endl;
             return 1;
         }
     }
@@ -216,7 +216,7 @@ int main(int argc, char** argv) {
                 levels, level_types, par_key, level_key, type_key, val_key,
                 regex_time_str, delimited, skip_data, verbose);
     } else {
-        cout << BOLDRED << "Error: Output type " << output_type << " is not supported!"
+        cerr << BOLDRED << "Error: Output type " << output_type << " is not supported!"
                 << RESET << endl;
         return 1;
     }

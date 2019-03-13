@@ -100,7 +100,7 @@ int main(int argc, char** argv) {
     MPI_Comm_get_parent(&parent);
 
     if (parent == MPI_COMM_NULL) {
-        cout << BOLDRED << "Child cannot get parent communicator. Something is wrong!"
+        cerr << BOLDRED << "Child cannot get parent communicator. Something is wrong!"
                 << RESET << endl;
         MPI_Finalize();
         return 1;
@@ -109,7 +109,7 @@ int main(int argc, char** argv) {
     int parent_size = 0;
     MPI_Comm_remote_size(parent, &parent_size);
     if (parent_size != 1) {
-        cout << BOLDRED << "Child rank #" << world_rank
+        cerr << BOLDRED << "Child rank #" << world_rank
                 << " should be only 1 parent. Multiple found." << RESET << endl;
         MPI_Finalize();
         return 1;
@@ -182,7 +182,7 @@ int main(int argc, char** argv) {
         if (format == NC_FORMAT_NETCDF4 || format == NC_FORMAT_NETCDF4_CLASSIC) {
             // Correct! Expected NetCDF 4 format which can be accessed by MPI
         } else {
-            if (verbose >= 1) cout << BOLDRED << "Error: The NetCDF file ("
+            if (verbose >= 1) cerr << BOLDRED << "Error: The NetCDF file ("
                 << format << ") is not NETCDF4 format ("
                     << NC_FORMAT_NETCDF4 << "," << NC_FORMAT_NETCDF4_CLASSIC
                     << "). Please turn off MPI and reinstall the program. "
@@ -253,7 +253,7 @@ int main(int argc, char** argv) {
     //cout << endl;
 
     if (my_MPI_Gatherv(p_vals, len, 0, parent, var_type) != MPI_SUCCESS) {
-        if (verbose >= 1) cout << BOLDRED << "Rank #" << world_rank 
+        if (verbose >= 1) cerr << BOLDRED << "Rank #" << world_rank 
                 << " failed during sending data." << RESET << endl;
         MPI_Finalize();
         return 1;

@@ -392,7 +392,7 @@ int main(int argc, char** argv) {
         if (!config_file.empty()) {
             ifstream ifs(config_file.c_str());
             if (!ifs) {
-                cout << BOLDRED << "Error: Can't open configuration file " << config_file << RESET << endl;
+                cerr << BOLDRED << "Error: Can't open configuration file " << config_file << RESET << endl;
                 return 1;
             } else {
                 auto parsed_config = parse_config_file(ifs, desc, true);
@@ -450,7 +450,7 @@ int main(int argc, char** argv) {
         }
         
         if (!succeed) {
-            cout << BOLDRED << "Error: You have used --continuous-time, but "
+            cerr << BOLDRED << "Error: You have used --continuous-time, but "
                     << "both --test-times-index and --search-times-index cannot "
                     << "be converted to a range." << RESET << endl;
             return 1;
