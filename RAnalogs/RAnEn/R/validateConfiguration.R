@@ -48,6 +48,8 @@ validateConfiguration <- function(x, verbose = 1) {
     valid <- F
   }
   
+  if (!('advanced' %in% names(x))) x$advanced <- F
+  
   if ("test_forecasts" %in% names(x) && x$advanced) {
     # This is expected
   } else if ("forecasts" %in% names(x) && !x$advanced) {
