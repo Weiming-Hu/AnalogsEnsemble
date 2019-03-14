@@ -133,13 +133,24 @@ void runSimilarityCalculator(
 #endif
 
     AnEn::TimeMapMatrix mapping;
-    handleError(functions.computeObservationsTimeIndices(
-            search_forecasts.getTimes(), search_forecasts.getFLTs(),
-            observations.getTimes(), mapping, time_match_mode));
-    if (!file_mapping.empty()) {
-        io.setMode("Write", file_mapping);
-        io.setFileType("Matrix");
-        handleError(io.writeTextMatrix(mapping));
+
+    bool file_mapping_exists = false;
+    if (!file_mapping.empty()) file_mapping_exists = boost::filesystem::exists(file_mapping);
+
+    if (file_mapping_exists) {
+        AnEnIO io_mapping("Read", file_mapping, "Matrix", verbose);
+        io_mapping.readTextMatrix(mapping);
+    } else {
+        // Compute mapping from forecast time/flts to observation times
+        handleError(functions.computeObservationsTimeIndices(
+                    search_forecasts.getTimes(), search_forecasts.getFLTs(),
+                    observations.getTimes(), mapping, time_match_mode));
+
+        if (!file_mapping.empty()) {
+            io.setMode("Write", file_mapping);
+            io.setFileType("Matrix");
+            handleError(io.writeTextMatrix(mapping));
+        }
     }
 
 #if defined(_CODE_PROFILING)
@@ -253,7 +264,7 @@ int main(int argc, char** argv) {
                 ("max-par-nan", po::value<double>(&max_par_nan)->default_value(0), "The number of NAN values allowed when computing similarity across different parameters. Set it to a negative number (will be automatically converted to NAN) to allow any number of NAN values.")
                 ("max-flt-nan", po::value<double>(&max_flt_nan)->default_value(0), "The number of NAN values allowed when computing FLT window averages. Set it to a negative number (will be automatically converted to NAN) to allow any number of NAN values.")
                 ("sds-nc", po::value<string>(&file_sds), "Set the file path to read for standard deviation.")
-                ("mapping-txt", po::value<string>(&file_mapping), "Set the output file path for time mapping matrix.")
+                ("mapping-txt", po::value<string>(&file_mapping), "Set the file path for mapping. If the file already exists, the file will be used; if the file does not exist, it will be created..")
                 ("observation-id", po::value<size_t>(&observation_id)->default_value(0), "Set the index of the observation variable that will be used.")
                 ("searchExtension", po::bool_switch(&searchExtension)->default_value(false), "Use search extension.")
                 ("distance", po::value<double>(&distance)->default_value(0.0), "Set the radius for selecting neighbors.")
