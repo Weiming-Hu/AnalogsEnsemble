@@ -7,6 +7,7 @@
 - Change R interface input parameters to constant references.
 - Bug fixed for the `RAnEn` configuration parameter `num_nearest` and `num_max_search_stations`.
 - Bug fixed in `RAnEn::verifyCorrelation`.
+- Add mapping calculation feature to analog selector.
 
 # PEF 3.2.4
 
