@@ -24,7 +24,7 @@
 
 using namespace std;
 
-void runFileAggregate(const string & file_type, const vector<string> & in_files, 
+void runFileAggregate(const string & file_type, vector<string> & in_files, 
         const size_t & along, const string & out_file, const int & verbose,
         const vector<size_t> & starts, const vector<size_t> & counts) {
 
@@ -44,6 +44,10 @@ void runFileAggregate(const string & file_type, const vector<string> & in_files,
             return;
         }
     }
+
+    // Sort the files
+    sort(in_files.begin(), in_files.end());
+    if (verbose >= 4) cout << "The sorted files are " << in_files << endl;
 
     AnEnIO io_out("Write", out_file, file_type, verbose);
 
