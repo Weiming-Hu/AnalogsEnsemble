@@ -33,13 +33,6 @@ void runFileAggregate(const string & file_type, const vector<string> & in_files,
     if (starts.size() == 0 || counts.size() == 0) {
         partial_read = false;
         
-    } else {
-        if (!(starts.size() == 4 * in_files.size()
-                && counts.size() == 4 * in_files.size())) {
-            cerr << BOLDRED << "Error: start and count should both have an integer multiplication of 4 values."
-                    << RESET << endl;
-            return;
-        }
     }
 
     if (partial_read) {
@@ -55,7 +48,15 @@ void runFileAggregate(const string & file_type, const vector<string> & in_files,
     AnEnIO io_out("Write", out_file, file_type, verbose);
 
     if (file_type == "Forecasts") {
-        
+
+        if (partial_read) {
+            if (!(starts.size() == 4 * in_files.size() && counts.size() == 4 * in_files.size())) {
+                cerr << BOLDRED << "Error: The count of start and count should be an integer multiplication of 4 for forecasts."
+                    << RESET << endl;
+                return;
+            }
+        }
+       
         // Reshape data
         Forecasts_array forecasts;
         if (verbose >= 3) cout << GREEN << "Combining forecasts ..." << RESET << endl;
@@ -70,7 +71,15 @@ void runFileAggregate(const string & file_type, const vector<string> & in_files,
 
     } else if (file_type == "Observations") {
         
-        // Reshape data
+        if (partial_read) {
+            if (!(starts.size() == 3 * in_files.size() && counts.size() == 3 * in_files.size())) {
+                cerr << BOLDRED << "Error: The count for start and count should be an integer multiplication of 3 for observations."
+                    << RESET << endl;
+                return;
+            }
+        }
+
+       // Reshape data
         if (verbose >= 3) cout << GREEN << "Combining observations ..." << RESET << endl;
         Observations_array observations;
         auto ret = AnEnIO::combineObservationsArray(in_files, observations, along, verbose, starts, counts);
