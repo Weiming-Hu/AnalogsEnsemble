@@ -2462,9 +2462,7 @@ AnEnIO::combineSimilarityMatrices(
                 (const string & file) {
                 AnEnIO io_each("Read", file, "Similarity", 2);
                 io_each.readDimLength("num_entries", num_entries_single);
-                num_entries += num_entries_single;
-                }
-                );
+                num_entries += num_entries_single;});
     } else if (along == 2)
         handleError(io.combineFLTs(in_files, "Similarity", flts, verbose));
     else if (along == 1)

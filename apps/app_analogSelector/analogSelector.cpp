@@ -56,27 +56,9 @@ void runAnalogSelector(const string & file_sim, const string & file_obs,
                 obs_start, obs_count));
     }
     
-    AnEn::TimeMapMatrix mapping;
-    if (file_mapping.empty()) {
-        stringstream ss;
-        ss << BOLDRED << "Error: Recomputing the time mapping matrix is "
-                << "currently not supported." << RESET << endl;
-        throw runtime_error(ss.str());
-    } else {
-        AnEnIO io_mat("Read", file_mapping, "Matrix", verbose);
-        handleError(io_mat.readTextMatrix(mapping));
-    }
-    
-#if defined(_CODE_PROFILING)
-    clock_t time_end_of_reading = clock();
-#endif
-
-    
-    /**************************************************************************
-     *                                Check Input                             *
-     **************************************************************************/
-    anenTime::FLTs flts;
+    anenTime::FLTs search_forecasts_times, flts;
     io.readFLTs(flts);
+    io.readTimes(search_forecasts_times, "SearchTimes");
     
     if (mapping.size2() != flts.size()) {
         stringstream ss;
@@ -86,6 +68,27 @@ void runAnalogSelector(const string & file_sim, const string & file_obs,
         throw runtime_error(ss.str());
     }
     
+    
+    AnEn::TimeMapMatrix mapping;
+
+    if (file_mapping.empty()) {
+
+        Functions functions(verbose);
+
+        // Compute mapping from forecast time/flts to observation times
+        handleError(functions.computeObservationsTimeIndices(
+                    search_forecasts.getTimes(), flts,
+                    search_observations.getTimes(), mapping, time_match_mode));
+
+    } else {
+        AnEnIO io_mat("Read", file_mapping, "Matrix", verbose);
+        handleError(io_mat.readTextMatrix(mapping));
+    }
+    
+#if defined(_CODE_PROFILING)
+    clock_t time_end_of_reading = clock();
+#endif
+
     
     /**************************************************************************
      *                             Select Analogs                             *
