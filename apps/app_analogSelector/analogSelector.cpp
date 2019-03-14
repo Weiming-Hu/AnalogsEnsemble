@@ -60,15 +60,6 @@ void runAnalogSelector(const string & file_sim, const string & file_obs,
     io.readFLTs(flts);
     io.readTimes(search_forecasts_times, "SearchTimes");
     
-    if (mapping.size2() != flts.size()) {
-        stringstream ss;
-        ss << BOLDRED << "Error: Number of columns in mapping (" << mapping.size2()
-            << ") should match number of forecast forecast lead times ("
-            << flts.size() << ")!" << RESET << endl;
-        throw runtime_error(ss.str());
-    }
-    
-    
     AnEn::TimeMapMatrix mapping;
 
     if (file_mapping.empty()) {
@@ -77,12 +68,20 @@ void runAnalogSelector(const string & file_sim, const string & file_obs,
 
         // Compute mapping from forecast time/flts to observation times
         handleError(functions.computeObservationsTimeIndices(
-                    search_forecasts.getTimes(), flts,
-                    search_observations.getTimes(), mapping, time_match_mode));
+                    search_forecasts_times, flts,
+                    search_observations.getTimes(), mapping, 1));
 
     } else {
         AnEnIO io_mat("Read", file_mapping, "Matrix", verbose);
         handleError(io_mat.readTextMatrix(mapping));
+    }
+    
+    if (mapping.size2() != flts.size()) {
+        stringstream ss;
+        ss << BOLDRED << "Error: Number of columns in mapping (" << mapping.size2()
+            << ") should match number of forecast forecast lead times ("
+            << flts.size() << ")!" << RESET << endl;
+        throw runtime_error(ss.str());
     }
     
 #if defined(_CODE_PROFILING)
@@ -150,12 +149,12 @@ int main(int argc, char** argv) {
     namespace po = boost::program_options;
     
     // Required variables
-    string file_obs, file_sim, file_mapping, file_analogs;
+    string file_obs, file_sim, file_analogs;
     size_t num_members = 0;
 
     // Optional variables
     int verbose = 0;
-    string config_file;
+    string config_file, file_mapping;
     size_t observation_id = 0;
     vector<size_t>  obs_start, obs_count;
     bool quick = false, extend_observations = false;
@@ -168,11 +167,11 @@ int main(int argc, char** argv) {
                 
                 ("similarity-nc", po::value<string>(&file_sim)->required(), "Set the input file for the similarity matrix.")
                 ("observation-nc", po::value<string>(&file_obs)->required(), "Set the input file for search observations.")
-                ("mapping-txt", po::value<string>(&file_mapping)->required(), "Set the input file for time mapping matrix")
                 ("analog-nc", po::value<string>(&file_analogs)->required(), "Set the output file for analogs.")
                 ("members", po::value<size_t>(&num_members)->required(), "Set the number of analog members to keep in an ensemble.")
                 
                 ("verbose,v", po::value<int>(&verbose)->default_value(2), "Set the verbose level.")
+                ("mapping-txt", po::value<string>(&file_mapping), "Set the input file for time mapping matrix")
                 ("observation-id", po::value<size_t>(&observation_id)->default_value(0), "Set the index of the observation variable that will be used.")
                 ("obs-start", po::value< vector<size_t> >(&obs_start)->multitoken(), "(File I/O) Set the start indices in the search observation NetCDF where the program starts reading.")
                 ("obs-count", po::value< vector<size_t> >(&obs_count)->multitoken(), "(File I/O) Set the count numbers for each dimension in the search observation NetCDF.")
