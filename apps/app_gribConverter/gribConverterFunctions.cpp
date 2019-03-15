@@ -144,13 +144,10 @@ namespace gribConverter {
 #if defined(_CODE_PROFILING)
             clock_t time_end = clock();
             double duration_full = (float) (time_end - time_start) / CLOCKS_PER_SEC;
-            double duration_pre = (float) (time_pre - time_start) / CLOCKS_PER_SEC;
-            double duration_while_1 = (float) (time_end - time_pre) / CLOCKS_PER_SEC;
 
-            cout << endl << "CPU Time profiling for gribConverterFunctions::getDoubles:" << endl
+            cout << endl << "-----------------------------------------------------" << endl
+                    << "CPU Time profiling for gribConverterFunctions::getDoubles:" << endl
                     << "Total time: " << duration_full << " seconds (100%)" << endl
-                    << "Query time: " << duration_pre << " seconds (" << duration_pre / duration_full * 100 << "%)" << endl
-                    << "Reading time (phase 1 + 2): " << duration_while_1 << " seconds (" << duration_while_1 / duration_full * 100 << "%)" << endl
                     << "-----------------------------------------------------" << endl;
 #endif
             
