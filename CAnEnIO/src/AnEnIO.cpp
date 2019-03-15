@@ -1504,11 +1504,13 @@ AnEnIO::readSimilarityMatrices(SimilarityMatrices & sims) {
     sims.resize(nc.getDim("num_stations").getSize(),
             nc.getDim("num_times").getSize(),
             nc.getDim("num_flts").getSize());
-    nc.close();
 
-    vector<double> values;
-    handleError(read_vector_("SimilarityMatrices", values));
-    sims.assign(values.begin(), values.end());
+    size_t total = sims.num_elements();
+    double *p_vals = sims.data();
+    NcVar var = nc.getVar("SimilarityMatrices");
+
+    read_vector_(var, p_vals, total);
+    nc.close();
 
     return (SUCCESS);
 }
@@ -3038,9 +3040,7 @@ AnEnIO::readForecastsArrayData_(Forecasts_array & forecasts) const {
         }
 
         // Please realize that I'm directly reading to the forecasts data
-        // pointer which can be dangerous if handled uncautionsly. But I
-        // don't have to create a copy of the data by doing this so I
-        // think the benefit in memory and speed outweighs the downside.
+        // pointer so that I don't have to create a copy of the data.
         //
         var.getVar(p_vals);
         read_vector_(var, p_vals, total);
@@ -3084,9 +3084,7 @@ AnEnIO::readForecastsArrayData_(Forecasts_array & forecasts,
         }
 
         // Please realize that I'm directly reading to the forecasts data
-        // pointer which can be dangerous if handled uncautionsly. But I
-        // don't have to create a copy of the data by doing this so I
-        // think the benefit in memory and speed outweighs the downside.
+        // pointer so that I don't have to create a copy of the data.
         //
         read_vector_(var, p_vals, start, count, stride, total);
 
@@ -3121,9 +3119,7 @@ AnEnIO::readObservationsArrayData_(Observations_array & observations) const {
         }
 
         // Please realize that I'm directly reading to the forecasts data
-        // pointer which can be dangerous if handled uncautionsly. But I
-        // don't have to create a copy of the data by doing this so I
-        // think the benefit in memory and speed outweighs the downside.
+        // pointer so that I don't have to create a copy of the data.
         //
         read_vector_(var, p_vals, total);
 
@@ -3164,9 +3160,7 @@ AnEnIO::readObservationsArrayData_(Observations_array & observations,
         }
 
         // Please realize that I'm directly reading to the forecasts data
-        // pointer which can be dangerous if handled cautiously. But I
-        // don't have to create a copy of the data by doing this so I
-        // think the benefit in memory and speed outweighs the downside.
+        // pointer so that I don't have to create a copy of the data.
         //
         read_vector_(var, p_vals, start, count, stride, total);
 
