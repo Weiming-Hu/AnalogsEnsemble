@@ -17,93 +17,98 @@
 // Boost does not provide the correct functions to read nan values 
 // for double, the operator is overloaded.
 //
-namespace boost { namespace numeric { namespace ublas {
-    template<class E, class T, class MF, class MA>
-        std::basic_istream<E, T> &operator >> (std::basic_istream<E, T> &is,
-                matrix<double, MF, MA> &m) {
-            typedef typename matrix<double, MF, MA>::size_type size_type;
-            char preview;
-            E ch;
-            size_type size1, size2;
-            if (is >> ch && ch != '[') {
-                is.putback (ch);
-                is.setstate (std::ios_base::failbit);
-            } else if (is >> size1 >> ch && ch != ',') {
-                is.putback (ch);
-                is.setstate (std::ios_base::failbit);
-            } else if (is >> size2 >> ch && ch != ']') {
-                is.putback (ch);
-                is.setstate (std::ios_base::failbit);
-            } else if (! is.fail ()) {
-                matrix<double, MF, MA> s (size1, size2);
-                if (is >> ch && ch != '(') {
-                    is.putback (ch);
-                    is.setstate (std::ios_base::failbit);
-                } else if (! is.fail ()) {
-                    for (size_type i = 0; i < size1; i ++) {
-                        if (is >> ch && ch != '(') {
-                            is.putback (ch);
-                            is.setstate (std::ios_base::failbit);
-                            break;
-                        }
-                        for (size_type j = 0; j < size2; j ++) {
+namespace boost {
+    namespace numeric {
+        namespace ublas {
 
-                            // Add codes to read 'nan' values
-                            //
-                            // If the input starts with 'n' I assume it
-                            // is going to be an nan vaue.
-                            //
-                            if (is >> preview && preview == 'n') {
-                                if (is >> preview && preview == 'a' && 
-                                        is >> preview && preview == 'n') {
-                                    s (i,j) = NAN;
+            template<class E, class T, class MF, class MA>
+            std::basic_istream<E, T> &operator>>(std::basic_istream<E, T> &is,
+                    matrix<double, MF, MA> &m) {
+                typedef typename matrix<double, MF, MA>::size_type size_type;
+                char preview;
+                E ch;
+                size_type size1, size2;
+                if (is >> ch && ch != '[') {
+                    is.putback(ch);
+                    is.setstate(std::ios_base::failbit);
+                } else if (is >> size1 >> ch && ch != ',') {
+                    is.putback(ch);
+                    is.setstate(std::ios_base::failbit);
+                } else if (is >> size2 >> ch && ch != ']') {
+                    is.putback(ch);
+                    is.setstate(std::ios_base::failbit);
+                } else if (!is.fail()) {
+                    matrix<double, MF, MA> s(size1, size2);
+                    if (is >> ch && ch != '(') {
+                        is.putback(ch);
+                        is.setstate(std::ios_base::failbit);
+                    } else if (!is.fail()) {
+                        for (size_type i = 0; i < size1; i++) {
+                            if (is >> ch && ch != '(') {
+                                is.putback(ch);
+                                is.setstate(std::ios_base::failbit);
+                                break;
+                            }
+                            for (size_type j = 0; j < size2; j++) {
 
-                                    if (is >> preview && preview != ',') {
-                                        is.putback (preview);
+                                // Add codes to read 'nan' values
+                                //
+                                // If the input starts with 'n' I assume it
+                                // is going to be an nan vaue.
+                                //
+                                if (is >> preview && preview == 'n') {
+                                    if (is >> preview && preview == 'a' &&
+                                            is >> preview && preview == 'n') {
+                                        s(i, j) = NAN;
+
+                                        if (is >> preview && preview != ',') {
+                                            is.putback(preview);
+                                            if (j < size2 - 1) {
+                                                is.setstate(std::ios_base::failbit);
+                                                break;
+                                            }
+                                        }
+                                    } else {
+                                        is.setstate(std::ios_base::failbit);
+                                        break;
+                                    }
+                                } else {
+                                    is.putback(preview);
+                                    if (is >> s(i, j) >> ch && ch != ',') {
+                                        is.putback(ch);
                                         if (j < size2 - 1) {
-                                            is.setstate (std::ios_base::failbit);
+                                            is.setstate(std::ios_base::failbit);
                                             break;
                                         }
                                     }
-                                } else {
-                                    is.setstate (std::ios_base::failbit);
-                                    break;
                                 }
-                            } else {
-                                is.putback(preview);
-                                if (is >> s (i, j) >> ch && ch != ',') {
-                                    is.putback (ch);
-                                    if (j < size2 - 1) {
-                                        is.setstate (std::ios_base::failbit);
-                                        break;
-                                    }
+                            }
+                            if (is >> ch && ch != ')') {
+                                is.putback(ch);
+                                is.setstate(std::ios_base::failbit);
+                                break;
+                            }
+                            if (is >> ch && ch != ',') {
+                                is.putback(ch);
+                                if (i < size1 - 1) {
+                                    is.setstate(std::ios_base::failbit);
+                                    break;
                                 }
                             }
                         }
                         if (is >> ch && ch != ')') {
-                            is.putback (ch);
-                            is.setstate (std::ios_base::failbit);
-                            break;
-                        }
-                        if (is >> ch && ch != ',') {
-                            is.putback (ch);
-                            if (i < size1 - 1) {
-                                is.setstate (std::ios_base::failbit);
-                                break;
-                            }
+                            is.putback(ch);
+                            is.setstate(std::ios_base::failbit);
                         }
                     }
-                    if (is >> ch && ch != ')') {
-                        is.putback (ch);
-                        is.setstate (std::ios_base::failbit);
-                    }
+                    if (!is.fail())
+                        m.swap(s);
                 }
-                if (! is.fail ())
-                    m.swap (s);
+                return is;
             }
-            return is;
         }
-} } } 
+    }
+}
 
 /**
  * Reads the matrix of type boost::numeric::ublas::matrix<T>.
@@ -116,27 +121,27 @@ namespace boost { namespace numeric { namespace ublas {
 template <typename T>
 errorType
 AnEnIO::readTextMatrix(boost::numeric::ublas::matrix<T> & mat) {
-    
+
     using namespace std;
-    
+
     if (verbose_ >= 3) cout << "Reading text matrix ..." << endl;
-    
+
     if (mode_ != "Read") {
         if (verbose_ >= 1) cerr << BOLDRED << "Error: Mode should be 'Read'."
                 << RESET << endl;
         return (WRONG_MODE);
     }
-    
+
     ifstream in;
-    
+
     in.open(file_path_);
     in >> mat;
     in.close();
 
-    if ( (in.rdstate() & std::ifstream::failbit ) != 0 ) {
+    if ((in.rdstate() & std::ifstream::failbit) != 0) {
         if (verbose_ >= 1) {
             cerr << BOLDRED << "Error occurred during reading matrix file "
-                << getFilePath() << RESET << endl;
+                    << getFilePath() << RESET << endl;
         }
         return (FILEIO_ERROR);
     }
@@ -156,34 +161,33 @@ template <typename T>
 errorType
 AnEnIO::writeTextMatrix(
         const boost::numeric::ublas::matrix<T> & mat) const {
-    
+
     using namespace std;
-    
+
     if (verbose_ >= 3) cout << "Writing text matrix ..." << endl;
-    
+
     if (mode_ != "Write") {
         if (verbose_ >= 1) cerr << BOLDRED << "Error: Mode should be 'Write'."
                 << RESET << endl;
         return (WRONG_MODE);
     }
-    
+
     ifstream in;
     ofstream out;
     out.open(file_path_);
     out << mat;
     out.close();
 
-    if ( (in.rdstate() & std::ifstream::failbit ) != 0 ) {
+    if ((in.rdstate() & std::ifstream::failbit) != 0) {
         if (verbose_ >= 1) {
             cerr << BOLDRED << "Error occurred during reading matrix file "
-                << getFilePath() << RESET << endl;
+                    << getFilePath() << RESET << endl;
         }
         return (FILEIO_ERROR);
     }
-    
+
     return (SUCCESS);
 }
-
 
 /************************************************************************
  *                      Private Template Functions                      *
@@ -236,7 +240,7 @@ AnEnIO::read_vector_(std::string var_name, std::vector<T> & results) const {
 
     // Don't delete pointer because it is managed by the vector object
     // delete [] p_vals;
-    
+
     return (SUCCESS);
 };
 
@@ -245,17 +249,21 @@ void
 AnEnIO::read_vector_(const netCDF::NcVar & var, T *p_vals,
         const size_t & total) const {
 
-#if defined(_ENABLE_MPI)
+#if defined(_OPENMP)
+    if (total > _SERIAL_LENGTH_LIMIT) {
+        std::vector<size_t> start(0), count(0);
+        OpenMP_read_vector_(var, p_vals, start, count);
+    } else {
+#elif defined(_ENABLE_MPI)
     if (NC4_ && total > _SERIAL_LENGTH_LIMIT) {
         std::vector<size_t> start(0), count(0);
         MPI_read_vector_(var, p_vals, start, count);
     } else {
 #endif
         var.getVar(p_vals);
-#if defined(_ENABLE_MPI)
+#if defined(_ENABLE_MPI) || defined(_OPENMP)
     }
 #endif
-
 }
 
 template<typename T>
@@ -300,11 +308,11 @@ AnEnIO::read_vector_(std::string var_name, std::vector<T> & results,
     reverse(stride.begin(), stride.end());
 
     read_vector_(var, p_vals, start, count, stride, total);
-    
+
     nc.close();
     // Don't delete pointer because it is managed by the vector object
     // delete [] p_vals;
-    
+
     return (SUCCESS);
 };
 
@@ -326,13 +334,24 @@ AnEnIO::read_vector_(const netCDF::NcVar & var, T *p_vals,
         const std::vector<ptrdiff_t> & stride,
         const size_t & total) const {
 
-    // using namespace std;
 
-#if defined(_ENABLE_MPI)
+#if defined(_OPENMP)
+    // Check whether stride is used.
+    bool use_OpenMP = all_of(stride.begin(), stride.end(), [](ptrdiff_t i) {
+        return (i == 1);
+    });
+
+    // Check whether there are enough value to write
+    use_OpenMP &= total > _SERIAL_LENGTH_LIMIT;
+
+    if (use_OpenMP) {
+        OpenMP_read_vector_(var, p_vals, start, count);
+    } else {
+#elif defined(_ENABLE_MPI)
     // Check whether stride is used.
     bool use_MPI = all_of(stride.begin(), stride.end(), [](ptrdiff_t i) {
-            return (i == 1);
-            });
+        return (i == 1);
+    });
 
     // Check whether there are enough value to write
     use_MPI &= total > _SERIAL_LENGTH_LIMIT;
@@ -344,13 +363,24 @@ AnEnIO::read_vector_(const netCDF::NcVar & var, T *p_vals,
 #endif
         // cout << "************  NOT using MPI " << var.getName() << "************" << endl;
         var.getVar(start, count, stride, p_vals);
-#if defined(_ENABLE_MPI)
+#if defined(_ENABLE_MPI) && defined(_OPENMP)
     }
 #endif
 
 }
 
+#if defined(_OPENMP)
+    
+template<typename T>
+void
+AnEnIO::OpenMP_read_vector_(const netCDF::NcVar & var, T* & p_vals,
+        const std::vector<size_t> & start, const std::vector<size_t> & count) const {
+    return;
+}
+#endif
+
 #if defined(_ENABLE_MPI)
+
 template<typename T>
 int
 AnEnIO::my_MPI_Gatherv(
@@ -382,16 +412,16 @@ AnEnIO::my_MPI_Gatherv(
 template<typename T>
 MPI_Datatype
 AnEnIO::get_mpi_type() const {
-    
+
     char name = typeid (T).name()[0];
-    
+
     switch (name) {
         case 'i':
             return MPI_INT;
             break;
-//        case 'j':
-//            return MPI_UNSIGNED;
-//            break;
+            //        case 'j':
+            //            return MPI_UNSIGNED;
+            //            break;
         case 'f':
             // I convert float values to double
             // return MPI_FLOAT;
@@ -405,12 +435,12 @@ AnEnIO::get_mpi_type() const {
         case 's':
             return MPI_SHORT;
             break;
-//        case 'l':
-//            return MPI_LONG;
-//            break;
-//        case 'm':
-//            return MPI_UNSIGNED_LONG;
-//            break;
+            //        case 'l':
+            //            return MPI_LONG;
+            //            break;
+            //        case 'm':
+            //            return MPI_UNSIGNED_LONG;
+            //            break;
         case 'b':
             return MPI_BYTE;
             break;
@@ -426,10 +456,10 @@ AnEnIO::MPI_read_vector_(const netCDF::NcVar & var, T* & p_vals,
 
     using namespace netCDF;
     using namespace std;
-    
+
     auto var_name = var.getName();
     const auto & var_dims = var.getDims();
-    
+
     handle_MPI_Init();
     int world_rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
@@ -442,7 +472,7 @@ AnEnIO::MPI_read_vector_(const netCDF::NcVar & var, T* & p_vals,
     } else {
         throw runtime_error("Please set MPI_UNIVERSE_SIZE to limit the number of spawned children.");
     }
-    
+
     // The master process is already alive. I can create MPI_UNIVERSE_SIZE-1 new processes.
     num_children -= 1;
     if (num_children == 0) {
@@ -479,7 +509,7 @@ AnEnIO::MPI_read_vector_(const netCDF::NcVar & var, T* & p_vals,
                 p_count[i] = (int) var_dims[i].getSize();
             }
         }
-        
+
         char *p_file_path = new char[file_path_.length() + 1];
         char *p_var_name = new char[var_name.length() + 1];
         strcpy(p_file_path, file_path_.c_str());
@@ -501,10 +531,10 @@ AnEnIO::MPI_read_vector_(const netCDF::NcVar & var, T* & p_vals,
         int multiply = accumulate(p_count + 1, p_count + num_indices, 1, std::multiplies<int>());
 
         for (int i = 0; i < num_children; i++) {
-            displs[i] = (i * (int)(p_count[0] / num_children) + p_start[0]) * multiply;
+            displs[i] = (i * (int) (p_count[0] / num_children) + p_start[0]) * multiply;
 
             if (i == num_children - 1)
-                recvcounts[i] = (p_count[0] - i * (int)(p_count[0] / num_children) + p_start[0]) * multiply;
+                recvcounts[i] = (p_count[0] - i * (int) (p_count[0] / num_children) + p_start[0]) * multiply;
             else
                 recvcounts[i] = (p_count[0] / num_children) * multiply;
         }
@@ -515,7 +545,7 @@ AnEnIO::MPI_read_vector_(const netCDF::NcVar & var, T* & p_vals,
         MPI_Barrier(children);
 
         if (verbose_ >= 4) cout << "Parent waiting to gather data from processes ..." << endl;
-        
+
         my_MPI_Gatherv<T>(p_vals, recvcounts.data(), displs.data(), MPI_ROOT, children);
 
         delete [] p_file_path;

@@ -895,6 +895,21 @@ protected:
             const std::vector<size_t> & count,
             const std::vector<ptrdiff_t> & stride,
             const size_t & total) const;
+    
+#if defined(_OPENMP)
+    /**
+     * This function reads values with multi-threads. 
+     * 
+     * @param var A netCDF::NcVar object. This is used to get the name of the
+     * variable and the dimensions of the variable.
+     * @param results The pointer to store data.
+     * @param start The start indices.
+     * @param count The count number.
+     */
+    template<typename T>
+    void OpenMP_read_vector_(const netCDF::NcVar & var, T* & results,
+            const std::vector<size_t> & start, const std::vector<size_t> & count) const;
+#endif
 
 #if defined(_ENABLE_MPI)
     /**
