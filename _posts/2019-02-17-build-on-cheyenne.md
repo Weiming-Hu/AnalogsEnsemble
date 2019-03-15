@@ -34,7 +34,7 @@ git clone https://github.com/Weiming-Hu/AnalogsEnsemble.git
 cd AnalogEnsemble
 
 # Clean modules and load required modules
-module purge && module load git gnu/8.1.0 netcdf/4.6.1
+module purge && module load git/2.10.2 cmake/3.12.1 gnu/8.1.0 netcdf/4.6.1
 
 # Carry an out-of-tree build
 mkdir build && cd build
@@ -60,7 +60,7 @@ git clone https://github.com/Weiming-Hu/AnalogsEnsemble.git
 cd AnalogEnsemble
 
 # Clean modules and load required modules
-module purge && module load git gnu/8.1.0 mpt/2.18 netcdf-mpi/4.6.1
+module purge && module load git/2.10.2 cmake/3.12.1 gnu/8.1.0 mpt/2.18 netcdf-mpi/4.6.1
 
 # Carry an out-of-tree build
 mkdir build && cd build
