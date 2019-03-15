@@ -200,7 +200,7 @@ int main(int argc, char** argv) {
                 ("type,t", po::value<string>(&file_type)->required(), "Set the type of the files to read. It can be either Forecasts ,Observations, Similarity, Analogs, or StandardDeviation.")
                 ("in,i", po::value< vector<string> >(&in_files)->multitoken()->required(), "Set the file names to read separated by a space.")
                 ("out,o", po::value<string>(&out_file)->required(), "Set the name of the output file.")
-                ("along,a", po::value<size_t>(&along)->required(), "Set the dimension index to be appended. It counts from 0.")
+                ("along,a", po::value<size_t>(&along)->required(), "Set the dimension index to be appended. Forecasts [0:parameters, 1:stations, 2:times, 3:FLTs], Observations [0:parameters 1:stations 2:times], Similarity [0:stations 1:times 2:FLTs 3:entries], Analogs [0:stations 1:times 2:FLTs 3:ensemble members], StandardDeviation [0:parameters, 1:stations 2:FLTs].")
 
                 ("verbose,v", po::value<int>(&verbose)->default_value(2), "Set the verbose level.")
                 ("start", po::value< vector<size_t> >(&starts)->multitoken(), "Set the start indices for each file.")

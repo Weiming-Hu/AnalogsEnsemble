@@ -562,7 +562,8 @@ public:
      * 
      * @param in_files A vector of input Forecasts files.
      * @param forecasts A Forecasts_array to store the binded sub arrays.
-     * @param along Which dimension to append counting from 0.
+     * @param along Which dimension to append. 0 for parameters, 1 for 
+     * stations, 2 for times, and 3 for forecast lead times.
      * @param verbose Verbose level.
      * @param starts The start index for each dimension.
      * @param counts The count number for each dimension.
@@ -580,7 +581,8 @@ public:
      * 
      * @param in_files A vector of input Observations files.
      * @param observations An Observations_array to store the binded sub arrays.
-     * @param along Which dimension to append counting from 0.
+     * @param along Which dimension to append to. 0 for parameters, 1 for 
+     * stations, and 2 for times.
      * @param verbose Verbose level.
      * @return An errorType;
      */
@@ -599,7 +601,8 @@ public:
      * @param parameters anenPar::Parameters.
      * @param stations anenSta::Stations.
      * @param flts anenTime::FLTs.
-     * @param along Which dimension to append counting from 0.
+     * @param along Which dimension to append to. 0 for parameters, 1 for 
+     * stations, and 2 for forecast lead times.
      * @param verbose Verbose level.
      * @return An errorType;
      */
@@ -618,7 +621,8 @@ public:
      * @param stations anenSta::Stations.
      * @param times anenSta::Times.
      * @param flts anenTime::FLTs.
-     * @param along Which dimension to append counting from 0.
+     * @param along Which dimension to append to. 0 for stations, 1 for
+     * times, 2 for forecast lead times, 3 for entries.
      * @param verbose Verbose level.
      * @return  An errorType;
      */
@@ -639,7 +643,8 @@ public:
      * @param stations anenSta::Stations.
      * @param times anenSta::Times.
      * @param flts anenTime::FLTs.
-     * @param along Which dimension to append, counting from 0. 
+     * @param along Which dimension to append to. 0 for stations, 1 for
+     * times, 2 for forecast lead times, and 3 for ensemble members.
      * @param verbose Verbose level.
      * @return An errorType.
      */
