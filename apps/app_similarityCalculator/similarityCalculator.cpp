@@ -9,7 +9,6 @@
 
 #if defined(_CODE_PROFILING)
 #include <ctime>
-#include <iomanip>
 #endif
 
 #include "AnEnIO.h"

@@ -10,7 +10,6 @@
 
 #if defined(_CODE_PROFILING)
 #include <ctime>
-#include <iomanip>
 #if defined(_OPENMP)
 #include <omp.h>
 #endif

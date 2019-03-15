@@ -13,7 +13,6 @@
 
 #if defined(_CODE_PROFILING)
 #include <ctime>
-#include <iomanip>
 #endif
 
 // http://www.wmo.int/pages/prog/www/WMOCodes/WMO306_vI2/LatestVERSION/WMO306_vI2_GRIB2_CodeFlag_en.pdf
