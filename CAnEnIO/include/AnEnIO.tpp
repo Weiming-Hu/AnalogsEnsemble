@@ -13,6 +13,7 @@
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
+#include <numeric>
 
 // Boost does not provide the correct functions to read nan values 
 // for double, the operator is overloaded.
@@ -334,10 +335,9 @@ AnEnIO::read_vector_(const netCDF::NcVar & var, T *p_vals,
         const std::vector<ptrdiff_t> & stride,
         const size_t & total) const {
 
-
 #if defined(_OPENMP)
     // Check whether stride is used.
-    bool use_OpenMP = all_of(stride.begin(), stride.end(), [](ptrdiff_t i) {
+    bool use_OpenMP = std::all_of(stride.begin(), stride.end(), [](ptrdiff_t i) {
         return (i == 1);
     });
 
@@ -349,7 +349,7 @@ AnEnIO::read_vector_(const netCDF::NcVar & var, T *p_vals,
     } else {
 #elif defined(_ENABLE_MPI)
     // Check whether stride is used.
-    bool use_MPI = all_of(stride.begin(), stride.end(), [](ptrdiff_t i) {
+    bool use_MPI = std::all_of(stride.begin(), stride.end(), [](ptrdiff_t i) {
         return (i == 1);
     });
 
@@ -363,18 +363,81 @@ AnEnIO::read_vector_(const netCDF::NcVar & var, T *p_vals,
 #endif
         // cout << "************  NOT using MPI " << var.getName() << "************" << endl;
         var.getVar(start, count, stride, p_vals);
-#if defined(_ENABLE_MPI) && defined(_OPENMP)
+#if defined(_ENABLE_MPI) || defined(_OPENMP)
     }
 #endif
 
 }
 
 #if defined(_OPENMP)
-    
 template<typename T>
 void
 AnEnIO::OpenMP_read_vector_(const netCDF::NcVar & var, T* & p_vals,
-        const std::vector<size_t> & start, const std::vector<size_t> & count) const {
+        std::vector<size_t> start, std::vector<size_t> count) const {
+
+    using namespace netCDF;
+    using namespace std;
+    
+    int verbose = verbose_;
+    
+#pragma omp parallel default(none) shared(var, p_vals, verbose, cout) firstprivate(start, count)
+    {
+        auto var_name = var.getName();
+        const auto & var_dims = var.getDims();
+        int num_indices = (int) var_dims.size(),
+                thread_id = omp_get_thread_num(),
+                thread_total = omp_get_num_threads();
+
+        if (start.size() == (size_t) num_indices ||
+                count.size() == (size_t) num_indices) {
+            // The start and count have already been configured
+        } else {
+            start.resize(num_indices);
+            count.resize(num_indices);
+            for (int i = 0; i < num_indices; i++) {
+                start[i] = 0;
+                count[i] = (int) var_dims[i].getSize();
+            }
+        }
+
+        if (thread_total > count[0]) {
+            thread_total = count[0];
+        }
+
+        size_t start_pos = start[0];
+
+        if (thread_id < thread_total) {
+
+            // Define the start and count indices
+            // Distribution only happens to the first dimension for simplicity.
+            //
+            start[0] += (thread_id) * (int) (count[0] / (thread_total));
+
+            if (thread_id == thread_total - 1)
+                count[0] = count[0] - thread_id * (int) (count[0] / (thread_total));
+            else
+                count[0] = count[0] / (thread_total);
+
+            size_t offset = (start[0] - start_pos) * accumulate(
+                    count.data() + 1, count.data() + num_indices, 1, multiplies<size_t>());
+
+            if (verbose >= 4) {
+#pragma omp critical
+                {
+                    cout << "Thread " << thread_id << " (" << thread_total
+                        << ") reading " << var_name << " with start ( ";
+                    for (const auto & e : start) cout << e << " ";
+                    cout << ") and count ( ";
+                    for (const auto & e : count) cout << e << " ";
+                    cout << ") with a replacement of " << offset << " ..." << endl;
+                }
+            }
+
+#pragma omp critical
+            var.getVar(start, count, p_vals + offset);
+        }
+    }
+
     return;
 }
 #endif

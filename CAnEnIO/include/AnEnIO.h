@@ -12,6 +12,7 @@
 #include <string>
 #include <vector>
 #include <cstddef>
+#include <algorithm>
 
 #include "Times.h"
 #include "Analogs.h"
@@ -25,11 +26,12 @@
 #include "SimilarityMatrices.h"
 #include "boost/numeric/ublas/matrix.hpp"
 
-#if defined(_ENABLE_MPI)
-#include <mpi.h>
 #if defined(_OPENMP)
 #include <omp.h>
 #endif
+
+#if defined(_ENABLE_MPI)
+#include <mpi.h>
 #endif
 
 /**
@@ -908,7 +910,7 @@ protected:
      */
     template<typename T>
     void OpenMP_read_vector_(const netCDF::NcVar & var, T* & results,
-            const std::vector<size_t> & start, const std::vector<size_t> & count) const;
+            std::vector<size_t> start, std::vector<size_t> count) const;
 #endif
 
 #if defined(_ENABLE_MPI)

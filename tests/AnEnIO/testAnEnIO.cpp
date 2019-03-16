@@ -49,7 +49,7 @@ void testAnEnIO::testReadObservationFile() {
     string mode("Read");
 
     AnEnIO io(mode, file);
-    io.setVerbose(2);
+    io.setVerbose(5);
     io.setFileType("Observations");
 
     Observations_array observations;
@@ -435,11 +435,11 @@ void testAnEnIO::testReadPartObservations() {
      */
 
     string file = file_observations;
-    AnEnIO io("Read", file, "Observations", 2);
+    AnEnIO io("Read", file, "Observations", 4);
 
     Observations_array observations, observations_full;
 
-    vector<size_t> vec_start{0, 5, 5}, vec_count{2, 3, 1};
+    vector<size_t> vec_start{0, 5, 5}, vec_count{4, 14, 32};
     vector<ptrdiff_t> vec_stride{2, 5, 1};
 
     io.readObservations(observations_full);
@@ -458,6 +458,7 @@ void testAnEnIO::testReadPartObservations() {
     CPPUNIT_ASSERT(observations.getValueByIndex(1, 2, 0)
             == observations_full.getValueByIndex(1, 7, 5));
 
+    vec_count = {2, 3, 1};
     io.readObservations(observations, vec_start, vec_count, vec_stride);
     CPPUNIT_ASSERT(observations.getValueByIndex(0, 0, 0)
             == observations_full.getValueByIndex(0, 5, 5));
@@ -480,11 +481,11 @@ void testAnEnIO::testReadPartForecasts() {
      */
 
     string file = file_forecasts;
-    AnEnIO io("Read", file, "Forecasts", 2);
+    AnEnIO io("Read", file, "Forecasts", 4);
 
     Forecasts_array forecasts, forecasts_full;
 
-    vector<size_t> vec_start{0, 5, 5, 4}, vec_count{2, 3, 1, 1};
+    vector<size_t> vec_start{0, 5, 5, 4}, vec_count{5, 14, 5, 3};
     vector<ptrdiff_t> vec_stride{2, 5, 1, 1};
 
     io.readForecasts(forecasts_full);
@@ -503,6 +504,8 @@ void testAnEnIO::testReadPartForecasts() {
     CPPUNIT_ASSERT(forecasts.getValueByIndex(1, 2, 0, 0)
             == forecasts_full.getValueByIndex(1, 7, 5, 4));
 
+    vec_start = {0, 5, 5, 4};
+    vec_count = {2, 3, 1, 1};
     io.readForecasts(forecasts, vec_start, vec_count, vec_stride);
     CPPUNIT_ASSERT(forecasts.getValueByIndex(0, 0, 0, 0)
             == forecasts_full.getValueByIndex(0, 5, 5, 4));

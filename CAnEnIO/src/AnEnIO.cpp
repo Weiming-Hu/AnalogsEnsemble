@@ -495,7 +495,7 @@ AnEnIO::readObservations(Observations_array & observations, vector<size_t> start
     observations.updateDataDims();
 
     // Read data
-    if (verbose_ >= 3) cout << "Reading observation values from file ("
+    if (verbose_ >= 3) cout << "Reading partial observation values from file ("
         << file_path_ << ") ..." << endl;
     handleError(readObservationsArrayData_(observations, start, count, stride));
 
@@ -3071,11 +3071,7 @@ AnEnIO::readForecastsArrayData_(Forecasts_array & forecasts,
         NcFile nc(file_path_, NcFile::FileMode::read);
         NcVar var = nc.getVar(var_name);
 
-        const auto & var_dims = var.getDims();
-        size_t total = 1;
-        for (const auto & dim : var_dims) {
-            total *= dim.getSize();
-        }
+        size_t total = accumulate(count.begin(), count.end(), 1, multiplies<size_t>());
 
         if (var.isNull()) {
             if (verbose_ >= 1) cerr << BOLDRED << "Error: Could not"
@@ -3147,11 +3143,7 @@ AnEnIO::readObservationsArrayData_(Observations_array & observations,
         NcFile nc(file_path_, NcFile::FileMode::read);
         NcVar var = nc.getVar(var_name);
 
-        const auto & var_dims = var.getDims();
-        size_t total = 1;
-        for (const auto & dim : var_dims) {
-            total *= dim.getSize();
-        }
+        size_t total = accumulate(count.begin(), count.end(), 1, multiplies<size_t>());
 
         if (var.isNull()) {
             if (verbose_ >= 1) cerr << BOLDRED << "Error: Could not"
