@@ -250,7 +250,7 @@ void
 AnEnIO::read_vector_(const netCDF::NcVar & var, T *p_vals,
         const size_t & total) const {
 
-#if defined(_OPENMP)
+#if defined(_OPENMP_CRTICAL)
     if (total > _SERIAL_LENGTH_LIMIT) {
         std::vector<size_t> start(0), count(0);
         OpenMP_read_vector_(var, p_vals, start, count);
@@ -262,7 +262,7 @@ AnEnIO::read_vector_(const netCDF::NcVar & var, T *p_vals,
     } else {
 #endif
         var.getVar(p_vals);
-#if defined(_ENABLE_MPI) || defined(_OPENMP)
+#if defined(_ENABLE_MPI) || defined(_OPENMP_CRITICAL)
     }
 #endif
 }
@@ -335,7 +335,7 @@ AnEnIO::read_vector_(const netCDF::NcVar & var, T *p_vals,
         const std::vector<ptrdiff_t> & stride,
         const size_t & total) const {
 
-#if defined(_OPENMP)
+#if defined(_OPENMP_CRITICAL)
     // Check whether stride is used.
     bool use_OpenMP = std::all_of(stride.begin(), stride.end(), [](ptrdiff_t i) {
         return (i == 1);
@@ -363,13 +363,13 @@ AnEnIO::read_vector_(const netCDF::NcVar & var, T *p_vals,
 #endif
         // cout << "************  NOT using MPI " << var.getName() << "************" << endl;
         var.getVar(start, count, stride, p_vals);
-#if defined(_ENABLE_MPI) || defined(_OPENMP)
+#if defined(_ENABLE_MPI) || defined(_OPENMP_CRITICAL)
     }
 #endif
 
 }
 
-#if defined(_OPENMP)
+#if defined(_OPENMP_CRITICAL)
 template<typename T>
 void
 AnEnIO::OpenMP_read_vector_(const netCDF::NcVar & var, T* & p_vals,
