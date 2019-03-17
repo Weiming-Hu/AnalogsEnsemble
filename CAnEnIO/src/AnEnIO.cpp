@@ -973,7 +973,9 @@ AnEnIO::readTimes(anenTime::Times& times,
     if (start + (count - 1) * stride >= dim_len) {
         if (verbose_ >= 1) cerr << BOLDRED
             << "Error: The time indices are not valid."
-                << " The length of times is " << dim_len << RESET << endl;
+                << " The length of times (" << file_path_ << ") is "
+                << dim_len << ". But start is " << start << ", count is "
+                << count << ", and stride is " << stride << "!" << RESET << endl;
         return (WRONG_INDEX_SHAPE);
     }
 

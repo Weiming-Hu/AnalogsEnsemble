@@ -51,7 +51,7 @@ ret <- identical(times.c, times.1.r) && identical(xs.c, xs.1.r) &&
 unlink('obs_c.nc')
 
 if (!ret) {
-  stop("File aggregate does failed at processing observations along parameters.")
+  stop("File aggregate failed at processing observations along parameters.")
 }
 
 # Append along stations
@@ -74,7 +74,7 @@ ret <- identical(times.c, times.1.r) && identical(par.names.1.r, par.names.c) &&
 unlink('obs_c.nc')
 
 if (!ret) {
-  stop("File aggregate does failed at processing observations along stations")
+  stop("File aggregate failed at processing observations along stations")
 }
 
 # Append along times
@@ -87,17 +87,17 @@ times.c <- ncvar_get(nc, 'Times')
 data.c <- ncvar_get(nc, 'Data')
 nc_close(nc)
 
-data.r <- abind(data.1.r, data.2.r, along = 3)
-times.r <- c(times.1.r, times.2.r)
+data.r <- abind(data.2.r, data.1.r, along = 3)
+times.r <- c(times.2.r, times.1.r)
 
-ret <- identical(par.names.c, par.names.1.r) && identical(xs.c, xs.1.r) &&
+ret <- identical(par.names.c, par.names.2.r) && identical(xs.c, xs.2.r) &&
   identical(as.vector(times.r), as.vector(times.c)) &&
   identical(as.vector(data.r), as.vector(data.c))
 
 unlink('obs_c.nc')
 
 if (!ret) {
-  stop("File aggregate does failed at processing observations along parameters.")
+  stop("File aggregate failed at processing observations along parameters.")
 }
 
 cat("Pass tests of aggregating observations along different dimensions.\n")

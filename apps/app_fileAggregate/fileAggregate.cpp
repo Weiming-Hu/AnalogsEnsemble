@@ -45,10 +45,6 @@ void runFileAggregate(const string & file_type, vector<string> & in_files,
         }
     }
 
-    // Sort the files
-    sort(in_files.begin(), in_files.end());
-    if (verbose >= 4) cout << "The sorted files are " << in_files << endl;
-
     AnEnIO io_out("Write", out_file, file_type, verbose);
 
     if (file_type == "Forecasts") {

@@ -29,11 +29,11 @@ void runSimilarityCalculator(
         const vector<size_t> & test_start,
         const vector<size_t> & test_count,
 
-        const string & file_search_forecasts,
+        const vector<string> & files_search_forecasts,
         const vector<size_t> & search_start,
         const vector<size_t> & search_count,
 
-        const string & file_observations,
+        const vector<string> & files_observations,
         const vector<size_t> & obs_start,
         const vector<size_t> & obs_count,
 
@@ -54,8 +54,8 @@ void runSimilarityCalculator(
 
         vector<size_t> test_times_index,
         vector<size_t> search_times_index,
-
-        bool operational, int verbose) {
+        bool operational, int verbose,
+        int search_along, int obs_along) {
 
     
 #if defined(_CODE_PROFILING)
@@ -80,21 +80,31 @@ void runSimilarityCalculator(
                 test_start, test_count));
     }
 
-    io.setFilePath(file_search_forecasts);
-    if (search_start.empty() || search_count.empty()) {
-        handleError(io.readForecasts(search_forecasts));
+    if (files_search_forecasts.size() == 1) {
+        io.setFilePath(files_search_forecasts[0]);
+        if (search_start.empty() || search_count.empty()) {
+            handleError(io.readForecasts(search_forecasts));
+        } else {
+            handleError(io.readForecasts(search_forecasts,
+                        search_start, search_count));
+        }
     } else {
-        handleError(io.readForecasts(search_forecasts,
-                search_start, search_count));
+        AnEnIO::combineForecastsArray(files_search_forecasts, search_forecasts,
+                search_along, verbose, search_start, search_count);
     }
 
-    io.setFileType("Observations");
-    io.setFilePath(file_observations);
-    if (obs_start.empty() || obs_count.empty()) {
-        handleError(io.readObservations(observations));
+    if (files_observations.size() == 1) {
+        io.setFileType("Observations");
+        io.setFilePath(files_observations[0]);
+        if (obs_start.empty() || obs_count.empty()) {
+            handleError(io.readObservations(observations));
+        } else {
+            handleError(io.readObservations(observations,
+                        obs_start, obs_count));
+        }
     } else {
-        handleError(io.readObservations(observations,
-                obs_start, obs_count));
+        AnEnIO::combineObservationsArray(files_observations, observations,
+                obs_along, verbose, obs_start, obs_count);
     }
 
 #if defined(_CODE_PROFILING)
@@ -234,12 +244,13 @@ int main(int argc, char** argv) {
     namespace po = boost::program_options;
     
     // Required variables
-    string file_search_forecasts, file_observations, file_similarity;
+    string file_test_forecasts, file_similarity;
+    vector<string> files_observations, files_search_forecasts;
 
     // Optional variables
-    int verbose = 0, time_match_mode = 1;
+    int verbose = 0, time_match_mode = 1, search_along = 0, obs_along = 0;
     size_t observation_id = 0, max_neighbors = 0, num_neighbors = 0;
-    string file_test_forecasts, config_file, file_mapping, file_sds;
+    string config_file, file_mapping, file_sds;
     bool searchExtension = false, extend_observations = false,
             operational = false, continuous_time_index = false;
     double distance = 0.0, max_par_nan = 0.0, max_flt_nan = 0.0;
@@ -253,12 +264,12 @@ int main(int argc, char** argv) {
                 ("help,h", "Print help information for options.")
                 ("config,c", po::value<string>(&config_file), "Set the configuration file path. Command line options overwrite options in configuration file. ")
 
-                ("search-forecast-nc", po::value<string>(&file_search_forecasts)->required(), "Set input the file path for search forecast NetCDF.")
-                ("observation-nc", po::value<string>(&file_observations)->required(), "Set the input file path for search observation NetCDF.")
+                ("test-forecast-nc", po::value<string>(&file_test_forecasts)->required(), "Set the input file path for test forecast NetCDF.")
+                ("search-forecast-nc", po::value< vector<string> >(&files_search_forecasts)->multitoken()->required(), "Set input the file path(s) for search forecast NetCDF.")
+                ("observation-nc", po::value<vector<string> >(&files_observations)->multitoken()->required(), "Set the input file path(s) for search observation NetCDF.")
                 ("similarity-nc", po::value<string>(&file_similarity)->required(), "Set the output file path for similarity NetCDF.")
 
                 ("verbose,v", po::value<int>(&verbose)->default_value(2), "Set the verbose level.")
-                ("test-forecast-nc", po::value<string>(&file_test_forecasts), "Set the input file path for test forecast NetCDF.")
                 ("time-match-mode", po::value<int>(&time_match_mode)->default_value(1), "Set the match mode for generating TimeMapMatrix. 0 for strict and 1 for loose search.")
                 ("max-par-nan", po::value<double>(&max_par_nan)->default_value(0), "The number of NAN values allowed when computing similarity across different parameters. Set it to a negative number (will be automatically converted to NAN) to allow any number of NAN values.")
                 ("max-flt-nan", po::value<double>(&max_flt_nan)->default_value(0), "The number of NAN values allowed when computing FLT window averages. Set it to a negative number (will be automatically converted to NAN) to allow any number of NAN values.")
@@ -281,7 +292,9 @@ int main(int argc, char** argv) {
                 ("test-times-index", po::value< vector<size_t> >(&test_times_index)->multitoken(), "Set the indices or the index range (with --continuous-time) of test times in the actual forecasts after the reading.")
                 ("search-times-index", po::value< vector<size_t> >(&search_times_index)->multitoken(), "Set the indices or the index range (with --continuous-time) of search times in the actual forecasts after the reading.")
                 ("operational", po::bool_switch(&operational)->default_value(false), "Use operational search. This feature uses all the times from search times that are historical to each test time during comparison.")
-                ("continuous-time", po::bool_switch(&continuous_time_index)->default_value(false), "Whether to generate a sequence for test-times-index and search-times-index. If used, an inclusive sequence is generated when only 2 indices (start and end) are provided in test or search times index.");
+                ("continuous-time", po::bool_switch(&continuous_time_index)->default_value(false), "Whether to generate a sequence for test-times-index and search-times-index. If used, an inclusive sequence is generated when only 2 indices (start and end) are provided in test or search times index.")
+                ("search_along", po::value<int>(&search_along)->default_value(0), "If multiple files are provided for search forecasts, this specifies the dimension to be appended. [0:parameters, 1:stations, 2:times, 3:FLTs]. Otherwise, it is ignored.")
+                ("obs-along", po::value<int>(&obs_along)->default_value(0), "If multiple files are provided for observations, this specifies the dimension to be appended. [0:parameters 1:stations 2:times]. Otherwise, it is ignored.");
         
         // process unregistered keys and notify users about my guesses
         vector<string> available_options;
@@ -393,8 +406,8 @@ int main(int argc, char** argv) {
     if (verbose >= 5) {
         cout << "Input parameters:" << endl
                 << "file_test_forecasts: " << file_test_forecasts << endl
-                << "file_search_forecasts: " << file_search_forecasts << endl
-                << "file_observations: " << file_observations << endl
+                << "files_search_forecasts: " << files_search_forecasts << endl
+                << "files_observations: " << files_observations << endl
                 << "file_similarity: " << file_similarity << endl
                 << "file_mapping: " << file_mapping << endl
                 << "file_sds: " << file_sds << endl
@@ -419,19 +432,21 @@ int main(int argc, char** argv) {
                 << "sds_count: " << sds_count << endl
                 << "test_times_index: " << test_times_index << endl
                 << "search_times_index: " << search_times_index << endl
-                << "operational: " << operational << endl;
+                << "operational: " << operational << endl
+                << "search_along: " << search_along << endl
+                << "obs_along: " << obs_along << endl;
     }
     
     try {
         runSimilarityCalculator(
                 file_test_forecasts, test_start, test_count,
-                file_search_forecasts, search_start, search_count,
-                file_observations, obs_start, obs_count, file_similarity,
+                files_search_forecasts, search_start, search_count,
+                files_observations, obs_start, obs_count, file_similarity,
                 file_mapping, file_sds, sds_start, sds_count,
                 observation_id, extend_observations, searchExtension,
                 max_neighbors, num_neighbors, distance, time_match_mode,
                 max_par_nan, max_flt_nan, test_times_index, search_times_index,
-                operational, verbose);
+                operational, verbose, search_along, obs_along);
     } catch (...) {
         handle_exception(current_exception());
         return 1;

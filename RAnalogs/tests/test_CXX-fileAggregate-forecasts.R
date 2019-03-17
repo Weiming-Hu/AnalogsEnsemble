@@ -34,7 +34,7 @@ nc_close(nc)
 unlink('fcsts_c.nc')
 
 # Append along parameters
-system('../../output/bin/fileAggregate -t Forecasts -i ../../tests/Data/forecasts_part2.nc ../../tests/Data/forecasts_part1.nc --along 0 -o fcsts_c.nc')
+system('../../output/bin/fileAggregate -t Forecasts -i ../../tests/Data/forecasts_part1.nc ../../tests/Data/forecasts_part2.nc --along 0 -o fcsts_c.nc')
 
 nc <- nc_open('fcsts_c.nc')
 par.names.c <- ncvar_get(nc, 'ParameterNames')
@@ -54,11 +54,11 @@ ret <- identical(times.c, times.1.r) && identical(xs.c, xs.1.r) && identical(flt
 unlink('fcsts_c.nc')
 
 if (!ret) {
-  stop("File aggregate does failed at processing forecasts along parameters.")
+  stop("File aggregate failed at processing forecasts along parameters.")
 }
 
 # Append along stations
-system('../../output/bin/fileAggregate -t Forecasts -i ../../tests/Data/forecasts_part2.nc ../../tests/Data/forecasts_part1.nc --along 1 -o fcsts_c.nc')
+system('../../output/bin/fileAggregate -t Forecasts -i ../../tests/Data/forecasts_part1.nc ../../tests/Data/forecasts_part2.nc --along 1 -o fcsts_c.nc')
 
 nc <- nc_open('fcsts_c.nc')
 par.names.c <- ncvar_get(nc, 'ParameterNames')
@@ -78,7 +78,7 @@ ret <- identical(times.c, times.1.r) && identical(par.names.1.r, par.names.c) &&
 unlink('fcsts_c.nc')
 
 if (!ret) {
-  stop("File aggregate does failed at processing forecasts along stations")
+  stop("File aggregate failed at processing forecasts along stations")
 }
 
 # Append along times
@@ -92,17 +92,17 @@ times.c <- ncvar_get(nc, 'Times')
 data.c <- ncvar_get(nc, 'Data')
 nc_close(nc)
 
-data.r <- abind(data.1.r, data.2.r, along = 3)
-times.r <- c(times.1.r, times.2.r)
+data.r <- abind(data.2.r, data.1.r, along = 3)
+times.r <- c(times.2.r, times.1.r)
 
-ret <- identical(par.names.c, par.names.1.r) && identical(xs.c, xs.1.r) &&
-  identical(as.vector(times.r), as.vector(times.c)) && identical(flts.c, flts.1.r) &&
+ret <- identical(par.names.c, par.names.2.r) && identical(xs.c, xs.2.r) &&
+  identical(as.vector(times.r), as.vector(times.c)) && identical(flts.c, flts.2.r) &&
   identical(as.vector(data.r), as.vector(data.c))
 
 unlink('fcsts_c.nc')
 
 if (!ret) {
-  stop("File aggregate does failed at processing forecasts along times")
+  stop("File aggregate failed at processing forecasts along times")
 }
 
 # Append along flts
@@ -116,17 +116,17 @@ times.c <- ncvar_get(nc, 'Times')
 data.c <- ncvar_get(nc, 'Data')
 nc_close(nc)
 
-data.r <- abind(data.1.r, data.2.r, along = 4)
-flts.r <- c(flts.1.r, flts.2.r)
+data.r <- abind(data.2.r, data.1.r, along = 4)
+flts.r <- c(flts.2.r, flts.1.r)
 
-ret <- identical(par.names.c, par.names.1.r) && identical(xs.c, xs.1.r) &&
-  identical(as.vector(flts.r), as.vector(flts.c)) && identical(times.1.r, times.c) &&
+ret <- identical(par.names.c, par.names.2.r) && identical(xs.c, xs.2.r) &&
+  identical(as.vector(flts.r), as.vector(flts.c)) && identical(times.2.r, times.c) &&
   identical(as.vector(data.r), as.vector(data.c))
 
 unlink('fcsts_c.nc')
 
 if (!ret) {
-  stop("File aggregate does failed at processing forecasts along parameters.")
+  stop("File aggregate failed at processing forecasts along parameters.")
 }
 
 cat("Pass tests of aggregating forecasts along different dimensions.\n")

@@ -19,6 +19,12 @@ scripts <- c(
   './compare_sds_results.sh'
 )
 
+if (file.exists("~/geolab_storage_V3/data/NAM/NCEI/forecasts_new/201601.nc")) {
+  scripts <- c(scripts, './compare_multi_files.sh')
+} else {
+  print("test: compare_multi_files is not run because the file is not found.")
+}
+
 ret <- system(scripts)
   
 setwd(old.wd)

@@ -25,10 +25,10 @@
 
 using namespace std;
 
-void runAnalogSelector(const string & file_sim, const string & file_obs,
+void runAnalogSelector(const string & file_sim, const vector<string> & files_obs,
         const vector<size_t> & obs_start, const vector<size_t> & obs_count,
         const string & file_mapping, const string & file_analogs, size_t observation_id,
-        size_t num_members, bool quick, bool extend_observations, int verbose) {
+        size_t num_members, bool quick, bool extend_observations, int verbose, int obs_along) {
     
 #if defined(_CODE_PROFILING)
     clock_t time_start = clock();
@@ -41,18 +41,24 @@ void runAnalogSelector(const string & file_sim, const string & file_obs,
 
     AnEn anen(verbose);
     AnEnIO io("Read", file_sim, "Similarity", verbose),
-            io_out("Write", file_analogs, "Analogs", verbose),
-            io_obs("Read", file_obs, "Observations", verbose);
+            io_out("Write", file_analogs, "Analogs", verbose);
     SimilarityMatrices sims;
     handleError(io.readSimilarityMatrices(sims));
 
     Observations_array search_observations;
 
-    if (obs_start.empty() || obs_count.empty()) {
-        handleError(io_obs.readObservations(search_observations));
+
+    if (files_obs.size() == 1) {
+        AnEnIO io_obs("Read", files_obs[0], "Observations", verbose);
+        if (obs_start.empty() || obs_count.empty()) {
+            handleError(io_obs.readObservations(search_observations));
+        } else {
+            handleError(io_obs.readObservations(search_observations,
+                        obs_start, obs_count));
+        }
     } else {
-        handleError(io_obs.readObservations(search_observations,
-                obs_start, obs_count));
+        AnEnIO::combineObservationsArray(files_obs, search_observations,
+                obs_along, verbose, obs_start, obs_count);
     }
     
     anenTime::FLTs search_forecasts_times, flts;
@@ -148,11 +154,12 @@ int main(int argc, char** argv) {
     namespace po = boost::program_options;
     
     // Required variables
-    string file_obs, file_sim, file_analogs;
+    string file_sim, file_analogs;
+    vector<string> files_obs;
     size_t num_members = 0;
 
     // Optional variables
-    int verbose = 0;
+    int verbose = 0, obs_along = 0;
     string config_file, file_mapping;
     size_t observation_id = 0;
     vector<size_t>  obs_start, obs_count;
@@ -165,7 +172,7 @@ int main(int argc, char** argv) {
                 ("config,c", po::value<string>(&config_file), "Set the configuration file path. Command line options overwrite options in configuration file. ")
                 
                 ("similarity-nc", po::value<string>(&file_sim)->required(), "Set the input file for the similarity matrix.")
-                ("observation-nc", po::value<string>(&file_obs)->required(), "Set the input file for search observations.")
+                ("observation-nc", po::value<vector<string> >(&files_obs)->multitoken()->required(), "Set the input file(s) for observations.")
                 ("analog-nc", po::value<string>(&file_analogs)->required(), "Set the output file for analogs.")
                 ("members", po::value<size_t>(&num_members)->required(), "Set the number of analog members to keep in an ensemble.")
                 
@@ -175,7 +182,8 @@ int main(int argc, char** argv) {
                 ("obs-start", po::value< vector<size_t> >(&obs_start)->multitoken(), "(File I/O) Set the start indices in the search observation NetCDF where the program starts reading.")
                 ("obs-count", po::value< vector<size_t> >(&obs_count)->multitoken(), "(File I/O) Set the count numbers for each dimension in the search observation NetCDF.")
                 ("quick", po::bool_switch(&quick)->default_value(false), "Use quick sort when selecting analog members.")
-                ("extend-obs", po::bool_switch(&extend_observations)->default_value(false), "After getting the most similar forecast indices, take the corresponding observations from the search station.");
+                ("extend-obs", po::bool_switch(&extend_observations)->default_value(false), "After getting the most similar forecast indices, take the corresponding observations from the search station.")
+                ("obs-along", po::value<int>(&obs_along)->default_value(0), "If multiple files are provided for observations, this specifies the dimension to be appended. [0:parameters 1:stations 2:times]. Otherwise, it is ignored.");
         
         // process unregistered keys and notify users about my guesses
         vector<string> available_options;
@@ -247,7 +255,7 @@ int main(int argc, char** argv) {
                 << "verbose: " << verbose << endl
                 << "config_file: " << config_file << endl
                 << "observation_id: " << observation_id << endl
-                << "file_obs: " << file_obs << endl
+                << "files_obs: " << files_obs << endl
                 << "obs_start: " << obs_start << endl
                 << "obs_count: " << obs_count << endl
                 << "quick: " << quick << endl
@@ -255,9 +263,9 @@ int main(int argc, char** argv) {
     }
     
     try {
-        runAnalogSelector(file_sim, file_obs, obs_start, obs_count,
+        runAnalogSelector(file_sim, files_obs, obs_start, obs_count,
                 file_mapping, file_analogs, observation_id, num_members,
-                quick, extend_observations, verbose);
+                quick, extend_observations, verbose, obs_along);
     } catch (...) {
         handle_exception(current_exception());
         return 1;

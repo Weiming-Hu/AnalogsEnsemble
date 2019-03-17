@@ -158,9 +158,6 @@ int main(int argc, char** argv) {
         it++;
     }
 
-    // Sort the file list so that files are in incremental order
-    sort(files_in.begin(), files_in.end());
-
     if (fs::exists(fs::path(file_out))) {
         if (overwrite_output) {
             fs::remove(fs::path(file_out));
