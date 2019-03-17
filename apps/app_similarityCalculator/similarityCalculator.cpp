@@ -315,11 +315,6 @@ int main(int argc, char** argv) {
         }
         
         // Then parse the configuration file
-        if (!vm.count("test-forecast-nc")) {
-            // If test forecast file is not provided, use the search forecast file
-            file_test_forecasts = vm["search-forecast-nc"].as<string>();
-        }
-        
         if (vm.count("config")) {
             // If configuration file is specified, read it first.
             // The variable won't be written until we call notify.
