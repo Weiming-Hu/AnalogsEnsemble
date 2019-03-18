@@ -1,3 +1,7 @@
+# PEF 3.2.6
+
+- Add features to C++ tools that `similarityCalculator` and `analogSelector` now accept multiple file input.
+
 # PEF 3.2.5
 
 - Add function `RAnEn::plotAnalogSample` and `RAnEn::plotAnalogSelection`.
