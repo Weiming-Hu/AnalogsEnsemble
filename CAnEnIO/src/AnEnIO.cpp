@@ -426,6 +426,8 @@ AnEnIO::readObservations(Observations_array & observations) const {
     observations.setParameters(parameters);
     observations.setStations(stations);
     observations.setTimes(times);
+
+    if (verbose >= 3) cout << "Update dimensions of observations ..." << endl;
     observations.updateDataDims();
 
     // Read data
@@ -492,6 +494,8 @@ AnEnIO::readObservations(Observations_array & observations, vector<size_t> start
     observations.setParameters(parameters);
     observations.setStations(stations);
     observations.setTimes(times);
+
+    if (verbose >= 3) cout << "Update dimensions of observations ..." << endl;
     observations.updateDataDims();
 
     // Read data
@@ -539,6 +543,8 @@ AnEnIO::readForecasts(Forecasts_array & forecasts) const {
     forecasts.setStations(stations);
     forecasts.setTimes(times);
     forecasts.setFlts(flts);
+
+    if (verbose >= 3) cout << "Update dimensions of forecasts ..." << endl;
     forecasts.updateDataDims();
 
     // Read data
@@ -611,6 +617,8 @@ AnEnIO::readForecasts(Forecasts_array & forecasts,
     forecasts.setStations(stations);
     forecasts.setTimes(times);
     forecasts.setFlts(flts);
+
+    if (verbose >= 3) cout << "Update dimensions of forecasts ..." << endl;
     forecasts.updateDataDims();
 
     // Read data
