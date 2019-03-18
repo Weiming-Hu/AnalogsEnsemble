@@ -20,7 +20,7 @@ similarityCalculator \
     --search-start 0 0 0 0 0 0 0 0 --search-count 5 10 31 4 5 10 29 4 \
     --obs-start 0 0 0 0 0 0 --obs-count 5 10 496 5 10 464 \
     --test-start 0 0 0 0 --test-count 5 10 3 4 \
-    --search_along 2 --obs-along 2 \
+    --search-along 2 --obs-along 2 \
     --similarity-nc sims_sep.nc \
     --verbose $verbose
 
