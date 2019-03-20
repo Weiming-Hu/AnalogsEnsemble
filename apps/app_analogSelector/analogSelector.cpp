@@ -10,6 +10,9 @@
 
 #if defined(_CODE_PROFILING)
 #include <ctime>
+#if defined(_OPENMP)
+#include <omp.h>
+#endif
 #endif
 
 #include "AnEnIO.h"
@@ -32,6 +35,9 @@ void runAnalogSelector(const string & file_sim, const vector<string> & files_obs
     
 #if defined(_CODE_PROFILING)
     clock_t time_start = clock();
+#if defined(_OPENMP)
+    double wtime_start = omp_get_wtime();
+#endif
 #endif
 
     /**************************************************************************
@@ -91,6 +97,9 @@ void runAnalogSelector(const string & file_sim, const vector<string> & files_obs
     
 #if defined(_CODE_PROFILING)
     clock_t time_end_of_reading = clock();
+#if defined(_OPENMP)
+    double wtime_end_of_reading = omp_get_wtime();
+#endif
 #endif
 
     
@@ -109,6 +118,9 @@ void runAnalogSelector(const string & file_sim, const vector<string> & files_obs
 
 #if defined(_CODE_PROFILING)
     clock_t time_end_of_select = clock();
+#if defined(_OPENMP)
+    double wtime_end_of_select = omp_get_wtime();
+#endif
 #endif
 
     
@@ -129,6 +141,15 @@ void runAnalogSelector(const string & file_sim, const vector<string> & files_obs
 
 #if defined(_CODE_PROFILING)
     clock_t time_end_of_write = clock();
+#if defined(_OPENMP)
+    double wtime_end_of_write = omp_get_wtime();
+
+    double wduration_full = wtime_end_of_write - wtime_start,
+           wduration_reading = wtime_end_of_reading - wtime_start,
+           wduration_select = wtime_end_of_select - wtime_end_of_reading,
+           wduration_write = wtime_end_of_write - wtime_end_of_select;
+#endif
+
     float duration_full = (float) (time_end_of_write - time_start) / CLOCKS_PER_SEC,
           duration_reading = (float) (time_end_of_reading - time_start) / CLOCKS_PER_SEC,
           duration_select = (float) (time_end_of_select - time_end_of_reading) / CLOCKS_PER_SEC,
@@ -140,6 +161,15 @@ void runAnalogSelector(const string & file_sim, const vector<string> & files_obs
         << "Selection: " << duration_select << " seconds (" << duration_select / duration_full * 100 << "%)" << endl
         << "Writing data: " << duration_write << " seconds (" << duration_write / duration_full * 100 << "%)" << endl
         << "-----------------------------------------------------" << endl;
+#if defined(_OPENMP)
+    cout << "-----------------------------------------------------" << endl
+        << "Wall Time profiling for Analog Selector:" << endl
+        << "Total wall time: " << wduration_full << " seconds (100%)" << endl
+        << "Reading data: " << wduration_reading << " seconds (" << wduration_reading / wduration_full * 100 << "%)" << endl
+        << "Selection: " << duration_select << " seconds (" << wduration_select / wduration_full * 100 << "%)" << endl
+        << "Writing data: " << wduration_write << " seconds (" << wduration_write / wduration_full * 100 << "%)" << endl
+        << "-----------------------------------------------------" << endl;
+#endif
 #endif
 
     return;

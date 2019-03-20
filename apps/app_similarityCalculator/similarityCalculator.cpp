@@ -9,6 +9,9 @@
 
 #if defined(_CODE_PROFILING)
 #include <ctime>
+#if defined(_OPENMP)
+#include <omp.h>
+#endif
 #endif
 
 #include "AnEnIO.h"
@@ -60,6 +63,9 @@ void runSimilarityCalculator(
     
 #if defined(_CODE_PROFILING)
     clock_t time_start = clock();
+#if defined(_OPENMP)
+    double wtime_start = omp_get_wtime();
+#endif
 #endif
 
     /************************************************************************
@@ -109,6 +115,9 @@ void runSimilarityCalculator(
 
 #if defined(_CODE_PROFILING)
     clock_t time_end_of_reading = clock();
+#if defined(_OPENMP)
+    double wtime_end_of_reading = omp_get_wtime();
+#endif
 #endif
 
 
@@ -139,6 +148,9 @@ void runSimilarityCalculator(
 
 #if defined(_CODE_PROFILING)
     clock_t time_end_of_sd = clock();
+#if defined(_OPENMP)
+    double wtime_end_of_sd = omp_get_wtime();
+#endif
 #endif
 
     AnEn::TimeMapMatrix mapping;
@@ -164,6 +176,9 @@ void runSimilarityCalculator(
 
 #if defined(_CODE_PROFILING)
     clock_t time_end_of_mapping = clock();
+#if defined(_OPENMP)
+    double wtime_end_of_mapping = omp_get_wtime();
+#endif
 #endif
 
     if (searchExtension) {
@@ -195,6 +210,9 @@ void runSimilarityCalculator(
 
 #if defined(_CODE_PROFILING)
     clock_t time_end_of_sim = clock();
+#if defined(_OPENMP)
+    double wtime_end_of_sim = omp_get_wtime();
+#endif
 #endif
 
 
@@ -213,6 +231,18 @@ void runSimilarityCalculator(
 
 #if defined(_CODE_PROFILING)
     clock_t time_end_of_write = clock();
+#if defined(_OPENMP)
+    double wtime_end_of_write = omp_get_wtime();
+
+    double wduration_full = wtime_end_of_write - wtime_start,
+           wduration_reading = wtime_end_of_reading - wtime_start,
+           wduration_sd = wtime_end_of_sd - wtime_end_of_reading,
+           wduration_mapping = wtime_end_of_mapping - wtime_end_of_sd,
+           wduration_sim = wtime_end_of_sim - wtime_end_of_mapping,
+           wduration_write = wtime_end_of_write - wtime_end_of_sim,
+           wduration_computation = wduration_sd + wduration_mapping + wduration_sim;
+#endif
+
     float duration_full = (float) (time_end_of_write - time_start) / CLOCKS_PER_SEC,
           duration_reading = (float) (time_end_of_reading - time_start) / CLOCKS_PER_SEC,
           duration_sd = (float) (time_end_of_sd - time_end_of_reading) / CLOCKS_PER_SEC,
@@ -230,6 +260,18 @@ void runSimilarityCalculator(
         << " -- Similarity: " << duration_sim << " seconds (" << duration_sim / duration_full * 100 << "%)" << endl
         << "Writing data: " << duration_write << " seconds (" << duration_write / duration_full * 100 << "%)" << endl
         << "-----------------------------------------------------" << endl;
+#if defined(_OPENMP)
+    cout << "-----------------------------------------------------" << endl
+        << "Wall Time profiling for Similarity Calculator:" << endl
+        << "Total wall time: " << wduration_full << " seconds (100%)" << endl
+        << "Reading data: " << wduration_reading << " seconds (" << wduration_reading / wduration_full * 100 << "%)" << endl
+        << "Computation: " << wduration_computation << " seconds (" << wduration_computation / wduration_full * 100 << "%)" << endl
+        << " -- SD: " << wduration_sd << " seconds (" << wduration_sd / wduration_full * 100 << "%)" << endl
+        << " -- Mapping: " << wduration_mapping << " seconds (" << wduration_mapping / wduration_full * 100 << "%)" << endl
+        << " -- Similarity: " << wduration_sim << " seconds (" << wduration_sim / wduration_full * 100 << "%)" << endl
+        << "Writing data: " << wduration_write << " seconds (" << wduration_write / wduration_full * 100 << "%)" << endl
+        << "-----------------------------------------------------" << endl;
+#endif
 #endif
 
     return;

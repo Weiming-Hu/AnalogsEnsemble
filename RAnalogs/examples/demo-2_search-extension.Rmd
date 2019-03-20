@@ -13,6 +13,8 @@ library(RAnEn)
 library(maps)
 library(raster)
 library(RColorBrewer)
+
+stopifnot(packageVersion('RAnEn')>="3.2.5")
 ```
 
 ## Introduction

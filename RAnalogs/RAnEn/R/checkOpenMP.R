@@ -26,7 +26,7 @@
 #' @useDynLib RAnEn
 #' 
 #' @export
-checkOpenMP <- function(silent = F) {
+checkOpenMP <- function(silent = T) {
   exist <- .checkOpenMP()
   
   if (!silent) {
