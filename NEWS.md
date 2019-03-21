@@ -2,6 +2,7 @@
 
 - Add features to C++ tools that `similarityCalculator` and `analogSelector` now accept multiple file input.
 - Add proper wall time profiling in C++ tools `similarityCalculator` and `analogSelector`.
+- Change the profiling output messages.
 
 # PEF 3.2.5
 
