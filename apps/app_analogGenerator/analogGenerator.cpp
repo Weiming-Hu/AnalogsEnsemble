@@ -59,6 +59,7 @@ void runAnalogGenerator(
         
         vector<size_t> test_times_index,
         vector<size_t> search_times_index,
+        const vector<double> & weights,
         
         bool operational, int verbose) {
 
@@ -102,6 +103,35 @@ void runAnalogGenerator(
     } else {
         handleError(io.readObservations(search_observations,
                 obs_start, obs_count));
+    }
+
+    // Assign weights if weights are provided properly
+    if (weights.size() != 0) {
+
+        // Weights of test forecasts will be used.
+        if (weights.size() == test_forecasts.getParametersSize()) {
+            
+            anenPar::Parameters parameters_new;
+            auto & parameters_by_insert =
+                test_forecasts.getParameters().get<anenPar::by_insert>();
+
+            for (size_t i = 0; i < weights.size(); i++) {
+                auto parameter = parameters_by_insert[i];
+                parameter.setWeight(weights[i]);
+                parameters_new.push_back(parameter);
+            }
+
+            test_forecasts.setParameters(parameters_new);
+
+            if (verbose >= 4) cout << test_forecasts.getParameters();
+
+        } else {
+            if (verbose >= 1) {
+                cerr << BOLDRED << "Error: " << weights.size() << " weights provided. But forecasts have "
+                    << test_forecasts.getParametersSize() << " parameters." << RESET << endl;
+                return;
+            }
+        }
     }
 
 #if defined(_CODE_PROFILING)
@@ -301,6 +331,7 @@ int main(int argc, char** argv) {
     bool quick = false, searchExtension = false, extend_observations = false,
             operational = false, continuous_time_index = false;
 
+    vector<double> weights;
     double distance = 0.0, max_par_nan = 0.0, max_flt_nan = 0.0;
     size_t max_neighbors = 0, num_neighbors = 0;
     vector<size_t> test_start, test_count, search_start, search_count,
@@ -343,6 +374,7 @@ int main(int argc, char** argv) {
                 ("search-times-index", po::value< vector<size_t> >(&search_times_index)->multitoken(), "Set the indices or the index range (with --continuous-time) of search times in the actual forecasts after the reading.")
                 ("operational", po::bool_switch(&operational)->default_value(false), "Use operational search. This feature uses all the times from search times that are historical to each test time during comparison.")
                 ("continuous-time", po::bool_switch(&continuous_time_index)->default_value(false), "Whether to generate a sequence for test-times-index and search-times-index. If used, an inclusive sequence is generated when only 2 indices (start and end) are provided in test or search times index.")
+                ("weights", po::value<vector<double> >(&weights)->multitoken(), "Specify the weight for each parameter in forecasts. The order of weights should be the same as the order of forecast parameters.")
                 ("quick", po::bool_switch(&quick)->default_value(false), "Use quick sort when selecting analog members.")
                 ("extend-obs", po::bool_switch(&extend_observations)->default_value(false), "After getting the most similar forecast indices, take the corresponding observations from the search station.");
         
@@ -481,6 +513,7 @@ int main(int argc, char** argv) {
                 << "obs_count: " << obs_count << endl
                 << "sds_start: " << sds_start << endl
                 << "sds_count: " << sds_count << endl
+                << "weights: " << weights << endl
                 << "test_times_index: " << test_times_index << endl
                 << "search_times_index: " << search_times_index << endl
                 << "operational: " << operational << endl;
@@ -497,7 +530,7 @@ int main(int argc, char** argv) {
                 num_neighbors, distance, num_members, quick,
                 extend_observations, time_match_mode, max_par_nan,
                 max_flt_nan, test_times_index, search_times_index,
-                operational, verbose);
+                weights, operational, verbose);
     } catch (...) {
         handle_exception(current_exception());
         return 1;

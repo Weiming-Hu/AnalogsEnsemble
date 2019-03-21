@@ -58,6 +58,7 @@ void runSimilarityCalculator(
         vector<size_t> test_times_index,
         vector<size_t> search_times_index,
         bool operational, int verbose,
+        const vector<double> & weights,
         int search_along, int obs_along) {
 
     
@@ -111,6 +112,35 @@ void runSimilarityCalculator(
     } else {
         AnEnIO::combineObservationsArray(files_observations, observations,
                 obs_along, verbose, obs_start, obs_count);
+    }
+
+    // Assign weights if weights are provided properly
+    if (weights.size() != 0) {
+
+        // Weights of test forecasts will be used.
+        if (weights.size() == test_forecasts.getParametersSize()) {
+            
+            anenPar::Parameters parameters_new;
+            auto & parameters_by_insert =
+                test_forecasts.getParameters().get<anenPar::by_insert>();
+
+            for (size_t i = 0; i < weights.size(); i++) {
+                auto parameter = parameters_by_insert[i];
+                parameter.setWeight(weights[i]);
+                parameters_new.push_back(parameter);
+            }
+
+            test_forecasts.setParameters(parameters_new);
+
+            if (verbose >= 4) cout << test_forecasts.getParameters();
+
+        } else {
+            if (verbose >= 1) {
+                cerr << BOLDRED << "Error: " << weights.size() << " weights provided. But forecasts have "
+                    << test_forecasts.getParametersSize() << " parameters." << RESET << endl;
+                return;
+            }
+        }
     }
 
 #if defined(_CODE_PROFILING)
@@ -290,6 +320,7 @@ int main(int argc, char** argv) {
     vector<string> files_observations, files_search_forecasts;
 
     // Optional variables
+    vector<double> weights;
     int verbose = 0, time_match_mode = 1, search_along = 0, obs_along = 0;
     size_t observation_id = 0, max_neighbors = 0, num_neighbors = 0;
     string config_file, file_mapping, file_sds;
@@ -335,6 +366,7 @@ int main(int argc, char** argv) {
                 ("search-times-index", po::value< vector<size_t> >(&search_times_index)->multitoken(), "Set the indices or the index range (with --continuous-time) of search times in the actual forecasts after the reading.")
                 ("operational", po::bool_switch(&operational)->default_value(false), "Use operational search. This feature uses all the times from search times that are historical to each test time during comparison.")
                 ("continuous-time", po::bool_switch(&continuous_time_index)->default_value(false), "Whether to generate a sequence for test-times-index and search-times-index. If used, an inclusive sequence is generated when only 2 indices (start and end) are provided in test or search times index.")
+                ("weights", po::value<vector<double> >(&weights)->multitoken(), "Specify the weight for each parameter in forecasts. The order of weights should be the same as the order of forecast parameters.")
                 ("search-along", po::value<int>(&search_along)->default_value(0), "If multiple files are provided for search forecasts, this specifies the dimension to be appended. [0:parameters, 1:stations, 2:times, 3:FLTs]. Otherwise, it is ignored.")
                 ("obs-along", po::value<int>(&obs_along)->default_value(0), "If multiple files are provided for observations, this specifies the dimension to be appended. [0:parameters 1:stations 2:times]. Otherwise, it is ignored.");
         
@@ -475,6 +507,7 @@ int main(int argc, char** argv) {
                 << "test_times_index: " << test_times_index << endl
                 << "search_times_index: " << search_times_index << endl
                 << "operational: " << operational << endl
+                << "weights: " << weights << endl
                 << "search_along: " << search_along << endl
                 << "obs_along: " << obs_along << endl;
     }
@@ -488,7 +521,7 @@ int main(int argc, char** argv) {
                 observation_id, extend_observations, searchExtension,
                 max_neighbors, num_neighbors, distance, time_match_mode,
                 max_par_nan, max_flt_nan, test_times_index, search_times_index,
-                operational, verbose, search_along, obs_along);
+                operational, verbose, weights, search_along, obs_along);
     } catch (...) {
         handle_exception(current_exception());
         return 1;
