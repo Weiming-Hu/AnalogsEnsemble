@@ -283,9 +283,10 @@ void runAnalogGenerator(
           duration_select = (float) (time_end_of_select - time_end_of_sim) / CLOCKS_PER_SEC,
           duration_write = (float) (time_end_of_write - time_end_of_select) / CLOCKS_PER_SEC;
     float duration_computation = duration_sd + duration_mapping + duration_sim + duration_select;
+
     cout << "-----------------------------------------------------" << endl
-        << "CPU Time profiling for Analog Generator:" << endl
-        << "Total time: " << duration_full << " seconds (100%)" << endl
+        << "User Time for Analog Generator:" << endl
+        << "Total: " << duration_full << " seconds (100%)" << endl
         << "Reading data: " << duration_reading << " seconds (" << duration_reading / duration_full * 100 << "%)" << endl
         << "Computation: " << duration_computation << " seconds (" << duration_computation / duration_full * 100 << "%)" << endl
         << " -- SD: " << duration_sd << " seconds (" << duration_sd / duration_full * 100 << "%)" << endl
@@ -296,8 +297,8 @@ void runAnalogGenerator(
         << "-----------------------------------------------------" << endl;
 #if defined(_OPENMP)
     cout << "-----------------------------------------------------" << endl
-        << "Wall Time profiling for Analog Generator:" << endl
-        << "Total wall time: " << wduration_full << " seconds (100%)" << endl
+        << "Real Time for Analog Generator:" << endl
+        << "Total: " << wduration_full << " seconds (100%)" << endl
         << "Reading data: " << wduration_reading << " seconds (" << wduration_reading / wduration_full * 100 << "%)" << endl
         << "Computation: " << wduration_computation << " seconds (" << wduration_computation / wduration_full * 100 << "%)" << endl
         << " -- SD: " << wduration_sd << " seconds (" << wduration_sd / wduration_full * 100 << "%)" << endl

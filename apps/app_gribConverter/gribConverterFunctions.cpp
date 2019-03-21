@@ -146,8 +146,8 @@ namespace gribConverter {
             double duration_full = (float) (time_end - time_start) / CLOCKS_PER_SEC;
 
             cout << endl << "-----------------------------------------------------" << endl
-                    << "CPU Time profiling for gribConverterFunctions::getDoubles:" << endl
-                    << "Total time: " << duration_full << " seconds (100%)" << endl
+                    << "User Time for gribConverterFunctions::getDoubles: "
+                    << duration_full << " seconds" << endl
                     << "-----------------------------------------------------" << endl;
 #endif
             

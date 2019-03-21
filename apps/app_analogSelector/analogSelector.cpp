@@ -155,16 +155,16 @@ void runAnalogSelector(const string & file_sim, const vector<string> & files_obs
           duration_select = (float) (time_end_of_select - time_end_of_reading) / CLOCKS_PER_SEC,
           duration_write = (float) (time_end_of_write - time_end_of_select) / CLOCKS_PER_SEC;
     cout << "-----------------------------------------------------" << endl
-        << "Time profiling for Analog Selector:" << endl
-        << "Total time: " << duration_full << " seconds (100%)" << endl
+        << "User Time for Analog Selector:" << endl
+        << "Total: " << duration_full << " seconds (100%)" << endl
         << "Reading data: " << duration_reading << " seconds (" << duration_reading / duration_full * 100 << "%)" << endl
         << "Selection: " << duration_select << " seconds (" << duration_select / duration_full * 100 << "%)" << endl
         << "Writing data: " << duration_write << " seconds (" << duration_write / duration_full * 100 << "%)" << endl
         << "-----------------------------------------------------" << endl;
 #if defined(_OPENMP)
     cout << "-----------------------------------------------------" << endl
-        << "Wall Time profiling for Analog Selector:" << endl
-        << "Total wall time: " << wduration_full << " seconds (100%)" << endl
+        << "Real Time profiling for Analog Selector:" << endl
+        << "Total: " << wduration_full << " seconds (100%)" << endl
         << "Reading data: " << wduration_reading << " seconds (" << wduration_reading / wduration_full * 100 << "%)" << endl
         << "Selection: " << duration_select << " seconds (" << wduration_select / wduration_full * 100 << "%)" << endl
         << "Writing data: " << wduration_write << " seconds (" << wduration_write / wduration_full * 100 << "%)" << endl
