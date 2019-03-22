@@ -4,7 +4,7 @@ markdown: kramdown
 highlighter: rouge
 
 # Setup
-title: Parallel Ensemble Forecasts
+title: Parallel Analog Ensemble
 tagline: 'R and C++'
 description: 'An integrated package for parallel ensemble forecasts and more, implemented in R and C++.'
 url: https://weiming-hu.github.io/AnalogsEnsemble/
