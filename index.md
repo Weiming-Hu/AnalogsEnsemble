@@ -3,7 +3,7 @@ layout: default
 ---
 
 
-# [Parallel Ensemble Forecast Package](https://weiming-hu.github.io/AnalogsEnsemble/)
+# [Parallel Analog Ensemble](https://weiming-hu.github.io/AnalogsEnsemble/)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/f4cf23c626034d92a3bef0ba169a218a)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Weiming-Hu/AnalogsEnsemble&amp;utm_campaign=Badge_Grade)
@@ -263,7 +263,7 @@ make clean-all
 |      BUILD\_HDF5     |                            Build `HDF5` library regardless of its existence.                            |         OFF        |
 |        VERBOSE       |                          Print detailed messages during the compiling process.                          |         OFF        |
 |    CODE\_PROFILING   |                                     Print time profiling information.                                   |         OFF        |
-|     ENABLE\_MPI      |                         Build the MPI version of the CAnEnIO library for parallel I/O.                  |         OFF        |
+|     ENABLE\_MPI      |  Build the MPI version of the CAnEnIO library for parallel I/O. But this is still underdevelopment.     |         OFF        |
 | BUILD\_GRIBCONVERTER | Build the GRIB Converter utility. [Eccodes](https://confluence.ecmwf.int/display/ECC) library required. |         ON         |
 
 ## Known Issues

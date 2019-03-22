@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>AnalogEnsemble: PEF 3.2.5</title>
+<title>AnalogEnsemble: PAnEn 3.3.0</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -59,10 +59,21 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">PEF 3.2.5 </div>  </div>
+<div class="title">PAnEn 3.3.0 </div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><ul>
+<li>Add parameters to restrict the number of similarities to keep. This can be very helpful to reduce the memory required. The C++ parameter is <code>max-num-sims</code> and the R parameter is <code>max_num_sims</code>.</li>
+<li>Change package name from <code>Parallel Ensemble Forecast</code> to <code>Parallel Analog Ensemble</code>.</li>
+</ul>
+<h1>PAnEn 3.2.6</h1>
+<ul>
+<li>Add features to C++ tools that <code>similarityCalculator</code> and <code>analogSelector</code> now accept multiple file input.</li>
+<li>Add proper wall time profiling in C++ tools <code>similarityCalculator</code> and <code>analogSelector</code>.</li>
+<li>Change the profiling output messages.</li>
+</ul>
+<h1>PAnEn 3.2.5</h1>
+<ul>
 <li>Add function <code>RAnEn::plotAnalogSample</code> and <code>RAnEn::plotAnalogSelection</code>.</li>
 <li>Add the feature for <code>RAnEn</code> to preserve standard deviations.</li>
 <li>Add tests for R and C++ for similarity calculation and standard deviation calculation.</li>
@@ -70,22 +81,23 @@ $(function() {
 <li>Change R interface input parameters to constant references.</li>
 <li>Bug fixed for the <code>RAnEn</code> configuration parameter <code>num_nearest</code> and <code>num_max_search_stations</code>.</li>
 <li>Bug fixed in <code>RAnEn::verifyCorrelation</code>.</li>
+<li>Add mapping calculation feature to analog selector.</li>
 </ul>
-<h1>PEF 3.2.4</h1>
+<h1>PAnEn 3.2.4</h1>
 <ul>
 <li>Bug fixed for using weights.</li>
 <li>Bug fixed for using partial compare times from test and search. This was causing stack overflow.</li>
 <li>Change the onload message of <code>RAnEn</code>.</li>
 <li>Add density limit parameter for <code>RAnEn::biasCorrectionInsitu</code>.</li>
 </ul>
-<h1>PEF 3.2.3</h1>
+<h1>PAnEn 3.2.3</h1>
 <ul>
 <li>Port <code>max_flt_nan</code> and <code>max_par_nan</code> parameters to R function <code>compute_analogs</code>.</li>
 <li>Update R and C++ document.</li>
 <li>Add R configuration <code>preserve_search_stations</code> to <code>independentSearch</code> as well. Now, both <code>independentSearch</code> and <code>extendedSearch</code> support this configuration.</li>
 <li>Add <code>RAnEn::alignObservations</code></li>
 </ul>
-<h1>PEF 3.2.2</h1>
+<h1>PAnEn 3.2.2</h1>
 <ul>
 <li>Improve backward compatibility of R function <code>compute_analogs</code>. This function now returns the analog member index in the 4D observations, rather than in the 3D observations.</li>
 <li>Add a cleaner version of configuration. Configuration now, by default, is the cleaner version. The old version can be accessed by using <code>advanced</code> parameter when generating a configuration.</li>
@@ -93,7 +105,7 @@ $(function() {
 <li>Add MPI implementation for "MPI_UNIVERSE_SIZE" to limit the number of child spawned processes.</li>
 <li>Add unique identifier in <code><a class="el" href="class_similarity_matrices.html" title="SimilarityMatrices class stores similarity metrics. Default dimensions of SimilarityMatrices are: [te...">SimilarityMatrices</a></code> and <code><a class="el" href="class_analogs.html" title="This is the class to store analogs. The default dimensions are: [test stations][test times][FLTs][mem...">Analogs</a></code> to distinguish the reason for the NAN value.</li>
 </ul>
-<h1>PEF 3.2.1</h1>
+<h1>PAnEn 3.2.1</h1>
 <ul>
 <li>Remove computing sds outside the loops when operational search is used.</li>
 <li>Add demo for using operational search.</li>
@@ -102,14 +114,14 @@ $(function() {
 <li>Add default value for <code>test-forecast-nc</code> in <code>analogGenerator</code> and <code>similarityCalculator</code>. If they are not provided, the search file will be also used as a test file.</li>
 <li>When MPI is used, the reading function should automatically detect whether the file can be accessed with parallel processes.</li>
 </ul>
-<h1>PEF 3.2.0</h1>
+<h1>PAnEn 3.2.0</h1>
 <ul>
 <li>Synchronize versions of all components.</li>
 <li>Add similarity computing methods including SeparateTestSearch, LeaveOneOut, and OperationalSearch. This has brought an significant addition to similarity calculation function features.</li>
 <li>Add automatic removal of the overlapping test and search times. For example, if forecasts are 3 days ahead, the historical forecast for yesterday will not be compared to the forecast of today even if the yesterday forecast is included in the search times (which is considered as a mistaken input from the user).</li>
 <li>Add R function <code>generateTimeMapping</code>.</li>
 </ul>
-<h1>PEF 3.1.1</h1>
+<h1>PAnEn 3.1.1</h1>
 <h2>RAnEn</h2>
 <ul>
 <li>Refactor Similarity Calculation core function and improve readability.</li>
@@ -119,7 +131,7 @@ $(function() {
 <li>Update documentation.</li>
 <li>Update README file.</li>
 </ul>
-<h1>PEF 3.1.0</h1>
+<h1>PAnEn 3.1.0</h1>
 <h2>CAnEnIO</h2>
 <ul>
 <li>Add MPI read functions for values only.</li>
@@ -139,7 +151,7 @@ $(function() {
 <li>Change names of members from bias correction.</li>
 <li>Change import functions to suggested for <code>parallel</code>, <code>nnet</code>, and <code>pbapply</code>.</li>
 </ul>
-<h1>PEF 3.0.0</h1>
+<h1>PAnEn 3.0.0</h1>
 <h2>CAnEnIO</h2>
 <ul>
 <li>Basic <a class="el" href="class_an_en.html" title="AnEn class provides interfaces for computing Analog Ensembles. ">AnEn</a> I/O functions. </li>

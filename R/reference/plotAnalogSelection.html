@@ -64,7 +64,7 @@ analog generation, compared with the other unselected forecasts." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAnEn</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">3.2.5</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">3.3.0</span>
       </span>
     </div>
 
@@ -117,10 +117,11 @@ analog generation, compared with the other unselected forecasts.</p>
   <span class='kw'>pch.unselected</span> <span class='kw'>=</span> <span class='fl'>16</span>, <span class='kw'>pch.current</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>col.selected</span> <span class='kw'>=</span> <span class='st'>"red"</span>,
   <span class='kw'>col.unselected</span> <span class='kw'>=</span> <span class='st'>"lightgrey"</span>, <span class='kw'>col.reference</span> <span class='kw'>=</span> <span class='st'>"black"</span>,
   <span class='kw'>col.current</span> <span class='kw'>=</span> <span class='st'>"black"</span>, <span class='kw'>lty.reference</span> <span class='kw'>=</span> <span class='st'>"longdash"</span>,
-  <span class='kw'>lwd.reference</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>origin</span> <span class='kw'>=</span> <span class='st'>"1970-01-01"</span>, <span class='kw'>tz</span> <span class='kw'>=</span> <span class='st'>"UTC"</span>,
-  <span class='kw'>single.figure</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='kw'>mar</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>1.5</span>, <span class='fl'>5</span>, <span class='fl'>1</span>, <span class='fl'>1</span>) + <span class='fl'>0.1</span>, <span class='kw'>omi</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0.3</span>, <span class='fl'>0</span>, <span class='fl'>0</span>,
-  <span class='fl'>0</span>), <span class='kw'>use.plotly</span> <span class='kw'>=</span> <span class='no'>F</span>, <span class='kw'>hovermode</span> <span class='kw'>=</span> <span class='st'>"compare"</span>, <span class='kw'>spikemode</span> <span class='kw'>=</span> <span class='st'>"across"</span>,
-  <span class='kw'>spikethickness</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>spikedash</span> <span class='kw'>=</span> <span class='st'>"solid"</span>, <span class='kw'>spikecolor</span> <span class='kw'>=</span> <span class='st'>"grey"</span>)</pre>
+  <span class='kw'>lwd.reference</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>as.POSIXct</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='kw'>origin</span> <span class='kw'>=</span> <span class='st'>"1970-01-01"</span>,
+  <span class='kw'>tz</span> <span class='kw'>=</span> <span class='st'>"UTC"</span>, <span class='kw'>single.figure</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='kw'>mar</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>1.5</span>, <span class='fl'>5</span>, <span class='fl'>1</span>, <span class='fl'>1</span>) + <span class='fl'>0.1</span>,
+  <span class='kw'>omi</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0.3</span>, <span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>0</span>), <span class='kw'>use.plotly</span> <span class='kw'>=</span> <span class='no'>F</span>, <span class='kw'>hovermode</span> <span class='kw'>=</span> <span class='st'>"compare"</span>,
+  <span class='kw'>spikemode</span> <span class='kw'>=</span> <span class='st'>"across"</span>, <span class='kw'>spikethickness</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>spikedash</span> <span class='kw'>=</span> <span class='st'>"solid"</span>,
+  <span class='kw'>spikecolor</span> <span class='kw'>=</span> <span class='st'>"grey"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -190,6 +191,10 @@ analog generation, compared with the other unselected forecasts.</p>
       <td><p>The line width for the reference line.</p></td>
     </tr>
     <tr>
+      <th>as.POSIXct</th>
+      <td><p>Whether the time information in config should be converted to R date/time.</p></td>
+    </tr>
+    <tr>
       <th>origin</th>
       <td><p>The origin for times in forecasts. This will be passed to as.POSIXct to convert
 times in forecasts to date/time objects.</p></td>
@@ -243,13 +248,22 @@ plotly is used.</p></td>
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The visualization works better when more similaries are preserved. If you don't
+see many similarity value point, you probably are using a very small max_num_sims
+in the configuration. But if it is negative or 0, then it means you simply have
+too few search data.</p>
+    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-                </ul>
+      
+      <li><a href="#details">Details</a></li>
+          </ul>
 
     <h2>Author</h2>
     

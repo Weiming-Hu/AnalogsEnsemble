@@ -5,7 +5,18 @@ sidebar_link: true
 ---
 
 
-# PEF 3.2.5
+# PAnEn 3.3.0
+
+- Add parameters to restrict the number of similarities to keep. This can be very helpful to reduce the memory required. The C++ parameter is `max-num-sims` and the R parameter is `max_num_sims`.
+- Change package name from `Parallel Ensemble Forecast` to `Parallel Analog Ensemble`.
+
+# PAnEn 3.2.6
+
+- Add features to C++ tools that `similarityCalculator` and `analogSelector` now accept multiple file input.
+- Add proper wall time profiling in C++ tools `similarityCalculator` and `analogSelector`.
+- Change the profiling output messages.
+
+# PAnEn 3.2.5
 
 - Add function `RAnEn::plotAnalogSample` and `RAnEn::plotAnalogSelection`.
 - Add the feature for `RAnEn` to preserve standard deviations.
@@ -14,29 +25,30 @@ sidebar_link: true
 - Change R interface input parameters to constant references.
 - Bug fixed for the `RAnEn` configuration parameter `num_nearest` and `num_max_search_stations`.
 - Bug fixed in `RAnEn::verifyCorrelation`.
+- Add mapping calculation feature to analog selector.
 
-# PEF 3.2.4
+# PAnEn 3.2.4
 
 - Bug fixed for using weights.
 - Bug fixed for using partial compare times from test and search. This was causing stack overflow.
 - Change the onload message of `RAnEn`.
 - Add density limit parameter for `RAnEn::biasCorrectionInsitu`.
 
-# PEF 3.2.3
+# PAnEn 3.2.3
 
 - Port `max_flt_nan` and `max_par_nan` parameters to R function `compute_analogs`.
 - Update R and C++ document.
 - Add R configuration `preserve_search_stations` to `independentSearch` as well. Now, both `independentSearch` and `extendedSearch` support this configuration.
 - Add `RAnEn::alignObservations`
 
-# PEF 3.2.2
+# PAnEn 3.2.2
 - Improve backward compatibility of R function `compute_analogs`. This function now returns the analog member index in the 4D observations, rather than in the 3D observations.
 - Add a cleaner version of configuration. Configuration now, by default, is the cleaner version. The old version can be accessed by using `advanced` parameter when generating a configuration.
 - Remove some of the post contents to reduce redundant information. Tutorials are now only hosted on binder.
 - Add MPI implementation for "MPI_UNIVERSE_SIZE" to limit the number of child spawned processes.
 - Add unique identifier in `SimilarityMatrices` and `Analogs` to distinguish the reason for the NAN value.
 
-# PEF 3.2.1
+# PAnEn 3.2.1
 
 - Remove computing sds outside the loops when operational search is used.
 - Add demo for using operational search.
@@ -45,14 +57,14 @@ sidebar_link: true
 - Add default value for `test-forecast-nc` in `analogGenerator` and `similarityCalculator`. If they are not provided, the search file will be also used as a test file.
 - When MPI is used, the reading function should automatically detect whether the file can be accessed with parallel processes.
 
-# PEF 3.2.0
+# PAnEn 3.2.0
 
 - Synchronize versions of all components.
 - Add similarity computing methods including SeparateTestSearch, LeaveOneOut, and OperationalSearch. This has brought an significant addition to similarity calculation function features.
 - Add automatic removal of the overlapping test and search times. For example, if forecasts are 3 days ahead, the historical forecast for yesterday will not be compared to the forecast of today even if the yesterday forecast is included in the search times (which is considered as a mistaken input from the user).
 - Add R function `generateTimeMapping`.
 
-# PEF 3.1.1
+# PAnEn 3.1.1
 
 ## RAnEn
 
@@ -63,7 +75,7 @@ sidebar_link: true
 - Update documentation.
 - Update README file.
 
-# PEF 3.1.0
+# PAnEn 3.1.0
 
 ## CAnEnIO
 
@@ -84,7 +96,7 @@ sidebar_link: true
 - Change names of members from bias correction.
 - Change import functions to suggested for `parallel`, `nnet`, and `pbapply`.
 
-# PEF 3.0.0
+# PAnEn 3.0.0
 
 ## CAnEnIO
 
