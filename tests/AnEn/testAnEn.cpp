@@ -231,7 +231,7 @@ void testAnEn::testOperationalSearch() {
         search_times.push_back(i * 10000);
     }
     
-    SimilarityMatrices sims2;
+    SimilarityMatrices sims2, sims3;
     vector<size_t> i_search_times;
     
     functions.convertToIndex(search_times, forecasts.getTimes(), i_search_times);
@@ -242,6 +242,9 @@ void testAnEn::testOperationalSearch() {
             forecasts.getStations(), forecasts.getStations(), i_search_stations);
     anen.computeSimilarity(forecasts, forecasts, sds, sims2, obs, mapping,
             i_search_stations, 0, false, 0, 0, test_times, search_times, false);
+    anen.computeSimilarity(forecasts, forecasts, sds, sims3, obs, mapping,
+            i_search_stations, 0, false, 0, 0, test_times, search_times, false,
+            forecasts.getTimes().size());
 
 //    cout << sims1 << endl << sims2;
     
@@ -251,6 +254,7 @@ void testAnEn::testOperationalSearch() {
             for (size_t l = 0; l < sims1.shape()[3]; l++) {
                 for (size_t m = 0; m < sims1.shape()[4]; m++) {
                     CPPUNIT_ASSERT(sims1[i][2][j][l][m] == sims2[i][0][j][l][m]);
+                    CPPUNIT_ASSERT(sims3[i][0][j][l][m] == sims2[i][0][j][l][m]);
                 }
             }
         }

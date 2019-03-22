@@ -17,6 +17,11 @@
 #' It also shows the selected forecasts for each parameter used during the 
 #' analog generation, compared with the other unselected forecasts.
 #' 
+#' The visualization works better when more similaries are preserved. If you don't 
+#' see many similarity value point, you probably are using a very small max_num_sims
+#' in the configuration. But if it is negative or 0, then it means you simply have 
+#' too few search data.
+#' 
 #' @param AnEn An AnEn object generated from \code{\link{generateAnalogs}}.
 #' @param config A Configuration object generated from \code{\link{generateConfiguration}}.
 #' @param i.station The station index from analogs.

@@ -31,8 +31,7 @@ validateConfiguration <- function(x, verbose = 1) {
   valid <- T
   
   if ("search_flts" %in% names(x)) {
-    print("Warning: search_flts is deprecated and renamed to flts. The values are copied from search_flts to flts.")
-    x$flts <- x$search_flts
+    stop("search_flts is deprecated and renamed to flts. Please copy search_flts to flts.")
   }
   
   # All variables should not be NULL

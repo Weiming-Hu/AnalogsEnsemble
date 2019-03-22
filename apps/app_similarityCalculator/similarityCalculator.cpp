@@ -57,7 +57,7 @@ void runSimilarityCalculator(
 
         vector<size_t> test_times_index,
         vector<size_t> search_times_index,
-        bool operational, int verbose,
+        bool operational, int max_sims_entries, int verbose,
         const vector<double> & weights,
         int search_along, int obs_along) {
 
@@ -236,7 +236,7 @@ void runSimilarityCalculator(
     handleError(anen.computeSimilarity(
             test_forecasts, search_forecasts, sds, sims, observations, mapping,
             i_search_stations, observation_id, extend_observations,
-            max_par_nan, max_flt_nan, test_times, search_times, operational));
+            max_par_nan, max_flt_nan, test_times, search_times, operational, max_sims_entries));
 
 #if defined(_CODE_PROFILING)
     clock_t time_end_of_sim = clock();
@@ -321,7 +321,8 @@ int main(int argc, char** argv) {
 
     // Optional variables
     vector<double> weights;
-    int verbose = 0, time_match_mode = 1, search_along = 0, obs_along = 0;
+    int verbose = 0, time_match_mode = 1, search_along = 0,
+        obs_along = 0, max_sims_entries = -1;
     size_t observation_id = 0, max_neighbors = 0, num_neighbors = 0;
     string config_file, file_mapping, file_sds;
     bool searchExtension = false, extend_observations = false,
@@ -365,6 +366,7 @@ int main(int argc, char** argv) {
                 ("test-times-index", po::value< vector<size_t> >(&test_times_index)->multitoken(), "Set the indices or the index range (with --continuous-time) of test times in the actual forecasts after the reading.")
                 ("search-times-index", po::value< vector<size_t> >(&search_times_index)->multitoken(), "Set the indices or the index range (with --continuous-time) of search times in the actual forecasts after the reading.")
                 ("operational", po::bool_switch(&operational)->default_value(false), "Use operational search. This feature uses all the times from search times that are historical to each test time during comparison.")
+                ("max-num-sims", po::value<int>(&max_sims_entries)->default_value(-1), "The maximum number of similarities to keep. This can be set to a positive value to reduce the memory requirement sacrificing execution time.")
                 ("continuous-time", po::bool_switch(&continuous_time_index)->default_value(false), "Whether to generate a sequence for test-times-index and search-times-index. If used, an inclusive sequence is generated when only 2 indices (start and end) are provided in test or search times index.")
                 ("weights", po::value<vector<double> >(&weights)->multitoken(), "Specify the weight for each parameter in forecasts. The order of weights should be the same as the order of forecast parameters.")
                 ("search-along", po::value<int>(&search_along)->default_value(0), "If multiple files are provided for search forecasts, this specifies the dimension to be appended. [0:parameters, 1:stations, 2:times, 3:FLTs]. Otherwise, it is ignored.")
@@ -507,6 +509,7 @@ int main(int argc, char** argv) {
                 << "test_times_index: " << test_times_index << endl
                 << "search_times_index: " << search_times_index << endl
                 << "operational: " << operational << endl
+                << "max_sims_entries: " << max_sims_entries << endl
                 << "weights: " << weights << endl
                 << "search_along: " << search_along << endl
                 << "obs_along: " << obs_along << endl;
@@ -521,7 +524,7 @@ int main(int argc, char** argv) {
                 observation_id, extend_observations, searchExtension,
                 max_neighbors, num_neighbors, distance, time_match_mode,
                 max_par_nan, max_flt_nan, test_times_index, search_times_index,
-                operational, verbose, weights, search_along, obs_along);
+                operational, max_sims_entries, verbose, weights, search_along, obs_along);
     } catch (...) {
         handle_exception(current_exception());
         return 1;

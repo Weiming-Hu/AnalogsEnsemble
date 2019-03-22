@@ -4,7 +4,7 @@
 \alias{boot.fun.ver}
 \title{RAnEn::boot.fun.ver}
 \usage{
-boot.fun.ver(temp, R, fun = err.fun.ver)
+boot.fun.ver(temp, R, fun = function(d, i) {     mean(d[i, 1]) })
 }
 \description{
 RAnEn::boot.fun.ver

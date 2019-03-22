@@ -256,7 +256,7 @@ AnEn::computeSimilarity(
         double max_par_nan, double max_flt_nan,
         anenTime::Times test_times,
         anenTime::Times search_times,
-        bool operational) const {
+        bool operational, int max_sims_entries) const {
 
     using COL_TAG_SIM = SimilarityMatrices::COL_TAG;
 
@@ -390,15 +390,20 @@ num_test_times, i_search_times_operational)
     if (verbose_ >= 3) cout << "Computing similarity matrices ... " << endl;
 
     // Resize similarity matrices according to the search space
-    sims.setMaxEntries(num_search_stations * num_search_times);
+    if (max_sims_entries > 0) {
+        sims.setMaxEntries(max_sims_entries);
+    } else {
+        sims.setMaxEntries(num_search_stations * num_search_times);
+    }
+
     sims.resize(num_test_stations, num_test_times, num_flts);
     fill(sims.data(), sims.data() + sims.num_elements(), NAN);
 
 #if defined(_OPENMP)
-#pragma omp parallel for default(none) schedule(static) collapse(4) \
+#pragma omp parallel for default(none) schedule(static) collapse(3) \
 shared(num_test_stations, num_flts, num_search_stations, num_test_times, \
 circular_flags, num_parameters, data_search_observations, functions, \
-flts_window, mapping, weights, search_forecasts, test_forecasts, \
+flts_window, mapping, weights, search_forecasts, test_forecasts, max_sims_entries, \
 sims, sds, i_observation_parameter, i_search_stations, max_flt_nan, max_par_nan, \
 test_stations_index_in_search, extend_observations, i_test_times, sds_operational_container, \
 test_times, max_flt, operational, search_times_operational, i_search_times_operational) \
@@ -407,7 +412,18 @@ firstprivate(i_search_times, search_times, num_search_times)
     for (size_t i_test_station = 0; i_test_station < num_test_stations; i_test_station++) {
         for (size_t pos_test_time = 0; pos_test_time < num_test_times; pos_test_time++) {
             for (size_t i_flt = 0; i_flt < num_flts; i_flt++) {
+
+                // The following code is serial for each thread to avoid data racing problem when max_sims_entries is set. 
                 for (size_t i_search_station_index = 0; i_search_station_index < num_search_stations; i_search_station_index++) {
+                    
+                    // Create a partial view of the big similarity matrices.
+                    // This view looks at the value column of a particular station, day, and FLT.
+                    // This view will be used if max_sims_entries is set to a positive number.
+                    //
+                    typedef boost::multi_array_types::index_range range;
+                    SimilarityMatrices::index_gen indices;
+                    SimilarityMatrices::array_view<1>::type view_sim_val =
+                            sims[ indices[i_test_station][pos_test_time][i_flt][range()][COL_TAG_SIM::VALUE] ];
 
                     size_t i_test_time = i_test_times[pos_test_time];
                     
@@ -434,6 +450,8 @@ firstprivate(i_search_times, search_times, num_search_times)
                             
                             // Determine which row in the similarity matrix should be updated
                             size_t i_search_time = i_search_times[pos_search_time];
+
+                            // This variable determines which row in the similarity matrix will be written
                             size_t i_sim_row = i_search_station_index * num_search_times + pos_search_time;
                             
                             // We take care of the overlapping cases when part of the FLTs of search covers FLTs of test forecasts.
@@ -460,29 +478,65 @@ firstprivate(i_search_times, search_times, num_search_times)
                                     }
 
                                     if (!nan_observation) {
+                                        double sim_val = 0;
+
                                         // compute single similarity
                                         if (operational) {
-                                            sims[i_test_station][pos_test_time][i_flt][i_sim_row][COL_TAG_SIM::VALUE] = compute_single_similarity_(
+                                            sim_val = compute_single_similarity_(
                                                     test_forecasts, search_forecasts, sds_operational_container[pos_test_time], weights, flts_window, circular_flags,
                                                     i_test_station, i_test_time, i_search_station, i_search_time, i_flt, max_par_nan, max_flt_nan);
                                         } else {
-                                            sims[i_test_station][pos_test_time][i_flt][i_sim_row][COL_TAG_SIM::VALUE] = compute_single_similarity_(
+                                            sim_val = compute_single_similarity_(
                                                 test_forecasts, search_forecasts, sds, weights, flts_window, circular_flags,
                                                 i_test_station, i_test_time, i_search_station, i_search_time, i_flt, max_par_nan, max_flt_nan);
                                         }
+
+                                        // Write this single value to the correct row in similarity matrix
+                                        if (max_sims_entries > 0) {
+                                            
+                                            if (!std::isnan(sim_val)) {
+                                                // Figure out which row has the biggest similarity, and check whether that row should be updated
+                                                // using this calculated similarity value.
+                                                //
+                                                size_t i_max = distance(view_sim_val.begin(), max_element(view_sim_val.begin(), view_sim_val.end(),
+                                                        [](double lhs, double rhs) {
+                                                            // NAN is always treated as the largest. If both are NAN, the left one is larger.
+                                                            if (std::isnan(lhs)) return false;
+                                                            else if (std::isnan(rhs)) return true;
+                                                            else return (lhs < rhs);
+                                                        }));
+
+                                                if (std::isnan(view_sim_val[i_max]) || view_sim_val[i_max] > sim_val) {
+                                                    // Update similarity matrix
+                                                    sims[i_test_station][pos_test_time][i_flt][i_max][COL_TAG_SIM::VALUE] = sim_val;
+                                                    sims[i_test_station][pos_test_time][i_flt][i_max][COL_TAG_SIM::STATION] = i_search_station;
+                                                    sims[i_test_station][pos_test_time][i_flt][i_max][COL_TAG_SIM::TIME] = i_search_time;
+                                                }
+                                            }
+                                            
+                                        } else {
+                                            sims[i_test_station][pos_test_time][i_flt][i_sim_row][COL_TAG_SIM::VALUE] = sim_val;
+                                        }
+
+
                                     } // End of isnan(observation value)
                                         
                                     // Even if the observation value is NAN, I still record the search forecast index.
                                     // The similarity metric will remain NAN which won't affect the selection.
                                     //
-                                    sims[i_test_station][pos_test_time][i_flt][i_sim_row][COL_TAG_SIM::STATION] = i_search_station;
-                                    sims[i_test_station][pos_test_time][i_flt][i_sim_row][COL_TAG_SIM::TIME] = i_search_time;
+                                    if (max_sims_entries <= 0) {
+                                        sims[i_test_station][pos_test_time][i_flt][i_sim_row][COL_TAG_SIM::STATION] = i_search_station;
+                                        sims[i_test_station][pos_test_time][i_flt][i_sim_row][COL_TAG_SIM::TIME] = i_search_time;
+                                    }
 
                                 } else {
-                                    sims[i_test_station][pos_test_time][i_flt][i_sim_row][COL_TAG_SIM::TIME] = -1;
+                                    if (max_sims_entries <= 0)
+                                        sims[i_test_station][pos_test_time][i_flt][i_sim_row][COL_TAG_SIM::TIME] = -1;
                                 } // End of isnan(mapping value)
                             } else {
-                                sims[i_test_station][pos_test_time][i_flt][i_sim_row][COL_TAG_SIM::TIME] = -2;
+                                if (max_sims_entries <= 0)
+                                    sims[i_test_station][pos_test_time][i_flt][i_sim_row][COL_TAG_SIM::TIME] = -2;
+
                             }// End if of non-overlapping test and search forecasts
 
                         } // End loop of search times
@@ -517,7 +571,7 @@ AnEn::selectAnalogs(
     size_t num_flts = sims.shape()[2];
     size_t max_members = sims.getMaxEntries();
 
-    if (num_members >= max_members) {
+    if (num_members > max_members) {
         if (verbose_ >= 2) cout << RED << "Warning: Number of members ("
                 << num_members << ") is bigger than the number of entries ("
                 << max_members << ") in SimilarityMatrices! "

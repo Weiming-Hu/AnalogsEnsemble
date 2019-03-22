@@ -1,3 +1,7 @@
+# PEF 3.3.0
+
+- Add parameters to restrict the number of similarities to keep. This can be very helpful to reduce the memory required. The C++ parameter is `max-num-sims` and the R parameter is `max_num_sims`.
+
 # PEF 3.2.6
 
 - Add features to C++ tools that `similarityCalculator` and `analogSelector` now accept multiple file input.

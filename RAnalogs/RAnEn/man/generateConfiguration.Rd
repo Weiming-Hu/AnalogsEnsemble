@@ -62,6 +62,7 @@ should be selected from the test_times field.
 This time should be selected from the search_times field.
 \item operational: Whether to use operational serach mode and increase the number of search times while moving forward with test times.
 \strong{Operational serach times are always generated from the search_times.}
+\item max_num_sims: The maximum number of similarity to keep in the array. This can be used to reduce the memory requirement.
 }
 
 For configuration with mode 'extendedSearch': (skipping the aforementioned parameters)

@@ -10,8 +10,10 @@
 rm -f map.txt
 rm -f sim_sep.nc
 rm -f sim_ctn.nc
+rm -f sim_ctn_small.nc
 rm -f analogs_sep.nc
 rm -f analogs_ctn.nc
+rm -f analogs_ctn_small.nc
 rm -f analogs_sep_wo_mapping.nc
 
 ../../../output/bin/similarityCalculator --test-forecast-nc ../../../tests/Data/test_forecasts.nc --search-forecast-nc ../../../tests/Data/test_forecasts.nc --observation-nc ../../../tests/Data/test_observations.nc --similarity-nc sim_sep.nc --test-start 0 0 9 0 --test-count 5 20 1 8 --search-start 0 0 0 0 --search-count 5 20 9 8 --time-match-mode 1 --mapping-txt map.txt -v 2
@@ -22,7 +24,12 @@ rm -f analogs_sep_wo_mapping.nc
 
 ../../../output/bin/analogGenerator --test-forecast-nc ../../../tests/Data/test_forecasts.nc --search-forecast-nc ../../../tests/Data/test_forecasts.nc --observation-nc ../../../tests/Data/test_observations.nc --similarity-nc sim_ctn.nc --test-start 0 0 9 0 --test-count 5 20 1 8 --search-start 0 0 0 0 --search-count 5 20 9 8 --time-match-mode 1 --analog-nc analogs_ctn.nc --members 5 -v 1
 
-diff analogs_sep.nc analogs_ctn.nc && diff analogs_sep_wo_mapping.nc analogs_ctn.nc
+../../../output/bin/analogGenerator --test-forecast-nc ../../../tests/Data/test_forecasts.nc --search-forecast-nc ../../../tests/Data/test_forecasts.nc --observation-nc ../../../tests/Data/test_observations.nc --similarity-nc sim_ctn_small.nc --test-start 0 0 9 0 --test-count 5 20 1 8 --search-start 0 0 0 0 --search-count 5 20 9 8 --time-match-mode 1 --analog-nc analogs_ctn_small.nc --members 5 -v 1 --max-num-sims 5
+
+diff analogs_sep.nc analogs_ctn.nc && \
+diff analogs_sep_wo_mapping.nc analogs_ctn.nc && \
+diff analogs_sep.nc analogs_ctn_small.nc
+
 status=$?
 if test $status -eq 0
 then
@@ -43,6 +50,8 @@ fi
 rm -f map.txt
 rm -f sim_sep.nc
 rm -f sim_ctn.nc
+rm -f sim_ctn_small.nc
 rm -f analogs_sep.nc
 rm -f analogs_ctn.nc
+rm -f analogs_ctn_small.nc
 rm -f analogs_sep_wo_mapping.nc

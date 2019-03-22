@@ -128,6 +128,10 @@ public:
      * @param max_flt_nan The number of NAN values allowed when computing
      * FLT window averages. Set it to NAN to allow any number of NAN values.
      * @param operational Whether to use operational search.
+     * @param max_sims_entries If this is set to a positive number, the reduced-memory
+     * mode is used so that a smaller similarity matrix will be created, and not
+     * all similarity will be kept. This mode will cause certain amount of 
+     * the program slowdown.
      * 
      * @return An errorType.
      */
@@ -144,7 +148,8 @@ public:
             double max_par_nan = 0, double max_flt_nan = 0,
             anenTime::Times test_times = {},
             anenTime::Times search_times = {},
-            bool operational = false) const;
+            bool operational = false,
+            int max_sims_entries = -1) const;
 
     /**
      * Select analogs based on the similarity matrices.

@@ -105,6 +105,7 @@ generateAnalogs <- function(configuration) {
       configuration$test_times_compare,
       configuration$search_times_compare,
       configuration$operational,
+      configuration$max_num_sims,
       configuration$verbose)
     
   } else if (configuration$mode == 'extendedSearch') {
@@ -141,6 +142,7 @@ generateAnalogs <- function(configuration) {
       configuration$test_times_compare,
       configuration$search_times_compare,
       configuration$operational,
+      configuration$max_num_sims,
       configuration$verbose)
     
   } else {

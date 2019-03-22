@@ -54,6 +54,9 @@ config$quick <- F
 
 AnEn.auto <- generateAnalogs(config)
 
+config$max_num_sims <- config$num_members
+AnEn.auto.small <- generateAnalogs(config)
+
 # Case: Deprecated functions
 observations4D <- array(dim = c(1, dim(forecasts)[2:4]))
 for (i.time in 1:dim(observations4D)[3]) {
@@ -87,6 +90,9 @@ for (i.flt in 1:dim(AnEn.dep$analogs)[3]) {
 stopifnot(identical(
   as.vector(AnEn.dep$analogs), 
   as.vector(AnEn.auto$analogs)))
+stopifnot(identical(
+  as.vector(AnEn.auto.small$analogs), 
+  as.vector(AnEn.auto$analogs)))
 
 print("Rolling results are the same between latest and deprecated version.")
 
@@ -119,6 +125,9 @@ for (i.flt in 1:dim(AnEn.dep$analogs)[3]) {
 # Compare
 stopifnot(identical(
   as.vector(AnEn.auto$analogs[, 5, , , ]), 
+  as.vector(AnEn.man$analogs)))
+stopifnot(identical(
+  as.vector(AnEn.auto.small$analogs[, 5, , , ]), 
   as.vector(AnEn.man$analogs)))
 
 print("Rolling results are the same between automatic removal and manual removal.")

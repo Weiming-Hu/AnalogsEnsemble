@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
 project(ParallelEnsembleForecasts)
 
-set(GRAND_VERSION "3.2.6")
+set(GRAND_VERSION "3.3.0")
 message("You are building version ${GRAND_VERSION}")
 add_definitions(-D_APPVERSION="v ${GRAND_VERSION}")
 

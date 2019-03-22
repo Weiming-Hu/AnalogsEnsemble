@@ -54,6 +54,7 @@
 #' This time should be selected from the search_times field.
 #' - operational: Whether to use operational serach mode and increase the number of search times while moving forward with test times.
 #' **Operational serach times are always generated from the search_times.** 
+#' - max_num_sims: The maximum number of similarity to keep in the array. This can be used to reduce the memory requirement.
 #' 
 #' For configuration with mode 'extendedSearch': (skipping the aforementioned parameters)
 #' - mode: 'extendedSearch' indicates search the forecasts from both the current location and the nearby locations.
@@ -127,6 +128,7 @@ generateConfiguration <- function(mode, advanced = F) {
     test_times_compare = vector(mode = 'numeric', length = 0),
     search_times_compare = vector(mode = 'numeric', length = 0),
     operational = FALSE,
+    max_num_sims = -1,
     verbose = 3)
   
   if (advanced) {

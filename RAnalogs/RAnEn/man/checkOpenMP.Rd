@@ -4,7 +4,7 @@
 \alias{checkOpenMP}
 \title{RAnEn::checkOpenMP}
 \usage{
-checkOpenMP(silent = F)
+checkOpenMP(silent = T)
 }
 \arguments{
 \item{silent}{Whether to suppress output.}

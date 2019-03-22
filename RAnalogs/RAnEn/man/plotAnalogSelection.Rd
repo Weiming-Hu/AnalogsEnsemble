@@ -9,10 +9,11 @@ plotAnalogSelection(AnEn, config, i.station, i.test.day, i.flt,
   pch.unselected = 16, pch.current = 1, col.selected = "red",
   col.unselected = "lightgrey", col.reference = "black",
   col.current = "black", lty.reference = "longdash",
-  lwd.reference = 2, origin = "1970-01-01", tz = "UTC",
-  single.figure = T, mar = c(1.5, 5, 1, 1) + 0.1, omi = c(0.3, 0, 0,
-  0), use.plotly = F, hovermode = "compare", spikemode = "across",
-  spikethickness = 1, spikedash = "solid", spikecolor = "grey")
+  lwd.reference = 2, as.POSIXct = T, origin = "1970-01-01",
+  tz = "UTC", single.figure = T, mar = c(1.5, 5, 1, 1) + 0.1,
+  omi = c(0.3, 0, 0, 0), use.plotly = F, hovermode = "compare",
+  spikemode = "across", spikethickness = 1, spikedash = "solid",
+  spikecolor = "grey")
 }
 \arguments{
 \item{AnEn}{An AnEn object generated from \code{\link{generateAnalogs}}.}
@@ -46,6 +47,8 @@ plotAnalogSelection(AnEn, config, i.station, i.test.day, i.flt,
 \item{lty.reference}{The line type for the reference line.}
 
 \item{lwd.reference}{The line width for the reference line.}
+
+\item{as.POSIXct}{Whether the time information in config should be converted to R date/time.}
 
 \item{origin}{The origin for times in forecasts. This will be passed to as.POSIXct to convert
 times in forecasts to date/time objects.}
@@ -82,6 +85,12 @@ RAnEn::plotAnalogSelection visualize the selection of analog ensemble members.
 It shows how ensemble members are selected based on the similarity metrics.
 It also shows the selected forecasts for each parameter used during the
 analog generation, compared with the other unselected forecasts.
+}
+\details{
+The visualization works better when more similaries are preserved. If you don't
+see many similarity value point, you probably are using a very small max_num_sims
+in the configuration. But if it is negative or 0, then it means you simply have
+too few search data.
 }
 \author{
 Weiming Hu \email{cervone@psu.edu}
