@@ -101,8 +101,8 @@ Include dependency graph for analogGenerator.cpp:</div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:aa64ad5f0af11f122ef5266bd635462ba"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="analog_generator_8cpp.html#aa64ad5f0af11f122ef5266bd635462ba">runAnalogGenerator</a> (const string &amp;file_test_forecasts, const vector&lt; size_t &gt; &amp;test_start, const vector&lt; size_t &gt; &amp;test_count, const string &amp;file_search_forecasts, const vector&lt; size_t &gt; &amp;search_start, const vector&lt; size_t &gt; &amp;search_count, const string &amp;file_observations, const vector&lt; size_t &gt; &amp;obs_start, const vector&lt; size_t &gt; &amp;obs_count, const string &amp;file_mapping, const string &amp;file_sds, const vector&lt; size_t &gt; &amp;sds_start, const vector&lt; size_t &gt; &amp;sds_count, const string &amp;file_similarity, const string &amp;file_analogs, size_t observation_id, bool searchExtension, size_t max_neighbors, size_t num_neighbors, double distance, size_t num_members, bool quick, bool extend_observations, int time_match_mode, double max_par_nan, double max_flt_nan, vector&lt; size_t &gt; test_times_index, vector&lt; size_t &gt; search_times_index, const vector&lt; double &gt; &amp;weights, bool operational, int max_sims_entries, int verbose)</td></tr>
-<tr class="separator:aa64ad5f0af11f122ef5266bd635462ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad706efff4491879354b7f218d22f6d16"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="analog_generator_8cpp.html#ad706efff4491879354b7f218d22f6d16">runAnalogGenerator</a> (const string &amp;file_test_forecasts, const vector&lt; size_t &gt; &amp;test_start, const vector&lt; size_t &gt; &amp;test_count, const vector&lt; string &gt; &amp;files_search_forecasts, const vector&lt; size_t &gt; &amp;search_start, const vector&lt; size_t &gt; &amp;search_count, const vector&lt; string &gt; &amp;files_observations, const vector&lt; size_t &gt; &amp;obs_start, const vector&lt; size_t &gt; &amp;obs_count, const string &amp;file_mapping, const string &amp;file_sds, const vector&lt; size_t &gt; &amp;sds_start, const vector&lt; size_t &gt; &amp;sds_count, const string &amp;file_similarity, const string &amp;file_analogs, size_t observation_id, bool searchExtension, size_t max_neighbors, size_t num_neighbors, double distance, size_t num_members, bool quick, bool extend_observations, int time_match_mode, double max_par_nan, double max_flt_nan, vector&lt; size_t &gt; test_times_index, vector&lt; size_t &gt; search_times_index, const vector&lt; double &gt; &amp;weights, bool operational, int max_sims_entries, int verbose, int search_along, int obs_along)</td></tr>
+<tr class="separator:ad706efff4491879354b7f218d22f6d16"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3c04138a5bfe5d72780bb7e82a18e627"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="analog_generator_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a> (int argc, char **argv)</td></tr>
 <tr class="separator:a3c04138a5bfe5d72780bb7e82a18e627"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -135,8 +135,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="aa64ad5f0af11f122ef5266bd635462ba"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa64ad5f0af11f122ef5266bd635462ba">&#9670;&nbsp;</a></span>runAnalogGenerator()</h2>
+<a id="ad706efff4491879354b7f218d22f6d16"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad706efff4491879354b7f218d22f6d16">&#9670;&nbsp;</a></span>runAnalogGenerator()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -162,8 +162,8 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const string &amp;&#160;</td>
-          <td class="paramname"><em>file_search_forecasts</em>, </td>
+          <td class="paramtype">const vector&lt; string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>files_search_forecasts</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -180,8 +180,8 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const string &amp;&#160;</td>
-          <td class="paramname"><em>file_observations</em>, </td>
+          <td class="paramtype">const vector&lt; string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>files_observations</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -331,7 +331,19 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>verbose</em>&#160;</td>
+          <td class="paramname"><em>verbose</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>search_along</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>obs_along</em>&#160;</td>
         </tr>
         <tr>
           <td></td>

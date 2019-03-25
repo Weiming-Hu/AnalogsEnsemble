@@ -63,6 +63,7 @@ $(function() {
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="#pub-static-attribs">Static Public Attributes</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
+<a href="#pro-static-methods">Static Protected Member Functions</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="class_an_en_i_o-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -284,6 +285,12 @@ Protected Member Functions</h2></td></tr>
 <tr class="memitem:ae9c30f235b7ba990de42ad0b7decab73"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:ae9c30f235b7ba990de42ad0b7decab73"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#ae9c30f235b7ba990de42ad0b7decab73">read_vector_</a> (const netCDF::NcVar &amp;var, T *p_vals, const std::vector&lt; size_t &gt; &amp;start, const std::vector&lt; size_t &gt; &amp;count, const std::vector&lt; ptrdiff_t &gt; &amp;stride, const size_t &amp;total) const</td></tr>
 <tr class="separator:ae9c30f235b7ba990de42ad0b7decab73"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-static-methods"></a>
+Static Protected Member Functions</h2></td></tr>
+<tr class="memitem:a7dffd9884d040ae2b3872920f43562ed"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a7dffd9884d040ae2b3872920f43562ed"><td class="memTemplItemLeft" align="right" valign="top">static <a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_an_en_i_o.html#a7dffd9884d040ae2b3872920f43562ed">compareNewDimensions</a> (const std::vector&lt; size_t &gt; &amp;same_dimensions, T *new_shape, T *expected_shape, int verbose)</td></tr>
+<tr class="separator:a7dffd9884d040ae2b3872920f43562ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -1380,6 +1387,56 @@ Protected Attributes</h2></td></tr>
   </td>
   <td class="mlabels-right">
 <span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7dffd9884d040ae2b3872920f43562ed"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7dffd9884d040ae2b3872920f43562ed">&#9670;&nbsp;</a></span>compareNewDimensions()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEnIO::compareNewDimensions </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; size_t &gt; &amp;&#160;</td>
+          <td class="paramname"><em>same_dimensions</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">T *&#160;</td>
+          <td class="paramname"><em>new_shape</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">T *&#160;</td>
+          <td class="paramname"><em>expected_shape</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>verbose</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">protected</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">

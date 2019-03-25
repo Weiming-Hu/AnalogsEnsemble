@@ -9,6 +9,9 @@ sidebar_link: true
 
 - Add parameters to restrict the number of similarities to keep. This can be very helpful to reduce the memory required. The C++ parameter is `max-num-sims` and the R parameter is `max_num_sims`.
 - Change package name from `Parallel Ensemble Forecast` to `Parallel Analog Ensemble`.
+- `similarityCalculator`, `analogSelector`, `analogGenerator` now accept multiple configuration files.
+- Add `along` parameter check to `AnEnIO`.
+- 'analogGenerator' accepts multiple search forecast and observation files.
 
 # PAnEn 3.2.6
 

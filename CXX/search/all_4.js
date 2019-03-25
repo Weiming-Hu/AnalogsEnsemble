@@ -25,6 +25,7 @@ var searchData=
   ['commonexefunctions',['CommonExeFunctions',['../namespace_common_exe_functions.html',1,'']]],
   ['commonexefunctions_2eh',['CommonExeFunctions.h',['../_common_exe_functions_8h.html',1,'']]],
   ['compare',['compare',['../classanen_par_1_1_parameter.html#ac7bf17c016c65c6eba495a75cacf5431',1,'anenPar::Parameter']]],
+  ['comparenewdimensions',['compareNewDimensions',['../class_an_en_i_o.html#a7dffd9884d040ae2b3872920f43562ed',1,'AnEnIO']]],
   ['compute_5fsingle_5fsimilarity_5f',['compute_single_similarity_',['../class_an_en.html#a9b2132b93af1850fe2a6cb358936ea19',1,'AnEn']]],
   ['computeobservationstimeindices',['computeObservationsTimeIndices',['../class_functions.html#a9a048b9f4f9abad077069e2398b1d9ce',1,'Functions']]],
   ['computesearchstations',['computeSearchStations',['../class_an_en.html#ad8be9b16b5e5e1cf30f61b4ecac2faee',1,'AnEn']]],
