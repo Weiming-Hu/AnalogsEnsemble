@@ -15,7 +15,7 @@
     * [C++ PAnEn](#c-panen)
     * [RAnEn](#ranen)
             * [One-Line Solution](#one-line-solution)
-            * [Solutionf for a Specific Version](#solutionf-for-a-specific-version)
+            * [Solution for a Specific Version](#solution-for-a-specific-version)
     * [CMake Tunable Parameters Look-up](#cmake-tunable-parameters-look-up)
 * [References](#references)
 * [Known Issues](#known-issues)
@@ -132,7 +132,7 @@ The following R command installs the latest version of `RAnEn`.
 install.packages("https://github.com/Weiming-Hu/AnalogsEnsemble/raw/master/RAnalogs/releases/RAnEn_latest.tar.gz", repos = NULL)
 ```
 
-##### Solutionf for a Specific Version
+##### Solution for a Specific Version
 
 If you want to install a specific version of `RAnEn`, you can go to the [release folder](https://github.com/Weiming-Hu/AnalogsEnsemble/tree/master/RAnalogs/releases), copy the full name of the tarball file, replace the following part `[tarball name]` (including the square bracket) with it, and run the command in R.
 

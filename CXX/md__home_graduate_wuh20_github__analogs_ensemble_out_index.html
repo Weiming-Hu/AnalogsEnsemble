@@ -73,7 +73,7 @@ $(function() {
 <li><a href="#c-panen">C++ PAnEn</a></li>
 <li><a href="#ranen">RAnEn</a><ul>
 <li><a href="#one-line-solution">One-Line Solution</a></li>
-<li><a href="#solutionf-for-a-specific-version">Solutionf for a Specific Version</a></li>
+<li><a href="#solution-for-a-specific-version">Solution for a Specific Version</a></li>
 </ul>
 </li>
 <li><a href="#cmake-tunable-parameters-look-up">CMake Tunable Parameters Look-up</a></li>
@@ -131,7 +131,7 @@ $(function() {
 <p>If your operating system is <code>Windows</code>, please also install <a href="https://cran.r-project.org/bin/windows/Rtools/">Rtools</a>.</p>
 <h5>One-Line Solution</h5>
 <p>The following R command installs the latest version of <code>RAnEn</code>.</p>
-<div class="fragment"><div class="line"># Read more if OpenMP is not supported</div><div class="line">#</div><div class="line">install.packages(&quot;https://github.com/Weiming-Hu/AnalogsEnsemble/raw/master/RAnalogs/releases/RAnEn_latest.tar.gz&quot;, repos = NULL)</div></div><!-- fragment --><h5>Solutionf for a Specific Version</h5>
+<div class="fragment"><div class="line"># Read more if OpenMP is not supported</div><div class="line">#</div><div class="line">install.packages(&quot;https://github.com/Weiming-Hu/AnalogsEnsemble/raw/master/RAnalogs/releases/RAnEn_latest.tar.gz&quot;, repos = NULL)</div></div><!-- fragment --><h5>Solution for a Specific Version</h5>
 <p>If you want to install a specific version of <code>RAnEn</code>, you can go to the <a href="https://github.com/Weiming-Hu/AnalogsEnsemble/tree/master/RAnalogs/releases">release folder</a>, copy the full name of the tarball file, replace the following part <code>[tarball name]</code> (including the square bracket) with it, and run the command in R.</p>
 <div class="fragment"><div class="line"># Read more if OpenMP is not supported</div><div class="line">#</div><div class="line">install.packages(&quot;https://github.com/Weiming-Hu/AnalogsEnsemble/raw/master/RAnalogs/releases/[tarball name]&quot;, repos = NULL)</div></div><!-- fragment --><p><b>If <code>Openmp</code> multithreading is not supported</b>, or if you simply want to use a different compiler, please create a <code>Makevars</code> file under <code>~/.R</code>, with the following content.</p>
 <div class="fragment"><div class="line">CXX1X=[C++11 compiler]</div><div class="line"></div><div class="line"># required on Mac OS</div><div class="line">CXX11=[C++11 compiler]</div></div><!-- fragment --><h3>CMake Tunable Parameters Look-up</h3>

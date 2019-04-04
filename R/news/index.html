@@ -58,7 +58,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAnEn</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">3.3.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">3.3.1</span>
       </span>
     </div>
 
@@ -96,11 +96,28 @@
       
     </div>
 
+    <div id="panen-3-3-1" class="section level1">
+<h1 class="page-header">
+<a href="#panen-3-3-1" class="anchor"></a>PAnEn 3.3.1</h1>
+<ul>
+<li>Fix an indexing bug in <code>RAnEn</code> operational mode.</li>
+<li>Fix a parallelization bug in the internal verification function <code>anen.mean</code>.</li>
+<li>‘analogGenerator’ accepts multiple test forecast files.</li>
+<li>Add partial reading feature in <code>fileAggregate</code> for <code>Similarity</code> and <code>Analogs</code>.</li>
+<li>Improve efficiency of verification functions. Some missing functions have been resolved.</li>
+</ul>
+</div>
     <div id="panen-3-3-0" class="section level1">
 <h1 class="page-header">
 <a href="#panen-3-3-0" class="anchor"></a>PAnEn 3.3.0</h1>
 <ul>
 <li>Add parameters to restrict the number of similarities to keep. This can be very helpful to reduce the memory required. The C++ parameter is <code>max-num-sims</code> and the R parameter is <code>max_num_sims</code>.</li>
+<li>Change package name from <code>Parallel Ensemble Forecast</code> to <code>Parallel Analog Ensemble</code>.</li>
+<li>
+<code>similarityCalculator</code>, <code>analogSelector</code>, <code>analogGenerator</code> now accept multiple configuration files.</li>
+<li>Add <code>along</code> parameter check to <code>AnEnIO</code>.</li>
+<li>‘analogGenerator’ accepts multiple search forecast and observation files.</li>
+<li>Add parallelization to verification functions.</li>
 </ul>
 </div>
     <div id="panen-3-2-6" class="section level1">
@@ -242,6 +259,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#panen-3-3-1">3.3.1</a></li>
         <li><a href="#panen-3-3-0">3.3.0</a></li>
         <li><a href="#panen-3-2-6">3.2.6</a></li>
         <li><a href="#panen-3-2-5">3.2.5</a></li>

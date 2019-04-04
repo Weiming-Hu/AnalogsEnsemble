@@ -5,6 +5,14 @@ sidebar_link: true
 ---
 
 
+# PAnEn 3.3.1
+
+- Fix an indexing bug in `RAnEn` operational mode.
+- Fix a parallelization bug in the internal verification function `anen.mean`.
+- 'analogGenerator' accepts multiple test forecast files.
+- Add partial reading feature in `fileAggregate` for `Similarity` and `Analogs`.
+- Improve efficiency of verification functions. Some missing functions have been resolved.
+
 # PAnEn 3.3.0
 
 - Add parameters to restrict the number of similarities to keep. This can be very helpful to reduce the memory required. The C++ parameter is `max-num-sims` and the R parameter is `max_num_sims`.
@@ -12,6 +20,7 @@ sidebar_link: true
 - `similarityCalculator`, `analogSelector`, `analogGenerator` now accept multiple configuration files.
 - Add `along` parameter check to `AnEnIO`.
 - 'analogGenerator' accepts multiple search forecast and observation files.
+- Add parallelization to verification functions.
 
 # PAnEn 3.2.6
 
