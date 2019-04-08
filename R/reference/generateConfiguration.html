@@ -174,6 +174,7 @@ This time should be selected from the search_times field.</p></li>
 <li><p>operational: Whether to use operational serach mode and increase the number of search times while moving forward with test times.
 <strong>Operational serach times are always generated from the search_times.</strong></p></li>
 <li><p>max_num_sims: The maximum number of similarity to keep in the array. This can be used to reduce the memory requirement.</p></li>
+<li><p>FLT_radius: The radius for comparing a parameter along lead times. This specifies how many prior and subsequent lead times to compare. Must be non-negative.</p></li>
 </ul>
     <p>For configuration with mode 'extendedSearch': (skipping the aforementioned parameters)</p><ul>
 <li><p>mode: 'extendedSearch' indicates search the forecasts from both the current location and the nearby locations.</p></li>

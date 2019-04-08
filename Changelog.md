@@ -12,6 +12,7 @@ sidebar_link: true
 - 'analogGenerator' accepts multiple test forecast files.
 - Add partial reading feature in `fileAggregate` for `Similarity` and `Analogs`.
 - Improve efficiency of verification functions. Some missing functions have been resolved.
+- Add `FLT_radius` parameter to `RAnEn`
 
 # PAnEn 3.3.0
 
