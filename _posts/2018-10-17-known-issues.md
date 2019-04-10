@@ -5,6 +5,45 @@ tags:
   - issue
 ---
 
+<!-- vim-markdown-toc GitLab -->
+
+* [`RAnEn` Installation Failed on Mac OS Mojave](#ranen-installation-failed-on-mac-os-mojave)
+* [`NetBeans` does not recognize the executables after building the C++ programs.](#netbeans-does-not-recognize-the-executables-after-building-the-c-programs)
+* [`RAnEn` is built with GNU compiler and CMake process. But it shows up not supporting `OpenMP`.](#ranen-is-built-with-gnu-compiler-and-cmake-process-but-it-shows-up-not-supporting-openmp)
+* [Linking errors when building the C++ library during the second time.](#linking-errors-when-building-the-c-library-during-the-second-time)
+* [How do I make sure whether `OpenMP` is supported.](#how-do-i-make-sure-whether-openmp-is-supported)
+* [Compilation failure on Windows](#compilation-failure-on-windows)
+* [Dynamic linking error on MacOS.](#dynamic-linking-error-on-macos)
+
+<!-- vim-markdown-toc -->
+
+#### `RAnEn` Installation Failed on Mac OS Mojave
+
+If you are installing `RAnEn` on Mac OS Mojave and you receive the following error messages:
+
+```
+* installing to library ‘/Users/wuh20/Library/R/3.5/library’
+* installing *source* package ‘RAnEn’ ...
+Checking whether R_HOME is already set? R_HOME = /usr/local/Cellar/r/3.5.1/lib/R
+checking whether the C++ compiler works... yes
+checking for C++ compiler default output file name... a.out
+checking for suffix of executables... 
+checking whether we are cross compiling... configure: error: in `/Users/wuh20/github/AnalogsEnsemble/RAnalogs/sea2019/RAnEn':
+configure: error: cannot run C++ compiled programs.
+If you meant to cross compile, use `--host'.
+See `config.log' for more details
+ERROR: configuration failed for package ‘RAnEn’
+* removing ‘/Users/wuh20/Library/R/3.5/library/RAnEn’
+* restoring previous ‘/Users/wuh20/Library/R/3.5/library/RAnEn’
+```
+
+It is highly possible that you need to update your `Xcode` and run some configuration setup. The two steps should fix this:
+
+- Open `Xcode` and it will probably notify you and ask whether you want to update the version.
+- You should have a package file at `/Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg`. Run this package to set up the environment properly.
+
+You should be good to go for the installation. There is also [a ticket for this issue](https://github.com/Weiming-Hu/AnalogsEnsemble/issues/13) for more details.
+
 #### `NetBeans` does not recognize the executables after building the C++ programs.
 
 With Linux, by default, the GCC compiler will compile executable shared libraries that act like executables to a user, but `NetBeans` will not recognize this type. To resolve this issue with `NetBeans`,  add `-no-pie` to the `CMAKE_CXX_FLAGS` or/and `CMAKE_C_FLAGS` depending on which compiler is used.
@@ -47,4 +86,3 @@ Abort trap: 6
 ```
 
 I can normally get away from this by specifying `-DCMAKE_MACOSX_RPATH=ON` for `cmake` and then recompile everything.
-
