@@ -40,7 +40,10 @@ ERROR: configuration failed for package ‘RAnEn’
 It is highly possible that you need to update your `Xcode` and run some configuration setup. The two steps should fix this:
 
 - Open `Xcode` and it will probably notify you and ask whether you want to update the version.
-- You should have a package file at `/Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg`. Run this package to set up the environment properly.
+- You should find and run the following package file to set up the environment properly.
+```
+/Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg
+```
 
 You should be good to go for the installation. There is also [a ticket for this issue](https://github.com/Weiming-Hu/AnalogsEnsemble/issues/13) for more details.
 
