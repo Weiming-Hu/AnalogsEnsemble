@@ -1,0 +1,38 @@
+cmake_minimum_required (VERSION 2.8)
+project (Boost_program_options)
+enable_language (CXX)
+
+set (LIBRARY_NAME "program_options")
+
+file (GLOB SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
+
+include_directories ("include")
+
+# add Boost minimal_boost
+string (REPLACE ${LIBRARY_NAME} "minimal_boost" LIBRARY_MINIMALBOOST ${CMAKE_CURRENT_SOURCE_DIR})
+if (EXISTS "${LIBRARY_MINIMALBOOST}/boost")
+    include_directories (SYSTEM "${LIBRARY_MINIMALBOOST}")
+else ()
+    message (FATAL_ERROR "ERROR: Cannot find Boost minimal_boost library!")
+endif ()
+
+if (CMAKE_BUILD_TYPE STREQUAL "Release")
+    # because there are some files that are designed for Windows
+    # when you are compiling these files on Mac using runlib to link the library
+    # it gives you the warning message that the library has no symbol
+    # this should not be a problem
+    # So we disable the warning message
+    #
+    set (CMAKE_C_ARCHIVE_CREATE   "<CMAKE_AR> Scr <TARGET> <LINK_FLAGS> <OBJECTS>")
+    set (CMAKE_CXX_ARCHIVE_CREATE "<CMAKE_AR> Scr <TARGET> <LINK_FLAGS> <OBJECTS>")
+
+    #set (CMAKE_C_ARCHIVE_FINISH "<CMAKE_RANLIB> -no_warning_for_no_symbols <TARGET>")
+    #set (CMAKE_CXX_ARCHIVE_FINISH "<CMAKE_RANLIB> -no_warning_for_no_symbols <TARGET>")
+endif (CMAKE_BUILD_TYPE STREQUAL "Release")
+
+#add_library(${LIBRARY_NAME} STATIC ${SOURCES})
+add_library(${LIBRARY_NAME} SHARED ${SOURCES})
+
+# Copy library and headers to destination
+install(TARGETS ${LIBRARY_NAME} LIBRARY DESTINATION "${DEPENDENCY_PATH}/install/lib")
+install(DIRECTORY "include" DESTINATION "${DEPENDENCY_PATH}/install")

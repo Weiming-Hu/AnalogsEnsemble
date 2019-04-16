@@ -1,0 +1,126 @@
+---
+title: "Demo 3: Analog Ensemble with Operational Search"
+author: "Weiming Hu"
+date: "February 12, 2019"
+output: html_document
+# output:
+#   md_document:
+#     variant: markdown_github
+---
+
+```{r setup, include=FALSE}
+library(RAnEn)
+library(maps)
+
+stopifnot(packageVersion('RAnEn')>="3.2.5")
+```
+
+## Introduction
+
+The prediction accuracy of Analog Ensemble depends on the quality of analogs. Presumably, better analogs will generate better predictions. In real-time model operation, when historical forecasts increasing and the test forecast moving forward in time, it is most likely that the historical forecasts in the near past are the most similar ones. Therefore, in an operational prediction mode, it is desired to increment the search forecasts when test forecasts are moving towards the future.
+
+This article shows an example of how to use `RAnEn` with an operational search. It is strongly suggested to go over the [demo 1](https://weiming-hu.github.io/AnalogsEnsemble/2018/11/04/demo-1-RAnEn-basics.html) prior to this tutorial.
+
+
+## Data Description
+
+Same data are used from the [demo 1](https://weiming-hu.github.io/AnalogsEnsemble/2018/11/04/demo-1-RAnEn-basics.html).
+
+```{r}
+file.name <- 'data-NAM-StateCollege.RData'
+# file.name <- 'data-NAM-Denver.RData'
+
+if (!file.exists(file.name)) {
+  cat('Downloading from the data server which might be slow ...\n')
+  download.file(url = paste('https://prosecco.geog.psu.edu/', file.name, sep = ''),
+                destfile = file.name)
+}
+
+load(file.name)
+rm(file.name)
+
+print(ls())
+```
+
+## Generate Temperature Forecasts
+
+When generating forecasts with an operational search, we need to pay attention to two sets of configuration parameters:
+
+- `test_times` and `search_times`: These two parameters are the complete and the largest sets of test/search times that will be possibly generated and used. And these two parameters should be consistent with the number of times in test/search forecasts.
+- `test_times_compare` and `search_times_compare`: These two parameters are the actual test/search times that will be compared and simialrity will be generated for each combination of `test_times_compare` and `search_search_compare`.
+
+If you don't understand any of the options or you want to check out the full list of options available, please check the
+document for [RAnEn::generateConfiguration](https://weiming-hu.github.io/AnalogsEnsemble/R/reference/generateConfiguration.html).
+
+```{r}
+# We use independent search configuration.
+config <- generateConfiguration('independentSearch')
+
+# Set up options
+test.start <- 366
+test.end <- 372
+search.start <- 1
+
+# Note that our search time covers the test times.
+# The operational mode will automatically determine
+# search times for each test time
+search.end <- test.end
+
+config$forecasts <- forecasts$Data
+config$forecast_times <- forecasts$Times
+config$flts <- forecasts$FLTs
+
+config$search_observations <- observations$Data
+config$observation_times <- observations$Times
+
+config$num_members <- 19
+
+# In this tutorial, I'm going to allow any number of NAN records
+# during similairty calculation.
+config$max_flt_nan <- -1
+config$max_par_nan <- -1
+
+# Keep the similairty values
+config$preserve_similarity <- T
+
+# A negative similarity count means all of the similairty records
+config$max_num_sims <- -1
+
+# Set circular variable if there is any
+if ('ParameterCirculars' %in% names(forecasts)) {
+  config$circulars <- unlist(lapply(forecasts$ParameterCirculars, function(x) {
+    return(which(x == forecasts$ParameterNames))}))
+}
+
+# Set up test and search times
+config$test_times_compare <- forecasts$Times[test.start:test.end]
+config$search_times_compare <- forecasts$Times[search.start:search.end]
+
+# Don't forget to trigger the operational search
+config$operational <- T
+```
+
+We then generate analogs. This can take a while. On my Mac Air, it takes about 4 minutes.
+
+```{r}
+AnEn.opr <- generateAnalogs(config)
+```
+
+## Check Search Space for Operational Mode
+
+If we take a close look at the analog members of operational search. The search times of the operational search for test times are different, actually increasing. This is indeed the results from the operational search.
+
+```{r}
+test.times <- as.POSIXct(config$test_times_compare, origin = '1970-01-01', tz = 'UTC')
+fcst.times <- as.POSIXct(forecasts$Times, origin = '1970-01-01', tz = 'UTC')
+
+i.test.day <- 1
+cat('The search time range for', format(test.times[i.test.day], format = '%Y/%m/%d'), ':', 
+    format(range(fcst.times[AnEn.opr$similarity[1, i.test.day, 1, , 3]], na.rm = T), format = '%Y/%m/%d'),
+    ' Total count:', length(which(!is.na(AnEn.opr$similarity[1, i.test.day, 1, , 3]))), '\n')
+
+i.test.day <- 2
+cat('The search time range for', format(test.times[i.test.day], format = '%Y/%m/%d'), ':', 
+    format(range(fcst.times[AnEn.opr$similarity[1, i.test.day, 1, , 3]], na.rm = T), format = '%Y/%m/%d'),
+    ' Total count:', length(which(!is.na(AnEn.opr$similarity[1, i.test.day, 1, , 3]))), '\n')
+```

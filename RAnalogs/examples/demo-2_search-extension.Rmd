@@ -1,0 +1,275 @@
+---
+title: "Demo 2: Analog Ensemble with Search Space Extension"
+author: "Weiming Hu"
+date: "November 24, 2018"
+output: html_document
+# output:
+#   md_document:
+#     variant: markdown_github
+---
+  
+```{r setup, include=F}
+library(RAnEn)
+library(maps)
+
+stopifnot(packageVersion('RAnEn')>="3.2.5")
+```
+
+## Introduction
+
+This article demonstrate how to use the `RAnEn` package with the search extension functionality. If you haven't done so, please read [the instructions for basic usage of `RAnEn`](https://weiming-hu.github.io/AnalogsEnsemble/2018/11/04/demo-1-RAnEn-basics.html) first. This article skips the part that has been covered in the previous article.
+
+The classic `AnEn` algorithm searches for the most similar historical foreasts at its current location. Therefore, only forecasts from the current station/grid point will be traversed and compared. This search style is referred to as the *independent search*. Another possible search style is *extended search*, which is also referred to as *search space extension*. It simply indicates that forecasts at nearby stations/grid points are included in the search process. As a result, the search space is significantly larger by using the search space extension.
+
+There are currently two ways to define what nearby locations to be included into the search. Users can set the nearest number of neighbors to be included or a distance threshold. Two restraints can be used together.
+
+You will learn how to use these functions:
+
+- `generateAnalogs`
+
+## Data Description
+
+We reuse the data from the [demo 1 AnEn Basics](https://weiming-hu.github.io/AnalogsEnsemble/2018/11/04/demo-1-RAnEn-basics.html). Please refer to the article for more detailed data description. The message shows the name of variables loaded.
+
+```{r}
+file.name <- 'data-NAM-StateCollege.RData'
+# file.name <- 'data-NAM-Denver.RData'
+# file.name <- 'data-METAR-CONUS.Rdata'
+
+if (!file.exists(file.name)) {
+  cat('Downloading from the data server which might be slow ...\n')
+  download.file(url = paste('https://prosecco.geog.psu.edu/', file.name, sep = ''),
+                destfile = file.name)
+}
+
+load(file.name)
+rm(file.name)
+
+print(ls())
+```
+
+## Generate Temperature Forecasts
+
+It is similar to generate AnEn forecasts with search space extension functionaltiy. First, we create a configuration and set up some common parameters to what we have done for independent search. **Please note that we specify the type of configuration when we create it**.
+
+If you don't understand any of the options or you want to check out the full list of options available, please check the
+document for [RAnEn::generateConfiguration](https://weiming-hu.github.io/AnalogsEnsemble/R/reference/generateConfiguration.html).
+
+```{r}
+# We use independent search configuration.
+config <- generateConfiguration('extendedSearch')
+
+# Set up options
+test.start <- 366
+test.end <- 372
+search.start <- 1
+search.end <- 365
+
+# Set up forecasts and time, FLT information
+config$forecasts <- forecasts$Data
+config$forecast_times <- forecasts$Times
+config$flts <- forecasts$FLTs
+
+# Set up observations and time information
+config$search_observations <- observations$Data
+config$observation_times <- observations$Times
+
+# Set up other parameters
+config$num_members <- sqrt(search.end - search.start + 1)
+config$verbose <- 3
+
+# Set up predictand id and predictor weights
+config$observation_id <- 8
+config$weights <- c(1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1)
+
+# Set up test times
+config$test_times_compare <- forecasts$Times[test.start:test.end]
+
+# Set up search times
+config$search_times_compare <- forecasts$Times[search.start:search.end]
+
+# Set circular variable if there is any
+if ('ParameterCirculars' %in% names(forecasts)) {
+  config$circulars <- unlist(lapply(forecasts$ParameterCirculars, function(x) {
+    return(which(x == forecasts$ParameterNames))}))
+}
+```
+
+Now that we have set up the basic parameters, we need to set up the parameters for search space extension. A list of parameters that should be set is shown below:
+
+- forecast_stations_x
+- forecast_stations_y
+- num_nearest
+- distance
+- extend_observations
+- max_num_search_stations
+- preserve_search_stations
+
+The first four parameters specify the locations of search and test stations/grid points. The unit is ambiguous unless it is consistent. It is user defined. It can be meters or lat/lon unless it remains the same for all four parameters. No projection is imposed by the package. Therefore any geographic projection should be done prior to the AnEn computation. `num_nearest` is the number of neighbors that should be included into the search space. `distance` is the threshold to include nearby stations. Similarly, the unit of the distance should be consistent with locations. `max_num_search_stations` is an estimated maximum number of nearby stations that could possibily be found. If you are using `num_nearest`, it is a good practice to set `max_num_search_stations` to the same as `num_nearest`. If you are only using `distance`, there is a possibility that too many nearby stations/grid points are found within this distance and there is not enough memory to store all the search data. User should be responsible to provide an upper limit for how many stations should be included for search. In this sense, `max_num_search_stations` is similar to `num_nearest` but `max_num_search_stations` is an optimization parameter and `num_nearest` is a utility parameter. The last parameter `preserve_search_stations` indicates whether to save the search stations in the returned result.
+
+Once we understand the parameters, we set these parameters.
+
+```{r}
+# Set up coordinates for forecast stations.
+# Change the range of x to [-180, 180] for visualization purpose,
+#
+config$forecast_stations_x <- forecasts$Xs - 360
+config$forecast_stations_y <- forecasts$Ys
+
+# Let's use the distance. The unit is in degree.
+config$num_nearest <- 9
+
+# Let the package return the search stations for each test station
+config$preserve_search_stations <- T
+```
+
+Similar to the [RAnEn basic tutorial](https://weiming-hu.github.io/AnalogsEnsemble/2018/11/04/demo-1-RAnEn-basics.html) we can generate AnEn. This might take a while. On my Mac Air, it takes about 3 minutes.
+
+```{r}
+AnEn <- generateAnalogs(config)
+```
+
+By now we have our AnEn forecasts. Note that we have the search stations stored in the returned result.
+
+```{r}
+AnEn
+```
+
+Take a look at the members and where they are selected from based on the second and the third columns. If you are not sure what each column is for, please look at documentation for `RAnEn::generateAnalogs`.
+
+```{r}
+AnEn$analogs[10, 1, 7, , ]
+```
+
+
+## Verification
+
+Finally, let's collect the AnEn forecast values and the corresponding observations.
+
+```{r}
+# Collect analog ensemble values
+anen <- AnEn$analogs[, , , , 1]
+
+# Collect observations for the test period and the forecasted weather variable
+obs <- alignObservations(observations$Data, observations$Times,
+                         config$test_times_compare, config$flts,
+                         silent = T, show.progress = F)
+obs <- obs[config$observation_id, , , ]
+```
+
+Then we can generate the same verification statistics, and see how AnEn is performing. You can also compare this with results from [the AnEn basic tutorial](https://weiming-hu.github.io/AnalogsEnsemble/2018/11/04/demo-1-RAnEn-basics.html), and see how they are different.
+
+``` {r}
+# Generate verification metrics
+ret.MAE <- verifyMAE(anen, obs)
+ret.RMSE <- verifyRMSE(anen, obs)
+ret.Bias <- verifyBias(anen, obs)
+ret.RH <- verifyRankHist(anen, obs)
+
+# Let's make some figures
+par(mfrow = c(4, 1), mar = c(3, 4.5, 1, 1))
+plot(config$flts/3600, ret.MAE$flt, type = 'b', pch = 1, cex = 0.5,
+     xlab = '', ylab = 'MAE')
+plot(config$flts/3600, ret.RMSE$flt, type = 'b', pch = 1, cex = 0.5,
+     xlab = '', ylab = 'RMSE')
+plot(config$flts/3600, ret.Bias$flt, type = 'b', pch = 1, cex = 0.5,
+     xlab = 'Lead Times (h)', ylab = 'Bias')
+barplot(ret.RH$rank, ylab = 'Rank Frequency')
+```
+
+The following code generates a map showing the search stations of a particular test station. Search stations that contain the most similar forecasts are marked differently from the other search stations.
+
+```{r}
+# Select a test location of which the search locations will be shown.
+test.station.index <- 1
+day.index <- 1
+flt.index <- 7
+
+# Parameters for plot
+cex <- 1
+offset <- 10
+label.size <- .8
+title <- 'Search Space Demo'
+
+# Get the selected stations from ensemble members
+selected.stations <- unique(
+  AnEn$analogs[test.station.index, day.index, flt.index, , 2])
+
+# plot different types of stations together
+par(mfrow = c(1, 1))
+
+# Plot all forecast stations
+plot(config$forecast_stations_x, config$forecast_stations_y, xlab = 'x', ylab = 'y',
+     main = title, pch = 19, cex = cex/2, col = 'grey', asp=1)
+
+# Plot a base map
+map('county', col = 'grey', add = T)
+
+# Plot search stations for the current test station
+points(config$forecast_stations_x[AnEn$searchStations[, test.station.index]],
+       config$forecast_stations_y[AnEn$searchStations[, test.station.index]],
+       pch = 19, cex = cex, col = 'green')
+
+# Plot the test station
+points(config$forecast_stations_x[test.station.index],
+       config$forecast_stations_y[test.station.index],
+       pch = 8, cex = cex, col = 'red')
+
+# Plot the search stations that have contribution to the analog ensemble
+points(config$forecast_stations_x[selected.stations],
+       config$forecast_stations_y[selected.stations],
+       cex = cex*1.6, col = 'red')
+
+if (config$distance > 0) {
+  coords <- generateCircleCoords(
+    x = config$forecast_stations_x[test.station.index],
+    y = config$forecast_stations_y[test.station.index],
+    radius = config$distance, np = 100)
+  
+  points(coords, cex = .1, pch = 19)
+}
+
+legend('top', legend = c('grid point', 'search', 'test', 'selected'),
+       pch = c(19, 19, 8 , 1), col = c('grey', 'green', 'red', 'red'), horiz = T)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
