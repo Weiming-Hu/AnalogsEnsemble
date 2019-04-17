@@ -1,5 +1,5 @@
 ---
-title: "SEA_HandsOnExercise"
+title: "Demo 4: 2019 SEA Conference Hands-On Workshop"
 author: "Laura Clemente-Harding and Weiming Hu"
 date: "4/5/2019"
 output: html_document
