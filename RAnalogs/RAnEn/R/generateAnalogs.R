@@ -38,7 +38,7 @@
 #' forecasts to the time in observations. For negative values in the member time
 #' index column for analogs and similarity, please refer to
 #' [AnEn::selectAnalogs](https://weiming-hu.github.io/AnalogsEnsemble/CXX/class_an_en.html#a8e2b88cda5cc9fce8ea4703a3236719c) 
-#' and [AnEn::computeSimilarity](https://weiming-hu.github.io/AnalogsEnsemble/CXX/class_an_en.html#ad032b4a80d86c6c31ef26a3eb381cb5d).
+#' and [AnEn::computeSimilarity](https://weiming-hu.github.io/AnalogsEnsemble/CXX/class_an_en.html#a787e43e7bfdaa830bf70fa6710731614).
 #' 
 #' @import Rcpp BH
 #' 

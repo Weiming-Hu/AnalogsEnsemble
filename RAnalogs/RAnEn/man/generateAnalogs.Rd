@@ -26,7 +26,7 @@ member \strong{searchStations} stores the search station index. The list member
 forecasts to the time in observations. For negative values in the member time
 index column for analogs and similarity, please refer to
 \href{https://weiming-hu.github.io/AnalogsEnsemble/CXX/class_an_en.html#a8e2b88cda5cc9fce8ea4703a3236719c}{AnEn::selectAnalogs}
-and \href{https://weiming-hu.github.io/AnalogsEnsemble/CXX/class_an_en.html#ad032b4a80d86c6c31ef26a3eb381cb5d}{AnEn::computeSimilarity}.
+and \href{https://weiming-hu.github.io/AnalogsEnsemble/CXX/class_an_en.html#a787e43e7bfdaa830bf70fa6710731614}{AnEn::computeSimilarity}.
 }
 \description{
 RAnEn::generateAnalogs returns the generated analog ensembles with either

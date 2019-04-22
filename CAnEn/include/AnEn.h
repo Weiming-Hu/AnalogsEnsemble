@@ -99,17 +99,22 @@ public:
     /**
      * Computes the similarity matrices.
      * 
-     * If max_sims_entries is set to a negative number (by default) and then
+     * If max_sims_entries is set to a negative number and then
      * a particular similarity value is NAN, you can inspect the reason for this value
-     * being NAN by looking at the time index column. The value can
-     * be any one from the following list:
+     * being NAN by looking at the time index column. Be careful, if max_sims_entries
+     * is set to a non-negative value, this method would not work.
+     *
+     * The time index column can be any one from the following list:
      *     - -1: Cannot find the corresponding observation time. Mapping entry is NAN.
      *     - -2: Search forecast excluded because it overlaps with the current test
      *     foreacst.
      *     - NAN: Noun of the above. This can be caused by a numebr of reaons: 1)
-     *     the search station is NAN; 2) The observation associated with this
-     *     historical forecast is NAN; 3) too many NAN parameters when computing
-     *     the similarity and averaging across FLTs and multiple parameters.
+     *     the search station is NAN; 2) If the station index column is a valid value, 
+     *     the NA is caused by the observation associated with this
+     *     historical forecast being NAN or ; 3) too many NAN parameters when computing
+     *     the similarity and averaging across FLTs and multiple parameters (for this
+     *     specific case, you can set the max_flt_nan and max_par_nan to allow more
+     *     NA values during comparison.).
      *
      * The debug numbers do not apply to cases when max_sims_entries is used and
      * set to a positive number.
