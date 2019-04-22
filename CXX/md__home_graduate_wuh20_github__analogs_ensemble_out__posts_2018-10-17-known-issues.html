@@ -64,6 +64,23 @@ $(function() {
 <div class="contents">
 <div class="textblock"><hr/>
 <p> layout: post title: Known Issues tags: </p><h2>- issue </h2>
+<ul>
+<li><a href="#ranen-installation-failed-on-mac-os-mojave"><code>RAnEn</code> Installation Failed on Mac OS Mojave</a></li>
+<li><a href="#netbeans-does-not-recognize-the-executables-after-building-the-c-programs"><code>NetBeans</code> does not recognize the executables after building the C++ programs.</a></li>
+<li><a href="#ranen-is-built-with-gnu-compiler-and-cmake-process-but-it-shows-up-not-supporting-openmp"><code>RAnEn</code> is built with GNU compiler and CMake process. But it shows up not supporting <code>OpenMP</code>.</a></li>
+<li><a href="#linking-errors-when-building-the-c-library-during-the-second-time">Linking errors when building the C++ library during the second time.</a></li>
+<li><a href="#how-do-i-make-sure-whether-openmp-is-supported">How do I make sure whether <code>OpenMP</code> is supported.</a></li>
+<li><a href="#compilation-failure-on-windows">Compilation failure on Windows</a></li>
+<li><a href="#dynamic-linking-error-on-macos">Dynamic linking error on MacOS.</a></li>
+</ul>
+<h4><code>RAnEn</code> Installation Failed on Mac OS Mojave</h4>
+<p>If you are installing <code>RAnEn</code> on Mac OS Mojave and you receive the following error messages:</p>
+<div class="fragment"><div class="line">* installing to library ‘/Users/wuh20/Library/R/3.5/library’</div><div class="line">* installing *source* package ‘RAnEn’ ...</div><div class="line">Checking whether R_HOME is already set? R_HOME = /usr/local/Cellar/r/3.5.1/lib/R</div><div class="line">checking whether the C++ compiler works... yes</div><div class="line">checking for C++ compiler default output file name... a.out</div><div class="line">checking for suffix of executables... </div><div class="line">checking whether we are cross compiling... configure: error: in `/Users/wuh20/github/AnalogsEnsemble/RAnalogs/sea2019/RAnEn&#39;:</div><div class="line">configure: error: cannot run C++ compiled programs.</div><div class="line">If you meant to cross compile, use `--host&#39;.</div><div class="line">See `config.log&#39; for more details</div><div class="line">ERROR: configuration failed for package ‘RAnEn’</div><div class="line">* removing ‘/Users/wuh20/Library/R/3.5/library/RAnEn’</div><div class="line">* restoring previous ‘/Users/wuh20/Library/R/3.5/library/RAnEn’</div></div><!-- fragment --><p>It is highly possible that you need to update your <code>Xcode</code> and run some configuration setup. The two steps should fix this:</p>
+<ul>
+<li>Open <code>Xcode</code> and it will probably notify you and ask whether you want to update the version.</li>
+<li>You should find and run the following package file to set up the environment properly. <div class="fragment"><div class="line">/Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg</div></div><!-- fragment --></li>
+</ul>
+<p>You should be good to go for the installation. There is also <a href="https://github.com/Weiming-Hu/AnalogsEnsemble/issues/13">a ticket for this issue</a> for more details.</p>
 <h4><code>NetBeans</code> does not recognize the executables after building the C++ programs.</h4>
 <p>With Linux, by default, the GCC compiler will compile executable shared libraries that act like executables to a user, but <code>NetBeans</code> will not recognize this type. To resolve this issue with <code>NetBeans</code>, add <code>-no-pie</code> to the <code>CMAKE_CXX_FLAGS</code> or/and <code>CMAKE_C_FLAGS</code> depending on which compiler is used.</p>
 <p>Some references include <a href="https://www.linuxquestions.org/questions/arch-29/netbeans-will-not-recognize-build-as-executable-4175620457/">Q&amp;A 1</a>; <a href="https://askubuntu.com/questions/911538/disable-pie-and-pic-defaults-in-gcc-on-ubuntu-17-04">Q&amp;A 2</a>; <a href="http://gcc.gnu.org/onlinedocs/gcc/Link-Options.html">GCC Options for linking</a>.</p>
