@@ -1,0 +1,34 @@
+#!/bin/bash
+
+#PBS -N analog_reshape
+#PBS -A [Your project account]
+
+# Profiling shows that it takes about 2 minutes
+#PBS -l walltime=00:15:00
+
+#PBS -q regular
+#PBS -j oe
+#PBS -l select=1:ncpus=1
+#PBS -m a
+#PBS -M weiming@psu.edu
+
+# If any of the command fails, exit with error
+set -e
+
+# Output folder
+#simFolder='/glade/u/home/wuh20/work/SEA2019/similarity'
+analogFolder='/glade/u/home/wuh20/work/SEA2019/analogs'
+
+# Input folder
+configFolder='/glade/u/home/wuh20/work/SEA2019/configuration'
+
+# This variable is passed in by the batch_submit.sh script
+index=$(printf %05d $index)
+
+# echo fileAggregate -c $configFolder/sims-$index.cfg --out $simFolder/day-$index.nc -a 0 -v 4 --type Similarity
+# fileAggregate -c $configFolder/sims-$index.cfg --out $simFolder/day-$index.nc -a 0 -v 4 --type Similarity
+
+echo fileAggregate -c $configFolder/analogs-$index.cfg --out $analogFolder/day-$index.nc -a 0 -v 4 --type Analogs
+/glade/u/home/wuh20/github/AnalogsEnsemble/output/bin/fileAggregate -c $configFolder/analogs-$index.cfg --out $analogFolder/day-$index.nc -a 0 -v 4 --type Analogs
+
+exit 0

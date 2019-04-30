@@ -29,6 +29,8 @@ This post summarizes the second part of the workshop, *Analog Ensemble at Scale*
 
 To generate AnEn for wind speed for one month of July 2018 using 1 year of search data in 2017, since the North America Mesoscale (NAM) model is used, we are dealing with about 838 GB of model data including forecasts and analysis. In total, there are 262,792 grid points in the model domain. This big domain is decomposed (broken) row-wise into 50 chunks so that we can generate AnEn for each chunk of the domain in parallel.
 
+Please find the scripts used in this post [here](https://github.com/Weiming-Hu/AnalogsEnsemble/tree/gh-pages/assets/posts/2019-04-15-large-simulation-on-cheyenne).
+
 Please refer to the [help page on building AnEn on Cheyenne](https://weiming-hu.github.io/AnalogsEnsemble/2019/02/17/build-on-cheyenne.html) if you would like to check out the tools used in this tutorial.
 
 ## Workflow

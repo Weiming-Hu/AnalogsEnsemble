@@ -1,0 +1,61 @@
+#!/bin/bash
+
+# The name of this task
+#PBS -N analog_generation
+
+# A project number to charge
+#PBS -A [Your project account]
+
+# The resource time to request
+# Profiling shows that it takes about 5 minutes
+#PBS -l walltime=00:30:00
+
+# The type of the queue
+#PBS -q regular
+
+# Combine standard output and error messages
+#PBS -j oe                           
+
+# How many cores to request
+#PBS -l select=1:ncpus=36
+
+# Notify me when the jobs is (a)borted
+#PBS -m a
+
+# Notify me by sending an email to this address
+#PBS -M weiming@psu.edu
+
+# Hyperthreading. Yeah!
+export OMP_NUM_THREADS=72
+
+# If any of the command fails, exit with error
+set -e
+
+# Define the directory for configuration file input
+configFolder='/glade/u/home/wuh20/work/SEA2019/configuration'
+
+# Define the directory for experiment setup file input
+experimentConfig='/glade/u/home/wuh20/work/SEA2019/configuration/experiment.cfg'
+
+# Define the directory for similairty file output
+#simFolder='/glade/u/home/wuh20/work/SEA2019/similarity'
+
+# Define the directory for analog file output
+analogFolder='/glade/u/home/wuh20/work/SEA2019/analogs'
+
+# Determine which files to be used for this job based on the passed-in argument
+obsConfig=$configFolder/obs-$(printf %05d $index).cfg
+searchConfig=$configFolder/search-$(printf %05d $index).cfg
+testConfig=$configFolder/test-$(printf %05d $index).cfg
+analogFile=$analogFolder/$(printf %05d $index).nc
+#simFile=$simFolder/$(printf %05d $index).nc
+
+if [ -f $analogFile ]; then
+    echo $analogFile exists.
+    exit 1
+fi
+
+echo Command: analogGenerator -c $obsConfig -c $searchConfig -c $testConfig -c $experimentConfig --analog-nc $analogFile
+/glade/u/home/wuh20/github/AnalogsEnsemble/output/bin/analogGenerator -c $obsConfig -c $searchConfig -c $testConfig -c $experimentConfig --analog-nc $analogFile
+
+exit 0
