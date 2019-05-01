@@ -118,7 +118,7 @@ print.AnEn <- function (x) {
   }
   
   if (length(existed.names) != 0) {
-    cat("Some member names are not recognized:",
+    cat("Some extra member exists:",
         paste(existed.names, collapse = ', '), '\n')
   }
 }

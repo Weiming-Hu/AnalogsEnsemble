@@ -19,7 +19,7 @@ option(VERBOSE "Verbose standout output" OFF)
 option(CMAKE_BUILD_TESTS "Build tests" ON)
 option (BUILD_GRIBCONVERTER "Build gribConverter utility. Eccodes required." OFF)
 option (CODE_PROFILING "Insert profiling code and print time information." OFF)
-option (USE_NCCONFIG "Use nc-config to determine cflags and libdirs." ON)
+option (USE_NCCONFIG "Use nc-config to determine cflags and libdirs." OFF)
 
 
 set(IMPORTANT_PATH "${CMAKE_SOURCE_DIR}/important")
