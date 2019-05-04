@@ -38,7 +38,7 @@ verifyBias <- function(anen.ver, obs.ver, boot=F, R=1000, na.rm=T, parallel = F)
     bias.tot <- mean(bias, na.rm=na.rm)
     
     # Compute the mean 
-    bias.mean <- apply(bias, 2, mean, na.rm=na.rm)
+    bias.mean <- colMeans(bias, na.rm = na.rm)
     
     return(list(mean=bias.tot, flt=bias.mean, mat=bias))
   } else {
