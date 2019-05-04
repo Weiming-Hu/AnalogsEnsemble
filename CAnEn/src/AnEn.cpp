@@ -41,7 +41,9 @@ AnEn::computeSearchStations(
         size_t max_num_search_stations,
         double distance, size_t num_nearest_stations) const {
 
-    // Check max number of search stations
+    // Check max number of search stations. If the number of nearest neighbor
+    // is fixed, this will also be the maximum number of search station.
+    //
     if (num_nearest_stations != 0) {
         max_num_search_stations = num_nearest_stations;
     }
@@ -62,6 +64,8 @@ AnEn::computeSearchStations(
     try {
 
         if (method_ == OneToOne) {
+            // If one-to-one match is specified between the search and test stations
+            //
 
             // Resize the table because each test station will be assigned with 
             // only one search station.
@@ -80,10 +84,12 @@ AnEn::computeSearchStations(
             }
 
         } else if (method_ == OneToMany) {
+            // If each test station is associated with many search stations that are
+            // defined by nearest neighbor search or radius based search
+            //
 
-            // Define variables for perfectly nested parallel loops for collapse
+            // Get the test station container by insertion order
             const auto & test_stations_by_insert = test_stations.get<anenSta::by_insert>();
-            auto limit_test = test_stations_by_insert.size();
 
             if (!have_xy) {
                 cerr << BOLDRED << "Error: Xs and ys are required for search space extension."
@@ -94,6 +100,9 @@ AnEn::computeSearchStations(
             if (verbose_ >= 3) cout << "Computing search space extension ... " << endl;
 
             if (num_nearest_stations == 0) {
+                // In this case, the number of nearest neighbor stations is not 
+                // defined. The SSE criteria must be distance
+                //
 
                 if (distance == 0) {
                     if (verbose_ >= 1) cerr << BOLDRED << "Error: Please specify"
@@ -105,9 +114,9 @@ AnEn::computeSearchStations(
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(static) \
 shared(test_stations_by_insert, search_stations, i_search_stations, \
-distance, max_num_search_stations, limit_test)
+distance, max_num_search_stations)
 #endif
-                for (size_t i_test = 0; i_test < limit_test; i_test++) {
+                for (size_t i_test = 0; i_test < test_stations_by_insert.size(); i_test++) {
 
                     // Find search stations based on the distance
                     vector<size_t> i_search_station =
@@ -124,13 +133,16 @@ distance, max_num_search_stations, limit_test)
                 }
 
             } else {
+                // Otherwise, if the number of nearest neighbors has been assigned,
+                // this can be used with the extra contraint on distance.
+                //
 
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(static) \
 shared(test_stations_by_insert, search_stations, i_search_stations, \
-num_nearest_stations, distance, max_num_search_stations, limit_test)
+num_nearest_stations, distance, max_num_search_stations)
 #endif
-                for (size_t i_test = 0; i_test < limit_test; i_test++) {
+                for (size_t i_test = 0; i_test < test_stations_by_insert.size(); i_test++) {
 
                     // Find nearest search stations also considering the threshold
                     // distance.
@@ -154,17 +166,12 @@ num_nearest_stations, distance, max_num_search_stations, limit_test)
             auto & search_stations_by_insert =
                     search_stations.get<anenSta::by_insert>();
 
-            // Define variables for perfectly nested parallel loops with collapse
-            auto limit_search_row = i_search_stations.size1();
-            auto limit_search_col = i_search_stations.size2();
-
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(static) \
-                shared(search_stations_by_ID, search_stations_by_insert, i_search_stations, \
-                        search_stations, limit_search_row, limit_search_col)
+                shared(search_stations_by_ID, search_stations_by_insert, i_search_stations, search_stations)
 #endif
-            for (size_t i_row = 0; i_row < limit_search_row; i_row++) {
-                for (size_t i_col = 0; i_col < limit_search_col; i_col++) {
+            for (size_t i_row = 0; i_row < i_search_stations.size1(); i_row++) {
+                for (size_t i_col = 0; i_col < i_search_stations.size2(); i_col++) {
 
                     // Check if the value is _FILL_VALUE
                     if (!std::isnan(i_search_stations(i_row, i_col))) {
@@ -183,6 +190,33 @@ num_nearest_stations, distance, max_num_search_stations, limit_test)
 
                 } // End loop of columns
             } // End of loop of rows
+
+            // For the one-to-group search method, two numeric vectors, one for test stations and
+            // one for search stations, are required. These numeric vectors specify a tag (group) for 
+            // each search/test station. If only search tags are provided, it is assumed that
+            // test tags are the same.
+            //
+            // During the search station computation process, each test station will be
+            // associated with search stations that have the same tag.
+            //
+            // Some caveats
+            // 1. How to combine the process of distance-/nearest- based SSE and group-based SSE;
+            //         Maybe the group-based SSE can be a preprocess. The distance-/nearest- based
+            //         SSE can be a second filter on the SSE generated by group-based SSE. The 
+            //         conventional SSE will be a group-based SSE with only 1 group for all search
+            //         stations.
+            //
+            // 2. How to detect and reuse search station tags for test station tags;
+            //         If only search station tags are provided, and search and test stations are
+            //         literally the same, we can then safely reuse search station tags for test
+            //         stations.
+            //
+            // Therefore, we probably need to refactor the method OneToMany and the subsequent
+            // functions, to allow the SSE from a specific subset of search stations.
+            //
+            // Maybe we can also use this as a opportunity to functionalize some methods within
+            // this big function.
+            //
 
         } else {
             if (verbose_ >= 1) cerr << BOLDRED << "Error: Unknown method ("
