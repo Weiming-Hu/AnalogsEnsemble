@@ -58,7 +58,6 @@ void testTimes::testDecimalValues() {
     std::cout << "Times: " << times;
 
     const auto & times_by_insert = times.get<by_insert>();
-    const auto & times_by_value = times.get<by_value>();
 
     size_t i_time;
 
