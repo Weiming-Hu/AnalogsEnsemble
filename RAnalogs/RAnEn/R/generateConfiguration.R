@@ -62,16 +62,18 @@
 #' - mode: 'extendedSearch' indicates search the forecasts from both the current location and the nearby locations.
 #' - test_stations_x: X coordinates of test stations/grid points.
 #' - test_stations_y: Y coordinates of test stations/grid points.
+#' - test_stations_classifier: The classifier (tag) for each test stations.
 #' - search_stations_x: X coordinates of search stations/grid points.
 #' - search_stations_y: Y coordinates of search stations/grid points.
+#' - search_stations_classifier: The classifier (tag) for each search stations.
+#' - num_nearest: The number of nearest neighbors.
+#' - distance: The distance to search for nearby stations/grid points.
 #' - max_num_search_stations: The maximum search stations to keep in the similarity matrix. The use of this parameter
 #' will only affect the number of search stations to keep in the similarity matrix. This won't affect the correctness
 #' of nearby station selection. This parameter is used in case of insufficient memeory. A good rule of thumb would be
 #' setting it to num_nearest when num_nearest is used, or when distance is used, setting it to an estimated number that
 #' is slightly bigger than the expexted number of stations that will be found within the distance. Again, even if you 
 #' set it to a number that is wierdly off, the selected nearby stations will be gauranteed to fulfill your requirement.
-#' - num_nearest: The number of nearest neighbors.
-#' - distance: The distance to search for nearby stations/grid points.
 #' 
 #' Please find detailed terminology explanation in the
 #' [Vocabulary post](https://weiming-hu.github.io/AnalogsEnsemble/2018/10/06/vocabulary.html).
@@ -139,9 +141,12 @@ generateConfiguration <- function(mode, advanced = F) {
     config$test_times <- NA
     config$search_forecasts <- NA
     config$search_times <- NA
+    config$test_stations_classifier <- vector(mode = 'numeric', length = 0)
+    config$search_stations_classifier <- vector(mode = 'numeric', length = 0)
   } else {
     config$forecasts <- NA
     config$forecast_times <- NA
+    config$stations_classifier <- vector(mode = 'numeric', length = 0)
   }
   
   if (mode == 'extendedSearch') {

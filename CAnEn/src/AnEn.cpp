@@ -39,7 +39,9 @@ AnEn::computeSearchStations(
         const anenSta::Stations & search_stations,
         AnEn::SearchStationMatrix & i_search_stations_ref,
         size_t max_num_search_stations,
-        double distance, size_t num_nearest_stations) const {
+        double distance, size_t num_nearest_stations,
+        vector<size_t> test_station_tags,
+        vector<size_t> search_station_tags) const {
 
     // Check max number of search stations. If the number of nearest neighbor
     // is fixed, this will also be the maximum number of search station.
@@ -47,7 +49,46 @@ AnEn::computeSearchStations(
     if (num_nearest_stations != 0) {
         max_num_search_stations = num_nearest_stations;
     }
+    
+    // Get the test station container by insertion order
+    const auto & test_stations_by_insert = test_stations.get<anenSta::by_insert>();
+    const auto & search_stations_by_insert = search_stations.get<anenSta::by_insert>();
 
+    // Make sure the tag vectors are initialized correctly
+    if (search_station_tags.size() == 0) {
+        // If search station tags are not specified, it is assumed that
+        // all search stations have the same tag.
+        //
+        search_station_tags.resize(search_stations.size(), 0);
+    }
+
+    if (test_station_tags.size() == 0) {
+        // If test station tags are not specified, I need to check whether
+        // search and test stations are literally the same before I
+        // reuse the tags from search stations on test stations. Otherwise,
+        // all test stations are considered the same tag as search stations.
+        //
+        bool same_stations = true;
+        
+        if (test_stations.size() == search_stations.size()) {
+            
+            for (size_t i = 0; i < search_stations.size(); i++) {
+                if (!test_stations_by_insert[i].literalCompare(search_stations_by_insert[i])) {
+                    same_stations = false;
+                }
+            }
+        } else {
+            same_stations = false;
+        }
+        
+        if (same_stations) {
+            test_station_tags = search_station_tags;
+            if (verbose_ >= 4) cout << "Reuse search station tags for test stations ... " << endl;
+        } else {
+            test_station_tags.resize(test_stations.size(), 0);
+        }
+    }
+    
     // Create a new i_search_stations with the fill value
     AnEn::SearchStationMatrix i_search_stations(
             test_stations.size(), max_num_search_stations,
@@ -61,172 +102,124 @@ AnEn::computeSearchStations(
     // the index for the search stations for each test station, and the table has
     // the same number of rows as the number of test stations.
     //
-    try {
+    if (method_ == OneToOne) {
+        // If one-to-one match is specified between the search and test stations
+        //
 
-        if (method_ == OneToOne) {
-            // If one-to-one match is specified between the search and test stations
-            //
+        // Resize the table because each test station will be assigned with 
+        // only one search station.
+        //
+        i_search_stations.resize(test_stations.size(), 1);
 
-            // Resize the table because each test station will be assigned with 
-            // only one search station.
-            //
-            i_search_stations.resize(test_stations.size(), 1);
+        // Match test and search stations
+        vector<size_t> test_stations_index_in_search(0);
 
-            // Match test and search stations
-            vector<size_t> test_stations_index_in_search(0);
+        handleError(find_nearest_station_match_(
+                test_stations, search_stations, test_stations_index_in_search));
 
-            handleError(find_nearest_station_match_(
-                    test_stations, search_stations, test_stations_index_in_search));
-
-            // Assign the match result to the lookup table
-            for (size_t i_test = 0; i_test < test_stations_index_in_search.size(); i_test++) {
-                i_search_stations(i_test, 0) = test_stations_index_in_search.at(i_test);
-            }
-
-        } else if (method_ == OneToMany) {
-            // If each test station is associated with many search stations that are
-            // defined by nearest neighbor search or radius based search
-            //
-
-            // Get the test station container by insertion order
-            const auto & test_stations_by_insert = test_stations.get<anenSta::by_insert>();
-
-            if (!have_xy) {
-                cerr << BOLDRED << "Error: Xs and ys are required for search space extension."
-                        << RESET << endl;
-                return (WRONG_METHOD);
-            }
-
-            if (verbose_ >= 3) cout << "Computing search space extension ... " << endl;
-
-            if (num_nearest_stations == 0) {
-                // In this case, the number of nearest neighbor stations is not 
-                // defined. The SSE criteria must be distance
-                //
-
-                if (distance == 0) {
-                    if (verbose_ >= 1) cerr << BOLDRED << "Error: Please specify"
-                            << " distance or/and number of nearest stations to find."
-                            << RESET << endl;
-                    return (MISSING_VALUE);
-                }
-
-#if defined(_OPENMP)
-#pragma omp parallel for default(none) schedule(static) \
-shared(test_stations_by_insert, search_stations, i_search_stations, \
-distance, max_num_search_stations)
-#endif
-                for (size_t i_test = 0; i_test < test_stations_by_insert.size(); i_test++) {
-
-                    // Find search stations based on the distance
-                    vector<size_t> i_search_station =
-                            search_stations.getStationsIdByDistance(
-                            test_stations_by_insert[i_test].getX(),
-                            test_stations_by_insert[i_test].getY(),
-                            distance);
-
-                    // Assign search stations to matrix
-                    for (size_t i_search = 0; i_search < max_num_search_stations &&
-                            i_search < i_search_station.size(); i_search++) {
-                        i_search_stations(i_test, i_search) = i_search_station[i_search];
-                    }
-                }
-
-            } else {
-                // Otherwise, if the number of nearest neighbors has been assigned,
-                // this can be used with the extra contraint on distance.
-                //
-
-#if defined(_OPENMP)
-#pragma omp parallel for default(none) schedule(static) \
-shared(test_stations_by_insert, search_stations, i_search_stations, \
-num_nearest_stations, distance, max_num_search_stations)
-#endif
-                for (size_t i_test = 0; i_test < test_stations_by_insert.size(); i_test++) {
-
-                    // Find nearest search stations also considering the threshold
-                    // distance.
-                    //
-                    vector<size_t> i_search_station =
-                            search_stations.getNearestStationsId(
-                            test_stations_by_insert[i_test].getX(),
-                            test_stations_by_insert[i_test].getY(),
-                            num_nearest_stations, distance);
-
-                    // Assign search stations to matrix
-                    for (size_t i_search = 0; i_search < max_num_search_stations &&
-                            i_search < i_search_station.size(); i_search++) {
-                        i_search_stations(i_test, i_search) = i_search_station[i_search];
-                    }
-                }
-            }
-
-            // After the station IDs are found, we might need to convert the ID to index
-            auto & search_stations_by_ID = search_stations.get<anenSta::by_ID>();
-            auto & search_stations_by_insert =
-                    search_stations.get<anenSta::by_insert>();
-
-#if defined(_OPENMP)
-#pragma omp parallel for default(none) schedule(static) \
-                shared(search_stations_by_ID, search_stations_by_insert, i_search_stations, search_stations)
-#endif
-            for (size_t i_row = 0; i_row < i_search_stations.size1(); i_row++) {
-                for (size_t i_col = 0; i_col < i_search_stations.size2(); i_col++) {
-
-                    // Check if the value is _FILL_VALUE
-                    if (!std::isnan(i_search_stations(i_row, i_col))) {
-                        auto it_ID = search_stations_by_ID.find(
-                                i_search_stations(i_row, i_col));
-
-                        if (it_ID != search_stations_by_ID.end()) {
-                            i_search_stations(i_row, i_col) = std::distance(
-                                    search_stations_by_insert.begin(),
-                                    search_stations.project<anenSta::by_insert>(it_ID));
-                        } else {
-                            throw out_of_range("Can't find the station ID "
-                                    + to_string((long long) i_search_stations(i_row, i_col)));
-                        }
-                    }
-
-                } // End loop of columns
-            } // End of loop of rows
-
-            // For the one-to-group search method, two numeric vectors, one for test stations and
-            // one for search stations, are required. These numeric vectors specify a tag (group) for 
-            // each search/test station. If only search tags are provided, it is assumed that
-            // test tags are the same.
-            //
-            // During the search station computation process, each test station will be
-            // associated with search stations that have the same tag.
-            //
-            // Some caveats
-            // 1. How to combine the process of distance-/nearest- based SSE and group-based SSE;
-            //         Maybe the group-based SSE can be a preprocess. The distance-/nearest- based
-            //         SSE can be a second filter on the SSE generated by group-based SSE. The 
-            //         conventional SSE will be a group-based SSE with only 1 group for all search
-            //         stations.
-            //
-            // 2. How to detect and reuse search station tags for test station tags;
-            //         If only search station tags are provided, and search and test stations are
-            //         literally the same, we can then safely reuse search station tags for test
-            //         stations.
-            //
-            // Therefore, we probably need to refactor the method OneToMany and the subsequent
-            // functions, to allow the SSE from a specific subset of search stations.
-            //
-            // Maybe we can also use this as a opportunity to functionalize some methods within
-            // this big function.
-            //
-
-        } else {
-            if (verbose_ >= 1) cerr << BOLDRED << "Error: Unknown method ("
-                    << method_ << ")!" << RESET << endl;
-            return (UNKNOWN_METHOD);
+        // Assign the match result to the lookup table
+        for (size_t i_test = 0; i_test < test_stations_index_in_search.size(); i_test++) {
+            i_search_stations(i_test, 0) = test_stations_index_in_search.at(i_test);
         }
 
-    } catch (...) {
-        cerr << BOLDRED << "Error occurred in computeSearchStations!" << RESET << endl;
-        throw;
+    } else if (method_ == OneToMany) {
+        // If each test station is associated with many search stations that are
+        // defined by nearest neighbor search or radius based search
+        //
+
+        if (!have_xy) {
+            cerr << BOLDRED << "Error: Xs and ys are required for search space extension."
+                    << RESET << endl;
+            return (WRONG_METHOD);
+        }
+
+        if (verbose_ >= 3) cout << "Computing search space extension ... " << endl;
+
+        if (num_nearest_stations == 0) {
+            // In this case, the number of nearest neighbor stations is not 
+            // defined. The SSE criteria is the distance plus the test/search
+            // station tags.
+            //
+
+            if (distance == 0) {
+                if (verbose_ >= 1) cerr << BOLDRED << "Error: Please specify"
+                        << " distance or/and number of nearest stations to find."
+                        << RESET << endl;
+                return (MISSING_VALUE);
+            }
+
+#if defined(_OPENMP)
+#pragma omp parallel for default(none) schedule(static) \
+shared(test_stations_by_insert, search_stations, i_search_stations, \
+distance, max_num_search_stations, test_station_tags, search_station_tags)
+#endif
+            for (size_t i_test = 0; i_test < test_stations_by_insert.size(); i_test++) {
+
+                // Find search stations based on the distance
+                vector<size_t> id_search_station =
+                        search_stations.getStationsIdByDistance(
+                        test_stations_by_insert[i_test].getX(),
+                        test_stations_by_insert[i_test].getY(),
+                        distance);
+
+                // Assign search stations to matrix
+                for (size_t i_search = 0; i_search < max_num_search_stations &&
+                        i_search < id_search_station.size(); i_search++) {
+
+                    // Convert from station ID to station index in search stations
+                    size_t i_search_station = search_stations.getStationIndex(
+                            id_search_station[i_search]);
+
+                    // Check the search station tags. Only add search stations
+                    // when the tag is the same with the current test station.
+                    //
+                    if (test_station_tags[i_test] == search_station_tags[i_search_station]) {
+                        i_search_stations(i_test, i_search) = i_search_station;
+                    }
+                }
+            }
+
+        } else {
+            // Otherwise, if the number of nearest neighbors has been assigned,
+            // search space extension becomes a k-neighbor search with the extra
+            // constraint on distance and test/search station tags.
+            //
+            search_stations.getNearestStationsIndex(
+                    i_search_stations, test_stations, distance,
+                    num_nearest_stations, test_station_tags, search_station_tags);
+        }
+
+        // For the one-to-group search method, two numeric vectors, one for test stations and
+        // one for search stations, are required. These numeric vectors specify a tag (group) for 
+        // each search/test station. If only search tags are provided, it is assumed that
+        // test tags are the same.
+        //
+        // During the search station computation process, each test station will be
+        // associated with search stations that have the same tag.
+        //
+        // Some caveats
+        // 1. How to combine the process of distance-/nearest- based SSE and group-based SSE;
+        //         Maybe the group-based SSE can be a preprocess. The distance-/nearest- based
+        //         SSE can be a second filter on the SSE generated by group-based SSE. The 
+        //         conventional SSE will be a group-based SSE with only 1 group for all search
+        //         stations.
+        //
+        // 2. How to detect and reuse search station tags for test station tags;
+        //         If only search station tags are provided, and search and test stations are
+        //         literally the same, we can then safely reuse search station tags for test
+        //         stations.
+        //
+        // Therefore, we probably need to refactor the method OneToMany and the subsequent
+        // functions, to allow the SSE from a specific subset of search stations.
+        //
+        // Maybe we can also use this as a opportunity to functionalize some methods within
+        // this big function.
+        //
+
+    } else {
+        if (verbose_ >= 1) cerr << BOLDRED << "Error: Unknown method ("
+                << method_ << ")!" << RESET << endl;
+        return (UNKNOWN_METHOD);
     }
 
     swap(i_search_stations, i_search_stations_ref);

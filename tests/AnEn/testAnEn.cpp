@@ -453,42 +453,105 @@ void testAnEn::testComputeSearchStations() {
     anen.computeSearchStations(test_stations, search_stations,
             i_search_stations, 5, distance);
 
+    cout << "i_search_stations:" << endl << i_search_stations << endl;
     results = {2, 3, 5, 7, 8, 9, 6};
+    size_t num_nans = 0;
+    
     for (auto row = i_search_stations.begin1();
             row != i_search_stations.end1(); row++) {
+
         for (const auto & val : row) {
-            if (!std::isnan(val)) results.erase(find(results.begin(), results.end(), val));
+            if (std::isnan(val)) num_nans++;
+            else results.erase(find(results.begin(), results.end(), val));
         }
     }
+    
     CPPUNIT_ASSERT(results.size() == 0);
+    CPPUNIT_ASSERT(num_nans == 8);
+    num_nans = 0;
 
     // Test getting KNN stations
     size_t num_stations = 4;
     anen.computeSearchStations(test_stations, search_stations,
             i_search_stations, num_stations, 0, num_stations);
 
-    results = {5, 7, 2, 0, 3, 7, 5, 8, 4, 9, 3, 6};
+    cout << "i_search_stations:" << endl << i_search_stations << endl;
+    results = {5, 7, 2, 0, 3, 7, 5, 8, 3, 4, 6, 9};
     for (auto row = i_search_stations.begin1();
             row != i_search_stations.end1(); row++) {
+
         for (const auto & val : row) {
-            results.erase(find(results.begin(), results.end(), val));
+            if (std::isnan(val)) num_nans++;
+            else results.erase(find(results.begin(), results.end(), val));
         }
     }
     CPPUNIT_ASSERT(results.size() == 0);
-
+    CPPUNIT_ASSERT(num_nans == 0);
+    num_nans = 0;
+    
     // Test getting KNN stations limited by threshold distance
     double threshold = 2;
     anen.computeSearchStations(test_stations, search_stations,
             i_search_stations, num_stations, threshold, num_stations);
 
+    cout << "i_search_stations:" << endl << i_search_stations << endl;
     results = {2, 7, 8, 3, 5, 6};
     for (auto row = i_search_stations.begin1();
             row != i_search_stations.end1(); row++) {
         for (const auto & val : row) {
-            if (!std::isnan(val)) results.erase(find(results.begin(), results.end(), val));
+            if (std::isnan(val)) num_nans++;
+            else results.erase(find(results.begin(), results.end(), val));
         }
     }
     CPPUNIT_ASSERT(results.size() == 0);
+    CPPUNIT_ASSERT(num_nans == 6);
+    num_nans = 0;
+
+    // Test getting KNN stations with search station tags
+    num_stations = 5;
+    anen.setVerbose(4);
+    anen.computeSearchStations(test_stations, search_stations,
+            i_search_stations, num_stations, 0, num_stations, {1, 1, 3},
+    {
+        1, 0, 1, 1, 0, 1, 3, 2, 2, 2, 2, 2, 3, 3
+    });
+
+    cout << "i_search_stations:" << endl << i_search_stations << endl;
+    results = {0,2,3,5,0,2,3,5,6,12,13};
+    for (auto row = i_search_stations.begin1();
+            row != i_search_stations.end1(); row++) {
+
+        for (const auto & val : row) {
+            if (std::isnan(val)) num_nans++;
+            else results.erase(find(results.begin(), results.end(), val));
+        }
+    }
+    CPPUNIT_ASSERT(results.size() == 0);
+    CPPUNIT_ASSERT(num_nans == 4);
+    num_nans = 0;
+
+    // Test getting KNN stations with search station tags
+    num_stations = 5;
+    threshold = 3;
+    anen.computeSearchStations(test_stations, search_stations,
+            i_search_stations, num_stations, threshold, num_stations,{1, 1, 3},
+    {
+        1, 0, 1, 1, 0, 1, 3, 2, 2, 2, 2, 2, 3, 3
+    });
+
+    cout << "i_search_stations:" << endl << i_search_stations << endl;
+    results = {0,2,5,2,3,5,6};
+    for (auto row = i_search_stations.begin1();
+            row != i_search_stations.end1(); row++) {
+
+        for (const auto & val : row) {
+            if (std::isnan(val)) num_nans++;
+            else results.erase(find(results.begin(), results.end(), val));
+        }
+    }
+    CPPUNIT_ASSERT(results.size() == 0);
+    CPPUNIT_ASSERT(num_nans == 8);
+    num_nans = 0;
 }
 
 void testAnEn::testOpenMP() {

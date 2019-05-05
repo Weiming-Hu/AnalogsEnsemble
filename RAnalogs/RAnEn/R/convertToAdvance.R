@@ -37,9 +37,12 @@ convertToAdvance <- function(config) {
     config$test_times <- config$forecast_times
     config$search_forecasts <- config$forecasts
     config$search_times <- config$forecast_times
+    config$test_stations_classifier <- config$stations_classifier
+    config$search_stations_classifier <- config$stations_classifier
     
     delete.index <- which("forecasts" == names(config))
     delete.index <- c(delete.index, which("forecast_times" == names(config)))
+    delete.index <- c(delete.index, which("stations_classifier" == names(config)))
     config <- config[-delete.index]
   } else {
     stop("Error: Possibly missing forecasts and/or forecasts_times.")
@@ -50,6 +53,7 @@ convertToAdvance <- function(config) {
     if (all(c("forecast_stations_x", "forecast_stations_y") %in% names(config))) {
       config$test_stations_x <- config$forecast_stations_x
       config$test_stations_y <- config$forecast_stations_y
+      
       config$search_stations_x <- config$forecast_stations_x
       config$search_stations_y <- config$forecast_stations_y
       

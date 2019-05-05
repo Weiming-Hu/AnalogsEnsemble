@@ -55,6 +55,20 @@ public:
      * Computes the search stations of each test stations. Search stations are 
      * represented using the their index.
      * 
+     * There are two methods to compute search stations for each test stations.
+     * 
+     *     - OneToOne: Each test station is only associated with one search station
+     *     based on the Euclidean distances. The closest search station will be 
+     *     assigned to the test station. This is referred to as the independent
+     *     search method because each test has only one search station, and therefore
+     *     AnEn results will be independent for each test station.
+     *     - OneToMany: Each test station is associated with multiple search stations.
+     *     Search stations are computed using a series of criteria. First, only search
+     *     stations with the same tag as the current test station will be considered
+     *     during the computation; then a Euclidean distance based search is carrid for
+     *     the current test station with constraints like the number of nearest 
+     *     neighbors and/or the distance.
+     * 
      * @param test_stations Test anenSta::Stations.
      * @param search_stations Search anenSta::Stations.
      * @param i_search_stations A matrix to store the search stations for each
@@ -65,6 +79,9 @@ public:
      * for search stations.
      * @param num_nearest_stations The number of KNN search stations to look
      * for for each test stations.
+     * @param test_station_tags A vector for test station tags.
+     * @param search_station_tags A vector for search station tags.
+     * 
      * @return An errorType;
      */
     errorType computeSearchStations(
@@ -72,7 +89,9 @@ public:
             const anenSta::Stations & search_stations,
             SearchStationMatrix & i_search_stations,
             size_t max_num_search_stations = 1,
-            double distance = 0, size_t num_nearest_stations = 0) const;
+            double distance = 0, size_t num_nearest_stations = 0,
+            std::vector<size_t> test_station_tags = {},
+            std::vector<size_t> search_station_tags = {}) const;
 
     /**
      * Generates the search times and the corresponding index with an 

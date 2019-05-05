@@ -304,7 +304,7 @@ namespace anenSta {
 
     vector<size_t>
     Stations::getNearestStationsId(double main_station_x,
-            double main_station_y, size_t num_stations,
+            double main_station_y, size_t num_nearest_stations,
             double threshold) const {
 
         if (std::isnan(main_station_x) || std::isnan(main_station_y))
@@ -317,10 +317,12 @@ namespace anenSta {
                 bgi::dynamic_rstar(this->size()));
 
         // Build the R-tree
-        auto & stations_by_insert = this->get<by_insert>();
+        const auto & stations_by_insert = this->get<by_insert>();
         for (size_t i = 0; i < stations_by_insert.size(); i++) {
             point pt(stations_by_insert[i].getX(),
                     stations_by_insert[i].getY());
+            
+            // I associate each point with its ID
             rtree.insert(make_pair(pt, stations_by_insert[i].getID()));
         }
 
@@ -328,11 +330,11 @@ namespace anenSta {
         vector<value> results_points;
         if (threshold == 0) {
             rtree.query(bgi::nearest(point(main_station_x, main_station_y),
-                    num_stations), back_inserter(results_points));
+                    num_nearest_stations), back_inserter(results_points));
         } else {
             threshold *= threshold;
             rtree.query(bgi::nearest(point(main_station_x, main_station_y),
-                    num_stations) && bgi::satisfies(
+                    num_nearest_stations) && bgi::satisfies(
                     [&main_station_x, &main_station_y, &threshold]
                     (value const& p) {
                         return (pow(main_station_x - bg::get<0>(p.first), 2) +
@@ -348,6 +350,101 @@ namespace anenSta {
         }
 
         return (results_ID);
+    }
+    
+    void
+    Stations::getNearestStationsIndex(
+            boost::numeric::ublas::matrix<double> & i_search_stations,
+            const Stations & test_stations,
+            double threshold, size_t num_nearest_stations,
+            const vector<size_t> & test_station_tags,
+            const vector<size_t> & search_station_tags) const {
+        
+        // Sanity checks
+        if (test_station_tags.size() != test_stations.size()) {
+            throw runtime_error("The number of tags is different from the number of test stations.");
+        }
+        
+        if (search_station_tags.size() != this->size()) {
+            throw runtime_error("The number of tags is different from the number of search stations.");
+        }
+        
+        if (i_search_stations.size2() < num_nearest_stations) {
+            throw runtime_error("Not enough space in the matrix to store the neighbors.");
+        }
+        
+        using point = bg::model::point<double, 2, bg::cs::cartesian>;
+        using value = pair<point, size_t>;
+
+        bgi::rtree< value, bgi::dynamic_rstar > rtree(
+                bgi::dynamic_rstar(this->size()));
+
+        // Build the R-tree
+        const auto & search_stations_by_insert = this->get<by_insert>();
+        for (size_t i = 0; i < search_stations_by_insert.size(); i++) {
+            point pt(search_stations_by_insert[i].getX(),
+                    search_stations_by_insert[i].getY());
+            
+            // I associate each point with its index
+            rtree.insert(make_pair(pt, i));
+        }
+
+        const auto & test_stations_by_insert = test_stations.get<anenSta::by_insert>();
+        
+        threshold *= threshold;
+
+#if defined(_OPENMP)
+#pragma omp parallel for default(none) schedule(static) \
+shared(i_search_stations, test_stations_by_insert, rtree, threshold, \
+num_nearest_stations, test_station_tags, search_station_tags)
+#endif
+        for (size_t i_test = 0; i_test < test_stations_by_insert.size(); i_test++) {
+
+            double main_station_x = test_stations_by_insert[i_test].getX(),
+                    main_station_y = test_stations_by_insert[i_test].getY();
+            
+            // Sanity check
+            if (std::isnan(main_station_x) || std::isnan(main_station_y))
+                throw runtime_error("X and Y cannot be NA values (getNearestStationsIndex).");
+
+            // KNN request
+            vector<value> results_points;
+            
+            if (threshold > 0) {
+                
+                // This complicate query deals with nearest neighbor, distance,
+                // and station tags.
+                //
+                rtree.query(bgi::nearest(point(main_station_x, main_station_y),
+                        num_nearest_stations) && bgi::satisfies(
+                        [&main_station_x, &main_station_y, &threshold]
+                        (value const& p) {
+                            return (pow(main_station_x - bg::get<0>(p.first), 2) +
+                                    pow(main_station_y - bg::get<1>(p.first), 2) <
+                                    threshold); }) && bgi::satisfies(
+                        [&test_station_tags, &search_station_tags, &i_test]
+                        (value const& p) {
+                            return (test_station_tags[i_test] == search_station_tags[p.second]);
+                        }), back_inserter(results_points));
+            } else {
+
+                // This complicate query deals with nearest neighbor and station tags.
+                rtree.query(bgi::nearest(point(main_station_x, main_station_y),
+                        num_nearest_stations) && bgi::satisfies(
+                        [&test_station_tags, &search_station_tags, &i_test]
+                        (value const& p) {
+                            return (test_station_tags[i_test] == search_station_tags[p.second]);
+                        }), back_inserter(results_points));
+            }
+
+            // Assign search stations to matrix
+            for (size_t i_search = 0; i_search < i_search_stations.size2() &&
+                    i_search < results_points.size(); i_search++) {
+                i_search_stations(i_test, i_search) = results_points[i_search].second;
+            }
+        }
+        
+        return;
     }
     
     bool

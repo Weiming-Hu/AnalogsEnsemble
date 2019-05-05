@@ -18,6 +18,7 @@
 #include <boost/multi_index/identity.hpp>
 #include <boost/multi_index/mem_fun.hpp>
 #include <boost/multi_index/tag.hpp>
+#include "boost/numeric/ublas/matrix.hpp"
 
 #include <vector>
 #include <string>
@@ -224,6 +225,32 @@ namespace anenSta {
         std::vector<std::size_t> getNearestStationsId(double main_station_x,
                 double main_station_y, std::size_t num_stations,
                 double threshold = 0) const;
+        
+        /**
+         * Get k-nearest station index matrix. The extra constraints are also
+         * considered from Euclidean distances and the test/search station tags.
+         * 
+         * This is a similar function to Stations::getNearestStationsId but that
+         * this function gets nearest stations for multiple target stations
+         * at once to avoid building the r-tree multiple times. And it takes extra
+         * constraints from test/search station tags.
+         * 
+         * @param i_search_stations AnEn::SearchStationMatrix to store the
+         * search station indices for each test station. Each row represents the
+         * search station indices for the current test station.
+         * @param test_stations The test station container.
+         * @param distance The distance to limit the neighbor search.
+         * @param num_nearest_stations Number of nearest neighbors.
+         * @param test_station_tags A vector for test station tags.
+         * @param search_station_tags A vector for search station tags.
+         * @return 
+         */
+        void getNearestStationsIndex(
+                boost::numeric::ublas::matrix<double> & i_search_stations,
+                const Stations & test_stations,
+                double threshold, size_t num_nearest_stations,
+                const std::vector<size_t> & test_station_tags,
+                const std::vector<size_t> & search_station_tags) const;
 
         /**
          * Check whether x and y are provided for all stations.

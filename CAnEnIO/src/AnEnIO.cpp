@@ -1937,9 +1937,9 @@ AnEnIO::setFilePath(string file_path) {
         if (ext == ".nc") {
 
             // Check for NetCDF file format
-            int format = -1, ncid = -1, res = -1;
-            res = nc_open(file_path_.c_str(), NC_NOWRITE, &ncid);
-            res = nc_inq_format(ncid, &format);
+            int format = -1, ncid = -1;
+            nc_open(file_path_.c_str(), NC_NOWRITE, &ncid);
+            nc_inq_format(ncid, &format);
 
             if (format == NC_FORMAT_NETCDF4 ||
                     format == NC_FORMAT_NETCDF4_CLASSIC) {

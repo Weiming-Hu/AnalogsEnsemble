@@ -1,3 +1,9 @@
+# PAnEn 3.4.0
+
+- Introducing SSE functionality based on classifiers. Search space can now be computed based on a classification map that only stations that belong to the same class will be considered when computing search space.
+- SSE based on classification has been ported to R interfaces.
+- Minor bugs fixed.
+
 # PAnEn 3.3.1
 
 - Fix an indexing bug in `RAnEn` operational mode.

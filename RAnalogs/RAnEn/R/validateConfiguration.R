@@ -78,15 +78,20 @@ validateConfiguration <- function(x, verbose = 1) {
     if (x$advanced) {
       test_stations_x <- x$test_stations_x
       test_stations_y <- x$test_stations_y
+      
       search_stations_x <- x$search_stations_x
       search_stations_y <- x$search_stations_y
+      
     } else {
       test_stations_x <- x$forecast_stations_x
       test_stations_y <- x$forecast_stations_y
+      
       search_stations_x <- x$forecast_stations_x
       search_stations_y <- x$forecast_stations_y
     }
   }
+  
+  
   
   if (!(x$mode %in% c('extendedSearch', 'independentSearch'))) {
     print('Error: Unknown configuration mode!')

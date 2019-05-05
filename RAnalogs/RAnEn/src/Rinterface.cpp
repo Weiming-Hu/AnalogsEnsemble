@@ -40,6 +40,65 @@ bool checkOpenMP() {
 #endif
 }
 
+// [[Rcpp::export(".generateSearchStations")]]
+
+NumericVector generateSearchStations(
+        NumericVector R_test_forecasts_station_x,
+        NumericVector R_test_forecasts_station_y,
+        NumericVector R_search_forecasts_station_x,
+        NumericVector R_search_forecasts_station_y,
+        size_t max_num_search_stations, double distance,
+        size_t num_nearest_stations, 
+        NumericVector R_test_station_tags,
+        NumericVector R_search_station_tags,
+        int verbose) {
+
+    // Converting R data types to C++ data types
+    if (verbose >= 3)
+        cout << "Convert R objects to C++ objects ..." << endl;
+    
+    anenSta::Stations test_stations;
+    for (size_t i_station = 0; i_station < R_test_forecasts_station_x.size(); i_station++) {
+        anenSta::Station s(R_test_forecasts_station_x[i_station], R_test_forecasts_station_y[i_station]);
+        test_stations.push_back(s);
+    }
+
+    anenSta::Stations search_stations;
+    for (size_t i_station = 0; i_station < R_search_forecasts_station_x.size(); i_station++) {
+        anenSta::Station s(R_search_forecasts_station_x[i_station], R_search_forecasts_station_y[i_station]);
+        search_stations.push_back(s);
+    }
+    
+    std::vector<size_t> test_station_tags(0), search_station_tags(0);
+    test_station_tags.insert(test_station_tags.end(),
+            R_test_station_tags.begin(), R_test_station_tags.end());
+    search_station_tags.insert(search_station_tags.end(),
+            R_search_station_tags.begin(), R_search_station_tags.end());
+    
+    // Compute search stations
+    if (verbose >= 3) cout << "Calculating search stations ..." << endl;
+    AnEn anen(verbose);
+    boost::numeric::ublas::matrix<double> i_search_stations;
+    anen.setMethod(AnEn::simMethod::OneToMany);
+    
+    handleError(anen.computeSearchStations(
+            test_stations, search_stations,
+            i_search_stations, max_num_search_stations, distance,
+            num_nearest_stations, test_station_tags, search_station_tags));
+    
+    // Convert C++ data types to R data types
+    if (verbose >= 3) cout << "Wrapping C++ object search stations ..." << endl;
+    IntegerVector R_search_stations_dims{
+        static_cast<int> (i_search_stations.size2()),
+        static_cast<int> (i_search_stations.size1())};
+    NumericVector R_search_stations(i_search_stations.data().begin(),
+            i_search_stations.data().end());
+    R_search_stations.attr("dim") = R_search_stations_dims;
+    
+    return (R_search_stations);
+}
+
+
 // [[Rcpp::export(".generateTimeMapping")]]
 
 NumericVector generateTimeMapping(
@@ -142,8 +201,10 @@ List generateAnalogs(
         double max_par_nan, double max_flt_nan,
         NumericVector R_test_times_compare,
         NumericVector R_search_times_compare,
-        bool operational, int max_sims_entries,
-        int FLT_radius, int verbose) {
+        bool operational, int max_sims_entries, int FLT_radius,
+        NumericVector R_test_station_tags,
+        NumericVector R_search_station_tags,
+        int verbose) {
 
     /***************************************************************************
      *                   Convert objects for AnEn computation                  *
@@ -151,6 +212,12 @@ List generateAnalogs(
     if (verbose >= 3)
         cout << "Convert R objects to C++ objects ..." << endl;
 
+    std::vector<size_t> test_station_tags(0), search_station_tags(0);
+    test_station_tags.insert(test_station_tags.end(),
+            R_test_station_tags.begin(), R_test_station_tags.end());
+    search_station_tags.insert(search_station_tags.end(),
+            R_search_station_tags.begin(), R_search_station_tags.end());
+    
     anenTime::Times test_times;
     test_times.insert(test_times.end(),
             R_test_times.begin(), R_test_times.end());
@@ -283,7 +350,7 @@ List generateAnalogs(
     handleError(anen.computeSearchStations(
             test_forecasts.getStations(), search_forecasts.getStations(),
             i_search_stations, max_num_search_stations, distance,
-            num_nearest_stations));
+            num_nearest_stations, test_station_tags, search_station_tags));
 
     handleError(anen.computeSimilarity(test_forecasts, search_forecasts,
             sds, sims, search_observations, mapping, i_search_stations,
