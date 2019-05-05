@@ -64,7 +64,7 @@ validateConfiguration." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAnEn</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">3.3.1</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">3.4.0</span>
       </span>
     </div>
 
@@ -181,16 +181,18 @@ By default, twice the number of analog members are kept in the similarity record
 <li><p>mode: 'extendedSearch' indicates search the forecasts from both the current location and the nearby locations.</p></li>
 <li><p>test_stations_x: X coordinates of test stations/grid points.</p></li>
 <li><p>test_stations_y: Y coordinates of test stations/grid points.</p></li>
+<li><p>test_stations_classifier: The classifier (tag) for each test stations.</p></li>
 <li><p>search_stations_x: X coordinates of search stations/grid points.</p></li>
 <li><p>search_stations_y: Y coordinates of search stations/grid points.</p></li>
+<li><p>search_stations_classifier: The classifier (tag) for each search stations.</p></li>
+<li><p>num_nearest: The number of nearest neighbors.</p></li>
+<li><p>distance: The distance to search for nearby stations/grid points.</p></li>
 <li><p>max_num_search_stations: The maximum search stations to keep in the similarity matrix. The use of this parameter
 will only affect the number of search stations to keep in the similarity matrix. This won't affect the correctness
 of nearby station selection. This parameter is used in case of insufficient memeory. A good rule of thumb would be
 setting it to num_nearest when num_nearest is used, or when distance is used, setting it to an estimated number that
 is slightly bigger than the expexted number of stations that will be found within the distance. Again, even if you
 set it to a number that is wierdly off, the selected nearby stations will be gauranteed to fulfill your requirement.</p></li>
-<li><p>num_nearest: The number of nearest neighbors.</p></li>
-<li><p>distance: The distance to search for nearby stations/grid points.</p></li>
 </ul>
     <p>Please find detailed terminology explanation in the
 <a href='https://weiming-hu.github.io/AnalogsEnsemble/2018/10/06/vocabulary.html'>Vocabulary post</a>.

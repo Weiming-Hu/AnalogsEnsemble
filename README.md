@@ -166,7 +166,7 @@ CXX11=[C++11 compiler]
 |  CMAKE\_PREFIX\_PATH |Which folder(s) should cmake search for packages besides the default. Paths are surrounded by double quotes and separated with semicolons.|       [Empty]      |
 |CMAKE\_INSTALL\_PREFIX|                                             The installation directory.                                                                            | [System dependent] |
 |     BUILD\_NETCDF    |                           Build `NetCDF` library regardless of its existence.                                                                      |         OFF        |
-|     USE\_NCCONFIG    |    Use the nc_config program if found. This might cause problems sometimes if not properly setup.                                                  |         ON         |
+|     USE\_NCCONFIG    |    Use the nc_config program if found. This might cause problems sometimes if not properly setup.                                                  |         OFF        |
 |      BUILD\_HDF5     |                            Build `HDF5` library regardless of its existence.                                                                       |         OFF        |
 |        VERBOSE       |                          Print detailed messages during the compiling process.                                                                     |         OFF        |
 |    CODE\_PROFILING   |                                     Print time profiling information.                                                                              |         OFF        |

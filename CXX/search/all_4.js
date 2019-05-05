@@ -28,7 +28,7 @@ var searchData=
   ['comparenewdimensions',['compareNewDimensions',['../class_an_en_i_o.html#a7dffd9884d040ae2b3872920f43562ed',1,'AnEnIO']]],
   ['compute_5fsingle_5fsimilarity_5f',['compute_single_similarity_',['../class_an_en.html#a9b2132b93af1850fe2a6cb358936ea19',1,'AnEn']]],
   ['computeobservationstimeindices',['computeObservationsTimeIndices',['../class_functions.html#a9a048b9f4f9abad077069e2398b1d9ce',1,'Functions']]],
-  ['computesearchstations',['computeSearchStations',['../class_an_en.html#ad8be9b16b5e5e1cf30f61b4ecac2faee',1,'AnEn']]],
+  ['computesearchstations',['computeSearchStations',['../class_an_en.html#a2e1bfd098d870d5d994c1d4614b18fd3',1,'AnEn']]],
   ['computesearchwindows',['computeSearchWindows',['../class_functions.html#a5f06a32096e26d133652ec6401994ab1',1,'Functions']]],
   ['computesimilarity',['computeSimilarity',['../class_an_en.html#a787e43e7bfdaa830bf70fa6710731614',1,'AnEn']]],
   ['computestandarddeviation',['computeStandardDeviation',['../class_functions.html#aed852b8959bc9d36205ac3522fe95063',1,'Functions']]],

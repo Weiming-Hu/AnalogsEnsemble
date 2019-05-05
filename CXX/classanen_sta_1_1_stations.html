@@ -106,6 +106,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aabd35eb66f02092534941be3e55f0d80"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae523208bbe19a812280dedacb4233e61"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::size_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classanen_sta_1_1_stations.html#ae523208bbe19a812280dedacb4233e61">getNearestStationsId</a> (double main_station_x, double main_station_y, std::size_t num_stations, double threshold=0) const</td></tr>
 <tr class="separator:ae523208bbe19a812280dedacb4233e61"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae0566af77501c879a1ace0c12d1da5f8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classanen_sta_1_1_stations.html#ae0566af77501c879a1ace0c12d1da5f8">getNearestStationsIndex</a> (boost::numeric::ublas::matrix&lt; double &gt; &amp;i_search_stations, const <a class="el" href="classanen_sta_1_1_stations.html">Stations</a> &amp;test_stations, double threshold, size_t num_nearest_stations, const std::vector&lt; size_t &gt; &amp;test_station_tags, const std::vector&lt; size_t &gt; &amp;search_station_tags) const</td></tr>
+<tr class="separator:ae0566af77501c879a1ace0c12d1da5f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adc0f7129832ae8e4e92e1ae67e3c278a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classanen_sta_1_1_stations.html#adc0f7129832ae8e4e92e1ae67e3c278a">haveXY</a> () const</td></tr>
 <tr class="separator:adc0f7129832ae8e4e92e1ae67e3c278a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad7e588bc0b3f01ec564109f72b544f12"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classanen_sta_1_1_stations.html#ad7e588bc0b3f01ec564109f72b544f12">print</a> (std::ostream &amp;) const</td></tr>
@@ -215,6 +217,72 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A vector of nearby station IDs. </dd></dl>
+
+</div>
+</div>
+<a id="ae0566af77501c879a1ace0c12d1da5f8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae0566af77501c879a1ace0c12d1da5f8">&#9670;&nbsp;</a></span>getNearestStationsIndex()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void anenSta::Stations::getNearestStationsIndex </td>
+          <td>(</td>
+          <td class="paramtype">boost::numeric::ublas::matrix&lt; double &gt; &amp;&#160;</td>
+          <td class="paramname"><em>i_search_stations</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classanen_sta_1_1_stations.html">Stations</a> &amp;&#160;</td>
+          <td class="paramname"><em>test_stations</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>threshold</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>num_nearest_stations</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; size_t &gt; &amp;&#160;</td>
+          <td class="paramname"><em>test_station_tags</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; size_t &gt; &amp;&#160;</td>
+          <td class="paramname"><em>search_station_tags</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Get k-nearest station index matrix. The extra constraints are also considered from Euclidean distances and the test/search station tags.</p>
+<p>This is a similar function to <a class="el" href="classanen_sta_1_1_stations.html#ae523208bbe19a812280dedacb4233e61">Stations::getNearestStationsId</a> but that this function gets nearest stations for multiple target stations at once to avoid building the r-tree multiple times. And it takes extra constraints from test/search station tags.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i_search_stations</td><td><a class="el" href="class_an_en.html#adc55d358a20ee6bb711ca5efb33a1bb0">AnEn::SearchStationMatrix</a> to store the search station indices for each test station. Each row represents the search station indices for the current test station. </td></tr>
+    <tr><td class="paramname">test_stations</td><td>The test station container. </td></tr>
+    <tr><td class="paramname">distance</td><td>The distance to limit the neighbor search. </td></tr>
+    <tr><td class="paramname">num_nearest_stations</td><td>Number of nearest neighbors. </td></tr>
+    <tr><td class="paramname">test_station_tags</td><td>A vector for test station tags. </td></tr>
+    <tr><td class="paramname">search_station_tags</td><td>A vector for search station tags. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd></dd></dl>
 
 </div>
 </div>

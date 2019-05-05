@@ -20,6 +20,7 @@ var searchData=
   ['getmode',['getMode',['../class_an_en_i_o.html#a85d6f6dbf12ba5250ebc93065b7cb50c',1,'AnEnIO']]],
   ['getname',['getName',['../class_array4_d.html#a21932242976a122108f7cdf845f7aeca',1,'Array4D::getName()'],['../classanen_par_1_1_parameter.html#ab1e583a8c741abd7b595f0b9aa8b22fb',1,'anenPar::Parameter::getName()'],['../classanen_sta_1_1_station.html#a85b26a617e15c4d516e06169c9fb9e50',1,'anenSta::Station::getName()']]],
   ['getneareststationsid',['getNearestStationsId',['../classanen_sta_1_1_stations.html#ae523208bbe19a812280dedacb4233e61',1,'anenSta::Stations']]],
+  ['getneareststationsindex',['getNearestStationsIndex',['../classanen_sta_1_1_stations.html#ae0566af77501c879a1ace0c12d1da5f8',1,'anenSta::Stations']]],
   ['getnumcols',['getNumCols',['../class_similarity_matrices.html#aabe756a1a4533fcdab2789e3f76d01fb',1,'SimilarityMatrices']]],
   ['getoptionalvariables',['getOptionalVariables',['../class_an_en_i_o.html#a50997e1baef5b8bb18d833c8c875a7bc',1,'AnEnIO']]],
   ['getordertag',['getOrderTag',['../class_similarity_matrices.html#a673acefe44dc23a09fa99f9506766511',1,'SimilarityMatrices']]],

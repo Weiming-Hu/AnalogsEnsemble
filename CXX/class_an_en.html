@@ -103,8 +103,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a97a51c40812584b01413a4426b1285a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a18609907411058ee2c343727ab69bff4"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en.html#a18609907411058ee2c343727ab69bff4">~AnEn</a> ()</td></tr>
 <tr class="separator:a18609907411058ee2c343727ab69bff4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad8be9b16b5e5e1cf30f61b4ecac2faee"><td class="memItemLeft" align="right" valign="top"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en.html#ad8be9b16b5e5e1cf30f61b4ecac2faee">computeSearchStations</a> (const <a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> &amp;test_stations, const <a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> &amp;search_stations, <a class="el" href="class_an_en.html#adc55d358a20ee6bb711ca5efb33a1bb0">SearchStationMatrix</a> &amp;i_search_stations, size_t max_num_search_stations=1, double distance=0, size_t num_nearest_stations=0) const</td></tr>
-<tr class="separator:ad8be9b16b5e5e1cf30f61b4ecac2faee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e1bfd098d870d5d994c1d4614b18fd3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en.html#a2e1bfd098d870d5d994c1d4614b18fd3">computeSearchStations</a> (const <a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> &amp;test_stations, const <a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> &amp;search_stations, <a class="el" href="class_an_en.html#adc55d358a20ee6bb711ca5efb33a1bb0">SearchStationMatrix</a> &amp;i_search_stations, size_t max_num_search_stations=1, double distance=0, size_t num_nearest_stations=0, std::vector&lt; size_t &gt; test_station_tags={}, std::vector&lt; size_t &gt; search_station_tags={}) const</td></tr>
+<tr class="separator:a2e1bfd098d870d5d994c1d4614b18fd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5f4b7a1a538ec9a2b2282e49fc225044"><td class="memItemLeft" align="right" valign="top"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en.html#a5f4b7a1a538ec9a2b2282e49fc225044">generateOperationalSearchTimes</a> (const <a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a> &amp;test_times, const <a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a> &amp;search_times, const <a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a> &amp;search_forecast_times, std::vector&lt; <a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a> &gt; &amp;search_times_operational, std::vector&lt; std::vector&lt; size_t &gt; &gt; &amp;i_search_times_operational, double max_flt) const</td></tr>
 <tr class="separator:a5f4b7a1a538ec9a2b2282e49fc225044"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a787e43e7bfdaa830bf70fa6710731614"><td class="memItemLeft" align="right" valign="top"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en.html#a787e43e7bfdaa830bf70fa6710731614">computeSimilarity</a> (const <a class="el" href="class_forecasts__array.html">Forecasts_array</a> &amp;test_forecasts, const <a class="el" href="class_forecasts__array.html">Forecasts_array</a> &amp;search_forecasts, const <a class="el" href="class_standard_deviation.html">StandardDeviation</a> &amp;sds, <a class="el" href="class_similarity_matrices.html">SimilarityMatrices</a> &amp;sims, const <a class="el" href="class_observations__array.html">Observations_array</a> &amp;search_observations, const <a class="el" href="class_an_en.html#a44ceab50f0bf394bd35871469d5a36b2">TimeMapMatrix</a> &amp;mapping, const <a class="el" href="class_an_en.html#adc55d358a20ee6bb711ca5efb33a1bb0">SearchStationMatrix</a> &amp;i_search_stations, size_t i_observation_parameter=0, bool extend_observations=false, double max_par_nan=0, double max_flt_nan=0, <a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a> test_times={}, <a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a> search_times={}, bool operational=false, int max_sims_entries=-1, int window_half_size=1) const</td></tr>
@@ -514,8 +514,8 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="ad8be9b16b5e5e1cf30f61b4ecac2faee"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad8be9b16b5e5e1cf30f61b4ecac2faee">&#9670;&nbsp;</a></span>computeSearchStations()</h2>
+<a id="a2e1bfd098d870d5d994c1d4614b18fd3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2e1bfd098d870d5d994c1d4614b18fd3">&#9670;&nbsp;</a></span>computeSearchStations()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -535,8 +535,8 @@ Private Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="class_an_en.html#adc55d358a20ee6bb711ca5efb33a1bb0">AnEn::SearchStationMatrix</a> &amp;&#160;</td>
-          <td class="paramname"><em>i_search_stations_ref</em>, </td>
+          <td class="paramtype"><a class="el" href="class_an_en.html#adc55d358a20ee6bb711ca5efb33a1bb0">SearchStationMatrix</a> &amp;&#160;</td>
+          <td class="paramname"><em>i_search_stations</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -554,7 +554,19 @@ Private Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>num_nearest_stations</em> = <code>0</code>&#160;</td>
+          <td class="paramname"><em>num_nearest_stations</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; size_t &gt;&#160;</td>
+          <td class="paramname"><em>test_station_tags</em> = <code>{}</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; size_t &gt;&#160;</td>
+          <td class="paramname"><em>search_station_tags</em> = <code>{}</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -564,7 +576,18 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Computes the search stations of each test stations. Search stations are represented using the their index.</p>
-<dl class="params"><dt>Parameters</dt><dd>
+<p>There are two methods to compute search stations for each test stations. </p><pre class="fragment">- OneToOne: Each test station is only associated with one search station
+based on the Euclidean distances. The closest search station will be 
+assigned to the test station. This is referred to as the independent
+search method because each test has only one search station, and therefore
+AnEn results will be independent for each test station.
+- OneToMany: Each test station is associated with multiple search stations.
+Search stations are computed using a series of criteria. First, only search
+stations with the same tag as the current test station will be considered
+during the computation; then a Euclidean distance based search is carrid for
+the current test station with constraints like the number of nearest 
+neighbors and/or the distance.
+</pre><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">test_stations</td><td>Test <a class="el" href="classanen_sta_1_1_stations.html" title="Stations class stores Station objects. ">anenSta::Stations</a>. </td></tr>
     <tr><td class="paramname">search_stations</td><td>Search <a class="el" href="classanen_sta_1_1_stations.html" title="Stations class stores Station objects. ">anenSta::Stations</a>. </td></tr>
@@ -572,6 +595,8 @@ Private Attributes</h2></td></tr>
     <tr><td class="paramname">max_num_search_stations</td><td>The maximum number of search stations that will be stored. </td></tr>
     <tr><td class="paramname">distance</td><td>The buffer distance from each test station to look for search stations. </td></tr>
     <tr><td class="paramname">num_nearest_stations</td><td>The number of KNN search stations to look for for each test stations. </td></tr>
+    <tr><td class="paramname">test_station_tags</td><td>A vector for test station tags. </td></tr>
+    <tr><td class="paramname">search_station_tags</td><td>A vector for search station tags.</td></tr>
   </table>
   </dd>
 </dl>
@@ -757,7 +782,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>This function is a special case of <a class="el" href="class_an_en.html#ad8be9b16b5e5e1cf30f61b4ecac2faee">AnEn::computeSearchStations</a>. It finds the nearest search station to a specific test station. If location information is not provided, test and search stations are assumed to be the same, and they are matched based on their respective index.</p>
+<p>This function is a special case of <a class="el" href="class_an_en.html#a2e1bfd098d870d5d994c1d4614b18fd3">AnEn::computeSearchStations</a>. It finds the nearest search station to a specific test station. If location information is not provided, test and search stations are assumed to be the same, and they are matched based on their respective index.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">test_stations</td><td>Test <a class="el" href="classanen_sta_1_1_stations.html" title="Stations class stores Station objects. ">anenSta::Stations</a>. </td></tr>

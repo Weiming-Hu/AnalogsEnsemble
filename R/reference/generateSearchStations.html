@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>RAnEn::alignObservations — alignObservations • RAnEn</title>
+<title>RAnEn::generateSearchStations — generateSearchStations • RAnEn</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,10 +30,14 @@
 
 
 
-<meta property="og:title" content="RAnEn::alignObservations — alignObservations" />
+<meta property="og:title" content="RAnEn::generateSearchStations — generateSearchStations" />
 
-<meta property="og:description" content="This is a helper function that aligns the observations with the dimension
-format of a forecast for convenience of statistical analysis." />
+<meta property="og:description" content="RAnEn::generateSearchStations is the search station computation routine included
+in the function generateConfiguration. This function computes the
+search stations of each test station. Search stations are
+represented using their index. Each row includes the search station indices for
+each test station. The available constraints for calculating the search stations
+include 1) Euclidean distances; 2) number of nearest neighbors; 3) station classifiers." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -96,78 +100,71 @@ format of a forecast for convenience of statistical analysis." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>RAnEn::alignObservations</h1>
+    <h1>RAnEn::generateSearchStations</h1>
     
-    <div class="hidden name"><code>alignObservations.Rd</code></div>
+    <div class="hidden name"><code>generateSearchStations.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>This is a helper function that aligns the observations with the dimension
-format of a forecast for convenience of statistical analysis.</p>
+    <p>RAnEn::generateSearchStations is the search station computation routine included
+in the function <code><a href='generateConfiguration.html'>generateConfiguration</a></code>. This function computes the
+search stations of each test station. Search stations are
+represented using their index. Each row includes the search station indices for
+each test station. The available constraints for calculating the search stations
+include 1) Euclidean distances; 2) number of nearest neighbors; 3) station classifiers.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>alignObservations</span>(<span class='no'>observations</span>, <span class='no'>observation.times</span>, <span class='no'>forecast.times</span>, <span class='no'>flts</span>,
-  <span class='kw'>return.na.index</span> <span class='kw'>=</span> <span class='no'>F</span>, <span class='kw'>show.progress</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='kw'>silent</span> <span class='kw'>=</span> <span class='no'>F</span>)</pre>
+    <pre class="usage"><span class='fu'>generateSearchStations</span>(<span class='no'>test_stations_x</span>, <span class='no'>test_stations_y</span>, <span class='no'>search_stations_x</span>,
+  <span class='no'>search_stations_y</span>, <span class='no'>max_num_search_stations</span>, <span class='no'>distance</span>, <span class='no'>num_nearest</span>,
+  <span class='no'>test_stations_classifier</span>, <span class='no'>search_stations_classifier</span>, <span class='no'>verbose</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>observations</th>
-      <td><p>A 3-dimensional array for observations.</p></td>
+      <th>test_stations_x</th>
+      <td><p>Xs for test stations.</p></td>
     </tr>
     <tr>
-      <th>observation.times</th>
-      <td><p>The time of each observation. The length of
-times should equal the thrid dimension of observations.</p></td>
+      <th>test_stations_y</th>
+      <td><p>Ys for test stations.</p></td>
     </tr>
     <tr>
-      <th>forecast.times</th>
-      <td><p>The initial time for forecasts that you want to align
-observations with.</p></td>
+      <th>search_stations_x</th>
+      <td><p>Xs for search stations.</p></td>
     </tr>
     <tr>
-      <th>flts</th>
-      <td><p>The offset time in seconds that you want to align
-observations with.</p></td>
+      <th>search_stations_y</th>
+      <td><p>Ys for search stations.</p></td>
     </tr>
     <tr>
-      <th>return.na.index</th>
-      <td><p>Whether to return the NA index.</p></td>
+      <th>max_num_search_stations</th>
+      <td><p>The maximum number of search stations that will be stored.</p></td>
     </tr>
     <tr>
-      <th>show.progress</th>
-      <td><p>A logical for whether to show the progress bar.</p></td>
+      <th>distance</th>
+      <td><p>The buffer distance from each test station to look for search stations.</p></td>
     </tr>
     <tr>
-      <th>silent</th>
-      <td><p>No printing warning messages.</p></td>
+      <th>test_stations_classifier</th>
+      <td><p>A vector for test station classifiers.</p></td>
+    </tr>
+    <tr>
+      <th>search_stations_classifier</th>
+      <td><p>A vector for search station classifiers.</p></td>
+    </tr>
+    <tr>
+      <th>verbose</th>
+      <td><p>Verbose level.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>If return.na.index is fault, by default, it retuns the aligned observations;
-otherwise, it returns a list with the aligned observations and a index matrix for which
-pair of forecast time/FLT could not be found in observation times provided.</p>
-    
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>For example, forecasts are usually 4-dimensional and observations are only
-3-dimensional. Forecasts have one extra dimension, FLTs, than observations.
-This function converts the dimensions of observations to forecasts and
-artificially add the FLTs dimension to observations by replicating
-values in observations.</p>
-<p>Imagine the following sequence of observation times</p>
-<p>00h 06h 12h 18h 24h 30h 36h 42h 48h 54h</p>
-<p>After the alignment with the daily forecasts with 6 FLTs, the aligned observations
-will be</p>
-<p>00h 06h 12h 18h 24h 30h
-24h 30h 36h 42h 48h 54h</p>
-<p>You note that there will be duplicates in observations which cannot
-be avoided in this format.</p>
+    <p>A matrix for search stations. Each row includes the search station indices
+for each test station.</p>
     
 
   </div>
@@ -177,8 +174,6 @@ be avoided in this format.</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#details">Details</a></li>
           </ul>
 
     <h2>Author</h2>
