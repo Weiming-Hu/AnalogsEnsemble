@@ -120,6 +120,6 @@ script:
     - if [[ "$ENVIRONMENT_LANGUAGE" == "doc" ]]; then ./deploymentAutomation/deploy.sh; fi
 
 after_success:
-    - if [[ "$ENVIRONMENT_LANGUAGE" == "c++" ]]; then make test; fi
+    - if [[ "$ENVIRONMENT_LANGUAGE" == "c++" ]]; then export LD_LIBRARY_PATH=/Users/travis/build/Weiming-Hu/AnalogsEnsemble/dependency/install/lib/; ctest; fi
     - if [[ "$ENVIRONMENT_LANGUAGE" == "r" ]]; then R -e "library(RAnEn)"; fi
     - bash <(curl -s https://codecov.io/bash)
