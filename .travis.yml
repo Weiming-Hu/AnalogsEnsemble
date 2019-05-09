@@ -107,7 +107,7 @@ before_install:
     - cmake --version
     - eval "${MATRIX_EVAL}"
     - set -e
-    - if [[ "$ENVIRONMENT_LANGUAGE" == "c++" ]]; then if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew cask uninstall oclint; if [[ "$INSTALLFLAG" == "NETCDF" ]]; then brew install netcdf; fi; fi; fi
+    - if [[ "$ENVIRONMENT_LANGUAGE" == "c++" ]]; then if [[ "$INSTALLFLAG" == "NETCDF" ]]; then brew install netcdf; fi; fi
     - if [[ "$ENVIRONMENT_LANGUAGE" == "r" ]]; then R -e "install.packages('Rcpp')"; R -e "install.packages('BH')";fi
     - if [[ "$ENVIRONMENT_LANGUAGE" == "doc" ]]; then R -e "install.packages('Rcpp')"; R -e "install.packages('pkgdown')"; R -e "install.packages('BH')";fi
 
@@ -116,7 +116,7 @@ install:
 
 script:
     - if [[ "$ENVIRONMENT_LANGUAGE" == "c++" ]]; then mkdir build; cd build; CC=$CC CXX=$CXX cmake -DCMAKE_CXX_FLAGS="-coverage" -DCMAKE_BUILD_TESTS=ON ..; make -j16; fi
-    - if [[ "$ENVIRONMENT_LANGUAGE" == "r" ]]; then make -j16; fi
+    - if [[ "$ENVIRONMENT_LANGUAGE" == "r" ]]; then make -j16 install; fi
     - if [[ "$ENVIRONMENT_LANGUAGE" == "doc" ]]; then ./deploymentAutomation/deploy.sh; fi
 
 after_success:
