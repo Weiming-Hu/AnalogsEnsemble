@@ -106,6 +106,7 @@ matrix:
 before_install:
     - cmake --version
     - eval "${MATRIX_EVAL}"
+    - set -e
     - if [[ "$ENVIRONMENT_LANGUAGE" == "c++" ]]; then if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew cask uninstall oclint; if [[ "$INSTALLFLAG" == "NETCDF" ]]; then brew install netcdf; fi; fi; fi
     - if [[ "$ENVIRONMENT_LANGUAGE" == "r" ]]; then R -e "install.packages('Rcpp')"; R -e "install.packages('BH')";fi
     - if [[ "$ENVIRONMENT_LANGUAGE" == "doc" ]]; then R -e "install.packages('Rcpp')"; R -e "install.packages('pkgdown')"; R -e "install.packages('BH')";fi
