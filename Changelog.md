@@ -5,6 +5,10 @@ sidebar_link: true
 ---
 
 
+# PAnEn 3.4.1
+
+- Fix `RAnEn` installation script for C/C++ compilers.
+
 # PAnEn 3.4.0
 
 - Introducing SSE functionality based on classifiers. Search space can now be computed based on a classification map that only stations that belong to the same class will be considered when computing search space.

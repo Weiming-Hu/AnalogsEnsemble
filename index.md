@@ -150,9 +150,6 @@ install.packages("https://github.com/Weiming-Hu/AnalogsEnsemble/raw/master/RAnal
 **If `Openmp` multithreading is not supported**, or if you simply want to use a different compiler, please create a `Makevars` file under `~/.R`, with the following content.
 
 ```
-CXX1X=[C++11 compiler]
-
-# required on Mac OS
 CXX11=[C++11 compiler]
 ```
 
