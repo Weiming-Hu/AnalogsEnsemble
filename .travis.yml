@@ -106,7 +106,7 @@ matrix:
 before_install:
     - cmake --version
     - eval "${MATRIX_EVAL}"
-    - if [[ "$ENVIRONMENT_LANGUAGE" == "c++" ]]; then if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew cask uninstall oclint; if [[ "$INSTALLFLAG" == "NETCDF" ]]; then brew install netcdf; fi; fi; fi
+    - if [[ "$ENVIRONMENT_LANGUAGE" == "c++" ]]; then if [[ "$INSTALLFLAG" == "NETCDF" ]]; then brew install netcdf; fi; fi
     - if [[ "$ENVIRONMENT_LANGUAGE" == "r" ]]; then R -e "install.packages('Rcpp')"; R -e "install.packages('BH')";fi
     - if [[ "$ENVIRONMENT_LANGUAGE" == "doc" ]]; then R -e "install.packages('Rcpp')"; R -e "install.packages('pkgdown')"; R -e "install.packages('BH')";fi
 
@@ -115,10 +115,10 @@ install:
 
 script:
     - if [[ "$ENVIRONMENT_LANGUAGE" == "c++" ]]; then mkdir build; cd build; CC=$CC CXX=$CXX cmake -DCMAKE_CXX_FLAGS="-coverage" -DCMAKE_BUILD_TESTS=ON ..; make -j16; fi
-    - if [[ "$ENVIRONMENT_LANGUAGE" == "r" ]]; then make -j16; fi
+    - if [[ "$ENVIRONMENT_LANGUAGE" == "r" ]]; then make -j16 install; fi
     - if [[ "$ENVIRONMENT_LANGUAGE" == "doc" ]]; then ./deploymentAutomation/deploy.sh; fi
 
 after_success:
-    - if [[ "$ENVIRONMENT_LANGUAGE" == "c++" ]]; then make test; fi
+    - if [[ "$ENVIRONMENT_LANGUAGE" == "c++" ]]; then export LD_LIBRARY_PATH=/Users/travis/build/Weiming-Hu/AnalogsEnsemble/dependency/install/lib/; ctest; fi
     - if [[ "$ENVIRONMENT_LANGUAGE" == "r" ]]; then R -e "library(RAnEn)"; fi
     - bash <(curl -s https://codecov.io/bash)
