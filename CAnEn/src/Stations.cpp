@@ -30,6 +30,10 @@
 #include <iterator>
 #include <algorithm>
 
+#if defined(_OPENMP)
+#include <omp.h>
+#endif
+
 namespace anenSta {
     using namespace std;
     namespace bg = boost::geometry;
@@ -394,8 +398,8 @@ namespace anenSta {
         threshold *= threshold;
 
 #if defined(_OPENMP)
-#pragma omp parallel for default(none) schedule(static) \
-shared(i_search_stations, test_stations_by_insert, rtree, threshold, \
+#pragma omp parallel for schedule(static) \
+shared(i_search_stations, test_stations_by_insert, rtree, threshold,\
 num_nearest_stations, test_station_tags, search_station_tags)
 #endif
         for (size_t i_test = 0; i_test < test_stations_by_insert.size(); i_test++) {
