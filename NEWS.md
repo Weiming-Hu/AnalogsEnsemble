@@ -1,6 +1,7 @@
 # PAnEn 3.4.1
 
 - Fix `RAnEn` installation script for C/C++ compilers.
+- Fix `OpenMP` shared object issue for `runtime_error`.
 
 # PAnEn 3.4.0
 
