@@ -7,6 +7,7 @@ tags:
 
 <!-- vim-markdown-toc GitLab -->
 
+* [`eccodes` Does Not Support `JPEG` Decoding](#eccodes-does-not-support-jpeg-decoding)
 * [`RAnEn` Installation Failed on Mac OS Mojave](#ranen-installation-failed-on-mac-os-mojave)
 * [`NetBeans` does not recognize the executables after building the C++ programs.](#netbeans-does-not-recognize-the-executables-after-building-the-c-programs)
 * [`RAnEn` is built with GNU compiler and CMake process. But it shows up not supporting `OpenMP`.](#ranen-is-built-with-gnu-compiler-and-cmake-process-but-it-shows-up-not-supporting-openmp)
@@ -16,6 +17,19 @@ tags:
 * [Dynamic linking error on MacOS.](#dynamic-linking-error-on-macos)
 
 <!-- vim-markdown-toc -->
+
+#### `eccodes` Does Not Support `JPEG` Decoding
+
+By default, `PAnEn` is going to build the `eccodes` library for you even if you already have it installed on the system. This behavior is controlled by the CMake parameter `ECCODES_TYPE`. But if you receive the above error after your compilation and during the `make test` period, `eccdoes` might have failed in linking the `OpenJPEG` library.
+
+To confirm the cause of the error, please try to inspect the dynamic linking of the compiled `eccodes` dynamic library. Because CMake built it for you, it should be under `dependency/install/lib/libeccodes.so`. If you are using a Linux system, you can use `ldd` to inspect the dynamic linking of this object. If you don't see any linkings to `JASPER` or `JPEG`, the problem is diagnosed.
+
+You can install the library `jasper` to resolve this issue.
+
+```
+# Assuming you have the permission on Linux
+sudo apt install libjasper-dev
+```
 
 #### `RAnEn` Installation Failed on Mac OS Mojave
 
