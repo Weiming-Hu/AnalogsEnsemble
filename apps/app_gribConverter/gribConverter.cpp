@@ -28,15 +28,15 @@ int main(int argc, char** argv) {
     // Optional variables
     int verbose = 0;
     bool delimited = false, overwrite_output = false, skip_data = false;
-    string ext, config_file, par_key, level_key, type_key, val_key;
-    vector<long> crcl_pars_id;
-    vector<string> pars_new_name;
+    string ext, par_key, level_key, type_key, val_key;
+    vector<long> crcl_pars_id, subset_stations_i;
+    vector<string> pars_new_name, config_files;
 
     try {
         po::options_description desc("Available options");
         desc.add_options()
                 ("help,h", "Print help information for options.")
-                ("config,c", po::value<string>(), "Set the configuration file path. Command line options overwrite options in configuration file.")
+                ("config,c", po::value< vector<string> >(&config_files)->multitoken(), "Set the configuration file path. Command line options overwrite options in configuration file.")
 
                 ("output-type", po::value<string>(&output_type)->required(), "Set the output type. Currently it supports 'Forecasts' and 'Observations'.")
                 ("folder", po::value<string>(&folder)->required(), "Set the data folder.")
@@ -51,6 +51,7 @@ int main(int argc, char** argv) {
                 ("levels", po::value< vector<long> >(&levels)->multitoken()->required(), "Set the levels for each parameters.")
                 ("level-types", po::value< vector<string> >(&level_types)->multitoken()->required(), "Set the types of levels for each parameters.")
                 
+                ("subset-stations", po::value< vector<long> >(&subset_stations_i)->multitoken(), "The indices of subset stations. This is helpful when you only want to read a subset of the stations. Please count from 0.")
                 ("delimited", po::bool_switch(&delimited)->default_value(false), "The extracted time message is delimited by ambiguous character (1990-01-01).")
                 ("ext", po::value<string>(&ext)->default_value(".grb2"), "Set the file extension.")
                 ("par-key", po::value<string>(&par_key)->default_value("paramId"), "Set the parameter ID key name in GRB file.")
@@ -94,24 +95,26 @@ int main(int argc, char** argv) {
             // If configuration file is specfied, read it first.
             // The variable won't be written until we call notify.
             //
-            config_file = vm["config"].as<string>();
+            config_files = vm["config"].as< vector<string> >();
         }
 
-        if (!config_file.empty()) {
-            ifstream ifs(config_file.c_str());
-            if (!ifs) {
-                cerr << BOLDRED << "Error: Can't open configuration file " << config_file << RESET << endl;
-                return 1;
-            } else {
-                auto parsed_config = parse_config_file(ifs, desc, true);
-
-                auto unregistered_keys_config = po::collect_unrecognized(parsed_config.options, po::exclude_positional);
-                if (unregistered_keys_config.size() != 0) {
-                    guess_arguments(unregistered_keys_config, available_options);
+        if (!config_files.empty()) {
+            for (const auto & config_file : config_files) {
+                ifstream ifs(config_file.c_str());
+                if (!ifs) {
+                    cerr << BOLDRED << "Error: Can't open configuration file " << config_file << RESET << endl;
                     return 1;
-                }
+                } else {
+                    auto parsed_config = parse_config_file(ifs, desc, true);
 
-                store(parsed_config, vm);
+                    auto unregistered_keys_config = po::collect_unrecognized(parsed_config.options, po::exclude_positional);
+                    if (unregistered_keys_config.size() != 0) {
+                        guess_arguments(unregistered_keys_config, available_options);
+                        return 1;
+                    }
+
+                    store(parsed_config, vm);
+                }
             }
         }
 
@@ -177,6 +180,7 @@ int main(int argc, char** argv) {
                 << "pars_id: " << pars_id << endl
                 << "levels: " << levels << endl
                 << "verbose: " << verbose << endl
+                << "subset_stations: " << subset_stations_i << endl
                 << "delimited: " << delimited << endl
                 << "ext: " << ext << endl
                 << "unit_flt: " << unit_flt << endl
@@ -185,7 +189,7 @@ int main(int argc, char** argv) {
                 << "level_key: " << level_key << endl
                 << "type_key: " << type_key << endl
                 << "val_key: " << val_key << endl
-                << "config_file: " << config_file << endl
+                << "config_files: " << config_files << endl
                 << "crcl_pars_id: " << crcl_pars_id << endl
                 << "pars_new_name: " << pars_new_name << endl
                 << "overwrite_output: " << overwrite_output << endl
@@ -202,11 +206,16 @@ int main(int argc, char** argv) {
         throw runtime_error("Error: The numbers of parameter Ids and levels do not match!");    
     if (pars_id.size() != level_types.size())
         throw runtime_error("Error: The numbers of parameter Ids and level types do not match!");
+    if (subset_stations_i.size() != 0) {
+        // Parse the subset station indices
+        subset_stations_i.erase(unique(subset_stations_i.begin(), subset_stations_i.end()), subset_stations_i.end());
+        sort(subset_stations_i.begin(), subset_stations_i.end());
+    }
     
     // Call function to convert GRIB
     if (output_type == "Forecasts") {
         toForecasts(files_in, file_out, pars_id, pars_new_name, crcl_pars_id,
-                levels, level_types, par_key, level_key, type_key, val_key, 
+                subset_stations_i, levels, level_types, par_key, level_key, type_key, val_key, 
                 regex_time_str, regex_flt_str, unit_flt, delimited, skip_data, verbose);
     } else if (output_type == "Observations") {
         toObservations(files_in, file_out, pars_id, pars_new_name, crcl_pars_id,

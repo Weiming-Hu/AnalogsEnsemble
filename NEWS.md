@@ -1,5 +1,6 @@
 # PAnEn 3.4.1
 
+- Add grid subset functionality to `gribConverter` for type `Forecasts`. This function has been tested.
 - Fix `RAnEn` installation script for C/C++ compilers.
 - Fix `OpenMP` shared object issue for `runtime_error`.
 

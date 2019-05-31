@@ -199,7 +199,7 @@ int main(int argc, char** argv) {
         po::options_description desc("Avaialble options");
         desc.add_options()
                 ("help,h", "Print help information for options.")
-                ("config,c", po::value< vector<string> >(&config_files), "Set the configuration file(s). Command line options overwrite options in configuration file.")
+                ("config,c", po::value< vector<string> >(&config_files)->multitoken(), "Set the configuration file(s). Command line options overwrite options in configuration file.")
                 
                 ("similarity-nc", po::value<string>(&file_sim)->required(), "Set the input file for the similarity matrix.")
                 ("observation-nc", po::value<vector<string> >(&files_obs)->multitoken()->required(), "Set the input file(s) for observations.")

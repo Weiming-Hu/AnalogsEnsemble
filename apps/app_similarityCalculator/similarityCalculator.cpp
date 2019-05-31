@@ -337,7 +337,7 @@ int main(int argc, char** argv) {
         po::options_description desc("Available options");
         desc.add_options()
                 ("help,h", "Print help information for options.")
-                ("config,c", po::value< vector<string> >(&config_files), "Set the configuration file(s). Command line options overwrite options in configuration file. ")
+                ("config,c", po::value< vector<string> >(&config_files)->multitoken(), "Set the configuration file(s). Command line options overwrite options in configuration file. ")
 
                 ("test-forecast-nc", po::value<string>(&file_test_forecasts)->required(), "Set the input file path for test forecast NetCDF.")
                 ("search-forecast-nc", po::value< vector<string> >(&files_search_forecasts)->multitoken()->required(), "Set input the file path(s) for search forecast NetCDF.")

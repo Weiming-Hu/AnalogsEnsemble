@@ -101,6 +101,7 @@ namespace gribConverter {
      * @param pars_new_name A vector of names that will assign to the parameters in the new
      * Forecasts NetCDF file.
      * @param crcl_pars_id A vector of parameters ID for circular parameters.
+     * @param subset_stations_i A vector of the indices of subset stations.
      * @param levels A vector of level numbers to specify for each parameter.
      * @param level_types A vector of types of levels.
      * @param par_key The key name of parameter ID.
@@ -118,7 +119,9 @@ namespace gribConverter {
      */
     void toForecasts(vector<string> & files_in, const string & file_out,
             const vector<long> & pars_id, const vector<string> & pars_new_name,
-            const vector<long> & crcl_pars_id, const vector<long> & levels,
+            const vector<long> & crcl_pars_id, 
+            vector<long> & subset_stations_i,
+            const vector<long> & levels,
             const vector<string> & level_types,
             const string & par_key, const string & level_key,
             const string & type_key, const string & val_key,

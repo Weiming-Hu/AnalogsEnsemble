@@ -167,7 +167,9 @@ namespace gribConverter {
 
     void toForecasts(vector<string> & files_in, const string & file_out,
             const vector<long> & pars_id, const vector<string> & pars_new_name,
-            const vector<long> & crcl_pars_id, const vector<long> & levels,
+            const vector<long> & crcl_pars_id,
+            vector<long> & subset_stations_i,
+            const vector<long> & levels,
             const vector<string> & level_types,
             const string & par_key, const string & level_key,
             const string & type_key, const string & val_key,
@@ -199,11 +201,27 @@ namespace gribConverter {
 
         if (xs.size() != ys.size()) throw runtime_error("Error: the number of xs and ys do not match!");
 
-        for (size_t i = 0; i < xs.size(); i++) {
-            anenSta::Station station(xs[i], ys[i]);
-            stations.push_back(station);
+        if (subset_stations_i.size() == 0) {
+            // If no subset is defined, subset is set to all stations available
+
+            for (size_t i = 0; i < xs.size(); i++) {
+                anenSta::Station station(xs[i], ys[i]);
+                stations.push_back(station);
+            }
+
+            assert(stations.size() == xs.size());
+            subset_stations_i.resize(xs.size());
+            iota(subset_stations_i.begin(), subset_stations_i.end(), 0);
+
+        } else {
+            // If subset_stations_i is defined, only push the required stations
+            assert(max(subset_stations_i.begin(), subset_stations_i.end()) < xs.size());
+
+            for (size_t i = 0; i < subset_stations_i.size(); i++) {
+                anenSta::Station station(xs[subset_stations_i[i]], ys[subset_stations_i[i]]);
+                stations.push_back(station);
+            }
         }
-        assert(stations.size() == xs.size());
 
         // Read parameters based on input options
         if (verbose >= 3) cout << GREEN << "Reading parameter information ... " << RESET << endl;
@@ -357,15 +375,10 @@ namespace gribConverter {
                             continue;
                         }
 
-                        if (data_vec.size() == forecasts.getStations().size()) {
+                        for (size_t k = 0; k < subset_stations_i.size(); k++) {
+                            data[j][k][index_time][index_flt] = data_vec[subset_stations_i[k]];
+                        } // End of loop for stations
 
-                            for (size_t k = 0; k < data_vec.size(); k++) {
-                                data[j][k][index_time][index_flt] = data_vec[k];
-                            } // End of loop for stations
-
-                        } else {
-                            file_flags[i] = false;
-                        }
                     }
 
                 } // End of loop for parameters
