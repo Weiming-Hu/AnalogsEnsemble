@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>RAnEn::generateSearchStations — generateSearchStations • RAnEn</title>
+<title>RAnEn::writeNetCDF — writeNetCDF • RAnEn</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,14 +30,10 @@
 
 
 
-<meta property="og:title" content="RAnEn::generateSearchStations — generateSearchStations" />
+<meta property="og:title" content="RAnEn::writeNetCDF — writeNetCDF" />
 
-<meta property="og:description" content="RAnEn::generateSearchStations is the search station computation routine included
-in the function generateConfiguration. This function computes the
-search stations of each test station. Search stations are
-represented using their index. Each column includes the search station indices for
-each test station. The available constraints for calculating the search stations
-include 1) Euclidean distances; 2) number of nearest neighbors; 3) station classifiers." />
+<meta property="og:description" content="RAnEn::writeNetCDF writes a formatted object into a NetCDF file. The output NetCDF
+file can be used by C++ utilities." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -100,71 +96,54 @@ include 1) Euclidean distances; 2) number of nearest neighbors; 3) station class
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>RAnEn::generateSearchStations</h1>
+    <h1>RAnEn::writeNetCDF</h1>
     
-    <div class="hidden name"><code>generateSearchStations.Rd</code></div>
+    <div class="hidden name"><code>writeNetCDF.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>RAnEn::generateSearchStations is the search station computation routine included
-in the function <code><a href='generateConfiguration.html'>generateConfiguration</a></code>. This function computes the
-search stations of each test station. Search stations are
-represented using their index. Each column includes the search station indices for
-each test station. The available constraints for calculating the search stations
-include 1) Euclidean distances; 2) number of nearest neighbors; 3) station classifiers.</p>
+    <p>RAnEn::writeNetCDF writes a formatted object into a NetCDF file. The output NetCDF
+file can be used by C++ utilities.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>generateSearchStations</span>(<span class='no'>test_stations_x</span>, <span class='no'>test_stations_y</span>, <span class='no'>search_stations_x</span>,
-  <span class='no'>search_stations_y</span>, <span class='no'>max_num_search_stations</span>, <span class='no'>distance</span>, <span class='no'>num_nearest</span>,
-  <span class='no'>test_stations_classifier</span>, <span class='no'>search_stations_classifier</span>, <span class='no'>verbose</span>)</pre>
+    <pre class="usage"><span class='fu'>writeNetCDF</span>(<span class='no'>file.type</span>, <span class='no'>obj</span>, <span class='no'>file.out</span>, <span class='kw'>global.attrs</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>nchars.max</span> <span class='kw'>=</span> <span class='fl'>50</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>test_stations_x</th>
-      <td><p>Xs for test stations.</p></td>
+      <th>file.type</th>
+      <td><p>The type of the object to be written to a file. It only supports
+Observations for now.</p></td>
     </tr>
     <tr>
-      <th>test_stations_y</th>
-      <td><p>Ys for test stations.</p></td>
+      <th>nchars.max</th>
+      <td><p>The maximum length of string.</p></td>
     </tr>
     <tr>
-      <th>search_stations_x</th>
-      <td><p>Xs for search stations.</p></td>
-    </tr>
-    <tr>
-      <th>search_stations_y</th>
-      <td><p>Ys for search stations.</p></td>
-    </tr>
-    <tr>
-      <th>max_num_search_stations</th>
-      <td><p>The maximum number of search stations that will be stored.</p></td>
-    </tr>
-    <tr>
-      <th>distance</th>
-      <td><p>The buffer distance from each test station to look for search stations.</p></td>
-    </tr>
-    <tr>
-      <th>test_stations_classifier</th>
-      <td><p>A vector for test station classifiers.</p></td>
-    </tr>
-    <tr>
-      <th>search_stations_classifier</th>
-      <td><p>A vector for search station classifiers.</p></td>
-    </tr>
-    <tr>
-      <th>verbose</th>
-      <td><p>Verbose level.</p></td>
+      <th>global.attr</th>
+      <td><p>A list with names and values for global attributes. The values
+will be written as strings. Please make sure list members have names.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A matrix for search stations. Each column includes the search station indices
-for each test station.</p>
+    <p>A boolean for whether the writing is complete.</p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The formatted object for <code>Observations</code> is an R list object with the following members:</p><ul>
+<li><p>ParameterNames</p></li>
+<li><p>StationNames (optional)</p></li>
+<li><p>Xs</p></li>
+<li><p>Ys</p></li>
+<li><p>Times</p></li>
+<li><p>Data</p></li>
+</ul>
     
 
   </div>
@@ -174,6 +153,8 @@ for each test station.</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
           </ul>
 
     <h2>Author</h2>
