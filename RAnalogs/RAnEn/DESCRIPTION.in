@@ -26,5 +26,6 @@ Suggests:
     parallel,
     nnet,
     boot,
+    ncdf4,
 RoxygenNote: 6.1.0
 Encoding: UTF-8

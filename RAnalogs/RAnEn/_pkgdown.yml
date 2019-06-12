@@ -28,6 +28,7 @@ reference:
           - computeWindSpeed
           - convertToAdvance
           - alignObservations
+          - writeNetCDF
 
     - title: Verification
       desc: Functions for verification.

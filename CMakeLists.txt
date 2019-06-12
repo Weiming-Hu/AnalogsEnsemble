@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
 project(ParallelEnsembleForecasts)
 
-set(GRAND_VERSION "3.4.1")
+set(GRAND_VERSION "3.4.2")
 message("You are building version ${GRAND_VERSION}")
 add_definitions(-D_APPVERSION="v ${GRAND_VERSION}")
 
@@ -204,6 +204,7 @@ add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_windFieldCalculator")
 add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_analogGenerator")
 add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_analogSelector")
 add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_fileAggregate")
+add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_fileSlice")
 
 if(ENABLE_MPI)
     add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_mpiAnEnIO")

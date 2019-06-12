@@ -1,3 +1,8 @@
+# PAnEn 3.4.2
+
+- Add slicing tool `fileSlice`.
+- Add R function `writeNetCDF`.
+
 # PAnEn 3.4.1
 
 - Add grid subset functionality to `gribConverter` for type `Forecasts`. This function has been tested.
