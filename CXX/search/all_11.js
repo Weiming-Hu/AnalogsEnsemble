@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['released_20under_20mit_20license',['Released under MIT License',['../md__sapphire_s0_wuh20_github__analogs_ensemble_out__l_i_c_e_n_s_e.html',1,'']]],
+  ['released_20under_20mit_20license',['Released under MIT License',['../md__home_graduate_wuh20_github__analogs_ensemble_out__l_i_c_e_n_s_e.html',1,'']]],
   ['randomize',['randomize',['../class_array4_d.html#a15626fe44d3792ccc2822afb30bcbd98',1,'Array4D']]],
   ['read_5fstring_5fvector_5f',['read_string_vector_',['../class_an_en_i_o.html#ae9cf0a8cde2b742992295ccc2bed17ef',1,'AnEnIO::read_string_vector_(std::string var_name, std::vector&lt; std::string &gt; &amp;results) const'],['../class_an_en_i_o.html#a8c7e28931fd88831922e64ad87ee03f2',1,'AnEnIO::read_string_vector_(std::string var_name, std::vector&lt; std::string &gt; &amp;results, size_t start, size_t count, ptrdiff_t stride=1) const']]],
   ['read_5fvector_5f',['read_vector_',['../class_an_en_i_o.html#aa135f278f8ff2a028b8119f483dd36bf',1,'AnEnIO::read_vector_(std::string var_name, std::vector&lt; T &gt; &amp;results) const'],['../class_an_en_i_o.html#aa026adebf4a1195f13e7c01325ca4906',1,'AnEnIO::read_vector_(const netCDF::NcVar &amp;var, T *p_vals, const size_t &amp;total) const'],['../class_an_en_i_o.html#a4a4b8eedb372df1bb46b2104ae2761cd',1,'AnEnIO::read_vector_(std::string var_name, std::vector&lt; T &gt; &amp;results, std::vector&lt; size_t &gt; start, std::vector&lt; size_t &gt; count, std::vector&lt; ptrdiff_t &gt; stride={1}) const'],['../class_an_en_i_o.html#a9a0c27d0baddc7e27b25e1d13ac4f313',1,'AnEnIO::read_vector_(std::string var_name, std::vector&lt; T &gt; &amp;results, size_t start, size_t count, ptrdiff_t stride=1) const'],['../class_an_en_i_o.html#ae9c30f235b7ba990de42ad0b7decab73',1,'AnEnIO::read_vector_(const netCDF::NcVar &amp;var, T *p_vals, const std::vector&lt; size_t &gt; &amp;start, const std::vector&lt; size_t &gt; &amp;count, const std::vector&lt; ptrdiff_t &gt; &amp;stride, const size_t &amp;total) const']]],
@@ -28,6 +28,7 @@ var searchData=
   ['runanaloggenerator',['runAnalogGenerator',['../analog_generator_8cpp.html#ae0d8ba2dea5ba3fb8970d5b6b63ebc92',1,'analogGenerator.cpp']]],
   ['runanalogselector',['runAnalogSelector',['../analog_selector_8cpp.html#ad49f36e0772162de5288dbe6346635e7',1,'analogSelector.cpp']]],
   ['runfileaggregate',['runFileAggregate',['../file_aggregate_8cpp.html#acb30fce21f1c4b97b98bf09b02282690',1,'fileAggregate.cpp']]],
+  ['runfileslice',['runFileSlice',['../file_slice_8cpp.html#a1f7ccf797b51c932efaaa1173296b6ea',1,'fileSlice.cpp']]],
   ['runforecaststoobservations',['runForecastsToObservations',['../forecasts_to_observations_8cpp.html#a260ecc0ad2b8ae001ead0c28d11dd3bf',1,'forecastsToObservations.cpp']]],
   ['runneranen_2ecpp',['runnerAnEn.cpp',['../runner_an_en_8cpp.html',1,'']]],
   ['runneranenio_2ecpp',['runnerAnEnIO.cpp',['../runner_an_en_i_o_8cpp.html',1,'']]],
