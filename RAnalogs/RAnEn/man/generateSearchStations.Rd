@@ -28,14 +28,14 @@ generateSearchStations(test_stations_x, test_stations_y, search_stations_x,
 \item{verbose}{Verbose level.}
 }
 \value{
-A matrix for search stations. Each row includes the search station indices
+A matrix for search stations. Each column includes the search station indices
 for each test station.
 }
 \description{
 RAnEn::generateSearchStations is the search station computation routine included
 in the function \code{\link{generateConfiguration}}. This function computes the
 search stations of each test station. Search stations are
-represented using their index. Each row includes the search station indices for
+represented using their index. Each column includes the search station indices for
 each test station. The available constraints for calculating the search stations
 include 1) Euclidean distances; 2) number of nearest neighbors; 3) station classifiers.
 }
