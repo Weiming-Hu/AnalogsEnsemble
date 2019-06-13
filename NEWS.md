@@ -2,6 +2,8 @@
 
 - Add slicing tool `fileSlice`.
 - Add R function `writeNetCDF`.
+- Improve visualization. Fix the x plotting range of RAnEn figures.
+- Change analogGenerator code. Similarity output is sorted now.
 
 # PAnEn 3.4.1
 

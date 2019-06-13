@@ -201,7 +201,7 @@ plotAnalogSelection <- function(
     
     # Plot the similairty and the selected ones
     plot(c(x.days[days.index], current.forecast.x),
-         c(sims[, 1], NA), xlab = '', ylab = 'Similarity',
+         c(sims[, 1], NA), xlab = '', ylab = 'Similarity', xlim = range(x.days),
          pch = pch.unselected, col = col.unselected, cex.lab = cex.lab)
     points(x.days[days.index[1:config$num_members]],
            sims[1:config$num_members, 1], pch = pch.selected, col = col.selected)

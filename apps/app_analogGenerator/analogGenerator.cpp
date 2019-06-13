@@ -234,17 +234,6 @@ void runAnalogGenerator(
             max_par_nan, max_flt_nan, test_times, search_times, operational,
             max_sims_entries));
 
-    if (!file_similarity.empty()) {
-        AnEnIO io_sim("Write", file_similarity, "Similarity");
-        handleError(io_sim.writeSimilarityMatrices(
-                sims, test_forecasts.getParameters(),
-                test_forecasts.getStations(),
-                test_forecasts.getTimes(),
-                test_forecasts.getFLTs(),
-                search_forecasts.getStations(),
-                search_forecasts.getTimes()));
-    }
-
 #if defined(_CODE_PROFILING)
     clock_t time_end_of_sim = clock();
 #if defined(_OPENMP)
@@ -267,9 +256,20 @@ void runAnalogGenerator(
 #endif
 
     /************************************************************************
-     *                           Write Analogs                              *
+     *                      Write Analogs and Similarities                  *
      ************************************************************************/
-    handleError(io_out.writeAnalogs(
+    if (!file_similarity.empty()) {
+        AnEnIO io_sim("Write", file_similarity, "Similarity");
+        handleError(io_sim.writeSimilarityMatrices(
+                sims, test_forecasts.getParameters(),
+                test_forecasts.getStations(),
+                test_forecasts.getTimes(),
+                test_forecasts.getFLTs(),
+                search_forecasts.getStations(),
+                search_forecasts.getTimes()));
+    }
+
+   handleError(io_out.writeAnalogs(
             analogs, test_forecasts.getStations(),
             test_forecasts.getTimes(),
             test_forecasts.getFLTs(),
