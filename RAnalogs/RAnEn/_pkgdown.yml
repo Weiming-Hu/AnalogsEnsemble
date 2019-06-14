@@ -28,7 +28,6 @@ reference:
           - computeWindSpeed
           - convertToAdvance
           - alignObservations
-          - writeNetCDF
 
     - title: Verification
       desc: Functions for verification.
@@ -40,6 +39,12 @@ reference:
       contents:
           - starts_with("plot")
           - generateCircleCoords
+    
+    - title: File I/O
+      desc: Functions for reading and writing.
+      contents:
+          - readConfig
+          - writeNetCDF
 
     - title: General Information
       desc: Functions to provide generate information.
