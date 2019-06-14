@@ -157,26 +157,14 @@ generateAnalogs <- function(configuration) {
   # So change the order of dimensions to make it conform with other objects.
   #
   if (configuration$preserve_similarity) {
-    AnEn$similarity <- aperm(AnEn$similarity, length(dim(AnEn$similarity)):1)
-
-    ori <- as.vector(AnEn$similarity[, , , , 3])
-    ori[which(ori >= 0)] <- ori[which(ori >= 0)] + 1
-    AnEn$similarity[, , , , 3] <- ori
-
-    AnEn$similarity[, , , , 2] <- AnEn$similarity[, , , , 2, drop = F] + 1
+    AnEn <- AnEnC2R(AnEn, 'similarity')
   }
 
   if (configuration$preserve_search_stations) {
     AnEn$searchStations <- AnEn$searchStations + 1
   }
 
-  # Convert station index from C counting to R counting
-  AnEn$analogs[, , , , 2] <- AnEn$analogs[, , , , 2, drop = F] + 1
-
-  # Convert time index from C to R if the index is non-negative
-  ori <- as.vector(AnEn$analogs[, , , , 3])
-  ori[which(ori >= 0)] <- ori[which(ori >= 0)] + 1
-  AnEn$analogs[, , , , 3] <- ori
+  AnEn <- AnEnC2R(AnEn, 'analogs')
 
   if (configuration$preserve_mapping) AnEn$mapping <- AnEn$mapping + 1
 

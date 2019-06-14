@@ -44,6 +44,9 @@ reference:
       desc: Functions for reading and writing.
       contents:
           - readConfig
+          - readObservations
+          - readForecasts
+          - readAnEn
           - writeNetCDF
 
     - title: General Information
