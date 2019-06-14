@@ -4,6 +4,9 @@
     <loc>https://weiming-hu.github.io/AnalogsEnsemble//index.html</loc>
   </url>
   <url>
+    <loc>https://weiming-hu.github.io/AnalogsEnsemble//reference/AnEnC2R.html</loc>
+  </url>
+  <url>
     <loc>https://weiming-hu.github.io/AnalogsEnsemble//reference/RAnEn-package.html</loc>
   </url>
   <url>
@@ -76,7 +79,16 @@
     <loc>https://weiming-hu.github.io/AnalogsEnsemble//reference/rcpp_compute_analogs.html</loc>
   </url>
   <url>
+    <loc>https://weiming-hu.github.io/AnalogsEnsemble//reference/readAnEn.html</loc>
+  </url>
+  <url>
     <loc>https://weiming-hu.github.io/AnalogsEnsemble//reference/readConfig.html</loc>
+  </url>
+  <url>
+    <loc>https://weiming-hu.github.io/AnalogsEnsemble//reference/readForecasts.html</loc>
+  </url>
+  <url>
+    <loc>https://weiming-hu.github.io/AnalogsEnsemble//reference/readObservations.html</loc>
   </url>
   <url>
     <loc>https://weiming-hu.github.io/AnalogsEnsemble//reference/rmse.ver.html</loc>
