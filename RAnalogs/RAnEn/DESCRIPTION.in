@@ -27,5 +27,6 @@ Suggests:
     nnet,
     boot,
     ncdf4,
+    verification,
 RoxygenNote: 6.1.0
 Encoding: UTF-8
