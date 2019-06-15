@@ -16,7 +16,7 @@
 #' Underdevelopment.
 #' 
 #' @export
-verifyBrier <- function(anen.ver, obs.ver, threshold, ensemble.func, ..., baseline = NULL, ) {
+verifyBrier <- function(anen.ver, obs.ver, threshold, ensemble.func, ..., baseline = NULL) {
   
   require(verification)
   
