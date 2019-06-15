@@ -36,5 +36,5 @@ readObservations <- function(file, origin = '1970-01-01', tz = 'UTC') {
   observations$Times <- as.POSIXct(ncvar_get(nc, 'Times'), origin = origin, tz = tz)
   nc_close(nc)
   
-  return(forecasts)
+  return(observations)
 }
