@@ -11,19 +11,13 @@
 #         The Pennsylvania State University
 #
 
-#' RAnEn::verifyBrier
+#' RAnEn::verifyThreatScore
 #' 
-#' RAnEn::verifyBrier computes the Brier score and its decomposition for each 
-#' all lead times available. This function used the NCAR verification package.
+#' RAnEn::verifyThreatScore computes the threat score for a specific threshold.
+#' The formula is adopted from
+#' [WPC Verification page](https://www.wpc.ncep.noaa.gov/html/scorcomp.shtml).
 #' 
-#' @param anen.ver A 4-dimensional array for analogs.
-#' @param obs.ver A 3-dimensional array for observations.
-#' @param threshold The numeric threshold for computing the brier score.
-#' @param ensemble.func A function to convert the ensemble members (the 4th
-#' dimension of analogs) into a scala. This scala is usually a probability.
-#' @param ... Extra parameters for the ensemble.func.
-#' @param baseline A 3-dimensional array for the baseline forecasts.
-#' 
+#' @md
 #' @export
 verifyBrier <- function(anen.ver, obs.ver, threshold, ensemble.func, ..., baseline = NULL, ) {
   
@@ -45,8 +39,9 @@ verifyBrier <- function(anen.ver, obs.ver, threshold, ensemble.func, ..., baseli
     baseline <- baseline >= threshold
   }
   
-  # Convert each AnEn ensemble to a probability using the ensemble.func
+  # Convert each AnEn ensemble to a probability using the ensemble.func adn the threshold
   anen.ver <- apply(anen.ver, 1:3, ensemble.func)
+  anen.ver <- anen.ver >= threshold
   
   # Convert observations to a binary variable using the threshold
   obs.ver <- obs.ver >= threshold
