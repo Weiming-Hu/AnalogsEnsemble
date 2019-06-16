@@ -19,6 +19,10 @@
 #' @param anen.ver A 4-dimensional array for analogs.
 #' @param obs.ver A 3-dimensional array for observations.
 #' @param threshold The numeric threshold for computing the brier score.
+#' Observation and baseline values larger than or equal to the threshold
+#' will be converted to 1. Analog values will not be processed with this
+#' threshold value because it is assumed that the ensemble function will
+#' convert analog ensemble to probability values.
 #' @param ensemble.func A function to convert the ensemble members (the 4th
 #' dimension of analogs) into a scala. This scala is usually a probability.
 #' @param ... Extra parameters for the ensemble.func.
@@ -30,7 +34,7 @@ verifyBrier <- function(anen.ver, obs.ver, threshold, ensemble.func, ..., baseli
   require(verification)
   
   if ( !identical(dim(anen.ver)[1:3], dim(obs.ver)[1:3]) ) {
-    print("Error: Observations and Forecasts have incompatible dimensions")
+    print("Error: Observations and analogs have incompatible dimensions")
     return(NULL)
   }
   
@@ -46,13 +50,13 @@ verifyBrier <- function(anen.ver, obs.ver, threshold, ensemble.func, ..., baseli
   }
   
   # Convert each AnEn ensemble to a probability using the ensemble.func
-  anen.ver <- apply(anen.ver, 1:3, ensemble.func)
+  anen.ver <- apply(anen.ver, 1:3, ensemble.func, ...)
   
   # Convert observations to a binary variable using the threshold
   obs.ver <- obs.ver >= threshold
   
   num.flts <- dim(obs.ver)[3]
-  ret.flts <- data.frame()
+  ret.flts <- matrix(nrow = 0, ncol = 4)
   
   for (i.flt in 1:num.flts) {
     
@@ -71,7 +75,7 @@ verifyBrier <- function(anen.ver, obs.ver, threshold, ensemble.func, ..., baseli
   ret.flts <- rbind(ret.flts, c(
     ret.flt$bs, ret.flt$ss, ret.flt$bs.reliability, ret.flt$bs.resol))
   
-  names(ret.flts) <- c('bs', 'ss', 'reliability', 'resol')
+  colnames(ret.flts) <- c('bs', 'ss', 'reliability', 'resol')
   rownames(ret.flts) <- c(paste('FLT', 1:num.flts, sep = ''), 'All')
   
   return(ret.flts)

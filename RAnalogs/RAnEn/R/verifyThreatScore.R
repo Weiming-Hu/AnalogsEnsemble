@@ -17,57 +17,53 @@
 #' The formula is adopted from
 #' [WPC Verification page](https://www.wpc.ncep.noaa.gov/html/scorcomp.shtml).
 #' 
+#' @param anen.ver A 4-dimensional array for analogs.
+#' @param obs.ver A 3-dimensional array for observations.
+#' @param threshold The numeric threshold for computing the threat score.
+#' Observation values larger than or equal to the threshold will be
+#' converted to 1. Analog values will not be processed with this
+#' threshold value because it is assumed that the ensemble function will
+#' convert analog ensemble to binary values.
+#' @param ensemble.func A function to convert the ensemble members (the 4th
+#' dimension of analogs) into a binary.
+#' @param ... Extra parameters for the ensemble.func.
+#' 
 #' @md
 #' @export
-verifyBrier <- function(anen.ver, obs.ver, threshold, ensemble.func, ..., baseline = NULL, ) {
-  
-  require(verification)
+verifyThreatScore <- function(anen.ver, obs.ver, threshold, ensemble.func, ...) {
   
   if ( !identical(dim(anen.ver)[1:3], dim(obs.ver)[1:3]) ) {
-    print("Error: Observations and Forecasts have incompatible dimensions")
+    print("Error: Observations and forecasts have incompatible dimensions")
     return(NULL)
   }
   
-  stopifnot(is.function(ensemble.func))
+  # Get the number of lead times
+  num.flts <- dim(obs.ver)[3]
   
-  if (!identical(baseline, NULL)) {
-    if ( !identical(dim(baseline), dim(obs.ver))) {
-      print("Error: Observations and baseline forecasts have incompatible dimensions")
-      return(NULL)
-    }
-    
-    baseline <- baseline >= threshold
-  }
-  
-  # Convert each AnEn ensemble to a probability using the ensemble.func adn the threshold
-  anen.ver <- apply(anen.ver, 1:3, ensemble.func)
-  anen.ver <- anen.ver >= threshold
+  # Convert each AnEn ensemble to a binary variable 
+  anen.ver <- apply(anen.ver, 1:3, ensemble.func, ...)
   
   # Convert observations to a binary variable using the threshold
   obs.ver <- obs.ver >= threshold
   
-  num.flts <- dim(obs.ver)[3]
-  ret.flts <- data.frame()
+  ret.flts <- matrix(nrow = 0, ncol = 4)
   
   for (i.flt in 1:num.flts) {
     
-    ret.flt <- brier(obs = obs.ver[, , i.flt], pred = anen.ver[, , i.flt],
-                     baseline = baseline[, , i.flt], bins = F)
-    stopifnot(all(ret.flt$check - ret.flt$bs < 1e-6))
+    # Convert AnEn and observations to logical vectors
+    anen.ver.flt <- as.logical(as.vector(anen.ver[, , i.flt]))
+    obs.ver.flt <- as.logical(as.vector(obs.ver[, , i.flt]))
     
-    ret.flts <- rbind(ret.flts, c(
-      ret.flt$bs, ret.flt$ss, ret.flt$bs.reliability, ret.flt$bs.resol))
+    correct <- length(which(anen.ver.flt & obs.ver.flt))
+    forecasted <- length(which(anen.ver.flt))
+    observed <- length(which(obs.ver.flt))
+    
+    ts <- correct / (forecasted + observed - correct)
+    ret.flts <- rbind(ret.flts, c(ts, correct, forecasted, observed))
   }
   
-  # Compute the overall brier score for all lead times
-  ret.flt <- brier(obs = obs.ver, pred = anen.ver, baseline = baseline, bins = F)
-  stopifnot(all(ret.flt$check - ret.flt$bs < 1e-6))
-  
-  ret.flts <- rbind(ret.flts, c(
-    ret.flt$bs, ret.flt$ss, ret.flt$bs.reliability, ret.flt$bs.resol))
-  
-  names(ret.flts) <- c('bs', 'ss', 'reliability', 'resol')
-  rownames(ret.flts) <- c(paste('FLT', 1:num.flts, sep = ''), 'All')
+  colnames(ret.flts) <- c('ts', 'correct', 'forecasted', 'observed')
+  rownames(ret.flts) <- paste('FLT', 1:num.flts, sep = '')
   
   return(ret.flts)
 }
