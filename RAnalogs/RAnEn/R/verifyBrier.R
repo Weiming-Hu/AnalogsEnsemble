@@ -25,7 +25,7 @@
 #' @param baseline A 3-dimensional array for the baseline forecasts.
 #' 
 #' @export
-verifyBrier <- function(anen.ver, obs.ver, threshold, ensemble.func, ..., baseline = NULL, ) {
+verifyBrier <- function(anen.ver, obs.ver, threshold, ensemble.func, ..., baseline = NULL) {
   
   require(verification)
   
