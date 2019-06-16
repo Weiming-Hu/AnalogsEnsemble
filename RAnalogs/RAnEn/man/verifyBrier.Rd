@@ -7,6 +7,25 @@
 verifyBrier(anen.ver, obs.ver, threshold, ensemble.func, ...,
   baseline = NULL)
 }
+\arguments{
+\item{anen.ver}{A 4-dimensional array for analogs.}
+
+\item{obs.ver}{A 3-dimensional array for observations.}
+
+\item{threshold}{The numeric threshold for computing the brier score.
+Observation and baseline values larger than or equal to the threshold
+will be converted to 1. Analog values will not be processed with this
+threshold value because it is assumed that the ensemble function will
+convert analog ensemble to probability values.}
+
+\item{ensemble.func}{A function to convert the ensemble members (the 4th
+dimension of analogs) into a scala. This scala is usually a probability.}
+
+\item{...}{Extra parameters for the ensemble.func.}
+
+\item{baseline}{A 3-dimensional array for the baseline forecasts.}
+}
 \description{
-Underdevelopment.
+RAnEn::verifyBrier computes the Brier score and its decomposition for each 
+all lead times available. This function used the NCAR verification package.
 }
