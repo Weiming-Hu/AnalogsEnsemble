@@ -9,4 +9,6 @@ unlink("docs", recursive = T)
 #
 options(pkgdown.internet = FALSE)
 
+options(repos='http://cran.rstudio.com/')
+
 build_site()
