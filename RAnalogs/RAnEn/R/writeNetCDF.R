@@ -15,7 +15,8 @@
 #' RAnEn::writeNetCDF writes a formatted object into a NetCDF file. The output NetCDF
 #' file can be used by C++ utilities.
 #' 
-#' The formatted object for `Observations` is an R list object with the following members:
+#' The parameter `obj` for the file type `Observations` is an R list object with the
+#' following members:
 #' 
 #' - ParameterNames
 #' - StationNames (optional)
@@ -27,10 +28,13 @@
 #' @author Weiming Hu \email{weiming@@psu.edu}
 #' @param file.type The type of the object to be written to a file. It only supports
 #' Observations for now.
+#' @param obj A list object to write into the file.
+#' @param file.out The output file path.
 #' @param global.attr A list with names and values for global attributes. The values
 #' will be written as strings. Please make sure list members have names.
 #' @param nchars.max The maximum length of string.
 #' @return A boolean for whether the writing is complete.
+#' 
 #' @md
 #' @export
 writeNetCDF <- function(file.type, obj, file.out,

@@ -13,13 +13,25 @@
 
 #' RAnEn::verifySpread
 #' 
-#' Underdevelopment.
+#' RAnEn::verifySpread computes the spread.
 #' 
-#' To set the number of cores to use when parallel is used,
+#' Use the following command to set the number of cores to use
+#' when parallel is used,
 #' `options(mc.cores = 8)`.
+#' 
+#' @author Guido Cervone \email{cervone@@psu.edu}
+#' @author Martina Calovi \email{mxc895@@psu.edu}
+#' @author Laura Clemente-Harding \email{laura@@psu.edu}
+#' 
+#' @param anen.ver A 4-dimensional array. This array is usually created from the `value` column of
+#' the `analogs` member in the results of \code{\link{generateAnalogs}}. The dimensions should be
+#' `[stations, times, lead times, members]`.
+#' @param na.rm Whether to remove NA values.
+#' @param parallel Whether to turn on paralle processing.
+#' 
 #' @md
 #' @export
-verifySpread <- function(anen.ver, na.rm=T, parallel = F) { 
+verifySpread <- function(anen.ver, na.rm = T, parallel = F) { 
   
   spread.ver <-  anen.mean(anen.ver, na.rm, fun=var, parallel = parallel)
   

@@ -13,10 +13,25 @@
 
 #' RAnEn::verifyMAE
 #' 
-#' Underdevelopment.
+#' RAnEn::verifyMAE calculates mean absolute errors.
+#' 
+#' @author Guido Cervone \email{cervone@@psu.edu}
+#' @author Martina Calovi \email{mxc895@@psu.edu}
+#' @author Laura Clemente-Harding \email{laura@@psu.edu}
 #' 
 #' To set the number of cores to use when parallel is used,
 #' `options(mc.cores = 8)`.
+#' 
+#' @param anen.ver A 4-dimensional array. This array is usually created from the `value` column of
+#' the `analogs` member in the results of \code{\link{generateAnalogs}}. The dimensions should be
+#' `[stations, times, lead times, members]`.
+#' @param obs.ver A 3-dimensional array. The dimensions should be `[stations, times, lead times]`.
+#' You can generate the array using \code{\link{alignObservations}}.
+#' @param boot Whether to use bootstrap.
+#' @param R The number of bootstrap replicates. Used by the function `boot::boot`.
+#' @param na.rm Whether to remove NA values.
+#' @param parallel Whether to use parallel processing.
+#' 
 #' @md
 #' @export
 verifyMAE <- function(anen.ver, obs.ver, boot=F, R=1000, na.rm=T, parallel = F) {

@@ -13,7 +13,21 @@
 
 #' RAnEn::verifySpreadSkill
 #' 
-#' Underdevelopment.
+#' RAnEn::verifySpreadSkill calculates the spread skill.
+#' 
+#' @author Guido Cervone \email{cervone@@psu.edu}
+#' @author Martina Calovi \email{mxc895@@psu.edu}
+#' @author Laura Clemente-Harding \email{laura@@psu.edu}
+#' 
+#' @param anen.ver A 4-dimensional array. This array is usually created from the `value` column of
+#' the `analogs` member in the results of \code{\link{generateAnalogs}}. The dimensions should be
+#' `[stations, times, lead times, members]`.
+#' @param obs.ver A 3-dimensional array. The dimensions should be `[stations, times, lead times]`.
+#' You can generate the array using \code{\link{alignObservations}}.
+#' @param boot Whether to use bootstrap.
+#' @param R The number of bootstrap replicates. Used by the function `boot::boot`.
+#' @param intervals The number of entries of days and lead times in each calculation iteration.
+#' @param na.rm Whether to remove NA values.
 #' 
 #' @md
 #' @export

@@ -38,7 +38,6 @@ reference:
       desc: Functions for visualization of observations, forecasts, analogs, and more.
       contents:
           - starts_with("plot")
-          - generateCircleCoords
     
     - title: File I/O
       desc: Functions for reading and writing.
@@ -56,3 +55,12 @@ reference:
           - checkOpenMP
           - print.AnEn
           - print.Configuration
+          
+    - title: Helper Functions
+      desc: Some convenient functions.
+      contents:
+          - generateCircleCoords
+          - makeTransparent
+          - toForecastTime
+          - toDateTime
+          - val2Col

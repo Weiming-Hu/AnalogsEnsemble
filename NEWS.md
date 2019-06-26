@@ -1,3 +1,10 @@
+# PAnEn 3.4.3
+
+- Add functions `toDateTime`, `toForecastTime`, `val2Col`, `makeTransparent`, and `plotBackground`.
+- Improve `verifyCRPS`.
+- Improve `RAnEn` function documentation.
+
+
 # PAnEn 3.4.2
 
 - Add slicing tool `fileSlice`.

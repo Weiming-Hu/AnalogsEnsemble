@@ -21,11 +21,10 @@
 #' @param obs.ver A 3-dimensional array for observations.
 #' @param threshold The numeric threshold for computing the threat score.
 #' Observation values larger than or equal to the threshold will be
-#' converted to 1. Analog values will not be processed with this
-#' threshold value because it is assumed that the ensemble function will
-#' convert analog ensemble to binary values.
+#' converted to 1. Analog values will not be compared to this threshold value because
+#' **it is assumed that the ensemble function will convert analog ensemble to binary values**.
 #' @param ensemble.func A function to convert the ensemble members (the 4th
-#' dimension of analogs) into a binary.
+#' dimension of analogs) into **a binary**.
 #' @param ... Extra parameters for the ensemble.func.
 #' 
 #' @md

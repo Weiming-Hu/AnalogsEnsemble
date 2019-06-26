@@ -13,6 +13,12 @@
 
 #' RAnEn::anen.mean
 #' 
+#' RAnEn::anen.mean is the internal functions for applying a function to the array
+#' with a specific order. This function supports parallel processing by using the
+#' library `parallel`.
+#' 
+#' @md
+#' 
 #' @keywords internal
 anen.mean <- function(anen.ver, na.rm=T, fun = mean, parallel = F) {
   anen <-  matrix(anen.ver, ncol=dim(anen.ver)[4])   # [stations*days,FLT, members]
@@ -20,7 +26,7 @@ anen.mean <- function(anen.ver, na.rm=T, fun = mean, parallel = F) {
   if (parallel) {
     require(parallel)
     anen <- split(anen, seq(nrow(anen)))
-    anen <- unlist(mclapply(anen, fun, na.rm=na.rm)) # Compute the mean of the members
+    anen <- unlist(mclapply(anen, fun, na.rm = na.rm)) # Compute the mean of the members
     
   } else {
     if (identical(mean, fun)) {
