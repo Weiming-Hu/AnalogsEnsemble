@@ -173,7 +173,7 @@ namespace gribConverter {
             const vector<string> & level_types,
             const string & par_key, const string & level_key,
             const string & type_key, const string & val_key,
-            string regex_time_str, string regex_flt_str,
+            string regex_time_str, string regex_flt_str, string regex_cycle_str,
             double flt_interval, bool delimited, bool skip_data, int verbose) {
 
         if (verbose >= 3) cout << GREEN << "Convert GRIB2 files to Forecasts" << RESET << endl;
@@ -241,8 +241,8 @@ namespace gribConverter {
         // Prepare times
         if (verbose >= 3) cout << GREEN << "Reading time and FLT information ... " << RESET << endl;
         anenTime::Times times;
-        regex regex_time;
-        smatch match_time, match_flt;
+        regex regex_time, regex_cycle;
+        smatch match_time, match_flt, match_cycle;
 
         try {
             regex_time = regex(regex_time_str);
@@ -262,6 +262,16 @@ namespace gribConverter {
             throw;
         }
 
+        if (!regex_cycle_str.empty()) {
+            // If the regex for cycle time is specified
+            try {
+                regex_cycle = regex(regex_cycle_str);
+            } catch (const regex_error& e) {
+                cerr << BOLDRED << "Error: Can't use the regular expression " << regex_cycle_str << RESET << endl;
+                throw;
+            }
+        }
+
         // Read times and flts
         // Within this loop, it is also checking whether each file is valid
         //
@@ -274,7 +284,7 @@ namespace gribConverter {
             if (regex_search(file.begin(), file.end(), match_time, regex_time) &&
                     regex_search(file.begin(), file.end(), match_flt, regex_flt)) {
 
-                // Assumption
+                // Assumption for the regex of time
                 // - the first 4 digits to be the year
                 // - the next 2 digits to be the month
                 // - the next 2 digits to be the day
@@ -286,7 +296,20 @@ namespace gribConverter {
                 }
                 boost::gregorian::date_duration duration = time_end - time_start;
 
-                times_vec.push_back(duration.days() * _SECS_IN_DAY);
+                double duration_in_secs = duration.days() * _SECS_IN_DAY;
+
+                if (!regex_cycle_str.empty()) {
+                    if (regex_search(file.begin(), file.end(), match_cycle, regex_cycle)) {
+                        duration_in_secs += stoi(match_cycle[1]) * _SECS_IN_HOUR;
+
+                    } else {
+                        cerr << BOLDRED << "Error: Can't find cycle time information in " <<
+                            file << " using regex " << regex_cycle_str << RESET << endl;
+                        throw runtime_error("Error: Could not find cycle time.");
+                    }
+                }
+
+                times_vec.push_back(duration_in_secs);
                 flts_vec.push_back(stoi(match_flt[1]) * flt_interval);
                 files_in_selected.push_back(file);
             }
@@ -348,13 +371,24 @@ namespace gribConverter {
                 if (!regex_search(file_in.begin(), file_in.end(), match_time, regex_time))
                     throw runtime_error("Error: Could not find time index in times.");
 
+                // Find out cycle time if specified
+                double cycle_offset = 0.0;
+                if (!regex_cycle_str.empty()) {
+                    if (regex_search(file_in.begin(), file_in.end(), match_cycle, regex_cycle)) {
+                        cycle_offset = stoi(match_cycle[1]) * _SECS_IN_HOUR;
+                    } else {
+                        throw runtime_error("Error: Could not find cycle time.");
+                    }
+                }
+
                 if (delimited) {
                     time_end = boost::gregorian::from_string(string(match_time[1]));
                 } else {
                     time_end = boost::gregorian::from_undelimited_string(string(match_time[1]));
                 }
+
                 boost::gregorian::date_duration duration = time_end - time_start;
-                size_t index_time = times.getTimeIndex(duration.days() * _SECS_IN_DAY);
+                size_t index_time = times.getTimeIndex(duration.days() * _SECS_IN_DAY + cycle_offset);
 
                 vector<double> data_vec;
                 for (size_t j = 0; j < pars_id.size(); j++) {

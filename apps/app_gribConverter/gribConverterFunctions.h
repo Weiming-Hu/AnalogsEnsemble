@@ -38,6 +38,7 @@ namespace gribConverter {
     namespace fs = boost::filesystem;
 
     const static int _SECS_IN_DAY = 24 * 60 * 60;
+    const static int _SECS_IN_HOUR = 60 * 60;
 
     /**
      * getXY gets the xs and ys of a parameter.
@@ -125,7 +126,7 @@ namespace gribConverter {
             const vector<string> & level_types,
             const string & par_key, const string & level_key,
             const string & type_key, const string & val_key,
-            string regex_time_str, string regex_flt_str,
+            string regex_time_str, string regex_flt_str, string regex_cycle_str,
             double flt_interval, bool delimited = false,
             bool skip_data = false, int verbose = 0);
 

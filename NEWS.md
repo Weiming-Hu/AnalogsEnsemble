@@ -1,9 +1,9 @@
-# PAnEn 3.4.3
+# PAnEn 3.5.0
 
 - Add functions `toDateTime`, `toForecastTime`, `val2Col`, `makeTransparent`, and `plotBackground`.
 - Improve `verifyCRPS`.
 - Improve `RAnEn` function documentation.
-
+- Add identification for cycle time in C++ utilities.
 
 # PAnEn 3.4.2
 

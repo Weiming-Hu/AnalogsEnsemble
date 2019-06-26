@@ -20,7 +20,7 @@ int main(int argc, char** argv) {
     namespace po = boost::program_options;
 
     // Required variables
-    string folder, file_out, regex_time_str, regex_flt_str, output_type;
+    string folder, file_out, regex_time_str, regex_flt_str, regex_cycle_str, output_type;
     vector<long> pars_id, levels;
     vector<string> level_types;
     double unit_flt = 0;
@@ -45,6 +45,7 @@ int main(int argc, char** argv) {
 
                 // This is required for Forecasts but not for Observations. I will deal with this separately.
                 ("regex-flt", po::value<string>(&regex_flt_str), "Set the regular expression for FLT. FLT information will be extracted from the file name.")
+                ("regex-cycle", po::value<string>(&regex_cycle_str), "Set the regular expression for cycle hour. This is the offset in hours for a specific forecast. Usually this is 06/12/18.")
                 ("flt-interval", po::value<double>(&unit_flt), "Set the interval in seconds for FLT.")
 
                 ("pars-id", po::value< vector<long> >(&pars_id)->multitoken()->required(), "Set the parameters ID that will be read from the file.")
@@ -176,6 +177,7 @@ int main(int argc, char** argv) {
                 << "file_out: " << file_out << endl
                 << "regex_time_str: " << regex_time_str << endl
                 << "regex_flt_str: " << regex_flt_str << endl
+                << "regex_cycle_str: " << regex_cycle_str << endl
                 << "output_type: " << output_type << endl
                 << "pars_id: " << pars_id << endl
                 << "levels: " << levels << endl
@@ -216,7 +218,7 @@ int main(int argc, char** argv) {
     if (output_type == "Forecasts") {
         toForecasts(files_in, file_out, pars_id, pars_new_name, crcl_pars_id,
                 subset_stations_i, levels, level_types, par_key, level_key, type_key, val_key, 
-                regex_time_str, regex_flt_str, unit_flt, delimited, skip_data, verbose);
+                regex_time_str, regex_flt_str, regex_cycle_str, unit_flt, delimited, skip_data, verbose);
     } else if (output_type == "Observations") {
         toObservations(files_in, file_out, pars_id, pars_new_name, crcl_pars_id,
                 levels, level_types, par_key, level_key, type_key, val_key,
