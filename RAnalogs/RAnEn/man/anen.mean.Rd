@@ -7,6 +7,8 @@
 anen.mean(anen.ver, na.rm = T, fun = mean, parallel = F)
 }
 \description{
-RAnEn::anen.mean
+RAnEn::anen.mean is the internal functions for applying a function to the array
+with a specific order. This function supports parallel processing by using the
+library \code{parallel}.
 }
 \keyword{internal}

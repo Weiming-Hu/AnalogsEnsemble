@@ -11,6 +11,10 @@ writeNetCDF(file.type, obj, file.out, global.attrs = NULL,
 \item{file.type}{The type of the object to be written to a file. It only supports
 Observations for now.}
 
+\item{obj}{A list object to write into the file.}
+
+\item{file.out}{The output file path.}
+
 \item{nchars.max}{The maximum length of string.}
 
 \item{global.attr}{A list with names and values for global attributes. The values
@@ -24,7 +28,8 @@ RAnEn::writeNetCDF writes a formatted object into a NetCDF file. The output NetC
 file can be used by C++ utilities.
 }
 \details{
-The formatted object for \code{Observations} is an R list object with the following members:
+The parameter \code{obj} for the file type \code{Observations} is an R list object with the
+following members:
 \itemize{
 \item ParameterNames
 \item StationNames (optional)

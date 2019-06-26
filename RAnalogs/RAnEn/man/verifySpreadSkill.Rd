@@ -7,6 +7,29 @@
 verifySpreadSkill(anen.ver, obs.ver, boot = F, R = 1000,
   intervals = 13, na.rm = T)
 }
+\arguments{
+\item{anen.ver}{A 4-dimensional array. This array is usually created from the \code{value} column of
+the \code{analogs} member in the results of \code{\link{generateAnalogs}}. The dimensions should be
+\code{[stations, times, lead times, members]}.}
+
+\item{obs.ver}{A 3-dimensional array. The dimensions should be \code{[stations, times, lead times]}.
+You can generate the array using \code{\link{alignObservations}}.}
+
+\item{boot}{Whether to use bootstrap.}
+
+\item{R}{The number of bootstrap replicates. Used by the function \code{boot::boot}.}
+
+\item{intervals}{The number of entries of days and lead times in each calculation iteration.}
+
+\item{na.rm}{Whether to remove NA values.}
+}
 \description{
-Underdevelopment.
+RAnEn::verifySpreadSkill calculates the spread skill.
+}
+\author{
+Guido Cervone \email{cervone@psu.edu}
+
+Martina Calovi \email{mxc895@psu.edu}
+
+Laura Clemente-Harding \email{laura@psu.edu}
 }

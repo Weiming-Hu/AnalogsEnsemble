@@ -6,6 +6,25 @@
 \usage{
 verifyRankHist(anen.ver, obs.ver, show.progress = F)
 }
+\arguments{
+\item{anen.ver}{A 4-dimensional array. This array is usually created from the \code{value} column of
+the \code{analogs} member in the results of \code{\link{generateAnalogs}}. The dimensions should be
+\code{[stations, times, lead times, members]}.}
+
+\item{obs.ver}{A 3-dimensional array. The dimensions should be \code{[stations, times, lead times]}.
+You can generate the array using \code{\link{alignObservations}}.}
+
+\item{show.progress}{Whether to plot a progress bar.}
+}
 \description{
-Underdevelopment.
+RAnEn::verifyRankHist calculates the rank histogram.
+}
+\author{
+Guido Cervone \email{cervone@psu.edu}
+
+Martina Calovi \email{mxc895@psu.edu}
+
+Laura Clemente-Harding \email{laura@psu.edu}
+
+Weiming Hu \email{weiming@psu.edu}
 }

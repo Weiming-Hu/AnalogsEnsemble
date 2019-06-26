@@ -7,10 +7,33 @@
 verifyBias(anen.ver, obs.ver, boot = F, R = 1000, na.rm = T,
   parallel = F)
 }
+\arguments{
+\item{anen.ver}{A 4-dimensional array. This array is usually created from the \code{value} column of
+the \code{analogs} member in the results of \code{\link{generateAnalogs}}. The dimensions should be
+\code{[stations, times, lead times, members]}.}
+
+\item{obs.ver}{A 3-dimensional array. The dimensions should be \code{[stations, times, lead times]}.
+You can generate the array using \code{\link{alignObservations}}.}
+
+\item{boot}{Whether to use bootstrap.}
+
+\item{R}{The number of bootstrap replicates. Used by the function \code{boot::boot}.}
+
+\item{na.rm}{Whether to remove NA values.}
+
+\item{parallel}{Whether to turn on parallel processing.}
+}
 \description{
-Underdevelopment.
+RAnEn::verifyBias calculates bias.
 }
 \details{
 To set the number of cores to use when parallel is used,
 \code{options(mc.cores = 8)}.
+}
+\author{
+Guido Cervone \email{cervone@psu.edu}
+
+Martina Calovi \email{mxc895@psu.edu}
+
+Laura Clemente-Harding \email{laura@psu.edu}
 }

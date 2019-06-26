@@ -6,10 +6,27 @@
 \usage{
 verifySpread(anen.ver, na.rm = T, parallel = F)
 }
+\arguments{
+\item{anen.ver}{A 4-dimensional array. This array is usually created from the \code{value} column of
+the \code{analogs} member in the results of \code{\link{generateAnalogs}}. The dimensions should be
+\code{[stations, times, lead times, members]}.}
+
+\item{na.rm}{Whether to remove NA values.}
+
+\item{parallel}{Whether to turn on paralle processing.}
+}
 \description{
-Underdevelopment.
+RAnEn::verifySpread computes the spread.
 }
 \details{
-To set the number of cores to use when parallel is used,
+Use the following command to set the number of cores to use
+when parallel is used,
 \code{options(mc.cores = 8)}.
+}
+\author{
+Guido Cervone \email{cervone@psu.edu}
+
+Martina Calovi \email{mxc895@psu.edu}
+
+Laura Clemente-Harding \email{laura@psu.edu}
 }
