@@ -15,6 +15,7 @@ reference:
           - compute_analogs
           - generateAnalogs
           - generateTimeMapping
+          - generateSearchStations
           - validateConfiguration
           - formatConfiguration
           - rcpp_compute_analogs
@@ -65,3 +66,4 @@ reference:
           - toForecastTime
           - toDateTime
           - val2Col
+          - AnEnC2R

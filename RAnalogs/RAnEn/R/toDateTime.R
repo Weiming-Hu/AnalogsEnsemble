@@ -11,14 +11,13 @@
 #         The Pennsylvania State University
 #
 
-#' RAnEn::toDate
+#' RAnEn::toDateTime
 #' 
-#' RAnEn::toDate is a sugar function to convert seconds to date time objects.
+#' RAnEn::toDateTime is a sugar function to convert seconds to date time objects.
 #' 
 #' @author Guido Cervone \email{cervone@@psu.edu}
 #' 
-#' @md
 #' @export
-toDate <- function(time.in.secs, origin = "1970-01-01", tz = "UTC") {
+toDateTime <- function(time.in.secs, origin = "1970-01-01", tz = "UTC") {
   return(as.POSIXct(time.in.secs, origin = origin, tz = tz) )
 }
