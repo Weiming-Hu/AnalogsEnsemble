@@ -16,6 +16,7 @@ reference:
           - generateAnalogs
           - generateTimeMapping
           - validateConfiguration
+          - formatConfiguration
           - rcpp_compute_analogs
 
     - title: Data Pre-/Post- Processing
