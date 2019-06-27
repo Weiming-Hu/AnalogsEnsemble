@@ -42,7 +42,7 @@ reference:
     - title: File I/O
       desc: Functions for reading and writing.
       contents:
-          - readConfig
+          - readConfiguration
           - readObservations
           - readForecasts
           - readAnEn

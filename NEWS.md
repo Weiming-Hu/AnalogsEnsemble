@@ -4,6 +4,7 @@
 - Improve `verifyCRPS`.
 - Improve `RAnEn` function documentation.
 - Add identification for cycle time in C++ utilities.
+- Bug fixed in checking functions.
 
 # PAnEn 3.4.2
 

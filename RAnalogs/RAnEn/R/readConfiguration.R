@@ -10,9 +10,9 @@
 #         The Pennsylvania State University
 #
 
-#' RAnEn::readConfig
+#' RAnEn::readConfiguration
 #' 
-#' RAnEn::readConfig reads a specific parameter from a configuration file (.cfg). The
+#' RAnEn::readConfiguration reads a specific parameter from a configuration file (.cfg). The
 #' configuration file is usually used by the C++ utility.
 #' 
 #' @author Weiming Hu \email{weiming@@psu.edu}
@@ -22,7 +22,7 @@
 #' a numeric vector. If this is FALSE, the returned vector will be a character vector.
 #' @return A vector for the values of the specified configuration parameter.
 #' @export
-readConfig <- function(config.file, parameter, return.numeric = F) {
+readConfiguration <- function(config.file, parameter, return.numeric = F) {
   stopifnot(file.exists(config.file))
   
   # Read file content as lines

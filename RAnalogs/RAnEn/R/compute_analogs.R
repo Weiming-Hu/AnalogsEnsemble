@@ -422,6 +422,7 @@ compute_analogs <- function(forecasts,
   config$test_times_compare <- test.times[test_ID_start:test_ID_end]
   config$search_times_compare <- search.times[train_ID_start:train_ID_end]
   
+  config <- formatConfiguration(config, config$verbose > 2)
   valid <- validateConfiguration(config)
   if (!valid) return(valid)
   

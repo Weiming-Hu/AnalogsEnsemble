@@ -27,6 +27,7 @@ print.Configuration <- function(x) {
 	
 	if (class(x) != 'Configuration') stop('Not a Configuration object.')
 	
+  x <- formatConfiguration(x, F)
 	valid <- validateConfiguration(x)
 	
 	cat('Class: Configuration list\n')

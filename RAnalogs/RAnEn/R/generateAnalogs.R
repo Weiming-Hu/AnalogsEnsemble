@@ -46,7 +46,8 @@
 #' @export
 generateAnalogs <- function(configuration) {
   
-  valid <- validateConfiguration(configuration, configuration$verbose)
+  configuration <- formatConfiguration(configuration, configuration$verbose > 2)
+  valid <- validateConfiguration(configuration)
   if (!valid) return(valid)
   
   configuration <- convertToAdvance(configuration)

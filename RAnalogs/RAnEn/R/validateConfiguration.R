@@ -24,256 +24,186 @@
 #' ready to be used in computation.
 #' 
 #' @export
-validateConfiguration <- function(x, verbose = 1) {
-  if (class(x) != 'Configuration')
-    stop("Class is not Configuration.")
+validateConfiguration <- function(x) {
   
+  # Check input class
+  if (class(x) != 'Configuration') stop("The input is not a Configuration.")
+  
+  # The return valid of this function
   valid <- T
   
+  # Check for deprecation
   if ("search_flts" %in% names(x)) {
-    stop("search_flts is deprecated and renamed to flts. Please copy search_flts to flts.")
+    stop("'search_flts' is deprecated and renamed to 'flts'. Please rename search_flts to flts.")
   }
   
-  # All variables should not be NULL
+  # NA is not allowed in the configuration
   for (i in 1:length(x)) {
     if (identical(NA, x[[i]])) {
-      if (verbose > 0) cat("NA variable:", attr(x, 'name')[i], "\n")
+      cat("NA variable:", attr(x, 'name')[i], "\n")
       valid <- F
     }
   }
   
+  # Naive checks for whether the configuration has the correct basic or advanced format  
   if (all(c("forecasts", "test_forecasts") %in% names(x))) {
-    print("Error: Confusing configuration. Forecasts and test_forecasts should not exist at the same time.")
+    cat("Error: Confusing configuration. Forecasts and test_forecasts should not exist at the same time.\n")
+    cat('Please recreate the configuration object using RAnEn::generateConfiguration.\n')
     valid <- F
   }
-  
-  if (!('advanced' %in% names(x))) x$advanced <- F
   
   if ("test_forecasts" %in% names(x) && x$advanced) {
     # This is expected
   } else if ("forecasts" %in% names(x) && !x$advanced) {
     # This is expected
   } else {
-    print("Error: Confusing configuration. Please check your setting for advanced.")
+    cat("Error: Confusing configuration. Did you manually change any member names in the configuration?\n")
+    cat('Please recreate the configuration object using RAnEn::generateConfiguration.\n')
     valid <- F
   }
   
   if (!valid) return(valid)
   
-  # Copy values from advanced or clean API for checking
-  
-  if (x$advanced) {
-    test_forecasts <- x$test_forecasts[, , , , drop = F]
-    test_times <- x$test_times
-    search_forecasts <- x$search_forecasts[, , , , drop = F]
-    search_times <- x$search_times
-  } else {
-    test_forecasts <- x$forecasts[, , , , drop = F]
-    test_times <- x$forecast_times
-    search_forecasts <- x$forecasts[, , , , drop = F]
-    search_times <- x$forecast_times
+  # Prepare variable names to check from basic/advanced configuration
+  names.to.check <- vector('character', 4)
+  names(names.to.check) <- c('test_forecasts', 'search_forecasts', 'test_times', 'search_times')
+  if (x$mode == 'extendedSearch') {
+    names.to.check <- c(names.to.check, vector('character', 4))
+    names(names.to.check)[5:8] <- c('test_stations_x', 'search_stations_x',
+                                    'test_stations_y', 'search_stations_y')
   }
   
-  if (x$mode == "extendedSearch") {
-    if (x$advanced) {
-      test_stations_x <- x$test_stations_x
-      test_stations_y <- x$test_stations_y
-      
-      search_stations_x <- x$search_stations_x
-      search_stations_y <- x$search_stations_y
-      
-    } else {
-      test_stations_x <- x$forecast_stations_x
-      test_stations_y <- x$forecast_stations_y
-      
-      search_stations_x <- x$forecast_stations_x
-      search_stations_y <- x$forecast_stations_y
+  if (x$advanced) {
+    names.to.check[1:4] <- c('test_forecasts', 'search_forecasts', 'test_times', 'search_times')
+    
+    if (x$mode == 'extendedSearch') {
+      names.to.check[5:8] <- c('test_stations_x', 'search_stations_x',
+                               'test_stations_y', 'search_stations_y')
+    }
+    
+  } else {
+    names.to.check[1:4] <- c('forecasts', 'forecasts', 'forecast_times', 'forecast_times')
+    
+    if (x$mode == 'extendedSearch') {
+      names.to.check[5:8] <- c('forecast_stations_x', 'forecast_stations_x',
+                               'forecast_stations_y', 'forecast_stations_y')
     }
   }
   
-  
-  
   if (!(x$mode %in% c('extendedSearch', 'independentSearch'))) {
-    print('Error: Unknown configuration mode!')
+    cat('Error: Unknown configuration mode! Did you change it manually?\n')
     valid <- F
   }
   
-  if (!(is.array(test_forecasts) && is.numeric(test_forecasts) && length(dim(test_forecasts)) == 4)) {
-    print('Error: Test forecasts should be a 4-dimensional numeric array!')
-    print('Please use dim(), is.numeric(), and is.array() to check!')
-    valid <- F
-  }
-  
-  if (!(is.array(search_forecasts) && is.numeric(search_forecasts) && length(dim(search_forecasts)) == 4)) {
-    print('Error: Search forecasts should be a 4-dimensional numeric array!')
-    print('Please use dim(), is.numeric(), and is.array() to check!')
-    valid <- F
-  }
-  
-  if (inherits(test_times, 'POSIXt')) {
-    test_times <- as.numeric(test_times)
-  } else if (is.array(test_times) && length(dim(test_times)) == 1) {
-    test_times <- as.vector(test_times)
-  }
-  if (!(is.vector(test_times, mode = 'numeric') && length(test_times) == dim(test_forecasts)[3])) {
-    print('Error: Test forecast times should be a numeric vector with the length of the third dimension of search forecasts!')
-    print('Please use is.vector() and length() to check!')
-    valid <- F
-  }
-  
-  if (inherits(search_times, 'POSIXt')) {
-    search_times <- as.numeric(search_times)
-  } else if (is.array(search_times) && length(dim(search_times)) == 1) {
-    search_times <- as.vector(search_times)
-  }
-  if (!(is.vector(search_times, mode = 'numeric') && length(search_times) == dim(search_forecasts)[3])) {
-    print('Error: Search forecast times should be a numeric vector with the length of the third dimension of search forecasts!')
-    print('Please use is.vector() and length() to check!')
-    valid <- F
-  }
-  
-  if (!(is.vector(x$flts, mode = 'numeric') && length(x$flts) == dim(search_forecasts)[4])) {
-    if (length(dim(x$flts)) == 1) {
-      x$flts = as.numeric(x$flts)
-    } else {
-      print('Error: Search forecast FLTs should be a numeric vector with the length of the fourth dimension of search forecasts!')
-      print('Please use is.vector() and length() to check!')
+  for (index in 1:2) {
+    if (!(is.array(x[[names.to.check[index]]]) &&
+          is.numeric(x[[names.to.check[index]]]) &&
+          length(dim(x[[names.to.check[index]]])) == 4)) {
+      cat('Error:', names.to.check[index], 'should be a 4-dimensional numeric array!\n')
+      cat('Please use dim(), is.numeric(), and is.array() to check!\n')
       valid <- F
     }
   }
   
-  if (!(is.array(x$search_observations) && is.numeric(x$search_observations) && length(dim(x$search_observations)) == 3)) {
-    print('Error: Search observations should be a 3-dimensional numeric array!')
-    print('Please use dim(), is.numeric(), and is.array() to check!')
+  for (index in 3:4) {
+    if (!(is.vector(x[[names.to.check[index]]], mode = 'numeric') &&
+          length(x[[names.to.check[index]]]) == dim(x[[names.to.check[index-2]]])[3])) {
+      cat('Error:', names.to.check[index], 'should be a numeric vector with the length of',
+          'the third dimension of', names.to.check[index-2], '!\n')
+      cat('Please use is.vector() and length() to check!\n')
+      valid <- F
+    }
+    
+    name <- paste(names(names.to.check)[index], '_compare', sep = '')
+    
+    if (!(is.vector(x[[name]]) &&
+          is.numeric(x[[name]]))) {
+      cat('Error:', name, 'should be a numeric vector!\n')
+      cat('Please use is.vector() and is.numeric() to check!\n')
+      valid <- F
+    }
+    
+    if (!all(x[[name]] %in% x[[names.to.check[index]]])) {
+      cat('Error: Some', name, 'cannot be found in', names.to.check[index], '.\n')
+      valid <- F
+    } 
+  }
+  
+  if (!(is.vector(x$flts, mode = 'numeric') &&
+        length(x$flts) == dim(x[[names.to.check['search_forecasts']]])[4])) {
+    cat('Error: FLTs should be a numeric vector with the length of the fourth dimension of forecasts!\n')
+    cat('Please use is.vector() and length() to check!\n')
     valid <- F
   }
   
-  if (inherits(x$observation_times, 'POSIXt')) {
-    x$observation_times <- as.numeric(x$observation_times)
-  } else if (is.array(x$observation_times) && length(dim(x$observation_times)) == 1) {
-    x$observation_times <- as.vector(x$observation_times)
-  }
-  if (!(is.vector(x$observation_times, mode = 'numeric') && length(x$observation_times) == dim(x$search_observations)[3])) {
-    print('Error: Search observation times should be a numeric vector with the length of the third dimension of search observations!')
-    print('Please use is.vector() and length() to check!')
+  if (!(is.array(x$search_observations) &&
+        is.numeric(x$search_observations) &&
+        length(dim(x$search_observations)) == 3)) {
+    cat('Error: Search observations should be a 3-dimensional numeric array!\n')
+    cat('Please use dim(), is.numeric(), and is.array() to check!\n')
     valid <- F
   }
   
-  if (!(is.numeric(x$observation_id) && length(x$observation_id) == 1 && x$observation_id >= 1 && x$observation_id <= dim(x$search_observations)[1])) {
-    print('Error: Observation id should be an integer within the number of parameters in observations.')
+  if (!(is.vector(x$observation_times, mode = 'numeric') && 
+        length(x$observation_times) == dim(x$search_observations)[3])) {
+    cat('Error: Search observation times should be a numeric vector with',
+        'the length of the third dimension of search observations!\n')
+    cat('Please use is.vector() and length() to check!\n')
     valid <- F
   }
   
-  if (!anyNA(x$circulars)) {
-    if (!(is.vector(x$circulars, mode = 'numeric') && !anyNA(x$circulars) && length(x$circulars) <= dim(test_forecasts)[1])) {
-      print('Error: Circulars should be a numeric vector. Its length should not exceed the number of forecast parameters.')
+  if (!(x$observation_id <= dim(x$search_observations)[1] &&
+        is.numeric(x$observation_id) &&
+        length(x$observation_id) == 1 &&
+        x$observation_id >= 1)) {
+    cat('Error: Observation id should be the index of the variable to use in observations.\n')
+    valid <- F
+  }
+  
+  if (anyNA(x$circulars)) {
+    cat('Error: Circular variable does not allow NA variables.\n')
+    valid <- F
+
+  } else {
+    if (!(is.vector(x$circulars, mode = 'numeric') &&
+          length(x$circulars) <= dim(x[[names.to.check['test_forecasts']]])[1])) {
+      cat('Error: Circulars should be a numeric vector.',
+          'Its length should not exceed the number of forecast variables.\n')
       valid <- F
     }
     
     for (val in x$circulars) {
-      if (val > dim(test_forecasts)[1] || val <= 0) {
-        print('Error: Circulars value should be positive and not exceed the number of forecast parameters.')
+      if (val > dim(x[[names.to.check['test_forecasts']]])[1] || val <= 0) {
+        cat('Error: Circular values should belong to [ 1 ,',
+            dim(x[[names.to.check['test_forecasts']]])[1], '].\n')
         valid <- F
       }
     }
   }
   
-  if (!(is.numeric(x$weights) && is.vector(x$weights))) {
-    print("Error: Weights should be a numeric vector. Please use is.numeric and is.vector to check.")
+  if (!(length(x$weights) == dim(x[[names.to.check['test_forecasts']]])[1] &&
+        is.numeric(x$weights) &&
+        is.vector(x$weights) &&
+        !anyNA(x$weights))) {
+    cat('Error: Weights should be a non-NA numeric vector of the length of the first dimension of',
+        names.to.check['test_forecasts'], '.\nPlease use is.numeric and is.vector to check.\n')
     valid <- F
-  } else {
-    if (length(x$weights) == 0) {
-      x$weights <- rep(1, times = dim(test_forecasts)[1])
-    } else if (length(x$weights) != dim(test_forecasts)[1]) {
-      print("Error: The number of weights should equal the number of forecast parameters.")
-      valid <- F
-    }
-    
-    if (anyNA(x$weights)) {
-      print("Error: Weights should not have any NA values.")
-      valid <- F
-    }
   }
   
   if (!is.logical(x$operational)) {
-    print("Error: Operational should be a boolean.")
-    valid <- F
-  }
-  
-  if (!(is.vector(x$test_times_compare) && is.numeric(x$test_times_compare))) {
-    if (inherits(x$test_times_compare, 'POSIXt')) {
-      x$test_times_compare <- as.numeric(x$test_times_compare)
-    } else if (is.array(x$test_times_compare)) {
-      x$test_times_compare <- as.vector(x$test_times_compare)
-    } else {
-      print('Error: Test times for comparison should be a numeric vector!')
-      print('Please use is.vector() and is.numeric() to check!')
-      valid <- F
-    }
-  }
-  if (!all(x$test_times_compare %in% test_times)) {
-    print("Error: Some test times for comparison cannot be found in test times.")
-    valid <- F
-  }
-  
-  if (!(is.vector(x$search_times_compare) && is.numeric(x$search_times_compare))) {
-    if (inherits(x$search_times_compare, 'POSIXt')) {
-      x$search_times_compare <- as.numeric(x$search_times_compare)
-    } else if (is.array(x$search_times_compare)) {
-      x$search_times_compare <- as.vector(x$search_times_compare)
-    } else {
-      print('Error: Search times for comparison should be a numeric vector!')
-      print('Please use is.vector() and is.numeric() to check!')
-      valid <- F
-    }
-  }
-  if (!all(x$search_times_compare %in% search_times)) {
-    print("Error: Some search times for comparison cannot be found in search times.")
+    cat("Error: Operational should be a boolean.\n")
     valid <- F
   }
   
   if (x$mode == 'extendedSearch') {
     
-    if (!(is.vector(test_stations_x, mode = 'numeric') && length(test_stations_x) == dim(test_forecasts)[2])) {
-      
-      if (length(test_stations_x) == dim(test_forecasts)[2]) {
-        test_stations_x <-  as.vector(test_stations_x)
-      } else{ 
-        print('Error: Test Stations X should be a numeric vector with the length of the second dimension of test forecasts!')
-        print('Please use is.vector() and length() to check!')
-        valid <- F
-      }
-    }
-    
-    if (!(is.vector(test_stations_y, mode = 'numeric') && length(test_stations_y) == dim(test_forecasts)[2])) {
-      
-      if (length(test_stations_y) == dim(test_forecasts)[2]) {
-        test_stations_y <-  as.vector(test_stations_y)
-      } else {
-        print('Error: Test Stations Y should be a numeric vector with the length of the second dimension of test forecasts!')
-        print('Please use is.vector() and length() to check!')
-        valid <- F
-      }
-    }
-    
-    if (!(is.vector(search_stations_x, mode = 'numeric') && length(search_stations_x) == dim(search_forecasts)[2])) {
-      
-      if (length(search_stations_x) == dim(search_forecasts)[2]) {
-        search_stations_x <-  as.vector(search_stations_x)
-      } else {
-        print('Error: Search Stations X should be a numeric vector with the length of the second dimension of search forecasts!')
-        print('Please use is.vector() and length() to check!')
-        valid <- F
-      }
-    }
-    
-    if (!(is.vector(search_stations_y, mode = 'numeric') && length(search_stations_y) == dim(search_forecasts)[2])) {
-      
-      if (length(search_stations_y) == dim(search_forecasts)[2]) {
-        search_stations_y <-  as.vector(search_stations_y)
-      } else {
-        print('Error: Search Stations Y should be a numeric vector with the length of the second dimension of search forecasts!')
-        print('Please use is.vector() and length() to check!')
+    for (index in 5:8) {
+      name <- gsub('_x|y$', '', names(names.to.check)[index])
+      if (!(is.vector(x[[names.to.check[index]]], mode = 'numeric') &&
+            length(x[[names.to.check[index]]]) == dim(x[[name]])[2])) {
+        cat('Error:', names.to.check[index], 'should be a numeric vector with the',
+            'length of the second dimension of', name, '!\n')
+        cat('Please use is.vector() and length() to check!\n')
         valid <- F
       }
     }
@@ -281,7 +211,7 @@ validateConfiguration <- function(x, verbose = 1) {
     if (x$distance != 0) {
       if (x$num_nearest == 0) {
         if (x$max_num_search_stations == 0) {
-          print("Error: Please set the maximum number of search stations to keep within the distance.")
+          cat("Error: Please set the maximum number of search stations to keep within the distance.\n")
           valid <- F
         }
       } else {
@@ -290,10 +220,10 @@ validateConfiguration <- function(x, verbose = 1) {
     }
     
     if (!(is.logical(x$preserve_search_stations) && length(x$preserve_search_stations) == 1)) {
-      print('Error: preserve_search_stations should be a boolean.')
+      cat('Error: preserve_search_stations should be a boolean.\n')
       valid <- F
     }
   }
 
-  return(valid)
+  return (valid)
 }
