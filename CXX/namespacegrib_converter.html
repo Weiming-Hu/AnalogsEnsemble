@@ -73,8 +73,8 @@ Functions</h2></td></tr>
 <tr class="separator:a43c29f4542514b8c9fcd0862b214cff7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6a1a02f02007ca2b1b959d3e5ab6b8d8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegrib_converter.html#a6a1a02f02007ca2b1b959d3e5ab6b8d8">getDoubles</a> (vector&lt; double &gt; &amp;vals, const string &amp;file, long par_id, long level, const string &amp;type, const string &amp;par_key, const string &amp;level_key, const string &amp;type_key, const string &amp;val_key)</td></tr>
 <tr class="separator:a6a1a02f02007ca2b1b959d3e5ab6b8d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac5bf68034ec24957edf7305207bfcf5e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegrib_converter.html#ac5bf68034ec24957edf7305207bfcf5e">toForecasts</a> (vector&lt; string &gt; &amp;files_in, const string &amp;file_out, const vector&lt; long &gt; &amp;pars_id, const vector&lt; string &gt; &amp;pars_new_name, const vector&lt; long &gt; &amp;crcl_pars_id, vector&lt; long &gt; &amp;subset_stations_i, const vector&lt; long &gt; &amp;levels, const vector&lt; string &gt; &amp;level_types, const string &amp;par_key, const string &amp;level_key, const string &amp;type_key, const string &amp;val_key, string regex_time_str, string regex_flt_str, double flt_interval, bool delimited, bool skip_data, int verbose)</td></tr>
-<tr class="separator:ac5bf68034ec24957edf7305207bfcf5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a86449cbd006c0811b1250c978fca543c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegrib_converter.html#a86449cbd006c0811b1250c978fca543c">toForecasts</a> (vector&lt; string &gt; &amp;files_in, const string &amp;file_out, const vector&lt; long &gt; &amp;pars_id, const vector&lt; string &gt; &amp;pars_new_name, const vector&lt; long &gt; &amp;crcl_pars_id, vector&lt; long &gt; &amp;subset_stations_i, const vector&lt; long &gt; &amp;levels, const vector&lt; string &gt; &amp;level_types, const string &amp;par_key, const string &amp;level_key, const string &amp;type_key, const string &amp;val_key, string regex_time_str, string regex_flt_str, string regex_cycle_str, double flt_interval, bool delimited, bool skip_data, int verbose)</td></tr>
+<tr class="separator:a86449cbd006c0811b1250c978fca543c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0bc3c18837388c93dc3126b43775b392"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegrib_converter.html#a0bc3c18837388c93dc3126b43775b392">toObservations</a> (vector&lt; string &gt; &amp;files_in, const string &amp;file_out, const vector&lt; long &gt; &amp;pars_id, const vector&lt; string &gt; &amp;pars_new_name, const vector&lt; long &gt; &amp;crcl_pars_id, const vector&lt; long &gt; &amp;levels, const vector&lt; string &gt; &amp;level_types, const string &amp;par_key, const string &amp;level_key, const string &amp;type_key, const string &amp;val_key, string regex_time_str, bool delimited, bool skip_data, int verbose)</td></tr>
 <tr class="separator:a0bc3c18837388c93dc3126b43775b392"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a03dec2b24cd9fdbcea6e2933fc456a2c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegrib_converter.html#a03dec2b24cd9fdbcea6e2933fc456a2c">query_grib_eccodes_</a> (string file, long par_id, long level, string type, string par_key, string level_key, string type_key, codes_index **p_index, int *p_ret)</td></tr>
@@ -342,8 +342,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ac5bf68034ec24957edf7305207bfcf5e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac5bf68034ec24957edf7305207bfcf5e">&#9670;&nbsp;</a></span>toForecasts()</h2>
+<a id="a86449cbd006c0811b1250c978fca543c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a86449cbd006c0811b1250c978fca543c">&#9670;&nbsp;</a></span>toForecasts()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -431,6 +431,12 @@ Functions</h2></td></tr>
           <td></td>
           <td class="paramtype">string&#160;</td>
           <td class="paramname"><em>regex_flt_str</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>regex_cycle_str</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>

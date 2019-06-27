@@ -5,6 +5,14 @@ sidebar_link: true
 ---
 
 
+# PAnEn 3.5.0
+
+- Add functions `toDateTime`, `toForecastTime`, `val2Col`, `makeTransparent`, and `plotBackground`.
+- Improve `verifyCRPS`.
+- Improve `RAnEn` function documentation.
+- Add identification for cycle time in C++ utilities.
+- Bug fixed in checking functions.
+
 # PAnEn 3.4.2
 
 - Add slicing tool `fileSlice`.

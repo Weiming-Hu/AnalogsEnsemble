@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>RAnEn::readObservations — readObservations • RAnEn</title>
+<title>RAnEn::toForecastTime — toForecastTime • RAnEn</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,11 +30,9 @@
 
 
 
-<meta property="og:title" content="RAnEn::readObservations — readObservations" />
+<meta property="og:title" content="RAnEn::toForecastTime — toForecastTime" />
 
-<meta property="og:description" content="RAnEn::readObservations reads observation data from the NetCDF file with a
-standard format.
-Most often, the file should be created from gribConverter." />
+<meta property="og:description" content="RAnEn::toForecastTime converts the observation time index to forecast time index." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -99,41 +97,50 @@ Most often, the file should be created from gribConverter." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>RAnEn::readObservations</h1>
+    <h1>RAnEn::toForecastTime</h1>
     
-    <div class="hidden name"><code>readObservations.Rd</code></div>
+    <div class="hidden name"><code>toForecastTime.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>RAnEn::readObservations reads observation data from the NetCDF file with a
-<a href='https://weiming-hu.github.io/AnalogsEnsemble/2019/01/16/NetCDF-File-Types.html'>standard format</a>.
-Most often, the file should be created from gribConverter.</p>
+    <p>RAnEn::toForecastTime converts the observation time index to forecast time index.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>readObservations</span>(<span class='no'>file</span>, <span class='kw'>origin</span> <span class='kw'>=</span> <span class='st'>"1970-01-01"</span>, <span class='kw'>tz</span> <span class='kw'>=</span> <span class='st'>"UTC"</span>)</pre>
+    <pre class="usage"><span class='fu'>toForecastTime</span>(<span class='no'>observation.time</span>, <span class='no'>mapping</span>, <span class='kw'>flt</span> <span class='kw'>=</span> <span class='fl'>NA</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>file</th>
-      <td><p>The observation NetCDF file to read.</p></td>
+      <th>observation.time</th>
+      <td><p>The observation time index(es) from the <code>Time</code> column of the <code>analogs</code> member in
+in the results of <code><a href='generateAnalogs.html'>generateAnalogs</a></code>.</p></td>
     </tr>
     <tr>
-      <th>origin</th>
-      <td><p>The origin of time to be used in as.POSIXct.</p></td>
+      <th>mapping</th>
+      <td><p>The mapping table from the <code>mapping</code> member in the results of <code><a href='generateAnalogs.html'>generateAnalogs</a></code>.
+Or it can be created from <code><a href='generateTimeMapping.html'>generateTimeMapping</a></code>.</p></td>
     </tr>
     <tr>
-      <th>tz</th>
-      <td><p>The time zone of time to be used in as.POSIXct.</p></td>
+      <th>flt</th>
+      <td><p>The lead time index.</p></td>
     </tr>
     </table>
     
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>A list object.</p>
+    <p>This function does the following conversion.</p>
+<p><code>Observation time index [ + Forecast lead time index ] ----&gt; Forecast time index</code></p>
+<p>To pin down the exact time of a forecast, two things are needed: forecast time and the lead time; to pin down
+the exact time of an observation, only the observation time is needed. Therefore, this function is devoted to
+convert from observation times to forecast times. Please note that, an observation time <strong>CAN</strong> be associated
+with multiple forecast times because of the existence of forecast lead times. If you have constraints on the
+lead time, then the match between forecasts and observations becomes one-on-one.</p>
+<p>The observation time index usually comes from the <code>Time</code> column of the <code>analogs</code> member in the results of
+<code><a href='generateAnalogs.html'>generateAnalogs</a></code>. This time is observation times. However, please note that the times in the
+<code>similarity</code> member are <strong>forecast times</strong>. These two are different.</p>
     
 
   </div>
@@ -142,11 +149,13 @@ Most often, the file should be created from gribConverter.</p>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#value">Value</a></li>
+      <li><a href="#details">Details</a></li>
           </ul>
 
     <h2>Author</h2>
-    <p>Weiming Hu <a href='mailto:weiming@psu.edu'>weiming@psu.edu</a></p>
+    <p>Guido Cervone <a href='mailto:cervone@psu.edu'>cervone@psu.edu</a></p>
+<p>Martina Calovi <a href='mailto:mxc895@psu.edu'>mxc895@psu.edu</a></p>
+<p>Laura Clemente-Harding <a href='mailto:laura@psu.edu'>laura@psu.edu</a></p>
   </div>
 </div>
 
