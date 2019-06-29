@@ -47,9 +47,7 @@ namespace gribConverter {
         // Send query request
         index = codes_index_new_from_file(0, 
                 const_cast<char*>(file.c_str()), query_str.c_str(), &ret);
-
-        if (ret) throw runtime_error(codes_get_error_message(ret));
-        // CODES_CHECK(ret, 0);
+        MY_CODES_CHECK(ret,0);
 
         // Select index based on par_key and level_key
         MY_CODES_CHECK(codes_index_select_long(index, par_key.c_str(), par_id), 0);
@@ -57,6 +55,8 @@ namespace gribConverter {
 
         // Get data size
         h = codes_handle_new_from_index(index, &ret);
+        MY_CODES_CHECK(ret,0);
+
         MY_CODES_CHECK(codes_get_size(h, val_key.c_str(), &len), 0);
 
         // Get data values
@@ -222,7 +222,6 @@ namespace gribConverter {
                 anenSta::Station station(xs[subset_stations_i[i]], ys[subset_stations_i[i]]);
                 stations.push_back(station);
             }
-            cout << "passed!" << endl;
         }
 
         // Read parameters based on input options
