@@ -209,18 +209,20 @@ namespace gribConverter {
                 stations.push_back(station);
             }
 
-            assert(stations.size() == xs.size());
             subset_stations_i.resize(xs.size());
             iota(subset_stations_i.begin(), subset_stations_i.end(), 0);
 
         } else {
             // If subset_stations_i is defined, only push the required stations
-            assert(max(subset_stations_i.begin(), subset_stations_i.end()) < xs.size());
+            if (*max_element(subset_stations_i.begin(), subset_stations_i.end()) >= xs.size()) {
+                throw runtime_error("Error: subset station index is out of bound.");
+            }
 
             for (size_t i = 0; i < subset_stations_i.size(); i++) {
                 anenSta::Station station(xs[subset_stations_i[i]], ys[subset_stations_i[i]]);
                 stations.push_back(station);
             }
+            cout << "passed!" << endl;
         }
 
         // Read parameters based on input options
@@ -236,7 +238,6 @@ namespace gribConverter {
             parameters.push_back(parameter);
         }
         if (verbose >= 5) cout << parameters;
-        assert(parameters.size() == pars_new_name.size());
 
         // Prepare times
         if (verbose >= 3) cout << GREEN << "Reading time and FLT information ... " << RESET << endl;
@@ -470,7 +471,6 @@ namespace gribConverter {
             anenSta::Station station(xs[i], ys[i]);
             stations.push_back(station);
         }
-        assert(stations.size() == xs.size());
 
         // Read parameters based on input options
         if (verbose >= 3) cout << GREEN << "Reading parameter information ... " << RESET << endl;
@@ -485,7 +485,6 @@ namespace gribConverter {
             parameters.push_back(parameter);
         }
         if (verbose >= 5) cout << parameters;
-        assert(parameters.size() == pars_new_name.size());
 
         // Prepare times
         if (verbose >= 3) cout << GREEN << "Reading time information ... " << RESET << endl;

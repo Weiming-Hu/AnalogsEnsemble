@@ -28,7 +28,6 @@
 #include <string>
 #include <vector>
 #include <regex>
-#include <cassert>
 #include <exception>
 #include <algorithm>
 
