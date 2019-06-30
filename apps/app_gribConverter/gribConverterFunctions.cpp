@@ -55,7 +55,7 @@ namespace gribConverter {
 
         // Get data size
         h = codes_handle_new_from_index(index, &ret);
-        MY_CODES_CHECK(ret,0);
+        MY_CODES_CHECK(ret, 0);
 
         MY_CODES_CHECK(codes_get_size(h, val_key.c_str(), &len), 0);
 
@@ -165,36 +165,56 @@ namespace gribConverter {
         throw runtime_error(ss.str());
     }
 
-    void toForecasts(vector<string> & files_in, const string & file_out,
-            const vector<long> & pars_id, const vector<string> & pars_new_name,
-            const vector<long> & crcl_pars_id,
-            vector<long> & subset_stations_i,
+    void getStations(vector<string> & files_in,
+            const vector<long> & pars_id,
             const vector<long> & levels,
-            const vector<string> & level_types,
-            const string & par_key, const string & level_key,
-            const string & type_key, const string & val_key,
-            string regex_time_str, string regex_flt_str, string regex_cycle_str,
-            double flt_interval, bool delimited, bool skip_data, int verbose) {
+            const string & par_key,
+            const string & level_key,
+            const string & val_key,
+            int verbose, vector<long> & subset_stations_i,
+            anenSta::Stations & stations) {
 
-        if (verbose >= 3) cout << GREEN << "Convert GRIB2 files to Forecasts" << RESET << endl;
+        if (verbose >= 3) cout << GREEN << "Reading station information using parameter id "
+            << pars_id[0] << " at level " << levels[0] << "... " << RESET << endl;
 
-        // Create write io device early in the process to make sure the file does
-        // not alreay exist.
+        stations.resize(0);
+
+        vector<double> xs, ys, xs_check, ys_check;
+
+        // Read stations from the first available file.
+        // Files will be skipped if errors occur during reading.
         //
-        AnEnIO io("Write", file_out, "Forecasts", verbose);
-
-        // Read station xs and ys from the first available file from the list
-        if (verbose >= 3) cout << GREEN << "Reading station information ... " << RESET << endl;
-        anenSta::Stations stations;
-        vector<double> xs, ys;
-
+        size_t i_file_station = 0;
         for (size_t i_file = 0; i_file < files_in.size(); i_file++) {
             try {
-                getXY(xs, ys, files_in[i_file], pars_id[i_file],
-                        levels[i_file], par_key, level_key, val_key);
+                getXY(xs, ys, files_in[i_file], pars_id[0],
+                        levels[0], par_key, level_key, val_key);
+                i_file_station = i_file;
                 break;
             } catch (exception & e) {
                 cout << RED << "Skipping file ( " << files_in[i_file]
+                    << " ): " << e.what() << RESET << endl;
+            }
+        }
+
+        if (verbose >= 3) cout << GREEN << "Checking whether all files share the same stations ..." << RESET << endl;
+
+        for (i_file_station += 1; i_file_station < files_in.size(); i_file_station++) {
+            try {
+                getXY(xs_check, ys_check, files_in[i_file_station], pars_id[0],
+                        levels[0], par_key, level_key, val_key);
+                if (verbose >= 3) cout << "\t checking " << files_in[i_file_station] << endl;
+
+                if (!equal(xs_check.begin(), xs_check.end(), xs.begin()) ||
+                        !equal(ys_check.begin(), ys_check.end(), ys.begin())) {
+                    cout << RED << "Error: Different stations found in file "
+                        << files_in[i_file_station] << RESET << endl;
+                    throw runtime_error("Error: Different stations found.");
+
+                }
+
+            } catch (exception & e) {
+                cout << RED << "Skipping file ( " << files_in[i_file_station]
                     << " ): " << e.what() << RESET << endl;
             }
         }
@@ -223,6 +243,33 @@ namespace gribConverter {
                 stations.push_back(station);
             }
         }
+
+        return;
+    }
+
+    void toForecasts(vector<string> & files_in, const string & file_out,
+            const vector<long> & pars_id, const vector<string> & pars_new_name,
+            const vector<long> & crcl_pars_id,
+            vector<long> & subset_stations_i,
+            const vector<long> & levels,
+            const vector<string> & level_types,
+            const string & par_key, const string & level_key,
+            const string & type_key, const string & val_key,
+            string regex_time_str, string regex_flt_str, string regex_cycle_str,
+            double flt_interval, bool delimited, bool skip_data, int verbose) {
+
+        if (verbose >= 3) cout << GREEN << "Convert GRIB2 files to Forecasts" << RESET << endl;
+
+        // Create write io device early in the process to make sure the file does
+        // not alreay exist.
+        //
+        AnEnIO io("Write", file_out, "Forecasts", verbose);
+
+        // Read station xs and ys from the first available file from the list
+        anenSta::Stations stations;
+
+        getStations(files_in, pars_id, levels, par_key, level_key,
+             val_key, verbose,  subset_stations_i, stations);
 
         // Read parameters based on input options
         if (verbose >= 3) cout << GREEN << "Reading parameter information ... " << RESET << endl;
@@ -451,25 +498,12 @@ namespace gribConverter {
         // Read station xs and ys based on the first parameter in the list
         if (verbose >= 3) cout << GREEN << "Reading station information ... " << RESET << endl;
         anenSta::Stations stations;
-        vector<double> xs, ys;
 
-        for (size_t i_file = 0; i_file < files_in.size(); i_file++) {
-            try {
-                getXY(xs, ys, files_in[i_file], pars_id[i_file],
-                        levels[i_file], par_key, level_key, val_key);
-                break;
-            } catch (exception & e) {
-                cout << RED << "Skipping file ( " << files_in[i_file]
-                    << " ): " << e.what() << RESET << endl;
-            }
-        }
+        // TODO: currently observations does not support subset stations.
+        vector<long> subset_stations_i;
 
-        if (xs.size() != ys.size()) throw runtime_error("Error: the number of xs and ys do not match!");
-
-        for (size_t i = 0; i < xs.size(); i++) {
-            anenSta::Station station(xs[i], ys[i]);
-            stations.push_back(station);
-        }
+        getStations(files_in, pars_id, levels, par_key, level_key,
+             val_key, verbose,  subset_stations_i, stations);
 
         // Read parameters based on input options
         if (verbose >= 3) cout << GREEN << "Reading parameter information ... " << RESET << endl;
@@ -629,8 +663,6 @@ namespace gribConverter {
             codes_index** p_index, int* p_ret) {
 
         codes_grib_multi_support_off(0);
-
-        // First we use the fast way to index the message.
 
         // Construct query string
         string query_str(par_key);
