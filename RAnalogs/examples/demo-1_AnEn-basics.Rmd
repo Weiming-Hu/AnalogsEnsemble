@@ -12,7 +12,7 @@ output: html_document
 library(RAnEn)
 library(maps)
 
-stopifnot(packageVersion('RAnEn')>="3.2.5")
+stopifnot(packageVersion('RAnEn')>="3.5.0")
 ```
 
 ## Introduction
@@ -23,7 +23,7 @@ You will learn how to use these functions:
 
 - `generateConfiguration`
 - `generateAnalogs`
-- `biasCorrection`
+- `verify*` functions
 
 ## Data Description
 
@@ -51,14 +51,14 @@ The following parameters are included and provided in the dataset.
 print(forecasts$ParameterNames)
 ```
 
-Foreacsts and analysis have the following time span. Because the original time values record the number of seconds since an original time, I used the function `as.POSIXct` to convert them to readable date-time class objects.
+Foreacsts and analysis have the following time span. Because the original time values record the number of seconds since an original time, the function `as.POSIXct` is used to convert them to readable date-time class objects. Alternatively, `RAnEn::toDateTime` can complete the same action. It is a convenient wrapper function of `as.POSIXct`.
 
 ```{r}
 print(as.POSIXct(range(forecasts$Times), origin = '1970-01-01', tz = 'UTC'))
 print(as.POSIXct(range(observations$Times), origin = '1970-01-01', tz = 'UTC'))
 ```
 
-Coordinates in lat/lon are provided for each grid point. We can plot them on maps. **Note that coordinates start from the bottom left grid point in the entire domain and proceed in a row-wise order**. There are 11 rows and 11 columns of grid points in the data sets.
+Coordinates in lat/lon are provided for each grid point. We can plot them on maps. **Note that coordinates start from the bottom left and proceed in a row-wise order**. There are 11 rows and 11 columns of grid points in the data sets.
 
 ```{r}
 map('county', regions = 'pennsylvania', col = 'grey')
@@ -72,7 +72,7 @@ print(dim(forecasts$Data))
 print(dim(observations$Data))
 ```
 
-Forecasts have 4 dimensions which are parameters, stations/grid points, days, and Forecast Lead Times (FLTs). Analysis have 3 dimensions which are parameters, stations/grid points, and time.
+Forecasts have 4 dimensions which include parameters, stations/grid points, days, and Forecast Lead Times (FLTs). Analysis have 3 dimensions which include parameters, stations/grid points, and time.
 
 ## Generate Temperature Forecasts
 
@@ -82,8 +82,7 @@ Now that we have a general idea of the data, we can generate temperature forecas
 - Set up options
 - Generate AnEn
 
-First, we set up the configuration. We generate AnEn for one day using about one year of historical data for all the grid points available. If you don't understand any of the options or you want to check out the full list of options available, please check the
-document for [RAnEn::generateConfiguration](https://weiming-hu.github.io/AnalogsEnsemble/R/reference/generateConfiguration.html).
+First, we set up the configuration. We generate an AnEn for one day using about one year of historical data for all the grid points available. For a full list of avaiable options, please check the document for [RAnEn::generateConfiguration](https://weiming-hu.github.io/AnalogsEnsemble/R/reference/generateConfiguration.html).
 
 ```{r}
 # We use independent search configuration.
@@ -131,13 +130,13 @@ if ('ParameterCirculars' %in% names(forecasts)) {
 }
 ```
 
-Now we can generate AnEn. This could take a while. On my Mac Air, it takes about 2 minutes.
+Now we can generate an AnEn. This could take a while. On a Mac Air, it takes about 2 minutes.
 
 ```{r}
 AnEn <- generateAnalogs(config)
 ```
 
-The result variable `AnEn` is a list of results. Let's check what we have in it.
+The result variable `AnEn` is a list of members. Let's check what the members are.
 
 ```{r}
 print(AnEn)
@@ -145,7 +144,7 @@ print(AnEn)
 
 ## Verification
 
-Finally, let's collect the AnEn forecast values and the corresponding observations.
+Finally, let's extract the AnEn forecast values and the corresponding observations.
 
 ```{r}
 # Collect analog ensemble values

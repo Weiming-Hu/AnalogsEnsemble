@@ -17,10 +17,9 @@ stopifnot(packageVersion('RAnEn')>="3.2.5")
 
 ## Introduction
 
-The prediction accuracy of Analog Ensemble depends on the quality of analogs. Presumably, better analogs will generate better predictions. In real-time model operation, when historical forecasts increasing and the test forecast moving forward in time, it is most likely that the historical forecasts in the near past are the most similar ones. Therefore, in an operational prediction mode, it is desired to increment the search forecasts when test forecasts are moving towards the future.
+Prediction accuracy of the Analog Ensemble depends on the quality of analogs. Presumably, better analogs will generate better predictions. In an operational model, it is likely that the historical forecasts in the near past are the most similar to the current forecast. Therefore, in operational mode, as each day passes, it is added to the historical repository.
 
 This article shows an example of how to use `RAnEn` with an operational search. It is strongly suggested to go over the [demo 1](https://weiming-hu.github.io/AnalogsEnsemble/2018/11/04/demo-1-RAnEn-basics.html) prior to this tutorial.
-
 
 ## Data Description
 
@@ -38,19 +37,11 @@ if (!file.exists(file.name)) {
 
 load(file.name)
 rm(file.name)
-
-print(ls())
 ```
 
 ## Generate Temperature Forecasts
 
-When generating forecasts with an operational search, we need to pay attention to two sets of configuration parameters:
-
-- `test_times` and `search_times`: These two parameters are the complete and the largest sets of test/search times that will be possibly generated and used. And these two parameters should be consistent with the number of times in test/search forecasts.
-- `test_times_compare` and `search_times_compare`: These two parameters are the actual test/search times that will be compared and simialrity will be generated for each combination of `test_times_compare` and `search_search_compare`.
-
-If you don't understand any of the options or you want to check out the full list of options available, please check the
-document for [RAnEn::generateConfiguration](https://weiming-hu.github.io/AnalogsEnsemble/R/reference/generateConfiguration.html).
+When generating forecasts with an operational search, `search_times_compare` is not necessary because for each test time in the `test_times_compare`, the search times will be automatically calculated and they include the historical times until the day before the test time.
 
 ```{r}
 # We use independent search configuration.
@@ -77,13 +68,17 @@ config$num_members <- 19
 
 # In this tutorial, I'm going to allow any number of NAN records
 # during similairty calculation.
+#
 config$max_flt_nan <- -1
 config$max_par_nan <- -1
 
 # Keep the similairty values
 config$preserve_similarity <- T
 
-# A negative similarity count means all of the similairty records
+# A negative similarity count means all of the similairty records.
+# This can be helpful if you do not have enough physical memory space
+# to store all similarity records.
+#
 config$max_num_sims <- -1
 
 # Set circular variable if there is any
@@ -94,13 +89,15 @@ if ('ParameterCirculars' %in% names(forecasts)) {
 
 # Set up test and search times
 config$test_times_compare <- forecasts$Times[test.start:test.end]
-config$search_times_compare <- forecasts$Times[search.start:search.end]
+
+# No need to set this anymore
+# config$search_times_compare <- forecasts$Times[search.start:search.end]
 
 # Don't forget to trigger the operational search
 config$operational <- T
 ```
 
-We then generate analogs. This can take a while. On my Mac Air, it takes about 4 minutes.
+We then generate analogs. This can take a while. On a Mac Air, it takes about 4 minutes.
 
 ```{r}
 AnEn.opr <- generateAnalogs(config)

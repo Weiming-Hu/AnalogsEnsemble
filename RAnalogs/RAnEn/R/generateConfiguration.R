@@ -13,27 +13,26 @@
 #' RAnEn::generateConfiguration
 #' 
 #' RAnEn::generateConfiguration generates a templated configuration object to
-#' be passed to the function \code{\link{generateAnalogs}} instead of passing various
-#' parameters one by one. This object can be validated before use by the function
+#' be passed to the function \code{\link{generateAnalogs}}.
+#' This object can be validated before use by the function
 #' \code{\link{validateConfiguration}}.
 #' 
 #' For configuration with mode 'independentSearch':
 #' - mode: 'independentSearch' indicates only searching the forecasts at the current location.
-#' - test_forecasts: The forecasts for which anlog ensembles will be generated.
-#' - test_times: Time information for test forecasts. This is the complete and the largest set of test times that can be possibly used.
-#' - search_forecasts: The forecasts from which analogs are searched.
-#' - search_times: Time information for search forecasts. This is the complete and the largest set of search times that can be possibley used.
+#' - forecasts: The 4-dimensional forecast array with dimensions (parameters, stations, days, forecast lead times).
+#' - forecast_times: Times for forecasts. This should have the same length as the third dimension of forecasts.
 #' - flts: FLT information for test and search forecasts.
 #' - search_observations: The observations from which analog ensemble members are selected.
 #' - observation_times: Time information for search observations.
 #' - observation_id: The parameter index for which the observation parameter to use. For example,
 #' if you have several observation parameters in search observations, this parameter tells the
 #' package which observation parameter to use.
-#' - num_members: The number of ensemble member to keep in analog ensembles.
+#' - num_members: The number of members to keep in the ensembles of analogs.
 #' - circulars: The index of forecast parameters in search forecasts that are circular.
-#' - weights: The weight for forecast parameters in search forecasts.
+#' - weights: The weight for each parameter in forecasts.
 #' - quick: Whether to use quick sort algorithm.
-#' - extend_observations: After getting the most similar forecast indices, take the corresponding observations from the search station.
+#' - extend_observations: TRUE indicates observations should be taken from extended search stations,
+#' FALSE indicates observations should be taken from the current station.
 #' - preserve_similarity: Whether to preserve the similarity matrix in returned AnEn.
 #' - preserve_mapping: Whether to preserve the mapping matrix in return AnEn.
 #' - preserve_search_stations: Whether to preserve the search station list in AnEn.
@@ -42,38 +41,38 @@
 #' increase of search days. But the changes are not reflected in the R results.
 #' - verbose: Verbose level. You can find settings for different values in the
 #' [C++ documentation verbose](https://weiming-hu.github.io/AnalogsEnsemble/CXX/class_an_en.html#a25984b953516a987e2e9eb23048e5d60).
-#' - time_match_mode: This is the method used to computed the mapping matrix between forecast times/flts and observation times.
-#' 0 for strict search (return error when matching observation times cannot be found) and 1 for loose search.
-#' - max_par_nan: The number of NAN values allowed when computing similarity across different parameters.
+#' - time_match_mode: This guides how to compute the time mapping from forecast times and forecast 
+#' lead times to observation times. 0 for strict search (return error when matching observation times
+#' cannot be found) and 1 for loose search.
+#' - max_par_nan: The number of NAN values allowed when averaging similarity across different parameters.
 #' Set it to a negative value to allow any number of NAN values.
-#' - max_flt_nan: The number of NAN values allowed when computing FLT window averages.
+#' - max_flt_nan: The number of NAN values allowed when averaging FLT window similarity.
 #' Set it to a negative value to allow any number of NAN values.
-#' - test_times_compare: The times in test forecast times that will be compared and similarity will be generated for them. This time
-#' should be selected from the test_times field.
+#' - test_times_compare: The times in test forecast times that will be compared and
+#' similarity will be generated for them. This time should be selected from the test_times field.
 #' - search_times_compare: The times in search times that will be compared and similarity will be generated from them.
 #' This time should be selected from the search_times field.
-#' - operational: Whether to use operational serach mode and increase the number of search times while moving forward with test times.
+#' - operational: Whether to use operational serach mode and increase the number
+#' of search times while moving forward with test times.
 #' **Operational serach times are always generated from the search_times.** 
-#' - max_num_sims: The maximum number of similarity to keep in the array. This can be used to reduce the memory requirement.
-#' By default, twice the number of analog members are kept in the similarity record. Set this to a negative value to keep all records.
-#' - FLT_radius: The radius for comparing a parameter along lead times. This specifies how many prior and subsequent lead times to compare. Must be non-negative.
+#' - max_num_sims: The maximum number of similarity to keep in the array.
+#' This can be used to reduce the memory requirement. By default, twice the number
+#' of analog members are kept in the similarity record. Set this to a negative value to keep all records.
+#' - FLT_radius: The radius for comparing a parameter along lead times.
+#' This specifies how many prior and subsequent lead times to compare. Must be non-negative.
 #' 
 #' For configuration with mode 'extendedSearch': (skipping the aforementioned parameters)
-#' - mode: 'extendedSearch' indicates search the forecasts from both the current location and the nearby locations.
-#' - test_stations_x: X coordinates of test stations/grid points.
-#' - test_stations_y: Y coordinates of test stations/grid points.
-#' - test_stations_classifier: The classifier (tag) for each test stations.
-#' - search_stations_x: X coordinates of search stations/grid points.
-#' - search_stations_y: Y coordinates of search stations/grid points.
-#' - search_stations_classifier: The classifier (tag) for each search stations.
+#' - mode: 'extendedSearch' searches forecasts from both the current and nearby locations.
+#' - forecast_stations_x: X coordinates of forecast stations/grid points.
+#' - forecast_stations_y: Y coordinates of forecast stations/grid points.
+#' - stations_classifier: The classifier (tag) for each test stations.
 #' - num_nearest: The number of nearest neighbors.
 #' - distance: The distance to search for nearby stations/grid points.
 #' - max_num_search_stations: The maximum search stations to keep in the similarity matrix. The use of this parameter
 #' will only affect the number of search stations to keep in the similarity matrix. This won't affect the correctness
-#' of nearby station selection. This parameter is used in case of insufficient memeory. A good rule of thumb would be
-#' setting it to num_nearest when num_nearest is used, or when distance is used, setting it to an estimated number that
-#' is slightly bigger than the expexted number of stations that will be found within the distance. Again, even if you 
-#' set it to a number that is wierdly off, the selected nearby stations will be gauranteed to fulfill your requirement.
+#' of nearby station selection. This parameter is used in case of insufficient memeory. 
+#' If `distance` is the only constraint of including nearby stations, to avoid including too many stations within
+#' the specified distance, this should be set.
 #' 
 #' Please find detailed terminology explanation in the
 #' [Vocabulary post](https://weiming-hu.github.io/AnalogsEnsemble/2018/10/06/vocabulary.html).
