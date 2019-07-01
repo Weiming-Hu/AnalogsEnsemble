@@ -55,11 +55,17 @@ formatConfiguration <- function(config, verbose = T) {
   }
   
   if (length(config$weights) == 0) {
-      if (config$advanced) {
-        config$weights <- rep(1, times = dim(config[['test_forecasts']])[1])
-      } else {
-        config$weights <- rep(1, times = dim(config[['forecasts']])[1])
-      }
+    
+    if (config$advanced) {
+      weights.length <- dim(config[['test_forecasts']])[1]
+    } else {
+      weights.length <- dim(config[['forecasts']])[1]
+    }
+    
+    if (!is.null(weights.length)) {
+      config$weights <- rep(1, times = weights.length)
+    }
+    
   }
   
   return(config)

@@ -140,12 +140,9 @@ generateConfiguration <- function(mode, advanced = F) {
     config$test_times <- NA
     config$search_forecasts <- NA
     config$search_times <- NA
-    config$test_stations_classifier <- vector(mode = 'numeric', length = 0)
-    config$search_stations_classifier <- vector(mode = 'numeric', length = 0)
   } else {
     config$forecasts <- NA
     config$forecast_times <- NA
-    config$stations_classifier <- vector(mode = 'numeric', length = 0)
   }
   
   if (mode == 'extendedSearch') {
@@ -159,9 +156,12 @@ generateConfiguration <- function(mode, advanced = F) {
       config$test_stations_y <- NA
       config$search_stations_x <- NA
       config$search_stations_y <- NA
+      config$test_stations_classifier <- vector(mode = 'numeric', length = 0)
+      config$search_stations_classifier <- vector(mode = 'numeric', length = 0)
     } else {
       config$forecast_stations_x <- NA
       config$forecast_stations_y <- NA
+      config$stations_classifier <- vector(mode = 'numeric', length = 0)
     }
   }
   
