@@ -15,7 +15,7 @@ tags:
 Introduction
 ------------
 
-The prediction accuracy of Analog Ensemble depends on the quality of analogs. Presumably, better analogs will generate better predictions. In real-time model operation, when historical forecasts increasing and the test forecast moving forward in time, it is most likely that the historical forecasts in the near past are the most similar ones. Therefore, in an operational prediction mode, it is desired to increment the search forecasts when test forecasts are moving towards the future.
+Prediction accuracy of the Analog Ensemble depends on the quality of analogs. Presumably, better analogs will generate better predictions. In an operational model, it is likely that the historical forecasts in the near past are the most similar to the current forecast. Therefore, in operational mode, as each day passes, it is added to the historical repository.
 
 This article shows an example of how to use `RAnEn` with an operational search. It is strongly suggested to go over the [demo 1](https://weiming-hu.github.io/AnalogsEnsemble/2018/11/04/demo-1-RAnEn-basics.html) prior to this tutorial.
 
