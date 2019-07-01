@@ -11,7 +11,10 @@ sidebar_link: true
 - Improve `verifyCRPS`.
 - Improve `RAnEn` function documentation.
 - Add identification for cycle time in C++ utilities.
-- Bug fixed in checking functions.
+- Bug fixed in checking functions in `RAnEn`.
+- Add grid checks in `gribConverter` for each file.
+- Make `classifier` the parameter for `extendedSearch` only.
+- Improve website and tutorials/posts.
 
 # PAnEn 3.4.2
 
