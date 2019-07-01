@@ -56,7 +56,7 @@ public:
             if (std::isnan(lhs[order_tag])) return false;
             if (std::isnan(rhs[order_tag])) return true;
             return (lhs[order_tag] < rhs[order_tag]);
-        };
+        }
 
         template < typename T, size_t dims >
         bool operator()(boost::multi_array < T, dims > const &lhs,
@@ -64,7 +64,7 @@ public:
             if (std::isnan(lhs[order_tag])) return false;
             if (std::isnan(rhs[order_tag])) return true;
             return (lhs[order_tag] < rhs[order_tag]);
-        };
+        }
 
         template < typename T, size_t dims >
         bool operator()(sub_array < T, dims > const &lhs,
@@ -72,11 +72,11 @@ public:
             if (std::isnan(lhs[order_tag])) return false;
             if (std::isnan(rhs[order_tag])) return true;
             return (lhs[order_tag] < rhs[order_tag]);
-        };
+        }
 
         template < typename T > bool operator()(T lhs, T rhs) const {
             return std::less < T > () (lhs, rhs);
-        };
+        }
     };
 
     void resize(size_t dim0, size_t dim1, size_t dim2);

@@ -43,7 +43,7 @@ size_t
 Observations::getTimeIndex(double timestamp) const {
     size_t i_time = times_.getTimeIndex(timestamp);
     return (i_time);
-};
+}
 
 size_t
 Observations::getParametersSize() const {
@@ -156,12 +156,12 @@ Observations_array::~Observations_array() {
 boost::multi_array<double, 3> const &
 Observations_array::data() const {
     return (data_);
-};
+}
 
 boost::multi_array<double, 3> &
 Observations_array::data() {
     return (data_);
-};
+}
 
 const double*
 Observations_array::getValues() const {
