@@ -15,10 +15,13 @@ tags:
 Introduction
 ------------
 
-This article walks you through the basic usage of the `RAnEn` library in a practice of short-term surface temperature forecasts. You will learn how to use these functions:
+This article walks you through the basic usage of the `RAnEn` library. This exercise uses short-term surface temperature forecasts as an example. Recommend using [binder](https://mybinder.org/badge.svg) and the corresponding `.ipynb` file will guide you through the script line by line.
 
--   `generateConfiguration`
--   `generateAnalogs`
+You will learn how to use these functions:
+
+- `generateConfiguration`
+- `generateAnalogs`
+- `verify*` functions
 
 Access
 ------------
