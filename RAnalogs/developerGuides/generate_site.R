@@ -1,6 +1,7 @@
 # Generate document using pkgdown
 
 library(pkgdown)
+library(devtools)
 
 # unlink("docs", recursive = T)
 
