@@ -27,16 +27,6 @@ This will generate both the MAN documents and the NAMESPACE file.
 # set working directory at 'RAnalogs/'
 Rcpp::compileAttributes(pkgdir = "RAnEn")
 setwd('RAnEn/')
+devtools::load_all()
 devtools::document()
 ```
-
-If you see errors like the following:
-
-```
- Error in .Call("_RAnEn_checkOpenMP", PACKAGE = "RAnEn") : 
-  "_RAnEn_checkOpenMP" not available for .Call() for package "RAnEn" 
-```
-
-This is usually caused by the missing entries in `NAMESPACE` file.
-
-Try to call `load_all()` within the `RAnEn` folder and rerun `document()`.

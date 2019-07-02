@@ -15,6 +15,8 @@
 #' 
 #' RAnEn::verifyBias calculates bias.
 #' 
+#' RMSE ^ 2 = CRMSE ^ 2 + Bias ^ 2
+#' 
 #' To set the number of cores to use when parallel is used,
 #' `options(mc.cores = 8)`.
 #' 

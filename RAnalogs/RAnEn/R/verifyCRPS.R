@@ -68,6 +68,8 @@ verifyCRPS <- function(anen.ver, obs.ver, boot = F, R = 1000, int.step = 150, na
   
   
   if ( boot == F) {
+    require(verification)
+
     # Run the CRPS
     deco     <- crpsDecomposition(obs[,2], anen)
     crps     <- data.frame(crps=deco$CRPS,spot=deco$CRPSpot,reli=deco$Reli)

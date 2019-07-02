@@ -15,6 +15,8 @@
 #' 
 #' RAnEn::verifyRMSE calculates root mean square errors.
 #' 
+#' RMSE ^ 2 = CRMSE ^ 2 + Bias ^ 2
+#' 
 #' @author Guido Cervone \email{cervone@@psu.edu}
 #' @author Martina Calovi \email{mxc895@@psu.edu}
 #' @author Laura Clemente-Harding \email{laura@@psu.edu}

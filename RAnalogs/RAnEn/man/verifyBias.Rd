@@ -27,6 +27,8 @@ You can generate the array using \code{\link{alignObservations}}.}
 RAnEn::verifyBias calculates bias.
 }
 \details{
+RMSE ^ 2 = CRMSE ^ 2 + Bias ^ 2
+
 To set the number of cores to use when parallel is used,
 \code{options(mc.cores = 8)}.
 }

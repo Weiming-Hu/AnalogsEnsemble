@@ -26,6 +26,9 @@ You can generate the array using \code{\link{alignObservations}}.}
 \description{
 RAnEn::verifyRMSE calculates root mean square errors.
 }
+\details{
+RMSE ^ 2 = CRMSE ^ 2 + Bias ^ 2
+}
 \author{
 Guido Cervone \email{cervone@psu.edu}
 
