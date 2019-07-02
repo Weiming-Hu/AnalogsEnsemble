@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>RAnEn::verifyBias — verifyBias • RAnEn</title>
+<title>RAnEn::verifyCRMSE — verifyCRMSE • RAnEn</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="RAnEn::verifyBias — verifyBias" />
+<meta property="og:title" content="RAnEn::verifyCRMSE — verifyCRMSE" />
 
-<meta property="og:description" content="RAnEn::verifyBias calculates bias." />
+<meta property="og:description" content="RAnEn::verfiyCRMSE computes the center RMSE." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -97,34 +97,23 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>RAnEn::verifyBias</h1>
+    <h1>RAnEn::verifyCRMSE</h1>
     
-    <div class="hidden name"><code>verifyBias.Rd</code></div>
+    <div class="hidden name"><code>verifyCRMSE.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>RAnEn::verifyBias calculates bias.</p>
+    <p>RAnEn::verfiyCRMSE computes the center RMSE.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>verifyBias</span>(<span class='no'>anen.ver</span>, <span class='no'>obs.ver</span>, <span class='kw'>boot</span> <span class='kw'>=</span> <span class='no'>F</span>, <span class='kw'>R</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='no'>T</span>,
+    <pre class="usage"><span class='fu'>verifyCRMSE</span>(<span class='no'>anen.ver</span>, <span class='no'>obs.ver</span>, <span class='kw'>boot</span> <span class='kw'>=</span> <span class='no'>F</span>, <span class='kw'>R</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='no'>T</span>,
   <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='no'>F</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>anen.ver</th>
-      <td><p>A 4-dimensional array. This array is usually created from the <code>value</code> column of
-the <code>analogs</code> member in the results of <code><a href='generateAnalogs.html'>generateAnalogs</a></code>. The dimensions should be
-<code>[stations, times, lead times, members]</code>.</p></td>
-    </tr>
-    <tr>
-      <th>obs.ver</th>
-      <td><p>A 3-dimensional array. The dimensions should be <code>[stations, times, lead times]</code>.
-You can generate the array using <code><a href='alignObservations.html'>alignObservations</a></code>.</p></td>
-    </tr>
     <tr>
       <th>boot</th>
       <td><p>Whether to use bootstrap.</p></td>
@@ -139,7 +128,7 @@ You can generate the array using <code><a href='alignObservations.html'>alignObs
     </tr>
     <tr>
       <th>parallel</th>
-      <td><p>Whether to turn on parallel processing.</p></td>
+      <td><p>Whether to use parallel processing.</p></td>
     </tr>
     </table>
     
@@ -159,10 +148,6 @@ You can generate the array using <code><a href='alignObservations.html'>alignObs
       <li><a href="#details">Details</a></li>
           </ul>
 
-    <h2>Author</h2>
-    <p>Guido Cervone <a href='mailto:cervone@psu.edu'>cervone@psu.edu</a></p>
-<p>Martina Calovi <a href='mailto:mxc895@psu.edu'>mxc895@psu.edu</a></p>
-<p>Laura Clemente-Harding <a href='mailto:laura@psu.edu'>laura@psu.edu</a></p>
   </div>
 </div>
 
