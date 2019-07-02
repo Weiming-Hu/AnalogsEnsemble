@@ -398,6 +398,7 @@ namespace gribConverter {
 
             if (verbose >= 3) cout << GREEN << "Reading data ... " << RESET << endl;
 
+            size_t expected_len = 0;
             for (size_t i = 0; i < files_in.size(); i++) {
 
                 // Create a const reference to the file list to avoid modification.
@@ -438,12 +439,26 @@ namespace gribConverter {
                 size_t index_time = times.getTimeIndex(duration.days() * _SECS_IN_DAY + cycle_offset);
 
                 vector<double> data_vec;
+
                 for (size_t j = 0; j < pars_id.size(); j++) {
 
                     if (file_flags[i]) {
                         try {
                             getDoubles(data_vec, file_in, pars_id[j], levels[j],
                                     level_types[j], par_key, level_key, type_key, val_key);
+
+                            if (expected_len == 0) {
+                                expected_len = data_vec.size();
+                            } else {
+                                if (expected_len != data_vec.size()) {
+                                    cerr << BOLDRED << "Error: I expect " << expected_len
+                                        << " values but got " << data_vec.size() << " values. "
+                                        << "Something is wrong for the file and the parameter."
+                                        << RESET << endl;
+                                    throw runtime_error("Error: Non-conformable data!");
+                                }
+                            }
+
                         } catch (const exception & e) {
                             cerr << BOLDRED << "Error when reading " << pars_id[j] << " "
                                     << levels[j] << " " << level_types[j] << " from file " << file_in
@@ -590,6 +605,7 @@ namespace gribConverter {
             // This is created to keep track of the return condition for each file
             vector<bool> file_flags(files_in.size(), true);
 
+            size_t expected_len = 0;
             for (size_t i = 0; i < files_in.size(); i++) {
 
                 // Create a const reference to the file list to avoid modification.
@@ -610,12 +626,26 @@ namespace gribConverter {
                 boost::gregorian::date_duration duration = time_end - time_start;
                 size_t index_time = times.getTimeIndex(duration.days() * _SECS_IN_DAY);
 
+                vector<double> data_vec;
+
                 for (size_t j = 0; j < pars_id.size(); j++) {
                     if (file_flags[i]) {
-                        vector<double> data_vec;
                         try {
                             getDoubles(data_vec, file_in, pars_id[j], levels[j],
                                     level_types[j], par_key, level_key, type_key, val_key);
+
+                            if (expected_len == 0) {
+                                expected_len = data_vec.size();
+                            } else {
+                                if (expected_len != data_vec.size()) {
+                                    cerr << BOLDRED << "Error: I expect " << expected_len
+                                        << " values but got " << data_vec.size() << " values. "
+                                        << "Something is wrong for the file and the parameter."
+                                        << RESET << endl;
+                                    throw runtime_error("Error: Non-conformable data!");
+                                }
+                            }
+
                         } catch (const exception & e) {
                             cerr << BOLDRED << "Error when reading " << pars_id[j] << " "
                                     << levels[j] << " " << level_types[j] << " from file " << file_in
