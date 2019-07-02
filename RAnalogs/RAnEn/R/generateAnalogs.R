@@ -75,14 +75,20 @@ generateAnalogs <- function(configuration) {
         "search_stations_y" %in% names(configuration)) {
       test_forecasts_station_x <- configuration$test_stations_x
       test_forecasts_station_y <- configuration$test_stations_y
+
       search_forecasts_station_x <- configuration$search_stations_x
       search_forecasts_station_y <- configuration$search_stations_y
     } else {
+
       test_forecasts_station_x <- vector(mode = 'numeric', length = 0)
       test_forecasts_station_y <- vector(mode = 'numeric', length = 0)
+
       search_forecasts_station_x <- vector(mode = 'numeric', length = 0)
       search_forecasts_station_y <- vector(mode = 'numeric', length = 0)
     }
+
+    test_stations_classifier <- vector(mode = 'numeric', length = 0)
+    search_stations_classifier <- vector(mode = 'numeric', length = 0)
     
     search_extension <- F
     max_num_search_stations <- 0
@@ -118,8 +124,8 @@ generateAnalogs <- function(configuration) {
       configuration$operational,
       ifelse(configuration$max_num_sims==0, configuration$num_members*2, configuration$max_num_sims),
       configuration$FLT_radius,
-      configuration$test_stations_classifier,
-      configuration$search_stations_classifier,
+      test_stations_classifier,
+      search_stations_classifier,
       configuration$verbose)
     
   } else if (configuration$mode == 'extendedSearch') {
