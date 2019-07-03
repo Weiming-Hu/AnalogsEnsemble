@@ -5,6 +5,10 @@ sidebar_link: true
 ---
 
 
+# PAnEn 3.5.1
+
+- Add the beta function `RAnEn::schaakeShuffle`.
+
 # PAnEn 3.5.0
 
 - Add functions `toDateTime`, `toForecastTime`, `val2Col`, `makeTransparent`, and `plotBackground`.

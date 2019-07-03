@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>RAnEn::writeNetCDF — writeNetCDF • RAnEn</title>
+<title>RAnEn::schaakeShuffle — schaakeShuffle • RAnEn</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,10 +30,9 @@
 
 
 
-<meta property="og:title" content="RAnEn::writeNetCDF — writeNetCDF" />
+<meta property="og:title" content="RAnEn::schaakeShuffle — schaakeShuffle" />
 
-<meta property="og:description" content="RAnEn::writeNetCDF writes a formatted object into a NetCDF file. The output NetCDF
-file can be used by C++ utilities." />
+<meta property="og:description" content="This function has not been tested." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -98,63 +97,60 @@ file can be used by C++ utilities." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>RAnEn::writeNetCDF</h1>
+    <h1>RAnEn::schaakeShuffle</h1>
     
-    <div class="hidden name"><code>writeNetCDF.Rd</code></div>
+    <div class="hidden name"><code>schaakeShuffle.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>RAnEn::writeNetCDF writes a formatted object into a NetCDF file. The output NetCDF
-file can be used by C++ utilities.</p>
+    <p><strong>This function has not been tested.</strong></p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>writeNetCDF</span>(<span class='no'>file.type</span>, <span class='no'>obj</span>, <span class='no'>file.out</span>, <span class='kw'>global.attrs</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>nchars.max</span> <span class='kw'>=</span> <span class='fl'>50</span>)</pre>
+    <pre class="usage"><span class='fu'>schaakeShuffle</span>(<span class='no'>anen</span>, <span class='no'>obs.search</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>file.type</th>
-      <td><p>The type of the object to be written to a file. It only supports
-Observations for now.</p></td>
+      <th>anen</th>
+      <td><p>The AnEn values extract from the member <code>analogs</code> in the results of
+<code><a href='generateAnalogs.html'>generateAnalogs</a></code>. The dimensions should be (stations, test times, FLTs, members).</p></td>
     </tr>
     <tr>
-      <th>obj</th>
-      <td><p>A list object to write into the file.</p></td>
-    </tr>
-    <tr>
-      <th>file.out</th>
-      <td><p>The output file path.</p></td>
-    </tr>
-    <tr>
-      <th>nchars.max</th>
-      <td><p>The maximum length of string.</p></td>
-    </tr>
-    <tr>
-      <th>global.attr</th>
-      <td><p>A list with names and values for global attributes. The values
-will be written as strings. Please make sure list members have names.</p></td>
+      <th>obs.search</th>
+      <td><p>The aligned observations with 4 dimensions (parameters, stations,
+search times, FLTs). However, please make sure there is only 1 parameter. Observations
+can be created from <code><a href='alignObservations.html'>alignObservations</a></code>.</p></td>
     </tr>
     </table>
     
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>A boolean for whether the writing is complete.</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The parameter <code>obj</code> for the file type <code>Observations</code> is an R list object with the
-following members:</p><ul>
-<li><p>ParameterNames</p></li>
-<li><p>StationNames (optional)</p></li>
-<li><p>Xs</p></li>
-<li><p>Ys</p></li>
-<li><p>Times</p></li>
-<li><p>Data</p></li>
-</ul>
+    <p>RAnEn::schaakeShuffle is a method to improve autocorrelation within ensemble
+members in the spatial and temporal constructions by reordering the memebers.</p>
+<p>Although the absolute verification statistics of a particular ensemble (e.g.
+RMSE, bias, and etc.) are not affected by reordering the members, the reordered
+ensemble members preserve a better autocorrelation structure when inspected
+one by one, for example, plotting the first member of all ensembles.</p>
+<p>The algorithm is as follows:</p><pre>
+-- For each test day
+    Randomly choose N search days (N is the number of ensemble members)
+      Establish the linking function B
+    -- For each FLT
+         -- For each station
+    Reorder enmseble members using the linking function B
+    -- End of stations
+   -- End of FLTs
+-- End of test days
+    </pre>
+    
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>Sperati, Simone, Stefano Alessandrini, and Luca Delle Monache.
+"Gridded probabilistic weather forecasts with an analog ensemble."
+Quarterly Journal of the Royal Meteorological Society 143.708 (2017): 2874-2885.</p>
     
 
   </div>
@@ -163,13 +159,15 @@ following members:</p><ul>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#value">Value</a></li>
-
       <li><a href="#details">Details</a></li>
+
+      <li><a href="#references">References</a></li>
           </ul>
 
     <h2>Author</h2>
-    <p>Weiming Hu <a href='mailto:weiming@psu.edu'>weiming@psu.edu</a></p>
+    <p>Guido Cervone <a href='mailto:cervone@psu.edu'>cervone@psu.edu</a></p>
+<p>Martina Calovi <a href='mailto:mxc895@psu.edu'>mxc895@psu.edu</a></p>
+<p>Weiming Hu <a href='mailto:weiming@psu.edu'>weiming@psu.edu</a></p>
   </div>
 </div>
 
