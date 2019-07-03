@@ -120,7 +120,7 @@ compute_analogs <- function(forecasts,
   
   # check deprecation
   if (!identical(NA, parameter_ID)) {
-    print("Warning: parameter_ID is deprecated! Use observation_ID instead.")
+    cat("Warning: parameter_ID is deprecated! Use observation_ID instead.\n")
     if (!identical(NA, observation_ID)) {
       return(0)
     }
@@ -135,28 +135,28 @@ compute_analogs <- function(forecasts,
   if (!(is.array(forecasts) &&
         is.numeric(forecasts) &&
         length(dim(forecasts)) == 4)) {
-    print('ERROR: forecasts should be a 4-dimensional numeric array! Please use dim(), is.numeric(), and is.array() to check!')
+    cat('ERROR: forecasts should be a 4-dimensional numeric array! Please use dim(), is.numeric(), and is.array() to check!\n')
     return(0)
   }
   
   if (!(is.array(observations) &&
         is.numeric(observations) &&
         length(dim(observations)) == 4)) {
-    print('ERROR: observations should be a 4-dimensional numeric array! Please use dim(), is.numeric(), and is.array() to check!')
+    cat('ERROR: observations should be a 4-dimensional numeric array! Please use dim(), is.numeric(), and is.array() to check!\n')
     return(0)
   }
   
   if(dim(forecasts)[2] != dim(observations)[2] ||
      dim(forecasts)[3] != dim(observations)[3] ||
      dim(forecasts)[4] != dim(observations)[4]) {
-    print('ERROR: the second, thrid, and fourth dimensions of forecasts and observations should be the same.')
+    cat('ERROR: the second, thrid, and fourth dimensions of forecasts and observations should be the same.\n')
     return(0)
   }
   
   if (!(is.numeric(circulars) &&
         is.vector(circulars) &&
         length(circulars) <= dim(forecasts)[1])) {
-    print('ERROR: circular should be a numeric vector. The length of the vector should not be larger than the number of parameters in forecasts.')
+    cat('ERROR: circular should be a numeric vector. The length of the vector should not be larger than the number of parameters in forecasts.\n')
     return(0)
   }
   
@@ -166,7 +166,7 @@ compute_analogs <- function(forecasts,
   if (!(is.vector(weights) &&
         is.numeric(weights) &&
         length(weights) == dim(forecasts)[1])) {
-    print('ERROR: weights should be a numeric vector. The length should equal the number of parameters.')
+    cat('ERROR: weights should be a numeric vector. The length should equal the number of parameters.\n')
     return(0)
   }
   
@@ -176,29 +176,29 @@ compute_analogs <- function(forecasts,
   if (!(is.numeric(stations_ID) &&
         is.vector(stations_ID) &&
         length(stations_ID) <= dim(forecasts)[2])) {
-    print('ERROR: stations_ID should be a numeric vector. The length should not be larger than the number of stations in forecasts.')
+    cat('ERROR: stations_ID should be a numeric vector. The length should not be larger than the number of stations in forecasts.\n')
     return(0)
   }
   if (!all(!duplicated(stations_ID))) {
-    print("Warning: there are duplicate(s) in stations_ID. The program will ignore duplicates!")
+    cat("Warning: there are duplicate(s) in stations_ID. The program will ignore duplicates!\n")
     stations_ID <- unique(stations_ID)
   }
   
   if (!(is.numeric(test_ID_start) &&
         length(test_ID_start) == 1)) {
-    print("ERROR: test_ID_start should be a numeric value.")
+    cat("ERROR: test_ID_start should be a numeric value.\n")
     return(0)
   }
   
   if (!(is.numeric(test_ID_end) &&
         length(test_ID_end) == 1)) {
-    print("ERROR: test_ID_end should be a numeric value.")
+    cat("ERROR: test_ID_end should be a numeric value.\n")
     return(0)
   }
   
   if (!(is.numeric(train_ID_start) &&
         length(train_ID_start) == 1)) {
-    print("ERROR: train_ID_start should be a numeric value.")
+    cat("ERROR: train_ID_start should be a numeric value.\n")
     return(0)
   }
   
@@ -209,13 +209,13 @@ compute_analogs <- function(forecasts,
   if (!(is.numeric(observation_ID) &&
         length(observation_ID) == 1 &&
         observation_ID <= dim(observations)[1])) {
-    print("ERROR: observation_ID should be a numeric value. It should not be larger than the number of parameters in observations.")
+    cat("ERROR: observation_ID should be a numeric value. It should not be larger than the number of parameters in observations.\n")
     return(0)
   }
   
   if (!(is.numeric(members_size) &&
         length(members_size) == 1)) {
-    print("ERROR: members_size should be a numeric value.")
+    cat("ERROR: members_size should be a numeric value.\n")
     return(0)
   }
   
@@ -224,43 +224,43 @@ compute_analogs <- function(forecasts,
       train_ID_end = test_ID_start + rolling
     }
     if (train_ID_end < 0) {
-      print("ERROR: train_ID_end = test_ID_start + rolling is negative!")
+      cat("ERROR: train_ID_end = test_ID_start + rolling is negative!\n")
       return(0)
     }
   }
   if (!(is.numeric(train_ID_end) &&
         length(train_ID_end) == 1)) {
-    print("ERROR: train_ID_end should be a numeric value.")
+    cat("ERROR: train_ID_end should be a numeric value.\n")
     return(0)
   }
   
   if (members_size >= (train_ID_end - train_ID_start + 1)) {
-    print("ERROR: members_size is larger than number of train days!")
+    cat("ERROR: members_size is larger than number of train days!\n")
     return(0)
   }
   
   if (!(is.logical(quick) &&
         length(quick) == 1)) {
-    print("ERROR: quick should be a logic value.")
+    cat("ERROR: quick should be a logic value.\n")
     return(0)
   }
   
   if (!(is.numeric(rolling) &&
         length(rolling) == 1 &&
         rolling <= 0)) {
-    print("ERROR: rolling should be a non-positive numeric value.")
+    cat("ERROR: rolling should be a non-positive numeric value.\n")
     return(0)
   }
   
   if (!(is.logical(search_extension) &&
         length(search_extension) == 1)) {
-    print("ERROR: search_extension is a logic value.")
+    cat("ERROR: search_extension is a logic value.\n")
     return(0)
   }
   
   if (search_extension) {
     if (identical(NA, xs)) {
-      print("ERROR: search extension needs xs.")
+      cat("ERROR: search extension needs xs.\n")
       return(0)
     }
     if (is.array(xs) &&
@@ -270,12 +270,12 @@ compute_analogs <- function(forecasts,
     if (!(is.numeric(xs) &&
           is.vector(xs) &&
           length(xs) == dim(forecasts)[2])) {
-      print("ERROR: xs should a numeric vector. The length equals to the number of stations in forecasts.")
+      cat("ERROR: xs should a numeric vector. The length equals to the number of stations in forecasts.\n")
       return(0)
     }
     
     if (identical(NA, ys)) {
-      print("ERROR: search extension needs ys.")
+      cat("ERROR: search extension needs ys.\n")
       return(0)
     }
     if (is.array(ys) &&
@@ -285,12 +285,12 @@ compute_analogs <- function(forecasts,
     if (!(is.numeric(ys) &&
           is.vector(ys) &&
           length(ys) == dim(forecasts)[2])) {
-      print("ERROR: ys should a numeric vector. The length equals to the number of stations in forecasts.")
+      cat("ERROR: ys should a numeric vector. The length equals to the number of stations in forecasts.\n")
       return(0)
     }
     
     if (identical(0, distance) && identical(0, num_nearest)) {
-      print("ERROR: please set num_nearest and/or distance for search extension.")
+      cat("ERROR: please set num_nearest and/or distance for search extension.\n")
       return(0)
     }
     
@@ -298,7 +298,7 @@ compute_analogs <- function(forecasts,
       if (!(is.numeric(distance) &&
             length(distance) == 1 &&
             distance > 0)) {
-        print("ERROR: distance should be a positive numeric value.")
+        cat("ERROR: distance should be a positive numeric value.\n")
         return(0)
       }
     }
@@ -307,7 +307,7 @@ compute_analogs <- function(forecasts,
       if (!(is.numeric(num_nearest) &&
             length(num_nearest) == 1 &&
             num_nearest > 0)) {
-        print("ERROR: num_nearest should be a positive numeric value.")
+        cat("ERROR: num_nearest should be a positive numeric value.\n")
         return(0)
       }
     }
@@ -315,31 +315,31 @@ compute_analogs <- function(forecasts,
   
   if (!(is.logical(observation_from_extended_station) &&
         length(observation_from_extended_station) == 1)) {
-    print("ERROR: observation_from_extended_station should a logical value.")
+    cat("ERROR: observation_from_extended_station should a logical value.\n")
     return(0)
   }
   
   if (!(is.logical(recompute_sd_for_extended_station) &&
         length(recompute_sd_for_extended_station) == 1)) {
-    print("ERROR: recompute_sd_for_extended_station should a logical value.")
+    cat("ERROR: recompute_sd_for_extended_station should a logical value.\n")
     return(0)
   }
   
   if (!(is.logical(output_search_stations) &&
         length(output_search_stations) == 1)) {
-    print("ERROR: output_search_stations should a logical value.")
+    cat("ERROR: output_search_stations should a logical value.\n")
     return(0)
   }
   
   if (!(is.logical(output_metric) &&
         length(output_metric) == 1)) {
-    print("ERROR: output_metric should a logical value.")
+    cat("ERROR: output_metric should a logical value.\n")
     return(0)
   }
   
   if (!(is.numeric(verbose) &&
         length(verbose) == 1)) {
-    print("ERROR: verbose should be an integer.")
+    cat("ERROR: verbose should be an integer.\n")
     return(0)
   }
   

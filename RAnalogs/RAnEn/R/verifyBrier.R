@@ -34,7 +34,7 @@ verifyBrier <- function(anen.ver, obs.ver, threshold, ensemble.func, ..., baseli
   require(verification)
   
   if ( !identical(dim(anen.ver)[1:3], dim(obs.ver)[1:3]) ) {
-    print("Error: Observations and analogs have incompatible dimensions")
+    cat("Error: Observations and analogs have incompatible dimensions.\n")
     return(NULL)
   }
   
@@ -42,7 +42,7 @@ verifyBrier <- function(anen.ver, obs.ver, threshold, ensemble.func, ..., baseli
   
   if (!identical(baseline, NULL)) {
     if ( !identical(dim(baseline), dim(obs.ver))) {
-      print("Error: Observations and baseline forecasts have incompatible dimensions")
+      cat("Error: Observations and baseline forecasts have incompatible dimensions\n")
       return(NULL)
     }
     

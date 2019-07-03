@@ -32,7 +32,7 @@
 verifyThreatScore <- function(anen.ver, obs.ver, threshold, ensemble.func, ...) {
   
   if ( !identical(dim(anen.ver)[1:3], dim(obs.ver)[1:3]) ) {
-    print("Error: Observations and forecasts have incompatible dimensions")
+    cat("Error: Observations and forecasts have incompatible dimensions.\n")
     return(NULL)
   }
   

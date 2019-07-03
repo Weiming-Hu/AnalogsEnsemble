@@ -17,7 +17,7 @@
 rmse.ver <- function(anen.ver, obs.ver, boot=F, R=1000, na.rm=T) {
   
   if ( !identical(dim(anen.ver)[1:3], dim(obs.ver)[1:3]) ) {
-    print("Error: Observations and Forecasts have incompatible dimensions")
+    cat("Error: Observations and Forecasts have incompatible dimensions.\n")
     return(NULL)
   }
   
