@@ -35,146 +35,169 @@ using namespace std;
  * @param file_in The file to read.
  * @param file_type The type of the file, "Forecasts" or "Observations".
  * @param file_out The file to write.
- * @param var_U_name The name of the U component of wind.
- * @param var_V_name The name of the V component of wind.
- * @param var_dir_name The new name of the wind direction variable.
- * @param var_speed_name The new name of the wind speed variable.
+ * @param var_U_names The name(s) of the U component of wind.
+ * @param var_V_names The name(s) of the V component of wind.
+ * @param var_dir_names The new name(s) of the wind direction variable.
+ * @param var_speed_names The new name(s) of the wind speed variable.
  * @param verbose The verbose level.
  * 
  */
 void runWindFieldCalculator(
         const string & file_in, const string & file_type,
         const string & file_out,
-        const string & var_U_name, const string & var_V_name,
-        const string & var_dir_name, const string & var_speed_name,
+        const vector<string> & var_U_names, const vector<string> & var_V_names,
+        const vector<string> & var_dir_names, const vector<string> & var_speed_names,
         int verbose) {
 
     if (verbose >= 3) cout << GREEN << "Start generating wind fields ... " << RESET << endl;
 
+    // Sanity checks
+    if ( var_U_names.size() != var_V_names.size() ||
+            var_U_names.size() != var_speed_names.size() ||
+            var_U_names.size() != var_dir_names.size()) {
+        stringstream ss;
+        ss << BOLDRED << "Error: The number of names for U, V, speed, and direction should be"
+            << " the same, and the order of the names matters." << RESET << endl;
+        throw runtime_error(ss.str());
+    }
+
     // Define the functions to compute wind speed
     if (verbose >= 3) cout << GREEN << "Define functions for computation ..." << RESET << endl;
     function< double (double, double) > func_speed =
-            [](double d1, double d2) {
-                return (sqrt(d1 * d1 + d2 * d2));
-            };
+        [](double d1, double d2) {
+            return (sqrt(d1 * d1 + d2 * d2));
+        };
 
     // Define the function to compute wind direction
     function< double (double, double) > func_dir =
-            [] (double d1, double d2) {
-                double dir = fmod(atan2(d1, d2) * 180 / M_PI, 360);
-                return (dir < 0 ? (dir + 360) : dir);
-            };
+        [] (double d1, double d2) {
+            double dir = fmod(atan2(d1, d2) * 180 / M_PI, 360);
+            return (dir < 0 ? (dir + 360) : dir);
+        };
 
     size_t num_stations, num_times,
-            i_U, i_V, i_speed, i_dir;
+           i_U, i_V, i_speed, i_dir;
 
     AnEnIO io("Read", file_in, file_type, verbose);
     AnEnIO io_out("Write", file_out, file_type, verbose);
 
-    // Define parameters
-    anenPar::Parameter windSpeed(var_speed_name, false),
-            windDir(var_dir_name, true);
+    // Read data from the existing file
+    if (verbose >= 3) cout << GREEN << "Reading file " << file_in << "..." << RESET << endl;
+    Forecasts_array forecasts;
+    Observations_array observations;
 
     if (file_type == "Forecasts") {
-
-        if (verbose >= 3) cout << GREEN << "Processing forecasts file ..." << RESET << endl;
-
-        size_t num_flts;
-
-        Forecasts_array forecasts;
         handleError(io.readForecasts(forecasts));
+    } else if (file_type == "Observations") {
+        handleError(io.readObservations(observations));
+    }
 
-        auto & parameters = forecasts.getParameters();
-        parameters.push_back(windSpeed);
-        parameters.push_back(windDir);
+    for (size_t i = 0; i < var_U_names.size(); i++) {
 
-        i_U = parameters.getParameterIndex(
-                parameters.getParameterByName(var_U_name).getID());
-        i_V = parameters.getParameterIndex(
-                parameters.getParameterByName(var_V_name).getID());
-        i_speed = parameters.getParameterIndex(
-                parameters.getParameterByName(var_speed_name).getID());
-        i_dir = parameters.getParameterIndex(
-                parameters.getParameterByName(var_dir_name).getID());
+        string var_U_name = var_U_names[i], var_V_name = var_V_names[i],
+               var_dir_name = var_dir_names[i], var_speed_name = var_speed_names[i];
 
-        num_stations = forecasts.getStationsSize();
-        num_times = forecasts.getTimesSize();
-        num_flts = forecasts.getFLTsSize();
+        if (verbose >= 3) cout << GREEN << var_dir_name << "," << var_speed_name
+            << " <-- " << var_U_name << "," << var_V_name << RESET << endl;
 
-        auto & data = forecasts.data();
+        // Define parameters
+        anenPar::Parameter windSpeed(var_speed_name, false), windDir(var_dir_name, true);
 
-        // Because we are enlarging the size, the original values are kept.
-        if (verbose >= 3) cout << GREEN << "Resizing data ..." << RESET << endl;
-        forecasts.updateDataDims(false);
+        if (file_type == "Forecasts") {
 
-        if (verbose >= 3) cout << GREEN << "Computing ..." << RESET << endl;
+            size_t num_flts;
+
+            auto & parameters = forecasts.getParameters();
+            parameters.push_back(windSpeed);
+            parameters.push_back(windDir);
+
+            i_U = parameters.getParameterIndex(
+                    parameters.getParameterByName(var_U_name).getID());
+            i_V = parameters.getParameterIndex(
+                    parameters.getParameterByName(var_V_name).getID());
+            i_speed = parameters.getParameterIndex(
+                    parameters.getParameterByName(var_speed_name).getID());
+            i_dir = parameters.getParameterIndex(
+                    parameters.getParameterByName(var_dir_name).getID());
+
+            num_stations = forecasts.getStationsSize();
+            num_times = forecasts.getTimesSize();
+            num_flts = forecasts.getFLTsSize();
+
+            auto & data = forecasts.data();
+
+            // Because we are enlarging the size, the original values are kept.
+            if (verbose >= 3) cout << GREEN << "Resizing data ..." << RESET << endl;
+            forecasts.updateDataDims(false);
+
+            if (verbose >= 3) cout << GREEN << "Computing ..." << RESET << endl;
 #ifdef _OPENMP
 #pragma omp parallel for default(none) schedule(static) collapse(3) \
-shared(num_stations, num_times, num_flts, data, i_speed, i_U, i_V, i_dir, \
-func_dir, func_speed)
+            shared(num_stations, num_times, num_flts, data, i_speed, i_U, i_V, i_dir, \
+                    func_dir, func_speed)
 #endif
-        for (size_t j = 0; j < num_stations; j++) {
-            for (size_t k = 0; k < num_times; k++) {
-                for (size_t l = 0; l < num_flts; l++) {
-                    data[i_speed][j][k][l] = func_speed(data[i_U][j][k][l], data[i_V][j][k][l]);
-                    data[i_dir][j][k][l] = func_dir(data[i_U][j][k][l], data[i_V][j][k][l]);
+            for (size_t j = 0; j < num_stations; j++) {
+                for (size_t k = 0; k < num_times; k++) {
+                    for (size_t l = 0; l < num_flts; l++) {
+                        data[i_speed][j][k][l] = func_speed(data[i_U][j][k][l], data[i_V][j][k][l]);
+                        data[i_dir][j][k][l] = func_dir(data[i_U][j][k][l], data[i_V][j][k][l]);
+                    }
                 }
             }
-        }
 
-        if (verbose >= 3) cout << GREEN << "Writing file " << file_out << " ... " << RESET << endl;
-        handleError(io_out.writeForecasts(forecasts));
+        } else if (file_type == "Observations") {
 
-    } else if (file_type == "Observations") {
+            auto & parameters = observations.getParameters();
 
-        if (verbose >= 3) cout << GREEN << "Processing forecasts file ..." << RESET << endl;
+            parameters.push_back(windSpeed);
+            parameters.push_back(windDir);
 
-        Observations_array observations;
-        handleError(io.readObservations(observations));
+            i_U = parameters.getParameterIndex(
+                    parameters.getParameterByName(var_U_name).getID());
+            i_V = parameters.getParameterIndex(
+                    parameters.getParameterByName(var_V_name).getID());
+            i_speed = parameters.getParameterIndex(
+                    parameters.getParameterByName(var_speed_name).getID());
+            i_dir = parameters.getParameterIndex(
+                    parameters.getParameterByName(var_dir_name).getID());
 
-        auto & parameters = observations.getParameters();
+            num_stations = observations.getStationsSize();
+            num_times = observations.getTimesSize();
 
-        parameters.push_back(windSpeed);
-        parameters.push_back(windDir);
+            auto & data = observations.data();
 
-        i_U = parameters.getParameterIndex(
-                parameters.getParameterByName(var_U_name).getID());
-        i_V = parameters.getParameterIndex(
-                parameters.getParameterByName(var_V_name).getID());
-        i_speed = parameters.getParameterIndex(
-                parameters.getParameterByName(var_speed_name).getID());
-        i_dir = parameters.getParameterIndex(
-                parameters.getParameterByName(var_dir_name).getID());
+            // Because we are enlarging the size, the original values are kept.
+            if (verbose >= 3) cout << GREEN << "Resizing data ..." << RESET << endl;
+            observations.updateDataDims(false);
 
-        num_stations = observations.getStationsSize();
-        num_times = observations.getTimesSize();
-
-        auto & data = observations.data();
-
-        // Because we are enlarging the size, the original values are kept.
-        if (verbose >= 3) cout << GREEN << "Resizing data ..." << RESET << endl;
-        observations.updateDataDims(false);
-
-        if (verbose >= 3) cout << GREEN << "Computing ..." << RESET << endl;
+            if (verbose >= 3) cout << GREEN << "Computing ..." << RESET << endl;
 #ifdef _OPENMP
 #pragma omp parallel for default(none) schedule(static) collapse(2) \
-shared(num_stations, num_times, data, i_speed, i_U, i_V, i_dir, \
-func_dir, func_speed)
+            shared(num_stations, num_times, data, i_speed, i_U, i_V, i_dir, \
+                    func_dir, func_speed)
 #endif
-        for (size_t j = 0; j < num_stations; j++) {
-            for (size_t k = 0; k < num_times; k++) {
-                data[i_speed][j][k] = func_speed(data[i_U][j][k], data[i_V][j][k]);
-                data[i_dir][j][k] = func_dir(data[i_U][j][k], data[i_V][j][k]);
+            for (size_t j = 0; j < num_stations; j++) {
+                for (size_t k = 0; k < num_times; k++) {
+                    data[i_speed][j][k] = func_speed(data[i_U][j][k], data[i_V][j][k]);
+                    data[i_dir][j][k] = func_dir(data[i_U][j][k], data[i_V][j][k]);
+                }
             }
+
+        } else {
+            stringstream ss;
+            ss << BOLDRED << "Error: Unsupported file type " << file_type << RESET;
+            throw runtime_error(ss.str());
         }
 
+    } // End of paris of U, V, speed, and direction names
+
+    // Write the updated data to a new file
+    if (file_type == "Forecasts") {
+        if (verbose >= 3) cout << GREEN << "Writing file " << file_out << " ... " << RESET << endl;
+        handleError(io_out.writeForecasts(forecasts));
+    } else if (file_type == "Observations") {
         if (verbose >= 3) cout << GREEN << "Writing file " << file_out << " ... " << RESET << endl;
         handleError(io_out.writeObservations(observations));
-
-    } else {
-        stringstream ss;
-        ss << BOLDRED << "Error: Unsupported file type " << file_type << RESET;
-        throw runtime_error(ss.str());
     }
 
     if (verbose >= 3) cout << GREEN << "Done!" << RESET << endl;
@@ -189,13 +212,13 @@ int main(int argc, char** argv) {
 #if defined(_ENABLE_MPI)
     AnEnIO::handle_MPI_Init();
 #endif
-    
+   
     // Required variables
-    string file_in, file_type, file_out,
-            var_U_name, var_V_name;    
+    string file_in, file_type, file_out;
+    vector<string> var_U_names, var_V_names, var_dir_names, var_speed_names;
     
     // Optional variables
-    string var_dir_name, var_speed_name, config_file;
+    string config_file;
     int verbose = 0;
     
     try {
@@ -207,11 +230,11 @@ int main(int argc, char** argv) {
                 ("file-in", po::value<string>(&file_in)->required(), "Set the file to read.")
                 ("file-type", po::value<string>(&file_type)->required(), "Set the file type. Currently supports Forecasts and Observations.")
                 ("file-out", po::value<string>(&file_out)->required(), "Set the file to write.")
-                ("U-name,U", po::value<string>(&var_U_name)->required(), "Set the name of the parameter to read for U component of wind.")
-                ("V-name,V", po::value<string>(&var_V_name)->required(), "Set the name of the parameter to read for V component of wind.")
-                
-                ("dir-name", po::value<string>(&var_dir_name)->default_value("windDirection"), "Set the name of the parameter to write for wind direction.")
-                ("speed-name", po::value<string>(&var_speed_name)->default_value("windSpeed"), "Set the name of the parameter to write for wind speed.")
+                ("U-name,U", po::value< vector<string> >(&var_U_names)->required()->multitoken(), "Set the name(s) of the parameter to read for U component of wind. The number of names for U, V, speed, and direction should be the same, and the order matters.")
+                ("V-name,V", po::value< vector<string> >(&var_V_names)->required()->multitoken(), "Set the name(s) of the parameter to read for V component of wind.")
+                ("dir-name", po::value< vector<string> >(&var_dir_names)->required()->multitoken(), "Set the name(s) of the parameter to write for wind direction.")
+                ("speed-name", po::value< vector<string> >(&var_speed_names)->required()->multitoken(), "Set the name(s) of the parameter to write for wind speed.")
+
                 ("verbose,v", po::value<int>(&verbose)->default_value(2), "Set the verbose level.");
         
         // process unregistered keys and notify users about my guesses
@@ -277,17 +300,17 @@ int main(int argc, char** argv) {
             << "file_in: " << file_in << endl
             << "file_type: " << file_type << endl
             << "file_out: " << file_out << endl
-            << "var_U_name: " << var_U_name << endl
-            << "var_V_name: " << var_V_name << endl
-            << "var_dir_name: " << var_dir_name << endl
-            << "var_speed_name: " << var_speed_name << endl
+            << "var_U_names: " << var_U_names << endl
+            << "var_V_names: " << var_V_names << endl
+            << "var_dir_names: " << var_dir_names << endl
+            << "var_speed_names: " << var_speed_names << endl
             << "config_file: " << config_file << endl
             << "verbose: " << verbose << endl;
     }
 
     try {
         runWindFieldCalculator(file_in, file_type, file_out,
-                var_U_name, var_V_name, var_dir_name, var_speed_name, verbose);
+                var_U_names, var_V_names, var_dir_names, var_speed_names, verbose);
     } catch (...) {
         handle_exception(current_exception());
         return 1;

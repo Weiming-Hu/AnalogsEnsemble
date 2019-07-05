@@ -1,6 +1,7 @@
 # PAnEn 3.5.1
 
 - Add the beta function `RAnEn::schaakeShuffle`.
+- Add multiple variable support for `windFieldCalculator`.
 
 # PAnEn 3.5.0
 
