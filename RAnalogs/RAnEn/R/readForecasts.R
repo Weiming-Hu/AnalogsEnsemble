@@ -34,7 +34,7 @@ readForecasts <- function(file, origin = '1970-01-01', tz = 'UTC') {
   
   nc <- nc_open(file)
   forecasts$ParameterNames <- ncvar_get(nc, 'ParameterNames')
-  forecasts$Data <- ncvar_get(nc, 'Data')
+  forecasts$Data <- ncvar_get(nc, 'Data', collapse_degen = F)
   forecasts$Times <- as.POSIXct(ncvar_get(nc, 'Times'), origin = origin, tz = tz)
   forecasts$Xs <- ncvar_get(nc, 'Xs')
   forecasts$Ys <- ncvar_get(nc, 'Ys')

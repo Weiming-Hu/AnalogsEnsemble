@@ -2,6 +2,7 @@
 
 - Add the beta function `RAnEn::schaakeShuffle`.
 - Add multiple variable support for `windFieldCalculator`.
+- Add support for `Forecasts` in `RAnEn::writeNetCDF`.
 
 # PAnEn 3.5.0
 

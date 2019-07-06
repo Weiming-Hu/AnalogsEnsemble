@@ -15,7 +15,7 @@
 #' RAnEn::writeNetCDF writes a formatted object into a NetCDF file. The output NetCDF
 #' file can be used by C++ utilities.
 #' 
-#' The parameter `obj` for the file type `Observations` is an R list object with the
+#' The parameter `obj` is an R list object with the
 #' following members:
 #' 
 #' - ParameterNames
@@ -24,10 +24,11 @@
 #' - Ys
 #' - Times
 #' - Data
+#' - FLTs (required for type Forecasts)
 #' 
 #' @author Weiming Hu \email{weiming@@psu.edu}
 #' @param file.type The type of the object to be written to a file. It only supports
-#' Observations for now.
+#' Observations and Forecasts for now.
 #' @param obj A list object to write into the file.
 #' @param file.out The output file path.
 #' @param global.attr A list with names and values for global attributes. The values
@@ -38,86 +39,98 @@
 #' @md
 #' @export
 writeNetCDF <- function(file.type, obj, file.out,
-                        global.attrs = NULL, nchars.max = 50) {
-  require(ncdf4)
-  
-  # Check whether the output file path is valid
-  if (file.exists(file.out)) {
-    stop(paste('Output file', file.out, 'already exists.'))
-  }
-  
-  if (file.type == 'Observations') {
-    
-    # Check for required members for the type Observations
-    required.members <- c('ParameterNames', 'Xs', 'Ys', 'Times', 'Data')
-    for (required.member in required.members) {
-      if (! required.member %in% names(obj)) {
-        stop(paste('Required member', required.member, 'does not exist in the object!'))
-      }
-    }
-    
-    # The member FLTs should never appear in the type of Observations
-    if ('FLTs' %in% names(obj)) {
-      stop('FLTs found in the object. Are you sure this is the type of Observations?')
-    }
-    
-    # Sanity checks
-    stopifnot(length(dim(obj$Data)) == 3)
-    stopifnot(dim(obj$Data)[1] == length(obj$ParameterNames))
-    stopifnot(dim(obj$Data)[2] == length(obj$Xs))
-    stopifnot(length(obj$Xs) == length(obj$Ys))
-    stopifnot(dim(obj$Data)[3] == length(obj$Times))
-    
-    # Get the dimension information from the member Data
-    num.parameters <- dim(obj$Data)[1]
-    num.stations <- dim(obj$Data)[2]
-    num.times <- dim(obj$Data)[3]
-    
-    # Define dimensions
-    nc.dim.parameters <- ncdim_def("num_parameters", "", 1:num.parameters, create_dimvar = F)
-    nc.dim.stations <- ncdim_def("num_stations", "", 1:num.stations, create_dimvar = F)
-    nc.dim.times <- ncdim_def("num_times", "", 1:num.times, create_dimvar = F)
-    nc.dim.chars <- ncdim_def("num_chars", "", 1:nchars.max, create_dimvar = F)
-    
-    # Define variables
-    nc.var.data <- ncvar_def("Data", "", list(nc.dim.parameters, nc.dim.stations, nc.dim.times), NA, prec = "double")
-    nc.var.par.names <- ncvar_def("ParameterNames", "", list(nc.dim.chars, nc.dim.parameters), prec = "char")
-    nc.var.xs <- ncvar_def("Xs", "", nc.dim.stations, prec = 'double')
-    nc.var.ys <- ncvar_def("Ys", "", nc.dim.stations, prec = 'double')
-    nc.var.times <- ncvar_def("Times", "", nc.dim.times, prec = 'double')
-    
-    # Create the NetCDF file
-    if ('StationNames' %in% names(obj)) {
-      nc.var.station.names <- ncvar_def("StationNames", "", list(nc.dim.chars, nc.dim.stations), prec = "char")
-      
-      nc <- nc_create(file.out, list(
-        nc.var.data, nc.var.par.names, nc.var.xs, nc.var.ys,
-        nc.var.times, nc.var.station.names))
-      
-      ncvar_put(nc, nc.var.station.names, obj$StationNames)
-      
-    } else {
-      nc <- nc_create(file.out, list(
-        nc.var.data, nc.var.par.names, nc.var.xs, nc.var.ys, nc.var.times))
-    }
-    
-    ncvar_put(nc, nc.var.data, obj$Data, start = c(1, 1, 1))
-    ncvar_put(nc, nc.var.par.names, obj$ParameterNames)
-    ncvar_put(nc, nc.var.xs, obj$Xs)
-    ncvar_put(nc, nc.var.ys, obj$Ys)
-    ncvar_put(nc, nc.var.times, obj$Times)
-    
-    # Write the global attributes
-    if (!identical(global.attrs, NULL)) {
-      for (attr.name in names(global.attrs)) {
-        ncatt_put(nc, 0, attr.name, global.attrs[[attr.name]])
-      }
-    }
-    
-    nc_close(nc)
-    
-  } else {
-    stop(paste('The current file type', file.type, 'is not supported.'))
-  }
-  
+												global.attrs = NULL, nchars.max = 50) {
+	require(ncdf4)
+	
+	# Check whether the output file path is valid
+	if (file.exists(file.out)) {
+		stop(paste("Output file", file.out, "already exists."))
+	}
+	
+	if (file.type == "Observations") {
+		required.members <- c("ParameterNames", "Xs", "Ys", "Times", "Data")
+	} else if (file.type == "Forecasts") {
+		required.members <- c("ParameterNames", "Xs", "Ys", "Times", "FLTs", "Data")
+	} else {
+		stop(paste("The current file type", file.type, "is not supported."))
+	}
+	
+	# Check for required members
+	for (required.member in required.members) {
+		if (! required.member %in% names(obj)) {
+			stop(paste("Required member", required.member, "does not exist in the object!"))
+		}
+	}
+	
+	# Define the maximum length of strings
+	nc.dim.chars <- ncdim_def("num_chars", "", 1:nchars.max, create_dimvar = F)
+	
+	# Define the variable list that the NetCDF file should include
+	vars.list <- list()
+	
+	# Prepare ParameterNames
+	stopifnot(dim(obj$Data)[1] == length(obj$ParameterNames))
+	num.parameters <- dim(obj$Data)[1]
+	nc.dim.parameters <- ncdim_def("num_parameters", "", 1:num.parameters, create_dimvar = F)
+	nc.var.par.names <- ncvar_def("ParameterNames", "", list(nc.dim.chars, nc.dim.parameters), prec = "char")
+	vars.list <- c(vars.list, list(ParameterNames = nc.var.par.names))
+	
+	# Prepare StationNames
+	if ("StationNames" %in% names(obj)) {
+		nc.var.station.names <- ncvar_def("StationNames", "", list(nc.dim.chars, nc.dim.stations), prec = "char")
+		vars.list <- c(vars.list, list(StationNames = nc.var.station.names))
+	}
+	
+	# Prepare Xs and Ys
+	stopifnot(dim(obj$Data)[2] == length(obj$Xs) &
+							length(obj$Xs) == length(obj$Ys))
+	num.stations <- dim(obj$Data)[2]
+	nc.dim.stations <- ncdim_def("num_stations", "", 1:num.stations, create_dimvar = F)
+	nc.var.xs <- ncvar_def("Xs", "", nc.dim.stations, prec = "double")
+	nc.var.ys <- ncvar_def("Ys", "", nc.dim.stations, prec = "double")
+	vars.list <- c(vars.list, list(Xs = nc.var.xs), list(Ys = nc.var.ys))
+	
+	# Prepare Times
+	stopifnot(dim(obj$Data)[3] == length(obj$Times))
+	num.times <- dim(obj$Data)[3]
+	nc.dim.times <- ncdim_def("num_times", "", 1:num.times, create_dimvar = F)
+	nc.var.times <- ncvar_def("Times", "", nc.dim.times, prec = "double")
+	vars.list <- c(vars.list, list(Times = nc.var.times))
+	
+	# Prepare FLTs
+	if (file.type == "Forecasts") {
+		stopifnot(dim(obj$Data)[4] == length(obj$FLTs))
+		num.flts <- dim(obj$Data)[4]
+		nc.dim.flts <- ncdim_def("num_flts", "", 1:num.flts, create_dimvar = F)
+		nc.var.flts <- ncvar_def("FLTs", "", nc.dim.flts, prec = "double")
+		vars.list <- c(vars.list, list(FLTs = nc.var.flts))
+	}
+	
+	# Prepare Data
+	if (file.type == "Observations") {
+		stopifnot(length(dim(obj$Data)) == 3)
+		nc.var.data <- ncvar_def("Data", "", list(
+			nc.dim.parameters, nc.dim.stations, nc.dim.times), NA, prec = "double")
+	} else if (file.type == "Forecasts") {
+		stopifnot(length(dim(obj$Data)) == 4)
+		nc.var.data <- ncvar_def("Data", "", list(
+			nc.dim.parameters, nc.dim.stations, nc.dim.times, nc.dim.flts), NA, prec = "double")
+	}
+	vars.list <- c(vars.list, list(Data = nc.var.data))
+	
+	# Create nc object
+	nc <- nc_create(file.out, vars.list)
+	
+	# Write global attributes
+	if (!identical(global.attrs, NULL)) {
+		for (attr.name in names(global.attrs)) {
+			ncatt_put(nc, 0, attr.name, global.attrs[[attr.name]])
+		}
+	}
+	
+	for (name in names(vars.list)) {
+		ncvar_put(nc, vars.list[[name]], obj[[name]])
+	}
+	
+	nc_close(nc)
 }
