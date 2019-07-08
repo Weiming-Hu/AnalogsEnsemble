@@ -111,8 +111,8 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a76753e43d00cfaef85409e6a2ec18dcf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="wind_field_calculator_8cpp.html#a76753e43d00cfaef85409e6a2ec18dcf">runWindFieldCalculator</a> (const string &amp;file_in, const string &amp;file_type, const string &amp;file_out, const string &amp;var_U_name, const string &amp;var_V_name, const string &amp;var_dir_name, const string &amp;var_speed_name, int verbose)</td></tr>
-<tr class="separator:a76753e43d00cfaef85409e6a2ec18dcf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c83e851397a8efd715948e817774b2e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="wind_field_calculator_8cpp.html#a7c83e851397a8efd715948e817774b2e">runWindFieldCalculator</a> (const string &amp;file_in, const string &amp;file_type, const string &amp;file_out, const vector&lt; string &gt; &amp;var_U_names, const vector&lt; string &gt; &amp;var_V_names, const vector&lt; string &gt; &amp;var_dir_names, const vector&lt; string &gt; &amp;var_speed_names, int verbose)</td></tr>
+<tr class="separator:a7c83e851397a8efd715948e817774b2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3c04138a5bfe5d72780bb7e82a18e627"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="wind_field_calculator_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a> (int argc, char **argv)</td></tr>
 <tr class="separator:a3c04138a5bfe5d72780bb7e82a18e627"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -160,8 +160,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a76753e43d00cfaef85409e6a2ec18dcf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a76753e43d00cfaef85409e6a2ec18dcf">&#9670;&nbsp;</a></span>runWindFieldCalculator()</h2>
+<a id="a7c83e851397a8efd715948e817774b2e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7c83e851397a8efd715948e817774b2e">&#9670;&nbsp;</a></span>runWindFieldCalculator()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -187,26 +187,26 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const string &amp;&#160;</td>
-          <td class="paramname"><em>var_U_name</em>, </td>
+          <td class="paramtype">const vector&lt; string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>var_U_names</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const string &amp;&#160;</td>
-          <td class="paramname"><em>var_V_name</em>, </td>
+          <td class="paramtype">const vector&lt; string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>var_V_names</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const string &amp;&#160;</td>
-          <td class="paramname"><em>var_dir_name</em>, </td>
+          <td class="paramtype">const vector&lt; string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>var_dir_names</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const string &amp;&#160;</td>
-          <td class="paramname"><em>var_speed_name</em>, </td>
+          <td class="paramtype">const vector&lt; string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>var_speed_names</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -227,10 +227,10 @@ Functions</h2></td></tr>
     <tr><td class="paramname">file_in</td><td>The file to read. </td></tr>
     <tr><td class="paramname">file_type</td><td>The type of the file, "Forecasts" or "Observations". </td></tr>
     <tr><td class="paramname">file_out</td><td>The file to write. </td></tr>
-    <tr><td class="paramname">var_U_name</td><td>The name of the U component of wind. </td></tr>
-    <tr><td class="paramname">var_V_name</td><td>The name of the V component of wind. </td></tr>
-    <tr><td class="paramname">var_dir_name</td><td>The new name of the wind direction variable. </td></tr>
-    <tr><td class="paramname">var_speed_name</td><td>The new name of the wind speed variable. </td></tr>
+    <tr><td class="paramname">var_U_names</td><td>The name(s) of the U component of wind. </td></tr>
+    <tr><td class="paramname">var_V_names</td><td>The name(s) of the V component of wind. </td></tr>
+    <tr><td class="paramname">var_dir_names</td><td>The new name(s) of the wind direction variable. </td></tr>
+    <tr><td class="paramname">var_speed_names</td><td>The new name(s) of the wind speed variable. </td></tr>
     <tr><td class="paramname">verbose</td><td>The verbose level. </td></tr>
   </table>
   </dd>

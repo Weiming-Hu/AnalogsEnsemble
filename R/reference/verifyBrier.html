@@ -32,7 +32,7 @@
 
 <meta property="og:title" content="RAnEn::verifyBrier — verifyBrier" />
 
-<meta property="og:description" content="RAnEn::verifyBrier computes the Brier score and its decomposition for each 
+<meta property="og:description" content="RAnEn::verifyBrier computes the Brier score and its decomposition for each
 all lead times available. This function used the NCAR verification package." />
 <meta name="twitter:card" content="summary" />
 
@@ -64,7 +64,7 @@ all lead times available. This function used the NCAR verification package." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAnEn</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.5.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.5.2</span>
       </span>
     </div>
 
@@ -105,7 +105,7 @@ all lead times available. This function used the NCAR verification package." />
 
     <div class="ref-description">
     
-    <p>RAnEn::verifyBrier computes the Brier score and its decomposition for each 
+    <p>RAnEn::verifyBrier computes the Brier score and its decomposition for each
 all lead times available. This function used the NCAR verification package.</p>
     
     </div>
@@ -128,14 +128,15 @@ all lead times available. This function used the NCAR verification package.</p>
       <th>threshold</th>
       <td><p>The numeric threshold for computing the brier score.
 Observation and baseline values larger than or equal to the threshold
-will be converted to 1. Analog values will not be processed with this
-threshold value because it is assumed that the ensemble function will
-convert analog ensemble to probability values.</p></td>
+will be converted to 1. Analog values will <em>not</em> be processed with this
+threshold value because it is assumed that the ensemble function <code>ensemble.func</code>
+will convert analog ensemble to probability values. Please see examples.</p></td>
     </tr>
     <tr>
       <th>ensemble.func</th>
-      <td><p>A function to convert the ensemble members (the 4th
-dimension of analogs) into a scala. This scala is usually a probability.</p></td>
+      <td><p>A function that takes a vector as input and then
+converts the ensemble members (the 4th dimension of analogs) into a scala.
+This scala is usually a probability within <code>[0, 1]</code>. Please see examples.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -148,12 +149,99 @@ dimension of analogs) into a scala. This scala is usually a probability.</p></td
     </table>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'>
+<span class='co'># Create synthetic datasets from different distributions</span>
+<span class='co'># with 10 stations, 2 test days, 5 lead times, and</span>
+<span class='co'># 50 ensemble members.</span>
+<span class='co'># </span>
+
+<span class='no'>anen.ver</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/array'>array</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/Normal'>rnorm</a></span>(<span class='fl'>5000</span>), <span class='kw'>dim</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>10</span>, <span class='fl'>2</span>, <span class='fl'>5</span>, <span class='fl'>50</span>))
+<span class='no'>obs.ver</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/array'>array</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/Uniform'>runif</a></span>(<span class='fl'>100</span>, <span class='kw'>min</span> <span class='kw'>=</span> -<span class='fl'>5</span>, <span class='kw'>max</span> <span class='kw'>=</span> <span class='fl'>5</span>), <span class='kw'>dim</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>10</span>, <span class='fl'>2</span>, <span class='fl'>5</span>))
+<span class='no'>baseline</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/array'>array</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/GammaDist'>rgamma</a></span>(<span class='fl'>100</span>, <span class='kw'>shape</span> <span class='kw'>=</span> <span class='fl'>1</span>), <span class='kw'>dim</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>10</span>, <span class='fl'>2</span>, <span class='fl'>5</span>))
+
+<span class='co'># Set the threshold for observation and baseline. Values larger</span>
+<span class='co'># than or equal to this value will be converted to 1, otherwise </span>
+<span class='co'># to 0.</span>
+<span class='co'>#</span>
+<span class='no'>threshold</span> <span class='kw'>&lt;-</span> <span class='fl'>0.5</span>
+
+<span class='co'># This is the function that takes the ensemble value vector </span>
+<span class='co'># as input and output a probability. For example, here I count</span>
+<span class='co'># how many values in the member are larger than or equal to</span>
+<span class='co'># the split value. You can define your own function to compute</span>
+<span class='co'># a probability from the ensemble.</span>
+<span class='co'># </span>
+<span class='no'>ensemble.func</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>v</span>, <span class='no'>split</span>) {<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/function'>return</a></span>(
+  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/which'>which</a></span>(<span class='no'>v</span> <span class='kw'>&gt;=</span> <span class='no'>split</span>)) / <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='no'>v</span>)
+)}
+
+<span class='co'># Calculate the Brier score.</span>
+<span class='co'># Don't forget to pass the additional threshold to your ensemble</span>
+<span class='co'># function. Otherwise you will receive an error complaining </span>
+<span class='co'># about a missing argument.</span>
+<span class='co'># </span>
+<span class='no'>score</span> <span class='kw'>&lt;-</span> <span class='fu'>verifyBrier</span>(<span class='no'>anen.ver</span>, <span class='no'>obs.ver</span>, <span class='no'>threshold</span>,
+                     <span class='no'>ensemble.func</span>,
+                     <span class='kw'>split</span> <span class='kw'>=</span> <span class='no'>threshold</span>,
+                     <span class='kw'>baseline</span> <span class='kw'>=</span> <span class='no'>baseline</span>)</div><div class='output co'>#&gt; <span class='message'>Loading required package: verification</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: methods</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: fields</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: spam</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: dotCall64</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: grid</span></div><div class='output co'>#&gt; <span class='message'>Spam version 2.2-2 (2019-03-07) is loaded.</span>
+#&gt; <span class='message'>Type 'help( Spam)' or 'demo( spam)' for a short introduction </span>
+#&gt; <span class='message'>and overview of this package.</span>
+#&gt; <span class='message'>Help for individual functions is also obtained by adding the</span>
+#&gt; <span class='message'>suffix '.spam' to the function name, e.g. 'help( chol.spam)'.</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>Attaching package: ‘spam’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:base’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    backsolve, forwardsolve</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: maps</span></div><div class='output co'>#&gt; <span class='message'>See https://github.com/NCAR/Fields for</span>
+#&gt; <span class='message'> an extensive vignette, other supplements and source code </span></div><div class='output co'>#&gt; <span class='message'>Loading required package: boot</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: CircStats</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: MASS</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: dtw</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: proxy</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>Attaching package: ‘proxy’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:spam’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    as.matrix</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:stats’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    as.dist, dist</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:base’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    as.matrix</span></div><div class='output co'>#&gt; <span class='message'>Loaded dtw v1.20-1. See ?dtw for help, citation("dtw") for use in publication.</span></div><div class='input'>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>score</span>)</div><div class='output co'>#&gt;          bs        ss reliability     resol
+#&gt; FLT1 0.3115 0.3077778  0.12364286 0.3242857
+#&gt; FLT2 0.3655 0.3354545  0.13811905 0.4452381
+#&gt; FLT3 0.2665 0.4670000  0.06150000 0.3900000
+#&gt; FLT4 0.2345 0.6091667  0.01783333 0.6666667
+#&gt; FLT5 0.2955 0.5075000  0.09073810 0.3904762
+#&gt; All  0.2947 0.4542593  0.05670971 2.4200971</div><div class='input'>
+<span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/all'>all</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>'ggplot2'</span>, <span class='st'>'reshape2'</span>) <span class='kw'>%in%</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/installed.packages'>installed.packages</a></span>())) {
+  <span class='co'># Use ggplot2</span>
+  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='no'>reshape2</span>)
+  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='no'>ggplot2</span>)
+
+  <span class='co'># Unpivot the score table</span>
+  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/colnames'>colnames</a></span>(<span class='no'>score</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>'Brier'</span>, <span class='st'>'Skill'</span>, <span class='st'>"Reliability"</span>, <span class='st'>'Resolution'</span>)
+  <span class='no'>melted</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/reshape2/topics/melt'>melt</a></span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>score</span>)
+  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/colnames'>colnames</a></span>(<span class='no'>melted</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>'FLT'</span>, <span class='st'>'Type'</span>, <span class='st'>'Value'</span>)
+
+  <span class='co'># Generate ggplot</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>melted</span>) +
+    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_bw</a></span>() +
+    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_bar</a></span>(<span class='kw'>mapping</span> <span class='kw'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>FLT</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>Value</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='no'>Type</span>, <span class='kw'>fill</span> <span class='kw'>=</span> <span class='no'>Type</span>),
+             <span class='kw'>stat</span> <span class='kw'>=</span> <span class='st'>'identity'</span>, <span class='kw'>position</span> <span class='kw'>=</span> <span class='st'>'dodge'</span>) +
+    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_brewer.html'>scale_fill_brewer</a></span>(<span class='kw'>palette</span> <span class='kw'>=</span> <span class='st'>'Paired'</span>, <span class='kw'>direction</span> <span class='kw'>=</span> -<span class='fl'>1</span>) +
+    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_text.html'>geom_text</a></span>(<span class='kw'>mapping</span> <span class='kw'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>FLT</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>Value</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Round'>round</a></span>(<span class='no'>Value</span>, <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>3</span>),
+                            <span class='kw'>group</span> <span class='kw'>=</span> <span class='no'>Type</span>), <span class='kw'>position</span> <span class='kw'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/position_dodge.html'>position_dodge</a></span>(<span class='fl'>0.9</span>), <span class='kw'>vjust</span> <span class='kw'>=</span> -<span class='fl'>0.2</span>) +
+    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span>(<span class='kw'>y</span> <span class='kw'>=</span> <span class='st'>'Score'</span>) +
+    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span>(<span class='kw'>legend.position</span> <span class='kw'>=</span> <span class='st'>'top'</span>)
+
+} <span class='kw'>else</span> {
+  <span class='co'># Use the base graphics</span>
+  <span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/barplot'>barplot</a></span>(<span class='no'>score</span>[, <span class='st'>'bs'</span>], <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='st'>'Brier'</span>)
+}</div><div class='output co'>#&gt; <span class='message'>Loading required package: reshape2</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: ggplot2</span></div><div class='img'><img src='verifyBrier-1.png' alt='' width='700' height='433' /></div><div class='input'>
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-                </ul>
+            
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>
