@@ -9,7 +9,7 @@ writeNetCDF(file.type, obj, file.out, global.attrs = NULL,
 }
 \arguments{
 \item{file.type}{The type of the object to be written to a file. It only supports
-Observations for now.}
+Observations and Forecasts for now.}
 
 \item{obj}{A list object to write into the file.}
 
@@ -28,7 +28,7 @@ RAnEn::writeNetCDF writes a formatted object into a NetCDF file. The output NetC
 file can be used by C++ utilities.
 }
 \details{
-The parameter \code{obj} for the file type \code{Observations} is an R list object with the
+The parameter \code{obj} is an R list object with the
 following members:
 \itemize{
 \item ParameterNames
@@ -37,6 +37,7 @@ following members:
 \item Ys
 \item Times
 \item Data
+\item FLTs (required for type Forecasts)
 }
 }
 \author{

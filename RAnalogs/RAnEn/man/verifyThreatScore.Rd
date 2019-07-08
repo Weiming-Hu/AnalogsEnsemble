@@ -17,7 +17,8 @@ converted to 1. Analog values will not be compared to this threshold value becau
 \strong{it is assumed that the ensemble function will convert analog ensemble to binary values}.}
 
 \item{ensemble.func}{A function to convert the ensemble members (the 4th
-dimension of analogs) into \strong{a binary}.}
+dimension of analogs) into \strong{a binary}. For more datails on this parameter,
+please see \code{\link{verifyBrier}}.}
 
 \item{...}{Extra parameters for the ensemble.func.}
 }

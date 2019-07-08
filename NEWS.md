@@ -1,3 +1,7 @@
+# PAnEn 3.5.2
+
+- Improve documentation for `RAnEn::verifyBrier` and `RAnEn::verifyThreatScore`
+
 # PAnEn 3.5.1
 
 - Add the beta function `RAnEn::schaakeShuffle`.

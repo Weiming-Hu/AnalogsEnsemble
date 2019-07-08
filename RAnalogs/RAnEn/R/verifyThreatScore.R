@@ -24,7 +24,8 @@
 #' converted to 1. Analog values will not be compared to this threshold value because
 #' **it is assumed that the ensemble function will convert analog ensemble to binary values**.
 #' @param ensemble.func A function to convert the ensemble members (the 4th
-#' dimension of analogs) into **a binary**.
+#' dimension of analogs) into **a binary**. For more datails on this parameter,
+#' please see \code{\link{verifyBrier}}.
 #' @param ... Extra parameters for the ensemble.func.
 #' 
 #' @md
