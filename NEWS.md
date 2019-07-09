@@ -1,6 +1,7 @@
 # PAnEn 3.5.2
 
 - Improve documentation for `RAnEn::verifyBrier` and `RAnEn::verifyThreatScore`
+- Improve the printing information for 'class: AnEn list'
 
 # PAnEn 3.5.1
 

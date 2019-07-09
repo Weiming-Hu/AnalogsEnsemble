@@ -82,7 +82,7 @@ biasCorrectionNeuralNet <- function(
   
   # Check for overwriting
   if ('analogs.cor.nnet' %in% names(AnEn) ||
-      'bias.model.nnet' %in% names(AnEn) ||
+      'model.bias.nnet' %in% names(AnEn) ||
       'bias.nnet' %in% names(AnEn)) {
     if (!overwrite) {
       stop('Corrected (nnet) AnEn already exists. Use overwrite = T to orverwrite them.')
@@ -293,7 +293,7 @@ biasCorrectionNeuralNet <- function(
   }
   
   if (keep.model) {
-    AnEn$bias.model.nnet <- list(model = model.nn,
+    AnEn$model.bias.nnet <- list(model = model.nn,
                                  train = data.nn.train.norm,
                                  test = data.nn.test.norm,
                                  normalize.factor = col.max)

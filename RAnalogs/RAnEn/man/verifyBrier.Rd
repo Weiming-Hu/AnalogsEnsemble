@@ -19,8 +19,8 @@ threshold value because it is assumed that the ensemble function \code{ensemble.
 will convert analog ensemble to probability values. Please see examples.}
 
 \item{ensemble.func}{A function that takes a vector as input and then
-converts the ensemble members (the 4th dimension of analogs) into a scala.
-This scala is usually a probability within \code{[0, 1]}. Please see examples.}
+converts the ensemble members (the 4th dimension of analogs) into a scalar.
+This scalar is usually a probability within \code{[0, 1]}. Please see examples.}
 
 \item{...}{Extra parameters for the ensemble.func.}
 

@@ -24,8 +24,8 @@
 #' threshold value because it is assumed that the ensemble function `ensemble.func`
 #' will convert analog ensemble to probability values. Please see examples.
 #' @param ensemble.func A function that takes a vector as input and then
-#' converts the ensemble members (the 4th dimension of analogs) into a scala.
-#' This scala is usually a probability within `[0, 1]`. Please see examples.
+#' converts the ensemble members (the 4th dimension of analogs) into a scalar.
+#' This scalar is usually a probability within `[0, 1]`. Please see examples.
 #' @param ... Extra parameters for the ensemble.func.
 #' @param baseline A 3-dimensional array for the baseline forecasts.
 #' 
