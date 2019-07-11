@@ -24,19 +24,25 @@
 #' 
 #' @export
 print.AnEn <- function (x) {
-  cat("Class: AnEn list\n")
+  cat("Class: AnEn list\n\n")
   empty <- T
   
-  existed.names <- names(x)
+  existed.names <- sort(names(x))
   
   # Match names starting with analogs. These members are assumed to
-  # be analogs with 5 dimensions.
+  # be analogs with 5 dimensions or 4 dimensions.
   # 
   matched <- grep(pattern = '^analogs.*', x = existed.names)
   if (length(matched) != 0) {
     
     for (name in existed.names[matched]) {
-      cat(paste("Member '", name, "': [station][test time][FLT][member][value, station, observation time]", sep = ''), '\n')
+      
+      if (length(dim(x[[name]])) == 5) {
+        cat(paste("Member '", name, "': [station][test time][FLT][member][value, station, observation time]", sep = ''), '\n')
+      } else if (length(dim(x[[name]])) == 4) {
+        cat(paste("Member '", name, "': [station][test time][FLT][member]", sep = ''), '\n')
+      }
+      
       cat(dim(x[[name]]))
       cat("\n")
       empty <- F

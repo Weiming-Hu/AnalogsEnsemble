@@ -95,6 +95,13 @@ validateConfiguration <- function(x) {
     valid <- F
   }
   
+  for (name in names.to.check) {
+    if (!(name %in% names(x))) {
+      cat("Error: Missing configuration '", name, "'.\n")
+      valid <- F
+    }
+  }
+  
   for (index in 1:2) {
     if (!(is.array(x[[names.to.check[index]]]) &&
           is.numeric(x[[names.to.check[index]]]) &&
