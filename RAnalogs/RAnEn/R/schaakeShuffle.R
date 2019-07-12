@@ -70,7 +70,7 @@ schaakeShuffle <- function(anen, obs.search) {
     return(NULL)
   }
   
-  if ( !identical(dim(anen)[c(1, 3)], dim(obs.search)[2:3]) ) {
+  if ( !identical(dim(anen)[c(1, 3)], dim(obs.search)[c(2, 4)]) ) {
     cat("Error: Observations and analogs should have the same number of stations and FLTs.\n")
     return(NULL)
   }
