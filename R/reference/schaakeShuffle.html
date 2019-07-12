@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAnEn</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.5.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.5.3</span>
       </span>
     </div>
 
@@ -136,13 +136,13 @@ ensemble members preserve a better autocorrelation structure when inspected
 one by one, for example, plotting the first member of all ensembles.</p>
 <p>The algorithm is as follows:</p><pre>
 -- For each test day
-    Randomly choose N search days (N is the number of ensemble members)
+      Randomly choose N search days (N is the number of ensemble members)
       Establish the linking function B
-    -- For each FLT
+      -- For each FLT
          -- For each station
-    Reorder enmseble members using the linking function B
-    -- End of stations
-   -- End of FLTs
+            Reorder enmseble members using the linking function B
+         -- End of stations
+      -- End of FLTs
 -- End of test days
     </pre>
     

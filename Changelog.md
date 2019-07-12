@@ -5,6 +5,10 @@ sidebar_link: true
 ---
 
 
+# PAnEn 3.5.3
+
+- Resolve a naming bug in `RAnEn::schaakeShuffle`
+
 # PAnEn 3.5.2
 
 - Improve documentation for `RAnEn::verifyBrier` and `RAnEn::verifyThreatScore`
