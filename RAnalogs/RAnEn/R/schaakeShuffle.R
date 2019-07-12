@@ -54,7 +54,7 @@
 #' 
 #' @md
 #' @export
-schaakeShuffle <- function(anen, obs.search) {
+schaakeShuffle <- function(anen, obs.search, show.progress = T) {
   
   warning('RAnEn::schaakeShuffle has not been tested. Use with care.')
   
@@ -83,7 +83,12 @@ schaakeShuffle <- function(anen, obs.search) {
   
   nsearch.days <- dim(obs.search)[3]
   
-  anen.ss <- array(NA, dim=c(nstations, ntest.days, flt, nmembers))
+  anen.ss <- array(NA, dim=c(nstations, ntest.days, nflts, nmembers))
+  
+  if (show.progress) {
+    pb <- txtProgressBar(max = ntest.days * nflts * nstations, style = 3)
+    counter <- 0
+  }
   
   for (i.test.day in 1:ntest.days) {
     
@@ -102,8 +107,17 @@ schaakeShuffle <- function(anen, obs.search) {
         sorted.members <- sort( anen[i.station, i.test.day, i.flt, ] )
         anen.ss[i.station, i.test.day, i.flt, ] <- sorted.members[selected.order]
         
+        if (show.progress) {
+          counter <- counter + 1
+          setTxtProgressBar(pb, counter)
+        }
+        
       }
     }
+  }
+  
+  if (show.progress) {
+    close(pb)
   }
   
   return(anen.ss)
