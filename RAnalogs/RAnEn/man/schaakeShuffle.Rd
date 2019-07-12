@@ -28,17 +28,13 @@ one by one, for example, plotting the first member of all ensembles.
 
 The algorithm is as follows:\preformatted{
 -- For each test day
-
-Randomly choose N search days (N is the number of ensemble members)
+      Randomly choose N search days (N is the number of ensemble members)
       Establish the linking function B
-
--- For each FLT
+      -- For each FLT
          -- For each station
-         
             Reorder enmseble members using the linking function B
-            
          -- End of stations
-   -- End of FLTs
+      -- End of FLTs
 -- End of test days
 
 }

@@ -26,17 +26,13 @@
 #' ```
 #' 
 #' -- For each test day
-#' 
 #'       Randomly choose N search days (N is the number of ensemble members)
 #'       Establish the linking function B
-#' 
-#'    -- For each FLT
+#'       -- For each FLT
 #'          -- For each station
-#'          
 #'             Reorder enmseble members using the linking function B
-#'             
 #'          -- End of stations
-#'    -- End of FLTs
+#'       -- End of FLTs
 #' -- End of test days
 #' 
 #' ```
@@ -74,7 +70,7 @@ schaakeShuffle <- function(anen, obs.search) {
     return(NULL)
   }
   
-  if ( !identical(dim(anen)[c(1, 3)], dim(obs.ver)[2:3]) ) {
+  if ( !identical(dim(anen)[c(1, 3)], dim(obs.search)[2:3]) ) {
     cat("Error: Observations and analogs should have the same number of stations and FLTs.\n")
     return(NULL)
   }

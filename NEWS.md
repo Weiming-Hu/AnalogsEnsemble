@@ -2,6 +2,7 @@
 
 - Improve documentation for `RAnEn::verifyBrier` and `RAnEn::verifyThreatScore`
 - Improve the printing information for 'class: AnEn list'
+- Resolve a naming bug in `RAnEn::schaakeShuffle`
 
 # PAnEn 3.5.1
 
