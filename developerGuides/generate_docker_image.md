@@ -10,30 +10,35 @@ To generate a new docker image:
 
 ```
 cd AnalogsEnsemble
-sudo docker image build -t pef .
+docker image build -t panen .
 
 # If you want to force docker to do a clean build
-sudo docker image build --no-cache -t pef .
+docker image build --no-cache -t panen .
 ``` 
 
 After the image is ready, check if it shows up in the list:
 
 ```
-sodu docker image ls
+docker image ls
 ```
 
 To use this docker image:
 
 ```
-sudo docker container run --rm pef
+docker container run -i -t panen
 ```
 
 You should see a change in the command line prompt which signifies that you have been successfully using the docker image.
 
-The option `--rm` tells docker to kill remove the container file once you exit from the container. You can also remove the option, and do it manually:
+```
+# Or you can do this
+docker container run -i -t --rm panen
+```
+
+The option `--rm` tells docker to remove the container file once you exit from the container. You can also remove the option, and do it manually:
 
 ```
 # in a new terminal
-sudo docker container ls -all
-sudo docker container rm [containerID]
+docker container ls -all
+docker container rm [containerID]
 ```

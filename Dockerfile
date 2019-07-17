@@ -1,22 +1,22 @@
 FROM ubuntu:18.04
 LABEL maintainer="weiming@psu.edu"
-LABEL description="A Linux Distribution of the C++ Program - Parallel Ensemble Forecasts"
+LABEL description="A Linux Distribution of Parallel Analog Ensemble"
 
-COPY . /PEF_source
+COPY . /PAnEn_source
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get update \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
-RUN DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y gcc cmake \
-    libnetcdf-dev git make r-base  && apt-get clean && rm -rf /var/lib/apt/lists/*
+RUN DEBIAN_FRONTEND=noninteractive apt-get update
+RUN DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
+    gcc g++ cmake libnetcdf-dev git make r-base && rm -rf /var/lib/apt/lists/*
+RUN DEBIAN_FRONTEND=noninteractive && apt-get autoremove && apt-get autoclean
 
-WORKDIR /PEF_source
-RUN mkdir build
+ENV LD_LIBRARY_PATH=/libs
+ENV CPLUS_INCLUDE_PATH=/libs/include
 
-WORKDIR /PEF_source/buildC
+WORKDIR /PAnEn_source/buildC
 RUN CC=gcc CXX=g++ cmake -DCMAKE_BUILD_TESTS=ON ..
 RUN make -j 16 install
 
-WORKDIR /PEF_source/buildR
+WORKDIR /PAnEn_source/buildR
 RUN Rscript -e "install.packages(c('Rcpp', 'BH'))"
 RUN CC=gcc CXX=g++ cmake -DINSTALL_RAnEn=ON ..
 RUN make -j 16 install

@@ -30,6 +30,7 @@ reference:
           - computeWindSpeed
           - convertToAdvance
           - alignObservations
+          - schaakeShuffle
 
     - title: Verification
       desc: Functions for verification.

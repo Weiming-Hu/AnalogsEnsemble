@@ -94,8 +94,24 @@ schaakeShuffle <- function(anen, obs.search, show.progress = T) {
     
     # Randomly choose N search days
     selected <- sample(1:nsearch.days, size = nmembers)
-    selected.values <- obs.search[1, sample.int(nstations, 1),
-                                  selected, sample.int(nflts, 1)]
+    
+    # Don't be afraid of this nested loop. I'm just trying to find
+    # a combination of station and flt index from the observations
+    # that does not contain NA values.
+    #
+    for (i.selected.station in sample.int(nstations, nstations)) {
+      for (i.selected.flt in sample.int(nflts, nflts)) {
+        selected.values <- obs.search[1, sample.int(nstations, 1),
+                                      selected, sample.int(nflts, 1)] 
+        if (!any(is.na(selected.values))) {
+          break
+        }
+      }
+    }
+    
+    if (any(is.na(selected.values))) {
+      stop('You have too many NA values in observations.')
+    }
     
     # Establish the linking function
     selected.order <- order(selected.values)
