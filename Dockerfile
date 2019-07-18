@@ -21,4 +21,6 @@ RUN Rscript -e "install.packages(c('Rcpp', 'BH'))"
 RUN CC=gcc CXX=g++ cmake -DINSTALL_RAnEn=ON ..
 RUN make -j 16 install
 
+WORKDIR /root
+
 CMD ["/bin/bash"]
