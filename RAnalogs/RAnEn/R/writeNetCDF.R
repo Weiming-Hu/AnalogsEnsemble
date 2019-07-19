@@ -19,6 +19,7 @@
 #' following members:
 #' 
 #' - ParameterNames
+#' - ParameterCirculars (optional)
 #' - StationNames (optional)
 #' - Xs
 #' - Ys
@@ -74,6 +75,11 @@ writeNetCDF <- function(file.type, obj, file.out,
 	nc.dim.parameters <- ncdim_def("num_parameters", "", 1:num.parameters, create_dimvar = F)
 	nc.var.par.names <- ncvar_def("ParameterNames", "", list(nc.dim.chars, nc.dim.parameters), prec = "char")
 	vars.list <- c(vars.list, list(ParameterNames = nc.var.par.names))
+	
+	if ("ParameterCirculars" %in% names(obj)) {
+	  nc.var.par.circulars <- ncvar_def("ParameterCirculars", "", list(nc.dim.chars, nc.dim.parameters), prec = "char")
+	  vars.list <- c(vars.list, list(ParameterCirculars = nc.var.par.circulars))
+	}
 	
 	# Prepare StationNames
 	if ("StationNames" %in% names(obj)) {

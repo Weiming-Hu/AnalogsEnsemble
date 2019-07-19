@@ -45,11 +45,8 @@ reference:
     - title: File I/O
       desc: Functions for reading and writing.
       contents:
-          - readConfiguration
-          - readObservations
-          - readForecasts
-          - readAnEn
-          - writeNetCDF
+          - starts_with("read")
+          - starts_with("write")
 
     - title: General Information
       desc: Functions to provide generate information.

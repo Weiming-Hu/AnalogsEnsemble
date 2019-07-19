@@ -32,6 +32,7 @@ The parameter \code{obj} is an R list object with the
 following members:
 \itemize{
 \item ParameterNames
+\item ParameterCirculars (optional)
 \item StationNames (optional)
 \item Xs
 \item Ys

@@ -1,6 +1,8 @@
 # PAnEn 3.5.3
 
 - Resolve a naming bug in `RAnEn::schaakeShuffle`
+- Add `RAnEn::writeConfig`
+- Add `ParameterCirculars` in function `RAnEn::writeNetCDF`
 
 # PAnEn 3.5.2
 
