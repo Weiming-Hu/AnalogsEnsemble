@@ -14,12 +14,12 @@ ENV CPLUS_INCLUDE_PATH=/libs/include
 
 WORKDIR /PAnEn_source/buildC
 RUN CC=gcc CXX=g++ cmake -DCMAKE_BUILD_TESTS=ON ..
-RUN make -j 16 install
+RUN make -j install
 
 WORKDIR /PAnEn_source/buildR
 RUN Rscript -e "install.packages(c('Rcpp', 'BH'))"
 RUN CC=gcc CXX=g++ cmake -DINSTALL_RAnEn=ON ..
-RUN make -j 16 install
+RUN make -j install
 
 WORKDIR /root
 
