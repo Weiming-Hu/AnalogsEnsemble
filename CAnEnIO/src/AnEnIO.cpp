@@ -1433,8 +1433,9 @@ AnEnIO::writeTimes(const anenTime::Times& times, bool unlimited,
         if (dim_times.getSize() != times.size() ||
                 dim_times.isUnlimited() != unlimited) {
             if (verbose_ >= 1) cerr << BOLDRED << "Error: Dimension ("
-                << dim_name << ") with a different length exists in file ("
-                    << file_path_ << ")." << RESET << endl;
+                << dim_name << ") with a different length (" << dim_times.getSize()
+                    << ") exists in file (" << file_path_ << "). Trying to write a length of "
+                    << times.size() << "." << RESET << endl;
             nc.close();
             return (DIMENSION_EXISTS);
         }

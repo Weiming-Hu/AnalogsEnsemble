@@ -252,7 +252,7 @@ void runSimilarityCalculator(
     handleError(io_out.writeSimilarityMatrices(
             sims, test_forecasts.getParameters(),
             test_forecasts.getStations(),
-            test_forecasts.getTimes(),
+            test_times,
             test_forecasts.getFLTs(),
             search_forecasts.getStations(),
             search_forecasts.getTimes()));

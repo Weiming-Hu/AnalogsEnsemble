@@ -24,6 +24,7 @@
 #' @return An AnEn class object.
 #' @export
 readAnEn <- function(file.analogs, file.similarity = NA, verbose = F) {
+  require(ncdf4)
   AnEn <- list()
   class(AnEn) <- 'AnEn'
   
@@ -45,7 +46,7 @@ readAnEn <- function(file.analogs, file.similarity = NA, verbose = F) {
     if (file.exists(file.similarity)) {
       if (verbose) cat('Reading similarity from', file.similarity, '...\n')
       
-      nc <- nc_open(paste('config-', config.version, '-sims.nc', sep = ''))
+      nc <- nc_open(file.similarity)
       AnEn$similarity <- ncvar_get(nc, 'SimilarityMatrices')
       
       if (verbose) cat('Converting similairty format ...\n')

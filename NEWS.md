@@ -1,8 +1,10 @@
 # PAnEn 3.5.3
 
 - Resolve a naming bug in `RAnEn::schaakeShuffle`
-- Add `RAnEn::writeConfig`
+- Resolve a path bug in `RAnEn::readAnEn`
+- Add `RAnEn::writeConfiguration`
 - Add `ParameterCirculars` in function `RAnEn::writeNetCDF`
+- Change C++ test verbose levels
 
 # PAnEn 3.5.2
 

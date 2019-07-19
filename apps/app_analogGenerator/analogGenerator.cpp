@@ -264,7 +264,7 @@ void runAnalogGenerator(
         handleError(io_sim.writeSimilarityMatrices(
                 sims, test_forecasts.getParameters(),
                 test_forecasts.getStations(),
-                test_forecasts.getTimes(),
+                test_times,
                 test_forecasts.getFLTs(),
                 search_forecasts.getStations(),
                 search_forecasts.getTimes()));
@@ -272,7 +272,7 @@ void runAnalogGenerator(
 
    handleError(io_out.writeAnalogs(
             analogs, test_forecasts.getStations(),
-            test_forecasts.getTimes(),
+            test_times,
             test_forecasts.getFLTs(),
             search_observations.getStations(),
             search_observations.getTimes()));

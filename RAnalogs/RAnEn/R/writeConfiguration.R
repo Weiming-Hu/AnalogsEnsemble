@@ -10,9 +10,9 @@
 #         The Pennsylvania State University
 #
 
-#' RAnEn::writeConfig
+#' RAnEn::writeConfiguration
 #' 
-#' RAnEn::writeConfig writes a Configuration class to multiple files, usually
+#' RAnEn::writeConfiguration writes a Configuration class to multiple files, usually
 #' observations and forecasts into NetCDF files and the rest configuration parameters
 #' into a configuration file. The Configuration input should already be successfully
 #' configured.
@@ -30,7 +30,7 @@
 #' 
 #' @md
 #' @export
-writeConfig <- function(config, obs.par.names, fcsts.par.names,
+writeConfiguration <- function(config, obs.par.names, fcsts.par.names,
                         xs, ys, file.prefix = '', folder = './',
                         silent = F) {
   require(ncdf4)
@@ -40,9 +40,11 @@ writeConfig <- function(config, obs.par.names, fcsts.par.names,
   stopifnot(length(fcsts.par.names) == dim(config$forecasts)[1])
   stopifnot(length(xs) == dim(config$forecasts)[2])
   stopifnot(length(ys) == dim(config$forecasts)[2])
-  stopifnot(config$mode == 'independentSearch')
   stopifnot(class(config) == 'Configuration')
   stopifnot(!config$advanced)
+  if (config$mode != 'independentSearch') {
+      stop("Currently only supporting writing independentSearch configuration.")
+  }
   
   # Check whether config is successfully configured
   if (!silent) cat('Checking config ...\n')
@@ -114,9 +116,9 @@ writeConfig <- function(config, obs.par.names, fcsts.par.names,
   if (!silent) cat('Writing', file.cfg, '...\n')
   
   test.times.index <- sapply(config$test_times_compare, function(x, v) {
-    which(x == v)},  v = config$forecast_times)
+    which(x == v)},  v = config$forecast_times) - 1
   search.times.index <- sapply(config$search_times_compare, function(x, v) {
-    which(x == v)},  v = config$forecast_times)
+    which(x == v)},  v = config$forecast_times) - 1
   
   cfg.lines <- c(
     paste("# Author:", global.attrs$creator),
