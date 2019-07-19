@@ -11,6 +11,7 @@ layout: default
 [![codecov](https://codecov.io/gh/Weiming-Hu/AnalogsEnsemble/branch/master/graph/badge.svg?token=tcGGOTyHHk)](https://codecov.io/gh/Weiming-Hu/AnalogsEnsemble)
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/Weiming-Hu/AnalogsEnsemble/master)
+[![dockeri.co](https://dockeri.co/image/weiminghu123/panen)](https://hub.docker.com/r/weiminghu123/panen)
 
 <!-- vim-markdown-toc GitLab -->
 
@@ -21,7 +22,7 @@ layout: default
     * [RAnEn](#ranen)
             * [One-Line Solution](#one-line-solution)
             * [Solution for a Specific Version](#solution-for-a-specific-version)
-    * [CMake Parameter Look-up Table](#cmake-parameter-look-up-table)
+    * [CMake Parameter Look-Up Table](#cmake-parameter-look-up-table)
 * [References](#references)
 * [Known Issues](#known-issues)
 * [Feedbacks](#feedbacks)
