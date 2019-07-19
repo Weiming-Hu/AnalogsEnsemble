@@ -57,7 +57,24 @@ writeConfig <- function(config, obs.par.names, fcsts.par.names,
   file.obs <- paste(folder, file.prefix, 'observations.nc', sep = '')
   file.fcsts <- paste(folder, file.prefix, 'forecasts.nc', sep = '')
   file.cfg <- paste(folder, file.prefix, 'config.cfg', sep = '')
-  for (file in c(file.obs, file.fcsts, file.cfg)) {
+  file.analogs <- paste(folder, file.prefix, 'analogs.nc', sep = '')
+  file.sims <- paste(folder, file.prefix, 'similarity.nc', sep = '')
+  file.sds <- paste(folder, file.prefix, 'sds.nc', sep = '')
+  file.mapping <- paste(folder, file.prefix, 'mapping.txt', sep = '')
+  
+  file.list <- c(file.obs, file.fcsts, file.cfg, file.analogs)
+  
+  if (config$preserve_mapping) {
+    file.list <- c(file.list, file.mapping)
+  }
+  if (config$preserve_std) {
+    file.list <- c(file.list, file.sds)
+  }
+  if (config$preserve_similarity) {
+    file.list <- c(file.list, file.sims)
+  }
+  
+  for (file in file.list) {
     if (file.exists(file)) {
       stop(paste('File exists', file))
     }
@@ -104,33 +121,48 @@ writeConfig <- function(config, obs.par.names, fcsts.par.names,
   cfg.lines <- c(
     paste("# Author:", global.attrs$creator),
     paste("# Time of creation:", global.attrs$creation.time),
-    paste("members =", config$num_members),
-    paste("observation-id =", config$observation_id - 1),
-    
-    # paste("", config$quick),
-    # paste("", config$extend_observations),
-    # paste("", config$preserve_similarity),
-    # paste("", config$preserve_mapping),
-    # paste("", config$preserve_search_stations),
-    # paste("", config$preserve_std),
-    # paste("", config$operational),
-    
-    paste("time-match-mode =", config$time_match_mode),
-    paste("max-par-nan =", config$max_par_nan),
-    paste("max_flt_nan = ", config$max_flt_nan),
-    paste("test-times-index =", test.times.index),
-    paste("search_times_compare =", search.times.index),
-    paste("max_num_sims =", config$max_num_sims),
-    paste("FLT_radius =", config$FLT_radius),
-    paste("verbose =", config$verbose))
+    '\n',
+    paste("test-forecast-nc =", file.fcsts),
+    paste("search-forecast-nc =", file.fcsts),
+    paste("observation-nc =", file.obs),
+    paste("analog-nc =", file.analogs))
+  
+  if (config$preserve_mapping) {
+    cfg.lines <- c(cfg.lines, paste("mapping-txt =", file.mapping))
+  }
+  
+  if (config$preserve_std) {
+    cfg.lines <- c(cfg.lines, paste("sds-nc =", file.sds))
+  }
+  
+  if (config$preserve_similarity) {
+    cfg.lines <- c(cfg.lines, paste("similarity-nc =", file.sims))
+  }
+  
+  cfg.lines <- c(cfg.lines, '\n',
+                 paste("observation-id =", config$observation_id - 1),
+                 paste("members =", config$num_members),
+                 paste("quick =", as.numeric(config$quick)),
+                 paste("extend-obs=", as.numeric(config$extend_observations)),
+                 paste("operational =", as.numeric(config$operational)),
+                 paste("time-match-mode =", config$time_match_mode),
+                 paste("max-par-nan =", config$max_par_nan),
+                 paste("max-flt-nan = ", config$max_flt_nan),
+                 paste("max-num-sims =", config$max_num_sims),
+                 paste("window-half-size =", config$FLT_radius),
+                 paste("verbose =", config$verbose),
+                 '\n',
+                 paste("test-times-index =", test.times.index),
+                 paste("search-times-index =", search.times.index))
   
   if (identical(NULL, names(config$weights))) {
-    cfg.lines <- c(cfg.lines, paste("weights =", config$weights))
+    cfg.lines <- c(cfg.lines, '\n', paste("weights =", config$weights))
   } else {
-    cfg.lines <- c(cfg.lines, as.vector(t(cbind(
+    cfg.lines <- c(cfg.lines, '\n', as.vector(t(cbind(
       paste("#", names(config$weights)),
       paste("weights =", config$weights)))))
   }
+  
   con <- file(file.cfg, 'w')
   writeLines(cfg.lines, con = con)
   close(con)

@@ -79,6 +79,12 @@ writeNetCDF <- function(file.type, obj, file.out,
 	if ("ParameterCirculars" %in% names(obj)) {
 	  nc.var.par.circulars <- ncvar_def("ParameterCirculars", "", list(nc.dim.chars, nc.dim.parameters), prec = "char")
 	  vars.list <- c(vars.list, list(ParameterCirculars = nc.var.par.circulars))
+	  
+	  if (length(obj$ParameterCirculars) < length(obj$ParameterNames)) {
+	    obj$ParameterCirculars <- c(obj$ParameterCirculars, 
+	                                rep('', length(obj$ParameterNames) -
+	                                      length(obj$ParameterCirculars)))
+	  }
 	}
 	
 	# Prepare StationNames
