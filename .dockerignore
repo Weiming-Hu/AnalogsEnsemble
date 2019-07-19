@@ -53,6 +53,10 @@
 */*Rhistory
 *Rhistory
 *autom4te.cache*
+*RData
+*Rdata
+*rdata
+*rData
 
 # Customize
 build*
@@ -153,6 +157,9 @@ node_modules<Paste>
 # The automatic deployment folder
 out
 *vim-markdown-preview.html
+
+# VS code project
+*.vscode
 
 # Specific for docker image
 .travis.yml
