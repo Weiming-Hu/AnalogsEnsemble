@@ -141,7 +141,7 @@ void testAnEnIO::testWriteReadObservationFile() {
     string file_path("read-write-observations.nc");
     remove(file_path.c_str());
 
-    AnEnIO io("Write", file_path, "Observations", 2);
+    AnEnIO io("Write", file_path, "Observations", 4);
     handleError(io.writeObservations(observations_write));
     Observations_array observations_read;
     io.setMode("Read");
@@ -244,7 +244,7 @@ void testAnEnIO::testWriteReadForecastFile() {
     string file_path("read-write-forecasts.nc");
     remove(file_path.c_str());
 
-    AnEnIO io("Write", file_path, "Forecasts", 2);
+    AnEnIO io("Write", file_path, "Forecasts", 4);
 
     handleError(io.writeForecasts(forecasts_write));
 
@@ -332,7 +332,7 @@ void testAnEnIO::testReadPartParameters() {
 
     string file = file_observations;
 
-    AnEnIO io("Read", file, "Observations", 2);
+    AnEnIO io("Read", file, "Observations", 4);
 
     anenPar::Parameters parameters;
     io.readParameters(parameters, 1, 2);
@@ -360,7 +360,7 @@ void testAnEnIO::testReadPartStations() {
      */
 
     string file = file_observations;
-    AnEnIO io("Read", file, "Observations", 2);
+    AnEnIO io("Read", file, "Observations", 4);
 
     anenSta::Stations stations;
 
@@ -394,7 +394,7 @@ void testAnEnIO::testReadPartTimes() {
      */
 
     string file = file_observations;
-    AnEnIO io("Read", file, "Observations", 1);
+    AnEnIO io("Read", file, "Observations", 4);
 
     anenTime::Times times;
     io.readTimes(times, 1, 3, 10);
@@ -415,7 +415,7 @@ void testAnEnIO::testReadPartFLTs() {
      */
 
     string file = file_forecasts;
-    AnEnIO io("Read", file, "Forecasts", 1);
+    AnEnIO io("Read", file, "Forecasts", 4);
 
     anenTime::FLTs flts, flts_full;
     io.readFLTs(flts_full);
@@ -615,7 +615,7 @@ void testAnEnIO::testReadWriteAnalogs() {
     string file_path = "read-write-analogs.nc";
     remove(file_path.c_str());
 
-    AnEnIO io("Write", file_path, "Analogs", 1);
+    AnEnIO io("Write", file_path, "Analogs", 4);
     io.writeAnalogs(analogs_write, stations, times, flts, stations, times);
 
     Analogs analogs_read;
@@ -643,7 +643,7 @@ void testAnEnIO::testReadWriteTextMatrix() {
             mat_write(i, j) = i * 1000 + j;
     
     
-    AnEnIO io("Write", file_path, "Matrix", 1);
+    AnEnIO io("Write", file_path, "Matrix", 4);
     io.writeTextMatrix(mat_write);
     
     boost::numeric::ublas::matrix<size_t> mat_read;
@@ -707,7 +707,7 @@ void testAnEnIO::testReadWriteStandardDeviation() {
             for (size_t k = 0; k < 5; k++)
                 sds_write[i][j][k] = i * 100 + j * 10 + k;
 
-    AnEnIO io("Write", file_path, "StandardDeviation", 2);
+    AnEnIO io("Write", file_path, "StandardDeviation", 4);
     io.writeStandardDeviation(sds_write,
             forecasts_write.getParameters(),
             forecasts_write.getStations(),
