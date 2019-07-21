@@ -1,6 +1,7 @@
 # PAnEn 3.5.4
 
-- Change warnings of CAnEnIO from cout to cerr
+- Change warnings of `CAnEnIO` from `cout` to `cerr`
+- Reduce copies in `RAnEn::AnEnC2R`
 
 # PAnEn 3.5.3
 

@@ -43,9 +43,9 @@ AnEnC2R <- function(AnEn, member) {
     AnEn$analogs[, , , , 2] <- AnEn$analogs[, , , , 2, drop = F] + 1
     
     # Convert time index from C to R if the index is non-negative
-    ori <- as.vector(AnEn$analogs[, , , , 3])
-    ori[which(ori >= 0)] <- ori[which(ori >= 0)] + 1
-    AnEn$analogs[, , , , 3] <- ori
+    index <- which(AnEn$analogs[, , , , 3] >= 0, arr.ind = T)
+    index <- cbind(index, 3)
+    AnEn$analogs[index] <- AnEn$analogs[index] + 1
   }
   
   return(AnEn)
