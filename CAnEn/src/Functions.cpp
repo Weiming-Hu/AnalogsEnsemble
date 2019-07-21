@@ -160,7 +160,7 @@ limit_row, limit_col) firstprivate(index)
                     << " NA values might exist." << RESET << endl;
             return (OUT_OF_RANGE);
         } else {
-            if (verbose_ >= 2) cout << RED
+            if (verbose_ >= 2) cerr << RED
                     << "Warning: Could not find some forecast times in observation times."
                     << " NA values might exist." << RESET << endl;
         }

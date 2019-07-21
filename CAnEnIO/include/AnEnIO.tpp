@@ -642,7 +642,7 @@ AnEnIO::MPI_read_vector_(const netCDF::NcVar & var, T* & p_vals,
 
         handle_MPI_Finalize();
     } else {
-        cout << RED << "Warning: Please only run with 1 processor because child processes are automatically spawned."
+        cerr << RED << "Warning: Please only run with 1 processor because child processes are automatically spawned."
                 << RESET << endl;
         handle_MPI_Finalize();
         throw runtime_error("Terminate non-root processes.");

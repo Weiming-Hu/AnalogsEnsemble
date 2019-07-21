@@ -117,7 +117,7 @@ SimilarityMatrices::sortRows(bool quick, size_t length, COL_TAG col_tag) {
     if (quick) {
         if (length == 0) {
             length = this->size();
-            cout << RED << "Warning: Length can't be 0 for quick sort."
+            cerr << RED << "Warning: Length can't be 0 for quick sort."
                     << " It has been set to the number of entries."
                     << RESET << endl;
         }

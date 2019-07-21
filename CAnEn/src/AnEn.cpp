@@ -602,7 +602,7 @@ AnEn::selectAnalogs(
     size_t max_members = sims.getMaxEntries();
 
     if (num_members > max_members) {
-        if (verbose_ >= 2) cout << RED << "Warning: Number of members ("
+        if (verbose_ >= 2) cerr << RED << "Warning: Number of members ("
                 << num_members << ") is bigger than the number of entries ("
                 << max_members << ") in SimilarityMatrices! "
                 << " NAN will exist in Analogs." << RESET << endl;

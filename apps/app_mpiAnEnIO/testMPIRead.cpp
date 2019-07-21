@@ -184,7 +184,7 @@ int main (int argc, char** argv) {
         delete [] p_count;
 
     } else {
-        cout << RED << "Warning: Please only run with 1 processor because child processes are automatically spawned."
+        cerr << RED << "Warning: Please only run with 1 processor because child processes are automatically spawned."
                 << RESET << endl;
         nc.close();
         MPI_Finalize();
