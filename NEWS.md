@@ -1,3 +1,7 @@
+# PAnEn 3.5.4
+
+- Change warnings of CAnEnIO from cout to cerr
+
 # PAnEn 3.5.3
 
 - Resolve a naming bug in `RAnEn::schaakeShuffle`
