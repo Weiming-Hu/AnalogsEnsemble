@@ -173,7 +173,7 @@ AnEnIO::checkFileType() const {
     }
 
     if (mode_ == "Write") {
-        if (verbose_ >= 2) cout << RED << "Warning: No need to check "
+        if (verbose_ >= 2) cerr << RED << "Warning: No need to check "
             << "for mode 'Write'." << RESET << endl;
         return (SUCCESS);
     } else if (mode_ == "Read") {
@@ -226,7 +226,7 @@ AnEnIO::checkFileType() const {
         } else if (file_type_ == "Matrix") {
 
             if (verbose_ >= 3) {
-                cout << RED << "File check for Matrix type is not defined." << RESET << endl;
+                cerr << RED << "Warning: File check for Matrix type is not defined." << RESET << endl;
             }
             return (SUCCESS);
 
@@ -275,7 +275,7 @@ AnEnIO::checkVariable(string var_name, bool optional) const {
         if (optional) {
 
             if (verbose_ >= 2) {
-                cout << RED << "Warning: Optional variable (" << var_name
+                cerr << RED << "Warning: Optional variable (" << var_name
                     << ") is missing in file (" << file_path_
                     << ")!" << RESET << endl;
             }
@@ -343,7 +343,7 @@ AnEnIO::checkVariables() const {
 
     if (required_variables_.empty()) {
         if (verbose_ >= 2)
-            cout << RED << "Warning: Required variables are not set!"
+            cerr << RED << "Warning: Required variables are not set!"
                 << RESET << endl;
         return (return_status);
     }
@@ -380,7 +380,7 @@ AnEnIO::checkDimensions() const {
 
     if (required_dimensions_.empty()) {
         if (verbose_ >= 2)
-            cout << RED << "Warning: Required dimensions are not set!"
+            cerr << RED << "Warning: Required dimensions are not set!"
                 << RESET << endl;
         return (return_status);
     }
@@ -454,7 +454,7 @@ AnEnIO::readObservations(Observations_array & observations, vector<size_t> start
 
     if (file_type_ != "Observations") {
         if (verbose_ >= 1) {
-            cout << BOLDGREEN << "Error: File type should be Observations."
+            cerr << BOLDRED << "Error: File type should be Observations."
                 << RESET << endl;
         }
         return (WRONG_FILE_TYPE);
@@ -573,7 +573,7 @@ AnEnIO::readForecasts(Forecasts_array & forecasts,
 
     if (file_type_ != "Forecasts") {
         if (verbose_ >= 1) {
-            cout << BOLDGREEN << "Error: File type should be Forecasts."
+            cerr << BOLDRED << "Error: File type should be Forecasts."
                 << RESET << endl;
         }
         return (WRONG_FILE_TYPE);
@@ -1947,7 +1947,7 @@ AnEnIO::setFilePath(string file_path) {
                 NC4_ = true;
             } else {
 #if defined(_ENABLE_MPI)
-                if (verbose_ >= 2) cout << RED
+                if (verbose_ >= 2) cerr << RED
                     << "Warning: MPI is enabled but the file ("
                     << file_path_ << ") does not support parallel accesss."
                     << RESET << endl;
@@ -2012,13 +2012,13 @@ AnEnIO::dumpVariable(string var_name, size_t start, size_t count) const {
     }
     if (start >= len) {
         if (verbose_ >= 2)
-            cout << RED << "Warning: change start (" << start << ") to "
+            cerr << RED << "Warning: change start (" << start << ") to "
                 << (len - 1) << "." << RESET << endl;
         start = len - 1;
     }
     if (start + count > len) {
         if (verbose_ >= 2)
-            cout << RED << "Warning: change count (" << count << ") to "
+            cerr << RED << "Warning: change count (" << count << ") to "
                 << (len - start) << "." << RESET << endl;
         count = len - start;
     }
