@@ -2,6 +2,7 @@
 
 - Change warnings of `CAnEnIO` from `cout` to `cerr`
 - Reduce copies in `RAnEn::AnEnC2R`
+- Add garbage collection mechanism in `RAnEn::readAnEn`
 
 # PAnEn 3.5.3
 

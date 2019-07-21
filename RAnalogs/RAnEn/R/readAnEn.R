@@ -33,10 +33,12 @@ readAnEn <- function(file.analogs, file.similarity = NA, verbose = F) {
     
     nc <- nc_open(file.analogs)
     AnEn$analogs <- ncvar_get(nc, 'Analogs')
+    nc_close(nc)
+    
+    garbage <- gc(verbose = F, reset = T)
     
     if (verbose) cat('Converting analog format ...\n')
     AnEn <- AnEnC2R(AnEn, 'analogs')
-    nc_close(nc)
     
   } else {
     stop(paste(file.analogs, 'does not exists.'))
@@ -48,10 +50,12 @@ readAnEn <- function(file.analogs, file.similarity = NA, verbose = F) {
       
       nc <- nc_open(file.similarity)
       AnEn$similarity <- ncvar_get(nc, 'SimilarityMatrices')
+      nc_close(nc)
+      
+      garbage <- gc(verbose = F, reset = T)
       
       if (verbose) cat('Converting similairty format ...\n')
       AnEn <- AnEnC2R(AnEn, 'similarity')
-      nc_close(nc)
       
     } else {
       stop(paste(file.similarity, 'does not exists.'))

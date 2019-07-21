@@ -30,10 +30,12 @@ AnEnC2R <- function(AnEn, member) {
     
     AnEn$similarity <- aperm(AnEn$similarity, length(dim(AnEn$similarity)):1)
     
-    ori <- as.vector(AnEn$similarity[, , , , 3])
-    ori[which(ori >= 0)] <- ori[which(ori >= 0)] + 1
-    AnEn$similarity[, , , , 3] <- ori
+    # Convert time index from C to R if the index is non-negative
+    index <- which(AnEn$similarity[, , , , 3] >= 0, arr.ind = T)
+    index <- cbind(index, 3)
+    AnEn$similarity[index] <- AnEn$similarity[index] + 1
     
+    # Convert station index from C counting to R counting
     AnEn$similarity[, , , , 2] <- AnEn$similarity[, , , , 2, drop = F] + 1
     
   } else if (member == 'analogs') {
