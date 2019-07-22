@@ -115,7 +115,6 @@ readAnEn <- function(file.analogs, file.similarity = NA, verbose = F, split = 0)
       for (i in 1:split) {
         if (verbose) cat('Reading chunk #', i, '[', indices[i], ',',
                          indices[i+1], '] out of', split, '\n')
-        next
         start <- rep(1, length(dims))
         start[i.max] <- indices[i]
         count <- dims
