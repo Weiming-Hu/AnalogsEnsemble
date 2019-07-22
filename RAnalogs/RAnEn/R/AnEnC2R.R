@@ -30,10 +30,16 @@ AnEnC2R <- function(AnEn, member) {
     
     AnEn$similarity <- aperm(AnEn$similarity, length(dim(AnEn$similarity)):1)
     
+    garbage <- gc(verbose = F, reset = T)
+    
     # Convert time index from C to R if the index is non-negative
-    index <- which(AnEn$similarity[, , , , 3] >= 0, arr.ind = T)
-    index <- cbind(index, 3)
-    AnEn$similarity[index] <- AnEn$similarity[index] + 1
+    ori <- as.vector(AnEn$similarity[, , , , 3])
+    index <- which(ori >= 0)
+    ori[index] <- ori[index] + 1
+    AnEn$similarity[, , , , 3] <- ori
+    
+    rm(ori, index)
+    garbage <- gc(verbose = F, reset = T)
     
     # Convert station index from C counting to R counting
     AnEn$similarity[, , , , 2] <- AnEn$similarity[, , , , 2, drop = F] + 1
@@ -41,14 +47,20 @@ AnEnC2R <- function(AnEn, member) {
   } else if (member == 'analogs') {
     stopifnot('analogs' %in% names(AnEn))
     
+    # Convert time index from C to R if the index is non-negative
+    ori <- as.vector(AnEn$analogs[, , , , 3])
+    index <- which(ori >= 0)
+    ori[index] <- ori[index] + 1
+    AnEn$analogs[, , , , 3] <- ori
+    
+    rm(ori, index)
+    garbage <- gc(verbose = F, reset = T)
+    
     # Convert station index from C counting to R counting
     AnEn$analogs[, , , , 2] <- AnEn$analogs[, , , , 2, drop = F] + 1
-    
-    # Convert time index from C to R if the index is non-negative
-    index <- which(AnEn$analogs[, , , , 3] >= 0, arr.ind = T)
-    index <- cbind(index, 3)
-    AnEn$analogs[index] <- AnEn$analogs[index] + 1
   }
+  
+  garbage <- gc(verbose = F, reset = T)
   
   return(AnEn)
 }

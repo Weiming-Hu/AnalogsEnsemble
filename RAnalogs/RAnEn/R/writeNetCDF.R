@@ -145,4 +145,6 @@ writeNetCDF <- function(file.type, obj, file.out,
 	}
 	
 	nc_close(nc)
+	
+	garbage <- gc(verbose = F, reset = T)
 }

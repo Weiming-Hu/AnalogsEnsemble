@@ -42,5 +42,7 @@ readForecasts <- function(file, origin = '1970-01-01', tz = 'UTC') {
   
   nc_close(nc)
   
+  garbage <- gc(verbose = F, reset = T)
+  
   return(forecasts)
 }

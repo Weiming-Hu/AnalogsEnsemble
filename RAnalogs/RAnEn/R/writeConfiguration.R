@@ -96,6 +96,8 @@ writeConfiguration <- function(config, obs.par.names, fcsts.par.names,
               nchars.max = max(nchar(obs.par.names)))
   rm(observations)
   
+  garbage <- gc(verbose = F, reset = T)
+  
   # Write forecasts from config
   if (!silent) cat('Writing', file.fcsts, '...\n')
   
@@ -111,6 +113,8 @@ writeConfiguration <- function(config, obs.par.names, fcsts.par.names,
               global.attrs = global.attrs,
               nchars.max = max(nchar(fcsts.par.names)))
   rm(forecasts)
+  
+  garbage <- gc(verbose = F, reset = T)
   
   # Write cfg file from config
   if (!silent) cat('Writing', file.cfg, '...\n')

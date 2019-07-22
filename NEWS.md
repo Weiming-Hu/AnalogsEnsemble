@@ -2,7 +2,7 @@
 
 - Change warnings of `CAnEnIO` from `cout` to `cerr`
 - Reduce copies in `RAnEn::AnEnC2R`
-- Add garbage collection mechanism in `RAnEn::readAnEn`
+- Add garbage collection mechanism to R file I/O functions
 
 # PAnEn 3.5.3
 
