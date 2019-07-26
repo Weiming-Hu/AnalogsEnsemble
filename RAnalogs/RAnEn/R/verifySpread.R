@@ -33,7 +33,7 @@
 #' @export
 verifySpread <- function(anen.ver, na.rm = T, parallel = F) { 
   
-  stopifnot(dim(anen.ver) == 4)
+  stopifnot(length(dim(anen.ver)) == 4)
   
   spread.ver <-  anen.mean(anen.ver, na.rm, fun=var, parallel = parallel)
   

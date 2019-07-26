@@ -101,8 +101,8 @@ verifyBrier <- function(anen.ver, obs.ver, threshold, ensemble.func, ..., baseli
   
   require(verification)
   
-  stopifnot(dim(anen.ver) == 4)
-  stopifnot(dim(obs.ver) == 3)
+  stopifnot(length(dim(anen.ver)) == 4)
+  stopifnot(length(dim(obs.ver)) == 3)
   
   if ( !identical(dim(anen.ver)[1:3], dim(obs.ver)[1:3]) ) {
     cat("Error: Observations and analogs have incompatible dimensions.\n")

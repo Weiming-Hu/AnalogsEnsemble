@@ -31,6 +31,10 @@
 #' @export
 verifyRankHist <- function(anen.ver, obs.ver, show.progress = F) {
   
+  stopifnot(length(dim(anen.ver)) == 4)
+  stopifnot(length(dim(obs.ver)) == 3)
+  stopifnot(dim(anen.ver)[4] > 1)
+
   obs  <-  as.vector(obs.ver)     # [stations*days, FLT]
   anen <-  matrix(anen.ver, ncol=dim(anen.ver)[4])
   
