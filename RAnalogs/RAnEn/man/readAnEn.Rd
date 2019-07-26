@@ -4,7 +4,7 @@
 \alias{readAnEn}
 \title{RAnEn::readAnEn}
 \usage{
-readAnEn(file.analogs, file.similarity = NA, verbose = F)
+readAnEn(file.analogs, file.similarity = NA, verbose = F, split = 0)
 }
 \arguments{
 \item{file.analogs}{The path to analog NetCDF file.}
@@ -12,12 +12,16 @@ readAnEn(file.analogs, file.similarity = NA, verbose = F)
 \item{file.similarity}{The path to similarity NetCDF file.}
 
 \item{verbose}{Whether to print progress.}
+
+\item{split}{The number of times to split the longest dimension when reading.
+For example, during the reading of analogs with 5 dimensions, if \code{split} is
+3, the longest dimension of analogs will be divided 3 times into 4 chunks.}
 }
 \value{
 An AnEn class object.
 }
 \description{
-RAnEn::readAnEn can read AnEn results from NetCDF files that are generated 
+RAnEn::readAnEn can read AnEn results from NetCDF files that are generated
 from analogGenerator. It supports reading analogs and similarity results.
 }
 \author{

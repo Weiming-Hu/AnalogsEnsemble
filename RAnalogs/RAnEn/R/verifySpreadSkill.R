@@ -33,6 +33,9 @@
 #' @export
 verifySpreadSkill <- function(anen.ver, obs.ver, boot=F, R=1000, intervals = 13, na.rm=T) {
   
+  stopifnot(dim(anen.ver) == 4)
+  stopifnot(dim(obs.ver) == 3)
+  
   if ( !identical(dim(anen.ver)[1:3], dim(obs.ver)[1:3]) ) {
     cat("Error: Observations and Forecasts have incompatible dimensions.\n")
     return(NULL)

@@ -29,7 +29,7 @@
 #' 
 #' @md
 #' @export
-verifyRankHist <- function(anen.ver, obs.ver, show.progress = F){ 
+verifyRankHist <- function(anen.ver, obs.ver, show.progress = F) {
   
   obs  <-  as.vector(obs.ver)     # [stations*days, FLT]
   anen <-  matrix(anen.ver, ncol=dim(anen.ver)[4])

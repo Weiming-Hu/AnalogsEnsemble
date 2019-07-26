@@ -31,6 +31,9 @@
 #' @export
 verifyDispersion <- function(anen.ver, obs.ver, boot=F, R=1000, na.rm=T) {
   
+  stopifnot(dim(anen.ver) == 4)
+  stopifnot(dim(obs.ver) == 3)
+  
   rmse <- rmse.ver(anen.ver, obs.ver, boot, R, na.rm)
   spread <- spread.ver( anen.ver, na.rm)
   

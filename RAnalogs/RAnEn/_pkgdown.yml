@@ -59,6 +59,7 @@ reference:
     - title: Helper Functions
       desc: Some convenient functions.
       contents:
+          - showVerificationMethods
           - generateCircleCoords
           - makeTransparent
           - toForecastTime

@@ -87,20 +87,20 @@ writeNetCDF <- function(file.type, obj, file.out,
 	  }
 	}
 	
-	# Prepare StationNames
-	if ("StationNames" %in% names(obj)) {
-		nc.var.station.names <- ncvar_def("StationNames", "", list(nc.dim.chars, nc.dim.stations), prec = "char")
-		vars.list <- c(vars.list, list(StationNames = nc.var.station.names))
-	}
-	
 	# Prepare Xs and Ys
 	stopifnot(dim(obj$Data)[2] == length(obj$Xs) &
-							length(obj$Xs) == length(obj$Ys))
+	            length(obj$Xs) == length(obj$Ys))
 	num.stations <- dim(obj$Data)[2]
 	nc.dim.stations <- ncdim_def("num_stations", "", 1:num.stations, create_dimvar = F)
 	nc.var.xs <- ncvar_def("Xs", "", nc.dim.stations, prec = "double")
 	nc.var.ys <- ncvar_def("Ys", "", nc.dim.stations, prec = "double")
 	vars.list <- c(vars.list, list(Xs = nc.var.xs), list(Ys = nc.var.ys))
+	
+	# Prepare StationNames
+	if ("StationNames" %in% names(obj)) {
+		nc.var.station.names <- ncvar_def("StationNames", "", list(nc.dim.chars, nc.dim.stations), prec = "char")
+		vars.list <- c(vars.list, list(StationNames = nc.var.station.names))
+	}
 	
 	# Prepare Times
 	stopifnot(dim(obj$Data)[3] == length(obj$Times))

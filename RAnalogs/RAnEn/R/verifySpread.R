@@ -33,6 +33,8 @@
 #' @export
 verifySpread <- function(anen.ver, na.rm = T, parallel = F) { 
   
+  stopifnot(dim(anen.ver) == 4)
+  
   spread.ver <-  anen.mean(anen.ver, na.rm, fun=var, parallel = parallel)
   
   err.mean  <- sqrt( apply( spread.ver, 2, mean, na.rm=na.rm) )

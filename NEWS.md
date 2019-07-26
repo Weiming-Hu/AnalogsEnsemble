@@ -1,3 +1,8 @@
+# PAnEn 3.6.0
+
+- Verification just became simpler. Add a caller function `RAnEn::verify` and helper function `RAnEn::showVerificationMethods`
+- Resolve a variable missing bug in `RAnEn::writeNetCDF`
+
 # PAnEn 3.5.4
 
 - Change warnings of `CAnEnIO` from `cout` to `cerr`
