@@ -64,7 +64,7 @@ all lead times available. This function used the NCAR verification package." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAnEn</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.5.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.6.0</span>
       </span>
     </div>
 
@@ -199,14 +199,11 @@ This scalar is usually a probability within <code>[0, 1]</code>. Please see exam
 #&gt; <span class='message'></span>
 #&gt; <span class='message'>    as.dist, dist</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:base’:</span>
 #&gt; <span class='message'></span>
-#&gt; <span class='message'>    as.matrix</span></div><div class='output co'>#&gt; <span class='message'>Loaded dtw v1.20-1. See ?dtw for help, citation("dtw") for use in publication.</span></div><div class='input'>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>score</span>)</div><div class='output co'>#&gt;          bs        ss reliability     resol
-#&gt; FLT1 0.3115 0.3077778  0.12364286 0.3242857
-#&gt; FLT2 0.3655 0.3354545  0.13811905 0.4452381
-#&gt; FLT3 0.2665 0.4670000  0.06150000 0.3900000
-#&gt; FLT4 0.2345 0.6091667  0.01783333 0.6666667
-#&gt; FLT5 0.2955 0.5075000  0.09073810 0.3904762
-#&gt; All  0.2947 0.4542593  0.05670971 2.4200971</div><div class='input'>
+#&gt; <span class='message'>    as.matrix</span></div><div class='output co'>#&gt; <span class='message'>Loaded dtw v1.20-1. See ?dtw for help, citation("dtw") for use in publication.</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>Attaching package: ‘verification’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:RAnEn’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    verify</span></div><div class='output co'>#&gt; <span class='error'>Error: dim(anen.ver) == 4 are not all TRUE</span></div><div class='input'>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>score</span>)</div><div class='output co'>#&gt; <span class='error'>Error in print(score): object 'score' not found</span></div><div class='input'>
 <span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/all'>all</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>'ggplot2'</span>, <span class='st'>'reshape2'</span>) <span class='kw'>%in%</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/installed.packages'>installed.packages</a></span>())) {
   <span class='co'># Use ggplot2</span>
   <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='no'>reshape2</span>)
@@ -231,7 +228,7 @@ This scalar is usually a probability within <code>[0, 1]</code>. Please see exam
 } <span class='kw'>else</span> {
   <span class='co'># Use the base graphics</span>
   <span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/barplot'>barplot</a></span>(<span class='no'>score</span>[, <span class='st'>'bs'</span>], <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='st'>'Brier'</span>)
-}</div><div class='output co'>#&gt; <span class='message'>Loading required package: reshape2</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: ggplot2</span></div><div class='img'><img src='verifyBrier-1.png' alt='' width='700' height='433' /></div><div class='input'>
+}</div><div class='output co'>#&gt; <span class='message'>Loading required package: reshape2</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: ggplot2</span></div><div class='output co'>#&gt; <span class='error'>Error in colnames(score) &lt;- c("Brier", "Skill", "Reliability", "Resolution"): object 'score' not found</span></div><div class='input'>
 
 </div></pre>
   </div>
