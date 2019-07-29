@@ -63,13 +63,14 @@ reference:
           - print.AnEn
           - print.Configuration
 
-    - title: Helper Functions
-      desc: Some convenient functions.
+    - title : Helpers
+      desc: Helper function to ease our lives.
       contents:
-          - showVerificationMethods
+          - AnEnC2R
           - generateCircleCoords
           - makeTransparent
-          - toForecastTime
+          - showVerificationMetrics
           - toDateTime
+          - toForecastTime
           - val2Col
-          - AnEnC2R
+
