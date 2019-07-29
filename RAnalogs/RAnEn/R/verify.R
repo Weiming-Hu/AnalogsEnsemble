@@ -5,7 +5,7 @@
 # (il),-''  (li),'  ((!.-'
 #
 #
-# Author: Guido Cervone (cervone@psu.edu), Martina Calovi (mxc895@psu.edu), Laura Clemente-Harding (laura@psu.edu)
+# Author: Weiming Hu <weiming@psu.edu>
 #         Geoinformatics and Earth Observation Laboratory (http://geolab.psu.edu)
 #         Department of Geography and Institute for CyberScience
 #         The Pennsylvania State University
@@ -13,26 +13,26 @@
 
 #' RAnEn::verify
 #' 
-#' RAnEn::verify is the caller function to call various verification methods.
+#' RAnEn::verify is the caller function to call various verification metrics. 
 #' This is convenient when you want to carry out multiple verification at
 #' once.
 #' 
-#' @param methods A vector of verification methods that should be carried out. Please
-#' use \code{\link{showVerificationMethods}} to check the supported methods.
+#' @param metrics A vector of verification metrics that should be carried out. Please
+#' use \code{\link{showVerificationMetrics}} to check the supported metrics. 
 #' @param verbose Whether to print detail information.
 #' 
 #' @return A list of verification results.
 #' 
 #' @md
 #' @export
-verify <- function(methods, verbose = T, ...) {
+verify <- function(metrics, verbose = T, ...) {
   
-  # Currently supported methods are the followings
-  supported.methods <- c('ThreatScore', 'Brier', 'MAE', 'RMSE', 'CRMSE',
+  # Currently supported metrics are the followings
+  supported.metrics <- c('ThreatScore', 'Brier', 'MAE', 'RMSE', 'CRMSE',
                          'Correlation', 'Bias', 'RankHist', 'Spread',
                          'SpreadSkill', 'Dispersion', 'CRPS')
   
-  # List the required options for each verification method
+  # List the required options for each verification metric
   args.required <- list(
     ThreatScore = c('anen.ver', 'obs.ver', 'threshold', 'ensemble.func'),
     Brier = c('anen.ver', 'obs.ver', 'threshold', 'ensemble.func'),
@@ -47,7 +47,7 @@ verify <- function(methods, verbose = T, ...) {
     Dispersion = c('anen.ver', 'obs.ver'),
     CRPS = c('anen.ver', 'obs.ver'))
   
-  # List the optional options for each verification method
+  # List the optional options for each verification metric
   args.optional <- list(
     ThreatScore = c(),
     Brier = c('baseline'),
@@ -73,29 +73,29 @@ verify <- function(methods, verbose = T, ...) {
     stop('Please give a name to each variable. Positional argument is forbidden!')
   }
   
-  # Check whether all desired methods are supported
-  supported <- sapply(methods, function(x) {x %in% supported.methods})
+  # Check whether all desired metrics are supported
+  supported <- sapply(metrics, function(x) {x %in% supported.metrics})
   if (!all(supported)) {
     print(supported)
-    stop('Unsupported methods are found.')
+    stop('Unsupported metrics are found.')
   }
   rm(supported)
   
   # Check whether required arguments are specified
   error <- F
-  for (method in methods) {
-    for (arg.required in args.required[[method]]) {
+  for (metric in metrics) {
+    for (arg.required in args.required[[metric]]) {
       if (!arg.required %in% named.args) {
-        cat('Required argument', arg.required, 'is missing for the method', method, '.\n')
+        cat('Required argument', arg.required, 'is missing for the metric', metric, '.\n')
         error <- T
       }
     }
   }
-  rm(method, arg.required)
+  rm(metric, arg.required)
   
   # Check whether there are unused arguments
   accepted.arguments <- unique(c(
-    'methods', 'verbose', 
+    'metrics', 'verbose', 
     unlist(args.required, use.names = F),
     unlist(args.optional, use.names = F)))
   
@@ -126,18 +126,18 @@ verify <- function(methods, verbose = T, ...) {
   
   if (verbose) {
     cat('The following verification will be carried out:',
-        paste(methods, collapse = ', '), '\n')
+        paste(metrics, collapse = ', '), '\n')
   }
   
   ret <- list()
-  for (method in methods) {
+  for (metric in metrics) {
     
     args.current <- list()
-    for (arg in args.required[[method]]) {
+    for (arg in args.required[[metric]]) {
       args.current[[arg]] <- args.all[[arg]]
     }
     
-    for (arg in args.optional[[method]]) {
+    for (arg in args.optional[[metric]]) {
       args.current[[arg]] <- args.all[[arg]]
     }
     
@@ -147,11 +147,11 @@ verify <- function(methods, verbose = T, ...) {
       }
     }
     
-    if (verbose) cat('Verifying', method, '[',
+    if (verbose) cat('Verifying', metric, '[',
                      paste(names(args.current), collapse = ',')
                      ,']...\n')
-    ret[[method]] <- do.call(
-      what = paste('verify', method, sep = ''),
+    ret[[metric]] <- do.call(
+      what = paste('verify', metric, sep = ''),
       args = args.current)
   }
   

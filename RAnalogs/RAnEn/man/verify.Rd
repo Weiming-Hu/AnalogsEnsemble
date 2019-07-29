@@ -4,11 +4,11 @@
 \alias{verify}
 \title{RAnEn::verify}
 \usage{
-verify(methods, verbose = T, ...)
+verify(metrics, verbose = T, ...)
 }
 \arguments{
-\item{methods}{A vector of verification methods that should be carried out. Please
-use \code{\link{showVerificationMethods}} to check the supported methods.}
+\item{metrics}{A vector of verification metrics that should be carried out. Please
+use \code{\link{showVerificationMetrics}} to check the supported metrics.}
 
 \item{verbose}{Whether to print detail information.}
 }
@@ -16,7 +16,7 @@ use \code{\link{showVerificationMethods}} to check the supported methods.}
 A list of verification results.
 }
 \description{
-RAnEn::verify is the caller function to call various verification methods.
+RAnEn::verify is the caller function to call various verification metrics.
 This is convenient when you want to carry out multiple verification at
 once.
 }

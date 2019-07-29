@@ -5,18 +5,18 @@
 # (il),-''  (li),'  ((!.-'
 #
 #
-# Author: Guido Cervone (cervone@psu.edu), Martina Calovi (mxc895@psu.edu), Laura Clemente-Harding (laura@psu.edu)
+# Author: Weiming Hu (weiming@psu.edu)
 #         Geoinformatics and Earth Observation Laboratory (http://geolab.psu.edu)
 #         Department of Geography and Institute for CyberScience
 #         The Pennsylvania State University
 #
 
-#' RAnEn::showVerificationMethods
+#' RAnEn::showVerificationMetrics
 #' 
-#' RAnEn::showVerificationMethods prints all the supported verification methods.
+#' RAnEn::showVerificationMetrics prints all the supported verification metrics.
 #' 
 #' @export
-showVerificationMethods <- function() {
+showVerificationMetrics <- function() {
   names <- as.character(lsf.str("package:RAnEn", pattern = 'verify*'))
   names <- gsub('^verify', '', names)
   return(names)
