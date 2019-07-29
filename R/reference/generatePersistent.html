@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>RAnEn::readAnEn — readAnEn • RAnEn</title>
+<title>RAnEn::generatePersistent — generatePersistent • RAnEn</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,10 +30,13 @@
 
 
 
-<meta property="og:title" content="RAnEn::readAnEn — readAnEn" />
+<meta property="og:title" content="RAnEn::generatePersistent — generatePersistent" />
 
-<meta property="og:description" content="RAnEn::readAnEn can read AnEn results from NetCDF files that are generated
-from analogGenerator. It supports reading analogs and similarity results." />
+<meta property="og:description" content="RAnEn::generatePersistent generates persistent analog ensemble forecasts.
+For each test forecast, it simply takes the historical observation values
+that are associated with the historical forecasts that are directly prior
+to the current forecasts. The number of values taken would be the number of
+ensemble members desired." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -98,46 +101,58 @@ from analogGenerator. It supports reading analogs and similarity results." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>RAnEn::readAnEn</h1>
+    <h1>RAnEn::generatePersistent</h1>
     
-    <div class="hidden name"><code>readAnEn.Rd</code></div>
+    <div class="hidden name"><code>generatePersistent.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>RAnEn::readAnEn can read AnEn results from NetCDF files that are generated
-from analogGenerator. It supports reading analogs and similarity results.</p>
+    <p>RAnEn::generatePersistent generates persistent analog ensemble forecasts.
+For each test forecast, it simply takes the historical observation values
+that are associated with the historical forecasts that are directly prior
+to the current forecasts. The number of values taken would be the number of
+ensemble members desired.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>readAnEn</span>(<span class='no'>file.analogs</span>, <span class='kw'>file.similarity</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='no'>F</span>, <span class='kw'>split</span> <span class='kw'>=</span> <span class='fl'>0</span>)</pre>
+    <pre class="usage"><span class='fu'>generatePersistent</span>(<span class='no'>config</span>, <span class='kw'>forecast.time.interval</span> <span class='kw'>=</span> <span class='fl'>86400</span>,
+  <span class='kw'>show.progress</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='kw'>silent</span> <span class='kw'>=</span> <span class='no'>F</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>file.analogs</th>
-      <td><p>The path to analog NetCDF file.</p></td>
+      <th>config</th>
+      <td><p>A Configuration object created from <code><a href='generateConfiguration.html'>generateConfiguration</a></code>.</p></td>
     </tr>
     <tr>
-      <th>file.similarity</th>
-      <td><p>The path to similarity NetCDF file.</p></td>
+      <th>forecast.time.interval</th>
+      <td><p>The forecast time interval in seconds. This is
+usually <code>24 * 60 * 60</code> because the third dimension of forecasts is usually day.
+If it is half day, change the value accordingly.</p></td>
     </tr>
     <tr>
-      <th>verbose</th>
-      <td><p>Whether to print progress.</p></td>
+      <th>show.progress</th>
+      <td><p>Whether to show a progress bar.</p></td>
     </tr>
     <tr>
-      <th>split</th>
-      <td><p>The number of times to split the longest dimension when reading.
-For example, during the reading of analogs with 5 dimensions, if <code>split</code> is
-3, the longest dimension of analogs will be divided 3 times into 4 chunks.</p></td>
+      <th>silent</th>
+      <td><p>Parameter passed to <code><a href='alignObservations.html'>alignObservations</a></code>.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An AnEn class object.</p>
+    <p>An 5-dimension array. The format is exactly the same as the member
+<code>analogs</code> specified in <code><a href='generateAnalogs.html'>generateAnalogs</a></code>.</p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>For example, to generate a 3-member persistent analog ensemble for a particular
+forecast at a certain grid point, a certain lead time, and on July 25, 2019,
+the <strong>observations</strong> associated with the historical forecasts on July 22,
+24, and 24 will be included in the persistent analogs.</p>
     
 
   </div>
@@ -147,10 +162,10 @@ For example, during the reading of analogs with 5 dimensions, if <code>split</co
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
           </ul>
 
-    <h2>Author</h2>
-    <p>Weiming Hu <a href='mailto:weiming@psu.edu'>weiming@psu.edu</a></p>
   </div>
 </div>
 
