@@ -16,6 +16,8 @@
 #' RAnEn::verifyBrier computes the Brier score and its decomposition for each 
 #' all lead times available. This function used the NCAR verification package.
 #' 
+#' @author Weiming Hu \email{weiming@@psu.edu}
+#' 
 #' @param anen.ver A 4-dimensional array for analogs.
 #' @param obs.ver A 3-dimensional array for observations.
 #' @param threshold The numeric threshold for computing the brier score.

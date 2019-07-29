@@ -97,3 +97,6 @@ if (all(c('ggplot2', 'reshape2') \%in\% installed.packages())) {
 
 
 }
+\author{
+Weiming Hu \email{weiming@psu.edu}
+}

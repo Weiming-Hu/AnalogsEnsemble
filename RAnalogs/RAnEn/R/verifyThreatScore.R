@@ -17,6 +17,8 @@
 #' The formula is adopted from
 #' [WPC Verification page](https://www.wpc.ncep.noaa.gov/html/scorcomp.shtml).
 #' 
+#' @author Weiming Hu \email{weiming@@psu.edu}
+#' 
 #' @param anen.ver A 4-dimensional array for analogs.
 #' @param obs.ver A 3-dimensional array for observations.
 #' @param threshold The numeric threshold for computing the threat score.

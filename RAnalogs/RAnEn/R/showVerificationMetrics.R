@@ -15,6 +15,8 @@
 #' 
 #' RAnEn::showVerificationMetrics prints all the supported verification metrics.
 #' 
+#' @author Weiming Hu \email{weiming@@psu.edu}
+#' 
 #' @export
 showVerificationMetrics <- function() {
   names <- as.character(lsf.str("package:RAnEn", pattern = 'verify*'))

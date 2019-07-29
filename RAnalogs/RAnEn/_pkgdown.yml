@@ -7,13 +7,20 @@ authors:
     Guido Cervone:
         href: http://geoinf.psu.edu/
 
+    Laura Clemente-Harding:
+        href: http://geoinf.psu.edu/
+
+    Martina Calovi:
+        href: http://geoinf.psu.edu/
+
 reference:
     - title: Analog Ensemble Computation
-      desc: Functions to generate analog ensemble forecasts.
+      desc: Functions to generate ensemble forecasts.
       contents:
           - generateConfiguration
           - compute_analogs
           - generateAnalogs
+          - generatePersistent
           - generateTimeMapping
           - generateSearchStations
           - validateConfiguration

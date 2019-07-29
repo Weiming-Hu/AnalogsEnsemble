@@ -27,3 +27,6 @@ RAnEn::verifyThreatScore computes the threat score for a specific threshold.
 The formula is adopted from
 \href{https://www.wpc.ncep.noaa.gov/html/scorcomp.shtml}{WPC Verification page}.
 }
+\author{
+Weiming Hu \email{weiming@psu.edu}
+}

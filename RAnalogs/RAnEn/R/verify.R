@@ -17,6 +17,8 @@
 #' This is convenient when you want to carry out multiple verification at
 #' once.
 #' 
+#' @author Weiming Hu \email{weiming@@psu.edu}
+#' 
 #' @param metrics A vector of verification metrics that should be carried out. Please
 #' use \code{\link{showVerificationMetrics}} to check the supported metrics. 
 #' @param verbose Whether to print detail information.

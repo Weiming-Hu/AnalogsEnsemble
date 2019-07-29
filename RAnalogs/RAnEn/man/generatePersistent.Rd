@@ -35,3 +35,6 @@ forecast at a certain grid point, a certain lead time, and on July 25, 2019,
 the \strong{observations} associated with the historical forecasts on July 22,
 24, and 24 will be included in the persistent analogs.
 }
+\author{
+Weiming Hu \email{weiming@psu.edu}
+}

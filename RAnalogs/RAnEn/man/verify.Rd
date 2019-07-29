@@ -20,3 +20,6 @@ RAnEn::verify is the caller function to call various verification metrics.
 This is convenient when you want to carry out multiple verification at
 once.
 }
+\author{
+Weiming Hu \email{weiming@psu.edu}
+}

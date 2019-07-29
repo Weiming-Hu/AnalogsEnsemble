@@ -18,6 +18,8 @@
 #' to the current forecasts. The number of values taken would be the number of
 #' ensemble members desired.
 #' 
+#' @author Weiming Hu \email{weiming@@psu.edu}
+#' 
 #' @details 
 #' For example, to generate a 3-member persistent analog ensemble for a particular 
 #' forecast at a certain grid point, a certain lead time, and on July 25, 2019,

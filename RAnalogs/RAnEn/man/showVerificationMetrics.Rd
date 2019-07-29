@@ -9,3 +9,6 @@ showVerificationMetrics()
 \description{
 RAnEn::showVerificationMetrics prints all the supported verification metrics.
 }
+\author{
+Weiming Hu \email{weiming@psu.edu}
+}
