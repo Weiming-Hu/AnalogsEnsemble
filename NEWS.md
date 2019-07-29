@@ -1,3 +1,7 @@
+# PAnEn 3.6.1
+
+- Add `RAnEn::generatePersistent`
+
 # PAnEn 3.6.0
 
 - Verification just became simpler. Add a caller function `RAnEn::verify` and helper function `RAnEn::showVerificationMethods`
