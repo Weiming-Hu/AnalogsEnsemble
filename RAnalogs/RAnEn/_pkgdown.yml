@@ -62,7 +62,7 @@ reference:
           - checkOpenMP
           - print.AnEn
           - print.Configuration
-          
+
     - title: Helper Functions
       desc: Some convenient functions.
       contents:
