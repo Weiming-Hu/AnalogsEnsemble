@@ -21,5 +21,6 @@
 showVerificationMetrics <- function() {
   names <- as.character(lsf.str("package:RAnEn", pattern = 'verify*'))
   names <- gsub('^verify', '', names)
+  names <- names[-which(names == '')]
   return(names)
 }
