@@ -187,7 +187,7 @@ generateAnalogs <- function(configuration) {
 
   if (configuration$preserve_mapping) AnEn$mapping <- AnEn$mapping + 1
 
-  if (configuration$verbose >= 3)  cat("Done!\n")
+  if (configuration$verbose >= 3)  cat("Done (generateAnalogs)!\n")
   
   return(AnEn)
 }

@@ -60,7 +60,7 @@ generateSearchStations <- function(
   
   mat <- mat + 1
   
-  if (verbose >= 3)  cat("Done!\n")
+  if (verbose >= 3)  cat("Done (generateSearchStations)!\n")
   
   return(mat)
 }

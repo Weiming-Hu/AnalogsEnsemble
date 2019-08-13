@@ -105,6 +105,6 @@ generatePersistent <- function(config,
     close(pb)
   }
   
-  if (!silent) cat('Done!')
+  if (!silent) cat('Done (generatePersistent)!\n')
   return(persistent)
 }

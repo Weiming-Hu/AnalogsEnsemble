@@ -146,7 +146,7 @@ readAnEn <- function(file.analogs, file.similarity = NA, verbose = F, split = 0)
     garbage <- gc(verbose = F, reset = T)
   }
   
-  if (verbose) cat('Done!\n')
+  if (verbose) cat('Done (readAnEn)!\n')
   
   return (AnEn)
 }

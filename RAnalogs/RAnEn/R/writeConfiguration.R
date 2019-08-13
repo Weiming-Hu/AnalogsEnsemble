@@ -173,5 +173,5 @@ writeConfiguration <- function(config, obs.par.names, fcsts.par.names,
   writeLines(cfg.lines, con = con)
   close(con)
   
-  if (!silent) cat('Done!\n')
+  if (!silent) cat('Done (writeConfiguration)!\n')
 }

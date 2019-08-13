@@ -468,7 +468,7 @@ compute_analogs <- function(forecasts,
       else return (which(x == cont))}, cont = mapping[i.flt, ])
   }
   
-  if (verbose >= 3) cat("Done!\n")
+  if (verbose >= 3) cat("Done (compute_analogs)!\n")
   
   return(AnEn)
 }

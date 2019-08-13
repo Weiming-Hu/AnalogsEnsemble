@@ -1,6 +1,7 @@
 # PAnEn 3.6.1
 
 - Add `RAnEn::generatePersistent`
+- Add function names when `Done` is printed
 
 # PAnEn 3.6.0
 
