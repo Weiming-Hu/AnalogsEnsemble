@@ -223,11 +223,19 @@ void runAnalogGenerator(
     
     anenTime::Times test_times, search_times;
     
-    const auto & container_test = test_forecasts.getTimes().get<anenTime::by_insert>();
-    for (size_t i : test_times_index) test_times.push_back(container_test[i]);
+    if (test_times_index.size() == 0) {
+        test_times = test_forecasts.getTimes();
+    } else {
+        const auto & container_test = test_forecasts.getTimes().get<anenTime::by_insert>();
+        for (size_t i : test_times_index) test_times.push_back(container_test[i]);
+    }
     
-    const auto & container_search = search_forecasts.getTimes().get<anenTime::by_insert>();
-    for (size_t i : search_times_index) search_times.push_back(container_search[i]);
+    if (search_times_index.size() == 0) {
+        search_times = search_forecasts.getTimes();
+    } else {
+        const auto & container_search = search_forecasts.getTimes().get<anenTime::by_insert>();
+        for (size_t i : search_times_index) search_times.push_back(container_search[i]);
+    }
     
     handleError(anen.computeSimilarity(
             test_forecasts, search_forecasts, sds, sims, search_observations,

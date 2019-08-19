@@ -278,11 +278,11 @@ AnEn::generateOperationalSearchTimes(
 
 errorType
 AnEn::computeSimilarity(
-        const Forecasts_array& test_forecasts,
-        const Forecasts_array& search_forecasts,
-        const StandardDeviation& sds,
-        SimilarityMatrices& sims,
-        const Observations_array& search_observations,
+        const Forecasts_array & test_forecasts,
+        const Forecasts_array & search_forecasts,
+        const StandardDeviation & sds,
+        SimilarityMatrices & sims,
+        const Observations_array & search_observations,
         const AnEn::TimeMapMatrix & mapping,
         const AnEn::SearchStationMatrix & i_search_stations,
         size_t i_observation_parameter, bool extend_observations,
@@ -310,19 +310,15 @@ AnEn::computeSimilarity(
     
     if (test_times.size() == 0) {
         // If test times are not provided, they are all test times available by default.
-        if (verbose_ >= 5) cout << "Include all test times available" << endl;
+        if (verbose_ >= 5) cout << "Change input test times. Include all test times available" << endl;
         test_times = test_forecasts.getTimes();
-        i_test_times.resize(test_forecasts.getTimesSize());
-        iota(i_test_times.begin(), i_test_times.end(), 0);
     }
 
     handleError(functions.convertToIndex(test_times, test_forecasts.getTimes(), i_test_times));
     
     if (search_times.size() == 0) {
-        if (verbose_ >= 5) cout << "Include all search times available" << endl;
+        if (verbose_ >= 5) cout << "Change input search time. Include all search times available" << endl;
         search_times = search_forecasts.getTimes();
-        i_search_times.resize(search_forecasts.getTimesSize());
-        iota(i_search_times.begin(), i_search_times.end(), 0);
     }
     
     size_t num_parameters = test_forecasts.getParametersSize();

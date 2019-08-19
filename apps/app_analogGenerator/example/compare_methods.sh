@@ -16,15 +16,17 @@ rm -f analogs_ctn.nc
 rm -f analogs_ctn_small.nc
 rm -f analogs_sep_wo_mapping.nc
 
-../../../output/bin/similarityCalculator --test-forecast-nc ../../../tests/Data/test_forecasts.nc --search-forecast-nc ../../../tests/Data/test_forecasts.nc --observation-nc ../../../tests/Data/test_observations.nc --similarity-nc sim_sep.nc --test-start 0 0 9 0 --test-count 5 20 1 8 --search-start 0 0 0 0 --search-count 5 20 9 8 --time-match-mode 1 --mapping-txt map.txt -v 2
+verbose=5
 
-../../../output/bin/analogSelector --similarity-nc sim_sep.nc --observation-nc ../../../tests/Data/test_observations.nc --analog-nc analogs_sep.nc --members 5 --mapping-txt map.txt -v 2
+../../../output/bin/similarityCalculator --test-forecast-nc ../../../tests/Data/test_forecasts.nc --search-forecast-nc ../../../tests/Data/test_forecasts.nc --observation-nc ../../../tests/Data/test_observations.nc --similarity-nc sim_sep.nc --test-start 0 0 9 0 --test-count 5 20 1 8 --search-start 0 0 0 0 --search-count 5 20 9 8 --time-match-mode 1 --mapping-txt map.txt -v $verbose
 
-../../../output/bin/analogSelector --similarity-nc sim_sep.nc --observation-nc ../../../tests/Data/test_observations.nc --analog-nc analogs_sep_wo_mapping.nc --members 5 -v 2
+../../../output/bin/analogSelector --similarity-nc sim_sep.nc --observation-nc ../../../tests/Data/test_observations.nc --analog-nc analogs_sep.nc --members 5 --mapping-txt map.txt -v $verbose
 
-../../../output/bin/analogGenerator --test-forecast-nc ../../../tests/Data/test_forecasts.nc --search-forecast-nc ../../../tests/Data/test_forecasts.nc --observation-nc ../../../tests/Data/test_observations.nc --similarity-nc sim_ctn.nc --test-start 0 0 9 0 --test-count 5 20 1 8 --search-start 0 0 0 0 --search-count 5 20 9 8 --time-match-mode 1 --analog-nc analogs_ctn.nc --members 5 -v 1
+../../../output/bin/analogSelector --similarity-nc sim_sep.nc --observation-nc ../../../tests/Data/test_observations.nc --analog-nc analogs_sep_wo_mapping.nc --members 5 -v $verbose
 
-../../../output/bin/analogGenerator --test-forecast-nc ../../../tests/Data/test_forecasts.nc --search-forecast-nc ../../../tests/Data/test_forecasts.nc --observation-nc ../../../tests/Data/test_observations.nc --similarity-nc sim_ctn_small.nc --test-start 0 0 9 0 --test-count 5 20 1 8 --search-start 0 0 0 0 --search-count 5 20 9 8 --time-match-mode 1 --analog-nc analogs_ctn_small.nc --members 5 -v 1 --max-num-sims 5
+../../../output/bin/analogGenerator --test-forecast-nc ../../../tests/Data/test_forecasts.nc --search-forecast-nc ../../../tests/Data/test_forecasts.nc --observation-nc ../../../tests/Data/test_observations.nc --similarity-nc sim_ctn.nc --test-start 0 0 9 0 --test-count 5 20 1 8 --search-start 0 0 0 0 --search-count 5 20 9 8 --time-match-mode 1 --analog-nc analogs_ctn.nc --members 5 -v $verbose
+
+../../../output/bin/analogGenerator --test-forecast-nc ../../../tests/Data/test_forecasts.nc --search-forecast-nc ../../../tests/Data/test_forecasts.nc --observation-nc ../../../tests/Data/test_observations.nc --similarity-nc sim_ctn_small.nc --test-start 0 0 9 0 --test-count 5 20 1 8 --search-start 0 0 0 0 --search-count 5 20 9 8 --time-match-mode 1 --analog-nc analogs_ctn_small.nc --members 5 -v $verbose --max-num-sims 5
 
 diff analogs_sep.nc analogs_ctn.nc && \
 diff analogs_sep_wo_mapping.nc analogs_ctn.nc && \
