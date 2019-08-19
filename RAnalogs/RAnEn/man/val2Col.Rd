@@ -4,21 +4,43 @@
 \alias{val2Col}
 \title{RAnEn::val2Col}
 \usage{
-val2Col(x, min = min(x, na.rm), max = max(x, na.rm), na.rm = F, col)
+val2Col(x, col, x.min = NA, x.max = NA, na.rm = F)
 }
 \arguments{
 \item{x}{A vector of values.}
 
-\item{min}{The minimum value.}
+\item{col}{A vector of colors to choose from.}
 
-\item{max}{The maximum value.}
+\item{x.min}{The minimum value of the interval to start mapping colors.
+Smaller values will be mapped to the first color. Please see the example.}
+
+\item{x.max}{The maximum value of the interval to start mapping colors.
+Larger values will be mapped to the last color. Please see the example.}
 
 \item{na.rm}{Whether to remove NA values.}
-
-\item{col}{A vector of colors to choose from.}
 }
 \description{
-RAnEn::val2Col maps each value to a color in the input color sequence.
+RAnEn::val2Col maps each value to a color in the input colors.
+}
+\examples{
+
+# Suppose we have a vector of numeric numbers
+x <- runif(1000)
+
+# Suppose we have some colors to which we would like to map the numbers
+cols.all <- c('green', 'red', 'yellow', 'grey', 'blue')
+
+# Define the limit for values to be mapped to colors
+x.min <- 0.4
+x.max <- 0.8
+
+# Generate colors for each number
+cols.gen <- val2Col(x, cols.all, x.min = x.min, x.max = x.max)
+
+# See the output
+plot(x, pch = 16, cex = 1.5, col = cols.gen)
+abline(h = c(x.min, x.max))
+
 }
 \author{
 Guido Cervone \email{cervone@psu.edu}

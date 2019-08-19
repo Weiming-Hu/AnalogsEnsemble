@@ -4,8 +4,8 @@
 \alias{verifySpreadSkill}
 \title{RAnEn::verifySpreadSkill}
 \usage{
-verifySpreadSkill(anen.ver, obs.ver, boot = F, R = 1000,
-  intervals = 13, na.rm = T)
+verifySpreadSkill(anen.ver, obs.ver, boot = F, R = 1000, na.rm = T,
+  keep.cor = F)
 }
 \arguments{
 \item{anen.ver}{A 4-dimensional array. This array is usually created from the \code{value} column of
@@ -19,17 +19,22 @@ You can generate the array using \code{\link{alignObservations}}.}
 
 \item{R}{The number of bootstrap replicates. Used by the function \code{boot::boot}.}
 
-\item{intervals}{The number of entries of days and lead times in each calculation iteration.}
-
 \item{na.rm}{Whether to remove NA values.}
+
+\item{keep.cor}{Whether to keep all spread and errors. This might generate large data.}
+}
+\value{
+A list with the verificatin results. The member \code{mean} is the average correlation
+across all forecast cases; the member \code{flt} is the average correlation broken up by each
+lead time; the member \code{flt.boot} contains bootstrap information; the member \code{cor} contains
+all spread-error pairs that are used to calculate correlation.
 }
 \description{
-RAnEn::verifySpreadSkill calculates the spread skill.
+RAnEn::verifySpreadSkill calculates the spread skill correlation. The skill is calculated
+as the squared differences between observations and forecasts. The spread is the variance
+of a particular ensemble. Then correlation is calculated between the error and the
+variance.
 }
 \author{
-Guido Cervone \email{cervone@psu.edu}
-
-Martina Calovi \email{mxc895@psu.edu}
-
-Laura Clemente-Harding \email{laura@psu.edu}
+Weiming Hu \email{weiming@psu.edu}
 }

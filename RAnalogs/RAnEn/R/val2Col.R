@@ -61,8 +61,8 @@ val2Col <- function( x, col, x.min = NA, x.max = NA, na.rm = F) {
   
   # Deal with min/max values if any
   clusters <- levels(x.cut)
-  x.cut[which(x < x.min)] <- clusters[1]
-  x.cut[which(x > x.max)] <- clusters[length(clusters)]
+  x.cut[which(x <= x.min)] <- clusters[1]
+  x.cut[which(x >= x.max)] <- clusters[length(clusters)]
   
   return(col[x.cut])
 }

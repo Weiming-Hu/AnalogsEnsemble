@@ -4,6 +4,7 @@
 - Change legal information
 - Add checks and default values in `RAnEn::generateSearchStation`
 - Resolve issues in tests
+- Add a convenient function `RAnEn::getAssociatedForecasts`
 
 # PAnEn 3.6.1
 

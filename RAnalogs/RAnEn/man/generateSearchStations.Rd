@@ -5,8 +5,9 @@
 \title{RAnEn::generateSearchStations}
 \usage{
 generateSearchStations(test_stations_x, test_stations_y, search_stations_x,
-  search_stations_y, max_num_search_stations, distance, num_nearest,
-  test_stations_classifier, search_stations_classifier, verbose)
+  search_stations_y, max_num_search_stations = 0, distance = 0,
+  num_nearest = 0, test_stations_classifier = vector("numeric", 0),
+  search_stations_classifier = vector("numeric", 0), verbose = 3)
 }
 \arguments{
 \item{test_stations_x}{Xs for test stations.}
@@ -17,9 +18,15 @@ generateSearchStations(test_stations_x, test_stations_y, search_stations_x,
 
 \item{search_stations_y}{Ys for search stations.}
 
-\item{max_num_search_stations}{The maximum number of search stations that will be stored.}
+\item{max_num_search_stations}{The maximum number of search stations that will be stored.
+If you are using the parameter \code{num_nearest}, it is a good practice to set this to be the
+same as \code{num_nearest}; if you are using \code{distance} only, please set this to be the maximum
+number of stations that can be found as an upper bound to limit memory consumption. \code{NA}
+values might be present if this is set too big. This only affect the memory usage.}
 
 \item{distance}{The buffer distance from each test station to look for search stations.}
+
+\item{num_nearest}{The number of nearest neighbor to select.}
 
 \item{test_stations_classifier}{A vector for test station classifiers.}
 
