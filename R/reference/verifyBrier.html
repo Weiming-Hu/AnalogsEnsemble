@@ -64,7 +64,7 @@ all lead times available. This function used the NCAR verification package." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAnEn</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.6.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.6.2</span>
       </span>
     </div>
 
@@ -203,13 +203,13 @@ This scalar is usually a probability within <code>[0, 1]</code>. Please see exam
 #&gt; <span class='message'>Attaching package: ‘verification’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:RAnEn’:</span>
 #&gt; <span class='message'></span>
 #&gt; <span class='message'>    verify</span></div><div class='input'>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>score</span>)</div><div class='output co'>#&gt;          bs        ss reliability     resol
-#&gt; FLT1 0.3115 0.3077778  0.12364286 0.3242857
-#&gt; FLT2 0.3655 0.3354545  0.13811905 0.4452381
-#&gt; FLT3 0.2665 0.4670000  0.06150000 0.3900000
-#&gt; FLT4 0.2345 0.6091667  0.01783333 0.6666667
-#&gt; FLT5 0.2955 0.5075000  0.09073810 0.3904762
-#&gt; All  0.2947 0.4542593  0.05670971 2.4200971</div><div class='input'>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>score</span>)</div><div class='output co'>#&gt;          bs          ss reliability     resol
+#&gt; FLT1 0.2725  0.39444444  0.13250000 0.5700000
+#&gt; FLT2 0.3065  0.31888889  0.08233333 0.5016667
+#&gt; FLT3 0.3245 -0.08166667  0.13338889 0.6677778
+#&gt; FLT4 0.2645  0.33875000  0.07700000 0.6250000
+#&gt; FLT5 0.1385  0.78692308  0.04891667 1.1208333
+#&gt; All  0.2613  0.41933333  0.03145735 2.8315735</div><div class='input'>
 <span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/all'>all</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>'ggplot2'</span>, <span class='st'>'reshape2'</span>) <span class='kw'>%in%</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/installed.packages'>installed.packages</a></span>())) {
   <span class='co'># Use ggplot2</span>
   <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='no'>reshape2</span>)

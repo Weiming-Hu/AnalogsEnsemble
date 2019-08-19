@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>RAnEn::generateSearchStations — generateSearchStations • RAnEn</title>
+<title>RAnEn::getAssociatedForecasts — getAssociatedForecasts • RAnEn</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,14 +30,13 @@
 
 
 
-<meta property="og:title" content="RAnEn::generateSearchStations — generateSearchStations" />
+<meta property="og:title" content="RAnEn::getAssociatedForecasts — getAssociatedForecasts" />
 
-<meta property="og:description" content="RAnEn::generateSearchStations is the search station computation routine included
-in the function generateConfiguration. This function computes the
-search stations of each test station. Search stations are
-represented using their index. Each column includes the search station indices for
-each test station. The available constraints for calculating the search stations
-include 1) Euclidean distances; 2) number of nearest neighbors; 3) station classifiers." />
+<meta property="og:description" content="RAnEn::getAssociatedForecasts returns the most similar
+past forecasts that are identified using this analog ensemble
+and associated with each analog ensemble member. In
+other words, this funtion returns the most similar
+past forecasts to the current forecasts." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -102,80 +101,77 @@ include 1) Euclidean distances; 2) number of nearest neighbors; 3) station class
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>RAnEn::generateSearchStations</h1>
+    <h1>RAnEn::getAssociatedForecasts</h1>
     
-    <div class="hidden name"><code>generateSearchStations.Rd</code></div>
+    <div class="hidden name"><code>getAssociatedForecasts.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>RAnEn::generateSearchStations is the search station computation routine included
-in the function <code><a href='generateConfiguration.html'>generateConfiguration</a></code>. This function computes the
-search stations of each test station. Search stations are
-represented using their index. Each column includes the search station indices for
-each test station. The available constraints for calculating the search stations
-include 1) Euclidean distances; 2) number of nearest neighbors; 3) station classifiers.</p>
+    <p>RAnEn::getAssociatedForecasts returns the most similar
+past forecasts that are identified using this analog ensemble
+and associated with each analog ensemble member. In
+other words, this funtion returns the most similar
+past forecasts to the current forecasts.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>generateSearchStations</span>(<span class='no'>test_stations_x</span>, <span class='no'>test_stations_y</span>, <span class='no'>search_stations_x</span>,
-  <span class='no'>search_stations_y</span>, <span class='kw'>max_num_search_stations</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>distance</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>num_nearest</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>test_stations_classifier</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/vector'>vector</a></span>(<span class='st'>"numeric"</span>, <span class='fl'>0</span>),
-  <span class='kw'>search_stations_classifier</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/vector'>vector</a></span>(<span class='st'>"numeric"</span>, <span class='fl'>0</span>), <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>3</span>)</pre>
+    <pre class="usage"><span class='fu'>getAssociatedForecasts</span>(<span class='no'>AnEn</span>, <span class='no'>config</span>, <span class='no'>forecast.parameter</span>, <span class='kw'>i.station</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+  <span class='kw'>i.test.day</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>i.flt</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>similarity.name</span> <span class='kw'>=</span> <span class='st'>"similarity"</span>,
+  <span class='kw'>forecasts.name</span> <span class='kw'>=</span> <span class='st'>"forecasts"</span>, <span class='kw'>members.to.extract</span> <span class='kw'>=</span> <span class='fl'>NA</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>test_stations_x</th>
-      <td><p>Xs for test stations.</p></td>
+      <th>AnEn</th>
+      <td><p>The AnEn class object returned by <code><a href='generateAnalogs.html'>generateAnalogs</a></code>.</p></td>
     </tr>
     <tr>
-      <th>test_stations_y</th>
-      <td><p>Ys for test stations.</p></td>
+      <th>config</th>
+      <td><p>The Configuration class object used to generate AnEn.</p></td>
     </tr>
     <tr>
-      <th>search_stations_x</th>
-      <td><p>Xs for search stations.</p></td>
+      <th>forecast.parameter</th>
+      <td><p>The parameter index for which variable to extract
+in the forecast array in <code>config</code>.</p></td>
     </tr>
     <tr>
-      <th>search_stations_y</th>
-      <td><p>Ys for search stations.</p></td>
+      <th>i.station</th>
+      <td><p>The station index in AnEn to extract.</p></td>
     </tr>
     <tr>
-      <th>max_num_search_stations</th>
-      <td><p>The maximum number of search stations that will be stored.
-If you are using the parameter <code>num_nearest</code>, it is a good practice to set this to be the
-same as <code>num_nearest</code>; if you are using <code>distance</code> only, please set this to be the maximum
-number of stations that can be found as an upper bound to limit memory consumption. <code>NA</code>
-values might be present if this is set too big. This only affect the memory usage.</p></td>
+      <th>i.test.day</th>
+      <td><p>The test day index in AnEn to extract.</p></td>
     </tr>
     <tr>
-      <th>distance</th>
-      <td><p>The buffer distance from each test station to look for search stations.</p></td>
+      <th>i.flt</th>
+      <td><p>The FLT index in AnEn to extract.</p></td>
     </tr>
     <tr>
-      <th>num_nearest</th>
-      <td><p>The number of nearest neighbor to select.</p></td>
+      <th>similarity.name</th>
+      <td><p>The similarity name to be used in <code>AnEn</code>. This
+is useful when you have a different similarity matrice name to the regular one.</p></td>
     </tr>
     <tr>
-      <th>test_stations_classifier</th>
-      <td><p>A vector for test station classifiers.</p></td>
+      <th>forecasts.name</th>
+      <td><p>The forecast name to be used in <code>config</code>. This
+is useful when you have a different similarity matrice name to the regular one.</p></td>
     </tr>
     <tr>
-      <th>search_stations_classifier</th>
-      <td><p>A vector for search station classifiers.</p></td>
-    </tr>
-    <tr>
-      <th>verbose</th>
-      <td><p>Verbose level.</p></td>
+      <th>members.to.extract</th>
+      <td><p>The number of ensemble members to extract. By default
+to extract all members.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A matrix for search stations. Each column includes the search station indices
-for each test station.</p>
+    <p>An array with the same dimension as analogs in AnEn. For more
+information of each dimension, please refer to <code><a href='generateAnalogs.html'>generateAnalogs</a></code>.
+The only difference is that the values in this array are extracted
+from the most similar past forecast that is associated with each analog ensemble
+member.</p>
     
 
   </div>
@@ -189,6 +185,7 @@ for each test station.</p>
 
     <h2>Author</h2>
     <p>Weiming Hu <a href='mailto:weiming@psu.edu'>weiming@psu.edu</a></p>
+<p>Laura Clemente-Harding <a href='mailto:laura@psu.edu'>laura@psu.edu</a></p>
   </div>
 </div>
 

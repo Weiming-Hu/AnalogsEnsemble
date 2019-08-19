@@ -5,9 +5,18 @@ sidebar_link: true
 ---
 
 
+# PAnEn 3.6.2
+
+- Change the implementation of `RAnEn::verifySpreadSkill`
+- Change legal information
+- Add checks and default values in `RAnEn::generateSearchStation`
+- Resolve issues in tests
+- Add a convenient function `RAnEn::getAssociatedForecasts`
+
 # PAnEn 3.6.1
 
 - Add `RAnEn::generatePersistent`
+- Add function names when `Done` is printed
 
 # PAnEn 3.6.0
 
