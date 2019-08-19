@@ -16,7 +16,7 @@ rm -f analogs_ctn.nc
 rm -f analogs_ctn_small.nc
 rm -f analogs_sep_wo_mapping.nc
 
-verbose=5
+verbose=1
 
 ../../../output/bin/similarityCalculator --test-forecast-nc ../../../tests/Data/test_forecasts.nc --search-forecast-nc ../../../tests/Data/test_forecasts.nc --observation-nc ../../../tests/Data/test_observations.nc --similarity-nc sim_sep.nc --test-start 0 0 9 0 --test-count 5 20 1 8 --search-start 0 0 0 0 --search-count 5 20 9 8 --time-match-mode 1 --mapping-txt map.txt -v $verbose
 
