@@ -26,11 +26,9 @@ if (interactive()) {
 -------------------------------------------
 RAnEn Version", version, "
 Geoinformatics and Earth Observation Laboratory
-The Pennsylvania State University
-Copyright (c) 2018 Weiming Hu")
+The Pennsylvania State University")
     } else {
         message <- paste("Package 'RAnEn' version", version)
-        message <- paste(message, "\nCopyright (c) 2018 Weiming Hu", sep = '')
     }
     if (!checkOpenMP()) {
         message <- paste(message, "\n*** Multi-thread not supported ***", sep = '')

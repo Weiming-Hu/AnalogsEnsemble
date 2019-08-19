@@ -5,7 +5,7 @@
 # (il),-''  (li),'  ((!.-'
 #
 #
-# Author: Guido Cervone (cervone@psu.edu), Martina Calovi (mxc895@psu.edu), Laura Clemente-Harding (laura@psu.edu)
+# Author: Weiming Hu (weiming@psu.edu)
 #         Geoinformatics and Earth Observation Laboratory (http://geolab.psu.edu)
 #         Department of Geography and Institute for CyberScience
 #         The Pennsylvania State University
@@ -13,11 +13,12 @@
 
 #' RAnEn::verifySpreadSkill
 #' 
-#' RAnEn::verifySpreadSkill calculates the spread skill.
+#' RAnEn::verifySpreadSkill calculates the spread skill correlation. The skill is calculated
+#' as the squared differences between observations and forecasts. The spread is the variance
+#' of a particular ensemble. Then correlation is calculated between the error and the 
+#' variance.
 #' 
-#' @author Guido Cervone \email{cervone@@psu.edu}
-#' @author Martina Calovi \email{mxc895@@psu.edu}
-#' @author Laura Clemente-Harding \email{laura@@psu.edu}
+#' @author Weiming Hu \email{weiming@@psu.edu}
 #' 
 #' @param anen.ver A 4-dimensional array. This array is usually created from the `value` column of
 #' the `analogs` member in the results of \code{\link{generateAnalogs}}. The dimensions should be
@@ -26,12 +27,17 @@
 #' You can generate the array using \code{\link{alignObservations}}.
 #' @param boot Whether to use bootstrap.
 #' @param R The number of bootstrap replicates. Used by the function `boot::boot`.
-#' @param intervals The number of entries of days and lead times in each calculation iteration.
 #' @param na.rm Whether to remove NA values.
+#' @param keep.cor Whether to keep all spread and errors. This might generate large data.
+#' 
+#' @return A list with the verificatin results. The member `mean` is the average correlation
+#' across all forecast cases; the member `flt` is the average correlation broken up by each 
+#' lead time; the member `flt.boot` contains bootstrap information; the member `cor` contains
+#' all spread-error pairs that are used to calculate correlation.
 #' 
 #' @md
 #' @export
-verifySpreadSkill <- function(anen.ver, obs.ver, boot=F, R=1000, intervals = 13, na.rm=T) {
+verifySpreadSkill <- function(anen.ver, obs.ver, boot = F, R = 1000, na.rm = T, keep.cor = F) {
   
   stopifnot(length(dim(anen.ver)) == 4)
   stopifnot(length(dim(obs.ver)) == 3)
@@ -48,54 +54,71 @@ verifySpreadSkill <- function(anen.ver, obs.ver, boot=F, R=1000, intervals = 13,
   m     <- ncol(anen) # Number of members
   mdegf <- m / (m+1)
   
-  # Compute indexes
+  # To calculate the correlation between spread and error,
+  # here I'm using squared differences as errors and
+  # ensemble variances as spread, as denoted by the L2 measure by Hopson.
+  #
+  # Reference:
+  # https://www.ecmwf.int/sites/default/files/elibrary/2007/15443-verifying-relationship-between-ensemble-forecast-spread-and-skill.pdf
+  #
   anen.mean <-  rowMeans(anen ,na.rm=na.rm)
-  error     <-  ( anen.mean-obs )^2
-  spread    <-  rowSums((anen - rowMeans(anen, na.rm = na.rm))^2,
-                        na.rm = na.rm) / (dim(anen)[2] - 1)
+  error     <-  ( anen.mean-obs ) ^ 2
   
-  #anen.all <- matrix(anen.ver, nrow=c(dim(anen.ver)[1] * dim(anen.ver)[2] * dim(anen.ver)[3]) )
+  # Compute variance. I didn't use apply and var functions.
+  # I vectorize the implementation for better performance.
+  #
+  spread    <- rowSums((anen - rowMeans(anen, na.rm = na.rm))^2,
+                       na.rm = na.rm) / (dim(anen)[2] - 1)
   
   # Combine the indeces and remove the NAs
-  mat <- data.frame(mean=anen.mean, spread=spread, error=error)
+  mat <- data.frame(mean = anen.mean, spread = spread, error = error)
   
-  if ( na.rm == T )
-    mat <- na.omit( mat )
+  num.entries <- prod(dim(anen.ver)[1:2])
+  num.flts <- dim(anen.ver)[3]
   
-  # Reorder according to the spread
-  o   <- order( mat$spread )
-  mat <- mat[o, ]
-  
-  # Compute how many days/flt we compute at once
-  step  <- floor ( nrow(mat) / intervals )
-  spread.skill.res <- matrix( nrow=intervals, ncol=2)
+  # Store the results for each lead time
+  flt <- rep(NA, times = num.flts)
   
   # Store the results of the bootstrap
-  boot.res <-  matrix(NA, ncol=intervals, nrow=3) 
+  flt.boot <-  matrix(NA, ncol = num.flts, nrow=3)
   
-  start = 0 
+  # group the rows into FLTs
+  cuts <- seq(from = 1, by = num.entries, length.out = num.flts)
   
-  for( i in 1:intervals ){
-    end <- start + step
+  for (i.cut in 1:length(cuts)) {
     
-    if(boot == T){ #bootstrap confidence intervals only if required
+    # Define the subset of rows which belong to the specific FLT
+    start <- cuts[i.cut]
+    end <- start + num.entries - 1
+    
+    # Extract the rows for a specific FLT
+    mat.sub <- mat[start:end, ]
+    
+    # Remove NAs
+    if ( na.rm == T ) mat.sub <- na.omit( mat.sub )
+    
+    if (nrow(mat.sub) == 0) stop(paste0(
+      'All rows are removed due to NA values for FLT #', i.cut))
+    
+    if(boot == T){
+      #bootstrap confidence intervals only if required
       
-      temp <- mat[start:end, 3]
+      temp <- mat.sub[, 3]
       
       err.boot <- boot.fun.ver(temp, R)
       
       # Normalize the results
-      boot.res[, i] <- sqrt( err.boot * mdegf )
-    } 
+      flt.boot[, i] <- sqrt( err.boot * mdegf )
+    }
     
-    spread.skill.res[i, 1] <- sqrt(mean(mat[start:end, 2]))
-    spread.skill.res[i, 2] <- sqrt(mean(mat[start:end, 3]) * mdegf)
-    
-    start <- end # I think it should be end + 1
+    flt[i.cut] <-  cor(mat.sub[, 2], mat.sub[, 3] * mdegf,
+                       use="pairwise.complete.obs")
   }
   
-  R2 <- ( cor(spread.skill.res[,1],spread.skill.res[,2],use="pairwise.complete.obs") )^2
+  ret <- list(mean = mean(flt), flt = flt, flt.boot = flt.boot)
+  if (keep.cor) {
+    ret$cor <- mat
+  }
   
-  return( list(R2=R2, spread.skill.res=spread.skill.res, boot.res=boot.res) )  
-  
+  return(ret)
 }

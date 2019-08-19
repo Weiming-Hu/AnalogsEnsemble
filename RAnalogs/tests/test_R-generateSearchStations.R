@@ -20,15 +20,15 @@ test_stations_y <- search_stations_y
 stations_tag <- as.numeric(cut(search_stations_x, breaks = num.breaks))
 test_stations_classifier <- stations_tag
 search_stations_classifier <- stations_tag
-verbose <- 3
 
 num_nearest <- 0
 distance <- 100
 mat <- generateSearchStations(
   test_stations_x, test_stations_y,
   search_stations_x, search_stations_y,
-  100, distance, num_nearest, 
-  stations_tag, stations_tag, verbose)
+  100, distance, 
+  test_stations_classifier = test_stations_classifier,
+  search_stations_classifier = search_stations_classifier)
 stopifnot(identical(mat.1, mat))
 
 num_nearest <- 30
@@ -36,8 +36,9 @@ distance <- 0
 mat <- generateSearchStations(
   test_stations_x, test_stations_y,
   search_stations_x, search_stations_y,
-  100, distance, num_nearest, 
-  stations_tag, stations_tag, verbose)
+  100, num_nearest = num_nearest, 
+  test_stations_classifier = test_stations_classifier,
+  search_stations_classifier = search_stations_classifier)
 stopifnot(identical(mat.2, mat))
 
 num_nearest <- 10
@@ -46,7 +47,7 @@ mat <- generateSearchStations(
   test_stations_x, test_stations_y,
   search_stations_x, search_stations_y,
   100, distance, num_nearest, 
-  stations_tag, stations_tag, verbose)
+  stations_tag, stations_tag)
 stopifnot(identical(mat.3, mat))
 
 cat("You survived tests for generateSearchStations!\n")

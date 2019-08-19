@@ -1,3 +1,10 @@
+# PAnEn 3.6.2
+
+- Change the implementation of `RAnEn::verifySpreadSkill`
+- Change legal information
+- Add checks and default values in `RAnEn::generateSearchStation`
+- Resolve issues in tests
+
 # PAnEn 3.6.1
 
 - Add `RAnEn::generatePersistent`
