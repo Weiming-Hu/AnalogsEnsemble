@@ -5,6 +5,7 @@
 - Add checks and default values in `RAnEn::generateSearchStation`
 - Resolve issues in tests
 - Add a convenient function `RAnEn::getAssociatedForecasts`
+- Use `magrittr` pipes to improve code readability
 
 # PAnEn 3.6.1
 

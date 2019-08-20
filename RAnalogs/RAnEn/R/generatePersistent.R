@@ -41,6 +41,7 @@
 generatePersistent <- function(config,
                                forecast.time.interval = 86400,
                                show.progress = T, silent = F) {
+  require(magrittr)
   
   # Sanity checks
   if (class(config) != 'Configuration') {
@@ -60,10 +61,20 @@ generatePersistent <- function(config,
   num.test.times <- length(config$test_times_compare)
   num.flts <- dim(config$forecasts)[4]
   
-  # define the forecast times to extract
-  times.to.extract <- sort(toDateTime(unique(as.vector(sapply(
-    config$test_times_compare, function(x) {
-      return(x - 0:config$num_members * forecast.time.interval)})))))
+  # Define the forecast times to extract
+  times.to.extract <- 
+    # These are the test times to generate persistent forecasts for
+    config$test_times_compare %>%
+    # Get the previous several times for each test times
+    sapply(function(x) {return(x - 0:config$num_members*forecast.time.interval)}) %>%
+    # Convert to vector
+    as.vector() %>%
+    # Remove duplicates
+    unique() %>%
+    # Convert to date time objects
+    toDateTime() %>%
+    # Sort them based on the time series
+    sort()
   
   # Align observations
   if (!silent) cat('Aligning observations ...\n')
@@ -72,10 +83,13 @@ generatePersistent <- function(config,
     config$observation_times, times.to.extract, config$flts,
     silent = silent, show.progress = show.progress)
   
-  # Generate mapping
+  # Generate mapping from the forecast times to be extracted to observation times
   mapping <- generateTimeMapping(times.to.extract, config$flts, config$observation_times)
   
+  # Change the dimensions of observations to make it easier for value extraction
   dim(obs.align) <- dim(obs.align)[-1]
+  
+  # Dimensions become [stations, FLTs, forecast times]
   obs.align <- aperm(obs.align, c(1, 3, 2))
   
   # Initialize memory for persistent analogs
