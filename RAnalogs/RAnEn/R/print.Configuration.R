@@ -38,25 +38,26 @@ print.Configuration <- function(x, forecasts.names = NA) {
 	print(attr(x, 'names'))
 	
 	if (!valid) {
-		cat('*** The configuration is not complete. It is NOT ready to be used. ***\n')
+		cat('*** The configuration is NOT complete. Check the above message for errors! ***\n')
 	} else {
 	  # Name the weights
-	  weights <- config$weights
+	  weights <- x$weights
 	  if (!identical(forecasts.names, NA)) {
 	    stopifnot(length(weights) == length(forecasts.names))
 	    names(weights) <- forecasts.names
 	  }
 	  
-	  test.range <- range(config$test_times_compare)
+	  test.range <- range(x$test_times_compare)
 	  if (is.numeric(test.range)) test.range <- toDateTime(test.range)
 	  
-	  search.range <- range(config$search_times_compare)
+	  search.range <- range(x$search_times_compare)
 	  if (is.numeric(search.range)) search.range <- toDateTime(search.range)
 	  
-	  cat("\nThere are", length(config$test_times_compare), "test times from",
+	  cat("\nThe observation id is", x$observation_id,
+	      "\nThere are", length(x$test_times_compare), "test times from",
 	      format(test.range[1], format = "%Y-%m-%d %H:%M:%S %Z")
 	      , 'to', format(test.range[2], format = "%Y-%m-%d %H:%M:%S %Z"),
-	      "\nThere are", length(config$search_times_compare), "search times from",
+	      "\nThere are", length(x$search_times_compare), "search times from",
 	      format(search.range[1], format = "%Y-%m-%d %H:%M:%S %Z"), 'to', 
 	      format(search.range[2], format = "%Y-%m-%d %H:%M:%S %Z"),
 	      '\nWeights are:\n')
