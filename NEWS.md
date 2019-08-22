@@ -6,6 +6,7 @@
 - Resolve issues in tests
 - Add a convenient function `RAnEn::getAssociatedForecasts`
 - Use `magrittr` pipes to improve code readability
+- Add the printing method for R class 'Configuration'
 
 # PAnEn 3.6.1
 
