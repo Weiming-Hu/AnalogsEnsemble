@@ -17,13 +17,14 @@
 #' @author Weiming Hu \email{weiming@@psu.edu}
 #' 
 #' @param x a Configuration object
+#' @param forecasts.names The name of each forecast variable (the first dimension in the forecast array).
 #' 
 #' @examples 
 #' config <- generateConfiguration('independentSearch')
 #' print(config)
 #' 
 #' @export
-print.Configuration <- function(x) {
+print.Configuration <- function(x, forecasts.names = NA) {
 	
 	if (class(x) != 'Configuration') stop('Not a Configuration object.')
 	
@@ -41,7 +42,10 @@ print.Configuration <- function(x) {
 	} else {
 	  # Name the weights
 	  weights <- config$weights
-	  names(weights) <- forecasts$ParameterNames
+	  if (!identical(forecasts.names, NA)) {
+	    stopifnot(length(weights) == length(forecasts.names))
+	    names(weights) <- forecasts.names
+	  }
 	  
 	  test.range <- range(config$test_times_compare)
 	  if (is.numeric(test.range)) test.range <- toDateTime(test.range)
