@@ -15,6 +15,7 @@ Maintainer: Weiming Hu <weiming@psu.edu>
 Description: The Analog Ensemble Package computes and manages analog ensembles. It is implemented in C++ and exported to R interface.
 License: MIT + file LICENSE
 SystemRequirements: C++11
+URL: https://weiming-hu.github.io/AnalogsEnsemble/
 Depends:
     R (>= 3.1.0),
     magrittr (>= 1.0),
