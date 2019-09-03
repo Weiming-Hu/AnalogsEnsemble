@@ -10,10 +10,10 @@
 #         The Pennsylvania State University
 
 .onLoad <- function(lib, pkg) {
-  version <- read.dcf(file.path(lib, pkg, "DESCRIPTION"), "Version")
-
-if (interactive()) {
-    message <- paste(
+	version <- read.dcf(file.path(lib, pkg, "DESCRIPTION"), "Version")
+	
+	if (interactive()) {
+		message <- paste(
 "-------------------------------------------
 -------------------------------------------
       ____   ___            ______     
@@ -27,14 +27,17 @@ if (interactive()) {
 RAnEn Version", version, "
 Geoinformatics and Earth Observation Laboratory
 The Pennsylvania State University")
-    } else {
-        message <- paste("Package 'RAnEn' version", version)
-    }
-    if (!checkOpenMP()) {
-        message <- paste(message, "\n*** Multi-thread not supported ***", sep = '')
-    }
-
-    packageStartupMessage(message)
-    invisible()
+	} else {
+		message <- paste("Package 'RAnEn' version", version)
+	}
+	
+	message <- paste("\nPlease consider citing RAnEn: citation('RAnEn')")
+	
+	if (!checkOpenMP()) {
+		message <- paste(message, "\n*** Multi-thread not supported ***", sep = '')
+	}
+	
+	packageStartupMessage(message)
+	invisible()
 }
 

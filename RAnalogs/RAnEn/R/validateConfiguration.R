@@ -64,7 +64,12 @@ validateConfiguration <- function(x) {
   
   if (!valid) return(valid)
   
-  # Prepare variable names to check from basic/advanced configuration
+  # Prepare variable names to check from basic/advanced configuration.
+  # 
+  # The names of the each element indicates what the element
+  # stands for; the element is the name in the configuration that 
+  # should be checked.
+  # 
   names.to.check <- vector('character', 4)
   names(names.to.check) <- c('test_forecasts', 'search_forecasts', 'test_times', 'search_times')
   if (x$mode == 'extendedSearch') {
@@ -90,11 +95,13 @@ validateConfiguration <- function(x) {
     }
   }
   
+  # Check the mode
   if (!(x$mode %in% c('extendedSearch', 'independentSearch'))) {
     cat('Error: Unknown configuration mode! Did you change it manually?\n')
     valid <- F
   }
   
+  # Make sure the elements in names.to.check exist in the configuration
   for (name in names.to.check) {
     if (!(name %in% names(x))) {
       cat("Error: Missing configuration '", name, "'.\n")
@@ -102,6 +109,7 @@ validateConfiguration <- function(x) {
     }
   }
   
+  # Check forecasts
   for (index in 1:2) {
     if (!(is.array(x[[names.to.check[index]]]) &&
           is.numeric(x[[names.to.check[index]]]) &&
@@ -112,6 +120,7 @@ validateConfiguration <- function(x) {
     }
   }
   
+  # Check forecast times
   for (index in 3:4) {
     if (!(is.vector(x[[names.to.check[index]]], mode = 'numeric') &&
           length(x[[names.to.check[index]]]) == dim(x[[names.to.check[index-2]]])[3])) {
@@ -121,6 +130,7 @@ validateConfiguration <- function(x) {
       valid <- F
     }
     
+  	# Append the name suffix to get the member name for test/search times to compare
     name <- paste(names(names.to.check)[index], '_compare', sep = '')
     
     if (!(is.vector(x[[name]]) &&
@@ -136,6 +146,7 @@ validateConfiguration <- function(x) {
     } 
   }
   
+  # Check FLTs
   if (!(is.vector(x$flts, mode = 'numeric') &&
         length(x$flts) == dim(x[[names.to.check['search_forecasts']]])[4])) {
     cat('Error: FLTs should be a numeric vector with the length of the fourth dimension of forecasts!\n')
@@ -143,6 +154,7 @@ validateConfiguration <- function(x) {
     valid <- F
   }
   
+  # Check observations
   if (!(is.array(x$search_observations) &&
         is.numeric(x$search_observations) &&
         length(dim(x$search_observations)) == 3)) {
@@ -151,6 +163,7 @@ validateConfiguration <- function(x) {
     valid <- F
   }
   
+  # Check observation times
   if (!(is.vector(x$observation_times, mode = 'numeric') && 
         length(x$observation_times) == dim(x$search_observations)[3])) {
     cat('Error: Search observation times should be a numeric vector with',
@@ -159,6 +172,7 @@ validateConfiguration <- function(x) {
     valid <- F
   }
   
+  # Check observation ID
   if (!(x$observation_id <= dim(x$search_observations)[1] &&
         is.numeric(x$observation_id) &&
         length(x$observation_id) == 1 &&
@@ -167,6 +181,7 @@ validateConfiguration <- function(x) {
     valid <- F
   }
   
+  # Check circular variable settings
   if (anyNA(x$circulars)) {
     cat('Error: Circular variable does not allow NA variables.\n')
     valid <- F
@@ -188,6 +203,7 @@ validateConfiguration <- function(x) {
     }
   }
   
+  # Check weights
   if (!(length(x$weights) == dim(x[[names.to.check['test_forecasts']]])[1] &&
         is.numeric(x$weights) &&
         is.vector(x$weights) &&
@@ -204,8 +220,10 @@ validateConfiguration <- function(x) {
   
   if (x$mode == 'extendedSearch') {
     
+  	# Check test/search stations x/y
     for (index in 5:8) {
-      name <- gsub('_x|y$', '', names(names.to.check)[index])
+      name <- names.to.check[which(names(names.to.check) == 'test_forecasts')]
+      	
       if (!(is.vector(x[[names.to.check[index]]], mode = 'numeric') &&
             length(x[[names.to.check[index]]]) == dim(x[[name]])[2])) {
         cat('Error:', names.to.check[index], 'should be a numeric vector with the',
@@ -215,6 +233,7 @@ validateConfiguration <- function(x) {
       }
     }
     
+  	# Check neighbor settings
     if (x$distance != 0) {
       if (x$num_nearest == 0) {
         if (x$max_num_search_stations == 0) {

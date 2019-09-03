@@ -1,3 +1,8 @@
+# PAnEn 3.6.3
+
+- Fix a bug in checking the configuration object in R
+- Add instructions for package citation
+
 # PAnEn 3.6.2
 
 - Change the implementation of `RAnEn::verifySpreadSkill`
