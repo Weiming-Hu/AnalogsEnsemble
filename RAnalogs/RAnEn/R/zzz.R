@@ -31,7 +31,7 @@ The Pennsylvania State University")
 		message <- paste("Package 'RAnEn' version", version)
 	}
 	
-	message <- paste("\nPlease consider citing RAnEn: citation('RAnEn')")
+	message <- paste0(message, "\nPlease consider citing RAnEn: citation('RAnEn')")
 	
 	if (!checkOpenMP()) {
 		message <- paste(message, "\n*** Multi-thread not supported ***", sep = '')
