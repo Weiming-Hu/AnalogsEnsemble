@@ -1,0 +1,27 @@
+{
+    "upload_type": "software",
+    "title": "Weiming-Hu/AnalogsEnsemble 3.6.3",
+    "description": "The C++ and R packages for parallel ensemble forecasts using Analog Ensemble", 
+    "license": "MIT", 
+    "creators": [
+        {
+            "name": "Weiming Hu",
+            "affiliation": "Pennsylvania State University",
+            "orcid": "0000-0003-4501-1435"
+        },
+        {
+            "name": "Guido Cervone",
+            "affiliation": "Pennsylvania State University"
+        },
+        {
+            "name": "Laura Clemente-Harding",
+            "affiliation": "Pennsylvania State University"
+        },
+        {
+            "name": "Martina Calovi",
+            "affiliation": "Pennsylvania State University"
+        }
+    ], 
+    "access_right": "open",
+    "doi": "10.5281/zenodo.3384321"
+}
