@@ -41,7 +41,7 @@ This package contains several programs and libraries:
 
 ## Citation
 
-Please consider citing this package. The `bibtex` entry can be found [here](https://github.com/Weiming-Hu/AnalogsEnsemble/blob/master/inst/CITATION). If you are using `RAnEn`, you can also see the citation by typing `citation('RAnEn')`. Or you can use the following formatted text to cite this package.
+Please consider citing this package. The `bibtex` entry can be found [here](https://github.com/Weiming-Hu/AnalogsEnsemble/blob/master/RAnalogs/RAnEn/inst/CITATION). If you are using `RAnEn`, you can also see the citation by typing `citation('RAnEn')`. Or you can use the following formatted text to cite this package.
 
 ```
 Weiming Hu, Guido Cervone, Laura Clemente-Harding, and Martina Calovi. (2019). Parallel Analog Ensemble. Zenodo. http://doi.org/10.5281/zenodo.3384321
