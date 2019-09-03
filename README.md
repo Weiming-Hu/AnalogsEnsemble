@@ -1,5 +1,6 @@
 # [PAnEn: Parallel Analog Ensemble](https://weiming-hu.github.io/AnalogsEnsemble/)
 
+[![DOI](https://zenodo.org/badge/130093968.svg)](https://zenodo.org/badge/latestdoi/130093968)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/f4cf23c626034d92a3bef0ba169a218a)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Weiming-Hu/AnalogsEnsemble&amp;utm_campaign=Badge_Grade)
 [![Build Status](https://travis-ci.com/Weiming-Hu/AnalogsEnsemble.svg?token=yTGL4zEDtXKy9xWq1dsP&branch=master)](https://travis-ci.com/Weiming-Hu/AnalogsEnsemble)
@@ -11,6 +12,7 @@
 <!-- vim-markdown-toc GitLab -->
 
 * [About Parallel Analog Ensemble](#about-parallel-analog-ensemble)
+* [Citation](#citation)
 * [Requirement and Dependencies](#requirement-and-dependencies)
 * [Installation](#installation)
     * [C++ PAnEn](#c-panen)
@@ -36,6 +38,14 @@ This package contains several programs and libraries:
 - __AnEnIO__: This is the file I/O library. Currently, it supports reading and writing [standard NetCDF](https://www.unidata.ucar.edu/software/netcdf/).
 - __RAnEn__: This is the R interface to the `AnEn` library.
 - __Apps__: Multiple executables in [the apps folder](https://github.com/Weiming-Hu/AnalogsEnsemble/tree/master/apps) are designed for analog computation and file management.
+
+## Citation
+
+Please consider citing this package. The `bibtex` entry can be found [here](https://github.com/Weiming-Hu/AnalogsEnsemble/blob/master/RAnalogs/RAnEn/inst/CITATION). If you are using `RAnEn`, you can also see the citation by typing `citation('RAnEn')`. Or you can use the following formatted text to cite this package.
+
+```
+Weiming Hu, Guido Cervone, Laura Clemente-Harding, and Martina Calovi. (2019). Parallel Analog Ensemble. Zenodo. http://doi.org/10.5281/zenodo.3384321
+```
 
 ## Requirement and Dependencies
 

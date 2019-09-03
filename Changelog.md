@@ -5,6 +5,11 @@ sidebar_link: true
 ---
 
 
+# PAnEn 3.6.3
+
+- Fix a bug in checking the configuration object in R
+- Add instructions for package citation
+
 # PAnEn 3.6.2
 
 - Change the implementation of `RAnEn::verifySpreadSkill`
@@ -12,6 +17,8 @@ sidebar_link: true
 - Add checks and default values in `RAnEn::generateSearchStation`
 - Resolve issues in tests
 - Add a convenient function `RAnEn::getAssociatedForecasts`
+- Use `magrittr` pipes to improve code readability
+- Add the printing method for R class 'Configuration'
 
 # PAnEn 3.6.1
 
