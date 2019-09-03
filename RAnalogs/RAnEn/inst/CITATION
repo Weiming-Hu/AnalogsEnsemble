@@ -1,0 +1,11 @@
+citHeader("To cite RAnEn in publications, please use:")
+
+citEntry(
+'entry' = 'misc',
+'textVersion' = 'Weiming Hu, Guido Cervone, Laura Clemente-Harding, and Martina Calovi. (2019). RAnEn: Parallel Analog Ensemble in R. Zenodo. http://doi.org/10.5281/zenodo.3384321'
+'author' = 'Weiming Hu, Guido Cervone, Laura Clemente-Harding, and Martina Calovi',
+'title' = 'RAnEn: Parallel Analog Ensemble in R',
+'year' = '2019',
+'doi' = '10.5281/zenodo.3384321',
+'url' = 'https://weiming-hu.github.io/AnalogsEnsemble/'
+)

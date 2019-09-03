@@ -12,6 +12,7 @@
 <!-- vim-markdown-toc GitLab -->
 
 * [About Parallel Analog Ensemble](#about-parallel-analog-ensemble)
+* [Citation](#citation)
 * [Requirement and Dependencies](#requirement-and-dependencies)
 * [Installation](#installation)
     * [C++ PAnEn](#c-panen)
@@ -37,6 +38,14 @@ This package contains several programs and libraries:
 - __AnEnIO__: This is the file I/O library. Currently, it supports reading and writing [standard NetCDF](https://www.unidata.ucar.edu/software/netcdf/).
 - __RAnEn__: This is the R interface to the `AnEn` library.
 - __Apps__: Multiple executables in [the apps folder](https://github.com/Weiming-Hu/AnalogsEnsemble/tree/master/apps) are designed for analog computation and file management.
+
+## Citation
+
+Please consider citing this package. The `bibtex` entry can be found [here](https://github.com/Weiming-Hu/AnalogsEnsemble/blob/master/inst/CITATION). If you are using `RAnEn`, you can also see the citation by typing `citation('RAnEn')`. Or you can use the following formatted text to cite this package.
+
+```
+
+```
 
 ## Requirement and Dependencies
 
