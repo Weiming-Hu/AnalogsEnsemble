@@ -7,5 +7,6 @@ author = 'Weiming Hu, Guido Cervone, Laura Clemente-Harding, and Martina Calovi'
 title = 'Parallel Analog Ensemble',
 year = '2019',
 doi = '10.5281/zenodo.3384321',
-url = 'https://weiming-hu.github.io/AnalogsEnsemble/'
+url = 'https://weiming-hu.github.io/AnalogsEnsemble/',
+publisher = 'Zenodo'
 )

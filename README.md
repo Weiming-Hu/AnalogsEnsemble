@@ -19,6 +19,7 @@
     * [RAnEn](#ranen)
             * [One-Line Solution](#one-line-solution)
             * [Solution for a Specific Version](#solution-for-a-specific-version)
+    * [gribConverter Installation](#gribconverter-installation)
     * [CMake Parameter Look-Up Table](#cmake-parameter-look-up-table)
 * [References](#references)
 * [Known Issues](#known-issues)
@@ -159,6 +160,55 @@ install.packages("https://github.com/Weiming-Hu/AnalogsEnsemble/raw/master/RAnal
 ```
 CXX11=[C++11 compiler]
 ```
+
+### gribConverter Installation
+
+`gribConverter` provides the functionality to convert from a GRIB2 file format to NetCDF file format directly that is ready to be used by other Analog computation tools like `similarityCalculator`. By default, this tool is **NOT** built.
+
+You will need to install the following dependent packages:
+
+- Eccodes
+- Jasper
+
+To build `gribConverter`, you need to add the parameter `BUILD_GRIBCONVERTER=ON` to `CMake`:
+
+```
+cmake -DBUILD_GRIBCONVERTER=ON <other arguments if you have any> ..
+
+# If the eccodes library cannot be found, try to tell where it is explicitly
+cmake -DBUILD_GRIBCONVERTER=ON -CMAKE_PREFIX_PATH=<path to eccodes> <other arguments if you have any> ..
+```
+
+Then you can follow the same commands for compiling and installation.
+
+```
+make
+
+# If you have specified a installation path
+make install
+```
+
+After compilation, the programs and libraries should be in the folder `AnalogsEnsemble/output`. Please `cd` into the binary folder `[Where your repository folder is]/AnalogsEnsemble/output/bin/` and run the following command to see help messages.
+
+```
+~/github/AnalogsEnsemble/output/bin$ ./gribConverter 
+Parallel Ensemble Forecasts --- GRIB Converter v 3.6.3
+Copyright (c) 2018 Weiming Hu @ GEOlab
+Available options:
+  -h [ --help ]                 Print help information for options.
+  -c [ --config ] arg           Set the configuration file path. Command line 
+                                options overwrite options in configuration 
+                                file.
+  --output-type arg             Set the output type. Currently it supports 
+                                'Forecasts' and 'Observations'.
+  --folder arg                  Set the data folder.
+
+# ... [subsequent texts ignored]
+```
+
+If you have specified an installation path, you program will reside under the `bin/` folder of your installation path.
+
+For more information on how to use the tool, please see an example [here](https://weiming-hu.github.io/AnalogsEnsemble/2018/10/01/eccodes-gribconverter.html).
 
 ### CMake Parameter Look-Up Table
 
