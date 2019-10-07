@@ -95,8 +95,6 @@ enable_language(C CXX)
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}")
 set(SOURCE_MAIN "${CMAKE_CURRENT_SOURCE_DIR}/gribConverter.cpp;${CMAKE_CURRENT_SOURCE_DIR}/gribConverterFunctions.cpp")
 add_executable(${PROJECT_NAME} ${SOURCE_MAIN})
-#set(SOURCE_MAIN "${CMAKE_CURRENT_SOURCE_DIR}/gribConverterFunctions.cpp")
-#add_library(${PROJECT_NAME} SHARED ${SOURCE_MAIN})
 
 include_directories(SYSTEM ${NETCDF_INCLUDES})
 include_directories(SYSTEM ${NETCDF_CXX4_INCLUDE_DIR})
