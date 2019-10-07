@@ -19,7 +19,7 @@ if (ECCODES_TYPE STREQUAL "SYSTEM")
         if (${PTHREADS_POS} STREQUAL "-1" AND ${OMP_POS} STREQUAL "-1")
             message(STATUS "ecCodes are single-threaded.")
         else (${PTHREADS_POS} STREQUAL "-1" AND ${OMP_POS} STREQUAL "-1")
-            message(STATUS "Eccodes lib is multithreading.\nThis will cause problem because multi-field support is needed but ecCodes have known issues for it.\nSet ECCODES_TYPE to BUILD to build a different version of ecCodes.")
+            message(FATAL_ERROR "Eccodes lib is multithreading.\nThis will cause problem because multi-field support is needed but ecCodes have known issues for it.\nSet ECCODES_TYPE to BUILD to build a different version of ecCodes.")
         endif (${PTHREADS_POS} STREQUAL "-1" AND ${OMP_POS} STREQUAL "-1")
     else(eccodes_FOUND)
         message(WARNING "Eccodes library is not found. Setting the type to BUILD.")
@@ -33,7 +33,7 @@ if (ECCODES_TYPE STREQUAL "BUILD")
     # This is copied from the Eccodes website
     # https://confluence.ecmwf.int/display/ECC/Releases
     #
-    set(ECCODES_URL "https://confluence.ecmwf.int/download/attachments/45757960/eccodes-2.10.0-Source.tar.gz?api=v2")
+    set(ECCODES_URL "https://confluence.ecmwf.int/download/attachments/45757960/eccodes-2.14.0-Source.tar.gz?api=v2")
     set(ECCODES_INSTALL_PREFIX "-DCMAKE_INSTALL_PREFIX=${DEPENDENCY_PATH}/install")
     set(ECCODES_BUILD_SHARED "-DBUILD_SHARED_LIBS=ON")
     set(ECCODES_DISABLE_PYTHON "-DENABLE_PYTHON=OFF")
@@ -50,6 +50,15 @@ if (ECCODES_TYPE STREQUAL "BUILD")
         set(ECCODES_CMAKE_ARGS ${ECCODES_CMAKE_ARGS} ${ECCODES_PREFIX_PATH})
     endif(CMAKE_PREFIX_PATH)
 
+    if (OPENJPEG_INCLUDE_DIR)
+        set(ECCODES_OPENJPEG "-DJASPER_INCLUDE_DIR=${OPENJPEG_INCLUDE_DIR}")
+        set(ECCODES_CMAKE_ARGS ${ECCODES_CMAKE_ARGS} ${ECCODES_OPENJPEG})
+    endif(OPENJPEG_INCLUDE_DIR)
+    
+    if (JASPER_INCLUDE_DIR)
+        set(ECCODES_JASPER "-DJASPER_INCLUDE_DIR=${JASPER_INCLUDE_DIR}")
+        set(ECCODES_CMAKE_ARGS ${ECCODES_CMAKE_ARGS} ${ECCODES_JASPER})
+    endif(JASPER_INCLUDE_DIR)
 
     if(VERBOSE)
         set(VERBOSE_DOWNLOAD 0)
