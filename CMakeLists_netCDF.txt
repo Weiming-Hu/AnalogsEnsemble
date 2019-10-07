@@ -136,8 +136,7 @@ else(NETCDF_FOUND)
     ExternalProject_add(NETCDF_PROJECT
         DEPENDS ${NETCDF_DEPENDENCY}
         PREFIX ${NETCDF_ROOT_PATH}
-        GIT_REPOSITORY ${NETCDF_URL}
-        GIT_TAG master
+        URL "https://github.com/Unidata/netcdf-c/archive/v4.7.1.tar.gz"
         PATCH_COMMAND ""
         UPDATE_COMMAND ""
         LIST_SEPARATOR | # Use the alternate list separator
