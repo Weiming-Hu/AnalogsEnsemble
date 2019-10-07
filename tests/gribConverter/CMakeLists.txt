@@ -60,5 +60,13 @@ if(${ENABLE_MPI})
 endif(${ENABLE_MPI}) 
 
 set_target_properties(runGribConverter PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${COMMON_OUTPUT_DIR}/test")
+
+# Add additional RPATH
+if (CMAKE_MACOSX_RPATH)
+    set_target_properties(runGribConverter PROPERTIES 
+        INSTALL_RPATH "${CMAKE_INSTALL_RPATH}"
+        BUILD_WITH_INSTALL_RPATH ON)
+endif(CMAKE_MACOSX_RPATH)
+
 add_test(NAME ${PROJECT_NAME} COMMAND runGribConverter)
 install(TARGETS runGribConverter RUNTIME DESTINATION bin)

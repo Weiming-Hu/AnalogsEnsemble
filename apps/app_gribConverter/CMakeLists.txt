@@ -112,8 +112,11 @@ if (ECCODES_TYPE STREQUAL "SYSTEM")
 else (ECCODES_TYPE STREQUAL "SYSTEM")
     ExternalProject_Get_Property(ECCODES_PROJECT install_dir)
     add_library(eccodes_built SHARED IMPORTED)
+    set(ECCODES_IMPORT_LOCATION "${install_dir}/install/lib/${CMAKE_SHARED_LIBRARY_PREFIX}eccodes${CMAKE_SHARED_LIBRARY_SUFFIX}")
+    message(STATUS "Import location for Eccodes: ${ECCODES_IMPORT_LOCATION}")
+
     set_target_properties(eccodes_built PROPERTIES
-        IMPORTED_LOCATION "${install_dir}/install/lib/${CMAKE_SHARED_LIBRARY_PREFIX}eccodes${CMAKE_SHARED_LIBRARY_SUFFIX}")
+        IMPORTED_LOCATION ${ECCODES_IMPORT_LOCATION})
     add_dependencies(eccodes_built ECCODES_PROJECT)
     target_link_libraries(${PROJECT_NAME} eccodes_built)
 
@@ -140,4 +143,12 @@ endif(${ENABLE_MPI})
 #target_link_libraries(gribConverter ${PROJECT_NAME})
 set_target_properties(gribConverter
     PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${COMMON_OUTPUT_DIR}/bin")
+
+# Add additional RPATH
+if (CMAKE_MACOSX_RPATH)
+    set_target_properties(gribConverter PROPERTIES 
+        INSTALL_RPATH "${CMAKE_INSTALL_RPATH}"
+        BUILD_WITH_INSTALL_RPATH ON)
+endif(CMAKE_MACOSX_RPATH)
+
 install(TARGETS gribConverter RUNTIME DESTINATION bin)
