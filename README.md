@@ -19,7 +19,8 @@
     * [RAnEn](#ranen)
             * [One-Line Solution](#one-line-solution)
             * [Solution for a Specific Version](#solution-for-a-specific-version)
-    * [gribConverter Installation](#gribconverter-installation)
+    * [gribConverter](#gribconverter)
+        * [Mac OS](#mac-os)
     * [CMake Parameter Look-Up Table](#cmake-parameter-look-up-table)
 * [References](#references)
 * [Known Issues](#known-issues)
@@ -35,7 +36,7 @@ Parallel Analog Ensemble (PAnEn) is a parallel implementation for the Analog Ens
 
 This package contains several programs and libraries:
 
-- __AnEn__: This is the main C++ library. It provides the main functionality of the AnEn technique;
+- __AnEn__: This is the main C++ library. It provides the main functionality of the AnEn technique.
 - __AnEnIO__: This is the file I/O library. Currently, it supports reading and writing [standard NetCDF](https://www.unidata.ucar.edu/software/netcdf/).
 - __RAnEn__: This is the R interface to the `AnEn` library.
 - __Apps__: Multiple executables in [the apps folder](https://github.com/Weiming-Hu/AnalogsEnsemble/tree/master/apps) are designed for analog computation and file management.
@@ -161,31 +162,49 @@ install.packages("https://github.com/Weiming-Hu/AnalogsEnsemble/raw/master/RAnal
 CXX11=[C++11 compiler]
 ```
 
-### gribConverter Installation
+### gribConverter
 
 `gribConverter` provides the functionality to convert from a GRIB2 file format to NetCDF file format directly that is ready to be used by other Analog computation tools like `similarityCalculator`. By default, this tool is **NOT** built.
 
-You will need to install the following dependent packages:
-
-- Eccodes
-- Jasper
-
-To build `gribConverter`, you need to add the parameter `BUILD_GRIBCONVERTER=ON` to `CMake`:
+If you have already installed `Eccodes` on your system, to build `gribConverter`, you need to include the following parameters. This would be recommended way of installation. The order of the parameters does not matter.
 
 ```
-cmake -DBUILD_GRIBCONVERTER=ON <other arguments if you have any> ..
+cmake -DBUILD_GRIBCONVERTER=ON -DECCODES_TYPE=SYSTEM <other arguments if you have any> ..
 
-# If the eccodes library cannot be found, try to tell where it is explicitly
-cmake -DBUILD_GRIBCONVERTER=ON -CMAKE_PREFIX_PATH=<path to eccodes> <other arguments if you have any> ..
+# If the eccodes library cannot be found at default locations,
+# explicitly specify the root folder which contains folders like
+# bin/, include/, and lib/.
+#
+cmake -DBUILD_GRIBCONVERTER=ON -DECCODES_TYPE=SYSTEM -CMAKE_PREFIX_PATH=<path to eccodes> <other arguments if you have any> ..
+```
+
+If you do not have `Eccodes` installed or you do not have the permission to install any libraries, the installation process is included in the `cmake` process. It will try to download and build the library for you under the project directory.
+
+To build `Eccodes`, the following packages are needed:
+
+- [gfortran](https://gcc.gnu.org/wiki/GFortran) is part of GNU
+- [JPEG] on [Mac OS](https://formulae.brew.sh/formula/jpeg) or [Linux](https://www.howtoinstall.co/en/ubuntu/trusty/libjpeg-dev)
+- At least one of the following:
+  - OpenJPEG on [Mac OS](http://macappstore.org/openjpeg/) or [Linux](https://www.howtoinstall.co/en/ubuntu/xenial/libopenjpeg-dev)
+  - Jasper on [Mac OS](http://macappstore.org/jasper/) or [Linux](https://www.howtoinstall.co/en/ubuntu/trusty/libjasper-dev)
+
+**Note** that if you do not have either `OpenJPEG` or `Jasper`, the compilation would complete but the test would not be complete.
+
+#### Mac OS
+
+If you are using Mac OS, the recommended way to build `gribConverter` is to install `Eccodes` and then just link to it.
+
+If you cannot install `Eccodes`, additional to that you need to make sure you have the required dependencies, you need check the followings:
+
+```
+# Check whether you have installed jasper.
 ```
 
 Then you can follow the same commands for compiling and installation.
 
 ```
-make
-
-# If you have specified a installation path
-make install
+make <-j 4>
+make test
 ```
 
 After compilation, the programs and libraries should be in the folder `AnalogsEnsemble/output`. Please `cd` into the binary folder `[Where your repository folder is]/AnalogsEnsemble/output/bin/` and run the following command to see help messages.
@@ -217,20 +236,21 @@ For more information on how to use the tool, please see an example [here](https:
 |          CC          |                                         The C compiler to use.                                                                                     | [System dependent] |
 |          CXX         |                                        The C++ compiler to use.                                                                                    | [System dependent] |
 |     INSTALL\_RAnEn   |                                 Build and install the `RAnEn` library.                                                                             |         OFF        |
-|      BOOST\_TYPE     | `BUILD` for building `Boost`; `SYSTEM` for using the library in the system.                                                                |        BUILD       |
-|  NETCDF\_CXX4\_TYPE  | `BUILD` for building `Netcdf C++4`; `SYSTEM` for using the library in the system.                                                          |        BUILD       |
-|     CPPUNIT\_TYPE    | `BUILD` for building `CppUnit`; `SYSTEM` for using the library in the system.                                                  |        BUILD       |
+|      BOOST\_TYPE     | `BUILD` for building `Boost`; `SYSTEM` for using the library on the system.                                                                        |        BUILD       |
+|  NETCDF\_CXX4\_TYPE  | `BUILD` for building `Netcdf C++4`; `SYSTEM` for using the library on the system.                                                                  |        BUILD       |
+|     CPPUNIT\_TYPE    | `BUILD` for building `CppUnit`; `SYSTEM` for using the library on the system.                                                                      |        BUILD       |
 |   CMAKE\_BUILD\_TYPE |                          `Release` for release mode; `Debug` for debug mode.                                                                       |       Release      |
 |  CMAKE\_BUILD\_TESTS |                                             Build tests.                                                                                           |         ON         |
 |  CMAKE\_PREFIX\_PATH |Which folder(s) should cmake search for packages besides the default. Paths are surrounded by double quotes and separated with semicolons.          |       [Empty]      |
 |CMAKE\_INSTALL\_PREFIX|                                             The installation directory.                                                                            | [System dependent] |
 |     BUILD\_NETCDF    |                           Build `NetCDF` library regardless of its existence.                                                                      |         OFF        |
-|     USE\_NCCONFIG    |    Use the `nc_config` program if found. This might cause problems if `NetCDF` is not properly setup.                                                  |         OFF        |
+|     USE\_NCCONFIG    |    Use the `nc_config` program if found. This might cause problems if `NetCDF` is not properly setup.                                              |         OFF        |
 |      BUILD\_HDF5     |                            Build `HDF5` library regardless of its existence.                                                                       |         OFF        |
 |        VERBOSE       |                          Print detailed messages during the compiling process.                                                                     |         OFF        |
 |    CODE\_PROFILING   |                                     Print time profiling information.                                                                              |         OFF        |
-|     ENABLE\_MPI      |  Build the MPI version of the CAnEnIO library for parallel I/O. This is option is not recommended.                                               |         OFF        |
-| BUILD\_GRIBCONVERTER | Build the GRIB Converter program. [Eccodes](https://confluence.ecmwf.int/display/ECC) library is required.                                            |         OFF        |
+|     ENABLE\_MPI      |  Build the MPI version of the CAnEnIO library for parallel I/O. This is option is not recommended.                                                 |         OFF        |
+| BUILD\_GRIBCONVERTER | Build the GRIB Converter program. [Eccodes](https://confluence.ecmwf.int/display/ECC) library is required.                                         |         OFF        |
+|    ECCODES\_TYPE     | `BUILD` for building `Eccodes`; `SYSTEM` for using the library on the system.                                                                      |         BUILD      |
 
 ## References
 
