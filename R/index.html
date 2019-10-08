@@ -85,6 +85,7 @@ title: R Documentation
 <li>
 <a href="#ranen">RAnEn</a> * <a href="#one-line-solution">One-Line Solution</a> * <a href="#solution-for-a-specific-version">Solution for a Specific Version</a>
 </li>
+<li><a href="#gribconverter-installation">gribConverter Installation</a></li>
 <li><a href="#cmake-parameter-look-up-table">CMake Parameter Look-Up Table</a></li>
 </ul>
 </li>
@@ -112,7 +113,7 @@ title: R Documentation
 <div id="citation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#citation" class="anchor"></a>Citation</h2>
-<p>Please consider citing this package. The <code>bibtex</code> entry can be found <a href="https://github.com/Weiming-Hu/AnalogsEnsemble/blob/master/inst/CITATION">here</a>. If you are using <code>RAnEn</code>, you can also see the citation by typing <code><a href="https://rdrr.io/r/utils/citation.html">citation('RAnEn')</a></code>. Or you can use the following formatted text to cite this package.</p>
+<p>Please consider citing this package. The <code>bibtex</code> entry can be found <a href="https://github.com/Weiming-Hu/AnalogsEnsemble/blob/master/RAnalogs/RAnEn/inst/CITATION">here</a>. If you are using <code>RAnEn</code>, you can also see the citation by typing <code><a href="https://rdrr.io/r/utils/citation.html">citation('RAnEn')</a></code>. Or you can use the following formatted text to cite this package.</p>
 <pre><code>Weiming Hu, Guido Cervone, Laura Clemente-Harding, and Martina Calovi. (2019). Parallel Analog Ensemble. Zenodo. http://doi.org/10.5281/zenodo.3384321</code></pre>
 </div>
 <div id="requirement-and-dependencies" class="section level2">
@@ -239,6 +240,42 @@ install.packages("https://github.com/Weiming-Hu/AnalogsEnsemble/raw/master/RAnal
 <p><strong>If <code>Openmp</code> multithreading is not supported</strong>, or if you simply want to use a different compiler, please create a <code>Makevars</code> file under <code>~/.R</code>, with the following content.</p>
 <pre><code>CXX11=[C++11 compiler]</code></pre>
 </div>
+</div>
+<div id="gribconverter-installation" class="section level3">
+<h3 class="hasAnchor">
+<a href="#gribconverter-installation" class="anchor"></a>gribConverter Installation</h3>
+<p><code>gribConverter</code> provides the functionality to convert from a GRIB2 file format to NetCDF file format directly that is ready to be used by other Analog computation tools like <code>similarityCalculator</code>. By default, this tool is <strong>NOT</strong> built.</p>
+<p>You will need to install the following dependent packages:</p>
+<ul>
+<li>Eccodes</li>
+<li>Jasper</li>
+</ul>
+<p>To build <code>gribConverter</code>, you need to add the parameter <code>BUILD_GRIBCONVERTER=ON</code> to <code>CMake</code>:</p>
+<pre><code>cmake -DBUILD_GRIBCONVERTER=ON &lt;other arguments if you have any&gt; ..
+
+# If the eccodes library cannot be found, try to tell where it is explicitly
+cmake -DBUILD_GRIBCONVERTER=ON -CMAKE_PREFIX_PATH=&lt;path to eccodes&gt; &lt;other arguments if you have any&gt; ..</code></pre>
+<p>Then you can follow the same commands for compiling and installation.</p>
+<pre><code>make
+
+# If you have specified a installation path
+make install</code></pre>
+<p>After compilation, the programs and libraries should be in the folder <code>AnalogsEnsemble/output</code>. Please <code>cd</code> into the binary folder <code>[Where your repository folder is]/AnalogsEnsemble/output/bin/</code> and run the following command to see help messages.</p>
+<pre><code>~/github/AnalogsEnsemble/output/bin$ ./gribConverter 
+Parallel Ensemble Forecasts --- GRIB Converter v 3.6.3
+Copyright (c) 2018 Weiming Hu @ GEOlab
+Available options:
+  -h [ --help ]                 Print help information for options.
+  -c [ --config ] arg           Set the configuration file path. Command line 
+                                options overwrite options in configuration 
+                                file.
+  --output-type arg             Set the output type. Currently it supports 
+                                'Forecasts' and 'Observations'.
+  --folder arg                  Set the data folder.
+
+# ... [subsequent texts ignored]</code></pre>
+<p>If you have specified an installation path, you program will reside under the <code>bin/</code> folder of your installation path.</p>
+<p>For more information on how to use the tool, please see an example <a href="https://weiming-hu.github.io/AnalogsEnsemble/2018/10/01/eccodes-gribconverter.html">here</a>.</p>
 </div>
 <div id="cmake-parameter-look-up-table" class="section level3">
 <h3 class="hasAnchor">

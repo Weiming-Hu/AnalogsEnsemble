@@ -65,7 +65,6 @@ $(function() {
 <div class="textblock"><hr/>
 <p> layout: post title: Known Issues tags: </p><h2>- issue </h2>
 <ul>
-<li><a href="#eccodes-does-not-support-jpeg-decoding"><code>eccodes</code> Does Not Support <code>JPEG</code> Decoding</a></li>
 <li><a href="#ranen-installation-failed-on-mac-os-mojave"><code>RAnEn</code> Installation Failed on Mac OS Mojave</a></li>
 <li><a href="#netbeans-does-not-recognize-the-executables-after-building-the-c-programs"><code>NetBeans</code> does not recognize the executables after building the C++ programs.</a></li>
 <li><a href="#ranen-is-built-with-gnu-compiler-and-cmake-process-but-it-shows-up-not-supporting-openmp"><code>RAnEn</code> is built with GNU compiler and CMake process. But it shows up not supporting <code>OpenMP</code>.</a></li>
@@ -74,11 +73,7 @@ $(function() {
 <li><a href="#compilation-failure-on-windows">Compilation failure on Windows</a></li>
 <li><a href="#dynamic-linking-error-on-macos">Dynamic linking error on MacOS.</a></li>
 </ul>
-<h4><code>eccodes</code> Does Not Support <code>JPEG</code> Decoding</h4>
-<p>By default, <code>PAnEn</code> is going to build the <code>eccodes</code> library for you even if you already have it installed on the system. This behavior is controlled by the CMake parameter <code>ECCODES_TYPE</code>. But if you receive the above error after your compilation and during the <code>make test</code> period, <code>eccdoes</code> might have failed in linking the <code>OpenJPEG</code> library.</p>
-<p>To confirm the cause of the error, please try to inspect the dynamic linking of the compiled <code>eccodes</code> dynamic library. Because CMake built it for you, it should be under <code>dependency/install/lib/libeccodes.so</code>. If you are using a Linux system, you can use <code>ldd</code> to inspect the dynamic linking of this object. If you don't see any linkings to <code>JASPER</code> or <code>JPEG</code>, the problem is diagnosed.</p>
-<p>You can install the library <code>jasper</code> to resolve this issue.</p>
-<div class="fragment"><div class="line"># Assuming you have the permission on Linux</div><div class="line">sudo apt install libjasper-dev</div></div><!-- fragment --><h4><code>RAnEn</code> Installation Failed on Mac OS Mojave</h4>
+<h4><code>RAnEn</code> Installation Failed on Mac OS Mojave</h4>
 <p>If you are installing <code>RAnEn</code> on Mac OS Mojave and you receive the following error messages:</p>
 <div class="fragment"><div class="line">* installing to library ‘/Users/wuh20/Library/R/3.5/library’</div><div class="line">* installing *source* package ‘RAnEn’ ...</div><div class="line">Checking whether R_HOME is already set? R_HOME = /usr/local/Cellar/r/3.5.1/lib/R</div><div class="line">checking whether the C++ compiler works... yes</div><div class="line">checking for C++ compiler default output file name... a.out</div><div class="line">checking for suffix of executables... </div><div class="line">checking whether we are cross compiling... configure: error: in `/Users/wuh20/github/AnalogsEnsemble/RAnalogs/sea2019/RAnEn&#39;:</div><div class="line">configure: error: cannot run C++ compiled programs.</div><div class="line">If you meant to cross compile, use `--host&#39;.</div><div class="line">See `config.log&#39; for more details</div><div class="line">ERROR: configuration failed for package ‘RAnEn’</div><div class="line">* removing ‘/Users/wuh20/Library/R/3.5/library/RAnEn’</div><div class="line">* restoring previous ‘/Users/wuh20/Library/R/3.5/library/RAnEn’</div></div><!-- fragment --><p>It is highly possible that you need to update your <code>Xcode</code> and run some configuration setup. The two steps should fix this:</p>
 <ul>
