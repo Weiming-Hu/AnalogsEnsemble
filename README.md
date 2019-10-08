@@ -197,9 +197,9 @@ If you are using Mac OS, the recommended way to build `gribConverter` is to inst
 If you cannot install `Eccodes`, additional to that you need to make sure you have the required dependencies, you need check the followings:
 
 ```
-# Check whether you have installed jasper. I have installed jasper because
-# there is a mark after formulae jasper.
-#
+$ # Check whether you have installed jasper. I have installed jasper because
+$ # there is a mark after formulae jasper.
+$ #
 $ brew search jasper
 ==> Formulae
 jasper ✔
@@ -207,9 +207,9 @@ jasper ✔
 ==> Casks
 jasper                                             tibco-jaspersoft-studio
 
-# There is a good chance that Mac OS will not find the correct jasper if
-# there are multiple installed. We need to manually specify the locaion.
-#
+$ # There is a good chance that Mac OS will not find the correct jasper if
+$ # there are multiple installed. We need to manually specify the locaion.
+$ #
 $ brew info jasper
 jasper: stable 2.0.16 (bottled)
 Library for manipulating JPEG-2000 images
@@ -225,9 +225,9 @@ install: 34,471 (30 days), 108,948 (90 days), 408,801 (365 days)
 install_on_request: 377 (30 days), 1,105 (90 days), 7,674 (365 days)
 build_error: 0 (30 days)
 
-# Now we have the location japser. We need to pass this to cmake.
-# Note the include folder at the very end.
-#
+$ # Now we have the location japser. We need to pass this to cmake.
+$ # Note the include folder at the very end.
+$ #
 $ cmake -DJASPER_INCLUDE_DIR=/usr/local/Cellar/jasper/2.0.16_1/include/ [additional arguments] ..
 
 # Similarly, we check the installation of openjpeg.
@@ -235,7 +235,7 @@ $ brew search openjpeg
 ==> Formulae
 openjpeg ✔
 
-# I have the packages installed. Let's check the location.
+$ # I have the packages installed. Let's check the location.
 $ brew info openjpeg
 openjpeg: stable 2.3.1 (bottled), HEAD
 Library for JPEG-2000 image manipulation
@@ -254,9 +254,9 @@ install: 70,099 (30 days), 216,905 (90 days), 930,201 (365 days)
 install_on_request: 480 (30 days), 1,645 (90 days), 10,600 (365 days)
 build_error: 0 (30 days)
 
-# Finally, we give the location to cmake as well.
-# Note the include/openjpeg-2.3 folder at the end.
-#
+$ # Finally, we give the location to cmake as well.
+$ # Note the include/openjpeg-2.3 folder at the end.
+$ #
 $ cmake -DOPENJPEG_INCLUDE_DIR=/usr/local/Cellar/openjpeg/2.3.1/include/openjpeg-2.3/ [additional arguments] ..
 
 ```

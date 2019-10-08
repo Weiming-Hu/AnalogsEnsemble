@@ -11,16 +11,10 @@ message(STATUS "Build application Grib Converter.")
 if (ECCODES_TYPE STREQUAL "SYSTEM")
     find_package(eccodes)
     if(eccodes_FOUND)
-        message(STATUS "Eccodes include dir is found at ${ECCODES_INCLUDE_DIRS}.")
-
-        string(FIND "${ECCODES_FEATURES}" "ECCODES_THREADS" PTHREADS_POS)
-        string(FIND "${ECCODES_FEATURES}" "ECCODES_OMP_THREADS" OMP_POS)
-
-        if (${PTHREADS_POS} STREQUAL "-1" AND ${OMP_POS} STREQUAL "-1")
-            message(STATUS "ecCodes are single-threaded.")
-        else (${PTHREADS_POS} STREQUAL "-1" AND ${OMP_POS} STREQUAL "-1")
-            message(FATAL_ERROR "Eccodes lib is multithreading.\nThis will cause problem because multi-field support is needed but ecCodes have known issues for it.\nSet ECCODES_TYPE to BUILD to build a different version of ecCodes.")
-        endif (${PTHREADS_POS} STREQUAL "-1" AND ${OMP_POS} STREQUAL "-1")
+        message(STATUS "Eccodes include: ${ECCODES_INCLUDES}")
+        message(STATUS "Eccodes lib: ${ECCODES_LIBRARIES}")
+        message(STATUS "Alway remeber to avoid using multi-field feature.")
+        message(STATUS "Reference: http://bit.ly/avoidMultiField")
     else(eccodes_FOUND)
         message(WARNING "Eccodes library is not found. Setting the type to BUILD.")
         set(ECCODES_TYPE "BUILD")
@@ -108,7 +102,7 @@ target_link_libraries(${PROJECT_NAME} AnEn)
 
 include_directories(${ECCODES_INCLUDE_DIRS})
 if (ECCODES_TYPE STREQUAL "SYSTEM")
-    target_link_libraries(${PROJECT_NAME} eccodes)
+    target_link_libraries(${PROJECT_NAME} ${ECCODES_LIBRARIES})
 else (ECCODES_TYPE STREQUAL "SYSTEM")
     ExternalProject_Get_Property(ECCODES_PROJECT install_dir)
     add_library(eccodes_built SHARED IMPORTED)
@@ -144,11 +138,11 @@ endif(${ENABLE_MPI})
 set_target_properties(gribConverter
     PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${COMMON_OUTPUT_DIR}/bin")
 
-# Add additional RPATH
-if (CMAKE_MACOSX_RPATH)
+# Add additional RPATH if Eccodes package is built
+if (ECCODES_TYPE STREQUAL "BUILD")
     set_target_properties(gribConverter PROPERTIES 
         INSTALL_RPATH "${CMAKE_INSTALL_RPATH}"
         BUILD_WITH_INSTALL_RPATH ON)
-endif(CMAKE_MACOSX_RPATH)
+endif(ECCODES_TYPE STREQUAL "BUILD")
 
 install(TARGETS gribConverter RUNTIME DESTINATION bin)

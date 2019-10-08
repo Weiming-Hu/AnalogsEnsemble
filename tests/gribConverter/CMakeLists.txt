@@ -26,8 +26,8 @@ endif(CPPUNIT_FOUND)
 if (ECCODES_TYPE STREQUAL "SYSTEM")
     find_package(eccodes REQUIRED)
     include_directories(${ECCODES_INCLUDE_DIRS})
-    target_link_libraries(testGribConverter eccodes)
-    target_link_libraries (runGribConverter eccodes)
+    target_link_libraries(testGribConverter ${ECCODES_LIBRARIES})
+    target_link_libraries(runGribConverter ${ECCODES_LIBRARIES})
 else (ECCODES_TYPE STREQUAL "SYSTEM")
     include_directories(${ECCODES_INCLUDE_DIRS})
     ExternalProject_Get_Property(ECCODES_PROJECT install_dir)
@@ -62,11 +62,11 @@ endif(${ENABLE_MPI})
 set_target_properties(runGribConverter PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${COMMON_OUTPUT_DIR}/test")
 
 # Add additional RPATH
-if (CMAKE_MACOSX_RPATH)
+if (ECCODES_TYPE STREQUAL "BUILD")
     set_target_properties(runGribConverter PROPERTIES 
         INSTALL_RPATH "${CMAKE_INSTALL_RPATH}"
         BUILD_WITH_INSTALL_RPATH ON)
-endif(CMAKE_MACOSX_RPATH)
+endif(ECCODES_TYPE STREQUAL "BUILD")
 
 add_test(NAME ${PROJECT_NAME} COMMAND runGribConverter)
 install(TARGETS runGribConverter RUNTIME DESTINATION bin)
