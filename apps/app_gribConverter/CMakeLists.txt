@@ -8,19 +8,13 @@ endif (NOT ECCODES_TYPE)
 message (STATUS "ECCODES_TYPE is set to ${ECCODES_TYPE}")
 
 message(STATUS "Build application Grib Converter.")
+message(STATUS "Alway remeber to avoid using multi-field feature.")
+message(STATUS "Reference: http://bit.ly/avoidMultiField")
 if (ECCODES_TYPE STREQUAL "SYSTEM")
     find_package(eccodes)
     if(eccodes_FOUND)
-        message(STATUS "Eccodes include dir is found at ${ECCODES_INCLUDE_DIRS}.")
-
-        string(FIND "${ECCODES_FEATURES}" "ECCODES_THREADS" PTHREADS_POS)
-        string(FIND "${ECCODES_FEATURES}" "ECCODES_OMP_THREADS" OMP_POS)
-
-        if (${PTHREADS_POS} STREQUAL "-1" AND ${OMP_POS} STREQUAL "-1")
-            message(STATUS "ecCodes are single-threaded.")
-        else (${PTHREADS_POS} STREQUAL "-1" AND ${OMP_POS} STREQUAL "-1")
-            message(STATUS "Eccodes lib is multithreading.\nThis will cause problem because multi-field support is needed but ecCodes have known issues for it.\nSet ECCODES_TYPE to BUILD to build a different version of ecCodes.")
-        endif (${PTHREADS_POS} STREQUAL "-1" AND ${OMP_POS} STREQUAL "-1")
+        message(STATUS "Eccodes include: ${ECCODES_INCLUDES}")
+        message(STATUS "Eccodes lib: ${ECCODES_LIBRARIES}")
     else(eccodes_FOUND)
         message(WARNING "Eccodes library is not found. Setting the type to BUILD.")
         set(ECCODES_TYPE "BUILD")
@@ -33,7 +27,7 @@ if (ECCODES_TYPE STREQUAL "BUILD")
     # This is copied from the Eccodes website
     # https://confluence.ecmwf.int/display/ECC/Releases
     #
-    set(ECCODES_URL "https://confluence.ecmwf.int/download/attachments/45757960/eccodes-2.10.0-Source.tar.gz?api=v2")
+    set(ECCODES_URL "https://confluence.ecmwf.int/download/attachments/45757960/eccodes-2.14.0-Source.tar.gz?api=v2")
     set(ECCODES_INSTALL_PREFIX "-DCMAKE_INSTALL_PREFIX=${DEPENDENCY_PATH}/install")
     set(ECCODES_BUILD_SHARED "-DBUILD_SHARED_LIBS=ON")
     set(ECCODES_DISABLE_PYTHON "-DENABLE_PYTHON=OFF")
@@ -50,6 +44,15 @@ if (ECCODES_TYPE STREQUAL "BUILD")
         set(ECCODES_CMAKE_ARGS ${ECCODES_CMAKE_ARGS} ${ECCODES_PREFIX_PATH})
     endif(CMAKE_PREFIX_PATH)
 
+    if (OPENJPEG_INCLUDE_DIR)
+        set(ECCODES_OPENJPEG "-DJASPER_INCLUDE_DIR=${OPENJPEG_INCLUDE_DIR}")
+        set(ECCODES_CMAKE_ARGS ${ECCODES_CMAKE_ARGS} ${ECCODES_OPENJPEG})
+    endif(OPENJPEG_INCLUDE_DIR)
+    
+    if (JASPER_INCLUDE_DIR)
+        set(ECCODES_JASPER "-DJASPER_INCLUDE_DIR=${JASPER_INCLUDE_DIR}")
+        set(ECCODES_CMAKE_ARGS ${ECCODES_CMAKE_ARGS} ${ECCODES_JASPER})
+    endif(JASPER_INCLUDE_DIR)
 
     if(VERBOSE)
         set(VERBOSE_DOWNLOAD 0)
@@ -86,8 +89,6 @@ enable_language(C CXX)
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}")
 set(SOURCE_MAIN "${CMAKE_CURRENT_SOURCE_DIR}/gribConverter.cpp;${CMAKE_CURRENT_SOURCE_DIR}/gribConverterFunctions.cpp")
 add_executable(${PROJECT_NAME} ${SOURCE_MAIN})
-#set(SOURCE_MAIN "${CMAKE_CURRENT_SOURCE_DIR}/gribConverterFunctions.cpp")
-#add_library(${PROJECT_NAME} SHARED ${SOURCE_MAIN})
 
 include_directories(SYSTEM ${NETCDF_INCLUDES})
 include_directories(SYSTEM ${NETCDF_CXX4_INCLUDE_DIR})
@@ -101,12 +102,15 @@ target_link_libraries(${PROJECT_NAME} AnEn)
 
 include_directories(${ECCODES_INCLUDE_DIRS})
 if (ECCODES_TYPE STREQUAL "SYSTEM")
-    target_link_libraries(${PROJECT_NAME} eccodes)
+    target_link_libraries(${PROJECT_NAME} ${ECCODES_LIBRARIES})
 else (ECCODES_TYPE STREQUAL "SYSTEM")
     ExternalProject_Get_Property(ECCODES_PROJECT install_dir)
     add_library(eccodes_built SHARED IMPORTED)
+    set(ECCODES_IMPORT_LOCATION "${install_dir}/install/lib/${CMAKE_SHARED_LIBRARY_PREFIX}eccodes${CMAKE_SHARED_LIBRARY_SUFFIX}")
+    message(STATUS "Import location for Eccodes: ${ECCODES_IMPORT_LOCATION}")
+
     set_target_properties(eccodes_built PROPERTIES
-        IMPORTED_LOCATION "${install_dir}/install/lib/${CMAKE_SHARED_LIBRARY_PREFIX}eccodes${CMAKE_SHARED_LIBRARY_SUFFIX}")
+        IMPORTED_LOCATION ${ECCODES_IMPORT_LOCATION})
     add_dependencies(eccodes_built ECCODES_PROJECT)
     target_link_libraries(${PROJECT_NAME} eccodes_built)
 
@@ -133,4 +137,12 @@ endif(${ENABLE_MPI})
 #target_link_libraries(gribConverter ${PROJECT_NAME})
 set_target_properties(gribConverter
     PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${COMMON_OUTPUT_DIR}/bin")
+
+# Add additional RPATH if Eccodes package is built
+if (ECCODES_TYPE STREQUAL "BUILD")
+    set_target_properties(gribConverter PROPERTIES 
+        INSTALL_RPATH "${CMAKE_INSTALL_RPATH}"
+        BUILD_WITH_INSTALL_RPATH ON)
+endif(ECCODES_TYPE STREQUAL "BUILD")
+
 install(TARGETS gribConverter RUNTIME DESTINATION bin)

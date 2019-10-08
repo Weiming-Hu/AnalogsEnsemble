@@ -113,6 +113,15 @@ SimilarityMatrices::sortRows(bool quick, size_t length, COL_TAG col_tag) {
     auto limit_j = this->shape()[1];
     auto limit_k = this->shape()[2];
 
+#ifdef __clang__
+    if (quick) {
+        cerr << RED << "Warning: Quick sort does not work for Clang anymore."
+            << " If you care about this, use GNU compilers instead."
+            << " Disable quick sort for now."
+            << RESET << endl;
+        quick = false;
+    }
+#endif
 
     if (quick) {
         if (length == 0) {
@@ -129,9 +138,21 @@ collapse(3) shared(sortFunc, length, limit_i, limit_j, limit_k)
         for (size_t i = 0; i < limit_i; i++) {
             for (size_t j = 0; j < limit_j; j++) {
                 for (size_t k = 0; k < limit_k; k++) {
+#ifdef __clang__
+                    sort((*this)[i][j][k].begin(),
+                            (*this)[i][j][k].end(), sortFunc);
+#else
+                    // Clang checks for forward iterator earlier 
+                    // than GNU, which would cause this problem of
+                    // mis-thinking the arguments not being iterators.
+                    // But in the end, they are.
+                    //
+                    // So I'm disabling quick sort with Clang.
+                    //
                     nth_element((*this)[i][j][k].begin(),
                             (*this)[i][j][k].begin() + length,
                             (*this)[i][j][k].end(), sortFunc);
+#endif
                 }
             }
         }

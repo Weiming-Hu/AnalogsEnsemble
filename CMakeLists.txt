@@ -21,7 +21,6 @@ option (BUILD_GRIBCONVERTER "Build gribConverter utility. Eccodes required." OFF
 option (CODE_PROFILING "Insert profiling code and print time information." OFF)
 option (USE_NCCONFIG "Use nc-config to determine cflags and libdirs." OFF)
 
-
 set(IMPORTANT_PATH "${CMAKE_SOURCE_DIR}/important")
 set(EXTRA_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${EXTRA_MODULE_PATH})
@@ -77,6 +76,15 @@ if (NOT ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU"))
     message (WARNING "It is suggested to compile this project using GCC (version >= 4.9)!
     You are using ${CMAKE_CXX_COMPILER_ID}.
     SUGGESTION: specify GCC using CC and CXX. CC=[C compiler] CXX=[CXX compiler] cmake ..")
+
+else(NOT ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU"))
+
+    # Mac OS SDK conflicts with GNU compilers. This setting disables
+    # adding SDK path during compilation.
+    #
+    message(STATUS "Remove system root when GNU is used.")
+    set(CMAKE_OSX_SYSROOT "")
+
 endif (NOT ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU"))
 
 # check the version of the compiler if GCC is used

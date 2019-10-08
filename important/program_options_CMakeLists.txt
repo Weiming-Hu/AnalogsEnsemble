@@ -33,6 +33,11 @@ endif (CMAKE_BUILD_TYPE STREQUAL "Release")
 #add_library(${LIBRARY_NAME} STATIC ${SOURCES})
 add_library(${LIBRARY_NAME} SHARED ${SOURCES})
 
+# Set default make output folder
+set_target_properties(${LIBRARY_NAME} PROPERTIES
+    ARCHIVE_OUTPUT_DIRECTORY "${COMMON_OUTPUT_DIR}/lib"  # if static 
+    LIBRARY_OUTPUT_DIRECTORY "${COMMON_OUTPUT_DIR}/lib") # if shared
+
 # Copy library and headers to destination
 install(TARGETS ${LIBRARY_NAME} LIBRARY DESTINATION "${DEPENDENCY_PATH}/install/lib")
 install(DIRECTORY "include" DESTINATION "${DEPENDENCY_PATH}/install")
