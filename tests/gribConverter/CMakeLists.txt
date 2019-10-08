@@ -8,9 +8,6 @@ include_directories("${CMAKE_SOURCE_DIR}/apps/app_gribConverter")
 add_library(testGribConverter "testGribConverter.cpp;${CMAKE_SOURCE_DIR}/apps/app_gribConverter/gribConverterFunctions.cpp")
 add_executable(runGribConverter "runnerGribConverter.cpp")
 
-#add_dependencies(testGribConverter AnEnIO AnEn)
-#add_dependencies(runGribConverter AnEnIO AnEn)
-
 if (CPPUNIT_FOUND)
     target_link_libraries (testGribConverter ${UnitTestLibs} AnEnIO AnEn)
     target_link_libraries (runGribConverter ${UnitTestLibs} testGribConverter AnEnIO AnEn)

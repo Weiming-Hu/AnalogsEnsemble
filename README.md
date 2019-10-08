@@ -166,6 +166,8 @@ CXX11=[C++11 compiler]
 
 `gribConverter` provides the functionality to convert from a GRIB2 file format to NetCDF file format directly that is ready to be used by other Analog computation tools like `similarityCalculator`. By default, this tool is **NOT** built.
 
+`gribConverter` uses `Eccodes`. `Eccodes` is not reliable when dealing with multi-field messages. **Always remember to make sure the GRIB file is flat which means it does not include any multi-field messages**. Check [here](http://bit.ly/avoidMultiField) for how to check this.
+
 If you have already installed `Eccodes` on your system, to build `gribConverter`, you need to include the following parameters. The order of the parameters does not matter.
 
 ```
@@ -315,7 +317,7 @@ For more information on how to use the tool, please see an example [here](https:
 |    CODE\_PROFILING   |                                     Print time profiling information.                                                                              |         OFF        |
 |     ENABLE\_MPI      |  Build the MPI version of the CAnEnIO library for parallel I/O. This is option is not recommended.                                                 |         OFF        |
 | BUILD\_GRIBCONVERTER | Build the GRIB Converter program. [Eccodes](https://confluence.ecmwf.int/display/ECC) library is required.                                         |         OFF        |
-|    ECCODES\_TYPE     | `BUILD` for building `Eccodes`; `SYSTEM` for using the library on the system.                                                                      |         BUILD      |
+|    ECCODES\_TYPE     | `BUILD` for building `Eccodes`; `SYSTEM` for using the library on the system.                                                                      |         SYSTEM     |
 
 ## References
 

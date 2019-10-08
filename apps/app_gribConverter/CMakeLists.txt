@@ -18,6 +18,7 @@ if (ECCODES_TYPE STREQUAL "SYSTEM")
     else(eccodes_FOUND)
         message(WARNING "Eccodes library is not found. Setting the type to BUILD.")
         set(ECCODES_TYPE "BUILD")
+        set(ECCODES_TYPE "BUILD" PARENT_SCOPE)
     endif(eccodes_FOUND)
 endif (ECCODES_TYPE STREQUAL "SYSTEM")
 
