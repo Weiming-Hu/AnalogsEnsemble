@@ -169,16 +169,20 @@ CXX11=[C++11 compiler]
 If you have already installed `Eccodes` on your system, to build `gribConverter`, you need to include the following parameters. This would be recommended way of installation. The order of the parameters does not matter.
 
 ```
-cmake -DBUILD_GRIBCONVERTER=ON -DECCODES_TYPE=SYSTEM <other arguments if you have any> ..
+cmake -DBUILD_GRIBCONVERTER=ON <other arguments if you have any> ..
 
 # If the eccodes library cannot be found at default locations,
 # explicitly specify the root folder which contains folders like
 # bin/, include/, and lib/.
 #
-cmake -DBUILD_GRIBCONVERTER=ON -DECCODES_TYPE=SYSTEM -CMAKE_PREFIX_PATH=<path to eccodes> <other arguments if you have any> ..
+cmake -DBUILD_GRIBCONVERTER=ON -CMAKE_PREFIX_PATH=<path to eccodes> <other arguments if you have any> ..
 ```
 
 If you do not have `Eccodes` installed or you do not have the permission to install any libraries, the installation process is included in the `cmake` process. It will try to download and build the library for you under the project directory.
+
+```
+cmake -DBUILD_GRIBCONVERTER=ON -DECCODES_TYPE=BUILD <other arguments if you have any> ..
+```
 
 To build `Eccodes`, the following packages are needed:
 

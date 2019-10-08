@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8)
 project(gribConverter)
 
 if (NOT ECCODES_TYPE)
-    set(ECCODES_TYPE "BUILD" CACHE STRING
+    set(ECCODES_TYPE "SYSTEM" CACHE STRING
         "The type of Eccodes library that is going to be used. Should be either SYSTEM or BUILD.")
 endif (NOT ECCODES_TYPE)
 message (STATUS "ECCODES_TYPE is set to ${ECCODES_TYPE}")
