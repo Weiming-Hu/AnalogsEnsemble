@@ -87,7 +87,7 @@ verifyCRPS <- function(anen.ver, obs.ver, boot = F, R = 1000, int.step = 150, na
       # The values at this FLT
       valid <- which(obs[,1] == i)
       
-      if(length(valid) > 0){
+      if(length(valid) > 1){
         deco         <- crpsDecomposition(obs[valid,2], anen[valid,])
         crps.flt[,i] <- c(deco$CRPS,deco$CRPSpot,deco$Reli)
       }

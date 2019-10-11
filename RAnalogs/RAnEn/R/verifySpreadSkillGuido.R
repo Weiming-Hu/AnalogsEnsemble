@@ -5,8 +5,8 @@
 # (il),-''  (li),'  ((!.-'
 #
 #
-# Author: Weiming Hu (weiming@psu.edu)
-#         Guido Cervone (cervone@psu.edu)
+# Author: Guido Cervone (cervone@psu.edu)
+#         Weiming Hu (weiming@psu.edu)
 #
 #         Geoinformatics and Earth Observation Laboratory (http://geolab.psu.edu)
 #         Department of Geography and Institute for CyberScience
@@ -15,7 +15,10 @@
 
 #' RAnEn::verifySpreadSkill
 #' 
-#' RAnEn::verifySpreadSkill calculates the spread skill.
+#' RAnEn::verifySpreadSkill calculates the spread skill correlation. The skill is calculated
+#' as the squared differences between observations and forecasts. The spread is the variance
+#' of a particular ensemble. Then correlation is calculated between the error and the 
+#' variance.
 #' 
 #' @author Weiming Hu \email{weiming@@psu.edu}
 #' 
@@ -27,10 +30,14 @@
 #' @param boot Whether to use bootstrap.
 #' @param R The number of bootstrap replicates. Used by the function `boot::boot`.
 #' @param na.rm Whether to remove NA values.
-#' @param keep.cor Whether to keep all spread and errors.
+#' @param keep.cor Whether to keep all spread and errors. This might generate large data.
+#' 
+#' @return A list with the verificatin results. The member `mean` is the average correlation
+#' across all forecast cases; the member `flt` is the average correlation broken up by each 
+#' lead time; the member `flt.boot` contains bootstrap information; the member `cor` contains
+#' all spread-error pairs that are used to calculate correlation.
 #' 
 #' @md
-#' @export
 verifySpreadSkill <- function(anen.ver, obs.ver, boot = F, R = 1000, na.rm = T, keep.cor = F) {
   
   stopifnot(length(dim(anen.ver)) == 4)
@@ -91,8 +98,9 @@ verifySpreadSkill <- function(anen.ver, obs.ver, boot = F, R = 1000, na.rm = T, 
     # Remove NAs
     if ( na.rm == T ) mat.sub <- na.omit( mat.sub )
     
-    if (nrow(mat.sub) == 0) next
-
+    if (nrow(mat.sub) == 0) stop(paste0(
+      'All rows are removed due to NA values for FLT #', i.cut))
+    
     if(boot == T){
       #bootstrap confidence intervals only if required
       

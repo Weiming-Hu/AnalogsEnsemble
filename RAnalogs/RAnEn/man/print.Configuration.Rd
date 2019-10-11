@@ -4,10 +4,12 @@
 \alias{print.Configuration}
 \title{RAnEn::print.Configuration}
 \usage{
-\method{print}{Configuration}(x)
+\method{print}{Configuration}(x, forecasts.names = NA)
 }
 \arguments{
 \item{x}{a Configuration object}
+
+\item{forecasts.names}{The name of each forecast variable (the first dimension in the forecast array).}
 }
 \description{
 Overload print function for class Configuration
