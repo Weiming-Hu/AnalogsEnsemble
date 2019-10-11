@@ -153,12 +153,66 @@ int main(int argc, char** argv) {
         return 1;
     }
 
+    // Check and construct regex expressions
+    regex regex_time, regex_cycle, regex_flt;
+    smatch match_time, match_flt, match_cycle;
+
+    try {
+        regex_time = regex(regex_time_str);
+    } catch (const regex_error& e) {
+        cerr << BOLDRED << "Error: Can't use the regular expression " << regex_time_str << RESET << endl;
+        throw;
+    } catch (...) {
+        handle_exception(current_exception());
+        return 1;
+    }
+
+    try {
+        regex_flt = regex(regex_flt_str);
+    } catch (const regex_error& e) {
+        cerr << BOLDRED << "Error: Can't use the regular expression " << regex_flt_str << RESET << endl;
+        throw;
+    } catch (...) {
+        handle_exception(current_exception());
+        return 1;
+    }
+
+    if (!regex_cycle_str.empty()) {
+        // If the regex for cycle time is specified
+        try {
+            regex_cycle = regex(regex_cycle_str);
+        } catch (const regex_error& e) {
+            cerr << BOLDRED << "Error: Can't use the regular expression " << regex_cycle_str << RESET << endl;
+            throw;
+        } catch (...) {
+            handle_exception(current_exception());
+            return 1;
+        }
+    }
+
+    // Append a trailing slash if there is no
+    if (!folder.empty() && folder.back() != '/')
+        folder += '/';
+
     // List all files in a folder
     fs::recursive_directory_iterator it(folder), endit;
     vector<string> files_in;
     while (it != endit) {
-        if (fs::is_regular_file(*it) && it->path().extension() == ext)
-            files_in.push_back(folder + it->path().filename().string());
+
+        // Check file extension
+        if (fs::is_regular_file(*it) && it->path().extension() == ext) {
+
+            const string file = folder + it->path().filename().string();
+
+            // Check file with regex
+            if (regex_search(file.begin(), file.end(), match_time, regex_time) &&
+                    regex_search(file.begin(), file.end(), match_cycle, regex_cycle) &&
+                    regex_search(file.begin(), file.end(), match_flt, regex_flt)) {
+                
+                files_in.push_back(file);
+            }
+        }
+
         it++;
     }
 

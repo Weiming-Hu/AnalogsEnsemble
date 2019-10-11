@@ -291,21 +291,15 @@ namespace gribConverter {
         regex regex_time, regex_cycle;
         smatch match_time, match_flt, match_cycle;
 
-        try {
-            regex_time = regex(regex_time_str);
-        } catch (const regex_error& e) {
-            cerr << BOLDRED << "Error: Can't use the regular expression " << regex_time_str << RESET << endl;
-            throw;
-        }
-
         // Prepare flts
         anenTime::FLTs flts;
         regex regex_flt;
 
         try {
+            regex_time = regex(regex_time_str);
             regex_flt = regex(regex_flt_str);
         } catch (const regex_error& e) {
-            cerr << BOLDRED << "Error: Can't use the regular expression " << regex_flt_str << RESET << endl;
+            cerr << BOLDRED << "Error: time and/or flt regular expressions not working." << RESET << endl;
             throw;
         }
 
