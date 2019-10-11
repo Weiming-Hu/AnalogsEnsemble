@@ -206,10 +206,12 @@ int main(int argc, char** argv) {
 
             // Check file with regex
             if (regex_search(file.begin(), file.end(), match_time, regex_time) &&
-                    regex_search(file.begin(), file.end(), match_cycle, regex_cycle) &&
                     regex_search(file.begin(), file.end(), match_flt, regex_flt)) {
-                
-                files_in.push_back(file);
+
+                if (regex_cycle_str.empty())
+                    files_in.push_back(file);
+                else if (regex_search(file.begin(), file.end(), match_cycle, regex_cycle))
+                        files_in.push_back(file);
             }
         }
 
