@@ -5,6 +5,11 @@ sidebar_link: true
 ---
 
 
+# PAnEn 3.6.4
+
+- Update the building process of `gribConverter`.
+- Change the spread skill verification function to slicing by FLTs.
+
 # PAnEn 3.6.3
 
 - Fix a bug in checking the configuration object in R

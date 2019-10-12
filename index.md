@@ -194,7 +194,7 @@ cmake -DBUILD_GRIBCONVERTER=ON -DECCODES_TYPE=BUILD <other arguments if you have
 To build `Eccodes`, the following packages are needed:
 
 - [gfortran](https://gcc.gnu.org/wiki/GFortran) is part of GNU
-- [JPEG] on [Mac OS](https://formulae.brew.sh/formula/jpeg) or [Linux](https://www.howtoinstall.co/en/ubuntu/trusty/libjpeg-dev)
+- JPEG on [Mac OS](https://formulae.brew.sh/formula/jpeg) or [Linux](https://www.howtoinstall.co/en/ubuntu/trusty/libjpeg-dev)
 - At least one of the following:
   - OpenJPEG on [Mac OS](http://macappstore.org/openjpeg/) or [Linux](https://www.howtoinstall.co/en/ubuntu/xenial/libopenjpeg-dev)
   - Jasper on [Mac OS](http://macappstore.org/jasper/) or [Linux](https://www.howtoinstall.co/en/ubuntu/trusty/libjasper-dev)
