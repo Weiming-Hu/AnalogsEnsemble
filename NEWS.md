@@ -1,5 +1,6 @@
 # PAnEn 3.6.4
 
+- Bug fixed in `RAnEn::plotAnEnSelection`
 - Update the building process of `gribConverter`.
 - Change the spread skill verification function to slicing by FLTs.
 

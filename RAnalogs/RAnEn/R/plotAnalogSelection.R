@@ -106,6 +106,10 @@ plotAnalogSelection <- function(
   sims <- sims[which(!is.na(sims[, 1])), ]
   
   # Get the start and end index for searching in the forecasts
+  test.start <- which(config$forecast_times == config$test_times_compare[1])
+  test.end <- which(config$forecast_times == config$test_times_compare[
+    length(config$test_times_compare)])
+
   search.start <- which(config$forecast_times == config$search_times_compare[1])
   search.end <- which(config$forecast_times == config$search_times_compare[
     length(config$search_times_compare)])
