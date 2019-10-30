@@ -49,7 +49,7 @@ rcpp_compute_analogs <- function(forecasts,
                                  parameter_ID = NA,
                                  max_par_nan = 0,
                                  max_flt_nan = 0) {
-  cat("Warning: Function rcpp_compute_analogs is deprecated. Please use generateAnalogs!\n")
+  cat("Warning: Function rcpp_compute_analogs is deprecated. Please use generateAnalogs! Please be aware that it is assumed that forecast lead times start from 0.\n")
   analogs <- compute_analogs(forecasts = forecasts,
                              observations = observations,
                              circulars = circulars,
@@ -116,7 +116,7 @@ compute_analogs <- function(forecasts,
                             parameter_ID = NA,
                             max_par_nan = 0,
                             max_flt_nan = 0) {
-  cat("Warning: Function compute_analogs is deprecated. Please use generateAnalogs!\n")
+  cat("Warning: Function compute_analogs is deprecated. Please use generateAnalogs! Please be aware that it is assumed that forecast lead times start from 0.\n")
   
   # check deprecation
   if (!identical(NA, parameter_ID)) {
