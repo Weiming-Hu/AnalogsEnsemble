@@ -154,7 +154,7 @@ verify <- function(metrics, verbose = T, ...) {
                      ,']...\n')
     ret[[metric]] <- do.call(
       what = paste('verify', metric, sep = ''),
-      args = args.current)
+      args = args.current, envir = parent.frame())
   }
   
   rm(args.all, args.required, args.optional, args.current)
