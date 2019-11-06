@@ -1,3 +1,26 @@
+install.packages("knitr")
+install.packages("rmarkdown")
+
+install.packages("bitops")
+install.packages("numbers")
+install.packages("caTools")
+install.packages("magrittr")
+install.packages("rprojroot")
+install.packages("lubridate")
+
+install.packages("ggmap")
+install.packages("ggplot2")
+install.packages("ggthemes")
+install.packages("plotly")
+install.packages("reshape2")
+install.packages("https://cran.r-project.org/src/contrib/Archive/cowplot/cowplot_0.9.4.tar.gz", repos = NULL, type = 'source')
+
+install.packages("sf")
+install.packages("sp")
+install.packages("maps")
+install.packages('rgdal')
+install.packages("raster")
+
 install.packages("Rcpp")
 install.packages("BH")
 install.packages("maps")

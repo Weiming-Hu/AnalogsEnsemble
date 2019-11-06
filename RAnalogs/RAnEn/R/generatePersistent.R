@@ -41,8 +41,6 @@
 generatePersistent <- function(config,
                                forecast.time.interval = 86400,
                                show.progress = T, silent = F) {
-  require(magrittr)
-  
   # Sanity checks
   if (class(config) != 'Configuration') {
     stop('Please generate the input config using RAnEn::generateConfiguration.')
@@ -61,20 +59,13 @@ generatePersistent <- function(config,
   num.test.times <- length(config$test_times_compare)
   num.flts <- dim(config$forecasts)[4]
   
-  # Define the forecast times to extract
-  times.to.extract <- 
-    # These are the test times to generate persistent forecasts for
-    config$test_times_compare %>%
-    # Get the previous several times for each test times
-    sapply(function(x) {return(x - 0:config$num_members*forecast.time.interval)}) %>%
-    # Convert to vector
-    as.vector() %>%
-    # Remove duplicates
-    unique() %>%
-    # Convert to date time objects
-    toDateTime() %>%
-    # Sort them based on the time series
-    sort()
+  # Get the previous several times for each test times
+  time.prev <- sapply(
+    config$test_times_compare,
+    function(x) {return(x - 0:config$num_members*forecast.time.interval)})
+  
+  # Sort the unique values
+  times.to.extract <- sort(toDateTime(unique(as.vector(time.prev))))
   
   # Align observations
   if (!silent) cat('Aligning observations ...\n')

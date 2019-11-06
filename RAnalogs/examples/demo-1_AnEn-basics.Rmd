@@ -17,7 +17,7 @@ stopifnot(packageVersion('RAnEn')>="3.5.0")
 
 ## Introduction
 
-This article walks you through the basic usage of the `RAnEn` library. This exercise uses short-term surface temperature forecasts as an example. Recommend using [binder](https://mybinder.org/badge.svg) and the corresponding `.ipynb` file will guide you through the script line by line.
+This article walks you through the basic usage of the `RAnEn` library. This exercise uses short-term surface temperature forecasts as an example. Recommend using [binder](https://mybinder.org/v2/gh/Weiming-Hu/AnalogsEnsemble/master?urlpath=rstudio) and the corresponding `.Rmd` file will guide you through the script line by line.
 
 You will learn how to use these functions:
 
