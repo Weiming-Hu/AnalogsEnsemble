@@ -64,86 +64,93 @@ $(function() {
 <div class="contents">
 <div class="textblock"><hr/>
 <p> layout: page title: Changelog </p><h2>sidebar_link: true </h2>
+<h1>PAnEn 3.6.5</h1>
+<ul>
+<li>Added station subset function <code>RAnEn::subsetCoordinates</code></li>
+<li>Minor document fix</li>
+<li>Added Github repository link on R documentation website</li>
+<li>Set up binder with RStudio and removed python notebooks</li>
+</ul>
 <h1>PAnEn 3.6.4</h1>
 <ul>
-<li>Fix environment issue for <code>RAnEn::verify</code></li>
+<li>Fixed environment issue for <code>RAnEn::verify</code></li>
 <li>Bug fixed in <code>RAnEn::plotAnEnSelection</code></li>
-<li>Update the building process of <code><a class="el" href="namespacegrib_converter.html">gribConverter</a></code>.</li>
-<li>Change the spread skill verification function to slicing by FLTs.</li>
+<li>Updated the building process of <code><a class="el" href="namespacegrib_converter.html">gribConverter</a></code>.</li>
+<li>Changed the spread skill verification function to slicing by FLTs.</li>
 </ul>
 <h1>PAnEn 3.6.3</h1>
 <ul>
-<li>Fix a bug in checking the configuration object in R</li>
-<li>Add instructions for package citation</li>
+<li>Fixed a bug in checking the configuration object in R</li>
+<li>Added instructions for package citation</li>
 </ul>
 <h1>PAnEn 3.6.2</h1>
 <ul>
-<li>Change the implementation of <code>RAnEn::verifySpreadSkill</code></li>
-<li>Change legal information</li>
-<li>Add checks and default values in <code>RAnEn::generateSearchStation</code></li>
-<li>Resolve issues in tests</li>
-<li>Add a convenient function <code>RAnEn::getAssociatedForecasts</code></li>
-<li>Use <code>magrittr</code> pipes to improve code readability</li>
-<li>Add the printing method for R class 'Configuration'</li>
+<li>Changed the implementation of <code>RAnEn::verifySpreadSkill</code></li>
+<li>Changed legal information</li>
+<li>Added checks and default values in <code>RAnEn::generateSearchStation</code></li>
+<li>Resolved issues in tests</li>
+<li>Added a convenient function <code>RAnEn::getAssociatedForecasts</code></li>
+<li>Used <code>magrittr</code> pipes to improve code readability</li>
+<li>Added the printing method for R class 'Configuration'</li>
 </ul>
 <h1>PAnEn 3.6.1</h1>
 <ul>
-<li>Add <code>RAnEn::generatePersistent</code></li>
-<li>Add function names when <code>Done</code> is printed</li>
+<li>Added <code>RAnEn::generatePersistent</code></li>
+<li>Added function names when <code>Done</code> is printed</li>
 </ul>
 <h1>PAnEn 3.6.0</h1>
 <ul>
-<li>Verification just became simpler. Add a caller function <code>RAnEn::verify</code> and helper function <code>RAnEn::showVerificationMethods</code></li>
-<li>Resolve a variable missing bug in <code>RAnEn::writeNetCDF</code></li>
+<li>Verification just became simpler. Added a caller function <code>RAnEn::verify</code> and helper function <code>RAnEn::showVerificationMethods</code></li>
+<li>Resolved a variable missing bug in <code>RAnEn::writeNetCDF</code></li>
 </ul>
 <h1>PAnEn 3.5.4</h1>
 <ul>
-<li>Change warnings of <code>CAnEnIO</code> from <code>cout</code> to <code>cerr</code></li>
-<li>Reduce copies in <code>RAnEn::AnEnC2R</code></li>
-<li>Add garbage collection mechanism to R file I/O functions</li>
+<li>Changed warnings of <code>CAnEnIO</code> from <code>cout</code> to <code>cerr</code></li>
+<li>Reduced copies in <code>RAnEn::AnEnC2R</code></li>
+<li>Added garbage collection mechanism to R file I/O functions</li>
 </ul>
 <h1>PAnEn 3.5.3</h1>
 <ul>
-<li>Resolve a naming bug in <code>RAnEn::schaakeShuffle</code></li>
-<li>Resolve a path bug in <code>RAnEn::readAnEn</code></li>
-<li>Add <code>RAnEn::writeConfiguration</code></li>
-<li>Add <code>ParameterCirculars</code> in function <code>RAnEn::writeNetCDF</code></li>
-<li>Change C++ test verbose levels</li>
+<li>Resolved a naming bug in <code>RAnEn::schaakeShuffle</code></li>
+<li>Resolved a path bug in <code>RAnEn::readAnEn</code></li>
+<li>Added <code>RAnEn::writeConfiguration</code></li>
+<li>Added <code>ParameterCirculars</code> in function <code>RAnEn::writeNetCDF</code></li>
+<li>Changed C++ test verbose levels</li>
 </ul>
 <h1>PAnEn 3.5.2</h1>
 <ul>
-<li>Improve documentation for <code>RAnEn::verifyBrier</code> and <code>RAnEn::verifyThreatScore</code></li>
-<li>Improve the printing information for 'class: <a class="el" href="class_an_en.html" title="AnEn class provides interfaces for computing Analog Ensembles. ">AnEn</a> list'</li>
+<li>Improved documentation for <code>RAnEn::verifyBrier</code> and <code>RAnEn::verifyThreatScore</code></li>
+<li>Improved the printing information for 'class: <a class="el" href="class_an_en.html" title="AnEn class provides interfaces for computing Analog Ensembles. ">AnEn</a> list'</li>
 </ul>
 <h1>PAnEn 3.5.1</h1>
 <ul>
-<li>Add the beta function <code>RAnEn::schaakeShuffle</code>.</li>
-<li>Add multiple variable support for <code>windFieldCalculator</code>.</li>
-<li>Add support for <code><a class="el" href="class_forecasts.html" title="Forecasts class provides interface for reading and writing forecast data from and to a NetCDF file...">Forecasts</a></code> in <code>RAnEn::writeNetCDF</code>.</li>
+<li>Added the beta function <code>RAnEn::schaakeShuffle</code>.</li>
+<li>Added multiple variable support for <code>windFieldCalculator</code>.</li>
+<li>Added support for <code><a class="el" href="class_forecasts.html" title="Forecasts class provides interface for reading and writing forecast data from and to a NetCDF file...">Forecasts</a></code> in <code>RAnEn::writeNetCDF</code>.</li>
 </ul>
 <h1>PAnEn 3.5.0</h1>
 <ul>
-<li>Add functions <code>toDateTime</code>, <code>toForecastTime</code>, <code>val2Col</code>, <code>makeTransparent</code>, and <code>plotBackground</code>.</li>
-<li>Improve <code>verifyCRPS</code>.</li>
-<li>Improve <code>RAnEn</code> function documentation.</li>
-<li>Add identification for cycle time in C++ utilities.</li>
+<li>Added functions <code>toDateTime</code>, <code>toForecastTime</code>, <code>val2Col</code>, <code>makeTransparent</code>, and <code>plotBackground</code>.</li>
+<li>Improved <code>verifyCRPS</code>.</li>
+<li>Improved <code>RAnEn</code> function documentation.</li>
+<li>Added identification for cycle time in C++ utilities.</li>
 <li>Bug fixed in checking functions in <code>RAnEn</code>.</li>
-<li>Add grid checks in <code><a class="el" href="namespacegrib_converter.html">gribConverter</a></code> for each file.</li>
-<li>Make <code>classifier</code> the parameter for <code>extendedSearch</code> only.</li>
-<li>Improve website and tutorials/posts.</li>
+<li>Added grid checks in <code><a class="el" href="namespacegrib_converter.html">gribConverter</a></code> for each file.</li>
+<li>Made <code>classifier</code> the parameter for <code>extendedSearch</code> only.</li>
+<li>Improved website and tutorials/posts.</li>
 </ul>
 <h1>PAnEn 3.4.2</h1>
 <ul>
-<li>Add slicing tool <code>fileSlice</code>.</li>
-<li>Add R functions <code>writeNetCDF</code>, <code>readForecasts</code>, <code>readObservations</code>, <code>readAnEn</code>, <code>AnEnC2R</code>, <code>verifyThreatScore</code>, <code>verifyBrier</code>, and <code>readConfig</code>.</li>
-<li>Improve visualization. Fix the x plotting range of RAnEn figures.</li>
-<li>Change analogGenerator code. Similarity output is sorted now.</li>
+<li>Added slicing tool <code>fileSlice</code>.</li>
+<li>Added R functions <code>writeNetCDF</code>, <code>readForecasts</code>, <code>readObservations</code>, <code>readAnEn</code>, <code>AnEnC2R</code>, <code>verifyThreatScore</code>, <code>verifyBrier</code>, and <code>readConfig</code>.</li>
+<li>Improved visualization. Fix the x plotting range of <code>RAnEn</code> figures.</li>
+<li>Changed <code>analogGenerator</code> code. Similarity output is sorted now.</li>
 </ul>
 <h1>PAnEn 3.4.1</h1>
 <ul>
-<li>Add grid subset functionality to <code><a class="el" href="namespacegrib_converter.html">gribConverter</a></code> for type <code><a class="el" href="class_forecasts.html" title="Forecasts class provides interface for reading and writing forecast data from and to a NetCDF file...">Forecasts</a></code>. This function has been tested.</li>
-<li>Fix <code>RAnEn</code> installation script for C/C++ compilers.</li>
-<li>Fix <code>OpenMP</code> shared object issue for <code>runtime_error</code>.</li>
+<li>Added grid subset functionality to <code><a class="el" href="namespacegrib_converter.html">gribConverter</a></code> for type <code><a class="el" href="class_forecasts.html" title="Forecasts class provides interface for reading and writing forecast data from and to a NetCDF file...">Forecasts</a></code>. This function has been tested.</li>
+<li>Fixed <code>RAnEn</code> installation script for C/C++ compilers.</li>
+<li>Fixed <code>OpenMP</code> shared object issue for <code>runtime_error</code>.</li>
 </ul>
 <h1>PAnEn 3.4.0</h1>
 <ul>

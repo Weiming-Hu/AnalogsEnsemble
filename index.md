@@ -11,13 +11,14 @@ layout: default
 [![Build Status](https://travis-ci.com/Weiming-Hu/AnalogsEnsemble.svg?token=yTGL4zEDtXKy9xWq1dsP&branch=master)](https://travis-ci.com/Weiming-Hu/AnalogsEnsemble)
 [![codecov](https://codecov.io/gh/Weiming-Hu/AnalogsEnsemble/branch/master/graph/badge.svg?token=tcGGOTyHHk)](https://codecov.io/gh/Weiming-Hu/AnalogsEnsemble)
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
-[![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/Weiming-Hu/AnalogsEnsemble/master)
+[![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/Weiming-Hu/AnalogsEnsemble/master?urlpath=rstudio)
 [![dockeri.co](https://dockeri.co/image/weiminghu123/panen)](https://hub.docker.com/r/weiminghu123/panen)
 
 <!-- vim-markdown-toc GitLab -->
 
 * [About Parallel Analog Ensemble](#about-parallel-analog-ensemble)
 * [Citation](#citation)
+* [Tutorials](#tutorials)
 * [Requirement and Dependencies](#requirement-and-dependencies)
 * [Installation](#installation)
     * [C++ PAnEn](#c-panen)
@@ -53,6 +54,9 @@ Please consider citing this package. The `bibtex` entry can be found [here](http
 ```
 Weiming Hu, Guido Cervone, Laura Clemente-Harding, and Martina Calovi. (2019). Parallel Analog Ensemble. Zenodo. http://doi.org/10.5281/zenodo.3384321
 ```
+## Tutorials
+
+Please click [here](https://mybinder.org/v2/gh/Weiming-Hu/AnalogsEnsemble/master?urlpath=rstudio) to access our tutorials. The tutorials can be found under `RAnalogs/examples`.
 
 ## Requirement and Dependencies
 

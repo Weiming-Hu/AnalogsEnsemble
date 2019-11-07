@@ -5,86 +5,94 @@ sidebar_link: true
 ---
 
 
+# PAnEn 3.6.5
+
+- Added station subset function `RAnEn::subsetCoordinates`
+- Minor document fix
+- Added Github repository link on R documentation website
+- Set up binder with RStudio and removed python notebooks
+
+
 # PAnEn 3.6.4
 
-- Fix environment issue for `RAnEn::verify`
+- Fixed environment issue for `RAnEn::verify`
 - Bug fixed in `RAnEn::plotAnEnSelection`
-- Update the building process of `gribConverter`.
-- Change the spread skill verification function to slicing by FLTs.
+- Updated the building process of `gribConverter`.
+- Changed the spread skill verification function to slicing by FLTs.
 
 # PAnEn 3.6.3
 
-- Fix a bug in checking the configuration object in R
-- Add instructions for package citation
+- Fixed a bug in checking the configuration object in R
+- Added instructions for package citation
 
 # PAnEn 3.6.2
 
-- Change the implementation of `RAnEn::verifySpreadSkill`
-- Change legal information
-- Add checks and default values in `RAnEn::generateSearchStation`
-- Resolve issues in tests
-- Add a convenient function `RAnEn::getAssociatedForecasts`
-- Use `magrittr` pipes to improve code readability
-- Add the printing method for R class 'Configuration'
+- Changed the implementation of `RAnEn::verifySpreadSkill`
+- Changed legal information
+- Added checks and default values in `RAnEn::generateSearchStation`
+- Resolved issues in tests
+- Added a convenient function `RAnEn::getAssociatedForecasts`
+- Used `magrittr` pipes to improve code readability
+- Added the printing method for R class 'Configuration'
 
 # PAnEn 3.6.1
 
-- Add `RAnEn::generatePersistent`
-- Add function names when `Done` is printed
+- Added `RAnEn::generatePersistent`
+- Added function names when `Done` is printed
 
 # PAnEn 3.6.0
 
-- Verification just became simpler. Add a caller function `RAnEn::verify` and helper function `RAnEn::showVerificationMethods`
-- Resolve a variable missing bug in `RAnEn::writeNetCDF`
+- Verification just became simpler. Added a caller function `RAnEn::verify` and helper function `RAnEn::showVerificationMethods`
+- Resolved a variable missing bug in `RAnEn::writeNetCDF`
 
 # PAnEn 3.5.4
 
-- Change warnings of `CAnEnIO` from `cout` to `cerr`
-- Reduce copies in `RAnEn::AnEnC2R`
-- Add garbage collection mechanism to R file I/O functions
+- Changed warnings of `CAnEnIO` from `cout` to `cerr`
+- Reduced copies in `RAnEn::AnEnC2R`
+- Added garbage collection mechanism to R file I/O functions
 
 # PAnEn 3.5.3
 
-- Resolve a naming bug in `RAnEn::schaakeShuffle`
-- Resolve a path bug in `RAnEn::readAnEn`
-- Add `RAnEn::writeConfiguration`
-- Add `ParameterCirculars` in function `RAnEn::writeNetCDF`
-- Change C++ test verbose levels
+- Resolved a naming bug in `RAnEn::schaakeShuffle`
+- Resolved a path bug in `RAnEn::readAnEn`
+- Added `RAnEn::writeConfiguration`
+- Added `ParameterCirculars` in function `RAnEn::writeNetCDF`
+- Changed C++ test verbose levels
 
 # PAnEn 3.5.2
 
-- Improve documentation for `RAnEn::verifyBrier` and `RAnEn::verifyThreatScore`
-- Improve the printing information for 'class: AnEn list'
+- Improved documentation for `RAnEn::verifyBrier` and `RAnEn::verifyThreatScore`
+- Improved the printing information for 'class: AnEn list'
 
 # PAnEn 3.5.1
 
-- Add the beta function `RAnEn::schaakeShuffle`.
-- Add multiple variable support for `windFieldCalculator`.
-- Add support for `Forecasts` in `RAnEn::writeNetCDF`.
+- Added the beta function `RAnEn::schaakeShuffle`.
+- Added multiple variable support for `windFieldCalculator`.
+- Added support for `Forecasts` in `RAnEn::writeNetCDF`.
 
 # PAnEn 3.5.0
 
-- Add functions `toDateTime`, `toForecastTime`, `val2Col`, `makeTransparent`, and `plotBackground`.
-- Improve `verifyCRPS`.
-- Improve `RAnEn` function documentation.
-- Add identification for cycle time in C++ utilities.
+- Added functions `toDateTime`, `toForecastTime`, `val2Col`, `makeTransparent`, and `plotBackground`.
+- Improved `verifyCRPS`.
+- Improved `RAnEn` function documentation.
+- Added identification for cycle time in C++ utilities.
 - Bug fixed in checking functions in `RAnEn`.
-- Add grid checks in `gribConverter` for each file.
-- Make `classifier` the parameter for `extendedSearch` only.
-- Improve website and tutorials/posts.
+- Added grid checks in `gribConverter` for each file.
+- Made `classifier` the parameter for `extendedSearch` only.
+- Improved website and tutorials/posts.
 
 # PAnEn 3.4.2
 
-- Add slicing tool `fileSlice`.
-- Add R functions `writeNetCDF`, `readForecasts`, `readObservations`, `readAnEn`, `AnEnC2R`, `verifyThreatScore`, `verifyBrier`, and `readConfig`.
-- Improve visualization. Fix the x plotting range of RAnEn figures.
-- Change analogGenerator code. Similarity output is sorted now.
+- Added slicing tool `fileSlice`.
+- Added R functions `writeNetCDF`, `readForecasts`, `readObservations`, `readAnEn`, `AnEnC2R`, `verifyThreatScore`, `verifyBrier`, and `readConfig`.
+- Improved visualization. Fix the x plotting range of `RAnEn` figures.
+- Changed `analogGenerator` code. Similarity output is sorted now.
 
 # PAnEn 3.4.1
 
-- Add grid subset functionality to `gribConverter` for type `Forecasts`. This function has been tested.
-- Fix `RAnEn` installation script for C/C++ compilers.
-- Fix `OpenMP` shared object issue for `runtime_error`.
+- Added grid subset functionality to `gribConverter` for type `Forecasts`. This function has been tested.
+- Fixed `RAnEn` installation script for C/C++ compilers.
+- Fixed `OpenMP` shared object issue for `runtime_error`.
 
 # PAnEn 3.4.0
 

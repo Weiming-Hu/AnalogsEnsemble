@@ -67,7 +67,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAnEn</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.6.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.6.5</span>
       </span>
     </div>
 
@@ -87,7 +87,12 @@
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/Weiming-Hu/AnalogsEnsemble">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -102,61 +107,72 @@
   <div class="col-md-9 contents">
     <div class="page-header">
       <h1>Changelog <small></small></h1>
-      
+      <small>Source: <a href='https://github.com/Weiming-Hu/AnalogsEnsemble/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="panen-3-6-5" class="section level1">
+<h1 class="page-header">
+<a href="#panen-3-6-5" class="anchor"></a>PAnEn 3.6.5</h1>
+<ul>
+<li>Added station subset function <code>RAnEn::subsetCoordinates</code>
+</li>
+<li>Minor document fix</li>
+<li>Added Github repository link on R documentation website</li>
+<li>Set up binder with RStudio and removed python notebooks</li>
+</ul>
+</div>
     <div id="panen-3-6-4" class="section level1">
 <h1 class="page-header">
 <a href="#panen-3-6-4" class="anchor"></a>PAnEn 3.6.4</h1>
 <ul>
-<li>Fix environment issue for <code><a href="../reference/verify.html">RAnEn::verify</a></code>
+<li>Fixed environment issue for <code><a href="../reference/verify.html">RAnEn::verify</a></code>
 </li>
 <li>Bug fixed in <code>RAnEn::plotAnEnSelection</code>
 </li>
-<li>Update the building process of <code>gribConverter</code>.</li>
-<li>Change the spread skill verification function to slicing by FLTs.</li>
+<li>Updated the building process of <code>gribConverter</code>.</li>
+<li>Changed the spread skill verification function to slicing by FLTs.</li>
 </ul>
 </div>
     <div id="panen-3-6-3" class="section level1">
 <h1 class="page-header">
 <a href="#panen-3-6-3" class="anchor"></a>PAnEn 3.6.3</h1>
 <ul>
-<li>Fix a bug in checking the configuration object in R</li>
-<li>Add instructions for package citation</li>
+<li>Fixed a bug in checking the configuration object in R</li>
+<li>Added instructions for package citation</li>
 </ul>
 </div>
     <div id="panen-3-6-2" class="section level1">
 <h1 class="page-header">
 <a href="#panen-3-6-2" class="anchor"></a>PAnEn 3.6.2</h1>
 <ul>
-<li>Change the implementation of <code><a href="../reference/verifySpreadSkill.html">RAnEn::verifySpreadSkill</a></code>
+<li>Changed the implementation of <code><a href="../reference/verifySpreadSkill.html">RAnEn::verifySpreadSkill</a></code>
 </li>
-<li>Change legal information</li>
-<li>Add checks and default values in <code>RAnEn::generateSearchStation</code>
+<li>Changed legal information</li>
+<li>Added checks and default values in <code>RAnEn::generateSearchStation</code>
 </li>
-<li>Resolve issues in tests</li>
-<li>Add a convenient function <code><a href="../reference/getAssociatedForecasts.html">RAnEn::getAssociatedForecasts</a></code>
+<li>Resolved issues in tests</li>
+<li>Added a convenient function <code><a href="../reference/getAssociatedForecasts.html">RAnEn::getAssociatedForecasts</a></code>
 </li>
-<li>Use <code>magrittr</code> pipes to improve code readability</li>
-<li>Add the printing method for R class ‘Configuration’</li>
+<li>Used <code>magrittr</code> pipes to improve code readability</li>
+<li>Added the printing method for R class ‘Configuration’</li>
 </ul>
 </div>
     <div id="panen-3-6-1" class="section level1">
 <h1 class="page-header">
 <a href="#panen-3-6-1" class="anchor"></a>PAnEn 3.6.1</h1>
 <ul>
-<li>Add <code><a href="../reference/generatePersistent.html">RAnEn::generatePersistent</a></code>
+<li>Added <code><a href="../reference/generatePersistent.html">RAnEn::generatePersistent</a></code>
 </li>
-<li>Add function names when <code>Done</code> is printed</li>
+<li>Added function names when <code>Done</code> is printed</li>
 </ul>
 </div>
     <div id="panen-3-6-0" class="section level1">
 <h1 class="page-header">
 <a href="#panen-3-6-0" class="anchor"></a>PAnEn 3.6.0</h1>
 <ul>
-<li>Verification just became simpler. Add a caller function <code><a href="../reference/verify.html">RAnEn::verify</a></code> and helper function <code>RAnEn::showVerificationMethods</code>
+<li>Verification just became simpler. Added a caller function <code><a href="../reference/verify.html">RAnEn::verify</a></code> and helper function <code>RAnEn::showVerificationMethods</code>
 </li>
-<li>Resolve a variable missing bug in <code><a href="../reference/writeNetCDF.html">RAnEn::writeNetCDF</a></code>
+<li>Resolved a variable missing bug in <code><a href="../reference/writeNetCDF.html">RAnEn::writeNetCDF</a></code>
 </li>
 </ul>
 </div>
@@ -164,77 +180,77 @@
 <h1 class="page-header">
 <a href="#panen-3-5-4" class="anchor"></a>PAnEn 3.5.4</h1>
 <ul>
-<li>Change warnings of <code>CAnEnIO</code> from <code>cout</code> to <code>cerr</code>
+<li>Changed warnings of <code>CAnEnIO</code> from <code>cout</code> to <code>cerr</code>
 </li>
-<li>Reduce copies in <code><a href="../reference/AnEnC2R.html">RAnEn::AnEnC2R</a></code>
+<li>Reduced copies in <code><a href="../reference/AnEnC2R.html">RAnEn::AnEnC2R</a></code>
 </li>
-<li>Add garbage collection mechanism to R file I/O functions</li>
+<li>Added garbage collection mechanism to R file I/O functions</li>
 </ul>
 </div>
     <div id="panen-3-5-3" class="section level1">
 <h1 class="page-header">
 <a href="#panen-3-5-3" class="anchor"></a>PAnEn 3.5.3</h1>
 <ul>
-<li>Resolve a naming bug in <code><a href="../reference/schaakeShuffle.html">RAnEn::schaakeShuffle</a></code>
+<li>Resolved a naming bug in <code><a href="../reference/schaakeShuffle.html">RAnEn::schaakeShuffle</a></code>
 </li>
-<li>Resolve a path bug in <code><a href="../reference/readAnEn.html">RAnEn::readAnEn</a></code>
+<li>Resolved a path bug in <code><a href="../reference/readAnEn.html">RAnEn::readAnEn</a></code>
 </li>
-<li>Add <code><a href="../reference/writeConfiguration.html">RAnEn::writeConfiguration</a></code>
+<li>Added <code><a href="../reference/writeConfiguration.html">RAnEn::writeConfiguration</a></code>
 </li>
-<li>Add <code>ParameterCirculars</code> in function <code><a href="../reference/writeNetCDF.html">RAnEn::writeNetCDF</a></code>
+<li>Added <code>ParameterCirculars</code> in function <code><a href="../reference/writeNetCDF.html">RAnEn::writeNetCDF</a></code>
 </li>
-<li>Change C++ test verbose levels</li>
+<li>Changed C++ test verbose levels</li>
 </ul>
 </div>
     <div id="panen-3-5-2" class="section level1">
 <h1 class="page-header">
 <a href="#panen-3-5-2" class="anchor"></a>PAnEn 3.5.2</h1>
 <ul>
-<li>Improve documentation for <code><a href="../reference/verifyBrier.html">RAnEn::verifyBrier</a></code> and <code><a href="../reference/verifyThreatScore.html">RAnEn::verifyThreatScore</a></code>
+<li>Improved documentation for <code><a href="../reference/verifyBrier.html">RAnEn::verifyBrier</a></code> and <code><a href="../reference/verifyThreatScore.html">RAnEn::verifyThreatScore</a></code>
 </li>
-<li>Improve the printing information for ‘class: AnEn list’</li>
+<li>Improved the printing information for ‘class: AnEn list’</li>
 </ul>
 </div>
     <div id="panen-3-5-1" class="section level1">
 <h1 class="page-header">
 <a href="#panen-3-5-1" class="anchor"></a>PAnEn 3.5.1</h1>
 <ul>
-<li>Add the beta function <code><a href="../reference/schaakeShuffle.html">RAnEn::schaakeShuffle</a></code>.</li>
-<li>Add multiple variable support for <code>windFieldCalculator</code>.</li>
-<li>Add support for <code>Forecasts</code> in <code><a href="../reference/writeNetCDF.html">RAnEn::writeNetCDF</a></code>.</li>
+<li>Added the beta function <code><a href="../reference/schaakeShuffle.html">RAnEn::schaakeShuffle</a></code>.</li>
+<li>Added multiple variable support for <code>windFieldCalculator</code>.</li>
+<li>Added support for <code>Forecasts</code> in <code><a href="../reference/writeNetCDF.html">RAnEn::writeNetCDF</a></code>.</li>
 </ul>
 </div>
     <div id="panen-3-5-0" class="section level1">
 <h1 class="page-header">
 <a href="#panen-3-5-0" class="anchor"></a>PAnEn 3.5.0</h1>
 <ul>
-<li>Add functions <code>toDateTime</code>, <code>toForecastTime</code>, <code>val2Col</code>, <code>makeTransparent</code>, and <code>plotBackground</code>.</li>
-<li>Improve <code>verifyCRPS</code>.</li>
-<li>Improve <code>RAnEn</code> function documentation.</li>
-<li>Add identification for cycle time in C++ utilities.</li>
+<li>Added functions <code>toDateTime</code>, <code>toForecastTime</code>, <code>val2Col</code>, <code>makeTransparent</code>, and <code>plotBackground</code>.</li>
+<li>Improved <code>verifyCRPS</code>.</li>
+<li>Improved <code>RAnEn</code> function documentation.</li>
+<li>Added identification for cycle time in C++ utilities.</li>
 <li>Bug fixed in checking functions in <code>RAnEn</code>.</li>
-<li>Add grid checks in <code>gribConverter</code> for each file.</li>
-<li>Make <code>classifier</code> the parameter for <code>extendedSearch</code> only.</li>
-<li>Improve website and tutorials/posts.</li>
+<li>Added grid checks in <code>gribConverter</code> for each file.</li>
+<li>Made <code>classifier</code> the parameter for <code>extendedSearch</code> only.</li>
+<li>Improved website and tutorials/posts.</li>
 </ul>
 </div>
     <div id="panen-3-4-2" class="section level1">
 <h1 class="page-header">
 <a href="#panen-3-4-2" class="anchor"></a>PAnEn 3.4.2</h1>
 <ul>
-<li>Add slicing tool <code>fileSlice</code>.</li>
-<li>Add R functions <code>writeNetCDF</code>, <code>readForecasts</code>, <code>readObservations</code>, <code>readAnEn</code>, <code>AnEnC2R</code>, <code>verifyThreatScore</code>, <code>verifyBrier</code>, and <code>readConfig</code>.</li>
-<li>Improve visualization. Fix the x plotting range of RAnEn figures.</li>
-<li>Change analogGenerator code. Similarity output is sorted now.</li>
+<li>Added slicing tool <code>fileSlice</code>.</li>
+<li>Added R functions <code>writeNetCDF</code>, <code>readForecasts</code>, <code>readObservations</code>, <code>readAnEn</code>, <code>AnEnC2R</code>, <code>verifyThreatScore</code>, <code>verifyBrier</code>, and <code>readConfig</code>.</li>
+<li>Improved visualization. Fix the x plotting range of <code>RAnEn</code> figures.</li>
+<li>Changed <code>analogGenerator</code> code. Similarity output is sorted now.</li>
 </ul>
 </div>
     <div id="panen-3-4-1" class="section level1">
 <h1 class="page-header">
 <a href="#panen-3-4-1" class="anchor"></a>PAnEn 3.4.1</h1>
 <ul>
-<li>Add grid subset functionality to <code>gribConverter</code> for type <code>Forecasts</code>. This function has been tested.</li>
-<li>Fix <code>RAnEn</code> installation script for C/C++ compilers.</li>
-<li>Fix <code>OpenMP</code> shared object issue for <code>runtime_error</code>.</li>
+<li>Added grid subset functionality to <code>gribConverter</code> for type <code>Forecasts</code>. This function has been tested.</li>
+<li>Fixed <code>RAnEn</code> installation script for C/C++ compilers.</li>
+<li>Fixed <code>OpenMP</code> shared object issue for <code>runtime_error</code>.</li>
 </ul>
 </div>
     <div id="panen-3-4-0" class="section level1">
@@ -411,6 +427,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#panen-3-6-5">3.6.5</a></li>
         <li><a href="#panen-3-6-4">3.6.4</a></li>
         <li><a href="#panen-3-6-3">3.6.3</a></li>
         <li><a href="#panen-3-6-2">3.6.2</a></li>
