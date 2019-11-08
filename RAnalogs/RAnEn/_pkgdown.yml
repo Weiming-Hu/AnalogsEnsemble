@@ -66,11 +66,12 @@ reference:
     - title : Helpers
       desc: Helper function to ease our lives.
       contents:
+          - val2Col
           - AnEnC2R
-          - generateCircleCoords
-          - makeTransparent
-          - showVerificationMetrics
           - toDateTime
           - toForecastTime
-          - val2Col
+          - makeTransparent
+          - subsetCoordinates
+          - generateCircleCoords
+          - showVerificationMetrics
 

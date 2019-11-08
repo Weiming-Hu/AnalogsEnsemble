@@ -40,7 +40,7 @@ for each test station.
 }
 \description{
 RAnEn::generateSearchStations is the search station computation routine included
-in the function \code{\link{generateConfiguration}}. This function computes the
+in the function \code{\link{generateAnalogs}}. This function computes the
 search stations of each test station. Search stations are
 represented using their index. Each column includes the search station indices for
 each test station. The available constraints for calculating the search stations
