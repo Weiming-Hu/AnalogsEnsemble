@@ -141,6 +141,9 @@ subsetCoordinates <- function(
   }
   
   if (!identical(file.output, NULL)) {
+    # Disable scientific notation
+    old.value <- getOption("scipen")
+    options(scipen = 999)
     
     if (file.exists(file.output)) {
       stop('File exists. Skip writing.')
@@ -157,6 +160,7 @@ subsetCoordinates <- function(
     close(con)
     
     cat('Arguments written to file', file.output, '\n')
+    options(scipen = old.value)
   }
   
   return(df)
