@@ -1,5 +1,6 @@
 # PAnEn 3.6.5
 
+- Added reading forecast circular parameters in `RAnEn::readForecasts
 - Added station subset function `RAnEn::subsetCoordinates`
 - Minor document fix
 - Added Github repository link on R documentation website

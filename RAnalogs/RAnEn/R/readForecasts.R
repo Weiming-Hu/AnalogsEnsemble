@@ -39,6 +39,10 @@ readForecasts <- function(file, origin = '1970-01-01', tz = 'UTC') {
   forecasts$Xs <- ncvar_get(nc, 'Xs')
   forecasts$Ys <- ncvar_get(nc, 'Ys')
   forecasts$FLTs <- ncvar_get(nc, 'FLTs')
+
+  if ('ParameterCirculars' %in% names(nc$var)) {
+    forecasts$ParameterCirculars <- ncvar_get(nc, 'ParameterCirculars')
+  }
   
   nc_close(nc)
   
