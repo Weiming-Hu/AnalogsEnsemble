@@ -72,7 +72,7 @@ validateConfiguration." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAnEn</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.6.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.7.0</span>
       </span>
     </div>
 
@@ -170,6 +170,10 @@ not be correct if operational search is used because the standard deviation will
 increase of search days. But the changes are not reflected in the R results.</p></li>
 <li><p>verbose: Verbose level. You can find settings for different values in the
 <a href='https://weiming-hu.github.io/AnalogsEnsemble/CXX/class_an_en.html#a25984b953516a987e2e9eb23048e5d60'>C++ documentation verbose</a>.</p></li>
+<li><p>debug: Whether to return debug flags when NA values present. These debug flags will be negative values for NA indices that
+indicate the cause for this NA values. Please see the C++ functions
+<a href='https://weiming-hu.github.io/AnalogsEnsemble/CXX/class_an_en.html#a787e43e7bfdaa830bf70fa6710731614'>computeSimilarity</a> and
+<a href='https://weiming-hu.github.io/AnalogsEnsemble/CXX/class_an_en.html#a8e2b88cda5cc9fce8ea4703a3236719c'>selectAnalogs</a>.</p></li>
 <li><p>time_match_mode: This guides how to compute the time mapping from forecast times and forecast
 lead times to observation times. 0 for strict search (return error when matching observation times
 cannot be found) and 1 for loose search.</p></li>

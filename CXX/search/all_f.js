@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['panen_203_2e6_2e5',['PAnEn 3.6.5',['../md__home_graduate_wuh20_github__analogs_ensemble__n_e_w_s.html',1,'']]],
+  ['panen_203_2e7_2e0',['PAnEn 3.7.0',['../md__sapphire_s0_wuh20_github__analogs_ensemble__n_e_w_s.html',1,'']]],
   ['parameter',['Parameter',['../classanen_par_1_1_parameter.html',1,'anenPar::Parameter'],['../classanen_par_1_1_parameter.html#aada3139ee9b50c2acb90d275c72da550',1,'anenPar::Parameter::Parameter()'],['../classanen_par_1_1_parameter.html#a90ff0f2050c97a1e483e6533ba65c785',1,'anenPar::Parameter::Parameter(std::string name)'],['../classanen_par_1_1_parameter.html#ae46eb93089de5826079d66054893d286',1,'anenPar::Parameter::Parameter(std::string name, double weight)'],['../classanen_par_1_1_parameter.html#aca22270b9dd68630792ab5c01d8d38e6',1,'anenPar::Parameter::Parameter(std::string name, double weight, bool circular)'],['../classanen_par_1_1_parameter.html#aa89dd31d6f3561a5b24450bbdb67cf1f',1,'anenPar::Parameter::Parameter(std::string name, bool circular)'],['../classanen_par_1_1_parameter.html#af9f49a6e54e55e223f14ed4603a49d3a',1,'anenPar::Parameter::Parameter(const Parameter &amp;other)']]],
   ['parameters',['Parameters',['../classanen_par_1_1_parameters.html',1,'anenPar::Parameters'],['../classanen_par_1_1_parameters.html#a413c34a4d0d252b55efdc30e27707e32',1,'anenPar::Parameters::Parameters()']]],
   ['parameters_2ecpp',['Parameters.cpp',['../_parameters_8cpp.html',1,'']]],
