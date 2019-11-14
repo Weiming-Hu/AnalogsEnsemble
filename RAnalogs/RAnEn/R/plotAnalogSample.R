@@ -132,7 +132,10 @@ plotAnalogSample <- function(
     AnEn$similarity[i.station, i.test.day, , 1:config$num_members, 1]))] <- NA
   
   # Remove the negative values because they are only for debugging purposes
-  day.index.similar.forecasts[which(day.index.similar.forecasts<0)] <- NA
+  negative.pos <- which(day.index.similar.forecasts<0)
+  if (length(negative.pos) != 0) {
+    day.index.similar.forecasts[negative.pos] <- NA
+  }
   
   # This is our x axis ticks and labels
   xs <- config$flts / flts.fraction

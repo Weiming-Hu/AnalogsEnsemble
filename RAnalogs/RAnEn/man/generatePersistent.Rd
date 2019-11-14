@@ -5,7 +5,7 @@
 \title{RAnEn::generatePersistent}
 \usage{
 generatePersistent(config, forecast.time.interval = 86400,
-  show.progress = T, silent = F)
+  show.progress = F, silent = F)
 }
 \arguments{
 \item{config}{A Configuration object created from \code{\link{generateConfiguration}}.}

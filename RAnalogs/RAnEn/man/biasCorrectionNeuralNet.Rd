@@ -6,7 +6,7 @@
 \usage{
 biasCorrectionNeuralNet(AnEn, config, sample.size = 20,
   sample.method = "systematic", cor.threshold = 0.1, maxit = 2000,
-  nnet.size = NA, group.func, ..., show.progress = T, keep.bias = F,
+  nnet.size = NA, group.func, ..., show.progress = F, keep.bias = F,
   keep.model = F, overwrite = F, parallel = F,
   num.cores = stop("Please specify num.cores!"))
 }

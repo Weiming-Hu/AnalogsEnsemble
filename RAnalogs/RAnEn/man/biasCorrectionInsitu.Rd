@@ -5,7 +5,7 @@
 \title{RAnEn::biasCorrectionInsitu}
 \usage{
 biasCorrectionInsitu(AnEn, config, forecast.ID, group.func = mean, ...,
-  keep.bias = F, show.progress = T, overwrite = F,
+  keep.bias = F, show.progress = F, overwrite = F,
   density.limit = 1)
 }
 \arguments{

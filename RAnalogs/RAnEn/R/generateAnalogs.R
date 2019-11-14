@@ -126,7 +126,8 @@ generateAnalogs <- function(configuration) {
       configuration$FLT_radius,
       test_stations_classifier,
       search_stations_classifier,
-      configuration$verbose)
+      configuration$verbose,
+      configuration$debug)
     
   } else if (configuration$mode == 'extendedSearch') {
     # Create default values
@@ -166,7 +167,8 @@ generateAnalogs <- function(configuration) {
       configuration$FLT_radius,
       configuration$test_stations_classifier,
       configuration$search_stations_classifier,
-      configuration$verbose)
+      configuration$verbose,
+      configuration$debug)
     
   } else {
     stop('Unknown configuration mode!')

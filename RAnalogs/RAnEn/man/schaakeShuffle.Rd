@@ -4,7 +4,7 @@
 \alias{schaakeShuffle}
 \title{RAnEn::schaakeShuffle}
 \usage{
-schaakeShuffle(anen, obs.search, show.progress = T)
+schaakeShuffle(anen, obs.search, show.progress = F)
 }
 \arguments{
 \item{anen}{The AnEn values extract from the member \code{analogs} in the results of

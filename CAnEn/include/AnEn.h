@@ -163,6 +163,10 @@ public:
      * mode is used so that a smaller similarity matrix will be created, and not
      * all similarity will be kept. This mode will cause certain amount of 
      * the program slowdown.
+     * @param window_half_size The half size of FLT window when extracting the trend
+     * in time. For example, setting this to 1 means extracting the trend from
+     * current - 1 to current + 1 FLTs.
+     * @param debug Whether to return debug flags when NA values present.
      * 
      * @return An errorType.
      */
@@ -181,7 +185,8 @@ public:
             anenTime::Times search_times = {},
             bool operational = false,
             int max_sims_entries = -1,
-            int window_half_size = 1) const;
+            int window_half_size = 1,
+            bool debug = false) const;
 
     /**
      * Select analogs based on the similarity matrices.
@@ -207,6 +212,8 @@ public:
      * @param quick Whether to use quick sort mechanism.
      * @param extend_observations Whether to extend observation stations to
      * search stations. This only works when search space extension is used.
+     * @param debug Whether to return debug flags when NA values present.
+     *
      * @return An errorType.
      */
     errorType selectAnalogs(
@@ -216,7 +223,8 @@ public:
             const Observations_array& search_observations,
             const TimeMapMatrix & mapping,
             size_t i_parameter, size_t num_members,
-            bool quick = true, bool extend_observations = false) const;
+            bool quick = true, bool extend_observations = false,
+            bool debug = false) const;
 
     int getVerbose() const;
     simMethod getMethod() const;

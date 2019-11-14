@@ -47,7 +47,7 @@
 #' @export
 biasCorrectionInsitu <- function(
   AnEn, config, forecast.ID, group.func = mean, ...,
-  keep.bias = F, show.progress = T, overwrite = F, density.limit = 1) {
+  keep.bias = F, show.progress = F, overwrite = F, density.limit = 1) {
   
   config <- convertToAdvance(config)
   

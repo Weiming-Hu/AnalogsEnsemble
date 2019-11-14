@@ -40,7 +40,7 @@
 #' @export
 generatePersistent <- function(config,
                                forecast.time.interval = 86400,
-                               show.progress = T, silent = F) {
+                               show.progress = F, silent = F) {
   # Sanity checks
   if (class(config) != 'Configuration') {
     stop('Please generate the input config using RAnEn::generateConfiguration.')

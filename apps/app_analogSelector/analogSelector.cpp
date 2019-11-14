@@ -31,7 +31,8 @@ using namespace std;
 void runAnalogSelector(const string & file_sim, const vector<string> & files_obs,
         const vector<size_t> & obs_start, const vector<size_t> & obs_count,
         const string & file_mapping, const string & file_analogs, size_t observation_id,
-        size_t num_members, bool quick, bool extend_observations, int verbose, int obs_along) {
+        size_t num_members, bool quick, bool extend_observations,
+        int verbose, int obs_along, bool debug) {
     
 #if defined(_CODE_PROFILING)
     clock_t time_start = clock();
@@ -113,7 +114,7 @@ void runAnalogSelector(const string & file_sim, const vector<string> & files_obs
     handleError(anen.selectAnalogs(analogs, sims,
             test_stations, search_observations,
             mapping, observation_id, num_members, quick,
-            extend_observations));
+            extend_observations, debug));
 
 #if defined(_CODE_PROFILING)
     clock_t time_end_of_select = clock();
@@ -193,7 +194,8 @@ int main(int argc, char** argv) {
     vector<string> config_files;
     size_t observation_id = 0;
     vector<size_t>  obs_start, obs_count;
-    bool quick = false, extend_observations = false;
+    bool quick = false, debug = false,
+         extend_observations = false;
     
     try {
         po::options_description desc("Avaialble options");
@@ -213,7 +215,8 @@ int main(int argc, char** argv) {
                 ("obs-count", po::value< vector<size_t> >(&obs_count)->multitoken(), "(File I/O) Set the count numbers for each dimension in the search observation NetCDF.")
                 ("quick", po::bool_switch(&quick)->default_value(false), "Use quick sort when selecting analog members.")
                 ("extend-obs", po::bool_switch(&extend_observations)->default_value(false), "After getting the most similar forecast indices, take the corresponding observations from the search station.")
-                ("obs-along", po::value<int>(&obs_along)->default_value(0), "If multiple files are provided for observations, this specifies the dimension to be appended. [0:parameters 1:stations 2:times]. Otherwise, it is ignored.");
+                ("obs-along", po::value<int>(&obs_along)->default_value(0), "If multiple files are provided for observations, this specifies the dimension to be appended. [0:parameters 1:stations 2:times]. Otherwise, it is ignored.")
+                ("debug", po::bool_switch(&debug)->default_value(false), "Whether to return debug flags when NA values present.");
         
         // process unregistered keys and notify users about my guesses
         vector<string> available_options;
@@ -291,13 +294,14 @@ int main(int argc, char** argv) {
                 << "obs_start: " << obs_start << endl
                 << "obs_count: " << obs_count << endl
                 << "quick: " << quick << endl
-                << "extend_observations: " << extend_observations << endl;
+                << "extend_observations: " << extend_observations << endl
+                << "debug: " << debug << endl;
     }
     
     try {
         runAnalogSelector(file_sim, files_obs, obs_start, obs_count,
                 file_mapping, file_analogs, observation_id, num_members,
-                quick, extend_observations, verbose, obs_along);
+                quick, extend_observations, verbose, obs_along, debug);
     } catch (...) {
         handle_exception(current_exception());
         return 1;

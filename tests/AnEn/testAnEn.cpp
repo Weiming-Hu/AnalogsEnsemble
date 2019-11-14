@@ -709,7 +709,8 @@ void testAnEn::testAutomaticDelteOverlappingTimes() {
     anen.computeSearchStations(
             forecasts.getStations(), forecasts.getStations(), i_search_stations);
     anen.computeSimilarity(forecasts, forecasts, sds, sims1, obs, mapping,
-            i_search_stations, 0, false, 0, 0, test_times, search_times1, false);
+            i_search_stations, 0, false, 0, 0, test_times, search_times1, false,
+            -1, 1, true);
 
     // Case 2: manually remove the overlapping time
     SimilarityMatrices sims2;

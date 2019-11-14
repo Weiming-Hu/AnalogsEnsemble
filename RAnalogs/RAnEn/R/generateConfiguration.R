@@ -41,6 +41,10 @@
 #' increase of search days. But the changes are not reflected in the R results.
 #' - verbose: Verbose level. You can find settings for different values in the
 #' [C++ documentation verbose](https://weiming-hu.github.io/AnalogsEnsemble/CXX/class_an_en.html#a25984b953516a987e2e9eb23048e5d60).
+#' - debug: Whether to return debug flags when NA values present. These debug flags will be negative values for NA indices that
+#' indicate the cause for this NA values. Please see the C++ functions 
+#' [computeSimilarity](https://weiming-hu.github.io/AnalogsEnsemble/CXX/class_an_en.html#a787e43e7bfdaa830bf70fa6710731614) and
+#' [selectAnalogs](https://weiming-hu.github.io/AnalogsEnsemble/CXX/class_an_en.html#a8e2b88cda5cc9fce8ea4703a3236719c).
 #' - time_match_mode: This guides how to compute the time mapping from forecast times and forecast 
 #' lead times to observation times. 0 for strict search (return error when matching observation times
 #' cannot be found) and 1 for loose search.
@@ -133,7 +137,8 @@ generateConfiguration <- function(mode, advanced = F) {
     operational = FALSE,
     max_num_sims = 0,
     FLT_radius = 1,
-    verbose = 3)
+    verbose = 3,
+    debug = F)
   
   if (advanced) {
     config$test_forecasts <- NA

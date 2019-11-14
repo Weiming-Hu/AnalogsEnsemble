@@ -290,7 +290,7 @@ AnEn::computeSimilarity(
         anenTime::Times test_times,
         anenTime::Times search_times,
         bool operational, int max_sims_entries,
-        int window_half_size) const {
+        int window_half_size, bool debug) const {
 
     using COL_TAG_SIM = SimilarityMatrices::COL_TAG;
 
@@ -432,7 +432,7 @@ circular_flags, num_parameters, data_search_observations, functions, \
 flts_window, mapping, weights, search_forecasts, test_forecasts, max_sims_entries, \
 sims, sds, i_observation_parameter, i_search_stations, max_flt_nan, max_par_nan, \
 test_stations_index_in_search, extend_observations, i_test_times, sds_operational_container, \
-test_times, max_flt, operational, search_times_operational, i_search_times_operational) \
+test_times, max_flt, operational, search_times_operational, i_search_times_operational, debug) \
 firstprivate(i_search_times, search_times, num_search_times)
 #endif
     for (size_t i_test_station = 0; i_test_station < num_test_stations; i_test_station++) {
@@ -556,12 +556,22 @@ firstprivate(i_search_times, search_times, num_search_times)
                                     }
 
                                 } else {
-                                    if (max_sims_entries <= 0)
-                                        sims[i_test_station][pos_test_time][i_flt][i_sim_row][COL_TAG_SIM::TIME] = -1;
+                                    if (max_sims_entries <= 0) {
+                                        if (debug) {
+                                            sims[i_test_station][pos_test_time][i_flt][i_sim_row][COL_TAG_SIM::TIME] = -1;
+                                        } else {
+                                            sims[i_test_station][pos_test_time][i_flt][i_sim_row][COL_TAG_SIM::TIME] = AnEn::_FILL_VALUE;
+                                        }
+                                    }
                                 } // End of isnan(mapping value)
                             } else {
-                                if (max_sims_entries <= 0)
-                                    sims[i_test_station][pos_test_time][i_flt][i_sim_row][COL_TAG_SIM::TIME] = -2;
+                                if (max_sims_entries <= 0) {
+                                    if (debug) {
+                                        sims[i_test_station][pos_test_time][i_flt][i_sim_row][COL_TAG_SIM::TIME] = -2;
+                                    } else {
+                                        sims[i_test_station][pos_test_time][i_flt][i_sim_row][COL_TAG_SIM::TIME] = AnEn::_FILL_VALUE;
+                                    }
+                                }
 
                             }// End if of non-overlapping test and search forecasts
 
@@ -583,7 +593,7 @@ AnEn::selectAnalogs(
         const Observations_array & search_observations,
         const Functions::TimeMapMatrix & mapping,
         size_t i_parameter, size_t num_members,
-        bool quick, bool extend_observations) const {
+        bool quick, bool extend_observations, bool debug) const {
 
     if (i_parameter >= search_observations.getParametersSize()) {
         if (verbose_ >= 1) cerr << BOLDRED << "Error: i_parameter exceeds the limits. "
@@ -632,7 +642,7 @@ AnEn::selectAnalogs(
 #pragma omp parallel for default(none) schedule(dynamic) collapse(4) \
 shared(data_observations, sims, num_members, mapping, analogs, num_test_stations, \
 i_parameter, num_test_times, num_flts, max_members, \
-extend_observations, test_stations_index_in_search)
+extend_observations, test_stations_index_in_search, debug)
 #endif
     for (size_t i_test_station = 0; i_test_station < num_test_stations; i_test_station++) {
         for (size_t i_test_time = 0; i_test_time < num_test_times; i_test_time++) {
@@ -659,13 +669,25 @@ extend_observations, test_stations_index_in_search)
                                 analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::VALUE] =
                                         data_observations[i_parameter][i_search_station][i_observation_time];
                             } else {
-                                analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::TIME] = -1;
+                                if (debug) {
+                                    analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::TIME] = -1;
+                                } else {
+                                    analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::TIME] = AnEn::_FILL_VALUE;
+                                }
                             }
                         } else {
-                            analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::TIME] = -2;
+                            if (debug) {
+                                analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::TIME] = -2;
+                            } else {
+                                analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::TIME] = AnEn::_FILL_VALUE;
+                            }
                         }
                     } else {
-                        analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::TIME] = -3;
+                        if (debug) {
+                            analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::TIME] = -3;
+                        } else {
+                            analogs[i_test_station][i_test_time][i_flt][i_member][COL_TAG_ANALOG::TIME] = AnEn::_FILL_VALUE;
+                        }
                     }
                 } // End loop of members
             } // End loop of FLTs

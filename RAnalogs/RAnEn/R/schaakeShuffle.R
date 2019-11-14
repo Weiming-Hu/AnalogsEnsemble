@@ -54,7 +54,7 @@
 #' 
 #' @md
 #' @export
-schaakeShuffle <- function(anen, obs.search, show.progress = T) {
+schaakeShuffle <- function(anen, obs.search, show.progress = F) {
   
   warning('RAnEn::schaakeShuffle has not been tested. Use with care.')
   

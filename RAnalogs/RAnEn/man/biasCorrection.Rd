@@ -36,9 +36,9 @@ config <- generateConfiguration('independentSearch')
 
 AnEn <- generateAnalogs(config)
 AnEn <- biasCorrection(AnEn, config, forecast.ID = config$observation_id, group.func = mean, na.rm = T,
-                       keep.bias = T, show.progress = T, overwrite = F, method = 'insitu')
+                       keep.bias = T, show.progress = F, overwrite = F, method = 'insitu')
 AnEn <- biasCorrection(AnEn, config, keep.bias = T, keep.model = T, group.func = mean,
-                       na.rm = T,  show.progress = T, overwrite = F, parallel = T,
+                       na.rm = T,  show.progress = F, overwrite = F, parallel = T,
                        num.cores = 5, method = 'nnet')
 }
 

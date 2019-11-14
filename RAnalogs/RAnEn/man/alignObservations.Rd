@@ -5,7 +5,7 @@
 \title{RAnEn::alignObservations}
 \usage{
 alignObservations(observations, observation.times, forecast.times, flts,
-  return.na.index = F, show.progress = T, silent = F)
+  return.na.index = F, show.progress = F, silent = F)
 }
 \arguments{
 \item{observations}{A 3-dimensional array for observations.}

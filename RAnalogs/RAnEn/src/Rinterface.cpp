@@ -204,7 +204,8 @@ List generateAnalogs(
         bool operational, int max_sims_entries, int FLT_radius,
         NumericVector R_test_station_tags,
         NumericVector R_search_station_tags,
-        int verbose) {
+        int verbose,
+        bool debug) {
 
     /***************************************************************************
      *                   Convert objects for AnEn computation                  *
@@ -356,13 +357,13 @@ List generateAnalogs(
             sds, sims, search_observations, mapping, i_search_stations,
             observation_id, extend_observations,
             max_par_nan, max_flt_nan, test_times_compare,
-            search_times_compare, operational, max_sims_entries, FLT_radius));
+            search_times_compare, operational, max_sims_entries, FLT_radius, debug));
 
     // Select analogs
     handleError(anen.selectAnalogs(analogs, sims, 
             test_stations, search_observations,
             mapping, observation_id, num_members, quick,
-            extend_observations));
+            extend_observations, debug));
 
     /***************************************************************************
      *                           Wrap Up Results                               *

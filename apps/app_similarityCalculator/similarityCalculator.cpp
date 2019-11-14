@@ -59,7 +59,8 @@ void runSimilarityCalculator(
         vector<size_t> search_times_index,
         bool operational, int max_sims_entries, int verbose,
         const vector<double> & weights,
-        int search_along, int obs_along) {
+        int search_along, int obs_along,
+        int window_half_size, bool debug) {
 
     
 #if defined(_CODE_PROFILING)
@@ -244,7 +245,8 @@ void runSimilarityCalculator(
     handleError(anen.computeSimilarity(
             test_forecasts, search_forecasts, sds, sims, observations, mapping,
             i_search_stations, observation_id, extend_observations,
-            max_par_nan, max_flt_nan, test_times, search_times, operational, max_sims_entries));
+            max_par_nan, max_flt_nan, test_times, search_times, operational,
+            max_sims_entries, window_half_size, debug));
 
 #if defined(_CODE_PROFILING)
     clock_t time_end_of_sim = clock();
@@ -334,11 +336,12 @@ int main(int argc, char** argv) {
     vector<double> weights;
     vector<string> config_files;
     int verbose = 0, time_match_mode = 1, search_along = 0,
-        obs_along = 0, max_sims_entries = -1;
+        obs_along = 0, max_sims_entries = -1, window_half_size = 1;
     size_t observation_id = 0, max_neighbors = 0, num_neighbors = 0;
     string file_mapping, file_sds;
     bool searchExtension = false, extend_observations = false,
-            operational = false, continuous_time_index = false;
+            operational = false, continuous_time_index = false,
+            debug = false;
     double distance = 0.0, max_par_nan = 0.0, max_flt_nan = 0.0;
     vector<size_t> test_start, test_count, search_start, search_count,
             obs_start, obs_count, sds_start, sds_count, test_times_index,
@@ -382,7 +385,9 @@ int main(int argc, char** argv) {
                 ("continuous-time", po::bool_switch(&continuous_time_index)->default_value(false), "Whether to generate a sequence for test-times-index and search-times-index. If used, an inclusive sequence is generated when only 2 indices (start and end) are provided in test or search times index.")
                 ("weights", po::value<vector<double> >(&weights)->multitoken(), "Specify the weight for each parameter in forecasts. The order of weights should be the same as the order of forecast parameters.")
                 ("search-along", po::value<int>(&search_along)->default_value(0), "If multiple files are provided for search forecasts, this specifies the dimension to be appended. [0:parameters, 1:stations, 2:times, 3:FLTs]. Otherwise, it is ignored.")
-                ("obs-along", po::value<int>(&obs_along)->default_value(0), "If multiple files are provided for observations, this specifies the dimension to be appended. [0:parameters 1:stations 2:times]. Otherwise, it is ignored.");
+                ("obs-along", po::value<int>(&obs_along)->default_value(0), "If multiple files are provided for observations, this specifies the dimension to be appended. [0:parameters 1:stations 2:times]. Otherwise, it is ignored.")
+                ("window-half-size", po::value<int>(&window_half_size)->default_value(1), "The half size of FLT window when extracting the trend in time. For example, setting this to 1 means extracting the trend from current - 1 to current + 1 FLTs.")
+                ("debug", po::bool_switch(&debug)->default_value(false), "Whether to return debug flags when NA values present.");
         
         // process unregistered keys and notify users about my guesses
         vector<string> available_options;
@@ -520,13 +525,15 @@ int main(int argc, char** argv) {
                 << "obs_count: " << obs_count << endl
                 << "sds_start: " << sds_start << endl
                 << "sds_count: " << sds_count << endl
-                << "test_times_index: " << test_times_index << endl
                 << "search_times_index: " << search_times_index << endl
+                << "test_times_index: " << test_times_index << endl
                 << "operational: " << operational << endl
                 << "max_sims_entries: " << max_sims_entries << endl
                 << "weights: " << weights << endl
                 << "search_along: " << search_along << endl
-                << "obs_along: " << obs_along << endl;
+                << "obs_along: " << obs_along << endl
+                << "window_half_size: " << window_half_size << endl
+                << "debug: " << debug << endl;
     }
     
     try {
@@ -538,7 +545,8 @@ int main(int argc, char** argv) {
                 observation_id, extend_observations, searchExtension,
                 max_neighbors, num_neighbors, distance, time_match_mode,
                 max_par_nan, max_flt_nan, test_times_index, search_times_index,
-                operational, max_sims_entries, verbose, weights, search_along, obs_along);
+                operational, max_sims_entries, verbose, weights, search_along, obs_along,
+                window_half_size, debug);
     } catch (...) {
         handle_exception(current_exception());
         return 1;

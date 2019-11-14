@@ -63,7 +63,8 @@ void runAnalogGenerator(
         
         bool operational, int max_sims_entries, 
         int window_half_size, int verbose,
-        int test_along, int search_along, int obs_along) {
+        int test_along, int search_along,
+        int obs_along, bool debug) {
 
 #if defined(_CODE_PROFILING)
     clock_t time_start = clock();
@@ -241,7 +242,7 @@ void runAnalogGenerator(
             test_forecasts, search_forecasts, sds, sims, search_observations,
             mapping, i_search_stations, observation_id, extend_observations,
             max_par_nan, max_flt_nan, test_times, search_times, operational,
-            max_sims_entries, window_half_size));
+            max_sims_entries, window_half_size, debug));
 
 #if defined(_CODE_PROFILING)
     clock_t time_end_of_sim = clock();
@@ -255,7 +256,7 @@ void runAnalogGenerator(
     handleError(anen.selectAnalogs(analogs, sims,
             test_forecasts.getStations(), search_observations,
             mapping, observation_id, num_members, quick,
-            extend_observations));
+            extend_observations, debug));
 
 #if defined(_CODE_PROFILING)
     clock_t time_end_of_select = clock();
@@ -359,7 +360,7 @@ int main(int argc, char** argv) {
     size_t observation_id = 0;
     string file_mapping, file_similarity, file_sds;
     bool quick = false, searchExtension = false, extend_observations = false,
-            operational = false, continuous_time_index = false;
+            operational = false, continuous_time_index = false, debug = false;
 
     vector<double> weights;
     vector<string> config_files;
@@ -385,7 +386,7 @@ int main(int argc, char** argv) {
                 ("time-match-mode", po::value<int>(&time_match_mode)->default_value(1), "Set the match mode for generating TimeMapMatrix. 0 for strict and 1 for loose search.")
                 ("max-par-nan", po::value<double>(&max_par_nan)->default_value(0), "The number of NAN values allowed when computing similarity across different parameters. Set it to a negative number (will be automatically converted to NAN) to allow any number of NAN values.")
                 ("max-flt-nan", po::value<double>(&max_flt_nan)->default_value(0), "The number of NAN values allowed when computing FLT window averages. Set it to a negative number (will be automatically converted to NAN) to allow any number of NAN values.")
-                ("window-half-size", po::value<double>(&window_half_size)->default_value(1), "The radius for comparing a parameter along lead times. This specifies how many prior and subsequent lead times to compare. Must be non-negative.")
+                ("window-half-size", po::value<double>(&window_half_size)->default_value(1), "The half size of FLT window when extracting the trend in time. For example, setting this to 1 means extracting the trend from current - 1 to current + 1 FLTs.")
                 ("similarity-nc", po::value<string>(&file_similarity), "Set the output file path for similarity NetCDF.")
                 ("sds-nc", po::value<string>(&file_sds), "Set the file path to read for standard deviation.")
                 ("mapping-txt", po::value<string>(&file_mapping), "Set the output file path for time mapping matrix.")
@@ -412,7 +413,8 @@ int main(int argc, char** argv) {
                 ("extend-obs", po::bool_switch(&extend_observations)->default_value(false), "After getting the most similar forecast indices, take the corresponding observations from the search station.")
                 ("test-along", po::value<int>(&test_along)->default_value(0), "If multiple files are provided for test forecasts, this specifies the dimension to be appended. [0:parameters, 1:stations, 2:times, 3:FLTs]. Otherwise, it is ignored.")
                 ("search-along", po::value<int>(&search_along)->default_value(0), "If multiple files are provided for search forecasts, this specifies the dimension to be appended. [0:parameters, 1:stations, 2:times, 3:FLTs]. Otherwise, it is ignored.")
-                ("obs-along", po::value<int>(&obs_along)->default_value(0), "If multiple files are provided for observations, this specifies the dimension to be appended. [0:parameters 1:stations 2:times]. Otherwise, it is ignored.");
+                ("obs-along", po::value<int>(&obs_along)->default_value(0), "If multiple files are provided for observations, this specifies the dimension to be appended. [0:parameters 1:stations 2:times]. Otherwise, it is ignored.")
+                ("debug", po::bool_switch(&debug)->default_value(false), "Whether to return debug flags when NA values present.");
         
         // process unregistered keys and notify users about my guesses
         vector<string> available_options;
@@ -559,7 +561,8 @@ int main(int argc, char** argv) {
                 << "max_sims_entries: " << max_sims_entries << endl
                 << "test_along: " << test_along << endl
                 << "search_along: " << search_along << endl
-                << "obs_along: " << obs_along << endl;
+                << "obs_along: " << obs_along << endl
+                << "debug: " << debug << endl;
     }
 
     try {
@@ -574,7 +577,7 @@ int main(int argc, char** argv) {
                 extend_observations, time_match_mode, max_par_nan,
                 max_flt_nan, test_times_index, search_times_index,
                 weights, operational, max_sims_entries, window_half_size,
-                verbose, test_along, search_along, obs_along);
+                verbose, test_along, search_along, obs_along, debug);
     } catch (...) {
         handle_exception(current_exception());
         return 1;
