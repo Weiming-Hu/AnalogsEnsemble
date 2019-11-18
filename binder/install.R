@@ -19,6 +19,7 @@ install.packages("sf")
 install.packages("sp")
 install.packages("maps")
 install.packages('rgdal')
+install.packages("dplyr")
 install.packages("raster")
 
 install.packages("Rcpp")
