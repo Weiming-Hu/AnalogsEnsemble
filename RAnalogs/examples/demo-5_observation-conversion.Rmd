@@ -7,7 +7,12 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-stopifnot(packageVersion('RAnEn')>="3.7.0")
+
+if (packageVersion('RAnEn') < "3.7.0") {
+  install.packages(
+    "https://github.com/Weiming-Hu/AnalogsEnsemble/raw/master/RAnalogs/releases/RAnEn_latest.tar.gz",
+    repos = NULL)
+}
 
 library(sp)
 library(dplyr)
@@ -55,7 +60,14 @@ After the download, we can read the data file into R.
 # - sep: Columns are seperated by comma;
 # - quote: Cells are quoted with double quotes;
 # - header: The first row contains header information, rather than data entires.
-# - stringsAsFactors: Do not convert strings to factors for the ease of processing
+# - stringsAsFactors: Do not convert strings to factors for the ease of processing.
+# 
+# Factors are trickier to deal with, especially when numeircs are involved. Why?
+# You can read this post on converting from factors to numerics.
+# https://www.dummies.com/programming/r/how-to-convert-a-factor-in-r/
+# 
+# So we prevent R from converting columns into factors in the first place.
+# Just read them as strings.
 # 
 obs <- read.table(obs.file, sep = ',', quote = '"', header = T, stringsAsFactors = F)
 
@@ -64,7 +76,9 @@ obs <- read.table(obs.file, sep = ',', quote = '"', header = T, stringsAsFactors
 # 
 obs <- obs[sample(nrow(obs), floor(nrow(obs) * 0.01)), ]
 
-# Time columns are characters. Let's create POSIXct times.
+# Time columns are characters. Let's create POSIXct times. It will be easier for 
+# POSIXct to do time series related operations.
+# 
 obs$POSIX <- as.POSIXct(
   paste(obs$Date.GMT, obs$Time.GMT),
   format = '%Y-%m-%d %H:%M', tz = 'UTC')
@@ -187,9 +201,10 @@ And we are going to assign values for each of the time slot if the values can be
 
 ```{r}
 # Allocate the array for observation data
-observations$Data <- array(NA, dim = c(length(observations$ParameterNames),
-                                       length(observations$Xs),
-                                       length(observations$Times)))
+observations$Data <- array(
+  NA, dim = c(length(observations$ParameterNames),
+              length(observations$Xs),
+              length(observations$Times)))
 
 i.par <- which(observations$ParameterNames == 'Ozone')
 
@@ -204,7 +219,13 @@ for (station.id in observations$StationNames) {
     subset(Station.ID == station.id) %>%
     select(POSIX, Sample.Measurement) %>%
     
-    # Append requested time slots
+    # Append requested time slots with NA values to the 
+    # end of the data frame. If a time with valid values
+    # already exist in the data frame, on the next line, 
+    # the duplicated time slot with NA values will be 
+    # removed. Otherwise, the time slot with NA values will
+    # be preserved.
+    # 
     rbind(data.frame(
     POSIX = observations$Times,
     Sample.Measurement = NA))
