@@ -28,4 +28,4 @@ You will learn the followings:
 Access
 ------------
 
-This tutorial can be accessed on binder. Please click [here](https://mybinder.org/v2/gh/Weiming-Hu/AnalogsEnsemble/master?urlpath=rstudio) to start an interactive session and go over the tutorial under `RAnalogs/examples`. Or you can download the repository and use the [R markdown file](https://github.com/Weiming-Hu/AnalogsEnsemble/blob/master/RAnalogs/examples/2019-11-18-format-obs.Rmd) directly.
+This tutorial can be accessed on binder. Please click [here](https://mybinder.org/v2/gh/Weiming-Hu/AnalogsEnsemble/master?urlpath=rstudio) to start an interactive session and go over the tutorial under `RAnalogs/examples`. Or you can download the repository and use the [R markdown file](https://github.com/Weiming-Hu/AnalogsEnsemble/blob/master/RAnalogs/examples/demo-5_observation-conversion.Rmd) directly.
