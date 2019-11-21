@@ -20,6 +20,12 @@ library(RAnEn)
 library(ggplot2)
 ```
 
+## Update
+
+The functionality of this script has been included and converted to a function `RAnEn::formatObservations`. It is recommended to use this function instead of doing the conversion manually.
+
+If you have questions, please ask [here](https://github.com/Weiming-Hu/AnalogsEnsemble/issues).
+
 ## Introduction
 
 Tutorial shows an example of converting a data frame to a list with the format that is required for analog generation.

@@ -62,6 +62,11 @@ writeNetCDF <- function(file.type, obj, file.out,
 			stop(paste("Required member", required.member, "does not exist in the object!"))
 		}
 	}
+  
+  # Prevent NA variables
+  for (name in names(obj)) {
+    stopifnot(!identical(NA, obj[[name]]))
+  }
 	
 	# Define the maximum length of strings
 	nc.dim.chars <- ncdim_def("num_chars", "", 1:nchars.max, create_dimvar = F)
