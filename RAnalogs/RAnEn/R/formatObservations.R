@@ -1,8 +1,109 @@
+# "`-''-/").___..--''"`-._
+#  (`6_ 6  )   `-.  (     ).`-.__.`)   WE ARE ...
+#  (_Y_.)'  ._   )  `._ `. ``-..-'    PENN STATE!
+#    _ ..`--'_..-_/  /--'_.' ,'
+#  (il),-''  (li),'  ((!.-'
+# 
+# Author: Weiming Hu <weiming@psu.edu>
+#         Geoinformatics and Earth Observation Laboratory (http://geolab.psu.edu)
+#         Department of Geography and Institute for CyberScience
+#         The Pennsylvania State University
+#
+
+#' RAnEn::formatObservations
+#' 
+#' RAnEn::formatObservations generates the observation list required
+#' by analog computation.
+#' 
+#' @details 
+#' The observation list is an R list with members including `ParameterNames`,
+#' `Xs`, `Ys`, `Data`, and etc., with a full list accessible
+#' [here](https://weiming-hu.github.io/AnalogsEnsemble/2019/01/16/NetCDF-File-Types.html#observations).
+#' RAnEn::formatObservations make it easier to convert a data frame into
+#' a such list data structure.
+#' 
+#' @param df A data frame to be converted to an R list.
+#' @param col.par The column name for parameter names.
+#' @param col.x The column name for station x coordinates.
+#' @param col.y The column name for station y coordinates.
+#' @param col.time The column name for times. The column should be POSIXct.
+#' @param time.series The times to be extract into observations. This should
+#' be a POSIXct vector.
+#' @param col.value The column name for data values.
+#' @param verbose Whether to print progress messages.
+#' @param preview How many entries to preview in progress messages.
+#' @param remove.duplicates Whether to remove redundant values associated
+#' with the same time. Sometimes, it is possible that, due to equipment mulfunctions,
+#' there are multiple measurements at the same time. Idealy this should cleaned prior
+#' to this function, but this function is able to keep the first appearance and remove
+#' the rest.
+#' @param circular.pars A character vector for the circular parameter names.
+#' @param col.station.name The column name for station names.
+#' @param show.progress Whether to show a progress bar.
+#' 
+#' @return An R list for observation data.
+#' 
+#' @examples 
+#' \dontrun{
+#' # How to download this file? Please see the tutorial
+#' # https://github.com/Weiming-Hu/AnalogsEnsemble/blob/master/RAnalogs/examples/demo-5_observation-conversion.Rmd
+#' #
+#' obs <- read.table('~/Desktop/hourly_44201_2019.csv',
+#'                   sep = ',', quote = '"', header = T, stringsAsFactors = F)
+#' 
+#' # Sample data
+#' df <- obs[sample(nrow(obs), floor(nrow(obs) * 0.01)), ]
+#' 
+#' # Create a POSIXct time
+#' df$POSIX <- as.POSIXct(
+#'   paste(df$Date.GMT, df$Time.GMT),
+#'   format = '%Y-%m-%d %H:%M', tz = 'UTC')
+#' 
+#' # Create unique station names
+#' df$StationName <- paste(
+#'   df$State.Name, df$County.Name, df$Site.Num, sep = '-')
+#' 
+#' # Create a target time series
+#' time.series <- seq(
+#'   from = as.POSIXct('2019-03-03', tz = 'UTC'),
+#'   to = as.POSIXct('2019-06-03', tz = 'UTC'),
+#'   by = 'hour')
+#' 
+#' # Format observations
+#' observations <- formatObservations(
+#'   df = df, col.par = 'Parameter.Name',
+#'   col.x = 'Longitude', col.y = 'Latitude',
+#'   col.time = 'POSIX', time.series = time.series,
+#'   col.value = 'Sample.Measurement',
+#'   circular.pars = 'Ozone',
+#'   col.station.name = 'StationName',
+#'   show.progress = T)
+#' 
+#' # Check data
+#' i.station = 50
+#' plot(observations$Times,
+#'      observations$Data[1, i.station, ],
+#'      col = 'red', pch = 16)
+#' 
+#' df.sub <- subset(
+#'   df, Latitude == observations$Ys[i.station] &
+#'     Longitude == observations$Xs[i.station])
+#' df.sub <- df.sub[order(df.sub$POSIX),]
+#' lines(df.sub$POSIX, df.sub$Sample.Measurement)
+#' 
+#' # Write formatted observations to a file
+#' writeNetCDF('Observations', observations, '~/Desktop/obs.nc')
+#' }
+#' 
+#' @md
+#' @export
 formatObservations <- function(
   df, col.par, col.x, col.y, col.time, time.series, col.value,
   verbose = T, preview = 2, remove.duplicates = T,
   circular.pars = NA, col.station.name = NA,
   show.progress = F) {
+  
+  require(dplyr)
   
   # Sanity check
   stopifnot(is.data.frame(df))
@@ -16,6 +117,10 @@ formatObservations <- function(
     stop('time.series should be POSIXct')
   }
   
+  if (!inherits(df[, col.time], 'POSIXct')) {
+    stop(paste(col.time, 'should be POSIXct'))
+  }
+  
   if (any(duplicated(time.series))) {
     stop('time.seires does not allow duplicates.')
   }
@@ -25,12 +130,18 @@ formatObservations <- function(
     cat('Start formatting the observation list ...\n')
   }
   
+  # Remove extra measurements that are outside
+  # of the specified time series.
+  # 
+  time.series <- sort(time.series)
+  df <- df[which(
+    df[, col.time] >= time.series[1] &
+      df[, col.time] <= time.series[length(time.series)]), ]
+  
   observations <- list(
     ParameterNames = NA,
-    Xs = NA,
-    Ys = NA,
-    Times = NA,
-    Data = NA)
+    Xs = NA, Ys = NA,
+    Times = NA, Data = NA)
   
   # Assign unique parameters
   observations$ParameterNames <- unique(df[[col.par]])
@@ -161,51 +272,3 @@ formatObservations <- function(
   }
   return(observations)
 }
-
-
-library(RAnEn)
-
-obs <- read.table('~/Desktop/hourly_44201_2019.csv',
-                  sep = ',', quote = '"', header = T, stringsAsFactors = F)
-
-df <- obs[sample(nrow(obs), floor(nrow(obs) * 0.01)), ]
-
-df$POSIX <- as.POSIXct(
-  paste(df$Date.GMT, df$Time.GMT),
-  format = '%Y-%m-%d %H:%M', tz = 'UTC')
-
-time.series <- seq(
-  from = as.POSIXct('2019-03-03', tz = 'UTC'),
-  to = as.POSIXct('2019-06-03', tz = 'UTC'),
-  by = 'hour')
-
-observations <- formatObservations(
-  df = df, col.par = 'Parameter.Name',
-  col.x = 'Longitude', col.y = 'Latitude',
-  col.time = 'POSIX', time.series = time.series,
-  col.value = 'Sample.Measurement',
-  circular.pars = 'Ozone',
-  col.station.name = 'Site.Num',
-  show.progress = T)
-
-
-i.station = 50
-plot(observations$Times,
-     observations$Data[1, i.station, ],
-     col = 'red', pch = 16)
-
-df.sub <- subset(
-  df, Latitude == observations$Ys[i.station] &
-    Longitude == observations$Xs[i.station])
-df.sub <- df.sub[order(df.sub$POSIX),]
-lines(df.sub$POSIX, df.sub$Sample.Measurement)
-
-library(RAnEn)
-writeNetCDF('Observations', observations, '~/Desktop/obs.nc')
-
-
-# Add
-# - ParameterWeights
-# - ParameterCirculars
-# - StationNames
-# 

@@ -1,6 +1,8 @@
 # PAnEn 3.7.0
 
 - Negative values in indices were removed by default. Added a parameter `debug` for backward compatibility.
+- Added function `RAnEn::formatObservations`
+- Updated the docker image
 
 # PAnEn 3.6.5
 

@@ -32,11 +32,17 @@ readObservations <- function(file, origin = '1970-01-01', tz = 'UTC') {
   
   observations <- list()
   nc <- nc_open(file)
-  observations$ParameterNames <- ncvar_get(nc, 'ParameterNames')
   observations$Data <- ncvar_get(nc, 'Data', collapse_degen = F)
   observations$Times <- as.POSIXct(ncvar_get(nc, 'Times'), origin = origin, tz = tz)
-  observations$Xs <- ncvar_get(nc, 'Xs')
-  observations$Ys <- ncvar_get(nc, 'Ys')
+  observations$Xs <- as.numeric(ncvar_get(nc, 'Xs'))
+  observations$Ys <- as.numeric(ncvar_get(nc, 'Ys'))
+  
+  for (name in c('ParameterCirculars', 'StationNames',
+                 'ParameterNames', 'ParameterWeights')) {
+    if (name %in% names(nc$var)) {
+      observations[[name]] <- as.vector(ncvar_get(nc, name))
+    }
+  }
   
   nc_close(nc)
   

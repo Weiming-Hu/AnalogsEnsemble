@@ -33,15 +33,17 @@ readForecasts <- function(file, origin = '1970-01-01', tz = 'UTC') {
   forecasts <- list()
   
   nc <- nc_open(file)
-  forecasts$ParameterNames <- ncvar_get(nc, 'ParameterNames')
   forecasts$Data <- ncvar_get(nc, 'Data', collapse_degen = F)
-  forecasts$Times <- as.POSIXct(ncvar_get(nc, 'Times'), origin = origin, tz = tz)
-  forecasts$Xs <- ncvar_get(nc, 'Xs')
-  forecasts$Ys <- ncvar_get(nc, 'Ys')
-  forecasts$FLTs <- ncvar_get(nc, 'FLTs')
+  forecasts$Times <- toDateTime(ncvar_get(nc, 'Times'), origin = origin, tz = tz)
+  forecasts$Xs <- as.numeric(ncvar_get(nc, 'Xs'))
+  forecasts$Ys <- as.numeric(ncvar_get(nc, 'Ys'))
+  forecasts$FLTs <- as.numeric(ncvar_get(nc, 'FLTs'))
 
-  if ('ParameterCirculars' %in% names(nc$var)) {
-    forecasts$ParameterCirculars <- ncvar_get(nc, 'ParameterCirculars')
+  for (name in c('ParameterCirculars', 'StationNames',
+                 'ParameterNames', 'ParameterWeights')) {
+    if (name %in% names(nc$var)) {
+      forecasts[[name]] <- as.vector(ncvar_get(nc, name))
+    }
   }
   
   nc_close(nc)
