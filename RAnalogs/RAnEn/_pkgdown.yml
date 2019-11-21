@@ -24,6 +24,7 @@ reference:
           - generateTimeMapping
           - generateSearchStations
           - validateConfiguration
+          - formatObservations
           - formatConfiguration
           - rcpp_compute_analogs
 
