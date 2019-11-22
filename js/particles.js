@@ -385,36 +385,36 @@ window.addEventListener('load', function() {
   //document.body.appendChild(stats.domElement);
   
   // dat.gui stuff, 2 folders with a few properties
-  var f1 = gui.addFolder('Particles'),
-      f2 = gui.addFolder('Colors');
-  
-  f1.add(settings, 'particleNum', 1000, 15000).step(10).name("Particles").onChange(function() {
-    if(settings.particleNum < particles.length) {
-      var toDelete = (particles.length - settings.particleNum);
-      particles.splice(particles.length - toDelete, toDelete);
-    } else {
-      for(var i = particles.length; i < settings.particleNum; i += 1) {
-        particles.push(new Particle(p, bounds, rctx, monitor));
-      }
-    }
-  });
-  
-  f2.add(settings, 'fadeOverlay').name("Fade Clear").onChange(function() {
-    if(settings.fadeOverlay) {
-      resize();
-    }
-  });
-  
-  f2.add(settings, 'rotateColor').name("Rotate Color");
-  f2.addColor(settings, 'staticColor').name("Static Color").onChange(function() {
-    settings.staticColorString = 'rgba(' + 
-      Math.floor(settings.staticColor.r) + ', ' + 
-      Math.floor(settings.staticColor.g) + ', ' + 
-      Math.floor(settings.staticColor.b) + ', ' + .55 + ')';
-  });
-  
-  f1.open();
-  f2.open();
+  // var f1 = gui.addFolder('Particles'),
+  //     f2 = gui.addFolder('Colors');
+  // 
+  // f1.add(settings, 'particleNum', 1000, 15000).step(10).name("Particles").onChange(function() {
+  //   if(settings.particleNum < particles.length) {
+  //     var toDelete = (particles.length - settings.particleNum);
+  //     particles.splice(particles.length - toDelete, toDelete);
+  //   } else {
+  //     for(var i = particles.length; i < settings.particleNum; i += 1) {
+  //       particles.push(new Particle(p, bounds, rctx, monitor));
+  //     }
+  //   }
+  // });
+  // 
+  // f2.add(settings, 'fadeOverlay').name("Fade Clear").onChange(function() {
+  //   if(settings.fadeOverlay) {
+  //     resize();
+  //   }
+  // });
+  // 
+  // f2.add(settings, 'rotateColor').name("Rotate Color");
+  // f2.addColor(settings, 'staticColor').name("Static Color").onChange(function() {
+  //   settings.staticColorString = 'rgba(' + 
+  //     Math.floor(settings.staticColor.r) + ', ' + 
+  //     Math.floor(settings.staticColor.g) + ', ' + 
+  //     Math.floor(settings.staticColor.b) + ', ' + .55 + ')';
+  // });
+  // 
+  // f1.open();
+  // f2.open();
   gui.close();
   
   // seed perlin with random bytes from SmallPRNG
