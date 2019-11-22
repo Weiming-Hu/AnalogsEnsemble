@@ -89,7 +89,7 @@ plotAnalogSelection <- function(
     stop("Parameter names and the first dimension of configuration forecasts do not match.")
   }
   if (use.plotly) {
-    require(plotly)
+    stopifnot(require(plotly))
   }
   
   # Remove the parameters with weight equals to 0

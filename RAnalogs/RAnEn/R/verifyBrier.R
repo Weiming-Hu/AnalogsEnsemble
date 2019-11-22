@@ -101,7 +101,7 @@
 #' @export
 verifyBrier <- function(anen.ver, obs.ver, threshold, ensemble.func, ..., baseline = NULL) {
   
-  require(verification)
+  stopifnot(require(verification))
   
   stopifnot(length(dim(anen.ver)) == 4)
   stopifnot(length(dim(obs.ver)) == 3)

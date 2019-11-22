@@ -24,7 +24,7 @@ anen.mean <- function(anen.ver, na.rm=T, fun = mean, parallel = F) {
   anen <-  matrix(anen.ver, ncol=dim(anen.ver)[4])   # [stations*days,FLT, members]
   
   if (parallel) {
-    require(parallel)
+    stopifnot(require(parallel))
     anen <- split(anen, seq(nrow(anen)))
     anen <- unlist(mclapply(anen, fun, na.rm = na.rm)) # Compute the mean of the members
     

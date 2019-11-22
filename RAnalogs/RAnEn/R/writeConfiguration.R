@@ -33,7 +33,7 @@
 writeConfiguration <- function(config, obs.par.names, fcsts.par.names,
                         xs, ys, file.prefix = '', folder = './',
                         silent = F) {
-  require(ncdf4)
+  stopifnot(require(ncdf4))
   
   # Sanity checks
   stopifnot(length(obs.par.names) == dim(config$search_observations)[1])

@@ -16,11 +16,9 @@
 #' @keywords internal
 boot.fun.ver <- function( temp, R, fun = function(d,i){ mean( d[i,1] ) }) {
   temp <- data.frame( val = na.omit( temp ) )
-  require(boot)
-  
   boot <- rep(NA,3)
 
-  require(boot)
+  stopifnot(require(boot))
   
   if( nrow(temp) > 1 ) {
     err.boot   <- boot::boot(temp, fun, R=R)

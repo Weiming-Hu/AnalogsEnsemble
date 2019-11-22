@@ -29,7 +29,7 @@
 #' @md
 #' @export
 readAnEn <- function(file.analogs, file.similarity = NA, verbose = F, split = 0) {
-  require(ncdf4)
+  stopifnot(require(ncdf4))
   AnEn <- list()
   class(AnEn) <- 'AnEn'
   

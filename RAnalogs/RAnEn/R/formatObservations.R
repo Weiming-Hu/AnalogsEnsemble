@@ -103,7 +103,7 @@ formatObservations <- function(
   circular.pars = NA, col.station.name = NA,
   show.progress = F) {
   
-  require(dplyr)
+  stopifnot(require(dplyr))
   
   # Sanity check
   stopifnot(is.data.frame(df))
