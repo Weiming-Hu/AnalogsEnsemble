@@ -41,7 +41,7 @@
 #' @export
 writeNetCDF <- function(file.type, obj, file.out,
 												global.attrs = NULL, nchars.max = 50) {
-	stopifnot(require(ncdf4))
+	stopifnot(requireNamespace(ncdf4, quietly = T))
 	
 	# Check whether the output file path is valid
 	if (file.exists(file.out)) {

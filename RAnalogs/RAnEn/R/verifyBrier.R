@@ -72,8 +72,8 @@
 #' 
 #' if (all(c('ggplot2', 'reshape2') %in% installed.packages())) {
 #'   # Use ggplot2
-#'   require(reshape2)
-#'   require(ggplot2)
+#'   library(reshape2)
+#'   library(ggplot2)
 #'   
 #'   # Unpivot the score table
 #'   colnames(score) <- c('Brier', 'Skill', "Reliability", 'Resolution')
@@ -101,7 +101,7 @@
 #' @export
 verifyBrier <- function(anen.ver, obs.ver, threshold, ensemble.func, ..., baseline = NULL) {
   
-  stopifnot(require(verification))
+  stopifnot(requireNamespace(verification, quietly = T))
   
   stopifnot(length(dim(anen.ver)) == 4)
   stopifnot(length(dim(obs.ver)) == 3)

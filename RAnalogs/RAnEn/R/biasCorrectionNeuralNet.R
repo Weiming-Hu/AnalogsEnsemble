@@ -134,7 +134,7 @@ biasCorrectionNeuralNet <- function(
   
   bias <- pbapply::pbsapply(simplify = "array", cl = cl, X = test.days,
                    FUN = function(test.day, config, group.func, ...) {
-    require(RAnEn)
+    requireNamespace(RAnEn, quietly = T)
     
     # Only include the one day in test forecasts
     config$test_forecasts <- config$search_forecasts[, , test.day, , drop = F]

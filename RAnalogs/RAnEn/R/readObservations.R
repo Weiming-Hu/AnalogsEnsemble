@@ -27,7 +27,7 @@
 #' @md
 #' @export
 readObservations <- function(file, origin = '1970-01-01', tz = 'UTC') {
-  stopifnot(require(ncdf4))
+  stopifnot(requireNamespace(ncdf4, quietly = T))
   stopifnot(file.exists(file))
   
   observations <- list()

@@ -71,7 +71,7 @@ verifyCRPS <- function(anen.ver, obs.ver, boot = F, R = 1000, int.step = 150, na
   
   
   if ( boot == F) {
-    stopifnot(require(verification))
+    stopifnot(requireNamespace(verification, quietly = T))
 
     # Run the CRPS
     deco     <- crpsDecomposition(obs[,2], anen)
