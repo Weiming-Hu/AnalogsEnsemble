@@ -93,11 +93,11 @@ git checkout $TARGET_BRANCH || git checkout --orphan $TARGET_BRANCH
 rm README.md
 cp ../README.md .
 
-cp ../README.md ./index.md
-echo -e '\n' | cat - index.md > temp && mv temp index.md
-echo -e '---' | cat - index.md > temp && mv temp index.md
-echo -e 'layout: default' | cat - index.md > temp && mv temp index.md
-echo -e '---' | cat - index.md > temp && mv temp index.md
+cp ../README.md ./doc.md
+echo -e '\n' | cat - doc.md > temp && mv temp doc.md
+echo -e '---' | cat - doc.md > temp && mv temp doc.md
+echo -e 'layout: default' | cat - doc.md > temp && mv temp doc.md
+echo -e '---' | cat - doc.md > temp && mv temp doc.md
 
 cd ..
 
