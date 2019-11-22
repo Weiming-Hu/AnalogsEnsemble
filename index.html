@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <title>Parallel Analog Ensemble</title>
+
+        <!-- Bootstrap core CSS -->
+        <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Custom styles for this template -->
+        <link href="css/scrolling-nav.css" rel="stylesheet">
+        <link href="css/particles.css" rel="stylesheet">
+        <link href='https://fonts.googleapis.com/css?family=Abril Fatface' rel='stylesheet'> 
+        <!-- Resources on other origins must be CORS-enabled. -->
+        <link rel="import" href="http://example.com/elements.html">
+
+    </head>
+
+    <body id="page-top">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+            <div class="container">
+                <a class="navbar-brand js-scroll-trigger" href="#page-top">Parallel Analog Ensemble</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link js-scroll-trigger" href="#about">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link js-scroll-trigger" href="#installation">Installation</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link js-scroll-trigger" href="#tutorial">Tutorials</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link js-scroll-trigger" href="https://weiming-hu.github.io/AnalogsEnsemble/">Doc</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link js-scroll-trigger" href="#contact">Contact</a>
+                        </li>
+                        <li class="nav-item">
+                            <a id="github-link" class="nav-link js-scroll-trigger" title="Github" aria-label="Github" href="https://github.com/Weiming-Hu/AnalogsEnsemble">
+                                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 28" height="24" width="28"><path d="M12 2c6.625 0 12 5.375 12 12 0 5.297-3.437 9.797-8.203 11.391-0.609 0.109-0.828-0.266-0.828-0.578 0-0.391 0.016-1.687 0.016-3.297 0-1.125-0.375-1.844-0.812-2.219 2.672-0.297 5.484-1.313 5.484-5.922 0-1.313-0.469-2.375-1.234-3.219 0.125-0.313 0.531-1.531-0.125-3.187-1-0.313-3.297 1.234-3.297 1.234-0.953-0.266-1.984-0.406-3-0.406s-2.047 0.141-3 0.406c0 0-2.297-1.547-3.297-1.234-0.656 1.656-0.25 2.875-0.125 3.187-0.766 0.844-1.234 1.906-1.234 3.219 0 4.594 2.797 5.625 5.469 5.922-0.344 0.313-0.656 0.844-0.766 1.609-0.688 0.313-2.438 0.844-3.484-1-0.656-1.141-1.844-1.234-1.844-1.234-1.172-0.016-0.078 0.734-0.078 0.734 0.781 0.359 1.328 1.75 1.328 1.75 0.703 2.141 4.047 1.422 4.047 1.422 0 1 0.016 1.937 0.016 2.234 0 0.313-0.219 0.688-0.828 0.578-4.766-1.594-8.203-6.094-8.203-11.391 0-6.625 5.375-12 12-12zM4.547 19.234c0.031-0.063-0.016-0.141-0.109-0.187-0.094-0.031-0.172-0.016-0.203 0.031-0.031 0.063 0.016 0.141 0.109 0.187 0.078 0.047 0.172 0.031 0.203-0.031zM5.031 19.766c0.063-0.047 0.047-0.156-0.031-0.25-0.078-0.078-0.187-0.109-0.25-0.047-0.063 0.047-0.047 0.156 0.031 0.25 0.078 0.078 0.187 0.109 0.25 0.047zM5.5 20.469c0.078-0.063 0.078-0.187 0-0.297-0.063-0.109-0.187-0.156-0.266-0.094-0.078 0.047-0.078 0.172 0 0.281s0.203 0.156 0.266 0.109zM6.156 21.125c0.063-0.063 0.031-0.203-0.063-0.297-0.109-0.109-0.25-0.125-0.313-0.047-0.078 0.063-0.047 0.203 0.063 0.297 0.109 0.109 0.25 0.125 0.313 0.047zM7.047 21.516c0.031-0.094-0.063-0.203-0.203-0.25-0.125-0.031-0.266 0.016-0.297 0.109s0.063 0.203 0.203 0.234c0.125 0.047 0.266 0 0.297-0.094zM8.031 21.594c0-0.109-0.125-0.187-0.266-0.172-0.141 0-0.25 0.078-0.25 0.172 0 0.109 0.109 0.187 0.266 0.172 0.141 0 0.25-0.078 0.25-0.172zM8.937 21.438c-0.016-0.094-0.141-0.156-0.281-0.141-0.141 0.031-0.234 0.125-0.219 0.234 0.016 0.094 0.141 0.156 0.281 0.125s0.234-0.125 0.219-0.219z"></path>
+                                </svg>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="wrapper">
+
+            <!-- Reference https://codepen.io/ImagineProgramming/pen/LpOJzM -->
+            <canvas id="swarm"> </canvas>
+
+            <div class="overlay">
+                <div class="row">
+                    <div class="col-sm-12 text-center">
+                        <img class="img" alt="Parallel Analog Ensemble" src="https://raw.githubusercontent.com/Weiming-Hu/AnalogsEnsemble/gh-pages/favicon.png" height='140px' />
+
+                        <a class="GoogleAbril">
+                            <h1 style="font-size:80px;">Parallel <span style="color:red;">An</span>alog <span style="color:red;">En</span>semble</h1>
+                            <h2>The power of weather analogs</h2>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section id="about">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 mx-auto">
+                        <h2>Overview</h2>
+                        <p class="lead">Parallel Analog Ensemble transforms <b>deterministic</b> predictions to <b>ensemble</b> forecasts. It is written in C++ and R.</p>
+                        <ul>
+                            <li>
+                                <img height="50px" alt="target" class="imga" src="image/target.png" />
+                                Accurate Ensembles
+                            </li>
+                            <li>
+                                <img height="50px" alt="🕖" class="imga" src="data:image/png;base64,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"> 
+                                Fast computation
+                            </li>
+                            <li>
+                                <img height="50px" alt="📊" class="imga" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAMAAABiM0N1AAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAACZUExURUdwTLehn+Hi4u3u7ri5uZ6clbe3t7Kysr2+vs/Pzvr7+/Pz9Nvc3Ofo6M7P0NXW1/vYLDt87eo+KO/NKjZx2cLGxTFnyuHBKBmRPtO0I7q7u6+wsN07JdE2ISulUNimofbZS02H7fPffGmP0zZfrHWe6h12N2utf+TQdOWakdPBbK6ZM7csGa1AMridGLOPi7SmYZhZRsu2s1aQ6/0AAAAKdFJOUwDl//+RUmB6uQRzvwI6AAAEYklEQVRYw82YeXvbNgzG+5BrtkQ82smKXfnO4XTrkX7/TzdcBElRTp2mfwykEpACf3pBG3Scd+/+h3b119vt6hpAfwaXLGQ3DoUb1R9mg8MfDPKdmDHJ66wrXKu+8V0b7BPI3ohZ9W46r+6Nya7vbtpg24CK1V2x2uTVfu5RLci+BmRbkH8jyF8I6l4P8hlk8+oC1BUgPwvqqMG9ThqBZGA6nTZWXc/LoFeKukaRzKki+mEqRV2taAzGGTBnYoQf0gJPYQvOaITex2CahvsjgwZnxYxJnvU6aa3z2c0ROdgN0xLxuQBsrpbO2Dk3B6fUhlw0ZhY0X2veXAZyl4PMhSCsftiJjrfrZZDl5tmj7ug3NWfvDsnu+DZcCOIAM5SKbDpiGOUd/RZFdx+SHfRJ9FTezgxi5R29op0kIcmQW4JkGoMloAQxKt1D4U6YXQOSaXyqeEVqnLYx4hCo3KMytbQzzR6NVA1o9K5nc9mFuihArg1OJYIgria8J3XlqKrYDVOQU5ArQRfUWgHy52utALk5kD8DcrMgn+559o3zyfdxAuKeg0uQrx/iEaRLJiCZh2DxMgjWwDx8ONNns8Ghp0lLbg2SSdLMXgny5qj2iHdREQc2qckTJAKfmUAR+cePyR4xwMBksmgqRWzWOb2f3pCRFH1MDUH+LMik2TMgVyv6NRCWSAQQsuB6nJSIwxLppb1UIushxhgKRRHHISYLIXxGMT1eh5CnkzesNTWTUjtyagZSM8ZLw9RUkfEyDaml+7pHqL9QJKl5TYJA3A8545Skj6OCfA3C59WKQAz3g87So7CZWBwjc4rU4BjpJbU+b7abPY/oVTsHgleNKajoLaDgPvc9YUpF8TxowW3mfcSg/ucghyCkMMjVoFCDpOW/geZAiEJQ+EctVKCeDhr++ygxMwiPouNCU4Ph/m+1/USRfrPQLxZaIiMUwXBcEAX6PQxLUBhCoSioDckZ14WiAKAFYhYzimKhKLZfaqrUAqdGimATWtBSWmxSi1NQsllFy557oSjOK1LOy4qWsDxyC8kb9DyCQQWKjaJlyqzHldQBRL7T84gPtgIUa1BEEGhhK8474LBXgNzPQMslsw5B8sFXTXKcKrqVxqBNA2LDA3YgG+EKU0UTUARFG2kTEHKedsmeyjNbQMignhRJaxUNuzOgEd7tA4Ju6bqH4X6zAQZdWCL/Lj8tscMFhTEWIKyUURVh4SxuKTHoVGsbNQYtEwpjd7uVtKey1lJqyWiPChC80KDok3RKTTir1XSPQhxKUGhACCGSgNh2AEKF09QSiFPbYoe2DwRCI0WY2koErSi1EhSH2wkIEMTZ0h4hg01AYg0o1CBIbYucba3o9aCw36qxohI0TkDjujxqgfDA1yWgk7Q50ENC1aCvE9Agik7YTzVoPY7j+iEbDJ+/qj2P6/HH92RfIHi9OiV7GnGtgtAy5x5Gz9/UnmH444saxp4yiBcT6Pp9a1fvX2nIuf4t//L7DzK3Dd9RYzTmAAAAAElFTkSuQmCC">
+                                Functions for verification and visualization
+                            </li>
+                            <li>
+                                <img height="50px" alt="📖" class="imga" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAMAAABiM0N1AAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAACZUExURUdwTGxHPpKCfV9ANWFCN2hLQIhxaWNEOXdaVHleVcjIyMTExMvLy8TExF5ANcjIyL67u+4VIOgSHbynqNhCSG5PQ+Lj493c3ODg4Li3t8fHx8DAwJqZmczLy6moqNjY2LCvr9LS0qCgoHFPRHd3d3VaUe8MGIqJiZB3bWpmZZyFfYdsY4BjWVlVVOwkLutLUuS6vNqOkbh7fWI3z7oAAAAWdFJOUwBMLN+6tLn+E7lM3o5zg6m6jWGa6fZwTGrqAAAEZUlEQVRYw+2Y23qbOhCF47Nrx3bS9EMHkIRkU4jtuEne/+H2jE4Wp/SilzuLtkhaw8+IERj68PCtb/0PNN1sdo9Wu81m3XXX1n15fn7++XOy/gLy+LTN79puD7tpYu8OW2t/3H6jfj09bqZDnB1Gcc6FthKCI+zg8lpvDs4G992B/qC9G8hnm3OtFaU0s6KUKC0g+LB5eNgcoCG0IugGkNY83/Zy2jzlgmSekdHQUpDXdvcCJxEqDAYQyYjIn3bta7UzZa5SCPUtCsFlCSeh0b2DMpWX5iWZ1WRZGKZiIveMbE8zpi2zlxGSpFlO/Pwmy6YpSk6zfka2RwQnHtPNKKOiNOdm6UjAOUPytAVJ5EDDGVGRs3PTLD3o7EA9+aTuGQ2B8uKcgJgHUZ3nzAoWg69TyAhqCOuBsY9ORi1QyIjIIsrIUtvjPUgxaXD8fPt9+3X7S0ZEGmMkCHZwDE8zEggH9/N2+zSfQxld7hlRLZRShCgFy7aUIs1Iw3qC+ZL324dS4k/M6Hy+BFCsWkduFcaquW72/kHiv3ZqTReUdVA0G6waIfez2KkNgNzdajW2jlKbuqkloCZeI6xvCYLyC92Zmr2FnQs2ybpT++EzQqm0/AbKD2MIwhxUaSsZXOu5lX354UBXnxFsWH4pXf1t+XEMQdBw5Zfelho9yhF0bYOs4NkGjy8sv+CstIMhIw3zFdHWLl70QJy2ZSdFExA0CO2J/xV0VwQNqQ26ICgGE1QK4lyl3dQmCLr0QDB7juWVrv72YU88CK+MdtV3tvcGQKi0/HD7CzsGINzrTvntAV2QjKBYXzwoT0C0W34HYgmoulwkc2clGuuvsLxQ2LKTEZY/2Fo5D0FVF2QfIHZzgj7+4bmyo8qNO9/1B0H2sCHxXA+OY3gbdAVQHmyNeadH6haoY8M9fr62QdbV8LNqL6arvz0Afg90IDK0jbW9x8o+CGVa5ed2DN8fQFy2TO8loAWA4KffvczYu78MT39mxzwod89+b7uT4ItBk4CupmRC4wZvQF44jxzHYB0Ia8HDPw82vimhxyxo4UDH67UAUF/uKCgMF2NipWyuxwQkS+4k/F9+3wOIt10RPZhmU0VQhaAcXvX44Ma+8OD+a4OMzMfEcCmMSXZAtZFsVOUXHiyJSwKq6gLqNsqR4x6skUsro6IoRwW/S6MqijqC5pBRUxdyTLAyzahZ1CnoWJ3qGpetMfEhaEIfR0zSbrnAqa/HAFoB6HSC2eFwfapP2Dth2x1133u3djYOQe96XM0j6PXkFRuuVd/VdhNVCQhIQZVV7L561qkTkEQc04yO1dtbVR1TVTD0iptNxbV7IdUbjiQZoVapjjgIKNTrq9vboGMvKoL2q+DOZnOn2SyEvr2t7DlwPxIE43v3XbiYrWbzxX4yma6DppPJfu4Ck3Rn817QAqJmi/CFhG7/Cw4C4RQRNFuMRX3xVRqjJp4E6Uz+7Wt5H67Wfv2P3914GeZwbdbf/wXxrXH9B84baJ+ucTUlAAAAAElFTkSuQmCC">
+                                Opensource
+                            </li>
+                            <li>
+                                <img height="50px" alt="🔧" class="imga" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABIBAMAAACnw650AAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAkUExURUdwTIqKin9/f4SEhIGBgYKCgoaGhoeHh4ODg5ubm5OTk6GhoVL8+LkAAAAJdFJOUwD9/j3hW8p0ncvC6ZwAAAISSURBVEjH1ZY9bxNBEIZPWhmn3VVkwXbeOAZRnWVI0vocDKIyCkGUnCIRRBVXoSRYSGlT7m21Ec0Nv2Bzfy774XNoZq6BgqlfPTszmnlns+zfB/v2+cvPnNYcltxyfk5qeqXU2tnHpGgFpmkae0ZpdmTQVAMyp1XtNY4GsbcBdEeDdp50g7LJ7wfQwQUiujJbECvmiOjrA+iF2kPyltsesYI/Q9rtRW43gYZAiJpBAkkY4yIdSR5kKdGvPIEwEpPOaZFHEFgkJ1YaY27PT14GkH2K9KnUWt8odexBIJA+9bl2WgPnMog+IYMijdZVVXkJWLVEQLUOETTAxyQIAsqKOQVKr3HktQjSdQ0BpF4ToDplLUYUqLJqyLkaramMarEolFqsydJuRvn09DTPyNLEnNrKVJodESvXlnZLgd6l0gCpPI3kbAN6RYDe/3eg6eXlSRfoY8n5bkmDjjiE5SBB/Vm0UU2CotUGFQWKnu0cCZokkCFLKwOoieuIgvoyaRwFehSM/Y5LSTU7GLuzi2Ml/fyPsak20bOnR8+rGrDR9u4fzZ8Na29GS7S4aP5s5rcfF6UrwmZAkTYHsvA2gomuTLoivYIgrWDQXhFAq5vws/aKoCciO/gDhLl/1ltvQUB6SQsS38kbHzMiDWcDArHfCfKefdGdEeLZbfwYSi7UmP5SfVA+3iw7/maH19ddX7O/EveUClmsGGV97wAAAABJRU5ErkJggg==">
+                                Active development and maintainence
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="installation" class="bg-light">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 mx-auto">
+                        <h2>Installation</h2>
+                        <p class="lead">To install/update to the latest version of <i>RAnEn</i>, please use the following commands:</p>
+                        <pre class="prettyprint">
+# RAnEn depends on Rcpp and BH. Install dependencies.
+install.packages(c('Rcpp', 'BH'))
+
+# Install RAnEn
+install.packages("https://github.com/Weiming-Hu/AnalogsEnsemble/raw/master/RAnalogs/releases/RAnEn_latest.tar.gz", repos = NULL)
+                        </pre>
+
+                        <p class="lead">For more installation options, please refer to the <a style="display: inline;" href="https://weiming-hu.github.io/AnalogsEnsemble">documentation</a>.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tutorial">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 mx-auto">
+                        <h2>Tutorials</h2>
+                        <p class="lead">Need help starting? Check out our tutorials <a href="https://weiming-hu.github.io/AnalogsEnsemble/tags.html#tutorial" style="display: inline;">here</a>.</p>
+
+                        <p class="lead">Tired of setting up the environment? Use this interactive R session from <a href="https://mybinder.org/v2/gh/Weiming-Hu/AnalogsEnsemble/master?urlpath=rstudio" style="display: inline;">Binder</a>. Examples are inside <i>RAnalogs/examples</i>.</p>
+
+                        <p class="lead">Still having problems? You are always convered. Please contact us and we are happy to help.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact"  class="bg-light">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 mx-auto">
+                        <h2>Contact us</h2>
+                        <p class="lead">PAnEn is actively developed and maintained by <a style="display: inline;" href="http://geoinf.psu.edu/">GEOLab</a> @ Penn State. We are ...!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="py-5 bg-dark">
+            <div class="container">
+                <p class="m-0 text-center text-white"><a href="http://geoinf.psu.edu/" style="display: inline;">Geoinformatics and Earth Observation Laboratory</a>, <a href="https://www.psu.edu/" style="display: inline;">Pennsylvania State University</a></p>
+            </div>
+            <!-- /.container -->
+        </footer>
+
+        <!-- Bootstrap core JavaScript -->
+        <script src="vendor/jquery/jquery.min.js"></script>
+        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+        <!-- Plugin JavaScript -->
+        <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+        <!-- Custom JavaScript for this theme -->
+        <script src="js/scrolling-nav.js"></script>
+
+        <script src='https://codepen.io/ImagineProgramming/pen/bcmyD.js'></script>
+        <script src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/188512/codepen-utilities.min.js'></script>
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/stats.js/r11/Stats.js'></script>
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.5.1/dat.gui.min.js'></script>
+        <script src="js/particles.js"></script>
+
+
+    </body>
+
+</html>
+
