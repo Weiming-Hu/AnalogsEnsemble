@@ -71,8 +71,8 @@ print(score)
 
 if (all(c('ggplot2', 'reshape2') \%in\% installed.packages())) {
   # Use ggplot2
-  require(reshape2)
-  require(ggplot2)
+  library(reshape2)
+  library(ggplot2)
   
   # Unpivot the score table
   colnames(score) <- c('Brier', 'Skill', "Reliability", 'Resolution')

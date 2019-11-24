@@ -22,7 +22,8 @@ a set of target point coordinates as rows with variable names \code{X} and \code
 this is \code{slice-stations}; if the app is \code{gribConverter}, this is \code{subset-stations}.}
 }
 \value{
-A data frame with ID and coordinates for subset stations.
+A data frame with ID and coordinates for subset stations. The column \code{ID.C}
+should be used for C++ programs. The column \code{ID.R} should be used in R.
 }
 \description{
 RAnEn::subsetCoordinates extracts the coordinates within an predefined extent
