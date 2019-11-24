@@ -30,7 +30,8 @@
 #' @param arg.name If you are going to use the output file with `fileSlice`,
 #' this is `slice-stations`; if the app is `gribConverter`, this is `subset-stations`.
 #' 
-#' @return A data frame with ID and coordinates for subset stations. 
+#' @return A data frame with ID and coordinates for subset stations. The column `ID.C` 
+#' should be used for C++ programs. The column `ID.R` should be used in R. 
 #' 
 #' @examples 
 #' 
@@ -114,7 +115,8 @@ subsetCoordinates <- function(
   # from 0 because of the convention in NetCDF files.
   # 
   df <- data.frame(
-    ID = (1:length(xs)) - 1,
+    ID.C = (1:length(xs)) - 1,
+    ID.R = 1:length(xs),
     X = xs, Y = ys)
   
   if (poi.type == 'data frame') {
@@ -153,7 +155,7 @@ subsetCoordinates <- function(
       paste("# Author:", paste("RAnEn", packageVersion("RAnEn"))), 
       paste("# Time of creation:", format(
         Sys.time(), format = "%Y/%m/%d %H:%M:%S UTC%z")),
-      '\n', paste(arg.name, '=', df$ID))
+      '\n', paste(arg.name, '=', df$ID.C))
     
     con <- file(file.output, "w")
     writeLines(file.lines, con = con)

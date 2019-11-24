@@ -4,6 +4,7 @@
 - Added function `RAnEn::formatObservations`
 - Updated the docker image
 - Change `require` to `requireNamespace` to avoid function name conflicts
+- Added `RAnEn::subsetStations`
 
 # PAnEn 3.6.5
 
