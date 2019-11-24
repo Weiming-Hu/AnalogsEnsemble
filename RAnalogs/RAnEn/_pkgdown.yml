@@ -73,6 +73,7 @@ reference:
           - toForecastTime
           - makeTransparent
           - subsetCoordinates
+          - subsetStations
           - generateCircleCoords
           - showVerificationMetrics
 
