@@ -103,7 +103,7 @@ formatObservations <- function(
   circular.pars = NA, col.station.name = NA,
   show.progress = F) {
   
-  stopifnot(requireNamespace(dplyr, quietly = T))
+  stopifnot(requireNamespace('dplyr', quietly = T))
   
   # Sanity check
   stopifnot(is.data.frame(df))

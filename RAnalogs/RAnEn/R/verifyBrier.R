@@ -101,7 +101,7 @@
 #' @export
 verifyBrier <- function(anen.ver, obs.ver, threshold, ensemble.func, ..., baseline = NULL) {
   
-  stopifnot(requireNamespace(verification, quietly = T))
+  stopifnot(requireNamespace('verification', quietly = T))
   
   stopifnot(length(dim(anen.ver)) == 4)
   stopifnot(length(dim(obs.ver)) == 3)
