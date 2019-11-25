@@ -101,7 +101,7 @@
 #' @export
 verifyBrier <- function(anen.ver, obs.ver, threshold, ensemble.func, ..., baseline = NULL) {
   
-  stopifnot(requireNamespace('verification', quietly = T))
+  check.package('verification')
   
   stopifnot(length(dim(anen.ver)) == 4)
   stopifnot(length(dim(obs.ver)) == 3)
@@ -133,8 +133,9 @@ verifyBrier <- function(anen.ver, obs.ver, threshold, ensemble.func, ..., baseli
   
   for (i.flt in 1:num.flts) {
     
-    ret.flt <- brier(obs = obs.ver[, , i.flt], pred = anen.ver[, , i.flt],
-                     baseline = baseline[, , i.flt])
+    ret.flt <- verification::brier(
+      obs = obs.ver[, , i.flt], pred = anen.ver[, , i.flt],
+      baseline = baseline[, , i.flt])
     stopifnot(all(ret.flt$check - ret.flt$bs < 1e-6))
     
     ret.flts <- rbind(ret.flts, c(
@@ -142,7 +143,8 @@ verifyBrier <- function(anen.ver, obs.ver, threshold, ensemble.func, ..., baseli
   }
   
   # Compute the overall brier score for all lead times
-  ret.flt <- brier(obs = obs.ver, pred = anen.ver, baseline = baseline)
+  ret.flt <- verification::brier(
+    obs = obs.ver, pred = anen.ver, baseline = baseline)
   stopifnot(all(ret.flt$check - ret.flt$bs < 1e-6))
   
   ret.flts <- rbind(ret.flts, c(

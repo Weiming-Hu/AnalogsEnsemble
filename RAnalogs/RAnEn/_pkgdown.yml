@@ -18,14 +18,11 @@ reference:
       desc: Functions to generate ensemble forecasts.
       contents:
           - generateConfiguration
-          - compute_analogs
           - generateAnalogs
           - generatePersistent
           - generateTimeMapping
           - generateSearchStations
-          - validateConfiguration
-          - formatObservations
-          - formatConfiguration
+          - compute_analogs
           - rcpp_compute_analogs
 
     - title: Data Pre-/Post- Processing
@@ -76,4 +73,7 @@ reference:
           - subsetStations
           - generateCircleCoords
           - showVerificationMetrics
+          - validateConfiguration
+          - formatObservations
+          - formatConfiguration
 

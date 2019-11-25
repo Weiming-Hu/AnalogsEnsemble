@@ -89,7 +89,7 @@ plotAnalogSelection <- function(
     stop("Parameter names and the first dimension of configuration forecasts do not match.")
   }
   if (use.plotly) {
-    stopifnot(requireNamespace('plotly', quietly = T))
+    check.package('plotly')
   }
   
   # Remove the parameters with weight equals to 0
@@ -109,7 +109,7 @@ plotAnalogSelection <- function(
   test.start <- which(config$forecast_times == config$test_times_compare[1])
   test.end <- which(config$forecast_times == config$test_times_compare[
     length(config$test_times_compare)])
-
+  
   search.start <- which(config$forecast_times == config$search_times_compare[1])
   search.end <- which(config$forecast_times == config$search_times_compare[
     length(config$search_times_compare)])
@@ -174,17 +174,17 @@ plotAnalogSelection <- function(
                              y = current.forecast.value, yend = current.forecast.value,
                              name = 'Current forecast', line = list(
                                color = col.reference, width = lwd.reference, dash = lty.reference)) %>%
-        add_markers(x = current.forecast.x, y = current.forecast.value,
-                    name = 'Current forecast', marker = list(
-                      color = col.current, symbol= pch.current)) %>%
-        layout(yaxis = list(title = parameter.names[i.parameter], titlefont = cex.lab,
-                            showspikes = T, spikesnap = 'cursor', spikemode = spikemode,
-                            spikethickness = spikethickness, spikedash = spikedash,
-                            spikecolor = spikecolor),
-               xaxis = list(showspikes = T, spikesnap = 'cursor', spikemode = spikemode,
-                            spikethickness = spikethickness, spikedash = spikedash,
-                            spikecolor = spikecolor),
-               showlegend = F, hovermode = hovermode)
+        plotly::add_markers(x = current.forecast.x, y = current.forecast.value,
+                            name = 'Current forecast', marker = list(
+                              color = col.current, symbol= pch.current)) %>%
+        plotly::layout(yaxis = list(title = parameter.names[i.parameter], titlefont = cex.lab,
+                                    showspikes = T, spikesnap = 'cursor', spikemode = spikemode,
+                                    spikethickness = spikethickness, spikedash = spikedash,
+                                    spikecolor = spikecolor),
+                       xaxis = list(showspikes = T, spikesnap = 'cursor', spikemode = spikemode,
+                                    spikethickness = spikethickness, spikedash = spikedash,
+                                    spikecolor = spikecolor),
+                       showlegend = F, hovermode = hovermode)
       
       if (single.figure) {
         plotly.list <- c(plotly.list, list(p))

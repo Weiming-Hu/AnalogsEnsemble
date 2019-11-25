@@ -28,12 +28,12 @@
 #' @param folder Output folder.
 #' @param silent Whether to be silent.
 #' 
+#' @import ncdf4
 #' @md
 #' @export
 writeConfiguration <- function(config, obs.par.names, fcsts.par.names,
                         xs, ys, file.prefix = '', folder = './',
                         silent = F) {
-  stopifnot(requireNamespace('ncdf4', quietly = T))
   
   # Sanity checks
   stopifnot(length(obs.par.names) == dim(config$search_observations)[1])

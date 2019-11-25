@@ -37,11 +37,11 @@
 #' @param nchars.max The maximum length of string.
 #' @return A boolean for whether the writing is complete.
 #' 
+#' @import ncdf4
 #' @md
 #' @export
 writeNetCDF <- function(file.type, obj, file.out,
 												global.attrs = NULL, nchars.max = 50) {
-	stopifnot(requireNamespace('ncdf4', quietly = T))
 	
 	# Check whether the output file path is valid
 	if (file.exists(file.out)) {

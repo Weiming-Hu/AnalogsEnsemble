@@ -26,10 +26,10 @@
 #' 
 #' @return An AnEn class object.
 #' 
+#' @import ncdf4
 #' @md
 #' @export
 readAnEn <- function(file.analogs, file.similarity = NA, verbose = F, split = 0) {
-  stopifnot(requireNamespace('ncdf4', quietly = T))
   AnEn <- list()
   class(AnEn) <- 'AnEn'
   

@@ -68,13 +68,8 @@ biasCorrectionNeuralNet <- function(
   
   config <- convertToAdvance(config)
   
-	if (!requireNamespace("pbapply", quietly = TRUE)) {
-		stop("Package \"pbapply\" needed for this function to work. Please install it.", call. = FALSE)
-	}
-	
-	if (!requireNamespace("nnet", quietly = TRUE)) {
-		stop("Package \"nnet\" needed for this function to work. Please install it.", call. = FALSE)
-	}
+  check.package('pbapply')
+	check.package('nnet')
 	
   if (!show.progress) pbo <- pboptions(type = "none")
 
@@ -124,9 +119,7 @@ biasCorrectionNeuralNet <- function(
   if (show.progress) cat("Compute Bias for sampled days using the left-one-out method ...\n")
   
   if (parallel) {
-  	if (!requireNamespace("parallel", quietly = TRUE)) {
-  		stop("Package \"parallel\" needed for this function to work. Please install it.", call. = FALSE)
-  	}
+  	check.package('parallel')
     cl <- parallel::makeCluster(num.cores)
   } else {
     cl <- NULL

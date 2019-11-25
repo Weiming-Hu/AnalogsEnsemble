@@ -71,15 +71,19 @@ verifyCRPS <- function(anen.ver, obs.ver, boot = F, R = 1000, int.step = 150, na
   
   
   if ( boot == F) {
-    stopifnot(requireNamespace('verification', quietly = T))
+    check.package('verification')
 
     # Run the CRPS
-    deco     <- crpsDecomposition(obs[,2], anen)
-    crps     <- data.frame(crps=deco$CRPS,spot=deco$CRPSpot,reli=deco$Reli)
+    deco     <- verification::crpsDecomposition(obs[,2], anen)
+    
+    crps     <- data.frame(
+      crps = deco$CRPS,
+      spot = deco$CRPSpot,
+      reli = deco$Reli)
     
     # Now let's do it by FLT
-    crps.flt <- matrix(NA, ncol=flt, nrow=3)
-    row.names(crps.flt) <- c("crps","spot","reli")
+    crps.flt <- matrix(NA, ncol = flt, nrow = 3)
+    row.names(crps.flt) <- c("crps", "spot", "reli")
     
     # Now by FLT
     for(i in 1:flt ) {
@@ -88,7 +92,8 @@ verifyCRPS <- function(anen.ver, obs.ver, boot = F, R = 1000, int.step = 150, na
       valid <- which(obs[,1] == i)
       
       if(length(valid) > 1){
-        deco         <- crpsDecomposition(obs[valid,2], anen[valid,])
+        deco         <- verification::crpsDecomposition(
+          obs[valid,2], anen[valid,])
         crps.flt[,i] <- c(deco$CRPS,deco$CRPSpot,deco$Reli)
       }
     }

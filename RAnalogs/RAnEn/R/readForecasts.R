@@ -24,10 +24,10 @@
 #' 
 #' @return A list object.
 #' 
+#' @import ncdf4
 #' @md
 #' @export
 readForecasts <- function(file, origin = '1970-01-01', tz = 'UTC') {
-  stopifnot(requireNamespace('ncdf4', quietly = T))
   stopifnot(file.exists(file))
   
   forecasts <- list()

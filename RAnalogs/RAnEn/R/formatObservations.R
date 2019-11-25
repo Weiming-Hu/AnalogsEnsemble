@@ -103,7 +103,7 @@ formatObservations <- function(
   circular.pars = NA, col.station.name = NA,
   show.progress = F) {
   
-  stopifnot(requireNamespace('dplyr', quietly = T))
+  check.package('dplyr')
   
   # Sanity check
   stopifnot(is.data.frame(df))
@@ -179,7 +179,7 @@ formatObservations <- function(
   }
   
   unique.pts <- df[, cols] %>%
-    distinct(Station.ID, .keep_all = T)
+    dplyr::distinct(Station.ID, .keep_all = T)
   
   # Assign unique stations
   if (!identical(col.station.name, NA)) {

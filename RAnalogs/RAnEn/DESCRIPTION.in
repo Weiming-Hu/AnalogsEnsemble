@@ -21,6 +21,7 @@ Depends:
 Imports:
     Rcpp (>= 0.12.9),
     BH (>= 1.62.0-1),
+    ncdf4,
 LinkingTo:
     Rcpp,
     BH,
@@ -29,10 +30,8 @@ Suggests:
     parallel,
     nnet,
     boot,
-    ncdf4,
     verification,
     plotly,
-    reshape2,
     dplyr,
 RoxygenNote: 6.1.0
 Encoding: UTF-8

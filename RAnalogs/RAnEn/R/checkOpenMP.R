@@ -19,10 +19,6 @@
 #' 
 #' @return A boolean whether OpenMP is supported.
 #' 
-#' @import Rcpp BH
-#' 
-#' @importFrom Rcpp evalCpp
-#' 
 #' @useDynLib RAnEn
 #' 
 #' @export
