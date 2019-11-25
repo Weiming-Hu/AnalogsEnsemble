@@ -46,7 +46,7 @@
 #' @param show.progress A logical for whether to show the progress bar.
 #' @param silent No printing warning messages.
 #' 
-#' @return If return.na.index is fault, by default, it retuns the aligned observations;
+#' @return If return.na.index is false, by default, it retuns the aligned observations;
 #' otherwise, it returns a list with the aligned observations and a index matrix for which
 #' pair of forecast time/FLT could not be found in observation times provided.
 #' 
