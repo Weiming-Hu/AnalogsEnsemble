@@ -12,6 +12,7 @@ sidebar_link: true
 - Updated the docker image
 - Change `require` to `requireNamespace` to avoid function name conflicts
 - Added `RAnEn::subsetStations`
+- Improve `RAnEn` name space management
 
 # PAnEn 3.6.5
 
