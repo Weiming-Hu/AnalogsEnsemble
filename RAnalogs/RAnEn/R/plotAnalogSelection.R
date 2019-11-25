@@ -138,10 +138,10 @@ plotAnalogSelection <- function(
     
     p <- plotly::plot_ly(x = x.days[days.index], y = sims[, 1], type = 'scatter', name = "Similarity",
                          mode = 'markers', marker = list(color = col.unselected, symbol= pch.unselected)) %>%
-      add_markers(x = x.days[days.index[1:config$num_members]],
+      plotly::add_markers(x = x.days[days.index[1:config$num_members]],
                   y = sims[1:config$num_members, 1], name = "Selected",
                   marker = list(color = col.selected, symbol= pch.selected)) %>%
-      layout(yaxis = list(title = 'Similarity', titlefont = cex.lab, showspikes = T, spikedash = spikedash,
+      plotly::layout(yaxis = list(title = 'Similarity', titlefont = cex.lab, showspikes = T, spikedash = spikedash,
                           spikesnap = 'cursor', spikemode = spikemode, spikethickness = spikethickness,
                           spikecolor = spikecolor),
              xaxis = list(showspikes = T, spikesnap = 'cursor', spikemode = spikemode, spikedash = spikedash,
