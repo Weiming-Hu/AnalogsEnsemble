@@ -90,6 +90,8 @@ plotAnalogSelection <- function(
   }
   if (use.plotly) {
     check.package('plotly')
+    check.package('magrittr')
+    `%>%` <- magrittr::`%>%`
   }
   
   # Remove the parameters with weight equals to 0

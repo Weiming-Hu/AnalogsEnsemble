@@ -167,9 +167,9 @@ formatObservations <- function(
   }
   
   # Create unique id for stations based on coordinates
-  df$Station.ID <- df %>%
-    dplyr::group_by_at(.vars = vars(col.x, col.x)) %>%
-    dplyr::group_indices()
+  df$Station.ID <-  dplyr::group_indices(
+    dplyr::group_by_at(
+      df, .vars = vars(col.x, col.x)))
   
   # Extract the unique points
   cols <- c(col.x, col.y, 'Station.ID')
@@ -178,8 +178,7 @@ formatObservations <- function(
     cols <- c(cols, col.station.name)
   }
   
-  unique.pts <- df[, cols] %>%
-    dplyr::distinct(Station.ID, .keep_all = T)
+  unique.pts <- dplyr::distinct(df[, cols], Station.ID, .keep_all = T)
   
   # Assign unique stations
   if (!identical(col.station.name, NA)) {

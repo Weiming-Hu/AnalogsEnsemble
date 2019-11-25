@@ -166,3 +166,4 @@ out
 .git
 .gitignore
 _config.yml
+*csv
