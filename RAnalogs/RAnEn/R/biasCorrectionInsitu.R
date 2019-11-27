@@ -11,7 +11,7 @@
 
 #' RAnEn::biasCorrectionInsitu
 #' 
-#' Statical bias correction function for analog ensembles. This method uses the bias of the 
+#' Statistical bias correction function for analog ensembles. This method uses the bias of the 
 #' forecast model to correct AnEn, therefore the word 'in situ'.
 #' 
 #' For a given forecast from AnEn for a certain station/grid point, day, and FLT, first,
