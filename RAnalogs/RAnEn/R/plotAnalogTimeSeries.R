@@ -76,10 +76,71 @@
 #' # 
 #' # Then you can run the following code
 #' # 
-#' start.time <- as.POSIXct('2017-08-04', tz = 'UTC')
-#' end.time <- as.POSIXct('2017-08-7', tz = 'UTC')
 #' 
-#' obs.id <- which(observations$ParameterNames == 'HI')
+#' # Want to learn more about the configuration setup?
+#' # Please see [this tutorial](https://weiming-hu.github.io/AnalogsEnsemble/2018/11/04/demo-1-RAnEn-basics.html).
+#' # 
+#' file.name <- 'data-NAM-StateCollege.RData'
+#' 
+#' if (!file.exists(file.name)) {
+#'   cat('Downloading from the data server which might be slow ...\n')
+#'   download.file(url = paste('https://prosecco.geog.psu.edu/', file.name, sep = ''),
+#'                 destfile = file.name)
+#' }
+#' 
+#' load(file.name)
+#' 
+#' # We use independent search configuration.
+#' config <- generateConfiguration('independentSearch')
+#' 
+#' # Set up the start and end indices for test times
+#' test.start <- 366
+#' test.end <- 372
+#' 
+#' # Set up the start and end indices for search times
+#' search.start <- 1
+#' search.end <- 365
+#' 
+#' # Set up forecasts and the time, FLT information
+#' config$forecasts <- forecasts$Data
+#' config$forecast_times <- forecasts$Times
+#' config$flts <- forecasts$FLTs
+#' 
+#' # Set up observations and the time information
+#' config$search_observations <- observations$Data
+#' config$observation_times <- observations$Times
+#' 
+#' # Set up the number of members to keep in the analog ensemble
+#' # Empirically, the number of members is the square root of number of search times.
+#' config$num_members <- sqrt(search.end - search.start + 1)
+#' 
+#' # Set up the variable that we want to generate AnEn for.
+#' # This is the index of parameter in observation parameter names.
+#' #
+#' obs.id <- 3
+#' fcst.id <- 3
+#' config$observation_id <- obs.id
+#' 
+#' # Set up weights for each parameters
+#' config$weights <- c(1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1)
+#' 
+#' # Set the test times to generate AnEn for
+#' config$test_times_compare <- forecasts$Times[test.start:test.end]
+#' 
+#' # Set the search times to generate AnEn from
+#' config$search_times_compare <- forecasts$Times[search.start:search.end]
+#' 
+#' # Set circular variable if there is any
+#' if ('ParameterCirculars' %in% names(forecasts)) {
+#'   config$circulars <- unlist(lapply(forecasts$ParameterCirculars, function(x) {
+#'     return(which(x == forecasts$ParameterNames))}))
+#' }
+#' 
+#' AnEn <- generateAnalogs(config)
+#' 
+#' start.time <- as.POSIXct('2018-06-01', tz = 'UTC')
+#' end.time <- as.POSIXct('2018-06-07', tz = 'UTC')
+#' 
 #' obs.times <- observations$Times
 #' obs.data <- observations$Data
 #' 
@@ -87,7 +148,6 @@
 #' anen.flts <- config$flts
 #' anen.data <- AnEn$analogs[, , , , 1]
 #' 
-#' fcst.id <- which(forecasts$ParameterNames == 'HI')
 #' fcst.times <- forecasts$Times
 #' fcst.flts <- config$flts
 #' fcst.data <- forecasts$Data
@@ -118,20 +178,29 @@ plotAnalogTimeSeries <- function(
   fcst.id = NULL, fcst.times = NULL,
   fcst.flts = NULL, fcst.data = NULL,
   max.flt = 82800, par.name = '',
-  return.data = F) {
-
+  return.data = F, smooth = 4) {
+  
   # Sanity checks  
-  for (name in c('abind', 'dplyr')) {
+  for (name in c('ggplot2', 'abind', 'dplyr')) {
     if (!requireNamespace(name, quietly = T)) {
       stop(paste('Please install', name, '.'))
     }
   }
-
+  
   stopifnot(inherits(start.time, 'POSIXct'))
   stopifnot(inherits(end.time, 'POSIXct'))
   stopifnot(length(dim(obs.data)) == 3)
   stopifnot(length(dim(anen.data)) == 4)
   stopifnot(obs.id <= dim(obs.data)[1])
+  stopifnot(length(obs.id) == 1)
+  
+  if (inherits(anen.times, 'numeric')) {
+    anen.times <- toDateTime(anen.times)
+  }
+  
+  if (inherits(obs.times, 'numeric')) {
+    obs.times <- toDateTime(obs.times)
+  }
   
   if (length(i.station) == 3 || length(i.station) == 2) {
     if (is.null(names(i.station))) {
@@ -150,12 +219,21 @@ plotAnalogTimeSeries <- function(
   stopifnot(i.anen.station <= dim(anen.data)[1])
   
   if (!is.null(fcst.id)) {
-  stopifnot(fcst.id <= dim(fcst.data)[1])
-  stopifnot(i.fcst.station <= dim(fcst.data)[2])
+    stopifnot(!is.null(fcst.times))
+    stopifnot(!is.null(fcst.flts))
+    stopifnot(!is.null(fcst.data))
+    
+    stopifnot(fcst.id <= dim(fcst.data)[1])
+    stopifnot(length(fcst.id) == 1)
+    stopifnot(i.fcst.station <= dim(fcst.data)[2])
+    
+    if (inherits(fcst.times, 'numeric')) {
+      fcst.times <- toDateTime(fcst.times)
+    }
   }
   
   if (!is.null(fcst.data)) {
-  stopifnot(length(dim(fcst.data)) == 4)
+    stopifnot(length(dim(fcst.data)) == 4)
   }
   
   # Find the subset for observation time
@@ -251,6 +329,16 @@ plotAnalogTimeSeries <- function(
     median = median(Value, na.rm = T),
     high = quantile(Value, probs = 0.75, na.rm = T),
     max = max(Value, na.rm = T))
+  
+  # A fast way to remove infinite numbers
+  df.anen.ribbons <- do.call(
+    data.frame, lapply(
+      df.anen.ribbons, function(x) {
+        replace(x, is.infinite(x), NA)}))
+  
+  # Remove rows with NA
+  df.anen.ribbons <- df.anen.ribbons[complete.cases(df.anen.ribbons), ]
+  
   df.c <- rbind(df.c, data.frame(
     Time = df.anen.ribbons$Time,
     Value = df.anen.ribbons$median,
@@ -260,19 +348,19 @@ plotAnalogTimeSeries <- function(
     return(list(AnEn.Ensemble = df.anen.ribbons,
                 Time.Series = df.c))
   } else {
-    ggplot() +
-      theme_minimal() +
-      geom_ribbon(
+    ggplot2::ggplot() +
+      ggplot2::theme_minimal() +
+      ggplot2::geom_ribbon(
         data = df.anen.ribbons, fill = 'lightgrey',
-        mapping = aes(x = Time, ymin = min, ymax = max)) +
-      geom_ribbon(
+        mapping = ggplot2::aes(x = Time, ymin = min, ymax = max)) +
+      ggplot2::geom_ribbon(
         data = df.anen.ribbons, fill = 'lightblue',
-        mapping = aes(x = Time, ymin = low, ymax = high)) +
-      geom_line(
-        data = df.c, size = 1, mapping = aes(
+        mapping = ggplot2::aes(x = Time, ymin = low, ymax = high)) +
+      ggplot2::geom_line(
+        data = df.c, size = 1, mapping = ggplot2::aes(
           x = Time, y = Value, color = Type)) +
-      labs(x = 'Time', y = par.name) +
-      scale_color_brewer(palette = 'Dark2') +
-      theme(legend.position = 'bottom')
+      ggplot2::labs(x = 'Time', y = par.name) +
+      ggplot2::scale_color_brewer(palette = 'Dark2') +
+      ggplot2::theme(legend.position = 'bottom')
   }
 }
