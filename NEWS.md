@@ -6,6 +6,7 @@
 - Change `require` to `requireNamespace` to avoid function name conflicts
 - Added `RAnEn::subsetStations`
 - Improve `RAnEn` name space management
+- Added `RAnEn::plotAnalogTimeSeries`
 
 # PAnEn 3.6.5
 

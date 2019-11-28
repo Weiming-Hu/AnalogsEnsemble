@@ -33,5 +33,6 @@ Suggests:
     verification,
     plotly,
     dplyr,
+    abind,
 RoxygenNote: 6.1.0
 Encoding: UTF-8
