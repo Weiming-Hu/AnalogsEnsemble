@@ -119,8 +119,7 @@ all lead times available. This function used the NCAR verification package." />
 all lead times available. This function used the NCAR verification package.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>verifyBrier</span>(<span class='no'>anen.ver</span>, <span class='no'>obs.ver</span>, <span class='no'>threshold</span>, <span class='no'>ensemble.func</span>, <span class='no'>...</span>,
-  <span class='kw'>baseline</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>verifyBrier</span>(<span class='no'>anen.ver</span>, <span class='no'>obs.ver</span>, <span class='no'>threshold</span>, <span class='no'>ensemble.func</span>, <span class='no'>...</span>, <span class='kw'>baseline</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -193,15 +192,8 @@ This scalar is usually a probability within <code>[0, 1]</code>. Please see exam
 <span class='no'>score</span> <span class='kw'>&lt;-</span> <span class='fu'>verifyBrier</span>(<span class='no'>anen.ver</span>, <span class='no'>obs.ver</span>, <span class='no'>threshold</span>,
                      <span class='no'>ensemble.func</span>,
                      <span class='kw'>split</span> <span class='kw'>=</span> <span class='no'>threshold</span>,
-                     <span class='kw'>baseline</span> <span class='kw'>=</span> <span class='no'>baseline</span>)
-
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>score</span>)</div><div class='output co'>#&gt;          bs          ss reliability     resol
-#&gt; FLT1 0.2725  0.39444444  0.13250000 0.5700000
-#&gt; FLT2 0.3065  0.31888889  0.08233333 0.5016667
-#&gt; FLT3 0.3245 -0.08166667  0.13338889 0.6677778
-#&gt; FLT4 0.2645  0.33875000  0.07700000 0.6250000
-#&gt; FLT5 0.1385  0.78692308  0.04891667 1.1208333
-#&gt; All  0.2613  0.41933333  0.03145735 2.8315735</div><div class='input'>
+                     <span class='kw'>baseline</span> <span class='kw'>=</span> <span class='no'>baseline</span>)</div><div class='output co'>#&gt; <span class='error'>Error in check.package("verification"): Package verification is needed but not installed. Please install verification</span></div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>score</span>)</div><div class='output co'>#&gt; <span class='error'>Error in print(score): object 'score' not found</span></div><div class='input'>
 <span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/all.html'>all</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'ggplot2'</span>, <span class='st'>'reshape2'</span>) <span class='kw'>%in%</span> <span class='fu'><a href='https://rdrr.io/r/utils/installed.packages.html'>installed.packages</a></span>())) {
   <span class='co'># Use ggplot2</span>
   <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>reshape2</span>)
@@ -226,7 +218,7 @@ This scalar is usually a probability within <code>[0, 1]</code>. Please see exam
 } <span class='kw'>else</span> {
   <span class='co'># Use the base graphics</span>
   <span class='fu'><a href='https://rdrr.io/r/graphics/barplot.html'>barplot</a></span>(<span class='no'>score</span>[, <span class='st'>'bs'</span>], <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='st'>'Brier'</span>)
-}</div><div class='img'><img src='verifyBrier-1.png' alt='' width='700' height='433' /></div><div class='input'>
+}</div><div class='output co'>#&gt; <span class='error'>Error in colnames(score) &lt;- c("Brier", "Skill", "Reliability", "Resolution"): object 'score' not found</span></div><div class='input'>
 
 </div></pre>
   </div>
@@ -249,7 +241,7 @@ This scalar is usually a probability within <code>[0, 1]</code>. Please see exam
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
 
       </footer>

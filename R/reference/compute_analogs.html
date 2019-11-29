@@ -117,16 +117,35 @@
     <p>Deprecated function. Please see <code><a href='generateAnalogs.html'>generateAnalogs</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>compute_analogs</span>(<span class='no'>forecasts</span>, <span class='no'>observations</span>, <span class='kw'>circulars</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/vector.html'>vector</a></span>(<span class='kw'>mode</span> <span class='kw'>=</span>
-  <span class='st'>"numeric"</span>), <span class='kw'>weights</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>stations_ID</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='no'>test_ID_start</span>,
-  <span class='no'>test_ID_end</span>, <span class='kw'>train_ID_start</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>train_ID_end</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
-  <span class='kw'>observation_ID</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='no'>members_size</span>, <span class='kw'>rolling</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>quick</span> <span class='kw'>=</span> <span class='no'>T</span>,
-  <span class='kw'>cores</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>search_extension</span> <span class='kw'>=</span> <span class='no'>F</span>, <span class='kw'>xs</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>ys</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
-  <span class='kw'>distance</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>num_nearest</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+    <pre class="usage"><span class='fu'>compute_analogs</span>(
+  <span class='no'>forecasts</span>,
+  <span class='no'>observations</span>,
+  <span class='kw'>circulars</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/vector.html'>vector</a></span>(<span class='kw'>mode</span> <span class='kw'>=</span> <span class='st'>"numeric"</span>),
+  <span class='kw'>weights</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+  <span class='kw'>stations_ID</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+  <span class='no'>test_ID_start</span>,
+  <span class='no'>test_ID_end</span>,
+  <span class='kw'>train_ID_start</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>train_ID_end</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+  <span class='kw'>observation_ID</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+  <span class='no'>members_size</span>,
+  <span class='kw'>rolling</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>quick</span> <span class='kw'>=</span> <span class='no'>T</span>,
+  <span class='kw'>cores</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>search_extension</span> <span class='kw'>=</span> <span class='no'>F</span>,
+  <span class='kw'>xs</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+  <span class='kw'>ys</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+  <span class='kw'>distance</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>num_nearest</span> <span class='kw'>=</span> <span class='fl'>0</span>,
   <span class='kw'>observation_from_extended_station</span> <span class='kw'>=</span> <span class='no'>F</span>,
-  <span class='kw'>recompute_sd_for_extended_station</span> <span class='kw'>=</span> <span class='no'>F</span>, <span class='kw'>output_search_stations</span> <span class='kw'>=</span> <span class='no'>F</span>,
-  <span class='kw'>output_metric</span> <span class='kw'>=</span> <span class='no'>F</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>parameter_ID</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
-  <span class='kw'>max_par_nan</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>max_flt_nan</span> <span class='kw'>=</span> <span class='fl'>0</span>)</pre>
+  <span class='kw'>recompute_sd_for_extended_station</span> <span class='kw'>=</span> <span class='no'>F</span>,
+  <span class='kw'>output_search_stations</span> <span class='kw'>=</span> <span class='no'>F</span>,
+  <span class='kw'>output_metric</span> <span class='kw'>=</span> <span class='no'>F</span>,
+  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>parameter_ID</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+  <span class='kw'>max_par_nan</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>max_flt_nan</span> <span class='kw'>=</span> <span class='fl'>0</span>
+)</pre>
 
 
 
@@ -146,7 +165,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
 
       </footer>

@@ -123,16 +123,36 @@ It also shows the selected forecasts for each parameter used during the
 analog generation, compared with the other unselected forecasts.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>plotAnalogSelection</span>(<span class='no'>AnEn</span>, <span class='no'>config</span>, <span class='no'>i.station</span>, <span class='no'>i.test.day</span>, <span class='no'>i.flt</span>,
-  <span class='no'>parameter.names</span>, <span class='kw'>cex.lab</span> <span class='kw'>=</span> <span class='fl'>1.5</span>, <span class='kw'>pch.selected</span> <span class='kw'>=</span> <span class='fl'>16</span>,
-  <span class='kw'>pch.unselected</span> <span class='kw'>=</span> <span class='fl'>16</span>, <span class='kw'>pch.current</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>col.selected</span> <span class='kw'>=</span> <span class='st'>"red"</span>,
-  <span class='kw'>col.unselected</span> <span class='kw'>=</span> <span class='st'>"lightgrey"</span>, <span class='kw'>col.reference</span> <span class='kw'>=</span> <span class='st'>"black"</span>,
-  <span class='kw'>col.current</span> <span class='kw'>=</span> <span class='st'>"black"</span>, <span class='kw'>lty.reference</span> <span class='kw'>=</span> <span class='st'>"longdash"</span>,
-  <span class='kw'>lwd.reference</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>as.POSIXct</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='kw'>origin</span> <span class='kw'>=</span> <span class='st'>"1970-01-01"</span>,
-  <span class='kw'>tz</span> <span class='kw'>=</span> <span class='st'>"UTC"</span>, <span class='kw'>single.figure</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='kw'>mar</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1.5</span>, <span class='fl'>5</span>, <span class='fl'>1</span>, <span class='fl'>1</span>) + <span class='fl'>0.1</span>,
-  <span class='kw'>omi</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.3</span>, <span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>0</span>), <span class='kw'>use.plotly</span> <span class='kw'>=</span> <span class='no'>F</span>, <span class='kw'>hovermode</span> <span class='kw'>=</span> <span class='st'>"compare"</span>,
-  <span class='kw'>spikemode</span> <span class='kw'>=</span> <span class='st'>"across"</span>, <span class='kw'>spikethickness</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>spikedash</span> <span class='kw'>=</span> <span class='st'>"solid"</span>,
-  <span class='kw'>spikecolor</span> <span class='kw'>=</span> <span class='st'>"grey"</span>)</pre>
+    <pre class="usage"><span class='fu'>plotAnalogSelection</span>(
+  <span class='no'>AnEn</span>,
+  <span class='no'>config</span>,
+  <span class='no'>i.station</span>,
+  <span class='no'>i.test.day</span>,
+  <span class='no'>i.flt</span>,
+  <span class='no'>parameter.names</span>,
+  <span class='kw'>cex.lab</span> <span class='kw'>=</span> <span class='fl'>1.5</span>,
+  <span class='kw'>pch.selected</span> <span class='kw'>=</span> <span class='fl'>16</span>,
+  <span class='kw'>pch.unselected</span> <span class='kw'>=</span> <span class='fl'>16</span>,
+  <span class='kw'>pch.current</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>col.selected</span> <span class='kw'>=</span> <span class='st'>"red"</span>,
+  <span class='kw'>col.unselected</span> <span class='kw'>=</span> <span class='st'>"lightgrey"</span>,
+  <span class='kw'>col.reference</span> <span class='kw'>=</span> <span class='st'>"black"</span>,
+  <span class='kw'>col.current</span> <span class='kw'>=</span> <span class='st'>"black"</span>,
+  <span class='kw'>lty.reference</span> <span class='kw'>=</span> <span class='st'>"longdash"</span>,
+  <span class='kw'>lwd.reference</span> <span class='kw'>=</span> <span class='fl'>2</span>,
+  <span class='kw'>as.POSIXct</span> <span class='kw'>=</span> <span class='no'>T</span>,
+  <span class='kw'>origin</span> <span class='kw'>=</span> <span class='st'>"1970-01-01"</span>,
+  <span class='kw'>tz</span> <span class='kw'>=</span> <span class='st'>"UTC"</span>,
+  <span class='kw'>single.figure</span> <span class='kw'>=</span> <span class='no'>T</span>,
+  <span class='kw'>mar</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1.5</span>, <span class='fl'>5</span>, <span class='fl'>1</span>, <span class='fl'>1</span>) + <span class='fl'>0.1</span>,
+  <span class='kw'>omi</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.3</span>, <span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>0</span>),
+  <span class='kw'>use.plotly</span> <span class='kw'>=</span> <span class='no'>F</span>,
+  <span class='kw'>hovermode</span> <span class='kw'>=</span> <span class='st'>"compare"</span>,
+  <span class='kw'>spikemode</span> <span class='kw'>=</span> <span class='st'>"across"</span>,
+  <span class='kw'>spikethickness</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>spikedash</span> <span class='kw'>=</span> <span class='st'>"solid"</span>,
+  <span class='kw'>spikecolor</span> <span class='kw'>=</span> <span class='st'>"grey"</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -289,7 +309,7 @@ too few search data.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
 
       </footer>

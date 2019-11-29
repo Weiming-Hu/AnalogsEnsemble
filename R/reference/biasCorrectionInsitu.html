@@ -36,7 +36,7 @@
 
 
 <meta property="og:title" content="RAnEn::biasCorrectionInsitu — biasCorrectionInsitu" />
-<meta property="og:description" content="Statical bias correction function for analog ensembles. This method uses the bias of the 
+<meta property="og:description" content="Statistical bias correction function for analog ensembles. This method uses the bias of the 
 forecast model to correct AnEn, therefore the word 'in situ'." />
 <meta name="twitter:card" content="summary" />
 
@@ -115,13 +115,21 @@ forecast model to correct AnEn, therefore the word 'in situ'." />
     </div>
 
     <div class="ref-description">
-    <p>Statical bias correction function for analog ensembles. This method uses the bias of the 
+    <p>Statistical bias correction function for analog ensembles. This method uses the bias of the 
 forecast model to correct AnEn, therefore the word 'in situ'.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>biasCorrectionInsitu</span>(<span class='no'>AnEn</span>, <span class='no'>config</span>, <span class='no'>forecast.ID</span>, <span class='kw'>group.func</span> <span class='kw'>=</span> <span class='no'>mean</span>, <span class='no'>...</span>,
-  <span class='kw'>keep.bias</span> <span class='kw'>=</span> <span class='no'>F</span>, <span class='kw'>show.progress</span> <span class='kw'>=</span> <span class='no'>F</span>, <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='no'>F</span>,
-  <span class='kw'>density.limit</span> <span class='kw'>=</span> <span class='fl'>1</span>)</pre>
+    <pre class="usage"><span class='fu'>biasCorrectionInsitu</span>(
+  <span class='no'>AnEn</span>,
+  <span class='no'>config</span>,
+  <span class='no'>forecast.ID</span>,
+  <span class='kw'>group.func</span> <span class='kw'>=</span> <span class='no'>mean</span>,
+  <span class='no'>...</span>,
+  <span class='kw'>keep.bias</span> <span class='kw'>=</span> <span class='no'>F</span>,
+  <span class='kw'>show.progress</span> <span class='kw'>=</span> <span class='no'>F</span>,
+  <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='no'>F</span>,
+  <span class='kw'>density.limit</span> <span class='kw'>=</span> <span class='fl'>1</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -203,7 +211,7 @@ this method is not applicable.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
 
       </footer>
