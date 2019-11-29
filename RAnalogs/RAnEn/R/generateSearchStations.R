@@ -69,12 +69,10 @@ generateSearchStations <- function(
   stopifnot(length(test_stations_x) == length(test_stations_y))
   stopifnot(length(search_stations_x) == length(search_stations_y))
   
-  if (identical(num_nearest, NA) && identical(distance, NA)) {
-    stop('Must provide at least on of num_nearest or distance.')
-  } else if (!identical(num_nearest, NA)) {
-    if (num_nearest != 0) {
-      stopifnot(num_nearest <= length(search_stations_x)) 
-    }
+  if (num_nearest == 0 && distance == 0) {
+    stop('Must provide at least on of num_nearest and distance.')
+  } else if (num_nearest != 0) {
+    stopifnot(num_nearest <= length(search_stations_x)) 
   }
   
   mat <- .generateSearchStations(

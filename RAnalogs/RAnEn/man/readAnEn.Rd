@@ -15,7 +15,8 @@ readAnEn(file.analogs, file.similarity = NA, verbose = F, split = 0)
 
 \item{split}{The number of times to split the longest dimension when reading.
 For example, during the reading of analogs with 5 dimensions, if \code{split} is
-3, the longest dimension of analogs will be divided 3 times into 4 chunks.}
+3, the longest dimension of analogs will be divided 3 times into 4 chunks.
+This is useful when your file cannot be read at once.}
 }
 \value{
 An AnEn class object.

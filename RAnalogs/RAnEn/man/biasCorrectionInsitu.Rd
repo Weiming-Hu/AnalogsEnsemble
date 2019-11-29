@@ -4,9 +4,17 @@
 \alias{biasCorrectionInsitu}
 \title{RAnEn::biasCorrectionInsitu}
 \usage{
-biasCorrectionInsitu(AnEn, config, forecast.ID, group.func = mean, ...,
-  keep.bias = F, show.progress = F, overwrite = F,
-  density.limit = 1)
+biasCorrectionInsitu(
+  AnEn,
+  config,
+  forecast.ID,
+  group.func = mean,
+  ...,
+  keep.bias = F,
+  show.progress = F,
+  overwrite = F,
+  density.limit = 1
+)
 }
 \arguments{
 \item{AnEn}{An AnEn object.}
@@ -35,7 +43,7 @@ forecasts need to be bias corrected.}
 An AnEn object.
 }
 \description{
-Statical bias correction function for analog ensembles. This method uses the bias of the 
+Statistical bias correction function for analog ensembles. This method uses the bias of the 
 forecast model to correct AnEn, therefore the word 'in situ'.
 }
 \details{

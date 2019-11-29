@@ -46,21 +46,21 @@
 #' @export
 getAssociatedForecasts <- function(
   AnEn, config, forecast.parameter,
-  i.station = NA, i.test.day = NA, i.flt = NA,
+  i.station = NULL, i.test.day = NULL, i.flt = NULL,
   similarity.name = 'similarity',
   forecasts.name = 'forecasts',
-  members.to.extract = NA) {
+  members.to.extract = NULL) {
   
   # Sanity check
   stopifnot(forecasts.name %in% names(config))
   stopifnot(similarity.name %in% names(AnEn))
   stopifnot(length(forecast.parameter) == 1)
   
-  if (identical(i.station, NA)) i.station <- 1:dim(AnEn[[similarity.name]])[1]
-  if (identical(i.test.day, NA)) i.test.day <- 1:dim(AnEn[[similarity.name]])[2]
-  if (identical(i.flt, NA)) i.flt <- 1:dim(AnEn[[similarity.name]])[3]
+  if (is.null(i.station)) i.station <- 1:dim(AnEn[[similarity.name]])[1]
+  if (is.null(i.test.day)) i.test.day <- 1:dim(AnEn[[similarity.name]])[2]
+  if (is.null(i.flt)) i.flt <- 1:dim(AnEn[[similarity.name]])[3]
   
-  if (identical(members.to.extract, NA)) {
+  if (is.null(members.to.extract)) {
     members.to.extract <- dim(AnEn[[similarity.name]])[4]
   } else {
     stopifnot(members.to.extract <= dim(AnEn[[similarity.name]])[4])

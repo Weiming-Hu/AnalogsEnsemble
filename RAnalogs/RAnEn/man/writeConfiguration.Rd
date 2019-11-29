@@ -4,8 +4,16 @@
 \alias{writeConfiguration}
 \title{RAnEn::writeConfiguration}
 \usage{
-writeConfiguration(config, obs.par.names, fcsts.par.names, xs, ys,
-  file.prefix = "", folder = "./", silent = F)
+writeConfiguration(
+  config,
+  obs.par.names,
+  fcsts.par.names,
+  xs,
+  ys,
+  file.prefix = "",
+  folder = "./",
+  silent = F
+)
 }
 \arguments{
 \item{config}{The successfully configured Configuration object.}

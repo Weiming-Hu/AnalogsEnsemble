@@ -21,18 +21,19 @@ Depends:
 Imports:
     Rcpp (>= 0.12.9),
     BH (>= 1.62.0-1),
-    ncdf4,
 LinkingTo:
-    Rcpp,
     BH,
+    Rcpp,
 Suggests:
-    pbapply,
-    parallel,
     nnet,
     boot,
-    verification,
-    plotly,
-    dplyr,
+    ncdf4,
     abind,
+    dplyr,
+    ggplot,
+    plotly,
+    pbapply,
+    parallel,
+    verification,
 RoxygenNote: 6.1.0
 Encoding: UTF-8

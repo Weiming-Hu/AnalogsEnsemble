@@ -4,8 +4,12 @@
 \alias{generatePersistent}
 \title{RAnEn::generatePersistent}
 \usage{
-generatePersistent(config, forecast.time.interval = 86400,
-  show.progress = F, silent = F)
+generatePersistent(
+  config,
+  forecast.time.interval = 86400,
+  show.progress = F,
+  silent = F
+)
 }
 \arguments{
 \item{config}{A Configuration object created from \code{\link{generateConfiguration}}.}

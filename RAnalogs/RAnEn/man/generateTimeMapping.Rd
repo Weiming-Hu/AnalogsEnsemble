@@ -4,8 +4,13 @@
 \alias{generateTimeMapping}
 \title{RAnEn::generateTimeMapping}
 \usage{
-generateTimeMapping(forecast_times, forecast_flts, observation_times,
-  time_match_mode = 0, verbose = 2)
+generateTimeMapping(
+  forecast_times,
+  forecast_flts,
+  observation_times,
+  time_match_mode = 0,
+  verbose = 2
+)
 }
 \arguments{
 \item{forecast_times}{A vector of forecast times.}

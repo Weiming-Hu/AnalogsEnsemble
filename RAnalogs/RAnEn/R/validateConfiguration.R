@@ -37,14 +37,6 @@ validateConfiguration <- function(x) {
     stop("'search_flts' is deprecated and renamed to 'flts'. Please rename search_flts to flts.")
   }
   
-  # NA is not allowed in the configuration
-  for (i in 1:length(x)) {
-    if (identical(NA, x[[i]])) {
-      cat("NA variable:", attr(x, 'name')[i], "\n")
-      valid <- F
-    }
-  }
-  
   # Naive checks for whether the configuration has the correct basic or advanced format  
   if (all(c("forecasts", "test_forecasts") %in% names(x))) {
     cat("Error: Confusing configuration. Forecasts and test_forecasts should not exist at the same time.\n")
@@ -60,6 +52,31 @@ validateConfiguration <- function(x) {
     cat("Error: Confusing configuration. Did you manually change any member names in the configuration?\n")
     cat('Please recreate the configuration object using RAnEn::generateConfiguration.\n')
     valid <- F
+  }
+  
+  # NULL is not allowed for these required members
+  required.members <- c('num_members', 'search_observations', 'observation_times', 'flts')
+  
+  if (x$advanced) {
+    required.members <- c(required.members, 'test_forecasts', 'test_times', 'search_forecasts', 'search_times')
+  } else {
+    required.members <- c(required.members, 'forecasts', 'forecast_times')
+  }
+  
+  if (x$mode == 'extendedSearch') {
+    if (x$advanced) {
+      required.members <- c(required.members, 'test_stations_x', 'test_stations_y',
+                            'search_stations_x', 'search_stations_y')
+    } else {
+      required.members <- c(required.members, 'forecast_stations_x', 'forecast_stations_y')
+    }
+  }
+  
+  for (name in required.members) {
+    if (is.null(x[[name]])) {
+      cat("Required variable:", name, "\n")
+      valid <- F
+    }
   }
   
   if (!valid) return(valid)

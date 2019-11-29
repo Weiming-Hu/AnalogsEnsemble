@@ -48,13 +48,13 @@
 #' abline(h = c(x.min, x.max))
 #' 
 #' @export
-val2Col <- function( x, col, x.min = NA, x.max = NA, na.rm = F) {
+val2Col <- function( x, col, x.min = NULL, x.max = NULL, na.rm = F) {
   
   if (length(col) == 1) stop('At least 2 colors are needed.')
   
   # Translate the minimum and the maximum values
-  x.min <- ifelse(test = identical(x.min, NA), yes = min(x, na.rm), no = x.min)
-  x.max <- ifelse(test = identical(x.max, NA), yes = max(x, na.rm), no = x.max)
+  x.min <- ifelse(test = is.null(x.min), yes = min(x, na.rm), no = x.min)
+  x.max <- ifelse(test = is.null(x.max), yes = max(x, na.rm), no = x.max)
   
   # Cluster the numbers
   x.cut <- cut(x, breaks = seq(from = x.min, to = x.max, length.out = length(col) + 1))

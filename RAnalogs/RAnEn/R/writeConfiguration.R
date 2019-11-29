@@ -28,12 +28,11 @@
 #' @param folder Output folder.
 #' @param silent Whether to be silent.
 #' 
-#' @import ncdf4
 #' @md
 #' @export
 writeConfiguration <- function(config, obs.par.names, fcsts.par.names,
-                        xs, ys, file.prefix = '', folder = './',
-                        silent = F) {
+                               xs, ys, file.prefix = '', folder = './',
+                               silent = F) {
   
   # Sanity checks
   stopifnot(length(obs.par.names) == dim(config$search_observations)[1])
@@ -43,7 +42,7 @@ writeConfiguration <- function(config, obs.par.names, fcsts.par.names,
   stopifnot(class(config) == 'Configuration')
   stopifnot(!config$advanced)
   if (config$mode != 'independentSearch') {
-      stop("Currently only supporting writing independentSearch configuration.")
+    stop("Currently only supporting writing independentSearch configuration.")
   }
   
   # Check whether config is successfully configured
@@ -119,10 +118,19 @@ writeConfiguration <- function(config, obs.par.names, fcsts.par.names,
   # Write cfg file from config
   if (!silent) cat('Writing', file.cfg, '...\n')
   
-  test.times.index <- sapply(config$test_times_compare, function(x, v) {
-    which(x == v)},  v = config$forecast_times) - 1
-  search.times.index <- sapply(config$search_times_compare, function(x, v) {
-    which(x == v)},  v = config$forecast_times) - 1
+  if (length(config$test_times_compare) > 0) {
+    test.times.index <- sapply(config$test_times_compare, function(x, v) {
+      which(x == v)},  v = config$forecast_times) - 1
+  } else {
+    test.times.index <- NULL
+  }
+  
+  if (length(config$search_times_compare) > 0) {
+    search.times.index <- sapply(config$search_times_compare, function(x, v) {
+      which(x == v)},  v = config$forecast_times) - 1 
+  } else {
+    search.times.index <- NULL
+  }
   
   cfg.lines <- c(
     paste("# Author:", global.attrs$creator),
@@ -145,21 +153,22 @@ writeConfiguration <- function(config, obs.par.names, fcsts.par.names,
     cfg.lines <- c(cfg.lines, paste("similarity-nc =", file.sims))
   }
   
-  cfg.lines <- c(cfg.lines, '\n',
-                 paste("observation-id =", config$observation_id - 1),
-                 paste("members =", config$num_members),
-                 paste("quick =", as.numeric(config$quick)),
-                 paste("extend-obs=", as.numeric(config$extend_observations)),
-                 paste("operational =", as.numeric(config$operational)),
-                 paste("time-match-mode =", config$time_match_mode),
-                 paste("max-par-nan =", config$max_par_nan),
-                 paste("max-flt-nan = ", config$max_flt_nan),
-                 paste("max-num-sims =", config$max_num_sims),
-                 paste("window-half-size =", config$FLT_radius),
-                 paste("verbose =", config$verbose),
-                 '\n',
-                 paste("test-times-index =", test.times.index),
-                 paste("search-times-index =", search.times.index))
+  cfg.lines <- c(
+    cfg.lines, '\n', paste("observation-id =", config$observation_id - 1),
+    paste("members =", config$num_members),
+    paste("quick =", as.numeric(config$quick)),
+    paste("extend-obs=", as.numeric(config$extend_observations)),
+    paste("operational =", as.numeric(config$operational)),
+    paste("time-match-mode =", config$time_match_mode),
+    paste("max-par-nan =", config$max_par_nan),
+    paste("max-flt-nan = ", config$max_flt_nan),
+    paste("max-num-sims =", config$max_num_sims),
+    paste("window-half-size =", config$FLT_radius),
+    paste("verbose =", config$verbose), '\n',
+    ifelse(test = is.null(test.times.index), yes = '',
+           no = paste("test-times-index =", test.times.index)),
+    ifelse(test = is.null(search.times.index), yes = '',
+           no = paste("search-times-index =", search.times.index)))
   
   if (identical(NULL, names(config$weights))) {
     cfg.lines <- c(cfg.lines, '\n', paste("weights =", config$weights))

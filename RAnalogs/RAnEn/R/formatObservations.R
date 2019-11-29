@@ -100,7 +100,7 @@
 formatObservations <- function(
   df, col.par, col.x, col.y, col.time, time.series, col.value,
   verbose = T, preview = 2, remove.duplicates = T,
-  circular.pars = NA, col.station.name = NA,
+  circular.pars = NULL, col.station.name = NULL,
   show.progress = F) {
   
   check.package('dplyr')
@@ -139,9 +139,9 @@ formatObservations <- function(
       df[, col.time] <= time.series[length(time.series)]), ]
   
   observations <- list(
-    ParameterNames = NA,
-    Xs = NA, Ys = NA,
-    Times = NA, Data = NA)
+    ParameterNames = NULL,
+    Xs = NULL, Ys = NULL,
+    Times = NULL, Data = NULL)
   
   # Assign unique parameters
   observations$ParameterNames <- unique(df[[col.par]])
@@ -153,7 +153,7 @@ formatObservations <- function(
         ifelse(num.pars <= preview, '', '...'), '\n')
   }
   
-  if (!identical(NA, circular.pars)) {
+  if (!is.null(circular.pars)) {
     stopifnot(is.vector(circular.pars, mode = 'character'))
     
     for (name in circular.pars) {
@@ -173,7 +173,7 @@ formatObservations <- function(
   
   # Extract the unique points
   cols <- c(col.x, col.y, 'Station.ID')
-  if (!identical(col.station.name, NA)) {
+  if (!is.null(col.station.name)) {
     stopifnot(col.station.name %in% names(df))
     cols <- c(cols, col.station.name)
   }
@@ -181,7 +181,7 @@ formatObservations <- function(
   unique.pts <- dplyr::distinct(df[, cols], Station.ID, .keep_all = T)
   
   # Assign unique stations
-  if (!identical(col.station.name, NA)) {
+  if (!is.null(col.station.name)) {
     if (nrow(unique.pts) != length(unique(unique.pts[, col.station.name]))) {
       stop(paste('Some entries in', col.station.name,
                  'correspond to multiple coordinates.',

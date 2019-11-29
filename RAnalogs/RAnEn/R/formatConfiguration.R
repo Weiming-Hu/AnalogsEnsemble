@@ -32,7 +32,9 @@ formatConfiguration <- function(config, verbose = T) {
   if (class(config) != 'Configuration')
     stop("Class is not Configuration.")
   
-  config$flts <- as.numeric(config$flts)
+  if (!is.null(config$flts)) {
+    config$flts <- as.numeric(config$flts)
+  }
   
   for (name in c('test_times', 'search_times',
                  'forecast_times', 'observation_times',
@@ -50,7 +52,9 @@ formatConfiguration <- function(config, verbose = T) {
                  'search_stations_x', 'search_stations_y',
                  'forecast_stations_x', 'forecast_stations_y')) {
     if (name %in% names(config)) {
-      config[[name]] <- as.vector(config[[name]])
+      if (!is.null(config[[name]])) {
+        config[[name]] <- as.vector(config[[name]])
+      }
     }
   }
   

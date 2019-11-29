@@ -4,16 +4,32 @@
 \alias{plotAnalogSample}
 \title{RAnEn::plotAnalogSample}
 \usage{
-plotAnalogSample(AnEn, config, i.station, i.test.day, obs.id, fcst.id,
-  parameter.names, share.parameter.names = F, member.name = "analogs",
-  flts.fraction = 3600, boxplot.outliers = F,
-  border.anen.box = "grey", lty.current.fcsts = "longdash",
-  col.current.fcsts = "red", cex.current.fcst = 1,
-  pch.current.obs = 1, col.current.obs = "black",
-  cex.current.obs = 1.5, cex.label = 1.5,
-  legend.texts = c("Observations", "NAM"), legend.position = "topleft",
-  single.figure = T, mar = c(1.5, 5, 1, 1) + 0.1, omi = c(0.3, 0, 0,
-  0))
+plotAnalogSample(
+  AnEn,
+  config,
+  i.station,
+  i.test.day,
+  obs.id,
+  fcst.id,
+  parameter.names,
+  share.parameter.names = F,
+  member.name = "analogs",
+  flts.fraction = 3600,
+  boxplot.outliers = F,
+  border.anen.box = "grey",
+  lty.current.fcsts = "longdash",
+  col.current.fcsts = "red",
+  cex.current.fcst = 1,
+  pch.current.obs = 1,
+  col.current.obs = "black",
+  cex.current.obs = 1.5,
+  cex.label = 1.5,
+  legend.texts = c("Observations", "NAM"),
+  legend.position = "topleft",
+  single.figure = T,
+  mar = c(1.5, 5, 1, 1) + 0.1,
+  omi = c(0.3, 0, 0, 0)
+)
 }
 \arguments{
 \item{AnEn}{An AnEn object generated from \code{\link{generateAnalogs}}.}

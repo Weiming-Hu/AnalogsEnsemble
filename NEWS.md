@@ -7,6 +7,7 @@
 - Added `RAnEn::subsetStations`
 - Improve `RAnEn` name space management
 - Added `RAnEn::plotAnalogTimeSeries`
+- Changed default values for `Configuration` from `NA` to `NULL` when it is necessary
 
 # PAnEn 3.6.5
 

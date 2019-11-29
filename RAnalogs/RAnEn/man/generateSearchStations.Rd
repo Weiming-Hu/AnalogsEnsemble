@@ -4,10 +4,18 @@
 \alias{generateSearchStations}
 \title{RAnEn::generateSearchStations}
 \usage{
-generateSearchStations(test_stations_x, test_stations_y, search_stations_x,
-  search_stations_y, max_num_search_stations = 0, distance = 0,
-  num_nearest = 0, test_stations_classifier = vector("numeric", 0),
-  search_stations_classifier = vector("numeric", 0), verbose = 3)
+generateSearchStations(
+  test_stations_x,
+  test_stations_y,
+  search_stations_x,
+  search_stations_y,
+  max_num_search_stations = 0,
+  distance = 0,
+  num_nearest = 0,
+  test_stations_classifier = vector("numeric", 0),
+  search_stations_classifier = vector("numeric", 0),
+  verbose = 3
+)
 }
 \arguments{
 \item{test_stations_x}{Xs for test stations.}

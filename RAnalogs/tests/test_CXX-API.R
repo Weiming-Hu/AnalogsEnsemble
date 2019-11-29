@@ -233,4 +233,4 @@ unlink('mapping.txt')
 unlink('similarity.nc')
 unlink('analogs_separate.nc')
 
-cat("You survived the the Solar tests for C++ API!\n")
+cat("You survived the Solar tests for C++ API!\n")

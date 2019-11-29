@@ -24,27 +24,35 @@
 #' 
 #' @return A list object.
 #' 
-#' @import ncdf4
 #' @md
 #' @export
 readObservations <- function(file, origin = '1970-01-01', tz = 'UTC') {
   stopifnot(file.exists(file))
   
+  if (!requireNamespace('ncdf4', quietly = T)) {
+    stop(paste('Please install ncdf4.'))
+  }
+  
   observations <- list()
-  nc <- nc_open(file)
-  observations$Data <- ncvar_get(nc, 'Data', collapse_degen = F)
-  observations$Times <- as.POSIXct(ncvar_get(nc, 'Times'), origin = origin, tz = tz)
-  observations$Xs <- as.numeric(ncvar_get(nc, 'Xs'))
-  observations$Ys <- as.numeric(ncvar_get(nc, 'Ys'))
+  nc <- ncdf4::nc_open(file)
+  observations$Data <- ncdf4::ncvar_get(nc, 'Data', collapse_degen = F)
+  observations$Times <- as.POSIXct(ncdf4::ncvar_get(nc, 'Times'), origin = origin, tz = tz)
+  observations$Xs <- as.numeric(ncdf4::ncvar_get(nc, 'Xs'))
+  observations$Ys <- as.numeric(ncdf4::ncvar_get(nc, 'Ys'))
   
   for (name in c('ParameterCirculars', 'StationNames',
                  'ParameterNames', 'ParameterWeights')) {
     if (name %in% names(nc$var)) {
-      observations[[name]] <- as.vector(ncvar_get(nc, name))
+      observations[[name]] <- as.vector(ncdf4::ncvar_get(nc, name))
+      
+      if (name == 'ParameterCirculars') {
+        # Remove empty element
+        observations[[name]] <- observations[[name]][observations[[name]] != '']
+      }
     }
   }
   
-  nc_close(nc)
+  ncdf4::nc_close(nc)
   
   garbage <- gc(verbose = F, reset = T)
   

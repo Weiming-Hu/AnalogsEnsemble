@@ -4,9 +4,17 @@
 \alias{getAssociatedForecasts}
 \title{RAnEn::getAssociatedForecasts}
 \usage{
-getAssociatedForecasts(AnEn, config, forecast.parameter, i.station = NA,
-  i.test.day = NA, i.flt = NA, similarity.name = "similarity",
-  forecasts.name = "forecasts", members.to.extract = NA)
+getAssociatedForecasts(
+  AnEn,
+  config,
+  forecast.parameter,
+  i.station = NA,
+  i.test.day = NA,
+  i.flt = NA,
+  similarity.name = "similarity",
+  forecasts.name = "forecasts",
+  members.to.extract = NA
+)
 }
 \arguments{
 \item{AnEn}{The AnEn class object returned by \code{\link{generateAnalogs}}.}

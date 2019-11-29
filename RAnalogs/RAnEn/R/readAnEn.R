@@ -23,13 +23,18 @@
 #' @param split The number of times to split the longest dimension when reading.
 #' For example, during the reading of analogs with 5 dimensions, if `split` is 
 #' 3, the longest dimension of analogs will be divided 3 times into 4 chunks.
+#' This is useful when your file cannot be read at once.
 #' 
 #' @return An AnEn class object.
 #' 
-#' @import ncdf4
 #' @md
 #' @export
-readAnEn <- function(file.analogs, file.similarity = NA, verbose = F, split = 0) {
+readAnEn <- function(file.analogs, file.similarity = NULL, verbose = F, split = 0) {
+  
+  if (!requireNamespace('ncdf4', quietly = T)) {
+    stop(paste('Please install ncdf4.'))
+  }
+  
   AnEn <- list()
   class(AnEn) <- 'AnEn'
   
@@ -39,9 +44,9 @@ readAnEn <- function(file.analogs, file.similarity = NA, verbose = F, split = 0)
     if (file.exists(file.analogs)) {
       if (verbose) cat('Reading analogs from', file.analogs, '\n')
       
-      nc <- nc_open(file.analogs)
-      AnEn$analogs <- ncvar_get(nc, 'Analogs')
-      nc_close(nc)
+      nc <- ncdf4::nc_open(file.analogs)
+      AnEn$analogs <- ncdf4::ncvar_get(nc, 'Analogs')
+      ncdf4::nc_close(nc)
       garbage <- gc(verbose = F, reset = T)
       
       if (verbose) cat('Converting analog format ...\n')
@@ -52,13 +57,13 @@ readAnEn <- function(file.analogs, file.similarity = NA, verbose = F, split = 0)
       stop(paste(file.analogs, 'does not exists.'))
     }
     
-    if (!is.na(file.similarity)) {
+    if (!is.null(file.similarity)) {
       if (file.exists(file.similarity)) {
         if (verbose) cat('Reading similarity from', file.similarity, '...\n')
         
-        nc <- nc_open(file.similarity)
-        AnEn$similarity <- ncvar_get(nc, 'SimilarityMatrices')
-        nc_close(nc)
+        nc <- ncdf4::nc_open(file.similarity)
+        AnEn$similarity <- ncdf4::ncvar_get(nc, 'SimilarityMatrices')
+        ncdf4::nc_close(nc)
         garbage <- gc(verbose = F, reset = T)
         
         if (verbose) cat('Converting similairty format ...\n')
@@ -85,7 +90,7 @@ readAnEn <- function(file.analogs, file.similarity = NA, verbose = F, split = 0)
       member.to.query <- c(member.to.query, 'Analogs')
     }
     
-    if (!identical(file.similarity, NA)) {
+    if (!is.null(file.similarity)) {
       if (file.exists(file.similarity)) {
         file.to.read <- c(file.to.read, file.similarity)
         member.to.read <- c(member.to.read, 'similarity')
@@ -96,7 +101,7 @@ readAnEn <- function(file.analogs, file.similarity = NA, verbose = F, split = 0)
     for (i.member in 1:length(member.to.read)) {
       if (verbose) cat(member.to.query,'input', file.to.read[i.member], '\n')
       
-      nc <- nc_open(file.to.read[i.member])
+      nc <- ncdf4::nc_open(file.to.read[i.member])
       
       # Determine the dimension
       dims <- sapply(1:nc$var[[member.to.query[i.member]]]$ndims,
@@ -120,9 +125,9 @@ readAnEn <- function(file.analogs, file.similarity = NA, verbose = F, split = 0)
         count <- dims
         count[i.max] <- indices[i+1] - indices[i] + 1
         
-        AnEn.chunk$analogs <- ncvar_get(nc, member.to.query[i.member],
-                                        start = start, count = count,
-                                        collapse_degen = F)
+        AnEn.chunk$analogs <- ncdf4::ncvar_get(nc, member.to.query[i.member],
+                                               start = start, count = count,
+                                               collapse_degen = F)
         garbage <- gc(verbose = F, reset = T)
         
         if (verbose) cat('Converting array format ...\n')
@@ -139,7 +144,7 @@ readAnEn <- function(file.analogs, file.similarity = NA, verbose = F, split = 0)
         garbage <- gc(verbose = F, reset = T)
       }
       
-      nc_close(nc)
+      ncdf4::nc_close(nc)
     }
     
     rm(AnEn.chunk, garbage, member.to.query, member.to.read, file.to.read)

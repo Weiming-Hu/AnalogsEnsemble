@@ -33,7 +33,7 @@
 #' @author Martina Calovi \email{mxc895@@psu.edu}
 #' @author Laura Clemente-Harding \email{laura@@psu.edu}
 #' 
-#' @param observation.time The observation time index(es) from the `Time` column of the `analogs` member in
+#' @param observation.time.id The observation time index(es) from the `Time` column of the `analogs` member in
 #' in the results of \code{\link{generateAnalogs}}.
 #' @param mapping The mapping table from the `mapping` member in the results of \code{\link{generateAnalogs}}.
 #' Or it can be created from \code{\link{generateTimeMapping}}.
@@ -41,25 +41,34 @@
 #' 
 #' @md
 #' @export
-toForecastTime <- function(observation.time, mapping, flt = NA) {
+toForecastTime <- function(observation.time.id, mapping, flt = NULL) {
   
   mat <- NULL
   
-  if (identical(flt, NA)) {
+  if (is.null(flt)) {
     
-    cs <- apply(mapping == id, 1, any)
+    if (length(observation.time.id) != 1) {
+      stop('When all FLTs are requested, only one observation time id at a time.')
+    }
+    
+    cs <- apply(mapping == observation.time.id, 1, any)
+    
     if ( any(cs) ) {
       
       for ( flt in which(cs) ) {
-        day <- which(mapping[flt,]==id)
+        day <- which(mapping[flt, ] == observation.time.id)
         mat <- rbind(mat, c(day,flt))
       }
     } 
     
     return(mat)
+    
   } else {
     mapping <- mapping[flt, ]
-    return(which(mapping == observation.time))
+    
+    return(sapply(observation.time.id, function(x, mapping) {
+      which(x == mapping)},
+      mapping = mapping))
   }
 }
 

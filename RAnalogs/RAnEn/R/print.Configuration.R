@@ -24,7 +24,7 @@
 #' print(config)
 #' 
 #' @export
-print.Configuration <- function(x, forecasts.names = NA) {
+print.Configuration <- function(x, forecasts.names = NULL) {
 	
 	if (class(x) != 'Configuration') stop('Not a Configuration object.')
 	
@@ -42,16 +42,24 @@ print.Configuration <- function(x, forecasts.names = NA) {
 	} else {
 	  # Name the weights
 	  weights <- x$weights
-	  if (!identical(forecasts.names, NA)) {
+	  if (!is.null(forecasts.names)) {
 	    stopifnot(length(weights) == length(forecasts.names))
 	    names(weights) <- forecasts.names
 	  }
 	  
-	  test.range <- range(x$test_times_compare)
-	  if (is.numeric(test.range)) test.range <- toDateTime(test.range)
+	  if (length(x$test_times_compare) == 0) {
+	    test.range <- c(NA, NA)
+	  } else {
+	    test.range <- range(x$test_times_compare)
+	    if (is.numeric(test.range)) test.range <- toDateTime(test.range)
+	  }
 	  
-	  search.range <- range(x$search_times_compare)
-	  if (is.numeric(search.range)) search.range <- toDateTime(search.range)
+	  if (length(x$search_times_compare) == 0) {
+	    search.range <- c(NA, NA)
+	  } else {
+	    search.range <- range(x$search_times_compare)
+	    if (is.numeric(search.range)) search.range <- toDateTime(search.range)
+	  }
 	  
 	  cat("\nThe observation id is", x$observation_id,
 	      "\nThere are", length(x$test_times_compare), "test times from",

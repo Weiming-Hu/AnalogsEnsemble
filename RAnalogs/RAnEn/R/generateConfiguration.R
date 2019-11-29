@@ -116,11 +116,11 @@ generateConfiguration <- function(mode, advanced = F) {
   config <- list(
     mode = mode,
     advanced = advanced,
-    flts = NA,
-    search_observations = NA, 
-    observation_times = NA,
-    num_members = NA,
+    num_members = NULL,
+    search_observations = NULL, 
+    observation_times = NULL,
     observation_id = 1,
+    flts = NULL,
     circulars = vector(mode = 'numeric', length = 0), 
     weights = vector(mode = 'numeric', length = 0), 
     quick = F,
@@ -141,13 +141,13 @@ generateConfiguration <- function(mode, advanced = F) {
     debug = F)
   
   if (advanced) {
-    config$test_forecasts <- NA
-    config$test_times <- NA
-    config$search_forecasts <- NA
-    config$search_times <- NA
+    config['test_forecasts'] <- list(NULL)
+    config['test_times'] <- list(NULL)
+    config['search_forecasts'] <- list(NULL)
+    config['search_times'] <- list(NULL)
   } else {
-    config$forecasts <- NA
-    config$forecast_times <- NA
+    config['forecasts'] <- list(NULL)
+    config['forecast_times'] <- list(NULL)
   }
   
   if (mode == 'extendedSearch') {
@@ -157,15 +157,15 @@ generateConfiguration <- function(mode, advanced = F) {
       max_num_search_stations = 0))
     
     if (advanced) {
-      config$test_stations_x <- NA
-      config$test_stations_y <- NA
-      config$search_stations_x <- NA
-      config$search_stations_y <- NA
+      config['test_stations_x'] <- list(NULL)
+      config['test_stations_y'] <- list(NULL)
+      config['search_stations_x'] <- list(NULL)
+      config['search_stations_y'] <- list(NULL)
       config$test_stations_classifier <- vector(mode = 'numeric', length = 0)
       config$search_stations_classifier <- vector(mode = 'numeric', length = 0)
     } else {
-      config$forecast_stations_x <- NA
-      config$forecast_stations_y <- NA
+      config['forecast_stations_x'] <- list(NULL)
+      config['forecast_stations_y'] <- list(NULL)
       config$stations_classifier <- vector(mode = 'numeric', length = 0)
     }
   }

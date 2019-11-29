@@ -27,18 +27,18 @@
 rcpp_compute_analogs <- function(forecasts,
                                  observations,
                                  circulars = vector(mode = 'numeric'),
-                                 weights = NA,
-                                 stations_ID = NA,
+                                 weights = NULL,
+                                 stations_ID = NULL,
                                  test_ID_start, test_ID_end,
-                                 train_ID_start = 1, train_ID_end = NA,
-                                 observation_ID = NA,
+                                 train_ID_start = 1, train_ID_end = NULL,
+                                 observation_ID = NULL,
                                  members_size,
                                  rolling = 0,
                                  quick = T,
                                  cores = 1,
                                  search_extension = F,
-                                 xs = NA,
-                                 ys = NA,
+                                 xs = NULL,
+                                 ys = NULL,
                                  distance = 0.0,
                                  num_nearest = 0,
                                  observation_from_extended_station = F,
@@ -46,7 +46,7 @@ rcpp_compute_analogs <- function(forecasts,
                                  output_search_stations = F,
                                  output_metric = F,
                                  verbose = 1,
-                                 parameter_ID = NA,
+                                 parameter_ID = NULL,
                                  max_par_nan = 0,
                                  max_flt_nan = 0) {
   cat("Warning: Function rcpp_compute_analogs is deprecated. Please use generateAnalogs! Please be aware that it is assumed that forecast lead times start from 0.\n")
@@ -94,18 +94,18 @@ rcpp_compute_analogs <- function(forecasts,
 compute_analogs <- function(forecasts,
                             observations,
                             circulars = vector(mode = 'numeric'),
-                            weights = NA,
-                            stations_ID = NA,
+                            weights = NULL,
+                            stations_ID = NULL,
                             test_ID_start, test_ID_end,
-                            train_ID_start = 1, train_ID_end = NA,
-                            observation_ID = NA,
+                            train_ID_start = 1, train_ID_end = NULL,
+                            observation_ID = NULL,
                             members_size,
                             rolling = 0,
                             quick = T,
                             cores = 0,
                             search_extension = F,
-                            xs = NA,
-                            ys = NA,
+                            xs = NULL,
+                            ys = NULL,
                             distance = 0.0,
                             num_nearest = 0,
                             observation_from_extended_station = F,
@@ -113,15 +113,15 @@ compute_analogs <- function(forecasts,
                             output_search_stations = F,
                             output_metric = F,
                             verbose = 1,
-                            parameter_ID = NA,
+                            parameter_ID = NULL,
                             max_par_nan = 0,
                             max_flt_nan = 0) {
   cat("Warning: Function compute_analogs is deprecated. Please use generateAnalogs! Please be aware that it is assumed that forecast lead times start from 0.\n")
   
   # check deprecation
-  if (!identical(NA, parameter_ID)) {
+  if (!is.null(parameter_ID)) {
     cat("Warning: parameter_ID is deprecated! Use observation_ID instead.\n")
-    if (!identical(NA, observation_ID)) {
+    if (!is.null(observation_ID)) {
       return(0)
     }
     
@@ -160,7 +160,7 @@ compute_analogs <- function(forecasts,
     return(0)
   }
   
-  if (identical(NA, weights)) {
+  if (is.null(weights)) {
     weights <- rep(1, dim(forecasts)[1])
   }
   if (!(is.vector(weights) &&
@@ -170,7 +170,7 @@ compute_analogs <- function(forecasts,
     return(0)
   }
   
-  if (identical(NA, stations_ID)) {
+  if (is.null(stations_ID)) {
     stations_ID <- 1:dim(forecasts)[2]
   }
   if (!(is.numeric(stations_ID) &&
@@ -202,7 +202,7 @@ compute_analogs <- function(forecasts,
     return(0)
   }
   
-  if (identical(NA, observation_ID) &&
+  if (is.null(observation_ID) &&
       dim(observations)[1] == 1) {
     observation_ID = 1
   }
@@ -219,7 +219,7 @@ compute_analogs <- function(forecasts,
     return(0)
   }
   
-  if (identical(NA, train_ID_end)) {
+  if (is.null(train_ID_end)) {
     if (rolling < 0) {
       train_ID_end = test_ID_start + rolling
     }
@@ -259,7 +259,7 @@ compute_analogs <- function(forecasts,
   }
   
   if (search_extension) {
-    if (identical(NA, xs)) {
+    if (is.null(xs)) {
       cat("ERROR: search extension needs xs.\n")
       return(0)
     }
@@ -274,7 +274,7 @@ compute_analogs <- function(forecasts,
       return(0)
     }
     
-    if (identical(NA, ys)) {
+    if (is.null(ys)) {
       cat("ERROR: search extension needs ys.\n")
       return(0)
     }

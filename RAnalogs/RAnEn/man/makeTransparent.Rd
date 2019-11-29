@@ -4,8 +4,7 @@
 \alias{makeTransparent}
 \title{RAnEn::makeTransparent}
 \usage{
-makeTransparent(col = stop("Please provide a vector of colours."),
-  alpha = 1)
+makeTransparent(col = stop("Please provide a vector of colours."), alpha = 1)
 }
 \arguments{
 \item{col}{The color(s) to be made transparent.}
