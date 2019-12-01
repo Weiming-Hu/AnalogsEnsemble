@@ -5,6 +5,10 @@ sidebar_link: true
 ---
 
 
+# PAnEn 3.7.1
+
+- Introduced auto generation of HPC work flows using `RAnEn::generateHPCWorkflow`.
+
 # PAnEn 3.7.0
 
 - Negative values in indices were removed by default. Added a parameter `debug` for backward compatibility.
