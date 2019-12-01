@@ -65,7 +65,6 @@
 #' object.
 #'
 #' @examples
-#' \dontrun{
 #' # If you have already generated AnEn by using the 
 #' # function RAnEn::generateAnalogs, you probably already
 #' # have the followings or the equivalents:
@@ -167,7 +166,7 @@
 #'   anen.times, anen.flts, anen.data,
 #'   fcst.id, fcst.times, fcst.flts, fcst.data,
 #'   par.name = par.name)
-#' }
+#'
 #' 
 #' @md
 #' @export

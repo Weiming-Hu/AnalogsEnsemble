@@ -95,7 +95,6 @@ times. Overlapping lead times will be cut off and earlier
 lead times will be preferred and kept.
 }
 \examples{
-\dontrun{
 # If you have already generated AnEn by using the 
 # function RAnEn::generateAnalogs, you probably already
 # have the followings or the equivalents:
@@ -197,6 +196,6 @@ plotAnalogTimeSeries(
   anen.times, anen.flts, anen.data,
   fcst.id, fcst.times, fcst.flts, fcst.data,
   par.name = par.name)
-}
+
 
 }

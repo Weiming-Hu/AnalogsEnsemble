@@ -4,7 +4,7 @@
 \alias{val2Col}
 \title{RAnEn::val2Col}
 \usage{
-val2Col(x, col, x.min = NA, x.max = NA, na.rm = F)
+val2Col(x, col, x.min = NULL, x.max = NULL, na.rm = F)
 }
 \arguments{
 \item{x}{A vector of values.}

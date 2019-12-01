@@ -15,8 +15,8 @@ formatObservations(
   verbose = T,
   preview = 2,
   remove.duplicates = T,
-  circular.pars = NA,
-  col.station.name = NA,
+  circular.pars = NULL,
+  col.station.name = NULL,
   show.progress = F
 )
 }

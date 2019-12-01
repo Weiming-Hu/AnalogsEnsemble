@@ -39,6 +39,8 @@ following members:
 \item Data
 \item FLTs (required for type Forecasts)
 }
+
+Please note that \code{ParameterWeights} member is not written to files.
 }
 \author{
 Weiming Hu \email{weiming@psu.edu}

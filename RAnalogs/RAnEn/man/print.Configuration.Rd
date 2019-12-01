@@ -4,7 +4,7 @@
 \alias{print.Configuration}
 \title{RAnEn::print.Configuration}
 \usage{
-\method{print}{Configuration}(x, forecasts.names = NA)
+\method{print}{Configuration}(x, forecasts.names = NULL)
 }
 \arguments{
 \item{x}{a Configuration object}

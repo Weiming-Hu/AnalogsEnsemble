@@ -4,7 +4,7 @@
 \alias{readAnEn}
 \title{RAnEn::readAnEn}
 \usage{
-readAnEn(file.analogs, file.similarity = NA, verbose = F, split = 0)
+readAnEn(file.analogs, file.similarity = NULL, verbose = F, split = 0)
 }
 \arguments{
 \item{file.analogs}{The path to analog NetCDF file.}

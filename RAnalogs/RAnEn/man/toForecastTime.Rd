@@ -4,10 +4,10 @@
 \alias{toForecastTime}
 \title{RAnEn::toForecastTime}
 \usage{
-toForecastTime(observation.time, mapping, flt = NA)
+toForecastTime(observation.time.id, mapping, flt = NULL)
 }
 \arguments{
-\item{observation.time}{The observation time index(es) from the \code{Time} column of the \code{analogs} member in
+\item{observation.time.id}{The observation time index(es) from the \code{Time} column of the \code{analogs} member in
 in the results of \code{\link{generateAnalogs}}.}
 
 \item{mapping}{The mapping table from the \code{mapping} member in the results of \code{\link{generateAnalogs}}.

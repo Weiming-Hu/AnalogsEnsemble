@@ -8,12 +8,12 @@ getAssociatedForecasts(
   AnEn,
   config,
   forecast.parameter,
-  i.station = NA,
-  i.test.day = NA,
-  i.flt = NA,
+  i.station = NULL,
+  i.test.day = NULL,
+  i.flt = NULL,
   similarity.name = "similarity",
   forecasts.name = "forecasts",
-  members.to.extract = NA
+  members.to.extract = NULL
 )
 }
 \arguments{
