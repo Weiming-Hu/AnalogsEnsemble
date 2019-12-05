@@ -177,7 +177,7 @@ plotAnalogTimeSeries <- function(
   fcst.id = NULL, fcst.times = NULL,
   fcst.flts = NULL, fcst.data = NULL,
   max.flt = 82800, par.name = '',
-  return.data = F, smooth = 4) {
+  return.data = F) {
   
   # Sanity checks  
   for (name in c('ggplot2', 'abind', 'dplyr')) {
@@ -195,10 +195,14 @@ plotAnalogTimeSeries <- function(
   
   if (inherits(anen.times, 'numeric')) {
     anen.times <- toDateTime(anen.times)
+  } else {
+    stopifnot(inherits(anen.times, 'POSIXct'))
   }
   
   if (inherits(obs.times, 'numeric')) {
     obs.times <- toDateTime(obs.times)
+  } else {
+    stopifnot(inherits(obs.times, 'POSIXct'))
   }
   
   if (length(i.station) == 3 || length(i.station) == 2) {
@@ -228,6 +232,8 @@ plotAnalogTimeSeries <- function(
     
     if (inherits(fcst.times, 'numeric')) {
       fcst.times <- toDateTime(fcst.times)
+    } else {
+      stopifnot(inherits(fcst.times, 'POSIXct'))
     }
   }
   
@@ -236,8 +242,8 @@ plotAnalogTimeSeries <- function(
   }
   
   # Find the subset for observation time
-  i.start <- which(obs.times == start.time)
-  i.end <- which(obs.times == end.time)
+  i.start <- max(which(obs.times <= start.time))
+  i.end <- min(which(obs.times >= end.time + max.flt))
   
   # Make sure there is only one time found for start and end
   if (length(i.start) != 1 | length(i.end) != 1) {
@@ -304,7 +310,7 @@ plotAnalogTimeSeries <- function(
       Time = rep(fcst.times[i.start:i.end], times = num.flts) +
         rep(fcst.flts, each = num.times),
       Value = as.vector(fcsts),
-      Type = 'Forecast')
+      Method = 'Forecast')
     
     # Combine forecast and observation data frames
     df.c <- rbind(df.obs, df.fcst)

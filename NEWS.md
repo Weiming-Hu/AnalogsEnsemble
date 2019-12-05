@@ -1,6 +1,7 @@
 # PAnEn 3.7.1
 
 - Introduced auto generation of HPC work flows using `RAnEn::generateHPCWorkflow`.
+- Fixed a bug during subseting observation times in `RAnEn::plotAnalogTimeSeries`.
 
 # PAnEn 3.7.0
 

@@ -22,6 +22,7 @@ reference:
           - generatePersistent
           - generateTimeMapping
           - generateSearchStations
+          - generateHPCWorkflow
           - compute_analogs
           - rcpp_compute_analogs
 
