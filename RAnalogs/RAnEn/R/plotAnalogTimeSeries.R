@@ -256,7 +256,7 @@ plotAnalogTimeSeries <- function(
   df.obs <- data.frame(
     Time = obs.times[i.start:i.end],
     Value = obs,
-    Type = "Observation")
+    Method = "Observation")
   rm(obs)
   
   # Find the subset for analogs time
@@ -347,7 +347,7 @@ plotAnalogTimeSeries <- function(
   df.c <- rbind(df.c, data.frame(
     Time = df.anen.ribbons$Time,
     Value = df.anen.ribbons$median,
-    Type = 'AnEn'))
+    Method = 'AnEn'))
   
   if (return.data) {
     return(list(AnEn.Ensemble = df.anen.ribbons,
@@ -363,7 +363,7 @@ plotAnalogTimeSeries <- function(
         mapping = ggplot2::aes(x = Time, ymin = low, ymax = high)) +
       ggplot2::geom_line(
         data = df.c, size = 1, mapping = ggplot2::aes(
-          x = Time, y = Value, color = Type)) +
+          x = Time, y = Value, color = Method)) +
       ggplot2::labs(x = 'Time', y = par.name) +
       ggplot2::scale_color_brewer(palette = 'Dark2') +
       ggplot2::theme(legend.position = 'bottom')
