@@ -62,7 +62,7 @@ set(RPATH_ARGS ${RPATH_ARGS} "-DCMAKE_INSTALL_RPATH=${CMAKE_INSTALL_RPATH}")
 set(RPATH_ARGS ${RPATH_ARGS} "-DCMAKE_MACOSX_RPATH=${CMAKE_MACOSX_RPATH}")
 
 # Define copyright message
-add_definitions(-D_COPYRIGHT_MSG="Copyright \(c\) 2018 Weiming Hu @ GEOlab")
+add_definitions(-D_COPYRIGHT_MSG="Geoinformatics and Earth Observation Laboratory @ Penn State")
 
 
 ###################
