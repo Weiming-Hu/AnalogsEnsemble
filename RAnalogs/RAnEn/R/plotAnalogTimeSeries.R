@@ -210,6 +210,12 @@ plotAnalogTimeSeries <- function(
       stop("i.station should have names 'obs', 'anen', and 'fcst")
     }
     
+    if (!all(c('obs', 'anen', 'fcst') %in% names(i.station))) {
+      msg <- paste("Names 'obs', 'anen', and 'fcst' are required",
+                   "in the i.station vector.")
+      stop(msg)
+    }
+    
     i.obs.station <- i.station['obs']
     i.anen.station <- i.station['anen']
     i.fcst.station <- i.station['fcst']

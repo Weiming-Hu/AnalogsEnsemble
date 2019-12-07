@@ -20,6 +20,7 @@ generateHPCWorkflow(
   verbose = 3,
   max.par.nan = 1,
   max.flt.nan = 1,
+  operational = F,
   max.num.sims = 2 * num.members,
   overwrite = F
 )
@@ -39,7 +40,12 @@ generateHPCWorkflow(
 
 \item{num.members}{The number of members in each analog}
 
-\item{output.folder}{The output folder path}
+\item{output.folder}{The output folder path. If this is
+a single directory path, all analog, similarity, and configuration
+files will be output to the same folder. Or this can be a
+named vector containing the names \code{anen}, \code{sim}, and \code{cfg}
+specifically for each file type, for example,
+\code{output.folder <- c('anen' = '.', 'sim' = '.', 'cfg' = '.')}.}
 
 \item{batch.stations}{How many stations to process in each node}
 
@@ -58,6 +64,8 @@ set \code{batch.times} to \code{24 * 60 * 60}.}
 \item{max.par.nan}{Maximum number of NAN in parameters.}
 
 \item{max.flt.nan}{Maximum number of NAN in FLTs.}
+
+\item{operational}{Whether to use the operational mode.}
 
 \item{max.num.sims}{How many similarity metrics to keep
 in the file.}

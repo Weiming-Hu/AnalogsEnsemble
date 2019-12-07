@@ -20,8 +20,7 @@ plotAnalogTimeSeries(
   fcst.data = NULL,
   max.flt = 82800,
   par.name = "",
-  return.data = F,
-  smooth = 4
+  return.data = F
 )
 }
 \arguments{
