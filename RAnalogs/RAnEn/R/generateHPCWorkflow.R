@@ -40,6 +40,7 @@
 #' [this doc](https://weiming-hu.github.io/AnalogsEnsemble/CXX/class_an_en.html#a25984b953516a987e2e9eb23048e5d60)
 #' @param max.par.nan Maximum number of NAN in parameters.
 #' @param max.flt.nan Maximum number of NAN in FLTs.
+#' @param operational Whether to use the operational mode.
 #' @param max.num.sims How many similarity metrics to keep
 #' in the file.
 #' @param overwrite Whether to overwrite existing configuration files.
@@ -88,7 +89,7 @@ generateHPCWorkflow <- function(
   fcst.files, obs.files, num.members, output.folder,
   batch.stations, batch.times,
   obs.id = 1, weights = NULL, verbose = 3,
-  max.par.nan = 1, max.flt.nan = 1,
+  max.par.nan = 1, max.flt.nan = 1, operational = F,
   max.num.sims = 2 * num.members, overwrite = F) {
   
   # Check the types of input times
@@ -163,7 +164,8 @@ generateHPCWorkflow <- function(
     verbose = verbose, max.par.nan = max.par.nan,
     max.flt.nan = max.flt.nan,
     max.num.sims = max.num.sims,
-    overwrite = overwrite)
+    overwrite = overwrite, 
+    operational = operational)
   
   cat('\n\n********* SUMMARY *********\n',
       'HPC workflow has been generated.\n\n',
@@ -259,7 +261,7 @@ distributeConfig <- function(
   fcst.meta.test, fcst.meta.search, obs.meta.search,
   batch.stations, batch.times, num.members, output.folder, 
   obs.id, weights, verbose, max.par.nan, max.flt.nan,
-  max.num.sims, overwrite) {
+  max.num.sims, overwrite, operational) {
   
   if (!requireNamespace('stringr', quietly = T)) {
     stop('Please install stringr.')
@@ -331,6 +333,9 @@ distributeConfig <- function(
           output.folder, '/sims_', file.suffix, '.nc')),
         paste('observation-id', '=', obs.id - 1),
         paste('members', '=', num.members),
+        ifelse(operational,
+               yes = 'operational = 1',
+               no = 'operational = 0'),
         paste('max-par-nan', '=', max.par.nan),
         paste('max-flt-nan', '=', max.flt.nan),
         paste('max-num-sims', '=', max.num.sims),
@@ -357,6 +362,20 @@ distributeConfig <- function(
                  station.end = station.chunk.end,
                  time.start = search.start,
                  time.end = search.end))
+      
+      if (operational) {
+        # If operational mode is used, add the test forecasts
+        # into the search repository. The operational mode
+        # should already be turned on.
+        # 
+        rows.to.write <- c(rows.to.write, addFiles(
+          meta.table = fcst.meta.test,
+          file.type = 'search forecast',
+          station.start = station.chunk.start,
+          station.end = station.chunk.end,
+          time.start = time.chunk.start,
+          time.end = time.chunk.end))
+      }
       
       # Write to a cfg file
       if (verbose >= 3) {
