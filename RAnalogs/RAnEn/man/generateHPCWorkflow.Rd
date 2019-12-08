@@ -11,6 +11,7 @@ generateHPCWorkflow(
   search.end,
   fcst.files,
   obs.files,
+  fcst.max.flt,
   num.members,
   output.folder,
   batch.stations,
@@ -21,6 +22,7 @@ generateHPCWorkflow(
   max.par.nan = 1,
   max.flt.nan = 1,
   operational = F,
+  quick = T,
   max.num.sims = 2 * num.members,
   overwrite = F
 )
@@ -66,6 +68,8 @@ set \code{batch.times} to \code{24 * 60 * 60}.}
 \item{max.flt.nan}{Maximum number of NAN in FLTs.}
 
 \item{operational}{Whether to use the operational mode.}
+
+\item{quick}{Whether to use quick sort algorithm.}
 
 \item{max.num.sims}{How many similarity metrics to keep
 in the file.}
@@ -113,6 +117,7 @@ generateHPCWorkflow(
   search.end = search.end,
   fcst.files = fcst.files,
   obs.files = obs.files,
+  fcst.max.flt = max.flt,
   num.members = num.members,
   output.folder = output.folder,
   batch.stations = batch.stations,
