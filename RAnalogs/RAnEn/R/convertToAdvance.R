@@ -32,6 +32,12 @@ convertToAdvance <- function(config) {
   
   config$advanced <- T
   
+  # If operational mode is used, add search times to test times
+  if (config$operational & length(config$search_times_compare) != 0) {
+    config$search_times_compare <- unique(c(
+      config$search_times_compare, config$test_times_compare))
+  }
+  
   if (all(c("forecasts", "forecast_times") %in% names(config))) {
     config$test_forecasts <- config$forecasts
     config$test_times <- config$forecast_times

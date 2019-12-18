@@ -14,9 +14,9 @@ rm obs.nc || true
 verbose=2
 
 similarityCalculator \
-    --search-forecast-nc ~/geolab_storage_V3/data/NAM/NCEI/forecasts_new/201601.nc ~/geolab_storage_V3/data/NAM/NCEI/forecasts_new/201602.nc \
+    --search-forecast-nc ~/geolab_storage_V3/data/NAM/NCEI/201601.nc ~/geolab_storage_V3/data/NAM/NCEI/201602.nc \
     --observation-nc ~/geolab_storage_V3/data/NAM/NCEI/analysis_new/201601.nc ~/geolab_storage_V3/data/NAM/NCEI/analysis_new/201602.nc \
-    --test-forecast-nc ~/geolab_storage_V3/data/NAM/NCEI/forecasts_new/201701.nc \
+    --test-forecast-nc ~/geolab_storage_V3/data/NAM/NCEI/201701.nc \
     --search-start 0 0 0 0 0 0 0 0 --search-count 5 10 31 4 5 10 29 4 \
     --obs-start 0 0 0 0 0 0 --obs-count 5 10 496 5 10 464 \
     --test-start 0 0 0 0 --test-count 5 10 3 4 \
@@ -43,7 +43,7 @@ fileAggregate \
 
 fileAggregate \
     --type Forecasts \
-    -i ~/geolab_storage_V3/data/NAM/NCEI/forecasts_new/201601.nc ~/geolab_storage_V3/data/NAM/NCEI/forecasts_new/201602.nc \
+    -i ~/geolab_storage_V3/data/NAM/NCEI/201601.nc ~/geolab_storage_V3/data/NAM/NCEI/201602.nc \
     --start 0 0 0 0 0 0 0 0 --count 5 10 31 4 5 10 29 4 \
     --along 2 \
     -o search.nc \
@@ -54,7 +54,7 @@ analogGenerator \
     --observation-nc obs.nc \
     --analog-nc analogs_cnt.nc \
     --members 4 \
-    --test-forecast-nc ~/geolab_storage_V3/data/NAM/NCEI/forecasts_new/201701.nc \
+    --test-forecast-nc ~/geolab_storage_V3/data/NAM/NCEI/201701.nc \
     --test-start 0 0 0 0 --test-count 5 10 3 4 \
     --similarity-nc sims_cnt.nc \
     --verbose $verbose

@@ -54,15 +54,19 @@ writeConfiguration <- function(config, obs.par.names, fcsts.par.names,
   
   global.attrs <- list(creation.time = format(Sys.time(), format = "%Y/%m/%d %H:%M:%S UTC%z"),
                        creator = paste('RAnEn', packageVersion("RAnEn")))
+
+  if (substr(folder, nchar(folder), nchar(folder)) != '/') {
+      folder <- paste0(folder, '/')
+  }
   
-  file.obs <- paste(folder, file.prefix, 'observations.nc', sep = '')
-  file.fcsts <- paste(folder, file.prefix, 'forecasts.nc', sep = '')
-  file.cfg <- paste(folder, file.prefix, 'config.cfg', sep = '')
-  file.analogs <- paste(folder, file.prefix, 'analogs.nc', sep = '')
-  file.sims <- paste(folder, file.prefix, 'similarity.nc', sep = '')
-  file.sds <- paste(folder, file.prefix, 'sds.nc', sep = '')
-  file.mapping <- paste(folder, file.prefix, 'mapping.txt', sep = '')
-  
+  file.obs <- path.expand(paste(folder, file.prefix, 'observations.nc', sep = ''))
+  file.fcsts <- path.expand(paste(folder, file.prefix, 'forecasts.nc', sep = ''))
+  file.cfg <- path.expand(paste(folder, file.prefix, 'config.cfg', sep = ''))
+  file.analogs <- path.expand(paste(folder, file.prefix, 'analogs.nc', sep = ''))
+  file.sims <- path.expand(paste(folder, file.prefix, 'similarity.nc', sep = ''))
+  file.sds <- path.expand(paste(folder, file.prefix, 'sds.nc', sep = ''))
+  file.mapping <- path.expand(paste(folder, file.prefix, 'mapping.txt', sep = ''))
+
   file.list <- c(file.obs, file.fcsts, file.cfg, file.analogs)
   
   if (config$preserve_mapping) {
@@ -152,6 +156,10 @@ writeConfiguration <- function(config, obs.par.names, fcsts.par.names,
   if (config$preserve_similarity) {
     cfg.lines <- c(cfg.lines, paste("similarity-nc =", file.sims))
   }
+
+  max.num.sims <- ifelse(test = config$max_num_sims == 0, 
+                         yes = config$num_members * 2, 
+                         no = config$max_num_sims)
   
   cfg.lines <- c(
     cfg.lines, '\n', paste("observation-id =", config$observation_id - 1),
@@ -165,10 +173,10 @@ writeConfiguration <- function(config, obs.par.names, fcsts.par.names,
     paste("max-num-sims =", config$max_num_sims),
     paste("window-half-size =", config$FLT_radius),
     paste("verbose =", config$verbose), '\n',
-    ifelse(test = is.null(test.times.index), yes = '',
-           no = paste("test-times-index =", test.times.index)),
-    ifelse(test = is.null(search.times.index), yes = '',
-           no = paste("search-times-index =", search.times.index)))
+    `if`(is.null(test.times.index), '', paste(
+      "test-times-index =", test.times.index)),
+    `if`(is.null(search.times.index), '', paste(
+      "search-times-index =", search.times.index)))
   
   if (identical(NULL, names(config$weights))) {
     cfg.lines <- c(cfg.lines, '\n', paste("weights =", config$weights))
