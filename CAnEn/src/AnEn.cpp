@@ -456,6 +456,7 @@ firstprivate(i_search_times, search_times, num_search_times)
                     if (operational) {
                         // Update search_times and the relevant
                         search_times = search_times_operational[pos_test_time];
+                        // i_search_times = i_search_times_operational[pos_test_time];
                         i_search_times = i_search_times_operational[pos_test_time];
                     }
                     
@@ -997,10 +998,11 @@ AnEn::compute_single_similarity_(
             } // End loop of search window FLTs
 
             double average = functions.mean(window, max_flt_nan);
+            //double average = functions.sum(window, max_flt_nan);
 
             if (!std::isnan(average)) {
                 if (sds[i_parameter][i_search_station][i_flt] > 0) {
-                    sim += weights[i_parameter] * (sqrt(average) / sds[i_parameter][i_search_station][i_flt]);
+                    sim += weights[i_parameter] / sds[i_parameter][i_search_station][i_flt] * sqrt(average);
                 }
             } else {
                 // Record this nan parameter average

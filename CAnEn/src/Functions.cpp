@@ -247,6 +247,23 @@ Functions::mean(const std::vector<double>& values, const double max_nan_allowed)
 }
 
 double
+Functions::sum(const std::vector<double>& values, const double max_nan_allowed) const {
+    double sum = 0.0;
+    size_t nan_count = 0;
+
+    for (const auto & value : values) {
+        if (std::isnan(value)) {
+            nan_count++;
+        } else {
+            sum += value;
+        }
+    }
+
+    if (!std::isnan(max_nan_allowed) && nan_count > max_nan_allowed) return NAN;
+    return (sum);
+}
+
+double
 Functions::variance(const std::vector<double>& values) const {
     double average = mean(values);
     if (std::isnan(average)) return NAN;

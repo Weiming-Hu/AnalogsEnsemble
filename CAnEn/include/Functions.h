@@ -122,6 +122,15 @@ public:
             const double max_nan_allowed = NAN) const;
 
     /**
+     * Computes the sum of a vector.
+     * @param values A vector of values.
+     * @param max_nan_allowed The number of NAN values allowed in the
+     * vector. Set it to NAN to allow any number of NAN values.
+     */
+    double sum(const std::vector<double> & values,
+            const double max_nan_allowed = NAN) const;
+
+    /**
      * Computes the variance of a vector.
      * @param values A vector of values.
      */
