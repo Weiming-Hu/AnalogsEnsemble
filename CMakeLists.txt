@@ -15,11 +15,37 @@ if(POLICY CMP0042)
 endif(POLICY CMP0042)
 
 enable_language(CXX C)
-option(VERBOSE "Verbose standout output" OFF)
+
+##################################################################################
+#                 Start of the list of parameters                                #
+##################################################################################
 option(CMAKE_BUILD_TESTS "Build tests" ON)
-option (BUILD_GRIBCONVERTER "Build gribConverter utility. Eccodes required." OFF)
-option (CODE_PROFILING "Insert profiling code and print time information." OFF)
-option (USE_NCCONFIG "Use nc-config to determine cflags and libdirs." OFF)
+option(VERBOSE "Verbose standout output" OFF)
+option(ENABLE_MPI "enable support for MPI" OFF)
+option(INSTALL_RAnEn "install RAnEn package" OFF)
+option(USE_NCCONFIG "Use nc-config to determine cflags and libdirs." OFF)
+option(CODE_PROFILING "Insert profiling code and print time information." OFF)
+
+option(BUILD_FS "Build file slicer" ON)
+option(BUILD_AGG "Build file aggregator" ON)
+option(BUILD_ANENS "Build analog selector" ON)
+option(BUILD_ANENGEN "Build analog generator" ON)
+option(BUILD_SIMS "Build similarity calculator" ON)
+option(BUILD_WIND "Build wind field calculator" ON)
+option(BUILD_SD "Build standard deviation calculator" ON)
+option(BUILD_F2O "Build forecast to observation utility" ON)
+option(BUILD_GRIBCONVERTER "Build gribConverter utility. Eccodes required." OFF)
+
+# set this variable to prevent CMake from removing
+# non-standard build paths. This would be helpful on
+# supercomputers where modules are always loaded, rather
+# than installed at the standard location.
+#
+option(CMAKE_MACOSX_RPATH "Whether RPATH should be used on MacOS" ON)
+option(CMAKE_INSTALL_RPATH_USE_LINK_PATH "Whether to use link path during installation" ON)
+##################################################################################
+#                   End of the list of parameters                                #
+##################################################################################
 
 set(IMPORTANT_PATH "${CMAKE_SOURCE_DIR}/important")
 set(EXTRA_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
@@ -38,14 +64,6 @@ set(COMMON_OUTPUT_DIR "${CMAKE_SOURCE_DIR}/output")
 #if (EXISTS ${COMMON_OUTPUT_DIR})
 #    file(REMOVE_RECURSE ${COMMON_OUTPUT_DIR})
 #endif(EXISTS ${COMMON_OUTPUT_DIR})
-
-# set this variable to prevent CMake from removing
-# non-standard build paths. This would be helpful on
-# supercomputers where modules are always loaded, rather
-# than installed at the standard location.
-#
-option(CMAKE_MACOSX_RPATH "Whether RPATH should be used on MacOS" ON)
-option(CMAKE_INSTALL_RPATH_USE_LINK_PATH "Whether to use link path during installation" ON)
 
 if (CMAKE_INSTALL_RPATH)
     set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_RPATH};${DEPENDENCY_PATH}/install/lib/;${COMMON_OUTPUT_DIR}/lib")
@@ -159,7 +177,6 @@ endif(CODE_PROFILING)
 # if INSTALL_RAnEn is set to TRUE
 # only install RAnEn package
 #
-option(INSTALL_RAnEn "install RAnEn package" OFF)
 if(INSTALL_RAnEn)
     message(STATUS "install RAnEn package")
     add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/RAnalogs")
@@ -172,7 +189,6 @@ else (INSTALL_RAnEn)
 	include(CMakeLists_Boost.txt)
 endif(INSTALL_RAnEn)
 
-option(ENABLE_MPI "enable support for MPI" OFF)
 message(STATUS "ENABLE_MPI is set to ${ENABLE_MPI}")
 
 if(ENABLE_MPI)
@@ -205,14 +221,37 @@ add_subdirectory("${CMAKE_SOURCE_DIR}/CAnEn")
 #####################
 # build executables #
 #####################
-add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_standardDeviationCalculator")
-add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_forecastsToObservations")
-add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_similarityCalculator")
-add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_windFieldCalculator")
-add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_analogGenerator")
-add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_analogSelector")
-add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_fileAggregate")
-add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_fileSlice")
+if (BUILD_SD)
+    add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_standardDeviationCalculator")
+endif (BUILD_SD)
+
+if (BUILD_F2O)
+    add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_forecastsToObservations")
+endif (BUILD_F2O)
+
+if (BUILD_SIMS)
+    add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_similarityCalculator")
+endif (BUILD_SIMS)
+
+if (BUILD_WIND)
+    add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_windFieldCalculator")
+endif (BUILD_WIND)
+
+if (BUILD_ANENGEN)
+    add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_analogGenerator")
+endif (BUILD_ANEN)
+
+if (BUILD_ANENS)
+    add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_analogSelector")
+endif (BUILD_ANENS)
+
+if (BUILD_AGG)
+    add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_fileAggregate")
+endif (BUILD_AGG)
+
+if (BUILD_FS)
+    add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_fileSlice")
+endif (BUILD_FS)
 
 if(ENABLE_MPI)
     add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_mpiAnEnIO")
