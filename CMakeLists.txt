@@ -239,7 +239,7 @@ endif (BUILD_WIND)
 
 if (BUILD_ANENGEN)
     add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_analogGenerator")
-endif (BUILD_ANEN)
+endif (BUILD_ANENGEN)
 
 if (BUILD_ANENS)
     add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_analogSelector")

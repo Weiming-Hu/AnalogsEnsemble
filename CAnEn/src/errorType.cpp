@@ -5,10 +5,10 @@
  * Created on July 23, 2018, 10:56 PM
  */
 
-#include "Functions.h"
+#include "errorType.h"
 
-#include <exception>
 #include <string>
+#include <stdexcept>
 
 void handleError(const errorType & indicator) {
 

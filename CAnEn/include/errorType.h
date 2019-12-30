@@ -30,6 +30,8 @@ enum errorType {
     FILEIO_ERROR = -7,
     /// -8
     METHOD_NOT_IMPLEMENTED = -8,
+    /// -9
+    UNKNOWN_FILE_EXTENSION = -9,
 
     /// -10
     FILE_NOT_FOUND = -10,

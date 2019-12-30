@@ -23,7 +23,7 @@ namespace filesys = boost::filesystem;
 using namespace netCDF;
 using namespace std;
 
-using errorType = errorType;
+//using errorType = errorType;
 
 const string AnEnIO::_MEMBER_DIM_PREFIX = "member_";
 const string AnEnIO::_MEMBER_VAR_PREFIX = "Member";
