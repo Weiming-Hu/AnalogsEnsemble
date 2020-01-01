@@ -9,9 +9,6 @@
 #include "boost/filesystem.hpp"
 
 #include <stdexcept>
-#include <sstream>
-#include <algorithm>
-#include <ostream>
 
 namespace filesys = boost::filesystem;
 using namespace netCDF;
@@ -27,14 +24,14 @@ using namespace std;
 //}
 
 void
-ReadNcdf::checkPath(const string & file_path, bool verbose) {
+ReadNcdf::checkPath(const string & file_path) {
 
     // Check whether the file exists
     bool file_exists = filesys::exists(file_path);
     if (!file_exists) {
-        string msg = "File not found " + file_path;
-        if (verbose) cerr << BOLDRED << msg << RESET << endl;
-        throw invalid_argument(msg);
+        ostringstream msg;
+        msg << BOLDRED << "File not found " << file_path << RESET;
+        throw invalid_argument(msg.str());
     }
 
     filesys::path boost_path(file_path);
@@ -45,20 +42,18 @@ ReadNcdf::checkPath(const string & file_path, bool verbose) {
     }
 
     // Fail if the file path does not have a .nc extension
-    string msg = "Unknown file extension " + file_path;
-    if (verbose) cerr << BOLDRED << msg << RESET << endl;
-    throw invalid_argument(msg);
+    ostringstream msg;
+    msg << BOLDRED << "Unknown extension " << file_path << RESET;
+    throw invalid_argument(msg.str());
 }
 
 void
-ReadNcdf::checkIndex(
-        size_t start, size_t count, size_t len, bool verbose) {
+ReadNcdf::checkIndex(size_t start, size_t count, size_t len) {
 
     if (start + count - 1 >= len) {
         ostringstream msg;
-        msg << "Indices out of bound. start:" << start << " count:" <<
-                count << " len:" << len;
-        if (verbose) cerr << BOLDRED << msg.str() << RESET << endl;
+        msg << BOLDRED << "Indices out of bound. start:" << start <<
+                " count:" << count << " len:" << len << RESET;
         throw runtime_error(msg.str());
     }
 
@@ -68,8 +63,7 @@ ReadNcdf::checkIndex(
 void
 ReadNcdf::readStringVector(
         const NcFile & nc, string var_name,
-        vector<string> & results, bool verbose,
-        size_t start, size_t count) {
+        vector<string> & results, size_t start, size_t count) {
 
     // Check whether we are reading partial or the entire variable
     bool entire = (start == 0 || count == 0);
@@ -80,38 +74,41 @@ ReadNcdf::readStringVector(
 
     // Check the dimensions
     if (var.getDims().size() != 2) {
-        string msg = "Variable (" + var_name + ") is not 2-dimensional!";
-        if (verbose) cerr << BOLDRED << msg << RESET << endl;
-        throw runtime_error(msg);
+        ostringstream msg;
+        msg << BOLDRED << "Variable (" << var_name <<
+                ") is not 2-dimensional!" << RESET;
+        throw runtime_error(msg.str());
     }
-    
+
     // Check the variable type
     if (var.getType() != NcType::nc_CHAR) {
-        string msg = "Variable (" + var_name + ") is not nc_CHAR type!";
-        if (verbose) cerr << BOLDRED << msg << RESET << endl;
-        throw runtime_error(msg);
+        ostringstream msg;
+        msg << BOLDRED << "Variable (" << var_name <<
+                ") is not nc_CHAR type!" << RESET;
+        throw runtime_error(msg.str());
     }
 
     // Determine the length of the strings to read
-    size_t len, num_chars = var_dims[0].getSize(),
-            num_strs = var_dims[1].getSize();
-    
+    size_t len, num_strs = var_dims[0].getSize(),
+            num_chars = var_dims[1].getSize();
+
     if (nc.getDim("num_chars").getSize() != num_chars) {
         throw runtime_error("Can not read strings as vectors!");
     }
-    
-    if (entire) len =  num_chars * num_strs;
+
+    if (entire) len = num_chars * num_strs;
     else len = num_chars * count;
 
     // Allocate memory for reading
     try {
         p_vals = new char[len];
     } catch (bad_alloc & e) {
-        string msg = "Insufficient memory reading " + var_name + "!";
-        if (verbose) cerr << BOLDRED << msg << RESET << endl;
-        throw runtime_error(msg);
+        ostringstream msg;
+        msg << BOLDRED << "Insufficient memory reading " <<
+                var_name << "!" << RESET;
+        throw runtime_error(msg.str());
     }
-    
+
     // Convert the pointer to a vector of strings
     if (entire) {
         var.getVar(p_vals);
@@ -121,7 +118,7 @@ ReadNcdf::readStringVector(
         var.getVar(vec_start, vec_count, p_vals);
         results.resize(count);
     }
-    
+
     for (size_t i = 0; i < results.size(); i++) {
         string str(p_vals + i*num_chars, p_vals + (i + 1) * num_chars);
         purge(str);
@@ -130,7 +127,7 @@ ReadNcdf::readStringVector(
 
     // Deallocation
     delete [] p_vals;
-    
+
     return;
 }
 

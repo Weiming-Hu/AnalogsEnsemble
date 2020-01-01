@@ -5,18 +5,20 @@
  * Created on December 30, 2019, 11:10 AM
  */
 
+#include "colorTexts.h"
+
 template <std::size_t SIZE>
 void
 ReadNcdf::checkDims(const netCDF::NcFile & nc,
-        const std::array<std::string, SIZE> & names, bool verbose) {
+        const std::array<std::string, SIZE> & names) {
 
     using namespace std;
 
     for (const auto & name : names) {
         if (!dimExists(nc, name)) {
-            string msg = "Dimension (" + name + ") is missing!";
-            if (verbose) cerr << BOLDRED << msg << RESET << endl;
-            throw invalid_argument(msg);
+            ostringstream msg;
+            msg << BOLDRED << "Dimension (" + name + ") is missing!" << RESET;
+            throw invalid_argument(msg.str());
         }
     }
 
@@ -26,15 +28,15 @@ ReadNcdf::checkDims(const netCDF::NcFile & nc,
 template <std::size_t SIZE>
 void
 ReadNcdf::checkVars(const netCDF::NcFile & nc,
-        const std::array<std::string, SIZE> & names, bool verbose) {
+        const std::array<std::string, SIZE> & names) {
 
     using namespace std;
 
     for (const auto & name : names) {
         if (!varExists(nc, name)) {
-            string msg = "Variable (" + name + ") is missing!";
-            if (verbose) cerr << BOLDRED << msg << RESET << endl;
-            throw invalid_argument(msg);
+            ostringstream msg;
+            msg << BOLDRED << "Variable (" << name << ") is missing!" << RESET;
+            throw invalid_argument(msg.str());
         }
     }
 
@@ -66,13 +68,14 @@ ReadNcdf::readVector(const netCDF::NcFile & nc, std::string var_name,
     try {
         results.resize(total);
     } catch (bad_alloc & e) {
-        string msg = "Insufficient memory reading " + var_name + "!";
-        if (verbose) cerr << BOLDRED << msg << RESET << endl;
-        throw runtime_error(msg);
+        ostringstream msg;
+        msg << BOLDRED << "Insufficient memory reading " <<
+                var_name << "!" << RESET;
+        throw runtime_error(msg.str());
     }
 
     p_vals = results.data();
-    
+
     if (entire) {
         var.getVar(p_vals);
     } else {
@@ -83,11 +86,11 @@ ReadNcdf::readVector(const netCDF::NcFile & nc, std::string var_name,
         reverse(count.begin(), count.end());
         var.getVar(start, count, p_vals);
     }
-    
+
     // Do not delete the pointer manually because it is managed by the vector
     // object and it will be deconstructed when it goes out of scope.
     //
     // delete [] p_vals;
-    
+
     return;
 };

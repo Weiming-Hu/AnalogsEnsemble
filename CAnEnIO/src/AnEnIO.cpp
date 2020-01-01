@@ -3272,7 +3272,7 @@ AnEnIO::readForecastsArrayData_(Forecasts_array & forecasts) const {
         // Please realize that I'm directly reading to the forecasts data
         // pointer so that I don't have to create a copy of the data.
         //
-        var.getVar(p_vals);
+//        var.getVar(p_vals);
         read_vector_(var, p_vals, total);
 
         nc.close();

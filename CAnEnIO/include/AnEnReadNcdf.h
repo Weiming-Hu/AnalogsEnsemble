@@ -8,10 +8,10 @@
 #ifndef ANENREADNCDF_H
 #define ANENREADNCDF_H
 
-#include <array>
 #include <vector>
 #include <netcdf>
 #include <stdexcept>
+#include <algorithm>
 
 #include "AnEnRead.h"
 #include "Analogs.h"
@@ -23,7 +23,7 @@
  * \class AnEnReadNcdf
  * 
  * \brief AnEnRead derives from AnEnRead and it provides the functionality to
- * read the NetCDF format. The recognized NetCDF file structure is specified below
+ * read the NetCDF format. The recognized NetCDF file structure is below
  * 
  * https://weiming-hu.github.io/AnalogsEnsemble/2019/01/16/NetCDF-File-Types.html
  */
@@ -36,12 +36,13 @@ public:
     };
 
     // A higher level will contain all messages from the lower levels. For
-    // example, The progress level will contain errors and warnings.
+    // example, The progress level will contain errors and warnings. Errors,
+    // if any, must be printed.
     //
 
     enum class Verbose {
-        Silence = 0, Error = 1, Warning = 2,
-        Progress = 3, Detail = 4, Debug = 5
+        Error = 0, Warning = 1, Progress = 2,
+        Detail = 3, Debug = 4
     };
 
     AnEnReadNcdf();
@@ -49,14 +50,34 @@ public:
     AnEnReadNcdf(const AnEnReadNcdf& orig);
     virtual ~AnEnReadNcdf();
 
-    void readForecasts(
-            const std::string & file_path,
+    void readForecasts(const std::string & file_path,
             Forecasts_array & forecasts) const override;
-    // TODO
-    void readObservations(
-            const std::string & file_path,
+    void readForecasts(
+            const std::string & file_path, Forecasts_array & forecasts,
+            std::vector<size_t> start, std::vector<size_t> count) const;
+    
+    void readObservations(const std::string & file_path,
             Observations_array & observations) const override;
-
+    void readObservations(
+            const std::string & file_path, Observations_array & observations,
+            std::vector<size_t> start, std::vector<size_t> count) const;
+    
+    void readSimilarityMatrices(
+            const std::string & file_path, SimilarityMatrices & sims,
+            std::vector<size_t> start = {},
+            std::vector<size_t> count = {}) const;
+    
+    void readAnalogs(
+            const std::string & file_path, Analogs & analogs,
+            std::vector<size_t> start = {},
+            std::vector<size_t> count = {}) const;
+    
+    void readStandardDeviation(
+            const std::string & file_path, StandardDeviation & sds,
+            std::vector<size_t> start = {},
+            std::vector<size_t> count = {}) const;
+    
+    
 protected:
     Verbose verbose_;
 
@@ -71,10 +92,7 @@ protected:
             const std::string & var_name = "Times") const;
     void read_(const netCDF::NcFile & nc, anenTime::FLTs & flts,
             size_t start = 0, size_t count = 0) const;
-    void read_(Forecasts_array & forecasts) const;
-    void read_(Forecasts_array & forecasts,
-            std::array<size_t, 4> start, std::array<size_t, 4> count) const;
-
+    
     void checkFileType_(const netCDF::NcFile & nc, FileType file_type) const;
 
     void fastInsert_(
@@ -87,6 +105,19 @@ protected:
             const std::vector<std::string> & names,
             const std::vector<double> & xs,
             const std::vector<double> & ys) const;
+    
+    /**************************************************************************
+     *                       Protected Template Functions                     *
+     **************************************************************************/
+    
+    template <typename T>
+    void read_(const netCDF::NcFile & nc, T * p_vals,
+            const std::string & var_name = "Data",
+            std::vector<size_t> start = {},
+            std::vector<size_t> count = {}) const;
 };
+
+// Template functions are defined in the following file
+#include "AnEnReadNcdf.tpp"
 
 #endif /* ANENREADNCDF_H */

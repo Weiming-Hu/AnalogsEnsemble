@@ -13,8 +13,7 @@
 #include <array>
 #include <string>
 #include <algorithm>
-
-#include "colorTexts.h"
+#include <sstream>
 
 /**
  * Namespace ReadNcdf provides a collection of helper functions to examine and 
@@ -24,13 +23,12 @@
  */
 namespace ReadNcdf {
 
-    void checkPath(const std::string & file_path, bool verbose);
-    void checkIndex(size_t start, size_t count,
-            size_t len, bool verbose);
+    void checkPath(const std::string & file_path);
+    void checkIndex(size_t start, size_t count, size_t len);
 
     void readStringVector(const netCDF::NcFile & nc,
             std::string var_name, std::vector<std::string> & results,
-            bool verbose, size_t start = 0, size_t count = 0);
+            size_t start = 0, size_t count = 0);
 
     void purge(std::string & str);
     void purge(std::vector<std::string> & strs);
@@ -53,16 +51,17 @@ namespace ReadNcdf {
 
     template <std::size_t SIZE>
     void checkDims(const netCDF::NcFile & nc,
-            const std::array<std::string, SIZE> & names, bool verbose);
+            const std::array<std::string, SIZE> & names);
 
     template <std::size_t SIZE>
     void checkVars(const netCDF::NcFile & nc,
-            const std::array<std::string, SIZE> & names, bool verbose);
+            const std::array<std::string, SIZE> & names);
 
     template <typename T>
     void readVector(const netCDF::NcFile & nc, std::string var_name,
-            std::vector<T> & results, bool verbose, 
-            std::vector<size_t> start = {}, std::vector<size_t> count = {});
+            std::vector<T> & results,
+            std::vector<size_t> start = {},
+            std::vector<size_t> count = {});
 };
 
 // Template functions are defined in the following file
