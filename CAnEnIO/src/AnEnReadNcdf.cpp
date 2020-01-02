@@ -1,11 +1,12 @@
 /* 
  * File:   AnEnReadNcdf.cpp
- * Author: wuh20
+ * Author: Weiming Hu (weiming@psu.edu)
  * 
  * Created on December 30, 2019, 11:10 AM
  */
 
 #include "AnEnReadNcdf.h"
+#include "AnEnNames.h"
 #include "Ncdf.h"
 
 #include <array>
@@ -17,46 +18,10 @@
 using namespace Ncdf;
 using namespace netCDF;
 using namespace std;
-
-// The name prefix for member dimensions in file type Analogs
-const string MEMBER_DIM_PREFIX = "member_";
-
-// The name prefix for member variables in file type Analogs
-const string MEMBER_VAR_PREFIX = "Member";
-
-// The name prefix for search dimensions in file type SimilarityMatrices
-const string SEARCH_DIM_PREFIX = "search_";
-
-// The name prefix for search variables in file type SimilarityMatrices
-const string SEARCH_VAR_PREFIX = "Search";
+using namespace AnEnNames;
 
 // If data have a length longer than this limit, I/O will be parallelized.
 const size_t SERIAL_LENGTH_LIMIT = 1000;
-
-// Define the names for dimensions in NetCDF files
-const string DIM_ENTRIES = "num_entries";
-const string DIM_STATIONS = "num_stations";
-const string DIM_TIMES = "num_times";
-const string DIM_FLTS = "num_flts";
-const string DIM_MEMBERS = "num_members";
-const string DIM_COLS = "num_cols";
-const string DIM_PARS = "num_parameters";
-const string DIM_CHARS = "num_chars";
-
-// Define the names for variables in NetCDF files
-const string VAR_DATA = "Data";
-const string VAR_SIMS = "SimilarityMatrices";
-const string VAR_ANALOGS = "Analogs";
-const string VAR_STD = "StandardDeviation";
-const string VAR_PARNAMES = "ParameterNames";
-const string VAR_CIRCULARS = "ParameterCirculars";
-const string VAR_PARWEIGHTS = "ParameterWeights";
-const string VAR_XS = "Xs";
-const string VAR_YS = "Ys";
-const string VAR_STATIONNAMES = "StationNames";
-const string VAR_TIMES = "Times";
-const string VAR_FLTS = "FLTs";
-
 
 AnEnReadNcdf::AnEnReadNcdf() {
     verbose_ = Verbose::Progress;

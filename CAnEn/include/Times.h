@@ -105,7 +105,7 @@ namespace anenTime {
         Times();
         Times(std::string unit);
         Times(std::string unit, std::string origin);
-
+        
         virtual ~Times();
         
         Times & operator=(const Times & rhs);
