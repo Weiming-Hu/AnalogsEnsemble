@@ -127,7 +127,7 @@ AnEnWriteNcdf::append_(const NcFile & nc,
     }
     
     size_t len = (unlimited ? 0 : flts.size());
-    NcDim dim_flts = getDim(nc, DIM_FLTS, len);
+    NcDim dim_flts = getDim_(nc, DIM_FLTS, len);
     NcVar var = nc.addVar(VAR_FLTS, NcType::nc_DOUBLE, dim_flts);
     
 }
