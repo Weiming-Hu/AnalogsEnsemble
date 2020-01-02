@@ -107,7 +107,7 @@ namespace boost {
 
 template <typename T>
 void
-ReadTxt::readMatrix(const std::string & file_path, 
+Txt::readMatrix(const std::string & file_path, 
         boost::numeric::ublas::matrix<T> & mat) {
 
     using namespace std;
@@ -121,6 +121,28 @@ ReadTxt::readMatrix(const std::string & file_path,
     if ((in.rdstate() & std::ifstream::failbit) != 0) {
         ostringstream msg;
         msg << BOLDRED << "Failed to read matrix file " << file_path << RESET;
+        throw runtime_error(msg.str());
+    }
+
+    return;
+}
+
+template <typename T>
+void
+Txt::writeMatrix(
+        const std::string & file_path,
+        const boost::numeric::ublas::matrix<T> & mat) {
+
+    using namespace std;
+
+    ofstream out;
+    out.open(file_path);
+    out << mat;
+    out.close();
+
+    if ((out.rdstate() & std::ifstream::failbit) != 0) {
+        ostringstream msg;
+        msg << BOLDRED << "Failed to write matrix file " << file_path << RESET;
         throw runtime_error(msg.str());
     }
 

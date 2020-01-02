@@ -5,8 +5,8 @@
  * Created on January 1, 2020, 6:06 PM
  */
 
-#ifndef READTXT_H
-#define READTXT_H
+#ifndef TXT_H
+#define TXT_H
 
 #include <string>
 #include <sstream>
@@ -17,20 +17,30 @@
 /**
  * Namespace ReadTxt provides functionality for txt file I/O.
  */
-namespace ReadTxt {
-    void checkPath(const std::string & file_path);
-    
+namespace Txt {
+
+    enum class Mode {
+        Read, Write
+    };
+
+    void checkPath(const std::string & file_path, Mode mode);
+
     /************************************************************************
      *                         Template Functions                           *
      ************************************************************************/
+
     template <typename T>
     void
     readMatrix(const std::string & file_path,
             boost::numeric::ublas::matrix<T> & mat);
+
+    template <typename T>
+    void
+    writeMatrix(const std::string & file_path,
+            const boost::numeric::ublas::matrix<T> & mat);
 }
 
 // Template functions are defined in the following file
-#include "ReadTxt.tpp"
+#include "Txt.tpp"
 
-#endif /* READTXT_H */
-
+#endif /* TXT_H */

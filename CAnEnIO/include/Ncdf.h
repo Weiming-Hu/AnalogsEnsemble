@@ -5,8 +5,8 @@
  * Created on December 30, 2019, 7:55 PM
  */
 
-#ifndef READNCDF_H
-#define READNCDF_H
+#ifndef NCDF_H
+#define NCDF_H
 
 #include <netcdf>
 #include <vector>
@@ -21,14 +21,19 @@
  * are considered "free" functions that are just wrappers over netCDF data
  * types and functions.
  */
-namespace ReadNcdf {
+namespace Ncdf {
+    
+    enum class Mode {
+        Read, Write
+    };
 
-    void checkPath(const std::string & file_path);
+    void checkPath(const std::string & file_path, Mode mode);
     void checkIndex(size_t start, size_t count, size_t len);
 
     void readStringVector(const netCDF::NcFile & nc,
             std::string var_name, std::vector<std::string> & results,
-            size_t start = 0, size_t count = 0);
+            size_t start = 0, size_t count = 0,
+            const std::string & name_char = "num_chars");
 
     void purge(std::string & str);
     void purge(std::vector<std::string> & strs);
@@ -65,6 +70,6 @@ namespace ReadNcdf {
 };
 
 // Template functions are defined in the following file
-#include "ReadNcdf.tpp"
+#include "Ncdf.tpp"
 
-#endif /* READNCDF_H */
+#endif /* NCDF_H */

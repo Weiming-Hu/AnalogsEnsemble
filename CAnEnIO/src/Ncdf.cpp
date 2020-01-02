@@ -5,7 +5,7 @@
  * Created on December 30, 2019, 7:55 PM
  */
 
-#include "ReadNcdf.h"
+#include "Ncdf.h"
 #include "boost/filesystem.hpp"
 
 #include <stdexcept>
@@ -24,13 +24,20 @@ using namespace std;
 //}
 
 void
-ReadNcdf::checkPath(const string & file_path) {
+Ncdf::checkPath(const string & file_path, Mode mode) {
 
     // Check whether the file exists
     bool file_exists = filesys::exists(file_path);
-    if (!file_exists) {
+    
+    if (mode == Mode::Read && !file_exists) {
         ostringstream msg;
-        msg << BOLDRED << "File not found " << file_path << RESET;
+        msg << BOLDRED << "File not found: " << file_path << RESET;
+        throw invalid_argument(msg.str());
+    }
+    
+    if (mode == Mode::Write && file_exists) {
+        ostringstream msg;
+        msg << BOLDRED << "File exists: " << file_path << RESET;
         throw invalid_argument(msg.str());
     }
 
@@ -48,7 +55,7 @@ ReadNcdf::checkPath(const string & file_path) {
 }
 
 void
-ReadNcdf::checkIndex(size_t start, size_t count, size_t len) {
+Ncdf::checkIndex(size_t start, size_t count, size_t len) {
 
     if (start + count - 1 >= len) {
         ostringstream msg;
@@ -61,9 +68,10 @@ ReadNcdf::checkIndex(size_t start, size_t count, size_t len) {
 }
 
 void
-ReadNcdf::readStringVector(
+Ncdf::readStringVector(
         const NcFile & nc, string var_name,
-        vector<string> & results, size_t start, size_t count) {
+        vector<string> & results, size_t start, size_t count,
+        const string & name_char) {
 
     // Check whether we are reading partial or the entire variable
     bool entire = (start == 0 || count == 0);
@@ -92,7 +100,7 @@ ReadNcdf::readStringVector(
     size_t len, num_strs = var_dims[0].getSize(),
             num_chars = var_dims[1].getSize();
 
-    if (nc.getDim("num_chars").getSize() != num_chars) {
+    if (nc.getDim(name_char).getSize() != num_chars) {
         throw runtime_error("Can not read strings as vectors!");
     }
 
@@ -132,7 +140,7 @@ ReadNcdf::readStringVector(
 }
 
 void
-ReadNcdf::purge(string & str) {
+Ncdf::purge(string & str) {
     str.erase(remove_if(str.begin(), str.end(), [](const unsigned char & c) {
         bool remove = !(isalpha(c) || isdigit(c) || ispunct(c) || isspace(c));
         return (remove);
@@ -140,6 +148,6 @@ ReadNcdf::purge(string & str) {
 }
 
 void
-ReadNcdf::purge(vector<string> & strs) {
+Ncdf::purge(vector<string> & strs) {
     for (auto & str : strs) purge(str);
 }

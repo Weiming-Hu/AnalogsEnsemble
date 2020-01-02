@@ -21,13 +21,24 @@ AnEnReadNcdf::read_(const netCDF::NcFile & nc,
         cout << "Reading variable " << var_name << " ..." << endl;
     }
     
-    NcVar var = nc.getVar("Data");
+    NcVar var = nc.getVar(var_name);
     
     if (start.size() == 0 || count.size() == 0) {
         // If read the entire data variable
         var.getVar(p_vals);
     } else {
         // If reading the partial data variable
+        
+        // *********************** Optimization ******************************
+        //
+        // Reverse of the indices is done for performance optimization.
+        // NetCDF uses column-wise order, and therefore, boost arrays are
+        // intentionally restructured using column-wise order during
+        // instantiation. To be consistent, the indices of dimensions
+        // should also be reversed before feeding them to NetCDF functions.
+        //
+        // *******************************************************************
+        // 
         reverse(start.begin(), start.end());
         reverse(count.begin(), count.end());
         var.getVar(start, count, p_vals);

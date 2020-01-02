@@ -1,5 +1,5 @@
 /* 
- * File:   ReadNcdf.tpp
+ * File:   Ncdf.tpp
  * Author: Weiming Hu <weiming@psu.edu>
  *
  * Created on December 30, 2019, 11:10 AM
@@ -9,7 +9,7 @@
 
 template <std::size_t SIZE>
 void
-ReadNcdf::checkDims(const netCDF::NcFile & nc,
+Ncdf::checkDims(const netCDF::NcFile & nc,
         const std::array<std::string, SIZE> & names) {
 
     using namespace std;
@@ -27,7 +27,7 @@ ReadNcdf::checkDims(const netCDF::NcFile & nc,
 
 template <std::size_t SIZE>
 void
-ReadNcdf::checkVars(const netCDF::NcFile & nc,
+Ncdf::checkVars(const netCDF::NcFile & nc,
         const std::array<std::string, SIZE> & names) {
 
     using namespace std;
@@ -45,7 +45,7 @@ ReadNcdf::checkVars(const netCDF::NcFile & nc,
 
 template<typename T>
 void
-ReadNcdf::readVector(const netCDF::NcFile & nc, std::string var_name,
+Ncdf::readVector(const netCDF::NcFile & nc, std::string var_name,
         std::vector<T> & results, bool verbose,
         std::vector<size_t> start, std::vector<size_t> count) {
 

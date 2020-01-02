@@ -88,9 +88,10 @@ protected:
             const std::string & dim_name_prefix = "",
             const std::string & var_name_prefix = "") const;
     void read_(const netCDF::NcFile & nc, anenTime::Times & times,
-            size_t start = 0, size_t count = 0,
-            const std::string & var_name = "Times") const;
+            const std::string & var_name,
+            size_t start = 0, size_t count = 0) const;
     void read_(const netCDF::NcFile & nc, anenTime::FLTs & flts,
+            const std::string & var_name,
             size_t start = 0, size_t count = 0) const;
     
     void checkFileType_(const netCDF::NcFile & nc, FileType file_type) const;

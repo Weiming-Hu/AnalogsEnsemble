@@ -1,6 +1,7 @@
 /* 
  * File:   AnEnRead.h
  * Author: Weiming Hu (weiming@psu.edu)
+ *         Guido Cervone (cervone@psu.edu)
  *
  * Created on December 30, 2019, 11:10 AM
  */
@@ -25,7 +26,7 @@ public:
     AnEnRead();
     AnEnRead(const AnEnRead& orig);
     virtual ~AnEnRead();
-
+    
     virtual void readForecasts(
             const std::string & file_path,
             Forecasts_array & forecasts) const = 0;
