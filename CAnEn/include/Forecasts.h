@@ -27,8 +27,7 @@
 class Forecasts {
 public:
     Forecasts();
-    Forecasts(Forecasts const &) = delete;
-
+    Forecasts(Forecasts const &);
     Forecasts(anenPar::Parameters, anenSta::Stations,
             anenTime::Times, anenTime::FLTs);
 
@@ -43,7 +42,7 @@ public:
      * @param flt_index FLT index.
      * @return A value.
      */
-    virtual double getValueByIndex(std::size_t parameter_index,
+    virtual double getValue(std::size_t parameter_index,
             std::size_t station_index, std::size_t time_index,
             std::size_t flt_index) const = 0;
 
@@ -56,41 +55,42 @@ public:
      * @param flt A timestamp for FLT.
      * @return A value.
      */
-    virtual double getValueByID(
-            std::size_t parameter_ID, std::size_t station_ID,
-            double timestamp, double flt) const = 0;
+//    virtual double getValueByID(
+//            std::size_t parameter_ID, std::size_t station_ID,
+//            double timestamp, double flt) const = 0;
 
     /**
      * Gets data in form of a double pointer.
      * @return A double pointer.
      */
-    virtual const double* getValues() const = 0;
+    virtual const double* getValuesPtr() const = 0;
+    virtual double * getValuesPtr() = 0;
 
     virtual void setValue(double val, std::size_t parameter_index,
             std::size_t station_index, std::size_t time_index,
             std::size_t flt_index) = 0;
-    virtual void setValue(double,
-            std::size_t parameter_ID, std::size_t station_ID,
-            double timestamp, double flt) = 0;
+//    virtual void setValue(double,
+//            std::size_t parameter_ID, std::size_t station_ID,
+//            double timestamp, double flt) = 0;
 
     /**
      * Sets data values from a vector.
      * 
      * @param vals An std::vector<double> object
      */
-    virtual void setValues(const std::vector<double> & vals) = 0;
+//    virtual void setValues(const std::vector<double> & vals) = 0;
 
     /**
      * Resizes underlying data member according to the sizes of parameters,
      * stations, times, and flts.
      */
-    virtual void updateDataDims(bool initialize_values = true) = 0;
+//    virtual void updateDataDims(bool initialize_values = true) = 0;
 
-    std::size_t getParametersSize() const;
-    std::size_t getStationsSize() const;
-    std::size_t getTimesSize() const;
-    std::size_t getFLTsSize() const;
-    virtual std::size_t getDataLength() const = 0;
+//    std::size_t getParametersSize() const;
+//    std::size_t getStationsSize() const;
+//    std::size_t getTimesSize() const;
+//    std::size_t getFLTsSize() const;
+    virtual std::size_t size() const = 0;
 
     anenPar::Parameters const & getParameters() const;
     anenSta::Stations const & getStations() const;
@@ -101,11 +101,16 @@ public:
     anenSta::Stations & getStations();
     anenTime::Times & getTimes();
     anenTime::FLTs & getFLTs();
-
-    void setFlts(anenTime::FLTs flts);
-    void setParameters(anenPar::Parameters parameters);
-    void setStations(anenSta::Stations stations);
-    void setTimes(anenTime::Times times);
+    
+    virtual void setDimensions(const anenPar::Parameters &,
+            const anenSta::Stations &,
+            const anenTime::Times &,
+            const anenTime::FLTs &) = 0;
+    
+//    void setFlts(anenTime::FLTs flts);
+//    void setParameters(anenPar::Parameters parameters);
+//    void setStations(anenSta::Stations stations);
+//    void setTimes(anenTime::Times times);
 
     virtual void print(std::ostream &) const;
     friend std::ostream& operator<<(std::ostream&, Forecasts const &);
@@ -142,32 +147,41 @@ public:
             const std::vector<double> & vals);
 
     virtual ~Forecasts_array();
+    
 
-    const Array4D & data() const;
-    Array4D & data();
-
-    double getValueByIndex(std::size_t parameter_index, std::size_t station_index,
+    double getValue(std::size_t parameter_index, std::size_t station_index,
             std::size_t time_index, std::size_t flt_index) const override;
-    double getValueByID(std::size_t parameter_ID, std::size_t station_ID,
-            double timestamp, double flt) const override;
+//    double getValueByID(std::size_t parameter_ID, std::size_t station_ID,
+//            double timestamp, double flt) const override;
 
-    const double* getValues() const override;
+    const double* getValuesPtr() const override;
+    double* getValuesPtr() override;
 
     void setValue(double val, std::size_t parameter_index,
             std::size_t station_index, std::size_t time_index,
             std::size_t flt_index) override;
-    void setValue(double val, std::size_t parameter_ID, std::size_t station_ID,
-            double timestamp, double flt) override;
+//    void setValue(double val, std::size_t parameter_ID, std::size_t station_ID,
+//            double timestamp, double flt) override;
 
-    void setValues(const std::vector<double>& vals) override;
+//    void setValues(const std::vector<double>& vals) override;
 
-    void updateDataDims(bool initialize_values = true) override;
+    void setDimensions(const anenPar::Parameters &, const anenSta::Stations &,
+            const anenTime::Times &, const anenTime::FLTs &) override;
     
-    size_t getDataLength() const override;
+protected:   
+    
+//    const Array4D & data() const;
+//    Array4D & data();
+
+    void updateDataDims_(bool initialize_values = true);
+    
+    size_t size() const override;
 
     void print(std::ostream &) const override;
     friend std::ostream& operator<<(std::ostream&, const Forecasts_array&);
-
+    
+    
+    
 private:
     Array4D data_ = Array4D(
             boost::extents[0][0][0][0],

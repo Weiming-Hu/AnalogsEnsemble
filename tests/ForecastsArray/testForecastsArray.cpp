@@ -59,7 +59,7 @@ void testForecastsArray::testForecastSetVectorValues() {
             for (size_t j = 0; j < forecasts.getStations().size(); j++)
                 for (size_t i = 0; i < forecasts.getParameters().size();
                         i++, l++)
-                    CPPUNIT_ASSERT(forecasts.getValueByIndex(i, j, m, n)
+                    CPPUNIT_ASSERT(forecasts.getValue(i, j, m, n)
                         == values[l]);
 }
 

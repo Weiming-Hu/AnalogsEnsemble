@@ -19,21 +19,21 @@ enable_language(CXX C)
 ##################################################################################
 #                 Start of the list of parameters                                #
 ##################################################################################
-option(CMAKE_BUILD_TESTS "Build tests" ON)
+option(CMAKE_BUILD_TESTS "Build tests" OFF)
 option(VERBOSE "Verbose standout output" OFF)
 option(ENABLE_MPI "enable support for MPI" OFF)
 option(INSTALL_RAnEn "install RAnEn package" OFF)
 option(USE_NCCONFIG "Use nc-config to determine cflags and libdirs." OFF)
 option(CODE_PROFILING "Insert profiling code and print time information." OFF)
 
-option(BUILD_FS "Build file slicer" ON)
-option(BUILD_AGG "Build file aggregator" ON)
-option(BUILD_ANENS "Build analog selector" ON)
-option(BUILD_ANENGEN "Build analog generator" ON)
-option(BUILD_SIMS "Build similarity calculator" ON)
-option(BUILD_WIND "Build wind field calculator" ON)
-option(BUILD_SD "Build standard deviation calculator" ON)
-option(BUILD_F2O "Build forecast to observation utility" ON)
+option(BUILD_FS "Build file slicer" OFF)
+option(BUILD_AGG "Build file aggregator" OFF)
+option(BUILD_ANENS "Build analog selector" OFF)
+option(BUILD_ANENGEN "Build analog generator" OFF)
+option(BUILD_SIMS "Build similarity calculator" OFF)
+option(BUILD_WIND "Build wind field calculator" OFF)
+option(BUILD_SD "Build standard deviation calculator" OFF)
+option(BUILD_F2O "Build forecast to observation utility" OFF)
 option(BUILD_GRIBCONVERTER "Build gribConverter utility. Eccodes required." OFF)
 
 # set this variable to prevent CMake from removing
@@ -221,6 +221,8 @@ add_subdirectory("${CMAKE_SOURCE_DIR}/CAnEn")
 #####################
 # build executables #
 #####################
+add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_test")
+
 if (BUILD_SD)
     add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_standardDeviationCalculator")
 endif (BUILD_SD)

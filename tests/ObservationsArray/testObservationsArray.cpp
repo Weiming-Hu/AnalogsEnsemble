@@ -76,7 +76,7 @@ void testObservationsArray::testColumnMajor() {
     for (size_t i = 0; i < num_pars; i++) {
         for (size_t j = 0; j < num_stations; j++) {
             for (size_t k = 0; k < num_times; k++) {
-                read_only += observations.getValueByIndex(i, j, k);
+                read_only += observations.getValue(i, j, k);
             }
         }
     }
@@ -87,7 +87,7 @@ void testObservationsArray::testColumnMajor() {
     for (size_t k = 0; k < num_times; k++) {
         for (size_t j = 0; j < num_stations; j++) {
             for (size_t i = 0; i < num_pars; i++) {
-                read_only += observations.getValueByIndex(i, j, k);
+                read_only += observations.getValue(i, j, k);
             }
         }
     }
@@ -142,6 +142,6 @@ void testObservationsArray::testObservationValueSequence() {
             for (size_t j = 0; j < observations.getStations().size(); j++)
                 for (size_t i = 0; i < observations.getParameters().size();
                         i++, l++)
-                    CPPUNIT_ASSERT(observations.getValueByIndex(i, j, m)
+                    CPPUNIT_ASSERT(observations.getValue(i, j, m)
                         == values[l]);
 }

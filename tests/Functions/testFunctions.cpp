@@ -6,7 +6,7 @@
  */
 
 #include "testFunctions.h"
-#include "../../CAnEnIO/include/AnEnIO.h"
+//#include "../../CAnEnIO/include/AnEnIO.h"
 #include "../../CAnEn/include/Functions.h"
 #include "../../CAnEn/include/colorTexts.h"
 

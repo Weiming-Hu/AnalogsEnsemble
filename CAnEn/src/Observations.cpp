@@ -134,11 +134,17 @@ constexpr double Observations_array::_DEFAULT;
 
 
 Observations_array::Observations_array() {
+    data_ = boost::multi_array<double, 3> (
+            boost::extents[0][0][0],
+            boost::fortran_storage_order());
 }
 
 Observations_array::Observations_array(anenPar::Parameters parameters,
         anenSta::Stations stations, anenTime::Times times) :
 Observations(parameters, stations, times) {
+    data_ = boost::multi_array<double, 3> (
+            boost::extents[0][0][0],
+            boost::fortran_storage_order());
     updateDataDims();
 }
 
@@ -146,6 +152,9 @@ Observations_array::Observations_array(
         anenPar::Parameters parameters, anenSta::Stations stations, anenTime::Times times,
         const vector<double> & vals) :
 Observations_array(parameters, stations, times) {
+    data_ = boost::multi_array<double, 3> (
+            boost::extents[0][0][0],
+            boost::fortran_storage_order());
     updateDataDims();
     setValues(vals);
 }
@@ -169,7 +178,7 @@ Observations_array::getValues() const {
 }
 
 double
-Observations_array::getValueByIndex(size_t parameter_index,
+Observations_array::getValue(size_t parameter_index,
         size_t station_index, size_t time_index) const {
     return (data_[parameter_index][station_index][time_index]);
 }

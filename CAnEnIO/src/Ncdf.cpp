@@ -151,3 +151,64 @@ void
 Ncdf::purge(vector<string> & strs) {
     for (auto & str : strs) purge(str);
 }
+
+void
+Ncdf::checkDims(const netCDF::NcFile & nc,
+        const vector<string> & names) {
+
+    for (const auto & name : names) {
+        if (!name.empty() && !dimExists(nc, name)) {
+            ostringstream msg;
+            msg << BOLDRED << "Dimension (" + name + ") is missing!" << RESET;
+            throw invalid_argument(msg.str());
+        }
+    }
+
+    return;
+}
+
+void
+Ncdf::checkVars(const netCDF::NcFile & nc,
+        const vector<string> & names) {
+
+    for (const auto & name : names) {
+        if (!name.empty() && !varExists(nc, name)) {
+            ostringstream msg;
+            msg << BOLDRED << "Variable (" << name << ") is missing!" << RESET;
+            throw invalid_argument(msg.str());
+        }
+    }
+
+    return;
+}
+
+void
+Ncdf::checkVarShape(const NcFile & nc,
+        const string & var_name, const vector<string> & dim_names) {
+
+    const auto & var = nc.getVar(var_name);
+    auto dims = var.getDims();
+    
+    if (dims.size() != dim_names.size()) {
+        ostringstream msg;
+        msg << BOLDRED << "Variable " << var_name << " has " << dims.size() <<
+                " dimensions while " << dim_names.size() << " are expected" <<
+                RESET << endl;
+        throw runtime_error(msg.str());
+    }
+    
+    reverse(dims.begin(), dims.end());
+
+    for (size_t i = 0; i < dims.size(); ++i) {
+        if (dim_names[i] != dims[i].getName()) {
+            ostringstream msg;
+            msg << BOLDRED << "Variable " << var_name << " dimension #" <<
+                    i + 1 << " (" << dims[i].getName() << ") should be " <<
+                    dim_names[i] << RESET;
+            throw runtime_error(msg.str());
+        }
+    }
+
+    return;
+}
+

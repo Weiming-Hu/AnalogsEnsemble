@@ -26,11 +26,11 @@ boost::fortran_storage_order()) {
 
 Analogs::Analogs(const Forecasts& forecasts, size_t num_members) :
 boost::multi_array<double, 5>(
-boost::extents[forecasts.getStationsSize()][forecasts.getTimesSize()]
-[forecasts.getFLTsSize()][num_members][_NUM_COLS],
+boost::extents[forecasts.getStations().size()][forecasts.getTimes().size()]
+[forecasts.getFLTs().size()][num_members][_NUM_COLS],
 boost::fortran_storage_order()) {
 
-    search_stations.resize(forecasts.getStationsSize());
+    search_stations.resize(forecasts.getStations().size());
 }
 
 Analogs::~Analogs() {

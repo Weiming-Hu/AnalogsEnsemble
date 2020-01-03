@@ -321,9 +321,9 @@ AnEn::computeSimilarity(
         search_times = search_forecasts.getTimes();
     }
     
-    size_t num_parameters = test_forecasts.getParametersSize();
-    size_t num_flts = test_forecasts.getFLTsSize();
-    size_t num_test_stations = test_forecasts.getStationsSize();
+    size_t num_parameters = test_forecasts.getParameters().size();
+    size_t num_flts = test_forecasts.getFLTs().size();
+    size_t num_test_stations = test_forecasts.getStations().size();
     size_t num_test_times = i_test_times.size();
     size_t num_search_stations = i_search_stations.size2();
 
@@ -381,7 +381,7 @@ AnEn::computeSimilarity(
                 << "# of test stations: " << num_test_stations << endl
                 << "# of test times: " << num_test_times << endl
                 << "# of maximum search stations: " << num_search_stations << endl
-                << "# of observation stations: " << search_observations.getStationsSize() << endl;
+                << "# of observation stations: " << search_observations.getStations().size() << endl;
         if (!operational) cout << "# of search times: " << num_search_times << endl;
     }
 
@@ -595,9 +595,9 @@ AnEn::selectAnalogs(
         size_t i_parameter, size_t num_members,
         bool quick, bool extend_observations, bool debug) const {
 
-    if (i_parameter >= search_observations.getParametersSize()) {
+    if (i_parameter >= search_observations.getParameters().size()) {
         if (verbose_ >= 1) cerr << BOLDRED << "Error: i_parameter exceeds the limits. "
-                << "There are only " << search_observations.getParametersSize()
+                << "There are only " << search_observations.getParameters().size()
             << " parameters available." << RESET << endl;
         return (OUT_OF_RANGE);
     }
@@ -730,40 +730,40 @@ AnEn::check_input_(
         double max_par_nan, double max_flt_nan,
         bool operational, int window_half_size) const {
 
-    size_t num_parameters = test_forecasts.getParametersSize(),
-            num_flts = test_forecasts.getFLTsSize(),
-            num_search_stations = search_forecasts.getStationsSize(),
-            num_test_stations = test_forecasts.getStationsSize();
+    size_t num_parameters = test_forecasts.getParameters().size(),
+            num_flts = test_forecasts.getFLTs().size(),
+            num_search_stations = search_forecasts.getStations().size(),
+            num_test_stations = test_forecasts.getStations().size();
 
     // Check max_par_nan
-    if (max_par_nan >= 0 && max_par_nan <= search_forecasts.getParametersSize()) {
+    if (max_par_nan >= 0 && max_par_nan <= search_forecasts.getParameters().size()) {
         // valid input
     } else {
         max_par_nan = 0;
     }
 
     // Check max_flt_nan
-    if (max_flt_nan >= 0 && max_flt_nan <= search_forecasts.getFLTsSize()) {
+    if (max_flt_nan >= 0 && max_flt_nan <= search_forecasts.getFLTs().size()) {
         // valid input
     } else {
         max_flt_nan = 0;
     }
 
-    if (i_observation_parameter >= search_observations.getParametersSize()) {
+    if (i_observation_parameter >= search_observations.getParameters().size()) {
         if (verbose_ >= 1) cerr << BOLDRED
                 << "Error: Please specify a valid observation variable!"
                 << RESET << endl;
         return (OUT_OF_RANGE);
     }
 
-    if (mapping.size1() != search_forecasts.getTimesSize()) {
+    if (mapping.size1() != search_forecasts.getTimes().size()) {
         if (verbose_ >= 1) cerr << BOLDRED
                 << "Error: The rows of mapping should equal the number of forecast times!"
                 << RESET << endl;
         return (WRONG_SHAPE);
     }
 
-    if (mapping.size2() != search_forecasts.getFLTsSize()) {
+    if (mapping.size2() != search_forecasts.getFLTs().size()) {
         if (verbose_ >= 1) cerr << BOLDRED
                 << "Error: The columns of mapping should equal the number of FLTs!"
                 << RESET << endl;
@@ -771,41 +771,41 @@ AnEn::check_input_(
     }
 
     if (!operational) {
-        if (!(sds.shape()[0] == search_forecasts.getParametersSize() &&
-                sds.shape()[1] == search_forecasts.getStationsSize() &&
-                sds.shape()[2] == search_forecasts.getFLTsSize())) {
+        if (!(sds.shape()[0] == search_forecasts.getParameters().size() &&
+                sds.shape()[1] == search_forecasts.getStations().size() &&
+                sds.shape()[2] == search_forecasts.getFLTs().size())) {
             if (verbose_ >= 1) {
                 cerr << BOLDRED << "Error: Standard deviation array has a different shape to search forecasts!" << endl;
-                if (sds.shape()[0] != search_forecasts.getParametersSize())
+                if (sds.shape()[0] != search_forecasts.getParameters().size())
                     cout << "-- Number of parameters differs: sds have " << sds.shape()[0]
-                    << " and search forecasts have " << search_forecasts.getParametersSize() << endl;
-                if (sds.shape()[1] != search_forecasts.getStationsSize())
+                    << " and search forecasts have " << search_forecasts.getParameters().size() << endl;
+                if (sds.shape()[1] != search_forecasts.getStations().size())
                     cout << "-- Number of stations differs: sds have " << sds.shape()[1]
-                    << " and search forecasts have " << search_forecasts.getStationsSize() << endl;
-                if (sds.shape()[2] != search_forecasts.getFLTsSize())
+                    << " and search forecasts have " << search_forecasts.getStations().size() << endl;
+                if (sds.shape()[2] != search_forecasts.getFLTs().size())
                     cout << "-- Number of FLTs differs: sds have " << sds.shape()[2]
-                    << " and search forecasts have " << search_forecasts.getFLTsSize() << endl;
+                    << " and search forecasts have " << search_forecasts.getFLTs().size() << endl;
                 cout << RESET << endl;
             }
             return (WRONG_SHAPE);
         }   
     }
 
-    if (num_parameters != search_forecasts.getParametersSize()) {
+    if (num_parameters != search_forecasts.getParameters().size()) {
         if (verbose_ >= 1) cerr << BOLDRED
                 << "Error: Search and test forecasts should have same numbers of parameters!"
                 << RESET << endl;
         return (WRONG_SHAPE);
     }
 
-    if (num_flts != search_forecasts.getFLTsSize()) {
+    if (num_flts != search_forecasts.getFLTs().size()) {
         if (verbose_ >= 1) cerr << BOLDRED
                 << "Error: Search and test forecasts should have same numbers of FLTs!"
                 << RESET << endl;
         return (WRONG_SHAPE);
     }
 
-    if (num_search_stations != search_observations.getStationsSize()) {
+    if (num_search_stations != search_observations.getStations().size()) {
         if (verbose_ >= 1) cerr << BOLDRED
                 << "Error: Search forecasts and observations should have same numbers of stations!"
                 << RESET << endl;
@@ -965,11 +965,11 @@ AnEn::compute_single_similarity_(
     double num_par_nan = 0.0;
 
     // Define the number of parameters.
-    size_t num_parameters = test_forecasts.getParametersSize();
+    size_t num_parameters = test_forecasts.getParameters().size();
 
     // Get data objects for test and search forecasts.
-    const auto & data_search_forecasts = search_forecasts.data();
-    const auto & data_test_forecasts = test_forecasts.data();
+//    const auto & data_search_forecasts = search_forecasts.data();
+//    const auto & data_test_forecasts = test_forecasts.data();
 
     for (size_t i_parameter = 0; i_parameter < num_parameters; i_parameter++) {
 
@@ -980,10 +980,10 @@ AnEn::compute_single_similarity_(
             for (size_t i_window_flt = flts_window(i_flt, 0);
                     i_window_flt <= flts_window(i_flt, 1); i_window_flt++, pos++) {
 
-                double value_search = data_search_forecasts
-                        [i_parameter][i_search_station][i_search_time][i_window_flt];
-                double value_test = data_test_forecasts
-                        [i_parameter][i_test_station][i_test_time][i_window_flt];
+                double value_search = search_forecasts.getValue(
+                        i_parameter, i_search_station, i_search_time, i_window_flt);
+                double value_test = test_forecasts.getValue(
+                        i_parameter, i_test_station, i_test_time, i_window_flt);
 
                 if (std::isnan(value_search) || std::isnan(value_test)) {
                     window[pos] = NAN;

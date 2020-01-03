@@ -10,7 +10,7 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "AnEnIO.h"
+//#include "AnEnIO.h"
 #include <string>
 
 // I cannot pass argument through command lines therefore I have to 

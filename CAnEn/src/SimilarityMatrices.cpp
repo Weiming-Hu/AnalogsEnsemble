@@ -51,9 +51,9 @@ max_entries_(max_entries) {
 SimilarityMatrices::SimilarityMatrices(
         const Forecasts& forecasts, size_t max_entries) {
     max_entries_ = max_entries;
-    resize(forecasts.getStationsSize(),
-            forecasts.getTimesSize(),
-            forecasts.getFLTsSize());
+    resize(forecasts.getStations().size(),
+            forecasts.getTimes().size(),
+            forecasts.getFLTs().size());
 }
 
 SimilarityMatrices::SimilarityMatrices(const size_t& num_stations,

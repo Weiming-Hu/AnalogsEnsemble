@@ -28,8 +28,7 @@
 class Observations {
 public:
     Observations();
-    Observations(const Observations& orig) = delete;
-
+    Observations(const Observations& orig);
     Observations(anenPar::Parameters, anenSta::Stations, anenTime::Times);
 
     virtual ~Observations();
@@ -42,7 +41,7 @@ public:
      * @param time_index Time index.
      * @return A double.
      */
-    virtual double getValueByIndex(std::size_t parameter_index,
+    virtual double getValue(std::size_t parameter_index,
             std::size_t station_index, std::size_t time_index) const = 0;
 
     /**
@@ -53,14 +52,15 @@ public:
      * @param timestamp A double for the time.
      * @return A double.
      */
-    virtual double getValueByID(std::size_t parameter_ID,
-            std::size_t station_ID, double timestamp) const = 0;
+//    virtual double getValueByID(std::size_t parameter_ID,
+//            std::size_t station_ID, double timestamp) const = 0;
 
     /**
      * Gets data in form of a double pointer.
      * @return A double pointer.
      */
     virtual const double* getValues() const = 0;
+    virtual double * getValuesPtr() = 0;
 
     virtual void setValue(double val, std::size_t parameter_index,
             std::size_t station_index, std::size_t time_index) = 0;
@@ -147,7 +147,7 @@ public:
     
     const double* getValues() const override;
 
-    double getValueByIndex(std::size_t parameter_index,
+    double getValue(std::size_t parameter_index,
             std::size_t station_index, std::size_t time_index) const override;
     double getValueByID(std::size_t parameter_ID,
             std::size_t station_ID, double timestamp) const override;
@@ -172,10 +172,7 @@ private:
      * a.k.a column-based order. This is because the values read from NetCDF
      * are in column-based order (boost::fortran_storage_order()).
      */
-    boost::multi_array<double, 3> data_ =
-            boost::multi_array<double, 3> (
-            boost::extents[0][0][0],
-            boost::fortran_storage_order());
+    boost::multi_array<double, 3> data_;
 };
 
 #endif /* OBSERVATIONS_H */

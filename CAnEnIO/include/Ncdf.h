@@ -38,6 +38,16 @@ namespace Ncdf {
     void purge(std::string & str);
     void purge(std::vector<std::string> & strs);
 
+    void checkDims(const netCDF::NcFile & nc,
+            const std::vector<std::string> & names);
+
+    void checkVars(const netCDF::NcFile & nc,
+            const std::vector<std::string> & names);
+    
+    void checkVarShape(const netCDF::NcFile & nc,
+            const std::string & var_name,
+            const std::vector<std::string> & dim_names);
+    
     /************************************************************************
      *                           Inline Functions                           *
      ************************************************************************/
@@ -53,14 +63,6 @@ namespace Ncdf {
     /************************************************************************
      *                         Template Functions                           *
      ************************************************************************/
-
-    template <std::size_t SIZE>
-    void checkDims(const netCDF::NcFile & nc,
-            const std::array<std::string, SIZE> & names);
-
-    template <std::size_t SIZE>
-    void checkVars(const netCDF::NcFile & nc,
-            const std::array<std::string, SIZE> & names);
 
     template <typename T>
     void readVector(const netCDF::NcFile & nc, std::string var_name,

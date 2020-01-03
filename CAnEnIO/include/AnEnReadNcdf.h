@@ -51,9 +51,9 @@ public:
     virtual ~AnEnReadNcdf();
 
     void readForecasts(const std::string & file_path,
-            Forecasts_array & forecasts) const override;
+            Forecasts & forecasts) const override;
     void readForecasts(
-            const std::string & file_path, Forecasts_array & forecasts,
+            const std::string & file_path, Forecasts & forecasts,
             std::vector<size_t> start, std::vector<size_t> count) const;
     
     void readObservations(const std::string & file_path,

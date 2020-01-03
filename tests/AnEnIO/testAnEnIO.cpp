@@ -100,7 +100,7 @@ void testAnEnIO::testReadForecastFile() {
         for (size_t k = 0; k < num_times; k++) {
             for (size_t j = 0; j < num_stations; j++) {
                 for (size_t i = 0; i < num_pars; i++) {
-                    CPPUNIT_ASSERT(count == forecasts.getValueByIndex(i, j, k, l));
+                    CPPUNIT_ASSERT(count == forecasts.getValue(i, j, k, l));
                     count++;
                 }
             }
@@ -445,33 +445,33 @@ void testAnEnIO::testReadPartObservations() {
     io.readObservations(observations_full);
     io.readObservations(observations, vec_start, vec_count);
     
-    CPPUNIT_ASSERT(observations.getValueByIndex(0, 0, 0)
-            == observations_full.getValueByIndex(0, 5, 5));
-    CPPUNIT_ASSERT(observations.getValueByIndex(1, 0, 0)
-            == observations_full.getValueByIndex(1, 5, 5));
-    CPPUNIT_ASSERT(observations.getValueByIndex(0, 1, 0)
-            == observations_full.getValueByIndex(0, 6, 5));
-    CPPUNIT_ASSERT(observations.getValueByIndex(1, 1, 0)
-            == observations_full.getValueByIndex(1, 6, 5));
-    CPPUNIT_ASSERT(observations.getValueByIndex(0, 2, 0)
-            == observations_full.getValueByIndex(0, 7, 5));
-    CPPUNIT_ASSERT(observations.getValueByIndex(1, 2, 0)
-            == observations_full.getValueByIndex(1, 7, 5));
+    CPPUNIT_ASSERT(observations.getValue(0, 0, 0)
+            == observations_full.getValue(0, 5, 5));
+    CPPUNIT_ASSERT(observations.getValue(1, 0, 0)
+            == observations_full.getValue(1, 5, 5));
+    CPPUNIT_ASSERT(observations.getValue(0, 1, 0)
+            == observations_full.getValue(0, 6, 5));
+    CPPUNIT_ASSERT(observations.getValue(1, 1, 0)
+            == observations_full.getValue(1, 6, 5));
+    CPPUNIT_ASSERT(observations.getValue(0, 2, 0)
+            == observations_full.getValue(0, 7, 5));
+    CPPUNIT_ASSERT(observations.getValue(1, 2, 0)
+            == observations_full.getValue(1, 7, 5));
 
     vec_count = {2, 3, 1};
     io.readObservations(observations, vec_start, vec_count, vec_stride);
-    CPPUNIT_ASSERT(observations.getValueByIndex(0, 0, 0)
-            == observations_full.getValueByIndex(0, 5, 5));
-    CPPUNIT_ASSERT(observations.getValueByIndex(1, 0, 0)
-            == observations_full.getValueByIndex(2, 5, 5));
-    CPPUNIT_ASSERT(observations.getValueByIndex(0, 1, 0)
-            == observations_full.getValueByIndex(0, 10, 5));
-    CPPUNIT_ASSERT(observations.getValueByIndex(1, 1, 0)
-            == observations_full.getValueByIndex(2, 10, 5));
-    CPPUNIT_ASSERT(observations.getValueByIndex(0, 2, 0)
-            == observations_full.getValueByIndex(0, 15, 5));
-    CPPUNIT_ASSERT(observations.getValueByIndex(1, 2, 0)
-            == observations_full.getValueByIndex(2, 15, 5));
+    CPPUNIT_ASSERT(observations.getValue(0, 0, 0)
+            == observations_full.getValue(0, 5, 5));
+    CPPUNIT_ASSERT(observations.getValue(1, 0, 0)
+            == observations_full.getValue(2, 5, 5));
+    CPPUNIT_ASSERT(observations.getValue(0, 1, 0)
+            == observations_full.getValue(0, 10, 5));
+    CPPUNIT_ASSERT(observations.getValue(1, 1, 0)
+            == observations_full.getValue(2, 10, 5));
+    CPPUNIT_ASSERT(observations.getValue(0, 2, 0)
+            == observations_full.getValue(0, 15, 5));
+    CPPUNIT_ASSERT(observations.getValue(1, 2, 0)
+            == observations_full.getValue(2, 15, 5));
 }
 
 void testAnEnIO::testReadPartForecasts() {
@@ -491,34 +491,34 @@ void testAnEnIO::testReadPartForecasts() {
     io.readForecasts(forecasts_full);
     io.readForecasts(forecasts, vec_start, vec_count);
 
-    CPPUNIT_ASSERT(forecasts.getValueByIndex(0, 0, 0, 0)
-            == forecasts_full.getValueByIndex(0, 5, 5, 4));
-    CPPUNIT_ASSERT(forecasts.getValueByIndex(1, 0, 0, 0)
-            == forecasts_full.getValueByIndex(1, 5, 5, 4));
-    CPPUNIT_ASSERT(forecasts.getValueByIndex(0, 1, 0, 0)
-            == forecasts_full.getValueByIndex(0, 6, 5, 4));
-    CPPUNIT_ASSERT(forecasts.getValueByIndex(1, 1, 0, 0)
-            == forecasts_full.getValueByIndex(1, 6, 5, 4));
-    CPPUNIT_ASSERT(forecasts.getValueByIndex(0, 2, 0, 0)
-            == forecasts_full.getValueByIndex(0, 7, 5, 4));
-    CPPUNIT_ASSERT(forecasts.getValueByIndex(1, 2, 0, 0)
-            == forecasts_full.getValueByIndex(1, 7, 5, 4));
+    CPPUNIT_ASSERT(forecasts.getValue(0, 0, 0, 0)
+            == forecasts_full.getValue(0, 5, 5, 4));
+    CPPUNIT_ASSERT(forecasts.getValue(1, 0, 0, 0)
+            == forecasts_full.getValue(1, 5, 5, 4));
+    CPPUNIT_ASSERT(forecasts.getValue(0, 1, 0, 0)
+            == forecasts_full.getValue(0, 6, 5, 4));
+    CPPUNIT_ASSERT(forecasts.getValue(1, 1, 0, 0)
+            == forecasts_full.getValue(1, 6, 5, 4));
+    CPPUNIT_ASSERT(forecasts.getValue(0, 2, 0, 0)
+            == forecasts_full.getValue(0, 7, 5, 4));
+    CPPUNIT_ASSERT(forecasts.getValue(1, 2, 0, 0)
+            == forecasts_full.getValue(1, 7, 5, 4));
 
     vec_start = {0, 5, 5, 4};
     vec_count = {2, 3, 1, 1};
     io.readForecasts(forecasts, vec_start, vec_count, vec_stride);
-    CPPUNIT_ASSERT(forecasts.getValueByIndex(0, 0, 0, 0)
-            == forecasts_full.getValueByIndex(0, 5, 5, 4));
-    CPPUNIT_ASSERT(forecasts.getValueByIndex(1, 0, 0, 0)
-            == forecasts_full.getValueByIndex(2, 5, 5, 4));
-    CPPUNIT_ASSERT(forecasts.getValueByIndex(0, 1, 0, 0)
-            == forecasts_full.getValueByIndex(0, 10, 5, 4));
-    CPPUNIT_ASSERT(forecasts.getValueByIndex(1, 1, 0, 0)
-            == forecasts_full.getValueByIndex(2, 10, 5, 4));
-    CPPUNIT_ASSERT(forecasts.getValueByIndex(0, 2, 0, 0)
-            == forecasts_full.getValueByIndex(0, 15, 5, 4));
-    CPPUNIT_ASSERT(forecasts.getValueByIndex(1, 2, 0, 0)
-            == forecasts_full.getValueByIndex(2, 15, 5, 4));
+    CPPUNIT_ASSERT(forecasts.getValue(0, 0, 0, 0)
+            == forecasts_full.getValue(0, 5, 5, 4));
+    CPPUNIT_ASSERT(forecasts.getValue(1, 0, 0, 0)
+            == forecasts_full.getValue(2, 5, 5, 4));
+    CPPUNIT_ASSERT(forecasts.getValue(0, 1, 0, 0)
+            == forecasts_full.getValue(0, 10, 5, 4));
+    CPPUNIT_ASSERT(forecasts.getValue(1, 1, 0, 0)
+            == forecasts_full.getValue(2, 10, 5, 4));
+    CPPUNIT_ASSERT(forecasts.getValue(0, 2, 0, 0)
+            == forecasts_full.getValue(0, 15, 5, 4));
+    CPPUNIT_ASSERT(forecasts.getValue(1, 2, 0, 0)
+            == forecasts_full.getValue(2, 15, 5, 4));
 }
 
 void testAnEnIO::testReadWriteSimilarityMatrices() {

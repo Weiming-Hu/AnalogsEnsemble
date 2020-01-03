@@ -21,7 +21,10 @@ using namespace std;
 using namespace AnEnNames;
 
 // If data have a length longer than this limit, I/O will be parallelized.
-const size_t SERIAL_LENGTH_LIMIT = 1000;
+static const size_t _SERIAL_LENGTH_LIMIT = 1000;
+
+// TODO: Remove magic numbers
+static const size_t _OBSERVATIONS_DIMENSIONS = 3;
 
 AnEnReadNcdf::AnEnReadNcdf() {
     verbose_ = Verbose::Progress;
@@ -40,7 +43,7 @@ AnEnReadNcdf::~AnEnReadNcdf() {
 
 void
 AnEnReadNcdf::readForecasts(const string & file_path,
-        Forecasts_array & forecasts) const {
+        Forecasts & forecasts) const {
     // Call the handling function
     readForecasts(file_path, forecasts, {}, {});
     return;
@@ -48,7 +51,7 @@ AnEnReadNcdf::readForecasts(const string & file_path,
 
 void
 AnEnReadNcdf::readForecasts(const string & file_path,
-        Forecasts_array & forecasts, vector<size_t> start,
+        Forecasts & forecasts, vector<size_t> start,
         vector<size_t> count) const {
 
     if (verbose_ >= Verbose::Progress) {
@@ -92,15 +95,16 @@ AnEnReadNcdf::readForecasts(const string & file_path,
         read_(nc, flts, VAR_FLTS, start[3], count[3]);
     }
 
-    forecasts.setParameters(parameters);
-    forecasts.setStations(stations);
-    forecasts.setTimes(times);
-    forecasts.setFlts(flts);
+    if (verbose_ >= Verbose::Detail) cout << "Updating dimensions ..." << endl;
+    forecasts.setDimensions(parameters, stations, times, flts);
+//    forecasts.setParameters(parameters);
+//    forecasts.setStations(stations);
+//    forecasts.setTimes(times);
+//    forecasts.setFlts(flts);
 
     // Read data values
-    if (verbose_ >= Verbose::Detail) cout << "Updating dimensions ..." << endl;
-    forecasts.updateDataDims();
-    read_(nc, forecasts.data().data(), VAR_DATA, start, count);
+//    forecasts.updateDataDims();
+    read_(nc, forecasts.getValuesPtr(), VAR_DATA, start, count);
     
     nc.close();
 
@@ -164,9 +168,9 @@ AnEnReadNcdf::readObservations(const std::string & file_path,
     // Read data values
     if (verbose_ >= Verbose::Detail) cout << "Updating dimensions ..." << endl;
     observations.updateDataDims();
-    read_(nc, observations.data().data(), VAR_DATA, start, count);
+    read_(nc, observations.data().data(), VAR_DATA, start, count);  
     nc.close();
-
+    
     return;
 }
 
@@ -432,10 +436,9 @@ AnEnReadNcdf::read_(const netCDF::NcFile & nc, anenTime::FLTs & flts,
 void
 AnEnReadNcdf::checkFileType_(const NcFile & nc, FileType file_type) const {
 
-    // Define fixed length array for names because they are hard-coded.
-    array<string, 9> dim_names;
-    array<string, 11> var_names;
-
+    vector<string> dim_names, var_names;
+    string var_name;
+            
     // Define the required dimension and variable names to be checked.
     switch (file_type) {
         case FileType::Forecasts:
@@ -448,13 +451,8 @@ AnEnReadNcdf::checkFileType_(const NcFile & nc, FileType file_type) const {
             };
             break;
         case FileType::Observations:
-            dim_names = {
-                DIM_PARS, DIM_STATIONS, DIM_TIMES, DIM_CHARS
-            };
-            var_names = {
-
-                VAR_DATA, VAR_TIMES, VAR_PARNAMES, VAR_XS, VAR_YS
-            };
+            dim_names = {DIM_PARS, DIM_STATIONS, DIM_TIMES, DIM_CHARS};
+            var_names = {VAR_DATA, VAR_TIMES, VAR_PARNAMES, VAR_XS, VAR_YS};
             break;
         case FileType::Similarity:
             dim_names = {
@@ -496,8 +494,37 @@ AnEnReadNcdf::checkFileType_(const NcFile & nc, FileType file_type) const {
             };
     }
 
+    // Make sure dimensions and variables exist in the NetCDF file
     checkDims(nc, dim_names);
     checkVars(nc, var_names);
+    
+    // Make sure the data variable has the correct shape
+    dim_names.clear();
+    switch (file_type) {
+        case FileType::Forecasts:
+            var_name = VAR_DATA;
+            dim_names = {DIM_PARS, DIM_STATIONS, DIM_TIMES, DIM_FLTS};
+            break;
+        case FileType::Observations:
+            var_name = VAR_DATA;
+            dim_names = {DIM_PARS, DIM_STATIONS, DIM_TIMES};
+            break;
+        case FileType::Similarity:
+            var_name = VAR_SIMS;
+            dim_names = {DIM_STATIONS, DIM_TIMES, DIM_FLTS,
+                DIM_MEMBERS, DIM_COLS};
+            break;
+        case FileType::Analogs:
+            var_name = VAR_ANALOGS;
+            dim_names = {DIM_STATIONS, DIM_TIMES, DIM_FLTS,
+                DIM_MEMBERS, DIM_COLS};
+            break;
+        case FileType::StandardDeviation:
+            var_name = VAR_STD;
+            dim_names = {DIM_PARS, DIM_STATIONS, DIM_FLTS};
+    }
+    
+    checkVarShape(nc, var_name, dim_names);
 
     return;
 }
@@ -521,7 +548,7 @@ AnEnReadNcdf::fastInsert_(anenPar::Parameters & parameters, size_t dim_len,
         throw runtime_error(msg.str());
     }
     
-    if (dim_len != weights.size() || 0 != weights.size()) {
+    if (dim_len != weights.size() && 0 != weights.size()) {
         ostringstream msg;
         msg << BOLDRED << "#" << VAR_PARWEIGHTS << " (" << weights.size() <<
                 ") should be either 0 or " << dim_len << "." << RESET;
@@ -535,7 +562,7 @@ AnEnReadNcdf::fastInsert_(anenPar::Parameters & parameters, size_t dim_len,
 
 #if defined(_OPENMP)
     int num_cores = 1;
-    if (dim_len <= SERIAL_LENGTH_LIMIT) {
+    if (dim_len <= _SERIAL_LENGTH_LIMIT) {
         num_cores = 1;
     } else {
         char *num_procs_str = getenv("OMP_NUM_THREADS");
@@ -602,7 +629,7 @@ AnEnReadNcdf::fastInsert_(anenSta::Stations & stations, size_t dim_len,
 
 #if defined(_OPENMP)
     int num_cores = 1;
-    if (dim_len <= SERIAL_LENGTH_LIMIT) {
+    if (dim_len <= _SERIAL_LENGTH_LIMIT) {
         num_cores = 1;
     } else {
         char *num_procs_str = getenv("OMP_NUM_THREADS");

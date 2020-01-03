@@ -35,16 +35,16 @@ Functions::computeStandardDeviation(
     if (verbose_ >= 3) cout << "Computing standard deviation ... " << endl;
     
     if (i_times.size() == 0) {
-        i_times.resize(forecasts.getTimesSize());
+        i_times.resize(forecasts.getTimes().size());
         iota(i_times.begin(), i_times.end(), 0);
     }
 
-    size_t num_parameters = forecasts.getParametersSize();
-    size_t num_stations = forecasts.getStationsSize();
+    size_t num_parameters = forecasts.getParameters().size();
+    size_t num_stations = forecasts.getStations().size();
     size_t num_times = i_times.size();
-    size_t num_flts = forecasts.getFLTsSize();
+    size_t num_flts = forecasts.getFLTs().size();
 
-    auto & array = forecasts.data();
+//    auto & array = forecasts;
 
     vector<bool> circular_flags(num_parameters, false);
     auto & parameters_by_insert = forecasts.getParameters().get<anenPar::by_insert>();
@@ -58,7 +58,7 @@ Functions::computeStandardDeviation(
 
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(static) collapse(3) \
-shared(num_parameters, num_stations, num_flts, num_times, array, \
+shared(num_parameters, num_stations, num_flts, num_times, forecasts, \
 i_times, circular_flags, sds) 
 #endif
     for (size_t i_parameter = 0; i_parameter < num_parameters; i_parameter++) {
@@ -69,7 +69,7 @@ i_times, circular_flags, sds)
                 vector<double> values(num_times);
                 for (size_t pos_time = 0; pos_time < num_times; pos_time++) {
                     size_t i_time = i_times[pos_time];
-                    values[pos_time] = array[i_parameter][i_station][i_time][i_flt];
+                    values[pos_time] = forecasts.getValue(i_parameter, i_station, i_time, i_flt);
                 } // End of times loop
 
                 if (circular_flags[i_parameter]) {

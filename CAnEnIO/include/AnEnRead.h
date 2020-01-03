@@ -29,7 +29,7 @@ public:
     
     virtual void readForecasts(
             const std::string & file_path,
-            Forecasts_array & forecasts) const = 0;
+            Forecasts & forecasts) const = 0;
     virtual void readObservations(
             const std::string & file_path,
             Observations_array & observations) const = 0;

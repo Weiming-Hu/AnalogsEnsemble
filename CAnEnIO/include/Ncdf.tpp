@@ -7,46 +7,10 @@
 
 #include "colorTexts.h"
 
-template <std::size_t SIZE>
-void
-Ncdf::checkDims(const netCDF::NcFile & nc,
-        const std::array<std::string, SIZE> & names) {
-
-    using namespace std;
-
-    for (const auto & name : names) {
-        if (!dimExists(nc, name)) {
-            ostringstream msg;
-            msg << BOLDRED << "Dimension (" + name + ") is missing!" << RESET;
-            throw invalid_argument(msg.str());
-        }
-    }
-
-    return;
-}
-
-template <std::size_t SIZE>
-void
-Ncdf::checkVars(const netCDF::NcFile & nc,
-        const std::array<std::string, SIZE> & names) {
-
-    using namespace std;
-
-    for (const auto & name : names) {
-        if (!varExists(nc, name)) {
-            ostringstream msg;
-            msg << BOLDRED << "Variable (" << name << ") is missing!" << RESET;
-            throw invalid_argument(msg.str());
-        }
-    }
-
-    return;
-}
-
 template<typename T>
 void
 Ncdf::readVector(const netCDF::NcFile & nc, std::string var_name,
-        std::vector<T> & results, bool verbose,
+        std::vector<T> & results,
         std::vector<size_t> start, std::vector<size_t> count) {
 
     using namespace netCDF;
