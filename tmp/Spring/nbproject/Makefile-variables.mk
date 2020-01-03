@@ -7,13 +7,13 @@ CND_BASEDIR=`pwd`
 CND_BUILDDIR=build
 CND_DISTDIR=dist
 # Debug configuration
-CND_PLATFORM_Debug=GNU-Linux
-CND_ARTIFACT_DIR_Debug=dist/Debug/GNU-Linux
+CND_PLATFORM_Debug=CLang-MacOSX
+CND_ARTIFACT_DIR_Debug=dist/Debug/CLang-MacOSX
 CND_ARTIFACT_NAME_Debug=spring
-CND_ARTIFACT_PATH_Debug=dist/Debug/GNU-Linux/spring
-CND_PACKAGE_DIR_Debug=dist/Debug/GNU-Linux/package
+CND_ARTIFACT_PATH_Debug=dist/Debug/CLang-MacOSX/spring
+CND_PACKAGE_DIR_Debug=dist/Debug/CLang-MacOSX/package
 CND_PACKAGE_NAME_Debug=spring.tar
-CND_PACKAGE_PATH_Debug=dist/Debug/GNU-Linux/package/spring.tar
+CND_PACKAGE_PATH_Debug=dist/Debug/CLang-MacOSX/package/spring.tar
 # Release configuration
 CND_PLATFORM_Release=GNU-Linux
 CND_ARTIFACT_DIR_Release=dist/Release/GNU-Linux

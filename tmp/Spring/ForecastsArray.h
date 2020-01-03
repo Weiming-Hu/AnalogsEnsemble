@@ -9,10 +9,8 @@
 #ifndef FORECASTSARRAY_H
 #define FORECASTSARRAY_H
 
-#include <limits>
-
 #include "Forecasts.h"
-#include "Array4D.h"
+#include <boost/multi_array.hpp>
 
 /**
  * \class ForecastsArray
@@ -23,16 +21,11 @@
 class ForecastsArray : public Forecasts {
 public:
     ForecastsArray();
+    ForecastsArray(const ForecastsArray& orig);
     ForecastsArray(const Parameters &, const Stations &,
             const Times &, const FLTs &);
-    ForecastsArray(const ForecastsArray& orig);
-    virtual ~ForecastsArray();
 
-#ifdef __INTEL_COMPILER
-    static const double _DEFAULT = NAN;
-#else
-    static constexpr double _DEFAULT = std::numeric_limits<double>::quiet_NaN();
-#endif
+    virtual ~ForecastsArray();
 
     size_t size() const override;
 
@@ -53,7 +46,7 @@ public:
     friend std::ostream& operator<<(std::ostream&, const ForecastsArray&);
 
 protected:
-    Array4D data_;
+    boost::multi_array<double, 4> data_;
     void updateDataDims_(bool initialize_values = true);
 };
 

@@ -19,18 +19,18 @@ public:
 
     virtual std::size_t size() const = 0;
 
-    anenPar::Parameters const & getParameters() const;
-    anenSta::Stations const & getStations() const;
-    anenTime::Times const & getTimes() const;
+    Parameters const & getParameters() const;
+    Stations const & getStations() const;
+    Times const & getTimes() const;
   
-    anenPar::Parameters & getParameters();
-    anenSta::Stations & getStations();
-    anenTime::Times & getTimes();
+    Parameters & getParameters();
+    Stations & getStations();
+    Times & getTimes();
 
 protected:
-    anenPar::Parameters parameters_;
-    anenSta::Stations stations_;
-    anenTime::Times times_;
+    Parameters parameters_;
+    Stations stations_;
+    Times times_;
 };
 
 #endif /* BASICDATA_H */

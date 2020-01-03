@@ -28,8 +28,12 @@ Forecasts::Forecasts() {
 }
 
 Forecasts::Forecasts(const Parameters & parameters, const Stations & stations,
-        const Times & times, const FLTs & flts) : flts_(flts) {
-    BasicData(parameters, stations, times);
+        const Times & times, const FLTs & flts) : BasicData(parameters, stations, times),
+flts_(flts) {
+//    parameters_ = parameters;
+//    stations_ = stations;
+//    times_ = times;
+
 }
 
 Forecasts::Forecasts(const Forecasts & orig) : BasicData(orig) {
@@ -54,10 +58,10 @@ Forecasts::getFLTs() {
 void
 Forecasts::print(ostream &os) const {
     os << "[Forecasts] size: [" <<
-            getParameters().size() << ", " <<
-            getStations().size() << ", " <<
-            getTimes().size() << ", " <<
-            getFLTs().size() << "]" << endl << endl;
+            parameters_.size() << ", " <<
+            stations_.size() << ", " <<
+            times_.size() << ", " <<
+            flts_.size() << "]" << endl << endl;
     os << parameters_ << endl;
     os << stations_ << endl;
     os << times_ << endl << endl;

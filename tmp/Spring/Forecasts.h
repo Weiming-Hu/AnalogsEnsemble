@@ -20,9 +20,11 @@
 class Forecasts : public BasicData {
 public:
     Forecasts();
+    Forecasts(Forecasts const & orig);
     Forecasts(const Parameters &, const Stations &,
             const Times &, const FLTs &);
-    Forecasts(Forecasts const & orig);
+    
+    
     virtual ~Forecasts();
 
 
@@ -40,8 +42,8 @@ public:
      * Gets a double pointer to the start of the values.
      * @return A double pointer.
      */
-    virtual const double* getValuesPtr() const = 0;
-    virtual double * getValuesPtr() = 0;
+    virtual const double* getValuesPtr() const override = 0;
+    virtual double * getValuesPtr() override = 0;
 
     /**
      * Sets the dimensions of forecasts and allocates memory for data values.

@@ -23,5 +23,6 @@
 #define GREEN       "\033[32m"
 #endif
 
+// TODO: Use static
 #endif /* COLORTEXTS_H */
 

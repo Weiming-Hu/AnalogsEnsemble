@@ -21,45 +21,17 @@
 
 using namespace std;
 
-size_t Parameter::_static_ID_ = 0;
-
-static const string _DEFAULT_NAME = "UNDEFINED";
-static const double _DEFAULT_WEIGHT = NAN;
-static const bool _DEFAULT_CIRCULAR = false;
-
-
 /***************************************************************************
  *                              Parameter                                  *
  **************************************************************************/
 
-Parameter::Parameter() {
-    setID_();
-    name_ = _DEFAULT_NAME;
-    weight_ = _DEFAULT_WEIGHT;
-    circular_ = _DEFAULT_CIRCULAR;
+Parameter::Parameter() :
+name_(_DEFAULT_NAME), weight_(_DEFAULT_WEIGHT), circular_(_DEFAULT_CIRCULAR) {
 }
 
-Parameter::Parameter(string name) :
-name_(name) {
-    setID_();
-    weight_ = _DEFAULT_WEIGHT;
-    circular_ = _DEFAULT_CIRCULAR;
-}
-
-Parameter::Parameter(string name, double weight) :
-name_(name), weight_(weight) {
-    setID_();
-    circular_ = _DEFAULT_CIRCULAR;
-}
 
 Parameter::Parameter(string name, double weight, bool circular) :
 name_(name), weight_(weight), circular_(circular) {
-    setID_();
-}
-
-Parameter::Parameter(string name, bool circular) :
-name_(name), circular_(circular) {
-    setID_();
 }
 
 Parameter::Parameter(const Parameter& rhs) {
@@ -76,31 +48,25 @@ Parameter &
         name_ = rhs.getName();
         weight_ = rhs.getWeight();
         circular_ = rhs.getCircular();
-        ID_ = rhs.getID();
     }
 
     return *this;
 }
 
 bool
-Parameter::operator==(const Parameter& right) const {
-    return (ID_ == right.getID());
-}
-
-bool
-Parameter::operator<(const Parameter& right) const {
-    return (ID_ < right.getID());
-}
-
-bool
-Parameter::literalCompare(const Parameter & rhs) const {
-
+Parameter::operator==(const Parameter& rhs) const {
     if (name_ != rhs.getName()) return false;
     if (weight_ != rhs.getWeight()) return false;
     if (circular_ != rhs.getCircular()) return false;
 
     return true;
 }
+
+bool
+Parameter::operator<(const Parameter& rhs) const {
+    return ( name_ < rhs.getName() );
+}
+
 
 void
 Parameter::setName(string name) {
@@ -132,19 +98,9 @@ Parameter::getCircular() const {
     return circular_;
 }
 
-size_t
-Parameter::getID() const {
-    return ID_;
-}
-
-size_t
-Parameter::getStaticID() {
-    return Parameter::_static_ID_;
-}
-
 void
 Parameter::print(ostream &os) const {
-    os << "[Parameter] ID: " << ID_ << ", name: " << name_
+    os << "[Parameter] Name: " << name_
             << ", weight: " << weight_ << ", circular: " << circular_
             << endl;
 }
@@ -153,12 +109,6 @@ ostream&
 operator<<(ostream& os, Parameter const & obj) {
     obj.print(os);
     return os;
-}
-
-void
-Parameter::setID_() {
-    ID_ = Parameter::_static_ID_;
-    Parameter::_static_ID_++;
 }
 
 /***************************************************************************
@@ -171,33 +121,7 @@ Parameters::Parameters() {
 Parameters::~Parameters() {
 }
 
-size_t
-Parameters::getParameterIndex(size_t parameter_ID) const {
-
-    // Find the parameter ID in ID-based index
-    const multiIndexParameters::index<By::ID>::type &
-            parameters_by_ID = get<By::ID>();
-
-    auto it_ID = parameters_by_ID.find(parameter_ID);
-
-    if (it_ID != parameters_by_ID.end()) {
-
-        // Project the ID-based order to insertion sequence
-        auto it_insert = project<By::insert>(it_ID);
-
-        // Get the insertion sequence index iterator
-        const multiIndexParameters::index<By::insert>::type&
-                parameters_by_insert = get<By::insert>();
-
-        // Compute the distance
-        return (distance(parameters_by_insert.begin(), it_insert));
-    } else {
-        throw out_of_range("Can't find the parameter IDs "
-                + to_string((long long) parameter_ID));
-    }
-}
-
-Parameter
+Parameter const &
 Parameters::getParameterByName(string name) const {
 
     const multiIndexParameters::index<By::name>::type &

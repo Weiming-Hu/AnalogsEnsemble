@@ -133,14 +133,14 @@ public:
     static constexpr double _DEFAULT = std::numeric_limits<double>::quiet_NaN();
 #endif
     
-    Observations_array();
+    ObservationsArray();
     Observations_array(const Observations_array& orig) = delete;
 
-    Observations_array(anenPar::Parameters, anenSta::Stations, anenTime::Times);
-    Observations_array(anenPar::Parameters, anenSta::Stations, anenTime::Times,
+    ObservationsArray(anenPar::Parameters, anenSta::Stations, anenTime::Times);
+    ObservationsArray(anenPar::Parameters, anenSta::Stations, anenTime::Times,
             const std::vector<double> & vals);
 
-    virtual ~Observations_array();
+    virtual ~ObservationsArray();
 
     const boost::multi_array<double, 3> & data() const;
     boost::multi_array<double, 3> & data();

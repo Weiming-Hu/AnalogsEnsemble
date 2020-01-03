@@ -128,18 +128,18 @@ operator<<(ostream& os, const Observations & obj) {
 #ifdef __INTEL_COMPILER
 const double Observations_array::_DEFAULT;
 #else
-constexpr double Observations_array::_DEFAULT;
+constexpr double ObservationsArray::_DEFAULT;
 #endif
 
 
 
-Observations_array::Observations_array() {
+Observations_array::ObservationsArray() {
     data_ = boost::multi_array<double, 3> (
             boost::extents[0][0][0],
             boost::fortran_storage_order());
 }
 
-Observations_array::Observations_array(anenPar::Parameters parameters,
+Observations_array::ObservationsArray(anenPar::Parameters parameters,
         anenSta::Stations stations, anenTime::Times times) :
 Observations(parameters, stations, times) {
     data_ = boost::multi_array<double, 3> (
@@ -148,10 +148,10 @@ Observations(parameters, stations, times) {
     updateDataDims();
 }
 
-Observations_array::Observations_array(
+Observations_array::ObservationsArray(
         anenPar::Parameters parameters, anenSta::Stations stations, anenTime::Times times,
         const vector<double> & vals) :
-Observations_array(parameters, stations, times) {
+ObservationsArray(parameters, stations, times) {
     data_ = boost::multi_array<double, 3> (
             boost::extents[0][0][0],
             boost::fortran_storage_order());
@@ -159,7 +159,7 @@ Observations_array(parameters, stations, times) {
     setValues(vals);
 }
 
-Observations_array::~Observations_array() {
+Observations_array::~ObservationsArray() {
 }
 
 boost::multi_array<double, 3> const &

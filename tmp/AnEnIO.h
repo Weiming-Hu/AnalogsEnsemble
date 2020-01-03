@@ -157,7 +157,7 @@ public:
      * @param observations The Observations_array object to store data.
      * @return An errorType.
      */
-    errorType readObservations(Observations_array & observations) const;
+    errorType readObservations(ObservationsArray & observations) const;
 
     /**
      * Reads a subset of an observation file into an Observations
@@ -170,7 +170,7 @@ public:
      * each dimension.
      * @return An errorType.
      */
-    errorType readObservations(Observations_array & observations,
+    errorType readObservations(ObservationsArray & observations,
             std::vector<size_t> start,
             std::vector<size_t> count,
             std::vector<ptrdiff_t> stride = {1, 1, 1}) const;
@@ -599,7 +599,7 @@ public:
     static errorType
     combineObservationsArray(
             const std::vector<std::string> & in_files,
-            Observations_array & observations, size_t along, int verbose = 2,
+            ObservationsArray & observations, size_t along, int verbose = 2,
             const std::vector<size_t> & starts = {},
             const std::vector<size_t> & counts = {});
 
@@ -828,7 +828,7 @@ protected:
      * @param observations
      * @return An errorType.
      */
-    errorType readObservationsArrayData_(Observations_array & observations) const;
+    errorType readObservationsArrayData_(ObservationsArray & observations) const;
 
     /**
      * Reads observation array data. Observations data should be
@@ -840,7 +840,7 @@ protected:
      * each dimension.
      * @return An errorType.
      */
-    errorType readObservationsArrayData_(Observations_array & observations,
+    errorType readObservationsArrayData_(ObservationsArray & observations,
             std::vector<size_t> start,
             std::vector<size_t> count,
             std::vector<ptrdiff_t> stride = {1, 1, 1}) const;

@@ -14,15 +14,15 @@ GREP=grep
 NM=nm
 CCADMIN=CCadmin
 RANLIB=ranlib
-CC=gcc
-CCC=g++
-CXX=g++
+CC=clang
+CCC=clang++
+CXX=clang++
 FC=gfortran
 AS=as
 
 # Macros
-CND_PLATFORM=GNU-Linux
-CND_DLIB_EXT=so
+CND_PLATFORM=CLang-MacOSX
+CND_DLIB_EXT=dylib
 CND_CONF=Debug
 CND_DISTDIR=dist
 CND_BUILDDIR=build
@@ -35,13 +35,22 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
-	${OBJECTDIR}/Array4D.o \
+	${OBJECTDIR}/AnEnRead.o \
+	${OBJECTDIR}/AnEnReadNcdf.o \
+	${OBJECTDIR}/AnEnWriteNcdf.o \
+	${OBJECTDIR}/Analogs.o \
 	${OBJECTDIR}/BasicData.o \
 	${OBJECTDIR}/Forecasts.o \
 	${OBJECTDIR}/ForecastsArray.o \
+	${OBJECTDIR}/Ncdf.o \
+	${OBJECTDIR}/Observations.o \
+	${OBJECTDIR}/ObservationsArray.o \
 	${OBJECTDIR}/Parameters.o \
+	${OBJECTDIR}/SimilarityMatrices.o \
+	${OBJECTDIR}/StandardDeviation.o \
 	${OBJECTDIR}/Stations.o \
 	${OBJECTDIR}/Times.o \
+	${OBJECTDIR}/Txt.o \
 	${OBJECTDIR}/main.o
 
 
@@ -49,8 +58,8 @@ OBJECTFILES= \
 CFLAGS=
 
 # CC Compiler Flags
-CCFLAGS=-fopenmp
-CXXFLAGS=-fopenmp
+CCFLAGS=-std=c++11
+CXXFLAGS=-std=c++11
 
 # Fortran Compiler Flags
 FFLAGS=
@@ -67,12 +76,27 @@ LDLIBSOPTIONS=
 
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/spring: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
-	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/spring ${OBJECTFILES} ${LDLIBSOPTIONS}
+	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/spring ${OBJECTFILES} ${LDLIBSOPTIONS} -lboost_system -lboost_filesystem -lnetcdf-cxx4
 
-${OBJECTDIR}/Array4D.o: Array4D.cpp
+${OBJECTDIR}/AnEnRead.o: AnEnRead.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Array4D.o Array4D.cpp
+	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/AnEnRead.o AnEnRead.cpp
+
+${OBJECTDIR}/AnEnReadNcdf.o: AnEnReadNcdf.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/AnEnReadNcdf.o AnEnReadNcdf.cpp
+
+${OBJECTDIR}/AnEnWriteNcdf.o: AnEnWriteNcdf.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/AnEnWriteNcdf.o AnEnWriteNcdf.cpp
+
+${OBJECTDIR}/Analogs.o: Analogs.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Analogs.o Analogs.cpp
 
 ${OBJECTDIR}/BasicData.o: BasicData.cpp
 	${MKDIR} -p ${OBJECTDIR}
@@ -89,10 +113,35 @@ ${OBJECTDIR}/ForecastsArray.o: ForecastsArray.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ForecastsArray.o ForecastsArray.cpp
 
+${OBJECTDIR}/Ncdf.o: Ncdf.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Ncdf.o Ncdf.cpp
+
+${OBJECTDIR}/Observations.o: Observations.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Observations.o Observations.cpp
+
+${OBJECTDIR}/ObservationsArray.o: ObservationsArray.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ObservationsArray.o ObservationsArray.cpp
+
 ${OBJECTDIR}/Parameters.o: Parameters.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Parameters.o Parameters.cpp
+
+${OBJECTDIR}/SimilarityMatrices.o: SimilarityMatrices.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SimilarityMatrices.o SimilarityMatrices.cpp
+
+${OBJECTDIR}/StandardDeviation.o: StandardDeviation.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/StandardDeviation.o StandardDeviation.cpp
 
 ${OBJECTDIR}/Stations.o: Stations.cpp
 	${MKDIR} -p ${OBJECTDIR}
@@ -103,6 +152,11 @@ ${OBJECTDIR}/Times.o: Times.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Times.o Times.cpp
+
+${OBJECTDIR}/Txt.o: Txt.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Txt.o Txt.cpp
 
 ${OBJECTDIR}/main.o: main.cpp
 	${MKDIR} -p ${OBJECTDIR}

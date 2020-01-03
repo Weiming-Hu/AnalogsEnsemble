@@ -12,6 +12,9 @@
 #include "Stations.h"
 #include "Times.h"
 
+
+
+
 class BasicData {
 public:
     BasicData();
@@ -38,6 +41,7 @@ public:
     Parameters & getParameters();
     Stations & getStations();
     Times & getTimes();
+    
 
 protected:
     Parameters parameters_;

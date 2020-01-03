@@ -4,26 +4,48 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
-      <itemPath>Array4D.h</itemPath>
+      <itemPath>AnEnNames.h</itemPath>
+      <itemPath>AnEnRead.h</itemPath>
+      <itemPath>AnEnReadNcdf.h</itemPath>
+      <itemPath>AnEnReadNcdf.tpp</itemPath>
+      <itemPath>AnEnWriteNcdf.h</itemPath>
+      <itemPath>Analogs.h</itemPath>
       <itemPath>BasicData.h</itemPath>
       <itemPath>By.h</itemPath>
       <itemPath>Forecasts.h</itemPath>
       <itemPath>ForecastsArray.h</itemPath>
+      <itemPath>Ncdf.h</itemPath>
+      <itemPath>Ncdf.tpp</itemPath>
+      <itemPath>Observations.h</itemPath>
+      <itemPath>ObservationsArray.h</itemPath>
       <itemPath>Parameters.h</itemPath>
+      <itemPath>SimilarityMatrices.h</itemPath>
+      <itemPath>StandardDeviation.h</itemPath>
       <itemPath>Stations.h</itemPath>
       <itemPath>Times.h</itemPath>
+      <itemPath>Txt.h</itemPath>
+      <itemPath>Txt.tpp</itemPath>
       <itemPath>colorTexts.h</itemPath>
     </logicalFolder>
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
-      <itemPath>Array4D.cpp</itemPath>
+      <itemPath>AnEnRead.cpp</itemPath>
+      <itemPath>AnEnReadNcdf.cpp</itemPath>
+      <itemPath>AnEnWriteNcdf.cpp</itemPath>
+      <itemPath>Analogs.cpp</itemPath>
       <itemPath>BasicData.cpp</itemPath>
       <itemPath>Forecasts.cpp</itemPath>
       <itemPath>ForecastsArray.cpp</itemPath>
+      <itemPath>Ncdf.cpp</itemPath>
+      <itemPath>Observations.cpp</itemPath>
+      <itemPath>ObservationsArray.cpp</itemPath>
       <itemPath>Parameters.cpp</itemPath>
+      <itemPath>SimilarityMatrices.cpp</itemPath>
+      <itemPath>StandardDeviation.cpp</itemPath>
       <itemPath>Stations.cpp</itemPath>
       <itemPath>Times.cpp</itemPath>
+      <itemPath>Txt.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
@@ -42,18 +64,37 @@
   <confs>
     <conf name="Debug" type="1">
       <toolsSet>
-        <compilerSet>GNU|GNU</compilerSet>
+        <compilerSet>CLang|CLang</compilerSet>
         <dependencyChecking>true</dependencyChecking>
         <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
       <compileType>
         <ccTool>
-          <commandLine>-fopenmp</commandLine>
+          <commandLine>-std=c++11</commandLine>
         </ccTool>
+        <linkerTool>
+          <commandLine>-lboost_system -lboost_filesystem -lnetcdf-cxx4</commandLine>
+        </linkerTool>
       </compileType>
-      <item path="Array4D.cpp" ex="false" tool="1" flavor2="0">
+      <item path="AnEnNames.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="Array4D.h" ex="false" tool="3" flavor2="0">
+      <item path="AnEnRead.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="AnEnRead.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="AnEnReadNcdf.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="AnEnReadNcdf.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="AnEnReadNcdf.tpp" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="AnEnWriteNcdf.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="AnEnWriteNcdf.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Analogs.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Analogs.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="BasicData.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -69,9 +110,31 @@
       </item>
       <item path="ForecastsArray.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="Ncdf.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Ncdf.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Ncdf.tpp" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Observations.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Observations.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ObservationsArray.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ObservationsArray.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="Parameters.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Parameters.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="SimilarityMatrices.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="SimilarityMatrices.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="StandardDeviation.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="StandardDeviation.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Stations.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -80,6 +143,12 @@
       <item path="Times.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Times.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Txt.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Txt.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Txt.tpp" ex="false" tool="3" flavor2="0">
       </item>
       <item path="colorTexts.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -106,9 +175,25 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
-      <item path="Array4D.cpp" ex="false" tool="1" flavor2="0">
+      <item path="AnEnNames.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="Array4D.h" ex="false" tool="3" flavor2="0">
+      <item path="AnEnRead.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="AnEnRead.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="AnEnReadNcdf.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="AnEnReadNcdf.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="AnEnReadNcdf.tpp" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="AnEnWriteNcdf.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="AnEnWriteNcdf.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Analogs.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Analogs.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="BasicData.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -124,9 +209,31 @@
       </item>
       <item path="ForecastsArray.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="Ncdf.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Ncdf.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Ncdf.tpp" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Observations.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Observations.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ObservationsArray.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ObservationsArray.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="Parameters.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Parameters.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="SimilarityMatrices.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="SimilarityMatrices.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="StandardDeviation.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="StandardDeviation.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Stations.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -135,6 +242,12 @@
       <item path="Times.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Times.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Txt.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Txt.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Txt.tpp" ex="false" tool="3" flavor2="0">
       </item>
       <item path="colorTexts.h" ex="false" tool="3" flavor2="0">
       </item>

@@ -27,6 +27,10 @@
 #include <boost/multi_index/tag.hpp>
 #include <boost/multi_index/mem_fun.hpp>
 
+static const std::string _DEFAULT_NAME = "UNDEFINED";
+static const double _DEFAULT_WEIGHT = NAN;
+static const bool _DEFAULT_CIRCULAR = false;
+
 /**
  * \class Parameter
  * 
@@ -42,32 +46,19 @@ public:
     /**
      * Initialize parameter.
      * @param name Parameter name.
-     */
-    Parameter(std::string name);
-
-    /**
-     * Initialize parameter.
-     * @param name Parameter name.
-     * @param weight Parameter weight.
-     */
-    Parameter(std::string name, double weight);
-
-    /**
-     * Initialize parameter.
-     * @param name Parameter name.
-     * @param weight Parameter weight.
      * @param circular Whether parameter is circular.
      */
-    Parameter(std::string name, double weight, bool circular);
-
-    /**
-     * Initialize parameter.
-     * @param name Parameter name.
-     * @param circular Whether parameter is circular.
-     */
-    Parameter(std::string name, bool circular);
-
     Parameter(const Parameter& other);
+    
+    /**
+     * Initialize parameter.
+     * @param name Parameter name.
+     * @param weight Parameter weight.
+     * @param circular Whether parameter is circular.
+     */
+    Parameter(std::string name,
+    double weight = _DEFAULT_WEIGHT, bool circular = _DEFAULT_CIRCULAR);
+
 
     virtual ~Parameter();
 
@@ -82,7 +73,6 @@ public:
      * @return A boolean for whether this < right.
      */
     bool operator<(const Parameter& right) const;
-    bool literalCompare(const Parameter & rhs) const;
 
     void setName(std::string);
     void setWeight(double);
@@ -91,28 +81,14 @@ public:
     std::string getName() const;
     double getWeight() const;
     bool getCircular() const;
-    std::size_t getID() const;
-    static std::size_t getStaticID();
 
     void print(std::ostream &) const;
     friend std::ostream& operator<<(std::ostream&, Parameter const &);
 
 private:
-    void setID_();
-
-    /**
-     * This is a unique identifier that is used to keep track of parameters.
-     */
-    std::size_t ID_;
-
     std::string name_;
     double weight_;
     bool circular_;
-
-    /**
-     * Static variable for serial number identification.
-     */
-    static size_t _static_ID_;
 };
 
 /**
@@ -125,12 +101,6 @@ using multiIndexParameters = boost::multi_index_container<
         // Order by insertion
         boost::multi_index::random_access<
         boost::multi_index::tag<By::insert> >,
-
-        // Order by ID
-        boost::multi_index::hashed_unique<
-        boost::multi_index::tag<By::ID>,
-        boost::multi_index::const_mem_fun<
-        Parameter, std::size_t, &Parameter::getID> >,
 
         // Access by name
         boost::multi_index::hashed_non_unique<
@@ -157,21 +127,13 @@ public:
     virtual ~Parameters();
 
     /**
-     * Gets the parameter index by ID.
-     * 
-     * @param parameter_ID The parameter ID.
-     * @return The parameter index.
-     */
-    std::size_t getParameterIndex(std::size_t parameter_ID) const;
-
-    /**
      * Gets the parameter by name. If multiple parameters have the same
      * name, this function returns the first parameter found.
      * 
      * @param name The name of the parameter
      * @return Parameter.
      */
-    Parameter getParameterByName(std::string name) const;
+    Parameter const & getParameterByName(std::string name) const;
 
     void print(std::ostream &) const;
     friend std::ostream& operator<<(std::ostream&, Parameters const &);
