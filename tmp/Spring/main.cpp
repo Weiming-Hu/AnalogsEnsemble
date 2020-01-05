@@ -15,6 +15,8 @@
 #include "ForecastsArray.h"
 #include "ObservationsArray.h"
 #include "AnEnReadNcdf.h"
+#include <iostream>
+#include <cmath>
 
 using namespace std;
 
@@ -32,9 +34,12 @@ int main(int argc, char** argv) {
     read_nc.readForecasts(forecast_file, forecasts);
     read_nc.readObservations(observation_file, observations);
 
-    cout << forecasts;
-    cout << observations;
+    //    cout << forecasts;
+    //    cout << observations;
+    //    
     
+    
+    cout << forecasts.getTimes() << endl;
     return 0;
 }
 

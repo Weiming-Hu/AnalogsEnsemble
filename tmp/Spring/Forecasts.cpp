@@ -28,7 +28,7 @@ Forecasts::Forecasts() {
 }
 
 Forecasts::Forecasts(const Parameters & parameters, const Stations & stations,
-        const Times & times, const FLTs & flts) : BasicData(parameters, stations, times),
+        const Times & times, const Times & flts) : BasicData(parameters, stations, times),
 flts_(flts) {
 //    parameters_ = parameters;
 //    stations_ = stations;
@@ -45,12 +45,12 @@ Forecasts::Forecasts(const Forecasts & orig) : BasicData(orig) {
 Forecasts::~Forecasts() {
 }
 
-FLTs const &
+Times const &
 Forecasts::getFLTs() const {
     return flts_;
 }
 
-FLTs &
+Times &
 Forecasts::getFLTs() {
     return flts_;
 }

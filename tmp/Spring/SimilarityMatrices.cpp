@@ -19,46 +19,9 @@
 #include <omp.h>
 #endif
 
-// Overload swap function for sortRows
-//
-// Ref:
-// http://coliru.stacked-crooked.com/a/bfbb5a98995cc2a4
-// https://stackoverflow.com/questions/36117142/sorting-boosts-multi-array-using-sort-function-and-a-recursive-comparator
-//
-struct matrixSort {
-    SimilarityMatrices::COL_TAG order_tag;
+using namespace std;
+//using COL_TAG = SimilarityMatrices::COL_TAG;
 
-    template < typename T, size_t dims > using sub_array =
-    boost::detail::multi_array::sub_array < T, dims >;
-
-    template < typename T, size_t dims >
-    bool operator()(sub_array < T, dims > const &lhs, sub_array < T,
-            dims > const &rhs) const {
-        if (std::isnan(lhs[order_tag])) return false;
-        if (std::isnan(rhs[order_tag])) return true;
-        return (lhs[order_tag] < rhs[order_tag]);
-    }
-
-    template < typename T, size_t dims >
-    bool operator()(boost::multi_array < T, dims > const &lhs,
-            sub_array < T, dims > const &rhs) const {
-        if (std::isnan(lhs[order_tag])) return false;
-        if (std::isnan(rhs[order_tag])) return true;
-        return (lhs[order_tag] < rhs[order_tag]);
-    }
-
-    template < typename T, size_t dims >
-    bool operator()(sub_array < T, dims > const &lhs,
-            boost::multi_array < T, dims > const &rhs) const {
-        if (std::isnan(lhs[order_tag])) return false;
-        if (std::isnan(rhs[order_tag])) return true;
-        return (lhs[order_tag] < rhs[order_tag]);
-    }
-
-    template < typename T > bool operator()(T lhs, T rhs) const {
-        return std::less < T > () (lhs, rhs);
-    }
-};
 
 namespace boost {
     namespace detail {
@@ -67,35 +30,29 @@ namespace boost {
             template < typename T, size_t dims >
             static void swap(sub_array < T, dims > lhs,
                     sub_array < T, dims > rhs) {
-                using std::swap;
-                for (auto ai = lhs.begin(), bi = rhs.begin();
-                        ai != lhs.end() && bi != rhs.end(); ++ai, ++bi) {
-                    swap(*ai, *bi);
-                }
+                return SimilarityMatrices::swap(lhs, rhs);
             }
         }
     }
 }
 
-using namespace std;
-using boost::detail::multi_array::swap;
-using COL_TAG = SimilarityMatrices::COL_TAG;
+
+
 
 const static int _NUM_COLS = 3;
-
 
 SimilarityMatrices::SimilarityMatrices(size_t max_entries) :
 max_entries_(max_entries), order_tag_(VALUE) {
 }
 
-SimilarityMatrices::SimilarityMatrices(
-        const Forecasts& forecasts, size_t max_entries) {
-    max_entries_ = max_entries;
-    order_tag_ = VALUE;
-    resize(forecasts.getStations().size(),
-            forecasts.getTimes().size(),
-            forecasts.getFLTs().size());
-}
+//SimilarityMatrices::SimilarityMatrices(
+//        const Forecasts& forecasts, size_t max_entries) {
+//    max_entries_ = max_entries;
+//    order_tag_ = VALUE;
+//    resize(forecasts.getStations().size(),
+//            forecasts.getTimes().size(),
+//            forecasts.getFLTs().size());
+//}
 
 SimilarityMatrices::SimilarityMatrices(const size_t& num_stations,
         const size_t& num_times, const size_t& num_flts,
@@ -122,35 +79,33 @@ SimilarityMatrices::resize(size_t dim0, size_t dim1, size_t dim2) {
     }
 }
 
-bool
-SimilarityMatrices::checkSearchSpaceExtension() const {
-    size_t dim0 = this->shape()[0], dim1 = this->shape()[1],
-            dim2 = this->shape()[2], dim3 = this->shape()[3];
-            
-    for (size_t i_dim0 = 0; i_dim0 < dim0; i_dim0++) {
-        for (size_t i_dim1 = 0; i_dim1 < dim1; i_dim1++) {
-            for (size_t i_dim2 = 0; i_dim2 < dim2; i_dim2++) {
-                set<double> stations;
-
-                for (size_t i_dim3 = 0; i_dim3 < dim3; i_dim3++) {
-                    stations.insert((*this)[i_dim0][i_dim1][i_dim2][i_dim3][COL_TAG::STATION]);
-                }
-                
-                if (stations.size() != 1) {
-                    return(true);
-                }
-            }
-        }
-    }
-
-    return(false);
-}
+//bool
+//SimilarityMatrices::checkSearchSpaceExtension() const {
+//    size_t dim0 = this->shape()[0], dim1 = this->shape()[1],
+//            dim2 = this->shape()[2], dim3 = this->shape()[3];
+//
+//    for (size_t i_dim0 = 0; i_dim0 < dim0; i_dim0++) {
+//        for (size_t i_dim1 = 0; i_dim1 < dim1; i_dim1++) {
+//            for (size_t i_dim2 = 0; i_dim2 < dim2; i_dim2++) {
+//                set<double> stations;
+//
+//                for (size_t i_dim3 = 0; i_dim3 < dim3; i_dim3++) {
+//                    stations.insert((*this)[i_dim0][i_dim1][i_dim2][i_dim3][COL_TAG::STATION]);
+//                }
+//
+//                if (stations.size() != 1) {
+//                    return (true);
+//                }
+//            }
+//        }
+//    }
+//
+//    return (false);
+//}
 
 bool
 SimilarityMatrices::sortRows(bool quick, size_t length, COL_TAG col_tag) {
 
-    matrixSort sortFunc;
-    sortFunc.order_tag = col_tag;
     order_tag_ = col_tag;
 
     // Define variables for perfectly nested parallel loops with collapse
@@ -183,10 +138,10 @@ collapse(3) shared(quick, sortFunc, length, limit_i, limit_j, limit_k)
         for (size_t j = 0; j < limit_j; j++) {
             for (size_t k = 0; k < limit_k; k++) {
                 if (quick) {
-#ifdef __clang__
-                    sort((*this)[i][j][k].begin(),
-                            (*this)[i][j][k].end(), sortFunc);
-#else
+                    //#ifdef __clang__
+                    //                    sort((*this)[i][j][k].begin(),
+                    //                            (*this)[i][j][k].end(), sortFunc);
+                    //#else
                     // Clang checks for forward iterator earlier 
                     // than GNU, which would cause this problem of
                     // mis-thinking the arguments not being iterators.
@@ -196,16 +151,17 @@ collapse(3) shared(quick, sortFunc, length, limit_i, limit_j, limit_k)
                     //
                     nth_element((*this)[i][j][k].begin(),
                             (*this)[i][j][k].begin() + length,
-                            (*this)[i][j][k].end(), sortFunc);
-#endif
+                            (*this)[i][j][k].end());
+                    //#endif
                 } else {
-                    sort((*this)[i][j][k].begin(),
-                            (*this)[i][j][k].end(), sortFunc);
+                    partial_sort((*this)[i][j][k].begin(),
+                            (*this)[i][j][k].begin() + length,
+                            (*this)[i][j][k].end());
                 }
             }
         }
     }
-    
+
     return true;
 }
 
@@ -229,7 +185,7 @@ SimilarityMatrices::getMaxEntries() {
     return max_entries_;
 }
 
-COL_TAG
+SimilarityMatrices::COL_TAG
 SimilarityMatrices::getOrderTag() const {
     return order_tag_;
 }

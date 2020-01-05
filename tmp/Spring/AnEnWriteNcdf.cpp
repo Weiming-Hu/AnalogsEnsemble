@@ -37,7 +37,7 @@ AnEnWriteNcdf::writeAnalogs(
         const Analogs & analogs,
         const Stations & analogs_stations,
         const Times & analogs_times,
-        const FLTs & analogs_flts,
+        const Times & analogs_flts,
         const Stations & search_stations,
         const Times & search_times) const {
 
@@ -116,7 +116,7 @@ AnEnWriteNcdf::append_(const NcFile & nc, const Analogs & analogs) const {
 
 void
 AnEnWriteNcdf::append_(const NcFile & nc,
-        const FLTs & flts, bool unlimited) const {
+        const Times & flts, bool unlimited) const {
     
     if (verbose_ >= Verbose::Detail) cout << "Appending lead times ..." << endl;
     

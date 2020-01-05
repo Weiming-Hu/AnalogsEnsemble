@@ -26,14 +26,14 @@ boost::fortran_storage_order()) {
     search_stations.resize(num_stations);
 }
 
-Analogs::Analogs(const Forecasts& forecasts, size_t num_members) :
-boost::multi_array<double, 5>(
-boost::extents[forecasts.getStations().size()][forecasts.getTimes().size()]
-[forecasts.getFLTs().size()][num_members][_NUM_COLS],
-boost::fortran_storage_order()) {
-
-    search_stations.resize(forecasts.getStations().size());
-}
+//Analogs::Analogs(const Forecasts& forecasts, size_t num_members) :
+//boost::multi_array<double, 5>(
+//boost::extents[forecasts.getStations().size()][forecasts.getTimes().size()]
+//[forecasts.getFLTs().size()][num_members][_NUM_COLS],
+//boost::fortran_storage_order()) {
+//
+//    search_stations.resize(forecasts.getStations().size());
+//}
 
 Analogs::~Analogs() {
 }
@@ -46,6 +46,8 @@ Analogs::print(std::ostream & os) const {
     size_t dim4 = shape()[3];
     size_t dim5 = shape()[4];
 
+    
+    // TODO: This print function can be shared between Analogs, SimilarityMatrices, Forecasts, and Observations, STD
     for (size_t i_dim1 = 0; i_dim1 < dim1; i_dim1++) {
         for (size_t i_dim2 = 0; i_dim2 < dim2; i_dim2++) {
             for (size_t i_dim3 = 0; i_dim3 < dim3; i_dim3++) {

@@ -4,6 +4,7 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <itemPath>AnEn.h</itemPath>
       <itemPath>AnEnDefault.h</itemPath>
       <itemPath>AnEnNames.h</itemPath>
       <itemPath>AnEnRead.h</itemPath>
@@ -15,12 +16,14 @@
       <itemPath>By.h</itemPath>
       <itemPath>Forecasts.h</itemPath>
       <itemPath>ForecastsArray.h</itemPath>
+      <itemPath>Functions.h</itemPath>
       <itemPath>Ncdf.h</itemPath>
       <itemPath>Ncdf.tpp</itemPath>
       <itemPath>Observations.h</itemPath>
       <itemPath>ObservationsArray.h</itemPath>
       <itemPath>Parameters.h</itemPath>
       <itemPath>SimilarityMatrices.h</itemPath>
+      <itemPath>SimilarityMatrices.tpp</itemPath>
       <itemPath>StandardDeviation.h</itemPath>
       <itemPath>Stations.h</itemPath>
       <itemPath>Times.h</itemPath>
@@ -31,6 +34,7 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+      <itemPath>AnEn.cpp</itemPath>
       <itemPath>AnEnRead.cpp</itemPath>
       <itemPath>AnEnReadNcdf.cpp</itemPath>
       <itemPath>AnEnWriteNcdf.cpp</itemPath>
@@ -38,6 +42,7 @@
       <itemPath>BasicData.cpp</itemPath>
       <itemPath>Forecasts.cpp</itemPath>
       <itemPath>ForecastsArray.cpp</itemPath>
+      <itemPath>Functions.cpp</itemPath>
       <itemPath>Ncdf.cpp</itemPath>
       <itemPath>Observations.cpp</itemPath>
       <itemPath>ObservationsArray.cpp</itemPath>
@@ -77,6 +82,10 @@
           <commandLine>-lboost_system -lboost_filesystem -lnetcdf-cxx4</commandLine>
         </linkerTool>
       </compileType>
+      <item path="AnEn.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="AnEn.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="AnEnDefault.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="AnEnNames.h" ex="false" tool="3" flavor2="0">
@@ -113,6 +122,10 @@
       </item>
       <item path="ForecastsArray.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="Functions.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Functions.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="Ncdf.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Ncdf.h" ex="false" tool="3" flavor2="0">
@@ -134,6 +147,8 @@
       <item path="SimilarityMatrices.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="SimilarityMatrices.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="SimilarityMatrices.tpp" ex="false" tool="3" flavor2="0">
       </item>
       <item path="StandardDeviation.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -178,6 +193,10 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
+      <item path="AnEn.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="AnEn.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="AnEnDefault.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="AnEnNames.h" ex="false" tool="3" flavor2="0">
@@ -214,6 +233,10 @@
       </item>
       <item path="ForecastsArray.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="Functions.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Functions.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="Ncdf.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Ncdf.h" ex="false" tool="3" flavor2="0">
@@ -235,6 +258,8 @@
       <item path="SimilarityMatrices.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="SimilarityMatrices.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="SimilarityMatrices.tpp" ex="false" tool="3" flavor2="0">
       </item>
       <item path="StandardDeviation.cpp" ex="false" tool="1" flavor2="0">
       </item>

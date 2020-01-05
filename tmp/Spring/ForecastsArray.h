@@ -23,7 +23,7 @@ public:
     ForecastsArray();
     ForecastsArray(const ForecastsArray& orig);
     ForecastsArray(const Parameters &, const Stations &,
-            const Times &, const FLTs &);
+            const Times &, const Times &);
 
     virtual ~ForecastsArray();
 
@@ -33,7 +33,7 @@ public:
     double* getValuesPtr() override;
 
     void setDimensions(const Parameters &, const Stations &,
-            const Times &, const FLTs &) override;
+            const Times &, const Times &) override;
 
     double getValue(std::size_t parameter_index, std::size_t station_index,
             std::size_t time_index, std::size_t flt_index) const override;

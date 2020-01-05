@@ -9,22 +9,23 @@
 #ifndef TIME_H
 #define TIME_H
 
-#include "By.h"
+//#include "By.h"
 
 #include <string>
 #include <iostream>
+#include <set>
 
-#ifndef BOOST_NO_AUTO_PTR
-#define BOOST_NO_AUTO_PTR
-#endif
-
-#include <boost/multi_index/tag.hpp>
-#include <boost/multi_index/mem_fun.hpp>
-#include <boost/multi_index/identity.hpp>
-#include <boost/multi_index_container.hpp>
-#include <boost/multi_index/global_fun.hpp>
-#include <boost/multi_index/hashed_index.hpp>
-#include <boost/multi_index/random_access_index.hpp>
+//#ifndef BOOST_NO_AUTO_PTR
+//#define BOOST_NO_AUTO_PTR
+//#endif
+//
+//#include <boost/multi_index/tag.hpp>
+//#include <boost/multi_index/mem_fun.hpp>
+//#include <boost/multi_index/identity.hpp>
+//#include <boost/multi_index_container.hpp>
+//#include <boost/multi_index/global_fun.hpp>
+//#include <boost/multi_index/hashed_index.hpp>
+//#include <boost/multi_index/random_access_index.hpp>
 
 /**
  * Although times are implemented as double container, the precision is not
@@ -46,27 +47,55 @@
  * @param ori The original double value.
  * @return The multiplied and truncated size_t value.
  */
-size_t roundPrecision(const double& ori);
+//size_t roundPrecision(const double& ori);
 
-/**
- * Base class for Times
- */
-using multiIndexTimes = boost::multi_index_container<
+class Time  {
 
-        // This is the base class
-        double,
+public:
+    Time();
+    Time( double );
+    Time( const Time & );
+    
+    virtual ~Time();
 
-        boost::multi_index::indexed_by<
+//  This is where we store the actual data
+    double timestamp;
+    
+    Time & operator=(const Time & rhs);
+    Time & operator=(double rhs);
+    bool operator<(const Time &) const;
+ 
+    // Static they are the same for each object
+    static std::string unit;
+    static std::string origin;
+    
+    void print(std::ostream & os) const;
+    friend std::ostream& operator<<(std::ostream& os, Time const & obj);
+    
+};
 
-        // Order by insertion sequence
-        boost::multi_index::random_access<
-        boost::multi_index::tag<By::insert> >,
 
-        // Order by value
-        boost::multi_index::hashed_unique<
-        boost::multi_index::tag<By::value>,
-        boost::multi_index::global_fun<
-        const double&, size_t, &roundPrecision> > > >;
+//
+//
+///**
+// * Base class for Times
+// */
+//using multiIndexTimes = boost::multi_index_container<
+//
+//        // This is the base class
+//        Time,
+//
+//        boost::multi_index::indexed_by<
+//
+//        // Order by insertion sequence
+//        boost::multi_index::random_access<
+//        boost::multi_index::tag<By::insert> >,
+//
+//        // Order by value
+//        boost::multi_index::hashed_unique<
+//        boost::multi_index::tag<By::value>,
+//        boost::multi_index::global_fun<
+//        const double&, size_t, &roundPrecision> > > >;
 
 /**
  * \class Times
@@ -80,24 +109,19 @@ using multiIndexTimes = boost::multi_index_container<
  * 2. Timestamps are kept in sequence of insertion, and have random access;
  * 3. Timestamps are accessible via values.
  */
-class Times : public multiIndexTimes {
+class Times : public std::set< Time > {
 public:
     Times();
-    Times(std::string unit);
-    Times(std::string unit, std::string origin);
-
     virtual ~Times();
 
     Times & operator=(const Times & rhs);
-
-    size_t getTimeIndex(double timestamp) const;
+    
+    //size_t getTimeIndex(double timestamp) const;
 
     void print(std::ostream & os) const;
     friend std::ostream& operator<<(std::ostream& os, Times const & obj);
 
 protected:
-    std::string unit_;
-    std::string origin_;
 };
 
 /**
@@ -113,10 +137,10 @@ protected:
  * 2. Timestamps are kept in sequence of insertion, and have random access;
  * 3. Timestamps are accessible via values.
  */
-class FLTs : public Times {
-    void print(std::ostream & os) const;
-    friend std::ostream& operator<<(std::ostream& os, FLTs const & obj);
-};
+//class FLTs : public Times {
+//    void print(std::ostream & os) const;
+//    friend std::ostream& operator<<(std::ostream& os, FLTs const & obj);
+//};
 
 #endif /* TIME_H */
 

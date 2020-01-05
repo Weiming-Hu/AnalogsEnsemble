@@ -22,7 +22,7 @@ public:
     Forecasts();
     Forecasts(Forecasts const & orig);
     Forecasts(const Parameters &, const Stations &,
-            const Times &, const FLTs &);
+            const Times &, const Times &);
     
     
     virtual ~Forecasts();
@@ -54,7 +54,7 @@ public:
      */
     virtual void setDimensions(const Parameters & parameters,
             const Stations & stations, const Times & times,
-            const FLTs & flts) = 0;
+            const Times & flts) = 0;
 
     /**
      * Gets or sets a value using the array indices.
@@ -75,14 +75,14 @@ public:
      *                           Member Functions                             *
      **************************************************************************/
     
-    FLTs const & getFLTs() const;
-    FLTs & getFLTs();
+    Times const & getFLTs() const;
+    Times & getFLTs();
     
     virtual void print(std::ostream &) const;
     friend std::ostream& operator<<(std::ostream&, Forecasts const &);
 
 protected:
-    FLTs flts_;
+    Times flts_;
 };
 
 #endif /* FORECASTS_H */

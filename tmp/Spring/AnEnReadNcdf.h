@@ -90,9 +90,6 @@ protected:
     void read_(const netCDF::NcFile & nc, Times & times,
             const std::string & var_name,
             size_t start = 0, size_t count = 0) const;
-    void read_(const netCDF::NcFile & nc, FLTs & flts,
-            const std::string & var_name,
-            size_t start = 0, size_t count = 0) const;
     
     void checkFileType_(const netCDF::NcFile & nc, FileType file_type) const;
 

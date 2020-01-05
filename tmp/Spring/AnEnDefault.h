@@ -15,9 +15,9 @@
 /**
  * The AnEnDefault namespace includes default values used throughout the project.
  */
-namespace AnEnDefault {
+namespace AnEnDefaults {
     static const std::string _NAME = "UNDEFINED";
-    static const double _WEIGHT = NAN;
+    static const double _WEIGHT = 1;
     static const bool _CIRCULAR = false;
     static const double _X = 0.0;
     static const double _Y = 0.0;

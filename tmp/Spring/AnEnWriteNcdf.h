@@ -10,6 +10,9 @@
 
 #include "Ncdf.h"
 #include "Analogs.h"
+#include "Stations.h"
+#include "Times.h"
+#include "Parameters.h"
 
 class AnEnWriteNcdf {
 public:
@@ -24,12 +27,14 @@ public:
     // if any, must be printed.
     //
 
+    // TODO: Move this to defaults
     enum class Verbose {
         Error = 0, Warning = 1, Progress = 2,
         Detail = 3, Debug = 4
     };
 
     AnEnWriteNcdf();
+    // TODO: Default value can come from the default list
     AnEnWriteNcdf(Verbose verbose);
     AnEnWriteNcdf(const AnEnWriteNcdf& orig);
     virtual ~AnEnWriteNcdf();
@@ -38,7 +43,7 @@ public:
             const Analogs & analogs,
             const Stations & analog_stations,
             const Times & analog_times,
-            const FLTs & analog_flts,
+            const Times & analog_flts,
             const Stations & search_stations,
             const Times & search_times) const;
 
@@ -49,7 +54,7 @@ protected:
             std::string name, size_t len = 0) const;
 
     void append_(const netCDF::NcFile & nc, const Analogs & analogs) const;
-    void append_(const netCDF::NcFile & nc, const FLTs & flts,
+    void append_(const netCDF::NcFile & nc, const Times & flts,
             bool unlimited) const;
 
 };

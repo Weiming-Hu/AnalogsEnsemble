@@ -9,7 +9,7 @@
 #define ANALOGS_H
 
 #include "boost/multi_array.hpp"
-#include "Forecasts.h"
+//#include "Forecasts.h"
 
 /**
  * \class Analogs
@@ -27,7 +27,7 @@ public:
     Analogs();
     Analogs(size_t num_stations, size_t num_times,
             size_t num_flts, size_t num_members);
-    Analogs(const Forecasts & forecasts, size_t num_members);
+  //  Analogs(const Forecasts & forecasts, size_t num_members);
     Analogs(const Analogs& orig) = delete;
     virtual ~Analogs();
 

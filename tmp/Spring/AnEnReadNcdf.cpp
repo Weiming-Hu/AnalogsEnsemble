@@ -80,7 +80,7 @@ AnEnReadNcdf::readForecasts(const string & file_path,
     Parameters parameters;
     Stations stations;
     Times times;
-    FLTs flts;
+    Times flts;
 
     // Read meta information
     if (entire) {
@@ -382,7 +382,16 @@ AnEnReadNcdf::read_(const netCDF::NcFile & nc, Times & times,
         readVector(nc, var_name, vec, {start}, {count});
     }
 
-    times.insert(times.end(), vec.begin(), vec.end());
+    // TODO check this
+//    Times temp;
+//    
+//    for ( auto iter = vec.begin() ; iter < vec.end() ; iter++ ) {
+//        temp.insert(Time(*iter));
+//    }
+//    
+    
+    // TODO: We can directly insert into the set rather than copying from a vector. 
+    times.insert(vec.begin(), vec.end());
     
     if (vec.size() != times.size()) {
         ostringstream msg;
@@ -391,41 +400,6 @@ AnEnReadNcdf::read_(const netCDF::NcFile & nc, Times & times,
         throw runtime_error(msg.str());
     }
     
-    return;
-}
-
-void
-AnEnReadNcdf::read_(const netCDF::NcFile & nc, FLTs & flts,
-        const string & var_name, size_t start, size_t count) const {
-
-    if (verbose_ >= Verbose::Detail) cout << "Reading lead times ..." << endl;
-    vector<double> vec;
-
-    if (start == 0 || count == 0) {
-        readVector(nc, var_name, vec);
-    } else{
-        // If it is partial reading, check the indices
-        const auto & dims = nc.getVar(var_name).getDims();
-
-        if (dims.size() != 1) {
-            ostringstream msg;
-            msg << BOLDRED << var_name << " should be 1-dimensional." << RESET;
-            throw runtime_error(msg.str());
-        }
-
-        checkIndex(start, count, dims[0].getSize());
-        readVector(nc, var_name, vec, {start}, {count});
-    }
-
-    flts.insert(flts.end(), vec.begin(), vec.end());
-
-    if (vec.size() != flts.size()) {
-        ostringstream msg;
-        msg << BOLDRED << var_name << " have duplicates! Total: " <<
-                vec.size() << " Unique: " << flts.size() << RESET;
-        throw runtime_error(msg.str());
-    }
-
     return;
 }
 

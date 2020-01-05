@@ -43,7 +43,7 @@ class Station final {
 public:
     Station();
     Station(Station const &);
-    Station(std::string, double x = AnEnDefault::_X, double = AnEnDefault::_Y);
+    Station(std::string, double x = AnEnDefaults::_X, double = AnEnDefaults::_Y);
 
     virtual ~Station();
 
@@ -169,7 +169,7 @@ public:
      * Check whether x and y are provided for all stations.
      * @return A boolean.
      */
-    bool haveXY() const;
+    //bool haveXY() const;
 
     void print(std::ostream &) const;
     friend std::ostream& operator<<(std::ostream&, Stations const &);

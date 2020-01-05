@@ -54,8 +54,8 @@ public:
      * @param circular Whether parameter is circular.
      */
     Parameter(std::string name,
-            double weight = AnEnDefault::_WEIGHT,
-            bool circular = AnEnDefault::_CIRCULAR);
+            double weight = AnEnDefaults::_WEIGHT,
+            bool circular = AnEnDefaults::_CIRCULAR);
 
 
     virtual ~Parameter();

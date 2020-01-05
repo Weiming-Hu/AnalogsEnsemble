@@ -35,6 +35,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/AnEn.o \
 	${OBJECTDIR}/AnEnRead.o \
 	${OBJECTDIR}/AnEnReadNcdf.o \
 	${OBJECTDIR}/AnEnWriteNcdf.o \
@@ -42,6 +43,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/BasicData.o \
 	${OBJECTDIR}/Forecasts.o \
 	${OBJECTDIR}/ForecastsArray.o \
+	${OBJECTDIR}/Functions.o \
 	${OBJECTDIR}/Ncdf.o \
 	${OBJECTDIR}/Observations.o \
 	${OBJECTDIR}/ObservationsArray.o \
@@ -78,6 +80,11 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/spring: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/spring ${OBJECTFILES} ${LDLIBSOPTIONS} -lboost_system -lboost_filesystem -lnetcdf-cxx4
 
+${OBJECTDIR}/AnEn.o: AnEn.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/AnEn.o AnEn.cpp
+
 ${OBJECTDIR}/AnEnRead.o: AnEnRead.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
@@ -112,6 +119,11 @@ ${OBJECTDIR}/ForecastsArray.o: ForecastsArray.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ForecastsArray.o ForecastsArray.cpp
+
+${OBJECTDIR}/Functions.o: Functions.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Functions.o Functions.cpp
 
 ${OBJECTDIR}/Ncdf.o: Ncdf.cpp
 	${MKDIR} -p ${OBJECTDIR}

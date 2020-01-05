@@ -18,7 +18,7 @@ ForecastsArray::ForecastsArray() {
 }
 
 ForecastsArray::ForecastsArray(const Parameters & parameters,
-        const Stations & stations, const Times & times, const FLTs & flts) :
+        const Stations & stations, const Times & times, const Times & flts) :
 Forecasts(parameters, stations, times, flts) {
     data_ = boost::multi_array<double, 4> (
             boost::extents[0][0][0][0],
@@ -56,7 +56,7 @@ void
 ForecastsArray::setDimensions(const Parameters & parameters,
         const Stations & stations,
         const Times & times,
-        const FLTs & flts) {
+        const Times & flts) {
 
     parameters_ = parameters;
     stations_ = stations;

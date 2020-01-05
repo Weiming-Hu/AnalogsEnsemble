@@ -20,12 +20,6 @@ namespace By {
          */
     };
 
-    struct ID {
-        /** 
-         * The tag for ID-based indexing
-         */
-    };
-
     struct name {
         /** 
          * The tag for name-based indexing

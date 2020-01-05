@@ -14,6 +14,8 @@
 
 #include "boost/numeric/ublas/matrix.hpp"
 
+// TODO: Change this to a AnEnReadText and AnEnWriteText
+
 /**
  * Namespace ReadTxt provides functionality for txt file I/O.
  */
@@ -23,7 +25,7 @@ namespace Txt {
         Read, Write
     };
 
-    void checkPath(const std::string & file_path, Mode mode);
+    void checkPath(const std::string & file_path, Mode mode, const std::string & extension = ".txt");
 
     /************************************************************************
      *                         Template Functions                           *

@@ -25,8 +25,8 @@ using namespace std;
  *                              Parameter                                  *
  **************************************************************************/
 
-Parameter::Parameter() : name_(AnEnDefault::_NAME), weight_(AnEnDefault::_WEIGHT),
-        circular_(AnEnDefault::_CIRCULAR) {
+Parameter::Parameter() : name_(AnEnDefaults::_NAME), weight_(AnEnDefaults::_WEIGHT),
+        circular_(AnEnDefaults::_CIRCULAR) {
 }
 
 
