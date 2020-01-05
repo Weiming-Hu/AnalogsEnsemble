@@ -96,11 +96,7 @@ public:
     friend std::ostream& operator<<(std::ostream& os, Times const & obj);
 
 protected:
-    std::string unit_ = "seconds";
-
-    /**
-     * The origin of time. By default, it is 1970-01-01 00:00:00 UTC.
-     */
+    std::string unit_;
     std::string origin_;
 };
 

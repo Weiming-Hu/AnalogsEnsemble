@@ -32,18 +32,13 @@ public:
     virtual ~Analogs();
 
     enum COL_TAG {
-        UNKNOWN = -999,
-        VALUE = 0,
-        STATION = 1,
-        TIME = 2
+        VALUE = 0, STATION = 1, TIME = 2
     };
 
     void print(std::ostream &) const;
     friend std::ostream & operator<<(std::ostream &, const Analogs &);
 
     std::vector< std::vector<size_t> > search_stations;
-    
-    const static int _NUM_COLS = 3;
 };
 
 #endif /* ANALOGS_H */

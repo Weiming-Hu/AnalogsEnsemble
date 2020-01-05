@@ -39,44 +39,7 @@ public:
     ~SimilarityMatrices();
 
     enum COL_TAG {
-        VALUE = 0,
-        STATION = 1,
-        TIME = 2
-    };
-
-    struct matrixSort {
-        COL_TAG order_tag;
-
-        template < typename T, size_t dims > using sub_array =
-        boost::detail::multi_array::sub_array < T, dims >;
-
-        template < typename T, size_t dims >
-        bool operator()(sub_array < T, dims > const &lhs, sub_array < T,
-                dims > const &rhs) const {
-            if (std::isnan(lhs[order_tag])) return false;
-            if (std::isnan(rhs[order_tag])) return true;
-            return (lhs[order_tag] < rhs[order_tag]);
-        }
-
-        template < typename T, size_t dims >
-        bool operator()(boost::multi_array < T, dims > const &lhs,
-                sub_array < T, dims > const &rhs) const {
-            if (std::isnan(lhs[order_tag])) return false;
-            if (std::isnan(rhs[order_tag])) return true;
-            return (lhs[order_tag] < rhs[order_tag]);
-        }
-
-        template < typename T, size_t dims >
-        bool operator()(sub_array < T, dims > const &lhs,
-                boost::multi_array < T, dims > const &rhs) const {
-            if (std::isnan(lhs[order_tag])) return false;
-            if (std::isnan(rhs[order_tag])) return true;
-            return (lhs[order_tag] < rhs[order_tag]);
-        }
-
-        template < typename T > bool operator()(T lhs, T rhs) const {
-            return std::less < T > () (lhs, rhs);
-        }
+        VALUE = 0, STATION = 1, TIME = 2
     };
 
     void resize(size_t dim0, size_t dim1, size_t dim2);
@@ -106,12 +69,10 @@ public:
     void printSize(std::ostream &) const;
     friend std::ostream & operator<<(std::ostream &,
             const SimilarityMatrices&);
-    
-    const static int _NUM_COLS = 3;
 
 private:
 
-    COL_TAG order_tag_ = VALUE;
+    COL_TAG order_tag_;
     size_t max_entries_;
 };
 

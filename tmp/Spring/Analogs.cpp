@@ -9,6 +9,8 @@
 
 using namespace std;
 
+const static int _NUM_COLS = 3;
+
 Analogs::Analogs() :
 boost::multi_array<double, 5>(
 boost::extents[0][0][0][0][_NUM_COLS],

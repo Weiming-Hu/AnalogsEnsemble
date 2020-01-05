@@ -9,7 +9,8 @@
 #define BY_H
 
 /**
- * The namespace By is created as tags for Boost::multi_index_container.
+ * The namespace By is created as tags for Boost::multi_index_container.  
+ * It contains only several structs as tags for multi_index containers.
  */
 namespace By {
     

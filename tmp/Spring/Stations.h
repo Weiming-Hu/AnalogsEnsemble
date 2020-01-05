@@ -6,6 +6,9 @@
  * Created on April 17, 2018, 10:41 PM
  */
 
+#ifndef STATIONS_H
+#define STATIONS_H
+
 #ifndef BOOST_NO_AUTO_PTR
 #define BOOST_NO_AUTO_PTR
 #endif
@@ -26,12 +29,7 @@
 #include <iostream>
 
 #include "By.h"
-
-const double _DEFAULT_LOCATION = 0.0;
-const std::string _DEFAULT_STATION_NAME = "CIAO";
-
-#ifndef STATIONS_H
-#define STATIONS_H
+#include "AnEnDefault.h"
 
 /**
  * \class Station
@@ -45,9 +43,7 @@ class Station final {
 public:
     Station();
     Station(Station const &);
-    // TODO : Make a Default namespace for sharing
-    Station(std::string, double = _DEFAULT_LOCATION, double = _DEFAULT_LOCATION);
-
+    Station(std::string, double x = AnEnDefault::_X, double = AnEnDefault::_Y);
 
     virtual ~Station();
 
@@ -64,10 +60,8 @@ public:
     void print(std::ostream &) const;
     friend std::ostream& operator<<(std::ostream&, Station const &);
 
-
 private:
-
-    std::string name_ = "UNDEFINED";
+    std::string name_;
     double x_;
     double y_;
     bool location_initialized_;

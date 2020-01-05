@@ -8,18 +8,16 @@
 #include "SimilarityMatrices.h"
 #include "colorTexts.h"
 
-#include <exception>
+#include <stdexcept>
 #include <algorithm>
 #include <exception>
 #include <iostream>
+#include <sstream>
 #include <set>
 
 #if defined(_OPENMP)
 #include <omp.h>
 #endif
-
-using namespace std;
-using COL_TAG = SimilarityMatrices::COL_TAG;
 
 // Overload swap function for sortRows
 //
@@ -27,6 +25,41 @@ using COL_TAG = SimilarityMatrices::COL_TAG;
 // http://coliru.stacked-crooked.com/a/bfbb5a98995cc2a4
 // https://stackoverflow.com/questions/36117142/sorting-boosts-multi-array-using-sort-function-and-a-recursive-comparator
 //
+struct matrixSort {
+    SimilarityMatrices::COL_TAG order_tag;
+
+    template < typename T, size_t dims > using sub_array =
+    boost::detail::multi_array::sub_array < T, dims >;
+
+    template < typename T, size_t dims >
+    bool operator()(sub_array < T, dims > const &lhs, sub_array < T,
+            dims > const &rhs) const {
+        if (std::isnan(lhs[order_tag])) return false;
+        if (std::isnan(rhs[order_tag])) return true;
+        return (lhs[order_tag] < rhs[order_tag]);
+    }
+
+    template < typename T, size_t dims >
+    bool operator()(boost::multi_array < T, dims > const &lhs,
+            sub_array < T, dims > const &rhs) const {
+        if (std::isnan(lhs[order_tag])) return false;
+        if (std::isnan(rhs[order_tag])) return true;
+        return (lhs[order_tag] < rhs[order_tag]);
+    }
+
+    template < typename T, size_t dims >
+    bool operator()(sub_array < T, dims > const &lhs,
+            boost::multi_array < T, dims > const &rhs) const {
+        if (std::isnan(lhs[order_tag])) return false;
+        if (std::isnan(rhs[order_tag])) return true;
+        return (lhs[order_tag] < rhs[order_tag]);
+    }
+
+    template < typename T > bool operator()(T lhs, T rhs) const {
+        return std::less < T > () (lhs, rhs);
+    }
+};
+
 namespace boost {
     namespace detail {
         namespace multi_array {
@@ -44,13 +77,21 @@ namespace boost {
     }
 }
 
+using namespace std;
+using boost::detail::multi_array::swap;
+using COL_TAG = SimilarityMatrices::COL_TAG;
+
+const static int _NUM_COLS = 3;
+
+
 SimilarityMatrices::SimilarityMatrices(size_t max_entries) :
-max_entries_(max_entries) {
+max_entries_(max_entries), order_tag_(VALUE) {
 }
 
 SimilarityMatrices::SimilarityMatrices(
         const Forecasts& forecasts, size_t max_entries) {
     max_entries_ = max_entries;
+    order_tag_ = VALUE;
     resize(forecasts.getStations().size(),
             forecasts.getTimes().size(),
             forecasts.getFLTs().size());
@@ -60,7 +101,8 @@ SimilarityMatrices::SimilarityMatrices(const size_t& num_stations,
         const size_t& num_times, const size_t& num_flts,
         const size_t& max_entries) :
 boost::multi_array<double, 5>(boost::extents[num_stations][num_times]
-[num_flts][max_entries][_NUM_COLS]), max_entries_(max_entries) {
+[num_flts][max_entries][_NUM_COLS]),
+max_entries_(max_entries), order_tag_(VALUE) {
 }
 
 SimilarityMatrices::~SimilarityMatrices() {
@@ -72,9 +114,11 @@ SimilarityMatrices::resize(size_t dim0, size_t dim1, size_t dim2) {
         boost::multi_array < double, 5 >::resize(
                 boost::extents[dim0][dim1][dim2][max_entries_][_NUM_COLS]);
     } catch (bad_alloc & e) {
-        cerr << "ERROR: Insufficient memory to resize similarity matrix to store "
-            << dim0 * dim1 * dim2 * max_entries_ * _NUM_COLS << " double values!" << endl;
-        throw;
+        ostringstream msg;
+        msg << BOLDRED << "Insufficient memory for SimilarityMatrices["
+                << dim0 << "][" << dim1 << "][" << dim2 << "]["
+                << max_entries_ << "][" << _NUM_COLS << "]!" << RESET;
+        throw runtime_error(msg.str());
     }
 }
 
@@ -107,6 +151,7 @@ SimilarityMatrices::sortRows(bool quick, size_t length, COL_TAG col_tag) {
 
     matrixSort sortFunc;
     sortFunc.order_tag = col_tag;
+    order_tag_ = col_tag;
 
     // Define variables for perfectly nested parallel loops with collapse
     auto limit_i = this->shape()[0];
@@ -115,10 +160,8 @@ SimilarityMatrices::sortRows(bool quick, size_t length, COL_TAG col_tag) {
 
 #ifdef __clang__
     if (quick) {
-        cerr << RED << "Warning: Quick sort does not work for Clang anymore."
-            << " If you care about this, use GNU compilers instead."
-            << " Disable quick sort for now."
-            << RESET << endl;
+        cerr << RED << "Warning: Disabling quick sort when Clang is used."
+                << RESET << endl;
         quick = false;
     }
 #endif
@@ -130,14 +173,16 @@ SimilarityMatrices::sortRows(bool quick, size_t length, COL_TAG col_tag) {
                     << " It has been set to the number of entries."
                     << RESET << endl;
         }
+    }
 
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(static) \
-collapse(3) shared(sortFunc, length, limit_i, limit_j, limit_k)
+collapse(3) shared(quick, sortFunc, length, limit_i, limit_j, limit_k)
 #endif
-        for (size_t i = 0; i < limit_i; i++) {
-            for (size_t j = 0; j < limit_j; j++) {
-                for (size_t k = 0; k < limit_k; k++) {
+    for (size_t i = 0; i < limit_i; i++) {
+        for (size_t j = 0; j < limit_j; j++) {
+            for (size_t k = 0; k < limit_k; k++) {
+                if (quick) {
 #ifdef __clang__
                     sort((*this)[i][j][k].begin(),
                             (*this)[i][j][k].end(), sortFunc);
@@ -153,33 +198,20 @@ collapse(3) shared(sortFunc, length, limit_i, limit_j, limit_k)
                             (*this)[i][j][k].begin() + length,
                             (*this)[i][j][k].end(), sortFunc);
 #endif
-                }
-            }
-        }
-
-    } else {
-#if defined(_OPENMP)
-#pragma omp parallel for default(none) schedule(static) \
-collapse(3) shared(sortFunc, limit_i, limit_j, limit_k)
-#endif
-        for (size_t i = 0; i < limit_i; i++) {
-            for (size_t j = 0; j < limit_j; j++) {
-                for (size_t k = 0; k < limit_k; k++) {
+                } else {
                     sort((*this)[i][j][k].begin(),
                             (*this)[i][j][k].end(), sortFunc);
                 }
             }
         }
     }
-
-    order_tag_ = col_tag;
+    
     return true;
 }
 
 void
 SimilarityMatrices::setOrderTag(COL_TAG order_tag) {
-    if (order_tag >= STATION || order_tag <= VALUE) order_tag_ = order_tag;
-    else throw range_error("Error: Invalid order tag");
+    order_tag_ = order_tag;
 }
 
 void

@@ -10,11 +10,6 @@
 
 using namespace std;
 
-/*******************************************************************************
- *                         Observations_array                                  *
- ******************************************************************************/
-
-
 ObservationsArray::ObservationsArray() {
     data_ = boost::multi_array<double, 3> (
             boost::extents[0][0][0],

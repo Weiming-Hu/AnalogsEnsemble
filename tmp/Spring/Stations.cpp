@@ -46,7 +46,7 @@ namespace bgi = boost::geometry::index;
 
 
 Station::Station() :
-name_(_DEFAULT_STATION_NAME), x_(_DEFAULT_LOCATION), y_(_DEFAULT_LOCATION) {
+name_(AnEnDefault::_NAME), x_(AnEnDefault::_X), y_(AnEnDefault::_Y) {
 }
 
 

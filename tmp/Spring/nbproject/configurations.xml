@@ -4,6 +4,7 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <itemPath>AnEnDefault.h</itemPath>
       <itemPath>AnEnNames.h</itemPath>
       <itemPath>AnEnRead.h</itemPath>
       <itemPath>AnEnReadNcdf.h</itemPath>
@@ -76,6 +77,8 @@
           <commandLine>-lboost_system -lboost_filesystem -lnetcdf-cxx4</commandLine>
         </linkerTool>
       </compileType>
+      <item path="AnEnDefault.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="AnEnNames.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="AnEnRead.cpp" ex="false" tool="1" flavor2="0">
@@ -175,6 +178,8 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
+      <item path="AnEnDefault.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="AnEnNames.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="AnEnRead.cpp" ex="false" tool="1" flavor2="0">

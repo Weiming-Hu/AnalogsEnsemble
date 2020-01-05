@@ -15,6 +15,7 @@
 #include <vector>
 
 #include "By.h"
+#include "AnEnDefault.h"
 
 #ifndef BOOST_NO_AUTO_PTR
 #define BOOST_NO_AUTO_PTR
@@ -26,10 +27,6 @@
 #include <boost/multi_index/hashed_index.hpp>
 #include <boost/multi_index/tag.hpp>
 #include <boost/multi_index/mem_fun.hpp>
-
-static const std::string _DEFAULT_NAME = "UNDEFINED";
-static const double _DEFAULT_WEIGHT = NAN;
-static const bool _DEFAULT_CIRCULAR = false;
 
 /**
  * \class Parameter
@@ -49,7 +46,7 @@ public:
      * @param circular Whether parameter is circular.
      */
     Parameter(const Parameter& other);
-    
+
     /**
      * Initialize parameter.
      * @param name Parameter name.
@@ -57,7 +54,8 @@ public:
      * @param circular Whether parameter is circular.
      */
     Parameter(std::string name,
-    double weight = _DEFAULT_WEIGHT, bool circular = _DEFAULT_CIRCULAR);
+            double weight = AnEnDefault::_WEIGHT,
+            bool circular = AnEnDefault::_CIRCULAR);
 
 
     virtual ~Parameter();

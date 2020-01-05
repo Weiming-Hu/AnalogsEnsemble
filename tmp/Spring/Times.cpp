@@ -17,15 +17,14 @@
  */
 
 #include "Times.h"
+#include "AnEnDefault.h"
+
 #include <iterator>
 #include <sstream>
 #include <cmath>
 
 using namespace std;
 
-static const int _ORIGIN_YEAR = 1970;
-static const int _ORIGIN_MONTH = 1;
-static const int _ORIGIN_DAY = 1;
 static const int MULTIPLIER = 10000;
 
 size_t roundPrecision(const double& ori) {
@@ -36,17 +35,7 @@ size_t roundPrecision(const double& ori) {
  *                               Times                                     *
  **************************************************************************/
 
-Times::Times() {
-    stringstream ss;
-    ss << _ORIGIN_YEAR << "-" << _ORIGIN_MONTH << "-" << _ORIGIN_DAY;
-    origin_ = ss.str();
-}
-
-Times::Times(string unit) :
-unit_(unit) {
-    stringstream ss;
-    ss << _ORIGIN_YEAR << "-" << _ORIGIN_MONTH << "-" << _ORIGIN_DAY;
-    origin_ = ss.str();
+Times::Times() : unit_(AnEnDefault::_UNIT) , origin_(AnEnDefault::_ORIGIN) {
 }
 
 Times::Times(string unit, string origin) :
