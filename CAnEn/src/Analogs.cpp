@@ -6,6 +6,7 @@
  */
 
 #include "Analogs.h"
+#include "Functions.h"
 
 using namespace std;
 
@@ -26,47 +27,12 @@ boost::fortran_storage_order()) {
     search_stations.resize(num_stations);
 }
 
-//Analogs::Analogs(const Forecasts& forecasts, size_t num_members) :
-//boost::multi_array<double, 5>(
-//boost::extents[forecasts.getStations().size()][forecasts.getTimes().size()]
-//[forecasts.getFLTs().size()][num_members][_NUM_COLS],
-//boost::fortran_storage_order()) {
-//
-//    search_stations.resize(forecasts.getStations().size());
-//}
-
 Analogs::~Analogs() {
 }
 
 void
 Analogs::print(std::ostream & os) const {
-    size_t dim1 = shape()[0];
-    size_t dim2 = shape()[1];
-    size_t dim3 = shape()[2];
-    size_t dim4 = shape()[3];
-    size_t dim5 = shape()[4];
-
-    
-    // TODO: This print function can be shared between Analogs, SimilarityMatrices, Forecasts, and Observations, STD
-    for (size_t i_dim1 = 0; i_dim1 < dim1; i_dim1++) {
-        for (size_t i_dim2 = 0; i_dim2 < dim2; i_dim2++) {
-            for (size_t i_dim3 = 0; i_dim3 < dim3; i_dim3++) {
-
-                os << "Analogs [" << i_dim1 << "][" << i_dim2 << "]["
-                        << i_dim3 << "][][]" << endl;
-                os << "\t\t [, 0] \t\t [, 1] \t\t [, 2]" << endl;
-                for (size_t i_dim4 = 0; i_dim4 < dim4; i_dim4++) {
-
-                    os << "[" << i_dim4 << ", ] ";
-                    for (size_t i_dim5 = 0; i_dim5 < dim5; i_dim5++) {
-                        os << " \t\t " << (*this)[i_dim1][i_dim2]
-                                [i_dim3][i_dim4][i_dim5];
-                    }
-                    os << endl;
-                }
-            }
-        }
-    }
+    Functions::print(*this);
 }
 
 std::ostream &

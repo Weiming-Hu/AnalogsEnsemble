@@ -12,9 +12,6 @@
 #include "Stations.h"
 #include "Times.h"
 
-
-
-
 class BasicData {
 public:
     BasicData();

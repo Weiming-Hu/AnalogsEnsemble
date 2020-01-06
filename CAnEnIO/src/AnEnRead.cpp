@@ -11,7 +11,7 @@
 AnEnRead::AnEnRead() {
 }
 
-AnEnRead::AnEnRead(const AnEnRead& orig) {
+AnEnRead::AnEnRead(const AnEnRead & orig) {
 }
 
 AnEnRead::~AnEnRead() {

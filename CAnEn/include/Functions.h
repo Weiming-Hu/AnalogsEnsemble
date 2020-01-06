@@ -4,10 +4,56 @@
  *
  * Created on February 6, 2019, 2:58 PM
  */
-//
-//#ifndef MATHFUNCTIONS_H
-//#define MATHFUNCTIONS_H
-//
+
+
+#ifndef FUNCTIONS_H
+#define FUNCTIONS_H
+
+#include "boost/multi_array.hpp"
+
+#include <vector>
+
+namespace Functions {
+    
+    /**************************************************************************
+     *                          Template Functions                            *
+     **************************************************************************/
+    
+    // TODO: Need to figure out a way to print dynamic dimension boost multi_arrays
+    template <typename T, size_t dims>
+    void print(const boost::multi_array<T, dims> & arr) {
+        using namespace std;
+
+        size_t dim1 = shape()[0];
+        size_t dim2 = shape()[1];
+        size_t dim3 = shape()[2];
+        size_t dim4 = shape()[3];
+        size_t dim5 = shape()[4];
+
+        for (size_t i_dim1 = 0; i_dim1 < dim1; i_dim1++) {
+            for (size_t i_dim2 = 0; i_dim2 < dim2; i_dim2++) {
+                for (size_t i_dim3 = 0; i_dim3 < dim3; i_dim3++) {
+
+                    os << "Analogs [" << i_dim1 << "][" << i_dim2 << "]["
+                            << i_dim3 << "][][]" << endl;
+                    os << "\t\t [, 0] \t\t [, 1] \t\t [, 2]" << endl;
+                    for (size_t i_dim4 = 0; i_dim4 < dim4; i_dim4++) {
+
+                        os << "[" << i_dim4 << ", ] ";
+                        for (size_t i_dim5 = 0; i_dim5 < dim5; i_dim5++) {
+                            os << " \t\t " << (*this)[i_dim1][i_dim2]
+                                    [i_dim3][i_dim4][i_dim5];
+                        }
+                        os << endl;
+                    }
+                }
+            }
+        }
+        
+        return;
+    }
+}
+
 //#include "Analogs.h"
 ////#include "errorType.h"
 //#include "Observations.h"
@@ -157,5 +203,4 @@
 //    
 //};
 //
-//#endif /* MATHFUNCTIONS_H */
-//
+#endif /* FUNCTIONS_H */

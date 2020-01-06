@@ -24,7 +24,7 @@
 class AnEnRead {
 public:
     AnEnRead();
-    AnEnRead(const AnEnRead& orig);
+    AnEnRead(const AnEnRead & orig);
     virtual ~AnEnRead();
     
     virtual void readForecasts(
@@ -33,7 +33,6 @@ public:
     virtual void readObservations(
             const std::string & file_path,
             Observations & observations) const = 0;
-
 };
 
 #endif /* ANENREAD_H */

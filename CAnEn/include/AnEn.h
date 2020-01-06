@@ -29,34 +29,33 @@ public:
 
     virtual ~AnEn();
 
-    void computeAnalogs(
-            const Forecasts & search_forecasts,
-            const Forecasts & test_forecasts,
-            const Observations & observations,
-            Analogs & analogs) const;
-
-
-    void computeAnalogs(
-            const Forecasts & forecasts,
-            const Observations & observations,
-            Times const & test_times,
-            Times const & search_times) const;
-
-
-    void computeAnalogs(
-            const Forecasts & forecasts,
-            const Observations & observations,
-            Time const & test_time,
-            Times const & search_times) const;
-           
-    
-    
-      void computeSimilarity(
-            const Forecasts & forecasts,
-            const Observations & observations,
-            Time const & test_time,
-            Times const & search_times)
-             ; 
+//    void computeAnalogs(
+//            const Forecasts & search_forecasts,
+//            const Forecasts & test_forecasts,
+//            const Observations & observations,
+//            Analogs & analogs) const;
+//
+//
+//    void computeAnalogs(
+//            const Forecasts & forecasts,
+//            const Observations & observations,
+//            Times const & test_times,
+//            Times const & search_times) const;
+//
+//
+//    void computeAnalogs(
+//            const Forecasts & forecasts,
+//            const Observations & observations,
+//            Time const & test_time,
+//            Times const & search_times) const;
+//           
+//    
+//    
+//      void computeSimilarity(
+//            const Forecasts & forecasts,
+//            const Observations & observations,
+//            Time const & test_time,
+//            Times const & search_times);
 
     
 

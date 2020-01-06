@@ -34,7 +34,7 @@ AnEnReadNcdf::AnEnReadNcdf(Verbose verbose) :
 verbose_(verbose) {
 }
 
-AnEnReadNcdf::AnEnReadNcdf(const AnEnReadNcdf& orig) : AnEnRead(orig) {
+AnEnReadNcdf::AnEnReadNcdf(const AnEnReadNcdf & orig) : AnEnRead(orig) {
     if (this != &orig) verbose_ = orig.verbose_;
 }
 
