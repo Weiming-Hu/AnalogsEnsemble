@@ -44,6 +44,7 @@ SimilarityMatrices::operator()(T lhs, T rhs) const {
     return std::less<T>()(lhs, rhs);
 }
 
+
 template <typename T, size_t dims>
 void
 SimilarityMatrices::swap(sub_array<T, dims> lhs, sub_array<T, dims> rhs) {
