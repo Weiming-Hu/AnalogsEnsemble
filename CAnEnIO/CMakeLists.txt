@@ -28,25 +28,6 @@ endforeach(file ${EXTRA_SOURCE_FILES})
 ##################
 # build and link #
 ##################
-
-# I'm building a static library here for CAnEnIO to avoid multiple
-# copied of classes with static members. Please look at the below 
-# dependency situation if both CAnEnIO and CAnEn are built as
-# dynamic libraries.
-#
-#      Parameter (A class with a static member ID) ---->  CAnEn.so
-#       |
-#       |
-#       V
-#      CAnEnIO.so
-#          
-# This creates problem because the static members in two .so libraries
-# clearly don't share the value even if they are the same class Parameter.
-# This can also be observed if you print out the Parameter static member
-# address. They are different.
-# 
-# To avoid this problem, I build CAnEnIO as a static library.
-#          
 # add_library (${LIBRARY_NAME} SHARED ${SOURCES})
 add_library (${LIBRARY_NAME} STATIC ${SOURCES})
 
