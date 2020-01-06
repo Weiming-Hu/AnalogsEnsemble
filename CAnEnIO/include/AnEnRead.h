@@ -32,7 +32,7 @@ public:
             Forecasts & forecasts) const = 0;
     virtual void readObservations(
             const std::string & file_path,
-            Observations_array & observations) const = 0;
+            Observations & observations) const = 0;
 
 };
 

@@ -77,10 +77,10 @@ AnEnReadNcdf::readForecasts(const string & file_path,
     checkFileType_(nc, FileType::Forecasts);
 
     // Initialization for meta information
-    anenPar::Parameters parameters;
-    anenSta::Stations stations;
-    anenTime::Times times;
-    anenTime::FLTs flts;
+    Parameters parameters;
+    Stations stations;
+    Times times;
+    Times flts;
 
     // Read meta information
     if (entire) {
@@ -113,14 +113,14 @@ AnEnReadNcdf::readForecasts(const string & file_path,
 
 void
 AnEnReadNcdf::readObservations(const string & file_path,
-        Observations_array & observations) const {
+        Observations & observations) const {
     readObservations(file_path, observations, {}, {});
     return;
 }
 
 void
 AnEnReadNcdf::readObservations(const std::string & file_path,
-        Observations_array & observations,
+        Observations& observations,
         vector<size_t> start, vector<size_t> count) const {
 
     if (verbose_ >= Verbose::Progress) {
@@ -146,9 +146,9 @@ AnEnReadNcdf::readObservations(const std::string & file_path,
     checkFileType_(nc, FileType::Observations);
 
     // Initialization for meta information
-    anenPar::Parameters parameters;
-    anenSta::Stations stations;
-    anenTime::Times times;
+    Parameters parameters;
+    Stations stations;
+    Times times;
 
     // Read meta information
     if (entire) {
@@ -160,15 +160,11 @@ AnEnReadNcdf::readObservations(const std::string & file_path,
         read_(nc, stations, start[1], count[1]);
         read_(nc, times, VAR_TIMES, start[2], count[2]);
     }
-
-    observations.setParameters(parameters);
-    observations.setStations(stations);
-    observations.setTimes(times);
     
     // Read data values
     if (verbose_ >= Verbose::Detail) cout << "Updating dimensions ..." << endl;
-    observations.updateDataDims();
-    read_(nc, observations.data().data(), VAR_DATA, start, count);  
+    observations.setDimensions(parameters, stations, times);
+    read_(nc, observations.getValuesPtr(), VAR_DATA, start, count);  
     nc.close();
     
     return;
@@ -303,7 +299,7 @@ AnEnReadNcdf::readStandardDeviation(
 }
 
 void
-AnEnReadNcdf::read_(const NcFile & nc, anenPar::Parameters & parameters,
+AnEnReadNcdf::read_(const NcFile & nc, Parameters & parameters,
         size_t start, size_t count) const {
 
     if (verbose_ >= Verbose::Detail) cout << "Reading parameters ..." << endl;
@@ -334,7 +330,7 @@ AnEnReadNcdf::read_(const NcFile & nc, anenPar::Parameters & parameters,
 }
 
 void
-AnEnReadNcdf::read_(const NcFile & nc, anenSta::Stations & stations,
+AnEnReadNcdf::read_(const NcFile & nc, Stations & stations,
         size_t start, size_t count,
         const string & dim_name_prefix,
         const string & var_name_prefix) const {
@@ -364,7 +360,7 @@ AnEnReadNcdf::read_(const NcFile & nc, anenSta::Stations & stations,
 }
 
 void
-AnEnReadNcdf::read_(const netCDF::NcFile & nc, anenTime::Times & times,
+AnEnReadNcdf::read_(const netCDF::NcFile & nc, Times & times,
         const string & var_name, size_t start, size_t count) const {
     
     if (verbose_ >= Verbose::Detail) cout << "Reading times ..." << endl;
@@ -386,7 +382,16 @@ AnEnReadNcdf::read_(const netCDF::NcFile & nc, anenTime::Times & times,
         readVector(nc, var_name, vec, {start}, {count});
     }
 
-    times.insert(times.end(), vec.begin(), vec.end());
+    // TODO check this
+//    Times temp;
+//    
+//    for ( auto iter = vec.begin() ; iter < vec.end() ; iter++ ) {
+//        temp.insert(Time(*iter));
+//    }
+//    
+    
+    // TODO: We can directly insert into the set rather than copying from a vector. 
+    times.insert(vec.begin(), vec.end());
     
     if (vec.size() != times.size()) {
         ostringstream msg;
@@ -395,41 +400,6 @@ AnEnReadNcdf::read_(const netCDF::NcFile & nc, anenTime::Times & times,
         throw runtime_error(msg.str());
     }
     
-    return;
-}
-
-void
-AnEnReadNcdf::read_(const netCDF::NcFile & nc, anenTime::FLTs & flts,
-        const string & var_name, size_t start, size_t count) const {
-
-    if (verbose_ >= Verbose::Detail) cout << "Reading lead times ..." << endl;
-    vector<double> vec;
-
-    if (start == 0 || count == 0) {
-        readVector(nc, var_name, vec);
-    } else{
-        // If it is partial reading, check the indices
-        const auto & dims = nc.getVar(var_name).getDims();
-
-        if (dims.size() != 1) {
-            ostringstream msg;
-            msg << BOLDRED << var_name << " should be 1-dimensional." << RESET;
-            throw runtime_error(msg.str());
-        }
-
-        checkIndex(start, count, dims[0].getSize());
-        readVector(nc, var_name, vec, {start}, {count});
-    }
-
-    flts.insert(flts.end(), vec.begin(), vec.end());
-
-    if (vec.size() != flts.size()) {
-        ostringstream msg;
-        msg << BOLDRED << var_name << " have duplicates! Total: " <<
-                vec.size() << " Unique: " << flts.size() << RESET;
-        throw runtime_error(msg.str());
-    }
-
     return;
 }
 
@@ -530,7 +500,7 @@ AnEnReadNcdf::checkFileType_(const NcFile & nc, FileType file_type) const {
 }
 
 void
-AnEnReadNcdf::fastInsert_(anenPar::Parameters & parameters, size_t dim_len,
+AnEnReadNcdf::fastInsert_(Parameters & parameters, size_t dim_len,
         const vector<string> & names, vector<string> & circulars,
         const vector<double> & weights) const {
     
@@ -555,10 +525,10 @@ AnEnReadNcdf::fastInsert_(anenPar::Parameters & parameters, size_t dim_len,
         throw runtime_error(msg.str());    
     }
 
-    // Construct anenPar::Parameter objects and
-    // prepare them for insertion into anenPar::Parameters
+    // Construct Parameter objects and
+    // prepare them for insertion into Parameters
     //
-    vector<anenPar::Parameter> vec_parameters(dim_len);
+    vector<Parameter> vec_parameters(dim_len);
 
 #if defined(_OPENMP)
     int num_cores = 1;
@@ -599,7 +569,7 @@ AnEnReadNcdf::fastInsert_(anenPar::Parameters & parameters, size_t dim_len,
 }
 
 void 
-AnEnReadNcdf::fastInsert_(anenSta::Stations & stations, size_t dim_len,
+AnEnReadNcdf::fastInsert_(Stations & stations, size_t dim_len,
         const vector<string> & names, const vector<double> & xs,
         const vector<double> & ys) const {
 
@@ -625,7 +595,7 @@ AnEnReadNcdf::fastInsert_(anenSta::Stations & stations, size_t dim_len,
     }
 
     // Construct Station object
-    vector<anenSta::Station> vec_stations(dim_len);
+    vector<Station> vec_stations(dim_len);
 
 #if defined(_OPENMP)
     int num_cores = 1;
@@ -639,12 +609,9 @@ AnEnReadNcdf::fastInsert_(anenSta::Stations & stations, size_t dim_len,
 
 #pragma omp parallel for default(none) schedule(static) \
     shared(dim_len, vec_stations, xs, ys, names) num_threads(num_cores)
-#endif
+#endif    
     for (size_t i = 0; i < dim_len; i++) {
-        auto & station = vec_stations[i];
-        if (names.size() != 0) station.setName(names.at(i));
-        station.setX(xs.at(i));
-        station.setY(ys.at(i));
+        vec_stations[i] = Station( names.at(i), xs.at(i), ys.at(i) );
     }
 
     // Insert

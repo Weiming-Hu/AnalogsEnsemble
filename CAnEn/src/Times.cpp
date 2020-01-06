@@ -17,110 +17,150 @@
  */
 
 #include "Times.h"
+#include "AnEnDefault.h"
+
 #include <iterator>
 #include <sstream>
 #include <cmath>
 
-namespace anenTime {
+using namespace std;
 
-    using namespace std;
+static const int MULTIPLIER = 10000;
 
-    size_t roundPrecision(const double& ori) {
-        return (std::round(ori * MULTIPLIER));
-    }
+std::string Time::origin = "1970-01-01";
+std::string Time::unit = "seconds";
 
-    /***************************************************************************
-     *                               Times                                     *
-     **************************************************************************/
 
-    Times::Times() {
-        stringstream ss;
-        ss << _ORIGIN_YEAR << "-" << _ORIGIN_MONTH << "-" << _ORIGIN_DAY;
-        origin_ = ss.str();
-    }
+Time::Time() 
+{}
 
-    Times::Times(string unit) :
-    unit_(unit) {
-        stringstream ss;
-        ss << _ORIGIN_YEAR << "-" << _ORIGIN_MONTH << "-" << _ORIGIN_DAY;
-        origin_ = ss.str();
-    }
+Time::Time(double val) 
+{
+    timestamp = val;
+}
 
-    Times::Times(string unit, string origin) :
-    unit_(unit), origin_(origin) {
-    }
 
-    Times::~Times() {
-    }
-    
-    Times & Times::operator=(const Times & rhs) {
-        if (this != &rhs) {
-            multiIndexTimes::operator=(rhs);
-            
-            unit_ = rhs.unit_;
-            origin_ = rhs.origin_;
-        }
-        
-        return *this;
-    }
-
-    size_t
-    Times::getTimeIndex(double timestamp) const {
-
-        // Find the timestamp in value-ordered index
-        const multiIndexTimes::index<by_value>::type&
-                times_by_value = get<by_value>();
-
-        auto it_value = times_by_value.find(
-                roundPrecision(timestamp));
-
-        if (it_value != times_by_value.end()) {
-
-            // Project the value-based ordered to insertion sequence
-            const auto it_insert = project<by_insert>(it_value);
-
-            // Get the insertion sequence index iterator
-            const multiIndexTimes::index<by_insert>::type&
-                    times_by_insert = get<by_insert>();
-
-            // Compute the distance
-            return (distance(times_by_insert.begin(), it_insert));
-
-        } else {
-            throw out_of_range("Error: Can't find the index for time " +
-                    to_string((long double) timestamp));
-        }
-    }
-
-    void
-    Times::print(ostream &os) const {
-        os << "[Time] size: " << size() << endl;
-        ostream_iterator<double> element_itr(os, ", ");
-        copy(begin(), end(), element_itr);
-        cout << endl;
-    }
-
-    ostream&
-    operator<<(ostream& os, Times const & obj) {
-        obj.print(os);
-        return os;
-    }
-
-    /***************************************************************************
-     *                                 FLTs                                    *
-     **************************************************************************/
-
-    void
-    FLTs::print(ostream &os) const {
-        os << "[FLT] size: " << size() << endl;
-        ostream_iterator<double> element_itr(os, ", ");
-        copy(begin(), end(), element_itr);
-        cout << endl;
-    }
-
-    ostream&
-    operator<<(ostream& os, FLTs const & obj) {
-        obj.print(os);
-        return os;
+Time::Time(const Time & rhs) {
+    if (this != &rhs) {
+        timestamp = rhs.timestamp;
     }
 }
+
+Time::~Time() 
+{}
+
+
+Time & Time::operator=(const Time & rhs) {
+    if (this != &rhs) {
+        timestamp = rhs.timestamp;
+    }
+
+    return *this;
+}
+
+Time & Time::operator=(double rhs) {
+        timestamp = rhs;
+    return *this;
+}
+
+
+bool
+Time::operator<(const Time & rhs) const {
+    return (timestamp < rhs.timestamp);
+}
+
+
+void
+Time::print(ostream &os) const {
+    os << timestamp;
+}
+
+ostream&
+operator<<(ostream& os, Time const & obj) {
+    obj.print(os);
+    return os;
+}
+
+//size_t roundPrecision(const double& ori) {
+//    return (std::round(ori * MULTIPLIER));
+//}
+
+/***************************************************************************
+ *                               Times                                     *
+ **************************************************************************/
+
+Times::Times()  {
+}
+
+Times::~Times() {
+}
+
+Times & Times::operator=(const Times & rhs) {
+    if (this != &rhs) {
+        clear();
+        insert(rhs.begin(), rhs.end());
+    }
+
+    return *this;
+}
+//
+//size_t
+//Times::getTimeIndex(double timestamp) const {
+//
+//    // Find the timestamp in value-ordered index
+//    const multiIndexTimes::index<By::value>::type&
+//            times_by_value = get<By::value>();
+//
+//    auto it_value = times_by_value.find(
+//            roundPrecision(timestamp));
+//
+//    if (it_value != times_by_value.end()) {
+//
+//        // Project the value-based ordered to insertion sequence
+//        const auto it_insert = project<By::insert>(it_value);
+//
+//        // Get the insertion sequence index iterator
+//        const multiIndexTimes::index<By::insert>::type&
+//                times_by_insert = get<By::insert>();
+//
+//        // Compute the distance
+//        return (distance(times_by_insert.begin(), it_insert));
+//
+//    } else {
+//        throw out_of_range("Error: Can't find the index for time " +
+//                to_string((long double) timestamp));
+//    }
+//}
+//
+void
+Times::print(ostream &os) const {
+    os << "[Time] size: " << size() << endl;
+    ostream_iterator<Time> element_itr(os, ", ");
+    copy(begin(), end(), element_itr);
+    cout << endl;
+}
+
+ostream&
+operator<<(ostream& os, Times const & obj) {
+    obj.print(os);
+    return os;
+}
+
+///***************************************************************************
+// *                                 FLTs                                    *
+// **************************************************************************/
+//
+//void
+//FLTs::print(ostream &os) const {
+//    os << "[FLT] size: " << size() << endl;
+//    ostream_iterator<double> element_itr(os, ", ");
+//    copy(begin(), end(), element_itr);
+//    cout << endl;
+//}
+//
+//ostream&
+//operator<<(ostream& os, FLTs const & obj) {
+//    obj.print(os);
+//    return os;
+//}
+

@@ -11,43 +11,50 @@
 BasicData::BasicData() {
 }
 
+BasicData::BasicData(const Parameters & parameters, const Stations & stations,
+        const Times & times) {
+    parameters_ = parameters;
+    stations_ = stations;
+    times_ = times;
+}
+
 BasicData::BasicData(const BasicData& orig) {
+    if (this != &orig) {
+        parameters_ = orig.parameters_;
+        stations_ = orig.stations_;
+        times_ = orig.times_;
+    }
 }
 
 BasicData::~BasicData() {
 }
 
-anenPar::Parameters const &
-Forecasts::getParameters() const {
+const Parameters &
+BasicData::getParameters() const {
     return parameters_;
 }
 
-anenSta::Stations const &
-Forecasts::getStations() const {
+const Stations &
+BasicData::getStations() const {
     return stations_;
 }
 
-anenTime::Times const &
-Forecasts::getTimes() const {
+const Times &
+BasicData::getTimes() const {
     return times_;
 }
 
-anenTime::FLTs const &
-Forecasts::getFLTs() const {
-    return flts_;
-}
-
-anenPar::Parameters &
-Forecasts::getParameters() {
+Parameters &
+BasicData::getParameters() {
     return parameters_;
 }
 
-anenSta::Stations &
-Forecasts::getStations() {
+Stations &
+BasicData::getStations() {
     return stations_;
 }
 
-anenTime::Times &
-Forecasts::getTimes() {
+Times &
+BasicData::getTimes() {
     return times_;
 }

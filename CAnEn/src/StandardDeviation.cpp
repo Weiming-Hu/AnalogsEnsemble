@@ -16,6 +16,10 @@ boost::extents[0][0][0],
 boost::fortran_storage_order()) {
 }
 
+StandardDeviation::StandardDeviation(const StandardDeviation& orig) {
+    *this = orig;
+}
+
 StandardDeviation::StandardDeviation(size_t dim1, size_t dim2, size_t dim3) :
 boost::multi_array<double, 3>(
 boost::extents[0][0][0],
@@ -24,20 +28,12 @@ boost::fortran_storage_order()) {
     resize(extents[dim1][dim2][dim3]);
 }
 
-StandardDeviation::StandardDeviation(const StandardDeviation& orig) {
-    *this = orig;
-}
-
 StandardDeviation::~StandardDeviation(){
 }
 
 StandardDeviation&
         StandardDeviation::operator=(const StandardDeviation& right) {
-
-    if (this == &right) return *this;
-    
-    boost::multi_array<double, 3>::operator=(right);
-    
+    if (this != &right) boost::multi_array<double, 3>::operator=(right);
     return *this;
 }
 

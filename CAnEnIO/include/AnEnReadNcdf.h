@@ -57,9 +57,9 @@ public:
             std::vector<size_t> start, std::vector<size_t> count) const;
     
     void readObservations(const std::string & file_path,
-            Observations_array & observations) const override;
+            Observations & observations) const override;
     void readObservations(
-            const std::string & file_path, Observations_array & observations,
+            const std::string & file_path, Observations & observations,
             std::vector<size_t> start, std::vector<size_t> count) const;
     
     void readSimilarityMatrices(
@@ -81,28 +81,25 @@ public:
 protected:
     Verbose verbose_;
 
-    void read_(const netCDF::NcFile & nc, anenPar::Parameters & parameters,
+    void read_(const netCDF::NcFile & nc, Parameters & parameters,
             size_t start = 0, size_t count = 0) const;
-    void read_(const netCDF::NcFile & nc, anenSta::Stations & stations,
+    void read_(const netCDF::NcFile & nc, Stations & stations,
             size_t start = 0, size_t count = 0,
             const std::string & dim_name_prefix = "",
             const std::string & var_name_prefix = "") const;
-    void read_(const netCDF::NcFile & nc, anenTime::Times & times,
-            const std::string & var_name,
-            size_t start = 0, size_t count = 0) const;
-    void read_(const netCDF::NcFile & nc, anenTime::FLTs & flts,
+    void read_(const netCDF::NcFile & nc, Times & times,
             const std::string & var_name,
             size_t start = 0, size_t count = 0) const;
     
     void checkFileType_(const netCDF::NcFile & nc, FileType file_type) const;
 
     void fastInsert_(
-            anenPar::Parameters & parameters, size_t dim_len,
+            Parameters & parameters, size_t dim_len,
             const std::vector<std::string> & names,
             std::vector<std::string> & circulars,
             const std::vector<double> & weights) const;
     void fastInsert_(
-            anenSta::Stations & stations, size_t dim_len,
+            Stations & stations, size_t dim_len,
             const std::vector<std::string> & names,
             const std::vector<double> & xs,
             const std::vector<double> & ys) const;

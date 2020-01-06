@@ -1,5 +1,5 @@
-cmake_minimum_required(VERSION 2.8)
-project(ParallelEnsembleForecasts)
+cmake_minimum_required(VERSION 3.0)
+project(ParallelAnalogEnsemble)
 
 set(GRAND_VERSION "3.7.1")
 message("You are building version ${GRAND_VERSION}")
@@ -19,13 +19,6 @@ enable_language(CXX C)
 ##################################################################################
 #                 Start of the list of parameters                                #
 ##################################################################################
-option(CMAKE_BUILD_TESTS "Build tests" OFF)
-option(VERBOSE "Verbose standout output" OFF)
-option(ENABLE_MPI "enable support for MPI" OFF)
-option(INSTALL_RAnEn "install RAnEn package" OFF)
-option(USE_NCCONFIG "Use nc-config to determine cflags and libdirs." OFF)
-option(CODE_PROFILING "Insert profiling code and print time information." OFF)
-
 option(BUILD_FS "Build file slicer" OFF)
 option(BUILD_AGG "Build file aggregator" OFF)
 option(BUILD_ANENS "Build analog selector" OFF)
@@ -35,6 +28,12 @@ option(BUILD_WIND "Build wind field calculator" OFF)
 option(BUILD_SD "Build standard deviation calculator" OFF)
 option(BUILD_F2O "Build forecast to observation utility" OFF)
 option(BUILD_GRIBCONVERTER "Build gribConverter utility. Eccodes required." OFF)
+
+option(CMAKE_BUILD_TESTS "Build tests" OFF)
+option(VERBOSE "Verbose standout output" OFF)
+option(INSTALL_RAnEn "install RAnEn package" OFF)
+option(USE_NCCONFIG "Use nc-config to determine cflags and libdirs." OFF)
+option(CODE_PROFILING "Insert profiling code and print time information." OFF)
 
 # set this variable to prevent CMake from removing
 # non-standard build paths. This would be helpful on
@@ -61,9 +60,6 @@ if(NOT CMAKE_INSTALL_LIBDIR)
 endif(NOT CMAKE_INSTALL_LIBDIR)
 
 set(COMMON_OUTPUT_DIR "${CMAKE_SOURCE_DIR}/output")
-#if (EXISTS ${COMMON_OUTPUT_DIR})
-#    file(REMOVE_RECURSE ${COMMON_OUTPUT_DIR})
-#endif(EXISTS ${COMMON_OUTPUT_DIR})
 
 if (CMAKE_INSTALL_RPATH)
     set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_RPATH};${DEPENDENCY_PATH}/install/lib/;${COMMON_OUTPUT_DIR}/lib")
@@ -189,23 +185,6 @@ else (INSTALL_RAnEn)
 	include(CMakeLists_Boost.txt)
 endif(INSTALL_RAnEn)
 
-message(STATUS "ENABLE_MPI is set to ${ENABLE_MPI}")
-
-if(ENABLE_MPI)
-    # check MPI compiler
-    find_package(MPI REQUIRED COMPONENTS C CXX)
-    if(CMAKE_C_COMPILER MATCHES "^.*mpi.*$" AND
-            CMAKE_CXX_COMPILER MATCHES "^.*mpi.*$")
-        message(STATUS "Configure support with MPI compiler")
-    else(CMAKE_C_COMPILER MATCHES "^.*mpi.*$" AND
-            CMAKE_CXX_COMPILER MATCHES "^.*mpi.*$")
-        message(WARNING "Please specify CC and CXX to mpicc compiler/wrapper.")
-    endif(CMAKE_C_COMPILER MATCHES "^.*mpi.*$" AND
-        CMAKE_CXX_COMPILER MATCHES "^.*mpi.*$")
-
-    add_definitions(-D_ENABLE_MPI)
-endif(ENABLE_MPI)
-
 file(MAKE_DIRECTORY ${COMMON_OUTPUT_DIR})
 file(MAKE_DIRECTORY "${COMMON_OUTPUT_DIR}/bin")
 file(MAKE_DIRECTORY "${COMMON_OUTPUT_DIR}/lib")
@@ -254,10 +233,6 @@ endif (BUILD_AGG)
 if (BUILD_FS)
     add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_fileSlice")
 endif (BUILD_FS)
-
-if(ENABLE_MPI)
-    add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_mpiAnEnIO")
-endif(ENABLE_MPI)
 
 if (BUILD_GRIBCONVERTER)
     add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_gribConverter")

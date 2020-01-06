@@ -35,11 +35,11 @@ void
 AnEnWriteNcdf::writeAnalogs(
         const string & file_path,
         const Analogs & analogs,
-        const anenSta::Stations & analogs_stations,
-        const anenTime::Times & analogs_times,
-        const anenTime::FLTs & analogs_flts,
-        const anenSta::Stations & search_stations,
-        const anenTime::Times & search_times) const {
+        const Stations & analogs_stations,
+        const Times & analogs_times,
+        const Times & analogs_flts,
+        const Stations & search_stations,
+        const Times & search_times) const {
 
     if (verbose_ >= Verbose::Progress) {
         cout << "Writing analog file (" << file_path << ") ..." << endl;
@@ -116,7 +116,7 @@ AnEnWriteNcdf::append_(const NcFile & nc, const Analogs & analogs) const {
 
 void
 AnEnWriteNcdf::append_(const NcFile & nc,
-        const anenTime::FLTs & flts, bool unlimited) const {
+        const Times & flts, bool unlimited) const {
     
     if (verbose_ >= Verbose::Detail) cout << "Appending lead times ..." << endl;
     

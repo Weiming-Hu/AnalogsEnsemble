@@ -8,24 +8,40 @@
 #ifndef BASICDATA_H
 #define BASICDATA_H
 
+#include "Parameters.h"
+#include "Stations.h"
+#include "Times.h"
+
+
+
+
 class BasicData {
 public:
     BasicData();
+    BasicData(const Parameters &, const Stations &, const Times &);
     BasicData(const BasicData& orig);
     virtual ~BasicData();
 
-    virtual const double* getValuesPtr() const = 0;
-    virtual double * getValuesPtr() = 0;
-
+    /**************************************************************************
+     *                          Pure Virtual Functions                        *
+     **************************************************************************/
+    
     virtual std::size_t size() const = 0;
+    virtual double * getValuesPtr() = 0;
+    virtual const double* getValuesPtr() const = 0;
+    
+    /**************************************************************************
+     *                           Member Functions                             *
+     **************************************************************************/
 
-    Parameters const & getParameters() const;
-    Stations const & getStations() const;
-    Times const & getTimes() const;
+    const Parameters & getParameters() const;
+    const Stations & getStations() const;
+    const Times & getTimes() const;
   
     Parameters & getParameters();
     Stations & getStations();
     Times & getTimes();
+    
 
 protected:
     Parameters parameters_;

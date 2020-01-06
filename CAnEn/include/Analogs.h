@@ -9,7 +9,7 @@
 #define ANALOGS_H
 
 #include "boost/multi_array.hpp"
-#include "Forecasts.h"
+//#include "Forecasts.h"
 
 /**
  * \class Analogs
@@ -27,23 +27,18 @@ public:
     Analogs();
     Analogs(size_t num_stations, size_t num_times,
             size_t num_flts, size_t num_members);
-    Analogs(const Forecasts & forecasts, size_t num_members);
+  //  Analogs(const Forecasts & forecasts, size_t num_members);
     Analogs(const Analogs& orig) = delete;
     virtual ~Analogs();
 
     enum COL_TAG {
-        UNKNOWN = -999,
-        VALUE = 0,
-        STATION = 1,
-        TIME = 2
+        VALUE = 0, STATION = 1, TIME = 2
     };
 
     void print(std::ostream &) const;
     friend std::ostream & operator<<(std::ostream &, const Analogs &);
 
     std::vector< std::vector<size_t> > search_stations;
-    
-    const static int _NUM_COLS = 3;
 };
 
 #endif /* ANALOGS_H */

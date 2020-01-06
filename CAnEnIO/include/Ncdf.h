@@ -47,18 +47,10 @@ namespace Ncdf {
     void checkVarShape(const netCDF::NcFile & nc,
             const std::string & var_name,
             const std::vector<std::string> & dim_names);
-    
-    /************************************************************************
-     *                           Inline Functions                           *
-     ************************************************************************/
 
-    inline bool dimExists(const netCDF::NcFile & nc, const std::string & name) {
-        return (!nc.getDim(name).isNull());
-    }
+    bool dimExists(const netCDF::NcFile & nc, const std::string & name);
 
-    inline bool varExists(const netCDF::NcFile & nc, const std::string & name) {
-        return (!nc.getVar(name).isNull());
-    }
+    bool varExists(const netCDF::NcFile & nc, const std::string & name);
 
     /************************************************************************
      *                         Template Functions                           *

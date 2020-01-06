@@ -212,3 +212,12 @@ Ncdf::checkVarShape(const NcFile & nc,
     return;
 }
 
+bool
+Ncdf::dimExists(const NcFile & nc, const string & name) {
+    return (!nc.getDim(name).isNull());
+}
+
+bool
+Ncdf::varExists(const NcFile & nc, const string & name) {
+    return (!nc.getVar(name).isNull());
+}
