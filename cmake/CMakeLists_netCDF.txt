@@ -73,7 +73,7 @@ else(NETCDF_FOUND)
 
     find_package(CURL REQUIRED)
     find_package(ZLIB REQUIRED)
-    include(CMakeLists_HDF5.txt)
+    include("${EXTRA_MODULE_PATH}/CMakeLists_HDF5.txt")
 
     set(NETCDF_SHARED "-DBUILD_SHARED_LIBS=ON")
     #set(NETCDF_URL "https://github.com/cosmos-weiming/netcdf-c.git")

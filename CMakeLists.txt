@@ -46,7 +46,6 @@ option(CMAKE_INSTALL_RPATH_USE_LINK_PATH "Whether to use link path during instal
 #                   End of the list of parameters                                #
 ##################################################################################
 
-set(IMPORTANT_PATH "${CMAKE_SOURCE_DIR}/important")
 set(EXTRA_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${EXTRA_MODULE_PATH})
 set(DEPENDENCY_PATH "${CMAKE_SOURCE_DIR}/dependency")
@@ -181,8 +180,8 @@ else (INSTALL_RAnEn)
 	# The Release and Debug mode also apply to the libraries that we are going to build
 	# But we don't want the -fopenmp option to be applied to dependent libraries
 	#
-	include(CMakeLists_netCDF.txt)
-	include(CMakeLists_Boost.txt)
+    include("${EXTRA_MODULE_PATH}/CMakeLists_netCDF.txt")
+	include("${EXTRA_MODULE_PATH}/CMakeLists_Boost.txt")
 endif(INSTALL_RAnEn)
 
 file(MAKE_DIRECTORY ${COMMON_OUTPUT_DIR})
@@ -313,7 +312,7 @@ endif(CMAKE_BUILD_TESTS)
 # uninstall target
 if(NOT TARGET uninstall)
     add_custom_target(uninstall
-        COMMAND ${CMAKE_COMMAND} -P ${CMAKE_SOURCE_DIR}/CMakeLists_Uninstall.txt)
+        COMMAND ${CMAKE_COMMAND} -P ${EXTRA_MODULE_PATH}/CMakeLists_Uninstall.txt)
 endif(NOT TARGET uninstall)
 
 if (HDF5_BUILT)
