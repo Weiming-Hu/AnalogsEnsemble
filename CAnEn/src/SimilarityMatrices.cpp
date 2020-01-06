@@ -29,6 +29,48 @@ namespace boost {
         }
     }
 }
+
+
+// TODO : This is a temporary fix!!!
+struct my_comp {
+    SimilarityMatrices::COL_TAG order_tag_ = SimilarityMatrices::COL_TAG::VALUE;
+    template <typename T, size_t dims> using sub_array = boost::detail::multi_array::sub_array<T, dims>;
+    
+    template <typename T, size_t dims>
+    bool
+    operator()(
+            sub_array<T, dims> const &lhs,
+            sub_array<T, dims> const &rhs) const {
+        if (std::isnan(lhs[order_tag_])) return false;
+        if (std::isnan(rhs[order_tag_])) return true;
+        return (lhs[order_tag_] < rhs[order_tag_]);
+    }
+
+    template <typename T, size_t dims>
+    bool
+    operator()(boost::multi_array<T, dims> const &lhs,
+            sub_array<T, dims> const &rhs) const {
+        if (std::isnan(lhs[order_tag_])) return false;
+        if (std::isnan(rhs[order_tag_])) return true;
+        return (lhs[order_tag_] < rhs[order_tag_]);
+    }
+
+    template <typename T, size_t dims>
+    bool
+    operator()(sub_array<T, dims> const &lhs,
+            boost::multi_array<T, dims> const &rhs) const {
+        if (std::isnan(lhs[order_tag_])) return false;
+        if (std::isnan(rhs[order_tag_])) return true;
+        return (lhs[order_tag_] < rhs[order_tag_]);
+    }
+
+    template <typename T>
+    bool
+    operator()(T lhs, T rhs) const {
+        return std::less<T>()(lhs, rhs);
+    }
+};
+
 using namespace std;
 const static int _NUM_COLS = 3;
 
@@ -84,11 +126,11 @@ collapse(3) shared(quick, length, limit_i, limit_j, limit_k)
                 if (quick) {
                     nth_element((*this)[i][j][k].begin(),
                             (*this)[i][j][k].begin() + length,
-                            (*this)[i][j][k].end());
+                            (*this)[i][j][k].end(), my_comp{});
                 } else {
                     partial_sort((*this)[i][j][k].begin(),
                             (*this)[i][j][k].begin() + length,
-                            (*this)[i][j][k].end());
+                            (*this)[i][j][k].end(), my_comp{});
                 }
             }
         }
