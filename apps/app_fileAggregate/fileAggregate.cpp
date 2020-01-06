@@ -203,10 +203,6 @@ void runFileAggregate(const string & file_type, vector<string> & in_files,
 
 int main(int argc, char** argv) {
 
-#if defined(_ENABLE_MPI)
-    AnEnIO::handle_MPI_Init();
-#endif
-
     namespace po = boost::program_options;
 
     // Required variables
@@ -324,10 +320,6 @@ int main(int argc, char** argv) {
         handle_exception(current_exception());
         return 1;
     }
-
-#if defined(_ENABLE_MPI)
-    AnEnIO::handle_MPI_Finalize();
-#endif
 
     return 0;
 }

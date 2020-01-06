@@ -33,19 +33,6 @@ elseif(BOOST_TYPE STREQUAL "SYSTEM")
     target_link_libraries (${LIBRARY_NAME} ${Boost_LIBRARIES})
 endif(BOOST_TYPE STREQUAL "BUILD")
 
-#if(${ENABLE_MPI})
-#        include_directories(SYSTEM ${MPI_INCLUDE_PATH})
-#        target_link_libraries(${LIBRARY_NAME} ${MPI_CXX_LIBRARIES})
-#        if(MPI_CXX_COMPILE_FLAGS)
-#            set_target_properties(${LIBRARY_NAME} PROPERTIES
-#                COMPILE_FLAGS ${MPI_CXX_COMPILE_FLAGS})
-#        endif(MPI_CXX_COMPILE_FLAGS)
-#        if(MPI_CXX_LINK_FLAGS)
-#            set_target_properties(${LIBRARY_NAME} PROPERTIES
-#                LINK_FLAGS ${MPI_CXX_LINK_FLAGS})
-#        endif(MPI_CXX_LINK_FLAGS)
-#endif(${ENABLE_MPI}) 
-
 # Set default make output folder
 set_target_properties(${LIBRARY_NAME} PROPERTIES
     ARCHIVE_OUTPUT_DIRECTORY "${COMMON_OUTPUT_DIR}/lib"  # if static 

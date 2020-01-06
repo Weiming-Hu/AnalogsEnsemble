@@ -319,7 +319,6 @@ For more information on how to use the tool, please see an example [here](https:
 |      BUILD\_HDF5     |                            Build `HDF5` library regardless of its existence.                                                                       |         OFF        |
 |        VERBOSE       |                          Print detailed messages during the compiling process.                                                                     |         OFF        |
 |    CODE\_PROFILING   |                                     Print time profiling information.                                                                              |         OFF        |
-|     ENABLE\_MPI      |  Build the MPI version of the CAnEnIO library for parallel I/O. This is option is not recommended.                                                 |         OFF        |
 | BUILD\_GRIBCONVERTER | Build the GRIB Converter program. [Eccodes](https://confluence.ecmwf.int/display/ECC) library is required.                                         |         OFF        |
 |    ECCODES\_TYPE     | `BUILD` for building `Eccodes`; `SYSTEM` for using the library on the system.                                                                      |         SYSTEM     |
 

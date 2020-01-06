@@ -14,18 +14,6 @@ option(BUILD_HDF5 "build HDF5" OFF)
 # HDF5 #
 ########
 find_package(HDF5 1.8.10 COMPONENTS C HL)
-if(HDF5_FOUND)
-    if(HDF5_IS_PARALLEL)
-        message(STATUS "HDF5 has parallel I/O support. Set ENABLE_MPI to ${ENABLE_MPI} automatically.")
-        set(ENABLE_MPI TRUE)
-    else(HDF5_IS_PARALLEL)
-        if(ENABLE_MPI)
-            set(HDF5_FOUND FALSE)
-        endif(ENABLE_MPI)
-    endif(HDF5_IS_PARALLEL)
-else(HDF5_FOUND)
-    set(HDF5_IS_PARALLEL FALSE)
-endif(HDF5_FOUND)
 
 if(BUILD_HDF5)
     set(HDF5_FOUND FALSE)
@@ -48,12 +36,6 @@ if(NOT HDF5_FOUND)
     set(HDF5_CMAKE_ARGS ${HDF5_CMAKE_ARGS} ${HDF5_PREFIX_PATH}
         ${HDF5_BUILD_TYPE} ${HDF5_BUILD_HL_LIB} ${HDF5_BUILD_SHARED_LIBS}
         ${HDF5_C_COMPILER} ${HDF5_CXX_COMPILER} ${RPATH_ARGS})
-
-    if(ENABLE_MPI)
-        set(HDF5_ENABLE_PARALLEL "-DHDF5_ENABLE_PARALLEL=ON")
-        set(HDF5_CMAKE_ARGS ${HDF5_CMAKE_ARGS} ${HDF5_ENABLE_PARALLEL})
-        set(HDF5_IS_PARALLEL TRUE)
-    endif(ENABLE_MPI)
 
     if(VERBOSE)
         set(VERBOSE_DOWNLOAD 0)

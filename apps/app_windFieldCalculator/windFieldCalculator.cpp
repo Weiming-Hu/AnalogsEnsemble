@@ -209,10 +209,6 @@ int main(int argc, char** argv) {
 
     namespace po = boost::program_options;
 
-#if defined(_ENABLE_MPI)
-    AnEnIO::handle_MPI_Init();
-#endif
-   
     // Required variables
     string file_in, file_type, file_out;
     vector<string> var_U_names, var_V_names, var_dir_names, var_speed_names;
@@ -316,9 +312,5 @@ int main(int argc, char** argv) {
         return 1;
     }
     
-#if defined(_ENABLE_MPI)
-    AnEnIO::handle_MPI_Finalize();
-#endif
-
     return 0;
 }

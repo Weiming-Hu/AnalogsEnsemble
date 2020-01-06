@@ -35,24 +35,6 @@ endif(VERBOSE)
 ###########
 find_package(NetCDF)
 
-if(NETCDF_FOUND)
-    if(ENABLE_MPI)
-        include(CheckIncludeFile)
-        set(CMAKE_REQUIRED_INCLUDES ${CMAKE_REQUIRED_INCLUDES}
-            ${CMAKE_PREFIX_PATH} ${NETCDF_INCLUDES})
-        if(VERBOSE)
-            message(STATUS "CMAKE_REQUIRED_INCLUDES: ${CMAKE_REQUIRED_INCLUDES}")
-        endif(VERBOSE)
-        CHECK_INCLUDE_FILE("netcdf_par.h" FILE_NETCDF_PAR)
-        if(FILE_NETCDF_PAR)
-            message(STATUS "netcdf_par.h is found. netCDF has parallel I/O support.")
-        else(FILE_NETCDF_PAR)
-            message(STATUS "netcdf_par.h is not found. Build netCDF again with parallel I/O support.")
-            set(NETCDF_FOUND FALSE)
-        endif(FILE_NETCDF_PAR)
-    endif(ENABLE_MPI)
-endif(NETCDF_FOUND)
-
 if(BUILD_NETCDF)
     set(NETCDF_FOUND FALSE)
 endif(BUILD_NETCDF)
@@ -123,12 +105,6 @@ else(NETCDF_FOUND)
     set(NETCDF_CMAKE_ARGS ${NETCDF_CMAKE_ARGS}
         ${NETCDF_C_COMPILER} ${NETCDF_CXX_COMPILER} ${RPATH_ARGS})
 
-    if(ENABLE_MPI)
-        set(NETCDF_ENABLE_PARALLEL "-DENABLE_PARALLEL4=ON")
-        set(NETCDF_ENABLE_PARALLEL_TESTS "-DENABLE_PARALLEL_TESTS=OFF")
-        set(NETCDF_CMAKE_ARGS ${NETCDF_CMAKE_ARGS}
-            ${NETCDF_ENABLE_PARALLEL} ${NETCDF_ENABLE_PARALLEL_TESTS})
-    endif(ENABLE_MPI)
     if(VERBOSE)
         message(STATUS "NETCDF_CMAKE_ARGS: ${NETCDF_CMAKE_ARGS}")
     endif(VERBOSE)
