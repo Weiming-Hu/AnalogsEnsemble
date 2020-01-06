@@ -7,13 +7,10 @@ set (LIBRARY_NAME "AnEnIO")
 file (GLOB SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
 include_directories ("${CMAKE_CURRENT_SOURCE_DIR}/include")
 
-# Add extra source and header files for support of Array4D.
-# The header file will be included in the include directories.
-#
 set(EXTRA_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/CAnEn/include")
 include_directories(${EXTRA_INCLUDE_DIR})
 
-set(EXTRA_SOURCE_FILES "Array4D;Times;Stations;Parameters;Forecasts;Analogs;SimilarityMatrices;Observations;errorType")
+set(EXTRA_SOURCE_FILES "Times;Stations;Parameters;Forecasts;Analogs;SimilarityMatrices;Observations;")
 
 foreach(file ${EXTRA_SOURCE_FILES})
     set(EXTRA_SOURCE_FILE "${CMAKE_SOURCE_DIR}/CAnEn/src/${file}.cpp")

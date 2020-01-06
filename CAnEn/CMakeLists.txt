@@ -7,14 +7,6 @@ set (LIBRARY_NAME "AnEn")
 file (GLOB SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
 include_directories ("${CMAKE_CURRENT_SOURCE_DIR}/include")
 
-option(PROGRESS_BAR "Build progress bar" ON)
-if (PROGRESS_BAR)
-    message(STATUS "Build progress bar")
-else(PROGRESS_BAR)
-    message(STATUS "No progress bar")
-    add_definitions(-DNOPROGRESS)
-endif (PROGRESS_BAR)
-
 ##################
 # build and link #
 ##################

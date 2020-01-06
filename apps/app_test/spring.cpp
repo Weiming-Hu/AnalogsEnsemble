@@ -16,6 +16,9 @@
 #include <iostream>
 #include <cstring>
 
+#include "ForecastsArray.h"
+#include "ObservationsArray.h"
+
 using namespace std;
 
 int main(int argc, char** argv) {
@@ -24,8 +27,8 @@ int main(int argc, char** argv) {
     string observation_file = "/home/graduate/wuh20/github/AnalogsEnsemble/tests/Data/observations.nc";
 
     
-    Forecasts_array forecasts;
-    Observations_array observations;
+    ForecastsArray forecasts;
+    ObservationsArray observations;
 
     AnEnReadNcdf read_nc;
     read_nc.readForecasts(forecast_file, forecasts);

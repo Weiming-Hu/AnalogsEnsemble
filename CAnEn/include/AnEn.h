@@ -29,14 +29,13 @@ public:
 
     virtual ~AnEn();
 
-    
-     void computeSimilarity(
+    void computeSimilarity(
             const Forecasts & forecasts,
             const Observations & observations,
             const StandardDeviation & sds,
             SimilarityMatrices & sims,
             Time test_time,
-            Times search_times} const;
+            Times search_times) const;
     
 //    using TimeMapMatrix = Functions::TimeMapMatrix;
 //

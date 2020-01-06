@@ -13,53 +13,36 @@
 #include <exception>
 #include <iostream>
 #include <sstream>
-#include <set>
 
 #if defined(_OPENMP)
 #include <omp.h>
 #endif
 
-using namespace std;
-//using COL_TAG = SimilarityMatrices::COL_TAG;
-
-
 namespace boost {
     namespace detail {
         namespace multi_array {
-
-            template < typename T, size_t dims >
-            static void swap(sub_array < T, dims > lhs,
-                    sub_array < T, dims > rhs) {
+            template <typename T, size_t dims>
+            static void swap(sub_array<T, dims> lhs,
+                    sub_array<T, dims> rhs) {
                 return SimilarityMatrices::swap(lhs, rhs);
             }
         }
     }
 }
-
-
-
-
+using namespace std;
 const static int _NUM_COLS = 3;
 
 SimilarityMatrices::SimilarityMatrices(size_t max_entries) :
-max_entries_(max_entries), order_tag_(VALUE) {
+boost::multi_array<double, 5>(boost::extents[0][0][0][max_entries][_NUM_COLS]),
+order_tag_(VALUE), max_entries_(max_entries) {
 }
-
-//SimilarityMatrices::SimilarityMatrices(
-//        const Forecasts& forecasts, size_t max_entries) {
-//    max_entries_ = max_entries;
-//    order_tag_ = VALUE;
-//    resize(forecasts.getStations().size(),
-//            forecasts.getTimes().size(),
-//            forecasts.getFLTs().size());
-//}
 
 SimilarityMatrices::SimilarityMatrices(const size_t& num_stations,
         const size_t& num_times, const size_t& num_flts,
         const size_t& max_entries) :
 boost::multi_array<double, 5>(boost::extents[num_stations][num_times]
 [num_flts][max_entries][_NUM_COLS]),
-max_entries_(max_entries), order_tag_(VALUE) {
+order_tag_(VALUE), max_entries_(max_entries) {
 }
 
 SimilarityMatrices::~SimilarityMatrices() {
@@ -79,30 +62,6 @@ SimilarityMatrices::resize(size_t dim0, size_t dim1, size_t dim2) {
     }
 }
 
-//bool
-//SimilarityMatrices::checkSearchSpaceExtension() const {
-//    size_t dim0 = this->shape()[0], dim1 = this->shape()[1],
-//            dim2 = this->shape()[2], dim3 = this->shape()[3];
-//
-//    for (size_t i_dim0 = 0; i_dim0 < dim0; i_dim0++) {
-//        for (size_t i_dim1 = 0; i_dim1 < dim1; i_dim1++) {
-//            for (size_t i_dim2 = 0; i_dim2 < dim2; i_dim2++) {
-//                set<double> stations;
-//
-//                for (size_t i_dim3 = 0; i_dim3 < dim3; i_dim3++) {
-//                    stations.insert((*this)[i_dim0][i_dim1][i_dim2][i_dim3][COL_TAG::STATION]);
-//                }
-//
-//                if (stations.size() != 1) {
-//                    return (true);
-//                }
-//            }
-//        }
-//    }
-//
-//    return (false);
-//}
-
 bool
 SimilarityMatrices::sortRows(bool quick, size_t length, COL_TAG col_tag) {
 
@@ -112,47 +71,20 @@ SimilarityMatrices::sortRows(bool quick, size_t length, COL_TAG col_tag) {
     auto limit_i = this->shape()[0];
     auto limit_j = this->shape()[1];
     auto limit_k = this->shape()[2];
-
-#ifdef __clang__
-    if (quick) {
-        cerr << RED << "Warning: Disabling quick sort when Clang is used."
-                << RESET << endl;
-        quick = false;
-    }
-#endif
-
-    if (quick) {
-        if (length == 0) {
-            length = this->size();
-            cerr << RED << "Warning: Length can't be 0 for quick sort."
-                    << " It has been set to the number of entries."
-                    << RESET << endl;
-        }
-    }
+    
+    if (length == 0) length = this->shape()[3];
 
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(static) \
-collapse(3) shared(quick, sortFunc, length, limit_i, limit_j, limit_k)
+collapse(3) shared(quick, length, limit_i, limit_j, limit_k)
 #endif
     for (size_t i = 0; i < limit_i; i++) {
         for (size_t j = 0; j < limit_j; j++) {
             for (size_t k = 0; k < limit_k; k++) {
                 if (quick) {
-                    //#ifdef __clang__
-                    //                    sort((*this)[i][j][k].begin(),
-                    //                            (*this)[i][j][k].end(), sortFunc);
-                    //#else
-                    // Clang checks for forward iterator earlier 
-                    // than GNU, which would cause this problem of
-                    // mis-thinking the arguments not being iterators.
-                    // But in the end, they are.
-                    //
-                    // So I'm disabling quick sort with Clang.
-                    //
                     nth_element((*this)[i][j][k].begin(),
                             (*this)[i][j][k].begin() + length,
                             (*this)[i][j][k].end());
-                    //#endif
                 } else {
                     partial_sort((*this)[i][j][k].begin(),
                             (*this)[i][j][k].begin() + length,
