@@ -6,8 +6,8 @@
  * Created on January 5, 2020, 7:27 AM
  */
 
-#ifndef ANENDEFAULT_H
-#define ANENDEFAULT_H
+#ifndef ANENDEFAULTS_H
+#define ANENDEFAULTS_H
 
 #include <string>
 #include <cmath>
@@ -23,7 +23,19 @@ namespace AnEnDefaults {
     static const double _Y = 0.0;
     static const std::string _UNIT = "seconds";
     static const std::string _ORIGIN = "1970-01-01";
+
+    /**
+     * A higher level will contain all messages from the lower levels. For
+     * example, The progress level will contain errors and warnings. Errors,
+     * if any, must be printed.
+     */
+    enum class Verbose {
+        Error = 0, Warning = 1, Progress = 2,
+        Detail = 3, Debug = 4
+    };
+    
+    static const Verbose _VERBOSE = Verbose::Progress;
 }
 
-#endif /* ANENDEFAULT_H */
+#endif /* ANENDEFAULTS_H */
 

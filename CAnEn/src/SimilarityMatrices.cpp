@@ -6,6 +6,7 @@
  */
 
 #include "SimilarityMatrices.h"
+#include "Functions.h"
 #include "colorTexts.h"
 
 #include <stdexcept>
@@ -18,24 +19,19 @@
 #include <omp.h>
 #endif
 
-namespace boost {
-    namespace detail {
-        namespace multi_array {
-            template <typename T, size_t dims>
-            static void swap(sub_array<T, dims> lhs,
-                    sub_array<T, dims> rhs) {
-                return SimilarityMatrices::swap(lhs, rhs);
-            }
-        }
-    }
-}
 
+// The struct is created for sorting a 2-dimensional multi_array_view
+// (subarray) of boost based on a column.
+//
+// Ref: http://coliru.stacked-crooked.com/a/bfbb5a98995cc2a4
+//
 
-// TODO : This is a temporary fix!!!
-struct my_comp {
+struct colSort {
     SimilarityMatrices::COL_TAG order_tag_ = SimilarityMatrices::COL_TAG::VALUE;
-    template <typename T, size_t dims> using sub_array = boost::detail::multi_array::sub_array<T, dims>;
-    
+
+    template <typename T, size_t dims> using sub_array =
+    boost::detail::multi_array::sub_array<T, dims>;
+
     template <typename T, size_t dims>
     bool
     operator()(
@@ -71,7 +67,26 @@ struct my_comp {
     }
 };
 
+namespace boost {
+    namespace detail {
+        namespace multi_array {
+
+            template <typename T, size_t dims>
+            static void
+            swap(sub_array<T, dims> lhs,
+                    sub_array<T, dims> rhs) {
+                using std::swap;
+                for (auto ai = lhs.begin(), bi = rhs.begin();
+                        ai != lhs.end() && bi != rhs.end(); ++ai, ++bi) {
+                    swap(*ai, *bi);
+                }
+            }
+        }
+    }
+}
+
 using namespace std;
+using boost::detail::multi_array::swap;
 const static int _NUM_COLS = 3;
 
 SimilarityMatrices::SimilarityMatrices(size_t max_entries) :
@@ -113,7 +128,7 @@ SimilarityMatrices::sortRows(bool quick, size_t length, COL_TAG col_tag) {
     auto limit_i = this->shape()[0];
     auto limit_j = this->shape()[1];
     auto limit_k = this->shape()[2];
-    
+
     if (length == 0) length = this->shape()[3];
 
 #if defined(_OPENMP)
@@ -126,11 +141,11 @@ collapse(3) shared(quick, length, limit_i, limit_j, limit_k)
                 if (quick) {
                     nth_element((*this)[i][j][k].begin(),
                             (*this)[i][j][k].begin() + length,
-                            (*this)[i][j][k].end(), my_comp{});
+                            (*this)[i][j][k].end(), colSort{});
                 } else {
                     partial_sort((*this)[i][j][k].begin(),
                             (*this)[i][j][k].begin() + length,
-                            (*this)[i][j][k].end(), my_comp{});
+                            (*this)[i][j][k].end(), colSort{});
                 }
             }
         }
@@ -165,48 +180,15 @@ SimilarityMatrices::getOrderTag() const {
 }
 
 void
-SimilarityMatrices::print(ostream& os) const {
-    printSize(os);
-
-    size_t O = shape()[3];
-    size_t P = _NUM_COLS;
-
-    for (size_t i = 0; i < shape()[0]; i++) {
-        for (size_t j = 0; j < shape()[1]; j++) {
-            for (size_t k = 0; k < shape()[2]; k++) {
-                cout << "SimilarityMatrices[" << i << ", " << j
-                        << ", " << k << ", , ]" << endl;
-
-                for (size_t p = 0; p < P; p++) {
-                    os << "\t[ ," << p << "]";
-                }
-                os << endl;
-
-                for (size_t o = 0; o < O; o++) {
-                    os << "[" << o << ", ]\t";
-                    for (size_t p = 0; p < P; p++) {
-                        os << (*this)[i][j][k][o][p] << "\t";
-                    }
-                    os << endl;
-                }
-                os << endl;
-            }
-        }
-    }
+SimilarityMatrices::printShape(std::ostream & os) const {
+    os << "SimilarityMatrices Array Shape = ";
+    for (size_t i = 0; i < 5; i++) os << "[" << shape()[i] << "]";
+    os << endl;
+    return;
 }
 
-void
-SimilarityMatrices::printSize(ostream& os) const {
-    os << "SimilarityMatrices shape = "
-            << "[" << shape()[0] << "]"
-            << "[" << shape()[1] << "]"
-            << "[" << shape()[2] << "]"
-            << "[" << shape()[3] << "]"
-            << "[" << shape()[4] << "]" << endl;
-}
-
-ostream & operator<<(ostream & os,
-        const SimilarityMatrices& bv) {
-    bv.print(os);
+ostream & operator<<(ostream & os, const SimilarityMatrices& obj) {
+    obj.printShape(os);
+    Functions::print(os, obj);
     return os;
 }

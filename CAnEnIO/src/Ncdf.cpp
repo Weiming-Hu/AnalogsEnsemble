@@ -14,15 +14,6 @@ namespace filesys = boost::filesystem;
 using namespace netCDF;
 using namespace std;
 
-//ReadNcdf::ReadNcdf() {
-//}
-
-//ReadNcdf::ReadNcdf(const ReadNcdf& orig) {
-//}
-
-//ReadNcdf::~ReadNcdf() {
-//}
-
 void
 Ncdf::checkPath(const string & file_path, Mode mode) {
 

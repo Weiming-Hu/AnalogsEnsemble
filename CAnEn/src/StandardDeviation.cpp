@@ -6,7 +6,7 @@
  */
 
 #include "StandardDeviation.h"
-
+#include "Functions.h"
 
 using namespace std;
 
@@ -39,49 +39,16 @@ StandardDeviation&
 }
 
 void
-StandardDeviation::print(ostream& os) const {
-    printSize(os);
+StandardDeviation::printShape(std::ostream & os) const {
+    os << "StandardDeviation Array shape = ";
+    for (size_t i = 0; i < 3; i++) os << "[" << shape()[i] << "]";
     os << endl;
-
-    size_t M = shape()[0];
-    size_t O = shape()[1];
-    size_t P = shape()[2];
-
-
-    for (size_t m = 0; m < M; m++) {
-        os << "[ " << m << ", , ]" << endl;
-
-        for (size_t p = 0; p < P; p++) {
-            os << "\t[, ," << p << "]";
-        }
-        os << endl;
-
-        for (size_t o = 0; o < O; o++) {
-            os << "[, " << o << ", ]\t";
-
-            for (size_t p = 0; p < P; p++) {
-                os << (*this)[m][o][p] << "\t";
-            }
-            os << endl;
-
-        }
-        os << endl;
-    }
-    os << endl;
-}
-
-void
-StandardDeviation::printSize(ostream& os) const {
-    os << "Standard Deviation Array shape = ";
-    for (size_t i = 0; i < 3; i++) {
-        os << "[" << shape()[i] << "]";
-    }
-    os << endl;
+    return;
 }
 
 ostream &
-operator<<(ostream & os, const StandardDeviation & bv) {
-    bv.print(os);
+operator<<(ostream & os, const StandardDeviation & obj) {
+    obj.printShape(os);
+    Functions::print(os, obj);
     return os;
 }
-

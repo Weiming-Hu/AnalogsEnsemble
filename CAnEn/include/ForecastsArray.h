@@ -43,6 +43,8 @@ public:
             std::size_t flt_index) override;
 
     void print(std::ostream &) const override;
+    void printShape(std::ostream &) const;
+    
     friend std::ostream& operator<<(std::ostream&, const ForecastsArray&);
 
 protected:

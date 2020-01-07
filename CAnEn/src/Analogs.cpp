@@ -31,12 +31,16 @@ Analogs::~Analogs() {
 }
 
 void
-Analogs::print(std::ostream & os) const {
-    Functions::print(*this);
+Analogs::printShape(std::ostream & os) const {
+    os << "Analogs Shape = ";
+    for (size_t i = 0; i < 5; i++) os << "[" << shape()[i] << "]";
+    os << endl;
+    return;
 }
 
 std::ostream &
 operator<<(std::ostream & os, const Analogs & obj) {
-    obj.print(os);
+    obj.printShape(os);
+    Functions::print(os, obj);
     return os;
 }

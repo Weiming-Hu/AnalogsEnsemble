@@ -50,28 +50,27 @@
 //size_t roundPrecision(const double& ori);
 
 class Time  {
-
 public:
     Time();
-    Time( double );
-    Time( const Time & );
-    
+    Time(double);
+    Time(const Time &);
     virtual ~Time();
 
-//  This is where we store the actual data
+    // This is where we store the actual data
     double timestamp;
     
     Time & operator=(const Time & rhs);
     Time & operator=(double rhs);
     bool operator<(const Time &) const;
  
-    // Static they are the same for each object
+    // They are static members because unit and origin should be
+    // consistent throughout the program.
+    //
     static std::string unit;
     static std::string origin;
     
     void print(std::ostream & os) const;
     friend std::ostream& operator<<(std::ostream& os, Time const & obj);
-    
 };
 
 
@@ -120,27 +119,7 @@ public:
 
     void print(std::ostream & os) const;
     friend std::ostream& operator<<(std::ostream& os, Times const & obj);
-
-protected:
 };
-
-/**
- * \class FLTs
- * 
- * \brief FLTs class is used to store time information for prediction forecast
- * lead times (FLTs). If a temperature forecast on January 1st, 2028 contains
- * predictions at 00h, 06h, 12h, 18h on that day, this forecast has 4 FLTs,
- * which are 0, 6, 12, 18.
- * 
- * FLTs class supports the following features:
- * 1. Timestamps are unique in FLTs;
- * 2. Timestamps are kept in sequence of insertion, and have random access;
- * 3. Timestamps are accessible via values.
- */
-//class FLTs : public Times {
-//    void print(std::ostream & os) const;
-//    friend std::ostream& operator<<(std::ostream& os, FLTs const & obj);
-//};
 
 #endif /* TIME_H */
 

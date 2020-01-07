@@ -19,15 +19,18 @@ using namespace Ncdf;
 using namespace netCDF;
 using namespace std;
 using namespace AnEnNames;
+using namespace AnEnDefaults;
 
 // If data have a length longer than this limit, I/O will be parallelized.
 static const size_t _SERIAL_LENGTH_LIMIT = 1000;
 
 // TODO: Remove magic numbers
 static const size_t _OBSERVATIONS_DIMENSIONS = 3;
+static const size_t _FORECASTS_DIMENSIONS = 4;
+static const size_t _ANALOGS_DIMENSIONS = 4;
 
 AnEnReadNcdf::AnEnReadNcdf() {
-    verbose_ = Verbose::Progress;
+    verbose_ = AnEnDefaults::_VERBOSE;
 }
 
 AnEnReadNcdf::AnEnReadNcdf(Verbose verbose) :
@@ -62,11 +65,13 @@ AnEnReadNcdf::readForecasts(const string & file_path,
     bool entire = (start.size() == 0 || count.size() == 0);
 
     if (!entire) {
-        if (start.size() != 4 || count.size() != 4) {
+        if (start.size() != _FORECASTS_DIMENSIONS ||
+                count.size() != _FORECASTS_DIMENSIONS) {
             ostringstream msg;
             msg << BOLDRED << "#start (" << start.size() <<
                     ") and #count (" << count.size() <<
-                    ") should both be 4 for Forecasts." << RESET;
+                    ") should both be " << _FORECASTS_DIMENSIONS <<
+                    " for Forecasts." << RESET;
             throw runtime_error(msg.str());
         }
     }
@@ -97,15 +102,9 @@ AnEnReadNcdf::readForecasts(const string & file_path,
 
     if (verbose_ >= Verbose::Detail) cout << "Updating dimensions ..." << endl;
     forecasts.setDimensions(parameters, stations, times, flts);
-//    forecasts.setParameters(parameters);
-//    forecasts.setStations(stations);
-//    forecasts.setTimes(times);
-//    forecasts.setFlts(flts);
 
     // Read data values
-//    forecasts.updateDataDims();
     read_(nc, forecasts.getValuesPtr(), VAR_DATA, start, count);
-    
     nc.close();
 
     return;
@@ -131,11 +130,13 @@ AnEnReadNcdf::readObservations(const std::string & file_path,
     bool entire = (start.size() == 0 || count.size() == 0);
 
     if (!entire) {
-        if (start.size() != 3 || count.size() != 3) {
+        if (start.size() != _OBSERVATIONS_DIMENSIONS ||
+                count.size() != _OBSERVATIONS_DIMENSIONS) {
             ostringstream msg;
             msg << BOLDRED << "#start (" << start.size() <<
                     ") and #count (" << count.size() <<
-                    ") should both be 4 for Forecasts." << RESET;
+                    ") should both be " << _OBSERVATIONS_DIMENSIONS <<
+                    " for Observations." << RESET;
             throw runtime_error(msg.str());
         }
     }
@@ -170,50 +171,50 @@ AnEnReadNcdf::readObservations(const std::string & file_path,
     return;
 }
 
-void
-AnEnReadNcdf::readSimilarityMatrices(
-        const string & file_path, SimilarityMatrices & sims,
-        vector<size_t> start, vector<size_t> count) const {
-    
-    if (verbose_ >= Verbose::Progress) {
-        cout << "Reading similarity metric file (" <<
-                file_path << ") ..." << endl;
-    }
-
-    // Check whether we are reading partial or the entire variable
-    bool entire = (start.size() == 0 || count.size() == 0);
-
-    if (!entire) {
-        if (start.size() != 5 || count.size() != 5) {
-            ostringstream msg;
-            msg << BOLDRED << "#start (" << start.size() <<
-                    ") and #count (" << count.size() <<
-                    ") should both be 5 for SimilarityMatrices." << RESET;
-            throw runtime_error(msg.str());
-        }
-    }
-    
-    // Resize similarity to clear any leftover values
-    sims.resize(0, 0, 0);
-
-    if (verbose_ >= Verbose::Detail) cout << "Updating dimensions ..." << endl;
-    NcFile nc(file_path, NcFile::FileMode::read);
-    
-    if (entire) {
-        sims.setMaxEntries(nc.getDim(DIM_ENTRIES).getSize());
-        sims.resize(nc.getDim(DIM_STATIONS).getSize(),
-                nc.getDim(DIM_TIMES).getSize(),
-                nc.getDim(DIM_FLTS).getSize());
-    } else {
-        sims.setMaxEntries(count[3]);
-        sims.resize(count[0], count[1], count[2]);
-        
-    }
-
-    read_(nc, sims.data(), VAR_SIMS, start, count);
-    nc.close();
-    return;
-}
+//void
+//AnEnReadNcdf::readSimilarityMatrices(
+//        const string & file_path, SimilarityMatrices & sims,
+//        vector<size_t> start, vector<size_t> count) const {
+//    
+//    if (verbose_ >= Verbose::Progress) {
+//        cout << "Reading similarity metric file (" <<
+//                file_path << ") ..." << endl;
+//    }
+//
+//    // Check whether we are reading partial or the entire variable
+//    bool entire = (start.size() == 0 || count.size() == 0);
+//
+//    if (!entire) {
+//        if (start.size() != 5 || count.size() != 5) {
+//            ostringstream msg;
+//            msg << BOLDRED << "#start (" << start.size() <<
+//                    ") and #count (" << count.size() <<
+//                    ") should both be 5 for SimilarityMatrices." << RESET;
+//            throw runtime_error(msg.str());
+//        }
+//    }
+//    
+//    // Resize similarity to clear any leftover values
+//    sims.resize(0, 0, 0);
+//
+//    if (verbose_ >= Verbose::Detail) cout << "Updating dimensions ..." << endl;
+//    NcFile nc(file_path, NcFile::FileMode::read);
+//    
+//    if (entire) {
+//        sims.setMaxEntries(nc.getDim(DIM_ENTRIES).getSize());
+//        sims.resize(nc.getDim(DIM_STATIONS).getSize(),
+//                nc.getDim(DIM_TIMES).getSize(),
+//                nc.getDim(DIM_FLTS).getSize());
+//    } else {
+//        sims.setMaxEntries(count[3]);
+//        sims.resize(count[0], count[1], count[2]);
+//        
+//    }
+//
+//    read_(nc, sims.data(), VAR_SIMS, start, count);
+//    nc.close();
+//    return;
+//}
 
 void
 AnEnReadNcdf::readAnalogs(
@@ -228,11 +229,13 @@ AnEnReadNcdf::readAnalogs(
     bool entire = (start.size() == 0 || count.size() == 0);
 
     if (!entire) {
-        if (start.size() != 5 || count.size() != 5) {
+        if (start.size() != _ANALOGS_DIMENSIONS ||
+                count.size() != _ANALOGS_DIMENSIONS) {
             ostringstream msg;
             msg << BOLDRED << "#start (" << start.size() <<
                     ") and #count (" << count.size() <<
-                    ") should both be 5 for Analogs." << RESET;
+                    ") should both be " << _ANALOGS_DIMENSIONS <<
+                    " for Analogs." << RESET;
             throw runtime_error(msg.str());
         }
     }
@@ -257,46 +260,46 @@ AnEnReadNcdf::readAnalogs(
     return;
 }
 
-void
-AnEnReadNcdf::readStandardDeviation(
-        const string & file_path, StandardDeviation & sds,
-        vector<size_t> start, vector<size_t> count) const {
-    
-    if (verbose_ >= Verbose::Progress) {
-        cout << "Reading standard deviation file ("
-                << file_path << ") ..." << endl;
-    }
-
-    // Check whether we are reading partial or the entire variable
-    bool entire = (start.size() == 0 || count.size() == 0);
-
-    if (!entire) {
-        if (start.size() != 3 || count.size() != 3) {
-            ostringstream msg;
-            msg << BOLDRED << "#start (" << start.size() <<
-                    ") and #count (" << count.size() <<
-                    ") should both be 3 for StandardDeviation." << RESET;
-            throw runtime_error(msg.str());
-        }
-    }
-    
-    if (verbose_ >= Verbose::Detail) cout << "Updating dimensions ..." << endl;
-    NcFile nc(file_path, NcFile::FileMode::read);
-
-    if (entire) {
-        sds.resize(boost::extents
-                [nc.getDim(DIM_PARS).getSize()]
-                [nc.getDim(DIM_STATIONS).getSize()]
-                [nc.getDim(DIM_FLTS).getSize()]);
-    } else {
-        sds.resize(boost::extents
-                [count[0]][count[1]][count[2]]);
-    }
-
-    read_(nc, sds.data(), VAR_STD, start, count);
-    nc.close();
-    return;
-}
+//void
+//AnEnReadNcdf::readStandardDeviation(
+//        const string & file_path, StandardDeviation & sds,
+//        vector<size_t> start, vector<size_t> count) const {
+//    
+//    if (verbose_ >= Verbose::Progress) {
+//        cout << "Reading standard deviation file ("
+//                << file_path << ") ..." << endl;
+//    }
+//
+//    // Check whether we are reading partial or the entire variable
+//    bool entire = (start.size() == 0 || count.size() == 0);
+//
+//    if (!entire) {
+//        if (start.size() != 3 || count.size() != 3) {
+//            ostringstream msg;
+//            msg << BOLDRED << "#start (" << start.size() <<
+//                    ") and #count (" << count.size() <<
+//                    ") should both be 3 for StandardDeviation." << RESET;
+//            throw runtime_error(msg.str());
+//        }
+//    }
+//    
+//    if (verbose_ >= Verbose::Detail) cout << "Updating dimensions ..." << endl;
+//    NcFile nc(file_path, NcFile::FileMode::read);
+//
+//    if (entire) {
+//        sds.resize(boost::extents
+//                [nc.getDim(DIM_PARS).getSize()]
+//                [nc.getDim(DIM_STATIONS).getSize()]
+//                [nc.getDim(DIM_FLTS).getSize()]);
+//    } else {
+//        sds.resize(boost::extents
+//                [count[0]][count[1]][count[2]]);
+//    }
+//
+//    read_(nc, sds.data(), VAR_STD, start, count);
+//    nc.close();
+//    return;
+//}
 
 void
 AnEnReadNcdf::read_(const NcFile & nc, Parameters & parameters,

@@ -18,6 +18,7 @@
 #include "colorTexts.h"
 #include "SimilarityMatrices.h"
 #include "StandardDeviation.h"
+#include "AnEnDefaults.h"
 
 /**
  * \class AnEnReadNcdf
@@ -35,18 +36,8 @@ public:
         Analogs, StandardDeviation
     };
 
-    // A higher level will contain all messages from the lower levels. For
-    // example, The progress level will contain errors and warnings. Errors,
-    // if any, must be printed.
-    //
-
-    enum class Verbose {
-        Error = 0, Warning = 1, Progress = 2,
-        Detail = 3, Debug = 4
-    };
-
     AnEnReadNcdf();
-    AnEnReadNcdf(Verbose verbose);
+    AnEnReadNcdf(AnEnDefaults::Verbose verbose);
     AnEnReadNcdf(const AnEnReadNcdf& orig);
     virtual ~AnEnReadNcdf();
 
@@ -62,24 +53,24 @@ public:
             const std::string & file_path, Observations & observations,
             std::vector<size_t> start, std::vector<size_t> count) const;
     
-    void readSimilarityMatrices(
-            const std::string & file_path, SimilarityMatrices & sims,
-            std::vector<size_t> start = {},
-            std::vector<size_t> count = {}) const;
+//    void readSimilarityMatrices(
+//            const std::string & file_path, SimilarityMatrices & sims,
+//            std::vector<size_t> start = {},
+//            std::vector<size_t> count = {}) const;
     
     void readAnalogs(
             const std::string & file_path, Analogs & analogs,
             std::vector<size_t> start = {},
             std::vector<size_t> count = {}) const;
     
-    void readStandardDeviation(
-            const std::string & file_path, StandardDeviation & sds,
-            std::vector<size_t> start = {},
-            std::vector<size_t> count = {}) const;
+//    void readStandardDeviation(
+//            const std::string & file_path, StandardDeviation & sds,
+//            std::vector<size_t> start = {},
+//            std::vector<size_t> count = {}) const;
     
     
 protected:
-    Verbose verbose_;
+    AnEnDefaults::Verbose verbose_;
 
     void read_(const netCDF::NcFile & nc, Parameters & parameters,
             size_t start = 0, size_t count = 0) const;

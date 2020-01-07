@@ -17,7 +17,7 @@
  */
 
 #include "Times.h"
-#include "AnEnDefault.h"
+#include "AnEnDefaults.h"
 
 #include <iterator>
 #include <sstream>
@@ -145,22 +145,3 @@ operator<<(ostream& os, Times const & obj) {
     obj.print(os);
     return os;
 }
-
-///***************************************************************************
-// *                                 FLTs                                    *
-// **************************************************************************/
-//
-//void
-//FLTs::print(ostream &os) const {
-//    os << "[FLT] size: " << size() << endl;
-//    ostream_iterator<double> element_itr(os, ", ");
-//    copy(begin(), end(), element_itr);
-//    cout << endl;
-//}
-//
-//ostream&
-//operator<<(ostream& os, FLTs const & obj) {
-//    obj.print(os);
-//    return os;
-//}
-

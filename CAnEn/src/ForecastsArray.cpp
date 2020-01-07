@@ -8,6 +8,7 @@
 
 #include "ForecastsArray.h"
 #include "colorTexts.h"
+#include "Functions.h"
 
 using namespace std;
 
@@ -48,9 +49,6 @@ double*
 ForecastsArray::getValuesPtr() {
     return( data_.data());
 }
-
-  
-
 
 void
 ForecastsArray::setDimensions(const Parameters & parameters,
@@ -101,45 +99,19 @@ ForecastsArray::setValue(double val, size_t parameter_index,
     data_[parameter_index][station_index][time_index][flt_index] = val;
 }
 
-
-
-void
-ForecastsArray::print(ostream &os) const {
+void ForecastsArray::printShape(std::ostream & os) const {
     Forecasts::print(os);
+    os << "ForecastsArray Shape = ";
+    for (size_t i = 0; i < 4; i++) os << "[" << data_.shape()[i] << "]";
     os << endl;
-   
-    size_t M = data_.shape()[0];
-    size_t N = data_.shape()[1];
-    size_t O = data_.shape()[2];
-    size_t P = data_.shape()[3];
-
-
-    for (size_t m = 0; m < M; m++) {
-        for (size_t n = 0; n < N; n++) {
-
-            os << "[ " << m << ", " << n << ", , ]" << endl;
-
-            for (size_t p = 0; p < P; p++) {
-                os << "\t[,,," << p << "]";
-            }
-            os << endl;
-
-            for (size_t o = 0; o < O; o++) {
-                os << "[,," << o << ",]\t";
-
-                for (size_t p = 0; p < P; p++) {
-                    os << data_[m][n][o][p] << "\t";
-                }
-                os << endl;
-
-            }
-            os << endl;
-        }
-        os << endl;
-    }
-    os << endl;
+    return;
 }
 
+void ForecastsArray::print(std::ostream & os) const {
+    printShape(os);
+    Functions::print(os, data_);
+    return;
+}
 
 ostream &
 operator<<(ostream & os, const ForecastsArray& obj) {

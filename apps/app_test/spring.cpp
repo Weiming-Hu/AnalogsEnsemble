@@ -34,8 +34,8 @@ int main(int argc, char** argv) {
     read_nc.readForecasts(forecast_file, forecasts);
     read_nc.readObservations(observation_file, observations);
 
-    //cout << forecasts;
-    //cout << observations;
+    cout << forecasts;
+    cout << observations;
 
     return 0;
 }

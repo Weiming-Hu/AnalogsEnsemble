@@ -14,8 +14,6 @@
 
 #include "boost/numeric/ublas/matrix.hpp"
 
-// TODO: Change this to a AnEnReadText and AnEnWriteText
-
 /**
  * Namespace ReadTxt provides functionality for txt file I/O.
  */

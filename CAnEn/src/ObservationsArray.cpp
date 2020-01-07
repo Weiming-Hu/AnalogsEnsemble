@@ -7,6 +7,7 @@
 
 #include "ObservationsArray.h"
 #include "colorTexts.h"
+#include "Functions.h"
 
 using namespace std;
 
@@ -44,9 +45,6 @@ ObservationsArray::getValuesPtr() {
     return( data_.data());
 }
 
-  
-
-
 void
 ObservationsArray::setDimensions(const Parameters & parameters,
         const Stations & stations,
@@ -59,9 +57,6 @@ ObservationsArray::setDimensions(const Parameters & parameters,
     // Update dimensions and allocation memory
     updateDataDims_(true);
 }
-
-
-
 
 double
 ObservationsArray::getValue(size_t parameter_index,
@@ -95,45 +90,21 @@ ObservationsArray::updateDataDims_(bool initialize_values) {
         fill_n(data_.data(), data_.num_elements(), NAN);
 }
 
-
 void
-ObservationsArray::print(ostream& os) const {
-
-    // Base class print function
+ObservationsArray::printShape(std::ostream & os) const {
     Observations::print(os);
-
-    // Print data in derived class
-    os << "Array Shape = ";
-    for (size_t i = 0; i < 3; i++) {
-        os << "[" << data_.shape()[i] << "]";
-    }
+    os << "ObservationsArray Shape = ";
+    for (size_t i = 0; i < 3; i++) os << "[" << data_.shape()[i] << "]";
     os << endl;
-
-    auto sizes = data_.shape();
-
-    for (size_t m = 0; m < sizes[0]; m++) {
-
-        os << "[ " << m << ", , ]" << endl;
-
-        for (size_t p = 0; p < sizes[2]; p++) {
-            os << "\t[,," << p << "]";
-        }
-        os << endl;
-
-        for (size_t o = 0; o < sizes[1]; o++) {
-            os << "[," << o << ",]\t";
-
-            for (size_t p = 0; p < sizes[2]; p++) {
-                os << data_[m][o][p] << "\t";
-            }
-            os << endl;
-
-        }
-        os << endl;
-
-    }
-    os << endl;
+    return;
 }
+
+void ObservationsArray::print(std::ostream & os) const {
+    printShape(os);
+    Functions::print(os, data_);
+    return;
+}
+
 
 ostream &
 operator<<(ostream& os, const ObservationsArray& obj) {

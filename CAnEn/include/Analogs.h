@@ -9,7 +9,8 @@
 #define ANALOGS_H
 
 #include "boost/multi_array.hpp"
-//#include "Forecasts.h"
+
+#include <vector>
 
 /**
  * \class Analogs
@@ -27,7 +28,6 @@ public:
     Analogs();
     Analogs(size_t num_stations, size_t num_times,
             size_t num_flts, size_t num_members);
-  //  Analogs(const Forecasts & forecasts, size_t num_members);
     Analogs(const Analogs& orig) = delete;
     virtual ~Analogs();
 
@@ -36,6 +36,8 @@ public:
     };
 
     void print(std::ostream &) const;
+    void printShape(std::ostream &) const;
+
     friend std::ostream & operator<<(std::ostream &, const Analogs &);
 
     std::vector< std::vector<size_t> > search_stations;

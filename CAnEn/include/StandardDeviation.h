@@ -35,7 +35,8 @@ public:
     StandardDeviation& operator=(const StandardDeviation& right);
     
     void print(std::ostream &) const;
-    void printSize(std::ostream &) const;
+    void printShape(std::ostream &) const;
+    
     friend std::ostream & operator<<(std::ostream &,
             const StandardDeviation&);
 };

@@ -15,9 +15,10 @@ using namespace std;
 using namespace Ncdf;
 using namespace netCDF;
 using namespace AnEnNames;
+using namespace AnEnDefaults;
 
 AnEnWriteNcdf::AnEnWriteNcdf() {
-    verbose_ = Verbose::Progress;
+    verbose_ = AnEnDefaults::_VERBOSE;
 }
 
 AnEnWriteNcdf::AnEnWriteNcdf(Verbose verbose) :

@@ -35,7 +35,7 @@ Observations::print(ostream& os) const {
             times_.size() << "]" << endl << endl;
     os << parameters_ << endl;
     os << stations_ << endl;
-    os << times_ << endl << endl;
+    os << times_ << endl;
 }
 
 ostream &

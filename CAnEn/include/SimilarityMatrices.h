@@ -51,43 +51,17 @@ public:
     int getNumCols();
     size_t getMaxEntries();
     COL_TAG getOrderTag() const;
-    
+
     void print(std::ostream &) const;
-    void printSize(std::ostream &) const;
+    void printShape(std::ostream &) const;
+    
     friend std::ostream & operator<<(std::ostream &,
             const SimilarityMatrices&);
-
-    /**************************************************************************
-     *                            Template Functions                          *
-     **************************************************************************/
-    
-    template <typename T, size_t dims> using sub_array =
-        boost::detail::multi_array::sub_array<T, dims>;
-    
-    template <typename T, size_t dims>
-    bool operator()(sub_array<T, dims> const &lhs,
-            sub_array<T, dims> const &rhs) const;
-
-    template <typename T, size_t dims>
-    bool operator()(boost::multi_array<T, dims> const &lhs,
-            sub_array<T, dims> const &rhs) const;
-
-    template <typename T, size_t dims>
-    bool operator()(sub_array<T, dims> const &lhs,
-            boost::multi_array<T, dims> const &rhs) const;
-
-    template <typename T> bool operator()(T lhs, T rhs) const;
-    
-    template <typename T, size_t dims>
-    static void swap(sub_array<T, dims> lhs, sub_array<T, dims> rhs);
     
 private:
     COL_TAG order_tag_;
     size_t max_entries_;
 };
-
-// Definition for template functions
-#include "SimilarityMatrices.tpp"
 
 #endif /* SIMILARITYMATRIX_H */
 

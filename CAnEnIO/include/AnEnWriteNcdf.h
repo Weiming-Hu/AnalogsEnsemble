@@ -13,6 +13,7 @@
 #include "Stations.h"
 #include "Times.h"
 #include "Parameters.h"
+#include "AnEnDefaults.h"
 
 class AnEnWriteNcdf {
 public:
@@ -27,15 +28,8 @@ public:
     // if any, must be printed.
     //
 
-    // TODO: Move this to defaults
-    enum class Verbose {
-        Error = 0, Warning = 1, Progress = 2,
-        Detail = 3, Debug = 4
-    };
-
     AnEnWriteNcdf();
-    // TODO: Default value can come from the default list
-    AnEnWriteNcdf(Verbose verbose);
+    AnEnWriteNcdf(AnEnDefaults::Verbose verbose);
     AnEnWriteNcdf(const AnEnWriteNcdf& orig);
     virtual ~AnEnWriteNcdf();
 
@@ -48,7 +42,7 @@ public:
             const Times & search_times) const;
 
 protected:
-    Verbose verbose_;
+    AnEnDefaults::Verbose verbose_;
 
     netCDF::NcDim getDim_(const netCDF::NcFile & nc,
             std::string name, size_t len = 0) const;

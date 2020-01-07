@@ -11,7 +11,6 @@
 namespace filesys = boost::filesystem;
 using namespace std;
 
-// TODO: This can be a helper function that is shared by other IO processes.
 void
 Txt::checkPath(const string & file_path, Mode mode, const std::string & extension) {
     
