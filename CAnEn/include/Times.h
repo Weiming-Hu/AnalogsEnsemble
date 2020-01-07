@@ -9,45 +9,8 @@
 #ifndef TIME_H
 #define TIME_H
 
-//#include "By.h"
-
 #include <string>
 #include <iostream>
-#include <set>
-
-//#ifndef BOOST_NO_AUTO_PTR
-//#define BOOST_NO_AUTO_PTR
-//#endif
-//
-//#include <boost/multi_index/tag.hpp>
-//#include <boost/multi_index/mem_fun.hpp>
-//#include <boost/multi_index/identity.hpp>
-//#include <boost/multi_index_container.hpp>
-//#include <boost/multi_index/global_fun.hpp>
-//#include <boost/multi_index/hashed_index.hpp>
-//#include <boost/multi_index/random_access_index.hpp>
-
-/**
- * Although times are implemented as double container, the precision is not
- * exactly the same as double precious. This is because of two reasons:
- * 
- * - Double values are generally not recommended to be hashed because
- * hash values are used to look up the exact element, and double values are
- * too precise to be hashed;
- * - Sometimes when reading from NetCDF files, values can be float and double.
- * If exact match is desired, values from float will never be able to match
- * double values because of the difference in precision;
- * 
- * Therefore, this function is provided to define a somewhat less precise
- * precision level for times, as a balance between performance and precision.
- * 
- * The function simply multiply the double value with a multiplier and then
- * disregard the decimals.
- * 
- * @param ori The original double value.
- * @return The multiplied and truncated size_t value.
- */
-//size_t roundPrecision(const double& ori);
 
 class Time  {
 public:

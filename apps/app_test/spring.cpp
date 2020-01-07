@@ -21,21 +21,50 @@
 
 using namespace std;
 
-int main(int argc, char** argv) {
+#include "boost/bimap/vector_of.hpp"
+#include "boost/bimap/set_of.hpp"
+#include "boost/bimap.hpp"
 
-    string forecast_file = "/home/graduate/wuh20/github/AnalogsEnsemble/tests/Data/forecasts.nc";
-    string observation_file = "/home/graduate/wuh20/github/AnalogsEnsemble/tests/Data/observations.nc";
+using bm_type = boost::bimap<
+        boost::bimaps::vector_of<size_t>,
+        boost::bimaps::set_of<Time> >;
 
+
+int main () {
+    bm_type myTimes;
+    Time mytime(1000);
     
-    ForecastsArray forecasts;
-    ObservationsArray observations;
-
-    AnEnReadNcdf read_nc;
-    read_nc.readForecasts(forecast_file, forecasts);
-    read_nc.readObservations(observation_file, observations);
-
-    cout << forecasts;
-    cout << observations;
-
+    myTimes.push_back(bm_type::value_type(0, Time(100)));
+    myTimes.push_back(bm_type::value_type(1, Time(200)));
+    myTimes.push_back(bm_type::value_type(2, Time(300)));
+    myTimes.push_back(bm_type::value_type(3, Time(400)));
+    
+    
+    cout << myTimes.left[0].first << " Value: " << myTimes.left.at(0).second << endl;
+    cout << myTimes.left.at(1).first << " Value: " << myTimes.left.at(1).second << endl;
+    cout << myTimes.left.at(2).first << " Value: " << myTimes.left.at(2).second << endl;
+    
+    cout << myTimes.right.find(Time(200))->second << endl;
+    
+    
     return 0;
 }
+
+//int main(int argc, char** argv) {
+//
+//    string forecast_file = "/home/graduate/wuh20/github/AnalogsEnsemble/tests/Data/forecasts.nc";
+//    string observation_file = "/home/graduate/wuh20/github/AnalogsEnsemble/tests/Data/observations.nc";
+//
+//    
+//    ForecastsArray forecasts;
+//    ObservationsArray observations;
+//
+//    AnEnReadNcdf read_nc;
+//    read_nc.readForecasts(forecast_file, forecasts);
+//    read_nc.readObservations(observation_file, observations);
+//
+//    cout << forecasts;
+//    cout << observations;
+//
+//    return 0;
+//}

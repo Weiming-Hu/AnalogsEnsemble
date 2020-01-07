@@ -16,8 +16,6 @@
 #include "AnEnRead.h"
 #include "Analogs.h"
 #include "colorTexts.h"
-#include "SimilarityMatrices.h"
-#include "StandardDeviation.h"
 #include "AnEnDefaults.h"
 
 /**
