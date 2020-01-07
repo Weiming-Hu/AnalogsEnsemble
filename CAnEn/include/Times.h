@@ -12,7 +12,11 @@
 #include <string>
 #include <iostream>
 
-class Time  {
+#include "boost/bimap/vector_of.hpp"
+#include "boost/bimap/set_of.hpp"
+#include "boost/bimap.hpp"
+
+class Time {
 public:
     Time();
     Time(double);
@@ -21,63 +25,41 @@ public:
 
     // This is where we store the actual data
     double timestamp;
-    
+
     Time & operator=(const Time & rhs);
     Time & operator=(double rhs);
     bool operator<(const Time &) const;
- 
+
     // They are static members because unit and origin should be
     // consistent throughout the program.
     //
     static std::string unit;
     static std::string origin;
-    
+
     void print(std::ostream & os) const;
     friend std::ostream& operator<<(std::ostream& os, Time const & obj);
 };
 
-
-//
-//
-///**
-// * Base class for Times
-// */
-//using multiIndexTimes = boost::multi_index_container<
-//
-//        // This is the base class
-//        Time,
-//
-//        boost::multi_index::indexed_by<
-//
-//        // Order by insertion sequence
-//        boost::multi_index::random_access<
-//        boost::multi_index::tag<By::insert> >,
-//
-//        // Order by value
-//        boost::multi_index::hashed_unique<
-//        boost::multi_index::tag<By::value>,
-//        boost::multi_index::global_fun<
-//        const double&, size_t, &roundPrecision> > > >;
-
 /**
  * \class Times
  * 
- * \brief Times class is used to store time information for predictions. By 
- * default this is the number of seconds from the origin January 1st, 1970.
- * This can be customized by changing the default setting of origin and unit.
+ * \brief Times class is used to store Time. It is a bidirectional map
+ * implemented from Boost so that it provides fast translation from and to
+ * its underlying Time object.
  * 
  * Times class supports the following features:
- * 1. Timestamps are unique in Times;
- * 2. Timestamps are kept in sequence of insertion, and have random access;
- * 3. Timestamps are accessible via values.
+ * 1. Time is unique;
+ * 2. Time objects are kept in sequence of insertion, and have random access;
+ * 3. Index of a time object can be quickly retrieved using Time.
  */
-class Times : public std::set< Time > {
+class Times : public boost::bimap<boost::bimaps::vector_of<size_t>,
+        boost::bimaps::set_of<Time> > {
 public:
     Times();
     virtual ~Times();
 
     Times & operator=(const Times & rhs);
-    
+
     //size_t getTimeIndex(double timestamp) const;
 
     void print(std::ostream & os) const;

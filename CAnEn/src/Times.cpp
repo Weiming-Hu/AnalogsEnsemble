@@ -30,7 +30,6 @@ static const int MULTIPLIER = 10000;
 std::string Time::origin = "1970-01-01";
 std::string Time::unit = "seconds";
 
-
 Time::Time() 
 {}
 
@@ -81,10 +80,6 @@ operator<<(ostream& os, Time const & obj) {
     return os;
 }
 
-//size_t roundPrecision(const double& ori) {
-//    return (std::round(ori * MULTIPLIER));
-//}
-
 /***************************************************************************
  *                               Times                                     *
  **************************************************************************/
@@ -103,35 +98,7 @@ Times & Times::operator=(const Times & rhs) {
 
     return *this;
 }
-//
-//size_t
-//Times::getTimeIndex(double timestamp) const {
-//
-//    // Find the timestamp in value-ordered index
-//    const multiIndexTimes::index<By::value>::type&
-//            times_by_value = get<By::value>();
-//
-//    auto it_value = times_by_value.find(
-//            roundPrecision(timestamp));
-//
-//    if (it_value != times_by_value.end()) {
-//
-//        // Project the value-based ordered to insertion sequence
-//        const auto it_insert = project<By::insert>(it_value);
-//
-//        // Get the insertion sequence index iterator
-//        const multiIndexTimes::index<By::insert>::type&
-//                times_by_insert = get<By::insert>();
-//
-//        // Compute the distance
-//        return (distance(times_by_insert.begin(), it_insert));
-//
-//    } else {
-//        throw out_of_range("Error: Can't find the index for time " +
-//                to_string((long double) timestamp));
-//    }
-//}
-//
+
 void
 Times::print(ostream &os) const {
     os << "[Time] size: " << size() << endl;

@@ -11,24 +11,10 @@
 #include "AnEn.h"
 #include "AnEnReadNcdf.h"
 
-#include <boost/multi_array.hpp>
-#include <algorithm>
-#include <iostream>
-#include <cstring>
-
 #include "ForecastsArray.h"
 #include "ObservationsArray.h"
 
 using namespace std;
-
-#include "boost/bimap/vector_of.hpp"
-#include "boost/bimap/set_of.hpp"
-#include "boost/bimap.hpp"
-
-using bm_type = boost::bimap<
-        boost::bimaps::vector_of<size_t>,
-        boost::bimaps::set_of<Time> >;
-
 
 int main () {
     bm_type myTimes;
