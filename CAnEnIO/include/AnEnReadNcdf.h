@@ -51,20 +51,10 @@ public:
             const std::string & file_path, Observations & observations,
             std::vector<size_t> start, std::vector<size_t> count) const;
     
-//    void readSimilarityMatrices(
-//            const std::string & file_path, SimilarityMatrices & sims,
-//            std::vector<size_t> start = {},
-//            std::vector<size_t> count = {}) const;
-    
     void readAnalogs(
             const std::string & file_path, Analogs & analogs,
             std::vector<size_t> start = {},
             std::vector<size_t> count = {}) const;
-    
-//    void readStandardDeviation(
-//            const std::string & file_path, StandardDeviation & sds,
-//            std::vector<size_t> start = {},
-//            std::vector<size_t> count = {}) const;
     
     
 protected:
@@ -81,17 +71,6 @@ protected:
             size_t start = 0, size_t count = 0) const;
     
     void checkFileType_(const netCDF::NcFile & nc, FileType file_type) const;
-
-    void fastInsert_(
-            Parameters & parameters, size_t dim_len,
-            const std::vector<std::string> & names,
-            std::vector<std::string> & circulars,
-            const std::vector<double> & weights) const;
-    void fastInsert_(
-            Stations & stations, size_t dim_len,
-            const std::vector<std::string> & names,
-            const std::vector<double> & xs,
-            const std::vector<double> & ys) const;
     
     /**************************************************************************
      *                       Protected Template Functions                     *

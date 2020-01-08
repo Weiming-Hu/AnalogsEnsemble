@@ -141,7 +141,7 @@ Parameters::print(ostream & os) const {
     os << "[Parameters] size: " << size() << endl;
 
     for (left_const_iterator it = left.begin(); it < left.end(); it++) {
-        os << it->second;
+        os << "[" << it->first << "] " << it->second;
     }
     
     return;

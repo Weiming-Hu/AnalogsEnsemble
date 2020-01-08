@@ -46,12 +46,12 @@ namespace bgi = boost::geometry::index;
 
 
 Station::Station() :
-name_(AnEnDefaults::_NAME), x_(AnEnDefaults::_X), y_(AnEnDefaults::_Y) {
+x_(AnEnDefaults::_X), y_(AnEnDefaults::_Y), name_(AnEnDefaults::_NAME) {
 }
 
 
-Station::Station(string name, double x, double y) :
-name_(name), x_(x), y_(y) {
+Station::Station(double x, double y, string name) :
+x_(x), y_(y), name_(name) {
 }
 
 Station::Station(Station const & rhs) {
@@ -309,7 +309,7 @@ Stations::print(ostream & os) const {
     os << "[Stations] size: " << size() << endl;
 
     for (left_const_iterator it = left.begin(); it < left.end(); it++) {
-        os << it->second;
+        os << "[" << it->first << "] " << it->second;
     }
 
     return;

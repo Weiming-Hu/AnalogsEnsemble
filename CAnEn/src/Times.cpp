@@ -71,7 +71,7 @@ Time::operator<(const Time & rhs) const {
 
 void
 Time::print(ostream &os) const {
-    os << timestamp;
+    os << timestamp << endl;
 }
 
 ostream&
@@ -92,13 +92,12 @@ Times::~Times() {
 
 void
 Times::print(ostream &os) const {
-    os << "[Time] size: " << size() << endl;
+    os << "[Times] size: " << size() << endl;
     
     for ( left_const_iterator it = left.begin() ; it < left.end() ; it ++ ) {
-        os << it->second << ", ";
+        os << "[" << it->first << "] " << it->second;
     }
     
-    os << endl;
     return;
 }
 

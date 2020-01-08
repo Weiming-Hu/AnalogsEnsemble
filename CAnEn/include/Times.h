@@ -12,9 +12,7 @@
 #include <string>
 #include <iostream>
 
-#include "boost/bimap/vector_of.hpp"
-#include "boost/bimap/set_of.hpp"
-#include "boost/bimap.hpp"
+#include "BmDim.h"
 
 class Time {
 public:
@@ -40,8 +38,6 @@ public:
     friend std::ostream& operator<<(std::ostream& os, Time const & obj);
 };
 
-using BmTimes = boost::bimap<boost::bimaps::vector_of<size_t>, boost::bimaps::set_of<Time> >;
-
 /**
  * \class Times
  * 
@@ -54,7 +50,7 @@ using BmTimes = boost::bimap<boost::bimaps::vector_of<size_t>, boost::bimaps::se
  * 2. Time objects are kept in sequence of insertion, and have random access;
  * 3. Index of a time object can be quickly retrieved using Time.
  */
-class Times : public BmTimes {
+class Times : public BmType<Time> {
 public:
     Times();
     virtual ~Times();

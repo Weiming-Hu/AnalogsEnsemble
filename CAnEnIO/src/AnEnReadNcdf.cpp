@@ -171,51 +171,6 @@ AnEnReadNcdf::readObservations(const std::string & file_path,
     return;
 }
 
-//void
-//AnEnReadNcdf::readSimilarityMatrices(
-//        const string & file_path, SimilarityMatrices & sims,
-//        vector<size_t> start, vector<size_t> count) const {
-//    
-//    if (verbose_ >= Verbose::Progress) {
-//        cout << "Reading similarity metric file (" <<
-//                file_path << ") ..." << endl;
-//    }
-//
-//    // Check whether we are reading partial or the entire variable
-//    bool entire = (start.size() == 0 || count.size() == 0);
-//
-//    if (!entire) {
-//        if (start.size() != 5 || count.size() != 5) {
-//            ostringstream msg;
-//            msg << BOLDRED << "#start (" << start.size() <<
-//                    ") and #count (" << count.size() <<
-//                    ") should both be 5 for SimilarityMatrices." << RESET;
-//            throw runtime_error(msg.str());
-//        }
-//    }
-//    
-//    // Resize similarity to clear any leftover values
-//    sims.resize(0, 0, 0);
-//
-//    if (verbose_ >= Verbose::Detail) cout << "Updating dimensions ..." << endl;
-//    NcFile nc(file_path, NcFile::FileMode::read);
-//    
-//    if (entire) {
-//        sims.setMaxEntries(nc.getDim(DIM_ENTRIES).getSize());
-//        sims.resize(nc.getDim(DIM_STATIONS).getSize(),
-//                nc.getDim(DIM_TIMES).getSize(),
-//                nc.getDim(DIM_FLTS).getSize());
-//    } else {
-//        sims.setMaxEntries(count[3]);
-//        sims.resize(count[0], count[1], count[2]);
-//        
-//    }
-//
-//    read_(nc, sims.data(), VAR_SIMS, start, count);
-//    nc.close();
-//    return;
-//}
-
 void
 AnEnReadNcdf::readAnalogs(
         const string & file_path, Analogs & analogs,
@@ -260,52 +215,15 @@ AnEnReadNcdf::readAnalogs(
     return;
 }
 
-//void
-//AnEnReadNcdf::readStandardDeviation(
-//        const string & file_path, StandardDeviation & sds,
-//        vector<size_t> start, vector<size_t> count) const {
-//    
-//    if (verbose_ >= Verbose::Progress) {
-//        cout << "Reading standard deviation file ("
-//                << file_path << ") ..." << endl;
-//    }
-//
-//    // Check whether we are reading partial or the entire variable
-//    bool entire = (start.size() == 0 || count.size() == 0);
-//
-//    if (!entire) {
-//        if (start.size() != 3 || count.size() != 3) {
-//            ostringstream msg;
-//            msg << BOLDRED << "#start (" << start.size() <<
-//                    ") and #count (" << count.size() <<
-//                    ") should both be 3 for StandardDeviation." << RESET;
-//            throw runtime_error(msg.str());
-//        }
-//    }
-//    
-//    if (verbose_ >= Verbose::Detail) cout << "Updating dimensions ..." << endl;
-//    NcFile nc(file_path, NcFile::FileMode::read);
-//
-//    if (entire) {
-//        sds.resize(boost::extents
-//                [nc.getDim(DIM_PARS).getSize()]
-//                [nc.getDim(DIM_STATIONS).getSize()]
-//                [nc.getDim(DIM_FLTS).getSize()]);
-//    } else {
-//        sds.resize(boost::extents
-//                [count[0]][count[1]][count[2]]);
-//    }
-//
-//    read_(nc, sds.data(), VAR_STD, start, count);
-//    nc.close();
-//    return;
-//}
-
 void
 AnEnReadNcdf::read_(const NcFile & nc, Parameters & parameters,
         size_t start, size_t count) const {
 
-    if (verbose_ >= Verbose::Detail) cout << "Reading parameters ..." << endl;
+    size_t size_ori = parameters.size();
+    if (verbose_ >= Verbose::Detail) {
+        if (size_ori == 0) cout << "Reading parameters ..." << endl;
+        else cout << "Appending parameters ..." << endl;
+    }
 
     // Check whether we are reading partial or the entire variable
     bool entire = (start == 0 || count == 0);
@@ -316,19 +234,57 @@ AnEnReadNcdf::read_(const NcFile & nc, Parameters & parameters,
 
     if (!entire) checkIndex(start, count, dim_len);
 
+    // Read the NetCDF variables as several vectors
     readStringVector(nc, VAR_PARNAMES, names, start, count);
 
     if (varExists(nc, VAR_CIRCULARS)) {
-        readStringVector(nc, VAR_CIRCULARS,
-                circulars, start, count);
+        readStringVector(nc, VAR_CIRCULARS, circulars, start, count);
+
+        if (names.size() < circulars.size()) {
+            ostringstream msg;
+            msg << BOLDRED << "#" << VAR_CIRCULARS << " (" << circulars.size() <<
+                    ") should be no more than " << names.size() << RESET;
+            throw runtime_error(msg.str());
+        }
     }
 
     if (varExists(nc, VAR_PARWEIGHTS)) {
         if (entire) readVector(nc, VAR_PARWEIGHTS, weights);
         else readVector(nc, VAR_PARWEIGHTS, weights, {start}, {count});
+        
+        if (names.size() != weights.size() && 0 != weights.size()) {
+            ostringstream msg;
+            msg << BOLDRED << "#" << VAR_PARWEIGHTS << " (" << weights.size() <<
+                    ") should be either undefined or " << names.size() << RESET;
+            throw runtime_error(msg.str());
+        }
     }
-
-    fastInsert_(parameters, names.size(), names, circulars, weights);
+    
+    // Convert vectors to the dimension class
+    for (size_t dim_id = size_ori, i = 0; i < names.size(); ++i, ++dim_id) {
+        
+        // Initialize the parameter with its name
+        Parameter parameter(names[i]);
+        
+        // Set circular if the parameter is found in the list
+        const auto & it = find(circulars.begin(), circulars.end(), names[i]);
+        if (it != circulars.end()) parameter.setCircular(true);
+        
+        // Set its weight if it is provided
+        if (!(weights.empty())) parameter.setWeight(weights.at(i));
+        
+        // Push the parameter to the dimension class with an index
+        parameters.push_back(Parameters::value_type(dim_id, parameter));
+    }
+    
+    // Check for duplicates
+    if (parameters.size() - size_ori != names.size()) {
+        ostringstream msg;
+        msg << BOLDRED << "Only " << parameters.size() - size_ori << " out of " <<
+                names.size() << " have been inserted due to duplicates!" << RESET;
+        throw runtime_error(msg.str());
+    }
+    
     return;
 }
 
@@ -338,8 +294,13 @@ AnEnReadNcdf::read_(const NcFile & nc, Stations & stations,
         const string & dim_name_prefix,
         const string & var_name_prefix) const {
 
-    if (verbose_ >= Verbose::Detail) cout << "Reading stations ..." << endl;
+    size_t size_ori = stations.size();
+    if (verbose_ >= Verbose::Detail) {
+        if (size_ori == 0) cout << "Reading stations ..." << endl;
+        else cout << "Appending stations ..." << endl;
+    }
 
+    // Read the NetCDF variables as several vectors
     size_t dim_len = nc.getDim(dim_name_prefix + DIM_STATIONS).getSize();
     vector<string> names;
     vector<double> xs, ys;
@@ -352,13 +313,46 @@ AnEnReadNcdf::read_(const NcFile & nc, Stations & stations,
         readVector(nc, var_name_prefix + VAR_XS, xs, {start}, {count});
         readVector(nc, var_name_prefix + VAR_YS, ys, {start}, {count});
     }
+    
+    if (xs.size() != ys.size()) {
+        ostringstream msg;
+        msg << BOLDRED << "#" << VAR_XS << " (" << xs.size() <<
+                ") should be the same as #" << VAR_YS << 
+                " (" << ys.size() << ")" << RESET;
+        throw runtime_error(msg.str());
+    }
 
     if (varExists(nc, var_name_prefix + VAR_STATIONNAMES)) {
         readStringVector(nc, var_name_prefix + VAR_STATIONNAMES,
                 names, start, count);
+        
+        if (xs.size() != names.size()) {
+            ostringstream msg;
+            msg << BOLDRED << "#" << VAR_STATIONNAMES << " (" << names.size() <<
+                    ") should be " << xs.size() << "." << RESET;
+            throw runtime_error(msg.str());
+        }
     }
 
-    fastInsert_(stations, xs.size(), names, xs, ys);
+    // Convert vectors to the dimension class
+    for (size_t dim_id = size_ori, i = 0; i < xs.size(); ++dim_id, ++i) {
+        
+        // Determine whether the station has a name
+        string station_name = AnEnDefaults::_NAME;
+        if (names.size() != 0) station_name = names[i];
+        
+        // Create and push the station to the dimension class
+        stations.push_back(Stations::value_type(
+                dim_id, Station(xs[i], ys[i], station_name)));
+    }
+    
+    if (stations.size() - size_ori != xs.size()) {
+        ostringstream msg;
+        msg << BOLDRED << "Only " << stations.size() - size_ori << " out of " <<
+                xs.size() << " have been inserted due to duplicates!" << RESET;
+        throw runtime_error(msg.str());
+    }
+    
     return;
 }
 
@@ -366,7 +360,13 @@ void
 AnEnReadNcdf::read_(const netCDF::NcFile & nc, Times & times,
         const string & var_name, size_t start, size_t count) const {
     
-    if (verbose_ >= Verbose::Detail) cout << "Reading times ..." << endl;
+    size_t size_ori = times.size();
+    if (verbose_ >= Verbose::Detail) {
+        if (size_ori == 0) cout << "Reading times ..." << endl;
+        else cout << "Appending times ..." << endl;
+    }
+    
+    // Read the NetCDF variable as a vector
     vector<double> vec;
     
     if (start == 0 || count == 0) {
@@ -385,18 +385,30 @@ AnEnReadNcdf::read_(const netCDF::NcFile & nc, Times & times,
         readVector(nc, var_name, vec, {start}, {count});
     }
 
-    // TODO: Check the size of times to be 0
-    for (size_t counter = 0; counter < vec.size(); counter++) {
-        times.push_back(Times::value_type(counter, Time(vec[counter])));
+    // Create a double variable to ensure the timestamps are sorted
+    double last_timestamp = NAN;
+
+    // Convert this vector to the dimension class
+    for (size_t i = 0, dim_id = size_ori; i < vec.size(); ++i, ++dim_id) {
+        
+        if (last_timestamp >= vec[i]) {
+            ostringstream msg;
+            msg << BOLDRED << "Times should be in ascension order!" << RESET;
+            throw runtime_error(msg.str());
+        }
+        
+        times.push_back(Times::value_type(dim_id, Time(vec[i])));
+        last_timestamp = vec[i];
     }
     
-    if (vec.size() != times.size()) {
+    // Check for duplicates
+    if (times.size() - size_ori != vec.size()) {
         ostringstream msg;
-        msg << BOLDRED << var_name << " have duplicates! Total: " <<
-                vec.size() << " Unique: " << times.size() << RESET;
+        msg << BOLDRED << "Only " << times.size() - size_ori << " out of " <<
+                vec.size() << " have been inserted due to duplicates!" << RESET;
         throw runtime_error(msg.str());
     }
-    
+
     return;
 }
 
@@ -493,145 +505,5 @@ AnEnReadNcdf::checkFileType_(const NcFile & nc, FileType file_type) const {
     
     checkVarShape(nc, var_name, dim_names);
 
-    return;
-}
-
-void
-AnEnReadNcdf::fastInsert_(Parameters & parameters, size_t dim_len,
-        const vector<string> & names, vector<string> & circulars,
-        const vector<double> & weights) const {
-    
-    if (dim_len != names.size()) {
-        ostringstream msg;
-        msg << BOLDRED << "#" << VAR_PARNAMES << " (" << names.size() <<
-                ") should be " << dim_len << "." << RESET;
-        throw runtime_error(msg.str());
-    }
-    
-    if (dim_len < circulars.size()) {
-        ostringstream msg;
-        msg << BOLDRED << "#" << VAR_CIRCULARS << " (" << circulars.size() <<
-                ") should be no more than " << dim_len << "." << RESET;
-        throw runtime_error(msg.str());
-    }
-    
-    if (dim_len != weights.size() && 0 != weights.size()) {
-        ostringstream msg;
-        msg << BOLDRED << "#" << VAR_PARWEIGHTS << " (" << weights.size() <<
-                ") should be either 0 or " << dim_len << "." << RESET;
-        throw runtime_error(msg.str());    
-    }
-
-    // Construct Parameter objects and
-    // prepare them for insertion into Parameters
-    //
-    vector<Parameter> vec_parameters(dim_len);
-
-#if defined(_OPENMP)
-    int num_cores = 1;
-    if (dim_len <= _SERIAL_LENGTH_LIMIT) {
-        num_cores = 1;
-    } else {
-        char *num_procs_str = getenv("OMP_NUM_THREADS");
-        if (num_procs_str) sscanf(num_procs_str, "%d", &num_cores);
-        else num_cores = omp_get_num_procs();
-    }
-
-#pragma omp parallel for default(none) schedule(static) num_threads(num_cores) \
-    shared(dim_len, vec_parameters, names, circulars, weights)
-#endif
-    for (size_t i = 0; i < dim_len; i++) {
-        auto & parameter = vec_parameters[i];
-        string name = names.at(i);
-        parameter.setName(name);
-        auto it_circular = find(circulars.begin(), circulars.end(), name);
-        if (it_circular != circulars.end()) parameter.setCircular(true);
-        if (!(weights.empty())) parameter.setWeight(weights.at(i));
-    }
-
-    // Insert
-//    parameters.insert(parameters.end(),
-//            vec_parameters.begin(), vec_parameters.end());
-
-    // TODO : Check size to be 0
-    for (size_t counter = 0; counter < vec_parameters.size(); counter++) {
-        parameters.push_back(Parameters::value_type(counter, vec_parameters[counter]));
-    }
-
-    // Check for duplicates
-    if (parameters.size() != vec_parameters.size()) {
-        ostringstream msg;
-        msg << BOLDRED << "Parameters have duplicates! Input: " <<
-                vec_parameters.size() << " Unique: " <<
-                parameters.size() << RESET;
-        throw runtime_error(msg.str());
-    }
-
-    return;
-}
-
-void 
-AnEnReadNcdf::fastInsert_(Stations & stations, size_t dim_len,
-        const vector<string> & names, const vector<double> & xs,
-        const vector<double> & ys) const {
-
-    if (dim_len != names.size()) {
-        ostringstream msg;
-        msg << BOLDRED << "#" << VAR_STATIONNAMES << " (" << names.size() <<
-                ") should be " << dim_len << "." << RESET;
-        throw runtime_error(msg.str());
-    }
-
-    if (dim_len < xs.size()) {
-        ostringstream msg;
-        msg << BOLDRED << "#" << VAR_XS << " (" << xs.size() <<
-                ") should be " << dim_len << "." << RESET;
-        throw runtime_error(msg.str());
-    }
-
-    if (dim_len < ys.size()) {
-        ostringstream msg;
-        msg << BOLDRED << "#" << VAR_YS << " (" << ys.size() <<
-                ") should be " << dim_len << "." << RESET;
-        throw runtime_error(msg.str());
-    }
-
-    // Construct Station object
-    vector<Station> vec_stations(dim_len);
-
-#if defined(_OPENMP)
-    int num_cores = 1;
-    if (dim_len <= _SERIAL_LENGTH_LIMIT) {
-        num_cores = 1;
-    } else {
-        char *num_procs_str = getenv("OMP_NUM_THREADS");
-        if (num_procs_str) sscanf(num_procs_str, "%d", &num_cores);
-        else num_cores = omp_get_num_procs();
-    }
-
-#pragma omp parallel for default(none) schedule(static) \
-    shared(dim_len, vec_stations, xs, ys, names) num_threads(num_cores)
-#endif    
-    for (size_t i = 0; i < dim_len; i++) {
-        vec_stations[i] = Station( names.at(i), xs.at(i), ys.at(i) );
-    }
-
-    // Insert
-//    stations.insert(stations.end(), vec_stations.begin(), vec_stations.end());
-    
-
-    // TODO : Check size to be 0
-    for (size_t counter = 0; counter < vec_stations.size(); counter++) {
-        stations.push_back(Stations::value_type(counter, vec_stations[counter]));
-    }
-
-    if (stations.size() != vec_stations.size()) {
-        ostringstream msg;
-        msg << BOLDRED << "Stations have duplicates! Total: "
-                    << vec_stations.size() << " Unique: " << stations.size()
-                    << RESET;
-        throw runtime_error(msg.str());
-    }
-    
     return;
 }

@@ -9,31 +9,14 @@
 #ifndef STATIONS_H
 #define STATIONS_H
 
-//#ifndef BOOST_NO_AUTO_PTR
-//#define BOOST_NO_AUTO_PTR
-//#endif
-
-//#include <boost/multi_index/random_access_index.hpp>
-//#include <boost/multi_index/hashed_index_fwd.hpp>
-//#include <boost/multi_index/ordered_index.hpp>
-//#include <boost/multi_index/hashed_index.hpp>
-//#include <boost/multi_index_container.hpp>
-//#include <boost/multi_index/identity.hpp>
-//#include <boost/multi_index/mem_fun.hpp>
-//#include <boost/multi_index/tag.hpp>
-#include "boost/numeric/ublas/matrix.hpp"
-
 #include <vector>
 #include <string>
 #include <cmath>
 #include <iostream>
 
-//#include "By.h"
 #include "AnEnDefaults.h"
+#include "BmDim.h"
 
-#include "boost/bimap/vector_of.hpp"
-#include "boost/bimap/set_of.hpp"
-#include "boost/bimap.hpp"
 /**
  * \class Station
  * 
@@ -46,7 +29,7 @@ class Station final {
 public:
     Station();
     Station(Station const &);
-    Station(std::string, double x = AnEnDefaults::_X, double = AnEnDefaults::_Y);
+    Station(double, double, std::string name = AnEnDefaults::_NAME);
 
     virtual ~Station();
 
@@ -64,45 +47,10 @@ public:
     friend std::ostream& operator<<(std::ostream&, Station const &);
 
 private:
-    std::string name_;
     double x_;
     double y_;
-    bool location_initialized_;
-    
+    std::string name_;
 };
-
-using BmStations = boost::bimap<boost::bimaps::vector_of<size_t>, boost::bimaps::set_of<Station> >;
-
-/**
- * Base class for Stations
- */
-//using multiIndexStations = boost::multi_index_container<
-//        Station,
-//
-//        boost::multi_index::indexed_by<
-//
-//        // Order by insertion
-//        boost::multi_index::random_access<
-//        boost::multi_index::tag<By::insert> >,
-//
-//        // Order by name
-//        boost::multi_index::hashed_non_unique<
-//        boost::multi_index::tag<By::name>,
-//        boost::multi_index::const_mem_fun<
-//        Station, std::string, &Station::getName> >,
-//
-//        // Order by x
-//        boost::multi_index::ordered_non_unique<
-//        boost::multi_index::tag<By::x>,
-//        boost::multi_index::const_mem_fun<
-//        Station, double, &Station::getX> >,
-//
-//        // Order by y
-//        boost::multi_index::ordered_non_unique<
-//        boost::multi_index::tag<By::y>,
-//        boost::multi_index::const_mem_fun<
-//        Station, double, &Station::getY> >
-//        > >;
 
 /**
  * \class Stations
@@ -115,7 +63,7 @@ using BmStations = boost::bimap<boost::bimaps::vector_of<size_t>, boost::bimaps:
  * has random access;
  * 3. Station are accessible via Station ID.
  */
-class Stations : public BmStations {
+class Stations : public BmType<Station> {
 public:
     Stations();
     virtual ~Stations();
