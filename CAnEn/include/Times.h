@@ -40,6 +40,8 @@ public:
     friend std::ostream& operator<<(std::ostream& os, Time const & obj);
 };
 
+using BmTimes = boost::bimap<boost::bimaps::vector_of<size_t>, boost::bimaps::set_of<Time> >;
+
 /**
  * \class Times
  * 
@@ -52,15 +54,10 @@ public:
  * 2. Time objects are kept in sequence of insertion, and have random access;
  * 3. Index of a time object can be quickly retrieved using Time.
  */
-class Times : public boost::bimap<boost::bimaps::vector_of<size_t>,
-        boost::bimaps::set_of<Time> > {
+class Times : public BmTimes {
 public:
     Times();
     virtual ~Times();
-
-    Times & operator=(const Times & rhs);
-
-    //size_t getTimeIndex(double timestamp) const;
 
     void print(std::ostream & os) const;
     friend std::ostream& operator<<(std::ostream& os, Times const & obj);

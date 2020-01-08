@@ -14,19 +14,23 @@
 #include <cmath>
 #include <vector>
 
-#include "By.h"
+//#include "By.h"
 #include "AnEnDefaults.h"
 
 #ifndef BOOST_NO_AUTO_PTR
 #define BOOST_NO_AUTO_PTR
 #endif
 
-#include <boost/multi_index_container.hpp>
-#include <boost/multi_index/random_access_index.hpp>
-#include <boost/multi_index/identity.hpp>
-#include <boost/multi_index/hashed_index.hpp>
-#include <boost/multi_index/tag.hpp>
-#include <boost/multi_index/mem_fun.hpp>
+#include "boost/bimap/vector_of.hpp"
+#include "boost/bimap/set_of.hpp"
+#include "boost/bimap.hpp"
+
+//#include <boost/multi_index_container.hpp>
+//#include <boost/multi_index/random_access_index.hpp>
+//#include <boost/multi_index/identity.hpp>
+//#include <boost/multi_index/hashed_index.hpp>
+//#include <boost/multi_index/tag.hpp>
+//#include <boost/multi_index/mem_fun.hpp>
 
 /**
  * \class Parameter
@@ -92,20 +96,23 @@ private:
 /**
  * Base class for Parameters
  */
-using multiIndexParameters = boost::multi_index_container<
-        Parameter,
-        boost::multi_index::indexed_by<
+//using multiIndexParameters = boost::multi_index_container<
+//        Parameter,
+//        boost::multi_index::indexed_by<
+//
+//        // Order by insertion
+//        boost::multi_index::random_access<
+//        boost::multi_index::tag<By::insert> >,
+//
+//        // Access by name
+//        boost::multi_index::hashed_non_unique<
+//        boost::multi_index::tag<By::name>,
+//        boost::multi_index::const_mem_fun<
+//        Parameter, std::string, &Parameter::getName> >
+//        > >;
 
-        // Order by insertion
-        boost::multi_index::random_access<
-        boost::multi_index::tag<By::insert> >,
-
-        // Access by name
-        boost::multi_index::hashed_non_unique<
-        boost::multi_index::tag<By::name>,
-        boost::multi_index::const_mem_fun<
-        Parameter, std::string, &Parameter::getName> >
-        > >;
+using BmParameters = boost::bimap<boost::bimaps::vector_of<size_t>,
+        boost::bimaps::set_of<Parameter> >;
 
 /**
  * \class Parameters
@@ -118,7 +125,7 @@ using multiIndexParameters = boost::multi_index_container<
  * has random access;
  * 3. Parameter are accessible via Parameter ID.
  */
-class Parameters : public multiIndexParameters {
+class Parameters : public BmParameters {
 public:
 
     Parameters();
@@ -131,7 +138,7 @@ public:
      * @param name The name of the parameter
      * @return Parameter.
      */
-    Parameter const & getParameterByName(std::string name) const;
+//    Parameter const & getParameterByName(std::string name) const;
 
     void print(std::ostream &) const;
     friend std::ostream& operator<<(std::ostream&, Parameters const &);

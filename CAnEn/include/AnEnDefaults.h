@@ -23,6 +23,8 @@ namespace AnEnDefaults {
     static const double _Y = 0.0;
     static const std::string _UNIT = "seconds";
     static const std::string _ORIGIN = "1970-01-01";
+    static const bool _OPERATIONAL = false;
+    static const bool _CHECK_TIME_OVERLAP = false;
 
     /**
      * A higher level will contain all messages from the lower levels. For

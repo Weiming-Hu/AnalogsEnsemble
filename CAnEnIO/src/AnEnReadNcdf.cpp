@@ -385,16 +385,10 @@ AnEnReadNcdf::read_(const netCDF::NcFile & nc, Times & times,
         readVector(nc, var_name, vec, {start}, {count});
     }
 
-    // TODO check this
-//    Times temp;
-//    
-//    for ( auto iter = vec.begin() ; iter < vec.end() ; iter++ ) {
-//        temp.insert(Time(*iter));
-//    }
-//    
-    
-    // TODO: We can directly insert into the set rather than copying from a vector. 
-    times.insert(vec.begin(), vec.end());
+    // TODO: Check the size of times to be 0
+    for (size_t counter = 0; counter < vec.size(); counter++) {
+        times.push_back(Times::value_type(counter, Time(vec[counter])));
+    }
     
     if (vec.size() != times.size()) {
         ostringstream msg;
@@ -556,8 +550,13 @@ AnEnReadNcdf::fastInsert_(Parameters & parameters, size_t dim_len,
     }
 
     // Insert
-    parameters.insert(parameters.end(),
-            vec_parameters.begin(), vec_parameters.end());
+//    parameters.insert(parameters.end(),
+//            vec_parameters.begin(), vec_parameters.end());
+
+    // TODO : Check size to be 0
+    for (size_t counter = 0; counter < vec_parameters.size(); counter++) {
+        parameters.push_back(Parameters::value_type(counter, vec_parameters[counter]));
+    }
 
     // Check for duplicates
     if (parameters.size() != vec_parameters.size()) {
@@ -618,7 +617,13 @@ AnEnReadNcdf::fastInsert_(Stations & stations, size_t dim_len,
     }
 
     // Insert
-    stations.insert(stations.end(), vec_stations.begin(), vec_stations.end());
+//    stations.insert(stations.end(), vec_stations.begin(), vec_stations.end());
+    
+
+    // TODO : Check size to be 0
+    for (size_t counter = 0; counter < vec_stations.size(); counter++) {
+        stations.push_back(Stations::value_type(counter, vec_stations[counter]));
+    }
 
     if (stations.size() != vec_stations.size()) {
         ostringstream msg;

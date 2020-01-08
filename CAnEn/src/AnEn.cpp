@@ -10,11 +10,17 @@
 
 using namespace AnEnDefaults;
 
-AnEn::AnEn() : verbose_(AnEnDefaults::_VERBOSE) {
+AnEn::AnEn() : operational_(AnEnDefaults::_OPERATIONAL),
+        time_overlap_check_(AnEnDefaults::_CHECK_TIME_OVERLAP),
+        verbose_(AnEnDefaults::_VERBOSE) {
 }
 
 AnEn::AnEn(const AnEn& orig) {
-    verbose_ = orig.verbose_;
+    if (this != &orig) {
+        operational_ = orig.operational_;
+        time_overlap_check_ = orig.time_overlap_check_;
+        verbose_ = orig.verbose_;
+    }
 }
 
 AnEn::~AnEn() {

@@ -22,8 +22,10 @@ public:
     virtual void compute(const Forecasts & forecasts,
             const Observations & observations,
             const Times & test_times, const Times & search_times) const = 0;
-
+    
 protected:
+    bool operational_;
+    bool time_overlap_check_;
     AnEnDefaults::Verbose verbose_;
 };
 

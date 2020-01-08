@@ -9,18 +9,18 @@
 #ifndef STATIONS_H
 #define STATIONS_H
 
-#ifndef BOOST_NO_AUTO_PTR
-#define BOOST_NO_AUTO_PTR
-#endif
+//#ifndef BOOST_NO_AUTO_PTR
+//#define BOOST_NO_AUTO_PTR
+//#endif
 
-#include <boost/multi_index/random_access_index.hpp>
-#include <boost/multi_index/hashed_index_fwd.hpp>
-#include <boost/multi_index/ordered_index.hpp>
-#include <boost/multi_index/hashed_index.hpp>
-#include <boost/multi_index_container.hpp>
-#include <boost/multi_index/identity.hpp>
-#include <boost/multi_index/mem_fun.hpp>
-#include <boost/multi_index/tag.hpp>
+//#include <boost/multi_index/random_access_index.hpp>
+//#include <boost/multi_index/hashed_index_fwd.hpp>
+//#include <boost/multi_index/ordered_index.hpp>
+//#include <boost/multi_index/hashed_index.hpp>
+//#include <boost/multi_index_container.hpp>
+//#include <boost/multi_index/identity.hpp>
+//#include <boost/multi_index/mem_fun.hpp>
+//#include <boost/multi_index/tag.hpp>
 #include "boost/numeric/ublas/matrix.hpp"
 
 #include <vector>
@@ -28,9 +28,12 @@
 #include <cmath>
 #include <iostream>
 
-#include "By.h"
+//#include "By.h"
 #include "AnEnDefaults.h"
 
+#include "boost/bimap/vector_of.hpp"
+#include "boost/bimap/set_of.hpp"
+#include "boost/bimap.hpp"
 /**
  * \class Station
  * 
@@ -68,36 +71,38 @@ private:
     
 };
 
+using BmStations = boost::bimap<boost::bimaps::vector_of<size_t>, boost::bimaps::set_of<Station> >;
+
 /**
  * Base class for Stations
  */
-using multiIndexStations = boost::multi_index_container<
-        Station,
-
-        boost::multi_index::indexed_by<
-
-        // Order by insertion
-        boost::multi_index::random_access<
-        boost::multi_index::tag<By::insert> >,
-
-        // Order by name
-        boost::multi_index::hashed_non_unique<
-        boost::multi_index::tag<By::name>,
-        boost::multi_index::const_mem_fun<
-        Station, std::string, &Station::getName> >,
-
-        // Order by x
-        boost::multi_index::ordered_non_unique<
-        boost::multi_index::tag<By::x>,
-        boost::multi_index::const_mem_fun<
-        Station, double, &Station::getX> >,
-
-        // Order by y
-        boost::multi_index::ordered_non_unique<
-        boost::multi_index::tag<By::y>,
-        boost::multi_index::const_mem_fun<
-        Station, double, &Station::getY> >
-        > >;
+//using multiIndexStations = boost::multi_index_container<
+//        Station,
+//
+//        boost::multi_index::indexed_by<
+//
+//        // Order by insertion
+//        boost::multi_index::random_access<
+//        boost::multi_index::tag<By::insert> >,
+//
+//        // Order by name
+//        boost::multi_index::hashed_non_unique<
+//        boost::multi_index::tag<By::name>,
+//        boost::multi_index::const_mem_fun<
+//        Station, std::string, &Station::getName> >,
+//
+//        // Order by x
+//        boost::multi_index::ordered_non_unique<
+//        boost::multi_index::tag<By::x>,
+//        boost::multi_index::const_mem_fun<
+//        Station, double, &Station::getX> >,
+//
+//        // Order by y
+//        boost::multi_index::ordered_non_unique<
+//        boost::multi_index::tag<By::y>,
+//        boost::multi_index::const_mem_fun<
+//        Station, double, &Station::getY> >
+//        > >;
 
 /**
  * \class Stations
@@ -110,7 +115,7 @@ using multiIndexStations = boost::multi_index_container<
  * has random access;
  * 3. Station are accessible via Station ID.
  */
-class Stations : public multiIndexStations {
+class Stations : public BmStations {
 public:
     Stations();
     virtual ~Stations();
@@ -158,12 +163,12 @@ public:
      * @param search_station_tags A vector for search station tags.
      * @return 
      */
-    void getNearestStationsIndex(
-            boost::numeric::ublas::matrix<double> & i_search_stations,
-            const Stations & test_stations,
-            double threshold, size_t num_nearest_stations,
-            const std::vector<size_t> & test_station_tags,
-            const std::vector<size_t> & search_station_tags) const;
+//    void getNearestStationsIndex(
+//            boost::numeric::ublas::matrix<double> & i_search_stations,
+//            const Stations & test_stations,
+//            double threshold, size_t num_nearest_stations,
+//            const std::vector<size_t> & test_station_tags,
+//            const std::vector<size_t> & search_station_tags) const;
 
     /**
      * Check whether x and y are provided for all stations.

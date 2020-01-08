@@ -121,25 +121,30 @@ Parameters::Parameters() {
 Parameters::~Parameters() {
 }
 
-Parameter const &
-Parameters::getParameterByName(string name) const {
-
-    const multiIndexParameters::index<By::name>::type &
-            parameters_by_name = get<By::name>();
-
-    auto it_name = parameters_by_name.find(name);
-
-    if (it_name != parameters_by_name.end()) {
-        return (*it_name);
-    } else {
-        throw out_of_range("Can't find the parameter with name " + name);
-    }
-}
+//Parameter const &
+//Parameters::getParameterByName(string name) const {
+//
+//    const multiIndexParameters::index<By::name>::type &
+//            parameters_by_name = get<By::name>();
+//
+//    auto it_name = parameters_by_name.find(name);
+//
+//    if (it_name != parameters_by_name.end()) {
+//        return (*it_name);
+//    } else {
+//        throw out_of_range("Can't find the parameter with name " + name);
+//    }
+//}
 
 void
 Parameters::print(ostream & os) const {
     os << "[Parameters] size: " << size() << endl;
-    copy(begin(), end(), ostream_iterator<Parameter>(os));
+
+    for (left_const_iterator it = left.begin(); it < left.end(); it++) {
+        os << it->second;
+    }
+    
+    return;
 }
 
 ostream&

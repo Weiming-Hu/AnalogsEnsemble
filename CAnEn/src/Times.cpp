@@ -90,21 +90,16 @@ Times::Times()  {
 Times::~Times() {
 }
 
-Times & Times::operator=(const Times & rhs) {
-    if (this != &rhs) {
-        clear();
-        insert(rhs.begin(), rhs.end());
-    }
-
-    return *this;
-}
-
 void
 Times::print(ostream &os) const {
     os << "[Time] size: " << size() << endl;
-    ostream_iterator<Time> element_itr(os, ", ");
-    copy(begin(), end(), element_itr);
-    cout << endl;
+    
+    for ( left_const_iterator it = left.begin() ; it < left.end() ; it ++ ) {
+        os << it->second << ", ";
+    }
+    
+    os << endl;
+    return;
 }
 
 ostream&
