@@ -7,6 +7,8 @@
 
 #include "colorTexts.h"
 
+#include <algorithm>
+
 template<typename T>
 void
 Ncdf::readVector(const netCDF::NcFile & nc, std::string var_name,
@@ -33,8 +35,7 @@ Ncdf::readVector(const netCDF::NcFile & nc, std::string var_name,
         results.resize(total);
     } catch (bad_alloc & e) {
         ostringstream msg;
-        msg << BOLDRED << "Insufficient memory reading " <<
-                var_name << "!" << RESET;
+        msg << BOLDRED << "Insufficient memory reading " << var_name << RESET;
         throw runtime_error(msg.str());
     }
 

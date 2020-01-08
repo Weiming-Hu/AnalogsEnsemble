@@ -8,7 +8,6 @@
 #define OBSERVATIONSARRAY_H
 
 #include "Observations.h"
-#include "colorTexts.h"
 #include <boost/multi_array.hpp>
 
 using namespace std;

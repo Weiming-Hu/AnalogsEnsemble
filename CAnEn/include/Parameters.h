@@ -11,16 +11,9 @@
 
 #include <iostream>
 #include <string>
-#include <cmath>
-#include <vector>
 
 #include "BmDim.h"
 #include "AnEnDefaults.h"
-
-#ifndef BOOST_NO_AUTO_PTR
-#define BOOST_NO_AUTO_PTR
-#endif
-
 
 /**
  * \class Parameter
@@ -96,18 +89,8 @@ private:
  */
 class Parameters : public BmType<Parameter> {
 public:
-
     Parameters();
     virtual ~Parameters();
-
-    /**
-     * Gets the parameter by name. If multiple parameters have the same
-     * name, this function returns the first parameter found.
-     * 
-     * @param name The name of the parameter
-     * @return Parameter.
-     */
-//    Parameter const & getParameterByName(std::string name) const;
 
     void print(std::ostream &) const;
     friend std::ostream& operator<<(std::ostream&, Parameters const &);

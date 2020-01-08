@@ -17,10 +17,6 @@
  */
 
 #include "Forecasts.h"
-#include "colorTexts.h"
-
-#include <cmath>
-#include <memory>
 
 using namespace std;
 
@@ -28,12 +24,8 @@ Forecasts::Forecasts() {
 }
 
 Forecasts::Forecasts(const Parameters & parameters, const Stations & stations,
-        const Times & times, const Times & flts) : BasicData(parameters, stations, times),
-flts_(flts) {
-//    parameters_ = parameters;
-//    stations_ = stations;
-//    times_ = times;
-
+        const Times & times, const Times & flts) :
+BasicData(parameters, stations, times), flts_(flts) {
 }
 
 Forecasts::Forecasts(const Forecasts & orig) : BasicData(orig) {

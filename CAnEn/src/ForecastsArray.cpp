@@ -10,10 +10,15 @@
 #include "colorTexts.h"
 #include "Functions.h"
 
+#include <stdexcept>
+#include <sstream>
+
 using namespace std;
 
+static const size_t _FORECASTS_DIMENSIONS = 4;
+
 ForecastsArray::ForecastsArray() {
-    data_ = boost::multi_array<double, 4> (
+    data_ = boost::multi_array<double, _FORECASTS_DIMENSIONS> (
             boost::extents[0][0][0][0],
             boost::fortran_storage_order());
 }
@@ -21,7 +26,7 @@ ForecastsArray::ForecastsArray() {
 ForecastsArray::ForecastsArray(const Parameters & parameters,
         const Stations & stations, const Times & times, const Times & flts) :
 Forecasts(parameters, stations, times, flts) {
-    data_ = boost::multi_array<double, 4> (
+    data_ = boost::multi_array<double, _FORECASTS_DIMENSIONS> (
             boost::extents[0][0][0][0],
             boost::fortran_storage_order());
 }
@@ -65,23 +70,20 @@ ForecastsArray::setDimensions(const Parameters & parameters,
     updateDataDims_(true);
 }
 
-
-
 void
 ForecastsArray::updateDataDims_(bool initialize_values) {
     try {
-         data_.resize(boost::extents
-                [parameters_.size()][stations_.size()][times_.size()][flts_.size()]);
+         data_.resize(boost::extents[parameters_.size()]
+                [stations_.size()][times_.size()][flts_.size()]);
     } catch (bad_alloc & e) {
-        cerr << BOLDRED << "Error: insufficient memory while resizing the"
-                << " array4D to hold " << getParameters().size() << "x"
-                << getFLTs().size() << "x" << getStations().size() << "x"
-                << getTimes().size() << " double values." << endl;
-        throw;
+        ostringstream msg;
+        msg << BOLDRED << "Insufficient memory for array [" <<
+                parameters_.size() << "," << stations_.size() << "," <<
+                times_.size() << "," << flts_.size() << "]" << RESET;
+        throw runtime_error(msg.str());
     }
 
-    if (initialize_values)
-        fill_n(data_.data(), data_.num_elements(), NAN);
+    if (initialize_values) fill_n(data_.data(), data_.num_elements(), NAN);
 
     return;
 }
@@ -92,7 +94,6 @@ ForecastsArray::getValue(size_t parameter_index, size_t station_index,
     return (data_[parameter_index][station_index][time_index][flt_index]);
 }
 
-
 void
 ForecastsArray::setValue(double val, size_t parameter_index,
         size_t station_index, size_t time_index, size_t flt_index) {
@@ -102,7 +103,9 @@ ForecastsArray::setValue(double val, size_t parameter_index,
 void ForecastsArray::printShape(std::ostream & os) const {
     Forecasts::print(os);
     os << "ForecastsArray Shape = ";
-    for (size_t i = 0; i < 4; i++) os << "[" << data_.shape()[i] << "]";
+    for (size_t i = 0; i < _FORECASTS_DIMENSIONS; i++) {
+        os << "[" << data_.shape()[i] << "]";
+    }
     os << endl;
     return;
 }

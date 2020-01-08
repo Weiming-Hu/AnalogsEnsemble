@@ -6,10 +6,6 @@
  */
 
 #include "Observations.h"
-#include "colorTexts.h"
-
-#include <stdexcept>
-#include <algorithm>
 
 using namespace std;
 
@@ -22,7 +18,6 @@ Observations::Observations(const Parameters & parameters,
 
 Observations::Observations(const Observations & orig) : BasicData(orig) {
 }
-
 
 Observations::~Observations() {
 }

@@ -23,7 +23,8 @@ namespace Txt {
         Read, Write
     };
 
-    void checkPath(const std::string & file_path, Mode mode, const std::string & extension = ".txt");
+    void checkPath(const std::string & file_path, Mode mode,
+            const std::string & extension = ".txt");
 
     /************************************************************************
      *                         Template Functions                           *

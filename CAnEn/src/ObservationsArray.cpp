@@ -9,10 +9,15 @@
 #include "colorTexts.h"
 #include "Functions.h"
 
+#include <stdexcept>
+#include <sstream>
+
 using namespace std;
 
+static const size_t _OBSERVATIONS_DIMENSIONS = 3;
+
 ObservationsArray::ObservationsArray() {
-    data_ = boost::multi_array<double, 3> (
+    data_ = boost::multi_array<double, _OBSERVATIONS_DIMENSIONS> (
             boost::extents[0][0][0],
             boost::fortran_storage_order());
 }
@@ -20,7 +25,7 @@ ObservationsArray::ObservationsArray() {
 ObservationsArray::ObservationsArray(Parameters parameters,
         Stations stations, Times times) :
 Observations(parameters, stations, times) {
-    data_ = boost::multi_array<double, 3> (
+    data_ = boost::multi_array<double, _OBSERVATIONS_DIMENSIONS> (
             boost::extents[0][0][0],
             boost::fortran_storage_order());
     updateDataDims_();
@@ -71,7 +76,6 @@ ObservationsArray::setValue(double val, size_t parameter_index,
     data_[parameter_index][station_index][time_index] = val;
 }
 
-
 void
 ObservationsArray::updateDataDims_(bool initialize_values) {
 
@@ -79,22 +83,23 @@ ObservationsArray::updateDataDims_(bool initialize_values) {
         data_.resize(boost::extents
                 [parameters_.size()][stations_.size()][times_.size()]);
     } catch (bad_alloc & e) {
-        cerr << BOLDRED << "Error: insufficient memory while resizing the"
-                << " array4D to hold " << parameters_.size() << "x"
-                << stations_.size() << "x" << times_.size()
-                << " double values." << endl;
-        throw;
+        ostringstream msg;
+        msg << BOLDRED << "Insufficient memory for array [" <<
+                parameters_.size() << "," << stations_.size() << "," <<
+                times_.size() << "]" << RESET;
+        throw runtime_error(msg.str());
     }
     
-    if (initialize_values)
-        fill_n(data_.data(), data_.num_elements(), NAN);
+    if (initialize_values) fill_n(data_.data(), data_.num_elements(), NAN);
 }
 
 void
 ObservationsArray::printShape(std::ostream & os) const {
     Observations::print(os);
     os << "ObservationsArray Shape = ";
-    for (size_t i = 0; i < 3; i++) os << "[" << data_.shape()[i] << "]";
+    for (size_t i = 0; i < _OBSERVATIONS_DIMENSIONS; i++) {
+        os << "[" << data_.shape()[i] << "]";
+    }
     os << endl;
     return;
 }
@@ -104,7 +109,6 @@ void ObservationsArray::print(std::ostream & os) const {
     Functions::print(os, data_);
     return;
 }
-
 
 ostream &
 operator<<(ostream& os, const ObservationsArray& obj) {

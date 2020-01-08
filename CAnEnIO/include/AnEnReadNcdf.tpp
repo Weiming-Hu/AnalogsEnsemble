@@ -5,9 +5,6 @@
  * Created on January 1, 2020, 12:53 PM
  */
 
-#include "boost/type_traits.hpp"
-#include "boost/static_assert.hpp"
-
 template <typename T>
 void
 AnEnReadNcdf::read_(const netCDF::NcFile & nc,

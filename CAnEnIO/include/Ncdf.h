@@ -10,9 +10,7 @@
 
 #include <netcdf>
 #include <vector>
-#include <array>
 #include <string>
-#include <algorithm>
 #include <sstream>
 
 /**

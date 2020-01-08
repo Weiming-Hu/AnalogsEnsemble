@@ -10,7 +10,6 @@
 #define ANENDEFAULTS_H
 
 #include <string>
-#include <cmath>
 
 /**
  * The AnEnDefault namespace includes default values used throughout the project.

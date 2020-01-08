@@ -9,22 +9,16 @@
 #include "AnEnNames.h"
 #include "Ncdf.h"
 
-#include <array>
-
 #if defined(_OPENMP)
 #include <omp.h>
 #endif
 
+using namespace std;
 using namespace Ncdf;
 using namespace netCDF;
-using namespace std;
 using namespace AnEnNames;
 using namespace AnEnDefaults;
 
-// If data have a length longer than this limit, I/O will be parallelized.
-static const size_t _SERIAL_LENGTH_LIMIT = 1000;
-
-// TODO: Remove magic numbers
 static const size_t _OBSERVATIONS_DIMENSIONS = 3;
 static const size_t _FORECASTS_DIMENSIONS = 4;
 static const size_t _ANALOGS_DIMENSIONS = 4;

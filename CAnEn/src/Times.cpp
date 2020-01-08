@@ -1,5 +1,5 @@
 /* 
- * File:   Time.cpp
+ * File:   Times.cpp
  * Author: Guido Cervone <cervone@psu.edu>
  *         Weiming Hu <cervone@psu.edu>
  *
@@ -19,9 +19,7 @@
 #include "Times.h"
 #include "AnEnDefaults.h"
 
-#include <iterator>
 #include <sstream>
-#include <cmath>
 
 using namespace std;
 
@@ -30,14 +28,12 @@ static const int MULTIPLIER = 10000;
 std::string Time::origin = "1970-01-01";
 std::string Time::unit = "seconds";
 
-Time::Time() 
-{}
-
-Time::Time(double val) 
-{
-    timestamp = val;
+Time::Time() {
 }
 
+Time::Time(double val) {
+    timestamp = val;
+}
 
 Time::Time(const Time & rhs) {
     if (this != &rhs) {
@@ -45,9 +41,8 @@ Time::Time(const Time & rhs) {
     }
 }
 
-Time::~Time() 
-{}
-
+Time::~Time() {
+}
 
 Time & Time::operator=(const Time & rhs) {
     if (this != &rhs) {
@@ -62,12 +57,10 @@ Time & Time::operator=(double rhs) {
     return *this;
 }
 
-
 bool
 Time::operator<(const Time & rhs) const {
     return (timestamp < rhs.timestamp);
 }
-
 
 void
 Time::print(ostream &os) const {

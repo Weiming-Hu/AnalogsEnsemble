@@ -10,12 +10,9 @@
 
 #include <vector>
 #include <netcdf>
-#include <stdexcept>
-#include <algorithm>
 
 #include "AnEnRead.h"
 #include "Analogs.h"
-#include "colorTexts.h"
 #include "AnEnDefaults.h"
 
 /**
