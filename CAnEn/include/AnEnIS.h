@@ -18,12 +18,19 @@
 
 class AnEnIS : public AnEn {
 public:
+    //https://www.johndcook.com/blog/standard_deviation/
     AnEnIS();
     AnEnIS(const AnEnIS& orig);
     virtual ~AnEnIS();
     
     void compute(const Forecasts & forecasts, const Observations & observations,
-            const Times & test_times, const Times & search_times) const;
+            const Times & test_times, const Times & search_times) const override;
+    
+    protected:
+        boost::multi_array<double, 4> SimilarityMetric_;
+        boost::multi_array<double, 4> SimilarityIndex_;
+
+        
 };
 
 #endif /* ANENIS_H */

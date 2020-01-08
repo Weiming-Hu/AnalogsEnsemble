@@ -16,9 +16,15 @@
 AnEnIS::AnEnIS() {
 }
 
-AnEnIS::AnEnIS(const AnEnIS& orig) {
+AnEnIS::AnEnIS(const AnEnIS& orig) : AnEn(orig) {
 }
 
 AnEnIS::~AnEnIS() {
+}
+
+void
+AnEnIS::compute(const Forecasts & forecasts, const Observations & observations,
+        const Times & test_times, const Times & search_times) const {
+    return;
 }
 
