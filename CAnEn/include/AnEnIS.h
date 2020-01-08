@@ -13,7 +13,7 @@
 
 class AnEnIS : public AnEn {
 public:
-    //https://www.johndcook.com/blog/standard_deviation/
+    //TODO: https://www.johndcook.com/blog/standard_deviation/
     AnEnIS();
     AnEnIS(const AnEnIS& orig);
     virtual ~AnEnIS();

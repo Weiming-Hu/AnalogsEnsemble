@@ -10,7 +10,6 @@
 #define PARAMETERS_H
 
 #include <iostream>
-#include <string>
 
 #include "BmDim.h"
 #include "AnEnDefaults.h"

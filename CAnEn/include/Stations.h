@@ -9,7 +9,6 @@
 #ifndef STATIONS_H
 #define STATIONS_H
 
-#include <string>
 #include <iostream>
 
 #include "AnEnDefaults.h"

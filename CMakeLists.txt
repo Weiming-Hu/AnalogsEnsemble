@@ -342,8 +342,10 @@ if (DOXYGEN_FOUND)
 
     if (${DOXYGEN_DOT_FOUND})
         set (DOXYGEN_HAVE_DOT YES)
+        message (STATUS "Graphviz is found.")
     else (${DOXYGEN_DOT_FOUND}) 
         set (DOXYGEN_HAVE_DOT "NO")
+        message (STATUS "Graphviz is NOT found. No DOT support.")
     endif (${DOXYGEN_DOT_FOUND})
 
     configure_file ("${CMAKE_CURRENT_SOURCE_DIR}/doxygen-config.in" "${CMAKE_CURRENT_BINARY_DIR}/doxygen-config")

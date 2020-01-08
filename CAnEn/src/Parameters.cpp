@@ -17,6 +17,10 @@
  */
 
 #include "Parameters.h"
+#include "colorTexts.h"
+
+#include <stdexcept>
+#include <sstream>
 
 using namespace std;
 
@@ -122,7 +126,13 @@ Parameters::~Parameters() {
 
 size_t
 Parameters::getIndex(const Parameter & parameter) const {
-    return(right.find(parameter)->second);
+    auto it = right.find(parameter);
+    if (it == right.end()) {
+        ostringstream msg;
+        msg << BOLDRED << "Parameter not found: " << parameter << RESET;
+        throw range_error(msg.str());
+    }
+    return (it->second);
 }
 
 void

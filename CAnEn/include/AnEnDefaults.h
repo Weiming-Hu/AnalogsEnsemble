@@ -20,6 +20,7 @@ namespace AnEnDefaults {
     static const bool _CIRCULAR = false;
     static const double _X = 0.0;
     static const double _Y = 0.0;
+    static const double _TIME = 0.0;
     static const std::string _UNIT = "seconds";
     static const std::string _ORIGIN = "1970-01-01";
     static const bool _OPERATIONAL = false;

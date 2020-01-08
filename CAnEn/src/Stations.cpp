@@ -17,6 +17,10 @@
  */
 
 #include "Stations.h"
+#include "colorTexts.h"
+
+#include <stdexcept>
+#include <sstream>
 
 #if defined(_OPENMP)
 #include <omp.h>
@@ -91,9 +95,7 @@ Station::getX() const {
 
 void
 Station::print(ostream &os) const {
-    os << "[Station] Name: " << name_
-            << ", x: " << x_ << ", y: " << y_
-            << endl;
+    os << "[Station] Name: " << name_ << ", x: " << x_ << ", y: " << y_ << endl;
 }
 
 ostream &
@@ -115,7 +117,13 @@ Stations::~Stations() {
 
 size_t
 Stations::getIndex(const Station & station) const {
-    return (right.find(station)->second);
+    auto it = right.find(station);
+    if (it == right.end()) {
+        ostringstream msg;
+        msg << BOLDRED << "Station not found: " << station << RESET;
+        throw range_error(msg.str());
+    }
+    return (it->second);
 }
 
 void

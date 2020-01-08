@@ -18,17 +18,17 @@
 
 #include "Times.h"
 #include "AnEnDefaults.h"
+#include "colorTexts.h"
 
+#include <stdexcept>
 #include <sstream>
 
 using namespace std;
 
-static const int MULTIPLIER = 10000;
+std::string Time::_origin = AnEnDefaults::_ORIGIN;
+std::string Time::_unit = AnEnDefaults::_UNIT;
 
-std::string Time::origin = "1970-01-01";
-std::string Time::unit = "seconds";
-
-Time::Time() {
+Time::Time() : timestamp (AnEnDefaults::_TIME) {
 }
 
 Time::Time(double val) {
@@ -85,7 +85,13 @@ Times::~Times() {
 
 size_t
 Times::getIndex(const Time & time) const {
-    return (right.find(time)->second);
+    auto it = right.find(time);
+    if (it == right.end()) {
+        ostringstream msg;
+        msg << BOLDRED << "Time not found: " << time << RESET;
+        throw range_error(msg.str());
+    }
+    return (it->second);
 }
 
 void
