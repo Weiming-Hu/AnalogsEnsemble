@@ -57,6 +57,8 @@ public:
     Times();
     virtual ~Times();
 
+    size_t getIndex(const Time &) const;
+
     void print(std::ostream & os) const;
     friend std::ostream& operator<<(std::ostream& os, Times const & obj);
 };

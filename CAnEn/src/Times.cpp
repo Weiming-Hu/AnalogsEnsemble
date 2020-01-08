@@ -83,6 +83,11 @@ Times::Times()  {
 Times::~Times() {
 }
 
+size_t
+Times::getIndex(const Time & time) const {
+    return (right.find(time)->second);
+}
+
 void
 Times::print(ostream &os) const {
     os << "[Times] size: " << size() << endl;

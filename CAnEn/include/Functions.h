@@ -20,7 +20,6 @@ namespace Functions {
     /**************************************************************************
      *                          Template Functions                            *
      **************************************************************************/
-
     template <typename T>
     void print(std::ostream & os, const boost::multi_array<T, 3> & arr);
     template <typename T>

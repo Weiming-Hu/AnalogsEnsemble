@@ -67,6 +67,8 @@ public:
     Stations();
     virtual ~Stations();
     
+    size_t getIndex(const Station &) const;
+    
     void print(std::ostream &) const;
     friend std::ostream& operator<<(std::ostream&, Stations const &);
 };

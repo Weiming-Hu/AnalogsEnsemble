@@ -120,6 +120,11 @@ Parameters::Parameters() {
 Parameters::~Parameters() {
 }
 
+size_t
+Parameters::getIndex(const Parameter & parameter) const {
+    return(right.find(parameter)->second);
+}
+
 void
 Parameters::print(ostream & os) const {
     os << "[Parameters] size: " << size() << endl;

@@ -91,6 +91,8 @@ public:
     Parameters();
     virtual ~Parameters();
 
+    size_t getIndex(const Parameter &) const;
+
     void print(std::ostream &) const;
     friend std::ostream& operator<<(std::ostream&, Parameters const &);
 };

@@ -255,7 +255,7 @@ AnEnReadNcdf::read_(const NcFile & nc, Parameters & parameters,
     }
     
     // Convert vectors to the dimension class
-    for (size_t dim_id = size_ori, i = 0; i < names.size(); ++i, ++dim_id) {
+    for (size_t dim_i = size_ori, i = 0; i < names.size(); ++i, ++dim_i) {
         
         // Initialize the parameter with its name
         Parameter parameter(names[i]);
@@ -268,7 +268,7 @@ AnEnReadNcdf::read_(const NcFile & nc, Parameters & parameters,
         if (!(weights.empty())) parameter.setWeight(weights.at(i));
         
         // Push the parameter to the dimension class with an index
-        parameters.push_back(Parameters::value_type(dim_id, parameter));
+        parameters.push_back(Parameters::value_type(dim_i, parameter));
     }
     
     // Check for duplicates
@@ -329,7 +329,7 @@ AnEnReadNcdf::read_(const NcFile & nc, Stations & stations,
     }
 
     // Convert vectors to the dimension class
-    for (size_t dim_id = size_ori, i = 0; i < xs.size(); ++dim_id, ++i) {
+    for (size_t dim_i = size_ori, i = 0; i < xs.size(); ++dim_i, ++i) {
         
         // Determine whether the station has a name
         string station_name = AnEnDefaults::_NAME;
@@ -337,7 +337,7 @@ AnEnReadNcdf::read_(const NcFile & nc, Stations & stations,
         
         // Create and push the station to the dimension class
         stations.push_back(Stations::value_type(
-                dim_id, Station(xs[i], ys[i], station_name)));
+                dim_i, Station(xs[i], ys[i], station_name)));
     }
     
     if (stations.size() - size_ori != xs.size()) {
@@ -383,7 +383,7 @@ AnEnReadNcdf::read_(const netCDF::NcFile & nc, Times & times,
     double last_timestamp = NAN;
 
     // Convert this vector to the dimension class
-    for (size_t i = 0, dim_id = size_ori; i < vec.size(); ++i, ++dim_id) {
+    for (size_t i = 0, dim_i = size_ori; i < vec.size(); ++i, ++dim_i) {
         
         if (last_timestamp >= vec[i]) {
             ostringstream msg;
@@ -391,7 +391,7 @@ AnEnReadNcdf::read_(const netCDF::NcFile & nc, Times & times,
             throw runtime_error(msg.str());
         }
         
-        times.push_back(Times::value_type(dim_id, Time(vec[i])));
+        times.push_back(Times::value_type(dim_i, Time(vec[i])));
         last_timestamp = vec[i];
     }
     

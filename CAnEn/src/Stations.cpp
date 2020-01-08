@@ -113,6 +113,11 @@ Stations::Stations() {
 Stations::~Stations() {
 }
 
+size_t
+Stations::getIndex(const Station & station) const {
+    return (right.find(station)->second);
+}
+
 void
 Stations::print(ostream & os) const {
     os << "[Stations] size: " << size() << endl;
