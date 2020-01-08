@@ -1,5 +1,5 @@
 /* 
- * File:   Time.h
+ * File:   Times.h
  * Author: Guido Cervone <cervone@psu.edu>
  *         Weiming Hu <cervone@psu.edu>
  *
@@ -47,8 +47,10 @@ public:
  * 
  * Times class supports the following features:
  * 1. Time is unique;
- * 2. Time objects are kept in sequence of insertion, and have random access;
- * 3. Index of a time object can be quickly retrieved using Time.
+ * 2. Time objects are kept in sequence of insertion and have random access;
+ * 3. Index of a Time object can be quickly retrieved using Time.
+ * 
+ * Time objects in Times are assumed to be sorted in ascension order.
  */
 class Times : public BmType<Time> {
 public:

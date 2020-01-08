@@ -19,9 +19,7 @@
  * \class Parameter
  * 
  * \brief Parameter stores parameter information including name, weight, and
- * circular. Each Parameter object is assigned with an unique ID. This ID
- * can be useful for parameter retrieval.
- * 
+ * circular.
  */
 class Parameter {
 public:
@@ -79,13 +77,14 @@ private:
 /**
  * \class Parameters
  * 
- * \brief Parameters class stores Parameter objects.
+ * \brief Parameters class stores Parameter objects. It is a bidirectional map
+ * implemented from Boost so that it provides fast translation from and to 
+ * its underlying Time object.
  * 
  * Parameters class support the following features:
- * 1. Parameter should be unique in Parameters;
- * 2. Parameter objects are kept in sequence of insertion, and 
- * has random access;
- * 3. Parameter are accessible via Parameter ID.
+ * 1. Parameter is unique.
+ * 2. Parameter objects are kept in sequence of insertion and have random access.
+ * 3. Index of a Parameter object can be quickly retrieved using Parameter.
  */
 class Parameters : public BmType<Parameter> {
 public:

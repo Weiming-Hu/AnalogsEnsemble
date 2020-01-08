@@ -53,13 +53,14 @@ private:
 /**
  * \class Stations
  * 
- * \brief Stations class stores Station objects.
+ * \brief Stations class stores Station objects. It is a bidirectional map
+ * implemented from Boost so that it provides fast translation from and to
+ * its underlying Station object.
  * 
  * Stations class support the following features:
- * 1. Station should be unique in Stations;
- * 2. Station objects are kept in sequence of insertion, and 
- * has random access;
- * 3. Station are accessible via Station ID.
+ * 1. Station is unique;
+ * 2. Station objects are kept in sequence of insertion and has random access;
+ * 3. Index of a Station object can be quickly retrieved using Station.
  */
 class Stations : public BmType<Station> {
 public:
