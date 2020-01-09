@@ -83,3 +83,17 @@ void Functions::print(std::ostream & os, const boost::multi_array<T, 5> & arr) {
 
     return;
 }
+
+template <class T>
+void
+Functions::toIndex(std::vector<size_t> & index,
+        const T & query, const T & pool) {
+
+    index.resize(query.size());
+
+    for (size_t i = 0; i < index.size(); ++i) {
+        index[i] = pool.getIndex(query.left[i].second);
+    }
+
+    return;
+}

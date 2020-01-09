@@ -17,15 +17,20 @@ class AnEn {
 public:
     AnEn();
     AnEn(const AnEn& orig);
+    AnEn(bool operational,
+            bool time_overlap_check = AnEnDefaults::_CHECK_TIME_OVERLAP,
+            bool save_sims = AnEnDefaults::_SAVE_SIMS,
+            AnEnDefaults::Verbose verbose = AnEnDefaults::_VERBOSE);
     virtual ~AnEn();
 
     virtual void compute(const Forecasts & forecasts,
             const Observations & observations,
-            const Times & test_times, const Times & search_times) const = 0;
-    
+            const Times & test_times, const Times & search_times) = 0;
+
 protected:
     bool operational_;
-    bool time_overlap_check_;
+    bool check_time_overlap_;
+    bool save_sims_;
     AnEnDefaults::Verbose verbose_;
 };
 

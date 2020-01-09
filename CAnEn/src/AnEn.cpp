@@ -10,17 +10,27 @@
 
 using namespace AnEnDefaults;
 
-AnEn::AnEn() : operational_(AnEnDefaults::_OPERATIONAL),
-        time_overlap_check_(AnEnDefaults::_CHECK_TIME_OVERLAP),
-        verbose_(AnEnDefaults::_VERBOSE) {
+AnEn::AnEn() : operational_(_OPERATIONAL),
+check_time_overlap_(_CHECK_TIME_OVERLAP),
+save_sims_(_SAVE_SIMS),
+verbose_(_VERBOSE) {
 }
 
 AnEn::AnEn(const AnEn& orig) {
     if (this != &orig) {
         operational_ = orig.operational_;
-        time_overlap_check_ = orig.time_overlap_check_;
+        check_time_overlap_ = orig.check_time_overlap_;
+        save_sims_ = orig.save_sims_;
         verbose_ = orig.verbose_;
     }
+}
+
+AnEn::AnEn(bool operational, bool time_overlap_check,
+        bool save_sims, Verbose verbose) :
+operational_(operational),
+check_time_overlap_(time_overlap_check),
+save_sims_(save_sims),
+verbose_(verbose) {
 }
 
 AnEn::~AnEn() {

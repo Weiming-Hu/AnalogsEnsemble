@@ -275,7 +275,8 @@ AnEnReadNcdf::read_(const NcFile & nc, Parameters & parameters,
     if (parameters.size() - size_ori != names.size()) {
         ostringstream msg;
         msg << BOLDRED << "Only " << parameters.size() - size_ori << " out of " <<
-                names.size() << " have been inserted due to duplicates!" << RESET;
+                names.size() << " have been inserted due to duplicates in " <<
+                "parameters!" << RESET;
         throw runtime_error(msg.str());
     }
     
@@ -343,7 +344,8 @@ AnEnReadNcdf::read_(const NcFile & nc, Stations & stations,
     if (stations.size() - size_ori != xs.size()) {
         ostringstream msg;
         msg << BOLDRED << "Only " << stations.size() - size_ori << " out of " <<
-                xs.size() << " have been inserted due to duplicates!" << RESET;
+                xs.size() << " have been inserted due to duplicates in " <<
+                "stations!" << RESET;
         throw runtime_error(msg.str());
     }
     
@@ -361,7 +363,7 @@ AnEnReadNcdf::read_(const netCDF::NcFile & nc, Times & times,
     }
     
     // Read the NetCDF variable as a vector
-    vector<double> vec;
+    vector<uint> vec;
     
     if (start == 0 || count == 0) {
         readVector(nc, var_name, vec);
@@ -378,14 +380,14 @@ AnEnReadNcdf::read_(const netCDF::NcFile & nc, Times & times,
         checkIndex(start, count, dims[0].getSize());
         readVector(nc, var_name, vec, {start}, {count});
     }
-
-    // Create a double variable to ensure the timestamps are sorted
-    double last_timestamp = NAN;
+    
+    // Create the variable to ensure the timestamps are sorted
+    size_t last_timestamp = 0;
 
     // Convert this vector to the dimension class
     for (size_t i = 0, dim_i = size_ori; i < vec.size(); ++i, ++dim_i) {
         
-        if (last_timestamp >= vec[i]) {
+        if (last_timestamp > vec[i]) {
             ostringstream msg;
             msg << BOLDRED << "Times should be in ascension order!" << RESET;
             throw runtime_error(msg.str());
@@ -399,7 +401,8 @@ AnEnReadNcdf::read_(const netCDF::NcFile & nc, Times & times,
     if (times.size() - size_ori != vec.size()) {
         ostringstream msg;
         msg << BOLDRED << "Only " << times.size() - size_ori << " out of " <<
-                vec.size() << " have been inserted due to duplicates!" << RESET;
+                vec.size() << " have been inserted due to duplicates in " <<
+                var_name << "!" << RESET;
         throw runtime_error(msg.str());
     }
 

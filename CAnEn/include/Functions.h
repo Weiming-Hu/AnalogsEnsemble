@@ -9,14 +9,78 @@
 #ifndef FUNCTIONS_H
 #define FUNCTIONS_H
 
+#include "Times.h"
 #include "boost/multi_array.hpp"
+#include "boost/numeric/ublas/matrix.hpp"
 
 #include <vector>
 #include <string>
 #include <iostream>
 
 namespace Functions {
-    
+
+    using Matrix = boost::numeric::ublas::matrix<double>;
+
+    /**
+     * Computes a lookup table which maps from forecast time and lead time
+     * indices to observation time indices.
+     * 
+     * @param fcst_times Forecast Times.
+     * @param fcst_flts Forecast FLTs.
+     * @param obs_times Observation Times.
+     * @param table A matrix storing the indices with forecast times in rows
+     * and forecast lead times in columns.
+     * @param start_row_i The starting row index for writing in the matrix.
+     * This is helpful when you are updating part of the values in the matrix.
+     */
+    void updateTimeTable(
+            const Times & fcst_times,
+            const Times & fcst_flts,
+            const Times & obs_times,
+            Matrix & table,
+            size_t start_row_i = 0);
+
+    /**
+     * Computes the standard deviation for linear numbers.
+     * 
+     * @param values A vector of values.
+     */
+    double sdLinear(const std::vector<double> & values);
+
+    /**
+     * Computes the standard deviation for circular numbers.
+     * 
+     * @param values A vector of values.
+     */
+    double sdCircular(const std::vector<double> & values);
+
+    /**
+     * Computes the mean of a vector.
+     * @param values A vector of values.
+     * @param max_nan_allowed The number of NAN values allowed in the
+     * vector. Set it to NAN to allow any number of NAN values.
+     */
+    double mean(const std::vector<double> & values,
+            double max_nan_allowed = NAN);
+
+    /**
+     * Computes the variance of a vector.
+     * @param values A vector of values.
+     */
+    double variance(const std::vector<double> & values);
+
+    /**
+     * Computes the difference of two circular numbers
+     * 
+     * @param i A double.
+     * @param j A double.
+     * @return  A double.
+     */
+    double diffCircular(double i, double j);
+
+    void setVerbose(int verbose);
+    int getVerbose();
+
     /**************************************************************************
      *                          Template Functions                            *
      **************************************************************************/
@@ -26,6 +90,9 @@ namespace Functions {
     void print(std::ostream & os, const boost::multi_array<T, 4> & arr);
     template <typename T>
     void print(std::ostream & os, const boost::multi_array<T, 5> & arr);
+
+    template <class T>
+    void toIndex(std::vector<size_t> & index, const T & query, const T & pool);
 }
 
 //#include "Analogs.h"
@@ -88,25 +155,7 @@ namespace Functions {
 //            boost::numeric::ublas::matrix<size_t> & matrix,
 //            size_t num_flts, size_t window_half_size) const;
 //
-//    /**
-//     * Computes the corresponding indices for observation times from 
-//     * forecast times and FLTs.
-//     * 
-//     * @param times_forecasts Forecast anenTimes::Time.
-//     * @param flts_forecasts Forecast anenTimes::FLTs.
-//     * @param times_observations Observation anenTimes::Time.
-//     * @param mapping A matrix stores the indices.
-//     * @param time_match_mode An integer specifying how to deal with missing observation
-//     * times. 0 stands for strict search. It will throw an error when a forecast time
-//     * cannot be found in observation times. 1 stands for loose search. It will insert
-//     * NA into the matrix when a observation time cannot be found for a foreacst time.
-//     * @return An errorType.
-//     */
-//    errorType computeObservationsTimeIndices(
-//            const anenTime::Times & times_forecasts,
-//            const anenTime::Times & flts_forecasts,
-//            const anenTime::Times & times_observations,
-//            TimeMapMatrix & mapping, int time_match_mode = 1) const;
+
 //
 //    /**
 //     * Computes the index of each target in the container.
@@ -121,46 +170,7 @@ namespace Functions {
 //            const anenTime::Times & container,
 //            std::vector<size_t> & indexes) const;
 //
-//    /**
-//     * Computes the standard deviation for linear numbers.
-//     * 
-//     * @param values A vector of values.
-//     */
-//    double sdLinear(const std::vector<double> & values) const;
-//
-//    /**
-//     * Computes the standard deviation for circular numbers.
-//     * 
-//     * @param values A vector of values.
-//     */
-//    double sdCircular(const std::vector<double> & values) const;
-//
-//    /**
-//     * Computes the mean of a vector.
-//     * @param values A vector of values.
-//     * @param max_nan_allowed The number of NAN values allowed in the
-//     * vector. Set it to NAN to allow any number of NAN values.
-//     */
-//    double mean(const std::vector<double> & values,
-//            const double max_nan_allowed = NAN) const;
-//
-//    /**
-//     * Computes the variance of a vector.
-//     * @param values A vector of values.
-//     */
-//    double variance(const std::vector<double> & values) const;
-//
-//    /**
-//     * Computes the difference of two circular numbers
-//     * 
-//     * @param i A double.
-//     * @param j A double.
-//     * @return  A double.
-//     */
-//    double diffCircular(double i, double j) const;
-//    
-//    void setVerbose(int verbose);
-//    int getVerbose();
+
 //    
 //private:
 //    

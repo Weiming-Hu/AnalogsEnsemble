@@ -18,6 +18,9 @@
 class AnEnWriteNcdf {
 public:
 
+    // TODO: when writing to a NetCDF file Make sure that you
+    // - Create a NetCDF-4 format
+    // - Using 64-bit file format
     enum class FileType {
         Forecasts, Observations, Similarity,
         Analogs, StandardDeviation

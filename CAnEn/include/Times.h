@@ -17,25 +17,26 @@
 class Time {
 public:
     Time();
-    Time(double);
+    Time(size_t);
     Time(const Time &);
     virtual ~Time();
 
-    // This is where we store the actual data
-    double timestamp;
-
     Time & operator=(const Time & rhs);
-    Time & operator=(double rhs);
+    Time & operator=(size_t rhs);
+    Time operator+(const Time & rhs) const;
     bool operator<(const Time &) const;
 
+    // This is where we store the actual data as size_t.
+    size_t timestamp;
+    
+    void print(std::ostream & os) const;
+    friend std::ostream& operator<<(std::ostream& os, Time const & obj);
+    
     // They are static members because unit and origin should be
     // consistent throughout the program.
     //
     static std::string _unit;
     static std::string _origin;
-
-    void print(std::ostream & os) const;
-    friend std::ostream& operator<<(std::ostream& os, Time const & obj);
 };
 
 /**

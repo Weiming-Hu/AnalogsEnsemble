@@ -8,18 +8,20 @@
 
 /** @file */
 
-#include "AnEn.h"
-#include "AnEnReadNcdf.h"
 
+#include "AnEnIS.h"
+#include "AnEnReadNcdf.h"
 #include "ForecastsArray.h"
 #include "ObservationsArray.h"
+
+#include <iterator>
 
 using namespace std;
 
 int main(int argc, char** argv) {
 
-    string forecast_file = "forecasts.nc";
-    string observation_file = "observations.nc";
+    string forecast_file = "test_forecasts.nc";
+    string observation_file = "test_observations.nc";
 
     ForecastsArray forecasts;
     ObservationsArray observations;
@@ -27,9 +29,22 @@ int main(int argc, char** argv) {
     AnEnReadNcdf read_nc;
     read_nc.readForecasts(forecast_file, forecasts);
     read_nc.readObservations(observation_file, observations);
+    
+    size_t search_start = 1, search_end = 6, test_start = 8, test_end = 9;
 
-    cout << forecasts;
-    cout << observations;
+    Times test_times, search_times;
+    const auto & it = forecasts.getTimes().begin();
+    test_times.assign(it + test_start, it + test_end + 1);
+    search_times.assign(it + search_start, it + search_end + 1);
+    
+//    cout << "Test times:" << test_times << endl <<
+//            "Search times:" << search_times << endl;
+
+    //    cout << forecasts;
+    //    cout << observations;
+
+    AnEnIS anen(true);
+    anen.compute(forecasts, observations, test_times, search_times);
 
     return 0;
 }

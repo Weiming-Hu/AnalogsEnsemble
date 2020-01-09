@@ -38,6 +38,8 @@ Ncdf::checkPath(const string & file_path, Mode mode) {
     if (boost_path.has_extension()) {
         if (boost_path.extension().string() == ".nc") return;
     }
+    
+    // TODO: Make sure the file type is netCDF-4
 
     // Fail if the file path does not have a .nc extension
     ostringstream msg;

@@ -20,11 +20,12 @@ namespace AnEnDefaults {
     static const bool _CIRCULAR = false;
     static const double _X = 0.0;
     static const double _Y = 0.0;
-    static const double _TIME = 0.0;
+    static const size_t _TIME = 0;
     static const std::string _UNIT = "seconds";
     static const std::string _ORIGIN = "1970-01-01";
     static const bool _OPERATIONAL = false;
     static const bool _CHECK_TIME_OVERLAP = false;
+    static const bool _SAVE_SIMS = false;
 
     /**
      * A higher level will contain all messages from the lower levels. For

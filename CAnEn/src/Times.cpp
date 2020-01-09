@@ -28,10 +28,10 @@ using namespace std;
 std::string Time::_origin = AnEnDefaults::_ORIGIN;
 std::string Time::_unit = AnEnDefaults::_UNIT;
 
-Time::Time() : timestamp (AnEnDefaults::_TIME) {
+Time::Time() : timestamp(AnEnDefaults::_TIME) {
 }
 
-Time::Time(double val) {
+Time::Time(size_t val) {
     timestamp = val;
 }
 
@@ -44,17 +44,21 @@ Time::Time(const Time & rhs) {
 Time::~Time() {
 }
 
-Time & Time::operator=(const Time & rhs) {
-    if (this != &rhs) {
-        timestamp = rhs.timestamp;
-    }
-
+Time &
+Time::operator=(const Time & rhs) {
+    if (this != &rhs) timestamp = rhs.timestamp;
     return *this;
 }
 
-Time & Time::operator=(double rhs) {
-        timestamp = rhs;
+Time &
+Time::operator=(size_t rhs) {
+    timestamp = rhs;
     return *this;
+}
+
+Time
+Time::operator+(const Time & rhs) const {
+    return Time(timestamp + rhs.timestamp);
 }
 
 bool
@@ -77,7 +81,7 @@ operator<<(ostream& os, Time const & obj) {
  *                               Times                                     *
  **************************************************************************/
 
-Times::Times()  {
+Times::Times() {
 }
 
 Times::~Times() {
@@ -97,11 +101,11 @@ Times::getIndex(const Time & time) const {
 void
 Times::print(ostream &os) const {
     os << "[Times] size: " << size() << endl;
-    
-    for ( left_const_iterator it = left.begin() ; it < left.end() ; it ++ ) {
+
+    for (left_const_iterator it = left.begin(); it < left.end(); it++) {
         os << "[" << it->first << "] " << it->second;
     }
-    
+
     return;
 }
 

@@ -10,21 +10,39 @@
 #define ANENIS_H
 
 #include "AnEn.h"
+#include <vector>
+#include "boost/multi_array.hpp"
+
+template <class T>
+using Array4D = boost::multi_array<T, 4>;
 
 class AnEnIS : public AnEn {
 public:
-    //TODO: https://www.johndcook.com/blog/standard_deviation/
     AnEnIS();
     AnEnIS(const AnEnIS& orig);
+    AnEnIS(bool operational,
+            bool time_overlap_check = AnEnDefaults::_CHECK_TIME_OVERLAP,
+            bool save_sims = AnEnDefaults::_SAVE_SIMS,
+            AnEnDefaults::Verbose verbose = AnEnDefaults::_VERBOSE);
     virtual ~AnEnIS();
-    
-    void compute(const Forecasts & forecasts, const Observations & observations,
-            const Times & test_times, const Times & search_times) const override;
-    
-    protected:
-        boost::multi_array<double, 4> SimilarityMetric_;
-        boost::multi_array<double, 4> SimilarityIndex_;
+
+    void compute(const Forecasts & forecasts,
+            const Observations & observations,
+            const Times & test_times,
+            const Times & search_times) override;
+
+protected:
+    std::vector<double> weights_;
+    std::vector<double> circulars_;
+    Array4D<double> sds_;
+    Array4D<double> similarityMetric_;
+    Array4D<size_t> similarityIndex_;
+
+    void fixedSds_(const Forecasts & forecasts,
+            const std::vector<size_t> times_index);
+    void runningSds_(const Forecasts & forecasts, size_t time_index);
+    void runningSds_(const Forecasts & forecasts,
+            const std::vector<size_t> & times_index);
 };
 
 #endif /* ANENIS_H */
-
