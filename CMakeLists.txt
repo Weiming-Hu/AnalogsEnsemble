@@ -35,7 +35,7 @@ option(INSTALL_RAnEn "install RAnEn package" OFF)
 option(USE_NCCONFIG "Use nc-config to determine cflags and libdirs." OFF)
 option(CODE_PROFILING "Insert profiling code and print time information." OFF)
 
-# set this variable to prevent CMake from removing
+# Set this variable to prevent CMake from removing
 # non-standard build paths. This would be helpful on
 # supercomputers where modules are always loaded, rather
 # than installed at the standard location.
@@ -243,7 +243,7 @@ endif (BUILD_GRIBCONVERTER)
 #####################
 # if CMAKE_BUILD_TESTS is set to ON, build the test cases
 if(CMAKE_BUILD_TESTS)
-    message(STATUS "Build various tests")
+    message(STATUS "Build tests")
     file(MAKE_DIRECTORY "${COMMON_OUTPUT_DIR}/test")
     enable_testing()
     add_custom_target(test_all ${CMAKE_CTEST_COMMAND} -V)
