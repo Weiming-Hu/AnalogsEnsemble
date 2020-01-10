@@ -6,6 +6,7 @@
  */
 
 #include "testObservationsArray.h"
+#include "ObservationsArray.h"
 
 #include <iostream>
 #include <ctime>
@@ -35,17 +36,17 @@ void testObservationsArray::testColumnMajor() {
     size_t num_stations = 4000;
     size_t num_times = 500;
 
-    vector<anenPar::Parameter> vec_pars(num_pars);
-    vector<anenSta::Station> vec_stations(num_stations);
+    vector<Parameter> vec_pars(num_pars);
+    vector<Station> vec_stations(num_stations);
     vector<double> vec_times(num_times);
 
     for (auto & par : vec_pars) {
-        anenPar::Parameter tmp;
+        Parameter tmp;
         par = tmp;
     }
 
     for (auto & station : vec_stations) {
-        anenSta::Station tmp;
+        Station tmp;
         station = tmp;
     }
 
@@ -55,10 +56,10 @@ void testObservationsArray::testColumnMajor() {
         tmp++;
     }
 
-    anenPar::Parameters parameters;
+    Parameters parameters;
     parameters.insert(parameters.end(), vec_pars.begin(), vec_pars.end());
 
-    anenSta::Stations stations;
+    Stations stations;
     stations.insert(stations.end(), vec_stations.begin(), vec_stations.end());
 
     anenTime::Times times;
@@ -116,17 +117,17 @@ void testObservationsArray::testObservationValueSequence() {
      * Data should be set in column-major order.
      */
 
-    anenSta::Station s1, s2("Hunan", 10, 20), s3("Hubei"),
+    Station s1, s2("Hunan", 10, 20), s3("Hubei"),
             s4("Guangdong", 30, 40), s5("Zhejiang"),
             s6("Beijing", 30, 30);
-    anenSta::Stations stations;
+    Stations stations;
     stations.insert(stations.end(),{s1, s2, s3, s4, s5, s6});
 
-    anenPar::Parameter p1, p2("temperature", 0.6), p3("humidity", 0.3),
+    Parameter p1, p2("temperature", 0.6), p3("humidity", 0.3),
             p4("wind direction", 0.05, true);
     p1.setWeight(0.05);
 
-    anenPar::Parameters parameters;
+    Parameters parameters;
     parameters.insert(parameters.end(),{p1, p2, p3, p4});
 
     anenTime::Times times;

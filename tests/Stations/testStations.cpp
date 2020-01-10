@@ -73,7 +73,7 @@ testStations::testUnique() {
     CPPUNIT_ASSERT(!stations.push_back(s2).second);
     CPPUNIT_ASSERT(stations.size() == 5);
     
-    auto & stations_insert = stations.get<anenSta::by_insert>();
+    auto & stations_insert = stations.get<by_insert>();
     CPPUNIT_ASSERT(stations_insert[0] == s0);
     CPPUNIT_ASSERT(stations_insert[1] == s5);
     CPPUNIT_ASSERT(stations_insert[2] == s6);
@@ -491,7 +491,7 @@ void testStations::testHaveXY() {
             s4("4", 4, 3), s5("5", 8, 3), s6;
     
     Stations stations;
-    auto & stations_by_insert = stations.get<anenSta::by_insert>();
+    auto & stations_by_insert = stations.get<by_insert>();
     
     stations_by_insert.push_back(s1);
     CPPUNIT_ASSERT(stations.haveXY());

@@ -9,7 +9,6 @@
 #define TESTOBSERVATIONSARRAY_H
 
 #include <cppunit/extensions/HelperMacros.h>
-#include "Observations.h"
 
 class testObservationsArray : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST_SUITE(testObservationsArray);

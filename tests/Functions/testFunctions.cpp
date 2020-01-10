@@ -38,12 +38,12 @@ void testFunctions::testComputeStandardDeviation() {
 
     Functions functions(2);
 
-    anenSta::Station s1, s2("Hunan", 10, 20);
-    anenSta::Stations stations;
+    Station s1, s2("Hunan", 10, 20);
+    Stations stations;
     stations.insert(stations.end(),{s1, s2});
 
-    anenPar::Parameter p1, p2("temperature"), p3("humidity");
-    anenPar::Parameters parameters;
+    Parameter p1, p2("temperature"), p3("humidity");
+    Parameters parameters;
     parameters.insert(parameters.end(),{p1, p2, p3});
 
     anenTime::Times times;

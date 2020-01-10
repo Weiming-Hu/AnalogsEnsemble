@@ -75,7 +75,9 @@ Station::operator!=(const Station & rhs) const {
 
 bool
 Station::operator<(const Station & rhs) const {
-    return (name_ < rhs.getName() );
+    if (x_ != rhs.x_) return (x_ < rhs.x_);
+    if (y_ != rhs.y_) return (y_ < rhs.y_);
+    return (name_ < rhs.getName());
 }
 
 string
