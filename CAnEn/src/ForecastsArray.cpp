@@ -17,18 +17,20 @@ using namespace std;
 
 static const size_t _FORECASTS_DIMENSIONS = 4;
 
-ForecastsArray::ForecastsArray() {
-    data_ = boost::multi_array<double, _FORECASTS_DIMENSIONS> (
-            boost::extents[0][0][0][0],
-            boost::fortran_storage_order());
+ForecastsArray::ForecastsArray() :
+data_(boost::multi_array<double, _FORECASTS_DIMENSIONS> (
+boost::extents[0][0][0][0], boost::fortran_storage_order())) {
+
 }
 
 ForecastsArray::ForecastsArray(const Parameters & parameters,
         const Stations & stations, const Times & times, const Times & flts) :
-Forecasts(parameters, stations, times, flts) {
-    data_ = boost::multi_array<double, _FORECASTS_DIMENSIONS> (
-            boost::extents[0][0][0][0],
-            boost::fortran_storage_order());
+Forecasts(parameters, stations, times, flts),
+data_(boost::multi_array<double, _FORECASTS_DIMENSIONS> (
+boost::extents[0][0][0][0], boost::fortran_storage_order())) {
+
+    // Update dimensions and allocation memory
+    updateDataDims_(true);
 }
 
 ForecastsArray::ForecastsArray(const ForecastsArray & orig) : Forecasts(orig) {

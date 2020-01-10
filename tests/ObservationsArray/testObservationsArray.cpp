@@ -12,8 +12,13 @@
 #include <ctime>
 #include <vector>
 #include <iomanip>
+#include <sstream>
+#include <boost/assign/list_of.hpp>
+#include <boost/assign/list_inserter.hpp>
 
 using namespace std;
+using namespace boost::bimaps;
+using namespace boost;
 
 CPPUNIT_TEST_SUITE_REGISTRATION(testObservationsArray);
 
@@ -35,39 +40,34 @@ void testObservationsArray::testColumnMajor() {
     size_t num_pars = 10;
     size_t num_stations = 4000;
     size_t num_times = 500;
-
-    vector<Parameter> vec_pars(num_pars);
-    vector<Station> vec_stations(num_stations);
-    vector<double> vec_times(num_times);
-
-    for (auto & par : vec_pars) {
-        Parameter tmp;
-        par = tmp;
-    }
-
-    for (auto & station : vec_stations) {
-        Station tmp;
-        station = tmp;
-    }
-
-    double tmp = 0.0;
-    for (auto & time : vec_times) {
-        time = tmp;
-        tmp++;
-    }
+    
+    stringstream ss;
 
     Parameters parameters;
-    parameters.insert(parameters.end(), vec_pars.begin(), vec_pars.end());
+    for (size_t i = 0; i < num_pars; ++i) {
+        ss << "Parameter_" << i;
+        parameters.push_back(Parameters::value_type(i, Parameter(ss.str())));
+        ss.clear();
+    }
 
     Stations stations;
-    stations.insert(stations.end(), vec_stations.begin(), vec_stations.end());
+    for (size_t i = 0; i < num_stations; ++i) {
+        ss << "Station_" << i;
+        stations.push_back(Stations::value_type(i, Station(i, i, ss.str())));
+        ss.clear();
+    }
 
-    anenTime::Times times;
-    times.insert(times.end(), vec_times.begin(), vec_times.end());
+    Times times;
+    for (size_t i = 0; i < num_times; ++i) {
+        times.push_back(Times::value_type(i, Time(i)));
+    }
 
     vector<double> data(num_pars * num_stations * num_times, 0);
 
-    Observations_array observations(parameters, stations, times, data);
+    ObservationsArray observations(parameters, stations, times);
+    
+    double *ptr = observations.getValuesPtr();
+    memcpy(ptr, data.data(), data.size() * sizeof (double));
 
     // This variable is used to read the value. It does no real computation.
     double read_only = 0.0;
@@ -117,32 +117,34 @@ void testObservationsArray::testObservationValueSequence() {
      * Data should be set in column-major order.
      */
 
-    Station s1, s2("Hunan", 10, 20), s3("Hubei"),
-            s4("Guangdong", 30, 40), s5("Zhejiang"),
-            s6("Beijing", 30, 30);
+    Station s1, s2(10, 20, "Hunan"), s3(10, 30, "Hubei"),
+            s4(30, 40, "Guangdong"), s5(15, 23), s6(30, 30, "Beijing");
     Stations stations;
-    stations.insert(stations.end(),{s1, s2, s3, s4, s5, s6});
+    assign::push_back(stations.left)(0, s1)(1, s2)(2, s3)(3, s4)(4, s5)(5, s6);
 
     Parameter p1, p2("temperature", 0.6), p3("humidity", 0.3),
             p4("wind direction", 0.05, true);
     p1.setWeight(0.05);
 
     Parameters parameters;
-    parameters.insert(parameters.end(),{p1, p2, p3, p4});
+    assign::push_back(parameters.left)(0, p1)(1, p2)(2, p3)(3, p4);
 
-    anenTime::Times times;
-    times.insert(times.end(),{1, 2, 3, 4, 5, 6, 7, 8, 9, 10});
-
+    Times times;
+    for (size_t i = 1; i <= 10; ++i) {
+        times.push_back(Times::value_type(i, Time(i)));
+    }
+    
     vector<double> values(parameters.size() * stations.size() * times.size());
     iota(values.begin(), values.end(), 0);
 
-    Observations_array observations(parameters, stations, times, values);
+    ObservationsArray observations(parameters, stations, times);
+
+    double *ptr = observations.getValuesPtr();
+    memcpy(ptr, values.data(), values.size() * sizeof (double));
 
     size_t l = 0;
-        for (size_t m = 0; m < observations.getTimes().size(); m++)
-            for (size_t j = 0; j < observations.getStations().size(); j++)
-                for (size_t i = 0; i < observations.getParameters().size();
-                        i++, l++)
-                    CPPUNIT_ASSERT(observations.getValue(i, j, m)
-                        == values[l]);
+    for (size_t m = 0; m < observations.getTimes().size(); m++)
+        for (size_t j = 0; j < observations.getStations().size(); j++)
+            for (size_t i = 0; i < observations.getParameters().size(); i++, l++)
+                CPPUNIT_ASSERT(observations.getValue(i, j, m) == values[l]);
 }

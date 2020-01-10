@@ -48,6 +48,7 @@ public:
     friend std::ostream& operator<<(std::ostream&, const ForecastsArray&);
 
 protected:
+    // TODO: Somehow you need to figure out how to initialize this in cpp code
     boost::multi_array<double, 4> data_;
     void updateDataDims_(bool initialize_values = true);
 };

@@ -16,18 +16,16 @@ using namespace std;
 
 static const size_t _OBSERVATIONS_DIMENSIONS = 3;
 
-ObservationsArray::ObservationsArray() {
-    data_ = boost::multi_array<double, _OBSERVATIONS_DIMENSIONS> (
-            boost::extents[0][0][0],
-            boost::fortran_storage_order());
+ObservationsArray::ObservationsArray() :
+data_(boost::multi_array<double, _OBSERVATIONS_DIMENSIONS> (
+boost::extents[0][0][0], boost::fortran_storage_order())) {
 }
 
-ObservationsArray::ObservationsArray(Parameters parameters,
-        Stations stations, Times times) :
-Observations(parameters, stations, times) {
-    data_ = boost::multi_array<double, _OBSERVATIONS_DIMENSIONS> (
-            boost::extents[0][0][0],
-            boost::fortran_storage_order());
+ObservationsArray::ObservationsArray(const Parameters & parameters,
+        const Stations & stations, const Times & times) :
+Observations(parameters, stations, times),
+data_(boost::multi_array<double, _OBSERVATIONS_DIMENSIONS> (
+boost::extents[0][0][0], boost::fortran_storage_order())) {
     updateDataDims_();
 }
 

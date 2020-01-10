@@ -24,7 +24,7 @@ public:
     
     ObservationsArray();
     ObservationsArray(const ObservationsArray& orig);
-    ObservationsArray(Parameters, Stations, Times);
+    ObservationsArray(const Parameters &, const Stations &, const Times &);
 
     virtual ~ObservationsArray();
 

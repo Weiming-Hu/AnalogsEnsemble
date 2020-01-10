@@ -24,8 +24,6 @@ class testStation : public CPPUNIT_NS::TestFixture {
 public:
     testStation();
     virtual ~testStation();
-    void setUp();
-    void tearDown();
 
 private:
     void testStationComparison();
