@@ -8,12 +8,12 @@
 #include "testParameters.h"
 #include "Parameters.h"
 
+#include "boost/assign/list_of.hpp"
+#include "boost/assign/list_inserter.hpp"
+
 using namespace std;
 using namespace boost::bimaps;
 using namespace boost;
-
-#include <boost/assign/list_of.hpp>
-#include <boost/assign/list_inserter.hpp>
 
 CPPUNIT_TEST_SUITE_REGISTRATION(testParameters);
 

@@ -363,7 +363,7 @@ AnEnReadNcdf::read_(const netCDF::NcFile & nc, Times & times,
     }
     
     // Read the NetCDF variable as a vector
-    vector<uint> vec;
+    vector<unsigned int> vec;
     
     if (start == 0 || count == 0) {
         readVector(nc, var_name, vec);

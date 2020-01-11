@@ -58,7 +58,12 @@ public:
     Times();
     virtual ~Times();
 
-    size_t getIndex(const Time &) const;
+    /**
+     * Retrieve the associated index with a Time object.
+     * @param time A Time object
+     * @return an index
+     */
+    size_t getIndex(const Time & time) const;
 
     void print(std::ostream & os) const;
     friend std::ostream& operator<<(std::ostream& os, Times const & obj);

@@ -148,7 +148,7 @@ AnEnIS::fixedSds_(const Forecasts& forecasts,
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(dynamic) collapse(3) \
 shared(num_parameters, num_stations, num_flts, num_times, forecasts, \
-circulars_, weights_, sds_) firstprivate(i_time) 
+times_index, circulars_, weights_, sds_) firstprivate(i_time) 
 #endif
     for (size_t parameter_i = 0; parameter_i < num_parameters; ++parameter_i) {
         for (size_t station_i = 0; station_i < num_stations; ++station_i) {

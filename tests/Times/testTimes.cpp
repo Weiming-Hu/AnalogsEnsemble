@@ -6,15 +6,18 @@
  */
 
 #include <cppunit/TestAssert.h>
-
 #include <iostream>
 
 #include "testTimes.h"
+#include "Times.h"
+#include "boost/assign/list_of.hpp"
+#include "boost/assign/list_inserter.hpp"
 
+using namespace std;
+using namespace boost::bimaps;
+using namespace boost;
 
 CPPUNIT_TEST_SUITE_REGISTRATION(testTimes);
-
-using namespace anenTime;
 
 testTimes::testTimes() {
 }
@@ -25,46 +28,14 @@ testTimes::~testTimes() {
 void testTimes::testGetTimeIndex() {
 
     /**
-     * Test function getTimeIndex.
+     * Test function getIndex.
      */
 
     Times times;
-    times.insert(times.end(),{100, 105, 110, 115, 120,
-        200, 205, 210, 215, 220, 300, 305, 310, 315, 320});
-
-    size_t i_time;
-    i_time = times.getTimeIndex(110);
-    CPPUNIT_ASSERT(i_time == 2);
-    i_time = times.getTimeIndex(320);
-    CPPUNIT_ASSERT(i_time == 14);
-}
-
-void testTimes::testDecimalValues() {
-
-    /**
-     * Test decimal values.
-     */
-
-    Times times;
-    std::vector<double> results = {0, 0.1, 0.2, 0.3, 1, 1.1, 4, 4.6};
-    times.insert(times.end(), results.begin(), results.end());
-
-    std::cout << "Times: " << times;
-
-    const auto & times_by_insert = times.get<by_insert>();
-
-    size_t i_time;
-
-    for (size_t i = 0; i < results.size(); i++) {
-        CPPUNIT_ASSERT(times_by_insert[i] == results[i]);
-
-        i_time = times.getTimeIndex(results[i]);
-        CPPUNIT_ASSERT(i_time == i);
-    }
-
-    i_time = times.getTimeIndex(1 + 0.1);
-    CPPUNIT_ASSERT(i_time == 5);
-
-    i_time = times.getTimeIndex(0.10000);
-    CPPUNIT_ASSERT(i_time == 1);
+    assign::push_back(times.left)(0, Time(100))(1, Time(200))
+            (2, Time(300))(3, Time(400))(4, Time(500));
+    
+    CPPUNIT_ASSERT(times.getIndex(Time(400)) == 3);
+    CPPUNIT_ASSERT(times.getIndex(Time(500)) == 4);
+    CPPUNIT_ASSERT(times.getIndex(Time(300)) == 2);
 }

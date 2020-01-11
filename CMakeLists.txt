@@ -29,7 +29,7 @@ option(BUILD_SD "Build standard deviation calculator" OFF)
 option(BUILD_F2O "Build forecast to observation utility" OFF)
 option(BUILD_GRIBCONVERTER "Build gribConverter utility. Eccodes required." OFF)
 
-option(CMAKE_BUILD_TESTS "Build tests" OFF)
+option(CMAKE_BUILD_TESTS "Build tests" ON)
 option(VERBOSE "Verbose standout output" OFF)
 option(INSTALL_RAnEn "install RAnEn package" OFF)
 option(USE_NCCONFIG "Use nc-config to determine cflags and libdirs." OFF)
