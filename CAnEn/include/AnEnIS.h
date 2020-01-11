@@ -10,7 +10,6 @@
 #define ANENIS_H
 
 #include "AnEn.h"
-#include <vector>
 #include "boost/multi_array.hpp"
 
 template <class T>
@@ -38,11 +37,20 @@ protected:
     Array4D<double> similarityMetric_;
     Array4D<size_t> similarityIndex_;
 
+    void computeSds_(const Forecasts & forecasts,
+            const std::vector<size_t> & times_fixed_index,
+            const std::vector<size_t> & times_running_index = {});
+    
+    
+    
     void fixedSds_(const Forecasts & forecasts,
             const std::vector<size_t> times_index);
-    void runningSds_(const Forecasts & forecasts, size_t time_index);
-    void runningSds_(const Forecasts & forecasts,
-            const std::vector<size_t> & times_index);
+    void operationalSds_(const Forecasts & forecasts,
+            const std::vector<size_t> & times_fixed_index,
+            const std::vector<size_t> & times_running_index);
+//    void runningSds_(const Forecasts & forecasts,
+//            const std::vector<size_t> & times_fixed_index,
+//            const std::vector<size_t> & times_running_index);
 };
 
 #endif /* ANENIS_H */
