@@ -40,17 +40,10 @@ protected:
     void computeSds_(const Forecasts & forecasts,
             const std::vector<size_t> & times_fixed_index,
             const std::vector<size_t> & times_running_index = {});
-    
-    
-    
-    void fixedSds_(const Forecasts & forecasts,
-            const std::vector<size_t> times_index);
-    void operationalSds_(const Forecasts & forecasts,
-            const std::vector<size_t> & times_fixed_index,
-            const std::vector<size_t> & times_running_index);
-//    void runningSds_(const Forecasts & forecasts,
-//            const std::vector<size_t> & times_fixed_index,
-//            const std::vector<size_t> & times_running_index);
+    void computeSd_(const Forecasts & forecasts,
+            const std::vector<size_t> & times_index,
+            size_t time_i, size_t par_i, size_t sta_i, size_t flt_i,
+            size_t count = 0);
 };
 
 #endif /* ANENIS_H */

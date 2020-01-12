@@ -15,6 +15,7 @@
 
 #include <vector>
 #include <string>
+#include <sstream>
 #include <iostream>
 
 namespace Functions {
@@ -90,6 +91,9 @@ namespace Functions {
     void print(std::ostream & os, const boost::multi_array<T, 4> & arr);
     template <typename T>
     void print(std::ostream & os, const boost::multi_array<T, 5> & arr);
+    template <typename T>
+    std::string format(const std::vector<T> & vec,
+            const std::string & delim = ",");
 
     template <class T>
     void toIndex(std::vector<size_t> & index, const T & query, const T & pool);

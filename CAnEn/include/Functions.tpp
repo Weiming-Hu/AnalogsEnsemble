@@ -84,6 +84,17 @@ void Functions::print(std::ostream & os, const boost::multi_array<T, 5> & arr) {
     return;
 }
 
+template <typename T>
+std::string
+Functions::format(const std::vector<T> & vec, const std::string & delim) {
+    
+    using namespace std;
+    
+    stringstream msg;
+    for (const auto & e : vec) msg << e << delim;
+    return (msg.str());
+}
+
 template <class T>
 void
 Functions::toIndex(std::vector<size_t> & index,

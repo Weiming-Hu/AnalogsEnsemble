@@ -36,14 +36,8 @@ int main(int argc, char** argv) {
     const auto & it = forecasts.getTimes().begin();
     test_times.assign(it + test_start, it + test_end + 1);
     search_times.assign(it + search_start, it + search_end + 1);
-    
-//    cout << "Test times:" << test_times << endl <<
-//            "Search times:" << search_times << endl;
 
-    //    cout << forecasts;
-    //    cout << observations;
-
-    AnEnIS anen(true);
+    AnEnIS anen(true, true, true, AnEnDefaults::Verbose::Detail);
     anen.compute(forecasts, observations, test_times, search_times);
 
     return 0;
