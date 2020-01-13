@@ -87,6 +87,13 @@ namespace Functions {
     /**************************************************************************
      *                          Template Functions                            *
      **************************************************************************/
+    
+    /**
+     * Print multi_array and multi_array_view.
+     * 
+     * @param os output stream
+     * @param arr multi_array obejct to be printed.
+     */
     template <typename T>
     void print(std::ostream & os, const boost::multi_array<T, 3> & arr);
     template <typename T>
@@ -96,13 +103,36 @@ namespace Functions {
     template <typename T, size_t NDims>
     void print(std::ostream & os, const array_view<T, NDims> & view);
     
+    /**
+     * Format a vector as a string for printing.
+     * 
+     * @param vec A vector
+     * @param delim A string deliminator
+     * @return A formatted string
+     */
     template <typename T>
     std::string format(const std::vector<T> & vec,
             const std::string & delim = ",");
+    
+    /**
+     * Format a pointer as a string for printing
+     * @param ptr A pointer
+     * @param len Length of the pointed object
+     * @param delim A string deliminator
+     * @return A formatted string
+     */
     template <typename T>
     std::string format(const T* ptr, size_t len,
             const std::string & delim = ",");
 
+    /**
+     * Calculate the indices for each query object from the pool objects.
+     * 
+     * @param index A vector to store indices.
+     * @param query Objects to query. It can be Parameters, Times, Stations.
+     * @param pool Objects from which indices are generated. It can be
+     * Parameters, Times, Stations.
+     */
     template <class T>
     void toIndex(std::vector<size_t> & index, const T & query, const T & pool);
 }

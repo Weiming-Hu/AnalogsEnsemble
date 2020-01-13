@@ -5,6 +5,10 @@
  * Created on January 7, 2020, 10:45 AM
  */
 
+#include "Parameters.h"
+#include "Stations.h"
+#include "Times.h"
+
 template <typename T>
 void
 Functions::print(std::ostream & os, const boost::multi_array<T, 2> & arr) {
@@ -151,9 +155,18 @@ template <class T>
 void
 Functions::toIndex(std::vector<size_t> & index,
         const T & query, const T & pool) {
+    
+    // Check for accepted instantiation
+    static const bool accepted_types =
+            (boost::is_base_of<Parameters, T>::value) ||
+            (boost::is_base_of<Stations, T>::value) ||
+            (boost::is_base_of<Times, T>::value);
+    BOOST_STATIC_ASSERT(accepted_types);
 
+    // Resize the index vector
     index.resize(query.size());
 
+    // Calculate indices
     for (size_t i = 0; i < index.size(); ++i) {
         index[i] = pool.getIndex(query.left[i].second);
     }

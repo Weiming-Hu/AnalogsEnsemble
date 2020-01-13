@@ -6,15 +6,24 @@
  */
 
 #include "testFunctions.h"
-//#include "../../CAnEnIO/include/AnEnIO.h"
-#include "../../CAnEn/include/Functions.h"
-#include "../../CAnEn/include/colorTexts.h"
+#include "Functions.h"
+#include "colorTexts.h"
 
 #include <vector>
 #include <iostream>
-#include <boost/numeric/ublas/io.hpp>
+
+#include "boost/bimap/bimap.hpp"
+#include "boost/numeric/ublas/io.hpp"
+#include "boost/lambda/lambda.hpp"
+#include "boost/assign/list_of.hpp"
+#include "boost/assign/list_inserter.hpp"
+#include "ForecastsArray.h"
+#include "AnEnReadNcdf.h"
+#include "ObservationsArray.h"
 
 using namespace std;
+using namespace boost::bimaps;
+using namespace boost;
 
 CPPUNIT_TEST_SUITE_REGISTRATION(testFunctions);
 
@@ -30,92 +39,31 @@ void testFunctions::setUp() {
 void testFunctions::tearDown() {
 }
 
-void testFunctions::testComputeStandardDeviation() {
-
-    /**
-     * Test the function computeStandardDeviation.
-     */
-
-    Functions functions(2);
-
-    Station s1, s2("Hunan", 10, 20);
-    Stations stations;
-    stations.insert(stations.end(),{s1, s2});
-
-    Parameter p1, p2("temperature"), p3("humidity");
-    Parameters parameters;
-    parameters.insert(parameters.end(),{p1, p2, p3});
-
-    anenTime::Times times;
-    times.insert(times.end(),{1, 2, 3, 4, 5, 6, 7, 8, 9, 10});
-
-    anenTime::FLTs flts;
-    flts.insert(flts.end(),{100, 200, 300, 400, 500});
-
-    vector<double> values(parameters.size()
-            * stations.size() * times.size() * flts.size());
-    iota(values.begin(), values.end(), 0);
-
-    Forecasts_array forecasts(parameters, stations, times, flts, values);
-
-    StandardDeviation sds;
-    functions.computeStandardDeviation(forecasts, sds);
-
-    for (auto p = sds.data(); p != sds.data() + sds.num_elements(); p++) {
-        CPPUNIT_ASSERT((int) (*p * 1000) == 18165);
-    }
-}
-
-void testFunctions::testComputeSearchWindows() {
-
-    /**
-     * Test the function computeSearchWindows().
-     */
-
-    boost::numeric::ublas::matrix<size_t> test;
-    size_t num_flts = 5, half_window_size = 2;
-
-    Functions functions(2);
-    functions.computeSearchWindows(test, num_flts, half_window_size);
-
-    CPPUNIT_ASSERT(test(0, 0) == 0);
-    CPPUNIT_ASSERT(test(0, 1) == 2);
-    CPPUNIT_ASSERT(test(1, 0) == 0);
-    CPPUNIT_ASSERT(test(1, 1) == 3);
-    CPPUNIT_ASSERT(test(2, 0) == 0);
-    CPPUNIT_ASSERT(test(2, 1) == 4);
-    CPPUNIT_ASSERT(test(3, 0) == 1);
-    CPPUNIT_ASSERT(test(3, 1) == 4);
-    CPPUNIT_ASSERT(test(4, 0) == 2);
-    CPPUNIT_ASSERT(test(4, 1) == 4);
-}
-
 void testFunctions::testSdCircular() {
 
     /**
      * Test the behavior of sdCircular function with and without NAN values.
      */
 
-    Functions functions(2);
     vector<double> values;
 
     values = {1, 2, 3, 4, 5};
-    CPPUNIT_ASSERT((int) (functions.sdCircular(values) * 1000) == 1414);
+    CPPUNIT_ASSERT((int) (Functions::sdCircular(values) * 1000) == 1414);
 
     values = {359, 360, 1, 2, 3};
-    CPPUNIT_ASSERT((int) (functions.sdCircular(values) * 1000) == 1414);
+    CPPUNIT_ASSERT((int) (Functions::sdCircular(values) * 1000) == 1414);
 
     values = {1, 2, 3, NAN, 4, 5};
-    CPPUNIT_ASSERT((int) (functions.sdCircular(values) * 1000) == 1414);
+    CPPUNIT_ASSERT((int) (Functions::sdCircular(values) * 1000) == 1414);
 
     values = {NAN, NAN, NAN, NAN};
-    CPPUNIT_ASSERT(std::isnan(functions.sdCircular(values)));
+    CPPUNIT_ASSERT(std::isnan(Functions::sdCircular(values)));
 
     values = {1, 3, 5, NAN, 2, 4, NAN};
-    CPPUNIT_ASSERT((int) (functions.sdCircular(values) * 1000) == 1414);
+    CPPUNIT_ASSERT((int) (Functions::sdCircular(values) * 1000) == 1414);
 
     values = {359, NAN, 360, 1, NAN, 2, 3};
-    CPPUNIT_ASSERT((int) (functions.sdCircular(values) * 1000) == 1414);
+    CPPUNIT_ASSERT((int) (Functions::sdCircular(values) * 1000) == 1414);
 }
 
 void testFunctions::testSdLinear() {
@@ -124,26 +72,25 @@ void testFunctions::testSdLinear() {
      * Test the behavior of sdLinear function with and without NAN values.
      */
 
-    Functions functions(2);
     vector<double> values;
 
     values = {1, 2, 3, 4, 5};
-    CPPUNIT_ASSERT((int) (functions.sdLinear(values) * 1000) == 1581);
+    CPPUNIT_ASSERT((int) (Functions::sdLinear(values) * 1000) == 1581);
 
     values = {1, 350, 359, 4, 5};
-    CPPUNIT_ASSERT((int) (functions.sdLinear(values) * 100) == 19237);
+    CPPUNIT_ASSERT((int) (Functions::sdLinear(values) * 100) == 19237);
 
     values = {1, 2, 3, NAN, 4, 5};
-    CPPUNIT_ASSERT((int) (functions.sdLinear(values) * 1000) == 1581);
+    CPPUNIT_ASSERT((int) (Functions::sdLinear(values) * 1000) == 1581);
 
     values = {NAN, NAN, NAN, NAN};
-    CPPUNIT_ASSERT(std::isnan(functions.sdLinear(values)));
+    CPPUNIT_ASSERT(std::isnan(Functions::sdLinear(values)));
 
     values = {1, 3, 5, NAN, 2, 4, NAN};
-    CPPUNIT_ASSERT((int) (functions.sdLinear(values) * 1000) == 1581);
+    CPPUNIT_ASSERT((int) (Functions::sdLinear(values) * 1000) == 1581);
 
     values = {350, 359, 2, NAN, 4};
-    CPPUNIT_ASSERT((int) (functions.sdLinear(values) * 100) == 20297);
+    CPPUNIT_ASSERT((int) (Functions::sdLinear(values) * 100) == 20297);
 }
 
 void testFunctions::testMean() {
@@ -152,45 +99,48 @@ void testFunctions::testMean() {
      * Test the behavior of mean function.
      */
 
-    Functions functions(2);
-
     vector<double> v1 = {1, 2, 3}, v2 = {1, NAN, 2},
     v3 = {NAN, 1, NAN}, v4 = {NAN, NAN, NAN};
 
-    CPPUNIT_ASSERT(functions.mean(v1) == 2);
-    CPPUNIT_ASSERT(functions.mean(v2) == 1.5);
-    CPPUNIT_ASSERT(functions.mean(v3) == 1);
-    CPPUNIT_ASSERT(std::isnan(functions.mean(v4)));
+    CPPUNIT_ASSERT(Functions::mean(v1) == 2);
+    CPPUNIT_ASSERT(Functions::mean(v2) == 1.5);
+    CPPUNIT_ASSERT(Functions::mean(v3) == 1);
+    CPPUNIT_ASSERT(std::isnan(Functions::mean(v4)));
 
-    CPPUNIT_ASSERT(std::isnan(functions.mean(v2, 0)));
-    CPPUNIT_ASSERT(std::isnan(functions.mean(v3, 1)));
-    CPPUNIT_ASSERT(functions.mean(v3, 2) == 1);
+    CPPUNIT_ASSERT(std::isnan(Functions::mean(v2, 0)));
+    CPPUNIT_ASSERT(std::isnan(Functions::mean(v3, 1)));
+    CPPUNIT_ASSERT(Functions::mean(v3, 2) == 1);
 }
 
 void testFunctions::testComputeObservationTimeIndices1() {
 
     /**
-     * Test the function of computeObservationTimeIndices().
+     * Test the function of updateTimeTable().
      */
 
-    anenTime::Times times_forecasts;
-    times_forecasts.insert(times_forecasts.end(),{100, 200, 300, 600});
+    Times times_forecasts;
+    assign::push_back(times_forecasts.left)
+            (0, Time(100))(1, Time(200))(2, Time(300))(3, Time(600));
+    
+    vector<size_t> test_times_index(times_forecasts.size());
+    iota(test_times_index.begin(), test_times_index.end(), 0);
 
-    anenTime::Times flts_forecasts;
-    flts_forecasts.insert(flts_forecasts.end(),{0, 1, 2, 3, 4, 5, 6, 7, 8, 9});
+    Times flts_forecasts;
+    for (size_t i = 0; i < 10; ++i) {
+        flts_forecasts.push_back(Times::value_type(i, Time(i)));
+    }
 
     vector<double> values(700);
     iota(values.begin(), values.end(), 90);
-    anenTime::Times times_observations;
-    times_observations.insert(times_observations.end(),
-            values.begin(), values.end());
+    Times times_observations;
+    for (size_t i = 0; i < values.size(); ++i) {
+        times_observations.push_back(Times::value_type(i, Time(values[i])));
+    }
 
-    Functions functions(2);
-    Functions::TimeMapMatrix mapping;
-
-    functions.computeObservationsTimeIndices(times_forecasts, flts_forecasts,
-            times_observations, mapping);
-
+    Functions::Matrix mapping(times_forecasts.size(), flts_forecasts.size());
+    Functions::updateTimeTable(times_forecasts, test_times_index, 
+            flts_forecasts, times_observations, mapping);
+    
     size_t pos = 0;
     vector<size_t> results{
         10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
@@ -208,30 +158,25 @@ void testFunctions::testComputeObservationTimeIndices1() {
 void testFunctions::testComputeObservationTimeIndices2() {
 
     /**
-     * Test the function of computeObservationTimeIndices() by reading files.
+     * Test the function of updateTimeTable() by reading files.
      */
 
-    AnEnIO io("Read", file_forecasts, "Forecasts", 2);
-    Forecasts_array forecasts;
-    io.readForecasts(forecasts);
+    AnEnReadNcdf io;
+    
+    ForecastsArray forecasts;
+    io.readForecasts(file_forecasts, forecasts);
+    
+    ObservationsArray observations;
+    io.readObservations(file_observations, observations);
 
-    io.setFilePath(file_observations);
-    io.setFileType("Observations");
-    Observations_array observations;
-    io.readObservations(observations);
-
-    Functions functions(2);
-    Functions::TimeMapMatrix mapping;
-
-    functions.computeObservationsTimeIndices(
-            forecasts.getTimes(), forecasts.getFLTs(),
-            observations.getTimes(), mapping, 0);
-
-    cout << "Forecasts times: " << forecasts.getTimes()
-        << "Forecasts FLTs: " << forecasts.getFLTs()
-        << "Observations times: " << observations.getTimes()
-        << "Mapping: " << endl << mapping << endl;
-
+    vector<size_t> test_times_index(forecasts.getTimes().size());
+    iota(test_times_index.begin(), test_times_index.end(), 0);
+    
+    Functions::Matrix mapping(test_times_index.size(),
+            forecasts.getFLTs().size());
+    Functions::updateTimeTable(forecasts.getTimes(), test_times_index,
+            forecasts.getFLTs(), observations.getTimes(), mapping);
+    
     size_t i_start = 0;
     for (size_t i_row = 0; i_row < mapping.size1(); i_row++) {
         for (size_t i_col = 0; i_col < mapping.size2(); i_col++) {
@@ -244,32 +189,30 @@ void testFunctions::testComputeObservationTimeIndices2() {
 void testFunctions::testConvertToIndex() {
     
     /**
-     * Test the function of convertToIndex().
+     * Test the function of toIndex().
      */
     
-    vector<double> vec_targets = {1, 4, 7, 3, 9},
-            vec_container = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    Parameters parameters;
+    assign::push_back(parameters.left)
+            (0, Parameter())
+            (1, Parameter("par_1", 0.3))
+            (1, Parameter("par_1"))
+            (2, Parameter("par_2"))
+            (2, Parameter("par_2", 0.2, true));
     
-    anenTime::Times targets, container;
-    targets.insert(targets.end(), vec_targets.begin(), vec_targets.end());
-    container.insert(container.end(), vec_container.begin(), vec_container.end());
+    Parameter p0, p1("par_1", 0.3), p2("par_2");
+    Parameters query;
+    assign::push_back(query.left)(0, p0)(1, p1)(2, p2);
     
-    vector<size_t> indexes, results = {0, 3, 6, 2, 8};
-
-    Functions functions(2);
-    functions.convertToIndex(targets, container, indexes);
+    vector<size_t> indices;
+    Functions::toIndex(indices, query, parameters);
     
-    for (size_t i = 0; i < targets.size(); i++) {
-        CPPUNIT_ASSERT(indexes[i] == results[i]);
-    }
-    
-    // Catch the exception
-    targets.clear();
-    vec_targets = {5, 3, 10};
-    results = {4, 2, 9};
-    targets.insert(targets.end(), vec_targets.begin(), vec_targets.end());
-    functions.convertToIndex(targets, container, indexes);
-    for (size_t i = 0; i < targets.size(); i++) {
-        CPPUNIT_ASSERT(indexes[i] == results[i]);
-    }
+    CPPUNIT_ASSERT(parameters.size() == 3);
+    CPPUNIT_ASSERT(indices.size() == 3);
+    CPPUNIT_ASSERT(indices[0] == 0);
+    CPPUNIT_ASSERT(indices[1] == 1);
+    CPPUNIT_ASSERT(indices[2] == 2);
+    CPPUNIT_ASSERT(p0 == parameters.left[0].second);
+    CPPUNIT_ASSERT(p1 == parameters.left[1].second);
+    CPPUNIT_ASSERT(p2 == parameters.left[2].second);
 }
