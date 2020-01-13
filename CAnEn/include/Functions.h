@@ -27,7 +27,8 @@ namespace Functions {
 
     /**
      * Computes a lookup table which maps from forecast time and lead time
-     * indices to observation time indices.
+     * indices to observation time indices. If the observation time index is
+     * not found, the cell value in the table will stay untouched.
      * 
      * @param fcst_times Forecast Times.
      * @param fcst_times_index The indices to compute mapping.

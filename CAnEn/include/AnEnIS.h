@@ -34,8 +34,14 @@ public:
     
     virtual ~AnEnIS();
 
-    void compute(const Forecasts & forecasts, const Observations & observations,
-            const Times & test_times, const Times & search_times) override;
+    void compute(const Forecasts & forecasts,
+            const Observations & observations,
+            const Times & test_times,
+            const Times & search_times) override;
+    void compute(const Forecasts & forecasts,
+            const Observations & observations,
+            const std::vector<size_t> & fcsts_test_index,
+            const std::vector<size_t> & fcsts_search_index);
     
     const Array4D & getSimsValue() const;
     const Array4D & getSimsIndex() const;
@@ -56,9 +62,10 @@ protected:
     double max_flt_nan_;
     size_t flt_radius_;
 
+    /**
+     * [Times][Parameters][Stations][FLTs]
+     */
     Array4D sds_;
-    std::vector<double> weights_;
-    std::vector<double> circulars_;
 
     /**
      * Arrays for storing similarity information
@@ -83,8 +90,10 @@ protected:
      */
     std::vector< std::array<double, 3> > simsArr_;
 
-    double computeSim_(const Forecasts & forecasts, size_t sta_i, double flt_i,
-            size_t time_test_i, size_t time_search_i);
+    double computeSim_(const Forecasts & forecasts, size_t sta_i,
+            double flt_i, size_t time_test_i, size_t time_search_i,
+            const std::vector<double> & weights,
+            const std::vector<bool> & circulars);
 
     void computeSds_(const Forecasts & forecasts,
             const std::vector<size_t> & times_fixed_index,
@@ -93,6 +102,8 @@ protected:
             const std::vector<size_t> & times_index,
             size_t time_i, size_t par_i, size_t sta_i, size_t flt_i,
             size_t count = 0);
+    
+    // TODO: running standard deviation
 };
 
 #endif /* ANENIS_H */

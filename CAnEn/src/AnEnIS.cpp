@@ -69,20 +69,13 @@ AnEnIS::~AnEnIS() {
 }
 
 void
-AnEnIS::compute(const Forecasts & forecasts, const Observations & observations,
+AnEnIS::compute(const Forecasts & forecasts,
+        const Observations & observations,
         const Times & test_times, const Times & search_times) {
 
     if (verbose_ >= Verbose::Progress) cout << GREEN
             << "Start AnEnIS generation ..." << RESET << endl;
 
-    /*
-     * Check input
-     * 
-     * - Dimensions are correct
-     * - Times exist in both forecasts and observations
-     */
-
-    // Initialize required variables
     const auto & fcst_times = forecasts.getTimes(),
             obs_times = observations.getTimes();
     const auto & fcst_flts = forecasts.getFLTs();
@@ -93,13 +86,10 @@ AnEnIS::compute(const Forecasts & forecasts, const Observations & observations,
     vector<size_t> fcsts_test_index, fcsts_search_index;
     Functions::toIndex(fcsts_test_index, test_times, fcst_times);
     Functions::toIndex(fcsts_search_index, search_times, fcst_times);
-
+    
     /*
      * If operational mode is used, append test time indices to the end of
      * the search time indices.
-     * 
-     * The time table needs to be updated with the observation indices to,
-     * not only search times, but also test times.
      */
     if (operational_) {
         fcsts_search_index.insert(fcsts_search_index.end(),
@@ -112,6 +102,20 @@ AnEnIS::compute(const Forecasts & forecasts, const Observations & observations,
             throw runtime_error(msg.str());
         }
     }
+    
+    compute(forecasts, observations, fcsts_test_index, fcsts_search_index);
+    return;
+}
+
+void
+AnEnIS::compute(const Forecasts & forecasts,
+        const Observations & observations,
+        const vector<size_t> & fcsts_test_index,
+        const vector<size_t> & fcsts_search_index) {
+
+    const auto & fcst_times = forecasts.getTimes(),
+            obs_times = observations.getTimes();
+    const auto & fcst_flts = forecasts.getFLTs();
 
     /*
      * Compute the index mapping from forecast times and lead times to 
@@ -126,12 +130,12 @@ AnEnIS::compute(const Forecasts & forecasts, const Observations & observations,
      * Read weights and circular flags from forecast parameters into vectors
      */
     const auto & parameters = forecasts.getParameters();
-    weights_.resize(parameters.size());
-    circulars_.resize(parameters.size());
-    for (size_t i = 0; i < weights_.size(); ++i) {
-        weights_[i] = parameters.left[i].second.getWeight();
-        circulars_[i] = parameters.left[i].second.getCircular();
-    }
+    
+    vector<double> weights;
+    vector<bool> circulars;
+    
+    parameters.getWeights(weights);
+    parameters.getCirculars(circulars);
 
     /*
      * Compute standard deviations
@@ -170,6 +174,7 @@ AnEnIS::compute(const Forecasts & forecasts, const Observations & observations,
      */
     if (verbose_ >= Verbose::Detail) cout << GREEN
             << "Computing analogs ..." << RESET << endl;
+
     for (size_t sta_i = 0; sta_i < num_stations; ++sta_i) {
         for (size_t flt_i = 0; flt_i < num_flts; ++flt_i) {
             for (size_t time_test_i = 0; time_test_i < num_test_times_index; ++time_test_i) {
@@ -203,8 +208,9 @@ AnEnIS::compute(const Forecasts & forecasts, const Observations & observations,
                     double obs = observations.getValue(obs_var_index_, sta_i, obs_time_index);
                     if (std::isnan(obs)) continue;
 
-                    simsArr_[time_search_i][_SIM_VALUE_INDEX] =
-                            computeSim_(forecasts, sta_i, flt_i, time_test_i, time_search_i);
+                    simsArr_[time_search_i][_SIM_VALUE_INDEX] = computeSim_(
+                            forecasts, sta_i, flt_i, time_test_i,
+                            time_search_i, weights, circulars);
                     simsArr_[time_search_i][_SIM_FCST_INDEX] =
                             fcsts_search_index[time_search_i];
                     simsArr_[time_search_i][_SIM_OBS_INDEX] = obs_time_index;
@@ -227,6 +233,8 @@ AnEnIS::compute(const Forecasts & forecasts, const Observations & observations,
 
                     if (save_analogs_index_) analogsIndex_[sta_i][time_test_i][flt_i][analog_i] = 
                             simsArr_[analog_i][_SIM_OBS_INDEX];
+                    
+                    // TODO: mpi_send();
                 }
 
                 if (save_sims_index_ || save_sims_) {
@@ -275,8 +283,6 @@ AnEnIS::print(std::ostream & os) const {
             << "number of similarity: " << num_sims_ << endl
             << "observation variable index: " << obs_var_index_ << endl
             << "quick sort: " << quick_sort_ << endl
-            << "weights: " << Functions::format(weights_) << endl
-            << "circulars: " << Functions::format(circulars_) << endl
             << "operational: " << operational_ << endl
             << "check time overlap: " << check_time_overlap_ << endl
             << "save analog time indices: " << save_analogs_index_ << endl
@@ -315,8 +321,9 @@ operator<<(std::ostream & os, const AnEnIS & obj) {
 }
 
 double
-AnEnIS::computeSim_(const Forecasts & forecasts, size_t sta_i, double flt_i,
-            size_t time_test_i, size_t time_search_i) {
+AnEnIS::computeSim_(const Forecasts & forecasts,
+        size_t sta_i, double flt_i, size_t time_test_i, size_t time_search_i,
+        const vector<double> & weights, const vector<bool> & circulars) {
     
     /*
      * Prepare for similarity metric calculation
@@ -334,7 +341,7 @@ AnEnIS::computeSim_(const Forecasts & forecasts, size_t sta_i, double flt_i,
      */
     for (size_t par_i = 0; par_i < num_pars; par_i++) {
 
-        if (weights_[par_i] != 0) {
+        if (weights[par_i] != 0) {
             vector<double> window(flt_i_end - flt_i_start + 1);
             size_t pos = 0;
 
@@ -349,7 +356,7 @@ AnEnIS::computeSim_(const Forecasts & forecasts, size_t sta_i, double flt_i,
                 if (std::isnan(value_search) || std::isnan(value_test)) {
                     window[pos] = NAN;
                 } else {
-                    if (circulars_[par_i]) {
+                    if (circulars[par_i]) {
                         window[pos] = pow(Functions::diffCircular(
                                 value_search, value_test), 2);
                     } else {
@@ -369,7 +376,7 @@ AnEnIS::computeSim_(const Forecasts & forecasts, size_t sta_i, double flt_i,
             } else {
                 if (operational_) sd = sds_[time_test_i][par_i][sta_i][flt_i];
                 else sd = sds_[0][par_i][sta_i][flt_i];
-                sim += weights_[par_i] * (sqrt(average) / sd);
+                sim += weights[par_i] * (sqrt(average) / sd);
             }
             
         } // End of check of the the parameter weight

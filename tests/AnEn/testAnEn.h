@@ -10,14 +10,10 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "AnEn.h"
-
 class testAnEn : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST_SUITE(testAnEn);
 
     CPPUNIT_TEST(testAutomaticDelteOverlappingTimes);
-    CPPUNIT_TEST(testGenerateOperationalSearchTimes);
-    CPPUNIT_TEST(testComputeSearchStations);
     CPPUNIT_TEST(testComputeSimilarity);
     CPPUNIT_TEST(testOperationalSearch);
     CPPUNIT_TEST(testSelectAnalogs);
@@ -32,8 +28,6 @@ public:
 
 private:
     void testAutomaticDelteOverlappingTimes();
-    void testGenerateOperationalSearchTimes();
-    void testComputeSearchStations();
     void testComputeSimilarity();
     void testOperationalSearch();
     void testSelectAnalogs();

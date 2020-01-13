@@ -137,6 +137,25 @@ Parameters::getIndex(const Parameter & parameter) const {
 }
 
 void
+Parameters::getWeights(std::vector<double> & weights) const {
+    weights.resize(size());
+    for (size_t i = 0; i < size(); ++i) {
+        weights[i] = this->left[i].second.getWeight();
+    }
+    return;
+}
+
+void
+Parameters::getCirculars(std::vector<bool> & circulars) const {
+    circulars.resize(size());
+    for (size_t i = 0; i < size(); ++i) {
+        circulars[i] = this->left[i].second.getCircular();
+    }
+    return;
+}
+
+
+void
 Parameters::print(ostream & os) const {
     os << "[Parameters] size: " << size() << endl;
 

@@ -91,6 +91,8 @@ public:
     virtual ~Parameters();
 
     size_t getIndex(const Parameter &) const;
+    void getWeights(std::vector<double> & weights) const;
+    void getCirculars(std::vector<bool> & circulars) const;
 
     void print(std::ostream &) const;
     friend std::ostream& operator<<(std::ostream&, Parameters const &);

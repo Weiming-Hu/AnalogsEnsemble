@@ -6,7 +6,12 @@
  */
 
 #include "testAnEn.h"
-#include "../../CAnEn/include/colorTexts.h"
+#include "AnEn.h"
+#include "colorTexts.h"
+#include "boost/lambda/lambda.hpp"
+#include "boost/assign/list_of.hpp"
+#include "boost/assign/list_inserter.hpp"
+#include "ForecastsArray.h"
 
 #include <numeric>
 #include <cstdlib>
@@ -15,6 +20,7 @@
 
 #if defined(_OPENMP)
 #include <omp.h>
+#include <boost/bimap/bimap.hpp>
 #endif
 
 using namespace std;
@@ -39,36 +45,40 @@ void testAnEn::testComputeSimilarity() {
     double tick;
 
     // Construct meta information
-    anenSta::Station s1;
+    Station s1;
+    Stations stations;
+    stations.push_back(Stations::value_type(0, s1));
 
-    anenPar::Parameter p1;
-    anenPar::Parameters parameters;
-    parameters.insert(parameters.end(),{p1});
-
-    anenTime::FLTs flts;
-    flts.insert(flts.end(),{1, 2, 3, 4});
+    Parameter p1;
+    Parameters parameters;
+    parameters.push_back(Parameters::value_type(0, p1));
+    
+    Times times;
+    for (size_t i = 1; i <= 9; ++i) {
+        times.push_back(Times::value_type(i - 1, Time(i * 100)));
+    }
+    
+    Times flts;
+    assign::push_back(flts.left)
+            (0, Time(1))(1, Time(2))(2, Time(3))(3, Time(4));
 
     vector<double> values;
 
-    // Construct test forecasts
-    anenSta::Stations test_stations;
-    test_stations.insert(test_stations.end(),{s1});
-    anenTime::Times test_times;
-    test_times.insert(test_times.end(),{800, 900});
-    values.resize(parameters.size() * test_stations.size() *
-            test_times.size() * flts.size());
+    // Construct forecasts
+    ForecastsArray forecasts(parameters, test_stations, test_times, flts);
+    double *ptr = forecasts.getValuesPtr();
+    size_t num_values = parameters.size() * stations.size() *
+            times.size() * flts.size();
     tick = 0.0;
-    for (auto & value : values) {
-        value = tick * 10;
-        tick++;
+    for (size_t i = 0; i < num_values; ++i) {
+        ptr[i] = tick * 10;
+        ++tick;
     }
-    Forecasts_array test_forecasts(parameters,
-            test_stations, test_times, flts, values);
 
     // Construct search forecasts
-    anenSta::Stations search_stations;
+    Stations search_stations;
     search_stations.insert(search_stations.end(),{s1});
-    anenTime::Times search_times;
+    Times search_times;
     search_times.insert(search_times.end(),{
         100, 200, 300, 400, 500, 600, 700
     });
@@ -83,7 +93,7 @@ void testAnEn::testComputeSimilarity() {
             search_stations, search_times, flts, values);
 
     // Construct search observations
-    anenTime::Times search_observation_times;
+    Times search_observation_times;
     search_observation_times.insert(search_observation_times.end(),{
         101, 102, 103, 104, 201, 202, 203, 204, 301, 302, 303, 304,
         401, 402, 403, 404, 501, 502, 503, 504, 601, 602, 603, 604,
@@ -102,7 +112,7 @@ void testAnEn::testComputeSimilarity() {
     // Construct AnEn object
     AnEn anen(2);
     Functions functions(2);
-    anen.setMethod(AnEn::simMethod::OneToOne);
+    simMethod::OneToOne);
 
     // Construct SimilarityMatrices
     SimilarityMatrices sims(test_forecasts);
@@ -164,36 +174,36 @@ void testAnEn::testOperationalSearch() {
      */
     
     // Construct data sets
-    anenPar::Parameters parameters;
+    Parameters parameters;
     for (int i = 0; i < 3; i++) {
-        anenPar::Parameter parameter;
+        Parameter parameter;
         parameters.push_back(parameter);
     }
     
-    anenSta::Stations stations;
+    Stations stations;
     for (int i = 0; i < 3; i++) {
-        anenSta::Station station((double)i, (double)i);
+        Station station((double)i, (double)i);
         stations.push_back(station);
     }
     
-    anenTime::Times times;
+    Times times;
     for (int i = 0; i < 8; i++) {
         times.push_back(i * 10000);
     }
     
-    anenTime::FLTs flts;
+    FLTs flts;
     for (int i = 0; i < 2; i++) {
         flts.push_back(i);
     }
     
-    anenTime::Times obs_times;
+    Times obs_times;
     for (const auto & time : times) {
         for (const auto & flt : flts) {
             obs_times.push_back(time + flt);
         }
     }
     
-    anenTime::Times test_times, search_times;
+    Times test_times, search_times;
     for (int i = 5; i < 8; i++) {
         test_times.push_back(i * 10000);
     }
@@ -273,20 +283,20 @@ void testAnEn::testSelectAnalogs() {
     double tick;
 
     // Construct meta information
-    anenSta::Station s1;
+    Station s1;
 
-    anenPar::Parameter p1;
-    anenPar::Parameters parameters;
+    Parameter p1;
+    Parameters parameters;
     parameters.insert(parameters.end(),{p1});
 
-    anenTime::FLTs flts;
+    FLTs flts;
     flts.insert(flts.end(),{1, 2, 3, 4});
 
     vector<double> values;
     // Construct test forecasts
-    anenSta::Stations test_stations;
+    Stations test_stations;
     test_stations.insert(test_stations.end(),{s1});
-    anenTime::Times test_times;
+    Times test_times;
     test_times.insert(test_times.end(),{800, 900});
     values.resize(parameters.size() * test_stations.size() *
             test_times.size() * flts.size());
@@ -298,9 +308,9 @@ void testAnEn::testSelectAnalogs() {
     Forecasts_array test_forecasts(parameters,
             test_stations, test_times, flts, values);
     // Construct search forecasts
-    anenSta::Stations search_stations;
+    Stations search_stations;
     search_stations.insert(search_stations.end(),{s1});
-    anenTime::Times search_times;
+    Times search_times;
     search_times.insert(search_times.end(),{
         100, 200, 300, 400, 500, 600, 700
     });
@@ -314,7 +324,7 @@ void testAnEn::testSelectAnalogs() {
     Forecasts_array search_forecasts(parameters,
             search_stations, search_times, flts, values);
     // Construct search observations
-    anenTime::Times search_observation_times;
+    Times search_observation_times;
     search_observation_times.insert(search_observation_times.end(),{
         101, 102, 103, 104, 201, 202, 203, 204, 301, 302, 303, 304,
         401, 402, 403, 404, 501, 502, 503, 504, 601, 602, 603, 604,
@@ -331,7 +341,7 @@ void testAnEn::testSelectAnalogs() {
             search_stations, search_observation_times, values);
     // Construct AnEn object
     AnEn anen(2);
-    anen.setMethod(AnEn::simMethod::OneToOne);
+    simMethod::OneToOne);
     Functions functions(2);
 
     // Construct SimilarityMatrices
@@ -385,7 +395,7 @@ void testAnEn::testSelectAnalogs() {
     size_t dim4 = analogs1.shape()[3];
     size_t dim5 = analogs1.shape()[4];
     
-    const auto & search_observation_times_by_insert = search_observation_times.get<anenTime::by_insert>();
+    const auto & search_observation_times_by_insert = search_observation_times.get<by_insert>();
 
     size_t i = 0;
     for (size_t i_dim5 = 0; i_dim5 < dim5; i_dim5++) {
@@ -407,151 +417,6 @@ void testAnEn::testSelectAnalogs() {
             }
         }
     }
-}
-
-void testAnEn::testComputeSearchStations() {
-
-    /**
-     * Tests function computeSearchStations;
-     * 
-     * The spatial distribution of stations looks like below. The numbers
-     * shown on the diagram are the ID of stations.
-     * 
-     *           (Y)  ^
-     *              8 |             14
-     *              7 |       12          13
-     *              6 |    11
-     *              5 |     8  9 10
-     *              4 |        6        7
-     *              3 |  3        4           5
-     *              2 |
-     *              1 |  1              2
-     *                .-------------------------->
-     *                0  1  2  3  4  5  6  7  8  (X)
-     */
-
-    // Create an example forecast object
-    anenSta::Station s1("1", 1, 1), s2("2", 6, 1), s3("3", 1, 3),
-            s4("4", 4, 3), s5("5", 8, 3), s6("6", 3, 4),
-            s7("7", 6, 4), s8("8", 2, 5), s9("9", 3, 5),
-            s10("10", 4, 5), s11("11", 2, 6), s12("12", 3, 7),
-            s13("13", 7, 7), s14("14", 5, 8);
-
-    anenSta::Stations test_stations, search_stations;
-    search_stations.insert(search_stations.end(),{s1, s2, s3, s4, s5, s6,
-        s7, s8, s9, s10, s11, s12, s13, s14});
-    test_stations.insert(test_stations.end(),{s3, s6, s7});
-
-    AnEn::SearchStationMatrix i_search_stations;
-    AnEn anen(2);
-    anen.setMethod(AnEn::simMethod::OneToMany);
-
-    vector<size_t> results;
-
-    // Test getting stations based on distance
-    double distance = 1.5;
-    anen.computeSearchStations(test_stations, search_stations,
-            i_search_stations, 5, distance);
-
-    cout << "i_search_stations:" << endl << i_search_stations << endl;
-    results = {2, 3, 5, 7, 8, 9, 6};
-    size_t num_nans = 0;
-    
-    for (auto row = i_search_stations.begin1();
-            row != i_search_stations.end1(); row++) {
-
-        for (const auto & val : row) {
-            if (std::isnan(val)) num_nans++;
-            else results.erase(find(results.begin(), results.end(), val));
-        }
-    }
-    
-    CPPUNIT_ASSERT(results.size() == 0);
-    CPPUNIT_ASSERT(num_nans == 8);
-    num_nans = 0;
-
-    // Test getting KNN stations
-    size_t num_stations = 4;
-    anen.computeSearchStations(test_stations, search_stations,
-            i_search_stations, num_stations, 0, num_stations);
-
-    cout << "i_search_stations:" << endl << i_search_stations << endl;
-    results = {5, 7, 2, 0, 3, 7, 5, 8, 3, 4, 6, 9};
-    for (auto row = i_search_stations.begin1();
-            row != i_search_stations.end1(); row++) {
-
-        for (const auto & val : row) {
-            if (std::isnan(val)) num_nans++;
-            else results.erase(find(results.begin(), results.end(), val));
-        }
-    }
-    CPPUNIT_ASSERT(results.size() == 0);
-    CPPUNIT_ASSERT(num_nans == 0);
-    num_nans = 0;
-    
-    // Test getting KNN stations limited by threshold distance
-    double threshold = 2;
-    anen.computeSearchStations(test_stations, search_stations,
-            i_search_stations, num_stations, threshold, num_stations);
-
-    cout << "i_search_stations:" << endl << i_search_stations << endl;
-    results = {2, 7, 8, 3, 5, 6};
-    for (auto row = i_search_stations.begin1();
-            row != i_search_stations.end1(); row++) {
-        for (const auto & val : row) {
-            if (std::isnan(val)) num_nans++;
-            else results.erase(find(results.begin(), results.end(), val));
-        }
-    }
-    CPPUNIT_ASSERT(results.size() == 0);
-    CPPUNIT_ASSERT(num_nans == 6);
-    num_nans = 0;
-
-    // Test getting KNN stations with search station tags
-    num_stations = 5;
-    anen.setVerbose(4);
-    anen.computeSearchStations(test_stations, search_stations,
-            i_search_stations, num_stations, 0, num_stations, {1, 1, 3},
-    {
-        1, 0, 1, 1, 0, 1, 3, 2, 2, 2, 2, 2, 3, 3
-    });
-
-    cout << "i_search_stations:" << endl << i_search_stations << endl;
-    results = {0,2,3,5,0,2,3,5,6,12,13};
-    for (auto row = i_search_stations.begin1();
-            row != i_search_stations.end1(); row++) {
-
-        for (const auto & val : row) {
-            if (std::isnan(val)) num_nans++;
-            else results.erase(find(results.begin(), results.end(), val));
-        }
-    }
-    CPPUNIT_ASSERT(results.size() == 0);
-    CPPUNIT_ASSERT(num_nans == 4);
-    num_nans = 0;
-
-    // Test getting KNN stations with search station tags
-    num_stations = 5;
-    threshold = 3;
-    anen.computeSearchStations(test_stations, search_stations,
-            i_search_stations, num_stations, threshold, num_stations,{1, 1, 3},
-    {
-        1, 0, 1, 1, 0, 1, 3, 2, 2, 2, 2, 2, 3, 3
-    });
-
-    cout << "i_search_stations:" << endl << i_search_stations << endl;
-    results = {0,2,5,2,3,5,6};
-    for (auto row = i_search_stations.begin1();
-            row != i_search_stations.end1(); row++) {
-
-        for (const auto & val : row) {
-            if (std::isnan(val)) num_nans++;
-            else results.erase(find(results.begin(), results.end(), val));
-        }
-    }
-    CPPUNIT_ASSERT(results.size() == 0);
-    CPPUNIT_ASSERT(num_nans == 8);
-    num_nans = 0;
 }
 
 void testAnEn::testOpenMP() {
@@ -583,58 +448,6 @@ void testAnEn::testOpenMP() {
 
 }
 
-void testAnEn::testGenerateOperationalSearchTimes() {
-    
-    /*
-     * Test the generation of operational search times
-     */
-
-    anenTime::Times test_times, search_times;
-    for (int i = 0; i < 15; i++) {
-        search_times.push_back(i * 100);
-    }
-    
-    for (int i = 10; i < 15; i++) {
-        test_times.push_back(i * 100);
-    }
-    
-    vector<anenTime::Times> search_times_operational;
-    vector< vector<size_t> > i_search_times_operational;
-
-    AnEn anen(4);
-    anen.generateOperationalSearchTimes(test_times, search_times, search_times,
-            search_times_operational, i_search_times_operational, 0);
-    
-    const auto & search_times_by_insert = search_times.get<anenTime::by_insert>();
-    
-    for (size_t i = 0; i < test_times.size(); i++) {
-        
-        size_t len = search_times_operational[i].size();
-
-        vector<size_t> results(len);
-        iota(results.begin(), results.end(), 0);
-        
-        auto it = find(results.begin(), results.end(), i);
-        
-        if (it == results.end()) {
-            cerr << "Can't find value " << i << endl;
-            CPPUNIT_ASSERT(false); 
-        } else {
-            results.erase(it, results.end());
-        }
-
-        const auto & search_times_operational_by_insert =
-                search_times_operational[i].get<anenTime::by_insert>();
-        
-        for (size_t j = 0; j < len; j++) {
-            CPPUNIT_ASSERT(results[j] == i_search_times_operational[i][j]);
-            CPPUNIT_ASSERT(search_times_by_insert[i_search_times_operational[i][j]]
-                    == search_times_operational_by_insert[j]);
-        }
-        
-    }
-}
-
 void testAnEn::testAutomaticDelteOverlappingTimes() {
 
     /*
@@ -643,36 +456,36 @@ void testAnEn::testAutomaticDelteOverlappingTimes() {
      */
     
     // Construct data sets
-    anenPar::Parameters parameters;
+    Parameters parameters;
     for (int i = 0; i < 3; i++) {
-        anenPar::Parameter parameter;
+        Parameter parameter;
         parameters.push_back(parameter);
     }
 
-    anenSta::Stations stations;
+    Stations stations;
     for (int i = 0; i < 3; i++) {
-        anenSta::Station station((double) i, (double) i);
+        Station station((double) i, (double) i);
         stations.push_back(station);
     }
 
-    anenTime::Times times;
+    Times times;
     for (int i = 0; i < 8; i++) {
         times.push_back(i * 10);
     }
 
-    anenTime::FLTs flts;
+    FLTs flts;
     for (int i = 0; i < 5; i++) {
         flts.push_back(i * 3);
     }
 
-    anenTime::Times obs_times;
+    Times obs_times;
     for (const auto & time : times) {
         for (const auto & flt : flts) {
             obs_times.push_back(time + flt);
         }
     }
 
-    anenTime::Times test_times, search_times1, search_times2;
+    Times test_times, search_times1, search_times2;
     test_times.push_back(70);
     
     for (int i = 0; i < 7; i++) {
@@ -753,36 +566,36 @@ void testAnEn::testLeaveOneOut() {
      */
     
     // Construct data sets
-    anenPar::Parameters parameters;
+    Parameters parameters;
     for (int i = 0; i < 3; i++) {
-        anenPar::Parameter parameter;
+        Parameter parameter;
         parameters.push_back(parameter);
     }
 
-    anenSta::Stations stations;
+    Stations stations;
     for (int i = 0; i < 3; i++) {
-        anenSta::Station station((double) i, (double) i);
+        Station station((double) i, (double) i);
         stations.push_back(station);
     }
 
-    anenTime::Times times;
+    Times times;
     for (int i = 0; i < 8; i++) {
         times.push_back(i * 10);
     }
 
-    anenTime::FLTs flts;
+    FLTs flts;
     for (int i = 0; i < 5; i++) {
         flts.push_back(i * 3);
     }
 
-    anenTime::Times obs_times;
+    Times obs_times;
     for (const auto & time : times) {
         for (const auto & flt : flts) {
             obs_times.push_back(time + flt);
         }
     }
 
-    anenTime::Times test_times, search_times;
+    Times test_times, search_times;
     test_times.push_back(50);
 
     for (int i = 0; i < 4; i++) {
