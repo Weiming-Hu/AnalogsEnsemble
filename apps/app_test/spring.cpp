@@ -37,8 +37,15 @@ int main(int argc, char** argv) {
     test_times.assign(it + test_start, it + test_end + 1);
     search_times.assign(it + search_start, it + search_end + 1);
 
-    AnEnIS anen(true, true, true, AnEnDefaults::Verbose::Detail);
+    size_t num_members = 2;
+    bool operational = true, check_time_overlap = true, save_sims = true;
+    
+    AnEnIS anen(num_members, operational, check_time_overlap, save_sims,
+            AnEnDefaults::Verbose::Debug, 0, false, true, true);
+    
     anen.compute(forecasts, observations, test_times, search_times);
+    
+    
 
     return 0;
 }

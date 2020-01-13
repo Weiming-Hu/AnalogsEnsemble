@@ -6,7 +6,28 @@
  */
 
 template <typename T>
-void Functions::print(std::ostream & os, const boost::multi_array<T, 3> & arr) {
+void
+Functions::print(std::ostream & os, const boost::multi_array<T, 2> & arr) {
+
+    using namespace std;
+    const auto & sizes = arr.shape();
+
+    for (size_t p = 0; p < sizes[1]; p++) os << "\t[," << p << "]";
+    os << endl;
+
+    for (size_t o = 0; o < sizes[0]; o++) {
+        os << "[" << o << ",]\t";
+        for (size_t p = 0; p < sizes[1]; p++) os << arr[o][p] << "\t";
+        os << endl;
+    }
+    os << endl;
+    
+    return;
+}
+
+template <typename T>
+void
+Functions::print(std::ostream & os, const boost::multi_array<T, 3> & arr) {
     
     using namespace std;
     const auto & sizes = arr.shape();
@@ -27,7 +48,8 @@ void Functions::print(std::ostream & os, const boost::multi_array<T, 3> & arr) {
 }
 
 template <typename T>
-void Functions::print(std::ostream & os, const boost::multi_array<T, 4> & arr) {
+void
+Functions::print(std::ostream & os, const boost::multi_array<T, 4> & arr) {
 
     using namespace std;
     const auto & sizes = arr.shape();
@@ -51,7 +73,8 @@ void Functions::print(std::ostream & os, const boost::multi_array<T, 4> & arr) {
 }
 
 template <typename T>
-void Functions::print(std::ostream & os, const boost::multi_array<T, 5> & arr) {
+void
+Functions::print(std::ostream & os, const boost::multi_array<T, 5> & arr) {
     
     using namespace std;
 
@@ -84,6 +107,15 @@ void Functions::print(std::ostream & os, const boost::multi_array<T, 5> & arr) {
     return;
 }
 
+template <typename T, size_t NDims>
+void
+Functions::print(std::ostream & os,
+        const Functions::array_view<T, NDims> & view) {
+    // Copy the values from view into a new multi_array and print it
+    print(os, boost::multi_array<T, NDims>(view));
+    return;
+}
+
 template <typename T>
 std::string
 Functions::format(const std::vector<T> & vec, const std::string & delim) {
@@ -91,7 +123,27 @@ Functions::format(const std::vector<T> & vec, const std::string & delim) {
     using namespace std;
     
     stringstream msg;
-    for (const auto & e : vec) msg << e << delim;
+    size_t len = vec.size();
+    for (size_t i = 0; i < len; ++i) {
+        msg << vec[i];
+        if (i != len - 1) msg << delim;
+    }
+    
+    return (msg.str());
+}
+
+template <typename T>
+std::string
+Functions::format(const T* ptr, size_t len, const std::string & delim) {
+    
+    using namespace std;
+    
+    stringstream msg;
+    for (size_t i = 0; i < len; ++i) {
+        msg << ptr[i];
+        if (i != len - 1) msg << delim;
+    }
+    
     return (msg.str());
 }
 
