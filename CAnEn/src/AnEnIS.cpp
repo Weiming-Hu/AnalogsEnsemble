@@ -417,6 +417,14 @@ shared(num_times_fixed, num_times, num_parameters, num_stations, num_flts)
         for (size_t par_i = 0; par_i < num_parameters; ++par_i) {
             for (size_t sta_i = 0; sta_i < num_stations; ++sta_i) {
                 for (size_t flt_i = 0; flt_i < num_flts; ++flt_i) {
+                    
+                    // get a vector
+                    
+                    // calculate mean
+                    
+                    // Whether to store it (operational_)
+                    
+                    // Sds
 
 //                    if (weights_[par_i] != 0) {
 //                            computeSd_(forecasts, times_index, time_i, par_i,
