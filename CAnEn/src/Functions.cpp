@@ -76,7 +76,7 @@ Functions::sdCircular(const vector<double> & values) {
     vector<double> sins(values.size());
     vector<double> coss(values.size());
 
-    for (unsigned int i = 0; i < values.size(); i++) {
+    for (size_t i = 0; i < values.size(); i++) {
 
         // This is to convert from degrees to radians
         //

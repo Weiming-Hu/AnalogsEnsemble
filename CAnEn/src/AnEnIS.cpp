@@ -78,7 +78,6 @@ AnEnIS::compute(const Forecasts & forecasts,
 
     const auto & fcst_times = forecasts.getTimes(),
             obs_times = observations.getTimes();
-    const auto & fcst_flts = forecasts.getFLTs();
 
     /*
      * Convert Time objects to their corresponding indices
@@ -140,7 +139,7 @@ AnEnIS::compute(const Forecasts & forecasts,
     /*
      * Compute standard deviations
      */
-    computeSds_(forecasts, fcsts_search_index, search_times.size());
+//    computeSds_(forecasts, fcsts_search_index, search_times.size());
 
     /*
      * Pre-allocate memory for analog computation
@@ -411,18 +410,18 @@ AnEnIS::computeSds_(const Forecasts & forecasts,
 
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(dynamic) collapse(4) \
-shared(num_times_fixed, num_times, num_parameters, num_stations, num_flts, \
-circulars_, weights_, sds_, operational_, forecasts, times_index)
+shared(num_times_fixed, num_times, num_parameters, num_stations, num_flts)
+//circulars_, weights_, sds_, operational_, forecasts, times_index)
 #endif
     for (size_t time_i = 0; time_i < num_times; ++time_i) {
         for (size_t par_i = 0; par_i < num_parameters; ++par_i) {
             for (size_t sta_i = 0; sta_i < num_stations; ++sta_i) {
                 for (size_t flt_i = 0; flt_i < num_flts; ++flt_i) {
 
-                    if (weights_[par_i] != 0) {
-                            computeSd_(forecasts, times_index, time_i, par_i,
-                                sta_i, flt_i, num_times_fixed + time_i);
-                    }
+//                    if (weights_[par_i] != 0) {
+//                            computeSd_(forecasts, times_index, time_i, par_i,
+//                                sta_i, flt_i, num_times_fixed + time_i);
+//                    }
 
                 }
             }
@@ -445,11 +444,11 @@ AnEnIS::computeSd_(
         values[i] = forecasts.getValue(par_i, sta_i, times_index[i], flt_i);
     }
 
-    if (circulars_[par_i]) {
+//    if (circulars_[par_i]) {
         sds_[time_i][par_i][sta_i][flt_i] = Functions::sdCircular(values);
-    } else {
+//    } else {
         sds_[time_i][par_i][sta_i][flt_i] = Functions::sdLinear(values);
-    }
+//    }
     
     if (sds_[time_i][par_i][sta_i][flt_i] == 0) {
         ostringstream msg;
