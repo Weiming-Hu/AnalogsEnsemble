@@ -139,7 +139,7 @@ AnEnIS::compute(const Forecasts & forecasts,
     /*
      * Compute standard deviations
      */
-//    computeSds_(forecasts, fcsts_search_index, search_times.size());
+    computeNorm_(forecasts, weights, circulars, fcsts_search_index);
 
     /*
      * Pre-allocate memory for analog computation
@@ -289,8 +289,8 @@ AnEnIS::print(std::ostream & os) const {
             << "save similarity time indices: " << save_sims_index_ << endl;
 
     if (verbose_ >= Verbose::Debug) {
-        os << "sds_ dimensions: ["
-                << Functions::format(sds_.shape(), sds_.num_dimensions())
+        os << "sds_ dimensions: [" << Functions::format(
+                normConsts_.shape(), normConsts_.num_dimensions())
                 << "]" << endl << "similarityMetric_ dimensions: ["
                 << Functions::format(simsMetric_.shape(),
                 simsMetric_.num_dimensions())
@@ -373,8 +373,12 @@ AnEnIS::computeSim_(const Forecasts & forecasts,
                     break;
                 }
             } else {
-                if (operational_) sd = sds_[time_test_i][par_i][sta_i][flt_i];
-                else sd = sds_[0][par_i][sta_i][flt_i];
+                if (operational_) {
+                    sd = normConsts_[time_test_i][par_i][sta_i][flt_i];
+                } else {
+                    sd = normConsts_[0][par_i][sta_i][flt_i];
+                }
+                
                 sim += weights[par_i] * (sqrt(average) / sd);
             }
             
@@ -387,51 +391,58 @@ AnEnIS::computeSim_(const Forecasts & forecasts,
 }
 
 void
-AnEnIS::computeSds_(const Forecasts & forecasts,
-        const vector<size_t> & times_index, size_t running_pos_start) {
+AnEnIS::computeNorm_(const Forecasts & forecasts,
+        const vector<double> & weights,
+        const vector<bool> & circulars,
+        const vector<size_t> & times_fixed_index,
+        const vector<size_t> & times_accum_index) {
     
     if (verbose_ >= Verbose::Detail) {
-        cout << "Computing standard deviation ..." << RESET << endl;
-    }
-    
-    size_t num_times = _SINGLE_LEN,
-            num_times_fixed = times_index.size(),
-            num_parameters = forecasts.getParameters().size(),
-            num_stations = forecasts.getStations().size(),
-            num_flts = forecasts.getFLTs().size();
-
-    if (operational_) {
-        num_times_fixed = running_pos_start;
-        num_times = times_index.size() - running_pos_start;
+        cout << "Computing normalizing constants ..." << RESET << endl;
     }
 
-    sds_.resize(boost::extents
-            [num_times][num_parameters][num_stations][num_flts]);
+    size_t num_times = (operational_ ? times_accum_index.size() : _SINGLE_LEN);
+    size_t num_parameters = forecasts.getParameters().size();
+    size_t num_stations = forecasts.getStations().size();
+    size_t num_flts = forecasts.getFLTs().size();
+
+    // Pre-allocate memory for calculation
+    Normalization normCalc;
+    vector<double> values(times_fixed_index.size());
+    normConsts_.resize(boost::extents
+            [num_parameters][num_stations][num_flts][num_times]);
 
 #if defined(_OPENMP)
-#pragma omp parallel for default(none) schedule(dynamic) collapse(4) \
-shared(num_times_fixed, num_times, num_parameters, num_stations, num_flts)
-//circulars_, weights_, sds_, operational_, forecasts, times_index)
+#pragma omp parallel for default(none) schedule(dynamic) collapse(3) \
+shared(num_parameters, num_stations, num_flts, forecasts, times_fixed_index, \
+normCalc, weights, circulars) firstprivate(values)
 #endif
-    for (size_t time_i = 0; time_i < num_times; ++time_i) {
-        for (size_t par_i = 0; par_i < num_parameters; ++par_i) {
-            for (size_t sta_i = 0; sta_i < num_stations; ++sta_i) {
-                for (size_t flt_i = 0; flt_i < num_flts; ++flt_i) {
-                    
-                    // get a vector
-                    
-                    // calculate mean
-                    
-                    // Whether to store it (operational_)
-                    
-                    // Sds
+    for (size_t par_i = 0; par_i < num_parameters; ++par_i) {
+        for (size_t sta_i = 0; sta_i < num_stations; ++sta_i) {
+            for (size_t flt_i = 0; flt_i < num_flts; ++flt_i) {
 
-//                    if (weights_[par_i] != 0) {
-//                            computeSd_(forecasts, times_index, time_i, par_i,
-//                                sta_i, flt_i, num_times_fixed + time_i);
-//                    }
 
+                // Copy values from the fixed times
+                for (size_t i = 0; i < values.size(); ++i) {
+                    values[i] = forecasts.getValue(
+                            par_i, sta_i, times_fixed_index[i], flt_i);
                 }
+
+                if (operational_) {
+                    
+//                    fixedSd
+                    
+                    // accumSdLinear();
+
+                } else {
+                    /*
+                     * Recall that the last dimension of standard deviation
+                     * array is single-length when operational mode is off
+                     */
+//                    normConsts_[par_i][sta_i][flt_i][0] = normCalc.fixedSdCircular();
+                }
+
+
             }
         }
     }
@@ -439,31 +450,48 @@ shared(num_times_fixed, num_times, num_parameters, num_stations, num_flts)
     return;
 }
 
-void
-AnEnIS::computeSd_(
-        const Forecasts & forecasts, const vector<size_t> & times_index,
-        size_t time_i, size_t par_i, size_t sta_i, size_t flt_i, size_t count) {
-    
-    if (count == 0) count = times_index.size();
-    vector<double> values(count);
-
-    // Copy values from the array to a vector
-    for (size_t i = 0; i < count; ++i) {
-        values[i] = forecasts.getValue(par_i, sta_i, times_index[i], flt_i);
-    }
-
-//    if (circulars_[par_i]) {
-        sds_[time_i][par_i][sta_i][flt_i] = Functions::sdCircular(values);
-//    } else {
-        sds_[time_i][par_i][sta_i][flt_i] = Functions::sdLinear(values);
+//void
+//AnEnIS::updateNorm_(const Forecasts & forecasts,
+//        const std::vector<size_t> & times_update_index) {
+//    
+//    if (verbose_ >= Verbose::Detail) {
+//        cout << "Updating normalizing constants ..." << RESET << endl;
 //    }
-    
-    if (sds_[time_i][par_i][sta_i][flt_i] == 0) {
-        ostringstream msg;
-        msg << BOLDRED << "Forecast parameter #" << par_i
-                << "has 0 standard deviation" << RESET << endl;
-        throw runtime_error(msg.str());
-    }
-    
-    return;
-}
+//
+//    size_t num_times = times_update_index.size(),
+//            num_parameters = forecasts.getParameters().size(),
+//            num_stations = forecasts.getStations().size(),
+//            num_flts = forecasts.getFLTs().size();
+//    
+//    // Check whether the normConsts array has been initiated correctly
+//    const auto & dims = normConsts_.shape();
+//    if (dims[0] != num_parameters || dims[1] != num_stations ||
+//            dims[2] != num_flts || dims[3] != _SINGLE_LEN) {
+//        ostringstream msg;
+//        msg << BOLDRED << "AnEnIS::computeNorm_ has not been called" << RESET;
+//        throw runtime_error(msg.str());
+//    }
+//
+//    // Pre-allocate memory for calculation. This is a value-preserving resize.
+//    normConsts_.resize(boost::extents
+//            [num_parameters][num_stations][num_flts][num_times]);
+//
+//#if defined(_OPENMP)
+//#pragma omp parallel for default(none) schedule(dynamic) collapse(3) \
+//shared(num_times, num_parameters, num_stations, num_flts, \
+//forecasts, times_update_index)
+//#endif
+//    for (size_t par_i = 0; par_i < num_parameters; ++par_i) {
+//        for (size_t sta_i = 0; sta_i < num_stations; ++sta_i) {
+//            for (size_t flt_i = 0; flt_i < num_flts; ++flt_i) {
+//                
+//                // This for loop runs in serial
+//                for (size_t time_i = 0; time_i < num_times; ++time_i) {
+////                    sds_[par_i][sta_i][flt_i][time_i] = norm.runningSd();
+//                }
+//            }
+//        }
+//    }
+//
+//    return;
+//}

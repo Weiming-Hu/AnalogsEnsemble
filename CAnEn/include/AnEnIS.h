@@ -63,9 +63,9 @@ protected:
     size_t flt_radius_;
 
     /**
-     * [Times][Parameters][Stations][FLTs]
+     * [Parameters][Stations][FLTs][Times]
      */
-    Array4D sds_;
+    Array4D normConsts_;
 
     /**
      * Arrays for storing similarity information
@@ -95,15 +95,13 @@ protected:
             const std::vector<double> & weights,
             const std::vector<bool> & circulars);
 
-    void computeSds_(const Forecasts & forecasts,
+    void computeNorm_(const Forecasts & forecasts,
+            const std::vector<double> & weights,
+            const std::vector<bool> & circulars,
             const std::vector<size_t> & times_fixed_index,
-            size_t running_pos_start = 0);
-    void computeSd_(const Forecasts & forecasts,
-            const std::vector<size_t> & times_index,
-            size_t time_i, size_t par_i, size_t sta_i, size_t flt_i,
-            size_t count = 0);
-    
-    // TODO: running standard deviation
+            const std::vector<size_t> & times_accum_index = {});
+//    void updateNorm_(const Forecasts & forecasts,
+//            const std::vector<size_t> & times_update_index);
 };
 
 #endif /* ANENIS_H */
