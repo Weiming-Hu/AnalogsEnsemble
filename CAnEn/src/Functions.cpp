@@ -18,8 +18,10 @@
 
 using namespace std;
 
-static const double _DEG2RAD = M_PI / 180;
-static const double _RAD2DEG = 180 / M_PI;
+// This is the best estimator that Yamartino has found
+//              2 / sqrt(3) - 1 = 0.1547
+//
+static const double _YAMARTINO = 0.1547;
 
 void
 Functions::updateTimeTable(
@@ -70,39 +72,43 @@ Functions::sdLinear(const vector<double> & values) {
     return (sqrt(variance(values)));
 }
 
-double
-Functions::sdCircular(const vector<double> & values) {
+void
+Functions::meanCircularDecomp(const vector<double> & degs,
+        double & s, double & c) {
 
-    vector<double> sins(values.size());
-    vector<double> coss(values.size());
+    vector<double> sins(degs.size());
+    vector<double> coss(degs.size());
 
-    for (size_t i = 0; i < values.size(); i++) {
+    for (size_t i = 0; i < degs.size(); i++) {
 
         // This is to convert from degrees to radians
         //
-        double rad = values[i] * _DEG2RAD;
+        double rad = degs[i] * _DEG2RAD;
 
         sins[i] = sin(rad);
         coss[i] = cos(rad);
     }
 
-    double s = mean(sins);
-    double c = mean(coss);
+    s = mean(sins);
+    c = mean(coss);
+    return;
+}
 
+double
+Functions::sdYamartino(const double & s, const double & c) {
     // Yamartino estimator
     double e = sqrt(1.0 - (pow(s, 2.0) + pow(c, 2.0)));
     double asine = asin(e);
     double ex3 = pow(e, 3);
+    double sd = asine * (1 + _YAMARTINO * ex3);
+    return (sd * _RAD2DEG);
+}
 
-    // This is the best estimator that Yamartino has found
-    //              2 / sqrt(3) - 1 = 0.1547
-    //
-    const double b = 0.1547;
-
-    double q = asine * (1 + b * ex3);
-
-    // Convert back to degrees
-    return (q * _RAD2DEG);
+double
+Functions::sdCircular(const vector<double> & degs) {
+    double s, c;
+    meanCircularDecomp(degs, s, c);
+    return (sdYamartino(s, c));
 }
 
 double
@@ -128,7 +134,11 @@ double
 Functions::variance(const vector<double> & values) {
     double average = mean(values);
     if (std::isnan(average)) return NAN;
+    return (variance(values, average));
+}
 
+double
+Functions::variance(const vector<double> & values, const double & average) {
     double sum = 0.0;
     size_t valid = 0;
 

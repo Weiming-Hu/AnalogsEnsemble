@@ -44,5 +44,6 @@ int main(int argc, char** argv) {
             AnEnDefaults::Verbose::Debug, 0, false, true, true);
     
     anen.compute(forecasts, observations, test_times, search_times);
+    
     return 0;
 }

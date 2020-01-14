@@ -40,8 +40,8 @@ public:
             const Times & search_times) override;
     void compute(const Forecasts & forecasts,
             const Observations & observations,
-            const std::vector<size_t> & fcsts_test_index,
-            const std::vector<size_t> & fcsts_search_index);
+            std::vector<size_t> fcsts_test_index,
+            std::vector<size_t> fcsts_search_index);
     
     const Array4D & getSimsValue() const;
     const Array4D & getSimsIndex() const;
@@ -65,7 +65,7 @@ protected:
     /**
      * [Parameters][Stations][FLTs][Times]
      */
-    Array4D normConsts_;
+    Array4D sds_;
 
     /**
      * Arrays for storing similarity information
@@ -90,18 +90,16 @@ protected:
      */
     std::vector< std::array<double, 3> > simsArr_;
 
-    double computeSim_(const Forecasts & forecasts, size_t sta_i,
+    double computeSimMetric_(const Forecasts & forecasts, size_t sta_i,
             double flt_i, size_t time_test_i, size_t time_search_i,
             const std::vector<double> & weights,
             const std::vector<bool> & circulars);
 
-    void computeNorm_(const Forecasts & forecasts,
+    void computeSds_(const Forecasts & forecasts,
             const std::vector<double> & weights,
             const std::vector<bool> & circulars,
             const std::vector<size_t> & times_fixed_index,
             const std::vector<size_t> & times_accum_index = {});
-//    void updateNorm_(const Forecasts & forecasts,
-//            const std::vector<size_t> & times_update_index);
 };
 
 #endif /* ANENIS_H */

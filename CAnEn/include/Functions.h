@@ -23,7 +23,9 @@ namespace Functions {
     template <typename T, size_t NDims>
     using array_view = boost::detail::multi_array::multi_array_view<T, NDims>;
     using Matrix = boost::numeric::ublas::matrix<double>;
-    
+
+    static const double _DEG2RAD = M_PI / 180;
+    static const double _RAD2DEG = 180 / M_PI;
 
     /**
      * Computes a lookup table which maps from forecast time and lead time
@@ -52,12 +54,31 @@ namespace Functions {
     double sdLinear(const std::vector<double> & values);
 
     /**
-     * Computes the standard deviation for circular numbers.
+     * Computes the averaged decomposition of angles in degree, sine and cosine.
+     * 
+     * @param degs A vector of angles in degree.
+     * @param s The averaged sine components of the input angles.
+     * @param c The averaged cosine components of the input angles.
+     */
+    void meanCircularDecomp(const std::vector<double> & degs,
+            double & s, double & c);
+
+    /**
+     * The estimator for standard deviation using Yamartino's algorithm.
+     * 
+     * @param s The averaged sine components of the input angles.
+     * @param c The averaged cosine components of the input angles.
+     * @return The standard deviation value in degree
+     */
+    double sdYamartino(const double & s, const double & c);
+
+    /**
+     * Computes the standard deviation for angles in degree.
      * 
      * @param values A vector of values.
      */
-    double sdCircular(const std::vector<double> & values);
-
+    double sdCircular(const std::vector<double> & degs);
+    
     /**
      * Computes the mean of a vector.
      * @param values A vector of values.
@@ -70,9 +91,12 @@ namespace Functions {
     /**
      * Computes the variance of a vector.
      * @param values A vector of values.
+     * @param average The average of input values.
      */
     double variance(const std::vector<double> & values);
-
+    double variance(const std::vector<double> & values,
+            const double & average);
+    
     /**
      * Computes the difference of two circular numbers
      * 
@@ -81,9 +105,6 @@ namespace Functions {
      * @return  A double.
      */
     double diffCircular(double i, double j);
-
-    void setVerbose(int verbose);
-    int getVerbose();
 
     /**************************************************************************
      *                          Template Functions                            *

@@ -86,6 +86,20 @@ AnEnIS::compute(const Forecasts & forecasts,
     Functions::toIndex(fcsts_test_index, test_times, fcst_times);
     Functions::toIndex(fcsts_search_index, search_times, fcst_times);
     
+    compute(forecasts, observations, fcsts_test_index, fcsts_search_index);
+    return;
+}
+
+void
+AnEnIS::compute(const Forecasts & forecasts,
+        const Observations & observations,
+        vector<size_t> fcsts_test_index,
+        vector<size_t> fcsts_search_index) {
+
+    const auto & fcst_times = forecasts.getTimes(),
+            obs_times = observations.getTimes();
+    const auto & fcst_flts = forecasts.getFLTs();
+
     /*
      * If operational mode is used, append test time indices to the end of
      * the search time indices.
@@ -101,20 +115,6 @@ AnEnIS::compute(const Forecasts & forecasts,
             throw runtime_error(msg.str());
         }
     }
-    
-    compute(forecasts, observations, fcsts_test_index, fcsts_search_index);
-    return;
-}
-
-void
-AnEnIS::compute(const Forecasts & forecasts,
-        const Observations & observations,
-        const vector<size_t> & fcsts_test_index,
-        const vector<size_t> & fcsts_search_index) {
-
-    const auto & fcst_times = forecasts.getTimes(),
-            obs_times = observations.getTimes();
-    const auto & fcst_flts = forecasts.getFLTs();
 
     /*
      * Compute the index mapping from forecast times and lead times to 
@@ -139,7 +139,8 @@ AnEnIS::compute(const Forecasts & forecasts,
     /*
      * Compute standard deviations
      */
-    computeNorm_(forecasts, weights, circulars, fcsts_search_index);
+    computeSds_(forecasts, weights, circulars,
+            fcsts_search_index, fcsts_test_index);
 
     /*
      * Pre-allocate memory for analog computation
@@ -151,7 +152,8 @@ AnEnIS::compute(const Forecasts & forecasts,
             num_flts = forecasts.getFLTs().size(),
             num_test_times_index = fcsts_test_index.size(),
             num_search_times_index = fcsts_search_index.size();
-    
+
+    simsArr_.resize(num_search_times_index, _INIT_ARR_VALUE);
     analogsValue_.resize(boost::extents
             [num_stations][num_test_times_index][num_flts][num_analogs_]);
     if (save_analogs_index_) analogsIndex_.resize(boost::extents
@@ -174,30 +176,37 @@ AnEnIS::compute(const Forecasts & forecasts,
     if (verbose_ >= Verbose::Detail) cout << GREEN
             << "Computing analogs ..." << RESET << endl;
 
+#if defined(_OPENMP)
+#pragma omp parallel for default(none) schedule(dynamic) collapse(3) \
+shared(num_stations, num_flts, num_test_times_index, num_search_times_index, \
+fcsts_test_index, fcsts_search_index, forecasts, observations, \
+fcst_times, fcst_flts, weights, circulars)
+#endif
     for (size_t sta_i = 0; sta_i < num_stations; ++sta_i) {
         for (size_t flt_i = 0; flt_i < num_flts; ++flt_i) {
             for (size_t time_test_i = 0; time_test_i < num_test_times_index; ++time_test_i) {
                 
+                double current_time = fcst_times.left[fcsts_test_index[time_test_i]].second.timestamp;
+                double current_flt_offset = fcst_flts.left[flt_i].second.timestamp;
+                
                 /*
                  * Compute similarity for all search times
                  */
-                simsArr_.resize(num_search_times_index, _INIT_ARR_VALUE);
                 for (size_t time_search_i = 0; time_search_i < num_search_times_index; ++time_search_i) {
-                    
+                                        
                     if (check_time_overlap_) {
                         /*
                          * Check whether to search this time when overlapping time is prohibited
                          */
-                        if (fcst_times.left[fcsts_search_index[time_search_i]].second.timestamp +
-                                fcst_flts.left[flt_i].second.timestamp >=
-                                fcst_times.left[fcsts_test_index[time_test_i]].second.timestamp) continue;
+                        double search_time = fcst_times.left[fcsts_search_index[time_search_i]].second.timestamp;
+                        if (search_time + current_flt_offset >= current_time) continue;
                     }
                     
                     if (operational_) {
                         /*
                          * Check whether to search this time in operational mode
                          */
-                        if (fcsts_search_index[time_search_i] >=
+                        if (fcsts_search_index[time_search_i] >= 
                                 fcsts_test_index[time_test_i]) continue;
                     }
                     
@@ -207,7 +216,7 @@ AnEnIS::compute(const Forecasts & forecasts,
                     double obs = observations.getValue(obs_var_index_, sta_i, obs_time_index);
                     if (std::isnan(obs)) continue;
 
-                    simsArr_[time_search_i][_SIM_VALUE_INDEX] = computeSim_(
+                    simsArr_[time_search_i][_SIM_VALUE_INDEX] = computeSimMetric_(
                             forecasts, sta_i, flt_i, time_test_i,
                             time_search_i, weights, circulars);
                     simsArr_[time_search_i][_SIM_FCST_INDEX] =
@@ -290,7 +299,7 @@ AnEnIS::print(std::ostream & os) const {
 
     if (verbose_ >= Verbose::Debug) {
         os << "sds_ dimensions: [" << Functions::format(
-                normConsts_.shape(), normConsts_.num_dimensions())
+                sds_.shape(), sds_.num_dimensions())
                 << "]" << endl << "similarityMetric_ dimensions: ["
                 << Functions::format(simsMetric_.shape(),
                 simsMetric_.num_dimensions())
@@ -306,7 +315,6 @@ AnEnIS::print(std::ostream & os) const {
                 << "]" << endl << "obs_index_table_ dimensions: ["
                 << obsIndexTable_.size1() << ","
                 << obsIndexTable_.size2() << "]" << endl;
-                
     }
 
     cout << "****************************" << endl << endl;
@@ -320,7 +328,7 @@ operator<<(std::ostream & os, const AnEnIS & obj) {
 }
 
 double
-AnEnIS::computeSim_(const Forecasts & forecasts,
+AnEnIS::computeSimMetric_(const Forecasts & forecasts,
         size_t sta_i, double flt_i, size_t time_test_i, size_t time_search_i,
         const vector<double> & weights, const vector<bool> & circulars) {
     
@@ -328,12 +336,11 @@ AnEnIS::computeSim_(const Forecasts & forecasts,
      * Prepare for similarity metric calculation
      */
     double sim = 0, sd = 0;
-    size_t count_par_nan = 0,
-            num_pars = forecasts.getParameters().size(),
-            num_flts = forecasts.getFLTs().size(),
-            flt_i_start = (flt_i - flt_radius_ < 0 ? 0 : flt_i - flt_radius_),
-            flt_i_end = (flt_i + flt_radius_ == num_flts ?
-                num_flts - 1 : flt_i + flt_radius_);
+    size_t count_par_nan = 0;
+    size_t num_pars = forecasts.getParameters().size();
+    size_t num_flts = forecasts.getFLTs().size();
+    size_t flt_i_start = (flt_i - flt_radius_ < 0 ? 0 : flt_i - flt_radius_);
+    size_t flt_i_end = (flt_i + flt_radius_ == num_flts ? num_flts - 1 : flt_i + flt_radius_);
 
     /*
      * Calculate similarity metric
@@ -368,15 +375,13 @@ AnEnIS::computeSim_(const Forecasts & forecasts,
 
             if (std::isnan(average)) {
                 ++count_par_nan;
-                if (count_par_nan > max_par_nan_) {
-                    sim = NAN;
-                    break;
-                }
+                if (count_par_nan > max_par_nan_) return NAN;
             } else {
+                
                 if (operational_) {
-                    sd = normConsts_[time_test_i][par_i][sta_i][flt_i];
+                    sd = sds_[par_i][sta_i][flt_i][time_test_i];
                 } else {
-                    sd = normConsts_[0][par_i][sta_i][flt_i];
+                    sd = sds_[par_i][sta_i][flt_i][0];
                 }
                 
                 sim += weights[par_i] * (sqrt(average) / sd);
@@ -385,113 +390,135 @@ AnEnIS::computeSim_(const Forecasts & forecasts,
         } // End of check of the the parameter weight
     } // End loop of parameters
     
-    
-    
-    return 0.0;
+    return sim;
 }
 
 void
-AnEnIS::computeNorm_(const Forecasts & forecasts,
+AnEnIS::computeSds_(const Forecasts & forecasts,
         const vector<double> & weights,
         const vector<bool> & circulars,
         const vector<size_t> & times_fixed_index,
         const vector<size_t> & times_accum_index) {
     
     if (verbose_ >= Verbose::Detail) {
-        cout << "Computing normalizing constants ..." << RESET << endl;
+        cout << "Computing standard deviation ..." << RESET << endl;
     }
+    
+    if (operational_ && times_accum_index.size() == 0) {
+        ostringstream msg;
+        msg << BOLDRED << "times_accum_index is required in operation" << RESET;
+        throw runtime_error(msg.str());
+    } 
 
     size_t num_times = (operational_ ? times_accum_index.size() : _SINGLE_LEN);
     size_t num_parameters = forecasts.getParameters().size();
     size_t num_stations = forecasts.getStations().size();
     size_t num_flts = forecasts.getFLTs().size();
+    size_t count = times_fixed_index.size();
 
     // Pre-allocate memory for calculation
-    Normalization normCalc;
-    vector<double> values(times_fixed_index.size());
-    normConsts_.resize(boost::extents
+    vector<double> values(count);
+    sds_.resize(boost::extents
             [num_parameters][num_stations][num_flts][num_times]);
 
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(dynamic) collapse(3) \
 shared(num_parameters, num_stations, num_flts, forecasts, times_fixed_index, \
-normCalc, weights, circulars) firstprivate(values)
+times_accum_index, weights, circulars, num_times) firstprivate(values, count)
 #endif
     for (size_t par_i = 0; par_i < num_parameters; ++par_i) {
         for (size_t sta_i = 0; sta_i < num_stations; ++sta_i) {
             for (size_t flt_i = 0; flt_i < num_flts; ++flt_i) {
-
+                
+                // Skip the iteration if the weight is 0
+                if (weights[par_i] == 0) continue;
 
                 // Copy values from the fixed times
                 for (size_t i = 0; i < values.size(); ++i) {
                     values[i] = forecasts.getValue(
                             par_i, sta_i, times_fixed_index[i], flt_i);
                 }
-
-                if (operational_) {
+                
+                // Compute standard deviation
+                if (circulars[par_i]) {
                     
-//                    fixedSd
+                    // Compute fixed-length circular standard deviation
+                    double s, c;
+                    Functions::meanCircularDecomp(values, s, c);
+                    sds_[par_i][sta_i][flt_i][0] = Functions::sdYamartino(s, c);
                     
-                    // accumSdLinear();
+                    // Update standard deviation if in operational mode
+                    if (operational_) {
+                        
+                        // Initialize values for accumulative calculation
+                        double deg;
+                        
+                        // Loop through all accumulated time indices
+                        for (size_t time_i = 0; time_i < num_times; ++time_i) {
 
+                            // Get forecast value
+                            deg = forecasts.getValue(
+                                    par_i, sta_i,
+                                    times_accum_index[time_i], flt_i);
+                            deg *= Functions::_DEG2RAD;
+
+                            // Increase the count of numbers
+                            ++count;
+                            
+                            // Update the running average of angle decomposition
+                            s += (sin(deg) - s) / count;
+                            c += (cos(deg) - c) / count;
+                            
+                            sds_[par_i][sta_i][flt_i][time_i] = 
+                                    Functions::sdYamartino(s, c);
+                            
+                        } // End of loop of accumulated time indices
+                    }
+                    
                 } else {
-                    /*
-                     * Recall that the last dimension of standard deviation
-                     * array is single-length when operational mode is off
-                     */
-//                    normConsts_[par_i][sta_i][flt_i][0] = normCalc.fixedSdCircular();
+                    
+                    // Compute fixed-length linear standard deviation
+                    double M = Functions::mean(values);
+                    sds_[par_i][sta_i][flt_i][0] = 
+                            sqrt(Functions::variance(values, M));
+
+                    // Update standard deviation if in operational mode
+                    if (operational_) {
+                        
+                        // Initialize values for accumulative calculation
+                        double S = pow(sds_[par_i][sta_i][flt_i][0], 2) * (count-1);
+                        double M_new, x;
+                        
+                        // Loop through all accumulated time indices
+                        for (size_t time_i = 0; time_i < num_times; ++time_i) {
+                            
+                            // Get forecast value
+                            x = forecasts.getValue(
+                                    par_i, sta_i,
+                                    times_accum_index[time_i], flt_i);
+
+                            // Increase the count of numbers
+                            ++count;
+
+                            // Compute the accumulated average
+                            M_new = M + (x - M) / (count);
+                            
+                            // Compute the accumulated sum
+                            S += (x - M_new) * (x - M);
+
+                            // Assign accumulated standard deviation
+                            sds_[par_i][sta_i][flt_i][time_i] = 
+                                    sqrt(S / (count - 1));
+                            
+                            // Update average
+                            M = M_new;
+                            
+                        } // End of loop of accumulated time indices
+                    }
                 }
-
-
             }
         }
     }
 
     return;
 }
-
-//void
-//AnEnIS::updateNorm_(const Forecasts & forecasts,
-//        const std::vector<size_t> & times_update_index) {
-//    
-//    if (verbose_ >= Verbose::Detail) {
-//        cout << "Updating normalizing constants ..." << RESET << endl;
-//    }
-//
-//    size_t num_times = times_update_index.size(),
-//            num_parameters = forecasts.getParameters().size(),
-//            num_stations = forecasts.getStations().size(),
-//            num_flts = forecasts.getFLTs().size();
-//    
-//    // Check whether the normConsts array has been initiated correctly
-//    const auto & dims = normConsts_.shape();
-//    if (dims[0] != num_parameters || dims[1] != num_stations ||
-//            dims[2] != num_flts || dims[3] != _SINGLE_LEN) {
-//        ostringstream msg;
-//        msg << BOLDRED << "AnEnIS::computeNorm_ has not been called" << RESET;
-//        throw runtime_error(msg.str());
-//    }
-//
-//    // Pre-allocate memory for calculation. This is a value-preserving resize.
-//    normConsts_.resize(boost::extents
-//            [num_parameters][num_stations][num_flts][num_times]);
-//
-//#if defined(_OPENMP)
-//#pragma omp parallel for default(none) schedule(dynamic) collapse(3) \
-//shared(num_times, num_parameters, num_stations, num_flts, \
-//forecasts, times_update_index)
-//#endif
-//    for (size_t par_i = 0; par_i < num_parameters; ++par_i) {
-//        for (size_t sta_i = 0; sta_i < num_stations; ++sta_i) {
-//            for (size_t flt_i = 0; flt_i < num_flts; ++flt_i) {
-//                
-//                // This for loop runs in serial
-//                for (size_t time_i = 0; time_i < num_times; ++time_i) {
-////                    sds_[par_i][sta_i][flt_i][time_i] = norm.runningSd();
-//                }
-//            }
-//        }
-//    }
-//
-//    return;
-//}
