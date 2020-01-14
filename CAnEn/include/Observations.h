@@ -33,7 +33,7 @@ public:
      * Returns the total number of data values as one dimension.
      * @return A value.
      */
-    virtual std::size_t size() const override = 0;
+    virtual std::size_t num_elements() const override = 0;
 
     /**
      * Gets a double pointer to the start of the values.

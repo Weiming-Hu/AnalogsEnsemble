@@ -28,7 +28,7 @@ public:
 
     virtual ~ObservationsArray();
 
-        size_t size() const override;
+        size_t num_elements() const override;
     
     const double* getValuesPtr() const override;
     double* getValuesPtr() override;

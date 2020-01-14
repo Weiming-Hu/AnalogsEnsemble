@@ -13,12 +13,11 @@
 class testAnEn : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST_SUITE(testAnEn);
 
-    CPPUNIT_TEST(testAutomaticDelteOverlappingTimes);
-    CPPUNIT_TEST(testComputeSimilarity);
-    CPPUNIT_TEST(testOperationalSearch);
-    CPPUNIT_TEST(testSelectAnalogs);
-    CPPUNIT_TEST(testLeaveOneOut);
-    CPPUNIT_TEST(testOpenMP);
+//    CPPUNIT_TEST(testAutomaticDelteOverlappingTimes);
+//    CPPUNIT_TEST(testCompute);
+//    CPPUNIT_TEST(testOperationalSearch);
+//    CPPUNIT_TEST(testLeaveOneOut);
+//    CPPUNIT_TEST(testOpenMP);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -27,12 +26,11 @@ public:
     virtual ~testAnEn();
 
 private:
-    void testAutomaticDelteOverlappingTimes();
-    void testComputeSimilarity();
-    void testOperationalSearch();
-    void testSelectAnalogs();
-    void testLeaveOneOut();
-    void testOpenMP();
+//    void testAutomaticDeleteOverlappingTimes();
+//    void testCompute();
+//    void testOperationalSearch();
+//    void testLeaveOneOut();
+//    void testOpenMP();
 };
 
 #endif /* TESTANEN_H */

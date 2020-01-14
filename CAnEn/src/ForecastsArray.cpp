@@ -43,8 +43,8 @@ ForecastsArray::~ForecastsArray() {
 }
 
 size_t
-ForecastsArray::size() const {
-    return (data_.size());
+ForecastsArray::num_elements() const {
+    return (data_.num_elements());
 }
 
 const double*

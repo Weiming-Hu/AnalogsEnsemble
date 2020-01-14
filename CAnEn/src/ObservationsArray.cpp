@@ -34,8 +34,8 @@ ObservationsArray::~ObservationsArray() {
 }
 
 size_t
-ObservationsArray::size() const {
-    return (data_.size());
+ObservationsArray::num_elements() const {
+    return (data_.num_elements());
 }
 
 const double*

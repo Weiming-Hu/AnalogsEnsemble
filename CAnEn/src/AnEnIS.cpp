@@ -142,6 +142,8 @@ AnEnIS::compute(const Forecasts & forecasts,
     computeSds_(forecasts, weights, circulars,
             fcsts_search_index, fcsts_test_index);
 
+    // TODO : perform check
+    
     /*
      * Pre-allocate memory for analog computation
      */
@@ -156,14 +158,27 @@ AnEnIS::compute(const Forecasts & forecasts,
     simsArr_.resize(num_search_times_index, _INIT_ARR_VALUE);
     analogsValue_.resize(boost::extents
             [num_stations][num_test_times_index][num_flts][num_analogs_]);
-    if (save_analogs_index_) analogsIndex_.resize(boost::extents
+    fill_n(analogsValue_.data(), analogsValue_.num_elements(), NAN);
+    
+    if (save_analogs_index_) {
+        analogsIndex_.resize(boost::extents
             [num_stations][num_test_times_index][num_flts][num_analogs_]);
+        fill_n(analogsIndex_.data(), analogsIndex_.num_elements(), NAN);
+    }
     
     if (num_sims_ < num_analogs_) num_sims_ = num_analogs_;
-    if (save_sims_) simsMetric_.resize(boost::extents
+    
+    if (save_sims_) {
+        simsMetric_.resize(boost::extents
             [num_stations][num_test_times_index][num_flts][num_sims_]);
-    if (save_sims_index_) simsIndex_.resize(boost::extents
+        fill_n(simsMetric_.data(), simsMetric_.num_elements(), NAN);
+    }
+    
+    if (save_sims_index_) {
+        simsIndex_.resize(boost::extents
             [num_stations][num_test_times_index][num_flts][num_sims_]);
+        fill_n(simsIndex_.data(), simsIndex_.num_elements(), NAN);
+    }
 
     /*
      * Progress messages output
@@ -176,12 +191,12 @@ AnEnIS::compute(const Forecasts & forecasts,
     if (verbose_ >= Verbose::Detail) cout << GREEN
             << "Computing analogs ..." << RESET << endl;
 
-#if defined(_OPENMP)
-#pragma omp parallel for default(none) schedule(dynamic) collapse(3) \
-shared(num_stations, num_flts, num_test_times_index, num_search_times_index, \
-fcsts_test_index, fcsts_search_index, forecasts, observations, \
-fcst_times, fcst_flts, weights, circulars)
-#endif
+//#if defined(_OPENMP)
+//#pragma omp parallel for default(none) schedule(dynamic) collapse(3) \
+//shared(num_stations, num_flts, num_test_times_index, num_search_times_index, \
+//fcsts_test_index, fcsts_search_index, forecasts, observations, \
+//fcst_times, fcst_flts, weights, circulars)
+//#endif
     for (size_t sta_i = 0; sta_i < num_stations; ++sta_i) {
         for (size_t flt_i = 0; flt_i < num_flts; ++flt_i) {
             for (size_t time_test_i = 0; time_test_i < num_test_times_index; ++time_test_i) {
@@ -518,6 +533,11 @@ times_accum_index, weights, circulars, num_times) firstprivate(values, count)
                 }
             }
         }
+    }
+    
+    if (verbose_ >= Verbose::Debug) {
+        cout << "Standard deviations: "
+                << Functions::format(sds_.data(), sds_.num_elements()) << endl;
     }
 
     return;

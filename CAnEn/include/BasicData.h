@@ -23,7 +23,7 @@ public:
      *                          Pure Virtual Functions                        *
      **************************************************************************/
     
-    virtual std::size_t size() const = 0;
+    virtual std::size_t num_elements() const = 0;
     virtual double * getValuesPtr() = 0;
     virtual const double* getValuesPtr() const = 0;
     
