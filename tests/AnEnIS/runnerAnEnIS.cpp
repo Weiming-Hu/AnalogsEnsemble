@@ -1,11 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /* 
- * File:   runnerAnEn.cpp
+ * File:   runnerAnEnIS.cpp
  * Author: wuh20
  * 
  * Created on Aug 4, 2018, 4:09:20 PM
@@ -24,7 +18,7 @@
 #include <cppunit/TestFailure.h>
 #include <cppunit/portability/Stream.h>
 
-#include "testAnEn.h"
+#include "testAnEnIS.h"
 
 class ProgressListener : public CPPUNIT_NS::TestListener {
 public:
@@ -80,7 +74,7 @@ int main() {
 
     // Add the top suite to the test runner
     CPPUNIT_NS::TestRunner runner;
-    runner.addTest(testAnEn::suite());
+    runner.addTest(testAnEnIS::suite());
     runner.run(controller);
 
     // Print test in a compiler compatible format.

@@ -17,7 +17,7 @@ add_subdirectory("Stations")
 add_subdirectory("Station")
 #add_subdirectory("AnEnIO")
 add_subdirectory("Times")
-add_subdirectory("AnEn")
+add_subdirectory("AnEnIS")
 
 if (BUILD_GRIBCONVERTER)
     message(STATUS "Build test for GRIB converter.")

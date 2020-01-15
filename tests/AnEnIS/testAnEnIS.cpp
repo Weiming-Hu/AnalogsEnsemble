@@ -1,14 +1,11 @@
 /*
- * File:   testAnEn.cpp
+ * File:   testAnEnIS.cpp
  * Author: Weiming Hu <weiming@psu.edu>
  *
  * Created on Aug 4, 2018, 4:09:20 PM
  */
 
-#include "AnEnIS.h"
-#include "testAnEn.h"
-#include "ForecastsArray.h"
-#include "ObservationsArray.h"
+#include "testAnEnIS.h"
 #include "boost/assign/list_of.hpp"
 #include "boost/assign/list_inserter.hpp"
 
@@ -20,13 +17,24 @@ using namespace std;
 using namespace boost;
 using namespace boost::bimaps;
 
-CPPUNIT_TEST_SUITE_REGISTRATION(testAnEn);
+CPPUNIT_TEST_SUITE_REGISTRATION(testAnEnIS);
 
-testAnEn::testAnEn() {
+testAnEnIS::testAnEnIS() {
 }
 
-testAnEn::~testAnEn() {
+testAnEnIS::~testAnEnIS() {
 }
+
+void testAnEnIS::setUp() {
+}
+
+void testAnEnIS::tearDown() {
+}
+
+void testAnEnIS::compareOperationalSds() {
+    
+}
+
 
 //void testAnEn::testCompute() {
 //
