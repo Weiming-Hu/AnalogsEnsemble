@@ -32,6 +32,7 @@ option(BUILD_GRIBCONVERTER "Build gribConverter utility. Eccodes required." OFF)
 option(CMAKE_BUILD_TESTS "Build tests" ON)
 option(VERBOSE "Verbose standout output" OFF)
 option(INSTALL_RAnEn "install RAnEn package" OFF)
+option(OPENMP "Insert OpenMP parallelization flags" ON)
 option(USE_NCCONFIG "Use nc-config to determine cflags and libdirs." OFF)
 option(CODE_PROFILING "Insert profiling code and print time information." OFF)
 
@@ -149,16 +150,21 @@ endif(CMAKE_BUILD_TYPE STREQUAL "Debug")
 message(STATUS "C++ compiler options are: ${CMAKE_CXX_FLAGS}")
 
 # find OpenMP
-find_package (OpenMP)
-if (${OPENMP_FOUND})
-    message(STATUS "Using OpenMP ${OpenMP_CXX_FLAGS}")
-    set (CMAKE_C_FLAGS "${OpenMP_C_FLAGS} ${CMAKE_C_FLAGS}")
-    set (CMAKE_CXX_FLAGS "${OpenMP_CXX_FLAGS} ${CMAKE_CXX_FLAGS}")
-else (${OPENMP_FOUND})
-    message (WARNING "No OpenMP support found for the compiler: ${CMAKE_CXX_COMPILER}
-    The process goes on, but the executable won't support multi-threading.
-    SUGGESTION: specify another compiler using CC and CXX. CC=[C compiler] CXX=[CXX compiler] cmake ..")
-endif (${OPENMP_FOUND})
+if (OPENMP)
+    find_package (OpenMP)
+    if (${OPENMP_FOUND})
+        message(STATUS "Using OpenMP ${OpenMP_CXX_FLAGS}")
+        set (CMAKE_C_FLAGS "${OpenMP_C_FLAGS} ${CMAKE_C_FLAGS}")
+        set (CMAKE_CXX_FLAGS "${OpenMP_CXX_FLAGS} ${CMAKE_CXX_FLAGS}")
+    else (${OPENMP_FOUND})
+        message (WARNING "No OpenMP support found for the compiler: ${CMAKE_CXX_COMPILER}
+        The process goes on, but the executable won't support multi-threading.
+        SUGGESTION: specify another compiler using CC and CXX. CC=[C compiler] CXX=[CXX compiler] cmake ..")
+    endif (${OPENMP_FOUND})
+else (OPENMP)
+    message(STATUS "OPENMP is disabled")
+endif (OPENMP)
+
 
 if (VERBOSE)
     message(STATUS "CMAKE_CXX_FLAGS: ${CMAKE_CXX_FLAGS}")

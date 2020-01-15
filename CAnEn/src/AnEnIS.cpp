@@ -14,6 +14,7 @@
 using namespace std;
 using namespace AnEnDefaults;
 
+static const size_t _PREVIEW_COUNT = 5;
 static const size_t _SINGLE_LEN = 1;
 static const size_t _SIM_VALUE_INDEX = 0;
 static const size_t _SIM_FCST_INDEX = 1;
@@ -27,6 +28,9 @@ simsSort(const array<double, 3> & lhs,
     if (std::isnan(rhs[_SIM_VALUE_INDEX])) return true;
     return(lhs[_SIM_VALUE_INDEX] < rhs[_SIM_VALUE_INDEX]);
 }
+
+
+double obs_global = 0;
 
 AnEnIS::AnEnIS() : num_analogs_(1), obs_var_index_(0), quick_sort_(true),
 save_sims_index_(false), save_analogs_index_(false), num_sims_(0),
@@ -55,8 +59,8 @@ AnEnIS::AnEnIS(size_t num_members,
         bool save_sims_index,
         bool save_analogs_index,
         size_t num_sims,
-        double max_par_nan,
-        double max_flt_nan,
+        size_t max_par_nan,
+        size_t max_flt_nan,
         size_t flt_radius) :
 AnEn(operational, time_overlap_check, save_sims, verbose),
 num_analogs_(num_members), obs_var_index_(obs_var_index),
@@ -72,9 +76,6 @@ void
 AnEnIS::compute(const Forecasts & forecasts,
         const Observations & observations,
         const Times & test_times, const Times & search_times) {
-
-    if (verbose_ >= Verbose::Progress) cout << GREEN
-            << "Start AnEnIS generation ..." << RESET << endl;
 
     const auto & fcst_times = forecasts.getTimes(),
             obs_times = observations.getTimes();
@@ -95,6 +96,9 @@ AnEnIS::compute(const Forecasts & forecasts,
         const Observations & observations,
         vector<size_t> fcsts_test_index,
         vector<size_t> fcsts_search_index) {
+
+    if (verbose_ >= Verbose::Progress) cout << GREEN
+            << "Start AnEnIS generation ..." << RESET << endl;
 
     const auto & fcst_times = forecasts.getTimes(),
             obs_times = observations.getTimes();
@@ -156,6 +160,7 @@ AnEnIS::compute(const Forecasts & forecasts,
             num_search_times_index = fcsts_search_index.size();
 
     simsArr_.resize(num_search_times_index, _INIT_ARR_VALUE);
+    
     analogsValue_.resize(boost::extents
             [num_stations][num_test_times_index][num_flts][num_analogs_]);
     fill_n(analogsValue_.data(), analogsValue_.num_elements(), NAN);
@@ -191,12 +196,12 @@ AnEnIS::compute(const Forecasts & forecasts,
     if (verbose_ >= Verbose::Detail) cout << GREEN
             << "Computing analogs ..." << RESET << endl;
 
-//#if defined(_OPENMP)
-//#pragma omp parallel for default(none) schedule(dynamic) collapse(3) \
-//shared(num_stations, num_flts, num_test_times_index, num_search_times_index, \
-//fcsts_test_index, fcsts_search_index, forecasts, observations, \
-//fcst_times, fcst_flts, weights, circulars)
-//#endif
+#if defined(_OPENMP)
+#pragma omp parallel for default(none) schedule(dynamic) collapse(3) \
+shared(num_stations, num_flts, num_test_times_index, num_search_times_index, \
+fcsts_test_index, fcsts_search_index, forecasts, observations, \
+fcst_times, fcst_flts, weights, circulars)
+#endif
     for (size_t sta_i = 0; sta_i < num_stations; ++sta_i) {
         for (size_t flt_i = 0; flt_i < num_flts; ++flt_i) {
             for (size_t time_test_i = 0; time_test_i < num_test_times_index; ++time_test_i) {
@@ -229,11 +234,13 @@ AnEnIS::compute(const Forecasts & forecasts,
                     if (std::isnan(obs_time_index)) continue;
                     
                     double obs = observations.getValue(obs_var_index_, sta_i, obs_time_index);
-                    if (std::isnan(obs)) continue;
+                    obs_global = obs;
+                    
+                    //if (std::isnan(obs)) continue;
 
                     simsArr_[time_search_i][_SIM_VALUE_INDEX] = computeSimMetric_(
-                            forecasts, sta_i, flt_i, time_test_i,
-                            time_search_i, weights, circulars);
+                            forecasts, sta_i, flt_i, fcsts_test_index[time_test_i],
+                            fcsts_search_index[time_search_i], weights, circulars);
                     simsArr_[time_search_i][_SIM_FCST_INDEX] =
                             fcsts_search_index[time_search_i];
                     simsArr_[time_search_i][_SIM_OBS_INDEX] = obs_time_index;
@@ -356,6 +363,7 @@ AnEnIS::computeSimMetric_(const Forecasts & forecasts,
     size_t num_flts = forecasts.getFLTs().size();
     size_t flt_i_start = (flt_i - flt_radius_ < 0 ? 0 : flt_i - flt_radius_);
     size_t flt_i_end = (flt_i + flt_radius_ == num_flts ? num_flts - 1 : flt_i + flt_radius_);
+    vector<double> window(flt_i_end - flt_i_start + 1);
 
     /*
      * Calculate similarity metric
@@ -363,7 +371,7 @@ AnEnIS::computeSimMetric_(const Forecasts & forecasts,
     for (size_t par_i = 0; par_i < num_pars; par_i++) {
 
         if (weights[par_i] != 0) {
-            vector<double> window(flt_i_end - flt_i_start + 1);
+            
             size_t pos = 0;
 
             for (size_t window_i = flt_i_start; window_i <= flt_i_end;
@@ -401,6 +409,18 @@ AnEnIS::computeSimMetric_(const Forecasts & forecasts,
                 
                 sim += weights[par_i] * (sqrt(average) / sd);
             }
+            
+            
+            
+            double fcst_search = forecasts.getValue(
+                    par_i, sta_i, time_search_i, flt_i);
+            double fcst_test = forecasts.getValue(
+                    par_i, sta_i, time_test_i, flt_i);
+            
+            cout << "Parameter, " << par_i << ", Train, " << time_search_i << ", Test, " << time_test_i
+                    << ", flt, " << flt_i << ", forecast_search, " << fcst_search
+                    << ", forecast_test, " << fcst_test << ", observation, " << obs_global 
+                    << ", sd, " << sd << ", mean, " << average << ", metric, " << sim << endl; 
             
         } // End of check of the the parameter weight
     } // End loop of parameters
@@ -536,8 +556,13 @@ times_accum_index, weights, circulars, num_times) firstprivate(values, count)
     }
     
     if (verbose_ >= Verbose::Debug) {
-        cout << "Standard deviations: "
-                << Functions::format(sds_.data(), sds_.num_elements()) << endl;
+        cout << "Standard deviations: ";
+        if (sds_.num_elements() > _PREVIEW_COUNT) {
+            cout << Functions::format(sds_.data(), _PREVIEW_COUNT, ",") << ", ...";
+        } else {
+            cout << Functions::format(sds_.data(), sds_.num_elements());
+        }
+        cout << endl;
     }
 
     return;

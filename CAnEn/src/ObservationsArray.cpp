@@ -29,7 +29,6 @@ boost::extents[0][0][0], boost::fortran_storage_order())) {
     updateDataDims_();
 }
 
-
 ObservationsArray::~ObservationsArray() {
 }
 
@@ -40,12 +39,12 @@ ObservationsArray::num_elements() const {
 
 const double*
 ObservationsArray::getValuesPtr() const {
-    return( data_.data());
+    return ( data_.data());
 }
 
 double*
 ObservationsArray::getValuesPtr() {
-    return( data_.data());
+    return ( data_.data());
 }
 
 void
@@ -67,6 +66,12 @@ ObservationsArray::getValue(size_t parameter_index,
     return (data_[parameter_index][station_index][time_index]);
 }
 
+double
+ObservationsArray::getValue(size_t parameter_index,
+        size_t station_index, const Time & time) const {
+    auto time_index = times_.getIndex(time);
+    return (getValue(parameter_index, station_index, time_index));
+}
 
 void
 ObservationsArray::setValue(double val, size_t parameter_index,
@@ -87,7 +92,7 @@ ObservationsArray::updateDataDims_(bool initialize_values) {
                 times_.size() << "]" << RESET;
         throw runtime_error(msg.str());
     }
-    
+
     if (initialize_values) fill_n(data_.data(), data_.num_elements(), NAN);
 }
 

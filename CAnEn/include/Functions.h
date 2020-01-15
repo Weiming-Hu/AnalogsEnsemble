@@ -10,6 +10,7 @@
 #define FUNCTIONS_H
 
 #include "Times.h"
+#include "AnEnDefaults.h"
 #include "boost/multi_array.hpp"
 #include "boost/numeric/ublas/matrix.hpp"
 
@@ -86,7 +87,7 @@ namespace Functions {
      * vector. Set it to NAN to allow any number of NAN values.
      */
     double mean(const std::vector<double> & values,
-            double max_nan_allowed = NAN);
+            size_t max_nan_allowed = AnEnDefaults::_MAX_SIZE_T);
 
     /**
      * Computes the variance of a vector.
@@ -116,6 +117,8 @@ namespace Functions {
      * @param os output stream
      * @param arr multi_array obejct to be printed.
      */
+    template <typename T>
+    void print(std::ostream & os, const boost::multi_array<T, 2> & arr);
     template <typename T>
     void print(std::ostream & os, const boost::multi_array<T, 3> & arr);
     template <typename T>

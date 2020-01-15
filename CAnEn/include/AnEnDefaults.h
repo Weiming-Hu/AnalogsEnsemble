@@ -10,6 +10,7 @@
 #define ANENDEFAULTS_H
 
 #include <string>
+#include <limits>
 
 /**
  * The AnEnDefault namespace includes default values used throughout the project.
@@ -28,6 +29,8 @@ namespace AnEnDefaults {
     static const bool _OPERATIONAL = false;
     static const bool _CHECK_TIME_OVERLAP = true;
     static const bool _SAVE_SIMS = false;
+    
+    static const size_t _MAX_SIZE_T = std::numeric_limits<size_t>::max();
 
     /**
      * A higher level will contain all messages from the lower levels. For

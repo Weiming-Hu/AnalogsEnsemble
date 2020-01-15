@@ -6,6 +6,7 @@
  */
 
 #include "testAnEnIS.h"
+#include <boost/bimap/bimap.hpp>
 #include "boost/assign/list_of.hpp"
 #include "boost/assign/list_inserter.hpp"
 
@@ -31,8 +32,86 @@ void testAnEnIS::setUp() {
 void testAnEnIS::tearDown() {
 }
 
-void testAnEnIS::compareOperationalSds_() {
+void testAnEnIS::testFixedLengthSds_() {
+
+    Parameters parameters;
+    assign::push_back(parameters.left)
+            (0, Parameter("par_1")) // Linear parameter
+            (1, Parameter("par_2", 0)) // Parameter with 0 weight
+            (2, Parameter("par_3", 0.5, true)); // Circular parameter
+
+    Stations stations;
+    assign::push_back(stations.left)
+            (0, Station(50, 20))
+            (1, Station(10, 10, "station_2"));
+
+    Times times;
+    vector<size_t> times_fixed_index;
+    for (size_t i = 0; i < 10; ++i) {
+        times.push_back(Times::value_type(i, Time(i * 100)));
+        times_fixed_index.push_back(i);
+    }
+
+    Times flts;
+    assign::push_back(flts.left)(0, Time(0))(1, Time(50));
+
+    ForecastsArray forecasts(parameters, stations, times, flts);
+    double *ptr = forecasts.getValuesPtr();
+    vector<double> values = {
+        NAN, -17.35, NAN, 1.92, NAN, 39.82, 6.95, -3.42, -39.85,
+        -11.44, -8.55, 1.27, 6.01, 38.61, 37.24, -13.4, -5.81, -10.32, 25.49,
+        -42.99, -3.4, -24.89, 8.75, 29.19, -32.71, 16.56, -14.38, -46.59,
+        46.89, 27.76, 1.45, 35.77, 41.08, 2.96, 23.83, 48.35, 15.22, -40.96,
+        -1.89, -24.06, 25.58, 22.18, -14.34, -44.29, 35.93, 24.38, 33.92, 43.13,
+        -23.54, -10.65, 16.86, -20.4, -27.47, -24.48, 12.12, 5.73, -24.05, 14.8,
+        5.81, -25.34, -7.15, 43.57, -2.19, 24.7, 10.51, 32.83, 24.15, -17.91,
+        45.34, 15.51, 10.94, 23.9, 11.03, -38.01, 48.98, 10.75, 26.88, 41.81,
+        3.62, 12.91, -32.52, -16.61, -6.76, -46.59, -39.25, -12.19, 30, -30.55,
+        -46.86, 47.09, -49.08, 21.64, 36.05, 49.57, 35.4, -32.09, -45.59, 23.47,
+        -4.66, -6.93, -22.84, 20.58, 18.63, 29.66, 13.49, -38.86, 19.04, 20.11,
+        19.6, 44.91, 40.41, 21.06, -47.33, -28.54, 7.03, 23.87, 17.4, 41.97,
+        11.82, 24.89
+    };
     
+    for (size_t i = 0; i < values.size(); ++i) ptr[i] = values[i];
+    
+    vector<double> weights;
+    parameters.getWeights(weights);
+    
+    vector<bool> circulars;
+    parameters.getCirculars(circulars);
+
+    operational_ = false;
+    computeSds_(forecasts, weights, circulars, times_fixed_index);
+    
+    cout << "Fixed-length standard deviation results:" << endl;
+    Functions::print(cout, sds_);
+    
+//    // Answers from R
+//    vector<double> answers = {
+//        19.181, 28.3874, 21.045, 29.6220, 27.6836 24.8016, 26.5622, 31.8882
+//    };
+//    
+//    // Answer from AnEnIS
+//    double *ptr = sds_.data();
+    
+}
+
+void testAnEnIS::compareOperationalSds_() {
+
+    /*
+     * This function compares the results of standard deviation calculation
+     * between fixed-length calculation and the operational calculation.
+     */
+
+    ForecastsArray forecasts;
+    vector<double> weights;
+    vector<bool> circulars;
+    const auto & parameters = forecasts.getParameters();
+    parameters.getWeights(weights);
+    parameters.getCirculars(circulars);
+
+    //    computeSds_(forecasts, weights, circulars, times_fixed_index, times_accum_index);
 }
 
 
@@ -44,67 +123,6 @@ void testAnEnIS::compareOperationalSds_() {
 //     * The data contains no NAN values. This test is designed for correctness.
 //     */
 //
-//    // tick is created for assigning values
-//    double tick;
-//    
-//    // Create dimensions
-//    Stations stations;
-//    Parameters parameters;
-//    Times fcst_times, obs_times, times_test, times_search, flts;
-//    
-//    assign::push_back(stations.left)(0, Station());
-//    assign::push_back(parameters.left)(0, Parameter());
-//    assign::push_back(flts.left)(0, Time(1))(1, Time(2))(2, Time(3))(3, Time(4));
-//    assign::push_back(times_test.left)(7, Time(800))(8, Time(900));
-//    assign::push_back(times_search.left)(0, Time(100))(1, Time(200))(2, Time(300))
-//            (3, Time(400))(4, Time(500))(5, Time(600))(6, Time(700));
-//    fcst_times.insert(fcst_times.end(), times_search.begin(), times_search.end());
-//    fcst_times.insert(fcst_times.end(), times_test.begin(), times_test.end());
-//    
-//    vector<size_t> times = {
-//        101, 102, 103, 104, 201, 202, 203, 204, 301, 302, 303, 304,
-//        401, 402, 403, 404, 501, 502, 503, 504, 601, 602, 603, 604,
-//        701, 702, 703, 704
-//    };
-//    
-//    size_t index = 0;
-//    for (auto e : times) obs_times.push_back(Times::value_type(index++, Time(e)));
-//    
-//    // Create forecasts
-//    ForecastsArray forecasts_test(parameters, stations, times_test, flts);
-//    double *ptr1 = forecasts_test.getValuesPtr();
-//    tick = 0.0;
-//    for (size_t pos = 0; pos < forecasts_test.num_elements(); ++pos) {
-//        ptr1[pos] = tick * 10;
-//        ++tick;
-//    }
-//
-//    ForecastsArray forecasts_search(parameters, stations, times_search, flts);
-//    tick = 200.0;
-//    double *ptr2 = forecasts_search.getValuesPtr();
-//    for (size_t pos = 0; pos < forecasts_search.num_elements(); ++pos) {
-//        ptr2[pos] = tick / 10;
-//        tick -= 2;
-//    }
-//    
-//    ForecastsArray forecasts(parameters, stations, fcst_times, flts);
-//    double *ptr3 = forecasts.getValuesPtr();
-//    
-//    memcpy(ptr3, ptr2, forecasts_search.num_elements() * sizeof(double));
-//    memcpy(ptr3 + forecasts_search.num_elements(), ptr1,
-//            forecasts_test.num_elements() * sizeof(double));
-//    cout << forecasts;
-//    
-//    // Create observations
-//    tick = 20.0;
-//    ObservationsArray observations(parameters, stations, obs_times);
-//    double *ptr = observations.getValuesPtr();
-//    
-//    for (size_t pos = 0; pos < observations.num_elements(); ++pos) {
-//        ptr[pos] = tick / 2;
-//        tick += 2;
-//    }
-//    cout << observations;
 //    
 //    // Create analog calculation device
 //    bool save_dims = true;

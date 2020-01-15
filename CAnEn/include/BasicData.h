@@ -39,7 +39,10 @@ public:
     Stations & getStations();
     Times & getTimes();
     
-
+    size_t getTimeStamp(size_t) const;
+    size_t getTimeIndex(size_t) const;
+    size_t getTimeIndex(const Time &) const;
+    
 protected:
     Parameters parameters_;
     Stations stations_;

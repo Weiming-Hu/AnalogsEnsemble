@@ -112,7 +112,7 @@ Functions::sdCircular(const vector<double> & degs) {
 }
 
 double
-Functions::mean(const vector<double> & values, double max_nan_allowed) {
+Functions::mean(const vector<double> & values, size_t max_nan_allowed) {
     double sum = 0.0;
     size_t nan_count = 0, vec_size = values.size();
 

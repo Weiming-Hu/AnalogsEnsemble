@@ -28,8 +28,8 @@ public:
             bool save_sims_index = false,
             bool save_analogs_index = false,
             size_t num_sims = 0,
-            double max_par_nan = NAN,
-            double max_flt_nan = NAN,
+            size_t max_par_nan = 0,
+            size_t max_flt_nan = 0,
             size_t flt_radius = 1);
     
     virtual ~AnEnIS();
@@ -58,8 +58,8 @@ protected:
     bool save_sims_index_;
     bool save_analogs_index_;
     size_t num_sims_;
-    double max_par_nan_;
-    double max_flt_nan_;
+    size_t max_par_nan_;
+    size_t max_flt_nan_;
     size_t flt_radius_;
 
     /**

@@ -7,6 +7,7 @@
  */
 
 #include "BasicData.h"
+#include "Functions.h"
 
 BasicData::BasicData() {
 }
@@ -57,4 +58,19 @@ BasicData::getStations() {
 Times &
 BasicData::getTimes() {
     return times_;
+}
+
+size_t
+BasicData::getTimeStamp(size_t index) const {
+    return (times_.left[index].second.timestamp);
+}
+
+size_t 
+BasicData::getTimeIndex(size_t timestamp) const {
+    return getTimeIndex(Time(timestamp));
+}
+
+size_t 
+BasicData::getTimeIndex(Time const & time) const {
+    return times_.getIndex(time);
 }
