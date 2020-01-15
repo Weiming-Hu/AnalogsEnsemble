@@ -24,7 +24,7 @@ testForecastsArray::testForecastsArray() {
 testForecastsArray::~testForecastsArray() {
 }
 
-void testForecastsArray::testForecastSetVectorValues() {
+void testForecastsArray::testForecastSetVectorValues_() {
 
     /**
      * Test the sequence of values stored in the Forecast data type.

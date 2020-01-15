@@ -16,8 +16,8 @@ class testStation : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST_SUITE(testStation);
 
     // Add our tests here
-    CPPUNIT_TEST(testStationComparison);
-    CPPUNIT_TEST(testStationAssignment);
+    CPPUNIT_TEST(testStationComparison_);
+    CPPUNIT_TEST(testStationAssignment_);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -26,8 +26,8 @@ public:
     virtual ~testStation();
 
 private:
-    void testStationComparison();
-    void testStationAssignment();
+    void testStationComparison_();
+    void testStationAssignment_();
 };
 
 #endif /* TESTSTATION_H */

@@ -13,8 +13,8 @@
 class testParameters : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST_SUITE(testParameters);
 
-    CPPUNIT_TEST(testCreation);
-    CPPUNIT_TEST(testUnique);
+    CPPUNIT_TEST(testCreation_);
+    CPPUNIT_TEST(testUnique_);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -22,8 +22,8 @@ public:
     testParameters();
     virtual ~testParameters();
 
-    void testCreation();
-    void testUnique();
+    void testCreation_();
+    void testUnique_();
 };
 
 #endif /* TESTPARAMETERS_H */

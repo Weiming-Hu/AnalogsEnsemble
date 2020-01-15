@@ -22,12 +22,12 @@
 class testFunctions : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST_SUITE(testFunctions);
 
-    CPPUNIT_TEST(testComputeObservationTimeIndices1);
-    CPPUNIT_TEST(testComputeObservationTimeIndices2);
-    CPPUNIT_TEST(testConvertToIndex);
-    CPPUNIT_TEST(testSdCircular);
-    CPPUNIT_TEST(testSdLinear);
-    CPPUNIT_TEST(testMean);
+    CPPUNIT_TEST(testComputeObservationTimeIndices1_);
+    CPPUNIT_TEST(testComputeObservationTimeIndices2_);
+    CPPUNIT_TEST(testConvertToIndex_);
+    CPPUNIT_TEST(testSdCircular_);
+    CPPUNIT_TEST(testSdLinear_);
+    CPPUNIT_TEST(testMean_);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -42,12 +42,12 @@ public:
 
 private:
 
-    void testComputeObservationTimeIndices1();
-    void testComputeObservationTimeIndices2();
-    void testConvertToIndex();
-    void testSdCircular();
-    void testSdLinear();
-    void testMean();
+    void testComputeObservationTimeIndices1_();
+    void testComputeObservationTimeIndices2_();
+    void testConvertToIndex_();
+    void testSdCircular_();
+    void testSdLinear_();
+    void testMean_();
     
 };
 

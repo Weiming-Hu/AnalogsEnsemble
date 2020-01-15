@@ -28,7 +28,7 @@ testStations::~testStations() {
 }
 
 void
-testStations::testUnique() {
+testStations::testUnique_() {
 
     /*
      * Station in Stations should be unique.

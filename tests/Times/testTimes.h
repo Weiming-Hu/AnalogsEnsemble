@@ -13,7 +13,7 @@
 class testTimes : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST_SUITE(testTimes);
     
-    CPPUNIT_TEST(testGetTimeIndex);
+    CPPUNIT_TEST(testGetTimeIndex_);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -22,7 +22,7 @@ public:
     virtual ~testTimes();
 
 private:
-    void testGetTimeIndex();
+    void testGetTimeIndex_();
 };
 
 #endif /* TESTTIMES_H */

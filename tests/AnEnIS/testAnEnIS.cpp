@@ -31,7 +31,7 @@ void testAnEnIS::setUp() {
 void testAnEnIS::tearDown() {
 }
 
-void testAnEnIS::compareOperationalSds() {
+void testAnEnIS::compareOperationalSds_() {
     
 }
 

@@ -13,7 +13,7 @@
 class testStations : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST_SUITE(testStations);
 
-    CPPUNIT_TEST(testUnique);
+    CPPUNIT_TEST(testUnique_);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -22,7 +22,7 @@ public:
     virtual ~testStations();
 
 private:
-    void testUnique();
+    void testUnique_();
 };
 
 #endif /* TESTSTATIONS_H */

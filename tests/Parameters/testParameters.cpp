@@ -23,7 +23,7 @@ testParameters::testParameters() {
 testParameters::~testParameters() {
 }
 
-void testParameters::testCreation() {
+void testParameters::testCreation_() {
     Parameter p1, p2("temperature"), p3("Direction", 0.6),
             p4("wind direction", 0.05, true);
     Parameters parameters;
@@ -43,7 +43,7 @@ void testParameters::testCreation() {
     CPPUNIT_ASSERT(parameters.left[3].second.getWeight() == 0.05);
 }
 
-void testParameters::testUnique() {
+void testParameters::testUnique_() {
     Parameter p1, p2, p3("Direction", 0.6), p4("Direction", 0.1, true), p5;
     p5.setCircular(true);
     Parameters parameters;

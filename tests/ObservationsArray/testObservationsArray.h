@@ -13,8 +13,8 @@
 class testObservationsArray : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST_SUITE(testObservationsArray);
 
-    CPPUNIT_TEST(testColumnMajor);
-    CPPUNIT_TEST(testObservationValueSequence);
+    CPPUNIT_TEST(testColumnMajor_);
+    CPPUNIT_TEST(testObservationValueSequence_);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -23,8 +23,8 @@ public:
     virtual ~testObservationsArray();
     
 private:
-    void testColumnMajor();
-    void testObservationValueSequence();
+    void testColumnMajor_();
+    void testObservationValueSequence_();
 };
 
 #endif /* TESTOBSERVATIONSARRAY_H */

@@ -22,7 +22,7 @@ class testAnEnIS : public CPPUNIT_NS::TestFixture, public AnEnIS {
     //    CPPUNIT_TEST(testOperationalSearch);
     //    CPPUNIT_TEST(testLeaveOneOut);
     //    CPPUNIT_TEST(testOpenMP);
-    CPPUNIT_TEST(compareOperationalSds);
+    CPPUNIT_TEST(compareOperationalSds_);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -37,7 +37,7 @@ protected:
     ObservationsArray observations_;
 
 private:
-    void compareOperationalSds();
+    void compareOperationalSds_();
     //    void testAutomaticDeleteOverlappingTimes();
     //    void testCompute();
     //    void testOperationalSearch();

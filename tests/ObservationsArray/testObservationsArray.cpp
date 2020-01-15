@@ -28,7 +28,7 @@ testObservationsArray::testObservationsArray() {
 testObservationsArray::~testObservationsArray() {
 }
 
-void testObservationsArray::testColumnMajor() {
+void testObservationsArray::testColumnMajor_() {
 
     /*
      * Test the traverse order and the traverse time of the data structure 
@@ -110,7 +110,7 @@ void testObservationsArray::testColumnMajor() {
     cout << "Done!" << endl;
 }
 
-void testObservationsArray::testObservationValueSequence() {
+void testObservationsArray::testObservationValueSequence_() {
 
     /**
      * Test the sequence of values stored in the Observation data type.

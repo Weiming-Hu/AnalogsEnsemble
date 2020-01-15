@@ -39,7 +39,7 @@ void testFunctions::setUp() {
 void testFunctions::tearDown() {
 }
 
-void testFunctions::testSdCircular() {
+void testFunctions::testSdCircular_() {
 
     /**
      * Test the behavior of sdCircular function with and without NAN values.
@@ -66,7 +66,7 @@ void testFunctions::testSdCircular() {
     CPPUNIT_ASSERT((int) (Functions::sdCircular(values) * 1000) == 1414);
 }
 
-void testFunctions::testSdLinear() {
+void testFunctions::testSdLinear_() {
 
     /**
      * Test the behavior of sdLinear function with and without NAN values.
@@ -93,7 +93,7 @@ void testFunctions::testSdLinear() {
     CPPUNIT_ASSERT((int) (Functions::sdLinear(values) * 100) == 20297);
 }
 
-void testFunctions::testMean() {
+void testFunctions::testMean_() {
 
     /**
      * Test the behavior of mean function.
@@ -112,7 +112,7 @@ void testFunctions::testMean() {
     CPPUNIT_ASSERT(Functions::mean(v3, 2) == 1);
 }
 
-void testFunctions::testComputeObservationTimeIndices1() {
+void testFunctions::testComputeObservationTimeIndices1_() {
 
     /**
      * Test the function of updateTimeTable().
@@ -155,7 +155,7 @@ void testFunctions::testComputeObservationTimeIndices1() {
     }
 }
 
-void testFunctions::testComputeObservationTimeIndices2() {
+void testFunctions::testComputeObservationTimeIndices2_() {
 
     /**
      * Test the function of updateTimeTable() by reading files.
@@ -186,7 +186,7 @@ void testFunctions::testComputeObservationTimeIndices2() {
     }
 }
 
-void testFunctions::testConvertToIndex() {
+void testFunctions::testConvertToIndex_() {
     
     /**
      * Test the function of toIndex().

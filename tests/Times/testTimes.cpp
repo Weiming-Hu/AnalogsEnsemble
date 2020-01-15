@@ -25,7 +25,7 @@ testTimes::testTimes() {
 testTimes::~testTimes() {
 }
 
-void testTimes::testGetTimeIndex() {
+void testTimes::testGetTimeIndex_() {
 
     /**
      * Test function getIndex.

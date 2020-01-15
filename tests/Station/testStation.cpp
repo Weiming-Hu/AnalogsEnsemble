@@ -20,7 +20,7 @@ testStation::~testStation() {
 }
 
 void
-testStation::testStationComparison() {
+testStation::testStationComparison_() {
 
     Station s1(10, 20, "station1");
     Station s2(10, 20, "station1");
@@ -42,7 +42,7 @@ testStation::testStationComparison() {
 }
 
 void
-testStation::testStationAssignment() {
+testStation::testStationAssignment_() {
 
     /*
      * When a station is assigned to another station, all member variables
