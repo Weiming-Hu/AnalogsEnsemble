@@ -37,14 +37,12 @@ int main(int argc, char** argv) {
 //        for (size_t j = 0; j < forecasts.getFLTs().size(); ++j) {
 //            size_t fct_time = forecasts.getTimeStamp(i);
 //            size_t flt_time = forecasts.getFltTimeStamp(j);
-//            
 //            size_t obs_time = fct_time + flt_time;
-//            cout << observations.getValue(0,0,Time(obs_time)) << ",\t";
-//            
+//            size_t obs_index = observations.getTimeIndex(obs_time);
+//            cout << observations.getValue(0,0,obs_index) << ",\t";
 //        }
 //     cout << endl; 
 //    }
-    
     
     size_t num_search_fcsts = 51;
     size_t search_start = 0;

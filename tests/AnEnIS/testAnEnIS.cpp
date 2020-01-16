@@ -18,6 +18,8 @@ using namespace std;
 using namespace boost;
 using namespace boost::bimaps;
 
+static int _ROUNDING = 100;
+
 CPPUNIT_TEST_SUITE_REGISTRATION(testAnEnIS);
 
 testAnEnIS::testAnEnIS() {
@@ -27,35 +29,73 @@ testAnEnIS::~testAnEnIS() {
 }
 
 void testAnEnIS::setUp() {
+    
+    // Make sure member variables are empty so that they
+    // will be further prepared in other setUp* functions.
+    //
+    CPPUNIT_ASSERT(parameters_.size() == 0);
+    CPPUNIT_ASSERT(stations_.size() == 0);
+    CPPUNIT_ASSERT(times_.size() == 0);
+    CPPUNIT_ASSERT(flts_.size() == 0);
+    return;
 }
 
 void testAnEnIS::tearDown() {
+    parameters_.clear();
+    stations_.clear();
+    times_.clear();
+    flts_.clear();
+    return;
 }
 
-void testAnEnIS::testFixedLengthSds_() {
+void testAnEnIS::setUpSds() {
+    
+    /*
+     * This function sets up the following:
+     * 
+     *  - 3 parameters
+     *  - 2 stations
+     *  - 10 time stamps
+     *  - 2 FLTs
+     */
+    
+    setUp();
 
-    Parameters parameters;
-    assign::push_back(parameters.left)
+    // Manually create 3 parameters
+    assign::push_back(parameters_.left)
             (0, Parameter("par_1")) // Linear parameter
             (1, Parameter("par_2", 0)) // Parameter with 0 weight
             (2, Parameter("par_3", 0.5, true)); // Circular parameter
 
-    Stations stations;
-    assign::push_back(stations.left)
+    // Manually create 2 stations
+    assign::push_back(stations_.left)
             (0, Station(50, 20))
             (1, Station(10, 10, "station_2"));
 
-    Times times;
-    vector<size_t> times_fixed_index;
+    // Manually create 10 times
     for (size_t i = 0; i < 10; ++i) {
-        times.push_back(Times::value_type(i, Time(i * 100)));
-        times_fixed_index.push_back(i);
+        times_.push_back(Times::value_type(i, Time(i * 100)));
     }
 
-    Times flts;
-    assign::push_back(flts.left)(0, Time(0))(1, Time(50));
+    // Manually create 2 FLTs
+    assign::push_back(flts_.left)(0, Time(0))(1, Time(50));
+    return;
+}
 
-    ForecastsArray forecasts(parameters, stations, times, flts);
+void testAnEnIS::tearDownSds() {
+    tearDown();
+    return;
+}
+
+void testAnEnIS::testFixedLengthSds_() {
+    
+    /*
+     * This function compares the standard deviation calculation with R.
+     */
+    
+    setUpSds();
+
+    ForecastsArray forecasts(parameters_, stations_, times_, flts_);
     double *ptr = forecasts.getValuesPtr();
     vector<double> values = {
         NAN, -17.35, NAN, 1.92, NAN, 39.82, 6.95, -3.42, -39.85,
@@ -76,25 +116,35 @@ void testAnEnIS::testFixedLengthSds_() {
     for (size_t i = 0; i < values.size(); ++i) ptr[i] = values[i];
     
     vector<double> weights;
-    parameters.getWeights(weights);
+    forecasts.getParameters().getWeights(weights);
     
     vector<bool> circulars;
-    parameters.getCirculars(circulars);
+    forecasts.getParameters().getCirculars(circulars);
+    
+    vector<size_t> times_fixed_index;
+    for (size_t i = 0; i < times_.size(); ++i) {
+        times_fixed_index.push_back(i);
+    }
 
     operational_ = false;
     computeSds_(forecasts, weights, circulars, times_fixed_index);
     
-    cout << "Fixed-length standard deviation results:" << endl;
-    Functions::print(cout, sds_);
+    // Answers from R
+    vector<double> answers = {
+        19.181, 28.3874, 21.045, 29.6220, NAN, NAN, NAN, NAN,
+        27.6836, 24.8016, 26.5622, 31.8882
+    };
     
-//    // Answers from R
-//    vector<double> answers = {
-//        19.181, 28.3874, 21.045, 29.6220, 27.6836 24.8016, 26.5622, 31.8882
-//    };
-//    
-//    // Answer from AnEnIS
-//    double *ptr = sds_.data();
-    
+    // Check for correctness
+    ptr = sds_.data();
+    for (size_t i = 0; i < sds_.num_elements(); ++i) {
+        if (std::isnan(answers[i])) {
+            CPPUNIT_ASSERT(std::isnan(answers[i]));
+        } else {
+            CPPUNIT_ASSERT((int) (ptr[i] * _ROUNDING) ==
+                    (int) (answers[i] * _ROUNDING));
+        }
+    }
 }
 
 void testAnEnIS::compareOperationalSds_() {
@@ -103,15 +153,99 @@ void testAnEnIS::compareOperationalSds_() {
      * This function compares the results of standard deviation calculation
      * between fixed-length calculation and the operational calculation.
      */
+    
+    setUpSds();
 
-    ForecastsArray forecasts;
+    /*
+     * Generate random numbers with a probability of being NAN
+     */
+    double nan_prob = 0.3, prob = 0;
+    size_t nan_count = 0;
+
+    ForecastsArray forecasts(parameters_, stations_, times_, flts_);
+
+    // Assign random forecast values
+    for (size_t par_i = 0; par_i < forecasts.getParameters().size(); ++par_i) {
+        for (size_t sta_i = 0; sta_i < forecasts.getStations().size(); ++sta_i) {
+            for (size_t flt_i = 0; flt_i < forecasts.getFLTs().size(); ++flt_i) {
+
+                // Make sure there are at least 2 valid numbers for each time sequence
+                for (size_t time_i = 0; time_i < 2; ++time_i) {
+                    forecasts.setValue((rand() % 10000) / 100.0, par_i, sta_i, time_i, flt_i);
+                }
+
+                // The other cells may have NAN values
+                for (size_t time_i = 2; time_i < forecasts.getTimes().size(); ++time_i) {
+
+                    prob = rand() / double(RAND_MAX);
+                    if (prob < nan_prob) {
+                        forecasts.setValue(NAN, par_i, sta_i, time_i, flt_i);
+                        ++nan_count;
+                    } else {
+                        forecasts.setValue((rand() % 10000) / 100.0,
+                                par_i, sta_i, time_i, flt_i);
+                    }
+
+                }
+            }
+        }
+    }
+    
+    /*
+     * Prepare weights and circulars for standard deviation calculation
+     */
     vector<double> weights;
-    vector<bool> circulars;
-    const auto & parameters = forecasts.getParameters();
-    parameters.getWeights(weights);
-    parameters.getCirculars(circulars);
+    forecasts.getParameters().getWeights(weights);
 
-    //    computeSds_(forecasts, weights, circulars, times_fixed_index, times_accum_index);
+    vector<bool> circulars;
+    forecasts.getParameters().getCirculars(circulars);
+    
+    /*
+     * Calculate the running standard deviation for different fixed length
+     */
+    for (size_t num_fixed_indices : {2, 4, 6, 8}) {
+
+        vector<size_t> times_fixed_index, times_accum_index;
+        for (size_t i = 0; i < num_fixed_indices; ++i) times_fixed_index.push_back(i);
+        for (size_t i = num_fixed_indices; i < times_.size(); ++i) times_accum_index.push_back(i);
+
+        operational_ = true;
+        computeSds_(forecasts, weights, circulars, times_fixed_index, times_accum_index);
+
+        // Save the running calculation result
+        Array4D sds_running = sds_;
+
+        /*
+         * Manually calculate the fixed-length standard deviation for each running
+         * time and compare the results.
+         */
+        operational_ = false;
+        for (auto time_accum_index : times_accum_index) {
+            
+            // Manually set up standard deviation calculation
+            vector<size_t> times_fixed_index_manual;
+            for (size_t i = 0; i < time_accum_index; ++i) times_fixed_index_manual.push_back(i);
+            computeSds_(forecasts, weights, circulars, times_fixed_index_manual);
+
+            // Compare results
+            for (size_t par_i = 0; par_i < parameters_.size(); ++par_i) {
+                for (size_t sta_i = 0; sta_i < stations_.size(); ++sta_i) {
+                    for (size_t flt_i = 0; flt_i < flts_.size(); ++flt_i) {
+
+                        double sd_fixed = sds_[par_i][sta_i][flt_i][0];
+                        double sd_running = sds_running
+                                [par_i][sta_i][flt_i][time_accum_index - num_fixed_indices];
+
+                        if (std::isnan(sd_fixed)) CPPUNIT_ASSERT(std::isnan(sd_running));
+                        else CPPUNIT_ASSERT((int) sd_fixed * _ROUNDING == (int) sd_running * _ROUNDING);
+                    }
+                }
+            }
+        }
+    }
+    
+    tearDownSds();
+    return;
 }
 
 

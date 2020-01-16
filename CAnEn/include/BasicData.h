@@ -39,8 +39,8 @@ public:
     Stations & getStations();
     Times & getTimes();
     
-    size_t getTimeStamp(size_t) const;
-    size_t getTimeIndex(size_t) const;
+    size_t getTimeStamp(size_t index) const;
+    size_t getTimeIndex(size_t timestamp) const;
     size_t getTimeIndex(const Time &) const;
     
 protected:

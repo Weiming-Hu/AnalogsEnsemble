@@ -66,12 +66,12 @@ ObservationsArray::getValue(size_t parameter_index,
     return (data_[parameter_index][station_index][time_index]);
 }
 
-double
-ObservationsArray::getValue(size_t parameter_index,
-        size_t station_index, const Time & time) const {
-    auto time_index = times_.getIndex(time);
-    return (getValue(parameter_index, station_index, time_index));
-}
+//double
+//ObservationsArray::getValue(size_t parameter_index,
+//        size_t station_index, const Time & time) const {
+//    auto time_index = times_.getIndex(time);
+//    return (getValue(parameter_index, station_index, time_index));
+//}
 
 void
 ObservationsArray::setValue(double val, size_t parameter_index,

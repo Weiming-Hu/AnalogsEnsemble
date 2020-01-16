@@ -30,10 +30,19 @@ class testAnEnIS : public CPPUNIT_NS::TestFixture, public AnEnIS {
 public:
     testAnEnIS();
     virtual ~testAnEnIS();
+    
     void setUp();
     void tearDown();
+    
+    void setUpSds();
+    void tearDownSds();
 
 private:
+    Parameters parameters_;
+    Stations stations_;
+    Times times_;
+    Times flts_;
+    
     void testFixedLengthSds_();
     void compareOperationalSds_();
     //    void testAutomaticDeleteOverlappingTimes();

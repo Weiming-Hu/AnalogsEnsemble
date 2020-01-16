@@ -24,9 +24,7 @@ public:
     Forecasts(const Parameters &, const Stations &,
             const Times &, const Times &);
     
-    
     virtual ~Forecasts();
-
 
     /**************************************************************************
      *                          Pure Virtual Functions                        *
@@ -78,10 +76,9 @@ public:
     Times const & getFLTs() const;
     Times & getFLTs();
     
-    size_t getFltTimeStamp(size_t) const;
-    size_t getFltTimeIndex(size_t) const;
+    size_t getFltTimeStamp(size_t index) const;
+    size_t getFltTimeIndex(size_t timestamp) const;
     size_t getFltTimeIndex(const Time &) const;
- 
     
     virtual void print(std::ostream &) const;
     friend std::ostream& operator<<(std::ostream&, Forecasts const &);

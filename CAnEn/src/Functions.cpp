@@ -133,12 +133,13 @@ Functions::mean(const vector<double> & values, size_t max_nan_allowed) {
 double
 Functions::variance(const vector<double> & values) {
     double average = mean(values);
-    if (std::isnan(average)) return NAN;
     return (variance(values, average));
 }
 
 double
 Functions::variance(const vector<double> & values, const double & average) {
+    if (std::isnan(average)) return NAN;
+
     double sum = 0.0;
     size_t valid = 0;
 
@@ -149,7 +150,8 @@ Functions::variance(const vector<double> & values, const double & average) {
         }
     }
 
-    return (sum / ((double) valid - 1.0));
+    if (valid == 1) return NAN;
+    else return (sum / ((double) valid - 1.0));
 }
 
 double

@@ -62,7 +62,7 @@ BasicData::getTimes() {
 
 size_t
 BasicData::getTimeStamp(size_t index) const {
-    return (times_.left[index].second.timestamp);
+    return times_.left[index].second.timestamp;
 }
 
 size_t 

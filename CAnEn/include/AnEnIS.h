@@ -95,6 +95,21 @@ protected:
             const std::vector<double> & weights,
             const std::vector<bool> & circulars);
 
+    /**
+     * Compute standard deviation for search forecasts. When the operational
+     * mode is true, it requires a valid input for times_accum_index for which
+     * the running standard deviation are calculated. Note that this function
+     * is very permissive on NA values and it removes NA values during the
+     * calculation.
+     * 
+     * @param forecasts Forecasts
+     * @param weights Weights from input forecasts.
+     * @param circulars Circular flags from input forecasts.
+     * @param times_fixed_index Time indices of forecasts for fixed-length
+     * standard deviation calculation.
+     * @param times_accum_index Time indices of forecasts for accumulative
+     * standard deviation calculation.
+     */
     void computeSds_(const Forecasts & forecasts,
             const std::vector<double> & weights,
             const std::vector<bool> & circulars,

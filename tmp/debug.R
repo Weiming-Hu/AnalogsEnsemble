@@ -26,8 +26,17 @@ for ( parameter in min(guido[,2]):max(guido[,2])) {
   }
 }
 
-i = which(data[,15] != data[,16])
+# Standard deviation
+i = which(data[,11] != data[,12])
+data[i, ]
 
+# Similarity window average
+i = which(data[,13] != data[,14])
+data[i, ]
+
+# Similarity metric
+i = which(data[,15] != data[,16])
+data[i, ]
 
 range(abs(data[i,15] - data[i,16]))
 

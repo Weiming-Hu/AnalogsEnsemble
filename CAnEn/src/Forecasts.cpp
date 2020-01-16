@@ -47,8 +47,6 @@ Forecasts::getFLTs() {
     return flts_;
 }
 
-
-
 size_t
 Forecasts::getFltTimeStamp(size_t index) const {
     return (flts_.left[index].second.timestamp);
@@ -63,7 +61,6 @@ size_t
 Forecasts::getFltTimeIndex(Time const & time) const {
     return flts_.getIndex(time);
 }
-
 
 void
 Forecasts::print(ostream &os) const {

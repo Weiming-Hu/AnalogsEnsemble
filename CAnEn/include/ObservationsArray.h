@@ -38,8 +38,6 @@ public:
  
     double getValue(std::size_t parameter_index,
             std::size_t station_index, std::size_t time_index) const override;
-    double getValue(std::size_t parameter_index,
-            std::size_t station_index, const Time & time_index) const override;
        
     void setValue(double val, std::size_t parameter_index,
             std::size_t station_index, std::size_t time_index) override;
