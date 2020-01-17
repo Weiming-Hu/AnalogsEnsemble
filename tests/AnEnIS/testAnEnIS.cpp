@@ -263,7 +263,8 @@ void testAnEnIS::compareOperationalSds_() {
          * Calculate the running standard deviation for different fixed length
          */
         for (size_t num_fixed_indices :{2, 4, 6, 8}) {
-            cout << "\t Test with a fixed length of " << num_fixed_indices << " ..." << endl;
+            cout << "\t Test with a fixed length of "
+                    << num_fixed_indices << " ..." << endl;
 
             vector<size_t> times_fixed_index, times_accum_index;
 

@@ -14,7 +14,7 @@
 #include <iostream>
 
 #include <boost/numeric/ublas/io.hpp>
-#include <exception>
+#include <stdexcept>
 
 #include "AnEn.h"
 #include "colorTexts.h"
@@ -52,50 +52,7 @@ NumericVector generateSearchStations(
         NumericVector R_test_station_tags,
         NumericVector R_search_station_tags,
         int verbose) {
-
-    // Converting R data types to C++ data types
-    if (verbose >= 3)
-        cout << "Convert R objects to C++ objects ..." << endl;
-    
-    anenSta::Stations test_stations;
-    for (size_t i_station = 0; i_station < R_test_forecasts_station_x.size(); i_station++) {
-        anenSta::Station s(R_test_forecasts_station_x[i_station], R_test_forecasts_station_y[i_station]);
-        test_stations.push_back(s);
-    }
-
-    anenSta::Stations search_stations;
-    for (size_t i_station = 0; i_station < R_search_forecasts_station_x.size(); i_station++) {
-        anenSta::Station s(R_search_forecasts_station_x[i_station], R_search_forecasts_station_y[i_station]);
-        search_stations.push_back(s);
-    }
-    
-    std::vector<size_t> test_station_tags(0), search_station_tags(0);
-    test_station_tags.insert(test_station_tags.end(),
-            R_test_station_tags.begin(), R_test_station_tags.end());
-    search_station_tags.insert(search_station_tags.end(),
-            R_search_station_tags.begin(), R_search_station_tags.end());
-    
-    // Compute search stations
-    if (verbose >= 3) cout << "Calculating search stations ..." << endl;
-    AnEn anen(verbose);
-    boost::numeric::ublas::matrix<double> i_search_stations;
-    anen.setMethod(AnEn::simMethod::OneToMany);
-    
-    handleError(anen.computeSearchStations(
-            test_stations, search_stations,
-            i_search_stations, max_num_search_stations, distance,
-            num_nearest_stations, test_station_tags, search_station_tags));
-    
-    // Convert C++ data types to R data types
-    if (verbose >= 3) cout << "Wrapping C++ object search stations ..." << endl;
-    IntegerVector R_search_stations_dims{
-        static_cast<int> (i_search_stations.size2()),
-        static_cast<int> (i_search_stations.size1())};
-    NumericVector R_search_stations(i_search_stations.data().begin(),
-            i_search_stations.data().end());
-    R_search_stations.attr("dim") = R_search_stations_dims;
-    
-    return (R_search_stations);
+    throw runtime_error("Not implemented");
 }
 
 
@@ -106,71 +63,7 @@ NumericVector generateTimeMapping(
         NumericVector R_flts_forecasts,
         NumericVector R_times_observations,
         int time_match_mode, int verbose) {
-
-    /***************************************************************************
-     *                   Convert objects for mapping computation               *
-     **************************************************************************/
-
-    if (verbose >= 3)
-        cout << "Convert R objects to C++ objects ..." << endl;
-
-    anenTime::Times times_forecasts, flts_forecasts, times_observations;
-    Functions::TimeMapMatrix mapping;
-
-    times_forecasts.insert(times_forecasts.end(),
-            R_times_forecasts.begin(), R_times_forecasts.end());
-    flts_forecasts.insert(flts_forecasts.end(),
-            R_flts_forecasts.begin(), R_flts_forecasts.end());
-    times_observations.insert(times_observations.end(),
-            R_times_observations.begin(), R_times_observations.end());
-
-    if (R_times_forecasts.size() != times_forecasts.size()) {
-        if (verbose >= 1)
-            cout << "Error: Forecast times are not unique. "
-                << "Original: " << R_times_forecasts.size() << " Unique: " 
-                << times_forecasts.size() << endl;
-        throw std::runtime_error("Elements not unique.");
-    }
-    if (R_flts_forecasts.size() != flts_forecasts.size()) {
-        if (verbose >= 1)
-            cout << "Error: Forecast FLTs are not unique. "
-                << "Original: " << R_flts_forecasts.size() << " Unique: " 
-                << flts_forecasts.size() << endl;
-        throw std::runtime_error("Elements not unique.");
-    }
-    if (R_times_observations.size() != times_observations.size()) {
-        if (verbose >= 1)
-            cout << "Error: Observation times are not unique. "
-                << "Original: " << R_times_observations.size() << " Unique: " 
-                << times_observations.size() << endl;
-        throw std::runtime_error("Elements not unique.");
-    }
-
-    /***************************************************************************
-     *                        Mapping Computation                              *
-     **************************************************************************/
-    if (verbose >= 3)
-        cout << "Compute mapping from forecast times/flts to observation times ..." << endl;
-
-    Functions functions(verbose);
-
-    handleError(functions.computeObservationsTimeIndices(
-            times_forecasts, flts_forecasts, times_observations,
-            mapping, time_match_mode));
-
-    /***************************************************************************
-     *                           Wrap Up Results                               *
-     **************************************************************************/
-    if (verbose >= 3) cout << "Wrapping C++ object mapping ..." << endl;
-    IntegerVector R_mapping_dims{
-        static_cast<int> (mapping.size2()),
-        static_cast<int> (mapping.size1())
-    };
-
-    NumericVector R_mapping(mapping.data().begin(), mapping.data().end());
-    R_mapping.attr("dim") = R_mapping_dims;
-
-    return (R_mapping);
+    throw runtime_error("Not implemented");
 }
 
 // [[Rcpp::export(".generateAnalogs")]]
