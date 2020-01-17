@@ -30,7 +30,8 @@ public:
     
     void reserve(size_t);
     void pushValue(double);
-    void clear();
+    void clearValues();
+    void reset();
     
     double mean();
     double variance();

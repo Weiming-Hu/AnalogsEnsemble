@@ -157,91 +157,97 @@ void testAnEnIS::compareOperationalSds_() {
     setUpSds();
 
     /*
-     * Generate random numbers with a probability of being NAN
+     * Generate random numbers with a series of probabilities of being NAN
      */
-    double nan_prob = 0.3, prob = 0;
-    size_t nan_count = 0;
+    for (double nan_prob : {0.0, 0.3, 0.5, 0.7, 0.9, 1.0}) {
 
-    ForecastsArray forecasts(parameters_, stations_, times_, flts_);
+        cout << "Test with an NAN probability of " << nan_prob << " ..." << endl;
 
-    // Assign random forecast values
-    for (size_t par_i = 0; par_i < forecasts.getParameters().size(); ++par_i) {
-        for (size_t sta_i = 0; sta_i < forecasts.getStations().size(); ++sta_i) {
-            for (size_t flt_i = 0; flt_i < forecasts.getFLTs().size(); ++flt_i) {
+        double prob = 0;
+        size_t nan_count = 0;
 
-                // Make sure there are at least 2 valid numbers for each time sequence
-                for (size_t time_i = 0; time_i < 2; ++time_i) {
-                    forecasts.setValue((rand() % 10000) / 100.0, par_i, sta_i, time_i, flt_i);
-                }
+        ForecastsArray forecasts(parameters_, stations_, times_, flts_);
 
-                // The other cells may have NAN values
-                for (size_t time_i = 2; time_i < forecasts.getTimes().size(); ++time_i) {
+        // Assign random forecast values
+        for (size_t par_i = 0; par_i < forecasts.getParameters().size(); ++par_i) {
+            for (size_t sta_i = 0; sta_i < forecasts.getStations().size(); ++sta_i) {
+                for (size_t flt_i = 0; flt_i < forecasts.getFLTs().size(); ++flt_i) {
 
-                    prob = rand() / double(RAND_MAX);
-                    if (prob < nan_prob) {
-                        forecasts.setValue(NAN, par_i, sta_i, time_i, flt_i);
-                        ++nan_count;
-                    } else {
-                        forecasts.setValue((rand() % 10000) / 100.0,
-                                par_i, sta_i, time_i, flt_i);
+                    // Make sure there are at least 2 valid numbers for each time sequence
+                    for (size_t time_i = 0; time_i < 2; ++time_i) {
+                        forecasts.setValue((rand() % 10000) / 100.0, par_i, sta_i, time_i, flt_i);
                     }
 
+                    // The other cells may have NAN values
+                    for (size_t time_i = 2; time_i < forecasts.getTimes().size(); ++time_i) {
+
+                        prob = rand() / double(RAND_MAX);
+                        if (prob < nan_prob) {
+                            forecasts.setValue(NAN, par_i, sta_i, time_i, flt_i);
+                            ++nan_count;
+                        } else {
+                            forecasts.setValue((rand() % 10000) / 100.0,
+                                    par_i, sta_i, time_i, flt_i);
+                        }
+
+                    }
                 }
             }
         }
-    }
-    
-    /*
-     * Prepare weights and circulars for standard deviation calculation
-     */
-    vector<double> weights;
-    forecasts.getParameters().getWeights(weights);
-
-    vector<bool> circulars;
-    forecasts.getParameters().getCirculars(circulars);
-    
-    /*
-     * Calculate the running standard deviation for different fixed length
-     */
-    for (size_t num_fixed_indices : {2, 4, 6, 8}) {
-
-        vector<size_t> times_fixed_index, times_accum_index;
-        for (size_t i = 0; i < num_fixed_indices; ++i) times_fixed_index.push_back(i);
-        for (size_t i = num_fixed_indices; i < times_.size(); ++i) times_accum_index.push_back(i);
-
-        operational_ = true;
-        computeSds_(forecasts, weights, circulars, times_fixed_index, times_accum_index);
-
-        // Save the running calculation result
-        Array4D sds_running = sds_;
 
         /*
-         * Manually calculate the fixed-length standard deviation for each running
-         * time and compare the results.
+         * Prepare weights and circulars for standard deviation calculation
          */
-        operational_ = false;
-        for (auto time_accum_index : times_accum_index) {
-            
-            // Manually set up standard deviation calculation
-            vector<size_t> times_fixed_index_manual;
-            for (size_t i = 0; i < time_accum_index; ++i) times_fixed_index_manual.push_back(i);
-            computeSds_(forecasts, weights, circulars, times_fixed_index_manual);
+        vector<double> weights;
+        forecasts.getParameters().getWeights(weights);
 
-            // Compare results
-            for (size_t par_i = 0; par_i < parameters_.size(); ++par_i) {
-                for (size_t sta_i = 0; sta_i < stations_.size(); ++sta_i) {
-                    for (size_t flt_i = 0; flt_i < flts_.size(); ++flt_i) {
+        vector<bool> circulars;
+        forecasts.getParameters().getCirculars(circulars);
 
-                        double sd_fixed = sds_[par_i][sta_i][flt_i][0];
-                        double sd_running = sds_running
-                                [par_i][sta_i][flt_i][time_accum_index - num_fixed_indices];
+        /*
+         * Calculate the running standard deviation for different fixed length
+         */
+        for (size_t num_fixed_indices :{2, 4, 6, 8}) {
+            cout << "\t Test with a fixed length of " << num_fixed_indices << " ..." << endl;
 
-                        if (std::isnan(sd_fixed)) CPPUNIT_ASSERT(std::isnan(sd_running));
-                        else CPPUNIT_ASSERT((int) sd_fixed * _ROUNDING == (int) sd_running * _ROUNDING);
+            vector<size_t> times_fixed_index, times_accum_index;
+            for (size_t i = 0; i < num_fixed_indices; ++i) times_fixed_index.push_back(i);
+            for (size_t i = num_fixed_indices; i < times_.size(); ++i) times_accum_index.push_back(i);
+
+            operational_ = true;
+            computeSds_(forecasts, weights, circulars, times_fixed_index, times_accum_index);
+
+            // Save the running calculation result
+            Array4D sds_running = sds_;
+
+            /*
+             * Manually calculate the fixed-length standard deviation for each running
+             * time and compare the results.
+             */
+            operational_ = false;
+            for (auto time_accum_index : times_accum_index) {
+
+                // Manually set up standard deviation calculation
+                vector<size_t> times_fixed_index_manual;
+                for (size_t i = 0; i < time_accum_index; ++i) times_fixed_index_manual.push_back(i);
+                computeSds_(forecasts, weights, circulars, times_fixed_index_manual);
+
+                // Compare results
+                for (size_t par_i = 0; par_i < parameters_.size(); ++par_i) {
+                    for (size_t sta_i = 0; sta_i < stations_.size(); ++sta_i) {
+                        for (size_t flt_i = 0; flt_i < flts_.size(); ++flt_i) {
+
+                            double sd_fixed = sds_[par_i][sta_i][flt_i][0];
+                            double sd_running = sds_running
+                                    [par_i][sta_i][flt_i][time_accum_index - num_fixed_indices];
+
+                            if (std::isnan(sd_fixed)) CPPUNIT_ASSERT(std::isnan(sd_running));
+                            else CPPUNIT_ASSERT((int) sd_fixed * _ROUNDING == (int) sd_running * _ROUNDING);
+                        }
                     }
                 }
             }
-        }
+        }        
     }
     
     tearDownSds();

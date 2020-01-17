@@ -26,10 +26,10 @@ void testCalculator::setUp() {
 void testCalculator::tearDown() {
 }
 
-void testCalculator::testMean() {
+void testCalculator::testLinearMean() {
 
     /*
-     * Test the calculator of averages
+     * Test the calculator of linear averages
      */
 
     Calculator calc;
@@ -60,20 +60,20 @@ void testCalculator::testVariance() {
     CPPUNIT_ASSERT(std::isnan(calc.variance()));
 
     calc.pushValue(50);
-    CPPUNIT_ASSERT(calc.variance() - 1250.5 < 1e-4);
+    CPPUNIT_ASSERT(abs(calc.variance() - 1250.5) < 1e-4);
 
     calc.pushValue(20);
-    CPPUNIT_ASSERT(calc.variance() - 1633.767 < 1e-4);
+    CPPUNIT_ASSERT(abs(calc.variance() - 1633.767) < 1e-3);
 
     calc.pushValue(NAN);
     CPPUNIT_ASSERT(std::isnan(calc.variance()));
 }
 
 
-void testCalculator::testSd() {
+void testCalculator::testLinearSd() {
     
     /*
-     * Test the calculator of standard deviations
+     * Test the calculator of linear standard deviations
      */
     
     Calculator calc;
@@ -84,12 +84,73 @@ void testCalculator::testSd() {
     CPPUNIT_ASSERT(std::isnan(calc.sd()));
 
     calc.pushValue(50);
-    CPPUNIT_ASSERT(calc.sd() * 1000 - 353624 < 1e-4);
+    CPPUNIT_ASSERT(abs(calc.sd() - 35.36241) < 1e-6);
 
     calc.pushValue(30);
-    CPPUNIT_ASSERT(calc.sd() - 360610 < 1e-4);
+    CPPUNIT_ASSERT(abs(calc.sd() - 36.06106) < 1e-6);
 
     calc.pushValue(NAN);
     CPPUNIT_ASSERT(std::isnan(calc.sd()));
-    
 }
+
+void testCalculator::testCircularMean() {
+    
+    /*
+     * Test the calculation of circular averages
+     */
+    
+    Calculator calc;
+    calc.setCircular(true);
+
+    CPPUNIT_ASSERT(std::isnan(calc.mean()));
+
+    calc.pushValue(350);
+    calc.pushValue(10);
+    CPPUNIT_ASSERT(abs(calc.mean() - 0) < 1e-6);
+
+    calc.clearValues();
+    calc.pushValue(90);
+    calc.pushValue(180);
+    calc.pushValue(270);
+    calc.pushValue(360);
+    CPPUNIT_ASSERT(abs(calc.mean() + 90) < 1e-6);
+
+    calc.reset();
+    CPPUNIT_ASSERT(!calc.isCircular());
+    calc.setCircular(true);
+    calc.pushValue(10);
+    calc.pushValue(20);
+    calc.pushValue(30);
+    CPPUNIT_ASSERT(abs(calc.mean() - 20) < 1e-6);
+}
+
+void testCalculator::testCircularSd() {
+    
+    /*
+     * Test the calculation of circular standard deviations
+     */
+    Calculator calc;
+    calc.setCircular(true);
+
+    CPPUNIT_ASSERT(std::isnan(calc.sd()));
+
+    calc.pushValue(350);
+    calc.pushValue(10);
+    CPPUNIT_ASSERT(abs(calc.sd() - 10.0081) < 1e-4);
+
+    calc.clearValues();
+    calc.pushValue(90);
+    calc.pushValue(180);
+    calc.pushValue(270);
+    calc.pushValue(360);
+    CPPUNIT_ASSERT(abs(calc.sd() - 103.923) < 1e-3);
+
+    calc.reset();
+    CPPUNIT_ASSERT(!calc.isCircular());
+    calc.setCircular(true);
+    calc.pushValue(10);
+    calc.pushValue(20);
+    calc.pushValue(30);
+    CPPUNIT_ASSERT(abs(calc.sd() - 8.165117) < 1e-6);
+}
+

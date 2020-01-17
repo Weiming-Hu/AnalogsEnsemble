@@ -8,6 +8,7 @@
 
 #include "AnEnIS.h"
 #include "colorTexts.h"
+#include "Calculator.h"
 
 #include <algorithm>
 
@@ -28,8 +29,6 @@ simsSort(const array<double, 3> & lhs,
     if (std::isnan(rhs[_SIM_VALUE_INDEX])) return true;
     return (lhs[_SIM_VALUE_INDEX] < rhs[_SIM_VALUE_INDEX]);
 }
-
-double obs_global = 0;
 
 AnEnIS::AnEnIS() : num_analogs_(1), obs_var_index_(0), quick_sort_(true),
 save_sims_index_(false), save_analogs_index_(false), num_sims_(0),
@@ -233,7 +232,6 @@ fcsts_test_index, fcsts_search_index, forecasts, observations, weights, circular
 
                     // Check whether the associated observation is NA
                     double obs = observations.getValue(obs_var_index_, sta_i, obs_time_index);
-//                    obs_global = obs;
                     if (std::isnan(obs)) continue;
 
                     /*
@@ -450,9 +448,10 @@ AnEnIS::computeSds_(const Forecasts & forecasts,
     size_t num_parameters = forecasts.getParameters().size();
     size_t num_stations = forecasts.getStations().size();
     size_t num_flts = forecasts.getFLTs().size();
+    size_t calculator_capacity = times_fixed_index.size();
+    if (operational_) calculator_capacity += times_accum_index.size();
 
     // Pre-allocate memory for calculation
-    vector<double> values(times_fixed_index.size());
     sds_.resize(boost::extents
             [num_parameters][num_stations][num_flts][num_times]);
     fill_n(sds_.data(), sds_.num_elements(), NAN);
@@ -460,7 +459,7 @@ AnEnIS::computeSds_(const Forecasts & forecasts,
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(dynamic) collapse(3) \
 shared(num_parameters, num_stations, num_flts, forecasts, times_fixed_index, \
-times_accum_index, weights, circulars, num_times) firstprivate(values)
+times_accum_index, weights, circulars, num_times, calculator_capacity)
 #endif
     for (size_t par_i = 0; par_i < num_parameters; ++par_i) {
         for (size_t sta_i = 0; sta_i < num_stations; ++sta_i) {
@@ -469,120 +468,37 @@ times_accum_index, weights, circulars, num_times) firstprivate(values)
                 // Skip the iteration if the weight is 0
                 if (weights[par_i] == 0) continue;
                 
-                // Count the number of valid numbers. It is type double because
-                // this variable is involved during floating-point calculation.
-                //
-                double count = 0.0;
-
-                // Copy values from the fixed times
-                for (size_t i = 0; i < values.size(); ++i) {
-                    values[i] = forecasts.getValue(
-                            par_i, sta_i, times_fixed_index[i], flt_i);
-                    
-                    if (!std::isnan(values[i])) ++count;
+                // Initialize a calculator
+                Calculator calc(circulars[par_i], calculator_capacity);
+                double value;
+                
+                // Push values into the calculator if it is not NAN
+                for (size_t i = 0; i < times_fixed_index.size(); ++i) {
+                    value = forecasts.getValue(par_i, sta_i, times_fixed_index[i], flt_i);
+                    if (!std::isnan(value)) calc.pushValue(value);
                 }
                 
-                if (count < 2) {
-                    ostringstream msg;
-                    msg << BOLDRED << "Not enough valid numbers at par_i "
-                            << par_i << " sta_i " << sta_i << " flt_i "
-                            << flt_i << RESET;
-                    throw runtime_error(msg.str());
-                }
+                // Calculate standard deviation
+                sds_[par_i][sta_i][flt_i][0] = calc.sd();
 
-                // Compute standard deviation
-                if (circulars[par_i]) {
+                if (operational_) {
+                    for (size_t time_i = 1; time_i < num_times; ++time_i) {
 
-                    // Compute fixed-length circular standard deviation
-                    double s, c;
-                    Functions::meanCircularDecomp(values, s, c);
-                    sds_[par_i][sta_i][flt_i][0] = Functions::sdYamartino(s, c);
+                        // Get the forecast value
+                        value = forecasts.getValue(par_i, sta_i, times_accum_index[time_i - 1], flt_i);
 
-                    // Update standard deviation if in operational mode
-                    if (operational_) {
-
-                        // Initialize values for accumulative calculation
-                        double deg;
-
-                        // Loop through all accumulated time indices but the first one
-                        for (size_t time_i = 1; time_i < num_times; ++time_i) {
-
-                            // Get forecast value
-                            deg = forecasts.getValue(par_i, sta_i,
-                                    times_accum_index[time_i - 1], flt_i);
-
-                            if (std::isnan(deg)) {
-                                // Copy the value from previous iteration
-
-                                sds_[par_i][sta_i][flt_i][time_i] =
-                                        sds_[par_i][sta_i][flt_i][time_i - 1];
-                            } else {
-
-                                // Convert degree to radiance
-                                deg *= Functions::_DEG2RAD;
-
-                                // Increase the count of numbers
-                                ++count;
-
-                                // Update the running average of angle decomposition
-                                s += (sin(deg) - s) / count;
-                                c += (cos(deg) - c) / count;
-
-                                sds_[par_i][sta_i][flt_i][time_i] =
-                                        Functions::sdYamartino(s, c);
-                            }
-
-                        } // End of loop of accumulated time indices
-                    }
-
-                } else {
-
-                    // Compute fixed-length linear standard deviation
-                    double M = Functions::mean(values);
-                    sds_[par_i][sta_i][flt_i][0] =
-                            sqrt(Functions::variance(values, M));
-
-                    // Update standard deviation if in operational mode
-                    if (operational_) {
-
-                        // Initialize values for accumulative calculation
-                        double M_new, x;
-                        double S = pow(sds_[par_i][sta_i][flt_i][0], 2) * (count - 1);
-                        
-                        if (std::isnan(S)) S = 0;
-
-                        // Loop through all accumulated time indices but the first one
-                        for (size_t time_i = 1; time_i < num_times; ++time_i) {
-
-                            // Get forecast value
-                            x = forecasts.getValue(par_i, sta_i,
-                                    times_accum_index[time_i - 1], flt_i);
-
-                            if (std::isnan(x)) {
-                                // Copy the value from previous iteration
-
-                                sds_[par_i][sta_i][flt_i][time_i] =
-                                        sds_[par_i][sta_i][flt_i][time_i - 1];
-                            } else {
-
-                                // Increase the count of numbers
-                                ++count;
-
-                                // Compute the accumulated average
-                                M_new = M + (x - M) / count;
-
-                                // Compute the accumulated sum
-                                S += (x - M_new) * (x - M);
-
-                                // Assign accumulated standard deviation
-                                sds_[par_i][sta_i][flt_i][time_i] =
-                                        sqrt(S / (count - 1));
-
-                                // Update average
-                                M = M_new;   
-                            }
-                        } // End of loop of accumulated time indices
-                    }
+                        if (std::isnan(value)) {
+                            // Copy the value from previous iteration if the value is NAN
+                            sds_[par_i][sta_i][flt_i][time_i] = sds_[par_i][sta_i][flt_i][time_i - 1];
+                            
+                        } else {
+                            // Push the valid value into the calculator
+                            calc.pushValue(value);
+                            
+                            // Update the running standard deviation
+                            sds_[par_i][sta_i][flt_i][time_i] = calc.sd();
+                        }
+                    } // End of loop of accumulated time indices
                 }
             }
         }

@@ -118,13 +118,19 @@ Calculator::pushValue(double value) {
 }
 
 void
-Calculator::clear() {
+Calculator::clearValues() {
     values_.clear();
-    circular_ = _DEFAULT_CIRCULAR;
     mean_sin_ = _DEFAULT_MEAN_SIN;
     mean_cos_ = _DEFAULT_MEAN_COS;
     mean_linear_ = _DEFAULT_MEAN_LINEAR;
     S_ = _DEFAULT_S;
+    return;
+}
+
+void
+Calculator::reset() {
+    clearValues();
+    circular_ = _DEFAULT_CIRCULAR;
     return;
 }
 

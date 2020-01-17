@@ -13,9 +13,11 @@
 class testCalculator : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST_SUITE(testCalculator);
 
-    CPPUNIT_TEST(testMean);
+    CPPUNIT_TEST(testLinearMean);
     CPPUNIT_TEST(testVariance);
-    CPPUNIT_TEST(testSd);
+    CPPUNIT_TEST(testLinearSd);
+    CPPUNIT_TEST(testCircularMean);
+    CPPUNIT_TEST(testCircularSd);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -26,9 +28,11 @@ public:
     void tearDown();
 
 private:
-    void testMean();
+    void testLinearMean();
     void testVariance();
-    void testSd();
+    void testLinearSd();
+    void testCircularMean();
+    void testCircularSd();
 };
 
 #endif /* TESTCALCULATOR_H */
