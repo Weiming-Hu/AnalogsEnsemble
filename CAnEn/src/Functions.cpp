@@ -22,6 +22,8 @@ using namespace std;
 //              2 / sqrt(3) - 1 = 0.1547
 //
 static const double _YAMARTINO = 0.1547;
+const double MULTIPLY = M_PI / 180;
+const double MULTIPLY_REVERSE = 180 / M_PI;
 
 void
 Functions::updateTimeTable(
@@ -72,43 +74,40 @@ Functions::sdLinear(const vector<double> & values) {
     return (sqrt(variance(values)));
 }
 
-void
-Functions::meanCircularDecomp(const vector<double> & degs,
-        double & s, double & c) {
+double
+Functions::sdCircular(const vector<double> & values) {
 
-    vector<double> sins(degs.size());
-    vector<double> coss(degs.size());
 
-    for (size_t i = 0; i < degs.size(); i++) {
+    vector<double> sins(values.size());
+    vector<double> coss(values.size());
+
+    for (unsigned int i = 0; i < values.size(); i++) {
 
         // This is to convert from degrees to radians
         //
-        double rad = degs[i] * _DEG2RAD;
+        double rad = values[i] * MULTIPLY;
 
         sins[i] = sin(rad);
         coss[i] = cos(rad);
     }
 
-    s = mean(sins);
-    c = mean(coss);
-    return;
-}
+    double s = mean(sins);
+    double c = mean(coss);
 
-double
-Functions::sdYamartino(const double & s, const double & c) {
     // Yamartino estimator
     double e = sqrt(1.0 - (pow(s, 2.0) + pow(c, 2.0)));
     double asine = asin(e);
     double ex3 = pow(e, 3);
-    double sd = asine * (1 + _YAMARTINO * ex3);
-    return (sd * _RAD2DEG);
-}
 
-double
-Functions::sdCircular(const vector<double> & degs) {
-    double s, c;
-    meanCircularDecomp(degs, s, c);
-    return (sdYamartino(s, c));
+    // This is the best estimator that Yamartino has found
+    //              2 / sqrt(3) - 1 = 0.1547
+    //
+    const double b = 0.1547;
+
+    double q = asine * (1 + b * ex3);
+
+    // Convert back to degrees
+    return (q * MULTIPLY_REVERSE);
 }
 
 double
@@ -133,11 +132,6 @@ Functions::mean(const vector<double> & values, size_t max_nan_allowed) {
 double
 Functions::variance(const vector<double> & values) {
     double average = mean(values);
-    return (variance(values, average));
-}
-
-double
-Functions::variance(const vector<double> & values, const double & average) {
     if (std::isnan(average)) return NAN;
 
     double sum = 0.0;
@@ -145,13 +139,13 @@ Functions::variance(const vector<double> & values, const double & average) {
 
     for (const auto & value : values) {
         if (!std::isnan(value)) {
+
             sum += pow(value - average, 2);
             valid++;
         }
     }
 
-    if (valid == 1) return NAN;
-    else return (sum / ((double) valid - 1.0));
+    return (sum / ((double) valid - 1.0));
 }
 
 double

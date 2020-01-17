@@ -490,9 +490,9 @@ times_accum_index, weights, circulars, num_times, calculator_capacity)
                         }
                     } // End of loop of accumulated time indices
                 }
-            }
-        }
-    }
+            } // End of loop of FLTs
+        } // End of loop of stations
+    } // End of loop of parameters
 
     if (verbose_ >= Verbose::Debug) {
         cout << "Standard deviations: ";

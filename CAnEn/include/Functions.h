@@ -25,9 +25,6 @@ namespace Functions {
     using array_view = boost::detail::multi_array::multi_array_view<T, NDims>;
     using Matrix = boost::numeric::ublas::matrix<double>;
 
-    static const double _DEG2RAD = M_PI / 180;
-    static const double _RAD2DEG = 180 / M_PI;
-
     /**
      * Computes a lookup table which maps from forecast time and lead time
      * indices to observation time indices. If the observation time index is
@@ -55,25 +52,6 @@ namespace Functions {
     double sdLinear(const std::vector<double> & values);
 
     /**
-     * Computes the averaged decomposition of angles in degree, sine and cosine.
-     * 
-     * @param degs A vector of angles in degree.
-     * @param s The averaged sine components of the input angles.
-     * @param c The averaged cosine components of the input angles.
-     */
-    void meanCircularDecomp(const std::vector<double> & degs,
-            double & s, double & c);
-
-    /**
-     * The estimator for standard deviation using Yamartino's algorithm.
-     * 
-     * @param s The averaged sine components of the input angles.
-     * @param c The averaged cosine components of the input angles.
-     * @return The standard deviation value in degree
-     */
-    double sdYamartino(const double & s, const double & c);
-
-    /**
      * Computes the standard deviation for angles in degree.
      * 
      * @param values A vector of values.
@@ -95,8 +73,6 @@ namespace Functions {
      * @param average The average of input values.
      */
     double variance(const std::vector<double> & values);
-    double variance(const std::vector<double> & values,
-            const double & average);
     
     /**
      * Computes the difference of two circular numbers
@@ -132,23 +108,15 @@ namespace Functions {
      * Format a vector as a string for printing.
      * 
      * @param vec A vector
-     * @param delim A string deliminator
-     * @return A formatted string
-     */
-    template <typename T>
-    std::string format(const std::vector<T> & vec,
-            const std::string & delim = ",");
-    
-    /**
-     * Format a pointer as a string for printing
-     * @param ptr A pointer
      * @param len Length of the pointed object
+     * @param ptr A pointer
      * @param delim A string deliminator
      * @return A formatted string
      */
     template <typename T>
-    std::string format(const T* ptr, size_t len,
-            const std::string & delim = ",");
+    std::string format(const std::vector<T> & vec, const std::string & delim = ",");
+    template <typename T>
+    std::string format(const T* ptr, size_t len, const std::string & delim = ",");
 
     /**
      * Calculate the indices for each query object from the pool objects.
