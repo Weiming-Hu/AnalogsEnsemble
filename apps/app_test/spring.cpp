@@ -32,18 +32,6 @@ int main(int argc, char** argv) {
     read_nc.readForecasts(forecast_file, forecasts);
     read_nc.readObservations(observation_file, observations);
     
-//    for (size_t i = 0; i < forecasts.getTimes().size(); ++i) {
-//        cout << i <<",\t";
-//        for (size_t j = 0; j < forecasts.getFLTs().size(); ++j) {
-//            size_t fct_time = forecasts.getTimeStamp(i);
-//            size_t flt_time = forecasts.getFltTimeStamp(j);
-//            size_t obs_time = fct_time + flt_time;
-//            size_t obs_index = observations.getTimeIndex(obs_time);
-//            cout << observations.getValue(0,0,obs_index) << ",\t";
-//        }
-//     cout << endl; 
-//    }
-    
     size_t num_search_fcsts = 51;
     size_t search_start = 0;
     size_t num_test_fcsts = 2;

@@ -91,7 +91,7 @@ protected:
     std::vector< std::array<double, 3> > simsArr_;
 
     double computeSimMetric_(const Forecasts & forecasts, size_t sta_i,
-            double flt_i, size_t time_test_i, size_t time_search_i,
+            size_t flt_i, size_t time_test_i, size_t time_search_i,
             const std::vector<double> & weights,
             const std::vector<bool> & circulars);
 

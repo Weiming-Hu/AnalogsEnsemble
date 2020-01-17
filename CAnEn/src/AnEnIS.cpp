@@ -31,7 +31,7 @@ simsSort(const array<double, 3> & lhs,
 }
 
 AnEnIS::AnEnIS() : num_analogs_(1), obs_var_index_(0), quick_sort_(true),
-save_sims_index_(false), save_analogs_index_(false), num_sims_(0),
+save_sims_index_(false), save_analogs_index_(false), num_sims_(1),
 max_par_nan_(0), max_flt_nan_(0), flt_radius_(1) {
 }
 
@@ -65,6 +65,7 @@ num_analogs_(num_members), obs_var_index_(obs_var_index),
 quick_sort_(quick_sort), save_sims_index_(save_sims_index),
 save_analogs_index_(save_analogs_index), num_sims_(num_sims),
 max_par_nan_(max_par_nan), max_flt_nan_(max_flt_nan), flt_radius_(flt_radius) {
+    if (num_sims_ < num_analogs_) num_sims_ = num_analogs_;
 }
 
 AnEnIS::~AnEnIS() {
@@ -112,7 +113,7 @@ AnEnIS::compute(const Forecasts & forecasts,
      * Compute standard deviations
      */
     computeSds_(forecasts, weights, circulars, fcsts_search_index, fcsts_test_index);
-    
+
     /*
      * If operational mode is used, append test time indices to the end of
      * the search time indices.
@@ -136,18 +137,16 @@ AnEnIS::compute(const Forecasts & forecasts,
     const auto & fcst_times = forecasts.getTimes(),
             obs_times = observations.getTimes();
     const auto & fcst_flts = forecasts.getFLTs();
-    
+
     obsIndexTable_ = Functions::Matrix(
             fcsts_search_index.size(), fcst_flts.size(), NAN);
     Functions::updateTimeTable(fcst_times,
             fcsts_search_index, fcst_flts, obs_times, obsIndexTable_);
 
-    // TODO : perform check
-
     /*
      * Pre-allocate memory for analog computation
      */
-    if (verbose_ >= Verbose::Detail) cout << GREEN
+    if (verbose_ >= Verbose::Progress) cout << GREEN
             << "Allocating memory ..." << RESET << endl;
 
     size_t num_stations = forecasts.getStations().size(),
@@ -167,9 +166,6 @@ AnEnIS::compute(const Forecasts & forecasts,
         fill_n(analogsIndex_.data(), analogsIndex_.num_elements(), NAN);
     }
 
-    // TODO move to constructor
-    if (num_sims_ < num_analogs_) num_sims_ = num_analogs_;
-
     if (save_sims_) {
         simsMetric_.resize(boost::extents
                 [num_stations][num_test_times_index][num_flts][num_sims_]);
@@ -185,11 +181,8 @@ AnEnIS::compute(const Forecasts & forecasts,
     /*
      * Progress messages output
      */
-    if (verbose_ >= Verbose::Detail) {
-        print(cout);
-        cout << GREEN
-                << "Computing analogs ..." << RESET << endl;
-    }
+    if (verbose_ >= Verbose::Detail) print(cout);
+    if (verbose_ >= Verbose::Progress) cout << GREEN << "Computing analogs ..." << RESET << endl;
 
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(dynamic) collapse(3) \
@@ -210,7 +203,7 @@ fcsts_test_index, fcsts_search_index, forecasts, observations, weights, circular
                 for (size_t time_search_i = 0; time_search_i < num_search_times_index; ++time_search_i) {
 
                     size_t current_search_index = fcsts_search_index[time_search_i];
-                    
+
                     if (check_time_overlap_) {
                         /*
                          * Check whether to search this time when overlapping time is prohibited
@@ -234,9 +227,13 @@ fcsts_test_index, fcsts_search_index, forecasts, observations, weights, circular
                     double obs = observations.getValue(obs_var_index_, sta_i, obs_time_index);
                     if (std::isnan(obs)) continue;
 
-                    /*
-                     * Compute the metric for this station, flt and test time
-                     */
+                    /***********************************************************
+                     *                                                         *
+                     *                   Computation Core                      *
+                     *                                                         *
+                     * Compute the metric for this station, flt, and test time *
+                     *                                                         *
+                     **********************************************************/
                     double metric = computeSimMetric_(
                             forecasts, sta_i, flt_i, current_test_index,
                             current_search_index, weights, circulars);
@@ -259,10 +256,10 @@ fcsts_test_index, fcsts_search_index, forecasts, observations, weights, circular
                  * Output values and indices
                  */
                 for (size_t analog_i = 0; analog_i < num_analogs_; ++analog_i) {
-                    
+
                     size_t obs_time_index = simsArr_[analog_i][_SIM_OBS_INDEX];
                     double obs_value = observations.getValue(obs_var_index_, sta_i, obs_time_index);
-                    
+
                     // Assign the analog value from the observation
                     analogsValue_[sta_i][time_test_i][flt_i][analog_i] = obs_value;
 
@@ -273,17 +270,17 @@ fcsts_test_index, fcsts_search_index, forecasts, observations, weights, circular
 
                 if (save_sims_index_ || save_sims_) {
                     for (size_t sim_i = 0; sim_i < num_sims_; ++sim_i) {
-                        
+
                         if (save_sims_) {
                             // Assign similarity metric value
                             simsMetric_[sta_i][time_test_i][flt_i][sim_i] =
-                                simsArr_[sim_i][_SIM_VALUE_INDEX];
+                                    simsArr_[sim_i][_SIM_VALUE_INDEX];
                         }
-                        
+
                         if (save_sims_index_) {
                             // Assign similarity metric index
                             simsIndex_[sta_i][time_test_i][flt_i][sim_i] =
-                                simsArr_[sim_i][_SIM_FCST_INDEX];
+                                    simsArr_[sim_i][_SIM_FCST_INDEX];
                         }
                     }
                 }
@@ -362,7 +359,7 @@ operator<<(std::ostream & os, const AnEnIS & obj) {
 
 double
 AnEnIS::computeSimMetric_(const Forecasts & forecasts,
-        size_t sta_i, double flt_i, size_t time_test_i, size_t time_search_i,
+        size_t sta_i, size_t flt_i, size_t time_test_i, size_t time_search_i,
         const vector<double> & weights, const vector<bool> & circulars) {
 
     /*
@@ -372,8 +369,8 @@ AnEnIS::computeSimMetric_(const Forecasts & forecasts,
     size_t count_par_nan = 0;
     size_t num_pars = forecasts.getParameters().size();
     size_t num_flts = forecasts.getFLTs().size();
-    size_t flt_i_start = (flt_i - flt_radius_ < 0 ? 0 : flt_i - flt_radius_);
-    size_t flt_i_end = (flt_i + flt_radius_ == num_flts ? num_flts - 1 : flt_i + flt_radius_);
+    size_t flt_i_start = (flt_i <= flt_radius_ ? 0 : flt_i - flt_radius_);
+    size_t flt_i_end = (flt_i + flt_radius_ >= num_flts ? num_flts - 1 : flt_i + flt_radius_);
     vector<double> window(flt_i_end - flt_i_start + 1);
 
     /*
@@ -381,47 +378,40 @@ AnEnIS::computeSimMetric_(const Forecasts & forecasts,
      */
     for (size_t par_i = 0; par_i < num_pars; par_i++) {
 
-        if (weights[par_i] != 0) {
+        if (weights[par_i] == 0) continue;
+        
+        for (size_t pos = 0, window_i = flt_i_start; window_i <= flt_i_end; ++window_i, ++pos) {
 
-            size_t pos = 0;
+            double value_search = forecasts.getValue(par_i, sta_i, time_search_i, window_i);
+            double value_test = forecasts.getValue(par_i, sta_i, time_test_i, window_i);
 
-            for (size_t window_i = flt_i_start; window_i <= flt_i_end;
-                    ++window_i, ++pos) {
-
-                double value_search = forecasts.getValue(
-                        par_i, sta_i, time_search_i, window_i);
-                double value_test = forecasts.getValue(
-                        par_i, sta_i, time_test_i, window_i);
-
-                if (std::isnan(value_search) || std::isnan(value_test)) {
-                    window[pos] = NAN;
-                } else {
-                    if (circulars[par_i]) {
-                        window[pos] = pow(Functions::diffCircular(
-                                value_search, value_test), 2);
-                    } else {
-                        window[pos] = pow(value_search - value_test, 2);
-                    }
-                }
-            } // End loop of the lead time window
-
-            double average = Functions::mean(window, max_flt_nan_);
-
-            if (std::isnan(average)) {
-                ++count_par_nan;
-                if (count_par_nan > max_par_nan_) return NAN;
+            if (std::isnan(value_search) || std::isnan(value_test)) {
+                window[pos] = NAN;
             } else {
-
-                if (operational_) {
-                    sd = sds_[par_i][sta_i][flt_i][time_test_i];
+                if (circulars[par_i]) {
+                    window[pos] = pow(Functions::diffCircular(value_search, value_test), 2);
                 } else {
-                    sd = sds_[par_i][sta_i][flt_i][0];
+                    window[pos] = pow(value_search - value_test, 2);
                 }
+            }
+        } // End loop of the lead time window
 
-                sim += weights[par_i] * (sqrt(average) / sd);
+        double average = Functions::mean(window, max_flt_nan_);
+
+        if (std::isnan(average)) {
+            ++count_par_nan;
+            if (count_par_nan > max_par_nan_) return NAN;
+        } else {
+
+            if (operational_) {
+                sd = sds_[par_i][sta_i][flt_i][time_test_i];
+            } else {
+                sd = sds_[par_i][sta_i][flt_i][0];
             }
 
-        } // End of check of the the parameter weight
+            sim += weights[par_i] * (sqrt(average) / sd);
+        }
+
     } // End loop of parameters
 
     return sim;
@@ -464,20 +454,20 @@ times_accum_index, weights, circulars, num_times, calculator_capacity)
     for (size_t par_i = 0; par_i < num_parameters; ++par_i) {
         for (size_t sta_i = 0; sta_i < num_stations; ++sta_i) {
             for (size_t flt_i = 0; flt_i < num_flts; ++flt_i) {
-                
+
                 // Skip the iteration if the weight is 0
                 if (weights[par_i] == 0) continue;
-                
+
                 // Initialize a calculator
                 Calculator calc(circulars[par_i], calculator_capacity);
                 double value;
-                
+
                 // Push values into the calculator if it is not NAN
                 for (size_t i = 0; i < times_fixed_index.size(); ++i) {
                     value = forecasts.getValue(par_i, sta_i, times_fixed_index[i], flt_i);
                     if (!std::isnan(value)) calc.pushValue(value);
                 }
-                
+
                 // Calculate standard deviation
                 sds_[par_i][sta_i][flt_i][0] = calc.sd();
 
@@ -490,11 +480,11 @@ times_accum_index, weights, circulars, num_times, calculator_capacity)
                         if (std::isnan(value)) {
                             // Copy the value from previous iteration if the value is NAN
                             sds_[par_i][sta_i][flt_i][time_i] = sds_[par_i][sta_i][flt_i][time_i - 1];
-                            
+
                         } else {
                             // Push the valid value into the calculator
                             calc.pushValue(value);
-                            
+
                             // Update the running standard deviation
                             sds_[par_i][sta_i][flt_i][time_i] = calc.sd();
                         }
