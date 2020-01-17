@@ -32,33 +32,6 @@ AnEnWriteNcdf::AnEnWriteNcdf(const AnEnWriteNcdf& orig) {
 AnEnWriteNcdf::~AnEnWriteNcdf() {
 }
 
-void
-AnEnWriteNcdf::writeAnalogs(
-        const string & file_path,
-        const Analogs & analogs,
-        const Stations & analogs_stations,
-        const Times & analogs_times,
-        const Times & analogs_flts,
-        const Stations & search_stations,
-        const Times & search_times) const {
-
-    if (verbose_ >= Verbose::Progress) {
-        cout << "Writing analog file (" << file_path << ") ..." << endl;
-    }
-
-    checkPath(file_path, Ncdf::Mode::Write);
-
-    //    writeAnalogsOnly_(analogs); ****Done****
-    //    handleError(writeStations(test_stations, false));
-    //    handleError(writeTimes(test_times, false));
-    //    handleError(writeFLTs(flts, false));
-    //    handleError(writeStations(search_stations, false, _MEMBER_DIM_PREFIX, _MEMBER_VAR_PREFIX));
-    //    handleError(writeTimes(search_times, false,
-    //            _MEMBER_DIM_PREFIX + "num_times", _MEMBER_VAR_PREFIX + "Times"));
-
-    return;
-}
-
 NcDim
 AnEnWriteNcdf::getDim_(const NcFile & nc, string name, size_t len) const {
     

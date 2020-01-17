@@ -36,14 +36,6 @@ public:
     AnEnWriteNcdf(const AnEnWriteNcdf& orig);
     virtual ~AnEnWriteNcdf();
 
-    void writeAnalogs(const std::string & file_path,
-            const Analogs & analogs,
-            const Stations & analog_stations,
-            const Times & analog_times,
-            const Times & analog_flts,
-            const Stations & search_stations,
-            const Times & search_times) const;
-
 protected:
     AnEnDefaults::Verbose verbose_;
 
