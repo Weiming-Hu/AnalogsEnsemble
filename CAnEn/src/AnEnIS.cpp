@@ -99,6 +99,22 @@ AnEnIS::compute(const Forecasts & forecasts,
             << "Start AnEnIS generation ..." << RESET << endl;
 
     /*
+     * Read weights and circular flags from forecast parameters into vectors
+     */
+    const auto & parameters = forecasts.getParameters();
+
+    vector<double> weights;
+    vector<bool> circulars;
+
+    parameters.getWeights(weights);
+    parameters.getCirculars(circulars);
+
+    /*
+     * Compute standard deviations
+     */
+    computeSds_(forecasts, weights, circulars, fcsts_search_index, fcsts_test_index);
+    
+    /*
      * If operational mode is used, append test time indices to the end of
      * the search time indices.
      */
@@ -126,22 +142,6 @@ AnEnIS::compute(const Forecasts & forecasts,
             fcsts_search_index.size(), fcst_flts.size(), NAN);
     Functions::updateTimeTable(fcst_times,
             fcsts_search_index, fcst_flts, obs_times, obsIndexTable_);
-
-    /*
-     * Read weights and circular flags from forecast parameters into vectors
-     */
-    const auto & parameters = forecasts.getParameters();
-
-    vector<double> weights;
-    vector<bool> circulars;
-
-    parameters.getWeights(weights);
-    parameters.getCirculars(circulars);
-
-    /*
-     * Compute standard deviations
-     */
-    computeSds_(forecasts, weights, circulars, fcsts_search_index, fcsts_test_index);
 
     // TODO : perform check
 
@@ -422,17 +422,6 @@ AnEnIS::computeSimMetric_(const Forecasts & forecasts,
 
                 sim += weights[par_i] * (sqrt(average) / sd);
             }
-
-//            double fcst_search = forecasts.getValue(
-//                    par_i, sta_i, time_search_i, flt_i);
-//            double fcst_test = forecasts.getValue(
-//                    par_i, sta_i, time_test_i, flt_i);
-//
-//            cout << "Parameter, " << par_i << ", Train, " << time_search_i << ", Test, " << time_test_i
-//                    << ", flt, " << flt_i << ", forecast_search, " << fcst_search
-//                    << ", forecast_test, " << fcst_test
-//                    << ", observation, " << obs_global
-//                    << ", sd, " << sd << ", mean, " << average << ", metric, " << sim << endl;
 
         } // End of check of the the parameter weight
     } // End loop of parameters
