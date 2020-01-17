@@ -20,17 +20,17 @@ public:
     AnEnIS(const AnEnIS& orig);
     AnEnIS(size_t num_members,
             bool operational = AnEnDefaults::_OPERATIONAL,
-            bool check_time_overlap = AnEnDefaults::_CHECK_TIME_OVERLAP,
+            bool check_search_future = AnEnDefaults::_CHECK_SEARCH_FUTURE,
             bool save_sims = AnEnDefaults::_SAVE_SIMS,
             AnEnDefaults::Verbose verbose = AnEnDefaults::_VERBOSE,
-            size_t obs_var_index = 0,
-            bool quick_sort = true,
-            bool save_sims_index = false,
-            bool save_analogs_index = false,
-            size_t num_sims = 0,
-            size_t max_par_nan = 0,
-            size_t max_flt_nan = 0,
-            size_t flt_radius = 1);
+            size_t obs_var_index = AnEnDefaults::_OBS_VAR_INDEX,
+            bool quick_sort = AnEnDefaults::_QUICK_SORT,
+            bool save_sims_index = AnEnDefaults::_SAVE_SIMS_INDEX,
+            bool save_analogs_index = AnEnDefaults::_SAVE_ANALOGS_INDEX,
+            size_t num_sims = AnEnDefaults::_NUM_SIMS,
+            size_t max_par_nan = AnEnDefaults::_MAX_PAR_NAN,
+            size_t max_flt_nan = AnEnDefaults::_MAX_FLT_NAN,
+            size_t flt_radius = AnEnDefaults::_FLT_RADIUS);
     
     virtual ~AnEnIS();
 
@@ -90,6 +90,7 @@ protected:
      */
     std::vector< std::array<double, 3> > simsArr_;
 
+    
     double computeSimMetric_(const Forecasts & forecasts, size_t sta_i,
             size_t flt_i, size_t time_test_i, size_t time_search_i,
             const std::vector<double> & weights,
@@ -99,8 +100,8 @@ protected:
      * Compute standard deviation for search forecasts. When the operational
      * mode is true, it requires a valid input for times_accum_index for which
      * the running standard deviation are calculated. Note that this function
-     * is very permissive on NA values and it removes NA values during the
-     * calculation.
+     * is very permissive on NAN values that it removes all NAN values during
+     * the calculation.
      * 
      * @param forecasts Forecasts
      * @param weights Weights from input forecasts.
@@ -115,6 +116,10 @@ protected:
             const std::vector<bool> & circulars,
             const std::vector<size_t> & times_fixed_index,
             const std::vector<size_t> & times_accum_index = {});
+    
+    void checkIndexRange_(const Forecasts & forecasts,
+            const std::vector<size_t> & fcsts_test_index,
+            const std::vector<size_t> & fcsts_search_index) const;
 };
 
 #endif /* ANENIS_H */

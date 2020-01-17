@@ -30,9 +30,16 @@ simsSort(const array<double, 3> & lhs,
     return (lhs[_SIM_VALUE_INDEX] < rhs[_SIM_VALUE_INDEX]);
 }
 
-AnEnIS::AnEnIS() : num_analogs_(1), obs_var_index_(0), quick_sort_(true),
-save_sims_index_(false), save_analogs_index_(false), num_sims_(1),
-max_par_nan_(0), max_flt_nan_(0), flt_radius_(1) {
+AnEnIS::AnEnIS() : AnEn(),
+num_analogs_(AnEnDefaults::_NUM_ANALOGS),
+obs_var_index_(AnEnDefaults::_OBS_VAR_INDEX),
+quick_sort_(AnEnDefaults::_QUICK_SORT),
+save_sims_index_(AnEnDefaults::_SAVE_SIMS_INDEX),
+save_analogs_index_(AnEnDefaults::_SAVE_ANALOGS_INDEX),
+num_sims_(AnEnDefaults::_NUM_SIMS),
+max_par_nan_(AnEnDefaults::_MAX_PAR_NAN),
+max_flt_nan_(AnEnDefaults::_MAX_FLT_NAN),
+flt_radius_(AnEnDefaults::_FLT_RADIUS) {
 }
 
 AnEnIS::AnEnIS(const AnEnIS& orig) : AnEn(orig) {
@@ -49,7 +56,7 @@ AnEnIS::AnEnIS(const AnEnIS& orig) : AnEn(orig) {
 
 AnEnIS::AnEnIS(size_t num_members,
         bool operational,
-        bool time_overlap_check,
+        bool check_search_future,
         bool save_sims,
         Verbose verbose,
         size_t obs_var_index,
@@ -60,12 +67,13 @@ AnEnIS::AnEnIS(size_t num_members,
         size_t max_par_nan,
         size_t max_flt_nan,
         size_t flt_radius) :
-AnEn(operational, time_overlap_check, save_sims, verbose),
+AnEn(operational, check_search_future, save_sims, verbose),
 num_analogs_(num_members), obs_var_index_(obs_var_index),
 quick_sort_(quick_sort), save_sims_index_(save_sims_index),
 save_analogs_index_(save_analogs_index), num_sims_(num_sims),
 max_par_nan_(max_par_nan), max_flt_nan_(max_flt_nan), flt_radius_(flt_radius) {
     if (num_sims_ < num_analogs_) num_sims_ = num_analogs_;
+    if (operational_) check_search_future_ = true;
 }
 
 AnEnIS::~AnEnIS() {
@@ -97,7 +105,9 @@ AnEnIS::compute(const Forecasts & forecasts,
 
     if (verbose_ >= Verbose::Progress) cout << GREEN
             << "Start AnEnIS generation ..." << RESET << endl;
-
+    
+    checkIndexRange_(forecasts, fcsts_test_index, fcsts_search_index);
+    
     /*
      * Read weights and circular flags from forecast parameters into vectors
      */
@@ -121,13 +131,13 @@ AnEnIS::compute(const Forecasts & forecasts,
     if (operational_) {
         fcsts_search_index.insert(fcsts_search_index.end(),
                 fcsts_test_index.begin(), fcsts_test_index.end());
+    }
 
-        // Check for ascending order
-        if (!is_sorted(fcsts_search_index.begin(), fcsts_search_index.end())) {
-            ostringstream msg;
-            msg << BOLDRED << "Test must be after search in operation" << RESET;
-            throw runtime_error(msg.str());
-        }
+    // Check for ascending order
+    if (!is_sorted(fcsts_search_index.begin(), fcsts_search_index.end())) {
+        ostringstream msg;
+        msg << BOLDRED << "Test must be after search in operation" << RESET;
+        throw runtime_error(msg.str());
     }
 
     /*
@@ -153,8 +163,6 @@ AnEnIS::compute(const Forecasts & forecasts,
             num_flts = forecasts.getFLTs().size(),
             num_test_times_index = fcsts_test_index.size(),
             num_search_times_index = fcsts_search_index.size();
-
-    simsArr_.resize(num_search_times_index, _INIT_ARR_VALUE);
 
     analogsValue_.resize(boost::extents
             [num_stations][num_test_times_index][num_flts][num_analogs_]);
@@ -196,6 +204,10 @@ fcsts_test_index, fcsts_search_index, forecasts, observations, weights, circular
                 size_t current_test_index = fcsts_test_index[time_test_i];
                 double current_test_time = forecasts.getTimeStamp(current_test_index);
                 double current_flt_offset = forecasts.getFltTimeStamp(flt_i);
+                
+                // Initialize similarity array values
+                simsArr_.resize(0);
+                simsArr_.resize(num_search_times_index, _INIT_ARR_VALUE);
 
                 /*
                  * Compute similarity for all search times
@@ -203,20 +215,19 @@ fcsts_test_index, fcsts_search_index, forecasts, observations, weights, circular
                 for (size_t time_search_i = 0; time_search_i < num_search_times_index; ++time_search_i) {
 
                     size_t current_search_index = fcsts_search_index[time_search_i];
+                    
+                    /*
+                     * Comparing to the test forecast itself is strictly forbidden
+                     */
+                    if (current_search_index == current_test_index) continue;
 
-                    if (check_time_overlap_) {
+                    if (check_search_future_) {
                         /*
-                         * Check whether to search this time when overlapping time is prohibited
+                         * Check whether current valid forecast time exceeds test forecast initialization time
+                         * for which the corresponding observation is not available
                          */
-                        double current_search_time = forecasts.getTimeIndex(current_search_index);
+                        double current_search_time = forecasts.getTimeStamp(current_search_index);
                         if (current_search_time + current_flt_offset >= current_test_time) continue;
-                    }
-
-                    if (operational_) {
-                        /*
-                         * Check whether to search this time in operational mode
-                         */
-                        if (current_search_index >= current_test_index) continue;
                     }
 
                     // Check whether this search time is found in observations
@@ -240,7 +251,7 @@ fcsts_test_index, fcsts_search_index, forecasts, observations, weights, circular
 
                     // Save the similarity metric with corresponding indices
                     simsArr_[time_search_i][_SIM_VALUE_INDEX] = metric;
-                    simsArr_[time_search_i][_SIM_FCST_INDEX] = current_test_index;
+                    simsArr_[time_search_i][_SIM_FCST_INDEX] = current_search_index;
                     simsArr_[time_search_i][_SIM_OBS_INDEX] = obs_time_index;
                 }
 
@@ -257,7 +268,9 @@ fcsts_test_index, fcsts_search_index, forecasts, observations, weights, circular
                  */
                 for (size_t analog_i = 0; analog_i < num_analogs_; ++analog_i) {
 
-                    size_t obs_time_index = simsArr_[analog_i][_SIM_OBS_INDEX];
+                    double obs_time_index = simsArr_[analog_i][_SIM_OBS_INDEX];
+                    if (std::isnan(obs_time_index)) continue;
+
                     double obs_value = observations.getValue(obs_var_index_, sta_i, obs_time_index);
 
                     // Assign the analog value from the observation
@@ -284,6 +297,8 @@ fcsts_test_index, fcsts_search_index, forecasts, observations, weights, circular
                         }
                     }
                 }
+                
+                
             }
         }
     }
@@ -294,22 +309,22 @@ fcsts_test_index, fcsts_search_index, forecasts, observations, weights, circular
 
 const Array4D &
 AnEnIS::getSimsValue() const {
-    return (simsMetric_);
+    return simsMetric_;
 }
 
 const Array4D &
 AnEnIS::getSimsIndex() const {
-    return (simsIndex_);
+    return simsIndex_;
 }
 
 const Array4D &
 AnEnIS::getAnalogsValue() const {
-    return (analogsValue_);
+    return analogsValue_;
 }
 
 const Array4D &
 AnEnIS::getAnalogsIndex() const {
-    return (analogsIndex_);
+    return analogsIndex_;
 }
 
 void
@@ -322,7 +337,7 @@ AnEnIS::print(std::ostream & os) const {
             << "observation variable index: " << obs_var_index_ << endl
             << "quick sort: " << quick_sort_ << endl
             << "operational: " << operational_ << endl
-            << "check time overlap: " << check_time_overlap_ << endl
+            << "check time overlap: " << check_search_future_ << endl
             << "save analog time indices: " << save_analogs_index_ << endl
             << "save similarity: " << save_sims_ << endl
             << "save similarity time indices: " << save_sims_index_ << endl;
@@ -379,7 +394,7 @@ AnEnIS::computeSimMetric_(const Forecasts & forecasts,
     for (size_t par_i = 0; par_i < num_pars; par_i++) {
 
         if (weights[par_i] == 0) continue;
-        
+
         for (size_t pos = 0, window_i = flt_i_start; window_i <= flt_i_end; ++window_i, ++pos) {
 
             double value_search = forecasts.getValue(par_i, sta_i, time_search_i, window_i);
@@ -465,6 +480,8 @@ times_accum_index, weights, circulars, num_times, calculator_capacity)
                 // Push values into the calculator if it is not NAN
                 for (size_t i = 0; i < times_fixed_index.size(); ++i) {
                     value = forecasts.getValue(par_i, sta_i, times_fixed_index[i], flt_i);
+                    
+                    // Remove NAN value
                     if (!std::isnan(value)) calc.pushValue(value);
                 }
 
@@ -504,5 +521,33 @@ times_accum_index, weights, circulars, num_times, calculator_capacity)
         cout << endl;
     }
 
+    return;
+}
+
+void
+AnEnIS::checkIndexRange_(const Forecasts & forecasts,
+        const vector<size_t> & fcsts_test_index,
+        const vector<size_t> & fcsts_search_index) const {
+    
+    size_t num_times = forecasts.getTimes().size();
+    
+    auto max_it = max_element(fcsts_test_index.begin(), fcsts_test_index.end());
+    if (*max_it >= num_times) {
+        ostringstream msg;
+        msg << BOLDRED << "Forecast test time index maximum (" << *max_it
+                << ") exceeds the number of times (" << num_times
+                << ")" << RESET;
+        throw range_error(msg.str());
+    }
+    
+    max_it = max_element(fcsts_search_index.begin(), fcsts_search_index.end());
+    if (*max_it >= num_times) {
+        ostringstream msg;
+        msg << BOLDRED << "Forecast search time index maximum (" << *max_it
+                << ") exceeds the number of times (" << num_times
+                << ")" << RESET;
+        throw range_error(msg.str());
+    }
+    
     return;
 }

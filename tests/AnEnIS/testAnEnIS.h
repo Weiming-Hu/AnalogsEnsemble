@@ -9,48 +9,51 @@
 #define TESTANEN_H
 
 #include "AnEnIS.h"
-#include "ForecastsArray.h"
-#include "ObservationsArray.h"
+#include "Forecasts.h"
+#include "Observations.h"
 
 #include <cppunit/extensions/HelperMacros.h>
 
 class testAnEnIS : public CPPUNIT_NS::TestFixture, public AnEnIS {
     CPPUNIT_TEST_SUITE(testAnEnIS);
 
-    //    CPPUNIT_TEST(testAutomaticDelteOverlappingTimes);
-    //    CPPUNIT_TEST(testCompute);
-    //    CPPUNIT_TEST(testOperationalSearch);
-    //    CPPUNIT_TEST(testLeaveOneOut);
-    //    CPPUNIT_TEST(testOpenMP);
+    CPPUNIT_TEST(testOpenMP_);
     CPPUNIT_TEST(testFixedLengthSds_);
     CPPUNIT_TEST(compareOperationalSds_);
+    CPPUNIT_TEST(compareComputeLeaveOneOut_);
+    CPPUNIT_TEST(compareComputeOperational_);
 
     CPPUNIT_TEST_SUITE_END();
 
 public:
     testAnEnIS();
     virtual ~testAnEnIS();
-    
+
     void setUp();
     void tearDown();
-    
+
     void setUpSds();
     void tearDownSds();
+
+    void setUpCompute();
+    void tearDownCompute();
 
 private:
     Parameters parameters_;
     Stations stations_;
-    Times times_;
+    Times fcst_times_;
+    Times obs_times_;
     Times flts_;
-    
+
+    void testOpenMP_();
     void testFixedLengthSds_();
     void compareOperationalSds_();
-    //    void testAutomaticDeleteOverlappingTimes();
-    //    void testCompute();
-    //    void testOperationalSearch();
-    //    void testLeaveOneOut();
-    //    void testOpenMP();
+    void compareComputeOperational_();
+    void compareComputeLeaveOneOut_();
+    
+    void randomizeForecasts_(Forecasts & fcsts,
+            double nan_prob, size_t min_valid_count = 0) const;
+    void randomizeObservations_(Observations & obs, double nan_prob) const;
 };
 
 #endif /* TESTANEN_H */
-

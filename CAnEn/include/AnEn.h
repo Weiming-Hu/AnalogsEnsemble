@@ -18,7 +18,7 @@ public:
     AnEn();
     AnEn(const AnEn& orig);
     AnEn(bool operational,
-            bool check_time_overlap = AnEnDefaults::_CHECK_TIME_OVERLAP,
+            bool check_search_future_ = AnEnDefaults::_CHECK_SEARCH_FUTURE,
             bool save_sims = AnEnDefaults::_SAVE_SIMS,
             AnEnDefaults::Verbose verbose = AnEnDefaults::_VERBOSE);
     virtual ~AnEn();
@@ -29,7 +29,7 @@ public:
 
 protected:
     bool operational_;
-    bool check_time_overlap_;
+    bool check_search_future_;
     bool save_sims_;
     AnEnDefaults::Verbose verbose_;
 };
