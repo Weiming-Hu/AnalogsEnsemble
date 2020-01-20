@@ -44,7 +44,6 @@
 #' @useDynLib RAnEn
 #' 
 #' @md
-#' @export
 generateSearchStations <- function(
   test_stations_x, test_stations_y,
   search_stations_x, search_stations_y,

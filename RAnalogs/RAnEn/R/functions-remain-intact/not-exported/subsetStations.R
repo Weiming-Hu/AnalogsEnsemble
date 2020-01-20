@@ -74,7 +74,6 @@
 #' 
 #' 
 #' @md
-#' @export
 subsetStations <- function(index, l, verbose = T) {
 	
 	# Sanity check

@@ -28,7 +28,6 @@
 #' @return An AnEn class object.
 #' 
 #' @md
-#' @export
 readAnEn <- function(file.analogs, file.similarity = NULL, verbose = F, split = 0) {
   
   if (!requireNamespace('ncdf4', quietly = T)) {

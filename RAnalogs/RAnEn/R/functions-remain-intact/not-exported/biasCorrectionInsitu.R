@@ -44,7 +44,6 @@
 #' 
 #' @return An AnEn object.
 #' 
-#' @export
 biasCorrectionInsitu <- function(
   AnEn, config, forecast.ID, group.func = mean, ...,
   keep.bias = F, show.progress = F, overwrite = F, density.limit = 1) {

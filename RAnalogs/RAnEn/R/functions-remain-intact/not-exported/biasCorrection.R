@@ -43,7 +43,6 @@
 #'                        num.cores = 5, method = 'nnet')
 #' }
 #' 
-#' @export
 biasCorrection <- function(..., method = 'insitu') {
   
   if (method == 'insitu') {
