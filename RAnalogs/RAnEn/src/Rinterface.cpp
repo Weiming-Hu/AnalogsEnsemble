@@ -9,14 +9,11 @@
 
 // [[Rcpp::plugins(cpp11)]]
 // [[Rcpp::plugins(openmp)]]
-//
-#include <Rcpp.h>
-#include <iostream>
 
-#include <boost/numeric/ublas/io.hpp>
+#include <Rcpp.h>
 #include <stdexcept>
 
-#include "AnEn.h"
+#include "AnEnIS.h"
 #include "colorTexts.h"
 
 using namespace Rcpp;
@@ -24,11 +21,6 @@ using namespace Rcpp;
 #if defined(_OPENMP)
 #include <omp.h>
 #endif
-
-// Rcpp::Rcout is the wrapper for std::cout in Rcpp
-#define cout Rcpp::Rcout
-#define cerr Rcpp::Rcerr
-#define endl std::endl
 
 // [[Rcpp::export(".checkOpenMP")]]
 
@@ -48,11 +40,11 @@ NumericVector generateSearchStations(
         NumericVector R_search_forecasts_station_x,
         NumericVector R_search_forecasts_station_y,
         size_t max_num_search_stations, double distance,
-        size_t num_nearest_stations, 
+        size_t num_nearest_stations,
         NumericVector R_test_station_tags,
         NumericVector R_search_station_tags,
         int verbose) {
-    throw runtime_error("Not implemented");
+    throw std::runtime_error("Not implemented");
 }
 
 
@@ -63,13 +55,70 @@ NumericVector generateTimeMapping(
         NumericVector R_flts_forecasts,
         NumericVector R_times_observations,
         int time_match_mode, int verbose) {
-    throw runtime_error("Not implemented");
+    throw std::runtime_error("Not implemented");
 }
 
-// [[Rcpp::export(".generateAnalogs")]]
+// https://gallery.rcpp.org/articles/simple-array-class/
 
-List generateAnalogs(List list) {
-    return(list)
+// [[Rcpp::export(".computeAnEnIS")]]
+
+List computeAnEnIS(SEXP R_config) {
+
+    /***************************************************************************
+     *                   Convert objects for AnEn computation                  *
+     **************************************************************************/
+
+    // R data type to C++ data type
+    List config(R_config);
+
+    // Observations
+    config["search_observations"];
+    config["observation_times"];
+
+    // Forecasts
+    config["flts"];
+    config["weights"];
+    config["circulars"];
+    config["forecasts"];
+    config["forecast_times"];
+
+    // Verbose
+    AnEnDefaults::Verbose verbose;
+    as<size_t>(config["verbose"]);
+
+    /***************************************************************************
+     *                           AnEn Computation                              *
+     **************************************************************************/
+
+    // AnEnIS initialization
+    AnEnIS anen(
+            as<size_t>(config["num_members"]),
+            as<bool>(config["operational"]),
+            as<bool>(config["check_search_future"]),
+            as<bool>(config["preserve_similarity"]),
+            verbose,
+            as<size_t>(config["observation_id"]),
+            as<bool>(config["quick"]),
+            as<bool>(config["preserve_similarity_index"]),
+            as<bool>(config["preserve_analogs_index"]),
+            as<size_t>(config["max_num_sims"]),
+            as<size_t>(config["max_par_nan"]),
+            as<size_t>(config["max_flt_nan"]),
+            as<size_t>(config["FLT_radius"]));
+
+    // Compute analogs
+    try {
+//        anen.compute(forecasts, observations, test_times, search_times);
+    } catch (std::exception & ex) {
+        forward_exception_to_r(ex);
+    } catch (...) {
+        ::Rf_error("C++ exception (unknown reason)");
+    }
+
+    /***************************************************************************
+     *                           Wrap Up Results                               *
+     **************************************************************************/
+    return (config);
 }
 
 //List generateAnalogs(

@@ -19,7 +19,7 @@
 #' @param AnEn An AnEn class object.
 #' @param member The name of member to convert indices.
 #' @return An AnEn class object.
-#' @export
+
 AnEnC2R <- function(AnEn, member) {
   if (class(AnEn) != 'AnEn') {
     stop("The conversion only accepts AnEn class.")

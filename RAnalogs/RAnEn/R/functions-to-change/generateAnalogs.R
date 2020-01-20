@@ -55,7 +55,7 @@
 #' @useDynLib RAnEn
 #' 
 #' @md
-#' @export
+
 generateAnalogs <- function(configuration) {
   
   configuration <- formatConfiguration(configuration, configuration$verbose > 2)

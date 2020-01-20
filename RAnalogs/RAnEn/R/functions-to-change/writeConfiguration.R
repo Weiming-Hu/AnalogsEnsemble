@@ -29,7 +29,6 @@
 #' @param silent Whether to be silent.
 #' 
 #' @md
-#' @export
 writeConfiguration <- function(config, obs.par.names, fcsts.par.names,
                                xs, ys, file.prefix = '', folder = './',
                                silent = F) {

@@ -23,7 +23,7 @@
 #' @return A boolean whether the configuration object is fully configured and
 #' ready to be used in computation.
 #' 
-#' @export
+
 validateConfiguration <- function(x) {
   
   # Check input class

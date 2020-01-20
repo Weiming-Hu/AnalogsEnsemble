@@ -90,7 +90,7 @@
 #' }
 #' 
 #' @md
-#' @export
+
 generateHPCWorkflow <- function(
   test.start, test.end, search.start, search.end,
   fcst.files, obs.files, fcst.max.flt,

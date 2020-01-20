@@ -93,7 +93,7 @@
 #' with a different mode, you need to call the function again with the desired mode.
 #' 
 #' @md
-#' @export
+
 generateConfiguration <- function(mode, advanced = F) {
   
   available.modes <- c('independentSearch', 'extendedSearch')

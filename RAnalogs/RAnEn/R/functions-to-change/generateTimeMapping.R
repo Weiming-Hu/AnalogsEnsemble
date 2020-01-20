@@ -35,7 +35,7 @@
 #' 
 #' @useDynLib RAnEn
 #' 
-#' @export
+
 generateTimeMapping <- function(
   forecast_times, forecast_flts, observation_times, time_match_mode = 0, verbose = 2) {
   

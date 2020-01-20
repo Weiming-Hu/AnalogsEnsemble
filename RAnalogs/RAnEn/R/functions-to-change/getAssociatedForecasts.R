@@ -43,7 +43,7 @@
 #' member.
 #' 
 #' @md
-#' @export
+
 getAssociatedForecasts <- function(
   AnEn, config, forecast.parameter,
   i.station = NULL, i.test.day = NULL, i.flt = NULL,
