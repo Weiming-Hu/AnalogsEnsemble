@@ -13,16 +13,33 @@
 #   Deprecated   #
 ##################
 
+DEPRECATED_MESSAGE = "The function has been deprecated."
+
 #' RAnEn::rcpp_compute_analogs
 #' 
 #' @export
 rcpp_compute_analogs <- function(...) {
-  stop("This function is deprecated.")
+  stop(DEPRECATED_MESSAGE)
 }
 
 #' RAnEn::compute_analogs
 #' 
 #' @export
 compute_analogs <- function(...) {
-  stop("This function is deprecated.")
+  stop(DEPRECATED_MESSAGE)
+}
+
+#' RAnEn::convertToAdvance
+#' 
+#' @export
+convertToAdvance <- function(...) {
+  stop(DEPRECATED_MESSAGE)
+}
+
+
+#' RAnEn::formatConfiguration
+#' 
+#' @export
+formatConfiguration <- function (...) {
+  stop(DEPRECATED_MESSAGE)
 }
