@@ -42,16 +42,25 @@ string(TIMESTAMP LIBRARY_CONFIGURE_TIMESTAMP "%Y-%m-%d_%H:%M")
 configure_file("${RAnEn_PACKAGE_DIR}/DESCRIPTION.in" "${RAnEn_PACKAGE_DIR}/DESCRIPTION")
 
 # copy files
-set(REQUIRED_FILE_NAME "Analogs;AnEn;Array4D;Forecasts;Observations;Parameters;SimilarityMatrices;StandardDeviation;Stations;Times;errorType;Functions")
+set(REQUIRED_SOURCE_FILES "BasicData;Forecasts;Observations;ForecastsArray;ObservationsArray;Parameters;Stations;Times;AnEn;AnEnIS;Calculator")
+set(REQUIRED_TEMPLATE_FILES "Functions")
+set(REQUIRED_HEADER_ONLY_FILES "AnEnDefaults;BmDim;colorTexts")
 
-foreach(file_name ${REQUIRED_FILE_NAME})
-    file(COPY "${RAnEn_EXTRA_INCLUDE_DIR}/${file_name}.h"
-        DESTINATION ${RAnEn_SOURCE_DIR})
-    file(COPY "${RAnEn_EXTRA_SOURCE_DIR}/${file_name}.cpp"
-        DESTINATION ${RAnEn_SOURCE_DIR})
-endforeach(file_name ${REQUIRED_FILE_NAME})
+foreach(file_name ${REQUIRED_SOURCE_FILES})
+    file(COPY "${RAnEn_EXTRA_INCLUDE_DIR}/${file_name}.h" DESTINATION ${RAnEn_SOURCE_DIR})
+    file(COPY "${RAnEn_EXTRA_SOURCE_DIR}/${file_name}.cpp" DESTINATION ${RAnEn_SOURCE_DIR})
+endforeach(file_name ${REQUIRED_SOURCE_FILES})
 
-file(COPY "${RAnEn_EXTRA_INCLUDE_DIR}/colorTexts.h" DESTINATION ${RAnEn_SOURCE_DIR})
+foreach(file_name ${REQUIRED_TEMPLATE_FILES})
+    file(COPY "${RAnEn_EXTRA_INCLUDE_DIR}/${file_name}.h" DESTINATION ${RAnEn_SOURCE_DIR})
+    file(COPY "${RAnEn_EXTRA_INCLUDE_DIR}/${file_name}.tpp" DESTINATION ${RAnEn_SOURCE_DIR})
+    file(COPY "${RAnEn_EXTRA_SOURCE_DIR}/${file_name}.cpp" DESTINATION ${RAnEn_SOURCE_DIR})
+endforeach(file_name ${REQUIRED_TEMPLATE_FILES})
+
+foreach(file_name ${REQUIRED_HEADER_ONLY_FILES})
+    file(COPY "${RAnEn_EXTRA_INCLUDE_DIR}/${file_name}.h" DESTINATION ${RAnEn_SOURCE_DIR})
+endforeach(file_name ${REQUIRED_HEADER_ONLY_FILES})
+
 file(COPY "${CMAKE_SOURCE_DIR}/NEWS.md" DESTINATION ${RAnEn_PACKAGE_DIR})
 
 add_subdirectory(${RAnEn_PACKAGE_DIR})

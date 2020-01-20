@@ -10,7 +10,7 @@ include_directories ("${CMAKE_CURRENT_SOURCE_DIR}/include")
 set(EXTRA_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/CAnEn/include")
 include_directories(${EXTRA_INCLUDE_DIR})
 
-set(EXTRA_SOURCE_FILES "Times;Stations;Parameters;Forecasts;Analogs;Observations")
+set(EXTRA_SOURCE_FILES "Times;Stations;Parameters;Forecasts;Observations")
 
 foreach(file ${EXTRA_SOURCE_FILES})
     set(EXTRA_SOURCE_FILE "${CMAKE_SOURCE_DIR}/CAnEn/src/${file}.cpp")

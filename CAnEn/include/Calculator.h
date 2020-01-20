@@ -9,6 +9,7 @@
 #define CALCULATOR_H
 
 #include <vector>
+#include <stdlib.h>
 
 /**
  * Calculator is designed for vector arithmetics, including linear and circular
