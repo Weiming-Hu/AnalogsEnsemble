@@ -15,7 +15,6 @@
 #' 
 #' RAnEn::check.package is the internal functions checking whether a
 #' package is installed or not.
-#'
 #' 
 #' @md
 #' 
