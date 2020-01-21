@@ -76,6 +76,8 @@ List computeAnEnIS(SEXP R_config) {
     config["observation_times"];
     
     NumericVector vec;
+    double* p_data;
+    p_data = REAL(vec);
 
     // Forecasts
     config["flts"];
