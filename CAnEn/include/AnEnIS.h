@@ -41,7 +41,7 @@ public:
     void compute(const Forecasts & forecasts,
             const Observations & observations,
             std::vector<size_t> fcsts_test_index,
-            std::vector<size_t> fcsts_search_index);
+            std::vector<size_t> fcsts_search_index) override;
     
     const Array4D & getSimsValue() const;
     const Array4D & getSimsIndex() const;
