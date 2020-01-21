@@ -193,19 +193,13 @@ void testAnEnIS::testFixedLengthSds_() {
 
     for (size_t i = 0; i < values.size(); ++i) ptr[i] = values[i];
 
-    vector<double> weights;
-    forecasts.getParameters().getWeights(weights);
-
-    vector<bool> circulars;
-    forecasts.getParameters().getCirculars(circulars);
-
     vector<size_t> times_fixed_index;
     for (size_t i = 0; i < fcst_times_.size(); ++i) {
         times_fixed_index.push_back(i);
     }
 
     operational_ = false;
-    computeSds_(forecasts, weights, circulars, times_fixed_index);
+    computeSds_(forecasts, times_fixed_index);
 
     // Answers from R
     vector<double> answers = {
@@ -251,15 +245,6 @@ void testAnEnIS::compareOperationalSds_() {
         randomizeForecasts_(forecasts, nan_prob, 2);
 
         /*
-         * Prepare weights and circulars for standard deviation calculation
-         */
-        vector<double> weights;
-        forecasts.getParameters().getWeights(weights);
-
-        vector<bool> circulars;
-        forecasts.getParameters().getCirculars(circulars);
-
-        /*
          * Calculate the running standard deviation for different fixed length
          */
         for (size_t num_fixed_indices :{2, 4, 6, 8}) {
@@ -277,7 +262,7 @@ void testAnEnIS::compareOperationalSds_() {
             }
 
             operational_ = true;
-            computeSds_(forecasts, weights, circulars, times_fixed_index, times_accum_index);
+            computeSds_(forecasts, times_fixed_index, times_accum_index);
 
             // Save the running calculation result
             Array4D sds_running = sds_;
@@ -292,7 +277,7 @@ void testAnEnIS::compareOperationalSds_() {
                 // Manually set up standard deviation calculation
                 vector<size_t> times_fixed_index_manual;
                 for (size_t i = 0; i < time_accum_index; ++i) times_fixed_index_manual.push_back(i);
-                computeSds_(forecasts, weights, circulars, times_fixed_index_manual);
+                computeSds_(forecasts, times_fixed_index_manual);
 
                 // Compare results
                 size_t running_sd_time_index = time_accum_index - num_fixed_indices;

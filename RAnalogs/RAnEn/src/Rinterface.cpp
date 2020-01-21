@@ -74,6 +74,8 @@ List computeAnEnIS(SEXP R_config) {
     // Observations
     config["search_observations"];
     config["observation_times"];
+    
+    NumericVector vec;
 
     // Forecasts
     config["flts"];

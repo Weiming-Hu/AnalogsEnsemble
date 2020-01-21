@@ -63,6 +63,8 @@ protected:
     size_t flt_radius_;
 
     /**
+     * The standard deviation array has the following dimensions
+     * 
      * [Parameters][Stations][FLTs][Times]
      */
     Array4D sds_;
@@ -104,16 +106,12 @@ protected:
      * the calculation.
      * 
      * @param forecasts Forecasts
-     * @param weights Weights from input forecasts.
-     * @param circulars Circular flags from input forecasts.
      * @param times_fixed_index Time indices of forecasts for fixed-length
      * standard deviation calculation.
      * @param times_accum_index Time indices of forecasts for accumulative
      * standard deviation calculation.
      */
     void computeSds_(const Forecasts & forecasts,
-            const std::vector<double> & weights,
-            const std::vector<bool> & circulars,
             const std::vector<size_t> & times_fixed_index,
             const std::vector<size_t> & times_accum_index = {});
     

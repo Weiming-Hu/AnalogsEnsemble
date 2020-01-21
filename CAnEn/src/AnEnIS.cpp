@@ -107,22 +107,11 @@ AnEnIS::compute(const Forecasts & forecasts,
             << "Start AnEnIS generation ..." << RESET << endl;
     
     checkIndexRange_(forecasts, fcsts_test_index, fcsts_search_index);
-    
-    /*
-     * Read weights and circular flags from forecast parameters into vectors
-     */
-    const auto & parameters = forecasts.getParameters();
-
-    vector<double> weights;
-    vector<bool> circulars;
-
-    parameters.getWeights(weights);
-    parameters.getCirculars(circulars);
 
     /*
      * Compute standard deviations
      */
-    computeSds_(forecasts, weights, circulars, fcsts_search_index, fcsts_test_index);
+    computeSds_(forecasts, fcsts_search_index, fcsts_test_index);
 
     /*
      * If operational mode is used, append test time indices to the end of
@@ -152,6 +141,17 @@ AnEnIS::compute(const Forecasts & forecasts,
             fcsts_search_index.size(), fcst_flts.size(), NAN);
     Functions::updateTimeTable(fcst_times,
             fcsts_search_index, fcst_flts, obs_times, obsIndexTable_);
+
+    /*
+     * Read weights and circular flags from forecast parameters into vectors
+     */
+    const auto & parameters = forecasts.getParameters();
+
+    vector<double> weights;
+    vector<bool> circulars;
+
+    parameters.getWeights(weights);
+    parameters.getCirculars(circulars);
 
     /*
      * Pre-allocate memory for analog computation
@@ -434,8 +434,6 @@ AnEnIS::computeSimMetric_(const Forecasts & forecasts,
 
 void
 AnEnIS::computeSds_(const Forecasts & forecasts,
-        const vector<double> & weights,
-        const vector<bool> & circulars,
         const vector<size_t> & times_fixed_index,
         const vector<size_t> & times_accum_index) {
 
@@ -455,6 +453,12 @@ AnEnIS::computeSds_(const Forecasts & forecasts,
     size_t num_flts = forecasts.getFLTs().size();
     size_t calculator_capacity = times_fixed_index.size();
     if (operational_) calculator_capacity += times_accum_index.size();
+    
+    vector<double> weights;
+    vector<bool> circulars;
+
+    forecasts.getParameters().getWeights(weights);
+    forecasts.getParameters().getCirculars(circulars);
 
     // Pre-allocate memory for calculation
     sds_.resize(boost::extents

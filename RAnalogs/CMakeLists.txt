@@ -42,7 +42,7 @@ string(TIMESTAMP LIBRARY_CONFIGURE_TIMESTAMP "%Y-%m-%d_%H:%M")
 configure_file("${RAnEn_PACKAGE_DIR}/DESCRIPTION.in" "${RAnEn_PACKAGE_DIR}/DESCRIPTION")
 
 # copy files
-set(REQUIRED_SOURCE_FILES "BasicData;Forecasts;Observations;ForecastsArray;ObservationsArray;Parameters;Stations;Times;AnEn;AnEnIS;Calculator")
+set(REQUIRED_SOURCE_FILES "BasicData;Forecasts;Observations;Parameters;Stations;Times;AnEn;AnEnIS;Calculator")
 set(REQUIRED_TEMPLATE_FILES "Functions")
 set(REQUIRED_HEADER_ONLY_FILES "AnEnDefaults;BmDim;colorTexts")
 
