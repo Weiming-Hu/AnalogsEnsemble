@@ -14,7 +14,9 @@
 #include <stdexcept>
 
 #include "AnEnIS.h"
-#include "colorTexts.h"
+#include "ForecastsR.h"
+#include "ObservationsR.h"
+#include "FunctionsR.h"
 
 using namespace Rcpp;
 
@@ -32,96 +34,63 @@ bool checkOpenMP() {
 #endif
 }
 
-// [[Rcpp::export(".generateSearchStations")]]
-
-NumericVector generateSearchStations(
-        NumericVector R_test_forecasts_station_x,
-        NumericVector R_test_forecasts_station_y,
-        NumericVector R_search_forecasts_station_x,
-        NumericVector R_search_forecasts_station_y,
-        size_t max_num_search_stations, double distance,
-        size_t num_nearest_stations,
-        NumericVector R_test_station_tags,
-        NumericVector R_search_station_tags,
-        int verbose) {
-    throw std::runtime_error("Not implemented");
-}
-
-
-// [[Rcpp::export(".generateTimeMapping")]]
-
-NumericVector generateTimeMapping(
-        NumericVector R_times_forecasts,
-        NumericVector R_flts_forecasts,
-        NumericVector R_times_observations,
-        int time_match_mode, int verbose) {
-    throw std::runtime_error("Not implemented");
-}
-
-// https://gallery.rcpp.org/articles/simple-array-class/
-
-// [[Rcpp::export(".computeAnEnIS")]]
+// [[Rcpp::export(".generateAnEnIS")]]
 
 List computeAnEnIS(SEXP R_config) {
 
-    /***************************************************************************
-     *                   Convert objects for AnEn computation                  *
-     **************************************************************************/
+    if (!Rf_isNewList(R_config)) stop("A list is expected");
+    List config = R_config;
 
-    // R data type to C++ data type
-    List config(R_config);
-
-    // Observations
-    config["search_observations"];
-    config["observation_times"];
-    
-    NumericVector vec;
-    double* p_data;
-    p_data = REAL(vec);
-
-    // Forecasts
-    config["flts"];
-    config["weights"];
-    config["circulars"];
-    config["forecasts"];
-    config["forecast_times"];
-
-    // Verbose
-    AnEnDefaults::Verbose verbose;
-    as<size_t>(config["verbose"]);
-
-    /***************************************************************************
-     *                           AnEn Computation                              *
-     **************************************************************************/
-
-    // AnEnIS initialization
-    AnEnIS anen(
-            as<size_t>(config["num_members"]),
-            as<bool>(config["operational"]),
-            as<bool>(config["check_search_future"]),
-            as<bool>(config["preserve_similarity"]),
-            verbose,
-            as<size_t>(config["observation_id"]),
-            as<bool>(config["quick"]),
-            as<bool>(config["preserve_similarity_index"]),
-            as<bool>(config["preserve_analogs_index"]),
-            as<size_t>(config["max_num_sims"]),
-            as<size_t>(config["max_par_nan"]),
-            as<size_t>(config["max_flt_nan"]),
-            as<size_t>(config["FLT_radius"]));
-
-    // Compute analogs
     try {
-//        anen.compute(forecasts, observations, test_times, search_times);
+        // Observations
+        ObservationsR observations(
+                config["observation_times"],
+                config["observations"]);
+
+        // Forecasts
+        ForecastsR forecasts(
+                config["weights"], config["circulars"],
+                config["forecast_times"], config["flts"],
+                config["forecasts"]);
+
+        // Test and search times
+        Times test_times, search_times;
+        FunctionsR::toTimes(config["test_times"], test_times);
+        FunctionsR::toTimes(config["search_times"], search_times);
+
+        // Verbose
+        AnEnDefaults::Verbose verbose =
+                Functions::itov(as<int>(config["verbose"]));
+
+        // AnEnIS initialization
+        AnEnIS anen(
+                as<size_t>(config["num_members"]),
+                as<bool>(config["operational"]),
+                as<bool>(config["check_search_future"]),
+                as<bool>(config["preserve_similarity"]),
+                verbose,
+                as<size_t>(config["observation_id"]),
+                as<bool>(config["quick"]),
+                as<bool>(config["preserve_similarity_index"]),
+                as<bool>(config["preserve_analogs_index"]),
+                as<size_t>(config["max_num_sims"]),
+                as<size_t>(config["max_par_nan"]),
+                as<size_t>(config["max_flt_nan"]),
+                as<size_t>(config["FLT_radius"]));
+
+        // Compute analogs
+        anen.compute(forecasts, observations, test_times, search_times);
+
+        /**********************************************************************
+         *                           Wrap Up Results                          *
+         **********************************************************************/
+
     } catch (std::exception & ex) {
         forward_exception_to_r(ex);
     } catch (...) {
         ::Rf_error("C++ exception (unknown reason)");
     }
 
-    /***************************************************************************
-     *                           Wrap Up Results                               *
-     **************************************************************************/
     return (config);
 }
 

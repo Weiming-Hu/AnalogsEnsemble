@@ -12,12 +12,13 @@
 #include "Stations.h"
 #include "Parameters.h"
 
-#include <Rcpp>
+#include <Rcpp.h>
 
 namespace FunctionsR {
+    void createParameters(Parameters & parameters, size_t total);
     void createStations(Stations & stations, size_t total);
-    void toParameters(Parameters & parameters, SEXP);
-    void toTimes(Times & times, SEXP);
+    void toParameters(const SEXP & sx_weights, const SEXP & sx_circulars, Parameters & parameters);
+    void toTimes(const SEXP & sx_times, Times & times);
 }
 
 #endif /* FUNCTIONSR_H */

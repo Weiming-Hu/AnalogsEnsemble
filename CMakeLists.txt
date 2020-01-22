@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.0)
 project(ParallelAnalogEnsemble)
 
-set(GRAND_VERSION "3.7.1")
+set(GRAND_VERSION "4.0.0")
 message("You are building version ${GRAND_VERSION}")
 add_definitions(-D_APPVERSION="v ${GRAND_VERSION}")
 

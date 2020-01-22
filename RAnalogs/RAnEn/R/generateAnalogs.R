@@ -55,19 +55,20 @@
 #' @useDynLib RAnEn
 #' 
 #' @md
-
+#' @export
 generateAnalogs <- function(configuration) {
   
-  configuration <- formatConfiguration(configuration, configuration$verbose > 2)
-  valid <- validateConfiguration(configuration)
-  if (!valid) return(valid)
+  #configuration <- formatConfiguration(configuration, configuration$verbose > 2)
+  #valid <- validateConfiguration(configuration)
+  #if (!valid) return(valid)
   
-  configuration <- convertToAdvance(configuration)
+  #configuration <- convertToAdvance(configuration)
   
-  configuration$observation_id = configuration$observation_id - 1
+  #configuration$observation_id = configuration$observation_id - 1
   
   # Call the C++ routine
-  AnEn <- .generateAnalogs(configuration)
+  AnEn <- .generateAnEnIS(configuration)
+  return (AnEn)
   
   # Because similarity matrix was stored in row-major in C++ and the R object will be column-major.
   # So change the order of dimensions to make it conform with other objects.

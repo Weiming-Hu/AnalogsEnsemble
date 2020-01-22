@@ -18,7 +18,8 @@
 
 using namespace std;
 
-AnEnDefaults::Verbose itov(int flag) {
+AnEnDefaults::Verbose
+Functions::itov(int flag) {
     
     using namespace AnEnDefaults;
     
@@ -33,6 +34,10 @@ AnEnDefaults::Verbose itov(int flag) {
             return Verbose::Detail;
         case 4:
             return Verbose::Debug;
+        default:
+            ostringstream msg;
+            msg << BOLDRED << "Unknown verbose flag " << flag << RESET;
+            throw runtime_error(msg.str());
     }
 } 
 

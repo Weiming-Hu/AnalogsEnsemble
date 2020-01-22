@@ -12,6 +12,13 @@
 
 #include <Rcpp.h>
 
+/**
+ * Class Offset is used to create pointer offset for column-major array. This
+ * class is used by ForecastsR and ObservationsR. The implementation is adopted
+ * from Fabian Scheipl's implementation here:
+ * 
+ * https://gallery.rcpp.org/articles/simple-array-class/
+ */
 class Offset {
 public:
     Offset();
@@ -21,6 +28,8 @@ public:
     
     int operator() (Rcpp::IntegerVector dims_index) const;
     Rcpp::IntegerVector getDims() const;
+    
+    Offset & operator=(const Offset & rhs);
     
 protected:
     Rcpp::IntegerVector dim_;

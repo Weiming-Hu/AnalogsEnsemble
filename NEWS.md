@@ -1,3 +1,5 @@
+# PAnEn 4.0.0
+
 # PAnEn 3.7.1
 
 - Introduced auto generation of HPC work flows using `RAnEn::generateHPCWorkflow`.
