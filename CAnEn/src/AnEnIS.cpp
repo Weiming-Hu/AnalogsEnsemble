@@ -107,6 +107,7 @@ AnEnIS::compute(const Forecasts & forecasts,
             << "Start AnEnIS generation ..." << RESET << endl;
     
     checkIndexRange_(forecasts, fcsts_test_index, fcsts_search_index);
+    checkConsistency_(forecasts, observations);
 
     /*
      * Compute standard deviations
@@ -553,5 +554,21 @@ AnEnIS::checkIndexRange_(const Forecasts & forecasts,
         throw range_error(msg.str());
     }
     
+    return;
+}
+
+void
+AnEnIS::checkConsistency_(const Forecasts & forecasts,
+        const Observations & observations) const {
+    
+    if (forecasts.getStations().size() != observations.getStations().size()) {
+        ostringstream msg;
+        msg << BOLDRED << "#forecast stations (" 
+                << forecasts.getStations().size() 
+                << ") != #observation stations (" <<
+                observations.getStations().size() << ")" << RESET;
+        throw runtime_error(msg.str());
+    }
+
     return;
 }

@@ -31,7 +31,7 @@ public:
             size_t max_par_nan = AnEnDefaults::_MAX_PAR_NAN,
             size_t max_flt_nan = AnEnDefaults::_MAX_FLT_NAN,
             size_t flt_radius = AnEnDefaults::_FLT_RADIUS);
-    
+
     virtual ~AnEnIS();
 
     void compute(const Forecasts & forecasts,
@@ -42,7 +42,7 @@ public:
             const Observations & observations,
             std::vector<size_t> fcsts_test_index,
             std::vector<size_t> fcsts_search_index) override;
-    
+
     const Array4D & getSimsValue() const;
     const Array4D & getSimsIndex() const;
     const Array4D & getAnalogsValue() const;
@@ -80,7 +80,7 @@ protected:
      */
     Array4D analogsIndex_;
     Array4D analogsValue_;
-    
+
     /**
      * Matrix for the time index table from forecasts to observations
      */
@@ -92,7 +92,7 @@ protected:
      */
     std::vector< std::array<double, 3> > simsArr_;
 
-    
+
     double computeSimMetric_(const Forecasts & forecasts, size_t sta_i,
             size_t flt_i, size_t time_test_i, size_t time_search_i,
             const std::vector<double> & weights,
@@ -114,10 +114,13 @@ protected:
     void computeSds_(const Forecasts & forecasts,
             const std::vector<size_t> & times_fixed_index,
             const std::vector<size_t> & times_accum_index = {});
-    
+
     void checkIndexRange_(const Forecasts & forecasts,
             const std::vector<size_t> & fcsts_test_index,
             const std::vector<size_t> & fcsts_search_index) const;
+    
+    void checkConsistency_(const Forecasts & forecasts,
+            const Observations & observations) const;
 };
 
 #endif /* ANENIS_H */
