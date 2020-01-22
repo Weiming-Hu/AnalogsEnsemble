@@ -29,10 +29,9 @@ using namespace std;
  **************************************************************************/
 
 Parameter::Parameter() : name_(AnEnDefaults::_NAME),
-        weight_(AnEnDefaults::_WEIGHT),
-        circular_(AnEnDefaults::_CIRCULAR) {
+weight_(AnEnDefaults::_WEIGHT),
+circular_(AnEnDefaults::_CIRCULAR) {
 }
-
 
 Parameter::Parameter(string name, double weight, bool circular) :
 name_(name), weight_(weight), circular_(circular) {
@@ -68,9 +67,8 @@ Parameter::operator==(const Parameter& rhs) const {
 
 bool
 Parameter::operator<(const Parameter& rhs) const {
-    return ( name_ < rhs.getName() );
+    return ( name_ < rhs.getName());
 }
-
 
 void
 Parameter::setName(string name) {
@@ -154,7 +152,6 @@ Parameters::getCirculars(std::vector<bool> & circulars) const {
     return;
 }
 
-
 void
 Parameters::print(ostream & os) const {
     os << "[Parameters] size: " << size() << endl;
@@ -162,7 +159,7 @@ Parameters::print(ostream & os) const {
     for (left_const_iterator it = left.begin(); it < left.end(); it++) {
         os << "[" << it->first << "] " << it->second;
     }
-    
+
     return;
 }
 
