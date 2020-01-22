@@ -26,6 +26,14 @@ namespace Functions {
     using Matrix = boost::numeric::ublas::matrix<double>;
 
     /**
+     * Convert an integer to Verbose
+     * 
+     * @param An intiger
+     * @return A Verbose
+     */
+    AnEnDefaults::Verbose itov(int);
+
+    /**
      * Computes a lookup table which maps from forecast time and lead time
      * indices to observation time indices. If the observation time index is
      * not found, the cell value in the table will stay untouched.

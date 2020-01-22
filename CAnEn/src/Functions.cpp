@@ -18,6 +18,24 @@
 
 using namespace std;
 
+AnEnDefaults::Verbose itov(int flag) {
+    
+    using namespace AnEnDefaults;
+    
+    switch (flag) {
+        case 0:
+            return Verbose::Error;
+        case 1:
+            return Verbose::Warning;
+        case 2:
+            return Verbose::Progress;
+        case 3:
+            return Verbose::Detail;
+        case 4:
+            return Verbose::Debug;
+    }
+} 
+
 // This is the best estimator that Yamartino has found
 //              2 / sqrt(3) - 1 = 0.1547
 //
