@@ -8,13 +8,14 @@
 #include "FunctionsR.h"
 #include "boost/numeric/conversion/cast.hpp"
 
+#include <sstream>
+
 using namespace Rcpp;
 
 void
 FunctionsR::createParameters(Parameters & parameters, size_t total) {
 
     parameters.clear();
-    parameters.resize(total);
 
     for (size_t i = 0; i < total; ++i) {
         parameters.push_back(Parameters::value_type(i, Parameter(std::to_string(i))));
@@ -27,7 +28,6 @@ void
 FunctionsR::createStations(Stations& stations, size_t total) {
 
     stations.clear();
-    stations.reserve(total);
 
     for (size_t i = 0; i < total; ++i) {
         stations.push_back(Stations::value_type(i, Station(i, i)));
@@ -52,7 +52,6 @@ FunctionsR::toParameters(const SEXP & sx_weights,
 
     // Allocate memory
     parameters.clear();
-    parameters.reserve(num_parameters);
 
     const auto & it_begin = circulars.begin();
     const auto & it_end = circulars.end();
@@ -83,7 +82,6 @@ FunctionsR::toTimes(const SEXP & sx_times, Times & times) {
 
     // Allocate memory
     times.clear();
-    times.reserve(num_times);
 
     // Copy values
     for (R_xlen_t i = 0; i < num_times; ++i) {
@@ -92,17 +90,20 @@ FunctionsR::toTimes(const SEXP & sx_times, Times & times) {
     }
 
     // Check uniqueness
-    if (times.size() != num_times) throw std::runtime_error("Duplicated times found");
+    if (times.size() != num_times) {
+        std::stringstream ss;
+        ss << "Duplicated times found: #input (" << num_times 
+                << ") #unique (" << times.size() << ")";
+        throw std::runtime_error(ss.str());
+    }
 
     return;
 }
 
 void
-FunctionsR::setElement(Rcpp::List list, const std::string & name, const Array4D & arr) {
+FunctionsR::setElement(Rcpp::List & list, const std::string & name, const Array4D & arr) {
     
     // TODO: Check the ordering of the array
-    
-    // TODO: Any other better solution to avoid value copyting?
     
     using namespace boost;
     

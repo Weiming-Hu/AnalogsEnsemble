@@ -1,4 +1,4 @@
-# PAnEn 4.0.0
+# PAnEn 4.0.0 Pandora
 
 # PAnEn 3.7.1
 

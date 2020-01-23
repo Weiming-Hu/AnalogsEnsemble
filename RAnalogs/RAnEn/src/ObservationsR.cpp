@@ -7,7 +7,9 @@
 
 #include "ObservationsR.h"
 #include "FunctionsR.h"
+
 #include <sstream>
+#include <stdexcept>
 
 using namespace Rcpp;
 
@@ -36,14 +38,20 @@ ObservationsR::ObservationsR(SEXP sx_times, SEXP sx_data) {
     if (data_dims.size() != 3) throw std::runtime_error(
             "Observations should be 3-dimensional [Parameters, Stations, Times]");
 
-    // Create parameters
-    FunctionsR::createParameters(parameters_, data_dims[0]);
+    try {
+        // Create parameters
+        FunctionsR::createParameters(parameters_, data_dims[0]);
 
-    // Create stations
-    FunctionsR::createStations(stations_, data_dims[1]);
-    
-    // Create times
-    FunctionsR::toTimes(sx_times, times_);
+        // Create stations
+        FunctionsR::createStations(stations_, data_dims[1]);
+
+        // Create times
+        FunctionsR::toTimes(sx_times, times_);
+        
+    } catch (std::exception & ex) {
+        std::string msg = std::string("ObservationsR -> ") + ex.what();
+        throw std::runtime_error(msg);
+    }
     
     if (times_.size() != data_dims[2]) {
         std::ostringstream msg;
@@ -103,7 +111,7 @@ double ObservationsR::getValue(
     IntegerVector indices{
         (int) parameter_index, (int) station_index, (int) time_index};
 
-    return data_(offset_(indices));
+    return data_[offset_(indices)];
 }
 
 void ObservationsR::setValue(double val,
@@ -113,6 +121,6 @@ void ObservationsR::setValue(double val,
     IntegerVector indices{
         (int) parameter_index, (int) station_index, (int) time_index};
 
-    data_(offset_(indices)) = val;
+    data_[offset_(indices)] = val;
     return;
 }

@@ -36,16 +36,16 @@ bool checkOpenMP() {
 
 // [[Rcpp::export(".generateAnEnIS")]]
 
-List computeAnEnIS(SEXP R_config) {
+SEXP computeAnEnIS(SEXP R_config) {
 
     if (!Rf_isNewList(R_config)) stop("A list is expected");
     List ret;
-    
+
     try {
-        
+
         // Create list wrapper
         List config = R_config;
-        
+
         // Observations
         ObservationsR observations(
                 config["observation_times"],
@@ -65,7 +65,13 @@ List computeAnEnIS(SEXP R_config) {
         // Verbose
         AnEnDefaults::Verbose verbose =
                 Functions::itov(as<int>(config["verbose"]));
-        
+
+        // TODO: NULL check
+
+        // TODO: Reduce observation id index
+
+        // TODO: Deal with safe type conversion with boost
+
         bool preserve_similarity = as<bool>(config["preserve_similarity"]);
         bool preserve_similairty_index = as<bool>(config["preserve_similarity_index"]);
         bool preserve_analogs_index = as<bool>(config["preserve_analogs_index"]);
@@ -88,7 +94,7 @@ List computeAnEnIS(SEXP R_config) {
 
         // Compute analogs
         anen.compute(forecasts, observations, test_times, search_times);
-        
+
         // TODO: add key interruption check within compute
 
         /**********************************************************************
@@ -100,11 +106,13 @@ List computeAnEnIS(SEXP R_config) {
         FunctionsR::setElement(ret, "analogs", anen.getAnalogsValue());
 
     } catch (std::exception & ex) {
-        forward_exception_to_r(ex);
+        std::string msg = std::string("AnEnIS -> ") + ex.what();
+        forward_exception_to_r(std::runtime_error(msg));
     } catch (...) {
-        ::Rf_error("C++ exception (unknown reason)");
+        ::Rf_error("C++ exception from AnEnIS (unknown reason)");
     }
-    
+
+    ret.attr("class") = "AnEn";
     return (ret);
 }
 

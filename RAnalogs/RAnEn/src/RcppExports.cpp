@@ -16,7 +16,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // computeAnEnIS
-List computeAnEnIS(SEXP R_config);
+SEXP computeAnEnIS(SEXP R_config);
 RcppExport SEXP _RAnEn_computeAnEnIS(SEXP R_configSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;

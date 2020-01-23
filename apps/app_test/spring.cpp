@@ -48,14 +48,14 @@ int main(int argc, char** argv) {
     cout << endl;
 
     size_t num_members = 5;
-    bool operational = false;
+    bool operational = true;
     bool check_time_overlap = true;
     bool save_sims = true;
     size_t obs_id = 0;
     bool quick_sort = false;
     bool save_sims_index = true;
     bool save_analogs_index = false;
-    size_t num_sims = 51;
+    size_t num_sims = 2;
     
     AnEnIS anen(num_members, operational, check_time_overlap, save_sims,
             AnEnDefaults::Verbose::Debug, obs_id, quick_sort, save_sims_index,

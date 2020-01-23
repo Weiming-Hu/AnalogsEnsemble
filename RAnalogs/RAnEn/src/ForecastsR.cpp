@@ -37,8 +37,24 @@ ForecastsR::ForecastsR(SEXP sx_weights, SEXP sx_circulars,
     if (data_dims.size() != 4) throw std::runtime_error(
             "Forecasts should be 4-dimensional [Parameters, Stations, Times, FLTs]");
     
-    // Create parameters
-    FunctionsR::toParameters(sx_weights, sx_circulars, parameters_);
+    try {
+        
+        // Create parameters
+        FunctionsR::toParameters(sx_weights, sx_circulars, parameters_);
+
+        // Create stations
+        FunctionsR::createStations(stations_, data_dims[1]);
+
+        // Create times
+        FunctionsR::toTimes(sx_times, times_);
+
+        // Create flts
+        FunctionsR::toTimes(sx_flts, flts_);
+        
+    } catch (std::exception & ex) {
+        std::string msg = std::string("ForecastsR -> ") + ex.what();
+        throw std::runtime_error(msg);
+    }
     
     if (parameters_.size() != data_dims[0]) {
         std::ostringstream msg;
@@ -46,12 +62,6 @@ ForecastsR::ForecastsR(SEXP sx_weights, SEXP sx_circulars,
                 << ") != #weights (" << parameters_.size() << ")";
         throw std::runtime_error(msg.str());
     }
-    
-    // Create stations
-    FunctionsR::createStations(stations_, data_dims[1]);
-
-    // Create times
-    FunctionsR::toTimes(sx_times, times_);
 
     if (times_.size() != data_dims[2]) {
         std::ostringstream msg;
@@ -59,9 +69,6 @@ ForecastsR::ForecastsR(SEXP sx_weights, SEXP sx_circulars,
                 << ") != #forecast times (" << times_.size() << ")";
         throw std::runtime_error(msg.str());
     }
-    
-    // Create flts
-    FunctionsR::toTimes(sx_flts, flts_);
     
     if (flts_.size() != data_dims[3]) {
         std::ostringstream msg;
@@ -125,7 +132,7 @@ double ForecastsR::getValue(
         (int) parameter_index, (int) station_index,
         (int) time_index, (int) flt_index};
 
-    return data_(offset_(indices));
+    return data_[offset_(indices)];
 }
 
 void ForecastsR::setValue(double val,
@@ -137,6 +144,6 @@ void ForecastsR::setValue(double val,
         (int) parameter_index, (int) station_index,
         (int) time_index, (int) flt_index};
 
-    data_(offset_(indices)) = val;
+    data_[offset_(indices)] = val;
     return;
 }

@@ -29,7 +29,7 @@ int Offset::operator()(IntegerVector dims_index) const {
     
     // Convert dimension indices to position offset by column-major
     for (int i = 1; i < dim_.size(); ++i) {
-        if (dims_index[i-1] >= dim_[i-1]) throw std::runtime_error("Index out of bound");
+        if (dims_index[i-1] >= dim_[i-1]) throw std::runtime_error("Offset index out of bound");
         offset *= dim_[i-1];
         pos += dims_index[i] * offset;
     }

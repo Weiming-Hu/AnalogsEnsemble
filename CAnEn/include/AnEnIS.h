@@ -12,6 +12,8 @@
 #include "AnEn.h"
 #include "Functions.h"
 
+#include <unordered_map>
+
 using Array4D = boost::multi_array<double, 4>;
 
 class AnEnIS : public AnEn {
@@ -68,6 +70,13 @@ protected:
      * [Parameters][Stations][FLTs][Times]
      */
     Array4D sds_;
+    
+    /**
+     * The time index map is used in operational mode. The key is
+     * the test time and the the value is the corresponding index
+     * of the time dimension in the standard deviation array.
+     */
+    std::unordered_map<size_t, size_t> sds_time_index_map_;
 
     /**
      * Arrays for storing similarity information
@@ -114,6 +123,8 @@ protected:
     void computeSds_(const Forecasts & forecasts,
             const std::vector<size_t> & times_fixed_index,
             const std::vector<size_t> & times_accum_index = {});
+    
+    void setSdsTimeMap_(const std::vector<size_t> & times_accum_index);
 
     void checkIndexRange_(const Forecasts & forecasts,
             const std::vector<size_t> & fcsts_test_index,
