@@ -133,7 +133,8 @@ Functions::sdCircular(const vector<double> & values) {
     return (q * MULTIPLY_REVERSE);
 }
 
-double sum(const vector<double> & values, size_t max_nan_allowed) {
+double
+Functions::sum(const vector<double> & values, size_t max_nan_allowed) {
     double sum = 0.0;
     size_t nan_count = 0, vec_size = values.size();
 
