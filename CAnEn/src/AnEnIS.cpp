@@ -179,7 +179,11 @@ AnEnIS::compute(const Forecasts & forecasts,
             num_flts = forecasts.getFLTs().size(),
             num_test_times_index = fcsts_test_index.size(),
             num_search_times_index = fcsts_search_index.size();
-
+    
+    // Check for the maximum number of values we can save
+    if (num_sims_ >= num_search_times_index) num_sims_ = num_search_times_index;
+    if (num_analogs_ >= num_search_times_index) num_analogs_ = num_search_times_index;
+    
     analogsValue_.resize(boost::extents
             [num_stations][num_test_times_index][num_flts][num_analogs_]);
     fill_n(analogsValue_.data(), analogsValue_.num_elements(), NAN);
