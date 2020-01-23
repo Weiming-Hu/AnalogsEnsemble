@@ -61,6 +61,9 @@ SEXP computeAnEnIS(SEXP R_config) {
         Times test_times, search_times;
         FunctionsR::toTimes(config["test_times"], test_times);
         FunctionsR::toTimes(config["search_times"], search_times);
+        
+        
+        
 
         // Verbose
         AnEnDefaults::Verbose verbose =
@@ -72,6 +75,7 @@ SEXP computeAnEnIS(SEXP R_config) {
 
         // TODO: Deal with safe type conversion with boost
 
+        int obs_id = as<int>(as<size_t>(config["observation_id"]));
         bool preserve_similarity = as<bool>(config["preserve_similarity"]);
         bool preserve_similairty_index = as<bool>(config["preserve_similarity_index"]);
         bool preserve_analogs_index = as<bool>(config["preserve_analogs_index"]);
@@ -83,7 +87,7 @@ SEXP computeAnEnIS(SEXP R_config) {
                 as<bool>(config["check_search_future"]),
                 preserve_similarity,
                 verbose,
-                as<size_t>(config["observation_id"]),
+                obs_id,
                 as<bool>(config["quick"]),
                 preserve_similairty_index,
                 preserve_analogs_index,
