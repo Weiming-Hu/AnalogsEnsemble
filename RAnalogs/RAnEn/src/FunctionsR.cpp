@@ -6,6 +6,7 @@
  */
 
 #include "FunctionsR.h"
+#include "boost/numeric/conversion/cast.hpp"
 
 using namespace Rcpp;
 
@@ -93,5 +94,30 @@ FunctionsR::toTimes(const SEXP & sx_times, Times & times) {
     // Check uniqueness
     if (times.size() != num_times) throw std::runtime_error("Duplicated times found");
 
+    return;
+}
+
+void
+FunctionsR::setElement(Rcpp::List list, const std::string & name, const Array4D & arr) {
+    
+    // TODO: Check the ordering of the array
+    
+    // TODO: Any other better solution to avoid value copyting?
+    
+    using namespace boost;
+    
+    size_t num_dims = arr.num_dimensions();
+    
+    // Create dimension vector
+    IntegerVector arr_dims(num_dims);
+    for (size_t i = 0; i < num_dims; ++i) {
+        arr_dims[i] = numeric_cast<int>(arr.shape()[i]);
+    }
+
+    // Value copy
+    NumericVector nv_arr(arr.data(), arr.data() + arr.num_elements());
+    nv_arr.attr("dim") = arr_dims;
+
+    list[name] = nv_arr;
     return;
 }

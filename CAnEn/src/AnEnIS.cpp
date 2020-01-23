@@ -196,7 +196,8 @@ AnEnIS::compute(const Forecasts & forecasts,
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(dynamic) collapse(3) \
 shared(num_stations, num_flts, num_test_times_index, num_search_times_index, \
-fcsts_test_index, fcsts_search_index, forecasts, observations, weights, circulars)
+fcsts_test_index, fcsts_search_index, forecasts, observations, weights, \
+circulars, _INIT_ARR_VALUE)
 #endif
     for (size_t sta_i = 0; sta_i < num_stations; ++sta_i) {
         for (size_t flt_i = 0; flt_i < num_flts; ++flt_i) {

@@ -39,9 +39,13 @@ bool checkOpenMP() {
 List computeAnEnIS(SEXP R_config) {
 
     if (!Rf_isNewList(R_config)) stop("A list is expected");
-    List config = R_config;
-
+    List ret;
+    
     try {
+        
+        // Create list wrapper
+        List config = R_config;
+        
         // Observations
         ObservationsR observations(
                 config["observation_times"],
@@ -61,18 +65,22 @@ List computeAnEnIS(SEXP R_config) {
         // Verbose
         AnEnDefaults::Verbose verbose =
                 Functions::itov(as<int>(config["verbose"]));
+        
+        bool preserve_similarity = as<bool>(config["preserve_similarity"]);
+        bool preserve_similairty_index = as<bool>(config["preserve_similarity_index"]);
+        bool preserve_analogs_index = as<bool>(config["preserve_analogs_index"]);
 
         // AnEnIS initialization
         AnEnIS anen(
                 as<size_t>(config["num_members"]),
                 as<bool>(config["operational"]),
                 as<bool>(config["check_search_future"]),
-                as<bool>(config["preserve_similarity"]),
+                preserve_similarity,
                 verbose,
                 as<size_t>(config["observation_id"]),
                 as<bool>(config["quick"]),
-                as<bool>(config["preserve_similarity_index"]),
-                as<bool>(config["preserve_analogs_index"]),
+                preserve_similairty_index,
+                preserve_analogs_index,
                 as<size_t>(config["max_num_sims"]),
                 as<size_t>(config["max_par_nan"]),
                 as<size_t>(config["max_flt_nan"]),
@@ -80,18 +88,24 @@ List computeAnEnIS(SEXP R_config) {
 
         // Compute analogs
         anen.compute(forecasts, observations, test_times, search_times);
+        
+        // TODO: add key interruption check within compute
 
         /**********************************************************************
          *                           Wrap Up Results                          *
          **********************************************************************/
+        if (preserve_similairty_index) FunctionsR::setElement(ret, "similarityIndex", anen.getSimsIndex());
+        if (preserve_similarity) FunctionsR::setElement(ret, "similarity", anen.getSimsValue());
+        if (preserve_analogs_index) FunctionsR::setElement(ret, "analogsIndex", anen.getAnalogsIndex());
+        FunctionsR::setElement(ret, "analogs", anen.getAnalogsValue());
 
     } catch (std::exception & ex) {
         forward_exception_to_r(ex);
     } catch (...) {
         ::Rf_error("C++ exception (unknown reason)");
     }
-
-    return (config);
+    
+    return (ret);
 }
 
 //List generateAnalogs(
