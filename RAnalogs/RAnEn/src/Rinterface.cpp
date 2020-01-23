@@ -36,6 +36,21 @@ bool checkOpenMP() {
 
 // [[Rcpp::export(".generateAnEnIS")]]
 
+/**
+ * 
+ * 
+ * ObservationsArray <- NetCDF
+ * 
+ * 
+ * AnEnReadNcdf
+ * 
+ * AnEnReadGrib 
+ * 
+ * 
+ * @param R_config
+ * @return 
+ */
+
 SEXP computeAnEnIS(SEXP R_config) {
     
     if (!Rf_isNewList(R_config)) stop("A list is expected");
