@@ -25,7 +25,6 @@ public:
     
     virtual std::size_t num_elements() const = 0;
     
-    // TODO: This is preventing R integration design: virtual void setValues(vector<double> vals) = 0;
     virtual double * getValuesPtr() = 0;
     virtual const double* getValuesPtr() const = 0;
     

@@ -17,7 +17,6 @@
  */
 
 #include "Parameters.h"
-#include "colorTexts.h"
 
 #include <stdexcept>
 #include <sstream>
@@ -128,7 +127,7 @@ Parameters::getIndex(const Parameter & parameter) const {
     auto it = right.find(parameter);
     if (it == right.end()) {
         ostringstream msg;
-        msg << BOLDRED << "Parameter not found: " << parameter << RESET;
+        msg << "Parameter not found: " << parameter;
         throw range_error(msg.str());
     }
     return (it->second);

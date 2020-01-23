@@ -6,7 +6,6 @@
  */
 
 #include "ObservationsArray.h"
-#include "colorTexts.h"
 #include "Functions.h"
 
 #include <stdexcept>
@@ -66,13 +65,6 @@ ObservationsArray::getValue(size_t parameter_index,
     return (data_[parameter_index][station_index][time_index]);
 }
 
-//double
-//ObservationsArray::getValue(size_t parameter_index,
-//        size_t station_index, const Time & time) const {
-//    auto time_index = times_.getIndex(time);
-//    return (getValue(parameter_index, station_index, time_index));
-//}
-
 void
 ObservationsArray::setValue(double val, size_t parameter_index,
         size_t station_index, size_t time_index) {
@@ -87,9 +79,8 @@ ObservationsArray::updateDataDims_(bool initialize_values) {
                 [parameters_.size()][stations_.size()][times_.size()]);
     } catch (bad_alloc & e) {
         ostringstream msg;
-        msg << BOLDRED << "Insufficient memory for array [" <<
-                parameters_.size() << "," << stations_.size() << "," <<
-                times_.size() << "]" << RESET;
+        msg << "Insufficient memory for array [" << parameters_.size()
+                << "," << stations_.size() << "," << times_.size() << "]";
         throw runtime_error(msg.str());
     }
 

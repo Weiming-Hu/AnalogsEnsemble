@@ -7,7 +7,6 @@
 
 #include "testFunctions.h"
 #include "Functions.h"
-#include "colorTexts.h"
 
 #include <vector>
 #include <iostream>

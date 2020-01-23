@@ -5,9 +5,7 @@
  * Created on January 1, 2020, 6:11 PM
  */
 
-#include "colorTexts.h"
 #include <fstream>
-
 
 // Boost does not provide the correct functions to read nan values 
 // for double, the operator is overloaded.
@@ -120,7 +118,7 @@ Txt::readMatrix(const std::string & file_path,
 
     if ((in.rdstate() & std::ifstream::failbit) != 0) {
         ostringstream msg;
-        msg << BOLDRED << "Failed to read matrix file " << file_path << RESET;
+        msg << "Failed to read matrix file " << file_path;
         throw runtime_error(msg.str());
     }
 
@@ -142,7 +140,7 @@ Txt::writeMatrix(
 
     if ((out.rdstate() & std::ifstream::failbit) != 0) {
         ostringstream msg;
-        msg << BOLDRED << "Failed to write matrix file " << file_path << RESET;
+        msg << "Failed to write matrix file " << file_path;
         throw runtime_error(msg.str());
     }
 

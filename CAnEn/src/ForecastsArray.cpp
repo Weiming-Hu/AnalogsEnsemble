@@ -7,7 +7,6 @@
  */
 
 #include "ForecastsArray.h"
-#include "colorTexts.h"
 #include "Functions.h"
 
 #include <stdexcept>
@@ -79,9 +78,8 @@ ForecastsArray::updateDataDims_(bool initialize_values) {
                 [stations_.size()][times_.size()][flts_.size()]);
     } catch (bad_alloc & e) {
         ostringstream msg;
-        msg << BOLDRED << "Insufficient memory for array [" <<
-                parameters_.size() << "," << stations_.size() << "," <<
-                times_.size() << "," << flts_.size() << "]" << RESET;
+        msg << "Insufficient memory for array [" << parameters_.size() << ","
+                << stations_.size() << "," << times_.size() << "," << flts_.size() << "]";
         throw runtime_error(msg.str());
     }
 

@@ -17,7 +17,6 @@
  */
 
 #include "Stations.h"
-#include "colorTexts.h"
 
 #include <stdexcept>
 #include <sstream>
@@ -122,7 +121,7 @@ Stations::getIndex(const Station & station) const {
     auto it = right.find(station);
     if (it == right.end()) {
         ostringstream msg;
-        msg << BOLDRED << "Station not found: " << station << RESET;
+        msg << "Station not found: " << station;
         throw range_error(msg.str());
     }
     return (it->second);

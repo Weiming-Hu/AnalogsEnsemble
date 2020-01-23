@@ -6,7 +6,6 @@
  */
 
 #include "Functions.h"
-#include "colorTexts.h"
 
 #include <cmath>
 #include <sstream>
@@ -36,7 +35,7 @@ Functions::itov(int flag) {
             return Verbose::Debug;
         default:
             ostringstream msg;
-            msg << BOLDRED << "Unknown verbose flag " << flag << RESET;
+            msg << "Unknown verbose flag " << flag;
             throw runtime_error(msg.str());
     }
 }
@@ -57,10 +56,9 @@ Functions::updateTimeTable(
     if (table.size1() != fcst_times_index.size() ||
             table.size2() != fcst_flts.size()) {
         ostringstream msg;
-        msg << BOLDRED << "Table dimensions [" << table.size1() << ","
-                << table.size2() << "] should be ["
-                << fcst_times_index.size() << "," << fcst_flts.size()
-                << "]" << RESET;
+        msg << "Table dimensions [" << table.size1() << "," << table.size2()
+                << "] should be [" << fcst_times_index.size() << ","
+                << fcst_flts.size() << "]";
         throw overflow_error(msg.str());
     }
 

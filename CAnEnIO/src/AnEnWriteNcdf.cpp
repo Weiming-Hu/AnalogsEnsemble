@@ -7,7 +7,6 @@
 
 #include "AnEnWriteNcdf.h"
 #include "AnEnNames.h"
-#include "colorTexts.h"
 
 #include <stdexcept>
 
@@ -48,15 +47,15 @@ AnEnWriteNcdf::getDim_(const NcFile & nc, string name, size_t len) const {
         if (len == 0) {
             if (!dim.isUnlimited()) {
                 ostringstream msg;
-                msg << BOLDRED << "Dimension (" << name << ") is found with" <<
-                        " fixed length. But it should be unlimited." << RESET;
+                msg << "Dimension (" << name << ") is found with" <<
+                        " fixed length. But it should be unlimited.";
                 throw runtime_error(msg.str());
             }
         } else {
             if (len != dim.getSize()) {
                 ostringstream msg;
-                msg << BOLDRED << "Length of " << name << " (" <<
-                        dim.getSize() << ") should be " << len << RESET;
+                msg << "Length of " << name << " (" << dim.getSize()
+                        << ") should be " << len;
                 throw runtime_error(msg.str());
             }
         }
@@ -96,7 +95,7 @@ AnEnWriteNcdf::append_(const NcFile & nc,
     
     if (varExists(nc, VAR_FLTS)) {
         ostringstream msg;
-        msg << BOLDRED << VAR_FLTS << " exists" << RESET;
+        msg << VAR_FLTS << " exists";
         throw runtime_error(msg.str());
     }
     

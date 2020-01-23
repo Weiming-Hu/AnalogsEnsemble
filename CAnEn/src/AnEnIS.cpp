@@ -7,7 +7,6 @@
  */
 
 #include "AnEnIS.h"
-#include "colorTexts.h"
 #include "Calculator.h"
 
 #include <algorithm>
@@ -15,12 +14,22 @@
 using namespace std;
 using namespace AnEnDefaults;
 
-// TODO: COMMENTS!!!
+// This variable defines how many values to print for preview
 static const size_t _PREVIEW_COUNT = 5;
+
+// When operational mode is OFF, standard deviation is computed across all
+// search days, thus having only a length of one for the time dimension.
+//
 static const size_t _SINGLE_LEN = 1;
+
+// These variables define the positions in the similarity array for different
+// types of values.
+//
 static const size_t _SIM_VALUE_INDEX = 0;
 static const size_t _SIM_FCST_INDEX = 1;
 static const size_t _SIM_OBS_INDEX = 2;
+
+// This is the default value for similarity array
 static const array<double, 3> _INIT_ARR_VALUE = {NAN, NAN, NAN};
 
 static bool
@@ -32,12 +41,12 @@ simsSort(const array<double, 3> & lhs,
 }
 
 AnEnIS::AnEnIS() : AnEn(),
-num_analogs_(AnEnDefaults::_NUM_ANALOGS),
-obs_var_index_(AnEnDefaults::_OBS_VAR_INDEX),
 quick_sort_(AnEnDefaults::_QUICK_SORT),
 save_sims_index_(AnEnDefaults::_SAVE_SIMS_INDEX),
 save_analogs_index_(AnEnDefaults::_SAVE_ANALOGS_INDEX),
+obs_var_index_(AnEnDefaults::_OBS_VAR_INDEX),
 num_sims_(AnEnDefaults::_NUM_SIMS),
+num_analogs_(AnEnDefaults::_NUM_ANALOGS),
 max_par_nan_(AnEnDefaults::_MAX_PAR_NAN),
 max_flt_nan_(AnEnDefaults::_MAX_FLT_NAN),
 flt_radius_(AnEnDefaults::_FLT_RADIUS),
@@ -49,12 +58,12 @@ analogsValue_(Array4D(boost::extents[0][0][0][0], boost::fortran_storage_order()
 
 AnEnIS::AnEnIS(const AnEnIS& orig) : AnEn(orig) {
 
-    num_analogs_ = orig.num_analogs_;
-    obs_var_index_ = orig.obs_var_index_;
     quick_sort_ = orig.quick_sort_;
     save_sims_index_ = orig.save_sims_index_;
     save_analogs_index_ = orig.save_analogs_index_;
+    obs_var_index_ = orig.obs_var_index_;
     num_sims_ = orig.num_sims_;
+    num_analogs_ = orig.num_analogs_;
     max_par_nan_ = orig.max_par_nan_;
     max_flt_nan_ = orig.max_flt_nan_;
     flt_radius_ = orig.flt_radius_;
@@ -78,9 +87,9 @@ AnEnIS::AnEnIS(size_t num_members,
         size_t max_flt_nan,
         size_t flt_radius) :
 AnEn(operational, check_search_future, save_sims, verbose),
-num_analogs_(num_members), obs_var_index_(obs_var_index),
 quick_sort_(quick_sort), save_sims_index_(save_sims_index),
-save_analogs_index_(save_analogs_index), num_sims_(num_sims),
+save_analogs_index_(save_analogs_index), obs_var_index_(obs_var_index),
+num_sims_(num_sims), num_analogs_(num_members),
 max_par_nan_(max_par_nan), max_flt_nan_(max_flt_nan), flt_radius_(flt_radius),
 simsIndex_(Array4D(boost::extents[0][0][0][0], boost::fortran_storage_order())),
 simsMetric_(Array4D(boost::extents[0][0][0][0], boost::fortran_storage_order())),
@@ -119,8 +128,7 @@ AnEnIS::compute(const Forecasts & forecasts,
         vector<size_t> fcsts_test_index,
         vector<size_t> fcsts_search_index) {
 
-    if (verbose_ >= Verbose::Progress) cout << GREEN
-            << "Start AnEnIS generation ..." << RESET << endl;
+    if (verbose_ >= Verbose::Progress) cout << "Start AnEnIS generation ..." << endl;
 
     checkIndexRange_(forecasts, fcsts_test_index, fcsts_search_index);
     checkConsistency_(forecasts, observations);
@@ -141,9 +149,7 @@ AnEnIS::compute(const Forecasts & forecasts,
 
     // Check for ascending order
     if (!is_sorted(fcsts_search_index.begin(), fcsts_search_index.end())) {
-        ostringstream msg;
-        msg << BOLDRED << "Test must be after search when operation is used" << RESET;
-        throw runtime_error(msg.str());
+        throw runtime_error("Test must be after search when operation is used");
     }
 
     /*
@@ -173,18 +179,17 @@ AnEnIS::compute(const Forecasts & forecasts,
     /*
      * Pre-allocate memory for analog computation
      */
-    if (verbose_ >= Verbose::Progress) cout << GREEN
-            << "Allocating memory ..." << RESET << endl;
+    if (verbose_ >= Verbose::Progress) cout << "Allocating memory ..." << endl;
 
     size_t num_stations = forecasts.getStations().size(),
             num_flts = forecasts.getFLTs().size(),
             num_test_times_index = fcsts_test_index.size(),
             num_search_times_index = fcsts_search_index.size();
-    
+
     // Check for the maximum number of values we can save
     if (num_sims_ >= num_search_times_index) num_sims_ = num_search_times_index;
     if (num_analogs_ >= num_search_times_index) num_analogs_ = num_search_times_index;
-    
+
     analogsValue_.resize(boost::extents
             [num_stations][num_test_times_index][num_flts][num_analogs_]);
     fill_n(analogsValue_.data(), analogsValue_.num_elements(), NAN);
@@ -206,14 +211,14 @@ AnEnIS::compute(const Forecasts & forecasts,
                 [num_stations][num_test_times_index][num_flts][num_sims_]);
         fill_n(simsIndex_.data(), simsIndex_.num_elements(), NAN);
     }
-    
+
     simsArr_.resize(num_search_times_index);
 
     /*
      * Progress messages output
      */
     if (verbose_ >= Verbose::Detail) print(cout);
-    if (verbose_ >= Verbose::Progress) cout << GREEN << "Computing analogs ..." << RESET << endl;
+    if (verbose_ >= Verbose::Progress) cout << "Computing analogs ..." << endl;
 
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(dynamic) collapse(3) \
@@ -270,7 +275,7 @@ circulars, _INIT_ARR_VALUE)
                      * Compute the metric for this station, flt, and test time *
                      *                                                         *
                      **********************************************************/
-                    
+
                     // Weights and circulars can be directly retrieved from
                     // forecasts. But for better performance, weights and circulars
                     // are pre-computed and passed.
@@ -333,7 +338,7 @@ circulars, _INIT_ARR_VALUE)
         }
     }
 
-    if (verbose_ >= Verbose::Progress) cout << GREEN << "AnEnIS generation done!" << RESET << endl;
+    if (verbose_ >= Verbose::Progress) cout << "AnEnIS generation done!" << endl;
 
     return;
 }
@@ -459,7 +464,6 @@ AnEnIS::computeSimMetric_(const Forecasts & forecasts,
             }
         } // End loop of the lead time window
 
-        // TODO: change mean to sum
         double average = Functions::sum(window, max_flt_nan_);
 
         if (std::isnan(average)) {
@@ -601,9 +605,8 @@ AnEnIS::checkIndexRange_(const Forecasts & forecasts,
     auto max_it = max_element(fcsts_test_index.begin(), fcsts_test_index.end());
     if (*max_it >= num_times) {
         ostringstream msg;
-        msg << BOLDRED << "Forecast test time index maximum (" << *max_it
-                << ") exceeds the number of times (" << num_times
-                << ")" << RESET;
+        msg << "Forecast test time index maximum (" << *max_it
+                << ") exceeds the number of times (" << num_times << ")";
         throw range_error(msg.str());
     }
 
@@ -611,9 +614,8 @@ AnEnIS::checkIndexRange_(const Forecasts & forecasts,
     if (*max_it >= num_times) {
 
         ostringstream msg;
-        msg << BOLDRED << "Forecast search time index maximum (" << *max_it
-                << ") exceeds the number of times (" << num_times
-                << ")" << RESET;
+        msg << "Forecast search time index maximum (" << *max_it
+                << ") exceeds the number of times (" << num_times << ")";
         throw range_error(msg.str());
     }
 
@@ -626,10 +628,9 @@ AnEnIS::checkConsistency_(const Forecasts & forecasts,
 
     if (forecasts.getStations().size() != observations.getStations().size()) {
         ostringstream msg;
-        msg << BOLDRED << "#forecast stations ("
-                << forecasts.getStations().size()
-                << ") != #observation stations (" <<
-                observations.getStations().size() << ")" << RESET;
+        msg << "#forecast stations (" << forecasts.getStations().size()
+                << ") != #observation stations ("
+                << observations.getStations().size() << ")";
         throw runtime_error(msg.str());
     }
 

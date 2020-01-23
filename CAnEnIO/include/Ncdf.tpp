@@ -5,8 +5,6 @@
  * Created on December 30, 2019, 11:10 AM
  */
 
-#include "colorTexts.h"
-
 #include <algorithm>
 
 template<typename T>
@@ -35,7 +33,7 @@ Ncdf::readVector(const netCDF::NcFile & nc, std::string var_name,
         results.resize(total);
     } catch (bad_alloc & e) {
         ostringstream msg;
-        msg << BOLDRED << "Insufficient memory reading " << var_name << RESET;
+        msg << "Insufficient memory reading " << var_name;
         throw runtime_error(msg.str());
     }
 

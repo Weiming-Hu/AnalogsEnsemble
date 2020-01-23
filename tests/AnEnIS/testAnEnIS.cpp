@@ -6,7 +6,6 @@
  */
 
 #include "testAnEnIS.h"
-#include "colorTexts.h"
 #include <boost/bimap/bimap.hpp>
 #include "boost/assign/list_of.hpp"
 #include "boost/assign/list_inserter.hpp"
@@ -143,7 +142,7 @@ void testAnEnIS::testOpenMP_() {
      */
 
 #if defined(_OPENMP)
-    cout << GREEN << "OpenMP is supported." << RESET << endl;
+    cout << "OpenMP is supported." << endl;
 
     int num_threads;
 
@@ -154,13 +153,13 @@ void testAnEnIS::testOpenMP_() {
         tmp *= 2;
     }
 
-    cout << "There are " << GREEN;
+    cout << "There are ";
     if (num_threads < 50) cout << num_threads;
     else cout << "> 50";
-    cout << RESET << " threads created.";
+    cout << " threads created.";
 
 #else
-    cout << RED << "Warning: OpenMP is not supported." << RESET << endl;
+    cout << "OpenMP is NOT supported." << endl;
 #endif
 
 }

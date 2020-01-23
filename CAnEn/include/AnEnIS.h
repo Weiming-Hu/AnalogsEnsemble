@@ -57,16 +57,14 @@ protected:
     bool quick_sort_;
     bool save_sims_index_;
     bool save_analogs_index_;
-    
+
+    size_t obs_var_index_;
     size_t num_sims_;
+    size_t num_analogs_;
     size_t max_par_nan_;
     size_t max_flt_nan_;
     size_t flt_radius_;
-    size_t num_analogs_;
-    size_t obs_var_index_;
     
-    // TODO: reorder the constructor for the above members
-
     /**
      * The standard deviation array has the following dimensions
      * 

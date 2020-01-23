@@ -18,7 +18,6 @@
 
 #include "Times.h"
 #include "AnEnDefaults.h"
-#include "colorTexts.h"
 
 #include <stdexcept>
 #include <sstream>
@@ -92,7 +91,7 @@ Times::getIndex(const Time & time) const {
     auto it = right.find(time);
     if (it == right.end()) {
         ostringstream msg;
-        msg << BOLDRED << "Time not found: " << time << RESET;
+        msg << "Time not found: " << time;
         throw range_error(msg.str());
     }
     return (it->second);
