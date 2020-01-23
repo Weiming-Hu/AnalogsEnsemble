@@ -20,9 +20,9 @@ using namespace std;
 
 AnEnDefaults::Verbose
 Functions::itov(int flag) {
-    
+
     using namespace AnEnDefaults;
-    
+
     switch (flag) {
         case 0:
             return Verbose::Error;
@@ -39,7 +39,7 @@ Functions::itov(int flag) {
             msg << BOLDRED << "Unknown verbose flag " << flag << RESET;
             throw runtime_error(msg.str());
     }
-} 
+}
 
 // This is the best estimator that Yamartino has found
 //              2 / sqrt(3) - 1 = 0.1547
@@ -133,6 +133,23 @@ Functions::sdCircular(const vector<double> & values) {
     return (q * MULTIPLY_REVERSE);
 }
 
+double sum(const vector<double> & values, size_t max_nan_allowed) {
+    double sum = 0.0;
+    size_t nan_count = 0, vec_size = values.size();
+
+    for (const auto & value : values) {
+        if (std::isnan(value)) {
+            nan_count++;
+        } else {
+            sum += value;
+        }
+    }
+
+    if (nan_count > max_nan_allowed) return NAN;
+    if (nan_count == vec_size) return NAN;
+    return sum;
+}
+
 double
 Functions::mean(const vector<double> & values, size_t max_nan_allowed) {
     double sum = 0.0;
@@ -148,7 +165,6 @@ Functions::mean(const vector<double> & values, size_t max_nan_allowed) {
 
     if (nan_count > max_nan_allowed) return NAN;
     if (nan_count == vec_size) return NAN;
-
     return (sum / (double) (vec_size - nan_count));
 }
 

@@ -15,6 +15,7 @@
 using namespace std;
 using namespace AnEnDefaults;
 
+// TODO: COMMENTS!!!
 static const size_t _PREVIEW_COUNT = 5;
 static const size_t _SINGLE_LEN = 1;
 static const size_t _SIM_VALUE_INDEX = 0;
@@ -149,8 +150,8 @@ AnEnIS::compute(const Forecasts & forecasts,
      * Compute the index mapping from forecast times and lead times to 
      * observations times
      */
-    const auto & fcst_times = forecasts.getTimes(),
-            obs_times = observations.getTimes();
+    const auto & fcst_times = forecasts.getTimes();
+    const auto & obs_times = observations.getTimes();
     const auto & fcst_flts = forecasts.getFLTs();
 
     obsIndexTable_ = Functions::Matrix(
@@ -201,6 +202,8 @@ AnEnIS::compute(const Forecasts & forecasts,
                 [num_stations][num_test_times_index][num_flts][num_sims_]);
         fill_n(simsIndex_.data(), simsIndex_.num_elements(), NAN);
     }
+    
+    simsArr_.resize(num_search_times_index);
 
     /*
      * Progress messages output
@@ -225,8 +228,7 @@ circulars, _INIT_ARR_VALUE)
                 /*
                  * Initialize similarity array values
                  */
-                simsArr_.resize(0);
-                simsArr_.resize(num_search_times_index, _INIT_ARR_VALUE);
+                fill_n(simsArr_.data(), simsArr_.data() + simsArr_.size(), _INIT_ARR_VALUE);
 
                 /*
                  * Compute similarity for all search times
@@ -264,6 +266,11 @@ circulars, _INIT_ARR_VALUE)
                      * Compute the metric for this station, flt, and test time *
                      *                                                         *
                      **********************************************************/
+                    
+                    // Weights and circulars can be directly retrieved from
+                    // forecasts. But for better performance, weights and circulars
+                    // are pre-computed and passed.
+                    //
                     double metric = computeSimMetric_(
                             forecasts, station_i, flt_i, current_test_index,
                             current_search_index, weights, circulars);
@@ -448,7 +455,8 @@ AnEnIS::computeSimMetric_(const Forecasts & forecasts,
             }
         } // End loop of the lead time window
 
-        double average = Functions::mean(window, max_flt_nan_);
+        // TODO: change mean to sum
+        double average = Functions::sum(window, max_flt_nan_);
 
         if (std::isnan(average)) {
             ++count_par_nan;

@@ -66,6 +66,10 @@ namespace Functions {
      */
     double sdCircular(const std::vector<double> & degs);
     
+    
+    double sum(const std::vector<double> & values,
+            size_t max_nan_allowed = AnEnDefaults::_MAX_SIZE_T);
+    
     /**
      * Computes the mean of a vector.
      * @param values A vector of values.
