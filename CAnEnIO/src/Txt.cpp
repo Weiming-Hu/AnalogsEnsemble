@@ -19,13 +19,13 @@ Txt::checkPath(const string & file_path, Mode mode, const std::string & extensio
     
     if (mode == Mode::Read && !file_exists) {
         ostringstream msg;
-        msg << BOLDRED << "File not found: " << file_path << RESET;
+        msg << "File not found: " << file_path;
         throw invalid_argument(msg.str());
     }
     
     if (mode == Mode::Write && file_exists) {
         ostringstream msg;
-        msg << BOLDRED << "File exists: " << file_path << RESET;
+        msg << "File exists: " << file_path;
         throw invalid_argument(msg.str());
     }
 
@@ -38,6 +38,6 @@ Txt::checkPath(const string & file_path, Mode mode, const std::string & extensio
 
     // Fail if the file path does not have a different extension
     ostringstream msg;
-    msg << BOLDRED << "Unknown extension: " << file_path << RESET;
+    msg << "Unknown extension: " << file_path;
     throw invalid_argument(msg.str());
 }

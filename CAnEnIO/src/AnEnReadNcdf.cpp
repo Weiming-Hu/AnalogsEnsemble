@@ -62,10 +62,8 @@ AnEnReadNcdf::readForecasts(const string & file_path,
         if (start.size() != _FORECASTS_DIMENSIONS ||
                 count.size() != _FORECASTS_DIMENSIONS) {
             ostringstream msg;
-            msg << BOLDRED << "#start (" << start.size() <<
-                    ") and #count (" << count.size() <<
-                    ") should both be " << _FORECASTS_DIMENSIONS <<
-                    " for Forecasts." << RESET;
+            msg << "#start (" << start.size() << ") and #count (" << count.size()
+                    << ") should both be " << _FORECASTS_DIMENSIONS << " for Forecasts";
             throw runtime_error(msg.str());
         }
     }
@@ -127,10 +125,8 @@ AnEnReadNcdf::readObservations(const std::string & file_path,
         if (start.size() != _OBSERVATIONS_DIMENSIONS ||
                 count.size() != _OBSERVATIONS_DIMENSIONS) {
             ostringstream msg;
-            msg << BOLDRED << "#start (" << start.size() <<
-                    ") and #count (" << count.size() <<
-                    ") should both be " << _OBSERVATIONS_DIMENSIONS <<
-                    " for Observations." << RESET;
+            msg << "#start (" << start.size() << ") and #count (" << count.size()
+                    << ") should both be " << _OBSERVATIONS_DIMENSIONS << " for Observations";
             throw runtime_error(msg.str());
         }
     }
@@ -181,10 +177,8 @@ AnEnReadNcdf::readAnalogs(
         if (start.size() != _ANALOGS_DIMENSIONS ||
                 count.size() != _ANALOGS_DIMENSIONS) {
             ostringstream msg;
-            msg << BOLDRED << "#start (" << start.size() <<
-                    ") and #count (" << count.size() <<
-                    ") should both be " << _ANALOGS_DIMENSIONS <<
-                    " for Analogs." << RESET;
+            msg << "#start (" << start.size() << ") and #count (" << count.size()
+                    << ") should both be " << _ANALOGS_DIMENSIONS << " for Analogs";
             throw runtime_error(msg.str());
         }
     }
@@ -236,8 +230,8 @@ AnEnReadNcdf::read_(const NcFile & nc, Parameters & parameters,
 
         if (names.size() < circulars.size()) {
             ostringstream msg;
-            msg << BOLDRED << "#" << VAR_CIRCULARS << " (" << circulars.size() <<
-                    ") should be no more than " << names.size() << RESET;
+            msg << "#" << VAR_CIRCULARS << " (" << circulars.size()
+                    << ") should be no more than " << names.size();
             throw runtime_error(msg.str());
         }
     }
@@ -248,8 +242,8 @@ AnEnReadNcdf::read_(const NcFile & nc, Parameters & parameters,
         
         if (names.size() != weights.size() && 0 != weights.size()) {
             ostringstream msg;
-            msg << BOLDRED << "#" << VAR_PARWEIGHTS << " (" << weights.size() <<
-                    ") should be either undefined or " << names.size() << RESET;
+            msg << "#" << VAR_PARWEIGHTS << " (" << weights.size() <<
+                    ") should be either undefined or " << names.size();
             throw runtime_error(msg.str());
         }
     }
@@ -274,9 +268,8 @@ AnEnReadNcdf::read_(const NcFile & nc, Parameters & parameters,
     // Check for duplicates
     if (parameters.size() - size_ori != names.size()) {
         ostringstream msg;
-        msg << BOLDRED << "Only " << parameters.size() - size_ori << " out of " <<
-                names.size() << " have been inserted due to duplicates in " <<
-                "parameters!" << RESET;
+        msg << "Only " << parameters.size() - size_ori << " out of " << names.size()
+                << " have been inserted due to duplicates in " << "parameters!";
         throw runtime_error(msg.str());
     }
     
@@ -311,9 +304,8 @@ AnEnReadNcdf::read_(const NcFile & nc, Stations & stations,
     
     if (xs.size() != ys.size()) {
         ostringstream msg;
-        msg << BOLDRED << "#" << VAR_XS << " (" << xs.size() <<
-                ") should be the same as #" << VAR_YS << 
-                " (" << ys.size() << ")" << RESET;
+        msg << "#" << VAR_XS << " (" << xs.size() << ") should be the same as #"
+                << VAR_YS << " (" << ys.size() << ")";
         throw runtime_error(msg.str());
     }
 
@@ -323,8 +315,8 @@ AnEnReadNcdf::read_(const NcFile & nc, Stations & stations,
         
         if (xs.size() != names.size()) {
             ostringstream msg;
-            msg << BOLDRED << "#" << VAR_STATIONNAMES << " (" << names.size() <<
-                    ") should be " << xs.size() << "." << RESET;
+            msg << "#" << VAR_STATIONNAMES << " (" << names.size() <<
+                    ") should be " << xs.size() << ".";
             throw runtime_error(msg.str());
         }
     }
@@ -343,9 +335,8 @@ AnEnReadNcdf::read_(const NcFile & nc, Stations & stations,
     
     if (stations.size() - size_ori != xs.size()) {
         ostringstream msg;
-        msg << BOLDRED << "Only " << stations.size() - size_ori << " out of " <<
-                xs.size() << " have been inserted due to duplicates in " <<
-                "stations!" << RESET;
+        msg << "Only " << stations.size() - size_ori << " out of " << xs.size()
+                << " have been inserted due to duplicates in " << "stations!";
         throw runtime_error(msg.str());
     }
     
@@ -373,7 +364,7 @@ AnEnReadNcdf::read_(const netCDF::NcFile & nc, Times & times,
         
         if (dims.size() != 1) {
             ostringstream msg;
-            msg << BOLDRED << var_name << " should be 1-dimensional." << RESET;
+            msg << var_name << " should be 1-dimensional.";
             throw runtime_error(msg.str());
         }
         
@@ -388,9 +379,7 @@ AnEnReadNcdf::read_(const netCDF::NcFile & nc, Times & times,
     for (size_t i = 0, dim_i = size_ori; i < vec.size(); ++i, ++dim_i) {
         
         if (last_timestamp > vec[i]) {
-            ostringstream msg;
-            msg << BOLDRED << "Times should be in ascension order!" << RESET;
-            throw runtime_error(msg.str());
+            throw runtime_error("Times should be in ascension order!");
         }
         
         times.push_back(Times::value_type(dim_i, Time(vec[i])));
@@ -400,9 +389,8 @@ AnEnReadNcdf::read_(const netCDF::NcFile & nc, Times & times,
     // Check for duplicates
     if (times.size() - size_ori != vec.size()) {
         ostringstream msg;
-        msg << BOLDRED << "Only " << times.size() - size_ori << " out of " <<
-                vec.size() << " have been inserted due to duplicates in " <<
-                var_name << "!" << RESET;
+        msg << "Only " << times.size() - size_ori << " out of " << vec.size()
+                << " have been inserted due to duplicates in " << var_name;
         throw runtime_error(msg.str());
     }
 

@@ -22,13 +22,13 @@ Ncdf::checkPath(const string & file_path, Mode mode) {
     
     if (mode == Mode::Read && !file_exists) {
         ostringstream msg;
-        msg << BOLDRED << "File not found: " << file_path << RESET;
+        msg << "File not found: " << file_path;
         throw invalid_argument(msg.str());
     }
     
     if (mode == Mode::Write && file_exists) {
         ostringstream msg;
-        msg << BOLDRED << "File exists: " << file_path << RESET;
+        msg << "File exists: " << file_path;
         throw invalid_argument(msg.str());
     }
 
@@ -43,7 +43,7 @@ Ncdf::checkPath(const string & file_path, Mode mode) {
 
     // Fail if the file path does not have a .nc extension
     ostringstream msg;
-    msg << BOLDRED << "Unknown extension " << file_path << RESET;
+    msg << "Unknown extension " << file_path;
     throw invalid_argument(msg.str());
 }
 
@@ -52,8 +52,8 @@ Ncdf::checkIndex(size_t start, size_t count, size_t len) {
 
     if (start + count - 1 >= len) {
         ostringstream msg;
-        msg << BOLDRED << "Indices out of bound. start:" << start <<
-                " count:" << count << " len:" << len << RESET;
+        msg << "Indices out of bound. start:" << start << " count:"
+                << count << " len:" << len;
         throw runtime_error(msg.str());
     }
 
@@ -76,16 +76,14 @@ Ncdf::readStringVector(
     // Check the dimensions
     if (var.getDims().size() != 2) {
         ostringstream msg;
-        msg << BOLDRED << "Variable (" << var_name <<
-                ") is not 2-dimensional!" << RESET;
+        msg << "Variable (" << var_name << ") is not 2-dimensional";
         throw runtime_error(msg.str());
     }
 
     // Check the variable type
     if (var.getType() != NcType::nc_CHAR) {
         ostringstream msg;
-        msg << BOLDRED << "Variable (" << var_name <<
-                ") is not nc_CHAR type!" << RESET;
+        msg << "Variable (" << var_name << ") is not nc_CHAR type!";
         throw runtime_error(msg.str());
     }
 
@@ -105,8 +103,7 @@ Ncdf::readStringVector(
         p_vals = new char[len];
     } catch (bad_alloc & e) {
         ostringstream msg;
-        msg << BOLDRED << "Insufficient memory reading " <<
-                var_name << "!" << RESET;
+        msg << "Insufficient memory reading " << var_name;
         throw runtime_error(msg.str());
     }
 
@@ -152,7 +149,7 @@ Ncdf::checkDims(const netCDF::NcFile & nc,
     for (const auto & name : names) {
         if (!name.empty() && !dimExists(nc, name)) {
             ostringstream msg;
-            msg << BOLDRED << "Dimension (" + name + ") is missing!" << RESET;
+            msg << "Dimension (" + name + ") is missing";
             throw invalid_argument(msg.str());
         }
     }
@@ -167,7 +164,7 @@ Ncdf::checkVars(const netCDF::NcFile & nc,
     for (const auto & name : names) {
         if (!name.empty() && !varExists(nc, name)) {
             ostringstream msg;
-            msg << BOLDRED << "Variable (" << name << ") is missing!" << RESET;
+            msg << "Variable (" << name << ") is missing";
             throw invalid_argument(msg.str());
         }
     }
@@ -184,9 +181,8 @@ Ncdf::checkVarShape(const NcFile & nc,
     
     if (dims.size() != dim_names.size()) {
         ostringstream msg;
-        msg << BOLDRED << "Variable " << var_name << " has " << dims.size() <<
-                " dimensions while " << dim_names.size() << " are expected" <<
-                RESET << endl;
+        msg << "Variable " << var_name << " has " << dims.size() <<
+                " dimensions while " << dim_names.size() << " are expected";
         throw runtime_error(msg.str());
     }
     
@@ -195,9 +191,8 @@ Ncdf::checkVarShape(const NcFile & nc,
     for (size_t i = 0; i < dims.size(); ++i) {
         if (dim_names[i] != dims[i].getName()) {
             ostringstream msg;
-            msg << BOLDRED << "Variable " << var_name << " dimension #" <<
-                    i + 1 << " (" << dims[i].getName() << ") should be " <<
-                    dim_names[i] << RESET;
+            msg << "Variable " << var_name << " dimension #" << i + 1 << " ("
+                    << dims[i].getName() << ") should be " << dim_names[i];
             throw runtime_error(msg.str());
         }
     }

@@ -485,7 +485,7 @@ AnEnIS::computeSds_(const Forecasts & forecasts,
         const vector<size_t> & times_accum_index) {
 
     if (verbose_ >= Verbose::Detail) {
-        cout << "Computing standard deviation ..." << RESET << endl;
+        cout << "Computing standard deviation ..." << endl;
     }
 
     size_t num_times = (operational_ ? times_accum_index.size() : _SINGLE_LEN);
