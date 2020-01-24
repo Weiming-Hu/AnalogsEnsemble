@@ -21,7 +21,7 @@
 #include "boost/bimap.hpp"
 
 template <class T>
-using BmType = boost::bimap<boost::bimaps::vector_of<size_t>, T,
+using BmType = boost::bimap<boost::bimaps::vector_of<std::size_t>, T,
         boost::bimaps::left_based>;
 
 #endif /* BMDIM_H */

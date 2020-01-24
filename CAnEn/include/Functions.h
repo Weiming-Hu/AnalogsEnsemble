@@ -21,7 +21,7 @@
 
 namespace Functions {
 
-    template <typename T, size_t NDims>
+    template <typename T, std::size_t NDims>
     using array_view = boost::detail::multi_array::multi_array_view<T, NDims>;
     using Matrix = boost::numeric::ublas::matrix<double>;
 
@@ -47,7 +47,7 @@ namespace Functions {
      */
     void updateTimeTable(
             const Times & fcst_times,
-            const std::vector<size_t> & fcst_times_index,
+            const std::vector<std::size_t> & fcst_times_index,
             const Times & fcst_flts,
             const Times & obs_times,
             Matrix & table);
@@ -68,7 +68,7 @@ namespace Functions {
     
     
     double sum(const std::vector<double> & values,
-            size_t max_nan_allowed = AnEnDefaults::_MAX_SIZE_T);
+            std::size_t max_nan_allowed = AnEnDefaults::_MAX_SIZE_T);
     
     /**
      * Computes the mean of a vector.
@@ -77,7 +77,7 @@ namespace Functions {
      * vector. Set it to NAN to allow any number of NAN values.
      */
     double mean(const std::vector<double> & values,
-            size_t max_nan_allowed = AnEnDefaults::_MAX_SIZE_T);
+            std::size_t max_nan_allowed = AnEnDefaults::_MAX_SIZE_T);
 
     /**
      * Computes the variance of a vector.
@@ -113,7 +113,7 @@ namespace Functions {
     void print(std::ostream & os, const boost::multi_array<T, 4> & arr);
     template <typename T>
     void print(std::ostream & os, const boost::multi_array<T, 5> & arr);
-    template <typename T, size_t NDims>
+    template <typename T, std::size_t NDims>
     void print(std::ostream & os, const array_view<T, NDims> & view);
     
     /**
@@ -128,7 +128,7 @@ namespace Functions {
     template <typename T>
     std::string format(const std::vector<T> & vec, const std::string & delim = ",");
     template <typename T>
-    std::string format(const T* ptr, size_t len, const std::string & delim = ",");
+    std::string format(const T* ptr, std::size_t len, const std::string & delim = ",");
 
     /**
      * Calculate the indices for each query object from the pool objects.
@@ -139,7 +139,7 @@ namespace Functions {
      * Parameters, Times, Stations.
      */
     template <class T>
-    void toIndex(std::vector<size_t> & index, const T & query, const T & pool);
+    void toIndex(std::vector<std::size_t> & index, const T & query, const T & pool);
 }
 
 // Definition of template functions

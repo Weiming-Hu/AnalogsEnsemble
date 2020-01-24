@@ -7,11 +7,13 @@
 
 #include "ObservationsR.h"
 #include "FunctionsR.h"
+#include "boost/numeric/conversion/cast.hpp"
 
 #include <sstream>
 #include <stdexcept>
 
 using namespace Rcpp;
+using namespace boost;
 
 ObservationsR::ObservationsR() {
 }
@@ -53,7 +55,7 @@ ObservationsR::ObservationsR(SEXP sx_times, SEXP sx_data) {
         throw std::runtime_error(msg);
     }
     
-    if (times_.size() != data_dims[2]) {
+    if (numeric_cast<int>(times_.size()) != data_dims[2]) {
         std::ostringstream msg;
         msg << "Third dimensions of observations (" << data_dims[2]
                 << ") != #unique observation times (" << times_.size() << ")";
@@ -109,7 +111,9 @@ double ObservationsR::getValue(
 
     // Type cast from size_t to int for IntegerVector
     IntegerVector indices{
-        (int) parameter_index, (int) station_index, (int) time_index};
+        numeric_cast<int>(parameter_index),
+        numeric_cast<int>(station_index),
+        numeric_cast<int>(time_index)};
 
     return data_[offset_(indices)];
 }
@@ -119,7 +123,9 @@ void ObservationsR::setValue(double val,
 
     // Type cast from size_t to int for IntegerVector
     IntegerVector indices{
-        (int) parameter_index, (int) station_index, (int) time_index};
+        numeric_cast<int>(parameter_index),
+        numeric_cast<int>(station_index),
+        numeric_cast<int>(time_index)};
 
     data_[offset_(indices)] = val;
     return;

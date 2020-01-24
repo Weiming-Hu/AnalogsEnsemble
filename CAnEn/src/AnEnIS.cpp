@@ -114,8 +114,20 @@ AnEnIS::compute(const Forecasts & forecasts,
      * Convert Time objects to their corresponding indices
      */
     vector<size_t> fcsts_test_index, fcsts_search_index;
-    Functions::toIndex(fcsts_test_index, test_times, fcst_times);
-    Functions::toIndex(fcsts_search_index, search_times, fcst_times);
+    
+    try {
+        Functions::toIndex(fcsts_test_index, test_times, fcst_times);
+    } catch (exception & ex) {
+        string msg = string("toIndex(test_times, ...) -> ") + ex.what();
+        throw runtime_error(msg);
+    }
+
+    try {
+        Functions::toIndex(fcsts_search_index, search_times, fcst_times);
+    } catch (exception & ex) {
+        string msg = string("toIndex(search_times, ...) -> ") + ex.what();
+        throw runtime_error(msg);
+    }
 
     compute(forecasts, observations, fcsts_test_index, fcsts_search_index);
 
@@ -237,7 +249,7 @@ circulars, _INIT_ARR_VALUE)
                 /*
                  * Initialize similarity array values
                  */
-                fill_n(simsArr_.data(), simsArr_.data() + simsArr_.size(), _INIT_ARR_VALUE);
+                fill_n(simsArr_.begin(), simsArr_.size(), _INIT_ARR_VALUE);
 
                 /*
                  * Compute similarity for all search times
@@ -302,7 +314,8 @@ circulars, _INIT_ARR_VALUE)
                  * Output values and indices
                  */
                 for (size_t analog_i = 0; analog_i < num_analogs_; ++analog_i) {
-
+                    
+                    // Check whether the observation index is valid
                     double obs_time_index = simsArr_[analog_i][_SIM_OBS_INDEX];
                     if (std::isnan(obs_time_index)) continue;
 
@@ -377,10 +390,14 @@ AnEnIS::print(std::ostream & os) const {
             << "observation variable index: " << obs_var_index_ << endl
             << "quick sort: " << quick_sort_ << endl
             << "operational: " << operational_ << endl
-            << "check time overlap: " << check_search_future_ << endl
+            << "check search into the future: " << check_search_future_ << endl
             << "save analog time indices: " << save_analogs_index_ << endl
             << "save similarity: " << save_sims_ << endl
-            << "save similarity time indices: " << save_sims_index_ << endl;
+            << "save similarity time indices: " << save_sims_index_ << endl
+            << "max numbers of NAs in parameters: " << max_par_nan_ << endl
+            << "max numbers of NAs in flts: " << max_flt_nan_ << endl
+            << "FLT radius: " << flt_radius_ << endl;
+
 
     if (verbose_ >= Verbose::Debug) {
         os << "sds_ dimensions: [" << Functions::format(

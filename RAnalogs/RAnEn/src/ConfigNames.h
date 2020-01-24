@@ -15,6 +15,8 @@
  * be recognized.
  */
 namespace ConfigNames {
+    
+    // Input names
     static const std::string _OBS = "observations";
     static const std::string _OBS_TIMES = "observation_times";
     static const std::string _WEIGHTS = "weights";
@@ -26,7 +28,7 @@ namespace ConfigNames {
     static const std::string _SEARCH_TIMES = "search_times";
     static const std::string _VERBOSE = "verbose";
     static const std::string _OBS_ID = "observation_id";
-    static const std::string _NUM_MEMBERS = "NUM_MEMBERS";
+    static const std::string _NUM_MEMBERS = "num_members";
     static const std::string _NUM_SIMS = "max_num_sims";
     static const std::string _NUM_PAR_NA = "max_par_nan";
     static const std::string _NUM_FLT_NA = "max_flt_nan";
@@ -37,6 +39,12 @@ namespace ConfigNames {
     static const std::string _OPERATION = "operational";
     static const std::string _CHECK_SEARCH_FUTURE = "check_search_future";
     static const std::string _QUICK = "quick";
+    
+    // Output names
+    static const std::string _ANALOGS = "analogs";
+    static const std::string _ANALOGS_IND = "analogs_index";
+    static const std::string _SIMS = "similarity";
+    static const std::string _SIMS_IND = "similarity_index";
 }
 
 #endif /* CONFIGNAMES_H */

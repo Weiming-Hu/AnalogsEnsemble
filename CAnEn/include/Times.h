@@ -17,17 +17,17 @@
 class Time {
 public:
     Time();
-    Time(size_t);
+    Time(std::size_t);
     Time(const Time &);
     virtual ~Time();
 
     Time & operator=(const Time & rhs);
-    Time & operator=(size_t rhs);
+    Time & operator=(std::size_t rhs);
     Time operator+(const Time & rhs) const;
     bool operator<(const Time &) const;
 
-    // This is where we store the actual data as size_t.
-    size_t timestamp;
+    // This is where we store the actual data as std::size_t.
+    std::size_t timestamp;
     
     void print(std::ostream & os) const;
     friend std::ostream& operator<<(std::ostream& os, Time const & obj);
@@ -63,7 +63,7 @@ public:
      * @param time A Time object
      * @return an index
      */
-    size_t getIndex(const Time & time) const;
+    std::size_t getIndex(const Time & time) const;
 
     void print(std::ostream & os) const;
     friend std::ostream& operator<<(std::ostream& os, Times const & obj);

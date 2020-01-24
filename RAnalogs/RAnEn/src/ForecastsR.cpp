@@ -7,9 +7,12 @@
 
 #include "ForecastsR.h"
 #include "FunctionsR.h"
+#include "boost/numeric/conversion/cast.hpp"
+
 #include <sstream>
 
 using namespace Rcpp;
+using namespace boost;
 
 ForecastsR::ForecastsR() {
 }
@@ -27,18 +30,18 @@ ForecastsR::ForecastsR(SEXP sx_weights, SEXP sx_circulars,
 
     // Create wrappers around SEXP types
     NumericVector data = sx_data;
-    
+
     // Get data dimensions
     if (!data.hasAttribute("dim")) throw std::runtime_error("Dimensions missing for forecasts");
 
     IntegerVector data_dims = data.attr("dim");
-    
+
     // Check dimension length
     if (data_dims.size() != 4) throw std::runtime_error(
             "Forecasts should be 4-dimensional [Parameters, Stations, Times, FLTs]");
-    
+
     try {
-        
+
         // Create parameters
         FunctionsR::toParameters(sx_weights, sx_circulars, parameters_);
 
@@ -50,27 +53,27 @@ ForecastsR::ForecastsR(SEXP sx_weights, SEXP sx_circulars,
 
         // Create flts
         FunctionsR::toTimes(sx_flts, flts_);
-        
+
     } catch (std::exception & ex) {
         std::string msg = std::string("ForecastsR -> ") + ex.what();
         throw std::runtime_error(msg);
     }
-    
-    if (parameters_.size() != data_dims[0]) {
+
+    if (numeric_cast<int>(parameters_.size()) != data_dims[0]) {
         std::ostringstream msg;
         msg << "First dimension of forecasts (" << data_dims[0]
                 << ") != #weights (" << parameters_.size() << ")";
         throw std::runtime_error(msg.str());
     }
 
-    if (times_.size() != data_dims[2]) {
+    if (numeric_cast<int>(times_.size()) != data_dims[2]) {
         std::ostringstream msg;
         msg << "Third dimension of forecasts (" << data_dims[2]
                 << ") != #forecast times (" << times_.size() << ")";
         throw std::runtime_error(msg.str());
     }
-    
-    if (flts_.size() != data_dims[3]) {
+
+    if (numeric_cast<int>(flts_.size()) != data_dims[3]) {
         std::ostringstream msg;
         msg << "Fourth dimension of forecasts (" << data_dims[3]
                 << ") != #unique flts (" << flts_.size() << ")";
@@ -129,8 +132,10 @@ double ForecastsR::getValue(
 
     // Type cast from size_t to int for IntegerVector
     IntegerVector indices{
-        (int) parameter_index, (int) station_index,
-        (int) time_index, (int) flt_index};
+        numeric_cast<int>(parameter_index),
+        numeric_cast<int>(station_index),
+        numeric_cast<int>(time_index),
+        numeric_cast<int>(flt_index)};
 
     return data_[offset_(indices)];
 }
@@ -138,11 +143,13 @@ double ForecastsR::getValue(
 void ForecastsR::setValue(double val,
         size_t parameter_index, size_t station_index,
         size_t time_index, size_t flt_index) {
-    
+
     // Type cast from size_t to int for IntegerVector
     IntegerVector indices{
-        (int) parameter_index, (int) station_index,
-        (int) time_index, (int) flt_index};
+        numeric_cast<int>(parameter_index),
+        numeric_cast<int>(station_index),
+        numeric_cast<int>(time_index),
+        numeric_cast<int>(flt_index)};
 
     data_[offset_(indices)] = val;
     return;

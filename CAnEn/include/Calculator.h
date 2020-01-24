@@ -22,14 +22,14 @@ class Calculator {
 public:
     Calculator();
     Calculator(bool);
-    Calculator(bool, size_t);
+    Calculator(bool, std::size_t);
     Calculator(const Calculator& orig);
     virtual ~Calculator();
     
     void setCircular(bool);
     bool isCircular() const;
     
-    void reserve(size_t);
+    void reserve(std::size_t);
     void pushValue(double);
     void clearValues();
     void reset();

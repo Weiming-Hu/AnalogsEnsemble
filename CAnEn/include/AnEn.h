@@ -28,8 +28,8 @@ public:
             const Times & test_times, const Times & search_times) = 0;
     virtual void compute(const Forecasts & forecasts,
             const Observations & observations,
-            std::vector<size_t> fcsts_test_index,
-            std::vector<size_t> fcsts_search_index) = 0;
+            std::vector<std::size_t> fcsts_test_index,
+            std::vector<std::size_t> fcsts_search_index) = 0;
 
 protected:
     bool operational_;

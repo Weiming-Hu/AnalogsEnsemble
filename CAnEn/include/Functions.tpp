@@ -153,7 +153,7 @@ Functions::format(const T* ptr, size_t len, const std::string & delim) {
 
 template <class T>
 void
-Functions::toIndex(std::vector<size_t> & index,
+Functions::toIndex(std::vector<std::size_t> & index,
         const T & query, const T & pool) {
     
     // Check for accepted instantiation
@@ -167,7 +167,7 @@ Functions::toIndex(std::vector<size_t> & index,
     index.resize(query.size());
 
     // Calculate indices
-    for (size_t i = 0; i < index.size(); ++i) {
+    for (std::size_t i = 0; i < index.size(); ++i) {
         index[i] = pool.getIndex(query.left[i].second);
     }
 

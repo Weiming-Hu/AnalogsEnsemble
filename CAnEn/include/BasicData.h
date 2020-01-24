@@ -40,9 +40,9 @@ public:
     Stations & getStations();
     Times & getTimes();
     
-    size_t getTimeStamp(size_t index) const;
-    size_t getTimeIndex(size_t timestamp) const;
-    size_t getTimeIndex(const Time &) const;
+    std::size_t getTimeStamp(std::size_t index) const;
+    std::size_t getTimeIndex(std::size_t timestamp) const;
+    std::size_t getTimeIndex(const Time &) const;
     
 protected:
     Parameters parameters_;

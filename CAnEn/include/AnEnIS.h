@@ -20,19 +20,19 @@ class AnEnIS : public AnEn {
 public:
     AnEnIS();
     AnEnIS(const AnEnIS& orig);
-    AnEnIS(size_t num_members,
+    AnEnIS(std::size_t num_members,
             bool operational = AnEnDefaults::_OPERATIONAL,
             bool check_search_future = AnEnDefaults::_CHECK_SEARCH_FUTURE,
             bool save_sims = AnEnDefaults::_SAVE_SIMS,
             AnEnDefaults::Verbose verbose = AnEnDefaults::_VERBOSE,
-            size_t obs_var_index = AnEnDefaults::_OBS_VAR_INDEX,
+            std::size_t obs_var_index = AnEnDefaults::_OBS_VAR_INDEX,
             bool quick_sort = AnEnDefaults::_QUICK_SORT,
             bool save_sims_index = AnEnDefaults::_SAVE_SIMS_INDEX,
             bool save_analogs_index = AnEnDefaults::_SAVE_ANALOGS_INDEX,
-            size_t num_sims = AnEnDefaults::_NUM_SIMS,
-            size_t max_par_nan = AnEnDefaults::_MAX_PAR_NAN,
-            size_t max_flt_nan = AnEnDefaults::_MAX_FLT_NAN,
-            size_t flt_radius = AnEnDefaults::_FLT_RADIUS);
+            std::size_t num_sims = AnEnDefaults::_NUM_SIMS,
+            std::size_t max_par_nan = AnEnDefaults::_MAX_PAR_NAN,
+            std::size_t max_flt_nan = AnEnDefaults::_MAX_FLT_NAN,
+            std::size_t flt_radius = AnEnDefaults::_FLT_RADIUS);
 
     virtual ~AnEnIS();
 
@@ -42,8 +42,8 @@ public:
             const Times & search_times) override;
     void compute(const Forecasts & forecasts,
             const Observations & observations,
-            std::vector<size_t> fcsts_test_index,
-            std::vector<size_t> fcsts_search_index) override;
+            std::vector<std::size_t> fcsts_test_index,
+            std::vector<std::size_t> fcsts_search_index) override;
 
     const Array4D & getSimsValue() const;
     const Array4D & getSimsIndex() const;
@@ -58,12 +58,12 @@ protected:
     bool save_sims_index_;
     bool save_analogs_index_;
 
-    size_t obs_var_index_;
-    size_t num_sims_;
-    size_t num_analogs_;
-    size_t max_par_nan_;
-    size_t max_flt_nan_;
-    size_t flt_radius_;
+    std::size_t obs_var_index_;
+    std::size_t num_sims_;
+    std::size_t num_analogs_;
+    std::size_t max_par_nan_;
+    std::size_t max_flt_nan_;
+    std::size_t flt_radius_;
     
     /**
      * The standard deviation array has the following dimensions
@@ -77,7 +77,7 @@ protected:
      * the test time and the the value is the corresponding index
      * of the time dimension in the standard deviation array.
      */
-    std::unordered_map<size_t, size_t> sds_time_index_map_;
+    std::unordered_map<std::size_t, std::size_t> sds_time_index_map_;
 
     /**
      * Arrays for storing similarity information
@@ -103,8 +103,8 @@ protected:
     std::vector< std::array<double, 3> > simsArr_;
 
 
-    double computeSimMetric_(const Forecasts & forecasts, size_t sta_i,
-            size_t flt_i, size_t time_test_i, size_t time_search_i,
+    double computeSimMetric_(const Forecasts & forecasts, std::size_t sta_i,
+            std::size_t flt_i, std::size_t time_test_i, std::size_t time_search_i,
             const std::vector<double> & weights,
             const std::vector<bool> & circulars);
 
@@ -122,14 +122,14 @@ protected:
      * standard deviation calculation.
      */
     void computeSds_(const Forecasts & forecasts,
-            const std::vector<size_t> & times_fixed_index,
-            const std::vector<size_t> & times_accum_index = {});
+            const std::vector<std::size_t> & times_fixed_index,
+            const std::vector<std::size_t> & times_accum_index = {});
     
-    void setSdsTimeMap_(const std::vector<size_t> & times_accum_index);
+    void setSdsTimeMap_(const std::vector<std::size_t> & times_accum_index);
 
     void checkIndexRange_(const Forecasts & forecasts,
-            const std::vector<size_t> & fcsts_test_index,
-            const std::vector<size_t> & fcsts_search_index) const;
+            const std::vector<std::size_t> & fcsts_test_index,
+            const std::vector<std::size_t> & fcsts_search_index) const;
     
     void checkConsistency_(const Forecasts & forecasts,
             const Observations & observations) const;

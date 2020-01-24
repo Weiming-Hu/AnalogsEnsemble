@@ -90,7 +90,7 @@ public:
     Parameters();
     virtual ~Parameters();
 
-    size_t getIndex(const Parameter &) const;
+    std::size_t getIndex(const Parameter &) const;
     void getWeights(std::vector<double> & weights) const;
     void getCirculars(std::vector<bool> & circulars) const;
 

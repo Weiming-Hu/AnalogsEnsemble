@@ -76,9 +76,9 @@ public:
     Times const & getFLTs() const;
     Times & getFLTs();
     
-    size_t getFltTimeStamp(size_t index) const;
-    size_t getFltTimeIndex(size_t timestamp) const;
-    size_t getFltTimeIndex(const Time &) const;
+    std::size_t getFltTimeStamp(std::size_t index) const;
+    std::size_t getFltTimeIndex(std::size_t timestamp) const;
+    std::size_t getFltTimeIndex(const Time &) const;
     
     virtual void print(std::ostream &) const;
     friend std::ostream& operator<<(std::ostream&, Forecasts const &);
