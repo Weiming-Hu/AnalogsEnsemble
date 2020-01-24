@@ -17,6 +17,8 @@
 
 #include <string>
 
+// TODO: These names should be static
+
 namespace AnEnNames {
     // The name prefix for member dimensions in file type Analogs
     const std::string MEMBER_DIM_PREFIX = "member_";

@@ -3,8 +3,8 @@
  *
  * Created on August 15, 2018
  *
- * Rinterface.cpp is the source file with the interface definition for
- * R functions to call C++ functions.
+ * RcomputeAnEnIS.cpp is the source file with the interface definition for
+ * R functions to call AnEnIS class.
  */
 
 // [[Rcpp::plugins(cpp11)]]
@@ -23,31 +23,14 @@
 using namespace Rcpp;
 using namespace boost;
 
-#if defined(_OPENMP)
-#include <omp.h>
-#endif
+// [[Rcpp::export]]
+SEXP computeAnEnIS(SEXP sx_config) {
 
-// [[Rcpp::export(".checkOpenMP")]]
-
-bool checkOpenMP() {
-#ifndef _OPENMP
-    return false;
-#else
-    return true;
-#endif
-}
-
-// [[Rcpp::export(".generateAnEnIS")]]
-
-SEXP computeAnEnIS(SEXP R_config) {
-
-    if (!Rf_isNewList(R_config)) throw std::runtime_error("A list is expected");
+    // Type checks
+    FunctionsR::checkConfig(sx_config);
 
     // Create list wrapper
-    List config = R_config;
-    
-    // Type checks
-    FunctionsR::checkConfig(config);
+    List config = sx_config;
 
     // Verbose
     AnEnDefaults::Verbose verbose = Functions::itov(

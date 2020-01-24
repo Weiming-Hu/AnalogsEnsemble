@@ -126,10 +126,14 @@ FunctionsR::setElement(Rcpp::List & list, const std::string & name, const Array4
 }
 
 FunctionsR::ConfigMode
-FunctionsR::checkConfig(const List & config) {
+FunctionsR::checkConfig(const SEXP & sx_config) {
 
     using namespace std;
     using namespace ConfigNames;
+
+    if (!Rf_isNewList(sx_config)) throw std::runtime_error("Configuration should be a list");
+    
+    List config = sx_config;
 
     // Members that should be numeric
     vector<string> members_numeric{

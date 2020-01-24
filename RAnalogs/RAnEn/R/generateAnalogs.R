@@ -58,34 +58,10 @@
 #' @export
 generateAnalogs <- function(configuration) {
   
-  #configuration <- formatConfiguration(configuration, configuration$verbose > 2)
-  #valid <- validateConfiguration(configuration)
-  #if (!valid) return(valid)
-  
-  #configuration <- convertToAdvance(configuration)
-  
-  #configuration$observation_id = configuration$observation_id - 1
-  
   # Call the C++ routine
-  AnEn <- .generateAnEnIS(configuration)
+  AnEn <- computeAnEnIS(configuration)
+  
+  # Convert C indices to R indices
+  index.members <- c('')
   return (AnEn)
-  
-  # Because similarity matrix was stored in row-major in C++ and the R object will be column-major.
-  # So change the order of dimensions to make it conform with other objects.
-  #
-  if (configuration$preserve_similarity) {
-    AnEn <- AnEnC2R(AnEn, 'similarity')
-  }
-
-  if (configuration$preserve_search_stations) {
-    AnEn$searchStations <- AnEn$searchStations + 1
-  }
-
-  AnEn <- AnEnC2R(AnEn, 'analogs')
-
-  if (configuration$preserve_mapping) AnEn$mapping <- AnEn$mapping + 1
-
-  if (configuration$verbose >= 3)  cat("Done (generateAnalogs)!\n")
-  
-  return(AnEn)
 }

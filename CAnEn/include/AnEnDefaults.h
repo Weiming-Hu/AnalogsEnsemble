@@ -44,7 +44,7 @@ namespace AnEnDefaults {
 
     static const std::size_t _PREVIEW_COUNT = 10;
     static const std::size_t _MAX_SIZE_T = std::numeric_limits<std::size_t>::max();
-
+    
     /**
      * A higher level will contain all messages from the lower levels. For
      * example, The progress level will contain errors and warnings. Errors,
@@ -55,7 +55,8 @@ namespace AnEnDefaults {
         Detail = 3, Debug = 4
     };
     
-    static const Verbose _VERBOSE = Verbose::Progress;
+    static const Verbose _VERBOSE = Verbose::Warning;
+    static const int _VERBOSE_INT = 1;
 }
 
 #endif /* ANENDEFAULTS_H */

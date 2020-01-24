@@ -44,7 +44,7 @@ configure_file("${RAnEn_PACKAGE_DIR}/DESCRIPTION.in" "${RAnEn_PACKAGE_DIR}/DESCR
 # copy files
 set(REQUIRED_SOURCE_FILES "BasicData;Forecasts;Observations;Parameters;Stations;Times;AnEn;AnEnIS;Calculator")
 set(REQUIRED_TEMPLATE_FILES "Functions")
-set(REQUIRED_HEADER_ONLY_FILES "AnEnDefaults;BmDim")
+set(REQUIRED_HEADER_ONLY_FILES "AnEnDefaults;BmDim;ConfigNames")
 
 foreach(file_name ${REQUIRED_SOURCE_FILES})
     file(COPY "${RAnEn_EXTRA_INCLUDE_DIR}/${file_name}.h" DESTINATION ${RAnEn_SOURCE_DIR})

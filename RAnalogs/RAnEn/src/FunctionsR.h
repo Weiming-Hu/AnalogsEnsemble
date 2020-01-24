@@ -26,7 +26,7 @@ namespace FunctionsR {
         DATA_IN_MEMORY
     };
     
-    ConfigMode checkConfig(const Rcpp::List & config);
+    ConfigMode checkConfig(const SEXP & sx_config);
     void checkType(const Rcpp::List & config, std::vector<std::string> names,
             Rboolean (typeFunc)(SEXP), const std::string type_name);
 }
