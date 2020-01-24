@@ -35,6 +35,9 @@ public:
             std::size_t station_index, std::size_t time_index,
             std::size_t flt_index);
 
+    void print(std::ostream &) const;
+    friend std::ostream & operator<<(std::ostream &, const ForecastsR &);
+
 protected:
     Offset offset_;
     Rcpp::NumericVector data_;

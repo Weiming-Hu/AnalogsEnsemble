@@ -154,3 +154,25 @@ void ForecastsR::setValue(double val,
     data_[offset_(indices)] = val;
     return;
 }
+
+void ForecastsR::print(std::ostream & os) const {
+    Forecasts::print(os);
+
+    size_t count = numeric_cast<size_t>(data_.size());
+    os << "[Data] size: " << count << std::endl;
+
+    if (count > AnEnDefaults::_PREVIEW_COUNT) {
+        os << Functions::format(REAL(data_), AnEnDefaults::_PREVIEW_COUNT, ",") << ", ...";
+    } else {
+        os << Functions::format(REAL(data_), count, ",");
+    }
+    os << std::endl;
+
+    return;
+}
+
+std::ostream &
+operator<<(std::ostream & os, const ForecastsR & obj) {
+    obj.print(os);
+    return os;
+} 

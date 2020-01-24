@@ -7,6 +7,8 @@
 
 #include "ObservationsR.h"
 #include "FunctionsR.h"
+#include "Functions.h"
+#include "AnEnDefaults.h"
 #include "boost/numeric/conversion/cast.hpp"
 
 #include <sstream>
@@ -49,12 +51,12 @@ ObservationsR::ObservationsR(SEXP sx_times, SEXP sx_data) {
 
         // Create times
         FunctionsR::toTimes(sx_times, times_);
-        
+
     } catch (std::exception & ex) {
         std::string msg = std::string("ObservationsR -> ") + ex.what();
         throw std::runtime_error(msg);
     }
-    
+
     if (numeric_cast<int>(times_.size()) != data_dims[2]) {
         std::ostringstream msg;
         msg << "Third dimensions of observations (" << data_dims[2]
@@ -130,3 +132,26 @@ void ObservationsR::setValue(double val,
     data_[offset_(indices)] = val;
     return;
 }
+
+void
+ObservationsR::print(std::ostream & os) const {
+    Observations::print(os);
+    
+    size_t count = numeric_cast<size_t>(data_.size());
+    os << "[Data] size: " << count << std::endl;
+
+    if (count > AnEnDefaults::_PREVIEW_COUNT) {
+        os << Functions::format(REAL(data_), AnEnDefaults::_PREVIEW_COUNT, ",") << ", ...";
+    } else {
+        os << Functions::format(REAL(data_), count, ",");
+    }
+    os << std::endl;
+    
+    return;
+}
+
+std::ostream &
+operator<<(std::ostream & os, const ObservationsR & obj) {
+    obj.print(os);
+    return os;
+} 

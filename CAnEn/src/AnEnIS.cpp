@@ -14,9 +14,6 @@
 using namespace std;
 using namespace AnEnDefaults;
 
-// This variable defines how many values to print for preview
-static const size_t _PREVIEW_COUNT = 5;
-
 // When operational mode is OFF, standard deviation is computed across all
 // search days, thus having only a length of one for the time dimension.
 //
@@ -579,10 +576,9 @@ times_accum_index, weights, circulars, num_times, calculator_capacity)
 
     if (verbose_ >= Verbose::Debug) {
         cout << "Standard deviations: ";
-        if (sds_.num_elements() > _PREVIEW_COUNT) {
-            cout << Functions::format(sds_.data(), _PREVIEW_COUNT, ",") << ", ...";
+        if (sds_.num_elements() > AnEnDefaults::_PREVIEW_COUNT) {
+            cout << Functions::format(sds_.data(), AnEnDefaults::_PREVIEW_COUNT, ",") << ", ...";
         } else {
-
             cout << Functions::format(sds_.data(), sds_.num_elements());
         }
         cout << endl;

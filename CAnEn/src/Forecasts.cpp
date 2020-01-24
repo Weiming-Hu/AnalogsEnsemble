@@ -68,11 +68,11 @@ Forecasts::print(ostream &os) const {
             parameters_.size() << ", " <<
             stations_.size() << ", " <<
             times_.size() << ", " <<
-            flts_.size() << "]" << endl << endl;
-    os << parameters_ << endl;
-    os << stations_ << endl;
-    os << times_ << endl;
-    os << flts_ << endl;
+            flts_.size() << "]" << endl;
+    os << parameters_;
+    os << stations_;
+    os << times_;
+    os << flts_;
 }
 
 ostream&

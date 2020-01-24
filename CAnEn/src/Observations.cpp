@@ -27,10 +27,10 @@ Observations::print(ostream& os) const {
     os << "[Observations] size: [" <<
             parameters_.size() << ", " <<
             stations_.size() << ", " <<
-            times_.size() << "]" << endl << endl;
-    os << parameters_ << endl;
-    os << stations_ << endl;
-    os << times_ << endl;
+            times_.size() << "]" << endl;
+    os << parameters_;
+    os << stations_;
+    os << times_;
 }
 
 ostream &

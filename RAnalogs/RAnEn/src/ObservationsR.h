@@ -30,6 +30,9 @@ public:
             std::size_t station_index, std::size_t time_index) const;
     void setValue(double val, std::size_t parameter_index,
             std::size_t station_index, std::size_t time_index);
+    
+    void print(std::ostream &) const;
+    friend std::ostream & operator<<(std::ostream &, const ObservationsR &);
 
 protected:
     Offset offset_;

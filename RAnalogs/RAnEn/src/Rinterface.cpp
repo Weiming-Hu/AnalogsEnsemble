@@ -48,12 +48,16 @@ SEXP computeAnEnIS(SEXP R_config) {
     
     // Type checks
     FunctionsR::checkConfig(config);
+
+    // Verbose
+    AnEnDefaults::Verbose verbose = Functions::itov(
+            as<int>(config[ConfigNames::_VERBOSE]));
     
     // Observations
     ObservationsR observations(
             config[ConfigNames::_OBS_TIMES],
             config[ConfigNames::_OBS]);
-
+        
     // Forecasts
     ForecastsR forecasts(
             config[ConfigNames::_WEIGHTS],
@@ -61,6 +65,10 @@ SEXP computeAnEnIS(SEXP R_config) {
             config[ConfigNames::_FCST_TIMES],
             config[ConfigNames::_FLTS],
             config[ConfigNames::_FCSTS]);
+
+    if (verbose >= AnEnDefaults::Verbose::Debug) {
+        Rcout << forecasts << std::endl << observations << std::endl;
+    }
 
     // Test and search times
     Times test_times, search_times;
@@ -78,10 +86,6 @@ SEXP computeAnEnIS(SEXP R_config) {
         std::string msg = std::string("toTimes(search_times) -> ") + ex.what();
         throw std::runtime_error(msg);
     }
-
-    // Verbose
-    AnEnDefaults::Verbose verbose = Functions::itov(
-            as<int>(config[ConfigNames::_VERBOSE]));
 
     // Observation variable index should subtract 1 to be converted from 
     // an R index to a C index
