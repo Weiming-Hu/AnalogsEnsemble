@@ -54,20 +54,7 @@ analogsValue_(Array4D(boost::extents[0][0][0][0], boost::fortran_storage_order()
 }
 
 AnEnIS::AnEnIS(const AnEnIS& orig) : AnEn(orig) {
-
-    quick_sort_ = orig.quick_sort_;
-    save_sims_index_ = orig.save_sims_index_;
-    save_analogs_index_ = orig.save_analogs_index_;
-    obs_var_index_ = orig.obs_var_index_;
-    num_sims_ = orig.num_sims_;
-    num_analogs_ = orig.num_analogs_;
-    max_par_nan_ = orig.max_par_nan_;
-    max_flt_nan_ = orig.max_flt_nan_;
-    flt_radius_ = orig.flt_radius_;
-    simsIndex_ = orig.simsIndex_;
-    simsMetric_ = orig.simsMetric_;
-    analogsIndex_ = orig.analogsIndex_;
-    analogsValue_ = orig.analogsValue_;
+    *this = orig;
 }
 
 AnEnIS::AnEnIS(size_t num_members,
@@ -111,7 +98,7 @@ AnEnIS::compute(const Forecasts & forecasts,
      * Convert Time objects to their corresponding indices
      */
     vector<size_t> fcsts_test_index, fcsts_search_index;
-    
+
     try {
         Functions::toIndex(fcsts_test_index, test_times, fcst_times);
     } catch (exception & ex) {
@@ -310,7 +297,7 @@ fcsts_test_index, fcsts_search_index, forecasts, observations, weights, circular
                  * Output values and indices
                  */
                 for (size_t analog_i = 0; analog_i < num_analogs_; ++analog_i) {
-                    
+
                     // Check whether the observation index is valid
                     double obs_time_index = simsArr_[analog_i][_SIM_OBS_INDEX];
                     if (std::isnan(obs_time_index)) continue;
@@ -389,7 +376,7 @@ AnEnIS::print(std::ostream & os) const {
             << "max numbers of NAs in parameters: " << max_par_nan_ << endl
             << "max numbers of NAs in flts: " << max_flt_nan_ << endl
             << "FLT radius: " << flt_radius_ << endl;
-    
+
     AnEn::print(os);
 
     if (verbose_ >= Verbose::Debug) {
@@ -422,6 +409,26 @@ operator<<(std::ostream & os, const AnEnIS & obj) {
     obj.print(os);
 
     return os;
+}
+
+AnEnIS &
+AnEnIS::operator=(const AnEnIS& rhs) {
+    if (this != &rhs) {
+        quick_sort_ = orig.quick_sort_;
+        save_sims_index_ = orig.save_sims_index_;
+        save_analogs_index_ = orig.save_analogs_index_;
+        obs_var_index_ = orig.obs_var_index_;
+        num_sims_ = orig.num_sims_;
+        num_analogs_ = orig.num_analogs_;
+        max_par_nan_ = orig.max_par_nan_;
+        max_flt_nan_ = orig.max_flt_nan_;
+        flt_radius_ = orig.flt_radius_;
+        simsIndex_ = orig.simsIndex_;
+        simsMetric_ = orig.simsMetric_;
+        analogsIndex_ = orig.analogsIndex_;
+        analogsValue_ = orig.analogsValue_;
+    }
+    return *this;
 }
 
 double

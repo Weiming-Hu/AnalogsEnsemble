@@ -146,7 +146,7 @@ FunctionsR::checkConfig(const SEXP & sx_config) {
     // Members that should be logic
     vector<string> members_logic{
         _SAVE_SIMS, _SAVE_SIMS_IND, _SAVE_ANALOGS_IND,
-        _OPERATION, _CHECK_SEARCH_FUTURE, _QUICK};
+        _OPERATION, _PREVENT_SEARCH_FUTURE, _QUICK};
 
     checkType(config, members_logic, Rf_isLogical, "logic");
 

@@ -52,6 +52,7 @@ public:
 
     void print(std::ostream &) const;
     friend std::ostream& operator<<(std::ostream&, const AnEnIS &);
+    AnEnIS & operator=(const AnEnIS & rhs);
 
 protected:
     bool quick_sort_;

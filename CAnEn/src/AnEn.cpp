@@ -18,12 +18,7 @@ verbose_(_VERBOSE) {
 }
 
 AnEn::AnEn(const AnEn& orig) {
-    if (this != &orig) {
-        operational_ = orig.operational_;
-        prevent_search_future_ = orig.prevent_search_future_;
-        save_sims_ = orig.save_sims_;
-        verbose_ = orig.verbose_;
-    }
+    *this = orig;
 }
 
 AnEn::AnEn(bool operational, bool prevent_search_future,
@@ -50,4 +45,15 @@ std::ostream&
 operator<<(std::ostream& os, AnEn const & obj) {
     obj.print(os);
     return os;
+}
+
+AnEn &
+AnEn::operator=(const AnEn& rhs) {
+    if (this != &rhs) {
+        operational_ = rhs.operational_;
+        prevent_search_future_ = rhs.prevent_search_future_;
+        save_sims_ = rhs.save_sims_;
+        verbose_ = rhs.verbose_;
+    }
+    return *this;
 }

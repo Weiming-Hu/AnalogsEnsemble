@@ -96,7 +96,7 @@ SEXP computeAnEnIS(SEXP sx_config) {
     // AnEnIS initialization
     AnEnIS anen(
             num_analogs, as<bool>(config[ConfigNames::_OPERATION]),
-            as<bool>(config[ConfigNames::_CHECK_SEARCH_FUTURE]),
+            as<bool>(config[ConfigNames::_PREVENT_SEARCH_FUTURE]),
             preserve_similarity, verbose, obs_id,
             as<bool>(config[ConfigNames::_QUICK]),
             preserve_similairty_index, preserve_analogs_index,

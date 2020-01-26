@@ -33,6 +33,7 @@ public:
     
     virtual void print(std::ostream &) const;
     friend std::ostream& operator<<(std::ostream&, const AnEn &);
+    AnEn & operator=(const AnEn & rhs);
 
 protected:
     bool operational_;
