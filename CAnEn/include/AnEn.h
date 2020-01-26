@@ -18,7 +18,7 @@ public:
     AnEn();
     AnEn(const AnEn& orig);
     AnEn(bool operational,
-            bool check_search_future_ = AnEnDefaults::_CHECK_SEARCH_FUTURE,
+            bool prevent_search_future = AnEnDefaults::_PREVENT_SEARCH_FUTURE,
             bool save_sims = AnEnDefaults::_SAVE_SIMS,
             AnEnDefaults::Verbose verbose = AnEnDefaults::_VERBOSE);
     virtual ~AnEn();
@@ -30,10 +30,13 @@ public:
             const Observations & observations,
             std::vector<std::size_t> fcsts_test_index,
             std::vector<std::size_t> fcsts_search_index) = 0;
+    
+    virtual void print(std::ostream &) const;
+    friend std::ostream& operator<<(std::ostream&, const AnEn &);
 
 protected:
     bool operational_;
-    bool check_search_future_;
+    bool prevent_search_future_;
     bool save_sims_;
     AnEnDefaults::Verbose verbose_;
 };

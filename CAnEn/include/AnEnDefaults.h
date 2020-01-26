@@ -27,7 +27,7 @@ namespace AnEnDefaults {
     static const std::string _ORIGIN = "1970-01-01";
     
     static const bool _OPERATIONAL = false;
-    static const bool _CHECK_SEARCH_FUTURE = true;
+    static const bool _PREVENT_SEARCH_FUTURE = true;
 
     static const std::size_t _NUM_ANALOGS = 1;
     static const std::size_t _NUM_SIMS = _NUM_ANALOGS;

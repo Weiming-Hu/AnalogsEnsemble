@@ -338,7 +338,7 @@ testAnEnIS::compareComputeLeaveOneOut_() {
          */
         size_t num_members = 10;
         bool operational = false;
-        bool check_search_future = false;
+        bool prevent_search_future = false;
         bool save_dims = true;
         AnEnDefaults::Verbose verbose = AnEnDefaults::Verbose::Warning;
         size_t obs_var_index = 1;
@@ -356,7 +356,7 @@ testAnEnIS::compareComputeLeaveOneOut_() {
         iota(fcsts_search_index.begin(), fcsts_search_index.end(), 0);
 
         // Compute analogs
-        AnEnIS anen(num_members, operational, check_search_future, save_dims,
+        AnEnIS anen(num_members, operational, prevent_search_future, save_dims,
                 verbose, obs_var_index, quick_sort, save_sims_index,
                 save_analogs_index, num_sims, max_par_nan,
                 max_flt_nan, flt_radius);

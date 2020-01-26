@@ -37,7 +37,7 @@ namespace ConfigNames {
     static const std::string _SAVE_SIMS_IND = "preserve_similarity_index";
     static const std::string _SAVE_ANALOGS_IND = "preserve_analogs_index";
     static const std::string _OPERATION = "operational";
-    static const std::string _CHECK_SEARCH_FUTURE = "check_search_future";
+    static const std::string _PREVENT_SEARCH_FUTURE = "prevent_search_future";
     static const std::string _QUICK = "quick";
     static const std::string _VERSION = "version";
     

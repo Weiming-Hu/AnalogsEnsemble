@@ -22,7 +22,7 @@ public:
     AnEnIS(const AnEnIS& orig);
     AnEnIS(std::size_t num_members,
             bool operational = AnEnDefaults::_OPERATIONAL,
-            bool check_search_future = AnEnDefaults::_CHECK_SEARCH_FUTURE,
+            bool prevent_search_future = AnEnDefaults::_PREVENT_SEARCH_FUTURE,
             bool save_sims = AnEnDefaults::_SAVE_SIMS,
             AnEnDefaults::Verbose verbose = AnEnDefaults::_VERBOSE,
             std::size_t obs_var_index = AnEnDefaults::_OBS_VAR_INDEX,

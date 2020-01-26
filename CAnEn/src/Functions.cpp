@@ -40,6 +40,27 @@ Functions::itov(int flag) {
     }
 }
 
+int
+Functions::vtoi(AnEnDefaults::Verbose verbose) {
+
+    using namespace AnEnDefaults;
+
+    switch (verbose) {
+        case Verbose::Error:
+            return 0;
+        case Verbose::Warning:
+            return 1;
+        case Verbose::Progress:
+            return 2;
+        case Verbose::Detail:
+            return 3;
+        case Verbose::Debug:
+            return 4;
+        default:
+            throw runtime_error("Unknown verbose type");
+    }
+}
+
 // This is the best estimator that Yamartino has found
 //              2 / sqrt(3) - 1 = 0.1547
 //

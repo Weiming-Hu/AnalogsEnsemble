@@ -72,7 +72,7 @@ AnEnIS::AnEnIS(const AnEnIS& orig) : AnEn(orig) {
 
 AnEnIS::AnEnIS(size_t num_members,
         bool operational,
-        bool check_search_future,
+        bool prevent_search_future,
         bool save_sims,
         Verbose verbose,
         size_t obs_var_index,
@@ -83,7 +83,7 @@ AnEnIS::AnEnIS(size_t num_members,
         size_t max_par_nan,
         size_t max_flt_nan,
         size_t flt_radius) :
-AnEn(operational, check_search_future, save_sims, verbose),
+AnEn(operational, prevent_search_future, save_sims, verbose),
 quick_sort_(quick_sort), save_sims_index_(save_sims_index),
 save_analogs_index_(save_analogs_index), obs_var_index_(obs_var_index),
 num_sims_(num_sims), num_analogs_(num_members),
@@ -94,7 +94,7 @@ analogsIndex_(Array4D(boost::extents[0][0][0][0], boost::fortran_storage_order()
 analogsValue_(Array4D(boost::extents[0][0][0][0], boost::fortran_storage_order())) {
     if (num_sims_ < num_analogs_) num_sims_ = num_analogs_;
 
-    if (operational_) check_search_future_ = true;
+    if (operational_) prevent_search_future_ = true;
 }
 
 AnEnIS::~AnEnIS() {
@@ -263,7 +263,7 @@ fcsts_test_index, fcsts_search_index, forecasts, observations, weights, circular
                      * Check whether current valid forecast time exceeds test forecast initialization time
                      * for which the corresponding observation is not available
                      */
-                    if (check_search_future_) {
+                    if (prevent_search_future_) {
                         size_t current_search_time = forecasts.getTimeStamp(current_search_index);
                         if (current_search_time + current_flt_offset >= current_test_time) continue;
                     }
@@ -380,20 +380,17 @@ void
 AnEnIS::print(std::ostream & os) const {
 
     os << endl << "****************************" << endl
-            << "AnEnIS session details:" << endl
             << "number of analogs: " << num_analogs_ << endl
             << "number of similarity: " << num_sims_ << endl
             << "observation variable index: " << obs_var_index_ << endl
             << "quick sort: " << quick_sort_ << endl
-            << "operational: " << operational_ << endl
-            << "check search into the future: " << check_search_future_ << endl
             << "save analog time indices: " << save_analogs_index_ << endl
-            << "save similarity: " << save_sims_ << endl
             << "save similarity time indices: " << save_sims_index_ << endl
             << "max numbers of NAs in parameters: " << max_par_nan_ << endl
             << "max numbers of NAs in flts: " << max_flt_nan_ << endl
             << "FLT radius: " << flt_radius_ << endl;
-
+    
+    AnEn::print(os);
 
     if (verbose_ >= Verbose::Debug) {
         os << "sds_ dimensions: [" << Functions::format(

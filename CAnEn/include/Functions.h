@@ -26,12 +26,13 @@ namespace Functions {
     using Matrix = boost::numeric::ublas::matrix<double>;
 
     /**
-     * Convert an integer to Verbose
+     * Convert an integer to Verbose and vice versa
      * 
      * @param An intiger
      * @return A Verbose
      */
     AnEnDefaults::Verbose itov(int);
+    int vtoi(AnEnDefaults::Verbose);
 
     /**
      * Computes a lookup table which maps from forecast time and lead time

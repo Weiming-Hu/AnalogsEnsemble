@@ -41,7 +41,7 @@ SEXP generateConfiguration() {
     list[ConfigNames::_SAVE_SIMS_IND] = AnEnDefaults::_SAVE_SIMS_INDEX;
     list[ConfigNames::_SAVE_ANALOGS_IND] = AnEnDefaults::_SAVE_ANALOGS_INDEX;
     list[ConfigNames::_OPERATION] = AnEnDefaults::_OPERATIONAL;
-    list[ConfigNames::_CHECK_SEARCH_FUTURE] = AnEnDefaults::_CHECK_SEARCH_FUTURE;
+    list[ConfigNames::_CHECK_SEARCH_FUTURE] = AnEnDefaults::_PREVENT_SEARCH_FUTURE;
     list[ConfigNames::_QUICK] = AnEnDefaults::_QUICK_SORT;
 
     list.attr("class") = "Configuration";
