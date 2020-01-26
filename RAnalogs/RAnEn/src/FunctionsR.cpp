@@ -54,7 +54,13 @@ FunctionsR::toParameters(const SEXP & sx_weights, const SEXP & sx_circulars,
     bool use_weights = (num_parameters == weights.size());
 
     // Check whether the number of weights is correct
-    if (use_weights || weights.size() == 0) throw std::runtime_error("The number of weights is incorrect");
+    if (use_weights || weights.size() == 0) {
+        // This is expected because either the number of weights is the same as
+        // the number of parameters, or no weights are provided.
+        //
+    } else {
+        throw std::runtime_error("The number of weights is incorrect");
+    }
 
     parameters.clear();
 

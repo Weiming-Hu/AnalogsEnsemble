@@ -18,7 +18,8 @@
 namespace FunctionsR {
     void createParameters(Parameters & parameters, size_t total);
     void createStations(Stations & stations, size_t total);
-    void toParameters(const SEXP & sx_weights, const SEXP & sx_circulars, Parameters & parameters);
+    void toParameters(const SEXP & sx_weights, const SEXP & sx_circulars,
+            Parameters & parameters, size_t num_parameters);
     void toTimes(const SEXP & sx_times, Times & times);
     void setElement(Rcpp::List & list, const std::string & name, const Array4D & arr);
     

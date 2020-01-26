@@ -29,7 +29,7 @@ bool checkOpenMP() {
 
 //' @export
 // [[Rcpp::export]]
-void validateConfiguration(SEXP sx_config) {
+void validateConfiguration(const SEXP & sx_config) {
     FunctionsR::checkConfig(sx_config);
     return;
 }

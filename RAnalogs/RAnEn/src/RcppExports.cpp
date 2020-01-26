@@ -16,7 +16,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // validateConfiguration
-void validateConfiguration(SEXP sx_config);
+void validateConfiguration(const SEXP & sx_config);
 RcppExport SEXP _RAnEn_validateConfiguration(SEXP sx_configSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;

@@ -43,7 +43,7 @@ ForecastsR::ForecastsR(SEXP sx_weights, SEXP sx_circulars,
     try {
 
         // Create parameters
-        FunctionsR::toParameters(sx_weights, sx_circulars, parameters_);
+        FunctionsR::toParameters(sx_weights, sx_circulars, parameters_, data_dims[0]);
 
         // Create stations
         FunctionsR::createStations(stations_, data_dims[1]);
@@ -57,13 +57,6 @@ ForecastsR::ForecastsR(SEXP sx_weights, SEXP sx_circulars,
     } catch (std::exception & ex) {
         std::string msg = std::string("ForecastsR -> ") + ex.what();
         throw std::runtime_error(msg);
-    }
-
-    if (numeric_cast<int>(parameters_.size()) != data_dims[0]) {
-        std::ostringstream msg;
-        msg << "First dimension of forecasts (" << data_dims[0]
-                << ") != #weights (" << parameters_.size() << ")";
-        throw std::runtime_error(msg.str());
     }
 
     if (numeric_cast<int>(times_.size()) != data_dims[2]) {
