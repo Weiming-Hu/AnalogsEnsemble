@@ -46,14 +46,14 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// printConfig
-void printConfig(SEXP sx_config);
-RcppExport SEXP _RAnEn_printConfig(SEXP sx_configSEXP) {
+// getConfigNames
+SEXP getConfigNames();
+RcppExport SEXP _RAnEn_getConfigNames() {
 BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< SEXP >::type sx_config(sx_configSEXP);
-    printConfig(sx_config);
-    return R_NilValue;
+    rcpp_result_gen = Rcpp::wrap(getConfigNames());
+    return rcpp_result_gen;
 END_RCPP
 }
 
@@ -62,7 +62,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_RAnEn_validateConfiguration", (DL_FUNC) &_RAnEn_validateConfiguration, 1},
     {"_RAnEn_computeAnEnIS", (DL_FUNC) &_RAnEn_computeAnEnIS, 1},
     {"_RAnEn_generateConfiguration", (DL_FUNC) &_RAnEn_generateConfiguration, 0},
-    {"_RAnEn_printConfig", (DL_FUNC) &_RAnEn_printConfig, 1},
+    {"_RAnEn_getConfigNames", (DL_FUNC) &_RAnEn_getConfigNames, 0},
     {NULL, NULL, 0}
 };
 

@@ -414,19 +414,19 @@ operator<<(std::ostream & os, const AnEnIS & obj) {
 AnEnIS &
 AnEnIS::operator=(const AnEnIS& rhs) {
     if (this != &rhs) {
-        quick_sort_ = orig.quick_sort_;
-        save_sims_index_ = orig.save_sims_index_;
-        save_analogs_index_ = orig.save_analogs_index_;
-        obs_var_index_ = orig.obs_var_index_;
-        num_sims_ = orig.num_sims_;
-        num_analogs_ = orig.num_analogs_;
-        max_par_nan_ = orig.max_par_nan_;
-        max_flt_nan_ = orig.max_flt_nan_;
-        flt_radius_ = orig.flt_radius_;
-        simsIndex_ = orig.simsIndex_;
-        simsMetric_ = orig.simsMetric_;
-        analogsIndex_ = orig.analogsIndex_;
-        analogsValue_ = orig.analogsValue_;
+        quick_sort_ = rhs.quick_sort_;
+        save_sims_index_ = rhs.save_sims_index_;
+        save_analogs_index_ = rhs.save_analogs_index_;
+        obs_var_index_ = rhs.obs_var_index_;
+        num_sims_ = rhs.num_sims_;
+        num_analogs_ = rhs.num_analogs_;
+        max_par_nan_ = rhs.max_par_nan_;
+        max_flt_nan_ = rhs.max_flt_nan_;
+        flt_radius_ = rhs.flt_radius_;
+        simsIndex_ = rhs.simsIndex_;
+        simsMetric_ = rhs.simsMetric_;
+        analogsIndex_ = rhs.analogsIndex_;
+        analogsValue_ = rhs.analogsValue_;
     }
     return *this;
 }

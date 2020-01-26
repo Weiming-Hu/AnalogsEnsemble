@@ -21,7 +21,7 @@ generateConfiguration <- function() {
 }
 
 #' @export
-print.Configuration <- function(sx_config) {
-    invisible(.Call('_RAnEn_printConfig', PACKAGE = 'RAnEn', sx_config))
+getConfigNames <- function() {
+    .Call('_RAnEn_getConfigNames', PACKAGE = 'RAnEn')
 }
 
