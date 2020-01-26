@@ -24,7 +24,7 @@ SEXP generateConfiguration() {
     List list;
     list[ConfigNames::_OBS] = R_NilValue;
     list[ConfigNames::_OBS_TIMES] = R_NilValue;
-    list[ConfigNames::_WEIGHTS] = R_NilValue;
+    list[ConfigNames::_WEIGHTS] = NumericVector();
     list[ConfigNames::_CIRCULARS] = NumericVector();
     list[ConfigNames::_FCST_TIMES] = R_NilValue;
     list[ConfigNames::_FLTS] = R_NilValue;

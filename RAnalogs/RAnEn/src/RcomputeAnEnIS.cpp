@@ -73,8 +73,12 @@ SEXP computeAnEnIS(SEXP sx_config) {
     // Observation variable index should subtract 1 to be converted from 
     // an R index to a C index
     //
-    std::size_t obs_id = numeric_cast<std::size_t>(
-            as<double>(config[ConfigNames::_OBS_ID]) - 1);
+    std::size_t obs_id;
+    try {
+        obs_id = numeric_cast<std::size_t>(as<double>(config[ConfigNames::_OBS_ID]) - 1);
+    } catch (boost::numeric::negative_overflow & ex) {
+        throw std::runtime_error("Observation variable ID minimum is 1");
+    }
     
     // Safe type conversion from numeric vector to std::size_t
     std::size_t num_analogs = numeric_cast<std::size_t>(

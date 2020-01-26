@@ -39,8 +39,8 @@ FunctionsR::createStations(Stations& stations, size_t total) {
 }
 
 void
-FunctionsR::toParameters(const SEXP & sx_weights,
-        const SEXP & sx_circulars, Parameters & parameters) {
+FunctionsR::toParameters(const SEXP & sx_weights, const SEXP & sx_circulars,
+        Parameters & parameters, size_t num_parameters) {
 
     // Type check
     if (!Rf_isNumeric(sx_weights)) throw std::runtime_error("Weights should be numeric");
@@ -50,20 +50,26 @@ FunctionsR::toParameters(const SEXP & sx_weights,
     NumericVector weights = sx_weights;
     IntegerVector circulars = sx_circulars;
 
-    auto num_parameters = weights.size();
+    // Check whether to use weights
+    bool use_weights = (num_parameters == weights.size());
 
-    // Allocate memory
+    // Check whether the number of weights is correct
+    if (use_weights || weights.size() == 0) throw std::runtime_error("The number of weights is incorrect");
+
     parameters.clear();
 
     const auto & it_begin = circulars.begin();
     const auto & it_end = circulars.end();
 
     for (R_xlen_t i = 0; i < num_parameters; ++i) {
-        Parameter parameter(std::to_string(i), weights[i]);
+        Parameter parameter(std::to_string(i));
 
         // NOTICE the increment on the index to convert C index to R index
         auto it = std::find(it_begin, it_end, i + 1);
         if (it != it_end) parameter.setCircular(true);
+
+        // Change weights if they are specified
+        if (use_weights) parameter.setWeight(weights[i]);
 
         parameters.push_back(Parameters::value_type(i, parameter));
     }
