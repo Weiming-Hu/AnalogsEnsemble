@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.0)
 project(ParallelAnalogEnsemble)
 
 set(GRAND_VERSION "4.0.0")
+set(GRAND_VERSION_NICKNAME "Pandora")
 message("You are building version ${GRAND_VERSION}")
 add_definitions(-D_APPVERSION="v ${GRAND_VERSION}")
 
