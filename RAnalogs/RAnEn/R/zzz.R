@@ -11,6 +11,7 @@
 
 .onLoad <- function(lib, pkg) {
 	version <- read.dcf(file.path(lib, pkg, "DESCRIPTION"), "Version")
+	nickname <- read.dcf(file.path(lib, pkg, "DESCRIPTION"), "Nickname")
 	
 	if (interactive()) {
 		message <- paste(
@@ -28,7 +29,7 @@ RAnEn Version", version, "
 Geoinformatics and Earth Observation Laboratory
 The Pennsylvania State University")
 	} else {
-		message <- paste("Package 'RAnEn' version", version)
+		message <- paste("Package 'RAnEn' version", version, nickname)
 	}
 	
 	message <- paste0(message, "\nPlease consider citing RAnEn: citation('RAnEn')")

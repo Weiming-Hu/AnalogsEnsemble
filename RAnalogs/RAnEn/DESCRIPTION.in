@@ -2,6 +2,7 @@ Package: @LIBRARY_NAME@
 Type: Package
 Title: Analog Ensemble Package
 Version: @LIBRARY_VERSION@
+Nickname: @LIBRARY_VERSION_NICKNAME@
 Date: @LIBRARY_CONFIGURE_TIMESTAMP@
 Author: Weiming Hu
 Authors@R: c(

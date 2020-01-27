@@ -49,5 +49,6 @@ reference:
           - alignObservations
           - formatObservations
           - getConfigNames
+          - starts_with("subset")
           - toDateTime
           - validateConfiguration
