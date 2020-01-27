@@ -46,6 +46,19 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// generateTimeMapping
+NumericMatrix generateTimeMapping(SEXP sx_fcst_times, SEXP sx_fcst_flts, SEXP sx_obs_times);
+RcppExport SEXP _RAnEn_generateTimeMapping(SEXP sx_fcst_timesSEXP, SEXP sx_fcst_fltsSEXP, SEXP sx_obs_timesSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type sx_fcst_times(sx_fcst_timesSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type sx_fcst_flts(sx_fcst_fltsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type sx_obs_times(sx_obs_timesSEXP);
+    rcpp_result_gen = Rcpp::wrap(generateTimeMapping(sx_fcst_times, sx_fcst_flts, sx_obs_times));
+    return rcpp_result_gen;
+END_RCPP
+}
 // getConfigNames
 SEXP getConfigNames();
 RcppExport SEXP _RAnEn_getConfigNames() {
@@ -62,6 +75,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_RAnEn_validateConfiguration", (DL_FUNC) &_RAnEn_validateConfiguration, 1},
     {"_RAnEn_computeAnEnIS", (DL_FUNC) &_RAnEn_computeAnEnIS, 1},
     {"_RAnEn_configAnEnIS", (DL_FUNC) &_RAnEn_configAnEnIS, 0},
+    {"_RAnEn_generateTimeMapping", (DL_FUNC) &_RAnEn_generateTimeMapping, 3},
     {"_RAnEn_getConfigNames", (DL_FUNC) &_RAnEn_getConfigNames, 0},
     {NULL, NULL, 0}
 };

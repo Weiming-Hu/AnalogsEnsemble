@@ -36,10 +36,16 @@ convertToAdvance <- function(...) {
   stop(DEPRECATED_MESSAGE)
 }
 
-
 #' RAnEn::formatConfiguration
 #' 
 #' @export
 formatConfiguration <- function (...) {
   stop(DEPRECATED_MESSAGE)
+}
+
+#' RAnEn::generatePersistent
+#' 
+#' @export
+generatePersistent <- function (...) {
+  stop("Please use generatePersistence")
 }

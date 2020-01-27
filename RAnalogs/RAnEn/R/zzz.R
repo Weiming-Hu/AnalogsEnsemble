@@ -25,7 +25,7 @@
                                        
 ------------------------------------------- 
 -------------------------------------------
-RAnEn Version", version, "
+RAnEn Version", version, nickname, "
 Geoinformatics and Earth Observation Laboratory
 The Pennsylvania State University")
 	} else {

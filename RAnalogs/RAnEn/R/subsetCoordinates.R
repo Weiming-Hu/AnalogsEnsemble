@@ -84,6 +84,7 @@
 #' @useDynLib RAnEn
 #' 
 #' @md
+#' @export
 subsetCoordinates <- function(
   xs, ys, poi, file.output = NULL,
   arg.name = stop('Specify the argument name!')) {

@@ -10,9 +10,9 @@
 #         The Pennsylvania State University
 #
 
-#' RAnEn::generatePersistent
+#' RAnEn::generatePersistence
 #' 
-#' RAnEn::generatePersistent generates persistent analog ensemble forecasts.
+#' RAnEn::generatePersistence generates persistent analog ensemble forecasts.
 #' For each test forecast, it simply takes the historical observation values
 #' that are associated with the historical forecasts that are directly prior
 #' to the current forecasts. The number of values taken would be the number of
@@ -37,44 +37,48 @@
 #' `analogs` specified in \code{\link{generateAnalogs}}.
 #' 
 #' @md
-generatePersistent <- function(config,
-                               forecast.time.interval = 86400,
-                               show.progress = F, silent = F) {
+generatePersistence <- function(
+  config, forecast.time.interval = 86400, show.progress = F, silent = F) {
+  # Get config names
+  names <- getConfigNames()
+  
   # Sanity checks
   if (class(config) != 'Configuration') {
     stop('Please generate the input config using RAnEn::generateConfiguration.')
   }
   
-  if (length(unique(config$observation_times)) != length(config$observation_times)) {
+  if (length(unique(config[[names$`_OBS_TIMES`]])) != length(config[[names$`_OBS_TIMES`]])) {
     stop('Observation times in configuration have duplicates!')
   }
   
-  if (max(config$observation_times) < max(config$test_times_compare) + max(config$flts)) {
+  if (max(config[[names$`_OBS_TIMES`]]) < max(config[[names$`_TEST_TIMES`]]) + max(config[[names$`_FLTS`]])) {
     stop('The observation times do not cover all test times!')
   }
   
   # Read meta info
-  num.grids <- dim(config$forecasts)[2]
-  num.test.times <- length(config$test_times_compare)
-  num.flts <- dim(config$forecasts)[4]
+  num.grids <- dim(config[[names$`_FCSTS`]])[2]
+  num.test.times <- length(config[[names$`_TEST_TIMES`]])
+  num.flts <- dim(config[[names$`_FCSTS`]])[4]
   
-  # Get the previous several times for each test times
+  # Generate a historical time sequence for each test time. Observations for this historical
+  # time sequence will be collected for persistence.
+  # 
   time.prev <- sapply(
-    config$test_times_compare,
-    function(x) {return(x - 0:config$num_members*forecast.time.interval)})
+    config[[names$`_TEST_TIMES`]],
+    function(x) {return(x - (0:config[[names$`_NUM_MEMBERS`]]) * forecast.time.interval)})
   
-  # Sort the unique values
+  # Generate the times that will be extracted for persistence
   times.to.extract <- sort(toDateTime(unique(as.vector(time.prev))))
   
   # Align observations
   if (!silent) cat('Aligning observations ...\n')
   obs.align <- alignObservations(
-    config$search_observations[config$observation_id, , , drop = F],
-    config$observation_times, times.to.extract, config$flts,
+    config[[names$`_OBS`]][config[[names$`_OBS_ID`]], , , drop = F],
+    config[[names$`_OBS_TIMES`]], times.to.extract, config[[names$`_FLTS`]],
     silent = silent, show.progress = show.progress)
   
   # Generate mapping from the forecast times to be extracted to observation times
-  mapping <- generateTimeMapping(times.to.extract, config$flts, config$observation_times)
+  mapping <- generateTimeMapping(times.to.extract, config[[names$`_FLTS`]], config[[names$`_OBS_TIMES`]])
   
   # Change the dimensions of observations to make it easier for value extraction
   dim(obs.align) <- dim(obs.align)[-1]
@@ -84,16 +88,16 @@ generatePersistent <- function(config,
   
   # Initialize memory for persistent analogs
   persistent <- array(NA, dim = c(
-    num.grids, num.test.times, num.flts, config$num_members, 3))
+    num.grids, num.test.times, num.flts, config[[names$`_NUM_MEMBERS`]], 3))
   
-  if (!silent) cat('Generating persistent analogs ...\n')
+  if (!silent) cat('Generating persistence ...\n')
   if (show.progress) {
     pb <- txtProgressBar(max = num.test.times, style = 3)
     counter <- 0
   }
   
   for (i.test.time in 1:num.test.times) {
-    extract.times <- which(config$test_times_compare[i.test.time] == times.to.extract) - 1:config$num_members
+    extract.times <- which(config[[names$`_TEST_TIMES`]][i.test.time] == times.to.extract) - 1:config[[names$`_NUM_MEMBERS`]]
     persistent[, i.test.time, , , 1] <- obs.align[, , extract.times]
     persistent[, i.test.time, , , 2] <- rep(1:num.grids, times = num.flts*config$num_members)
     persistent[, i.test.time, , , 3] <- rep(mapping[as.matrix(expand.grid(1:num.flts, extract.times))], each = num.grids)
@@ -109,6 +113,6 @@ generatePersistent <- function(config,
     close(pb)
   }
   
-  if (!silent) cat('Done (generatePersistent)!\n')
+  if (!silent) cat('Done (generatePersistence)!\n')
   return(persistent)
 }
