@@ -100,9 +100,9 @@ shared(table, obs_times, fcst_times, fcst_flts, rows, cols, fcst_times_index)
                         fcst_times.left[fcst_times_index[row_i]].second +
                         fcst_flts.left[col_i].second);
             } catch (range_error & e) {
-                // If range_error is thrown because the time cannot be found,
-                // nothing is done and the index value in the table simply
-                // remain intact.
+                // If the time cannot be found, range_error will be generated.
+                // But nothing is done for this case so that the index value
+                // in the table simply remains intact.
                 //
             }
         }

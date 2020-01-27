@@ -8,9 +8,8 @@
 #ifndef OFFSET_H
 #define OFFSET_H
 
-// [[Rcpp::plugins(cpp11)]]
-
 #include <Rcpp.h>
+#include <vector>
 
 /**
  * Class Offset is used to create pointer offset for column-major array. This
@@ -23,16 +22,18 @@ class Offset {
 public:
     Offset();
     Offset(const Offset& orig);
-    Offset(Rcpp::IntegerVector dim);
+    Offset(const Rcpp::IntegerVector & dim);
     virtual ~Offset();
     
-    int operator() (Rcpp::IntegerVector dims_index) const;
-    Rcpp::IntegerVector getDims() const;
+    std::size_t num_elements() const;
+    
+    size_t operator() (const std::vector<size_t> & dims_index) const;
+    std::vector<size_t> getDims() const;
     
     Offset & operator=(const Offset & rhs);
     
 protected:
-    Rcpp::IntegerVector dim_;
+    std::vector<size_t> dim_;
 };
 
 #endif /* OFFSET_H */

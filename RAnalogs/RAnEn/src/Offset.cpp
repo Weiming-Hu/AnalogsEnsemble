@@ -6,8 +6,10 @@
  */
 
 #include "Offset.h"
+#include <stdexcept>
+#include <numeric>
 
-using namespace Rcpp;
+using namespace std;
 
 Offset::Offset() {
 }
@@ -16,19 +18,25 @@ Offset::Offset(const Offset& orig) {
     *this = orig;
 }
 
-Offset::Offset(IntegerVector dim) : dim_(dim) {
+Offset::Offset(const Rcpp::IntegerVector & dim) {
+    dim_ = Rcpp::as< vector<size_t> >(dim);
 }
 
 Offset::~Offset() {
 }
 
-int Offset::operator()(IntegerVector dims_index) const {
+size_t
+Offset::num_elements() const {
+    return accumulate(dim_.begin(), dim_.end(), 1, std::multiplies<size_t>());;
+}
+
+size_t Offset::operator()(const vector<size_t> & dims_index) const {
     
-    int pos = dims_index[0];
-    int offset = 1;
+    size_t pos = dims_index[0];
+    size_t offset = 1;
     
     // Convert dimension indices to position offset by column-major
-    for (int i = 1; i < dim_.size(); ++i) {
+    for (size_t i = 1; i < dim_.size(); ++i) {
         if (dims_index[i-1] >= dim_[i-1]) throw std::runtime_error("Offset index out of bound");
         offset *= dim_[i-1];
         pos += dims_index[i] * offset;
@@ -37,7 +45,7 @@ int Offset::operator()(IntegerVector dims_index) const {
     return pos;
 }
 
-IntegerVector Offset::getDims() const {
+vector<size_t> Offset::getDims() const {
     return dim_;
 }
 

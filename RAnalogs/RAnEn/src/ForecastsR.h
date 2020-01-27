@@ -40,7 +40,14 @@ public:
 
 protected:
     Offset offset_;
-    Rcpp::NumericVector data_;
+    double * data_;
+    
+    /**
+     * This variable is used to keep track of whether the data memory is 
+     * allocated internally and whether the pointer should be deleted during
+     * the de-constructor.
+     */
+    bool internal_;
     
 };
 

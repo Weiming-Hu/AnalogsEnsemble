@@ -18,11 +18,18 @@ using namespace Rcpp;
 using namespace boost;
 
 ObservationsR::ObservationsR() {
+    data_ = nullptr;
+    internal_ = false;
 }
 
 ObservationsR::ObservationsR(const ObservationsR& orig) : Observations(orig) {
     offset_ = orig.offset_;
     data_ = orig.data_;
+    
+    // Data will managed by other objects. The data pointer is not
+    // internal to this object.
+    //
+    internal_ = false;
 }
 
 ObservationsR::ObservationsR(SEXP sx_times, SEXP sx_data) {
@@ -65,23 +72,25 @@ ObservationsR::ObservationsR(SEXP sx_times, SEXP sx_data) {
     }
 
     // Assign data
-    data_ = data;
+    data_ = REAL(data);
     offset_ = Offset(data_dims);
+    internal_ = false;
 }
 
 ObservationsR::~ObservationsR() {
+    if (internal_) delete [] data_;
 }
 
 size_t ObservationsR::num_elements() const {
-    return data_.size();
+    return offset_.num_elements();
 }
 
 const double* ObservationsR::getValuesPtr() const {
-    return REAL(data_);
+    return data_;
 }
 
 double* ObservationsR::getValuesPtr() {
-    return REAL(data_);
+    return data_;
 }
 
 void ObservationsR::setDimensions(
@@ -99,11 +108,9 @@ void ObservationsR::setDimensions(
     //
     size_t size = parameters_.size() * stations_.size() * times_.size();
 
-    // NumericVector has no resize method. Therefore, 
-    // create a new vector and re-assign.
-    //
-    NumericVector tmp(size);
-    data_ = tmp;
+    if (internal_) delete [] data_;
+    data_ = new double [size];
+    internal_ = true;
 
     return;
 }
@@ -111,24 +118,14 @@ void ObservationsR::setDimensions(
 double ObservationsR::getValue(
         size_t parameter_index, size_t station_index, size_t time_index) const {
 
-    // Type cast from size_t to int for IntegerVector
-    IntegerVector indices{
-        numeric_cast<int>(parameter_index),
-        numeric_cast<int>(station_index),
-        numeric_cast<int>(time_index)};
-
+    std::vector<size_t> indices{parameter_index, station_index, time_index};
     return data_[offset_(indices)];
 }
 
 void ObservationsR::setValue(double val,
         size_t parameter_index, size_t station_index, size_t time_index) {
 
-    // Type cast from size_t to int for IntegerVector
-    IntegerVector indices{
-        numeric_cast<int>(parameter_index),
-        numeric_cast<int>(station_index),
-        numeric_cast<int>(time_index)};
-
+    std::vector<size_t> indices{parameter_index, station_index, time_index};
     data_[offset_(indices)] = val;
     return;
 }
@@ -137,13 +134,13 @@ void
 ObservationsR::print(std::ostream & os) const {
     Observations::print(os);
     
-    size_t count = numeric_cast<size_t>(data_.size());
+    size_t count = offset_.num_elements();
     os << "[Data] size: " << count << std::endl;
 
     if (count > AnEnDefaults::_PREVIEW_COUNT) {
-        os << Functions::format(REAL(data_), AnEnDefaults::_PREVIEW_COUNT, ",") << ", ...";
+        os << Functions::format(data_, AnEnDefaults::_PREVIEW_COUNT, ",") << ", ...";
     } else {
-        os << Functions::format(REAL(data_), count, ",");
+        os << Functions::format(data_, count, ",");
     }
     os << std::endl;
     

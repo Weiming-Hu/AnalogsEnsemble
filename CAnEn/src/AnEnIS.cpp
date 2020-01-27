@@ -11,6 +11,10 @@
 
 #include <algorithm>
 
+#if defined(_OPENMP)
+#include <omp.h>
+#endif
+
 using namespace std;
 using namespace AnEnDefaults;
 
@@ -219,7 +223,8 @@ AnEnIS::compute(const Forecasts & forecasts,
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(dynamic) collapse(3) \
 shared(num_stations, num_flts, num_test_times_index, num_search_times_index, \
-fcsts_test_index, fcsts_search_index, forecasts, observations, weights, circulars)
+fcsts_test_index, fcsts_search_index, forecasts, observations, weights, circulars) \
+firstprivate(simsArr_)
 #endif
     for (size_t station_i = 0; station_i < num_stations; ++station_i) {
         for (size_t flt_i = 0; flt_i < num_flts; ++flt_i) {

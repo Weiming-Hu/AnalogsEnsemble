@@ -15,11 +15,18 @@ using namespace Rcpp;
 using namespace boost;
 
 ForecastsR::ForecastsR() {
+    data_ = nullptr;
+    internal_ = false;
 }
 
 ForecastsR::ForecastsR(const ForecastsR& orig) : Forecasts(orig) {
     offset_ = orig.offset_;
     data_ = orig.data_;
+    
+    // Data will managed by other objects. The data pointer is not
+    // internal to this object.
+    //
+    internal_ = false;
 }
 
 ForecastsR::ForecastsR(SEXP sx_weights, SEXP sx_circulars,
@@ -74,23 +81,25 @@ ForecastsR::ForecastsR(SEXP sx_weights, SEXP sx_circulars,
     }
 
     // Assign data
-    data_ = data;
+    data_ = REAL(data);
     offset_ = Offset(data_dims);
+    internal_ = false;
 }
 
 ForecastsR::~ForecastsR() {
+    if (internal_) delete [] data_;
 }
 
 size_t ForecastsR::num_elements() const {
-    return data_.size();
+    return offset_.num_elements();
 }
 
 const double* ForecastsR::getValuesPtr() const {
-    return REAL(data_);
+    return data_;
 }
 
 double* ForecastsR::getValuesPtr() {
-    return REAL(data_);
+    return data_;
 }
 
 void ForecastsR::setDimensions(
@@ -110,11 +119,9 @@ void ForecastsR::setDimensions(
     size_t size = parameters_.size() * stations_.size() *
             times_.size() * flts_.size();
 
-    // NumericVector has no resize method. Therefore, 
-    // create a new vector and re-assign.
-    //
-    NumericVector tmp(size);
-    data_ = tmp;
+    if (internal_) delete [] data_;
+    data_ = new double [size];
+    internal_ = true;
 
     return;
 }
@@ -123,13 +130,7 @@ double ForecastsR::getValue(
         size_t parameter_index, size_t station_index,
         size_t time_index, size_t flt_index) const {
 
-    // Type cast from size_t to int for IntegerVector
-    IntegerVector indices{
-        numeric_cast<int>(parameter_index),
-        numeric_cast<int>(station_index),
-        numeric_cast<int>(time_index),
-        numeric_cast<int>(flt_index)};
-
+    std::vector<size_t> indices{parameter_index, station_index, time_index, flt_index};
     return data_[offset_(indices)];
 }
 
@@ -137,13 +138,7 @@ void ForecastsR::setValue(double val,
         size_t parameter_index, size_t station_index,
         size_t time_index, size_t flt_index) {
 
-    // Type cast from size_t to int for IntegerVector
-    IntegerVector indices{
-        numeric_cast<int>(parameter_index),
-        numeric_cast<int>(station_index),
-        numeric_cast<int>(time_index),
-        numeric_cast<int>(flt_index)};
-
+    std::vector<size_t> indices{parameter_index, station_index, time_index, flt_index};
     data_[offset_(indices)] = val;
     return;
 }
@@ -151,13 +146,13 @@ void ForecastsR::setValue(double val,
 void ForecastsR::print(std::ostream & os) const {
     Forecasts::print(os);
 
-    size_t count = numeric_cast<size_t>(data_.size());
+    size_t count = offset_.num_elements();
     os << "[Data] size: " << count << std::endl;
 
     if (count > AnEnDefaults::_PREVIEW_COUNT) {
-        os << Functions::format(REAL(data_), AnEnDefaults::_PREVIEW_COUNT, ",") << ", ...";
+        os << Functions::format(data_, AnEnDefaults::_PREVIEW_COUNT, ",") << ", ...";
     } else {
-        os << Functions::format(REAL(data_), count, ",");
+        os << Functions::format(data_, count, ",");
     }
     os << std::endl;
 
