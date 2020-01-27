@@ -17,7 +17,6 @@
 #' 
 #' @author Guido Cervone \email{cervone@@psu.edu}
 #' 
-#' @export
 plotBackground <- function(col="lightgrey") {
   rect(par("usr")[1],par("usr")[3],par("usr")[2],par("usr")[4],col = "lightgray")
 }

@@ -87,31 +87,6 @@ print.AnEn <- function (x) {
     cat("\n")
   }
   
-  if ('mapping' %in% names(x)) {
-    empty <- F
-    cat("Member 'mapping': [FLT][forecast time]\n")
-    cat(dim(x$mapping))
-    cat("\n")
-    existed.names <- existed.names[-which(existed.names == 'mapping')]
-  }
-  
-  if ('searchStations' %in% names(x)) {
-    empty <- F
-    cat("Member 'searchStations': [search station][test station]\n")
-    cat(dim(x$searchStations))
-    cat("\n")
-    existed.names <- existed.names[-which(existed.names == 'searchStations')]
-  }
-  
-  if ('std' %in% names(x)) {
-  	empty <- F
-  	cat("Member 'std': [parameter][test station][FLT]\n")
-  	cat(dim(x$std))
-  	cat("\n")
-  	existed.names <- existed.names[-which(existed.names == 'std')]
-  }
-  cat('\n')
-  
   if (empty) {
     cat('[empty list]\n')
   }

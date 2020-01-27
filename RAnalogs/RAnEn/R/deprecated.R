@@ -13,7 +13,7 @@
 #   Deprecated   #
 ##################
 
-DEPRECATED_MESSAGE = "The function has been deprecated."
+DEPRECATED_MESSAGE <- "The function has been deprecated."
 
 #' RAnEn::rcpp_compute_analogs
 #' 
@@ -42,4 +42,11 @@ convertToAdvance <- function(...) {
 #' @export
 formatConfiguration <- function (...) {
   stop(DEPRECATED_MESSAGE)
+}
+
+#' RAnEn::generateConfiguration
+#' 
+#' @export
+generateConfiguration <- function(arg1, arg2) {
+  stop("generateConfiguration now only accepts one argument")
 }

@@ -62,6 +62,7 @@ generateAnalogs <- function(configuration) {
   AnEn <- computeAnEnIS(configuration)
   
   # Convert C indices to R indices
-  index.members <- c('')
+  AnEn <- AnEnC2R(AnEn)
+  
   return (AnEn)
 }

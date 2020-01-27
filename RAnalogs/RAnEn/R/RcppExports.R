@@ -15,9 +15,8 @@ computeAnEnIS <- function(sx_config) {
     .Call('_RAnEn_computeAnEnIS', PACKAGE = 'RAnEn', sx_config)
 }
 
-#' @export
-generateConfiguration <- function() {
-    .Call('_RAnEn_generateConfiguration', PACKAGE = 'RAnEn')
+configAnEnIS <- function() {
+    .Call('_RAnEn_configAnEnIS', PACKAGE = 'RAnEn')
 }
 
 #' @export

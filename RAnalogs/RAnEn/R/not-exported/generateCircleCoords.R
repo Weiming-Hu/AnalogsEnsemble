@@ -30,7 +30,6 @@
 #' plot(pts, pch = 19, cex = 0.5, asp = 1)
 #' points(3, 5, pch = 19, col = 'red')
 #' 
-#' @export
 generateCircleCoords <- function(x, y, radius, np = 100) {
   theta <- seq(0, pi/2, length.out = np)
   xs <- sin(theta) * radius

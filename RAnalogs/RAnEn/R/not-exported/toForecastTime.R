@@ -40,7 +40,6 @@
 #' @param flt The lead time index.
 #' 
 #' @md
-#' @export
 toForecastTime <- function(observation.time.id, mapping, flt = NULL) {
   
   mat <- NULL

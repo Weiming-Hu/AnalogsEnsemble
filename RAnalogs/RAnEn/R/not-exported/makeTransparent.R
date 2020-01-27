@@ -21,7 +21,6 @@
 #' 
 #' @param col The color(s) to be made transparent.
 #' @param alpha The transparency value.
-#' @export
 makeTransparent <- function(col = stop("Please provide a vector of colours."), alpha=1) {
   return(apply(sapply(col, col2rgb)/255, 2, function(x) rgb(x[1], x[2], x[3], alpha=alpha)))
 }

@@ -51,7 +51,7 @@ FunctionsR::toParameters(const SEXP & sx_weights, const SEXP & sx_circulars,
     IntegerVector circulars = sx_circulars;
 
     // Check whether to use weights
-    bool use_weights = (num_parameters == weights.size());
+    bool use_weights = (num_parameters == numeric_cast<size_t>(weights.size()));
 
     // Check whether the number of weights is correct
     if (use_weights || weights.size() == 0) {
@@ -67,7 +67,7 @@ FunctionsR::toParameters(const SEXP & sx_weights, const SEXP & sx_circulars,
     const auto & it_begin = circulars.begin();
     const auto & it_end = circulars.end();
 
-    for (R_xlen_t i = 0; i < num_parameters; ++i) {
+    for (size_t i = 0; i < num_parameters; ++i) {
         Parameter parameter(std::to_string(i));
 
         // NOTICE the increment on the index to convert C index to R index
@@ -100,6 +100,7 @@ FunctionsR::toTimes(const SEXP & sx_times, Times & times) {
     // Copy values
     for (R_xlen_t i = 0; i < num_times; ++i) {
         if (nv_times[i] < 0) throw std::runtime_error("Timestamps cannot be negative!");
+        if (numeric_cast<size_t>(nv_times[i]) != nv_times[i]) throw std::runtime_error("Decimal numbers not allowed for times");
         times.push_back(Times::value_type(i, Time(nv_times[i])));
     }
 

@@ -65,7 +65,6 @@
 #' @author Guido Cervone \email{cervone@@psu.edu}
 #' 
 #' @md
-#' @export
 plotAnalogSelection <- function(
   AnEn, config, i.station, i.test.day, i.flt, parameter.names,
   cex.lab = 1.5, pch.selected = 16, pch.unselected = 16, pch.current = 1, 

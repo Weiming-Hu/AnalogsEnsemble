@@ -17,26 +17,7 @@ reference:
     - title: Analog Ensemble Computation
       desc: Functions to generate ensemble forecasts.
       contents:
-          - generateConfiguration
-          - generateAnalogs
-          - generatePersistent
-          - generateTimeMapping
-          - generateSearchStations
-          - generateHPCWorkflow
-          - compute_analogs
-          - rcpp_compute_analogs
-
-    - title: Data Pre-/Post- Processing
-      desc: Functions for bias correction or generating wind-related fields, and more.
-      contents:
-          - biasCorrection
-          - biasCorrectionInsitu
-          - biasCorrectionNeuralNet
-          - computeWindDir
-          - computeWindSpeed
-          - convertToAdvance
-          - alignObservations
-          - schaakeShuffle
+          - starts_with("generate")
 
     - title: Verification
       desc: Functions for verification.
@@ -59,22 +40,14 @@ reference:
       contents:
           - RAnEn-package
           - checkOpenMP
-          - print.AnEn
-          - print.Configuration
+          - starts_with("print")
+          - showVerificationMetrics
 
     - title : Helpers
       desc: Helper function to ease our lives.
       contents:
-          - val2Col
-          - AnEnC2R
-          - toDateTime
-          - toForecastTime
-          - makeTransparent
-          - subsetCoordinates
-          - subsetStations
-          - generateCircleCoords
-          - showVerificationMetrics
-          - validateConfiguration
+          - alignObservations
           - formatObservations
-          - formatConfiguration
-
+          - getConfigNames
+          - toDateTime
+          - validateConfiguration

@@ -55,7 +55,6 @@
 #' @author Guido Cervone \email{cervone@@psu.edu}
 #' 
 #' @md
-#' @export
 plotAnalogSample <- function(
   AnEn, config,
   i.station,

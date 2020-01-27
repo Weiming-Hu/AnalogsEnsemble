@@ -47,7 +47,6 @@
 #' plot(x, pch = 16, cex = 1.5, col = cols.gen)
 #' abline(h = c(x.min, x.max))
 #' 
-#' @export
 val2Col <- function( x, col, x.min = NULL, x.max = NULL, na.rm = F) {
   
   if (length(col) == 1) stop('At least 2 colors are needed.')

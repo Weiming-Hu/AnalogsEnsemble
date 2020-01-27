@@ -21,8 +21,6 @@
 #' @param V A vector of values for V component of wind.
 #'
 #' @return A vector of values for wind speed.
-#' 
-#' @export
 computeWindDir <- function(U, V) {
   
   if (!is.vector(U)) stop("U should be a vector.")

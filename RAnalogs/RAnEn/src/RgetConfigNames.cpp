@@ -42,6 +42,10 @@ SEXP getConfigNames() {
     config["_PREVENT_SEARCH_FUTURE"] = ConfigNames::_PREVENT_SEARCH_FUTURE;
     config["_QUICK"] = ConfigNames::_QUICK;
     config["_VERSION"] = ConfigNames::_VERSION;
-
+    
+    config["_ANALOGS"] = ConfigNames::_ANALOGS;
+    config["_ANALOGS_IND"] = ConfigNames::_ANALOGS_IND;
+    config["_SIMS"] = ConfigNames::_SIMS;
+    config["_SIMS_IND"] = ConfigNames::_SIMS_IND;
     return config;
 }

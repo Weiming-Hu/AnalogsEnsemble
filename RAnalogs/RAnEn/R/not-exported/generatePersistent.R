@@ -37,7 +37,6 @@
 #' `analogs` specified in \code{\link{generateAnalogs}}.
 #' 
 #' @md
-#' @export
 generatePersistent <- function(config,
                                forecast.time.interval = 86400,
                                show.progress = F, silent = F) {

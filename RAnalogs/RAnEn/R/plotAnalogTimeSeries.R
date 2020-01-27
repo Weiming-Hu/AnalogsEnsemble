@@ -44,8 +44,7 @@
 #' this is `config$test_time_compares`.
 #' @param anen.flts A vector for AnEn flts. Usually
 #' this is `config$flts`.
-#' @param anen.data An array for AnEn data. Usually
-#' this is `AnEn$analogs[, , , , 1]`
+#' @param anen.data An 4-dimensional array for analogs.
 #' @param fcst.id The forecast parameter ID.
 #' @param fcst.times A vector for forecast times. Usually
 #' this is `forecasts$Times`.
@@ -63,110 +62,6 @@
 #' @return If `return.data` is TRUE, a list with two
 #' data frames is returned; otherwise, it returns a ggplot
 #' object.
-#'
-#' @examples
-#' # If you have already generated AnEn by using the 
-#' # function RAnEn::generateAnalogs, you probably already
-#' # have the followings or the equivalents:
-#' # 
-#' # - observations (An observation list with members)
-#' # - config (The configuration used for AnEn generation)
-#' # - forecasts (A forecast list with members)
-#' # 
-#' # Then you can run the following code
-#' # 
-#' 
-#' # Want to learn more about the configuration setup?
-#' # Please see [this tutorial](https://weiming-hu.github.io/AnalogsEnsemble/2018/11/04/demo-1-RAnEn-basics.html).
-#' # 
-#' file.name <- 'data-NAM-StateCollege.RData'
-#' 
-#' if (!file.exists(file.name)) {
-#'   cat('Downloading from the data server which might be slow ...\n')
-#'   download.file(url = paste('https://prosecco.geog.psu.edu/', file.name, sep = ''),
-#'                 destfile = file.name)
-#' }
-#' 
-#' load(file.name)
-#' 
-#' # We use independent search configuration.
-#' config <- generateConfiguration('independentSearch')
-#' 
-#' # Set up the start and end indices for test times
-#' test.start <- 366
-#' test.end <- 372
-#' 
-#' # Set up the start and end indices for search times
-#' search.start <- 1
-#' search.end <- 365
-#' 
-#' # Set up forecasts and the time, FLT information
-#' config$forecasts <- forecasts$Data
-#' config$forecast_times <- forecasts$Times
-#' config$flts <- forecasts$FLTs
-#' 
-#' # Set up observations and the time information
-#' config$search_observations <- observations$Data
-#' config$observation_times <- observations$Times
-#' 
-#' # Set up the number of members to keep in the analog ensemble
-#' # Empirically, the number of members is the square root of number of search times.
-#' config$num_members <- sqrt(search.end - search.start + 1)
-#' 
-#' # Set up the variable that we want to generate AnEn for.
-#' # This is the index of parameter in observation parameter names.
-#' #
-#' obs.id <- 3
-#' fcst.id <- 3
-#' config$observation_id <- obs.id
-#' 
-#' # Set up weights for each parameters
-#' config$weights <- c(1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1)
-#' 
-#' # Set the test times to generate AnEn for
-#' config$test_times_compare <- forecasts$Times[test.start:test.end]
-#' 
-#' # Set the search times to generate AnEn from
-#' config$search_times_compare <- forecasts$Times[search.start:search.end]
-#' 
-#' # Set circular variable if there is any
-#' if ('ParameterCirculars' %in% names(forecasts)) {
-#'   config$circulars <- unlist(lapply(forecasts$ParameterCirculars, function(x) {
-#'     return(which(x == forecasts$ParameterNames))}))
-#' }
-#' 
-#' AnEn <- generateAnalogs(config)
-#' 
-#' start.time <- as.POSIXct('2018-06-01', tz = 'UTC')
-#' end.time <- as.POSIXct('2018-06-07', tz = 'UTC')
-#' 
-#' obs.times <- observations$Times
-#' obs.data <- observations$Data
-#' 
-#' anen.times <- config$test_times_compare
-#' anen.flts <- config$flts
-#' anen.data <- AnEn$analogs[, , , , 1]
-#' 
-#' fcst.times <- forecasts$Times
-#' fcst.flts <- config$flts
-#' fcst.data <- forecasts$Data
-#' 
-#' # fcst.id <- NULL
-#' # fcst.times <- NULL
-#' # fcst.flts <- NULL
-#' # fcst.data <- NULL
-#' 
-#' i.station <- 14
-#' 
-#' par.name <- observations$ParameterNames[obs.id]
-#' 
-#' plotAnalogTimeSeries(
-#'   start.time, end.time, i.station,
-#'   obs.id, obs.times, obs.data,
-#'   anen.times, anen.flts, anen.data,
-#'   fcst.id, fcst.times, fcst.flts, fcst.data,
-#'   par.name = par.name)
-#'
 #' 
 #' @md
 #' @export
