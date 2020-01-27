@@ -35,9 +35,6 @@ load('test-Wind.Rdata')
 
 dim(ob) <- c(1, dim(ob))
 
-test.forecasts <- fc[, , test.start:test.end, , drop = F]
-search.forecasts <- fc[, , train.start:train.end, , drop = F]
-
 tmp.search.observations <- ob[, , train.start:train.end, , drop = F]
 search.observations <- aperm(tmp.search.observations, c(4, 3, 2, 1))
 search.observations <- array(search.observations,
@@ -50,38 +47,27 @@ rm(tmp.search.observations)
 
 test.times <- (test.start:test.end) * 100
 search.times <- (train.start:train.end) * 100
-search.flts <- 1:dim(search.forecasts)[4]
+search.flts <- 1:dim(fc)[4]
 observation.times <- rep(search.times, each = length(search.flts)) + search.flts
 
-config <- generateConfiguration('independentSearch', advanced = T)
-config$test_forecasts <- test.forecasts
-config$test_times <- test.times
-config$search_forecasts <- search.forecasts
-config$search_times <- search.times
-
+config <- generateConfiguration('independentSearch')
+config$forecasts <- fc
+config$forecast_times <- c(search.times, test.times)
 config$flts <- search.flts
-config$search_observations <- search.observations
+config$observations <- search.observations
 config$observation_times <- observation.times
 config$num_members <- members.size
 config$quick <- F
-config$preserve_similarity <- F
 config$verbose <- 2
 config$circulars <- forecasts.circulars
-
-config$max_par_nan <- -1
-config$max_flt_nan <- -1
-config$time_match_mode <- 0
+config$search_times <- search.times
+config$test_times <- test.times
 
 AnEn.cpp <- generateAnalogs(config)
 
-config$max_num_sims <- config$num_members
-AnEn.cpp.small <- generateAnalogs(config)
+analogs.cpp <- AnEn.cpp$analogs
 
-analogs.cpp <- AnEn.cpp$analogs[,,,,1]
-analogs.cpp.small <- AnEn.cpp.small$analogs[,,,,1]
-
-if(!identical(analogs.cpp, analogs.java) ||
-   !identical(analogs.cpp.small, analogs.java)) {
+if(!identical(analogs.cpp, analogs.java)) {
   stop('Wind test failed!')
 }
 
@@ -91,9 +77,6 @@ if(!identical(analogs.cpp, analogs.java) ||
 ##################################################################################
 rm(list = ls())
 load('test-Solar.Rdata')
-
-test.forecasts <- fc[, , test.start:test.end, , drop = F]
-search.forecasts <- fc[, , train.start:train.end, , drop = F]
 
 tmp.search.observations <- ob[, , train.start:train.end, , drop = F]
 search.observations <- aperm(tmp.search.observations, c(4, 3, 2, 1))
@@ -105,40 +88,31 @@ search.observations <- array(search.observations,
 search.observations <- aperm(search.observations, c(3, 2, 1))
 rm(tmp.search.observations)
 
-test.times <- (test.start:test.end) * 100
-search.times <- (1:dim(search.forecasts)[3]) * 1000
-search.flts <- 1:dim(search.forecasts)[4]
+test.times <- (test.start:728) * 1000
+search.times <- (train.start:train.end) * 1000
+search.flts <- 1:dim(fc)[4]
 observation.times <- rep(search.times, each = length(search.flts)) + search.flts
 
-config <- generateConfiguration('independentSearch', advanced = T)
-config$test_forecasts <- test.forecasts
-config$test_times <- test.times
-config$search_forecasts <- search.forecasts
-config$search_times <- search.times
+config <- generateConfiguration('independentSearch')
+config$forecasts <- fc
+config$forecast_times <- c(search.times, (test.start:test.end) * 1000)
 config$flts <- search.flts
-config$search_observations <- search.observations
+config$observations <- search.observations
 config$observation_times <- observation.times
 config$num_members <- members.size
 config$quick <- F
-config$preserve_similarity <- F
 config$verbose <- 2
-config$weights <- rep(1, dim(test.forecasts)[1])
 config$circulars <- forecasts.circulars
-
-config$max_par_nan <- -1
-config$max_flt_nan <- -1
-config$time_match_mode <- 0
+config$search_times <- search.times
+config$test_times <- test.times
+config$max_flt_nan <- 100
+config$max_par_nan <- 100
 
 AnEn.cpp <- generateAnalogs(config)
 
-config$max_num_sims <- config$num_members
-AnEn.cpp.small <- generateAnalogs(config)
+analogs_WU <- AnEn.cpp$analogs[1, , , ]
 
-analogs_WU <- AnEn.cpp$analogs[,,,,1]
-analogs_WU_small <- AnEn.cpp.small$analogs[,,,,1]
-
-if (!identical(analogs_WU[1, , ], analogs.java[1, , ]) ||
-    !identical(analogs_WU_small[1, , ], analogs.java[1, , ])) {
+if (!identical(analogs_WU, analogs.java[1:363, , ])) {
   stop('Solar test failed!')
 }
 

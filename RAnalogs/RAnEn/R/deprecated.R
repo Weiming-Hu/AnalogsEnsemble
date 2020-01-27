@@ -43,10 +43,3 @@ convertToAdvance <- function(...) {
 formatConfiguration <- function (...) {
   stop(DEPRECATED_MESSAGE)
 }
-
-#' RAnEn::generateConfiguration
-#' 
-#' @export
-generateConfiguration <- function(arg1, arg2) {
-  stop("generateConfiguration now only accepts one argument")
-}
