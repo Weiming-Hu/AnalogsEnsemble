@@ -22,8 +22,8 @@ typedef Array4D::index_range range;
 
 int main(int argc, char** argv) {
 
-    string forecast_file = "forecasts_211.nc";
-    string observation_file = "observations_211.nc";
+    string forecast_file = "forecasts_small-set.nc";
+    string observation_file = "analysis_small-set.nc";
 
     ForecastsArray forecasts;
     ObservationsArray observations;

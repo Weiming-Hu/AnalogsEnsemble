@@ -156,3 +156,7 @@ else(TARGET clean-all)
     add_custom_target(clean-all DEPENDS clean-roxygen)
 endif(TARGET clean-all)
 
+add_executable(test_array "${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp")
+set_property(TARGET test_array APPEND PROPERTY COMPILE_FLAGS ${RCPP_CXXFLAGS})
+include_directories (SYSTEM ${R_BH_INCLUDE_DIR})
+target_link_libraries(test_array RAnEn)

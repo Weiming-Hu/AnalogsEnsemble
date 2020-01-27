@@ -18,6 +18,7 @@
 namespace FunctionsR {
     void createParameters(Parameters & parameters, size_t total);
     void createStations(Stations & stations, size_t total);
+    void createTimes(Times & times, size_t total);
     void toParameters(const SEXP & sx_weights, const SEXP & sx_circulars,
             Parameters & parameters, size_t num_parameters);
     void toTimes(const SEXP & sx_times, Times & times);

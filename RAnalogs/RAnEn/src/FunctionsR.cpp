@@ -39,6 +39,18 @@ FunctionsR::createStations(Stations& stations, size_t total) {
 }
 
 void
+FunctionsR::createTimes(Times& times, size_t total) {
+    
+    times.clear();
+    
+    for (size_t i = 0; i < total; ++i) {
+        times.push_back(Times::value_type(i, Time(i)));
+    }
+    
+    return;
+}
+
+void
 FunctionsR::toParameters(const SEXP & sx_weights, const SEXP & sx_circulars,
         Parameters & parameters, size_t num_parameters) {
 

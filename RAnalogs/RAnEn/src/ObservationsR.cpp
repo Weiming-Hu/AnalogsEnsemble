@@ -17,19 +17,8 @@
 using namespace Rcpp;
 using namespace boost;
 
-ObservationsR::ObservationsR() {
-    data_ = nullptr;
-    internal_ = false;
-}
 
-ObservationsR::ObservationsR(const ObservationsR& orig) : Observations(orig) {
-    offset_ = orig.offset_;
-    data_ = orig.data_;
-    
-    // Data will managed by other objects. The data pointer is not
-    // internal to this object.
-    //
-    internal_ = false;
+ObservationsR::ObservationsR() {
 }
 
 ObservationsR::ObservationsR(SEXP sx_times, SEXP sx_data) {
@@ -73,82 +62,13 @@ ObservationsR::ObservationsR(SEXP sx_times, SEXP sx_data) {
 
     // Assign data
     data_ = REAL(data);
-    offset_ = Offset(data_dims);
-    internal_ = false;
+    memcpy(dims_, data_dims.begin(), 3 * sizeof(int));
+//    dims_[0] = data_dims[0];
+//    dims_[1] = data_dims[1];
+//    dims_[2] = data_dims[2];
+    
+    allocated_ = false;
 }
 
 ObservationsR::~ObservationsR() {
-    if (internal_) delete [] data_;
 }
-
-size_t ObservationsR::num_elements() const {
-    return offset_.num_elements();
-}
-
-const double* ObservationsR::getValuesPtr() const {
-    return data_;
-}
-
-double* ObservationsR::getValuesPtr() {
-    return data_;
-}
-
-void ObservationsR::setDimensions(
-        const Parameters& parameters,
-        const Stations& stations,
-        const Times& times) {
-
-    // Set members in the parent class
-    parameters_ = parameters;
-    stations_ = stations;
-    times_ = times;
-
-    // Allocate memory for underlying data structure
-    // using the C++ idioms
-    //
-    size_t size = parameters_.size() * stations_.size() * times_.size();
-
-    if (internal_) delete [] data_;
-    data_ = new double [size];
-    internal_ = true;
-
-    return;
-}
-
-double ObservationsR::getValue(
-        size_t parameter_index, size_t station_index, size_t time_index) const {
-
-    std::vector<size_t> indices{parameter_index, station_index, time_index};
-    return data_[offset_(indices)];
-}
-
-void ObservationsR::setValue(double val,
-        size_t parameter_index, size_t station_index, size_t time_index) {
-
-    std::vector<size_t> indices{parameter_index, station_index, time_index};
-    data_[offset_(indices)] = val;
-    return;
-}
-
-void
-ObservationsR::print(std::ostream & os) const {
-    Observations::print(os);
-    
-    size_t count = offset_.num_elements();
-    os << "[Data] size: " << count << std::endl;
-
-    if (count > AnEnDefaults::_PREVIEW_COUNT) {
-        os << Functions::format(data_, AnEnDefaults::_PREVIEW_COUNT, ",") << ", ...";
-    } else {
-        os << Functions::format(data_, count, ",");
-    }
-    os << std::endl;
-    
-    return;
-}
-
-std::ostream &
-operator<<(std::ostream & os, const ObservationsR & obj) {
-    obj.print(os);
-    return os;
-} 

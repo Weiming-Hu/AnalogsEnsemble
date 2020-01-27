@@ -20,6 +20,7 @@
  */
 class Offset {
 public:
+    
     Offset();
     Offset(const Offset& orig);
     Offset(const Rcpp::IntegerVector & dim);
@@ -29,6 +30,8 @@ public:
     
     size_t operator() (const std::vector<size_t> & dims_index) const;
     std::vector<size_t> getDims() const;
+    
+    void setDims(const std::vector<size_t> & dims);
     
     Offset & operator=(const Offset & rhs);
     
