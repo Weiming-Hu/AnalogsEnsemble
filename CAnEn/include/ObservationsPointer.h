@@ -1,12 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /* 
  * File:   ObservationsPointer.h
- * Author: guido
+ * Author: Guido Cervone <cervone@psu.edu>
+ *         Weiming Hu <cervone@psu.edu>
  *
  * Created on January 27, 2020, 5:39 PM
  */
@@ -16,15 +11,13 @@
 
 #include "Observations.h"
 
-typedef size_t vector3[3];
+using vector3 = size_t[3];
 
 class ObservationsPointer : public Observations {
 public:
     ObservationsPointer();
     ObservationsPointer(const ObservationsPointer& orig);
     virtual ~ObservationsPointer();
-    
-
     
     std::size_t num_elements() const override;
 
@@ -43,6 +36,10 @@ public:
     
     void print(std::ostream &) const;
     friend std::ostream & operator<<(std::ostream &, const ObservationsPointer &);
+    
+    static const size_t _DIM_PARAMETER;
+    static const size_t _DIM_STATION;
+    static const size_t _DIM_TIME;
     
 protected:
     vector3 dims_;

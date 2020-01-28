@@ -9,8 +9,8 @@ include_directories("${CMAKE_SOURCE_DIR}/CAnEnIO/include")
 include_directories("${CMAKE_SOURCE_DIR}/CAnEn/include")
 
 # Add all the tests
-add_subdirectory("ObservationsArray")
-add_subdirectory("ForecastsArray")
+#add_subdirectory("ObservationsArray")
+#add_subdirectory("ForecastsArray")
 add_subdirectory("Calculator")
 add_subdirectory("Parameters")
 add_subdirectory("Functions")

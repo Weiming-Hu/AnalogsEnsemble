@@ -44,8 +44,7 @@ if (BOOST_TYPE STREQUAL "BUILD")
     if (NOT (EXISTS "${LIBRARY_SYSTEM}/include" AND EXISTS "${LIBRARY_FILESYSTEM}/include" AND
         EXISTS "${LIBRARY_PROGRAMOPTIONS}/include" AND EXISTS "${LIBRARY_DATETIME}/include"))
 
-        message (STATUS "Cann't find the source files for Boost in ${DEPENDENCY_PATH}.
-        Try to download the required modules using git.")
+        message (STATUS "Download required boost modules using git.")
 
         if (NOT EXISTS ${DEPENDENCY_PATH})
             file (MAKE_DIRECTORY ${DEPENDENCY_PATH})
