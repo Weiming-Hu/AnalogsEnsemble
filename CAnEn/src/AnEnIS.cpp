@@ -212,7 +212,15 @@ AnEnIS::compute(const Forecasts & forecasts,
         fill_n(simsIndex_.data(), simsIndex_.num_elements(), NAN);
     }
 
-    simsArr_.resize(num_search_times_index);
+    /**
+     * A vector of arrays consisting of 
+     * [similarity value, forecast time index, observation time index]
+     * 
+     * This is used to store all similarity metrics from all search times for
+     * one test time together with indices.
+     */
+    std::vector< std::array<double, 3> > sims_arr;
+    sims_arr.resize(num_search_times_index);
 
     /*
      * Progress messages output
@@ -224,7 +232,7 @@ AnEnIS::compute(const Forecasts & forecasts,
 #pragma omp parallel for default(none) schedule(dynamic) collapse(3) \
 shared(num_stations, num_flts, num_test_times_index, num_search_times_index, \
 fcsts_test_index, fcsts_search_index, forecasts, observations, weights, circulars) \
-firstprivate(simsArr_)
+firstprivate(sims_arr)
 #endif
     for (size_t station_i = 0; station_i < num_stations; ++station_i) {
         for (size_t flt_i = 0; flt_i < num_flts; ++flt_i) {
@@ -237,7 +245,7 @@ firstprivate(simsArr_)
                 /*
                  * Initialize similarity array values
                  */
-                fill_n(simsArr_.begin(), simsArr_.size(), _INIT_ARR_VALUE);
+                fill_n(sims_arr.begin(), sims_arr.size(), _INIT_ARR_VALUE);
 
                 /*
                  * Compute similarity for all search times
@@ -285,18 +293,18 @@ firstprivate(simsArr_)
                             current_search_index, weights, circulars);
 
                     // Save the similarity metric with corresponding indices
-                    simsArr_[search_time_i][_SIM_VALUE_INDEX] = metric;
-                    simsArr_[search_time_i][_SIM_FCST_INDEX] = current_search_index;
-                    simsArr_[search_time_i][_SIM_OBS_INDEX] = obs_time_index;
+                    sims_arr[search_time_i][_SIM_VALUE_INDEX] = metric;
+                    sims_arr[search_time_i][_SIM_FCST_INDEX] = current_search_index;
+                    sims_arr[search_time_i][_SIM_OBS_INDEX] = obs_time_index;
                 }
 
                 /*
                  * Sort based on similarity metrics
                  */
-                if (quick_sort_) nth_element(simsArr_.begin(),
-                        simsArr_.begin() + num_sims_, simsArr_.end(), simsSort);
-                else partial_sort(simsArr_.begin(),
-                        simsArr_.begin() + num_sims_, simsArr_.end(), simsSort);
+                if (quick_sort_) nth_element(sims_arr.begin(),
+                        sims_arr.begin() + num_sims_, sims_arr.end(), simsSort);
+                else partial_sort(sims_arr.begin(),
+                        sims_arr.begin() + num_sims_, sims_arr.end(), simsSort);
 
                 /*
                  * Output values and indices
@@ -304,7 +312,7 @@ firstprivate(simsArr_)
                 for (size_t analog_i = 0; analog_i < num_analogs_; ++analog_i) {
 
                     // Check whether the observation index is valid
-                    double obs_time_index = simsArr_[analog_i][_SIM_OBS_INDEX];
+                    double obs_time_index = sims_arr[analog_i][_SIM_OBS_INDEX];
                     if (std::isnan(obs_time_index)) continue;
 
                     double obs_value = observations.getValue(obs_var_index_, station_i, obs_time_index);
@@ -323,13 +331,13 @@ firstprivate(simsArr_)
                         if (save_sims_) {
                             // Assign similarity metric value
                             simsMetric_[station_i][test_time_i][flt_i][sim_i] =
-                                    simsArr_[sim_i][_SIM_VALUE_INDEX];
+                                    sims_arr[sim_i][_SIM_VALUE_INDEX];
                         }
 
                         if (save_sims_index_) {
                             // Assign similarity metric index
                             simsIndex_[station_i][test_time_i][flt_i][sim_i] =
-                                    simsArr_[sim_i][_SIM_FCST_INDEX];
+                                    sims_arr[sim_i][_SIM_FCST_INDEX];
                         }
                     }
                 }

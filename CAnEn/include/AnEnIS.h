@@ -104,12 +104,6 @@ protected:
      */
     Functions::Matrix obsIndexTable_;
 
-    /**
-     * A vector of arrays consisting of 
-     * [similarity value, forecast time index, observation time index]
-     */
-    std::vector< std::array<double, 3> > simsArr_;
-
 
     double computeSimMetric_(const Forecasts & forecasts, std::size_t sta_i,
             std::size_t flt_i, std::size_t time_test_i, std::size_t time_search_i,
