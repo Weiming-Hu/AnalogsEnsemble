@@ -22,8 +22,8 @@ num.days <- 100
 num.members <- 5
 num.stations <- 9
 
-forecasts.time <- 1:num.days
-forecasts.flt <- seq(0, by = 3/num.flts, length.out = num.flts)
+forecasts.time <- 1:num.days * 10
+forecasts.flt <- seq(0, by = 3/num.flts, length.out = num.flts) * 10
 observations.time <- unique(rep(forecasts.time, each = num.flts) + forecasts.flt)
 
 forecasts <- array(rnorm(num.pars * num.flts * num.days * num.stations, 0, 100),
@@ -37,12 +37,10 @@ test.end <- 90
 search.start <- 1
 search.end <- num.days
 
-config <- generateConfiguration('independentSearch', TRUE)
-config$test_forecasts <- forecasts
-config$test_times <- forecasts.time
+config <- generateConfiguration('independentSearch')
+config$forecasts <- forecasts
+config$forecast_times <- forecasts.time
 config$test_times_compare <- forecasts.time[test.start:test.end]
-config$search_forecasts <- forecasts
-config$search_times <- forecasts.time
 config$search_times_compare <- forecasts.time[search.start:search.end]
 config$flts <- forecasts.flt
 config$search_observations <- observations
@@ -52,6 +50,7 @@ config$operational <- T
 config$preserve_similarity <- T
 config$quick <- F
 
+config <- formatConfig(config)
 AnEn.auto <- generateAnalogs(config)
 
 # Case: Deprecated functions

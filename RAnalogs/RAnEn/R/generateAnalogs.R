@@ -56,10 +56,13 @@
 #' 
 #' @md
 #' @export
-generateAnalogs <- function(configuration) {
+generateAnalogs <- function(config) {
+  
+  # Check for backward compatibility
+  config <- formatConfig(config)
   
   # Call the C++ routine
-  AnEn <- computeAnEnIS(configuration)
+  AnEn <- computeAnEnIS(config)
   
   # Convert C indices to R indices
   AnEn <- AnEnC2R(AnEn)

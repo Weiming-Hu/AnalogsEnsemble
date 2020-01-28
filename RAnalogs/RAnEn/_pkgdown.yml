@@ -48,8 +48,8 @@ reference:
       desc: Helper function to ease our lives.
       contents:
           - alignObservations
-          - formatObservations
-          - getConfigNames
+          - starts_with("format")
           - starts_with("subset")
+          - getConfigNames
           - toDateTime
           - validateConfiguration

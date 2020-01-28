@@ -131,3 +131,4 @@ SEXP computeAnEnIS(SEXP sx_config) {
     ret.attr("class") = "AnEn";
     return (ret);
 }
+

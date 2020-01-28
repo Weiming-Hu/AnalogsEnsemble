@@ -39,7 +39,6 @@ namespace ConfigNames {
     static const std::string _OPERATION = "operational";
     static const std::string _PREVENT_SEARCH_FUTURE = "prevent_search_future";
     static const std::string _QUICK = "quick";
-    static const std::string _VERSION = "version";
     
     // Output names
     static const std::string _ANALOGS = "analogs";

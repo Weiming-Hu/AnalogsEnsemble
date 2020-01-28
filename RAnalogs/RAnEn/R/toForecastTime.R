@@ -35,11 +35,11 @@
 #' 
 #' @param observation.time.id The observation time index(es) from the `Time` column of the `analogs` member in
 #' in the results of \code{\link{generateAnalogs}}.
-#' @param mapping The mapping table from the `mapping` member in the results of \code{\link{generateAnalogs}}.
-#' Or it can be created from \code{\link{generateTimeMapping}}.
+#' @param mapping The mapping table created from \code{\link{generateTimeMapping}}.
 #' @param flt The lead time index.
 #' 
 #' @md
+#' @export
 toForecastTime <- function(observation.time.id, mapping, flt = NULL) {
   
   mat <- NULL

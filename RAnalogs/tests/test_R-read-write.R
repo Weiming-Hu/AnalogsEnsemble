@@ -14,8 +14,7 @@
 library(RAnEn)
 
 functions.to.test <- c(
-  'readForecasts', 'readObservations', 'readConfiguration',
-  'readAnEn', 'writeNetCDF', 'writeConfiguration')
+  'readForecasts', 'readObservations', 'readConfiguration', 'writeNetCDF')
 
 # Check whether there are any functions that I have not included
 # here in the list. If any, I need to update this test script to
@@ -24,10 +23,7 @@ functions.to.test <- c(
 all.funcs <- lsf.str("package:RAnEn")
 selected <- grep('^(read|write).*', all.funcs)
 if (length(functions.to.test) != length(selected)) {
-  diff <- setdiff(all.funcs[selected], functions.to.test)
-  msg <- paste('Function tests are missing for',
-               paste(diff, collapse = '; '))
-  stop(msg)
+  stop("Some functions are missing")
 }
 
 
@@ -107,65 +103,65 @@ unlink(file.forecasts)
 # Test reading and writting configuration #
 ###########################################
 #
-config <- generateConfiguration('independentSearch')
-config$search_observations <- observations$Data
-config$observation_times <- observations$Times
-config$circulars <- 2
-config$num_members <- 3
-config$forecasts <- forecasts$Data
-config$forecast_times <- forecasts$Times
-config$flts <- forecasts$FLTs
-config$max_num_sims <- 5
-
-AnEn <- generateAnalogs(config)
-
-config.prefix <- 'test-config-'
-unlink(list.files(pattern = config.prefix, full.names = T))
-writeConfiguration(
-  config = config, 
-  obs.par.names = observations$ParameterNames,
-  fcsts.par.names = forecasts$ParameterNames,
-  xs = forecasts$Xs, ys = forecasts$Ys,
-  file.prefix = config.prefix)
-
-stopifnot(all.equal(
-  config$num_members, readConfiguration(
-    paste0(config.prefix, 'config.cfg'),
-    parameter = 'members',
-    return.numeric = T)))
-
-forecasts.read <- readForecasts(
-  paste0(config.prefix, 'forecasts.nc'))
-stopifnot(all.equal(forecasts.read$Data, config$forecasts))
-stopifnot(all.equal(as.numeric(forecasts.read$Times),
-                    config$forecast_times))
-stopifnot(all.equal(forecasts.read$FLTs, config$flts))
-stopifnot(all.equal(forecasts.read$Xs, forecasts$Xs))
-stopifnot(all.equal(forecasts.read$Ys, forecasts$Ys))
-stopifnot(all.equal(forecasts.read$ParameterCirculars,
-                    forecasts$ParameterCirculars))
-stopifnot(all.equal(forecasts.read$ParameterNames,
-                    forecasts$ParameterNames))
-
-observations.read <- readObservations(
-  paste0(config.prefix, 'observations.nc'))
-stopifnot(all.equal(observations.read$Data, config$search_observations))
-stopifnot(all.equal(as.numeric(observations.read$Times),
-                    config$observation_times))
-stopifnot(all.equal(observations.read$Xs, observations$Xs))
-stopifnot(all.equal(observations.read$Ys, observations$Ys))
-stopifnot(all.equal(observations.read$ParameterNames,
-                    observations$ParameterNames))
-
-command <- paste0(
-  '/home/graduate/wuh20/github/AnalogsEnsemble/output/bin/analogGenerator -c ',
-  config.prefix, 'config.cfg')
-stopifnot(system(command) == 0)
-AnEn.read <- readAnEn(
-  file.analogs = paste0(config.prefix, 'analogs.nc'),
-  file.similarity = paste0(config.prefix, 'similarity.nc'))
-stopifnot(identical(AnEn.read$analogs, AnEn$analogs))
-stopifnot(identical(AnEn.read$similarity, AnEn$similarity))
-unlink(list.files(pattern = config.prefix, full.names = T))
+# config <- generateConfiguration('independentSearch')
+# config$search_observations <- observations$Data
+# config$observation_times <- observations$Times
+# config$circulars <- 2
+# config$num_members <- 3
+# config$forecasts <- forecasts$Data
+# config$forecast_times <- forecasts$Times
+# config$flts <- forecasts$FLTs
+# config$max_num_sims <- 5
+# 
+# AnEn <- generateAnalogs(config)
+# 
+# config.prefix <- 'test-config-'
+# unlink(list.files(pattern = config.prefix, full.names = T))
+# writeConfiguration(
+#   config = config, 
+#   obs.par.names = observations$ParameterNames,
+#   fcsts.par.names = forecasts$ParameterNames,
+#   xs = forecasts$Xs, ys = forecasts$Ys,
+#   file.prefix = config.prefix)
+# 
+# stopifnot(all.equal(
+#   config$num_members, readConfiguration(
+#     paste0(config.prefix, 'config.cfg'),
+#     parameter = 'members',
+#     return.numeric = T)))
+# 
+# forecasts.read <- readForecasts(
+#   paste0(config.prefix, 'forecasts.nc'))
+# stopifnot(all.equal(forecasts.read$Data, config$forecasts))
+# stopifnot(all.equal(as.numeric(forecasts.read$Times),
+#                     config$forecast_times))
+# stopifnot(all.equal(forecasts.read$FLTs, config$flts))
+# stopifnot(all.equal(forecasts.read$Xs, forecasts$Xs))
+# stopifnot(all.equal(forecasts.read$Ys, forecasts$Ys))
+# stopifnot(all.equal(forecasts.read$ParameterCirculars,
+#                     forecasts$ParameterCirculars))
+# stopifnot(all.equal(forecasts.read$ParameterNames,
+#                     forecasts$ParameterNames))
+# 
+# observations.read <- readObservations(
+#   paste0(config.prefix, 'observations.nc'))
+# stopifnot(all.equal(observations.read$Data, config$search_observations))
+# stopifnot(all.equal(as.numeric(observations.read$Times),
+#                     config$observation_times))
+# stopifnot(all.equal(observations.read$Xs, observations$Xs))
+# stopifnot(all.equal(observations.read$Ys, observations$Ys))
+# stopifnot(all.equal(observations.read$ParameterNames,
+#                     observations$ParameterNames))
+# 
+# command <- paste0(
+#   '/home/graduate/wuh20/github/AnalogsEnsemble/output/bin/analogGenerator -c ',
+#   config.prefix, 'config.cfg')
+# stopifnot(system(command) == 0)
+# AnEn.read <- readAnEn(
+#   file.analogs = paste0(config.prefix, 'analogs.nc'),
+#   file.similarity = paste0(config.prefix, 'similarity.nc'))
+# stopifnot(identical(AnEn.read$analogs, AnEn$analogs))
+# stopifnot(identical(AnEn.read$similarity, AnEn$similarity))
+# unlink(list.files(pattern = config.prefix, full.names = T))
 
 cat("You survived the tests for R file I/O!\n")
