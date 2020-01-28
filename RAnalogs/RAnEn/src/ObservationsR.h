@@ -9,11 +9,12 @@
 #define OBSERVATIONSR_H
 
 #include "ObservationsPointer.h"
-#include "Offset.h"
+#include <Rcpp.h>
 
 class ObservationsR : public ObservationsPointer {
 public:
-    ObservationsR();
+    ObservationsR() = delete;
+    ObservationsR(const ObservationsR &) = delete;
     ObservationsR(SEXP sx_times, SEXP sx_data);
     virtual ~ObservationsR();
 };

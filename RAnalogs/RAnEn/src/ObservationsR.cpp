@@ -7,8 +7,6 @@
 
 #include "ObservationsR.h"
 #include "FunctionsR.h"
-#include "Functions.h"
-#include "AnEnDefaults.h"
 #include "boost/numeric/conversion/cast.hpp"
 
 #include <sstream>
@@ -16,10 +14,6 @@
 
 using namespace Rcpp;
 using namespace boost;
-
-
-ObservationsR::ObservationsR() {
-}
 
 ObservationsR::ObservationsR(SEXP sx_times, SEXP sx_data) {
 
@@ -63,10 +57,6 @@ ObservationsR::ObservationsR(SEXP sx_times, SEXP sx_data) {
     // Assign data
     data_ = REAL(data);
     memcpy(dims_, data_dims.begin(), 3 * sizeof(int));
-//    dims_[0] = data_dims[0];
-//    dims_[1] = data_dims[1];
-//    dims_[2] = data_dims[2];
-    
     allocated_ = false;
 }
 

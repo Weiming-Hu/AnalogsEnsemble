@@ -10,24 +10,10 @@
 #include "boost/numeric/conversion/cast.hpp"
 
 #include <sstream>
+#include <stdexcept>
 
 using namespace Rcpp;
 using namespace boost;
-
-ForecastsR::ForecastsR() {
-    data_ = nullptr;
-    internal_ = false;
-}
-
-ForecastsR::ForecastsR(const ForecastsR& orig) : Forecasts(orig) {
-    offset_ = orig.offset_;
-    data_ = orig.data_;
-    
-    // Data will managed by other objects. The data pointer is not
-    // internal to this object.
-    //
-    internal_ = false;
-}
 
 ForecastsR::ForecastsR(SEXP sx_weights, SEXP sx_circulars,
         SEXP sx_times, SEXP sx_flts, SEXP sx_data) {
@@ -82,85 +68,9 @@ ForecastsR::ForecastsR(SEXP sx_weights, SEXP sx_circulars,
 
     // Assign data
     data_ = REAL(data);
-    offset_ = Offset(data_dims);
-    internal_ = false;
+    memcpy(dims_, data_dims.begin(), 3 * sizeof(int));
+    allocated_ = false;
 }
 
 ForecastsR::~ForecastsR() {
-    if (internal_) delete [] data_;
 }
-
-size_t ForecastsR::num_elements() const {
-    return offset_.num_elements();
-}
-
-const double* ForecastsR::getValuesPtr() const {
-    return data_;
-}
-
-double* ForecastsR::getValuesPtr() {
-    return data_;
-}
-
-void ForecastsR::setDimensions(
-        const Parameters& parameters,
-        const Stations& stations,
-        const Times& times, const Times& flts) {
-
-    // Set members in the parent class
-    parameters_ = parameters;
-    stations_ = stations;
-    times_ = times;
-    flts_ = flts;
-
-    // Allocate memory for underlying data structure
-    // using the C++ idioms
-    //
-    size_t size = parameters_.size() * stations_.size() *
-            times_.size() * flts_.size();
-
-    if (internal_) delete [] data_;
-    data_ = new double [size];
-    internal_ = true;
-
-    return;
-}
-
-double ForecastsR::getValue(
-        size_t parameter_index, size_t station_index,
-        size_t time_index, size_t flt_index) const {
-
-    std::vector<size_t> indices{parameter_index, station_index, time_index, flt_index};
-    return data_[offset_(indices)];
-}
-
-void ForecastsR::setValue(double val,
-        size_t parameter_index, size_t station_index,
-        size_t time_index, size_t flt_index) {
-
-    std::vector<size_t> indices{parameter_index, station_index, time_index, flt_index};
-    data_[offset_(indices)] = val;
-    return;
-}
-
-void ForecastsR::print(std::ostream & os) const {
-    Forecasts::print(os);
-
-    size_t count = offset_.num_elements();
-    os << "[Data] size: " << count << std::endl;
-
-    if (count > AnEnDefaults::_PREVIEW_COUNT) {
-        os << Functions::format(data_, AnEnDefaults::_PREVIEW_COUNT, ",") << ", ...";
-    } else {
-        os << Functions::format(data_, count, ",");
-    }
-    os << std::endl;
-
-    return;
-}
-
-std::ostream &
-operator<<(std::ostream & os, const ForecastsR & obj) {
-    obj.print(os);
-    return os;
-} 
