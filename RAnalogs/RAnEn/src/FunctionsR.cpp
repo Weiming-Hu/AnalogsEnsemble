@@ -130,8 +130,6 @@ FunctionsR::toTimes(const SEXP & sx_times, Times & times) {
 void
 FunctionsR::setElement(Rcpp::List & list, const std::string & name, const Array4D & arr) {
 
-    // TODO: Check the ordering of the array
-
     using namespace boost;
 
     size_t num_dims = arr.num_dimensions();

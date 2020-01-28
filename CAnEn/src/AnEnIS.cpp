@@ -31,7 +31,7 @@ static const size_t _SIM_FCST_INDEX = 1;
 static const size_t _SIM_OBS_INDEX = 2;
 
 // This is the default value for similarity array
-const array<double, 3> AnEnIS::_INIT_ARR_VALUE = {NAN, NAN, NAN};
+static const array<double, 3> AnEnIS::_INIT_ARR_VALUE = {NAN, NAN, NAN};
 
 static bool
 simsSort(const array<double, 3> & lhs,

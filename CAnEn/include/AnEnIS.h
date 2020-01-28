@@ -66,13 +66,6 @@ protected:
     std::size_t max_flt_nan_;
     std::size_t flt_radius_;
     
-    // TODO : Change private member name with undersore
-
-    /**
-     * This is the default value for similarity array
-     */
-    static const std::array<double, 3> _INIT_ARR_VALUE;
-    
     /**
      * The standard deviation array has the following dimensions
      * 
