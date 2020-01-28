@@ -7,6 +7,8 @@
 
 #include "ForecastsR.h"
 #include "FunctionsR.h"
+#include "Functions.h"
+#include "AnEnDefaults.h"
 #include "boost/numeric/conversion/cast.hpp"
 
 #include <sstream>
@@ -52,14 +54,14 @@ ForecastsR::ForecastsR(SEXP sx_weights, SEXP sx_circulars,
         throw std::runtime_error(msg);
     }
 
-    if (numeric_cast<int>(times_.size()) != data_dims[2]) {
+    if (times_.size() != numeric_cast<size_t>(data_dims[2])) {
         std::ostringstream msg;
         msg << "Third dimension of forecasts (" << data_dims[2]
                 << ") != #forecast times (" << times_.size() << ")";
         throw std::runtime_error(msg.str());
     }
 
-    if (numeric_cast<int>(flts_.size()) != data_dims[3]) {
+    if (flts_.size() != numeric_cast<size_t>(data_dims[3])) {
         std::ostringstream msg;
         msg << "Fourth dimension of forecasts (" << data_dims[3]
                 << ") != #unique flts (" << flts_.size() << ")";
@@ -68,9 +70,41 @@ ForecastsR::ForecastsR(SEXP sx_weights, SEXP sx_circulars,
 
     // Assign data
     data_ = REAL(data);
-    memcpy(dims_, data_dims.begin(), 3 * sizeof(int));
+
+    // Assign dimensions
+    dims_[_DIM_PARAMETER] = numeric_cast<size_t>(data_dims[_DIM_PARAMETER]);
+    dims_[_DIM_STATION] = numeric_cast<size_t>(data_dims[_DIM_STATION]);
+    dims_[_DIM_TIME] = numeric_cast<size_t>(data_dims[_DIM_TIME]);
+    dims_[_DIM_FLT] = numeric_cast<size_t>(data_dims[_DIM_FLT]);
+
     allocated_ = false;
 }
 
 ForecastsR::~ForecastsR() {
+}
+
+void
+ForecastsR::print(std::ostream & os) const {
+
+    os << "[Forecasts] size: [" <<
+            parameters_.size() << ", " <<
+            stations_.size() << ", " <<
+            times_.size() << ", " <<
+            flts_.size() << "]" << std::endl;
+
+    // Print out all parameters to display circular variables and weights
+    os << parameters_;
+
+    // Preview data
+    size_t num_print = (num_elements() < AnEnDefaults::_PREVIEW_COUNT ?
+            num_elements() : AnEnDefaults::_PREVIEW_COUNT);
+    os << "[Data] size: " << num_elements() << std::endl;
+    Functions::format(data_, num_print);
+
+    return;
+}
+
+std::ostream & operator<<(std::ostream & os, const ForecastsR & obj) {
+    obj.print(os);
+    return os;
 }

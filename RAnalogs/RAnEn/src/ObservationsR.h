@@ -15,8 +15,12 @@ class ObservationsR : public ObservationsPointer {
 public:
     ObservationsR() = delete;
     ObservationsR(const ObservationsR &) = delete;
+    
     ObservationsR(SEXP sx_times, SEXP sx_data);
     virtual ~ObservationsR();
+
+    void print(std::ostream &) const;
+    friend std::ostream & operator<<(std::ostream &, const ObservationsR &);
 };
 
 #endif /* OBSERVATIONSR_H */

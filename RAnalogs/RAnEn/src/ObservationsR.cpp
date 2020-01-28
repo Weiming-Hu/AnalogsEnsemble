@@ -47,7 +47,7 @@ ObservationsR::ObservationsR(SEXP sx_times, SEXP sx_data) {
         throw std::runtime_error(msg);
     }
 
-    if (numeric_cast<int>(times_.size()) != data_dims[2]) {
+    if (times_.size() != numeric_cast<size_t>(data_dims[2])) {
         std::ostringstream msg;
         msg << "Third dimensions of observations (" << data_dims[2]
                 << ") != #unique observation times (" << times_.size() << ")";
@@ -56,9 +56,39 @@ ObservationsR::ObservationsR(SEXP sx_times, SEXP sx_data) {
 
     // Assign data
     data_ = REAL(data);
-    memcpy(dims_, data_dims.begin(), 3 * sizeof(int));
+
+    // Assign dimensions
+    dims_[_DIM_PARAMETER] = numeric_cast<size_t>(data_dims[_DIM_PARAMETER]);
+    dims_[_DIM_STATION] = numeric_cast<size_t>(data_dims[_DIM_STATION]);
+    dims_[_DIM_TIME] = numeric_cast<size_t>(data_dims[_DIM_TIME]);
+    
     allocated_ = false;
 }
 
 ObservationsR::~ObservationsR() {
+}
+
+void
+ObservationsR::print(std::ostream & os) const {
+
+    os << "[Observations] size: [" <<
+            parameters_.size() << ", " <<
+            stations_.size() << ", " <<
+            times_.size() << "]" << std::endl;
+    
+    // Print out all parameters to display circular variables and weights
+    os << parameters_;
+
+    // Preview data
+    size_t num_print = (num_elements() < AnEnDefaults::_PREVIEW_COUNT ?
+            num_elements() : AnEnDefaults::_PREVIEW_COUNT);
+    os << "[Data] size: " << num_elements() << std::endl;
+    Functions::format(data_, num_print);
+
+    return;
+}
+
+std::ostream & operator<<(std::ostream & os, const ObservationsR & obj) {
+    obj.print(os);
+    return os;
 }
