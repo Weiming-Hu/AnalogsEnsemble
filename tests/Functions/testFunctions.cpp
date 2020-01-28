@@ -16,9 +16,9 @@
 #include "boost/lambda/lambda.hpp"
 #include "boost/assign/list_of.hpp"
 #include "boost/assign/list_inserter.hpp"
-#include "ForecastsArray.h"
+#include "ForecastsPointer.h"
 #include "AnEnReadNcdf.h"
-#include "ObservationsArray.h"
+#include "ObservationsPointer.h"
 
 using namespace std;
 using namespace boost::bimaps;
@@ -162,10 +162,10 @@ void testFunctions::testComputeObservationTimeIndices2_() {
 
     AnEnReadNcdf io;
     
-    ForecastsArray forecasts;
+    ForecastsPointer forecasts;
     io.readForecasts(file_forecasts, forecasts);
     
-    ObservationsArray observations;
+    ObservationsPointer observations;
     io.readObservations(file_observations, observations);
 
     vector<size_t> test_times_index(forecasts.getTimes().size());

@@ -11,8 +11,8 @@
 
 #include "AnEnIS.h"
 #include "AnEnReadNcdf.h"
-#include "ForecastsArray.h"
-#include "ObservationsArray.h"
+#include "ForecastsPointer.h"
+#include "ObservationsPointer.h"
 
 #include <iterator>
 #include <boost/multi_array/base.hpp>
@@ -22,15 +22,17 @@ typedef Array4D::index_range range;
 
 int main(int argc, char** argv) {
 
-    string forecast_file = "forecasts_small-set.nc";
-    string observation_file = "analysis_small-set.nc";
+    string forecast_file = "forecasts_211.nc";
+    string observation_file = "observations_211.nc";
 
-    ForecastsArray forecasts;
-    ObservationsArray observations;
+    ForecastsPointer forecasts;
+    ObservationsPointer observations;
 
     AnEnReadNcdf read_nc;
     read_nc.readForecasts(forecast_file, forecasts);
     read_nc.readObservations(observation_file, observations);
+    
+    cout << observations << endl;
     
     size_t num_search_fcsts = 51;
     size_t search_start = 0;

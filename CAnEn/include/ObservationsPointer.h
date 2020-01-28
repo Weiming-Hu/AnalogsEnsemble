@@ -17,6 +17,7 @@ class ObservationsPointer : public Observations {
 public:
     ObservationsPointer();
     ObservationsPointer(const ObservationsPointer& orig);
+    ObservationsPointer(const Parameters &, const Stations &, const Times &);
     virtual ~ObservationsPointer();
     
     std::size_t num_elements() const override;
@@ -51,6 +52,8 @@ protected:
      * the de-constructor.
      */
     bool allocated_;
+    
+    void allocateMemory_();
 };
 
 #endif /* OBSERVATIONSPOINTER_H */

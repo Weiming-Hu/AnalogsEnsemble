@@ -9,8 +9,8 @@
 #include <boost/bimap/bimap.hpp>
 #include "boost/assign/list_of.hpp"
 #include "boost/assign/list_inserter.hpp"
-#include "ForecastsArray.h"
-#include "ObservationsArray.h"
+#include "ForecastsPointer.h"
+#include "ObservationsPointer.h"
 
 #if defined(_OPENMP)
 #include <omp.h>
@@ -172,7 +172,7 @@ void testAnEnIS::testFixedLengthSds_() {
 
     setUpSds();
 
-    ForecastsArray forecasts(parameters_, stations_, fcst_times_, flts_);
+    ForecastsPointer forecasts(parameters_, stations_, fcst_times_, flts_);
     double *ptr = forecasts.getValuesPtr();
     vector<double> values = {
         NAN, -17.35, NAN, 1.92, NAN, 39.82, 6.95, -3.42, -39.85,
@@ -240,7 +240,7 @@ void testAnEnIS::compareOperationalSds_() {
 
         cout << "Test with an NAN probability of " << nan_prob << " ..." << endl;
 
-        ForecastsArray forecasts(parameters_, stations_, fcst_times_, flts_);
+        ForecastsPointer forecasts(parameters_, stations_, fcst_times_, flts_);
         randomizeForecasts_(forecasts, nan_prob, 2);
 
         /*
@@ -324,8 +324,8 @@ testAnEnIS::compareComputeLeaveOneOut_() {
          */
         cout << "Test with an NAN probability of " << nan_prob << " ..." << endl;
 
-        ForecastsArray fcsts(parameters_, stations_, fcst_times_, flts_);
-        ObservationsArray obs(parameters_, stations_, obs_times_);
+        ForecastsPointer fcsts(parameters_, stations_, fcst_times_, flts_);
+        ObservationsPointer obs(parameters_, stations_, obs_times_);
 
         // Assign random forecast values
         randomizeForecasts_(fcsts, nan_prob);

@@ -32,23 +32,33 @@ Observations(orig) {
     allocated_ = true;
 }
 
+ObservationsPointer::ObservationsPointer(
+        const Parameters & parameters, const Stations & stations, const Times & times) :
+Observations(parameters, stations, times), allocated_(false) {
+    allocateMemory_();
+}
+
 ObservationsPointer::~ObservationsPointer() {
     if (allocated_) delete [] data_;
 }
 
-size_t ObservationsPointer::num_elements() const {
+size_t
+ObservationsPointer::num_elements() const {
     return dims_[_DIM_PARAMETER] * dims_[_DIM_STATION] * dims_[_DIM_TIME];
 }
 
-const double* ObservationsPointer::getValuesPtr() const {
+const double*
+ObservationsPointer::getValuesPtr() const {
     return data_;
 }
 
-double* ObservationsPointer::getValuesPtr() {
+double*
+ObservationsPointer::getValuesPtr() {
     return data_;
 }
 
-void ObservationsPointer::setDimensions(
+void
+ObservationsPointer::setDimensions(
         const Parameters& parameters,
         const Stations& stations,
         const Times& times) {
@@ -57,29 +67,23 @@ void ObservationsPointer::setDimensions(
     parameters_ = parameters;
     stations_ = stations;
     times_ = times;
-
-    // Set dimensions
-    dims_[_DIM_PARAMETER] = parameters_.size();
-    dims_[_DIM_STATION] = stations_.size();
-    dims_[_DIM_TIME] = times_.size();
-
-    // Allocate memory for underlying data structure
-    if (allocated_) delete [] data_;
-    data_ = new double [num_elements()];
-
-    allocated_ = true;
+    
+    // Allocate memory
+    allocateMemory_();
 
     return;
 }
 
-double ObservationsPointer::getValue(
+double
+ObservationsPointer::getValue(
         size_t parameter_index, size_t station_index, size_t time_index) const {
 
     vector3 indices{parameter_index, station_index, time_index};
     return data_[toIndex(indices)];
 }
 
-void ObservationsPointer::setValue(double val,
+void
+ObservationsPointer::setValue(double val,
         size_t parameter_index, size_t station_index, size_t time_index) {
 
     vector3 indices{parameter_index, station_index, time_index};
@@ -92,6 +96,22 @@ ObservationsPointer::toIndex(const vector3 & indices) const {
     // Convert dimension indices to position offset by column-major
     return indices[_DIM_PARAMETER] + dims_[_DIM_PARAMETER] *
             (indices[_DIM_STATION] + dims_[_DIM_STATION] * indices[_DIM_TIME]);
+}
+
+void
+ObservationsPointer::allocateMemory_() {
+
+    // Set dimensions
+    dims_[_DIM_PARAMETER] = parameters_.size();
+    dims_[_DIM_STATION] = stations_.size();
+    dims_[_DIM_TIME] = times_.size();
+
+    // Allocate memory for underlying data structure
+    if (allocated_) delete [] data_;
+    data_ = new double [num_elements()];
+
+    allocated_ = true;
+    return;
 }
 
 void

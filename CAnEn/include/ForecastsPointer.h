@@ -17,6 +17,7 @@ class ForecastsPointer : public Forecasts {
 public:
     ForecastsPointer();
     ForecastsPointer(const ForecastsPointer& orig);
+    ForecastsPointer(const Parameters &, const Stations &, const Times &, const Times &);
     virtual ~ForecastsPointer();
 
     std::size_t num_elements() const override;
@@ -55,6 +56,8 @@ protected:
      * the de-constructor.
      */
     bool allocated_;
+
+    void allocateMemory_();
 };
 
 #endif /* FORECASTSPOINTER_H */

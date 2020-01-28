@@ -33,6 +33,13 @@ Forecasts(orig) {
     allocated_ = true;
 }
 
+ForecastsPointer::ForecastsPointer(
+        const Parameters & parameters, const Stations & stations,
+        const Times & times, const Times & flts) :
+Forecasts(parameters, stations, times, flts), allocated_(false) {
+    allocateMemory_();
+}
+
 ForecastsPointer::~ForecastsPointer() {
     if (allocated_) delete [] data_;
 }
@@ -62,19 +69,9 @@ ForecastsPointer::setDimensions(
     stations_ = stations;
     times_ = times;
     flts_ = flts;
-
-    // Set dimensions
-    dims_[_DIM_PARAMETER] = parameters_.size();
-    dims_[_DIM_STATION] = stations_.size();
-    dims_[_DIM_TIME] = times_.size();
-    dims_[_DIM_FLT] = flts_.size();
-
-    // Allocate memory for underlying data structure
-    if (allocated_) delete [] data_;
-    data_ = new double [num_elements()];
-
-    allocated_ = true;
-
+    
+    // Allocate data
+    allocateMemory_();
     return;
 }
 
@@ -100,8 +97,25 @@ size_t
 ForecastsPointer::toIndex(const vector4 & indices) const {
     // Convert dimension indices to position offset by column-major
     return indices[_DIM_PARAMETER] + dims_[_DIM_PARAMETER] *
-            (indices[_DIM_STATION] + dims_[_DIM_STATION] * 
+            (indices[_DIM_STATION] + dims_[_DIM_STATION] *
             (indices[_DIM_TIME] + dims_[_DIM_TIME] * indices[_DIM_FLT]));
+}
+
+void
+ForecastsPointer::allocateMemory_() {
+
+    // Set dimensions
+    dims_[_DIM_PARAMETER] = parameters_.size();
+    dims_[_DIM_STATION] = stations_.size();
+    dims_[_DIM_TIME] = times_.size();
+    dims_[_DIM_FLT] = flts_.size();
+
+    // Allocate memory for underlying data structure
+    if (allocated_) delete [] data_;
+    data_ = new double [num_elements()];
+
+    allocated_ = true;
+    return;
 }
 
 void
@@ -113,7 +127,7 @@ ForecastsPointer::print(std::ostream & os) const {
     for (size_t l = 0; l < dims_[_DIM_PARAMETER]; ++l) {
         for (size_t m = 0; m < dims_[_DIM_STATION]; ++m) {
             cout << "[" << l << "," << m << ",,]" << endl;
-            
+
             for (size_t p = 0; p < dims_[_DIM_FLT]; ++p) os << "\t[,,," << p << "]";
             os << endl;
 
