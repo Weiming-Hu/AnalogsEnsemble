@@ -24,3 +24,13 @@ generateTimeMapping <- function(sx_fcst_times, sx_fcst_flts, sx_obs_times) {
     .Call('_RAnEn_generateTimeMapping', PACKAGE = 'RAnEn', sx_fcst_times, sx_fcst_flts, sx_obs_times)
 }
 
+#' @export
+getConfigNames <- function() {
+    .Call('_RAnEn_getConfigNames', PACKAGE = 'RAnEn')
+}
+
+#' @export
+getAnEnNames <- function() {
+    .Call('_RAnEn_getAnEnNames', PACKAGE = 'RAnEn')
+}
+

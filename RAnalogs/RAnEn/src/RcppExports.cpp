@@ -59,6 +59,26 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// getConfigNames
+SEXP getConfigNames();
+RcppExport SEXP _RAnEn_getConfigNames() {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    rcpp_result_gen = Rcpp::wrap(getConfigNames());
+    return rcpp_result_gen;
+END_RCPP
+}
+// getAnEnNames
+SEXP getAnEnNames();
+RcppExport SEXP _RAnEn_getAnEnNames() {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    rcpp_result_gen = Rcpp::wrap(getAnEnNames());
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_RAnEn_checkOpenMP", (DL_FUNC) &_RAnEn_checkOpenMP, 0},
@@ -66,6 +86,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_RAnEn_computeAnEnIS", (DL_FUNC) &_RAnEn_computeAnEnIS, 1},
     {"_RAnEn_configAnEnIS", (DL_FUNC) &_RAnEn_configAnEnIS, 0},
     {"_RAnEn_generateTimeMapping", (DL_FUNC) &_RAnEn_generateTimeMapping, 3},
+    {"_RAnEn_getConfigNames", (DL_FUNC) &_RAnEn_getConfigNames, 0},
+    {"_RAnEn_getAnEnNames", (DL_FUNC) &_RAnEn_getAnEnNames, 0},
     {NULL, NULL, 0}
 };
 
