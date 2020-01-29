@@ -77,13 +77,6 @@ matrix:
          - MATRIX_EVAL=""
          - ENVIRONMENT_LANGUAGE="c++"
 
-     - os: osx
-       language: cpp
-       env:
-         - MATRIX_EVAL=""
-         - ENVIRONMENT_LANGUAGE="c++"
-         - INSTALLFLAG="NETCDF"
-
      - os: linux
        language: r
        cache: Rcpp
@@ -106,7 +99,6 @@ matrix:
 before_install:
     - cmake --version
     - eval "${MATRIX_EVAL}"
-    - if [[ "$ENVIRONMENT_LANGUAGE" == "c++" ]]; then if [[ "$INSTALLFLAG" == "NETCDF" ]]; then brew update; brew install netcdf; fi; fi
     - if [[ "$ENVIRONMENT_LANGUAGE" == "r" ]]; then R -e "install.packages('Rcpp')"; R -e "install.packages('BH')";fi
     - if [[ "$ENVIRONMENT_LANGUAGE" == "doc" ]]; then R -e "install.packages('Rcpp')"; R -e "install.packages('pkgdown')"; R -e "install.packages('BH')";fi
 
