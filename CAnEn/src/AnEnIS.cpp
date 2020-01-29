@@ -122,40 +122,7 @@ AnEnIS::compute(const Forecasts & forecasts,
 
     if (verbose_ >= Verbose::Progress) cout << "Start AnEnIS generation ..." << endl;
 
-    checkIndexRange_(forecasts, fcsts_test_index, fcsts_search_index);
-    checkConsistency_(forecasts, observations);
-
-    /*
-     * Compute standard deviations
-     */
-    computeSds_(forecasts, fcsts_search_index, fcsts_test_index);
-
-    /*
-     * If operational mode is used, append test time indices to the end of
-     * the search time indices.
-     */
-    if (operational_) {
-        fcsts_search_index.insert(fcsts_search_index.end(),
-                fcsts_test_index.begin(), fcsts_test_index.end());
-    }
-
-    // Check for ascending order
-    if (!is_sorted(fcsts_search_index.begin(), fcsts_search_index.end())) {
-        throw runtime_error("Test must be after search when operation is used");
-    }
-
-    /*
-     * Compute the index mapping from forecast times and lead times to 
-     * observations times
-     */
-    const auto & fcst_times = forecasts.getTimes();
-    const auto & obs_times = observations.getTimes();
-    const auto & fcst_flts = forecasts.getFLTs();
-
-    obsIndexTable_ = Functions::Matrix(
-            fcsts_search_index.size(), fcst_flts.size(), NAN);
-    Functions::updateTimeTable(fcst_times,
-            fcsts_search_index, fcst_flts, obs_times, obsIndexTable_);
+    preprocess_(forecasts, observations, fcst_test_index, fcst_search_index);
 
     /*
      * Read weights and circular flags from forecast parameters into vectors
@@ -168,38 +135,12 @@ AnEnIS::compute(const Forecasts & forecasts,
     parameters.getWeights(weights);
     parameters.getCirculars(circulars);
 
-    /*
-     * Pre-allocate memory for analog computation
-     */
-    if (verbose_ >= Verbose::Progress) cout << "Allocating memory ..." << endl;
-
-    size_t num_stations = forecasts.getStations().size(),
-            num_flts = forecasts.getFLTs().size(),
-            num_test_times_index = fcsts_test_index.size(),
-            num_search_times_index = fcsts_search_index.size();
-
-    // Check for the maximum number of values we can save
-    if (num_sims_ >= num_search_times_index) num_sims_ = num_search_times_index;
-    if (num_analogs_ >= num_search_times_index) num_analogs_ = num_search_times_index;
-
-    analogsValue_.resize(num_stations, num_test_times_index, num_flts, num_analogs_);
-    fill_n(analogsValue_.getValuesPtr(), analogsValue_.num_elements(), NAN);
-
-    if (save_analogs_index_) {
-        analogsIndex_.resize(num_stations, num_test_times_index, num_flts, num_analogs_);
-        fill_n(analogsIndex_.getValuesPtr(), analogsIndex_.num_elements(), NAN);
-    }
-
-    if (save_sims_) {
-        simsMetric_.resize(num_stations, num_test_times_index, num_flts, num_sims_);
-        fill_n(simsMetric_.getValuesPtr(), simsMetric_.num_elements(), NAN);
-    }
-
-    if (save_sims_index_) {
-        simsIndex_.resize(num_stations, num_test_times_index, num_flts, num_sims_);
-        fill_n(simsIndex_.getValuesPtr(), simsIndex_.num_elements(), NAN);
-    }
-
+    size_t num_stations = forecasts.getStations().size();
+    size_t num_flts = forecasts.getFLTs().size();
+    size_t num_test_times_index = fcsts_test_index.size();
+    size_t num_search_times_index = fcsts_search_index.size();
+    
+    
     /**
      * A vector of arrays consisting of 
      * [similarity value, forecast time index, observation time index]
@@ -277,7 +218,7 @@ firstprivate(sims_arr, _INIT_ARR_VALUE)
                     // are pre-computed and passed.
                     //
                     double metric = computeSimMetric_(
-                            forecasts, station_i, flt_i, current_test_index,
+                            forecasts, station_i, station_i, flt_i, current_test_index,
                             current_search_index, weights, circulars);
 
                     // Save the similarity metric with corresponding indices
@@ -339,6 +280,7 @@ firstprivate(sims_arr, _INIT_ARR_VALUE)
 
     return;
 }
+
 
 const Array4D &
 AnEnIS::getSimsValue() const {
@@ -425,7 +367,8 @@ AnEnIS &
 
 double
 AnEnIS::computeSimMetric_(const Forecasts & forecasts,
-        size_t sta_i, size_t flt_i, size_t time_test_i, size_t time_search_i,
+        size_t sta_search_i, size_t sta_test_i,
+        size_t flt_i, size_t time_test_i, size_t time_search_i,
         const vector<double> & weights, const vector<bool> & circulars) {
 
     /*
@@ -449,9 +392,9 @@ AnEnIS::computeSimMetric_(const Forecasts & forecasts,
 
         // Get standard deviation for this parameter
         if (operational_) {
-            sd = sds_.getValue(parameter_i, sta_i, flt_i, sds_time_index_map_[time_test_i]);
+            sd = sds_.getValue(parameter_i, sta_search_i, flt_i, sds_time_index_map_[time_test_i]);
         } else {
-            sd = sds_.getValue(parameter_i, sta_i, flt_i, 0);
+            sd = sds_.getValue(parameter_i, sta_search_i, flt_i, 0);
         }
 
         // Skip the iteration if there is no variation in this parameter
@@ -459,8 +402,8 @@ AnEnIS::computeSimMetric_(const Forecasts & forecasts,
 
         for (size_t pos = 0, window_i = flt_i_start; window_i <= flt_i_end; ++window_i, ++pos) {
 
-            double value_search = forecasts.getValue(parameter_i, sta_i, time_search_i, window_i);
-            double value_test = forecasts.getValue(parameter_i, sta_i, time_test_i, window_i);
+            double value_search = forecasts.getValue(parameter_i, sta_search_i, time_search_i, window_i);
+            double value_test = forecasts.getValue(parameter_i, sta_test_i, time_test_i, window_i);
 
             if (std::isnan(value_search) || std::isnan(value_test)) {
                 window[pos] = NAN;
@@ -516,7 +459,7 @@ AnEnIS::computeSds_(const Forecasts & forecasts,
 
     // Pre-allocate memory for calculation
     sds_.resize(num_parameters, num_stations, num_flts, num_times);
-    sds_.initialize( NAN );
+    sds_.initialize(NAN);
 
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(dynamic) collapse(3) \
@@ -651,5 +594,86 @@ AnEnIS::checkConsistency_(const Forecasts & forecasts,
         throw runtime_error(msg.str());
     }
 
+    return;
+}
+
+
+void
+AnEnIS::preprocess_(const Forecasts & forecasts,
+        const Observations & observations,
+        vector<size_t> & fcsts_test_index,
+        vector<size_t> & fcsts_search_index) {
+
+    checkIndexRange_(forecasts, fcsts_test_index, fcsts_search_index);
+    checkConsistency_(forecasts, observations);
+
+    /*
+     * Compute standard deviations
+     */
+    computeSds_(forecasts, fcsts_search_index, fcsts_test_index);
+
+    /*
+     * If operational mode is used, append test time indices to the end of
+     * the search time indices.
+     */
+    if (operational_) {
+        fcsts_search_index.insert(fcsts_search_index.end(),
+                fcsts_test_index.begin(), fcsts_test_index.end());
+    }
+
+    // Check for ascending order
+    if (!is_sorted(fcsts_search_index.begin(), fcsts_search_index.end())) {
+        throw runtime_error("Test must be after search when operation is used");
+    }
+
+    /*
+     * Compute the index mapping from forecast times and lead times to 
+     * observations times
+     */
+    const auto & fcst_times = forecasts.getTimes();
+    const auto & obs_times = observations.getTimes();
+    const auto & fcst_flts = forecasts.getFLTs();
+
+    obsIndexTable_ = Functions::Matrix(
+            fcsts_search_index.size(), fcst_flts.size(), NAN);
+    Functions::updateTimeTable(fcst_times,
+            fcsts_search_index, fcst_flts, obs_times, obsIndexTable_);
+
+
+
+    /*
+     * Pre-allocate memory for analog computation
+     */
+    if (verbose_ >= Verbose::Progress) cout << "Allocating memory ..." << endl;
+
+    size_t num_stations = forecasts.getStations().size();
+    size_t num_flts = forecasts.getFLTs().size();
+    size_t num_test_times_index = fcsts_test_index.size();
+    size_t num_search_times_index = fcsts_search_index.size();
+
+    // Check for the maximum number of values we can save
+    if (num_sims_ >= num_search_times_index) num_sims_ = num_search_times_index;
+    if (num_analogs_ >= num_search_times_index) num_analogs_ = num_search_times_index;
+
+    // This is the main answer of the analogs
+    //
+    analogsValue_.resize(num_stations, num_test_times_index, num_flts, num_analogs_);
+    analogsValue_.initialize( NAN );
+
+    if (save_analogs_index_) {
+        analogsIndex_.resize(num_stations, num_test_times_index, num_flts, num_analogs_);
+        analogsIndex_.initialize( NAN );
+    }
+
+    if (save_sims_) {
+        simsMetric_.resize(num_stations, num_test_times_index, num_flts, num_sims_);
+        simsMetric_.initialize( NAN );
+    }
+
+    if (save_sims_index_) {
+        simsIndex_.resize(num_stations, num_test_times_index, num_flts, num_sims_);
+        simsIndex_.initialize( NAN );
+    }
+    
     return;
 }
