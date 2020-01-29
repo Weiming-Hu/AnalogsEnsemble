@@ -55,7 +55,7 @@ config$observations <- search.observations
 config$observation_times <- observation.times
 config$num_members <- members.size
 config$quick <- F
-config$verbose <- 1
+config$verbose <- 0
 config$circulars <- forecasts.circulars
 config$search_times <- search.times
 config$test_times <- test.times

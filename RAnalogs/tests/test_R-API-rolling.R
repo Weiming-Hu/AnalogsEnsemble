@@ -40,22 +40,6 @@ search.end <- 89
 config <- generateConfiguration('independentSearch')
 config$forecasts <- forecasts
 config$forecast_times <- forecasts.time
-config$flts <- forecasts.flt
-config$search_observations <- observations
-config$observation_times <- observations.time
-config$num_members <- num.members
-config$preserve_similarity <- T
-config$operational <- T
-config$quick <- F
-config$test_times_compare <- forecasts.time[test.start:test.end]
-config$search_times_compare <- forecasts.time[search.start:search.end]
-
-config <- formatConfig(config)
-AnEn.basic <- generateAnalogs(config)
-
-config <- generateConfiguration('independentSearch')
-config$forecasts <- forecasts
-config$forecast_times <- forecasts.time
 config$test_times_compare <- forecasts.time[test.start:test.end]
 config$search_times_compare <- forecasts.time[search.start:search.end]
 config$flts <- forecasts.flt
@@ -63,95 +47,24 @@ config$search_observations <- observations
 config$observation_times <- observations.time
 config$num_members <- num.members
 config$operational <- T
-config$preserve_similarity <- T
+config$preserve_similarity_index <- T
+config$max_num_sims <- 100
 config$quick <- F
+config$verbose <- 0
 
 config <- formatConfig(config)
 AnEn.auto <- generateAnalogs(config)
 
-config$max_num_sims <- config$num_members
-AnEn.auto.small <- generateAnalogs(config)
-
-# Case: Deprecated functions
-observations4D <- array(dim = c(1, dim(forecasts)[2:4]))
-for (i.time in 1:dim(observations4D)[3]) {
-  for (i.flt in 1:dim(observations4D)[4]) {
-    i.obs <- AnEn.auto$mapping[i.flt, i.time]
-    
-    for (i.par in 1:dim(observations4D)[1]) {
-      for (i.station in 1:dim(observations4D)[2]) {
-        observations4D[i.par, i.station, i.time, i.flt] <-
-          observations[i.par, i.station, i.obs]
-      }
+for (station.i in 1:dim(AnEn.auto$similarity_index)[1]) {
+  for (time.i in 1:dim(AnEn.auto$similarity_index)[2]) {
+    for (flt.i in 1:dim(AnEn.auto$similarity_index)[3]) {
+      # Make sure that there are correct numbers of search
+      num.valid.similarity <- length(which(!is.na(AnEn.auto$similarity_index[station.i, time.i, flt.i, ])))
+      num.valid.correct <- ceiling((config$test_times[time.i] - config$flts[flt.i]) / 10) - search.start
+      stopifnot(num.valid.similarity == num.valid.correct)
     }
   }
 }
-
-AnEn.dep <- compute_analogs(
-  forecasts, observations4D,
-  test_ID_start = test.start,
-  test_ID_end = test.end,
-  train_ID_start = search.start,
-  train_ID_end = search.end,
-  members_size = num.members,
-  rolling = -3,
-  quick = F)
-
-for (i.flt in 1:dim(AnEn.dep$analogs)[3]) {
-  AnEn.dep$analogs[, , i.flt, , 3] <- AnEn.auto$mapping[i.flt, AnEn.dep$analogs[, , i.flt, , 3]]
-}
-
-stopifnot(identical(
-  as.vector(AnEn.dep$analogs), 
-  as.vector(AnEn.auto$analogs)))
-stopifnot(identical(
-  as.vector(AnEn.auto.small$analogs), 
-  as.vector(AnEn.auto$analogs)))
-stopifnot(identical(AnEn.basic, AnEn.auto))
-
-print("Rolling results are the same between latest and deprecated version.")
-
-# Case: Manual removal of overlapping forecasts
-test.start <- 94
-test.end <- 94
-search.start <- 3
-search.end <- 91
-
-config$test_times_compare <- forecasts.time[test.start:test.end]
-config$search_times_compare <- forecasts.time[search.start:search.end]
-config$operational <- F
-
-AnEn.man <- generateAnalogs(config)
-
-# Case: Deprecated functions
-AnEn.dep <- compute_analogs(
-  forecasts, observations4D,
-  test_ID_start = test.start,
-  test_ID_end = test.end,
-  train_ID_start = search.start,
-  train_ID_end = search.end,
-  members_size = num.members,
-  quick = F)
-
-for (i.flt in 1:dim(AnEn.dep$analogs)[3]) {
-  AnEn.dep$analogs[, , i.flt, , 3] <- AnEn.man$mapping[i.flt, AnEn.dep$analogs[, , i.flt, , 3]]
-}
-
-# Compare
-stopifnot(identical(
-  as.vector(AnEn.auto$analogs[, 5, , , ]), 
-  as.vector(AnEn.man$analogs)))
-stopifnot(identical(
-  as.vector(AnEn.auto.small$analogs[, 5, , , ]), 
-  as.vector(AnEn.man$analogs)))
-
-print("Rolling results are the same between automatic removal and manual removal.")
-
-stopifnot(identical(
-  as.vector(AnEn.dep$analogs[, , , , 1]), 
-  as.vector(AnEn.man$analogs[, , , , 1])))
-
-print("Results are the same without rolling between the 3.x and the deprecated verions.")
 
 cat("You survived the tests for rolling!\n")
 
