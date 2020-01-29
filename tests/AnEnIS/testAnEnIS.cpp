@@ -169,7 +169,6 @@ void testAnEnIS::testFixedLengthSds_() {
     /*
      * This function compares the standard deviation calculation with R.
      */
-
     setUpSds();
 
     ForecastsPointer forecasts(parameters_, stations_, fcst_times_, flts_);
@@ -207,12 +206,20 @@ void testAnEnIS::testFixedLengthSds_() {
     };
 
     // Check for correctness
-    ptr = sds_.data();
-    for (size_t i = 0; i < sds_.num_elements(); ++i) {
-        if (std::isnan(answers[i])) {
-            CPPUNIT_ASSERT(std::isnan(answers[i]));
-        } else {
-            CPPUNIT_ASSERT(abs(ptr[i] - answers[i]) < 1e-4);
+    size_t pos = 0;
+    for (size_t i = 0; i < sds_.shape()[0]; ++i) {
+        for (size_t j = 0; j < sds_.shape()[1]; ++j) {
+            for (size_t m = 0; m < sds_.shape()[2]; ++m) {
+                for (size_t n = 0; n < sds_.shape()[3]; ++n, ++pos) {
+                    cout << sds_.getValue(i, j, m, n) << " " << answers[pos] << endl;
+
+                    if (std::isnan(answers[pos])) {
+                        CPPUNIT_ASSERT(std::isnan(sds_.getValue(i, j, m, n)));
+                    } else {
+                        CPPUNIT_ASSERT(abs(sds_.getValue(i, j, m, n) - answers[pos]) < 1e-4);
+                    }
+                }
+            }
         }
     }
 
@@ -285,8 +292,8 @@ void testAnEnIS::compareOperationalSds_() {
                     for (size_t sta_i = 0; sta_i < stations_.size(); ++sta_i) {
                         for (size_t flt_i = 0; flt_i < flts_.size(); ++flt_i) {
 
-                            double sd_fixed = sds_[par_i][sta_i][flt_i][0];
-                            double sd_running = sds_running[par_i][sta_i][flt_i][running_sd_time_index];
+                            double sd_fixed = sds_.getValue(par_i, sta_i, flt_i, 0);
+                            double sd_running = sds_running.getValue(par_i, sta_i, flt_i, running_sd_time_index);
 
                             if (std::isnan(sd_fixed)) {
                                 CPPUNIT_ASSERT(std::isnan(sd_running));
@@ -312,11 +319,11 @@ testAnEnIS::compareComputeLeaveOneOut_() {
      */
 
     setUpCompute();
-    
+
     /*
      * Run tests for a series of NAN probabilities
      */
-    for (double nan_prob : {0.0, 0.2, 0.4, 0.6, 0.8, 0.9}) {
+    for (double nan_prob :{0.0, 0.2, 0.4, 0.6, 0.8, 0.9}) {
 
 
         /*
@@ -362,7 +369,7 @@ testAnEnIS::compareComputeLeaveOneOut_() {
                 max_flt_nan, flt_radius);
 
         anen.compute(fcsts, obs, fcsts_test_index, fcsts_search_index);
-        
+
         // Copy results
         Array4D my_analogs = anen.getAnalogsValue();
         Array4D my_analogs_index = anen.getAnalogsIndex();
@@ -380,7 +387,7 @@ testAnEnIS::compareComputeLeaveOneOut_() {
 
             // Calculate analogs for the manual setting
             anen.compute(fcsts, obs,{fcst_test_index}, manual_search_index);
-            
+
             // Get references to results
             const Array4D & manual_analogs = anen.getAnalogsValue();
             const Array4D & manual_analogs_index = anen.getAnalogsIndex();
@@ -391,32 +398,32 @@ testAnEnIS::compareComputeLeaveOneOut_() {
                 for (size_t m = 0; m < my_analogs.shape()[2]; ++m) {
                     for (size_t n = 0; n < my_analogs.shape()[3]; ++n) {
 
-                        if (std::isnan(my_analogs[i][test_i][m][n])) {
-                            CPPUNIT_ASSERT(manual_analogs[i][0][m][n]);
+                        if (std::isnan(my_analogs.getValue(i, test_i, m, n))) {
+                            CPPUNIT_ASSERT(manual_analogs.getValue(i, 0, m, n));
                         } else {
-                            CPPUNIT_ASSERT(my_analogs[i][test_i][m][n] ==
-                                    manual_analogs[i][0][m][n]);
+                            CPPUNIT_ASSERT(my_analogs.getValue(i, test_i, m, n) ==
+                                    manual_analogs.getValue(i, 0, m, n));
                         }
 
-                        if (std::isnan(my_analogs_index[i][test_i][m][n])) {
-                            CPPUNIT_ASSERT(manual_analogs_index[i][0][m][n]);
+                        if (std::isnan(my_analogs_index.getValue(i, test_i, m, n))) {
+                            CPPUNIT_ASSERT(manual_analogs_index.getValue(i, 0, m, n));
                         } else {
-                            CPPUNIT_ASSERT(my_analogs_index[i][test_i][m][n] ==
-                                    manual_analogs_index[i][0][m][n]);
+                            CPPUNIT_ASSERT(my_analogs_index.getValue(i, test_i, m, n) ==
+                                    manual_analogs_index.getValue(i, 0, m, n));
                         }
 
-                        if (std::isnan(my_sims[i][test_i][m][n])) {
-                            CPPUNIT_ASSERT(manual_sims[i][0][m][n]);
+                        if (std::isnan(my_sims.getValue(i, test_i, m, n))) {
+                            CPPUNIT_ASSERT(manual_sims.getValue(i, 0, m, n));
                         } else {
-                            CPPUNIT_ASSERT(my_sims[i][test_i][m][n] ==
-                                    manual_sims[i][0][m][n]);
+                            CPPUNIT_ASSERT(my_sims.getValue(i, test_i, m, n) ==
+                                    manual_sims.getValue(i, 0, m, n));
                         }
 
-                        if (std::isnan(my_sims_index[i][test_i][m][n])) {
-                            CPPUNIT_ASSERT(manual_sims_index[i][0][m][n]);
+                        if (std::isnan(my_sims_index.getValue(i, test_i, m, n))) {
+                            CPPUNIT_ASSERT(manual_sims_index.getValue(i, 0, m, n));
                         } else {
-                            CPPUNIT_ASSERT(my_sims_index[i][test_i][m][n] ==
-                                    manual_sims_index[i][0][m][n]);
+                            CPPUNIT_ASSERT(my_sims_index.getValue(i, test_i, m, n) ==
+                                    manual_sims_index.getValue(i, 0, m, n));
                         }
                     }
                 }
@@ -425,6 +432,7 @@ testAnEnIS::compareComputeLeaveOneOut_() {
     }
 
     tearDownCompute();
+
     return;
 }
 
@@ -453,6 +461,7 @@ testAnEnIS::randomizeForecasts_(Forecasts & fcsts,
                     if (prob < nan_prob) {
                         fcsts.setValue(NAN, par_i, sta_i, time_i, flt_i);
                     } else {
+
                         fcsts.setValue((rand() % 10000) / 100.0,
                                 par_i, sta_i, time_i, flt_i);
                     }

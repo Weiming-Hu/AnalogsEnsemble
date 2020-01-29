@@ -11,10 +11,9 @@
 
 #include "AnEn.h"
 #include "Functions.h"
+#include "Array4D.h"
 
 #include <unordered_map>
-
-using Array4D = boost::multi_array<double, 4>;
 
 class AnEnIS : public AnEn {
 public:
