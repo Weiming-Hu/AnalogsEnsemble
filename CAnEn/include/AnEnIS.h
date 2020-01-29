@@ -97,10 +97,16 @@ protected:
     Functions::Matrix obsIndexTable_;
 
 
-    double computeSimMetric_(const Forecasts & forecasts, std::size_t sta_i,
+    double computeSimMetric_(const Forecasts & forecasts, 
+            std::size_t sta_search_i, std::size_t sta_test_i,
             std::size_t flt_i, std::size_t time_test_i, std::size_t time_search_i,
             const std::vector<double> & weights,
             const std::vector<bool> & circulars);
+    
+     void preprocess_(const Forecasts & forecasts,
+            const Observations & observations,
+            std::vector<std::size_t> fcsts_test_index,
+            std::vector<std::size_t> fcsts_search_index);
 
     /**
      * Compute standard deviation for search forecasts. When the operational

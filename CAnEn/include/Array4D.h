@@ -37,6 +37,7 @@ public:
     std::size_t toIndex(std::size_t dim0, std::size_t dim1, std::size_t dim2, std::size_t dim3) const;
 
     Array4D & operator=(const Array4D & rhs);
+    
     void print(std::ostream &) const;
     friend std::ostream & operator<<(std::ostream &, const Array4D &);
     
