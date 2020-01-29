@@ -9,9 +9,9 @@ verifyRankHist(anen.ver, obs.ver, show.progress = F)
 \arguments{
 \item{anen.ver}{A 4-dimensional array. This array is usually created from the \code{value} column of
 the \code{analogs} member in the results of \code{\link{generateAnalogs}}. The dimensions should be
-\verb{[stations, times, lead times, members]}.}
+\code{[stations, times, lead times, members]}.}
 
-\item{obs.ver}{A 3-dimensional array. The dimensions should be \verb{[stations, times, lead times]}.
+\item{obs.ver}{A 3-dimensional array. The dimensions should be \code{[stations, times, lead times]}.
 You can generate the array using \code{\link{alignObservations}}.}
 
 \item{show.progress}{Whether to plot a progress bar.}

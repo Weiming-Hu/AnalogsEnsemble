@@ -26,7 +26,6 @@ if (length(functions.to.test) != length(selected)) {
   stop("Some functions are missing")
 }
 
-
 ##########################################
 # Test reading and writting observations #
 ##########################################

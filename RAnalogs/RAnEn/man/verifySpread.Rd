@@ -9,7 +9,7 @@ verifySpread(anen.ver, na.rm = T, parallel = F)
 \arguments{
 \item{anen.ver}{A 4-dimensional array. This array is usually created from the \code{value} column of
 the \code{analogs} member in the results of \code{\link{generateAnalogs}}. The dimensions should be
-\verb{[stations, times, lead times, members]}.}
+\code{[stations, times, lead times, members]}.}
 
 \item{na.rm}{Whether to remove NA values.}
 

@@ -4,13 +4,8 @@
 \alias{subsetCoordinates}
 \title{RAnEn::subsetCoordinates}
 \usage{
-subsetCoordinates(
-  xs,
-  ys,
-  poi,
-  file.output = NULL,
-  arg.name = stop("Specify the argument name!")
-)
+subsetCoordinates(xs, ys, poi, file.output = NULL,
+  arg.name = stop("Specify the argument name!"))
 }
 \arguments{
 \item{xs}{A vector with X coordinates.}

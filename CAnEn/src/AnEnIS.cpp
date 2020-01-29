@@ -31,7 +31,7 @@ static const size_t _SIM_FCST_INDEX = 1;
 static const size_t _SIM_OBS_INDEX = 2;
 
 // This is the default value for similarity array
-static const array<double, 3> AnEnIS::_INIT_ARR_VALUE = {NAN, NAN, NAN};
+static const array<double, 3> _INIT_ARR_VALUE = {NAN, NAN, NAN};
 
 static bool
 simsSort(const array<double, 3> & lhs,
@@ -232,7 +232,7 @@ AnEnIS::compute(const Forecasts & forecasts,
 #pragma omp parallel for default(none) schedule(dynamic) collapse(3) \
 shared(num_stations, num_flts, num_test_times_index, num_search_times_index, \
 fcsts_test_index, fcsts_search_index, forecasts, observations, weights, circulars) \
-firstprivate(sims_arr)
+firstprivate(sims_arr, _INIT_ARR_VALUE)
 #endif
     for (size_t station_i = 0; station_i < num_stations; ++station_i) {
         for (size_t flt_i = 0; flt_i < num_flts; ++flt_i) {
