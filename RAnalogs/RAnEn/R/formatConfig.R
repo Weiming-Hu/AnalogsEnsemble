@@ -69,7 +69,7 @@ formatConfig <- function(config) {
       if (dict[[unexpected.name]] == '_REMOVE_') {
         # Remove this name
         config[[unexpected.name]] <- NULL
-        msg <- paste0(msg, '- ', unexpected.name, ' has been removed.\n')
+        msg <- paste0(msg, '- ', unexpected.name, ' is no longer supported and has been removed.\n')
       } else if (dict[[unexpected.name]] == '_DEPRECATED_') {
         # This name is forbidden. An error message will be generated.
         deprecated.names <- c(deprecated.names, unexpected.name)
