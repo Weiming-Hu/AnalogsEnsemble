@@ -4,7 +4,8 @@
 \alias{verifyCRPS}
 \title{RAnEn::verifyCRPS}
 \usage{
-verifyCRPS(anen.ver, obs.ver, boot = F, R = 1000, int.step = 150, na.rm = T)
+verifyCRPS(anen.ver, obs.ver, boot = F, R = 1000, int.step = 150,
+  na.rm = T)
 }
 \arguments{
 \item{anen.ver}{A 4-dimensional array. This array is usually created from the `value` column of

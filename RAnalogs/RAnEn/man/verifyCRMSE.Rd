@@ -4,7 +4,8 @@
 \alias{verifyCRMSE}
 \title{RAnEn::verifyCRMSE}
 \usage{
-verifyCRMSE(anen.ver, obs.ver, boot = F, R = 1000, na.rm = T, parallel = F)
+verifyCRMSE(anen.ver, obs.ver, boot = F, R = 1000, na.rm = T,
+  parallel = F)
 }
 \arguments{
 \item{boot}{Whether to use bootstrap.}
