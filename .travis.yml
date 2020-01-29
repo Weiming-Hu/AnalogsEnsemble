@@ -77,13 +77,6 @@ matrix:
          - MATRIX_EVAL=""
          - ENVIRONMENT_LANGUAGE="c++"
 
-     - os: osx
-       language: cpp
-       env:
-         - MATRIX_EVAL=""
-         - ENVIRONMENT_LANGUAGE="c++"
-         - INSTALLFLAG="NETCDF"
-
      - os: linux
        language: r
        cache: Rcpp
