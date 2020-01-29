@@ -50,11 +50,7 @@ num_sims_(AnEnDefaults::_NUM_SIMS),
 num_analogs_(AnEnDefaults::_NUM_ANALOGS),
 max_par_nan_(AnEnDefaults::_MAX_PAR_NAN),
 max_flt_nan_(AnEnDefaults::_MAX_FLT_NAN),
-flt_radius_(AnEnDefaults::_FLT_RADIUS),
-simsIndex_(Array4D(boost::extents[0][0][0][0], boost::fortran_storage_order())),
-simsMetric_(Array4D(boost::extents[0][0][0][0], boost::fortran_storage_order())),
-analogsIndex_(Array4D(boost::extents[0][0][0][0], boost::fortran_storage_order())),
-analogsValue_(Array4D(boost::extents[0][0][0][0], boost::fortran_storage_order())) {
+flt_radius_(AnEnDefaults::_FLT_RADIUS) {
 }
 
 AnEnIS::AnEnIS(const AnEnIS& orig) : AnEn(orig) {
@@ -78,11 +74,7 @@ AnEn(operational, prevent_search_future, save_sims, verbose),
 quick_sort_(quick_sort), save_sims_index_(save_sims_index),
 save_analogs_index_(save_analogs_index), obs_var_index_(obs_var_index),
 num_sims_(num_sims), num_analogs_(num_members),
-max_par_nan_(max_par_nan), max_flt_nan_(max_flt_nan), flt_radius_(flt_radius),
-simsIndex_(Array4D(boost::extents[0][0][0][0], boost::fortran_storage_order())),
-simsMetric_(Array4D(boost::extents[0][0][0][0], boost::fortran_storage_order())),
-analogsIndex_(Array4D(boost::extents[0][0][0][0], boost::fortran_storage_order())),
-analogsValue_(Array4D(boost::extents[0][0][0][0], boost::fortran_storage_order())) {
+max_par_nan_(max_par_nan), max_flt_nan_(max_flt_nan), flt_radius_(flt_radius) {
     if (num_sims_ < num_analogs_) num_sims_ = num_analogs_;
 
     if (operational_) prevent_search_future_ = true;
@@ -190,26 +182,22 @@ AnEnIS::compute(const Forecasts & forecasts,
     if (num_sims_ >= num_search_times_index) num_sims_ = num_search_times_index;
     if (num_analogs_ >= num_search_times_index) num_analogs_ = num_search_times_index;
 
-    analogsValue_.resize(boost::extents
-            [num_stations][num_test_times_index][num_flts][num_analogs_]);
-    fill_n(analogsValue_.data(), analogsValue_.num_elements(), NAN);
+    analogsValue_.resize(num_stations, num_test_times_index, num_flts, num_analogs_);
+    fill_n(analogsValue_.getValuesPtr(), analogsValue_.num_elements(), NAN);
 
     if (save_analogs_index_) {
-        analogsIndex_.resize(boost::extents
-                [num_stations][num_test_times_index][num_flts][num_analogs_]);
-        fill_n(analogsIndex_.data(), analogsIndex_.num_elements(), NAN);
+        analogsIndex_.resize(num_stations, num_test_times_index, num_flts, num_analogs_);
+        fill_n(analogsIndex_.getValuesPtr(), analogsIndex_.num_elements(), NAN);
     }
 
     if (save_sims_) {
-        simsMetric_.resize(boost::extents
-                [num_stations][num_test_times_index][num_flts][num_sims_]);
-        fill_n(simsMetric_.data(), simsMetric_.num_elements(), NAN);
+        simsMetric_.resize(num_stations, num_test_times_index, num_flts, num_sims_);
+        fill_n(simsMetric_.getValuesPtr(), simsMetric_.num_elements(), NAN);
     }
 
     if (save_sims_index_) {
-        simsIndex_.resize(boost::extents
-                [num_stations][num_test_times_index][num_flts][num_sims_]);
-        fill_n(simsIndex_.data(), simsIndex_.num_elements(), NAN);
+        simsIndex_.resize(num_stations, num_test_times_index, num_flts, num_sims_);
+        fill_n(simsIndex_.getValuesPtr(), simsIndex_.num_elements(), NAN);
     }
 
     /**
@@ -318,10 +306,10 @@ firstprivate(sims_arr, _INIT_ARR_VALUE)
                     double obs_value = observations.getValue(obs_var_index_, station_i, obs_time_index);
 
                     // Assign the analog value from the observation
-                    analogsValue_[station_i][test_time_i][flt_i][analog_i] = obs_value;
+                    analogsValue_.setValue(obs_value, station_i, test_time_i, flt_i, analog_i);
 
                     if (save_analogs_index_) {
-                        analogsIndex_[station_i][test_time_i][flt_i][analog_i] = obs_time_index;
+                        analogsIndex_.setValue(obs_time_index, station_i, test_time_i, flt_i, analog_i);
                     }
                 }
 
@@ -330,14 +318,14 @@ firstprivate(sims_arr, _INIT_ARR_VALUE)
 
                         if (save_sims_) {
                             // Assign similarity metric value
-                            simsMetric_[station_i][test_time_i][flt_i][sim_i] =
-                                    sims_arr[sim_i][_SIM_VALUE_INDEX];
+                            simsMetric_.setValue(sims_arr[sim_i][_SIM_VALUE_INDEX],
+                                    station_i, test_time_i, flt_i, sim_i);
                         }
 
                         if (save_sims_index_) {
                             // Assign similarity metric index
-                            simsIndex_[station_i][test_time_i][flt_i][sim_i] =
-                                    sims_arr[sim_i][_SIM_FCST_INDEX];
+                            simsIndex_.setValue(sims_arr[sim_i][_SIM_FCST_INDEX],
+                                    station_i, test_time_i, flt_i, sim_i);
                         }
                     }
                 }
@@ -354,25 +342,21 @@ firstprivate(sims_arr, _INIT_ARR_VALUE)
 
 const Array4D &
 AnEnIS::getSimsValue() const {
-
     return simsMetric_;
 }
 
 const Array4D &
 AnEnIS::getSimsIndex() const {
-
     return simsIndex_;
 }
 
 const Array4D &
 AnEnIS::getAnalogsValue() const {
-
     return analogsValue_;
 }
 
 const Array4D &
 AnEnIS::getAnalogsIndex() const {
-
     return analogsIndex_;
 }
 
@@ -393,20 +377,15 @@ AnEnIS::print(std::ostream & os) const {
     AnEn::print(os);
 
     if (verbose_ >= Verbose::Debug) {
-        os << "sds_ dimensions: [" << Functions::format(
-                sds_.shape(), sds_.num_dimensions())
+        os << "sds_ dimensions: [" << Functions::format(sds_.shape())
                 << "]" << endl << "similarityMetric_ dimensions: ["
-                << Functions::format(simsMetric_.shape(),
-                simsMetric_.num_dimensions())
+                << Functions::format(simsMetric_.shape())
                 << "]" << endl << "similarityIndex_ dimensions: ["
-                << Functions::format(simsIndex_.shape(),
-                simsIndex_.num_dimensions())
+                << Functions::format(simsIndex_.shape())
                 << "]" << endl << "analogsValue_ dimensions: ["
-                << Functions::format(analogsValue_.shape(),
-                analogsIndex_.num_dimensions())
+                << Functions::format(analogsValue_.shape())
                 << "]" << endl << "analogsIndex_ dimensions: ["
-                << Functions::format(analogsIndex_.shape(),
-                analogsValue_.num_dimensions())
+                << Functions::format(analogsIndex_.shape())
                 << "]" << endl << "obs_index_table_ dimensions: ["
                 << obsIndexTable_.size1() << ","
                 << obsIndexTable_.size2() << "]" << endl;
@@ -425,7 +404,7 @@ operator<<(std::ostream & os, const AnEnIS & obj) {
 }
 
 AnEnIS &
-AnEnIS::operator=(const AnEnIS& rhs) {
+        AnEnIS::operator=(const AnEnIS& rhs) {
     if (this != &rhs) {
         quick_sort_ = rhs.quick_sort_;
         save_sims_index_ = rhs.save_sims_index_;
@@ -470,9 +449,9 @@ AnEnIS::computeSimMetric_(const Forecasts & forecasts,
 
         // Get standard deviation for this parameter
         if (operational_) {
-            sd = sds_[parameter_i][sta_i][flt_i][sds_time_index_map_[time_test_i]];
+            sd = sds_.getValue(parameter_i, sta_i, flt_i, sds_time_index_map_[time_test_i]);
         } else {
-            sd = sds_[parameter_i][sta_i][flt_i][0];
+            sd = sds_.getValue(parameter_i, sta_i, flt_i, 0);
         }
 
         // Skip the iteration if there is no variation in this parameter
@@ -536,9 +515,8 @@ AnEnIS::computeSds_(const Forecasts & forecasts,
     forecasts.getParameters().getCirculars(circulars);
 
     // Pre-allocate memory for calculation
-    sds_.resize(boost::extents
-            [num_parameters][num_stations][num_flts][num_times]);
-    fill_n(sds_.data(), sds_.num_elements(), NAN);
+    sds_.resize(num_parameters, num_stations, num_flts, num_times);
+    sds_.initialize( NAN );
 
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(dynamic) collapse(3) \
@@ -565,7 +543,7 @@ times_accum_index, weights, circulars, num_times, calculator_capacity)
                 }
 
                 // Calculate standard deviation
-                sds_[par_i][sta_i][flt_i][0] = calc.sd();
+                sds_.setValue(calc.sd(), par_i, sta_i, flt_i, 0);
 
                 if (operational_) {
                     for (size_t time_i = 1; time_i < num_times; ++time_i) {
@@ -575,14 +553,16 @@ times_accum_index, weights, circulars, num_times, calculator_capacity)
 
                         if (std::isnan(value)) {
                             // Copy the value from previous iteration if the value is NAN
-                            sds_[par_i][sta_i][flt_i][time_i] = sds_[par_i][sta_i][flt_i][time_i - 1];
+                            sds_.setValue(
+                                    sds_.getValue(par_i, sta_i, flt_i, time_i - 1),
+                                    par_i, sta_i, flt_i, time_i);
 
                         } else {
                             // Push the valid value into the calculator
                             calc.pushValue(value);
 
                             // Update the running standard deviation
-                            sds_[par_i][sta_i][flt_i][time_i] = calc.sd();
+                            sds_.setValue(calc.sd(), par_i, sta_i, flt_i, time_i);
                         }
                     } // End of loop of accumulated time indices
                 }
@@ -593,9 +573,9 @@ times_accum_index, weights, circulars, num_times, calculator_capacity)
     if (verbose_ >= Verbose::Debug) {
         cout << "Standard deviations: ";
         if (sds_.num_elements() > AnEnDefaults::_PREVIEW_COUNT) {
-            cout << Functions::format(sds_.data(), AnEnDefaults::_PREVIEW_COUNT, ",") << ", ...";
+            cout << Functions::format(sds_.getValuesPtr(), AnEnDefaults::_PREVIEW_COUNT, ",") << ", ...";
         } else {
-            cout << Functions::format(sds_.data(), sds_.num_elements());
+            cout << Functions::format(sds_.getValuesPtr(), sds_.num_elements());
         }
         cout << endl;
     }

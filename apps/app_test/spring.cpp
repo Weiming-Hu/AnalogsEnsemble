@@ -18,7 +18,6 @@
 #include <boost/multi_array/base.hpp>
 
 using namespace std;
-typedef Array4D::index_range range;
 
 int main(int argc, char** argv) {
 
@@ -69,22 +68,7 @@ int main(int argc, char** argv) {
             sims = anen.getSimsValue(),
             sims_index = anen.getSimsIndex();
     
-    Functions::print(cout, sims);
-    
-//    Array4D::array_view<2>::type analogs_view = analogs[
-//            boost::indices[0][0][range()][range()] ];
-//    Array4D::array_view<2>::type sims_view = sims[
-//            boost::indices[0][0][range()][range()] ];
-//    Array4D::array_view<2>::type sims_index_view = sims_index[
-//            boost::indices[0][0][range()][range()] ];
-//    
-//    cout.precision(5);
-//    cout << "Analogs: " << endl;
-//    Functions::print(cout, analogs_view);
-//    cout << "Similarity: " << endl;
-//    Functions::print(cout, sims_view);
-//    cout << "Similarity Index: " << endl;
-//    Functions::print(cout, sims_index_view);
+    cout << sims << endl;
     
     return 0;
 }
