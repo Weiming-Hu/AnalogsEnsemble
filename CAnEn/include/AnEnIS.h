@@ -35,14 +35,14 @@ public:
 
     virtual ~AnEnIS();
 
-    void compute(const Forecasts & forecasts,
+    virtual void compute(const Forecasts & forecasts,
             const Observations & observations,
             const Times & test_times,
             const Times & search_times) override;
-    void compute(const Forecasts & forecasts,
+    virtual void compute(const Forecasts & forecasts,
             const Observations & observations,
-            std::vector<std::size_t> fcsts_test_index,
-            std::vector<std::size_t> fcsts_search_index) override;
+            std::vector<std::size_t> & fcsts_test_index,
+            std::vector<std::size_t> & fcsts_search_index) override;
 
     const Array4D & getSimsValue() const;
     const Array4D & getSimsIndex() const;
@@ -103,10 +103,10 @@ protected:
             const std::vector<double> & weights,
             const std::vector<bool> & circulars);
     
-     void preprocess_(const Forecasts & forecasts,
+     virtual void preprocess_(const Forecasts & forecasts,
             const Observations & observations,
-            std::vector<std::size_t> fcsts_test_index,
-            std::vector<std::size_t> fcsts_search_index);
+            std::vector<std::size_t>  & fcsts_test_index,
+            std::vector<std::size_t> & fcsts_search_index);
 
     /**
      * Compute standard deviation for search forecasts. When the operational

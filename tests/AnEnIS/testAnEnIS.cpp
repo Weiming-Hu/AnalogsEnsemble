@@ -384,9 +384,10 @@ testAnEnIS::compareComputeLeaveOneOut_() {
             // Remove the test index from the search indices
             size_t fcst_test_index = fcsts_test_index[test_i];
             vector<size_t> manual_search_index = fcsts_search_index;
+            vector<size_t> test_index{fcst_test_index};
 
             // Calculate analogs for the manual setting
-            anen.compute(fcsts, obs,{fcst_test_index}, manual_search_index);
+            anen.compute(fcsts, obs, test_index, manual_search_index);
 
             // Get references to results
             const Array4D & manual_analogs = anen.getAnalogsValue();
