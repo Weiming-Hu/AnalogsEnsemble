@@ -117,12 +117,12 @@ AnEnIS::compute(const Forecasts & forecasts,
 void
 AnEnIS::compute(const Forecasts & forecasts,
         const Observations & observations,
-        vector<size_t> fcsts_test_index,
-        vector<size_t> fcsts_search_index) {
+        vector<size_t> & fcsts_test_index,
+        vector<size_t> & fcsts_search_index) {
 
     if (verbose_ >= Verbose::Progress) cout << "Start AnEnIS generation ..." << endl;
 
-    preprocess_(forecasts, observations, fcst_test_index, fcst_search_index);
+    preprocess_(forecasts, observations, fcsts_test_index, fcsts_search_index);
 
     /*
      * Read weights and circular flags from forecast parameters into vectors
@@ -677,3 +677,5 @@ AnEnIS::preprocess_(const Forecasts & forecasts,
     
     return;
 }
+
+
