@@ -23,7 +23,6 @@
 class AnEnRead {
 public:
     AnEnRead();
-    AnEnRead(const AnEnRead & orig);
     virtual ~AnEnRead();
     
     virtual void readForecasts(

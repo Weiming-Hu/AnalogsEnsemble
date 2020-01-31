@@ -11,6 +11,7 @@
 
 #include <string>
 #include <limits>
+#include <cmath>
 
 /**
  * The AnEnDefault namespace includes default values used throughout the project.
@@ -41,6 +42,10 @@ namespace AnEnDefaults {
     static const std::size_t _MAX_PAR_NAN = 0;
     static const std::size_t _MAX_FLT_NAN = 0;
     static const std::size_t _FLT_RADIUS = 1;
+    
+    static const std::size_t _NUM_NEAREST = 1;
+    static const double _DISTANCE = NAN;
+    static const std::size_t _EXTEND_OBS = true;
 
     static const std::size_t _PREVIEW_COUNT = 10;
     static const std::size_t _MAX_SIZE_T = std::numeric_limits<std::size_t>::max();

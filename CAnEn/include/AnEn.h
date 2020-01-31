@@ -11,16 +11,14 @@
 
 #include "Forecasts.h"
 #include "Observations.h"
-#include "AnEnDefaults.h"
+#include "Config.h"
 
 class AnEn {
 public:
     AnEn();
     AnEn(const AnEn& orig);
-    AnEn(bool operational,
-            bool prevent_search_future = AnEnDefaults::_PREVENT_SEARCH_FUTURE,
-            bool save_sims = AnEnDefaults::_SAVE_SIMS,
-            AnEnDefaults::Verbose verbose = AnEnDefaults::_VERBOSE);
+    AnEn(const Config &);
+    
     virtual ~AnEn();
 
     virtual void compute(const Forecasts & forecasts,
@@ -33,13 +31,13 @@ public:
     
     virtual void print(std::ostream &) const;
     friend std::ostream& operator<<(std::ostream&, const AnEn &);
+    
     AnEn & operator=(const AnEn & rhs);
 
 protected:
-    bool operational_;
-    bool prevent_search_future_;
-    bool save_sims_;
-    AnEnDefaults::Verbose verbose_;
+    Verbose verbose_;
+
+    virtual void setConfig_(const Config &);
 };
 
 #endif /* ANEN_H */

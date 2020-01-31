@@ -196,7 +196,7 @@ void testAnEnIS::testFixedLengthSds_() {
         times_fixed_index.push_back(i);
     }
 
-    operational_ = false;
+    operation_ = false;
     computeSds_(forecasts, times_fixed_index);
 
     // Answers from R
@@ -267,7 +267,7 @@ void testAnEnIS::compareOperationalSds_() {
                 times_accum_index.push_back(i);
             }
 
-            operational_ = true;
+            operation_ = true;
             computeSds_(forecasts, times_fixed_index, times_accum_index);
 
             // Save the running calculation result
@@ -277,7 +277,7 @@ void testAnEnIS::compareOperationalSds_() {
              * Manually calculate the fixed-length standard deviation for each running
              * time and compare the results.
              */
-            operational_ = false;
+            operation_ = false;
             for (auto time_accum_index : times_accum_index) {
 
                 // Manually set up standard deviation calculation
@@ -343,16 +343,16 @@ testAnEnIS::compareComputeLeaveOneOut_() {
         /*
          * Carry out leave one out tests for 3 days
          */
-        size_t num_members = 10;
+        size_t num_analogs = 10;
         bool operational = false;
         bool prevent_search_future = false;
-        bool save_dims = true;
+        bool save_sims = true;
         AnEnDefaults::Verbose verbose = AnEnDefaults::Verbose::Warning;
         size_t obs_var_index = 1;
         bool quick_sort = false;
         bool save_sims_index = true;
         bool save_analogs_index = true;
-        size_t num_sims = num_members;
+        size_t num_sims = num_analogs;
         size_t max_par_nan = AnEnDefaults::_MAX_SIZE_T;
         size_t max_flt_nan = AnEnDefaults::_MAX_SIZE_T;
         size_t flt_radius = 1;
@@ -363,18 +363,18 @@ testAnEnIS::compareComputeLeaveOneOut_() {
         iota(fcsts_search_index.begin(), fcsts_search_index.end(), 0);
 
         // Compute analogs
-        AnEnIS anen(num_members, operational, prevent_search_future, save_dims,
-                verbose, obs_var_index, quick_sort, save_sims_index,
-                save_analogs_index, num_sims, max_par_nan,
-                max_flt_nan, flt_radius);
+        AnEnIS anen(num_analogs, obs_var_index, num_sims, max_par_nan,
+                max_flt_nan, flt_radius, operational, prevent_search_future,
+                save_sims, save_sims_index, save_analogs_index, quick_sort,
+                verbose);
 
         anen.compute(fcsts, obs, fcsts_test_index, fcsts_search_index);
 
         // Copy results
         Array4DPointer my_analogs = anen.getAnalogsValue();
-        Array4DPointer my_analogs_index = anen.getAnalogsIndex();
+        Array4DPointer my_analogs_index = anen.getAnalogsTimeIndex();
         Array4DPointer my_sims = anen.getSimsValue();
-        Array4DPointer my_sims_index = anen.getSimsIndex();
+        Array4DPointer my_sims_index = anen.getSimsTimeIndex();
 
         /*
          * Carry out manual calculation for each test day
@@ -391,9 +391,9 @@ testAnEnIS::compareComputeLeaveOneOut_() {
 
             // Get references to results
             const Array4DPointer & manual_analogs = anen.getAnalogsValue();
-            const Array4DPointer & manual_analogs_index = anen.getAnalogsIndex();
+            const Array4DPointer & manual_analogs_index = anen.getAnalogsTimeIndex();
             const Array4DPointer & manual_sims = anen.getSimsValue();
-            const Array4DPointer & manual_sims_index = anen.getSimsIndex();
+            const Array4DPointer & manual_sims_index = anen.getSimsTimeIndex();
 
             for (size_t i = 0; i < my_analogs.shape()[0]; ++i) {
                 for (size_t m = 0; m < my_analogs.shape()[2]; ++m) {

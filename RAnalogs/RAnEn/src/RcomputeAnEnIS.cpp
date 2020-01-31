@@ -115,7 +115,7 @@ SEXP computeAnEnIS(SEXP sx_config) {
     List ret;
     
     if (preserve_similairty_index) {
-        FunctionsR::setElement(ret, ConfigNames::_SIMS_IND, anen.getSimsIndex());
+        FunctionsR::setElement(ret, ConfigNames::_SIMS_IND, anen.getSimsTimeIndex());
     }
     
     if (preserve_similarity) {
@@ -123,7 +123,7 @@ SEXP computeAnEnIS(SEXP sx_config) {
     }
     
     if (preserve_analogs_index) {
-        FunctionsR::setElement(ret, ConfigNames::_ANALOGS_IND, anen.getAnalogsIndex());
+        FunctionsR::setElement(ret, ConfigNames::_ANALOGS_IND, anen.getAnalogsTimeIndex());
     }
     
     FunctionsR::setElement(ret, ConfigNames::_ANALOGS, anen.getAnalogsValue());

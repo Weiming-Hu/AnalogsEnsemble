@@ -9,51 +9,48 @@
 #include "AnEn.h"
 #include "Functions.h"
 
-using namespace AnEnDefaults;
+using namespace std;
 
-AnEn::AnEn() : operational_(_OPERATIONAL),
-prevent_search_future_(_PREVENT_SEARCH_FUTURE),
-save_sims_(_SAVE_SIMS),
-verbose_(_VERBOSE) {
+AnEn::AnEn() {
+    Config config;
+    setConfig_(config);
 }
 
 AnEn::AnEn(const AnEn& orig) {
     *this = orig;
 }
 
-AnEn::AnEn(bool operational, bool prevent_search_future,
-        bool save_sims, Verbose verbose) :
-operational_(operational),
-prevent_search_future_(prevent_search_future),
-save_sims_(save_sims),
-verbose_(verbose) {
+AnEn::AnEn(const Config & config) {
+    setConfig_(config);
 }
 
 AnEn::~AnEn() {
 }
 
-void AnEn::print(std::ostream & os) const {
+void AnEn::print(ostream & os) const {
 
-    os << "operational: " << operational_ << std::endl
-            << "prevent searching future observations: " << prevent_search_future_ << std::endl
-            << "save similarity: " << save_sims_ << std::endl
-            << "verbose: " << Functions::vtoi(verbose_) << std::endl;
+    os << Config::_VERBOSE << ": " << Functions::vtoi(verbose_) << endl;
     return;
 }
 
-std::ostream&
-operator<<(std::ostream& os, AnEn const & obj) {
+ostream &
+operator<<(ostream& os, AnEn const & obj) {
     obj.print(os);
     return os;
 }
 
 AnEn &
 AnEn::operator=(const AnEn& rhs) {
+    
     if (this != &rhs) {
-        operational_ = rhs.operational_;
-        prevent_search_future_ = rhs.prevent_search_future_;
-        save_sims_ = rhs.save_sims_;
         verbose_ = rhs.verbose_;
     }
+    
     return *this;
+}
+
+void AnEn::setConfig_(const Config & config) {
+    // Copy the needed by this class from the configuration
+    verbose_ = config.verbose;
+    return;
 }

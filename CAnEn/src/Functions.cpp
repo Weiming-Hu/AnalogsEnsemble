@@ -17,6 +17,9 @@
 
 using namespace std;
 
+const double _DEG2RAD = M_PI / 180;
+const double _RAD2DEG = 180 / M_PI;
+
 AnEnDefaults::Verbose
 Functions::itov(int flag) {
 
@@ -60,13 +63,6 @@ Functions::vtoi(AnEnDefaults::Verbose verbose) {
             throw runtime_error("Unknown verbose type");
     }
 }
-
-// This is the best estimator that Yamartino has found
-//              2 / sqrt(3) - 1 = 0.1547
-//
-static const double _YAMARTINO = 0.1547;
-const double MULTIPLY = M_PI / 180;
-const double MULTIPLY_REVERSE = 180 / M_PI;
 
 void
 Functions::updateTimeTable(
@@ -127,7 +123,7 @@ Functions::sdCircular(const vector<double> & values) {
 
         // This is to convert from degrees to radians
         //
-        double rad = values[i] * MULTIPLY;
+        double rad = values[i] * _DEG2RAD;
 
         sins[i] = sin(rad);
         coss[i] = cos(rad);
@@ -149,7 +145,7 @@ Functions::sdCircular(const vector<double> & values) {
     double q = asine * (1 + b * ex3);
 
     // Convert back to degrees
-    return (q * MULTIPLY_REVERSE);
+    return (q * _RAD2DEG);
 }
 
 double

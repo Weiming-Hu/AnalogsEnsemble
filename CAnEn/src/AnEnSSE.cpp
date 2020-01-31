@@ -1,12 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /* 
  * File:   AnEnSSE.cpp
- * Author: guido
+ * Author: Guido Cervone <cervone@psu.edu>
+ *         Weiming Hu <cervone@psu.edu>
  * 
  * Created on January 29, 2020, 5:08 PM
  */
@@ -14,27 +9,25 @@
 #include "AnEnSSE.h"
 #include <algorithm>
 
-
 #if defined(_OPENMP)
 #include <omp.h>
 #endif
 
 using namespace std;
-using namespace AnEnDefaults;
- 
-// These variables define the positions in the similarity array for different
+
+// These variables define the positions in the similarity vector for different
 // types of values.
 //
 static const size_t _SIM_VALUE_INDEX = 0;
-static const size_t _SIM_FCST_INDEX = 1;
-static const size_t _SIM_OBS_INDEX = 2;
+static const size_t _SIM_FCST_TIME_INDEX = 1;
+static const size_t _SIM_OBS_TIME_INDEX = 2;
 static const size_t _SIM_STATION_INDEX = 3;
 
-// This is the default value for similarity array
+// This is the default value for similarity vector
 static const array<double, 4> _INIT_ARR_VALUE = {NAN, NAN, NAN, NAN};
 
 static bool
-simsSort(const array<double, 4> & lhs,
+_simsSort(const array<double, 4> & lhs,
         const array<double, 4> & rhs) {
     if (std::isnan(lhs[_SIM_VALUE_INDEX])) return false;
     if (std::isnan(rhs[_SIM_VALUE_INDEX])) return true;
@@ -42,33 +35,32 @@ simsSort(const array<double, 4> & lhs,
 }
 
 static bool
-distSort(const pair<double, size_t> & lhs,
+_distSort(const pair<double, size_t> & lhs,
         const pair<double, size_t> & rhs) {
-    return (lhs.first< rhs.first);
+    return (lhs.first < rhs.first);
 }
 
-
-AnEnSSE::AnEnSSE() {
+AnEnSSE::AnEnSSE() : AnEnIS() {
+    Config config;
+    setConfig_(config);
 }
 
 AnEnSSE::AnEnSSE(const AnEnSSE& orig) : AnEnIS(orig) {
     *this = orig;
 }
 
+AnEnSSE::AnEnSSE(const Config & config) : AnEnIS(config) {
+
+    // TODO : setConfig is a bit confusing. Maybe setMembers is a better name
+    setConfig_(config);
+
+    if (num_nearest_ == 0) throw runtime_error("Please set the number of nearest neighbors to search");
+
+
+}
+
 AnEnSSE::~AnEnSSE() {
 }
-
-AnEnSSE &
-AnEnSSE::operator=(const AnEnSSE & rhs) {
-    if (this != &rhs) {
-        AnEnIS::operator=(rhs);
-        
-        sims_station_ = rhs.sims_station_;
-    }
-    return *this;
-}
-
-
 
 void
 AnEnSSE::compute(const Forecasts & forecasts,
@@ -79,8 +71,7 @@ AnEnSSE::compute(const Forecasts & forecasts,
     if (verbose_ >= Verbose::Progress) cout << "Start AnEnSSE generation ..." << endl;
 
     preprocess_(forecasts, observations, fcsts_test_index, fcsts_search_index);
-    
-    
+
     /*
      * Read weights and circular flags from forecast parameters into vectors
      */
@@ -96,8 +87,8 @@ AnEnSSE::compute(const Forecasts & forecasts,
     size_t num_flts = forecasts.getFLTs().size();
     size_t num_test_times_index = fcsts_test_index.size();
     size_t num_search_times_index = fcsts_search_index.size();
-    
-    
+
+
     /**
      * A vector of arrays consisting of 
      * [similarity value, forecast time index, observation time index, station index]
@@ -106,7 +97,7 @@ AnEnSSE::compute(const Forecasts & forecasts,
      * one test time together with indices.
      */
     std::vector< std::array<double, 4> > sims_arr;
-    sims_arr.resize(num_search_times_index * 3); // XXX Just to test
+    sims_arr.resize(num_search_times_index * num_nearest_);
 
     /*
      * Progress messages output
@@ -134,9 +125,10 @@ firstprivate(sims_arr, _INIT_ARR_VALUE)
                 fill_n(sims_arr.begin(), sims_arr.size(), _INIT_ARR_VALUE);
 
                 /*
-                 * Compute similarity for all search times
+                 * Compute similarity for all search times and all search stations
                  */
                 for (size_t search_time_i = 0; search_time_i < num_search_times_index; ++search_time_i) {
+                    //                    for (size_t search_station_i = 0; search_station_i < )
 
                     size_t current_search_index = fcsts_search_index[search_time_i];
 
@@ -155,7 +147,7 @@ firstprivate(sims_arr, _INIT_ARR_VALUE)
                     }
 
                     // Check whether this search time is found in observations
-                    double obs_time_index = obsIndexTable_(search_time_i, flt_i);
+                    double obs_time_index = obs_index_table_(search_time_i, flt_i);
                     if (std::isnan(obs_time_index)) continue;
 
                     // Check whether the associated observation is NA
@@ -180,60 +172,107 @@ firstprivate(sims_arr, _INIT_ARR_VALUE)
 
                     // Save the similarity metric with corresponding indices
                     sims_arr[search_time_i][_SIM_VALUE_INDEX] = metric;
-                    sims_arr[search_time_i][_SIM_FCST_INDEX] = current_search_index;
-                    sims_arr[search_time_i][_SIM_OBS_INDEX] = obs_time_index;
+                    sims_arr[search_time_i][_SIM_FCST_TIME_INDEX] = current_search_index;
+                    sims_arr[search_time_i][_SIM_OBS_TIME_INDEX] = obs_time_index;
                 }
 
                 /*
                  * Sort based on similarity metrics
                  */
                 if (quick_sort_) nth_element(sims_arr.begin(),
-                        sims_arr.begin() + num_sims_, sims_arr.end(), simsSort);
+                        sims_arr.begin() + num_sims_, sims_arr.end(), _simsSort);
                 else partial_sort(sims_arr.begin(),
-                        sims_arr.begin() + num_sims_, sims_arr.end(), simsSort);
+                        sims_arr.begin() + num_sims_, sims_arr.end(), _simsSort);
 
                 /*
                  * Output values and indices
                  */
+
+
+                // saveAnalogs_()
                 for (size_t analog_i = 0; analog_i < num_analogs_; ++analog_i) {
 
                     // Check whether the observation index is valid
-                    double obs_time_index = sims_arr[analog_i][_SIM_OBS_INDEX];
+                    double obs_time_index = sims_arr[analog_i][_SIM_OBS_TIME_INDEX];
                     if (std::isnan(obs_time_index)) continue;
 
                     double obs_value = observations.getValue(obs_var_index_, station_i, obs_time_index);
 
                     // Assign the analog value from the observation
-                    analogsValue_.setValue(obs_value, station_i, test_time_i, flt_i, analog_i);
+                    analogs_value_.setValue(obs_value, station_i, test_time_i, flt_i, analog_i);
 
-                    if (save_analogs_index_) {
-                        analogsIndex_.setValue(obs_time_index, station_i, test_time_i, flt_i, analog_i);
+                    if (save_analogs_time_index_) {
+                        analogs_time_index_.setValue(obs_time_index, station_i, test_time_i, flt_i, analog_i);
                     }
                 }
 
-                if (save_sims_index_ || save_sims_) {
+                if (save_sims_time_index_ || save_sims_ || save_sims_station_index_) {
+                    // saveSimilarity_()
+
+
                     for (size_t sim_i = 0; sim_i < num_sims_; ++sim_i) {
 
                         if (save_sims_) {
                             // Assign similarity metric value
-                            simsMetric_.setValue(sims_arr[sim_i][_SIM_VALUE_INDEX],
+                            sims_metric_.setValue(sims_arr[sim_i][_SIM_VALUE_INDEX],
                                     station_i, test_time_i, flt_i, sim_i);
                         }
 
-                        if (save_sims_index_) {
+                        if (save_sims_time_index_) {
                             // Assign similarity metric index
-                            simsIndex_.setValue(sims_arr[sim_i][_SIM_FCST_INDEX],
+                            sims_time_index_.setValue(sims_arr[sim_i][_SIM_FCST_TIME_INDEX],
                                     station_i, test_time_i, flt_i, sim_i);
                         }
+
+                        ///////
+
+                        if (save_sims_station_index_) {
+                            sims_station_index_.setValue(0, 1, 1, 1, 1);
+                        }
+
                     }
                 }
 
 
-            }
-        }
-    }
+            } // End of loop for test times
+        } // End of loop for flts
+    } // End of loop for stations
 
     if (verbose_ >= Verbose::Progress) cout << "AnEnIS generation done!" << endl;
+
+    return;
+}
+
+const Array4DPointer &
+AnEnSSE::getSimsStationIndex() const {
+    return sims_station_index_;
+}
+
+AnEnSSE &
+        AnEnSSE::operator=(const AnEnSSE & rhs) {
+
+    if (this != &rhs) {
+        AnEnIS::operator=(rhs);
+
+        sims_station_index_ = rhs.sims_station_index_;
+        num_nearest_ = rhs.num_nearest_;
+        distance_ = rhs.distance_;
+        extend_obs_ = rhs.extend_obs_;
+        search_stations_ = rhs.search_stations_;
+    }
+
+    return *this;
+}
+
+void
+AnEnSSE::checkSave_() const {
+
+    if (save_analogs_ || save_analogs_time_index_ || save_sims_ ||
+            save_sims_time_index_ || save_sims_station_index_) {
+        // This is correct because at least one of them should be true
+    } else {
+        throw runtime_error("Neither analogs nor similarity are saved. Please check your configuration.");
+    }
 
     return;
 }
@@ -243,56 +282,56 @@ AnEnSSE::preprocess_(const Forecasts & forecasts,
         const Observations & observations,
         vector<size_t> & fcsts_test_index,
         vector<size_t> & fcsts_search_index) {
-        
+
     // Do everything that the parent class should be doing
     AnEnIS::preprocess_(forecasts, observations, fcsts_test_index, fcsts_search_index);
-    
+
     Stations const & stations = forecasts.getStations();
     size_t num_stations = stations.size();
     size_t num_flts = forecasts.getFLTs().size();
     size_t num_test_times_index = fcsts_test_index.size();
     size_t num_search_times_index = fcsts_search_index.size();
 
-    
+
     // And now compute the stations that are going to be used for the SSE part of the algorithm
     //
     const int max_stations = 9;
     search_stations_.resize(num_stations, max_stations); // Must redefine the 9
-//    fill_n(search_stations_.data(), search_stations_.size1() * search_stations_.size2(), NAN);
-    
+    //    fill_n(search_stations_.data(), search_stations_.size1() * search_stations_.size2(), NAN);
+
     typedef vector<pair<double, size_t> > mypair;
-    
+
     // Compute the distances.  This is inefficient and might be optimzied in the future
     //
-    for ( size_t outer = 0 ; outer < num_stations ; ++outer ) {
-         mypair distance(num_stations);
-        
-        for ( size_t inner = 0 ; inner < num_stations ; ++inner) {
-//            auto search_x = stations.left[inner]->second.getX();
-//            auto search_y = stations.left[inner]->second.getY();
-//            
-//            auto test_x = stations.left[outer]->second.getX();
-//            auto test_y = stations.left[outer]->second.getY();
-//            
-//            distance[outer] = pair<double, size_t> (sqrt( pow( search_x - test_x, 2 ) + pow( search_y - test_y, 2 )  ), inner);
+    for (size_t outer = 0; outer < num_stations; ++outer) {
+        mypair distance(num_stations);
+
+        for (size_t inner = 0; inner < num_stations; ++inner) {
+            //            auto search_x = stations.left[inner]->second.getX();
+            //            auto search_y = stations.left[inner]->second.getY();
+            //            
+            //            auto test_x = stations.left[outer]->second.getX();
+            //            auto test_y = stations.left[outer]->second.getY();
+            //            
+            //            distance[outer] = pair<double, size_t> (sqrt( pow( search_x - test_x, 2 ) + pow( search_y - test_y, 2 )  ), inner);
         }
-         
+
         // Get the closest ones and it does not matter if they are internally sorted
-        nth_element(distance.begin(), distance.begin() + max_stations, distance.end(), distSort);
-        
-        
+        nth_element(distance.begin(), distance.begin() + max_stations, distance.end(), _distSort);
+
+
         // copy the first few stations to the search stations data structure
-//        for ( auto index = 0 ; index < distance.begin() + max_stations ; ++index ) {
-//            
-//            // Check if they are smaller than a threshold
-//            search_stations_(outer, index) = distance[index].second;
-//        }
-        
+        //        for ( auto index = 0 ; index < distance.begin() + max_stations ; ++index ) {
+        //            
+        //            // Check if they are smaller than a threshold
+        //            search_stations_(outer, index) = distance[index].second;
+        //        }
+
     }
-    
-    
-    
-    
+
+
+
+
 }
 
 
