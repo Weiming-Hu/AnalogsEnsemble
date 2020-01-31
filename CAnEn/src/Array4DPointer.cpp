@@ -20,8 +20,15 @@ Array4DPointer::Array4DPointer() {
     allocated_ = false;
 }
 
-Array4DPointer::Array4DPointer(const Array4DPointer& orig) {
-    *this = orig;
+Array4DPointer::Array4DPointer(const Array4DPointer& rhs) {
+    // Copy dimensions
+    memcpy(dims_, rhs.dims_, 4 * sizeof (size_t));
+
+    // Copy values
+    data_ = new double [rhs.num_elements()];
+    memcpy(data_, rhs.data_, sizeof (double) * rhs.num_elements());
+
+    allocated_ = true;
 }
 
 Array4DPointer::Array4DPointer(size_t dim0, size_t dim1, size_t dim2, size_t dim3) {
@@ -32,7 +39,6 @@ Array4DPointer::Array4DPointer(size_t dim0, size_t dim1, size_t dim2, size_t dim
 Array4DPointer::~Array4DPointer() {
     if (allocated_) delete [] data_;
 }
-
 
 const size_t*
 Array4DPointer::shape() const {
@@ -70,9 +76,8 @@ Array4DPointer::resize(size_t dim0, size_t dim1, size_t dim2, size_t dim3) {
 
 void
 Array4DPointer::initialize(double value) {
-    if ( data_ != nullptr ) fill_n(data_, num_elements(), value);
+    if (data_ != nullptr) fill_n(data_, num_elements(), value);
 }
-
 
 double
 Array4DPointer::getValue(size_t dim0, size_t dim1, size_t dim2, size_t dim3) const {
@@ -102,23 +107,6 @@ Array4DPointer::allocateMemory_() {
 
     allocated_ = true;
     return;
-}
-
-Array4DPointer &
-        Array4DPointer::operator=(const Array4DPointer & rhs) {
-    if (this != &rhs) {
-
-        // Copy dimensions
-        memcpy(dims_, rhs.dims_, 4 * sizeof (size_t));
-
-        // Copy values
-        data_ = new double [rhs.num_elements()];
-        memcpy(data_, rhs.data_, sizeof (double) * rhs.num_elements());
-
-        allocated_ = true;
-    }
-    
-    return *this;
 }
 
 void

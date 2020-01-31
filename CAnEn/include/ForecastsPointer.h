@@ -10,8 +10,7 @@
 #define FORECASTSPOINTER_H
 
 #include "Forecasts.h"
-
-using vector4 = size_t[4];
+#include "Array4DPointer.h"
 
 class ForecastsPointer : public Forecasts {
 public:
@@ -36,8 +35,6 @@ public:
             std::size_t parameter_index, std::size_t station_index,
             std::size_t time_index, std::size_t flt_index) override;
 
-    size_t toIndex(const vector4 & indices) const;
-
     void print(std::ostream &) const;
     friend std::ostream & operator<<(std::ostream &, const ForecastsPointer &);
 
@@ -47,17 +44,7 @@ public:
     static const size_t _DIM_FLT;
 
 protected:
-    vector4 dims_;
-    double * data_;
-
-    /**
-     * This variable is used to keep track of whether the data memory is 
-     * allocated internally and whether the pointer should be deleted during
-     * the de-constructor.
-     */
-    bool allocated_;
-
-    void allocateMemory_();
+    Array4DPointer data_;
 };
 
 #endif /* FORECASTSPOINTER_H */

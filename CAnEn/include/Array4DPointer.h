@@ -11,6 +11,8 @@
 
 #include "Array4D.h"
 
+using vector4 = size_t[4];
+
 class Array4DPointer : public Array4D {
 public:
     Array4DPointer();
@@ -30,11 +32,9 @@ public:
     double getValue(std::size_t, std::size_t, std::size_t, std::size_t) const override;
     void setValue(double val, std::size_t, std::size_t, std::size_t, std::size_t) override;
 
-    Array4DPointer & operator=(const Array4DPointer & rhs);
-    
-    void print(std::ostream &) const;
+    void print(std::ostream &) const override;
     friend std::ostream & operator<<(std::ostream &, const Array4DPointer &);
-    
+
     static const double _DEFAULT_VALUE;
     
 protected:
@@ -48,7 +48,7 @@ protected:
      */
     bool allocated_;
   
-    std::size_t toIndex_(std::size_t dim0, std::size_t dim1, std::size_t dim2, std::size_t dim3) const;
+    std::size_t toIndex_(std::size_t, std::size_t, std::size_t, std::size_t) const;
 
     void allocateMemory_();
 };

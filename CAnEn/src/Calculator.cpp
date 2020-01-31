@@ -7,11 +7,7 @@
 
 #include "Calculator.h"
 
-#ifndef _USE_MATH_DEFINES
-#define _USE_MATH_DEFINES
-#include <math.h>
-#endif
-
+#include <cmath>
 #include <stdexcept>
 
 using namespace std;

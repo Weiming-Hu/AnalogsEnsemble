@@ -12,12 +12,14 @@
 #include <iostream>
 #include <vector>
 
-using vector4 = size_t[4];
-
 class Array4D {
 public:
-    Array4D();
-    virtual ~Array4D();
+    
+    // This is an abstract class with no class members. Therefore, I'm using
+    // the default constructors and destructors.
+    //
+    Array4D() = default;
+    virtual ~Array4D() = default;
 
     /**************************************************************************
      *                          Pure Virtual Functions                        *
@@ -34,6 +36,8 @@ public:
 
     virtual double getValue(std::size_t, std::size_t, std::size_t, std::size_t) const = 0;
     virtual void setValue(double val, std::size_t, std::size_t, std::size_t, std::size_t) = 0;
+
+    virtual void print(std::ostream &) const = 0;  
 };
 
 #endif /* ARRAY4D_H */

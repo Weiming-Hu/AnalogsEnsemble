@@ -16,47 +16,36 @@ const size_t ForecastsPointer::_DIM_TIME = 2;
 const size_t ForecastsPointer::_DIM_FLT = 3;
 
 ForecastsPointer::ForecastsPointer() {
-    data_ = nullptr;
-    allocated_ = false;
 }
 
 ForecastsPointer::ForecastsPointer(const ForecastsPointer& orig) :
 Forecasts(orig) {
-
-    // Copy dimensions
-    memcpy(dims_, orig.dims_, 4 * sizeof (size_t));
-
-    // Copy values
-    data_ = new double [orig.num_elements()];
-    memcpy(data_, orig.data_, sizeof (double) * orig.num_elements());
-
-    allocated_ = true;
+    data_ = orig.data_;
 }
 
 ForecastsPointer::ForecastsPointer(
         const Parameters & parameters, const Stations & stations,
         const Times & times, const Times & flts) :
-Forecasts(parameters, stations, times, flts), allocated_(false) {
-    allocateMemory_();
+Forecasts(parameters, stations, times, flts) {
+    data_.resize(parameters_.size(), stations_.size(), times_.size(), flts_.size());
 }
 
 ForecastsPointer::~ForecastsPointer() {
-    if (allocated_) delete [] data_;
 }
 
 size_t
 ForecastsPointer::num_elements() const {
-    return dims_[_DIM_PARAMETER] * dims_[_DIM_STATION] * dims_[_DIM_TIME] * dims_[_DIM_FLT];
+    return data_.num_elements();
 }
 
 const double*
 ForecastsPointer::getValuesPtr() const {
-    return data_;
+    return data_.getValuesPtr();
 }
 
 double*
 ForecastsPointer::getValuesPtr() {
-    return data_;
+    return data_.getValuesPtr();
 }
 
 void
@@ -69,9 +58,9 @@ ForecastsPointer::setDimensions(
     stations_ = stations;
     times_ = times;
     flts_ = flts;
-    
+
     // Allocate data
-    allocateMemory_();
+    data_.resize(parameters_.size(), stations_.size(), times_.size(), flts_.size());
     return;
 }
 
@@ -79,62 +68,35 @@ double
 ForecastsPointer::getValue(
         size_t parameter_index, size_t station_index,
         size_t time_index, size_t flt_index) const {
-
-    vector4 indices{parameter_index, station_index, time_index, flt_index};
-    return data_[toIndex(indices)];
+    return data_.getValue(parameter_index, station_index, time_index, flt_index);
 }
 
 void ForecastsPointer::setValue(double val,
         size_t parameter_index, size_t station_index,
         size_t time_index, size_t flt_index) {
-
-    vector4 indices{parameter_index, station_index, time_index, flt_index};
-    data_[toIndex(indices)] = val;
-    return;
-}
-
-size_t
-ForecastsPointer::toIndex(const vector4 & indices) const {
-    // Convert dimension indices to position offset by column-major
-    return indices[_DIM_PARAMETER] + dims_[_DIM_PARAMETER] *
-            (indices[_DIM_STATION] + dims_[_DIM_STATION] *
-            (indices[_DIM_TIME] + dims_[_DIM_TIME] * indices[_DIM_FLT]));
-}
-
-void
-ForecastsPointer::allocateMemory_() {
-
-    // Set dimensions
-    dims_[_DIM_PARAMETER] = parameters_.size();
-    dims_[_DIM_STATION] = stations_.size();
-    dims_[_DIM_TIME] = times_.size();
-    dims_[_DIM_FLT] = flts_.size();
-
-    // Allocate memory for underlying data structure
-    if (allocated_) delete [] data_;
-    data_ = new double [num_elements()];
-
-    allocated_ = true;
+    data_.setValue(val, parameter_index, station_index, time_index, flt_index);
     return;
 }
 
 void
 ForecastsPointer::print(std::ostream & os) const {
     Forecasts::print(os);
+    
+    const size_t* dims = data_.shape();
 
-    os << "[Data] size: " << num_elements() << std::endl;
+    os << "[Data] size: " << data_.num_elements() << std::endl;
 
-    for (size_t l = 0; l < dims_[_DIM_PARAMETER]; ++l) {
-        for (size_t m = 0; m < dims_[_DIM_STATION]; ++m) {
+    for (size_t l = 0; l < dims[_DIM_PARAMETER]; ++l) {
+        for (size_t m = 0; m < dims[_DIM_STATION]; ++m) {
             cout << "[" << l << "," << m << ",,]" << endl;
 
-            for (size_t p = 0; p < dims_[_DIM_FLT]; ++p) os << "\t[,,," << p << "]";
+            for (size_t p = 0; p < dims[_DIM_FLT]; ++p) os << "\t[,,," << p << "]";
             os << endl;
 
-            for (size_t o = 0; o < dims_[_DIM_TIME]; ++o) {
+            for (size_t o = 0; o < dims[_DIM_TIME]; ++o) {
                 os << "[,," << o << ",]\t";
 
-                for (size_t p = 0; p < dims_[_DIM_FLT]; ++p) {
+                for (size_t p = 0; p < dims[_DIM_FLT]; ++p) {
                     os << getValue(l, m, o, p) << "\t";
                 }
 

@@ -14,7 +14,7 @@
 
 #include "BmDim.h"
 
-class Time {
+class Time final {
 public:
     Time();
     Time(std::size_t);
@@ -64,6 +64,7 @@ public:
      * @return an index
      */
     std::size_t getIndex(const Time & time) const;
+    const Time & getTime(std::size_t index) const;
 
     void print(std::ostream & os) const;
     friend std::ostream& operator<<(std::ostream& os, Times const & obj);

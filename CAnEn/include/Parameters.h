@@ -20,7 +20,7 @@
  * \brief Parameter stores parameter information including name, weight, and
  * circular.
  */
-class Parameter {
+class Parameter final {
 public:
     Parameter();
 
@@ -91,6 +91,8 @@ public:
     virtual ~Parameters();
 
     std::size_t getIndex(const Parameter &) const;
+    const Parameter & getParameter(std::size_t index) const;
+    
     void getWeights(std::vector<double> & weights) const;
     void getCirculars(std::vector<bool> & circulars) const;
 

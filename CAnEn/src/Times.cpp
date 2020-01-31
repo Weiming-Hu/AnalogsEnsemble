@@ -97,6 +97,12 @@ Times::getIndex(const Time & time) const {
     return (it->second);
 }
 
+const Time &
+Times::getTime(size_t index) const {
+    return this->left[index].second;
+}
+
+
 void
 Times::print(ostream &os) const {
     os << "[Times] size: " << size() << endl;

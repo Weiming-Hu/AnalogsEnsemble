@@ -133,6 +133,11 @@ Parameters::getIndex(const Parameter & parameter) const {
     return (it->second);
 }
 
+const Parameter &
+Parameters::getParameter(size_t index) const {
+    return this->left[index].second;
+}
+
 void
 Parameters::getWeights(std::vector<double> & weights) const {
     weights.resize(size());
