@@ -62,8 +62,8 @@ Station::operator==(const Station & rhs) const {
     if (name_ != rhs.getName()) return false;
     if (x_ != rhs.getX()) return false;
     if (y_ != rhs.getY()) return false;
-  
-    return(true);
+
+    return (true);
 }
 
 bool
@@ -105,7 +105,6 @@ operator<<(ostream& os, Station const & obj) {
     return os;
 }
 
-
 /**************************************************************************
  *                            Stations                                    *
  **************************************************************************/
@@ -124,7 +123,13 @@ Stations::getIndex(const Station & station) const {
         msg << "Station not found: " << station;
         throw range_error(msg.str());
     }
-    return (it->second);
+    return it->second;
+}
+
+
+const Station &
+Stations::getStation(size_t index) const {
+    return this->left[index].second;
 }
 
 void

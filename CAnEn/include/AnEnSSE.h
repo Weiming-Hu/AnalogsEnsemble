@@ -16,8 +16,6 @@
 #define ANENSSE_H
 
 #include "AnEnIS.h"
-
-using namespace boost::numeric::ublas;
  
 class AnEnSSE : public AnEnIS {
 public:
@@ -30,7 +28,7 @@ public:
             std::vector<std::size_t> & fcsts_test_index,
             std::vector<std::size_t> & fcsts_search_index) override;
 
-    const Array4D & getSimsStation() {
+    const Array4DPointer & getSimsStation() {
         return sims_station_;
     }
 
@@ -43,8 +41,8 @@ protected:
             std::vector<std::size_t> & fcsts_test_index,
             std::vector<std::size_t> & fcsts_search_index) override;
 
-    Array4D sims_station_;
-    matrix<size_t>  search_stations_;
+    Array4DPointer sims_station_;
+    boost::numeric::ublas::matrix<size_t>  search_stations_;
 
 };
 

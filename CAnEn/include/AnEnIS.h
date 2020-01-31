@@ -11,7 +11,7 @@
 
 #include "AnEn.h"
 #include "Functions.h"
-#include "Array4D.h"
+#include "Array4DPointer.h"
 
 #include <unordered_map>
 
@@ -44,10 +44,10 @@ public:
             std::vector<std::size_t> & fcsts_test_index,
             std::vector<std::size_t> & fcsts_search_index) override;
 
-    const Array4D & getSimsValue() const;
-    const Array4D & getSimsIndex() const;
-    const Array4D & getAnalogsValue() const;
-    const Array4D & getAnalogsIndex() const;
+    const Array4DPointer & getSimsValue() const;
+    const Array4DPointer & getSimsIndex() const;
+    const Array4DPointer & getAnalogsValue() const;
+    const Array4DPointer & getAnalogsIndex() const;
 
     void print(std::ostream &) const;
     friend std::ostream& operator<<(std::ostream&, const AnEnIS &);
@@ -70,7 +70,7 @@ protected:
      * 
      * [Parameters][Stations][FLTs][Times]
      */
-    Array4D sds_;
+    Array4DPointer sds_;
     
     /**
      * The time index map is used in operational mode. The key is
@@ -82,14 +82,14 @@ protected:
     /**
      * Arrays for storing similarity information
      */
-    Array4D simsIndex_;
-    Array4D simsMetric_;
+    Array4DPointer simsIndex_;
+    Array4DPointer simsMetric_;
 
     /**
      * Arrays for storing analog information
      */
-    Array4D analogsIndex_;
-    Array4D analogsValue_;
+    Array4DPointer analogsIndex_;
+    Array4DPointer analogsValue_;
 
     /**
      * Matrix for the time index table from forecasts to observations

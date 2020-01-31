@@ -271,7 +271,7 @@ void testAnEnIS::compareOperationalSds_() {
             computeSds_(forecasts, times_fixed_index, times_accum_index);
 
             // Save the running calculation result
-            Array4D sds_running = sds_;
+            Array4DPointer sds_running = sds_;
 
             /*
              * Manually calculate the fixed-length standard deviation for each running
@@ -371,10 +371,10 @@ testAnEnIS::compareComputeLeaveOneOut_() {
         anen.compute(fcsts, obs, fcsts_test_index, fcsts_search_index);
 
         // Copy results
-        Array4D my_analogs = anen.getAnalogsValue();
-        Array4D my_analogs_index = anen.getAnalogsIndex();
-        Array4D my_sims = anen.getSimsValue();
-        Array4D my_sims_index = anen.getSimsIndex();
+        Array4DPointer my_analogs = anen.getAnalogsValue();
+        Array4DPointer my_analogs_index = anen.getAnalogsIndex();
+        Array4DPointer my_sims = anen.getSimsValue();
+        Array4DPointer my_sims_index = anen.getSimsIndex();
 
         /*
          * Carry out manual calculation for each test day
@@ -390,10 +390,10 @@ testAnEnIS::compareComputeLeaveOneOut_() {
             anen.compute(fcsts, obs, test_index, manual_search_index);
 
             // Get references to results
-            const Array4D & manual_analogs = anen.getAnalogsValue();
-            const Array4D & manual_analogs_index = anen.getAnalogsIndex();
-            const Array4D & manual_sims = anen.getSimsValue();
-            const Array4D & manual_sims_index = anen.getSimsIndex();
+            const Array4DPointer & manual_analogs = anen.getAnalogsValue();
+            const Array4DPointer & manual_analogs_index = anen.getAnalogsIndex();
+            const Array4DPointer & manual_sims = anen.getSimsValue();
+            const Array4DPointer & manual_sims_index = anen.getSimsIndex();
 
             for (size_t i = 0; i < my_analogs.shape()[0]; ++i) {
                 for (size_t m = 0; m < my_analogs.shape()[2]; ++m) {

@@ -13,7 +13,6 @@
 
 #include "AnEnSSE.h"
 #include <algorithm>
-#include <boost/numeric/ublas/matrix.hpp>
 
 
 #if defined(_OPENMP)
@@ -22,7 +21,6 @@
 
 using namespace std;
 using namespace AnEnDefaults;
- using namespace boost::numeric::ublas;
  
 // These variables define the positions in the similarity array for different
 // types of values.
@@ -34,6 +32,14 @@ static const size_t _SIM_STATION_INDEX = 3;
 
 // This is the default value for similarity array
 static const array<double, 4> _INIT_ARR_VALUE = {NAN, NAN, NAN, NAN};
+
+static bool
+simsSort(const array<double, 4> & lhs,
+        const array<double, 4> & rhs) {
+    if (std::isnan(lhs[_SIM_VALUE_INDEX])) return false;
+    if (std::isnan(rhs[_SIM_VALUE_INDEX])) return true;
+    return (lhs[_SIM_VALUE_INDEX] < rhs[_SIM_VALUE_INDEX]);
+}
 
 static bool
 distSort(const pair<double, size_t> & lhs,
@@ -252,23 +258,23 @@ AnEnSSE::preprocess_(const Forecasts & forecasts,
     //
     const int max_stations = 9;
     search_stations_.resize(num_stations, max_stations); // Must redefine the 9
-    fill_n(search_stations_.data(), search_stations_.size1() * search_stations_.size2(), NAN);
+//    fill_n(search_stations_.data(), search_stations_.size1() * search_stations_.size2(), NAN);
     
     typedef vector<pair<double, size_t> > mypair;
     
     // Compute the distances.  This is inefficient and might be optimzied in the future
     //
-    for ( auto outer = 0 ; outer < num_stations ; ++outer ) {
+    for ( size_t outer = 0 ; outer < num_stations ; ++outer ) {
          mypair distance(num_stations);
         
-        for ( auto inner = 0 ; inner < num_stations ; ++inner) {
-            auto search_x = stations.left[inner]->second.getX();
-            auto search_y = stations.left[inner]->second.getY();
-            
-            auto test_x = stations.left[outer]->second.getX();
-            auto test_y = stations.left[outer]->second.getY();
-            
-            distance[outer] = pair<double, size_t> (sqrt( pow( search_x - test_x, 2 ) + pow( search_y - test_y, 2 )  ), inner);
+        for ( size_t inner = 0 ; inner < num_stations ; ++inner) {
+//            auto search_x = stations.left[inner]->second.getX();
+//            auto search_y = stations.left[inner]->second.getY();
+//            
+//            auto test_x = stations.left[outer]->second.getX();
+//            auto test_y = stations.left[outer]->second.getY();
+//            
+//            distance[outer] = pair<double, size_t> (sqrt( pow( search_x - test_x, 2 ) + pow( search_y - test_y, 2 )  ), inner);
         }
          
         // Get the closest ones and it does not matter if they are internally sorted
@@ -276,11 +282,11 @@ AnEnSSE::preprocess_(const Forecasts & forecasts,
         
         
         // copy the first few stations to the search stations data structure
-        for ( auto index = 0 ; index < distance.begin() + max_stations ; ++index ) {
-            
-            // Check if they are smaller than a threshold
-            search_stations_(outer, index) = distance[index].second;
-        }
+//        for ( auto index = 0 ; index < distance.begin() + max_stations ; ++index ) {
+//            
+//            // Check if they are smaller than a threshold
+//            search_stations_(outer, index) = distance[index].second;
+//        }
         
     }
     
@@ -297,81 +303,81 @@ AnEnSSE::preprocess_(const Forecasts & forecasts,
 
 
 
-
-void
-AnEnSSE::computeSearchStations(
-        const Stations & stations,
-        size_t max_num_search_stations,
-        double distance, size_t num_nearest_stations,
-        vector<size_t> stations_tag) const {
-
-    size_t num_stations = stations.size();
-    
-    // Check max number of search stations. If the number of nearest neighbor
-    // is fixed, this will also be the maximum number of search station.
-    //
-    if (num_nearest_stations != 0) {
-        max_num_search_stations = num_nearest_stations;
-    }
-    
-    // Make sure the tag vectors are initialized correctly
-    if (stations_tag.size() == 0) {
-        // If search station tags are not specified, it is assumed that
-        // all search stations have the same tag.
-        //
-        stations_tag.resize(num_stations, 0); // XXX magic number!!!
-    }
-    
-//    if (verbose_ >= 3) cout << "Computing search space extension ... " << endl;
-
-    if (num_nearest_stations == 0) {
-        // In this case, the number of nearest neighbor stations is not 
-        // defined. The SSE criteria is the distance plus the station tags.
-        //
-
-        if (distance == 0) {
-            throw runtime_error("Missing parameters!");
-        }
-        
-#if defined(_OPENMP)
-#pragma omp parallel for default(none) schedule(static) \
-shared(stations, distance, max_num_search_stations, stations_tag, num_stations)
-#endif
-        for (size_t i_test = 0; i_test < num_stations; ++i_test) {
-
-            // Find search stations based on the distance
-            vector<size_t> id_search_station =
-                    search_stations.getStationsIdByDistance(
-                    test_stations_by_insert[i_test].getX(),
-                    test_stations_by_insert[i_test].getY(),
-                    distance);
-
-            // Assign search stations to matrix
-            for (size_t i_search = 0; i_search < max_num_search_stations &&
-                    i_search < id_search_station.size(); i_search++) {
-
-                // Convert from station ID to station index in search stations
-                size_t i_search_station = search_stations.getStationIndex(
-                        id_search_station[i_search]);
-
-                // Check the search station tags. Only add search stations
-                // when the tag is the same with the current test station.
-                //
-                if (test_station_tags[i_test] == search_station_tags[i_search_station]) {
-                    i_search_stations(i_test, i_search) = i_search_station;
-                }
-            }
-        }
-
-    } else {
-        // Otherwise, if the number of nearest neighbors has been assigned,
-        // search space extension becomes a k-neighbor search with the extra
-        // constraint on distance and test/search station tags.
-        //
-        search_stations.getNearestStationsIndex(
-                i_search_stations, test_stations, distance,
-                num_nearest_stations, test_station_tags, search_station_tags);
-    }
-    
-    return;
-}
+//
+//void
+//AnEnSSE::computeSearchStations(
+//        const Stations & stations,
+//        size_t max_num_search_stations,
+//        double distance, size_t num_nearest_stations,
+//        vector<size_t> stations_tag) const {
+//
+//    size_t num_stations = stations.size();
+//    
+//    // Check max number of search stations. If the number of nearest neighbor
+//    // is fixed, this will also be the maximum number of search station.
+//    //
+//    if (num_nearest_stations != 0) {
+//        max_num_search_stations = num_nearest_stations;
+//    }
+//    
+//    // Make sure the tag vectors are initialized correctly
+//    if (stations_tag.size() == 0) {
+//        // If search station tags are not specified, it is assumed that
+//        // all search stations have the same tag.
+//        //
+//        stations_tag.resize(num_stations, 0); // XXX magic number!!!
+//    }
+//    
+////    if (verbose_ >= 3) cout << "Computing search space extension ... " << endl;
+//
+//    if (num_nearest_stations == 0) {
+//        // In this case, the number of nearest neighbor stations is not 
+//        // defined. The SSE criteria is the distance plus the station tags.
+//        //
+//
+//        if (distance == 0) {
+//            throw runtime_error("Missing parameters!");
+//        }
+//        
+//#if defined(_OPENMP)
+//#pragma omp parallel for default(none) schedule(static) \
+//shared(stations, distance, max_num_search_stations, stations_tag, num_stations)
+//#endif
+//        for (size_t i_test = 0; i_test < num_stations; ++i_test) {
+//
+//            // Find search stations based on the distance
+//            vector<size_t> id_search_station =
+//                    search_stations.getStationsIdByDistance(
+//                    test_stations_by_insert[i_test].getX(),
+//                    test_stations_by_insert[i_test].getY(),
+//                    distance);
+//
+//            // Assign search stations to matrix
+//            for (size_t i_search = 0; i_search < max_num_search_stations &&
+//                    i_search < id_search_station.size(); i_search++) {
+//
+//                // Convert from station ID to station index in search stations
+//                size_t i_search_station = search_stations.getStationIndex(
+//                        id_search_station[i_search]);
+//
+//                // Check the search station tags. Only add search stations
+//                // when the tag is the same with the current test station.
+//                //
+//                if (test_station_tags[i_test] == search_station_tags[i_search_station]) {
+//                    i_search_stations(i_test, i_search) = i_search_station;
+//                }
+//            }
+//        }
+//
+//    } else {
+//        // Otherwise, if the number of nearest neighbors has been assigned,
+//        // search space extension becomes a k-neighbor search with the extra
+//        // constraint on distance and test/search station tags.
+//        //
+//        search_stations.getNearestStationsIndex(
+//                i_search_stations, test_stations, distance,
+//                num_nearest_stations, test_station_tags, search_station_tags);
+//    }
+//    
+//    return;
+//}

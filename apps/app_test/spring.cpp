@@ -64,7 +64,7 @@ int main(int argc, char** argv) {
 
     anen.compute(forecasts, observations, fcsts_test_index, fcsts_search_index);
     
-    Array4D analogs = anen.getAnalogsValue(),
+    Array4DPointer analogs = anen.getAnalogsValue(),
             sims = anen.getSimsValue(),
             sims_index = anen.getSimsIndex();
     

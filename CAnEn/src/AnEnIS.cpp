@@ -282,22 +282,22 @@ firstprivate(sims_arr, _INIT_ARR_VALUE)
 }
 
 
-const Array4D &
+const Array4DPointer &
 AnEnIS::getSimsValue() const {
     return simsMetric_;
 }
 
-const Array4D &
+const Array4DPointer &
 AnEnIS::getSimsIndex() const {
     return simsIndex_;
 }
 
-const Array4D &
+const Array4DPointer &
 AnEnIS::getAnalogsValue() const {
     return analogsValue_;
 }
 
-const Array4D &
+const Array4DPointer &
 AnEnIS::getAnalogsIndex() const {
     return analogsIndex_;
 }
@@ -319,15 +319,15 @@ AnEnIS::print(std::ostream & os) const {
     AnEn::print(os);
 
     if (verbose_ >= Verbose::Debug) {
-        os << "sds_ dimensions: [" << Functions::format(sds_.shape())
+        os << "sds_ dimensions: [" << Functions::format(sds_.shape(), 4)
                 << "]" << endl << "similarityMetric_ dimensions: ["
-                << Functions::format(simsMetric_.shape())
+                << Functions::format(simsMetric_.shape(), 4)
                 << "]" << endl << "similarityIndex_ dimensions: ["
-                << Functions::format(simsIndex_.shape())
+                << Functions::format(simsIndex_.shape(), 4)
                 << "]" << endl << "analogsValue_ dimensions: ["
-                << Functions::format(analogsValue_.shape())
+                << Functions::format(analogsValue_.shape(), 4)
                 << "]" << endl << "analogsIndex_ dimensions: ["
-                << Functions::format(analogsIndex_.shape())
+                << Functions::format(analogsIndex_.shape(), 4)
                 << "]" << endl << "obs_index_table_ dimensions: ["
                 << obsIndexTable_.size1() << ","
                 << obsIndexTable_.size2() << "]" << endl;
