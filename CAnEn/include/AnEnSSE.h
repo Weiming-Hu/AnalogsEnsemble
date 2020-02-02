@@ -26,11 +26,23 @@ public:
             std::vector<std::size_t> & fcsts_search_index) override;
 
     const Array4DPointer & getSimsStationIndex() const;
+    const Functions::Matrix & getSearchStationsIndex() const;
 
     virtual void print(std::ostream &) const override;
     friend std::ostream& operator<<(std::ostream&, const AnEnSSE &);
     
     AnEnSSE & operator=(const AnEnSSE & rhs);
+    
+    /**
+     * This variable defines the index of similarity station index in the
+     * similarity array.
+     */
+    static const std::size_t _SIM_STATION_INDEX;
+    
+    /**
+     * This is the default value for similarity array
+     */
+    static const std::array<double, 4> _INIT_ARR_VALUE;
 
 protected:
     
@@ -64,20 +76,44 @@ protected:
      * A table to record the search stations for each test station. Each row is
      * a set of search station indices for a particular test station.
      */
-    
-    // TODO: Do we need a boost matrix
-    boost::numeric::ublas::matrix<size_t> search_stations_;
-    
-    virtual void setConfig_(const Config &) override;
-    
+    Functions::Matrix search_stations_index_;
+
     virtual void preprocess_(const Forecasts & forecasts,
             const Observations & observations,
             std::vector<std::size_t> & fcsts_test_index,
             std::vector<std::size_t> & fcsts_search_index) override;
+    
+    virtual void allocate_memory_(const Forecasts & forecasts,
+            const std::vector<std::size_t> & fcsts_test_index,
+            const std::vector<std::size_t> & fcsts_search_index) override;
+
+    /**
+     * This is the function to sort the similarity vector based on the 
+     * similarity metric from the array of length 4.
+     * 
+     * This function is static because it is called by the sorting algorithm
+     */
+    static bool _simsSort_(const std::array<double, 4> &, const std::array<double, 4> &);
+    
+    virtual void setMembers_(const Config &) override;
 
     virtual void checkSave_() const override;
 
+    virtual void checkNumberOfMembers_(std::size_t num_search_times_index) override;
+
+    /**************************************************************************
+     *                          Template Functions                            *
+     **************************************************************************/
+
+    template <std::size_t len>
+    void saveAnalogs_(const SimsVec<len> & sims_arr, const Observations & observations,
+            std::size_t station_i, std::size_t test_time_i, std::size_t flt_i);
+    template <std::size_t len>
+    void saveSimsStationIndex_(const SimsVec<len> & sims_arr,
+            std::size_t station_i, std::size_t test_time_i, std::size_t flt_i);
 };
+
+#include "AnEnSSE.tpp"
 
 #endif /* ANENSSE_H */
 

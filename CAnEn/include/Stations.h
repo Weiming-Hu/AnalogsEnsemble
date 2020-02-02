@@ -11,7 +11,7 @@
 
 #include <iostream>
 
-#include "AnEnDefaults.h"
+#include "Config.h"
 #include "BmDim.h"
 
 /**
@@ -26,7 +26,7 @@ class Station final {
 public:
     Station();
     Station(Station const &);
-    Station(double, double, std::string name = AnEnDefaults::_NAME);
+    Station(double, double, std::string name = Config::_NAME);
 
     virtual ~Station();
 

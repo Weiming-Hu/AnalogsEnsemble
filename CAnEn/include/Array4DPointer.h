@@ -34,6 +34,8 @@ public:
 
     void print(std::ostream &) const override;
     friend std::ostream & operator<<(std::ostream &, const Array4DPointer &);
+    
+    Array4DPointer & operator=(const Array4DPointer &);
 
     static const double _DEFAULT_VALUE;
     

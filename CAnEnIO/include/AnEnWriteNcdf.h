@@ -13,7 +13,7 @@
 #include "Stations.h"
 #include "Times.h"
 #include "Parameters.h"
-#include "AnEnDefaults.h"
+#include "Config.h"
 
 class AnEnWriteNcdf {
 public:
@@ -32,12 +32,12 @@ public:
     //
 
     AnEnWriteNcdf();
-    AnEnWriteNcdf(AnEnDefaults::Verbose verbose);
+    AnEnWriteNcdf(Verbose verbose);
     AnEnWriteNcdf(const AnEnWriteNcdf& orig);
     virtual ~AnEnWriteNcdf();
 
 protected:
-    AnEnDefaults::Verbose verbose_;
+    Verbose verbose_;
 
     netCDF::NcDim getDim_(const netCDF::NcFile & nc,
             std::string name, size_t len = 0) const;

@@ -22,27 +22,14 @@ using namespace std;
 //
 static const size_t _SINGLE_LEN = 1;
 
-// These variables define the positions in the similarity array for different
-// types of values.
-//
-static const size_t _SIM_VALUE_INDEX = 0;
-static const size_t _SIM_FCST_TIME_INDEX = 1;
-static const size_t _SIM_OBS_TIME_INDEX = 2;
-
-// This is the default value for similarity array
-static const array<double, 3> _INIT_ARR_VALUE = {NAN, NAN, NAN};
-
-static bool
-_simsSort(const array<double, 3> & lhs,
-        const array<double, 3> & rhs) {
-    if (std::isnan(lhs[_SIM_VALUE_INDEX])) return false;
-    if (std::isnan(rhs[_SIM_VALUE_INDEX])) return true;
-    return (lhs[_SIM_VALUE_INDEX] < rhs[_SIM_VALUE_INDEX]);
-}
+const size_t AnEnIS::_SIM_VALUE_INDEX = 0;
+const size_t AnEnIS::_SIM_FCST_TIME_INDEX = 1;
+const size_t AnEnIS::_SIM_OBS_TIME_INDEX = 2;
+const array<double, 3> AnEnIS::_INIT_ARR_VALUE = {NAN, NAN, NAN};
 
 AnEnIS::AnEnIS() : AnEn() {
     Config config;
-    setConfig_(config);
+    setMembers_(config);
 }
 
 AnEnIS::AnEnIS(const AnEnIS& orig) : AnEn(orig) {
@@ -50,15 +37,9 @@ AnEnIS::AnEnIS(const AnEnIS& orig) : AnEn(orig) {
 }
 
 AnEnIS::AnEnIS(const Config & config) : AnEn(config) {
-    setConfig_(config);
+    setMembers_(config);
 
-    if (num_sims_ < num_analogs_) {
-        if (verbose_ >= Verbose::Warning) {
-            cerr << "Warning: Changed #similarity to #analogs" << endl;
-        }
-
-        num_sims_ = num_analogs_;
-    }
+    if (num_sims_ < num_analogs_) num_sims_ = num_analogs_;
 
     if (operation_ && !prevent_search_future_) {
         if (verbose_ >= Verbose::Warning) {
@@ -136,7 +117,7 @@ AnEnIS::compute(const Forecasts & forecasts,
      * This is used to store all similarity metrics from all search times for
      * one test time together with indices.
      */
-    vector< array<double, 3> > sims_arr;
+    SimsVec<3> sims_arr;
     sims_arr.resize(num_search_times_index);
 
     /*
@@ -149,7 +130,7 @@ AnEnIS::compute(const Forecasts & forecasts,
 #pragma omp parallel for default(none) schedule(dynamic) collapse(3) \
 shared(num_stations, num_flts, num_test_times_index, num_search_times_index, \
 fcsts_test_index, fcsts_search_index, forecasts, observations, weights, circulars) \
-firstprivate(sims_arr, _INIT_ARR_VALUE)
+firstprivate(sims_arr)
 #endif
     for (size_t station_i = 0; station_i < num_stations; ++station_i) {
         for (size_t flt_i = 0; flt_i < num_flts; ++flt_i) {
@@ -186,7 +167,7 @@ firstprivate(sims_arr, _INIT_ARR_VALUE)
                     }
 
                     // Check whether this search time is found in observations
-                    double obs_time_index = obs_index_table_(search_time_i, flt_i);
+                    double obs_time_index = obs_time_index_table_(search_time_i, flt_i);
                     if (std::isnan(obs_time_index)) continue;
 
                     // Check whether the associated observation is NA
@@ -219,50 +200,17 @@ firstprivate(sims_arr, _INIT_ARR_VALUE)
                  * Sort based on similarity metrics
                  */
                 if (quick_sort_) nth_element(sims_arr.begin(),
-                        sims_arr.begin() + num_sims_, sims_arr.end(), _simsSort);
+                        sims_arr.begin() + num_sims_, sims_arr.end(), _simsSort_);
                 else partial_sort(sims_arr.begin(),
-                        sims_arr.begin() + num_sims_, sims_arr.end(), _simsSort);
-
-                // TODO: Functionize theses
-
+                        sims_arr.begin() + num_sims_, sims_arr.end(), _simsSort_);
 
                 /*
                  * Output values and indices
                  */
-                for (size_t analog_i = 0; analog_i < num_analogs_; ++analog_i) {
-
-                    // Check whether the observation index is valid
-                    double obs_time_index = sims_arr[analog_i][_SIM_OBS_TIME_INDEX];
-                    if (std::isnan(obs_time_index)) continue;
-
-                    double obs_value = observations.getValue(obs_var_index_, station_i, obs_time_index);
-
-                    // Assign the analog value from the observation
-                    analogs_value_.setValue(obs_value, station_i, test_time_i, flt_i, analog_i);
-
-                    if (save_analogs_time_index_) {
-                        analogs_time_index_.setValue(obs_time_index, station_i, test_time_i, flt_i, analog_i);
-                    }
-                }
-
-                if (save_sims_time_index_ || save_sims_) {
-                    for (size_t sim_i = 0; sim_i < num_sims_; ++sim_i) {
-
-                        if (save_sims_) {
-                            // Assign similarity metric value
-                            sims_metric_.setValue(sims_arr[sim_i][_SIM_VALUE_INDEX],
-                                    station_i, test_time_i, flt_i, sim_i);
-                        }
-
-                        if (save_sims_time_index_) {
-                            // Assign similarity metric index
-                            sims_time_index_.setValue(sims_arr[sim_i][_SIM_FCST_TIME_INDEX],
-                                    station_i, test_time_i, flt_i, sim_i);
-                        }
-                    }
-                }
-
-
+                if (save_analogs_) saveAnalogs_(sims_arr, observations, station_i, test_time_i, flt_i);
+                if (save_analogs_time_index_) saveAnalogsTimeIndex_(sims_arr, station_i, test_time_i, flt_i);
+                if (save_sims_) saveSims_(sims_arr, station_i, test_time_i, flt_i);
+                if (save_sims_time_index_) saveSimsTimeIndex_(sims_arr, station_i, test_time_i, flt_i);
             }
         }
     }
@@ -270,6 +218,11 @@ firstprivate(sims_arr, _INIT_ARR_VALUE)
     if (verbose_ >= Verbose::Progress) cout << "AnEnIS generation done!" << endl;
 
     return;
+}
+
+const Array4DPointer &
+AnEnIS::getSds() const {
+    return sds_;
 }
 
 const Array4DPointer &
@@ -292,13 +245,17 @@ AnEnIS::getAnalogsTimeIndex() const {
     return analogs_time_index_;
 }
 
+const Functions::Matrix &
+AnEnIS::getObsTimeIndexTable() const {
+    return obs_time_index_table_;
+}
+
 void
 AnEnIS::print(ostream & os) const {
 
+    AnEn::print(os);
 
-
-    os << endl << "****************************" << endl
-            << Config::_NUM_ANALOGS << ": " << num_analogs_ << endl
+    os << Config::_NUM_ANALOGS << ": " << num_analogs_ << endl
             << Config::_NUM_SIMS << ": " << num_sims_ << endl
             << Config::_OBS_ID << ": " << obs_var_index_ << endl
             << Config::_NUM_PAR_NA << max_par_nan_ << endl
@@ -312,10 +269,9 @@ AnEnIS::print(ostream & os) const {
             << Config::_QUICK << quick_sort_ << endl
             << Config::_PREVENT_SEARCH_FUTURE << ": " << prevent_search_future_ << endl;
 
-    AnEn::print(os);
-
     if (verbose_ >= Verbose::Debug) {
-        os << "sds_ dimensions: [" << Functions::format(sds_.shape(), 4)
+        os << "standard deviation array dimensions: ["
+                << Functions::format(sds_.shape(), 4)
                 << "]" << endl << "similarity metric array dimensions: ["
                 << Functions::format(sims_metric_.shape(), 4)
                 << "]" << endl << "similarity time index array dimensions: ["
@@ -324,12 +280,10 @@ AnEnIS::print(ostream & os) const {
                 << Functions::format(analogs_value_.shape(), 4)
                 << "]" << endl << "analogs time index array dimensions: ["
                 << Functions::format(analogs_time_index_.shape(), 4)
-                << "]" << endl << "time index table dimensions: ["
-                << obs_index_table_.size1() << ","
-                << obs_index_table_.size2() << "]" << endl;
+                << "]" << endl << "observations time index table dimensions: ["
+                << obs_time_index_table_.size1() << ","
+                << obs_time_index_table_.size2() << "]" << endl;
     }
-
-    cout << "****************************" << endl << endl;
 
     return;
 }
@@ -369,26 +323,6 @@ AnEnIS &
 }
 
 void
-AnEnIS::setConfig_(const Config & config) {
-
-    num_analogs_ = config.num_analogs;
-    num_sims_ = config.num_sims;
-    obs_var_index_ = config.obs_var_index;
-    max_par_nan_ = config.max_par_nan;
-    max_flt_nan_ = config.max_flt_nan;
-    flt_radius_ = config.flt_radius;
-    save_analogs_ = config.save_analogs;
-    save_analogs_time_index_ = config.save_analogs_day_index;
-    save_sims_ = config.save_sims;
-    save_sims_time_index_ = config.save_sims_day_index;
-    operation_ = config.operation;
-    quick_sort_ = config.quick_sort;
-    prevent_search_future_ = config.prevent_search_future;
-    
-    return;
-}
-
-void
 AnEnIS::preprocess_(const Forecasts & forecasts,
         const Observations & observations,
         vector<size_t> & fcsts_test_index,
@@ -425,14 +359,23 @@ AnEnIS::preprocess_(const Forecasts & forecasts,
     const auto & obs_times = observations.getTimes();
     const auto & fcst_flts = forecasts.getFLTs();
 
-    obs_index_table_ = Functions::Matrix(
+    obs_time_index_table_ = Functions::Matrix(
             fcsts_search_index.size(), fcst_flts.size(), NAN);
     Functions::updateTimeTable(fcst_times,
-            fcsts_search_index, fcst_flts, obs_times, obs_index_table_);
+            fcsts_search_index, fcst_flts, obs_times, obs_time_index_table_);
 
     /*
      * Pre-allocate memory for analog computation
      */
+    allocate_memory_(forecasts, fcsts_test_index, fcsts_search_index);
+
+    return;
+}
+
+void
+AnEnIS::allocate_memory_(const Forecasts & forecasts,
+        const vector<size_t> & fcsts_test_index, const vector<size_t> & fcsts_search_index) {
+
     if (verbose_ >= Verbose::Progress) cout << "Allocating memory ..." << endl;
 
     size_t num_stations = forecasts.getStations().size();
@@ -441,8 +384,7 @@ AnEnIS::preprocess_(const Forecasts & forecasts,
     size_t num_search_times_index = fcsts_search_index.size();
 
     // Check for the maximum number of values we can save
-    if (num_sims_ >= num_search_times_index) num_sims_ = num_search_times_index;
-    if (num_analogs_ >= num_search_times_index) num_analogs_ = num_search_times_index;
+    checkNumberOfMembers_(num_search_times_index);
 
     if (save_analogs_) {
         analogs_value_.resize(num_stations, num_test_times_index, num_flts, num_analogs_);
@@ -462,6 +404,55 @@ AnEnIS::preprocess_(const Forecasts & forecasts,
     if (save_sims_time_index_) {
         sims_time_index_.resize(num_stations, num_test_times_index, num_flts, num_sims_);
         sims_time_index_.initialize(NAN);
+    }
+    
+    return;
+}
+
+bool
+AnEnIS::_simsSort_(const std::array<double, 3> & lhs,
+        const std::array<double, 3> & rhs) {
+    if (std::isnan(lhs[_SIM_VALUE_INDEX])) return false;
+    if (std::isnan(rhs[_SIM_VALUE_INDEX])) return true;
+    return (lhs[_SIM_VALUE_INDEX] < rhs[_SIM_VALUE_INDEX]);
+}
+
+void
+AnEnIS::setMembers_(const Config & config) {
+
+    num_analogs_ = config.num_analogs;
+    num_sims_ = config.num_sims;
+    obs_var_index_ = config.obs_var_index;
+    max_par_nan_ = config.max_par_nan;
+    max_flt_nan_ = config.max_flt_nan;
+    flt_radius_ = config.flt_radius;
+    save_analogs_ = config.save_analogs;
+    save_analogs_time_index_ = config.save_analogs_day_index;
+    save_sims_ = config.save_sims;
+    save_sims_time_index_ = config.save_sims_day_index;
+    operation_ = config.operation;
+    quick_sort_ = config.quick_sort;
+    prevent_search_future_ = config.prevent_search_future;
+
+    return;
+}
+
+void
+AnEnIS::setSdsTimeMap_(const vector<size_t> & times_accum_index) {
+
+    size_t count = times_accum_index.size();
+
+    if (count == 0) {
+        throw runtime_error("Empty running indices during operational sd calculation");
+    }
+
+    for (size_t i = 0; i < count; ++i) {
+
+        /* 
+         * The key is the forecast test time index and the the value is the
+         * corresponding index of the time dimension in the standard deviation array.
+         */
+        sds_time_index_map_[times_accum_index[i]] = i;
     }
 
     return;
@@ -615,37 +606,6 @@ times_accum_index, weights, circulars, num_times, calculator_capacity)
         } // End of loop of stations
     } // End of loop of parameters
 
-    if (verbose_ >= Verbose::Debug) {
-        cout << "Standard deviations: ";
-        if (sds_.num_elements() > _PREVIEW_COUNT) {
-            cout << Functions::format(sds_.getValuesPtr(), _PREVIEW_COUNT, ",") << ", ...";
-        } else {
-            cout << Functions::format(sds_.getValuesPtr(), sds_.num_elements());
-        }
-        cout << endl;
-    }
-
-    return;
-}
-
-void
-AnEnIS::setSdsTimeMap_(const vector<size_t> & times_accum_index) {
-
-    size_t count = times_accum_index.size();
-
-    if (count == 0) {
-        throw runtime_error("Empty running indices during operational sd calculation");
-    }
-
-    for (size_t i = 0; i < count; ++i) {
-
-        /* 
-         * The key is the forecast test time index and the the value is the
-         * corresponding index of the time dimension in the standard deviation array.
-         */
-        sds_time_index_map_[times_accum_index[i]] = i;
-    }
-
     return;
 }
 
@@ -699,14 +659,39 @@ AnEnIS::checkConsistency_(const Forecasts & forecasts,
     return;
 }
 
-
-void AnEnIS::checkSave_() const {
+void
+AnEnIS::checkSave_() const {
 
     if (save_analogs_ || save_analogs_time_index_ || save_sims_ || save_sims_time_index_) {
         // This is correct because at least one of them should be true
     } else {
         throw runtime_error("Neither analogs nor similarity are saved. Please check your configuration.");
     }
+
+    return;
+}
+
+void
+AnEnIS::checkNumberOfMembers_(size_t num_search_times_index) {
+    
+    if (num_sims_ >= num_search_times_index) {
+        num_sims_ = num_search_times_index;
+        
+        if (verbose_ >= Verbose::Warning) {
+            cerr << "Warning: The number of similarity has been changed to "
+                    << num_sims_ << " due to the too short search period." << endl;
+        }
+    }
+    
+    if (num_analogs_ >= num_search_times_index) {
+        num_analogs_ = num_search_times_index;
+        
+        if (verbose_ >= Verbose::Warning) {
+            cerr << "Warning: The number of analogs has been changed to "
+                    << num_analogs_ << " due to the too short search period." << endl;
+        }
+    }
     
     return;
 }
+    

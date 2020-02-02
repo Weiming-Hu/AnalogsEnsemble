@@ -14,7 +14,7 @@ AnEnReadNcdf::read_(const netCDF::NcFile & nc,
     using namespace std;
     using namespace netCDF;
 
-    if (verbose_ >= AnEnDefaults::Verbose::Detail) {
+    if (verbose_ >= Verbose::Detail) {
         cout << "Reading variable " << var_name << " ..." << endl;
     }
     

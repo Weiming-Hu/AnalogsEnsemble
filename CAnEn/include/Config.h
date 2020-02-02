@@ -52,12 +52,28 @@ public:
     bool operation;
     bool prevent_search_future;
     bool save_analogs;
+    bool save_analogs_day_index;
     bool save_sims;
     bool save_sims_day_index;
-    bool save_analogs_day_index;
+    bool save_sims_station_index;
     bool quick_sort;
 
     Verbose verbose;
+    
+    /*************************************************************************
+     *                    Predefined Static Parameters                       *
+     *************************************************************************/
+    // These parameters are not allowed to change. Usually, they are used to
+    // configure the default values for Parameters, Times and Stations.
+    //
+    static const std::string _NAME;
+    static const double _WEIGHT;
+    static const bool _CIRCULAR;
+    static const double _X;
+    static const double _Y;
+    static const std::size_t _TIME;
+    static const std::string _UNIT;
+    static const std::string _ORIGIN;
 
     /*************************************************************************
      *                    Predefined Parameter Names                         *
@@ -80,6 +96,7 @@ public:
     static const std::string _SAVE_ANALOGS_TIME_IND;
     static const std::string _SAVE_SIMS;
     static const std::string _SAVE_SIMS_TIME_IND;
+    static const std::string _SAVE_SIMS_STATION_IND;
     static const std::string _QUICK;
     static const std::string _VERBOSE;
     static const std::string _TEST_TIMES;

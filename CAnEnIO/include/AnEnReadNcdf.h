@@ -13,7 +13,7 @@
 
 #include "AnEnRead.h"
 #include "Analogs.h"
-#include "AnEnDefaults.h"
+#include "Config.h"
 
 /**
  * \class AnEnReadNcdf
@@ -32,7 +32,7 @@ public:
     };
 
     AnEnReadNcdf();
-    AnEnReadNcdf(AnEnDefaults::Verbose verbose);
+    AnEnReadNcdf(Verbose verbose);
     AnEnReadNcdf(const AnEnReadNcdf& orig);
     virtual ~AnEnReadNcdf();
 
@@ -55,7 +55,7 @@ public:
     
     
 protected:
-    AnEnDefaults::Verbose verbose_;
+    Verbose verbose_;
 
     void read_(const netCDF::NcFile & nc, Parameters & parameters,
             size_t start = 0, size_t count = 0) const;

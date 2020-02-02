@@ -31,7 +31,7 @@ using namespace std;
  *                            Station                                     *
  **************************************************************************/
 Station::Station() :
-x_(AnEnDefaults::_X), y_(AnEnDefaults::_Y), name_(AnEnDefaults::_NAME) {
+x_(Config::_X), y_(Config::_Y), name_(Config::_NAME) {
 }
 
 Station::Station(double x, double y, string name) :

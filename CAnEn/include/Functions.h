@@ -10,7 +10,8 @@
 #define FUNCTIONS_H
 
 #include "Times.h"
-#include "AnEnDefaults.h"
+#include "Config.h"
+#include "Stations.h"
 #include "boost/multi_array.hpp"
 #include "boost/numeric/ublas/matrix.hpp"
 
@@ -21,18 +22,22 @@
 
 namespace Functions {
 
+    static const std::size_t _MAX_SIZE_T = std::numeric_limits<std::size_t>::max();
+
     template <typename T, std::size_t NDims>
     using array_view = boost::detail::multi_array::multi_array_view<T, NDims>;
-    using Matrix = boost::numeric::ublas::matrix<double>;
+    using Matrix = boost::numeric::ublas::matrix<double, boost::numeric::ublas::column_major>;
+
+    void setSearchStations(const Stations &, Matrix & table, double);
 
     /**
      * Convert an integer to Verbose and vice versa
      * 
-     * @param An intiger
+     * @param An integer
      * @return A Verbose
      */
-    AnEnDefaults::Verbose itov(int);
-    int vtoi(AnEnDefaults::Verbose);
+    Verbose itov(int);
+    int vtoi(Verbose);
 
     /**
      * Computes a lookup table which maps from forecast time and lead time
@@ -69,7 +74,7 @@ namespace Functions {
     
     
     double sum(const std::vector<double> & values,
-            std::size_t max_nan_allowed = AnEnDefaults::_MAX_SIZE_T);
+            std::size_t max_nan_allowed = _MAX_SIZE_T);
     
     /**
      * Computes the mean of a vector.
@@ -78,7 +83,7 @@ namespace Functions {
      * vector. Set it to NAN to allow any number of NAN values.
      */
     double mean(const std::vector<double> & values,
-            std::size_t max_nan_allowed = AnEnDefaults::_MAX_SIZE_T);
+            std::size_t max_nan_allowed = _MAX_SIZE_T);
 
     /**
      * Computes the variance of a vector.

@@ -14,10 +14,10 @@ using namespace std;
 using namespace Ncdf;
 using namespace netCDF;
 using namespace AnEnNames;
-using namespace AnEnDefaults;
 
 AnEnWriteNcdf::AnEnWriteNcdf() {
-    verbose_ = AnEnDefaults::_VERBOSE;
+    Config config;
+    verbose_ = config.verbose;
 }
 
 AnEnWriteNcdf::AnEnWriteNcdf(Verbose verbose) :

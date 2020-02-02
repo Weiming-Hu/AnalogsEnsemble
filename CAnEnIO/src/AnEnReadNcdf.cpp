@@ -17,14 +17,14 @@ using namespace std;
 using namespace Ncdf;
 using namespace netCDF;
 using namespace AnEnNames;
-using namespace AnEnDefaults;
 
 static const size_t _OBSERVATIONS_DIMENSIONS = 3;
 static const size_t _FORECASTS_DIMENSIONS = 4;
 static const size_t _ANALOGS_DIMENSIONS = 4;
 
 AnEnReadNcdf::AnEnReadNcdf() {
-    verbose_ = AnEnDefaults::_VERBOSE;
+    Config config;
+    verbose_ = config.verbose;
 }
 
 AnEnReadNcdf::AnEnReadNcdf(Verbose verbose) :
@@ -325,7 +325,7 @@ AnEnReadNcdf::read_(const NcFile & nc, Stations & stations,
     for (size_t dim_i = size_ori, i = 0; i < xs.size(); ++dim_i, ++i) {
         
         // Determine whether the station has a name
-        string station_name = AnEnDefaults::_NAME;
+        string station_name = Config::_NAME;
         if (names.size() != 0) station_name = names[i];
         
         // Create and push the station to the dimension class

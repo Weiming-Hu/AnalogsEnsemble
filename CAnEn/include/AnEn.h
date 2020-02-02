@@ -37,7 +37,7 @@ public:
 protected:
     Verbose verbose_;
 
-    virtual void setConfig_(const Config &);
+    virtual void setMembers_(const Config &);
 };
 
 #endif /* ANEN_H */

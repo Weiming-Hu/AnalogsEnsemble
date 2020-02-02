@@ -17,17 +17,17 @@
  */
 
 #include "Times.h"
-#include "AnEnDefaults.h"
+#include "Config.h"
 
 #include <stdexcept>
 #include <sstream>
 
 using namespace std;
 
-std::string Time::_origin = AnEnDefaults::_ORIGIN;
-std::string Time::_unit = AnEnDefaults::_UNIT;
+std::string Time::_origin = Config::_ORIGIN;
+std::string Time::_unit = Config::_UNIT;
 
-Time::Time() : timestamp(AnEnDefaults::_TIME) {
+Time::Time() : timestamp(Config::_TIME) {
 }
 
 Time::Time(size_t val) {

@@ -8,22 +8,87 @@
 #include "Functions.h"
 
 #include <cmath>
+#include <limits>
 #include <sstream>
+#include <algorithm>
 #include <stdexcept>
+#include <iterator>
+
+#include "boost/geometry.hpp"
+#include "boost/geometry/geometries/point.hpp"
+#include "boost/geometry/geometries/ring.hpp"
+#include "boost/geometry/index/rtree.hpp"
+#include "boost/lambda/lambda.hpp"
 
 #if defined(_OPENMP)
 #include <omp.h>
 #endif
 
+
+#include <ctime>
+
 using namespace std;
+namespace bg = boost::geometry;
+namespace bgi = boost::geometry::index;
 
 const double _DEG2RAD = M_PI / 180;
 const double _RAD2DEG = 180 / M_PI;
 
-AnEnDefaults::Verbose
-Functions::itov(int flag) {
+void
+Functions::setSearchStations(const Stations & stations, Matrix & table, double distance) {
 
-    using namespace AnEnDefaults;
+    // Determine the number of neighbors
+    size_t num_neighbors = table.size2();
+    size_t num_stations = stations.size();
+    
+    // Convert distance to squred distance
+    distance *= distance;
+
+    // Check the rows of the table
+    if (table.size1() != num_stations) {
+        ostringstream msg;
+        msg << "The table has " << table.size1() << " rows but there are"
+                << num_stations << " test stations";
+        throw overflow_error(msg.str());
+    }
+
+    // Initialize a vector to store the distances and the indices
+    vector< pair<double, size_t> > distances_sq(num_stations);
+
+    for (size_t test_i = 0; test_i < num_stations; ++test_i) {
+
+        const Station & test = stations.getStation(test_i);
+
+        // Calculate pair-wise station distances
+        for (size_t search_i = 0; search_i < num_stations; ++search_i) {
+            const Station & search = stations.getStation(search_i);
+
+            distances_sq[search_i].first =
+                    pow(test.getX() - search.getX(), 2) +
+                    pow(test.getX() - search.getX(), 2);
+            distances_sq[search_i].second = search_i;
+        }
+
+        // Sort based on distances
+        nth_element(distances_sq.begin(), distances_sq.begin() + num_neighbors, distances_sq.end(),
+                [](const pair<double, size_t> & lhs, const pair<double, size_t> & rhs) {
+                    return lhs.first < rhs.first;
+                });
+
+        // Copy neighbor stations index to the output table
+        size_t current_pos = 0;
+
+        for (size_t neighbor_i = 0; neighbor_i < num_neighbors; ++neighbor_i, ++current_pos) {
+            if (distances_sq[neighbor_i].first > distance) continue;
+            table(test_i, current_pos) = distances_sq[neighbor_i].second;
+        }
+    }
+
+    return;
+}
+
+Verbose
+Functions::itov(int flag) {
 
     switch (flag) {
         case 0:
@@ -44,9 +109,7 @@ Functions::itov(int flag) {
 }
 
 int
-Functions::vtoi(AnEnDefaults::Verbose verbose) {
-
-    using namespace AnEnDefaults;
+Functions::vtoi(Verbose verbose) {
 
     switch (verbose) {
         case Verbose::Error:

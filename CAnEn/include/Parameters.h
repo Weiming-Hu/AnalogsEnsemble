@@ -12,7 +12,7 @@
 #include <iostream>
 
 #include "BmDim.h"
-#include "AnEnDefaults.h"
+#include "Config.h"
 
 /**
  * \class Parameter
@@ -38,8 +38,8 @@ public:
      * @param circular Whether parameter is circular.
      */
     Parameter(std::string name,
-            double weight = AnEnDefaults::_WEIGHT,
-            bool circular = AnEnDefaults::_CIRCULAR);
+            double weight = Config::_WEIGHT,
+            bool circular = Config::_CIRCULAR);
 
 
     virtual ~Parameter();

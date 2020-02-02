@@ -21,14 +21,7 @@ Array4DPointer::Array4DPointer() {
 }
 
 Array4DPointer::Array4DPointer(const Array4DPointer& rhs) {
-    // Copy dimensions
-    memcpy(dims_, rhs.dims_, 4 * sizeof (size_t));
-
-    // Copy values
-    data_ = new double [rhs.num_elements()];
-    memcpy(data_, rhs.data_, sizeof (double) * rhs.num_elements());
-
-    allocated_ = true;
+    *this = rhs;
 }
 
 Array4DPointer::Array4DPointer(size_t dim0, size_t dim1, size_t dim2, size_t dim3) {
@@ -141,4 +134,22 @@ std::ostream &
 operator<<(std::ostream & os, const Array4DPointer & obj) {
     obj.print(os);
     return os;
+}
+
+Array4DPointer &
+        Array4DPointer::operator=(const Array4DPointer & rhs) {
+    
+    if (this != &rhs) {
+
+        // Copy dimensions
+        memcpy(dims_, rhs.dims_, 4 * sizeof (size_t));
+
+        // Copy values
+        data_ = new double [rhs.num_elements()];
+        memcpy(data_, rhs.data_, sizeof (double) * rhs.num_elements());
+
+        allocated_ = true;
+    }
+    
+    return *this;
 }

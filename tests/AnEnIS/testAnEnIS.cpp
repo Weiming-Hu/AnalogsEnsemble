@@ -343,19 +343,19 @@ testAnEnIS::compareComputeLeaveOneOut_() {
         /*
          * Carry out leave one out tests for 3 days
          */
-        size_t num_analogs = 10;
-        bool operational = false;
-        bool prevent_search_future = false;
-        bool save_sims = true;
-        AnEnDefaults::Verbose verbose = AnEnDefaults::Verbose::Warning;
-        size_t obs_var_index = 1;
-        bool quick_sort = false;
-        bool save_sims_index = true;
-        bool save_analogs_index = true;
-        size_t num_sims = num_analogs;
-        size_t max_par_nan = AnEnDefaults::_MAX_SIZE_T;
-        size_t max_flt_nan = AnEnDefaults::_MAX_SIZE_T;
-        size_t flt_radius = 1;
+        Config config;
+        config.num_analogs = 10;
+        config.operation = false;
+        config.prevent_search_future = false;
+        config.save_sims = true;
+        config.verbose = Verbose::Warning;
+        config.obs_var_index = 1;
+        config.quick_sort = false;
+        config.save_sims_day_index = true;
+        config.save_analogs_day_index = true;
+        config.max_par_nan = fcsts.getParameters().size();
+        config.max_flt_nan = fcsts.getFLTs().size();
+        config.flt_radius = 1;
 
         // Define test indices
         vector<size_t> fcsts_test_index = {0, 5, 10, 15, 19};
@@ -363,11 +363,7 @@ testAnEnIS::compareComputeLeaveOneOut_() {
         iota(fcsts_search_index.begin(), fcsts_search_index.end(), 0);
 
         // Compute analogs
-        AnEnIS anen(num_analogs, obs_var_index, num_sims, max_par_nan,
-                max_flt_nan, flt_radius, operational, prevent_search_future,
-                save_sims, save_sims_index, save_analogs_index, quick_sort,
-                verbose);
-
+        AnEnIS anen(config);
         anen.compute(fcsts, obs, fcsts_test_index, fcsts_search_index);
 
         // Copy results

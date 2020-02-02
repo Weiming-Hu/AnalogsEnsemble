@@ -13,7 +13,7 @@ using namespace std;
 
 AnEn::AnEn() {
     Config config;
-    setConfig_(config);
+    setMembers_(config);
 }
 
 AnEn::AnEn(const AnEn& orig) {
@@ -21,14 +21,13 @@ AnEn::AnEn(const AnEn& orig) {
 }
 
 AnEn::AnEn(const Config & config) {
-    setConfig_(config);
+    setMembers_(config);
 }
 
 AnEn::~AnEn() {
 }
 
 void AnEn::print(ostream & os) const {
-
     os << Config::_VERBOSE << ": " << Functions::vtoi(verbose_) << endl;
     return;
 }
@@ -49,7 +48,7 @@ AnEn::operator=(const AnEn& rhs) {
     return *this;
 }
 
-void AnEn::setConfig_(const Config & config) {
+void AnEn::setMembers_(const Config & config) {
     // Copy the needed by this class from the configuration
     verbose_ = config.verbose;
     return;

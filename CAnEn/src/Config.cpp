@@ -11,6 +11,17 @@
 #include <limits>
 #include <cmath>
 
+using namespace std;
+
+const std::string Config::_NAME = "UNDEFINED";
+const double Config::_WEIGHT = 1;
+const bool Config::_CIRCULAR = false;
+const double Config::_X = 0.0;
+const double Config::_Y = 0.0;
+const std::size_t Config::_TIME = 0;
+const std::string Config::_UNIT = "seconds";
+const std::string Config::_ORIGIN = "1970-01-01";
+
 const string Config::_NUM_ANALOGS = "num_analogs";
 const string Config::_NUM_SIMS = "num_similarity";
 const string Config::_OBS_ID = "observation_id";
@@ -26,6 +37,7 @@ const string Config::_SAVE_ANALOGS = "save_analogs";
 const string Config::_SAVE_ANALOGS_TIME_IND = "save_analogs_day_index";
 const string Config::_SAVE_SIMS = "save_similarity";
 const string Config::_SAVE_SIMS_TIME_IND = "save_similarity_day_index";
+const string Config::_SAVE_SIMS_STATION_IND = "save_similarity_station_index";
 const string Config::_QUICK = "quick";
 const string Config::_VERBOSE = "verbose";
 const string Config::_TEST_TIMES = "test_times";
@@ -50,6 +62,8 @@ Config::~Config() {
 void
 Config::reset() {
     
+    // This is the default configuration setting.
+    
     num_analogs = 1;
     num_sims = 1;
     obs_var_index = 0;
@@ -67,6 +81,7 @@ Config::reset() {
     save_analogs_day_index = false;
     save_sims = false;
     save_sims_day_index = false;
+    save_sims_station_index = false;
     verbose = Verbose::Warning;
     
     return;
@@ -88,9 +103,10 @@ Config& Config::operator=(const Config & rhs) {
         operation = rhs.operation;
         prevent_search_future = rhs.prevent_search_future;
         save_analogs = rhs.save_analogs;
+        save_analogs_day_index = rhs.save_analogs_day_index;
         save_sims = rhs.save_sims;
         save_sims_day_index = rhs.save_sims_day_index;
-        save_analogs_day_index = rhs.save_analogs_day_index;
+        save_sims_station_index = rhs.save_sims_station_index;
         quick_sort = rhs.quick_sort;
         verbose = rhs.verbose;
     }
