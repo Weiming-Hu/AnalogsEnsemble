@@ -71,7 +71,7 @@ add_subdirectory(${RAnEn_PACKAGE_DIR})
 # customize clean target #
 ##########################
 #
-set(FILES_TO_DELETE "")
+file(GLOB FILES_TO_DELETE "${RAnEn_SOURCE_DIR}/*.o")
 foreach(file_name ${REQUIRED_SOURCE_FILES})
     set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_SOURCE_DIR}/${file_name}.o")
     set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_SOURCE_DIR}/${file_name}.cpp")

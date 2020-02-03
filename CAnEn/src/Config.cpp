@@ -7,6 +7,7 @@
  */
 
 #include "Config.h"
+#include "Functions.h"
 
 #include <limits>
 #include <cmath>

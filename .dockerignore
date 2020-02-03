@@ -68,11 +68,15 @@ doxygen-output
 RAnalogs/RAnEn/src/*
 
 # But don't ignore these files
-!RAnalogs/RAnEn/src/RcppForecasts.*
-!RAnalogs/RAnEn/src/RcppObservations.*
-!RAnalogs/RAnEn/src/RcppFunctions.*
+!RAnalogs/RAnEn/src/RcppForecasts.h
+!RAnalogs/RAnEn/src/RcppForecasts.cpp
+!RAnalogs/RAnEn/src/RcppObservations.h
+!RAnalogs/RAnEn/src/RcppObservations.cpp
+!RAnalogs/RAnEn/src/RcppFunctions.h
+!RAnalogs/RAnEn/src/RcppFunctions.cpp
 !RAnalogs/RAnEn/src/RcppChecks.cpp
 !RAnalogs/RAnEn/src/RcppExports.cpp
+!RAnalogs/RAnEn/src/RcppConfig.cpp
 
 RAnalogs/RAnEn/build
 RAnalogs/RAnEn/docs
