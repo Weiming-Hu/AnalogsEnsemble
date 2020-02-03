@@ -29,7 +29,7 @@ public:
      *                          Pure Virtual Functions                        *
      **************************************************************************/
 
-   /**
+    /**
      * Returns the total number of data values as one dimension.
      * @return A value.
      */
@@ -66,7 +66,7 @@ public:
     /**************************************************************************
      *                           Member Functions                             *
      **************************************************************************/
-    
+
     virtual void print(std::ostream &) const;
     friend std::ostream& operator<<(std::ostream&, const Observations&);
 };

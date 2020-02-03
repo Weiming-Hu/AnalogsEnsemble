@@ -14,7 +14,7 @@ Observations::Observations() : BasicData() {
 
 Observations::Observations(const Parameters & parameters,
         const Stations & stations, const Times & times) :
-BasicData(parameters, stations,times) {
+BasicData(parameters, stations, times) {
 }
 
 Observations::Observations(const Observations & orig) :
