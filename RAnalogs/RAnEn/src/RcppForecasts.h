@@ -18,20 +18,22 @@ public:
     ForecastsR() = delete;
     ForecastsR(const ForecastsR& orig) = delete;
     
-    ForecastsR(SEXP sx_weights, SEXP sx_circulars,
-            SEXP sx_times, SEXP sx_flts, SEXP sx_data);
+    ForecastsR(SEXP sx_data, SEXP sx_parameters_name, SEXP sx_circulars,
+            SEXP sx_xs, SEXP sx_ys, SEXP sx_stations_name,
+            SEXP sx_times, SEXP sx_flts);
+
     virtual ~ForecastsR();
     
     void print(std::ostream &) const;
 };
 
 // Expose ForecastsR to the R side. Name the class as Forecasts.
-RCPP_MODULE(Forecasts) {
-
-    class_<ForecastsR>("Forecasts")
-        .constructor<SEXP, SEXP, SEXP, SEXP, SEXP>("create an object of class Forecasts to be used in analog generation");
-
-}
+//RCPP_MODULE(Forecasts) {
+//
+//    class_<ForecastsR>("Forecasts")
+//        .constructor<SEXP, SEXP, SEXP, SEXP, SEXP>("create an object of class Forecasts to be used in analog generation");
+//
+//}
 
 #endif /* FORECASTSR_H */
 

@@ -15,7 +15,7 @@
 using namespace Rcpp;
 using namespace boost;
 
-ObservationsR::ObservationsR(SEXP sx_times, SEXP sx_data) {
+ObservationsR::ObservationsR(SEXP sx_data, SEXP sx_names, SEXP sx_times) {
 
     // Type checks
     if (!Rf_isNumeric(sx_data)) throw std::runtime_error("Observation data should be numeric");
@@ -34,7 +34,7 @@ ObservationsR::ObservationsR(SEXP sx_times, SEXP sx_data) {
 
     try {
         // Create parameters
-        FunctionsR::createParameters(parameters_, data_dims[0]);
+        FunctionsR::toParameters(sx_names, R_NilValue, parameters_);
 
         // Create stations
         FunctionsR::createStations(stations_, data_dims[1]);
@@ -43,13 +43,20 @@ ObservationsR::ObservationsR(SEXP sx_times, SEXP sx_data) {
         FunctionsR::toTimes(sx_times, times_);
 
     } catch (std::exception & ex) {
-        std::string msg = std::string("ObservationsR -> ") + ex.what();
+        std::string msg = std::string("Observations -> ") + ex.what();
         throw std::runtime_error(msg);
+    }
+
+    if (parameters_.size() != numeric_cast<size_t>(data_dims[0])) {
+        std::ostringstream msg;
+        msg << "First dimension of array (" << data_dims[0]
+                << ") != #parameters (" << parameters_.size() << ")";
+        throw std::runtime_error(msg.str());
     }
 
     if (times_.size() != numeric_cast<size_t>(data_dims[2])) {
         std::ostringstream msg;
-        msg << "Third dimensions of observations (" << data_dims[2]
+        msg << "Third dimensions of array (" << data_dims[2]
                 << ") != #unique observation times (" << times_.size() << ")";
         throw std::runtime_error(msg.str());
     }

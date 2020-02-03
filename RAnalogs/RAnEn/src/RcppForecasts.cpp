@@ -14,9 +14,12 @@
 #include <stdexcept>
 
 using namespace boost;
+using namespace Rcpp;
 
-ForecastsR::ForecastsR(SEXP sx_weights, SEXP sx_circulars,
-        SEXP sx_times, SEXP sx_flts, SEXP sx_data) {
+ForecastsR::ForecastsR(
+        SEXP sx_data, SEXP sx_parameters_name, SEXP sx_circulars,
+        SEXP sx_xs, SEXP sx_ys, SEXP sx_stations_name,
+        SEXP sx_times, SEXP sx_flts) {
 
     // Type checks
     if (!Rf_isNumeric(sx_data)) throw std::runtime_error("Forecasts should be numeric");
@@ -36,10 +39,10 @@ ForecastsR::ForecastsR(SEXP sx_weights, SEXP sx_circulars,
     try {
 
         // Create parameters
-        FunctionsR::toParameters(sx_weights, sx_circulars, parameters_, data_dims[0]);
+        FunctionsR::toParameters(sx_parameters_name, sx_circulars, parameters_);
 
         // Create stations
-        FunctionsR::createStations(stations_, data_dims[1]);
+        FunctionsR::toStations(sx_xs, sx_ys, sx_stations_name, stations_);
 
         // Create times
         FunctionsR::toTimes(sx_times, times_);
@@ -48,20 +51,34 @@ ForecastsR::ForecastsR(SEXP sx_weights, SEXP sx_circulars,
         FunctionsR::toTimes(sx_flts, flts_);
 
     } catch (std::exception & ex) {
-        std::string msg = std::string("ForecastsR -> ") + ex.what();
+        std::string msg = std::string("Forecasts -> ") + ex.what();
         throw std::runtime_error(msg);
+    }
+
+    if (parameters_.size() != numeric_cast<size_t>(data_dims[0])) {
+        std::ostringstream msg;
+        msg << "First dimension of array (" << data_dims[0]
+                << ") != #parameters (" << parameters_.size() << ")";
+        throw std::runtime_error(msg.str());
+    }
+
+    if (stations_.size() != numeric_cast<size_t>(data_dims[1])) {
+        std::ostringstream msg;
+        msg << "Second dimension of array (" << data_dims[1]
+                << ") != #stations (" << stations_.size() << ")";
+        throw std::runtime_error(msg.str());
     }
 
     if (times_.size() != numeric_cast<size_t>(data_dims[2])) {
         std::ostringstream msg;
-        msg << "Third dimension of forecasts (" << data_dims[2]
+        msg << "Third dimension of array (" << data_dims[2]
                 << ") != #forecast times (" << times_.size() << ")";
         throw std::runtime_error(msg.str());
     }
 
     if (flts_.size() != numeric_cast<size_t>(data_dims[3])) {
         std::ostringstream msg;
-        msg << "Fourth dimension of forecasts (" << data_dims[3]
+        msg << "Fourth dimension of array (" << data_dims[3]
                 << ") != #unique flts (" << flts_.size() << ")";
         throw std::runtime_error(msg.str());
     }
@@ -90,7 +107,7 @@ ForecastsR::print(std::ostream & os) const {
             times_.size() << ", " <<
             flts_.size() << "]" << std::endl;
 
-    // Print out all parameters to display circular variables and weights
+    // Print out all parameters
     os << parameters_;
 
     return;
