@@ -122,8 +122,8 @@ void testAnEnIS::setUpCompute() {
     // Manually create 3 FLTs
     assign::push_back(flts_.left)(0, Time(0))(1, Time(50))(0, Time(100));
 
-    // Manually create 40 observation times
-    for (size_t i = 0; i < 40; ++i) {
+    // Manually create 50 observation times
+    for (size_t i = 0; i < 50; ++i) {
         obs_times_.push_back(Times::value_type(i, Time(i * 50)));
     }
 
@@ -435,7 +435,123 @@ testAnEnIS::compareComputeLeaveOneOut_() {
 
 void
 testAnEnIS::compareComputeOperational_() {
-    // TODO: missing tests
+    
+    /*
+     * Test the operation mode
+     */
+    
+    setUpCompute();
+    
+    ForecastsPointer fcsts(parameters_, stations_, fcst_times_, flts_);
+    ObservationsPointer obs(parameters_, stations_, obs_times_);
+
+    // Assign random forecast values
+    randomizeForecasts_(fcsts, 0);
+
+    // Assign random observation values
+    randomizeObservations_(obs, 0);
+    
+    /*
+     * Run the AnEnIS generation in operation
+     */
+    
+    // Create configuration
+    Config config;
+    config.quick_sort = false;
+    config.num_analogs = 3;
+    config.operation = true;
+    config.save_analogs = true;
+    config.save_analogs_day_index = true;
+    config.save_sims = true;
+    config.save_sims_day_index = true;
+    
+    // Define test and search days
+    vector<size_t> fcsts_test_index = {16, 17, 18, 19};
+    vector<size_t> fcsts_search_index(16);
+    iota(fcsts_search_index.begin(), fcsts_search_index.end(), 0);
+    cout << "AnEnIS generation in operation for tests index: "
+            << Functions::format(fcsts_test_index) << endl;
+    
+    // Run AnEnIS generation
+    AnEnIS anen(config);
+    anen.compute(fcsts, obs, fcsts_test_index, fcsts_search_index);
+
+    // Copy results
+    Array4DPointer my_analogs = anen.getAnalogsValue();
+    Array4DPointer my_analogs_index = anen.getAnalogsTimeIndex();
+    Array4DPointer my_sims = anen.getSimsValue();
+    Array4DPointer my_sims_index = anen.getSimsTimeIndex();
+
+    // Since we increase the number of analogs, the number of similarity
+    // should be increased automatically to be consistent with the number
+    // of analogs.
+    //
+    CPPUNIT_ASSERT(my_analogs.shape()[3] == my_sims.shape()[3]);
+    
+    /*
+     * For each of the test day, run AnEnIS generation manually
+     */
+    config.operation = false;
+    
+    for (size_t test_index : {16, 17, 18, 19}) {
+        cout << "Compare the operational AnEnIS with manual AnEnIS on test index " << test_index << endl;
+        
+        // Define test and search days
+        vector<size_t> fcsts_test_index_manual = {test_index};
+        vector<size_t> fcsts_search_index_manual(test_index);
+        iota(fcsts_search_index_manual.begin(), fcsts_search_index_manual.end(), 0);
+
+        // Run AnEnIS generation
+        AnEnIS anen(config);
+        anen.compute(fcsts, obs, fcsts_test_index_manual, fcsts_search_index_manual);
+
+        // Copy results
+        Array4DPointer manual_analogs = anen.getAnalogsValue();
+        Array4DPointer manual_analogs_index = anen.getAnalogsTimeIndex();
+        Array4DPointer manual_sims = anen.getSimsValue();
+        Array4DPointer manual_sims_index = anen.getSimsTimeIndex();
+        
+        // Compare the results
+        for (size_t station_i = 0; station_i < stations_.size(); ++station_i) {
+            for (size_t flt_i = 0; flt_i < flts_.size(); ++flt_i) {
+                for (size_t member_i = 0; member_i < config.num_analogs; ++member_i) {
+                    
+                    if (std::isnan(my_analogs.getValue(station_i, test_index - 16, flt_i, member_i))) {
+                        CPPUNIT_ASSERT(manual_analogs.getValue(station_i, 0, flt_i, member_i));
+                    } else {
+                        CPPUNIT_ASSERT(my_analogs.getValue(station_i, test_index - 16, flt_i, member_i) ==
+                                manual_analogs.getValue(station_i, 0, flt_i, member_i));
+                    }
+
+                    if (std::isnan(my_analogs_index.getValue(station_i, test_index - 16, flt_i, member_i))) {
+                        CPPUNIT_ASSERT(manual_analogs_index.getValue(station_i, 0, flt_i, member_i));
+                    } else {
+                        CPPUNIT_ASSERT(my_analogs_index.getValue(station_i, test_index - 16, flt_i, member_i) ==
+                                manual_analogs_index.getValue(station_i, 0, flt_i, member_i));
+                    }
+
+                    if (std::isnan(my_sims.getValue(station_i, test_index - 16, flt_i, member_i))) {
+                        CPPUNIT_ASSERT(manual_sims.getValue(station_i, 0, flt_i, member_i));
+                    } else {
+                        CPPUNIT_ASSERT(my_sims.getValue(station_i, test_index - 16, flt_i, member_i) ==
+                                manual_sims.getValue(station_i, 0, flt_i, member_i));
+                    }
+
+                    if (std::isnan(my_sims_index.getValue(station_i, test_index - 16, flt_i, member_i))) {
+                        CPPUNIT_ASSERT(manual_sims_index.getValue(station_i, 0, flt_i, member_i));
+                    } else {
+                        CPPUNIT_ASSERT(my_sims_index.getValue(station_i, test_index - 16, flt_i, member_i) ==
+                                manual_sims_index.getValue(station_i, 0, flt_i, member_i));
+                    }
+                    
+                }
+            }
+        }
+    }
+    
+    tearDownCompute();
+    
+    return;
 }
 
 void

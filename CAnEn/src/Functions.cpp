@@ -65,7 +65,7 @@ Functions::setSearchStations(const Stations & stations, Matrix & table, double d
 
             distances_sq[search_i].first =
                     pow(test.getX() - search.getX(), 2) +
-                    pow(test.getX() - search.getX(), 2);
+                    pow(test.getY() - search.getY(), 2);
             distances_sq[search_i].second = search_i;
         }
 
@@ -74,13 +74,14 @@ Functions::setSearchStations(const Stations & stations, Matrix & table, double d
                 [](const pair<double, size_t> & lhs, const pair<double, size_t> & rhs) {
                     return lhs.first < rhs.first;
                 });
-
+                
         // Copy neighbor stations index to the output table
         size_t current_pos = 0;
 
-        for (size_t neighbor_i = 0; neighbor_i < num_neighbors; ++neighbor_i, ++current_pos) {
+        for (size_t neighbor_i = 0; neighbor_i < num_neighbors; ++neighbor_i) {
             if (distances_sq[neighbor_i].first > distance) continue;
             table(test_i, current_pos) = distances_sq[neighbor_i].second;
+            ++current_pos;
         }
     }
 

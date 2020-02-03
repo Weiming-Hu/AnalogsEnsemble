@@ -97,13 +97,20 @@ firstprivate(sims_arr)
                 fill_n(sims_arr.begin(), sims_arr.size(), _INIT_ARR_VALUE);
 
                 /*
+                 * This variable keeps track of where in the similarity array should
+                 * we write the metric and indices.
+                 */
+                size_t search_entry_i = 0;
+
+                /*
                  * Compute similarity for all search times and all search stations
                  */
                 for (size_t search_time_i = 0; search_time_i < num_search_times_index; ++search_time_i) {
-                    for (size_t search_station_i = 0; search_station_i < num_nearest_; ++search_station_i) {
+                    size_t current_search_index = fcsts_search_index[search_time_i];
 
-                        size_t current_search_index = fcsts_search_index[search_time_i];
-                        size_t current_search_station_index = search_stations_index_(station_i, search_station_i);
+                    for (size_t search_station_i = 0; search_station_i < num_nearest_; ++search_station_i) {
+                        double current_search_station_index = search_stations_index_(station_i, search_station_i);
+                        if (std::isnan(current_search_station_index)) continue;
 
                         size_t current_obs_station_index;
                         if (extend_obs_) current_obs_station_index = current_search_station_index;
@@ -150,15 +157,18 @@ firstprivate(sims_arr)
                                 weights, circulars);
 
                         // Save the similarity metric with corresponding indices
-                        sims_arr[search_time_i][_SIM_VALUE_INDEX] = metric;
-                        sims_arr[search_time_i][_SIM_FCST_TIME_INDEX] = current_search_index;
-                        sims_arr[search_time_i][_SIM_OBS_TIME_INDEX] = obs_time_index;
+                        sims_arr[search_entry_i][_SIM_VALUE_INDEX] = metric;
+                        sims_arr[search_entry_i][_SIM_FCST_TIME_INDEX] = current_search_index;
+                        sims_arr[search_entry_i][_SIM_OBS_TIME_INDEX] = obs_time_index;
 
                         // Note that no matter observations are extended or not, this
                         // index to be saved should be the one from the extended search
                         // station because this index corresponds to the similarity metric.
                         //
-                        sims_arr[search_time_i][_SIM_STATION_INDEX] = current_search_station_index;
+                        sims_arr[search_entry_i][_SIM_STATION_INDEX] = current_search_station_index;
+                        
+                        // Increment the index of the location to write similarity
+                        ++search_entry_i;
                     }
                 }
 
@@ -190,6 +200,9 @@ firstprivate(sims_arr)
 
 const Array4DPointer &
 AnEnSSE::getSimsStationIndex() const {
+    if (!save_sims_station_index_) throw runtime_error(
+            "Similarity stations index array is not saved. Please change your configuration");
+    
     return sims_station_index_;
 }
 
@@ -211,11 +224,12 @@ AnEnSSE::print(ostream & os) const {
             << Config::_SAVE_SIMS_STATION_IND << ": " << save_sims_station_index_ << endl;
     
     if (verbose_ >= Verbose::Debug) {
-        os << "similarity station index array dimensions: ["
-                << Functions::format(sims_station_index_.shape(), 4)
-                << "]" << endl << "search stations index table dimensions: ["
+        os << "search stations index table dimensions: ["
                 << search_stations_index_.size1() << ","
                 << search_stations_index_.size2() << "]" << endl;
+        
+        if (save_sims_station_index_) os << "similarity station index array dimensions: ["
+                << Functions::format(sims_station_index_.shape(), 4) << "]" << endl;
     }
     
     return;
@@ -255,7 +269,13 @@ AnEnSSE::preprocess_(const Forecasts & forecasts,
     // Find search stations for each test stations
     if (verbose_ >= Verbose::Progress) cout << "Computing search stations ..." << endl;
     const Stations & stations = forecasts.getStations();
-    search_stations_index_.resize(stations.size(), num_nearest_, NAN);
+    search_stations_index_.resize(stations.size(), num_nearest_);
+    
+    // Initialize the values to NAN
+    auto & storage = search_stations_index_.data();
+    fill_n(storage.begin(), storage.size(), NAN);
+    
+    // Set search stations for each test stations
     Functions::setSearchStations(stations, search_stations_index_, distance_);
 
     return;
@@ -314,7 +334,7 @@ AnEnSSE::checkSave_() const {
 void
 AnEnSSE::checkNumberOfMembers_(std::size_t num_search_times_index) {
 
-    if (num_sims_ >= num_search_times_index * num_nearest_) {
+    if (num_sims_ > num_search_times_index * num_nearest_) {
         num_sims_ = num_search_times_index * num_nearest_;
 
         if (verbose_ >= Verbose::Warning) {
@@ -323,7 +343,7 @@ AnEnSSE::checkNumberOfMembers_(std::size_t num_search_times_index) {
         }
     }
 
-    if (num_analogs_ >= num_search_times_index * num_nearest_) {
+    if (num_analogs_ > num_search_times_index * num_nearest_) {
         num_analogs_ = num_search_times_index * num_nearest_;
 
         if (verbose_ >= Verbose::Warning) {

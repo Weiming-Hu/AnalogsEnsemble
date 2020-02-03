@@ -5,8 +5,9 @@
  * Created on Jun 29, 2018, 5:37:58 PM
  */
 
-#include "testObservationsArray.h"
-#include "ObservationsArray.h"
+#include "testObservationsPointer.h"
+#include "ObservationsPointer.h"
+#include "Functions.h"
 
 #include <iostream>
 #include <ctime>
@@ -20,15 +21,15 @@ using namespace std;
 using namespace boost::bimaps;
 using namespace boost;
 
-CPPUNIT_TEST_SUITE_REGISTRATION(testObservationsArray);
+CPPUNIT_TEST_SUITE_REGISTRATION(testObservationsPointer);
 
-testObservationsArray::testObservationsArray() {
+testObservationsPointer::testObservationsPointer() {
 }
 
-testObservationsArray::~testObservationsArray() {
+testObservationsPointer::~testObservationsPointer() {
 }
 
-void testObservationsArray::testObservationValueSequence_() {
+void testObservationsPointer::testObservationValueSequence_() {
 
     /**
      * Test the sequence of values stored in the Observation data type.
@@ -55,7 +56,7 @@ void testObservationsArray::testObservationValueSequence_() {
     vector<double> values(parameters.size() * stations.size() * times.size());
     iota(values.begin(), values.end(), 0);
 
-    ObservationsArray observations(parameters, stations, times);
+    ObservationsPointer observations(parameters, stations, times);
 
     double *ptr = observations.getValuesPtr();
     memcpy(ptr, values.data(), values.size() * sizeof (double));

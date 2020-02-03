@@ -1,12 +1,12 @@
 /*
- * File:   testForecastsArray.cpp
+ * File:   testForecastsPointer.cpp
  * Author: Weiming Hu <weiming@psu.edu>
  *
  * Created on Jul 1, 2018, 10:47:47 AM
  */
 
-#include "testForecastsArray.h"
-#include "ForecastsArray.h"
+#include "testForecastsPointer.h"
+#include "ForecastsPointer.h"
 
 #include <numeric>
 #include <boost/assign/list_of.hpp>
@@ -16,15 +16,15 @@ using namespace std;
 using namespace boost::bimaps;
 using namespace boost;
 
-CPPUNIT_TEST_SUITE_REGISTRATION(testForecastsArray);
+CPPUNIT_TEST_SUITE_REGISTRATION(testForecastsPointer);
 
-testForecastsArray::testForecastsArray() {
+testForecastsPointer::testForecastsPointer() {
 }
 
-testForecastsArray::~testForecastsArray() {
+testForecastsPointer::~testForecastsPointer() {
 }
 
-void testForecastsArray::testForecastSetVectorValues_() {
+void testForecastsPointer::testForecastSetVectorValues_() {
 
     /**
      * Test the sequence of values stored in the Forecast data type.
@@ -56,7 +56,7 @@ void testForecastsArray::testForecastSetVectorValues_() {
             times.size() * flts.size());
     iota(values.begin(), values.end(), 0);
 
-    ForecastsArray forecasts(parameters, stations, times, flts);
+    ForecastsPointer forecasts(parameters, stations, times, flts);
     double *ptr = forecasts.getValuesPtr();
     memcpy(ptr, values.data(), values.size() * sizeof(double));
 

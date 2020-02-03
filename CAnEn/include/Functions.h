@@ -14,6 +14,7 @@
 #include "Stations.h"
 #include "boost/multi_array.hpp"
 #include "boost/numeric/ublas/matrix.hpp"
+#include "boost/numeric/ublas/io.hpp"
 
 #include <vector>
 #include <string>
@@ -26,7 +27,24 @@ namespace Functions {
 
     template <typename T, std::size_t NDims>
     using array_view = boost::detail::multi_array::multi_array_view<T, NDims>;
-    using Matrix = boost::numeric::ublas::matrix<double, boost::numeric::ublas::column_major>;
+    
+    /**
+     * The Matrix type is from boost uBLAS matrix.
+     * 
+     * It is a double matrix because it needs to be ablt to hold NAN.
+     * 
+     * Its internal storage is in column major because it is easier to be
+     * converted to an R structure and for file I/O with file formats like NetCDF. 
+     * 
+     * The storage type is std::vector because the default storage type,
+     * unbounded_array, does not model sequence operators. Using vectors will
+     * make it easier for value initialization. Some basic profiling has shown
+     * that the creation will be slightly slower, but the indexing will be 
+     * slightly faster when std::vector is used.
+     * 
+     */
+    using Matrix = boost::numeric::ublas::matrix<
+            double, boost::numeric::ublas::column_major, std::vector<double> >;
 
     void setSearchStations(const Stations &, Matrix & table, double);
 

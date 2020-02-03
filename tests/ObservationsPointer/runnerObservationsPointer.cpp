@@ -1,8 +1,8 @@
 /* 
- * File:   runnerForecastsArray.cpp
+ * File:   runnerObservationsPointer.cpp
  * Author: Weiming Hu <weiming@psu.edu>
  * 
- * Created on Jul 1, 2018, 10:47:48 AM
+ * Created on Jun 29, 2018, 5:37:58 PM
  */
 
 // CppUnit site http://sourceforge.net/projects/cppunit/files
@@ -18,7 +18,7 @@
 #include <cppunit/TestFailure.h>
 #include <cppunit/portability/Stream.h>
 
-#include "testForecastsArray.h"
+#include "testObservationsPointer.h"
 
 class ProgressListener : public CPPUNIT_NS::TestListener {
 public:
@@ -74,7 +74,7 @@ int main() {
 
     // Add the top suite to the test runner
     CPPUNIT_NS::TestRunner runner;
-    runner.addTest(testForecastsArray::suite());
+    runner.addTest(testObservationsPointer::suite());
     runner.run(controller);
 
     // Print test in a compiler compatible format.

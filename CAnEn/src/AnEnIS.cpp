@@ -227,21 +227,32 @@ AnEnIS::getSds() const {
 
 const Array4DPointer &
 AnEnIS::getSimsValue() const {
+    if (!save_sims_) throw runtime_error(
+            "Similarity array is not saved. Please change your configuration");
     return sims_metric_;
 }
 
 const Array4DPointer &
 AnEnIS::getSimsTimeIndex() const {
+    if (!save_sims_time_index_) throw runtime_error(
+            "Similarity times index array is not saved. Please change your configuration");
+
     return sims_time_index_;
 }
 
 const Array4DPointer &
 AnEnIS::getAnalogsValue() const {
+    if (!save_analogs_) throw runtime_error(
+            "Analog array is not saved. Please change your configuration");
+
     return analogs_value_;
 }
 
 const Array4DPointer &
 AnEnIS::getAnalogsTimeIndex() const {
+    if (!save_analogs_time_index_) throw runtime_error(
+            "Analog times index array is not saved. Please change your configuration");
+
     return analogs_time_index_;
 }
 
@@ -258,31 +269,35 @@ AnEnIS::print(ostream & os) const {
     os << Config::_NUM_ANALOGS << ": " << num_analogs_ << endl
             << Config::_NUM_SIMS << ": " << num_sims_ << endl
             << Config::_OBS_ID << ": " << obs_var_index_ << endl
-            << Config::_NUM_PAR_NA << max_par_nan_ << endl
-            << Config::_NUM_FLT_NA << max_flt_nan_ << endl
-            << Config::_FLT_RADIUS << flt_radius_ << endl
+            << Config::_NUM_PAR_NA << ": " << max_par_nan_ << endl
+            << Config::_NUM_FLT_NA << ": " << max_flt_nan_ << endl
+            << Config::_FLT_RADIUS << ": " << flt_radius_ << endl
             << Config::_SAVE_ANALOGS << ": " << save_analogs_ << endl
-            << Config::_SAVE_ANALOGS_TIME_IND << save_analogs_time_index_ << endl
+            << Config::_SAVE_ANALOGS_TIME_IND << ": " << save_analogs_time_index_ << endl
             << Config::_SAVE_SIMS << ": " << save_sims_ << endl
-            << Config::_SAVE_SIMS_TIME_IND << save_sims_time_index_ << endl
+            << Config::_SAVE_SIMS_TIME_IND << ": " << save_sims_time_index_ << endl
             << Config::_OPERATION << ": " << operation_ << endl
-            << Config::_QUICK << quick_sort_ << endl
+            << Config::_QUICK << ": " << quick_sort_ << endl
             << Config::_PREVENT_SEARCH_FUTURE << ": " << prevent_search_future_ << endl;
 
     if (verbose_ >= Verbose::Debug) {
         os << "standard deviation array dimensions: ["
-                << Functions::format(sds_.shape(), 4)
-                << "]" << endl << "similarity metric array dimensions: ["
-                << Functions::format(sims_metric_.shape(), 4)
-                << "]" << endl << "similarity time index array dimensions: ["
-                << Functions::format(sims_time_index_.shape(), 4)
-                << "]" << endl << "analogs arary dimensions: ["
-                << Functions::format(analogs_value_.shape(), 4)
-                << "]" << endl << "analogs time index array dimensions: ["
-                << Functions::format(analogs_time_index_.shape(), 4)
-                << "]" << endl << "observations time index table dimensions: ["
+                << Functions::format(sds_.shape(), 4) << "]" << endl;
+        os << "observations time index table dimensions: ["
                 << obs_time_index_table_.size1() << ","
                 << obs_time_index_table_.size2() << "]" << endl;
+
+        if (save_sims_) os << "similarity metric array dimensions: ["
+                << Functions::format(sims_metric_.shape(), 4) << "]" << endl;
+
+        if (save_sims_time_index_) os << "similarity time index array dimensions: ["
+                << Functions::format(sims_time_index_.shape(), 4) << "]" << endl;
+
+        if (save_analogs_) os << "analogs arary dimensions: ["
+                << Functions::format(analogs_value_.shape(), 4) << "]" << endl;
+
+        if (save_analogs_time_index_) os << "analogs time index array dimensions: ["
+                << Functions::format(analogs_time_index_.shape(), 4) << "]" << endl;
     }
 
     return;
@@ -405,7 +420,7 @@ AnEnIS::allocate_memory_(const Forecasts & forecasts,
         sims_time_index_.resize(num_stations, num_test_times_index, num_flts, num_sims_);
         sims_time_index_.initialize(NAN);
     }
-    
+
     return;
 }
 
@@ -673,25 +688,24 @@ AnEnIS::checkSave_() const {
 
 void
 AnEnIS::checkNumberOfMembers_(size_t num_search_times_index) {
-    
-    if (num_sims_ >= num_search_times_index) {
+
+    if (num_sims_ > num_search_times_index) {
         num_sims_ = num_search_times_index;
-        
+
         if (verbose_ >= Verbose::Warning) {
             cerr << "Warning: The number of similarity has been changed to "
                     << num_sims_ << " due to the too short search period." << endl;
         }
     }
-    
-    if (num_analogs_ >= num_search_times_index) {
+
+    if (num_analogs_ > num_search_times_index) {
         num_analogs_ = num_search_times_index;
-        
+
         if (verbose_ >= Verbose::Warning) {
             cerr << "Warning: The number of analogs has been changed to "
                     << num_analogs_ << " due to the too short search period." << endl;
         }
     }
-    
+
     return;
 }
-    

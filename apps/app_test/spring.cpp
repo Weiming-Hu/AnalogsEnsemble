@@ -22,64 +22,34 @@
 using namespace std;
 
 int main() {
+
+    using namespace boost::numeric::ublas;
     
-    size_t num_stations = 1000;
-    
+    double val = 500;
+    size_t size = 10000;
 
     clock_t start = clock();
-    map<size_t, Station> myStations;
-    
-    for (size_t i = 0; i < num_stations; ++i) {
-        Station station(i, i);
-        myStations.insert(make_pair(i, station));
-    }
+    matrix<double, column_major, std::vector<double> > mat_vec(size, size);
+    clock_t vec_create = clock();
 
-    clock_t map_insert = clock();
+    for (size_t i = 0; i < size; ++i)
+        for (size_t j = 0; j < size; ++j)
+            mat_vec(i, j) = val;
+    clock_t vec_index = clock();
 
-    double x;
-    for (size_t i = 0; i < num_stations; ++i) {
-        x = myStations.find(i)->second.getX();
-    }
+    matrix<double, column_major> mat_arr(size, size);
+    clock_t arr_create = clock();
 
-    clock_t map_index = clock();
+    for (size_t i = 0; i < size; ++i)
+        for (size_t j = 0; j < size; ++j)
+            mat_arr(i, j) = val;
+    clock_t arr_index = clock();
 
-    for (size_t i = 0; i < num_stations; ++i) {
-        Station station(i, i);
-        auto it = find_if(myStations.begin(), myStations.end(), [&station] (const pair<size_t, Station> &p) { return p.second == station; });
-    }
-    
-    clock_t map_find = clock();
-    
-    Stations stations;
 
-    for (size_t i = 0; i < num_stations; ++i) {
-        Station station(i, i);
-        stations.push_back(Stations::value_type(i, station));
-    }
-
-    clock_t stations_insert = clock();
-
-    for (size_t i = 0; i < num_stations; ++i) {
-        x = stations.getStation(i).getX();
-    }
-
-    clock_t station_index = clock();
-
-    for (size_t i = 0; i < num_stations; ++i) {
-        Station station(i, i);
-        size_t index = stations.getIndex(station);
-    }
-
-    clock_t station_find = clock();
-       
-    std::cout << "Map build: " << (map_insert - start) / (double) (CLOCKS_PER_SEC / 1000) << " ms" << std::endl;
-    std::cout << "Map index: " << (map_index - map_insert) / (double) (CLOCKS_PER_SEC / 1000) << " ms" << std::endl;
-    std::cout << "Map find: " << (map_find - map_index) / (double) (CLOCKS_PER_SEC / 1000) << " ms" << std::endl;
-
-    std::cout << "Bi-map build: " << (stations_insert - map_find) / (double) (CLOCKS_PER_SEC / 1000) << " ms" << std::endl;
-    std::cout << "Bi-map index: " << (station_index - stations_insert) / (double) (CLOCKS_PER_SEC / 1000) << " ms" << std::endl;
-    std::cout << "Bi-map find: " << (station_find - station_index) / (double) (CLOCKS_PER_SEC / 1000) << " ms" << std::endl;
-
+    std::cout << "vec create: " << (vec_create - start) / (double) (CLOCKS_PER_SEC / 1000) << " ms" << std::endl;
+    std::cout << "vec index: " << (vec_index - vec_create) / (double) (CLOCKS_PER_SEC / 1000) << " ms" << std::endl;
+    std::cout << "arr create: " << (arr_create - vec_index) / (double) (CLOCKS_PER_SEC / 1000) << " ms" << std::endl;
+    std::cout << "arr index: " << (arr_index - arr_create) / (double) (CLOCKS_PER_SEC / 1000) << " ms" << std::endl;
 
     return 0;
 }

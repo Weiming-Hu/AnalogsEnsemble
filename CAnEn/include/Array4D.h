@@ -37,7 +37,7 @@ public:
     virtual double getValue(std::size_t, std::size_t, std::size_t, std::size_t) const = 0;
     virtual void setValue(double val, std::size_t, std::size_t, std::size_t, std::size_t) = 0;
 
-    virtual void print(std::ostream &) const = 0;  
+    virtual void print(std::ostream &) const = 0;
 };
 
 #endif /* ARRAY4D_H */

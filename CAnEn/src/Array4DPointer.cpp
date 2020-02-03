@@ -104,7 +104,8 @@ Array4DPointer::allocateMemory_() {
 
 void
 Array4DPointer::print(std::ostream & os) const {
-    os << "[Array4D] size: " << num_elements() << std::endl;
+    os << "[Array4D] shape [" << dims_[0] << "," << dims_[1] << ","
+            << dims_[2] << "," << dims_[3] << "]" << std::endl;
 
     for (size_t l = 0; l < dims_[0]; ++l) {
         for (size_t m = 0; m < dims_[1]; ++m) {

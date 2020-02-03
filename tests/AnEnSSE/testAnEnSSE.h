@@ -8,16 +8,12 @@
 #ifndef TESTANEN_H
 #define TESTANEN_H
 
-#include "AnEnSSE.h"
-#include "Forecasts.h"
-#include "Observations.h"
-
 #include <cppunit/extensions/HelperMacros.h>
 
-class testAnEnSSE : public CPPUNIT_NS::TestFixture, public AnEnSSE {
+class testAnEnSSE : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST_SUITE(testAnEnSSE);
 
-    //CPPUNIT_TEST(compareComputeOperational_);
+    CPPUNIT_TEST(testCompute_);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -26,8 +22,7 @@ public:
     virtual ~testAnEnSSE();
 
 private:
-    
-    ///// TODO Working on AnEnSSE test !!!
+    void testCompute_();
 };
 
 #endif /* TESTANEN_H */

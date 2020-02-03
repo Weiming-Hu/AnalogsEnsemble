@@ -118,7 +118,8 @@ void
 ObservationsPointer::print(std::ostream & os) const {
     Observations::print(os);
 
-    os << "[Data] size: " << num_elements() << std::endl;
+    os << "[Data] shape [" << dims_[_DIM_PARAMETER] << "," << dims_[_DIM_STATION]
+            << "," << dims_[_DIM_TIME] << "]"<< std::endl;
 
     for (size_t m = 0; m < dims_[_DIM_PARAMETER]; ++m) {
         cout << "[" << m << ",,]" << endl;

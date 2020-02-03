@@ -9,19 +9,12 @@
 #define TESTFUNCTIONS_H
 
 #include <cppunit/extensions/HelperMacros.h>
-
-// I cannot pass argument through command lines therefore I have to 
-// use macro definitions to tell where the files are and then 
-// the program can correctly read them.
-//
-#ifndef _PATH_OBSERVATIONS 
-#define _PATH_OBSERVATIONS "tests/test_observations.nc"
-#define _PATH_FORECASTS "tests/test_forecasts.nc"
-#endif
+#include "Functions.h"
 
 class testFunctions : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST_SUITE(testFunctions);
 
+    CPPUNIT_TEST(testSearchStations_);
     CPPUNIT_TEST(testComputeObservationTimeIndices1_);
     CPPUNIT_TEST(testComputeObservationTimeIndices2_);
     CPPUNIT_TEST(testConvertToIndex_);
@@ -42,6 +35,7 @@ public:
 
 private:
 
+    void testSearchStations_();
     void testComputeObservationTimeIndices1_();
     void testComputeObservationTimeIndices2_();
     void testConvertToIndex_();
@@ -49,6 +43,8 @@ private:
     void testSdLinear_();
     void testMean_();
     
+    bool neighborExists_(const Functions::Matrix & table,
+            size_t test_index, size_t neighbor_index) const;
 };
 
 #endif /* TESTFUNCTIONS_H */
