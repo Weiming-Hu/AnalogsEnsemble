@@ -13,7 +13,6 @@
 #include <sstream>
 #include <stdexcept>
 
-using namespace Rcpp;
 using namespace boost;
 
 ForecastsR::ForecastsR(SEXP sx_weights, SEXP sx_circulars,
@@ -100,4 +99,9 @@ ForecastsR::print(std::ostream & os) const {
 std::ostream & operator<<(std::ostream & os, const ForecastsR & obj) {
     obj.print(os);
     return os;
+}
+
+void
+ForecastsR::Forecasts_print() const {
+    print(Rcout);
 }
