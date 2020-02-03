@@ -67,8 +67,6 @@ dependency
 doxygen-output
 release
 
-RAnalogs/RAnEn/src/*
-RAnalogs/RAnEn/.Rhistory
 RAnalogs/RAnEn/config.log
 RAnalogs/RAnEn/config.status
 RAnalogs/RAnEn/LICENSE.txt
@@ -78,6 +76,16 @@ RAnalogs/RAnEn/docs
 RAnalogs/RAnEn/README*
 RAnalogs/RAnEn/NEWS.md
 RAnalogs/releases/RAnEn/
+
+# Ignore the folder
+RAnalogs/RAnEn/src/*
+
+# But don't ignore these files
+!RAnalogs/RAnEn/src/RcppForecasts.*
+!RAnalogs/RAnEn/src/RcppObservations.*
+!RAnalogs/RAnEn/src/RcppFunctions.*
+!RAnalogs/RAnEn/src/RcppChecks.cpp
+!RAnalogs/RAnEn/src/RcppExports.cpp
 
 # From the base theme and jekyll ignore
 # Ignore docs files
