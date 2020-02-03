@@ -43,9 +43,9 @@ string(TIMESTAMP LIBRARY_CONFIGURE_TIMESTAMP "%Y-%m-%d_%H:%M")
 configure_file("${RAnEn_PACKAGE_DIR}/DESCRIPTION.in" "${RAnEn_PACKAGE_DIR}/DESCRIPTION")
 
 # copy files
-set(REQUIRED_SOURCE_FILES "BasicData;ForecastsPointer;Array4DPointer;ObservationsPointer;Forecasts;Observations;Parameters;Stations;Times;AnEn;AnEnIS;Calculator")
-set(REQUIRED_TEMPLATE_FILES "Functions")
-set(REQUIRED_HEADER_ONLY_FILES "AnEnDefaults;BmDim;ConfigNames")
+set(REQUIRED_SOURCE_FILES "AnEn;Array4DPointer;BasicData;Calculator;Config;Forecasts;ForecastsPointer;Observations;ObservationsPointer;Parameters;Stations;Times")
+set(REQUIRED_TEMPLATE_FILES "AnEnIS;AnEnSSE;Functions")
+set(REQUIRED_HEADER_ONLY_FILES "BmDim;Array4D")
 
 foreach(file_name ${REQUIRED_SOURCE_FILES})
     file(COPY "${RAnEn_EXTRA_INCLUDE_DIR}/${file_name}.h" DESTINATION ${RAnEn_SOURCE_DIR})
