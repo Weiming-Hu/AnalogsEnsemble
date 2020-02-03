@@ -85,6 +85,8 @@ protected:
     bool operation_;
     bool quick_sort_;
     bool prevent_search_future_;
+    
+    std::vector<double> weights_;
 
     /**
      * The standard deviation array has the following dimensions
@@ -141,7 +143,7 @@ protected:
     virtual double computeSimMetric_(const Forecasts & forecasts,
             std::size_t sta_search_i, std::size_t sta_test_i,
             std::size_t flt_i, std::size_t time_test_i, std::size_t time_search_i,
-            const std::vector<double> & weights, const std::vector<bool> & circulars);
+            const std::vector<bool> & circulars);
 
     virtual void computeSds_(const Forecasts & forecasts,
             const std::vector<std::size_t> & times_fixed_index,

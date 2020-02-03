@@ -24,8 +24,8 @@ testParameters::~testParameters() {
 }
 
 void testParameters::testCreation_() {
-    Parameter p1, p2("temperature"), p3("Direction", 0.6),
-            p4("wind direction", 0.05, true);
+    Parameter p1, p2("temperature"), p3("Direction"),
+            p4("wind direction", true);
     Parameters parameters;
     assign::push_back(parameters.left)(0, p1)(1, p2)(2, p3)(3, p4);
     cout << parameters;
@@ -35,16 +35,10 @@ void testParameters::testCreation_() {
     CPPUNIT_ASSERT(!parameters.left[1].second.getCircular());
     CPPUNIT_ASSERT(!parameters.left[2].second.getCircular());
     CPPUNIT_ASSERT(parameters.left[3].second.getCircular());
-
-    // Test weight
-    CPPUNIT_ASSERT(parameters.left[0].second.getWeight() == 1);
-    CPPUNIT_ASSERT(parameters.left[1].second.getWeight() == 1);
-    CPPUNIT_ASSERT(parameters.left[2].second.getWeight() == 0.6);
-    CPPUNIT_ASSERT(parameters.left[3].second.getWeight() == 0.05);
 }
 
 void testParameters::testUnique_() {
-    Parameter p1, p2, p3("Direction", 0.6), p4("Direction", 0.1, true), p5;
+    Parameter p1, p2, p3("Direction"), p4("Direction", true), p5;
     p5.setCircular(true);
     Parameters parameters;
     assign::push_back(parameters.left)(0, p1)(1, p2)(2, p3)(3, p4)(4, p5);

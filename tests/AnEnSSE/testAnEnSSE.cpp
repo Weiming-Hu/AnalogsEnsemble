@@ -46,9 +46,8 @@ testAnEnSSE::testCompute_() {
     // Manually create 5 parameters
     assign::push_back(parameters.left)
             (0, Parameter("par_1")) // Linear parameter
-            (1, Parameter("par_2", 0)) // Parameter with 0 weight
-            (2, Parameter("par_3", 0.1, true)); // Circular parameter
-
+            (1, Parameter("par_2")) // Parameter that will be assigned with 0 weight
+            (2, Parameter("par_3", true)); // Circular parameter
 
     // Manually create 9 stations
     assign::push_back(stations.left)
@@ -113,6 +112,7 @@ testAnEnSSE::testCompute_() {
     config.save_sims_station_index = true;
     config.save_analogs = true;
     config.save_analogs_day_index = true;
+    config.weights = {1, 0, 1};
 
     // Define test indices
     vector<size_t> fcsts_test_index = {19};

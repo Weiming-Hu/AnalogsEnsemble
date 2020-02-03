@@ -27,13 +27,11 @@ using namespace std;
  *                              Parameter                                  *
  **************************************************************************/
 
-Parameter::Parameter() : name_(Config::_NAME),
-weight_(Config::_WEIGHT),
-circular_(Config::_CIRCULAR) {
+Parameter::Parameter() : name_(Config::_NAME), circular_(Config::_CIRCULAR) {
 }
 
-Parameter::Parameter(string name, double weight, bool circular) :
-name_(name), weight_(weight), circular_(circular) {
+Parameter::Parameter(string name, bool circular) :
+name_(name), circular_(circular) {
 }
 
 Parameter::Parameter(const Parameter& rhs) {
@@ -48,7 +46,6 @@ Parameter &
 
     if (this != &rhs) {
         name_ = rhs.getName();
-        weight_ = rhs.getWeight();
         circular_ = rhs.getCircular();
     }
 
@@ -58,8 +55,6 @@ Parameter &
 bool
 Parameter::operator==(const Parameter& rhs) const {
     if (name_ != rhs.getName()) return false;
-    if (weight_ != rhs.getWeight()) return false;
-    if (circular_ != rhs.getCircular()) return false;
 
     return true;
 }
@@ -75,11 +70,6 @@ Parameter::setName(string name) {
 }
 
 void
-Parameter::setWeight(double weight) {
-    weight_ = weight;
-}
-
-void
 Parameter::setCircular(bool circular) {
     circular_ = circular;
 }
@@ -87,11 +77,6 @@ Parameter::setCircular(bool circular) {
 string
 Parameter::getName() const {
     return name_;
-}
-
-double
-Parameter::getWeight() const {
-    return weight_;
 }
 
 bool
@@ -102,7 +87,7 @@ Parameter::getCircular() const {
 void
 Parameter::print(ostream &os) const {
     os << "[Parameter] Name: " << name_
-            << ", weight: " << weight_ << ", circular: " << circular_
+            << ", circular: " << circular_
             << endl;
 }
 
@@ -136,15 +121,6 @@ Parameters::getIndex(const Parameter & parameter) const {
 const Parameter &
 Parameters::getParameter(size_t index) const {
     return this->left[index].second;
-}
-
-void
-Parameters::getWeights(std::vector<double> & weights) const {
-    weights.resize(size());
-    for (size_t i = 0; i < size(); ++i) {
-        weights[i] = this->left[i].second.getWeight();
-    }
-    return;
 }
 
 void

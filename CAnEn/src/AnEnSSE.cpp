@@ -46,15 +46,10 @@ AnEnSSE::compute(const Forecasts & forecasts,
     preprocess_(forecasts, observations, fcsts_test_index, fcsts_search_index);
 
     /*
-     * Read weights and circular flags from forecast parameters into vectors
+     * Read circular flags from forecast parameters into vectors
      */
-    const auto & parameters = forecasts.getParameters();
-
-    vector<double> weights;
     vector<bool> circulars;
-
-    parameters.getWeights(weights);
-    parameters.getCirculars(circulars);
+    forecasts.getParameters().getCirculars(circulars);
 
     size_t num_stations = forecasts.getStations().size();
     size_t num_flts = forecasts.getFLTs().size();
@@ -80,7 +75,7 @@ AnEnSSE::compute(const Forecasts & forecasts,
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(dynamic) collapse(3) \
 shared(num_stations, num_flts, num_test_times_index, num_search_times_index, \
-fcsts_test_index, fcsts_search_index, forecasts, observations, weights, circulars) \
+fcsts_test_index, fcsts_search_index, forecasts, observations, circulars) \
 firstprivate(sims_arr)
 #endif
     for (size_t station_i = 0; station_i < num_stations; ++station_i) {
@@ -147,14 +142,13 @@ firstprivate(sims_arr)
                          *                                                         *
                          **********************************************************/
 
-                        // Weights and circulars can be directly retrieved from
-                        // forecasts. But for better performance, weights and circulars
+                        // Circulars can be directly retrieved from
+                        // forecasts. But for better performance, circulars
                         // are pre-computed and passed.
                         //
                         double metric = computeSimMetric_(
                                 forecasts, station_i, current_search_station_index,
-                                flt_i, current_test_index, current_search_index,
-                                weights, circulars);
+                                flt_i, current_test_index, current_search_index, circulars);
 
                         // Save the similarity metric with corresponding indices
                         sims_arr[search_entry_i][_SIM_VALUE_INDEX] = metric;

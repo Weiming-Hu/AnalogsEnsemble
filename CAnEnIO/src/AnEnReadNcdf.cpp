@@ -218,7 +218,6 @@ AnEnReadNcdf::read_(const NcFile & nc, Parameters & parameters,
 
     size_t dim_len = nc.getDim(DIM_PARS).getSize();
     vector<string> names, circulars;
-    vector<double> weights;
 
     if (!entire) checkIndex(start, count, dim_len);
 
@@ -235,18 +234,6 @@ AnEnReadNcdf::read_(const NcFile & nc, Parameters & parameters,
             throw runtime_error(msg.str());
         }
     }
-
-    if (varExists(nc, VAR_PARWEIGHTS)) {
-        if (entire) readVector(nc, VAR_PARWEIGHTS, weights);
-        else readVector(nc, VAR_PARWEIGHTS, weights, {start}, {count});
-        
-        if (names.size() != weights.size() && 0 != weights.size()) {
-            ostringstream msg;
-            msg << "#" << VAR_PARWEIGHTS << " (" << weights.size() <<
-                    ") should be either undefined or " << names.size();
-            throw runtime_error(msg.str());
-        }
-    }
     
     // Convert vectors to the dimension class
     for (size_t dim_i = size_ori, i = 0; i < names.size(); ++i, ++dim_i) {
@@ -257,9 +244,6 @@ AnEnReadNcdf::read_(const NcFile & nc, Parameters & parameters,
         // Set circular if the parameter is found in the list
         const auto & it = find(circulars.begin(), circulars.end(), names[i]);
         if (it != circulars.end()) parameter.setCircular(true);
-        
-        // Set its weight if it is provided
-        if (!(weights.empty())) parameter.setWeight(weights.at(i));
         
         // Push the parameter to the dimension class with an index
         parameters.push_back(Parameters::value_type(dim_i, parameter));

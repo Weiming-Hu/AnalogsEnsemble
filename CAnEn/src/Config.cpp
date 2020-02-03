@@ -13,12 +13,11 @@
 
 using namespace std;
 
-const std::string Config::_NAME = "UNDEFINED";
-const double Config::_WEIGHT = 1;
 const bool Config::_CIRCULAR = false;
 const double Config::_X = 0.0;
 const double Config::_Y = 0.0;
 const std::size_t Config::_TIME = 0;
+const std::string Config::_NAME = "UNDEFINED";
 const std::string Config::_UNIT = "seconds";
 const std::string Config::_ORIGIN = "1970-01-01";
 
@@ -50,6 +49,7 @@ const string Config::_ANALOGS_TIME_IND = "analogs_time_index";
 const string Config::_SIMS = "similarity";
 const string Config::_SIMS_TIME_IND = "similarity_time_index";
 const string Config::_SIMS_STATION_IND = "station_index";
+const string Config::_WEIGHTS = "weights";
 
 Config::Config() {
     reset();
@@ -91,31 +91,4 @@ Config::reset() {
     verbose = Verbose::Warning;
     
     return;
-}
-
-Config& Config::operator=(const Config & rhs) {
-
-    if (this != &rhs) {
-        num_analogs = rhs.num_analogs;
-        num_sims = rhs.num_sims;
-        obs_var_index = rhs.obs_var_index;
-        max_par_nan = rhs.max_par_nan;
-        max_flt_nan = rhs.max_flt_nan;
-        flt_radius = rhs.flt_radius;
-        num_nearest = rhs.num_nearest;
-        extend_obs = rhs.extend_obs;
-        preview_count = rhs.preview_count;
-        distance = rhs.distance;
-        operation = rhs.operation;
-        prevent_search_future = rhs.prevent_search_future;
-        save_analogs = rhs.save_analogs;
-        save_analogs_day_index = rhs.save_analogs_day_index;
-        save_sims = rhs.save_sims;
-        save_sims_day_index = rhs.save_sims_day_index;
-        save_sims_station_index = rhs.save_sims_station_index;
-        quick_sort = rhs.quick_sort;
-        verbose = rhs.verbose;
-    }
-
-    return *this;
 }

@@ -10,6 +10,7 @@
 #define CONFIG_H
 
 #include <string>
+#include <vector>
 
 /**
  * A higher level will contain all messages from the lower levels. For
@@ -31,7 +32,6 @@ public:
     virtual ~Config();
 
     void reset();
-    Config & operator=(const Config &);
 
     /*************************************************************************
      *                      Configurable Parameters                          *
@@ -48,6 +48,8 @@ public:
     std::size_t preview_count;
 
     double distance;
+    
+    std::vector<double> weights;
 
     bool operation;
     bool prevent_search_future;
@@ -70,7 +72,6 @@ public:
     // configure the default values for Parameters, Times and Stations.
     //
     static const std::string _NAME;
-    static const double _WEIGHT;
     static const bool _CIRCULAR;
     static const double _X;
     static const double _Y;
@@ -107,6 +108,7 @@ public:
     static const std::string _VERBOSE;
     static const std::string _TEST_TIMES;
     static const std::string _SEARCH_TIMES;
+    static const std::string _WEIGHTS;
 
     // Output member names
     static const std::string _ANALOGS;

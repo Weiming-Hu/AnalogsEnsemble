@@ -47,7 +47,6 @@ namespace AnEnNames {
     static const std::string VAR_STD = "StandardDeviation";
     static const std::string VAR_PARNAMES = "ParameterNames";
     static const std::string VAR_CIRCULARS = "ParameterCirculars";
-    static const std::string VAR_PARWEIGHTS = "ParameterWeights";
     static const std::string VAR_XS = "Xs";
     static const std::string VAR_YS = "Ys";
     static const std::string VAR_STATIONNAMES = "StationNames";

@@ -41,9 +41,7 @@ void testObservationsPointer::testObservationValueSequence_() {
     Stations stations;
     assign::push_back(stations.left)(0, s1)(1, s2)(2, s3)(3, s4)(4, s5)(5, s6);
 
-    Parameter p1, p2("temperature", 0.6), p3("humidity", 0.3),
-            p4("wind direction", 0.05, true);
-    p1.setWeight(0.05);
+    Parameter p1, p2("temperature"), p3("humidity"), p4("wind direction", true);
 
     Parameters parameters;
     assign::push_back(parameters.left)(0, p1)(1, p2)(2, p3)(3, p4);

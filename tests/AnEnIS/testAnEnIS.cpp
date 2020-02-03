@@ -66,9 +66,11 @@ void testAnEnIS::setUpSds() {
     // Manually create 3 parameters
     assign::push_back(parameters_.left)
             (0, Parameter("par_1")) // Linear parameter
-            (1, Parameter("par_2", 0)) // Parameter with 0 weight
-            (2, Parameter("par_3", 0.5, true)); // Circular parameter
+            (1, Parameter("par_2")) // Parameter that will be assigned with 0 weight
+            (2, Parameter("par_3", true)); // Circular parameter
 
+    weights_ = {1, 0, 1};
+    
     // Manually create 2 stations
     assign::push_back(stations_.left)
             (0, Station(50, 20))
@@ -105,9 +107,10 @@ void testAnEnIS::setUpCompute() {
     // Manually create 5 parameters
     assign::push_back(parameters_.left)
             (0, Parameter("par_1")) // Linear parameter
-            (1, Parameter("par_2", 0)) // Parameter with 0 weight
-            (2, Parameter("par_3", 0.1, true)); // Circular parameter
-
+            (1, Parameter("par_2")) // Parameter with 0 weight
+            (2, Parameter("par_3", true)); // Circular parameter
+    
+    weights_ = {1, 0, 1};
 
     // Manually create 2 stations
     assign::push_back(stations_.left)

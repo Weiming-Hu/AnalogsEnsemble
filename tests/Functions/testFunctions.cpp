@@ -219,12 +219,12 @@ testFunctions::testConvertToIndex_() {
     Parameters parameters;
     assign::push_back(parameters.left)
             (0, Parameter())
-            (1, Parameter("par_1", 0.3))
+            (1, Parameter("par_1"))
             (1, Parameter("par_1"))
             (2, Parameter("par_2"))
-            (2, Parameter("par_2", 0.2, true));
+            (2, Parameter("par_2", true));
 
-    Parameter p0, p1("par_1", 0.3), p2("par_2");
+    Parameter p0, p1("par_1"), p2("par_2");
     Parameters query;
     assign::push_back(query.left)(0, p0)(1, p1)(2, p2);
 

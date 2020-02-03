@@ -17,8 +17,7 @@
 /**
  * \class Parameter
  * 
- * \brief Parameter stores parameter information including name, weight, and
- * circular.
+ * \brief Parameter stores parameter information including name and circular.
  */
 class Parameter final {
 public:
@@ -34,11 +33,9 @@ public:
     /**
      * Initialize parameter.
      * @param name Parameter name.
-     * @param weight Parameter weight.
      * @param circular Whether parameter is circular.
      */
     Parameter(std::string name,
-            double weight = Config::_WEIGHT,
             bool circular = Config::_CIRCULAR);
 
 
@@ -57,11 +54,9 @@ public:
     bool operator<(const Parameter& right) const;
 
     void setName(std::string);
-    void setWeight(double);
     void setCircular(bool);
 
     std::string getName() const;
-    double getWeight() const;
     bool getCircular() const;
 
     void print(std::ostream &) const;
@@ -69,7 +64,6 @@ public:
 
 private:
     std::string name_;
-    double weight_;
     bool circular_;
 };
 
@@ -93,7 +87,6 @@ public:
     std::size_t getIndex(const Parameter &) const;
     const Parameter & getParameter(std::size_t index) const;
     
-    void getWeights(std::vector<double> & weights) const;
     void getCirculars(std::vector<bool> & circulars) const;
 
     void print(std::ostream &) const;

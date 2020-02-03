@@ -95,15 +95,10 @@ AnEnIS::compute(const Forecasts & forecasts,
     preprocess_(forecasts, observations, fcsts_test_index, fcsts_search_index);
 
     /*
-     * Read weights and circular flags from forecast parameters into vectors
+     * Read circular flags from forecast parameters into vectors
      */
-    const auto & parameters = forecasts.getParameters();
-
-    vector<double> weights;
     vector<bool> circulars;
-
-    parameters.getWeights(weights);
-    parameters.getCirculars(circulars);
+    forecasts.getParameters().getCirculars(circulars);
 
     size_t num_stations = forecasts.getStations().size();
     size_t num_flts = forecasts.getFLTs().size();
@@ -129,7 +124,7 @@ AnEnIS::compute(const Forecasts & forecasts,
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(dynamic) collapse(3) \
 shared(num_stations, num_flts, num_test_times_index, num_search_times_index, \
-fcsts_test_index, fcsts_search_index, forecasts, observations, weights, circulars) \
+fcsts_test_index, fcsts_search_index, forecasts, observations, circulars) \
 firstprivate(sims_arr)
 #endif
     for (size_t station_i = 0; station_i < num_stations; ++station_i) {
@@ -182,13 +177,13 @@ firstprivate(sims_arr)
                      *                                                         *
                      **********************************************************/
 
-                    // Weights and circulars can be directly retrieved from
-                    // forecasts. But for better performance, weights and circulars
+                    // Circulars can be directly retrieved from
+                    // forecasts. But for better performance, circulars
                     // are pre-computed and passed.
                     //
                     double metric = computeSimMetric_(
                             forecasts, station_i, station_i, flt_i, current_test_index,
-                            current_search_index, weights, circulars);
+                            current_search_index, circulars);
 
                     // Save the similarity metric with corresponding indices
                     sims_arr[search_time_i][_SIM_VALUE_INDEX] = metric;
@@ -278,7 +273,8 @@ AnEnIS::print(ostream & os) const {
             << Config::_SAVE_SIMS_TIME_IND << ": " << save_sims_time_index_ << endl
             << Config::_OPERATION << ": " << operation_ << endl
             << Config::_QUICK << ": " << quick_sort_ << endl
-            << Config::_PREVENT_SEARCH_FUTURE << ": " << prevent_search_future_ << endl;
+            << Config::_PREVENT_SEARCH_FUTURE << ": " << prevent_search_future_ << endl
+            << Config::_WEIGHTS << ": " << Functions::format(weights_) << endl;
 
     if (verbose_ >= Verbose::Debug) {
         os << "standard deviation array dimensions: ["
@@ -346,6 +342,13 @@ AnEnIS::preprocess_(const Forecasts & forecasts,
     checkIndexRange_(forecasts, fcsts_test_index, fcsts_search_index);
     checkConsistency_(forecasts, observations);
     checkSave_();
+    
+    /*
+     * Adjust weights if they are not initialized
+     */
+    size_t num_parameters = forecasts.getParameters().size();
+    if (weights_.empty()) weights_.resize(num_parameters, 1);
+    else if (weights_.size() != num_parameters) throw runtime_error("Incorrect number of weights");
 
     /*
      * Compute standard deviations
@@ -448,6 +451,7 @@ AnEnIS::setMembers_(const Config & config) {
     operation_ = config.operation;
     quick_sort_ = config.quick_sort;
     prevent_search_future_ = config.prevent_search_future;
+    weights_ = config.weights;
 
     return;
 }
@@ -477,7 +481,7 @@ double
 AnEnIS::computeSimMetric_(const Forecasts & forecasts,
         size_t sta_search_i, size_t sta_test_i,
         size_t flt_i, size_t time_test_i, size_t time_search_i,
-        const vector<double> & weights, const vector<bool> & circulars) {
+        const vector<bool> & circulars) {
 
     /*
      * Prepare for similarity metric calculation
@@ -496,7 +500,7 @@ AnEnIS::computeSimMetric_(const Forecasts & forecasts,
     for (size_t parameter_i = 0; parameter_i < num_parameters; parameter_i++) {
 
         // Skip the iteration if the weight is 0
-        if (weights[parameter_i] == 0) continue;
+        if (weights_[parameter_i] == 0) continue;
 
         // Get standard deviation for this parameter
         if (operation_) {
@@ -531,7 +535,7 @@ AnEnIS::computeSimMetric_(const Forecasts & forecasts,
             if (count_par_nan > max_par_nan_) return NAN;
         } else {
 
-            sim += weights[parameter_i] * (sqrt(average) / sd);
+            sim += weights_[parameter_i] * (sqrt(average) / sd);
         }
 
     } // End loop of parameters
@@ -559,10 +563,7 @@ AnEnIS::computeSds_(const Forecasts & forecasts,
         setSdsTimeMap_(times_accum_index);
     }
 
-    vector<double> weights;
     vector<bool> circulars;
-
-    forecasts.getParameters().getWeights(weights);
     forecasts.getParameters().getCirculars(circulars);
 
     // Pre-allocate memory for calculation
@@ -572,14 +573,14 @@ AnEnIS::computeSds_(const Forecasts & forecasts,
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(dynamic) collapse(3) \
 shared(num_parameters, num_stations, num_flts, forecasts, times_fixed_index, \
-times_accum_index, weights, circulars, num_times, calculator_capacity)
+times_accum_index, circulars, num_times, calculator_capacity)
 #endif
     for (size_t par_i = 0; par_i < num_parameters; ++par_i) {
         for (size_t sta_i = 0; sta_i < num_stations; ++sta_i) {
             for (size_t flt_i = 0; flt_i < num_flts; ++flt_i) {
 
                 // Skip the iteration if the weight is 0
-                if (weights[par_i] == 0) continue;
+                if (weights_[par_i] == 0) continue;
 
                 // Initialize a calculator
                 Calculator calc(circulars[par_i], calculator_capacity);
