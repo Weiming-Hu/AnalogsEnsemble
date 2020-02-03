@@ -15,23 +15,12 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// validateConfiguration
-void validateConfiguration(const SEXP& sx_config);
-RcppExport SEXP _RAnEn_validateConfiguration(SEXP sx_configSEXP) {
-BEGIN_RCPP
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const SEXP& >::type sx_config(sx_configSEXP);
-    validateConfiguration(sx_config);
-    return R_NilValue;
-END_RCPP
-}
 
-RcppExport SEXP _rcpp_module_boot_Forecasts();
+RcppExport SEXP _rcpp_module_boot_Config();
 
 static const R_CallMethodDef CallEntries[] = {
     {"_RAnEn_checkOpenMP", (DL_FUNC) &_RAnEn_checkOpenMP, 0},
-    {"_RAnEn_validateConfiguration", (DL_FUNC) &_RAnEn_validateConfiguration, 1},
-    {"_rcpp_module_boot_Forecasts", (DL_FUNC) &_rcpp_module_boot_Forecasts, 0},
+    {"_rcpp_module_boot_Config", (DL_FUNC) &_rcpp_module_boot_Config, 0},
     {NULL, NULL, 0}
 };
 

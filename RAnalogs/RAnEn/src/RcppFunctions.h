@@ -1,6 +1,6 @@
 /* 
- * File:   FunctionsR.h
- * Author: Weiming Hu <cervone@psu.edu>
+ * File:   RcppFunctions.h
+ * Author: Weiming Hu <weiming@psu.edu>
  *
  * Created on January 22, 2020, 3:53 PM
  */
@@ -14,6 +14,8 @@
 #include "AnEnIS.h"
 
 #include <Rcpp.h>
+
+// [[Rcpp::plugins(cpp11)]]
 
 namespace FunctionsR {
     void createParameters(Parameters & parameters, size_t total);

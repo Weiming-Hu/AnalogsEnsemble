@@ -8,7 +8,7 @@
 #         Geoinformatics and Earth Observation Laboratory (http://geolab.psu.edu)
 #         Department of Geography and Institute for CyberScience
 #         The Pennsylvania State University
-Rcpp::loadModule(module = "Forecasts", TRUE)
+Rcpp::loadModule(module = "Config", TRUE)
 
 .onLoad <- function(lib, pkg) {
 	version <- read.dcf(file.path(lib, pkg, "DESCRIPTION"), "Version")

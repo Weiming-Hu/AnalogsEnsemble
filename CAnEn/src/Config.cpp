@@ -63,6 +63,44 @@ Config::~Config() {
 }
 
 void
+Config::print(std::ostream & os) {
+    os << "Configuration details:" << endl
+        << "num_analogs: " << num_analogs << endl
+        << "num_sims: " << num_sims << endl
+        << "obs_var_index: " << obs_var_index << endl
+        << "quick_sort: " << (quick_sort ? "true" : "false") << endl
+        << "max_par_nan: " << max_par_nan << endl
+        << "max_flt_nan: " << max_flt_nan << endl
+        << "flt_radius: " << flt_radius << endl
+        << "num_nearest: " << num_nearest << endl
+        << "extend_obs: " << (extend_obs ? "true" : "false") << endl
+        << "distance: " << distance << endl
+        << "operation: " << (operation ? "true" : "false") << endl
+        << "prevent_search_future: " << (prevent_search_future ? "true" : "false") << endl
+        << "save_analogs: " << (save_analogs ? "true" : "false") << endl
+        << "save_analogs_day_index: " << (save_analogs_day_index ? "true" : "false") << endl
+        << "save_sims: " << (save_sims ? "true" : "false") << endl
+        << "save_sims_day_index: " << (save_sims_day_index ? "true" : "false") << endl
+        << "save_sims_station_index: " << (save_sims_station_index ? "true" : "false") << endl
+        << "save_sds: " << (save_sds ? "true" : "false") << endl
+        << "save_obs_time_index_table: " << (save_obs_time_index_table ? "true" : "false") << endl
+        << "save_search_stations_index: " << (save_search_stations_index ? "true" : "false") << endl
+        << "verbose: " << Functions::vtoi(verbose) << endl;
+    return;
+}
+
+int
+Config::getVerbose() {
+    return Functions::vtoi(verbose);
+}
+
+void
+Config::setVerbose(int i) {
+    verbose = Functions::itov(i);
+    return;
+}
+
+void
 Config::reset() {
     
     // This is the default configuration setting.
@@ -76,7 +114,6 @@ Config::reset() {
     flt_radius = 1;
     num_nearest = 1;
     extend_obs = true;
-    preview_count = 5;
     distance = NAN;
     operation = false;
     prevent_search_future = true;

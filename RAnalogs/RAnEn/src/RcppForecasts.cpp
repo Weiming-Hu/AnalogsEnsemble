@@ -1,12 +1,12 @@
 /* 
- * File:   ForecastsR.cpp
- * Author: Weiming Hu <cervone@psu.edu>
+ * File:   RcppForecasts.cpp
+ * Author: Weiming Hu <weiming@psu.edu>
  * 
  * Created on January 21, 2020, 3:36 PM
  */
 
-#include "ForecastsR.h"
-#include "FunctionsR.h"
+#include "RcppForecasts.h"
+#include "RcppFunctions.h"
 #include "Functions.h"
 #include "boost/numeric/conversion/cast.hpp"
 
@@ -18,8 +18,7 @@ using namespace Rcpp;
 
 ForecastsR::ForecastsR(
         SEXP sx_data, SEXP sx_parameters_name, SEXP sx_circulars,
-        SEXP sx_xs, SEXP sx_ys, SEXP sx_stations_name,
-        SEXP sx_times, SEXP sx_flts) {
+        SEXP sx_xs, SEXP sx_ys, SEXP sx_stations_name, SEXP sx_times, SEXP sx_flts) {
 
     // Type checks
     if (!Rf_isNumeric(sx_data)) throw std::runtime_error("Forecasts should be numeric");
@@ -99,16 +98,16 @@ ForecastsR::~ForecastsR() {
 }
 
 void
-ForecastsR::print(std::ostream & os) const {
+ForecastsR::show() const {
 
-    os << "[Forecasts] size: [" <<
+    Rcout << "[Forecasts] size: [" <<
             parameters_.size() << ", " <<
             stations_.size() << ", " <<
             times_.size() << ", " <<
             flts_.size() << "]" << std::endl;
 
     // Print out all parameters
-    os << parameters_;
+    Rcout << parameters_;
 
     return;
 }

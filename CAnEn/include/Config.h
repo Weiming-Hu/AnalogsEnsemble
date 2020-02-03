@@ -11,6 +11,7 @@
 
 #include <string>
 #include <vector>
+#include <iostream>
 
 /**
  * A higher level will contain all messages from the lower levels. For
@@ -25,11 +26,17 @@ enum class Verbose {
     Debug = 4
 };
 
+//' @export
 class Config {
 public:
     Config();
     Config(const Config& orig);
     virtual ~Config();
+    
+    void print(std::ostream & os);
+    
+    int getVerbose();
+    void setVerbose(int);
 
     void reset();
 
@@ -45,7 +52,6 @@ public:
     std::size_t flt_radius;
     std::size_t num_nearest;
     std::size_t extend_obs;
-    std::size_t preview_count;
 
     double distance;
     

@@ -6,8 +6,3 @@ checkOpenMP <- function() {
     .Call(`_RAnEn_checkOpenMP`)
 }
 
-#' @export
-validateConfiguration <- function(sx_config) {
-    invisible(.Call(`_RAnEn_validateConfiguration`, sx_config))
-}
-

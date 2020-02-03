@@ -1,12 +1,12 @@
 /* 
- * File:   ObservationsR.cpp
- * Author: Weiming Hu <cervone@psu.edu>
+ * File:   RcppObservations.cpp
+ * Author: Weiming Hu <weiming@psu.edu>
  * 
  * Created on January 21, 2020, 3:37 PM
  */
 
-#include "ObservationsR.h"
-#include "FunctionsR.h"
+#include "RcppObservations.h"
+#include "RcppFunctions.h"
 #include "boost/numeric/conversion/cast.hpp"
 
 #include <sstream>

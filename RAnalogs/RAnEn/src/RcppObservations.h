@@ -1,6 +1,6 @@
 /* 
- * File:   ObservationsR.h
- * Author: Weiming Hu <cervone@psu.edu>
+ * File:   RcppObservations.h
+ * Author: Weiming Hu <weiming@psu.edu>
  *
  * Created on January 21, 2020, 3:37 PM
  */

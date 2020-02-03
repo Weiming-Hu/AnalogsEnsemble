@@ -20,16 +20,6 @@ reference:
           - starts_with("generate")
           - schaakeShuffle
 
-    - title: Verification
-      desc: Functions for verification.
-      contents:
-          - starts_with("verify")
-
-    - title: Visualization
-      desc: Functions for visualization of observations, forecasts, analogs, and more.
-      contents:
-          - starts_with("plot")
-    
     - title: File I/O
       desc: Functions for reading and writing.
       contents:
@@ -42,14 +32,10 @@ reference:
           - RAnEn-package
           - checkOpenMP
           - starts_with("print")
-          - showVerificationMetrics
 
     - title : Helpers
       desc: Helper function to ease our lives.
       contents:
           - alignObservations
           - starts_with("format")
-          - starts_with("subset")
-          - getConfigNames
           - toDateTime
-          - validateConfiguration

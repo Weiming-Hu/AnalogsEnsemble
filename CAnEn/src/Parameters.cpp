@@ -87,7 +87,7 @@ Parameter::getCircular() const {
 void
 Parameter::print(ostream &os) const {
     os << "[Parameter] Name: " << name_
-            << ", circular: " << circular_
+            << ", circular: " << (circular_ ? "Yes" : "No")
             << endl;
 }
 

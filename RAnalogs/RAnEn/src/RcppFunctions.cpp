@@ -1,11 +1,11 @@
 /* 
- * File:   FunctionsR.cpp
- * Author: Weiming Hu <cervone@psu.edu>
+ * File:   RcppFunctions.cpp
+ * Author: Weiming Hu <weiming@psu.edu>
  *
  * Created on January 22, 2020, 3:53 PM
  */
 
-#include "FunctionsR.h"
+#include "RcppFunctions.h"
 #include "boost/numeric/conversion/cast.hpp"
 
 #include <sstream>
@@ -53,13 +53,13 @@ void
 FunctionsR::toParameters(const SEXP & sx_names, const SEXP & sx_circulars, Parameters & parameters) {
 
     // Type check
-    if (!Rf_isNumeric(sx_names)) throw std::runtime_error("Parameter names should be numeric");
+    if (!Rf_isString(sx_names)) throw std::runtime_error("Parameter names should be strings");
     if (!Rf_isNumeric(sx_circulars)) throw std::runtime_error("Circulars should be numeric");
 
     // Create pointer wrapper
     IntegerVector circulars = sx_circulars;
-    CharacterVector names = sx_names;
-
+    StringVector names = sx_names;
+    
     // Clean parameters
     parameters.clear();
 
@@ -67,8 +67,8 @@ FunctionsR::toParameters(const SEXP & sx_names, const SEXP & sx_circulars, Param
     const auto & it_end = circulars.end();
     auto num_parameters = names.size();
 
-    for (size_t i = 0; i < num_parameters; ++i) {
-        Parameter parameter(names[i]);
+    for (R_xlen_t i = 0; i < num_parameters; ++i) {
+        Parameter parameter(as<std::string>(names(i)));
 
         // NOTICE the increment on the index to convert C index to R index
         auto it = std::find(it_begin, it_end, i + 1);
@@ -83,37 +83,39 @@ FunctionsR::toParameters(const SEXP & sx_names, const SEXP & sx_circulars, Param
 void
 FunctionsR::toStations(const SEXP & sx_xs, const SEXP & sx_ys, const SEXP & sx_names, Stations & stations) {
 
+    bool has_name = false;
+    if (Rf_isString(sx_names)) has_name = true;
+   
     if (!Rf_isNumeric(sx_xs)) throw std::runtime_error("Xs should be numeric");
     if (!Rf_isNumeric(sx_ys)) throw std::runtime_error("Ys should be numeric");
-
-    bool has_name = false;
-    if (Rf_isCharacter(sx_names)) has_names = true;
 
     // Create pointer wrapper
     NumericVector xs = sx_xs;
     NumericVector ys = sx_ys;
-    CharacterVector names = sx_names;
+    
+    StringVector names;
+    if (has_name) names = sx_names;
 
     if (ys.size() != xs.size()) {
-        throw std::runtime_error("The number of x does not match the number of y")
+        throw std::runtime_error("The number of x does not match the number of y");
     }
 
     if (has_name) {
         if (names.size() != xs.size()) {
-            throw std::runtime_error("The number of stations names does not match the number of coordinates.")
+            throw std::runtime_error("The number of stations names does not match the number of coordinates.");
         }
     }
 
     // Clean stations
-    stations.clean();
+    stations.clear();
 
     auto num_stations = xs.size();
-    std::string name = Config::_NAME:
+    std::string name = Config::_NAME;
 
-    for (size_t i = 0; i < num_stations; ++i) {
+    for (R_xlen_t i = 0; i < num_stations; ++i) {
 
         if (has_name) {
-            name = names[i];
+            name = names(i);
         }
 
         Station station(xs[i], ys[i], name);

@@ -9,7 +9,7 @@
 // [[Rcpp::plugins(openmp)]]
 
 #include <Rcpp.h>
-#include "FunctionsR.h"
+#include "RcppFunctions.h"
 
 using namespace Rcpp;
 
