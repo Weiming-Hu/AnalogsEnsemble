@@ -13,7 +13,14 @@
 
 using vector3 = size_t[3];
 
-class ObservationsPointer : public Observations {
+/**
+ * \class ObservationsPointer
+ * 
+ * \brief ObservationsPointer is an implementation of the abstract class
+ * Observations. The underlying storage uses a pointer which is optimized 
+ * for performance.
+ */
+class ObservationsPointer : virtual public Observations {
 public:
     ObservationsPointer();
     ObservationsPointer(const ObservationsPointer& orig);

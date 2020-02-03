@@ -15,37 +15,21 @@ const size_t ForecastsPointer::_DIM_STATION = 1;
 const size_t ForecastsPointer::_DIM_TIME = 2;
 const size_t ForecastsPointer::_DIM_FLT = 3;
 
-ForecastsPointer::ForecastsPointer() {
+ForecastsPointer::ForecastsPointer() : Forecasts(), Array4DPointer() {
 }
 
 ForecastsPointer::ForecastsPointer(const ForecastsPointer& orig) :
-Forecasts(orig) {
-    data_ = orig.data_;
+Forecasts(orig), Array4DPointer(orig) {
 }
 
 ForecastsPointer::ForecastsPointer(
         const Parameters & parameters, const Stations & stations,
         const Times & times, const Times & flts) :
-Forecasts(parameters, stations, times, flts) {
-    data_.resize(parameters_.size(), stations_.size(), times_.size(), flts_.size());
+Forecasts(parameters, stations, times, flts),
+Array4DPointer(parameters.size(), stations.size(), times.size(), flts.size()) {
 }
 
 ForecastsPointer::~ForecastsPointer() {
-}
-
-size_t
-ForecastsPointer::num_elements() const {
-    return data_.num_elements();
-}
-
-const double*
-ForecastsPointer::getValuesPtr() const {
-    return data_.getValuesPtr();
-}
-
-double*
-ForecastsPointer::getValuesPtr() {
-    return data_.getValuesPtr();
 }
 
 void
@@ -60,21 +44,7 @@ ForecastsPointer::setDimensions(
     flts_ = flts;
 
     // Allocate data
-    data_.resize(parameters_.size(), stations_.size(), times_.size(), flts_.size());
-    return;
-}
-
-double
-ForecastsPointer::getValue(
-        size_t parameter_index, size_t station_index,
-        size_t time_index, size_t flt_index) const {
-    return data_.getValue(parameter_index, station_index, time_index, flt_index);
-}
-
-void ForecastsPointer::setValue(double val,
-        size_t parameter_index, size_t station_index,
-        size_t time_index, size_t flt_index) {
-    data_.setValue(val, parameter_index, station_index, time_index, flt_index);
+    resize(parameters_.size(), stations_.size(), times_.size(), flts_.size());
     return;
 }
 
@@ -82,21 +52,21 @@ void
 ForecastsPointer::print(std::ostream & os) const {
     Forecasts::print(os);
     
-    const size_t* dims = data_.shape();
+//    const size_t* dims = shape();
 
-    os << "[Data] size: " << data_.num_elements() << std::endl;
+    os << "[Data] size: " << num_elements() << std::endl;
 
-    for (size_t l = 0; l < dims[_DIM_PARAMETER]; ++l) {
-        for (size_t m = 0; m < dims[_DIM_STATION]; ++m) {
+    for (size_t l = 0; l < dims_[_DIM_PARAMETER]; ++l) {
+        for (size_t m = 0; m < dims_[_DIM_STATION]; ++m) {
             cout << "[" << l << "," << m << ",,]" << endl;
 
-            for (size_t p = 0; p < dims[_DIM_FLT]; ++p) os << "\t[,,," << p << "]";
+            for (size_t p = 0; p < dims_[_DIM_FLT]; ++p) os << "\t[,,," << p << "]";
             os << endl;
 
-            for (size_t o = 0; o < dims[_DIM_TIME]; ++o) {
+            for (size_t o = 0; o < dims_[_DIM_TIME]; ++o) {
                 os << "[,," << o << ",]\t";
 
-                for (size_t p = 0; p < dims[_DIM_FLT]; ++p) {
+                for (size_t p = 0; p < dims_[_DIM_FLT]; ++p) {
                     os << getValue(l, m, o, p) << "\t";
                 }
 

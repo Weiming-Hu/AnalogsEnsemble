@@ -78,7 +78,7 @@ testAnEnSSE::testCompute_() {
     // Create forecasts and observations
     ForecastsPointer fcsts(parameters, stations, fcst_times, flts);
     ObservationsPointer obs(parameters, stations, obs_times);
-
+    
     // Randomize forecasts
     for (size_t par_i = 0; par_i < fcsts.getParameters().size(); ++par_i) {
         for (size_t time_i = 0; time_i < fcsts.getTimes().size(); ++time_i) {

@@ -15,12 +15,12 @@ using namespace std;
 
 const double Array4DPointer::_DEFAULT_VALUE = NAN;
 
-Array4DPointer::Array4DPointer() {
+Array4DPointer::Array4DPointer() : Array4D() {
     data_ = nullptr;
     allocated_ = false;
 }
 
-Array4DPointer::Array4DPointer(const Array4DPointer& rhs) {
+Array4DPointer::Array4DPointer(const Array4DPointer& rhs) : Array4D(rhs) {
     *this = rhs;
 }
 

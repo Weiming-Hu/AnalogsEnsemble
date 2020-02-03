@@ -12,25 +12,18 @@
 #include "Stations.h"
 #include "Times.h"
 
+/**
+ * \class BasicData
+ * 
+ * \brief BasicData is an implementation of the data structure used by Analog
+ * Ensemble. It includes parameters, stations, and times.
+ */
 class BasicData {
 public:
     BasicData();
     BasicData(const Parameters &, const Stations &, const Times &);
     BasicData(const BasicData& orig);
     virtual ~BasicData();
-
-    /**************************************************************************
-     *                          Pure Virtual Functions                        *
-     **************************************************************************/
-    
-    virtual std::size_t num_elements() const = 0;
-    
-    virtual double * getValuesPtr() = 0;
-    virtual const double* getValuesPtr() const = 0;
-    
-    /**************************************************************************
-     *                           Member Functions                             *
-     **************************************************************************/
 
     const Parameters & getParameters() const;
     const Stations & getStations() const;
@@ -43,6 +36,9 @@ public:
     std::size_t getTimeStamp(std::size_t index) const;
     std::size_t getTimeIndex(std::size_t timestamp) const;
     std::size_t getTimeIndex(const Time &) const;
+    
+    virtual void print(std::ostream &) const;
+    friend std::ostream& operator<<(std::ostream&, BasicData const &);
     
 protected:
     Parameters parameters_;

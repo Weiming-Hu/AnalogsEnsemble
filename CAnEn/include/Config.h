@@ -56,6 +56,9 @@ public:
     bool save_sims;
     bool save_sims_day_index;
     bool save_sims_station_index;
+    bool save_sds;
+    bool save_obs_time_index_table;
+    bool save_search_stations_index;
     bool quick_sort;
 
     Verbose verbose;
@@ -97,6 +100,9 @@ public:
     static const std::string _SAVE_SIMS;
     static const std::string _SAVE_SIMS_TIME_IND;
     static const std::string _SAVE_SIMS_STATION_IND;
+    static const std::string _SAVE_SDS;
+    static const std::string _SAVE_OBS_TIME_IND_TABLE;
+    static const std::string _SAVE_SEARCH_STATIONS_IND;
     static const std::string _QUICK;
     static const std::string _VERBOSE;
     static const std::string _TEST_TIMES;

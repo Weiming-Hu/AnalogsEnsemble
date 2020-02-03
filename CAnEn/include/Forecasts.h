@@ -10,14 +10,17 @@
 #define FORECASTS_H
 
 #include "BasicData.h"
+#include "Array4D.h"
 
 /**
  * \class Forecasts
  * 
- * \brief Forecasts class provides interface for reading and writing forecast
- * data from and to a NetCDF file.
+ * \brief Forecasts is an abstract class that extends BasicData and the abstract
+ * class Array4D. It defines the interface of how to interact with the underlying
+ * data storage through the abstract class Array4D. This interface is accepted
+ * by the Analog Ensemble algorithm.
  */
-class Forecasts : public BasicData {
+class Forecasts : virtual public Array4D, public BasicData {
 public:
     Forecasts();
     Forecasts(Forecasts const & orig);
@@ -31,19 +34,6 @@ public:
      **************************************************************************/
     
     /**
-     * Returns the total number of data values as one dimension.
-     * @return A value.
-     */
-    virtual std::size_t num_elements() const override = 0;
-
-    /**
-     * Gets a double pointer to the start of the values.
-     * @return A double pointer.
-     */
-    virtual const double* getValuesPtr() const override = 0;
-    virtual double * getValuesPtr() override = 0;
-
-    /**
      * Sets the dimensions of forecasts and allocates memory for data values.
      * @param parameters The Parameters container.
      * @param stations The Stations container.
@@ -53,21 +43,6 @@ public:
     virtual void setDimensions(const Parameters & parameters,
             const Stations & stations, const Times & times,
             const Times & flts) = 0;
-
-    /**
-     * Gets or sets a value using the array indices.
-     * @param parameter_index Parameter index.
-     * @param station_index Station index.
-     * @param time_index Time index.
-     * @param flt_index FLT index.
-     * @return A value.
-     */
-    virtual double getValue(std::size_t parameter_index,
-            std::size_t station_index, std::size_t time_index,
-            std::size_t flt_index) const = 0;
-    virtual void setValue(double val, std::size_t parameter_index,
-            std::size_t station_index, std::size_t time_index,
-            std::size_t flt_index) = 0;
 
     /**************************************************************************
      *                           Member Functions                             *

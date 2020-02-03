@@ -38,6 +38,9 @@ const string Config::_SAVE_ANALOGS_TIME_IND = "save_analogs_day_index";
 const string Config::_SAVE_SIMS = "save_similarity";
 const string Config::_SAVE_SIMS_TIME_IND = "save_similarity_day_index";
 const string Config::_SAVE_SIMS_STATION_IND = "save_similarity_station_index";
+const string Config::_SAVE_SDS = "save_sds";
+const string Config::_SAVE_OBS_TIME_IND_TABLE = "save_obs_time_index_table";
+const string Config::_SAVE_SEARCH_STATIONS_IND = "save_search_stations_index";
 const string Config::_QUICK = "quick";
 const string Config::_VERBOSE = "verbose";
 const string Config::_TEST_TIMES = "test_times";
@@ -82,6 +85,9 @@ Config::reset() {
     save_sims = false;
     save_sims_day_index = false;
     save_sims_station_index = false;
+    save_sds = false;
+    save_obs_time_index_table = false;
+    save_search_stations_index = false;
     verbose = Verbose::Warning;
     
     return;

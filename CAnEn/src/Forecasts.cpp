@@ -20,18 +20,18 @@
 
 using namespace std;
 
-Forecasts::Forecasts() {
+Forecasts::Forecasts() : Array4D(), BasicData() {
+}
+
+Forecasts::Forecasts(const Forecasts & orig) : Array4D(orig), BasicData(orig) {
+    if (this != &orig) {
+        flts_ = orig.flts_;
+    }
 }
 
 Forecasts::Forecasts(const Parameters & parameters, const Stations & stations,
         const Times & times, const Times & flts) :
-BasicData(parameters, stations, times), flts_(flts) {
-}
-
-Forecasts::Forecasts(const Forecasts & orig) : BasicData(orig) {
-    if (this != &orig) {
-        flts_ = orig.flts_;
-    }
+Array4D(), BasicData(parameters, stations, times), flts_(flts) {
 }
 
 Forecasts::~Forecasts() {
@@ -69,10 +69,9 @@ Forecasts::print(ostream &os) const {
             stations_.size() << ", " <<
             times_.size() << ", " <<
             flts_.size() << "]" << endl;
-    os << parameters_;
-    os << stations_;
-    os << times_;
+    BasicData::print(os);
     os << flts_;
+    return;
 }
 
 ostream&

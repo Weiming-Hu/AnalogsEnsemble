@@ -13,11 +13,11 @@
 /**
  * \class Observations
  * 
- * \brief Observations class provides interface for reading and writing 
- * observations from and to a NetCDF file. It also supports data indexing
- * and searching.
+ * \brief Observations is an abstract class that extends BasicData. It defines
+ * the interface of how to interact with the underlying data storage. This
+ * interface is accepted by the Analog Ensemble algorithm.
  */
-class Observations  : public BasicData {
+class Observations : public BasicData {
 public:
     Observations();
     Observations(const Observations& orig);
@@ -33,14 +33,14 @@ public:
      * Returns the total number of data values as one dimension.
      * @return A value.
      */
-    virtual std::size_t num_elements() const override = 0;
+    virtual std::size_t num_elements() const = 0;
 
     /**
      * Gets a double pointer to the start of the values.
      * @return A double pointer.
      */
-    virtual const double* getValuesPtr() const override = 0;
-    virtual double * getValuesPtr() override = 0;
+    virtual const double* getValuesPtr() const = 0;
+    virtual double * getValuesPtr() = 0;
 
     /**
      * Sets the dimensions of forecasts and allocates memory for data values.

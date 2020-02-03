@@ -71,19 +71,13 @@ ObservationsR::~ObservationsR() {
 void
 ObservationsR::print(std::ostream & os) const {
 
-    os << "[Observations] size: [" <<
+    os << "[Observations] shape [" <<
             parameters_.size() << ", " <<
             stations_.size() << ", " <<
             times_.size() << "]" << std::endl;
     
     // Print out all parameters to display circular variables and weights
     os << parameters_;
-
-    // Preview data
-    size_t num_print = (num_elements() < AnEnDefaults::_PREVIEW_COUNT ?
-            num_elements() : AnEnDefaults::_PREVIEW_COUNT);
-    os << "[Data] size: " << num_elements() << std::endl;
-    Functions::format(data_, num_print);
 
     return;
 }

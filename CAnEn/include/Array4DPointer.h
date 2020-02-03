@@ -13,26 +13,29 @@
 
 using vector4 = size_t[4];
 
-class Array4DPointer : public Array4D {
+/**
+ * Array4DPointer is an implementation of the abstract class Array4D.
+ */
+class Array4DPointer : virtual public Array4D {
 public:
     Array4DPointer();
     Array4DPointer(const Array4DPointer& orig);
     Array4DPointer(std::size_t, std::size_t, std::size_t, std::size_t);
     virtual ~Array4DPointer();
     
-    const std::size_t* shape() const override;
-    std::size_t num_elements() const override;
+    virtual const std::size_t* shape() const override;
+    virtual std::size_t num_elements() const override;
 
-    const double* getValuesPtr() const override;
-    double * getValuesPtr() override;
+    virtual const double* getValuesPtr() const override;
+    virtual double * getValuesPtr() override;
 
-    void resize(std::size_t, std::size_t, std::size_t, std::size_t) override;
-    void initialize(double value) override;
+    virtual void resize(std::size_t, std::size_t, std::size_t, std::size_t) override;
+    virtual void initialize(double value) override;
 
-    double getValue(std::size_t, std::size_t, std::size_t, std::size_t) const override;
-    void setValue(double val, std::size_t, std::size_t, std::size_t, std::size_t) override;
+    virtual double getValue(std::size_t, std::size_t, std::size_t, std::size_t) const override;
+    virtual void setValue(double val, std::size_t, std::size_t, std::size_t, std::size_t) override;
 
-    void print(std::ostream &) const override;
+    virtual void print(std::ostream &) const override;
     friend std::ostream & operator<<(std::ostream &, const Array4DPointer &);
     
     Array4DPointer & operator=(const Array4DPointer &);

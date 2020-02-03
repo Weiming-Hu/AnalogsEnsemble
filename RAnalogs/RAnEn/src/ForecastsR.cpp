@@ -8,7 +8,6 @@
 #include "ForecastsR.h"
 #include "FunctionsR.h"
 #include "Functions.h"
-#include "AnEnDefaults.h"
 #include "boost/numeric/conversion/cast.hpp"
 
 #include <sstream>
@@ -94,12 +93,6 @@ ForecastsR::print(std::ostream & os) const {
 
     // Print out all parameters to display circular variables and weights
     os << parameters_;
-
-    // Preview data
-    size_t num_print = (num_elements() < AnEnDefaults::_PREVIEW_COUNT ?
-            num_elements() : AnEnDefaults::_PREVIEW_COUNT);
-    os << "[Data] size: " << num_elements() << std::endl;
-    Functions::format(data_, num_print);
 
     return;
 }

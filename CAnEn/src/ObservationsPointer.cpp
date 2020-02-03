@@ -14,7 +14,7 @@ const size_t ObservationsPointer::_DIM_PARAMETER = 0;
 const size_t ObservationsPointer::_DIM_STATION = 1;
 const size_t ObservationsPointer::_DIM_TIME = 2;
 
-ObservationsPointer::ObservationsPointer() {
+ObservationsPointer::ObservationsPointer() : Observations() {
     data_ = nullptr;
     allocated_ = false;
 }

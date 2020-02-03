@@ -9,14 +9,16 @@
 
 using namespace std;
 
-Observations::Observations() {
+Observations::Observations() : BasicData() {
 }
 
 Observations::Observations(const Parameters & parameters,
-        const Stations & stations, const Times & times) : BasicData(parameters, stations,times) {
+        const Stations & stations, const Times & times) :
+BasicData(parameters, stations,times) {
 }
 
-Observations::Observations(const Observations & orig) : BasicData(orig) {
+Observations::Observations(const Observations & orig) :
+BasicData(orig) {
 }
 
 Observations::~Observations() {
@@ -28,9 +30,8 @@ Observations::print(ostream& os) const {
             parameters_.size() << ", " <<
             stations_.size() << ", " <<
             times_.size() << "]" << endl;
-    os << parameters_;
-    os << stations_;
-    os << times_;
+    BasicData::print(os);
+    return;
 }
 
 ostream &

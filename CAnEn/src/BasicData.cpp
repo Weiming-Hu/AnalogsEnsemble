@@ -7,16 +7,11 @@
  */
 
 #include "BasicData.h"
-#include "Functions.h"
+#include <iostream>
+
+using namespace std;
 
 BasicData::BasicData() {
-}
-
-BasicData::BasicData(const Parameters & parameters, const Stations & stations,
-        const Times & times) {
-    parameters_ = parameters;
-    stations_ = stations;
-    times_ = times;
 }
 
 BasicData::BasicData(const BasicData& orig) {
@@ -25,6 +20,13 @@ BasicData::BasicData(const BasicData& orig) {
         stations_ = orig.stations_;
         times_ = orig.times_;
     }
+}
+
+BasicData::BasicData(const Parameters & parameters, const Stations & stations,
+        const Times & times) {
+    parameters_ = parameters;
+    stations_ = stations;
+    times_ = times;
 }
 
 BasicData::~BasicData() {
@@ -73,4 +75,18 @@ BasicData::getTimeIndex(size_t timestamp) const {
 size_t 
 BasicData::getTimeIndex(Time const & time) const {
     return times_.getIndex(time);
+}
+
+void
+BasicData::print(ostream &os) const {
+    os << parameters_;
+    os << stations_;
+    os << times_;
+    return;
+}
+
+ostream&
+operator<<(ostream& os, BasicData const & obj) {
+    obj.print(os);
+    return os;
 }
