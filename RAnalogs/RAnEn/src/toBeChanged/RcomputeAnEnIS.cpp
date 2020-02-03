@@ -1,0 +1,134 @@
+/*
+ * Author: Weiming Hu <weiming@psu.edu>
+ *
+ * Created on August 15, 2018
+ *
+ * RcomputeAnEnIS.cpp is the source file with the interface definition for
+ * R functions to call AnEnIS class.
+ */
+
+// [[Rcpp::plugins(cpp11)]]
+// [[Rcpp::plugins(openmp)]]
+
+#include <Rcpp.h>
+#include <stdexcept>
+
+#include "AnEnIS.h"
+#include "ConfigNames.h"
+#include "ForecastsR.h"
+#include "ObservationsR.h"
+#include "FunctionsR.h"
+#include "boost/numeric/conversion/cast.hpp"
+
+using namespace Rcpp;
+using namespace boost;
+
+// [[Rcpp::export]]
+SEXP computeAnEnIS(SEXP sx_config) {
+
+    // Type checks
+    FunctionsR::checkConfig(sx_config);
+
+    // Create list wrapper
+    List config = sx_config;
+
+    // Verbose
+    AnEnDefaults::Verbose verbose = Functions::itov(
+            as<int>(config[ConfigNames::_VERBOSE]));
+    
+    // Observations
+    ObservationsR observations(
+            config[ConfigNames::_OBS_TIMES],
+            config[ConfigNames::_OBS]);
+        
+    // Forecasts
+    ForecastsR forecasts(
+            config[ConfigNames::_WEIGHTS],
+            config[ConfigNames::_CIRCULARS],
+            config[ConfigNames::_FCST_TIMES],
+            config[ConfigNames::_FLTS],
+            config[ConfigNames::_FCSTS]);
+
+    if (verbose >= AnEnDefaults::Verbose::Debug) {
+        Rcout << forecasts << std::endl << observations << std::endl;
+    }
+
+    // Test and search times
+    Times test_times, search_times;
+    
+    try {
+        FunctionsR::toTimes(config[ConfigNames::_TEST_TIMES], test_times);
+    } catch (std::exception & ex) {
+        std::string msg = std::string("toTimes(test_times) -> ") + ex.what();
+        throw std::runtime_error(msg);
+    }
+    
+    try {
+        FunctionsR::toTimes(config[ConfigNames::_SEARCH_TIMES], search_times);
+    } catch (std::exception & ex) {
+        std::string msg = std::string("toTimes(search_times) -> ") + ex.what();
+        throw std::runtime_error(msg);
+    }
+
+    // Observation variable index should subtract 1 to be converted from 
+    // an R index to a C index
+    //
+    std::size_t obs_id;
+    try {
+        obs_id = numeric_cast<std::size_t>(as<double>(config[ConfigNames::_OBS_ID]) - 1);
+    } catch (boost::numeric::negative_overflow & ex) {
+        throw std::runtime_error("Observation variable ID minimum is 1");
+    }
+    
+    // Safe type conversion from numeric vector to std::size_t
+    std::size_t num_analogs = numeric_cast<std::size_t>(
+            as<double>(config[ConfigNames::_NUM_MEMBERS]));
+    std::size_t num_sims = numeric_cast<std::size_t>(
+            as<double>(config[ConfigNames::_NUM_SIMS]));
+    std::size_t num_par_nan = numeric_cast<std::size_t>(
+            as<double>(config[ConfigNames::_NUM_PAR_NA]));
+    std::size_t num_flt_nan = numeric_cast<std::size_t>(
+            as<double>(config[ConfigNames::_NUM_FLT_NA]));
+    std::size_t flt_radius = numeric_cast<std::size_t>(
+            as<double>(config[ConfigNames::_FLT_RADIUS]));
+    
+    // These logical variables will be used more than once
+    bool preserve_similarity = as<bool>(config[ConfigNames::_SAVE_SIMS]);
+    bool preserve_similairty_index = as<bool>(config[ConfigNames::_SAVE_SIMS_IND]);
+    bool preserve_analogs_index = as<bool>(config[ConfigNames::_SAVE_ANALOGS_IND]);
+
+    // AnEnIS initialization
+    AnEnIS anen(
+            num_analogs, as<bool>(config[ConfigNames::_OPERATION]),
+            as<bool>(config[ConfigNames::_PREVENT_SEARCH_FUTURE]),
+            preserve_similarity, verbose, obs_id,
+            as<bool>(config[ConfigNames::_QUICK]),
+            preserve_similairty_index, preserve_analogs_index,
+            num_sims, num_par_nan, num_flt_nan, flt_radius);
+
+    // Compute analogs
+    anen.compute(forecasts, observations, test_times, search_times);
+
+    /**********************************************************************
+     *                           Wrap Up Results                          *
+     **********************************************************************/
+    List ret;
+    
+    if (preserve_similairty_index) {
+        FunctionsR::setElement(ret, ConfigNames::_SIMS_IND, anen.getSimsTimeIndex());
+    }
+    
+    if (preserve_similarity) {
+        FunctionsR::setElement(ret, ConfigNames::_SIMS, anen.getSimsValue());
+    }
+    
+    if (preserve_analogs_index) {
+        FunctionsR::setElement(ret, ConfigNames::_ANALOGS_IND, anen.getAnalogsTimeIndex());
+    }
+    
+    FunctionsR::setElement(ret, ConfigNames::_ANALOGS, anen.getAnalogsValue());
+
+    ret.attr("class") = "AnEn";
+    return (ret);
+}
+
