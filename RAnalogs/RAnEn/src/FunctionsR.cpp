@@ -131,7 +131,8 @@ FunctionsR::setElement(Rcpp::List & list, const std::string & name, const Array4
 
     using namespace boost;
 
-    size_t num_dims = arr.num_dimensions();
+    // The input is a 4-dimensional array
+    size_t num_dims = 4;
 
     // Create dimension vector
     IntegerVector arr_dims(num_dims);
@@ -140,7 +141,7 @@ FunctionsR::setElement(Rcpp::List & list, const std::string & name, const Array4
     }
 
     // Value copy
-    NumericVector nv_arr(arr.data(), arr.data() + arr.num_elements());
+    NumericVector nv_arr(arr.getValuesPtr(), arr.getValuesPtr() + arr.num_elements());
     nv_arr.attr("dim") = arr_dims;
 
     list[name] = nv_arr;

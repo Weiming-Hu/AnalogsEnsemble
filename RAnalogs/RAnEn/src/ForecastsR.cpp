@@ -95,13 +95,3 @@ ForecastsR::print(std::ostream & os) const {
 
     return;
 }
-
-std::ostream & operator<<(std::ostream & os, const ForecastsR & obj) {
-    obj.print(os);
-    return os;
-}
-
-void
-ForecastsR::Forecasts_print() const {
-    print(Rcout);
-}

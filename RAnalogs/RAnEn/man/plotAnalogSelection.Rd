@@ -4,16 +4,37 @@
 \alias{plotAnalogSelection}
 \title{RAnEn::plotAnalogSelection}
 \usage{
-plotAnalogSelection(sims, sims.index, config, i.station, i.test.day, i.flt,
-  parameter.names, cex.lab = 1.5, pch.selected = 16,
-  pch.unselected = 16, pch.current = 1, col.selected = "red",
-  col.unselected = "lightgrey", col.reference = "black",
-  col.current = "black", lty.reference = "longdash",
-  lwd.reference = 2, as.POSIXct = T, origin = "1970-01-01",
-  tz = "UTC", single.figure = T, mar = c(1.5, 5, 1, 1) + 0.1,
-  omi = c(0.3, 0, 0, 0), use.plotly = F, hovermode = "compare",
-  spikemode = "across", spikethickness = 1, spikedash = "solid",
-  spikecolor = "grey")
+plotAnalogSelection(
+  sims,
+  sims.index,
+  config,
+  i.station,
+  i.test.day,
+  i.flt,
+  parameter.names,
+  cex.lab = 1.5,
+  pch.selected = 16,
+  pch.unselected = 16,
+  pch.current = 1,
+  col.selected = "red",
+  col.unselected = "lightgrey",
+  col.reference = "black",
+  col.current = "black",
+  lty.reference = "longdash",
+  lwd.reference = 2,
+  as.POSIXct = T,
+  origin = "1970-01-01",
+  tz = "UTC",
+  single.figure = T,
+  mar = c(1.5, 5, 1, 1) + 0.1,
+  omi = c(0.3, 0, 0, 0),
+  use.plotly = F,
+  hovermode = "compare",
+  spikemode = "across",
+  spikethickness = 1,
+  spikedash = "solid",
+  spikecolor = "grey"
+)
 }
 \arguments{
 \item{sims}{The similarity member from analogs.}

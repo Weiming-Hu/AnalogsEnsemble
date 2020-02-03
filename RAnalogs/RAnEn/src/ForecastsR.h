@@ -23,20 +23,14 @@ public:
     virtual ~ForecastsR();
     
     void print(std::ostream &) const;
-    friend std::ostream & operator<<(std::ostream &, const ForecastsR &);
-    
-    /*************************************************************************
-     *                          Exposed Methods                              *
-     *************************************************************************/
-    void Forecasts_print();
 };
 
 // Expose ForecastsR to the R side. Name the class as Forecasts.
 RCPP_MODULE(Forecasts) {
 
     class_<ForecastsR>("Forecasts")
-        .constructor<SEXP, SEXP, SEXP, SEXP, SEXP>("create an object of class Forecasts to be used in analog generation")
-        .const_method("print", &print);
+        .constructor<SEXP, SEXP, SEXP, SEXP, SEXP>("create an object of class Forecasts to be used in analog generation");
+
 }
 
 #endif /* FORECASTSR_H */

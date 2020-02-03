@@ -4,10 +4,24 @@
 \alias{plotAnalogTimeSeries}
 \title{RAnEn::plotAnalogTimeSeries}
 \usage{
-plotAnalogTimeSeries(start.time, end.time, i.station, obs.id, obs.times,
-  obs.data, anen.times, anen.flts, anen.data, fcst.id = NULL,
-  fcst.times = NULL, fcst.flts = NULL, fcst.data = NULL,
-  max.flt = 82800, par.name = "", return.data = F)
+plotAnalogTimeSeries(
+  start.time,
+  end.time,
+  i.station,
+  obs.id,
+  obs.times,
+  obs.data,
+  anen.times,
+  anen.flts,
+  anen.data,
+  fcst.id = NULL,
+  fcst.times = NULL,
+  fcst.flts = NULL,
+  fcst.data = NULL,
+  max.flt = 82800,
+  par.name = "",
+  return.data = F
+)
 }
 \arguments{
 \item{start.time}{A POSIXct for the start time.}

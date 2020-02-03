@@ -6,7 +6,7 @@
 \alias{RAnEn-package}
 \title{RAnEn::RAnEn}
 \description{
-The Analog Ensemble Package computes and manages analog ensembles. It is implemented in C++ and exported to R interface.
+The Analog Ensemble Package computes analog ensembles. It is implemented in C++ and exported to R interface.
 }
 \details{
 RAnEn is the R package implementing the Analog Ensemble method and more with data processing and visualization tasks.

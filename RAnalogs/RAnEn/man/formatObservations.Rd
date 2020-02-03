@@ -4,9 +4,21 @@
 \alias{formatObservations}
 \title{RAnEn::formatObservations}
 \usage{
-formatObservations(df, col.par, col.x, col.y, col.time, time.series,
-  col.value, verbose = T, preview = 2, remove.duplicates = T,
-  circular.pars = NULL, col.station.name = NULL, show.progress = F)
+formatObservations(
+  df,
+  col.par,
+  col.x,
+  col.y,
+  col.time,
+  time.series,
+  col.value,
+  verbose = T,
+  preview = 2,
+  remove.duplicates = T,
+  circular.pars = NULL,
+  col.station.name = NULL,
+  show.progress = F
+)
 }
 \arguments{
 \item{df}{A data frame to be converted to an R list.}

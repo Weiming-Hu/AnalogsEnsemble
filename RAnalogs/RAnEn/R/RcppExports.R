@@ -3,34 +3,11 @@
 
 #' @export
 checkOpenMP <- function() {
-    .Call('_RAnEn_checkOpenMP', PACKAGE = 'RAnEn')
+    .Call(`_RAnEn_checkOpenMP`)
 }
 
 #' @export
 validateConfiguration <- function(sx_config) {
-    invisible(.Call('_RAnEn_validateConfiguration', PACKAGE = 'RAnEn', sx_config))
-}
-
-computeAnEnIS <- function(sx_config) {
-    .Call('_RAnEn_computeAnEnIS', PACKAGE = 'RAnEn', sx_config)
-}
-
-configAnEnIS <- function() {
-    .Call('_RAnEn_configAnEnIS', PACKAGE = 'RAnEn')
-}
-
-#' @export
-generateTimeMapping <- function(sx_fcst_times, sx_fcst_flts, sx_obs_times) {
-    .Call('_RAnEn_generateTimeMapping', PACKAGE = 'RAnEn', sx_fcst_times, sx_fcst_flts, sx_obs_times)
-}
-
-#' @export
-getConfigNames <- function() {
-    .Call('_RAnEn_getConfigNames', PACKAGE = 'RAnEn')
-}
-
-#' @export
-getAnEnNames <- function() {
-    .Call('_RAnEn_getAnEnNames', PACKAGE = 'RAnEn')
+    invisible(.Call(`_RAnEn_validateConfiguration`, sx_config))
 }
 
