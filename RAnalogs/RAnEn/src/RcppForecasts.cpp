@@ -21,7 +21,7 @@ ForecastsR::ForecastsR(
         SEXP sx_xs, SEXP sx_ys, SEXP sx_stations_name, SEXP sx_times, SEXP sx_flts) {
 
     // Type checks
-    if (!Rf_isNumeric(sx_data)) throw std::runtime_error("Forecasts should be numeric");
+    if (!Rf_isNumeric(sx_data)) throw std::runtime_error("Forecasts data should be numeric");
 
     // Create wrappers around SEXP types
     NumericVector data = sx_data;
@@ -33,7 +33,7 @@ ForecastsR::ForecastsR(
 
     // Check dimension length
     if (data_dims.size() != 4) throw std::runtime_error(
-            "Forecasts should be 4-dimensional [Parameters, Stations, Times, FLTs]");
+            "Forecasts data array should be 4-dimensional [Parameters, Stations, Times, FLTs]");
 
     try {
 
@@ -56,28 +56,28 @@ ForecastsR::ForecastsR(
 
     if (parameters_.size() != numeric_cast<size_t>(data_dims[0])) {
         std::ostringstream msg;
-        msg << "First dimension of array (" << data_dims[0]
+        msg << "First dimension of forecast data array (" << data_dims[0]
                 << ") != #parameters (" << parameters_.size() << ")";
         throw std::runtime_error(msg.str());
     }
 
     if (stations_.size() != numeric_cast<size_t>(data_dims[1])) {
         std::ostringstream msg;
-        msg << "Second dimension of array (" << data_dims[1]
+        msg << "Second dimension of forecast data array (" << data_dims[1]
                 << ") != #stations (" << stations_.size() << ")";
         throw std::runtime_error(msg.str());
     }
 
     if (times_.size() != numeric_cast<size_t>(data_dims[2])) {
         std::ostringstream msg;
-        msg << "Third dimension of array (" << data_dims[2]
+        msg << "Third dimension of forecast data array (" << data_dims[2]
                 << ") != #forecast times (" << times_.size() << ")";
         throw std::runtime_error(msg.str());
     }
 
     if (flts_.size() != numeric_cast<size_t>(data_dims[3])) {
         std::ostringstream msg;
-        msg << "Fourth dimension of array (" << data_dims[3]
+        msg << "Fourth dimension of forecast data array (" << data_dims[3]
                 << ") != #unique flts (" << flts_.size() << ")";
         throw std::runtime_error(msg.str());
     }

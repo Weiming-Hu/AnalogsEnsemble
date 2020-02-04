@@ -16,6 +16,7 @@ using namespace std;
 const double Array4DPointer::_DEFAULT_VALUE = NAN;
 
 Array4DPointer::Array4DPointer() : Array4D() {
+    fill_n(dims_, 4, 0);
     data_ = nullptr;
     allocated_ = false;
 }

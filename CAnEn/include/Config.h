@@ -26,7 +26,6 @@ enum class Verbose {
     Debug = 4
 };
 
-//' @export
 class Config {
 public:
     Config();
@@ -100,6 +99,7 @@ public:
     static const std::string _NUM_NEAREST;
     static const std::string _EXTEND_OBS;
     static const std::string _DISTANCE;
+    static const std::string _WEIGHTS;
     static const std::string _OPERATION;
     static const std::string _PREVENT_SEARCH_FUTURE;
     static const std::string _SAVE_ANALOGS;
@@ -112,9 +112,15 @@ public:
     static const std::string _SAVE_SEARCH_STATIONS_IND;
     static const std::string _QUICK;
     static const std::string _VERBOSE;
-    static const std::string _TEST_TIMES;
-    static const std::string _SEARCH_TIMES;
-    static const std::string _WEIGHTS;
+
+    static const std::string _DATA;
+    static const std::string _PAR_NAMES;
+    static const std::string _CIRCULARS;
+    static const std::string _XS;
+    static const std::string _YS;
+    static const std::string _STATION_NAMES;
+    static const std::string _TIMES;
+    static const std::string _FLTS;
 
     // Output member names
     static const std::string _ANALOGS;
@@ -122,6 +128,10 @@ public:
     static const std::string _SIMS;
     static const std::string _SIMS_TIME_IND;
     static const std::string _SIMS_STATION_IND;
+    static const std::string _SDS;
+    static const std::string _TIME_MAPPING;
+    static const std::string _SEARCH_STATIONS_IND;
+
 };
 
 #endif /* CONFIG_H */

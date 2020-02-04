@@ -72,14 +72,13 @@ add_subdirectory(${RAnEn_PACKAGE_DIR})
 ##########################
 #
 file(GLOB FILES_TO_DELETE "${RAnEn_SOURCE_DIR}/*.o")
+message("")
 foreach(file_name ${REQUIRED_SOURCE_FILES})
-    set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_SOURCE_DIR}/${file_name}.o")
     set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_SOURCE_DIR}/${file_name}.cpp")
     set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_SOURCE_DIR}/${file_name}.h")
 endforeach(file_name ${REQUIRED_SOURCE_FILES})
 
 foreach(file_name ${REQUIRED_TEMPLATE_FILES})
-    set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_SOURCE_DIR}/${file_name}.o")
     set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_SOURCE_DIR}/${file_name}.tpp")
     set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_SOURCE_DIR}/${file_name}.cpp")
     set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_SOURCE_DIR}/${file_name}.h")
@@ -91,13 +90,12 @@ endforeach(file_name ${REQUIRED_HEADER_ONLY_FILES})
 
 set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_SOURCE_DIR}/RAnEn.so")
 set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_SOURCE_DIR}/Makefile")
-set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_SOURCE_DIR}/RcppExports.o")
-set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_SOURCE_DIR}/Rinterface.o")
 
 message(STATUS "Add clean-rsrc target for cleaning the copied files")
 add_custom_target(
     clean-rsrc 
     COMMAND ${CMAKE_COMMAND} -E remove ${FILES_TO_DELETE}
+    COMMAND ${CMAKE_COMMAND} -E remove ${RAnEn_SOURCE_DIR}/*.o
     COMMENT "clean the copied files in RAnEn/src. You will need to cmake again if you want to make.")
 
 if(TARGET clean-all)

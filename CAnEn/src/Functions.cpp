@@ -7,6 +7,7 @@
 
 #include "Functions.h"
 
+#include <string>
 #include <cmath>
 #include <limits>
 #include <sstream>
@@ -90,7 +91,6 @@ Functions::setSearchStations(const Stations & stations, Matrix & table, double d
 
 Verbose
 Functions::itov(int flag) {
-
     switch (flag) {
         case 0:
             return Verbose::Error;
@@ -111,7 +111,6 @@ Functions::itov(int flag) {
 
 int
 Functions::vtoi(Verbose verbose) {
-
     switch (verbose) {
         case Verbose::Error:
             return 0;
@@ -123,6 +122,24 @@ Functions::vtoi(Verbose verbose) {
             return 3;
         case Verbose::Debug:
             return 4;
+        default:
+            throw runtime_error("Unknown verbose type");
+    }
+}
+
+std::string
+Functions::vtos(Verbose verbose) {
+    switch (verbose) {
+        case Verbose::Error:
+            return "Error only";
+        case Verbose::Warning:
+            return "Error + Warning";
+        case Verbose::Progress:
+            return "Progress";
+        case Verbose::Detail:
+            return "Detail";
+        case Verbose::Debug:
+            return "Debug";
         default:
             throw runtime_error("Unknown verbose type");
     }

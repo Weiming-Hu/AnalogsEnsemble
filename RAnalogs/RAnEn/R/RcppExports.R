@@ -6,3 +6,25 @@ checkOpenMP <- function() {
     .Call(`_RAnEn_checkOpenMP`)
 }
 
+#' @name Config
+#' @title Provides detailed configuration
+#' @description Analog generation can be fine-tuned with configuration. This
+#' class provides all the tunable parameters for analog generation. You can
+#' type `RAnEn::Config` in the R console to see the description for each parameter.
+#' To create an object of Config, you can type `config <- new(Config)`, and then 
+#' you can directly modify the members, e.g. `config$num_analogs <- 10`. To see
+#' the full list of tunable parameters, you can type `config` after you have 
+#' created an object. It will print all the parameters.
+#' @md
+#' @export
+NULL
+
+generateAnalogs <- function(sx_forecasts, sx_observations, sx_test_times, sx_search_times, sx_config, sx_algorithm) {
+    .Call(`_RAnEn_generateAnalogs`, sx_forecasts, sx_observations, sx_test_times, sx_search_times, sx_config, sx_algorithm)
+}
+
+#' @export
+generateTimeMapping <- function(sx_fcst_times, sx_fcst_flts, sx_obs_times) {
+    .Call(`_RAnEn_generateTimeMapping`, sx_fcst_times, sx_fcst_flts, sx_obs_times)
+}
+

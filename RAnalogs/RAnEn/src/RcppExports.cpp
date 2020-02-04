@@ -15,11 +15,42 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// generateAnalogs
+List generateAnalogs(SEXP sx_forecasts, SEXP sx_observations, SEXP sx_test_times, SEXP sx_search_times, SEXP sx_config, SEXP sx_algorithm);
+RcppExport SEXP _RAnEn_generateAnalogs(SEXP sx_forecastsSEXP, SEXP sx_observationsSEXP, SEXP sx_test_timesSEXP, SEXP sx_search_timesSEXP, SEXP sx_configSEXP, SEXP sx_algorithmSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type sx_forecasts(sx_forecastsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type sx_observations(sx_observationsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type sx_test_times(sx_test_timesSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type sx_search_times(sx_search_timesSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type sx_config(sx_configSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type sx_algorithm(sx_algorithmSEXP);
+    rcpp_result_gen = Rcpp::wrap(generateAnalogs(sx_forecasts, sx_observations, sx_test_times, sx_search_times, sx_config, sx_algorithm));
+    return rcpp_result_gen;
+END_RCPP
+}
+// generateTimeMapping
+NumericMatrix generateTimeMapping(SEXP sx_fcst_times, SEXP sx_fcst_flts, SEXP sx_obs_times);
+RcppExport SEXP _RAnEn_generateTimeMapping(SEXP sx_fcst_timesSEXP, SEXP sx_fcst_fltsSEXP, SEXP sx_obs_timesSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type sx_fcst_times(sx_fcst_timesSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type sx_fcst_flts(sx_fcst_fltsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type sx_obs_times(sx_obs_timesSEXP);
+    rcpp_result_gen = Rcpp::wrap(generateTimeMapping(sx_fcst_times, sx_fcst_flts, sx_obs_times));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 RcppExport SEXP _rcpp_module_boot_Config();
 
 static const R_CallMethodDef CallEntries[] = {
     {"_RAnEn_checkOpenMP", (DL_FUNC) &_RAnEn_checkOpenMP, 0},
+    {"_RAnEn_generateAnalogs", (DL_FUNC) &_RAnEn_generateAnalogs, 6},
+    {"_RAnEn_generateTimeMapping", (DL_FUNC) &_RAnEn_generateTimeMapping, 3},
     {"_rcpp_module_boot_Config", (DL_FUNC) &_rcpp_module_boot_Config, 0},
     {NULL, NULL, 0}
 };

@@ -54,25 +54,32 @@ FunctionsR::toParameters(const SEXP & sx_names, const SEXP & sx_circulars, Param
 
     // Type check
     if (!Rf_isString(sx_names)) throw std::runtime_error("Parameter names should be strings");
-    if (!Rf_isNumeric(sx_circulars)) throw std::runtime_error("Circulars should be numeric");
+    
+    bool has_circulars = false;
+    if (!Rf_isNull(sx_circulars)) {
+        if (Rf_isNumeric(sx_circulars)) has_circulars = true;
+        else throw std::runtime_error("Circulars should be numeric or NULL");
+    }
 
     // Create pointer wrapper
-    IntegerVector circulars = sx_circulars;
     StringVector names = sx_names;
+
+    IntegerVector circulars;
+    if (has_circulars) circulars = sx_circulars;
     
     // Clean parameters
     parameters.clear();
 
-    const auto & it_begin = circulars.begin();
-    const auto & it_end = circulars.end();
     auto num_parameters = names.size();
 
     for (R_xlen_t i = 0; i < num_parameters; ++i) {
         Parameter parameter(as<std::string>(names(i)));
 
-        // NOTICE the increment on the index to convert C index to R index
-        auto it = std::find(it_begin, it_end, i + 1);
-        if (it != it_end) parameter.setCircular(true);
+        if (has_circulars) {
+            // NOTICE the increment on the index to convert C index to R index
+            auto it = std::find(circulars.begin(), circulars.end(), i + 1);
+            if (it != circulars.end()) parameter.setCircular(true);
+        }
 
         parameters.push_back(Parameters::value_type(i, parameter));
     }
@@ -161,7 +168,7 @@ void
 FunctionsR::setElement(Rcpp::List & list, const std::string & name, const Array4D & arr) {
 
     using namespace boost;
-
+    
     // The input is a 4-dimensional array
     size_t num_dims = 4;
 

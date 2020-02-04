@@ -19,7 +19,8 @@ public:
     ForecastsR(const ForecastsR& orig) = delete;
     
     ForecastsR(SEXP sx_data, SEXP sx_parameters_name, SEXP sx_circulars,
-            SEXP sx_xs, SEXP sx_ys, SEXP sx_stations_name, SEXP sx_times, SEXP sx_flts);
+            SEXP sx_xs, SEXP sx_ys, SEXP sx_stations_name, SEXP sx_times,
+            SEXP sx_flts);
 
     virtual ~ForecastsR();
     

@@ -30,7 +30,7 @@ ObservationsR::ObservationsR(SEXP sx_data, SEXP sx_names, SEXP sx_times) {
 
     // Check dimension length
     if (data_dims.size() != 3) throw std::runtime_error(
-            "Observations should be 3-dimensional [Parameters, Stations, Times]");
+            "Observations data array should be 3-dimensional [Parameters, Stations, Times]");
 
     try {
         // Create parameters
@@ -49,14 +49,14 @@ ObservationsR::ObservationsR(SEXP sx_data, SEXP sx_names, SEXP sx_times) {
 
     if (parameters_.size() != numeric_cast<size_t>(data_dims[0])) {
         std::ostringstream msg;
-        msg << "First dimension of array (" << data_dims[0]
+        msg << "First dimension of observation data array (" << data_dims[0]
                 << ") != #parameters (" << parameters_.size() << ")";
         throw std::runtime_error(msg.str());
     }
 
     if (times_.size() != numeric_cast<size_t>(data_dims[2])) {
         std::ostringstream msg;
-        msg << "Third dimensions of array (" << data_dims[2]
+        msg << "Third dimensions of observation data array (" << data_dims[2]
                 << ") != #unique observation times (" << times_.size() << ")";
         throw std::runtime_error(msg.str());
     }

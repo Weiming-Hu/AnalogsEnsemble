@@ -56,6 +56,7 @@ namespace Functions {
      */
     Verbose itov(int);
     int vtoi(Verbose);
+    std::string vtos(Verbose);
 
     /**
      * Computes a lookup table which maps from forecast time and lead time
