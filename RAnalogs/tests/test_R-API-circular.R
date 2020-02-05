@@ -1,8 +1,22 @@
+# "`-''-/").___..--''"`-._
+#  (`6_ 6  )   `-.  (     ).`-.__.`)   WE ARE ...
+#  (_Y_.)'  ._   )  `._ `. ``-..-'    PENN STATE!
+#    _ ..`--'_..-_/  /--'_.' ,'
+#  (il),-''  (li),'  ((!.-'
+# 
+# Author: Weiming Hu <wuh20@psu.edu>
+#         Geoinformatics and Earth Observation Laboratory (http://geolab.psu.edu)
+#         Department of Geography and Institute for CyberScience
+#         The Pennsylvania State University
+
+# This script tests RAnEn::alignObservations
 library(RAnEn)
 
 config <- new(Config)
 config$save_similarity <- T
 config$save_analogs <- F
+config$num_analogs <- 5
+config$num_similarity <- 10
 
 forecasts <- generateForecastsTemplate()
 forecasts$Data <- array(runif(2500), dim = c(2, 5, 50, 5))

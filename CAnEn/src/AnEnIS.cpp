@@ -195,9 +195,9 @@ firstprivate(sims_arr)
                  * Sort based on similarity metrics
                  */
                 if (quick_sort_) nth_element(sims_arr.begin(),
-                        sims_arr.begin() + num_sims_, sims_arr.end(), _simsSort_);
+                        sims_arr.begin() + num_analogs_, sims_arr.end(), _simsSort_);
                 else partial_sort(sims_arr.begin(),
-                        sims_arr.begin() + num_sims_, sims_arr.end(), _simsSort_);
+                        sims_arr.begin() + num_analogs_, sims_arr.end(), _simsSort_);
 
                 /*
                  * Output values and indices
