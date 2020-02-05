@@ -11,7 +11,9 @@
 
 - Introduced auto generation of HPC work flows using `RAnEn::generateHPCWorkflow`.
 - Fixed a bug during subseting observation times in `RAnEn::plotAnalogTimeSeries`.
-- Add `operational` in `RAnEn::generateHPCWorkflow`
+- Added `operational` in `RAnEn::generateHPCWorkflow`
+- `search_times_compare` automatically changed when `operational` was used.
+- Changed `RAnEn::writeConfiguration` from `ifelse` to using the function `if`.
 
 # PAnEn 3.7.0
 
