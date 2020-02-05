@@ -4,9 +4,8 @@
 - Introduced functionalities like checks of searching into future
 - Reduced memory consumption when using the R API
 - Changed several configuration names in R
-- Some functions might be deprecated
-- AnEn SSE is not implemented yet
-- C++ executables are not ready yet
+- Some functions are deprecated
+- R API changed
 
 # PAnEn 3.7.1
 

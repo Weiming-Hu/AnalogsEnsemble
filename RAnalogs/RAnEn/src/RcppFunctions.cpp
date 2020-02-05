@@ -186,7 +186,14 @@ FunctionsR::toTimes(const SEXP & sx_times, Times & times) {
     // Copy values
     for (R_xlen_t i = 0; i < num_times; ++i) {
         if (nv_times[i] < 0) throw std::runtime_error("Timestamps cannot be negative!");
-        if (numeric_cast<size_t>(nv_times[i]) != nv_times[i]) throw std::runtime_error("Decimal numbers not allowed for times");
+
+        if (numeric_cast<size_t>(nv_times[i]) != nv_times[i]) {
+            std::stringstream msg;
+            msg.precision(18);
+            msg << "Decimal numbers not allowed for times. I got " << nv_times[i];
+            throw std::runtime_error(msg.str());
+        }
+
         times.push_back(Times::value_type(i, Time(nv_times[i])));
     }
 

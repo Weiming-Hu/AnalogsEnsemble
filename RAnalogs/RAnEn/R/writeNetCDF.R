@@ -47,10 +47,8 @@ writeNetCDF <- function(
     author = paste("RAnEn", packageVersion('RAnEn'), "from GEOlab, Penn State"),
     Time = Sys.time()), nchars.max = 50) {
   
-  if (!requireNamespace('ncdf4', quietly = T)) {
-    stop(paste('Please install ncdf4.'))
-  }
-  
+  check.package('ncdf4')
+
   # Check whether the output file path is valid
   if (file.exists(file.out)) {
     stop(paste("Output file", file.out, "already exists."))

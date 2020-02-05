@@ -27,11 +27,8 @@
 #' @md
 #' @export
 readObservations <- function(file, origin = '1970-01-01', tz = 'UTC') {
+  check.package('ncdf4')
   stopifnot(file.exists(file))
-  
-  if (!requireNamespace('ncdf4', quietly = T)) {
-    stop(paste('Please install ncdf4.'))
-  }
   
   config <- new(Config)
   pairs <- config$getNames()

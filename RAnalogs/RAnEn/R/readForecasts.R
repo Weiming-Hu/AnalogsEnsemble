@@ -27,10 +27,8 @@
 #' @md
 #' @export
 readForecasts <- function(file, origin = '1970-01-01', tz = 'UTC') {
-  if (!requireNamespace('ncdf4', quietly = T)) {
-    stop(paste('Please install ncdf4.'))
-  }
-  
+
+  check.package('ncdf4')
   stopifnot(file.exists(file))
   
   config <- new(Config)
