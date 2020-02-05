@@ -4,8 +4,15 @@
 \alias{alignObservations}
 \title{RAnEn::alignObservations}
 \usage{
-alignObservations(observations, observation.times, forecast.times, flts,
-  return.na.index = F, show.progress = F, silent = F)
+alignObservations(
+  observations,
+  observation.times,
+  forecast.times,
+  flts,
+  return.na.index = F,
+  show.progress = F,
+  silent = F
+)
 }
 \arguments{
 \item{observations}{A 3-dimensional array for observations.}
@@ -41,15 +48,13 @@ This function converts the dimensions of observations to forecasts and
 artificially add the FLTs dimension to observations by replicating
 values in observations.
 
-Imagine the following sequence of observation times
-
-00h 06h 12h 18h 24h 30h 36h 42h 48h 54h
+Imagine the following sequence of observation times\preformatted{00h 06h 12h 18h 24h 30h 36h 42h 48h 54h
+}
 
 After the alignment with the daily forecasts with 6 FLTs, the aligned observations
-will be
-
-00h 06h 12h 18h 24h 30h
+will be\preformatted{00h 06h 12h 18h 24h 30h
 24h 30h 36h 42h 48h 54h
+}
 
 You note that there will be duplicates in observations which cannot
 be avoided in this format.

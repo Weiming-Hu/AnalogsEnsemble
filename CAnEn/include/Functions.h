@@ -111,7 +111,7 @@ namespace Functions {
      * vector. Set it to NAN to allow any number of NAN values.
      */
     double sum(const std::vector<double> & values,
-            const double max_nan_allowed = NAN) const;
+            const double max_nan_allowed = NAN);
 
     /**
      * Computes the variance of a vector.

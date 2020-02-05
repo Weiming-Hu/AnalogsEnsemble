@@ -108,10 +108,10 @@ testAnEnSSE::testCompute_() {
     config.num_nearest = 9;
     config.distance = 1;
     config.save_sims = true;
-    config.save_sims_day_index = true;
+    config.save_sims_time_index = true;
     config.save_sims_station_index = true;
     config.save_analogs = true;
-    config.save_analogs_day_index = true;
+    config.save_analogs_time_index = true;
     config.weights = {1, 0, 1};
 
     // Define test indices

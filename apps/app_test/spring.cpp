@@ -55,8 +55,8 @@ int main(int argc, char** argv) {
     config.prevent_search_future = true;
     config.save_sims = true;
     config.quick_sort = false;
-    config.save_sims_day_index = true;
-    config.save_analogs_day_index = false;
+    config.save_sims_time_index = true;
+    config.save_analogs_time_index = false;
     config.num_sims = 2;
     config.num_analogs = 5;
     config.obs_var_index = 0;

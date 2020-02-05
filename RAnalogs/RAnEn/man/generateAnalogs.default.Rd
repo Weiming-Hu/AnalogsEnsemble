@@ -4,9 +4,14 @@
 \alias{generateAnalogs.default}
 \title{RAnEn::generateAnalogs}
 \usage{
-\method{generateAnalogs}{default}(sx_forecasts, sx_observations,
-  sx_test_times, sx_search_times, sx_config = NULL,
-  sx_algorithm = NULL)
+\method{generateAnalogs}{default}(
+  sx_forecasts,
+  sx_observations,
+  sx_test_times,
+  sx_search_times,
+  sx_config = NULL,
+  sx_algorithm = NULL
+)
 }
 \arguments{
 \item{sx_forecasts}{Forecasts. You can generate this by typing

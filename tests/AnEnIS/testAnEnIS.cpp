@@ -354,8 +354,8 @@ testAnEnIS::compareComputeLeaveOneOut_() {
         config.verbose = Verbose::Warning;
         config.obs_var_index = 1;
         config.quick_sort = false;
-        config.save_sims_day_index = true;
-        config.save_analogs_day_index = true;
+        config.save_sims_time_index = true;
+        config.save_analogs_time_index = true;
         config.max_par_nan = fcsts.getParameters().size();
         config.max_flt_nan = fcsts.getFLTs().size();
         config.flt_radius = 1;
@@ -464,9 +464,9 @@ testAnEnIS::compareComputeOperational_() {
     config.num_analogs = 3;
     config.operation = true;
     config.save_analogs = true;
-    config.save_analogs_day_index = true;
+    config.save_analogs_time_index = true;
     config.save_sims = true;
-    config.save_sims_day_index = true;
+    config.save_sims_time_index = true;
     
     // Define test and search days
     vector<size_t> fcsts_test_index = {16, 17, 18, 19};
