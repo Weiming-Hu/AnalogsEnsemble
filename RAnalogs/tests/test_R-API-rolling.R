@@ -54,11 +54,11 @@ config$verbose <- 0
 
 AnEn.auto <- generateAnalogs(config)
 
-for (station.i in 1:dim(AnEn.auto$similarity_time_index)[1]) {
-  for (time.i in 1:dim(AnEn.auto$similarity_time_index)[2]) {
-    for (flt.i in 1:dim(AnEn.auto$similarity_time_index)[3]) {
+for (station.i in 1:dim(AnEn.auto$similarity)[1]) {
+  for (time.i in 1:dim(AnEn.auto$similarity)[2]) {
+    for (flt.i in 1:dim(AnEn.auto$similarity)[3]) {
       # Make sure that there are correct numbers of search
-      num.valid.similarity <- length(which(!is.na(AnEn.auto$similarity_time_index[station.i, time.i, flt.i, ])))
+      num.valid.similarity <- length(which(!is.na(AnEn.auto$similarity[station.i, time.i, flt.i, ,3])))
       num.valid.correct <- ceiling((config$test_times[time.i] - config$flts[flt.i]) / 10) - search.start
       stopifnot(num.valid.similarity == num.valid.correct)
     }

@@ -39,6 +39,14 @@ The Pennsylvania State University")
 		message <- paste(message, "\n*** Multi-thread not supported ***", sep = '')
 	}
 	
+	if (!requireNamespace('RAnEnExtra', quietly = T)) {
+		message <- paste(
+			message, "\n\n******************************************************\n",
+			"You haven't installed RAnEnExtra for AnEn verification and visualization\n",
+			"To install: devtools::install_github('Weiming-Hu/RAnEnExtra')\n",
+			"******************************************************", sep = '')
+	}
+	
 	packageStartupMessage(message)
 	invisible()
 }

@@ -1,25 +1,24 @@
-#' RAnEn::generateConfiguration
-#' 
-#' @export
+# "`-''-/").___..--''"`-._
+#  (`6_ 6  )   `-.  (     ).`-.__.`)   WE ARE ...
+#  (_Y_.)'  ._   )  `._ `. ``-..-'    PENN STATE!
+#    _ ..`--'_..-_/  /--'_.' ,'
+#  (il),-''  (li),'  ((!.-'
+# 
+# Author: Weiming Hu <wuh20@psu.edu>
+#         Geoinformatics and Earth Observation Laboratory (http://geolab.psu.edu)
+#         Department of Geography and Institute for CyberScience
+#         The Pennsylvania State University
+
 generateConfiguration <- function(mode, advanced = F) {
   return(list(mode = mode, advanced = advanced))
 }
 
-#' RAnEn::generateAnalogs
-#' 
-#' The generic method definition
-#' 
-#' @export
 generateAnalogs <- function(arg, ...) UseMethod("generateAnalogs")
 
-#' RAnEn::generateAnalogs
-#' 
-#' For backward compatibility
-#' 
-#' @export
 generateAnalogs.list <- function(config, ...) {
   
-  if (config$advanced) stop('Please change the code to use later APIs')
+  check.package('abind')
+  if (config$advanced) stop('Advanced configuration is deprecated. Please change the code to use later APIs')
   
   # Copy the configuration
   config.new <- new(Config)
@@ -28,57 +27,38 @@ generateAnalogs.list <- function(config, ...) {
   config.new$save_analogs_day_index <- T
   config.new$save_obs_time_index_table <- T
   
-  if (!is.null(config$num_members)) {
-    config.new$num_analogs <- config$num_members
+  # These are the names in the old config to be migrated from
+  from.names <- c("num_members", "observation_id", "weights", "quick",
+                  "prevent_search_future", "extend_observations",
+                  "preserve_mapping", "preserve_search_stations",
+                  "preserve_std", "max_par_nan", "max_flt_nan",
+                  "operational", "max_num_sims", "FLT_radius", "verbose")
+  
+  # There are the names in the new config to be written into.
+  # These names should match up with the from names
+  # 
+  to.names <- c("num_analogs", "observation_id", "weights", "quick",
+                "prevent_search_future", "extend_observation",
+                "save_obs_time_index_table", "save_search_stations_index",
+                "save_sds", "max_par_nan", "max_flt_nan", "operation",
+                "num_similarity", "flt_radius", "verbose")
+  
+  stopifnot(length(from.names) == length(to.names))
+  
+  # Migrate configurations
+  for (i in 1:length(from.names)) {
+    if (!is.null(config[[from.names[i]]])) {
+      config.new[[to.names[i]]] <- config[[from.names[i]]]
+    }
   }
-  if (!is.null(config$observation_id)) {
-    config.new$observation_id <- config$observation_id
-  }
-  if (!is.null(config$weights)) {
-    config.new$weights <- config$weights
-  }
-  if (!is.null(config$quick)) {
-    config.new$quick <- config$quick
-  }
-  if (!is.null(config$prevent_search_future)) {
-    config.new$prevent_search_future <- config$prevent_search_future
-  }
-  if (!is.null(config$extend_observations)) {
-    config.new$extend_observation <- config$extend_observations
-  }
+  
+  # Some names must be specifically migrated
   if (!is.null(config$preserve_similarity)) {
     if (config$preserve_similarity) {
       config.new$save_similarity <- T
       config.new$save_similarity_day_index <- T
       config.new$save_similarity_station_index <- T
     }
-  }
-  if (!is.null(config$preserve_mapping)) {
-    config.new$save_obs_time_index_table <- config$preserve_mapping
-  }
-  if (!is.null(config$preserve_search_stations)) {
-    config.new$save_search_stations_index <- config$preserve_search_stations
-  }
-  if (!is.null(config$preserve_std)) {
-    config.new$save_sds <- config$preserve_std
-  }
-  if (!is.null(config$max_par_nan)) {
-    config.new$max_par_nan <- config$max_par_nan
-  }
-  if (!is.null(config$max_flt_nan)) {
-    config.new$max_flt_nan <- config$max_flt_nan
-  }
-  if (!is.null(config$operational)) {
-    config.new$operation <- config$operational
-  }
-  if (!is.null(config$max_num_sims)) {
-    config.new$num_similarity <- config$max_num_sims
-  }
-  if (!is.null(config$FLT_radius)) {
-    config.new$flt_radius <- config$FLT_radius
-  }
-  if (!is.null(config$verbose)) {
-    config.new$verbose <- config$verbose
   }
   
   if (config$mode == "extendedSearch") {
@@ -91,12 +71,13 @@ generateAnalogs.list <- function(config, ...) {
   
   # Copy forecasts
   fcsts <- generateForecastsTemplate()
+  fcsts$Data <- config$forecasts
   fcsts$FLTs <- config$flts
+  fcsts$Times <- config$forecast_times
+  
   if (length(config$circulars) != 0) {
     fcsts$ParameterCirculars <- config$circulars
   }
-  fcsts$Data <- config$forecasts
-  fcsts$Times <- config$forecast_times
   
   if (config$mode == "extendedSearch") {
     if (!is.null(config$forecast_stations_x)) {
@@ -119,10 +100,35 @@ generateAnalogs.list <- function(config, ...) {
   # Generate analogs
   if (config$mode == 'independentSearch') {
     AnEn <- generateAnalogs(fcsts, obs, test_times, search_times, config.new, 'IS')
+    
+    analogs.station.index <- array(
+      data = rep(1:dim(AnEn$analogs)[1], times = prod(dim(AnEn$analogs)[2:4])),
+      dim = dim(AnEn$analogs))
+    
+    if (config.new$save_similarity) {
+      sims.station.index <- array(
+        data = rep(1:dim(AnEn$similarity)[1], times = prod(dim(AnEn$similarity)[2:4])),
+        dim = dim(AnEn$similarity))
+    }
+    
   } else if (config$mode == 'extendedSearch') {
     AnEn <- generateAnalogs(fcsts, obs, test_times, search_times, config.new, 'SSE')
+    
+    analogs.station.index <- AnEn$similarity_station_index[, , , 1:config.new$num_analogs, drop = F]
+    sims.station.index <- AnEn$similarity_station_index
+    AnEn$similarity_station_index <- NULL
+    
   } else {
     stop("Mode not recognized. You should use RAnEn version 4+")
+  }
+  
+  # Arrange the results to the old format
+  AnEn$analogs <- abind::abind(AnEn$analogs, analogs.station.index, AnEn$analogs_time_index, along = 5)
+  AnEn$analogs_time_index <- NULL
+  
+  if (config.new$save_similarity) {
+    AnEn$similarity <- abind::abind(AnEn$similarity, sims.station.index, AnEn$similarity_time_index, along = 5)
+    AnEn$similarity_time_index <- NULL
   }
   
   return (AnEn)

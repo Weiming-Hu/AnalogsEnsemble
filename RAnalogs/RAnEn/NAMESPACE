@@ -5,8 +5,8 @@ S3method(print,AnEn)
 export(Config)
 
 # Deprecated functions
-export(compute_analogs)
 export(rcpp_compute_analogs)
+export(compute_analogs)
 export(convertToAdvance)
 export(formatConfiguration)
 
@@ -15,10 +15,11 @@ export(generateConfiguration)
 export(generateAnalogs.list)
 
 # Helper functions
-export(alignObservations)
-export(checkOpenMP)
-
 export(formatObservations)
+export(alignObservations)
+export(toForecastTime)
+export(check.package)
+export(checkOpenMP)
 
 # Generation functions
 export(generateAnalogs)
@@ -26,14 +27,13 @@ export(generateAnalogs.default)
 export(generateTimeMapping)
 export(generateForecastsTemplate)
 export(generateObservationsTemplate)
+export(schaakeShuffle)
 
 # I/O functions
-export(readConfiguration)
+export(readConfig)
 export(readForecasts)
 export(readObservations)
-
-export(toForecastTime)
-
+export(writeConfig)
 export(writeNetCDF)
 
 import(BH)

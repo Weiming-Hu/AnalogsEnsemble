@@ -42,8 +42,10 @@
 #' 
 #' @md
 #' @export
-writeNetCDF <- function(file.type, obj, file.out,
-                        global.attrs = NULL, nchars.max = 50) {
+writeNetCDF <- function(
+  file.type, obj, file.out, global.attrs = list(
+    author = paste("RAnEn", packageVersion('RAnEn'), "from GEOlab, Penn State"),
+    Time = Sys.time()), nchars.max = 50) {
   
   if (!requireNamespace('ncdf4', quietly = T)) {
     stop(paste('Please install ncdf4.'))
@@ -80,7 +82,7 @@ writeNetCDF <- function(file.type, obj, file.out,
   }
   
   # Define the maximum length of strings
-  nc.dim.chars <- ncdf4::ncdim_def(pairs$`_CHARS`, "", 1:nchars.max, create_dimvar = F)
+  nc.dim.chars <- ncdf4::ncdim_def(pairs$`_DIM_CHARS`, "", 1:nchars.max, create_dimvar = F)
   
   # Define the variable list that the NetCDF file should include
   vars.list <- list()

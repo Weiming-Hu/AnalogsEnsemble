@@ -13,7 +13,7 @@
 using namespace Rcpp;
 
 //' @name Config
-//' @title Provides detailed configuration
+//' @title Exposed C++ Class Config
 //' @description Analog generation can be fine-tuned with configuration. This
 //' class provides all the tunable parameters for analog generation. You can
 //' type `RAnEn::Config` in the R console to see the description for each parameter.

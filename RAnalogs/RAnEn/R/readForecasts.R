@@ -49,7 +49,7 @@ readForecasts <- function(file, origin = '1970-01-01', tz = 'UTC') {
     if (name %in% names(nc$var)) {
       forecasts[[name]] <- as.vector(ncdf4::ncvar_get(nc, name))
       
-      if (name == 'ParameterCirculars') {
+      if (name == pairs$`_CIRCULARS`) {
         # Remove empty element
         forecasts[[name]] <- forecasts[[name]][forecasts[[name]] != '']
       }

@@ -50,12 +50,12 @@ public:
     std::size_t max_flt_nan;
     std::size_t flt_radius;
     std::size_t num_nearest;
-    std::size_t extend_obs;
 
     double distance;
     
     std::vector<double> weights;
 
+    bool extend_obs;
     bool operation;
     bool prevent_search_future;
     bool save_analogs;

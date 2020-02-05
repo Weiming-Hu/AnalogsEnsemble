@@ -25,6 +25,24 @@ using namespace boost;
 
 RCPP_EXPOSED_CLASS(Config)
 
+//' RAnEn::generateAnalogs
+//' 
+//' RAnEn::generateAnalogs generates analog ensemble.
+//' 
+//' @param sx_forecasts Forecasts. You can generate this by typing
+//' `forecasts <- generateForecastsTemplate()`.
+//' @param sx_observations Observations. You can generate this by typing
+//' `observations <- generateObservationsTemplate()`
+//' @param sx_test_times Test times
+//' @param sx_search_times Search times
+//' @param sx_config A Config. You can generate this by typing `config <- new(Config)`
+//' @param sx_algorithm `IS` for independent search or `SSE` for search
+//' space extension
+//' @return A list of results with class AnEn. You can type `print(AnEn)`
+//' to see a summary.
+//' 
+//' @md
+//' @export
 // [[Rcpp::export(generateAnalogs.default)]]
 
 List generateAnalogs(SEXP sx_forecasts, SEXP sx_observations,

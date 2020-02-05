@@ -91,8 +91,8 @@ Config::print(ostream & os) {
             << "max_flt_nan: " << max_flt_nan << endl
             << "flt_radius: " << flt_radius << endl
             << "num_nearest: " << num_nearest << endl
-            << "extend_obs: " << (extend_obs ? "true" : "false") << endl
             << "distance: " << distance << endl
+            << "extend_obs: " << (extend_obs ? "true" : "false") << endl
             << "operation: " << (operation ? "true" : "false") << endl
             << "prevent_search_future: " << (prevent_search_future ? "true" : "false") << endl
             << "save_analogs: " << (save_analogs ? "true" : "false") << endl
@@ -134,8 +134,8 @@ Config::reset() {
     max_flt_nan = 0;
     flt_radius = 1;
     num_nearest = 1;
-    extend_obs = true;
     distance = NAN;
+    extend_obs = true;
     operation = false;
     prevent_search_future = true;
     save_analogs = true;

@@ -26,16 +26,10 @@ reference:
           - starts_with("read")
           - starts_with("write")
 
-    - title: General Information
-      desc: Functions to provide generate information.
-      contents:
-          - RAnEn-package
-          - checkOpenMP
-          - starts_with("print")
-
     - title : Helpers
-      desc: Helper function to ease our lives.
+      desc: Helper function
       contents:
           - alignObservations
-          - starts_with("format")
-          - toDateTime
+          - formatObservations
+          - toForecastTime
+          - checkOpenMP

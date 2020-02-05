@@ -22,11 +22,15 @@ Useful links:
 }
 \author{
 Weiming Hu \email{weiming@psu.edu}
+
+Guido Cervone \email{cervone@psu.edu}
+
+Martina Calovi \email{mxc895@psu.edu}
+
+Laura Clemente-Harding \email{laura@psu.edu}
 }
 \keyword{Analog}
-\keyword{Bias}
-\keyword{Correction}
 \keyword{Ensemble,}
-\keyword{Forecasts,}
+\keyword{Forecasts}
 \keyword{Probabilistic}
 \keyword{Weather}

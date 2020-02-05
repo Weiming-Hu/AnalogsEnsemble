@@ -18,6 +18,18 @@
 
 using namespace Rcpp;
 
+//' RAnEn::generateTimeMapping
+//' 
+//' RAnEn::generateTimeMapping generates the index mapping table from foreacst times and lead times
+//' to observation times.
+//' 
+//' @param sx_fcst_times forecast times
+//' @param sx_fcst_flts forecast lead times
+//' @param sx_obs_times observation times
+//' @return A matrix with rows being forecast times and columns being lead times, the cell
+//' values are the index to the corresponding observation times.
+//' 
+//' @md
 //' @export
 // [[Rcpp::export]]
 

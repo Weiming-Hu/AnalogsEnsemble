@@ -43,7 +43,6 @@
 toForecastTime <- function(observation.time.id, mapping, flt = NULL) {
   
   mat <- NULL
-  mapping <- t(mapping)
   
   if (is.null(flt)) {
     
@@ -51,12 +50,12 @@ toForecastTime <- function(observation.time.id, mapping, flt = NULL) {
       stop('When all FLTs are requested, only one observation time id at a time.')
     }
     
-    cs <- apply(mapping == observation.time.id, 1, any)
+    cs <- apply(mapping == observation.time.id, 2, any)
     
     if ( any(cs) ) {
       
       for ( flt in which(cs) ) {
-        day <- which(mapping[flt, ] == observation.time.id)
+        day <- which(mapping[, flt] == observation.time.id)
         mat <- rbind(mat, c(day,flt))
       }
     } 
@@ -64,7 +63,7 @@ toForecastTime <- function(observation.time.id, mapping, flt = NULL) {
     return(mat)
     
   } else {
-    mapping <- mapping[flt, ]
+    mapping <- mapping[, flt]
     
     return(sapply(observation.time.id, function(x, mapping) {
       which(x == mapping)},

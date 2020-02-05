@@ -53,6 +53,7 @@
 #' Quarterly Journal of the Royal Meteorological Society 143.708 (2017): 2874-2885.
 #' 
 #' @md
+#' @export
 schaakeShuffle <- function(anen, obs.search, show.progress = F) {
   
   warning('RAnEn::schaakeShuffle has not been tested. Use with care.')

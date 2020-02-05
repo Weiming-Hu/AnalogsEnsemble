@@ -7,7 +7,7 @@ checkOpenMP <- function() {
 }
 
 #' @name Config
-#' @title Provides detailed configuration
+#' @title Exposed C++ Class Config
 #' @description Analog generation can be fine-tuned with configuration. This
 #' class provides all the tunable parameters for analog generation. You can
 #' type `RAnEn::Config` in the R console to see the description for each parameter.
@@ -19,10 +19,40 @@ checkOpenMP <- function() {
 #' @export
 NULL
 
+#' RAnEn::generateAnalogs
+#' 
+#' RAnEn::generateAnalogs generates analog ensemble.
+#' 
+#' @param sx_forecasts Forecasts. You can generate this by typing
+#' `forecasts <- generateForecastsTemplate()`.
+#' @param sx_observations Observations. You can generate this by typing
+#' `observations <- generateObservationsTemplate()`
+#' @param sx_test_times Test times
+#' @param sx_search_times Search times
+#' @param sx_config A Config. You can generate this by typing `config <- new(Config)`
+#' @param sx_algorithm `IS` for independent search or `SSE` for search
+#' space extension
+#' @return A list of results with class AnEn. You can type `print(AnEn)`
+#' to see a summary.
+#' 
+#' @md
+#' @export
 generateAnalogs.default <- function(sx_forecasts, sx_observations, sx_test_times, sx_search_times, sx_config = NULL, sx_algorithm = NULL) {
     .Call(`_RAnEn_generateAnalogs`, sx_forecasts, sx_observations, sx_test_times, sx_search_times, sx_config, sx_algorithm)
 }
 
+#' RAnEn::generateTimeMapping
+#' 
+#' RAnEn::generateTimeMapping generates the index mapping table from foreacst times and lead times
+#' to observation times.
+#' 
+#' @param sx_fcst_times forecast times
+#' @param sx_fcst_flts forecast lead times
+#' @param sx_obs_times observation times
+#' @return A matrix with rows being forecast times and columns being lead times, the cell
+#' values are the index to the corresponding observation times.
+#' 
+#' @md
 #' @export
 generateTimeMapping <- function(sx_fcst_times, sx_fcst_flts, sx_obs_times) {
     .Call(`_RAnEn_generateTimeMapping`, sx_fcst_times, sx_fcst_flts, sx_obs_times)

@@ -17,7 +17,6 @@
 #' package is installed or not.
 #' 
 #' @md
-#' 
 #' @keywords internal
 check.package <- function(name) {
   if (!requireNamespace(name, quietly = T)) {

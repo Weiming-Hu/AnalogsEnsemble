@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{Config}
 \alias{Config}
-\title{Provides detailed configuration}
+\title{Exposed C++ Class Config}
 \description{
 Analog generation can be fine-tuned with configuration. This
 class provides all the tunable parameters for analog generation. You can
