@@ -66,4 +66,3 @@ for (station.i in 1:dim(AnEn.auto$similarity)[1]) {
 }
 
 cat("You survived the tests for rolling!\n")
-

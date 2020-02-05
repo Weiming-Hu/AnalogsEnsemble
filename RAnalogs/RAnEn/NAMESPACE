@@ -17,6 +17,7 @@ export(generateAnalogs.list)
 # Helper functions
 export(formatObservations)
 export(alignObservations)
+export(toMemberForecasts)
 export(toForecastTime)
 export(check.package)
 export(checkOpenMP)

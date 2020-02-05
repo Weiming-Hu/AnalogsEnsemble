@@ -77,3 +77,6 @@ if (interactive()) {
        main = 'partial_sort (Points to the left of the red line should be the lowest sorted)')
   abline(v = num_analogs_1, col = 'red')
 }
+
+
+cat("You survived the tests for quick sort!\n")

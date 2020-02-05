@@ -54,6 +54,7 @@ observations$Times <- rep(search.times, each = length(forecasts$FLTs)) + forecas
 config <- new(Config)
 config$num_analogs <- members.size
 config$quick <- F
+config$verbose <- 1
 
 AnEn.cpp <- generateAnalogs(forecasts, observations, test.times, search.times, config)
 
@@ -101,6 +102,7 @@ config$num_analogs <- members.size
 config$quick <- F
 config$max_flt_nan <- 100
 config$max_par_nan <- 100
+config$verbose <- 1
 
 AnEn.cpp <- generateAnalogs(forecasts, observations, test.times, search.times, config)
 

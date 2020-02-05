@@ -31,5 +31,6 @@ reference:
       contents:
           - alignObservations
           - formatObservations
+          - toMemberForecasts
           - toForecastTime
           - checkOpenMP
