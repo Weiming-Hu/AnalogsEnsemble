@@ -48,7 +48,7 @@ generateAnalogs.list <- function(config, ...) {
 	config.new <- new(Config)
 	
 	config.new$save_analogs <- T
-	config.new$save_analogs_day_index <- T
+	config.new$save_analogs_time_index <- T
 	config.new$save_obs_time_index_table <- T
 	
 	# These are the names in the old config to be migrated from
@@ -80,7 +80,7 @@ generateAnalogs.list <- function(config, ...) {
 	if (!is.null(config$preserve_similarity)) {
 		if (config$preserve_similarity) {
 			config.new$save_similarity <- T
-			config.new$save_similarity_day_index <- T
+			config.new$save_similarity_time_index <- T
 			config.new$save_similarity_station_index <- T
 		}
 	}

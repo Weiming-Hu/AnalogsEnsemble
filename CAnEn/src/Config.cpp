@@ -35,9 +35,9 @@ const string Config::_OPERATION = "operation";
 const string Config::_WEIGHTS = "weights";
 const string Config::_PREVENT_SEARCH_FUTURE = "prevent_search_future";
 const string Config::_SAVE_ANALOGS = "save_analogs";
-const string Config::_SAVE_ANALOGS_TIME_IND = "save_analogs_day_index";
+const string Config::_SAVE_ANALOGS_TIME_IND = "save_analogs_time_index";
 const string Config::_SAVE_SIMS = "save_similarity";
-const string Config::_SAVE_SIMS_TIME_IND = "save_similarity_day_index";
+const string Config::_SAVE_SIMS_TIME_IND = "save_similarity_time_index";
 const string Config::_SAVE_SIMS_STATION_IND = "save_similarity_station_index";
 const string Config::_SAVE_SDS = "save_sds";
 const string Config::_SAVE_OBS_TIME_IND_TABLE = "save_obs_time_index_table";
@@ -96,9 +96,9 @@ Config::print(ostream & os) {
             << "operation: " << (operation ? "true" : "false") << endl
             << "prevent_search_future: " << (prevent_search_future ? "true" : "false") << endl
             << "save_analogs: " << (save_analogs ? "true" : "false") << endl
-            << "save_analogs_day_index: " << (save_analogs_day_index ? "true" : "false") << endl
+            << "save_analogs_time_index: " << (save_analogs_time_index ? "true" : "false") << endl
             << "save_sims: " << (save_sims ? "true" : "false") << endl
-            << "save_sims_day_index: " << (save_sims_day_index ? "true" : "false") << endl
+            << "save_sims_time_index: " << (save_sims_time_index ? "true" : "false") << endl
             << "save_sims_station_index: " << (save_sims_station_index ? "true" : "false") << endl
             << "save_sds: " << (save_sds ? "true" : "false") << endl
             << "save_obs_time_index_table: " << (save_obs_time_index_table ? "true" : "false") << endl
@@ -139,9 +139,9 @@ Config::reset() {
     operation = false;
     prevent_search_future = true;
     save_analogs = true;
-    save_analogs_day_index = false;
+    save_analogs_time_index = false;
     save_sims = false;
-    save_sims_day_index = false;
+    save_sims_time_index = false;
     save_sims_station_index = false;
     save_sds = false;
     save_obs_time_index_table = false;

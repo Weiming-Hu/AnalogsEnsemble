@@ -17,7 +17,7 @@ library(RAnEn)
 config <- new(Config)
 config$save_analogs <- F
 config$num_similarity <- 20
-config$save_similarity_day_index <- T
+config$save_similarity_time_index <- T
 
 forecasts <- generateForecastsTemplate()
 forecasts$Data <- array(runif(21000), dim = c(3, 20, 50, 7))

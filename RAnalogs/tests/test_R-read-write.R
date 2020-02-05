@@ -113,6 +113,6 @@ config$observation_id <- 5
 writeConfig(config, file.config, overwrite = T)
 config.read <- readConfig(file.config)
 stopifnot(all.equal(config, config.read))
-unlink(file.config)
+file.remove(file.config)
 
 cat("You survived the tests for R file I/O!\n")

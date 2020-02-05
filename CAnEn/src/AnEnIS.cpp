@@ -445,9 +445,9 @@ AnEnIS::setMembers_(const Config & config) {
     max_flt_nan_ = config.max_flt_nan;
     flt_radius_ = config.flt_radius;
     save_analogs_ = config.save_analogs;
-    save_analogs_time_index_ = config.save_analogs_day_index;
+    save_analogs_time_index_ = config.save_analogs_time_index;
     save_sims_ = config.save_sims;
-    save_sims_time_index_ = config.save_sims_day_index;
+    save_sims_time_index_ = config.save_sims_time_index;
     operation_ = config.operation;
     quick_sort_ = config.quick_sort;
     prevent_search_future_ = config.prevent_search_future;

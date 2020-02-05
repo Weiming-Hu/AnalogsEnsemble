@@ -145,7 +145,7 @@ List generateAnalogs(SEXP sx_forecasts, SEXP sx_observations,
         FunctionsR::setElement(ret, Config::_SIMS_STATION_IND, anen_sse->getSimsStationIndex(), true);
     }
 
-    if (config.save_sims_day_index) {
+    if (config.save_sims_time_index) {
         AnEnIS* anen_is = dynamic_cast<AnEnIS *> (anen);
         FunctionsR::setElement(ret, Config::_SIMS_TIME_IND, anen_is->getSimsTimeIndex(), true);
     }
@@ -155,7 +155,7 @@ List generateAnalogs(SEXP sx_forecasts, SEXP sx_observations,
         FunctionsR::setElement(ret, Config::_SIMS, anen_is->getSimsValue(), false);
     }
 
-    if (config.save_analogs_day_index) {
+    if (config.save_analogs_time_index) {
         AnEnIS* anen_is = dynamic_cast<AnEnIS *> (anen);
         FunctionsR::setElement(ret, Config::_ANALOGS_TIME_IND, anen_is->getAnalogsTimeIndex(), true);
     }

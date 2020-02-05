@@ -59,9 +59,9 @@ public:
     bool operation;
     bool prevent_search_future;
     bool save_analogs;
-    bool save_analogs_day_index;
+    bool save_analogs_time_index;
     bool save_sims;
-    bool save_sims_day_index;
+    bool save_sims_time_index;
     bool save_sims_station_index;
     bool save_sds;
     bool save_obs_time_index_table;
