@@ -77,6 +77,8 @@ RAnalogs/RAnEn/src/*
 !RAnalogs/RAnEn/src/RcppChecks.cpp
 !RAnalogs/RAnEn/src/RcppExports.cpp
 !RAnalogs/RAnEn/src/RcppConfig.cpp
+!RAnalogs/RAnEn/src/RcppGenerateAnalogs.cpp
+!RAnalogs/RAnEn/src/RcppGenerateTimeMapping.cpp
 
 RAnalogs/RAnEn/build
 RAnalogs/RAnEn/docs
