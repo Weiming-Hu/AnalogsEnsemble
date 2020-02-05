@@ -34,10 +34,14 @@ ObservationsR::ObservationsR(SEXP sx_data, SEXP sx_names, SEXP sx_times) {
 
     try {
         // Create parameters
-        FunctionsR::toParameters(sx_names, R_NilValue, parameters_);
+        if (Rf_isNull(sx_names)) {
+            FunctionsR::createParameters(R_NilValue, parameters_, data_dims[0]);
+        } else {
+            FunctionsR::toParameters(sx_names, R_NilValue, parameters_);
+        }
 
         // Create stations
-        FunctionsR::createStations(stations_, data_dims[1]);
+        FunctionsR::createStations(R_NilValue, stations_, data_dims[1]);
 
         // Create times
         FunctionsR::toTimes(sx_times, times_);

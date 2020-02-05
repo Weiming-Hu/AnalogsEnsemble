@@ -39,8 +39,7 @@ formatConfig <- function(config) {
     
     test_times_compare = expected.names$`_TEST_TIMES`,
     search_observations = expected.names$`_OBS`,
-    search_times_compare = expected.names$`_SEARCH_TIMES`
-  )
+    search_times_compare = expected.names$`_SEARCH_TIMES`)
   
   # Compare and find any unexpected names
   unexpected.names <- setdiff(names, expected.names)

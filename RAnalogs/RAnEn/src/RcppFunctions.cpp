@@ -4,34 +4,71 @@
  *
  * Created on January 22, 2020, 3:53 PM
  */
+#include <cmath>
+#include <sstream>
 
 #include "RcppFunctions.h"
 #include "boost/numeric/conversion/cast.hpp"
-
-#include <sstream>
 
 using namespace Rcpp;
 using namespace boost;
 
 void
-FunctionsR::createParameters(Parameters & parameters, size_t total) {
+FunctionsR::createParameters(const SEXP & sx_circulars, Parameters & parameters, size_t total) {
+
+    bool has_circulars = false;
+    if (!Rf_isNull(sx_circulars)) {
+        if (Rf_isNumeric(sx_circulars)) has_circulars = true;
+        else throw std::runtime_error("Circulars should be numeric when parameter names are not provided");
+    }
+
+    // Create pointer wrapper
+    NumericVector circulars;
+    if (has_circulars) circulars = sx_circulars;
 
     parameters.clear();
 
     for (size_t i = 0; i < total; ++i) {
-        parameters.push_back(Parameters::value_type(i, Parameter(std::to_string(i))));
+
+        Parameter parameter(std::to_string(i));
+
+        if (has_circulars) {
+            // Note the i + 1 to convert from C index to R index
+            auto it = std::find(circulars.begin(), circulars.end(), i + 1);
+            if (it != circulars.end()) parameter.setCircular(true);
+        }
+
+        parameters.push_back(Parameters::value_type(i, parameter));
     }
 
     return;
 }
 
 void
-FunctionsR::createStations(Stations& stations, size_t total) {
+FunctionsR::createStations(const SEXP & sx_names, Stations& stations, size_t total) {
+
+    bool has_name = false;
+    if (Rf_isString(sx_names)) has_name = true;
+
+    StringVector names;
+    if (has_name) {
+
+        names = sx_names;
+
+        if (names.size() != total) {
+            throw std::runtime_error("The number of station names does not match the requested data.");
+        }
+    }
 
     stations.clear();
+    std::string name = Config::_NAME;
 
     for (size_t i = 0; i < total; ++i) {
-        stations.push_back(Stations::value_type(i, Station(i, i)));
+        if (has_name) {
+            name = names(i);
+        }
+
+        stations.push_back(Stations::value_type(i, Station(i, i, name)));
     }
 
     return;
@@ -39,13 +76,13 @@ FunctionsR::createStations(Stations& stations, size_t total) {
 
 void
 FunctionsR::createTimes(Times& times, size_t total) {
-    
+
     times.clear();
-    
+
     for (size_t i = 0; i < total; ++i) {
         times.push_back(Times::value_type(i, Time(i)));
     }
-    
+
     return;
 }
 
@@ -54,30 +91,30 @@ FunctionsR::toParameters(const SEXP & sx_names, const SEXP & sx_circulars, Param
 
     // Type check
     if (!Rf_isString(sx_names)) throw std::runtime_error("Parameter names should be strings");
-    
+
     bool has_circulars = false;
     if (!Rf_isNull(sx_circulars)) {
-        if (Rf_isNumeric(sx_circulars)) has_circulars = true;
-        else throw std::runtime_error("Circulars should be numeric or NULL");
+        if (Rf_isString(sx_circulars)) has_circulars = true;
+        else throw std::runtime_error("Circulars should be strings when parameter names are provided");
     }
 
     // Create pointer wrapper
     StringVector names = sx_names;
 
-    IntegerVector circulars;
+    StringVector circulars;
     if (has_circulars) circulars = sx_circulars;
-    
+
     // Clean parameters
     parameters.clear();
 
     auto num_parameters = names.size();
 
     for (R_xlen_t i = 0; i < num_parameters; ++i) {
-        Parameter parameter(as<std::string>(names(i)));
+        std::string parameter_name = as<std::string>(names(i));
+        Parameter parameter(parameter_name);
 
         if (has_circulars) {
-            // NOTICE the increment on the index to convert C index to R index
-            auto it = std::find(circulars.begin(), circulars.end(), i + 1);
+            auto it = std::find(circulars.begin(), circulars.end(), parameter_name);
             if (it != circulars.end()) parameter.setCircular(true);
         }
 
@@ -92,14 +129,14 @@ FunctionsR::toStations(const SEXP & sx_xs, const SEXP & sx_ys, const SEXP & sx_n
 
     bool has_name = false;
     if (Rf_isString(sx_names)) has_name = true;
-   
+
     if (!Rf_isNumeric(sx_xs)) throw std::runtime_error("Xs should be numeric");
     if (!Rf_isNumeric(sx_ys)) throw std::runtime_error("Ys should be numeric");
 
     // Create pointer wrapper
     NumericVector xs = sx_xs;
     NumericVector ys = sx_ys;
-    
+
     StringVector names;
     if (has_name) names = sx_names;
 
@@ -157,7 +194,7 @@ FunctionsR::toTimes(const SEXP & sx_times, Times & times) {
     if (numeric_cast<R_xlen_t>(times.size()) != num_times) {
         std::stringstream ss;
         ss << "Duplicated times found: #input (" << num_times
-                << ") #unique (" << times.size() << ")";
+            << ") #unique (" << times.size() << ")";
         throw std::runtime_error(ss.str());
     }
 
@@ -165,10 +202,11 @@ FunctionsR::toTimes(const SEXP & sx_times, Times & times) {
 }
 
 void
-FunctionsR::setElement(Rcpp::List & list, const std::string & name, const Array4D & arr) {
+FunctionsR::setElement(Rcpp::List & list, const std::string & name,
+        const Array4D & arr, bool index_conversion) {
 
     using namespace boost;
-    
+
     // The input is a 4-dimensional array
     size_t num_dims = 4;
 
@@ -182,49 +220,50 @@ FunctionsR::setElement(Rcpp::List & list, const std::string & name, const Array4
     NumericVector nv_arr(arr.getValuesPtr(), arr.getValuesPtr() + arr.num_elements());
     nv_arr.attr("dim") = arr_dims;
 
+    // If the matrix stores indices, we need to add 1 to convert from C indices to R indices
+    if (index_conversion) nv_arr = nv_arr + 1;
+
     list[name] = nv_arr;
     return;
 }
 
-FunctionsR::ConfigMode
-FunctionsR::checkConfig(const SEXP & sx_config) {
+void
+FunctionsR::setElement(Rcpp::List & list, const std::string & name,
+        const Functions::Matrix & mat, bool index_conversion) {
 
-    using namespace std;
+    // Create a numeric matrix for R
+    NumericMatrix nm_mat(mat.size1(), mat.size2());
 
-//    if (!Rf_isNewList(sx_config)) throw std::runtime_error("Configuration should be a list");
-//    
-//    List config = sx_config;
-//
-//    // Members that should be numeric
-//    vector<string> members_numeric{
-//        _OBS_TIMES, _WEIGHTS, _CIRCULARS, _FCST_TIMES, _FLTS, _TEST_TIMES,
-//        _SEARCH_TIMES, _VERBOSE, _OBS_ID, _NUM_MEMBERS, _NUM_SIMS,
-//        _NUM_PAR_NA, _NUM_FLT_NA, _FLT_RADIUS};
-//
-//    checkType(config, members_numeric, Rf_isNumeric, "numeric");
-//
-//    // Members that should be logic
-//    vector<string> members_logic{
-//        _SAVE_SIMS, _SAVE_SIMS_IND, _SAVE_ANALOGS_IND,
-//        _OPERATION, _PREVENT_SEARCH_FUTURE, _QUICK};
-//
-//    checkType(config, members_logic, Rf_isLogical, "logic");
-//
-//    // Members that are used to determine the ConfigMode
-//    if (Rf_isNumeric(config[_OBS]) && Rf_isNumeric(config[_FCSTS])) {
-//        // Forecasts and observations are numeric vectors that
-//        // have already been read into memory
-//        //
-//        return ConfigMode::DATA_IN_MEMORY;
-//    }
-//
-//    throw runtime_error("Configuration is not recognized");
+    // Initialize with NA
+    std::fill(nm_mat.begin(), nm_mat.end(), NAN);
+
+    // Assign values
+    // 
+    // I copy ans assign values with nested for loops rather than pointer copy because
+    // 
+    // - matrices are usually not as big as multi-dimensional array, so the slowdown in performance
+    // should be negligible.
+    // 
+    // - I can avoid worrying about whether the internal storage of matrix is by column or by row.
+    // 
+    for (size_t row_i = 0; row_i < mat.size1(); ++row_i) {
+        for (size_t col_i = 0; col_i < mat.size2(); ++col_i) {
+
+            // If the matrix stores indices, we need to add 1 to convert from C indices to R indices
+            if (index_conversion) nm_mat(row_i, col_i) = mat(row_i, col_i) + 1;
+            else nm_mat(row_i, col_i) = mat(row_i, col_i);
+
+        }
+    }
+
+    list[name] = nm_mat;
+    return;
 }
 
 void
 FunctionsR::checkType(const List & config, std::vector<std::string> names,
         Rboolean (typeFunc)(SEXP), const std::string type_name) {
-    
+
     std::stringstream msg;
 
     for (const auto & name : names) {
@@ -232,7 +271,7 @@ FunctionsR::checkType(const List & config, std::vector<std::string> names,
             msg << name << " is not " << type_name << std::endl;
         }
     }
-    
+
     std::string msg_str = msg.str();
     if (!msg_str.empty()) throw std::runtime_error(msg_str);
 

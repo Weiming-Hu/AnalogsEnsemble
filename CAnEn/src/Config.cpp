@@ -54,6 +54,12 @@ const string Config::_STATION_NAMES = "StationNames";
 const string Config::_TIMES = "Times";
 const string Config::_FLTS = "FLTs";
 
+const string Config::_DIM_STATIONS = "num_stations";
+const string Config::_DIM_TIMES = "num_times";
+const string Config::_DIM_FLTS = "num_flts";
+const string Config::_DIM_PARS = "num_parameters";
+const string Config::_DIM_CHARS = "num_chars";
+
 const string Config::_ANALOGS = "analogs";
 const string Config::_ANALOGS_TIME_IND = "analogs_time_index";
 const string Config::_SIMS = "similarity";
@@ -97,6 +103,7 @@ Config::print(ostream & os) {
             << "save_sds: " << (save_sds ? "true" : "false") << endl
             << "save_obs_time_index_table: " << (save_obs_time_index_table ? "true" : "false") << endl
             << "save_search_stations_index: " << (save_search_stations_index ? "true" : "false") << endl
+            << "weights: " << (weights.size() > 0 ? Functions::format(weights) : "[equally weighted with 1s]") << endl
             << "verbose: " << Functions::vtoi(verbose) << " (" << Functions::vtos(verbose) << ")" << endl;
     return;
 }

@@ -43,6 +43,7 @@
 toForecastTime <- function(observation.time.id, mapping, flt = NULL) {
   
   mat <- NULL
+  mapping <- t(mapping)
   
   if (is.null(flt)) {
     

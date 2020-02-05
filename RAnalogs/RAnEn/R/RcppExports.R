@@ -19,7 +19,7 @@ checkOpenMP <- function() {
 #' @export
 NULL
 
-generateAnalogs <- function(sx_forecasts, sx_observations, sx_test_times, sx_search_times, sx_config, sx_algorithm) {
+generateAnalogs.default <- function(sx_forecasts, sx_observations, sx_test_times, sx_search_times, sx_config = NULL, sx_algorithm = NULL) {
     .Call(`_RAnEn_generateAnalogs`, sx_forecasts, sx_observations, sx_test_times, sx_search_times, sx_config, sx_algorithm)
 }
 

@@ -38,10 +38,18 @@ ForecastsR::ForecastsR(
     try {
 
         // Create parameters
-        FunctionsR::toParameters(sx_parameters_name, sx_circulars, parameters_);
+        if (Rf_isNull(sx_parameters_name)) {
+            FunctionsR::createParameters(sx_circulars, parameters_, data_dims[0]);
+        } else {
+            FunctionsR::toParameters(sx_parameters_name, sx_circulars, parameters_);
+        }
 
         // Create stations
-        FunctionsR::toStations(sx_xs, sx_ys, sx_stations_name, stations_);
+        if (Rf_isNull(sx_xs) || Rf_isNull(sx_ys)) {
+            FunctionsR::createStations(sx_stations_name, stations_, data_dims[1]);
+        } else {
+            FunctionsR::toStations(sx_xs, sx_ys, sx_stations_name, stations_);
+        }
 
         // Create times
         FunctionsR::toTimes(sx_times, times_);

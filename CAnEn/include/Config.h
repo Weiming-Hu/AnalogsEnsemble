@@ -122,6 +122,12 @@ public:
     static const std::string _TIMES;
     static const std::string _FLTS;
 
+    static const std::string _DIM_STATIONS;
+    static const std::string _DIM_TIMES;
+    static const std::string _DIM_FLTS;
+    static const std::string _DIM_PARS;
+    static const std::string _DIM_CHARS;
+
     // Output member names
     static const std::string _ANALOGS;
     static const std::string _ANALOGS_TIME_IND;

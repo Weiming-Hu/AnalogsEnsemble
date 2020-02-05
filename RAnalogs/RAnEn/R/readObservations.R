@@ -33,22 +33,21 @@ readObservations <- function(file, origin = '1970-01-01', tz = 'UTC') {
     stop(paste('Please install ncdf4.'))
   }
   
-  observations <- list()
-  nc <- ncdf4::nc_open(file)
-  observations$Data <- ncdf4::ncvar_get(nc, 'Data', collapse_degen = F)
-  observations$Times <- as.POSIXct(ncdf4::ncvar_get(nc, 'Times'), origin = origin, tz = tz)
-  observations$Xs <- as.numeric(ncdf4::ncvar_get(nc, 'Xs'))
-  observations$Ys <- as.numeric(ncdf4::ncvar_get(nc, 'Ys'))
+  config <- new(Config)
+  pairs <- config$getNames()
   
-  for (name in c('ParameterCirculars', 'StationNames',
-                 'ParameterNames', 'ParameterWeights')) {
+  observations <- generateObservationsTemplate()
+  
+  nc <- ncdf4::nc_open(file)
+  
+  # Required names
+  observations[[pairs$`_DATA`]] <- ncdf4::ncvar_get(nc, pairs$`_DATA`, collapse_degen = F)
+  observations[[pairs$`_TIMES`]] <- as.POSIXct(ncdf4::ncvar_get(nc, pairs$`_TIMES`), origin = origin, tz = tz)
+  
+  # Optional names
+  for (name in c(pairs$`_PAR_NAMES`, pairs$`_STATION_NAMES`, pairs$`_XS`, pairs$`_YS`)) {
     if (name %in% names(nc$var)) {
       observations[[name]] <- as.vector(ncdf4::ncvar_get(nc, name))
-      
-      if (name == 'ParameterCirculars') {
-        # Remove empty element
-        observations[[name]] <- observations[[name]][observations[[name]] != '']
-      }
     }
   }
   

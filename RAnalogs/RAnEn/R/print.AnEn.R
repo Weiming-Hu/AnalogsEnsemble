@@ -24,67 +24,58 @@
 #' 
 #' @export
 print.AnEn <- function (x) {
-  cat("Class: AnEn list\n\n")
+  cat("Result list with the following members:\n\n")
   empty <- T
   
   existed.names <- sort(names(x))
   
-  # Match names starting with analogs. These members are assumed to
-  # be analogs with 5 dimensions or 4 dimensions.
+  print.arr.dim <- function(dims, names) {
+    stopifnot(length(dims) == length(names))
+    lapply(1:length(dims), function(i)
+      cat('[', dims[i], ' ', names[i], ']', sep = ''))
+  }
+  
+  # Match names starting with analogs or similarity. These members have 4 dimensions.
   # 
-  matched <- grep(pattern = '^analogs.*', x = existed.names)
+  matched <- grep(pattern = '^(analogs|similarity).*', x = existed.names)
   if (length(matched) != 0) {
     
     for (name in existed.names[matched]) {
+      cat("$", name, ":\t", sep = '')
       
-      if (length(dim(x[[name]])) == 5) {
-        cat(paste("Member '", name, "': [station][test time][FLT][member][value, station, observation time]", sep = ''), '\n')
-      } else if (length(dim(x[[name]])) == 4) {
-        cat(paste("Member '", name, "': [station][test time][FLT][member]", sep = ''), '\n')
+      if (length(dim(x[[name]])) != 4) {
+        cat('[**Not a 4 dimensional array**]')
+      } else {
+        print.arr.dim(dim(x[[name]]), c('stations', 'times', 'FLTs', 'members'))
       }
       
-      cat(dim(x[[name]]))
       cat("\n")
       empty <- F
     }
     
     existed.names <- existed.names[-matched]
-    cat("\n")
   }
   
-  # Match names starting with similarity. These members are assumed to
-  # be similarity matrices with 5 dimensions.
-  # 
-  matched <- grep(pattern = '^similarity.*', x = existed.names)
-  if (length(matched) != 0) {
-    
-    for (name in existed.names[matched]) {
-      empty <- F
-      cat(paste("Member '", name, "': [station][test time][FLT][member][value, station, forecast time]", sep = ''), '\n')
-      cat(dim(x[[name]]))
-      cat("\n")
-      empty <- F
-    }
-    
-    existed.names <- existed.names[-matched]
-    cat("\n")
-  }
-  
-  # Match names starting with bias. These members are assumed to
-  # be bias matrices with 3 dimensions.
+  # Match names starting with bias. These members have 3 dimensions.
   # 
   matched <- grep(pattern = '^bias*', x = existed.names)
   if (length(matched) != 0) {
     
     for (name in existed.names[matched]) {
-      cat(paste("Member '", name, "': [test station][test time][FLT]", sep = ''), '\n')
-      cat(dim(x[[name]]))
+      
+      cat("$", name, ":\t", sep = '')
+      
+      if (length(dim(x[[name]])) != 3) {
+        cat('[**Not a 3 dimensional array**]')
+      } else {
+        print.arr.dim(dim(x[[name]]), c('stations', 'times', 'FLTs'))
+      }
+      
       cat("\n")
       empty <- F
     }
     
     existed.names <- existed.names[-matched]
-    cat("\n")
   }
   
   if (empty) {
@@ -92,7 +83,7 @@ print.AnEn <- function (x) {
   }
   
   if (length(existed.names) != 0) {
-    cat("Extra members:\n")
+    cat("\nExtra members:\n")
     cat(paste(existed.names, collapse = ', '), '\n')
   }
 }

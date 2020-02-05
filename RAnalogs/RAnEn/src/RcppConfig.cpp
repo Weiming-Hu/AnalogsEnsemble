@@ -33,10 +33,55 @@ void show(Config* config_ptr) {
     config_ptr->print(Rcout);
 }
 
+Rcpp::List getNames(Config* config_ptr) {
+  using namespace Rcpp;
+  
+    List names;
+
+    names["_NUM_ANALOGS"] = Config::_NUM_ANALOGS;
+    names["_NUM_SIMS"] = Config::_NUM_SIMS;
+    names["_OBS_ID"] = Config::_OBS_ID;
+    names["_NUM_PAR_NA"] = Config::_NUM_PAR_NA;
+    names["_NUM_FLT_NA"] = Config::_NUM_FLT_NA;
+    names["_FLT_RADIUS"] = Config::_FLT_RADIUS;
+    names["_NUM_NEAREST"] = Config::_NUM_NEAREST;
+    names["_EXTEND_OBS"] = Config::_EXTEND_OBS;
+    names["_DISTANCE"] = Config::_DISTANCE;
+    names["_WEIGHTS"] = Config::_WEIGHTS;
+    names["_OPERATION"] = Config::_OPERATION;
+    names["_PREVENT_SEARCH_FUTURE"] = Config::_PREVENT_SEARCH_FUTURE;
+    names["_SAVE_ANALOGS"] = Config::_SAVE_ANALOGS;
+    names["_SAVE_ANALOGS_TIME_IND"] = Config::_SAVE_ANALOGS_TIME_IND;
+    names["_SAVE_SIMS"] = Config::_SAVE_SIMS;
+    names["_SAVE_SIMS_TIME_IND"] = Config::_SAVE_SIMS_TIME_IND;
+    names["_SAVE_SIMS_STATION_IND"] = Config::_SAVE_SIMS_STATION_IND;
+    names["_SAVE_SDS"] = Config::_SAVE_SDS;
+    names["_SAVE_OBS_TIME_IND_TABLE"] = Config::_SAVE_OBS_TIME_IND_TABLE;
+    names["_SAVE_SEARCH_STATIONS_IND"] = Config::_SAVE_SEARCH_STATIONS_IND;
+    names["_QUICK"] = Config::_QUICK;
+    names["_VERBOSE"] = Config::_VERBOSE;
+    names["_DATA"] = Config::_DATA;
+    names["_PAR_NAMES"] = Config::_PAR_NAMES;
+    names["_CIRCULARS"] = Config::_CIRCULARS;
+    names["_XS"] = Config::_XS;
+    names["_YS"] = Config::_YS;
+    names["_STATION_NAMES"] = Config::_STATION_NAMES;
+    names["_TIMES"] = Config::_TIMES;
+    names["_FLTS"] = Config::_FLTS;
+    names["_DIM_STATIONS"] = Config::_DIM_STATIONS;
+    names["_DIM_TIMES"] = Config::_DIM_TIMES;
+    names["_DIM_FLTS"] = Config::_DIM_FLTS;
+    names["_DIM_PARS"] = Config::_DIM_PARS;
+    names["_DIM_CHARS"] = Config::_DIM_CHARS;
+
+    return(names);
+}
+
 RCPP_MODULE(Config) {
 
     class_<Config>("Config")
             .constructor("Create a configuration with default values. Usage: config <- new(Config)")
+
             .field(Config::_NUM_ANALOGS.c_str(), &Config::num_analogs, "The number of analog members in ensembles")
             .field(Config::_NUM_SIMS.c_str(), &Config::num_sims, "The number of similarity metrics to save")
             .field(Config::_OBS_ID.c_str(), &Config::obs_var_index, "The index for the observation variable to be predicted")
@@ -60,5 +105,6 @@ RCPP_MODULE(Config) {
             .field(Config::_QUICK.c_str(), &Config::quick_sort, "Whether to use quick sort algorithm. If FALSE, selected analogs members are sorted based on the ascending order of similarity metrics.")
             .method("reset", &Config::reset, "Reset the configuration to its default values")
             .method("show", &show, "Print the detailed configuration")
+            .method("getNames", &getNames, "Get name pairs. This is designed for name consistency between C++ and R.")
             .property(Config::_VERBOSE.c_str(), &Config::getVerbose, &Config::setVerbose);
 }

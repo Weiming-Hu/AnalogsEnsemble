@@ -53,14 +53,13 @@ config$max_num_sims <- 100
 config$quick <- F
 config$verbose <- 0
 
-config <- formatConfig(config)
 AnEn.auto <- generateAnalogs(config)
 
-for (station.i in 1:dim(AnEn.auto$similarity_index)[1]) {
-  for (time.i in 1:dim(AnEn.auto$similarity_index)[2]) {
-    for (flt.i in 1:dim(AnEn.auto$similarity_index)[3]) {
+for (station.i in 1:dim(AnEn.auto$similarity_time_index)[1]) {
+  for (time.i in 1:dim(AnEn.auto$similarity_time_index)[2]) {
+    for (flt.i in 1:dim(AnEn.auto$similarity_time_index)[3]) {
       # Make sure that the correct day is removed
-      sorted.search.days <- sort(AnEn.auto$similarity_index[station.i, time.i, flt.i, ])
+      sorted.search.days <- sort(AnEn.auto$similarity_time_index[station.i, time.i, flt.i, ])
       appended.search.days <- sort(c(sorted.search.days, config$test_times[time.i]/10))
       stopifnot(all.equal(appended.search.days, 1:100))
     }
