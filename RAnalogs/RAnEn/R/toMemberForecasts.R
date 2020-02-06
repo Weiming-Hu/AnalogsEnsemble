@@ -13,10 +13,22 @@
 
 #' RAnEn::toMemberForecasts
 #' 
-#' RAnEn::toMemberForecasts 
+#' RAnEn::toMemberForecasts finds the most similar historical forecasts
+#' that are associated with each analog members.
 #' 
 #' @author Weiming Hu \email{weiming@@psu.edu}
 #' @author Laura Clemente-Harding \email{laura@@psu.edu}
+#' @param forecasts The Data from Forecasts. Usually it is a 4D array.
+#' @param sims.time.index The similarity time index array from AnEn.
+#' @param sims.stations.index The similarity station index array from AnEn.
+#' @param stations.index The station index of the analogs.
+#' @param test.times.index The test time index of the analogs.
+#' @param flts.index The forecast lead time index of the analogs.
+#' @param members.index The analog members index.
+#' @param parameters.index The forecast parameters index.
+#' @param verbose Whether to show progress and summary information
+#' @return A 5 dimensional array with the shape `[parameters][stations][times][flts][members]`.
+#'
 #' @md
 #' @export
 toMemberForecasts <- function(
