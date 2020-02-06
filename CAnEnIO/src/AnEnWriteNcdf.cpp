@@ -86,21 +86,3 @@ AnEnWriteNcdf::append_(const NcFile & nc, const Analogs & analogs) const {
     var_analogs.putVar(analogs.data());
     return;
 }
-
-void
-AnEnWriteNcdf::append_(const NcFile & nc,
-        const Times & flts, bool unlimited) const {
-    
-    if (verbose_ >= Verbose::Detail) cout << "Appending lead times ..." << endl;
-    
-    if (varExists(nc, VAR_FLTS)) {
-        ostringstream msg;
-        msg << VAR_FLTS << " exists";
-        throw runtime_error(msg.str());
-    }
-    
-    size_t len = (unlimited ? 0 : flts.size());
-    NcDim dim_flts = getDim_(nc, DIM_FLTS, len);
-    NcVar var = nc.addVar(VAR_FLTS, NcType::nc_DOUBLE, dim_flts);
-    
-}

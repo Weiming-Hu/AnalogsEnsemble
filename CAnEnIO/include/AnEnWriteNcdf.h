@@ -43,8 +43,6 @@ protected:
             std::string name, size_t len = 0) const;
 
     void append_(const netCDF::NcFile & nc, const Analogs & analogs) const;
-    void append_(const netCDF::NcFile & nc, const Times & flts,
-            bool unlimited) const;
 
 };
 
