@@ -9,27 +9,18 @@
 #define TESTFUNCTIONS_H
 
 #include <cppunit/extensions/HelperMacros.h>
-
-// I cannot pass argument through command lines therefore I have to 
-// use macro definitions to tell where the files are and then 
-// the program can correctly read them.
-//
-#ifndef _PATH_OBSERVATIONS 
-#define _PATH_OBSERVATIONS "tests/test_observations.nc"
-#define _PATH_FORECASTS "tests/test_forecasts.nc"
-#endif
+#include "Functions.h"
 
 class testFunctions : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST_SUITE(testFunctions);
 
-    CPPUNIT_TEST(testComputeObservationTimeIndices1);
-    CPPUNIT_TEST(testComputeObservationTimeIndices2);
-    CPPUNIT_TEST(testComputeStandardDeviation);
-    CPPUNIT_TEST(testComputeSearchWindows);
-    CPPUNIT_TEST(testConvertToIndex);
-    CPPUNIT_TEST(testSdCircular);
-    CPPUNIT_TEST(testSdLinear);
-    CPPUNIT_TEST(testMean);
+    CPPUNIT_TEST(testSearchStations_);
+    CPPUNIT_TEST(testComputeObservationTimeIndices1_);
+    CPPUNIT_TEST(testComputeObservationTimeIndices2_);
+    CPPUNIT_TEST(testConvertToIndex_);
+    CPPUNIT_TEST(testSdCircular_);
+    CPPUNIT_TEST(testSdLinear_);
+    CPPUNIT_TEST(testMean_);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -44,15 +35,16 @@ public:
 
 private:
 
-    void testComputeObservationTimeIndices1();
-    void testComputeObservationTimeIndices2();
-    void testComputeStandardDeviation();
-    void testComputeSearchWindows();
-    void testConvertToIndex();
-    void testSdCircular();
-    void testSdLinear();
-    void testMean();
+    void testSearchStations_();
+    void testComputeObservationTimeIndices1_();
+    void testComputeObservationTimeIndices2_();
+    void testConvertToIndex_();
+    void testSdCircular_();
+    void testSdLinear_();
+    void testMean_();
     
+    bool neighborExists_(const Functions::Matrix & table,
+            size_t test_index, size_t neighbor_index) const;
 };
 
 #endif /* TESTFUNCTIONS_H */

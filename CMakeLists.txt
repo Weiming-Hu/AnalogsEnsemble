@@ -1,7 +1,8 @@
-cmake_minimum_required(VERSION 2.8)
-project(ParallelEnsembleForecasts)
+cmake_minimum_required(VERSION 3.0)
+project(ParallelAnalogEnsemble)
 
-set(GRAND_VERSION "3.7.1")
+set(GRAND_VERSION "4.0.0")
+set(GRAND_VERSION_NICKNAME "Pandora")
 message("You are building version ${GRAND_VERSION}")
 add_definitions(-D_APPVERSION="v ${GRAND_VERSION}")
 
@@ -15,13 +16,38 @@ if(POLICY CMP0042)
 endif(POLICY CMP0042)
 
 enable_language(CXX C)
-option(VERBOSE "Verbose standout output" OFF)
-option(CMAKE_BUILD_TESTS "Build tests" ON)
-option (BUILD_GRIBCONVERTER "Build gribConverter utility. Eccodes required." OFF)
-option (CODE_PROFILING "Insert profiling code and print time information." OFF)
-option (USE_NCCONFIG "Use nc-config to determine cflags and libdirs." OFF)
 
-set(IMPORTANT_PATH "${CMAKE_SOURCE_DIR}/important")
+##################################################################################
+#                 Start of the list of parameters                                #
+##################################################################################
+option(BUILD_FS "Build file slicer" OFF)
+option(BUILD_AGG "Build file aggregator" OFF)
+option(BUILD_ANENS "Build analog selector" OFF)
+option(BUILD_ANENGEN "Build analog generator" OFF)
+option(BUILD_SIMS "Build similarity calculator" OFF)
+option(BUILD_WIND "Build wind field calculator" OFF)
+option(BUILD_SD "Build standard deviation calculator" OFF)
+option(BUILD_F2O "Build forecast to observation utility" OFF)
+option(BUILD_GRIBCONVERTER "Build gribConverter utility. Eccodes required." OFF)
+
+option(CMAKE_BUILD_TESTS "Build tests" ON)
+option(VERBOSE "Verbose standout output" OFF)
+option(INSTALL_RAnEn "install RAnEn package" OFF)
+option(OPENMP "Insert OpenMP parallelization flags" ON)
+option(USE_NCCONFIG "Use nc-config to determine cflags and libdirs." OFF)
+option(CODE_PROFILING "Insert profiling code and print time information." OFF)
+
+# Set this variable to prevent CMake from removing
+# non-standard build paths. This would be helpful on
+# supercomputers where modules are always loaded, rather
+# than installed at the standard location.
+#
+option(CMAKE_MACOSX_RPATH "Whether RPATH should be used on MacOS" ON)
+option(CMAKE_INSTALL_RPATH_USE_LINK_PATH "Whether to use link path during installation" ON)
+##################################################################################
+#                   End of the list of parameters                                #
+##################################################################################
+
 set(EXTRA_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${EXTRA_MODULE_PATH})
 set(DEPENDENCY_PATH "${CMAKE_SOURCE_DIR}/dependency")
@@ -35,17 +61,6 @@ if(NOT CMAKE_INSTALL_LIBDIR)
 endif(NOT CMAKE_INSTALL_LIBDIR)
 
 set(COMMON_OUTPUT_DIR "${CMAKE_SOURCE_DIR}/output")
-#if (EXISTS ${COMMON_OUTPUT_DIR})
-#    file(REMOVE_RECURSE ${COMMON_OUTPUT_DIR})
-#endif(EXISTS ${COMMON_OUTPUT_DIR})
-
-# set this variable to prevent CMake from removing
-# non-standard build paths. This would be helpful on
-# supercomputers where modules are always loaded, rather
-# than installed at the standard location.
-#
-option(CMAKE_MACOSX_RPATH "Whether RPATH should be used on MacOS" ON)
-option(CMAKE_INSTALL_RPATH_USE_LINK_PATH "Whether to use link path during installation" ON)
 
 if (CMAKE_INSTALL_RPATH)
     set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_RPATH};${DEPENDENCY_PATH}/install/lib/;${COMMON_OUTPUT_DIR}/lib")
@@ -136,16 +151,21 @@ endif(CMAKE_BUILD_TYPE STREQUAL "Debug")
 message(STATUS "C++ compiler options are: ${CMAKE_CXX_FLAGS}")
 
 # find OpenMP
-find_package (OpenMP)
-if (${OPENMP_FOUND})
-    message(STATUS "Using OpenMP ${OpenMP_CXX_FLAGS}")
-    set (CMAKE_C_FLAGS "${OpenMP_C_FLAGS} ${CMAKE_C_FLAGS}")
-    set (CMAKE_CXX_FLAGS "${OpenMP_CXX_FLAGS} ${CMAKE_CXX_FLAGS}")
-else (${OPENMP_FOUND})
-    message (WARNING "No OpenMP support found for the compiler: ${CMAKE_CXX_COMPILER}
-    The process goes on, but the executable won't support multi-threading.
-    SUGGESTION: specify another compiler using CC and CXX. CC=[C compiler] CXX=[CXX compiler] cmake ..")
-endif (${OPENMP_FOUND})
+if (OPENMP)
+    find_package (OpenMP)
+    if (${OPENMP_FOUND})
+        message(STATUS "Using OpenMP ${OpenMP_CXX_FLAGS}")
+        set (CMAKE_C_FLAGS "${OpenMP_C_FLAGS} ${CMAKE_C_FLAGS}")
+        set (CMAKE_CXX_FLAGS "${OpenMP_CXX_FLAGS} ${CMAKE_CXX_FLAGS}")
+    else (${OPENMP_FOUND})
+        message (WARNING "No OpenMP support found for the compiler: ${CMAKE_CXX_COMPILER}
+        The process goes on, but the executable won't support multi-threading.
+        SUGGESTION: specify another compiler using CC and CXX. CC=[C compiler] CXX=[CXX compiler] cmake ..")
+    endif (${OPENMP_FOUND})
+else (OPENMP)
+    message(STATUS "OPENMP is disabled")
+endif (OPENMP)
+
 
 if (VERBOSE)
     message(STATUS "CMAKE_CXX_FLAGS: ${CMAKE_CXX_FLAGS}")
@@ -159,7 +179,6 @@ endif(CODE_PROFILING)
 # if INSTALL_RAnEn is set to TRUE
 # only install RAnEn package
 #
-option(INSTALL_RAnEn "install RAnEn package" OFF)
 if(INSTALL_RAnEn)
     message(STATUS "install RAnEn package")
     add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/RAnalogs")
@@ -168,27 +187,9 @@ else (INSTALL_RAnEn)
 	# The Release and Debug mode also apply to the libraries that we are going to build
 	# But we don't want the -fopenmp option to be applied to dependent libraries
 	#
-	include(CMakeLists_netCDF.txt)
-	include(CMakeLists_Boost.txt)
+    include("${EXTRA_MODULE_PATH}/CMakeLists_netCDF.txt")
+	include("${EXTRA_MODULE_PATH}/CMakeLists_Boost.txt")
 endif(INSTALL_RAnEn)
-
-option(ENABLE_MPI "enable support for MPI" OFF)
-message(STATUS "ENABLE_MPI is set to ${ENABLE_MPI}")
-
-if(ENABLE_MPI)
-    # check MPI compiler
-    find_package(MPI REQUIRED COMPONENTS C CXX)
-    if(CMAKE_C_COMPILER MATCHES "^.*mpi.*$" AND
-            CMAKE_CXX_COMPILER MATCHES "^.*mpi.*$")
-        message(STATUS "Configure support with MPI compiler")
-    else(CMAKE_C_COMPILER MATCHES "^.*mpi.*$" AND
-            CMAKE_CXX_COMPILER MATCHES "^.*mpi.*$")
-        message(WARNING "Please specify CC and CXX to mpicc compiler/wrapper.")
-    endif(CMAKE_C_COMPILER MATCHES "^.*mpi.*$" AND
-        CMAKE_CXX_COMPILER MATCHES "^.*mpi.*$")
-
-    add_definitions(-D_ENABLE_MPI)
-endif(ENABLE_MPI)
 
 file(MAKE_DIRECTORY ${COMMON_OUTPUT_DIR})
 file(MAKE_DIRECTORY "${COMMON_OUTPUT_DIR}/bin")
@@ -205,18 +206,39 @@ add_subdirectory("${CMAKE_SOURCE_DIR}/CAnEn")
 #####################
 # build executables #
 #####################
-add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_standardDeviationCalculator")
-add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_forecastsToObservations")
-add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_similarityCalculator")
-add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_windFieldCalculator")
-add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_analogGenerator")
-add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_analogSelector")
-add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_fileAggregate")
-add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_fileSlice")
+add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_test")
 
-if(ENABLE_MPI)
-    add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_mpiAnEnIO")
-endif(ENABLE_MPI)
+if (BUILD_SD)
+    add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_standardDeviationCalculator")
+endif (BUILD_SD)
+
+if (BUILD_F2O)
+    add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_forecastsToObservations")
+endif (BUILD_F2O)
+
+if (BUILD_SIMS)
+    add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_similarityCalculator")
+endif (BUILD_SIMS)
+
+if (BUILD_WIND)
+    add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_windFieldCalculator")
+endif (BUILD_WIND)
+
+if (BUILD_ANENGEN)
+    add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_analogGenerator")
+endif (BUILD_ANENGEN)
+
+if (BUILD_ANENS)
+    add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_analogSelector")
+endif (BUILD_ANENS)
+
+if (BUILD_AGG)
+    add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_fileAggregate")
+endif (BUILD_AGG)
+
+if (BUILD_FS)
+    add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_fileSlice")
+endif (BUILD_FS)
 
 if (BUILD_GRIBCONVERTER)
     add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_gribConverter")
@@ -228,7 +250,7 @@ endif (BUILD_GRIBCONVERTER)
 #####################
 # if CMAKE_BUILD_TESTS is set to ON, build the test cases
 if(CMAKE_BUILD_TESTS)
-    message(STATUS "Build various tests")
+    message(STATUS "Build tests")
     file(MAKE_DIRECTORY "${COMMON_OUTPUT_DIR}/test")
     enable_testing()
     add_custom_target(test_all ${CMAKE_CTEST_COMMAND} -V)
@@ -297,7 +319,7 @@ endif(CMAKE_BUILD_TESTS)
 # uninstall target
 if(NOT TARGET uninstall)
     add_custom_target(uninstall
-        COMMAND ${CMAKE_COMMAND} -P ${CMAKE_SOURCE_DIR}/CMakeLists_Uninstall.txt)
+        COMMAND ${CMAKE_COMMAND} -P ${EXTRA_MODULE_PATH}/CMakeLists_Uninstall.txt)
 endif(NOT TARGET uninstall)
 
 if (HDF5_BUILT)
@@ -327,8 +349,10 @@ if (DOXYGEN_FOUND)
 
     if (${DOXYGEN_DOT_FOUND})
         set (DOXYGEN_HAVE_DOT YES)
+        message (STATUS "Graphviz is found.")
     else (${DOXYGEN_DOT_FOUND}) 
         set (DOXYGEN_HAVE_DOT "NO")
+        message (STATUS "Graphviz is NOT found. No DOT support.")
     endif (${DOXYGEN_DOT_FOUND})
 
     configure_file ("${CMAKE_CURRENT_SOURCE_DIR}/doxygen-config.in" "${CMAKE_CURRENT_BINARY_DIR}/doxygen-config")

@@ -22,8 +22,8 @@ num.days <- 100
 num.members <- 5
 num.stations <- 9
 
-forecasts.time <- 1:num.days
-forecasts.flt <- seq(0, by = 3/num.flts, length.out = num.flts)
+forecasts.time <- 1:num.days * 10
+forecasts.flt <- seq(0, by = 3/num.flts, length.out = num.flts) * 10
 observations.time <- unique(rep(forecasts.time, each = num.flts) + forecasts.flt)
 
 forecasts <- array(rnorm(num.pars * num.flts * num.days * num.stations, 0, 100),
@@ -33,61 +33,37 @@ observations <- array(runif(1 * num.flts * length(observations.time), -10, 10),
 
 # Case: leave one out with the latest version
 test.start <- 90
-test.end <- 90
+test.end <- 92
 search.start <- 1
-search.end <- num.days
+search.end <- 100
 
-config <- generateConfiguration('independentSearch', TRUE)
-config$test_forecasts <- forecasts
-config$test_times <- forecasts.time
+config <- generateConfiguration('independentSearch')
+config$forecasts <- forecasts
+config$forecast_times <- forecasts.time
 config$test_times_compare <- forecasts.time[test.start:test.end]
-config$search_forecasts <- forecasts
-config$search_times <- forecasts.time
 config$search_times_compare <- forecasts.time[search.start:search.end]
 config$flts <- forecasts.flt
 config$search_observations <- observations
 config$observation_times <- observations.time
 config$num_members <- num.members
-config$operational <- T
+config$prevent_search_future <- F
 config$preserve_similarity <- T
+config$preserve_similarity_index <- T
+config$max_num_sims <- 100
 config$quick <- F
+config$verbose <- 0
 
 AnEn.auto <- generateAnalogs(config)
 
-# Case: Deprecated functions
-observations4D <- array(dim = c(1, dim(forecasts)[2:4]))
-for (i.time in 1:dim(observations4D)[3]) {
-  for (i.flt in 1:dim(observations4D)[4]) {
-    i.obs <- AnEn.auto$mapping[i.flt, i.time]
-    
-    for (i.par in 1:dim(observations4D)[1]) {
-      for (i.station in 1:dim(observations4D)[2]) {
-        observations4D[i.par, i.station, i.time, i.flt] <-
-          observations[i.par, i.station, i.obs]
-      }
+for (station.i in 1:dim(AnEn.auto$similarity)[1]) {
+  for (time.i in 1:dim(AnEn.auto$similarity)[2]) {
+    for (flt.i in 1:dim(AnEn.auto$similarity)[3]) {
+      # Make sure that the correct day is removed
+      sorted.search.days <- sort(AnEn.auto$similarity[station.i, time.i, flt.i, ,3])
+      appended.search.days <- sort(c(sorted.search.days, config$test_times[time.i]/10))
+      stopifnot(all.equal(appended.search.days, 1:100))
     }
-    
   }
 }
-
-AnEn.dep <- compute_analogs(
-  forecasts, observations4D,
-  test_ID_start = test.start,
-  test_ID_end = test.end,
-  train_ID_start = search.start,
-  train_ID_end = search.end,
-  members_size = num.members,
-  rolling = -3,
-  quick = F)
-
-for (i.flt in 1:dim(AnEn.dep$analogs)[3]) {
-  AnEn.dep$analogs[, , i.flt, , 3] <- AnEn.auto$mapping[i.flt, AnEn.dep$analogs[, , i.flt, , 3]]
-}
-
-stopifnot(identical(
-  as.vector(AnEn.dep$analogs), 
-  as.vector(AnEn.auto$analogs)))
-
-print("LeaveOneOut results are the same between latest and deprecated version.")
 
 cat("You survived the tests for leave-one-out search!\n")

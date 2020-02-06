@@ -6,194 +6,196 @@
  */
 
 #include "Functions.h"
-#include "colorTexts.h"
 
-using namespace std;
+#include <string>
+#include <cmath>
+#include <limits>
+#include <sstream>
+#include <algorithm>
+#include <stdexcept>
+#include <iterator>
+
+#include "boost/geometry.hpp"
+#include "boost/geometry/geometries/point.hpp"
+#include "boost/geometry/geometries/ring.hpp"
+#include "boost/geometry/index/rtree.hpp"
+#include "boost/lambda/lambda.hpp"
 
 #if defined(_OPENMP)
 #include <omp.h>
 #endif
 
-const double MULTIPLY = M_PI / 180;
-const double MULTIPLY_REVERSE = 180 / M_PI;
-const double FILL_VALUE = NAN;
 
-Functions::Functions(int verbose) : verbose_(verbose) {
-}
+#include <ctime>
 
-//Functions::Functions(const Functions& orig) {
-//}
+using namespace std;
+namespace bg = boost::geometry;
+namespace bgi = boost::geometry::index;
 
-Functions::~Functions() {
-}
+const double _DEG2RAD = M_PI / 180;
+const double _RAD2DEG = 180 / M_PI;
 
-errorType
-Functions::computeStandardDeviation(
-        const Forecasts_array& forecasts, StandardDeviation& sds,
-        vector<size_t> i_times) const {
+void
+Functions::setSearchStations(const Stations & stations, Matrix & table, double distance) {
 
-    if (verbose_ >= 3) cout << "Computing standard deviation ... " << endl;
+    // Determine the number of neighbors
+    size_t num_neighbors = table.size2();
+    size_t num_stations = stations.size();
     
-    if (i_times.size() == 0) {
-        i_times.resize(forecasts.getTimesSize());
-        iota(i_times.begin(), i_times.end(), 0);
+    // Convert distance to squred distance
+    distance *= distance;
+
+    // Check the rows of the table
+    if (table.size1() != num_stations) {
+        ostringstream msg;
+        msg << "The table has " << table.size1() << " rows but there are"
+                << num_stations << " test stations";
+        throw overflow_error(msg.str());
     }
 
-    size_t num_parameters = forecasts.getParametersSize();
-    size_t num_stations = forecasts.getStationsSize();
-    size_t num_times = i_times.size();
-    size_t num_flts = forecasts.getFLTsSize();
+    // Initialize a vector to store the distances and the indices
+    vector< pair<double, size_t> > distances_sq(num_stations);
 
-    auto & array = forecasts.data();
+    for (size_t test_i = 0; test_i < num_stations; ++test_i) {
 
-    vector<bool> circular_flags(num_parameters, false);
-    auto & parameters_by_insert = forecasts.getParameters().get<anenPar::by_insert>();
-    for (size_t i_parameter = 0; i_parameter < num_parameters; i_parameter++) {
-        circular_flags[i_parameter] = parameters_by_insert[i_parameter].getCircular();
+        const Station & test = stations.getStation(test_i);
+
+        // Calculate pair-wise station distances
+        for (size_t search_i = 0; search_i < num_stations; ++search_i) {
+            const Station & search = stations.getStation(search_i);
+
+            distances_sq[search_i].first =
+                    pow(test.getX() - search.getX(), 2) +
+                    pow(test.getY() - search.getY(), 2);
+            distances_sq[search_i].second = search_i;
+        }
+
+        // Sort based on distances
+        nth_element(distances_sq.begin(), distances_sq.begin() + num_neighbors, distances_sq.end(),
+                [](const pair<double, size_t> & lhs, const pair<double, size_t> & rhs) {
+                    return lhs.first < rhs.first;
+                });
+                
+        // Copy neighbor stations index to the output table
+        size_t current_pos = 0;
+
+        for (size_t neighbor_i = 0; neighbor_i < num_neighbors; ++neighbor_i) {
+            if (distances_sq[neighbor_i].first > distance) continue;
+            table(test_i, current_pos) = distances_sq[neighbor_i].second;
+            ++current_pos;
+        }
     }
 
-    // Resize sds according to forecasts
-    StandardDeviation::extent_gen extents;
-    sds.resize(extents[num_parameters][num_stations][num_flts]);
-
-#if defined(_OPENMP)
-#pragma omp parallel for default(none) schedule(static) collapse(3) \
-shared(num_parameters, num_stations, num_flts, num_times, array, \
-i_times, circular_flags, sds) 
-#endif
-    for (size_t i_parameter = 0; i_parameter < num_parameters; i_parameter++) {
-        for (size_t i_station = 0; i_station < num_stations; i_station++) {
-            for (size_t i_flt = 0; i_flt < num_flts; i_flt++) {
-
-                // Extract values for times
-                vector<double> values(num_times);
-                for (size_t pos_time = 0; pos_time < num_times; pos_time++) {
-                    size_t i_time = i_times[pos_time];
-                    values[pos_time] = array[i_parameter][i_station][i_time][i_flt];
-                } // End of times loop
-
-                if (circular_flags[i_parameter]) {
-                    // If the parameter is circular
-                    sds[i_parameter][i_station][i_flt] = sdCircular(values);
-                } else {
-                    // If the parameter is not circular
-                    sds[i_parameter][i_station][i_flt] = sdLinear(values);
-                } // End of if statement of is_circular
-
-            } // End of FLTs loop
-        } // End of stations loop
-    } // End of parameters loop
-
-    return (SUCCESS);
+    return;
 }
 
-errorType
-Functions::computeSearchWindows(boost::numeric::ublas::matrix<size_t> & windows,
-        size_t num_flts, size_t window_half_size) const {
-
-    if (verbose_ >= 3) cout << "Computing search windows for FLT ... " << endl;
-
-    windows.resize(num_flts, 2);
-
-    for (size_t i_flt = 0; i_flt < num_flts; i_flt++) {
-        int begin = 0;
-        size_t end = 0;
-
-        begin = i_flt - window_half_size;
-        end = i_flt + window_half_size;
-        windows(i_flt, 0) = (begin < 0) ? 0 : begin;
-        windows(i_flt, 1) = (end >= num_flts) ? (num_flts - 1) : end;
+Verbose
+Functions::itov(int flag) {
+    switch (flag) {
+        case 0:
+            return Verbose::Error;
+        case 1:
+            return Verbose::Warning;
+        case 2:
+            return Verbose::Progress;
+        case 3:
+            return Verbose::Detail;
+        case 4:
+            return Verbose::Debug;
+        default:
+            ostringstream msg;
+            msg << "Unknown verbose flag " << flag;
+            throw runtime_error(msg.str());
     }
-
-    return (SUCCESS);
 }
 
-errorType
-Functions::computeObservationsTimeIndices(
-        const anenTime::Times & times_forecasts,
-        const anenTime::Times & flts_forecasts,
-        const anenTime::Times & times_observations,
-        Functions::TimeMapMatrix & mapping_ref,
-        int time_match_mode) const {
+int
+Functions::vtoi(Verbose verbose) {
+    switch (verbose) {
+        case Verbose::Error:
+            return 0;
+        case Verbose::Warning:
+            return 1;
+        case Verbose::Progress:
+            return 2;
+        case Verbose::Detail:
+            return 3;
+        case Verbose::Debug:
+            return 4;
+        default:
+            throw runtime_error("Unknown verbose type");
+    }
+}
 
-    if (verbose_ >= 3) cout << "Computing mapping from forecast [Time, FLT] to observation [Time]  ... " << endl;
+std::string
+Functions::vtos(Verbose verbose) {
+    switch (verbose) {
+        case Verbose::Error:
+            return "Error only";
+        case Verbose::Warning:
+            return "Error + Warning";
+        case Verbose::Progress:
+            return "Progress";
+        case Verbose::Detail:
+            return "Detail";
+        case Verbose::Debug:
+            return "Debug";
+        default:
+            throw runtime_error("Unknown verbose type");
+    }
+}
 
-    Functions::TimeMapMatrix mapping(times_forecasts.size(), flts_forecasts.size(), FILL_VALUE);
+void
+Functions::updateTimeTable(
+        const Times & fcst_times, const vector<size_t> & fcst_times_index,
+        const Times & fcst_flts, const Times & obs_times, Matrix & table) {
 
-    const auto & times_forecasts_by_insert = times_forecasts.get<anenTime::by_insert>();
-    const auto & flts_forecasts_by_insert = flts_forecasts.get<anenTime::by_insert>();
+    // Check the dimensions of input table
+    if (table.size1() != fcst_times_index.size() ||
+            table.size2() != fcst_flts.size()) {
+        ostringstream msg;
+        msg << "Table dimensions [" << table.size1() << "," << table.size2()
+                << "] should be [" << fcst_times_index.size() << ","
+                << fcst_flts.size() << "]";
+        throw overflow_error(msg.str());
+    }
 
-    size_t index = 0;
-
-    // OpenMP does not allow return status. So this flag is used to keep track
-    // of return status of the loop
+    // Define dimension variables so that nested parallel for-loops can be
+    // perfectly collapsed (with Intel compilers)
     //
-    int loop_flag = 0;
-
-    // Define vairables for perfectly nexted parallel loops with collapse
-    auto limit_row = mapping.size1();
-    auto limit_col = mapping.size2();
+    auto rows = table.size1(), cols = table.size2();
 
 #if defined(_OPENMP)
-#pragma omp parallel for default(none) schedule(static) collapse(2) reduction(max:loop_flag) \
-shared(mapping, times_observations, times_forecasts_by_insert, flts_forecasts_by_insert, cout, \
-limit_row, limit_col) firstprivate(index)
+#pragma omp parallel for default(none) schedule(static) collapse(2) \
+shared(table, obs_times, fcst_times, fcst_flts, rows, cols, fcst_times_index)
 #endif
-    for (size_t i_row = 0; i_row < limit_row; i_row++) {
-        for (size_t i_col = 0; i_col < limit_col; i_col++) {
+    for (size_t row_i = 0; row_i < rows; ++row_i) {
+        for (size_t col_i = 0; col_i < cols; ++col_i) {
 
             try {
-                index = times_observations.getTimeIndex(
-                        times_forecasts_by_insert[i_row] + flts_forecasts_by_insert[i_col]);
-                mapping(i_row, i_col) = index;
-            } catch (...) {
-                loop_flag = 1;
+                table(row_i, col_i) = obs_times.getIndex(
+                        fcst_times.left[fcst_times_index[row_i]].second +
+                        fcst_flts.left[col_i].second);
+            } catch (range_error & e) {
+                // If the time cannot be found, range_error will be generated.
+                // But nothing is done for this case so that the index value
+                // in the table simply remains intact.
+                //
             }
         }
     }
 
-    if (loop_flag > 0) {
-
-        if (time_match_mode == 0) {
-            if (verbose_ >= 1) cerr << BOLDRED
-                    << "Error: Could not find some forecast times in observation times."
-                    << " NA values might exist." << RESET << endl;
-            return (OUT_OF_RANGE);
-        } else {
-            if (verbose_ >= 2) cerr << RED
-                    << "Warning: Could not find some forecast times in observation times."
-                    << " NA values might exist." << RESET << endl;
-        }
-    }
-
-    swap(mapping_ref, mapping);
-    return (SUCCESS);
-}
-
-errorType
-Functions::convertToIndex(
-        const anenTime::Times & targets,
-        const anenTime::Times & container,
-        std::vector<size_t> & indexes) const {
-    
-    indexes.clear();
-    
-    const auto & targets_by_insert = targets.get<anenTime::by_insert>();
-    
-    for (const auto & e : targets_by_insert) {
-        indexes.push_back(container.getTimeIndex(e));
-    }
-    
-    return (SUCCESS);
+    return;
 }
 
 double
-Functions::sdLinear(const vector<double>& values) const {
+Functions::sdLinear(const vector<double> & values) {
     return (sqrt(variance(values)));
 }
 
 double
-Functions::sdCircular(const vector<double>& values) const {
+Functions::sdCircular(const vector<double> & values) {
+
 
     vector<double> sins(values.size());
     vector<double> coss(values.size());
@@ -202,7 +204,7 @@ Functions::sdCircular(const vector<double>& values) const {
 
         // This is to convert from degrees to radians
         //
-        double rad = values[i] * MULTIPLY;
+        double rad = values[i] * _DEG2RAD;
 
         sins[i] = sin(rad);
         coss[i] = cos(rad);
@@ -224,11 +226,11 @@ Functions::sdCircular(const vector<double>& values) const {
     double q = asine * (1 + b * ex3);
 
     // Convert back to degrees
-    return (q * MULTIPLY_REVERSE);
+    return (q * _RAD2DEG);
 }
 
 double
-Functions::mean(const std::vector<double>& values, const double max_nan_allowed) const {
+Functions::sum(const vector<double> & values, size_t max_nan_allowed) {
     double sum = 0.0;
     size_t nan_count = 0, vec_size = values.size();
 
@@ -240,16 +242,15 @@ Functions::mean(const std::vector<double>& values, const double max_nan_allowed)
         }
     }
 
-    if (!std::isnan(max_nan_allowed) && nan_count > max_nan_allowed) return NAN;
+    if (nan_count > max_nan_allowed) return NAN;
     if (nan_count == vec_size) return NAN;
-
-    return (sum / (double) (vec_size - nan_count));
+    return sum;
 }
 
 double
-Functions::sum(const std::vector<double>& values, const double max_nan_allowed) const {
+Functions::mean(const vector<double> & values, size_t max_nan_allowed) {
     double sum = 0.0;
-    size_t nan_count = 0;
+    size_t nan_count = 0, vec_size = values.size();
 
     for (const auto & value : values) {
         if (std::isnan(value)) {
@@ -259,12 +260,13 @@ Functions::sum(const std::vector<double>& values, const double max_nan_allowed) 
         }
     }
 
-    if (!std::isnan(max_nan_allowed) && nan_count > max_nan_allowed) return NAN;
-    return (sum);
+    if (nan_count > max_nan_allowed) return NAN;
+    if (nan_count == vec_size) return NAN;
+    return (sum / (double) (vec_size - nan_count));
 }
 
 double
-Functions::variance(const std::vector<double>& values) const {
+Functions::variance(const vector<double> & values) {
     double average = mean(values);
     if (std::isnan(average)) return NAN;
 
@@ -283,18 +285,8 @@ Functions::variance(const std::vector<double>& values) const {
 }
 
 double
-Functions::diffCircular(double i, double j) const {
+Functions::diffCircular(double i, double j) {
     double res1 = abs(i - j);
     double res2 = abs(res1 - 360);
     return (min(res1, res2));
-}
-
-void
-Functions::setVerbose(int verbose) {
-    verbose_ = verbose;
-}
-
-int
-Functions::getVerbose() {
-    return (verbose_);
 }

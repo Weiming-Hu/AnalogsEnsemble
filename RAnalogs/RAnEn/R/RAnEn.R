@@ -15,7 +15,11 @@
 #' @details 
 #' RAnEn is the R package implementing the Analog Ensemble method and more with data processing and visualization tasks.
 #' 
-#' @keywords Analog Ensemble, Probabilistic Weather Forecasts, Bias Correction
+#' @keywords Analog Ensemble, Probabilistic Weather Forecasts
 #' 
 #' @author Weiming Hu \email{weiming@@psu.edu}
+#' @author Guido Cervone \email{cervone@@psu.edu}
+#' @author Martina Calovi \email{mxc895@@psu.edu}
+#' @author Laura Clemente-Harding \email{laura@@psu.edu}
+#' 
 "_PACKAGE"

@@ -3,6 +3,7 @@ project (RAnalogs LANGUAGES NONE)
 
 set(LIBRARY_NAME "RAnEn")
 set(LIBRARY_VERSION "${GRAND_VERSION}")
+set(LIBRARY_VERSION_NICKNAME "${GRAND_VERSION_NICKNAME}")
 message(STATUS "RAnEn version ${LIBRARY_VERSION}")
 
 set(RAnEn_PACKAGE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/${LIBRARY_NAME}")
@@ -42,16 +43,25 @@ string(TIMESTAMP LIBRARY_CONFIGURE_TIMESTAMP "%Y-%m-%d_%H:%M")
 configure_file("${RAnEn_PACKAGE_DIR}/DESCRIPTION.in" "${RAnEn_PACKAGE_DIR}/DESCRIPTION")
 
 # copy files
-set(REQUIRED_FILE_NAME "Analogs;AnEn;Array4D;Forecasts;Observations;Parameters;SimilarityMatrices;StandardDeviation;Stations;Times;errorType;Functions")
+set(REQUIRED_SOURCE_FILES "AnEn;Array4DPointer;BasicData;Calculator;Config;Forecasts;ForecastsPointer;Observations;ObservationsPointer;Parameters;Stations;Times")
+set(REQUIRED_TEMPLATE_FILES "AnEnIS;AnEnSSE;Functions")
+set(REQUIRED_HEADER_ONLY_FILES "BmDim;Array4D")
 
-foreach(file_name ${REQUIRED_FILE_NAME})
-    file(COPY "${RAnEn_EXTRA_INCLUDE_DIR}/${file_name}.h"
-        DESTINATION ${RAnEn_SOURCE_DIR})
-    file(COPY "${RAnEn_EXTRA_SOURCE_DIR}/${file_name}.cpp"
-        DESTINATION ${RAnEn_SOURCE_DIR})
-endforeach(file_name ${REQUIRED_FILE_NAME})
+foreach(file_name ${REQUIRED_SOURCE_FILES})
+    file(COPY "${RAnEn_EXTRA_INCLUDE_DIR}/${file_name}.h" DESTINATION ${RAnEn_SOURCE_DIR})
+    file(COPY "${RAnEn_EXTRA_SOURCE_DIR}/${file_name}.cpp" DESTINATION ${RAnEn_SOURCE_DIR})
+endforeach(file_name ${REQUIRED_SOURCE_FILES})
 
-file(COPY "${RAnEn_EXTRA_INCLUDE_DIR}/colorTexts.h" DESTINATION ${RAnEn_SOURCE_DIR})
+foreach(file_name ${REQUIRED_TEMPLATE_FILES})
+    file(COPY "${RAnEn_EXTRA_INCLUDE_DIR}/${file_name}.h" DESTINATION ${RAnEn_SOURCE_DIR})
+    file(COPY "${RAnEn_EXTRA_INCLUDE_DIR}/${file_name}.tpp" DESTINATION ${RAnEn_SOURCE_DIR})
+    file(COPY "${RAnEn_EXTRA_SOURCE_DIR}/${file_name}.cpp" DESTINATION ${RAnEn_SOURCE_DIR})
+endforeach(file_name ${REQUIRED_TEMPLATE_FILES})
+
+foreach(file_name ${REQUIRED_HEADER_ONLY_FILES})
+    file(COPY "${RAnEn_EXTRA_INCLUDE_DIR}/${file_name}.h" DESTINATION ${RAnEn_SOURCE_DIR})
+endforeach(file_name ${REQUIRED_HEADER_ONLY_FILES})
+
 file(COPY "${CMAKE_SOURCE_DIR}/NEWS.md" DESTINATION ${RAnEn_PACKAGE_DIR})
 
 add_subdirectory(${RAnEn_PACKAGE_DIR})
@@ -61,22 +71,31 @@ add_subdirectory(${RAnEn_PACKAGE_DIR})
 # customize clean target #
 ##########################
 #
-set(FILES_TO_DELETE "")
-foreach(file ${REQUIRED_FILE_NAME})
-    set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_SOURCE_DIR}/${file}.h")
-    set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_SOURCE_DIR}/${file}.cpp")
-    set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_SOURCE_DIR}/${file}.o")
-endforeach(file ${REQUIRED_FILE_NAME})
-set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_SOURCE_DIR}/colorTexts.h")
+file(GLOB FILES_TO_DELETE "${RAnEn_SOURCE_DIR}/*.o")
+message("")
+foreach(file_name ${REQUIRED_SOURCE_FILES})
+    set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_SOURCE_DIR}/${file_name}.cpp")
+    set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_SOURCE_DIR}/${file_name}.h")
+endforeach(file_name ${REQUIRED_SOURCE_FILES})
+
+foreach(file_name ${REQUIRED_TEMPLATE_FILES})
+    set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_SOURCE_DIR}/${file_name}.tpp")
+    set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_SOURCE_DIR}/${file_name}.cpp")
+    set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_SOURCE_DIR}/${file_name}.h")
+endforeach(file_name ${REQUIRED_TEMPLATE_FILES})
+
+foreach(file_name ${REQUIRED_HEADER_ONLY_FILES})
+    set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_SOURCE_DIR}/${file_name}.h")
+endforeach(file_name ${REQUIRED_HEADER_ONLY_FILES})
+
 set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_SOURCE_DIR}/RAnEn.so")
 set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_SOURCE_DIR}/Makefile")
-set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_SOURCE_DIR}/RcppExports.o")
-set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_SOURCE_DIR}/Rinterface.o")
 
 message(STATUS "Add clean-rsrc target for cleaning the copied files")
 add_custom_target(
     clean-rsrc 
     COMMAND ${CMAKE_COMMAND} -E remove ${FILES_TO_DELETE}
+    COMMAND ${CMAKE_COMMAND} -E remove ${RAnEn_SOURCE_DIR}/*.o
     COMMENT "clean the copied files in RAnEn/src. You will need to cmake again if you want to make.")
 
 if(TARGET clean-all)

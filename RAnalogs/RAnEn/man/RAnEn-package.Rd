@@ -6,7 +6,7 @@
 \alias{RAnEn-package}
 \title{RAnEn::RAnEn}
 \description{
-The Analog Ensemble Package computes and manages analog ensembles. It is implemented in C++ and exported to R interface.
+The Analog Ensemble Package computes analog ensembles. It is implemented in C++ and exported to R interface.
 }
 \details{
 RAnEn is the R package implementing the Analog Ensemble method and more with data processing and visualization tasks.
@@ -22,11 +22,15 @@ Useful links:
 }
 \author{
 Weiming Hu \email{weiming@psu.edu}
+
+Guido Cervone \email{cervone@psu.edu}
+
+Martina Calovi \email{mxc895@psu.edu}
+
+Laura Clemente-Harding \email{laura@psu.edu}
 }
 \keyword{Analog}
-\keyword{Bias}
-\keyword{Correction}
 \keyword{Ensemble,}
-\keyword{Forecasts,}
+\keyword{Forecasts}
 \keyword{Probabilistic}
 \keyword{Weather}

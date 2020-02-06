@@ -155,4 +155,3 @@ if(TARGET clean-all)
 else(TARGET clean-all)
     add_custom_target(clean-all DEPENDS clean-roxygen)
 endif(TARGET clean-all)
-

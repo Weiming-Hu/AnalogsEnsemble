@@ -9,169 +9,57 @@
 #ifndef FORECASTS_H
 #define FORECASTS_H
 
-#include <ostream>
-#include <vector>
-#include <limits>
-
-#include "Stations.h"
-#include "Parameters.h"
-#include "Times.h"
+#include "BasicData.h"
 #include "Array4D.h"
 
 /**
  * \class Forecasts
  * 
- * \brief Forecasts class provides interface for reading and writing forecast
- * data from and to a NetCDF file. It also supports data indexing and searching.
+ * \brief Forecasts is an abstract class that extends BasicData and the abstract
+ * class Array4D. It defines the interface of how to interact with the underlying
+ * data storage through the abstract class Array4D. This interface is accepted
+ * by the Analog Ensemble algorithm.
  */
-class Forecasts {
+class Forecasts : virtual public Array4D, public BasicData {
 public:
     Forecasts();
-    Forecasts(Forecasts const &) = delete;
-
-    Forecasts(anenPar::Parameters, anenSta::Stations,
-            anenTime::Times, anenTime::FLTs);
-
+    Forecasts(Forecasts const & orig);
+    Forecasts(const Parameters &, const Stations &,
+            const Times &, const Times &);
+    
     virtual ~Forecasts();
 
+    /**************************************************************************
+     *                          Pure Virtual Functions                        *
+     **************************************************************************/
+    
     /**
-     * Gets value using array index.
-     * 
-     * @param parameter_index Parameter index.
-     * @param station_index Station index.
-     * @param time_index Time index.
-     * @param flt_index FLT index.
-     * @return A value.
+     * Sets the dimensions of forecasts and allocates memory for data values.
+     * @param parameters The Parameters container.
+     * @param stations The Stations container.
+     * @param times The Times container.
+     * @param flts The FLTs container.
      */
-    virtual double getValueByIndex(std::size_t parameter_index,
-            std::size_t station_index, std::size_t time_index,
-            std::size_t flt_index) const = 0;
+    virtual void setDimensions(const Parameters & parameters,
+            const Stations & stations, const Times & times,
+            const Times & flts) = 0;
 
-    /**
-     * Gets value by searching with IDs and timestamps.
-     * 
-     * @param parameter_ID Parameter ID.
-     * @param station_ID Station ID.
-     * @param timestamp A timestamp for Time.
-     * @param flt A timestamp for FLT.
-     * @return A value.
-     */
-    virtual double getValueByID(
-            std::size_t parameter_ID, std::size_t station_ID,
-            double timestamp, double flt) const = 0;
-
-    /**
-     * Gets data in form of a double pointer.
-     * @return A double pointer.
-     */
-    virtual const double* getValues() const = 0;
-
-    virtual void setValue(double val, std::size_t parameter_index,
-            std::size_t station_index, std::size_t time_index,
-            std::size_t flt_index) = 0;
-    virtual void setValue(double,
-            std::size_t parameter_ID, std::size_t station_ID,
-            double timestamp, double flt) = 0;
-
-    /**
-     * Sets data values from a vector.
-     * 
-     * @param vals An std::vector<double> object
-     */
-    virtual void setValues(const std::vector<double> & vals) = 0;
-
-    /**
-     * Resizes underlying data member according to the sizes of parameters,
-     * stations, times, and flts.
-     */
-    virtual void updateDataDims(bool initialize_values = true) = 0;
-
-    std::size_t getParametersSize() const;
-    std::size_t getStationsSize() const;
-    std::size_t getTimesSize() const;
-    std::size_t getFLTsSize() const;
-    virtual std::size_t getDataLength() const = 0;
-
-    anenPar::Parameters const & getParameters() const;
-    anenSta::Stations const & getStations() const;
-    anenTime::Times const & getTimes() const;
-    anenTime::FLTs const & getFLTs() const;
-
-    anenPar::Parameters & getParameters();
-    anenSta::Stations & getStations();
-    anenTime::Times & getTimes();
-    anenTime::FLTs & getFLTs();
-
-    void setFlts(anenTime::FLTs flts);
-    void setParameters(anenPar::Parameters parameters);
-    void setStations(anenSta::Stations stations);
-    void setTimes(anenTime::Times times);
-
+    /**************************************************************************
+     *                           Member Functions                             *
+     **************************************************************************/
+    
+    Times const & getFLTs() const;
+    Times & getFLTs();
+    
+    std::size_t getFltTimeStamp(std::size_t index) const;
+    std::size_t getFltTimeIndex(std::size_t timestamp) const;
+    std::size_t getFltTimeIndex(const Time &) const;
+    
     virtual void print(std::ostream &) const;
     friend std::ostream& operator<<(std::ostream&, Forecasts const &);
 
 protected:
-    anenPar::Parameters parameters_;
-    anenSta::Stations stations_;
-    anenTime::Times times_;
-    anenTime::FLTs flts_;
-};
-
-/**
- * \class Forecasts_array
- * 
- * \brief Forecasts_array class is an implementation of class Forecasts. Data 
- * are stored using the Array4D class.
- */
-class Forecasts_array : public Forecasts {
-public:
-    
-#ifdef __INTEL_COMPILER
-    static const double _DEFAULT = NAN;
-#else
-    static constexpr double _DEFAULT = std::numeric_limits<double>::quiet_NaN();
-#endif
-    
-    Forecasts_array();
-    Forecasts_array(const Forecasts_array & rhs) = delete;
-
-    Forecasts_array(anenPar::Parameters, anenSta::Stations,
-            anenTime::Times, anenTime::FLTs);
-    Forecasts_array(anenPar::Parameters, anenSta::Stations,
-            anenTime::Times, anenTime::FLTs,
-            const std::vector<double> & vals);
-
-    virtual ~Forecasts_array();
-
-    const Array4D & data() const;
-    Array4D & data();
-
-    double getValueByIndex(std::size_t parameter_index, std::size_t station_index,
-            std::size_t time_index, std::size_t flt_index) const override;
-    double getValueByID(std::size_t parameter_ID, std::size_t station_ID,
-            double timestamp, double flt) const override;
-
-    const double* getValues() const override;
-
-    void setValue(double val, std::size_t parameter_index,
-            std::size_t station_index, std::size_t time_index,
-            std::size_t flt_index) override;
-    void setValue(double val, std::size_t parameter_ID, std::size_t station_ID,
-            double timestamp, double flt) override;
-
-    void setValues(const std::vector<double>& vals) override;
-
-    void updateDataDims(bool initialize_values = true) override;
-    
-    size_t getDataLength() const override;
-
-    void print(std::ostream &) const override;
-    friend std::ostream& operator<<(std::ostream&, const Forecasts_array&);
-
-private:
-    Array4D data_ = Array4D(
-            boost::extents[0][0][0][0],
-            boost::fortran_storage_order());
+    Times flts_;
 };
 
 #endif /* FORECASTS_H */

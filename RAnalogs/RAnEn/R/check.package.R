@@ -15,10 +15,8 @@
 #' 
 #' RAnEn::check.package is the internal functions checking whether a
 #' package is installed or not.
-#'
 #' 
 #' @md
-#' 
 #' @keywords internal
 check.package <- function(name) {
   if (!requireNamespace(name, quietly = T)) {

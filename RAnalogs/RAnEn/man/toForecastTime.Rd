@@ -10,8 +10,7 @@ toForecastTime(observation.time.id, mapping, flt = NULL)
 \item{observation.time.id}{The observation time index(es) from the \code{Time} column of the \code{analogs} member in
 in the results of \code{\link{generateAnalogs}}.}
 
-\item{mapping}{The mapping table from the \code{mapping} member in the results of \code{\link{generateAnalogs}}.
-Or it can be created from \code{\link{generateTimeMapping}}.}
+\item{mapping}{The mapping table created from \code{\link{generateTimeMapping}}.}
 
 \item{flt}{The lead time index.}
 }

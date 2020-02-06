@@ -4,7 +4,14 @@
 \alias{writeNetCDF}
 \title{RAnEn::writeNetCDF}
 \usage{
-writeNetCDF(file.type, obj, file.out, global.attrs = NULL, nchars.max = 50)
+writeNetCDF(
+  file.type,
+  obj,
+  file.out,
+  global.attrs = list(author = paste("RAnEn", packageVersion("RAnEn"),
+    "from GEOlab, Penn State"), Time = Sys.time()),
+  nchars.max = 50
+)
 }
 \arguments{
 \item{file.type}{The type of the object to be written to a file. It only supports

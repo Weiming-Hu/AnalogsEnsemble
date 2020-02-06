@@ -40,7 +40,6 @@ This package contains several programs and libraries:
 - __AnEn__: This is the main C++ library. It provides the main functionality of the AnEn technique.
 - __AnEnIO__: This is the file I/O library. Currently, it supports reading and writing [standard NetCDF](https://www.unidata.ucar.edu/software/netcdf/).
 - __RAnEn__: This is the R interface to the `AnEn` library.
-- __Apps__: Multiple executables in [the apps folder](https://github.com/Weiming-Hu/AnalogsEnsemble/tree/master/apps) are designed for analog computation and file management.
 
 ## Citation
 
@@ -319,7 +318,6 @@ For more information on how to use the tool, please see an example [here](https:
 |      BUILD\_HDF5     |                            Build `HDF5` library regardless of its existence.                                                                       |         OFF        |
 |        VERBOSE       |                          Print detailed messages during the compiling process.                                                                     |         OFF        |
 |    CODE\_PROFILING   |                                     Print time profiling information.                                                                              |         OFF        |
-|     ENABLE\_MPI      |  Build the MPI version of the CAnEnIO library for parallel I/O. This is option is not recommended.                                                 |         OFF        |
 | BUILD\_GRIBCONVERTER | Build the GRIB Converter program. [Eccodes](https://confluence.ecmwf.int/display/ECC) library is required.                                         |         OFF        |
 |    ECCODES\_TYPE     | `BUILD` for building `Eccodes`; `SYSTEM` for using the library on the system.                                                                      |         SYSTEM     |
 

@@ -7,13 +7,10 @@ set (LIBRARY_NAME "AnEnIO")
 file (GLOB SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
 include_directories ("${CMAKE_CURRENT_SOURCE_DIR}/include")
 
-# Add extra source and header files for support of Array4D.
-# The header file will be included in the include directories.
-#
 set(EXTRA_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/CAnEn/include")
 include_directories(${EXTRA_INCLUDE_DIR})
 
-set(EXTRA_SOURCE_FILES "Array4D;Times;Stations;Parameters;Forecasts;Analogs;SimilarityMatrices;Observations;errorType")
+set(EXTRA_SOURCE_FILES "Times;Stations;Parameters;Forecasts;Observations")
 
 foreach(file ${EXTRA_SOURCE_FILES})
     set(EXTRA_SOURCE_FILE "${CMAKE_SOURCE_DIR}/CAnEn/src/${file}.cpp")
@@ -28,25 +25,6 @@ endforeach(file ${EXTRA_SOURCE_FILES})
 ##################
 # build and link #
 ##################
-
-# I'm building a static library here for CAnEnIO to avoid multiple
-# copied of classes with static members. Please look at the below 
-# dependency situation if both CAnEnIO and CAnEn are built as
-# dynamic libraries.
-#
-#      Parameter (A class with a static member ID) ---->  CAnEn.so
-#       |
-#       |
-#       V
-#      CAnEnIO.so
-#          
-# This creates problem because the static members in two .so libraries
-# clearly don't share the value even if they are the same class Parameter.
-# This can also be observed if you print out the Parameter static member
-# address. They are different.
-# 
-# To avoid this problem, I build CAnEnIO as a static library.
-#          
 # add_library (${LIBRARY_NAME} SHARED ${SOURCES})
 add_library (${LIBRARY_NAME} STATIC ${SOURCES})
 
@@ -101,19 +79,6 @@ else (NETCDF_BUILT)
 endif (NETCDF_BUILT)
 
 set_target_properties(${LIBRARY_NAME} PROPERTIES INSTALL_RPATH "${AnEnIO_RPATH}")
-
-if(${ENABLE_MPI})
-        include_directories(SYSTEM ${MPI_INCLUDE_PATH})
-        target_link_libraries(${LIBRARY_NAME} ${MPI_CXX_LIBRARIES})
-        if(MPI_CXX_COMPILE_FLAGS)
-            set_target_properties(${LIBRARY_NAME} PROPERTIES
-                COMPILE_FLAGS ${MPI_CXX_COMPILE_FLAGS})
-        endif(MPI_CXX_COMPILE_FLAGS)
-        if(MPI_CXX_INTERFACE_LINK_LIBRARIES)
-            set_target_properties(${LIBRARY_NAME} PROPERTIES
-                INTERFACE_LINK_LIBRARIES ${MPI_CXX_INTERFACE_LINK_LIBRARIES})
-        endif(MPI_CXX_INTERFACE_LINK_LIBRARIES)
-endif(${ENABLE_MPI}) 
 
 get_target_property(${LIBRARY_NAME}_INTERFACE_LINK_LIBRARIES ${LIBRARY_NAME} INTERFACE_LINK_LIBRARIES)
 if ("${${LIBRARY_NAME}_INTERFACE_LINK_LIBRARIES}" STREQUAL "${LIBRARY_NAME}_INTERFACE_LINK_LIBRARIES-NOTFOUND")

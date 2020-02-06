@@ -1,12 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /* 
  * File:   runFunctions.cpp
- * Author: wuh20
+ * Author: Weiming Hu <weiming@psu.edu>
  * 
  * Created on Feb 7, 2019, 2:28:24 PM
  */

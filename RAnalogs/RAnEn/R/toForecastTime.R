@@ -35,8 +35,7 @@
 #' 
 #' @param observation.time.id The observation time index(es) from the `Time` column of the `analogs` member in
 #' in the results of \code{\link{generateAnalogs}}.
-#' @param mapping The mapping table from the `mapping` member in the results of \code{\link{generateAnalogs}}.
-#' Or it can be created from \code{\link{generateTimeMapping}}.
+#' @param mapping The mapping table created from \code{\link{generateTimeMapping}}.
 #' @param flt The lead time index.
 #' 
 #' @md
@@ -51,12 +50,12 @@ toForecastTime <- function(observation.time.id, mapping, flt = NULL) {
       stop('When all FLTs are requested, only one observation time id at a time.')
     }
     
-    cs <- apply(mapping == observation.time.id, 1, any)
+    cs <- apply(mapping == observation.time.id, 2, any)
     
     if ( any(cs) ) {
       
       for ( flt in which(cs) ) {
-        day <- which(mapping[flt, ] == observation.time.id)
+        day <- which(mapping[, flt] == observation.time.id)
         mat <- rbind(mat, c(day,flt))
       }
     } 
@@ -64,7 +63,7 @@ toForecastTime <- function(observation.time.id, mapping, flt = NULL) {
     return(mat)
     
   } else {
-    mapping <- mapping[flt, ]
+    mapping <- mapping[, flt]
     
     return(sapply(observation.time.id, function(x, mapping) {
       which(x == mapping)},

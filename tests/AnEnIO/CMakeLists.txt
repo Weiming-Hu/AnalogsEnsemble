@@ -21,19 +21,6 @@ else(CPPUNIT_FOUND)
     target_link_libraries (runAnEnIO cppunit testAnEnIO AnEnIO AnEn)
 endif(CPPUNIT_FOUND)
 
-if(${ENABLE_MPI})
-    include_directories(SYSTEM ${MPI_INCLUDE_PATH})
-    target_link_libraries(testAnEnIO ${MPI_CXX_LIBRARIES})
-    if(MPI_CXX_COMPILE_FLAGS)
-        set_target_properties(testAnEnIO PROPERTIES
-            COMPILE_FLAGS ${MPI_CXX_COMPILE_FLAGS})
-    endif(MPI_CXX_COMPILE_FLAGS)
-    if(MPI_CXX_LINK_FLAGS)
-        set_target_properties(testAnEnIO PROPERTIES
-            LINK_FLAGS ${MPI_CXX_LINK_FLAGS})
-    endif(MPI_CXX_LINK_FLAGS)
-endif(${ENABLE_MPI}) 
-
 add_definitions(-D_PATH_OBSERVATIONS="${CMAKE_SOURCE_DIR}/tests/Data/test_observations.nc"
     -D_PATH_FORECASTS="${CMAKE_SOURCE_DIR}/tests/Data/test_forecasts.nc")
 

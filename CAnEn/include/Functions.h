@@ -5,113 +5,96 @@
  * Created on February 6, 2019, 2:58 PM
  */
 
-#ifndef MATHFUNCTIONS_H
-#define MATHFUNCTIONS_H
 
-#include "Analogs.h"
-#include "errorType.h"
-#include "Observations.h"
-#include "SimilarityMatrices.h"
-#include "StandardDeviation.h"
+#ifndef FUNCTIONS_H
+#define FUNCTIONS_H
+
+#include "Times.h"
+#include "Config.h"
+#include "Stations.h"
+#include "boost/multi_array.hpp"
 #include "boost/numeric/ublas/matrix.hpp"
+#include "boost/numeric/ublas/io.hpp"
 
-class Functions {
-public:
-    Functions(int verbose);
-    Functions(const Functions& orig) = delete;
-    virtual ~Functions();
+#include <vector>
+#include <string>
+#include <sstream>
+#include <iostream>
+
+namespace Functions {
+
+    static const std::size_t _MAX_SIZE_T = std::numeric_limits<std::size_t>::max();
+
+    template <typename T, std::size_t NDims>
+    using array_view = boost::detail::multi_array::multi_array_view<T, NDims>;
     
     /**
-     * AnEn::TimeMapMatrix is a lookup table to map time and FLT from
-     * forecasts to time of observations. The number of rows is the number
-     * of times in forecasts, and the number of columns is the number
-     * of FLTs in forecasts. The values are the times of the corresponding
-     * observation to the forecast at a specific time and FLT.
+     * The Matrix type is from boost uBLAS matrix.
+     * 
+     * It is a double matrix because it needs to be ablt to hold NAN.
+     * 
+     * Its internal storage is in column major because it is easier to be
+     * converted to an R structure and for file I/O with file formats like NetCDF. 
+     * 
+     * The storage type is std::vector because the default storage type,
+     * unbounded_array, does not model sequence operators. Using vectors will
+     * make it easier for value initialization. Some basic profiling has shown
+     * that the creation will be slightly slower, but the indexing will be 
+     * slightly faster when std::vector is used.
+     * 
      */
-    using TimeMapMatrix = boost::numeric::ublas::matrix<double>;
+    using Matrix = boost::numeric::ublas::matrix<
+            double, boost::numeric::ublas::column_major, std::vector<double> >;
+
+    void setSearchStations(const Stations &, Matrix & table, double);
 
     /**
-     * Computes the standard deviation of times of forecasts for each 
-     * parameter, each station, and each FLT. This function is designed to 
-     * generate NAN values only when all values for a parameter, a station, and
-     * a FLT are NAN. Otherwise, NAN values will be ignored.
+     * Convert an integer to Verbose and vice versa
      * 
-     * See StandardDeviation for more information about storage.
-     * 
-     * @param forecasts Forecasts for which standard deviation is generated for.
-     * @param sds StandardDeviation to store the values.
-     * @param i_times the index for times that should be included in the 
-     * standard deviation calculation.
-     * @return An errorType.
+     * @param An integer
+     * @return A Verbose
      */
-    errorType computeStandardDeviation(
-            const Forecasts_array & forecasts,
-            StandardDeviation & sds,
-            std::vector<size_t> i_times = {}) const;
+    Verbose itov(int);
+    int vtoi(Verbose);
+    std::string vtos(Verbose);
 
     /**
-     * Computes the search window for each FLT. the ranges are stored in a 
-     * matrix with the following shape:
-     *                   [num_flts][2]
+     * Computes a lookup table which maps from forecast time and lead time
+     * indices to observation time indices. If the observation time index is
+     * not found, the cell value in the table will stay untouched.
      * 
-     * The second dimension in sequence stores the start and the end FLT.
-     * 
-     * @param matrix A matrix to store the range of FLT windows.
-     * @param num_flts Number of FLTs.
-     * @param window_half_size Half size of the window.
-     * @return errorType.
+     * @param fcst_times Forecast Times.
+     * @param fcst_times_index The indices to compute mapping.
+     * @param fcst_flts Forecast FLTs.
+     * @param obs_times Observation Times.
+     * @param table A matrix storing the indices with forecast times in rows
+     * and forecast lead times in columns.
      */
-    errorType computeSearchWindows(
-            boost::numeric::ublas::matrix<size_t> & matrix,
-            size_t num_flts, size_t window_half_size) const;
-
-    /**
-     * Computes the corresponding indices for observation times from 
-     * forecast times and FLTs.
-     * 
-     * @param times_forecasts Forecast anenTimes::Time.
-     * @param flts_forecasts Forecast anenTimes::FLTs.
-     * @param times_observations Observation anenTimes::Time.
-     * @param mapping A matrix stores the indices.
-     * @param time_match_mode An integer specifying how to deal with missing observation
-     * times. 0 stands for strict search. It will throw an error when a forecast time
-     * cannot be found in observation times. 1 stands for loose search. It will insert
-     * NA into the matrix when a observation time cannot be found for a foreacst time.
-     * @return An errorType.
-     */
-    errorType computeObservationsTimeIndices(
-            const anenTime::Times & times_forecasts,
-            const anenTime::Times & flts_forecasts,
-            const anenTime::Times & times_observations,
-            TimeMapMatrix & mapping, int time_match_mode = 1) const;
-
-    /**
-     * Computes the index of each target in the container.
-     * 
-     * @param targets Targets that index will be computed for.
-     * @param container Container that index will be based on.
-     * @param indexes Index for targets.
-     * @return An errorType
-     */
-    errorType convertToIndex(
-            const anenTime::Times & targets,
-            const anenTime::Times & container,
-            std::vector<size_t> & indexes) const;
+    void updateTimeTable(
+            const Times & fcst_times,
+            const std::vector<std::size_t> & fcst_times_index,
+            const Times & fcst_flts,
+            const Times & obs_times,
+            Matrix & table);
 
     /**
      * Computes the standard deviation for linear numbers.
      * 
      * @param values A vector of values.
      */
-    double sdLinear(const std::vector<double> & values) const;
+    double sdLinear(const std::vector<double> & values);
 
     /**
-     * Computes the standard deviation for circular numbers.
+     * Computes the standard deviation for angles in degree.
      * 
      * @param values A vector of values.
      */
-    double sdCircular(const std::vector<double> & values) const;
-
+    double sdCircular(const std::vector<double> & degs);
+    
+    
+    double sum(const std::vector<double> & values,
+            std::size_t max_nan_allowed = _MAX_SIZE_T);
+    
     /**
      * Computes the mean of a vector.
      * @param values A vector of values.
@@ -119,7 +102,7 @@ public:
      * vector. Set it to NAN to allow any number of NAN values.
      */
     double mean(const std::vector<double> & values,
-            const double max_nan_allowed = NAN) const;
+            std::size_t max_nan_allowed = _MAX_SIZE_T);
 
     /**
      * Computes the sum of a vector.
@@ -128,14 +111,15 @@ public:
      * vector. Set it to NAN to allow any number of NAN values.
      */
     double sum(const std::vector<double> & values,
-            const double max_nan_allowed = NAN) const;
+            const double max_nan_allowed = NAN);
 
     /**
      * Computes the variance of a vector.
      * @param values A vector of values.
+     * @param average The average of input values.
      */
-    double variance(const std::vector<double> & values) const;
-
+    double variance(const std::vector<double> & values);
+    
     /**
      * Computes the difference of two circular numbers
      * 
@@ -143,25 +127,56 @@ public:
      * @param j A double.
      * @return  A double.
      */
-    double diffCircular(double i, double j) const;
-    
-    void setVerbose(int verbose);
-    int getVerbose();
-    
-private:
+    double diffCircular(double i, double j);
+
+    /**************************************************************************
+     *                          Template Functions                            *
+     **************************************************************************/
     
     /**
-     * Specifies the verbose level.
-     * - 0: Quiet.
-     * - 1: Errors.
-     * - 2: The above plus Warnings.
-     * - 3: The above plus program progress information.
-     * - 4: The above plus check information.
-     * - 5: The above plus session information.
+     * Print multi_array and multi_array_view.
+     * 
+     * @param os output stream
+     * @param arr multi_array obejct to be printed.
      */
-    int verbose_ = 2;
+    template <typename T>
+    void print(std::ostream & os, const boost::multi_array<T, 2> & arr);
+    template <typename T>
+    void print(std::ostream & os, const boost::multi_array<T, 3> & arr);
+    template <typename T>
+    void print(std::ostream & os, const boost::multi_array<T, 4> & arr);
+    template <typename T>
+    void print(std::ostream & os, const boost::multi_array<T, 5> & arr);
+    template <typename T, std::size_t NDims>
+    void print(std::ostream & os, const array_view<T, NDims> & view);
     
-};
+    /**
+     * Format a vector as a string for printing.
+     * 
+     * @param vec A vector
+     * @param len Length of the pointed object
+     * @param ptr A pointer
+     * @param delim A string deliminator
+     * @return A formatted string
+     */
+    template <typename T>
+    std::string format(const std::vector<T> & vec, const std::string & delim = ",");
+    template <typename T>
+    std::string format(const T* ptr, std::size_t len, const std::string & delim = ",");
 
-#endif /* MATHFUNCTIONS_H */
+    /**
+     * Calculate the indices for each query object from the pool objects.
+     * 
+     * @param index A vector to store indices.
+     * @param query Objects to query. It can be Parameters, Times, Stations.
+     * @param pool Objects from which indices are generated. It can be
+     * Parameters, Times, Stations.
+     */
+    template <class T>
+    void toIndex(std::vector<std::size_t> & index, const T & query, const T & pool);
+}
 
+// Definition of template functions
+#include "Functions.tpp"
+
+#endif /* FUNCTIONS_H */

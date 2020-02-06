@@ -67,49 +67,31 @@ dependency
 doxygen-output
 release
 
-RAnalogs/RAnEn/.Rhistory
 RAnalogs/RAnEn/config.log
 RAnalogs/RAnEn/config.status
 RAnalogs/RAnEn/LICENSE.txt
 RAnalogs/RAnEn/DESCRIPTION
-RAnalogs/RAnEn/src/Makevars
-RAnalogs/RAnEn/src/Makevars.in
-RAnalogs/RAnEn/src/Makevars.win
-RAnalogs/RAnEn/src/Makevars.win.in
-RAnalogs/RAnEn/src/Makefile
-RAnalogs/RAnEn/src/Makefile.in
-RAnalogs/RAnEn/src/Makefile.win
-RAnalogs/RAnEn/src/AnEn.cpp
-RAnalogs/RAnEn/src/AnEn.h
-RAnalogs/RAnEn/src/Analogs.cpp
-RAnalogs/RAnEn/src/Analogs.h
-RAnalogs/RAnEn/src/Array4D.cpp
-RAnalogs/RAnEn/src/Array4D.h
-RAnalogs/RAnEn/src/Forecasts.cpp
-RAnalogs/RAnEn/src/Forecasts.h
-RAnalogs/RAnEn/src/Observations.cpp
-RAnalogs/RAnEn/src/Observations.h
-RAnalogs/RAnEn/src/Parameters.cpp
-RAnalogs/RAnEn/src/Parameters.h
-RAnalogs/RAnEn/src/SimilarityMatrices.cpp
-RAnalogs/RAnEn/src/SimilarityMatrices.h
-RAnalogs/RAnEn/src/StandardDeviation.cpp
-RAnalogs/RAnEn/src/StandardDeviation.h
-RAnalogs/RAnEn/src/Stations.cpp
-RAnalogs/RAnEn/src/Stations.h
-RAnalogs/RAnEn/src/Times.cpp
-RAnalogs/RAnEn/src/Times.h
-RAnalogs/RAnEn/src/colorTexts.h
-RAnalogs/RAnEn/src/errorType.cpp
-RAnalogs/RAnEn/src/errorType.h
-RAnalogs/RAnEn/src/Functions.cpp
-RAnalogs/RAnEn/src/Functions.h
-RAnalogs/RAnEn/src/config.log
 RAnalogs/RAnEn/build
 RAnalogs/RAnEn/docs
 RAnalogs/RAnEn/README*
 RAnalogs/RAnEn/NEWS.md
 RAnalogs/releases/RAnEn/
+
+# Ignore the folder
+RAnalogs/RAnEn/src/*
+
+# But don't ignore these files
+!RAnalogs/RAnEn/src/RcppForecasts.h
+!RAnalogs/RAnEn/src/RcppForecasts.cpp
+!RAnalogs/RAnEn/src/RcppObservations.h
+!RAnalogs/RAnEn/src/RcppObservations.cpp
+!RAnalogs/RAnEn/src/RcppFunctions.h
+!RAnalogs/RAnEn/src/RcppFunctions.cpp
+!RAnalogs/RAnEn/src/RcppChecks.cpp
+!RAnalogs/RAnEn/src/RcppExports.cpp
+!RAnalogs/RAnEn/src/RcppConfig.cpp
+!RAnalogs/RAnEn/src/RcppGenerateAnalogs.cpp
+!RAnalogs/RAnEn/src/RcppGenerateTimeMapping.cpp
 
 # From the base theme and jekyll ignore
 # Ignore docs files

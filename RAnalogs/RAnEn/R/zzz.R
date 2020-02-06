@@ -8,9 +8,11 @@
 #         Geoinformatics and Earth Observation Laboratory (http://geolab.psu.edu)
 #         Department of Geography and Institute for CyberScience
 #         The Pennsylvania State University
+Rcpp::loadModule(module = "Config", TRUE)
 
 .onLoad <- function(lib, pkg) {
 	version <- read.dcf(file.path(lib, pkg, "DESCRIPTION"), "Version")
+	nickname <- read.dcf(file.path(lib, pkg, "DESCRIPTION"), "Nickname")
 	
 	if (interactive()) {
 		message <- paste(
@@ -24,17 +26,25 @@
                                        
 ------------------------------------------- 
 -------------------------------------------
-RAnEn Version", version, "
+RAnEn Version", version, nickname, "
 Geoinformatics and Earth Observation Laboratory
 The Pennsylvania State University")
 	} else {
-		message <- paste("Package 'RAnEn' version", version)
+		message <- paste("Package 'RAnEn' version", version, nickname)
 	}
 	
 	message <- paste0(message, "\nPlease consider citing RAnEn: citation('RAnEn')")
 	
 	if (!checkOpenMP()) {
 		message <- paste(message, "\n*** Multi-thread not supported ***", sep = '')
+	}
+	
+	if (!requireNamespace('RAnEnExtra', quietly = T)) {
+		message <- paste(
+			message, "\n\n******************************************************\n",
+			"You haven't installed RAnEnExtra for AnEn verification and visualization\n",
+			"To install: devtools::install_github('Weiming-Hu/RAnEnExtra')\n",
+			"******************************************************", sep = '')
 	}
 	
 	packageStartupMessage(message)
