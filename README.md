@@ -40,7 +40,6 @@ This package contains several programs and libraries:
 - __AnEn__: This is the main C++ library. It provides the main functionality of the AnEn technique.
 - __AnEnIO__: This is the file I/O library. Currently, it supports reading and writing [standard NetCDF](https://www.unidata.ucar.edu/software/netcdf/).
 - __RAnEn__: This is the R interface to the `AnEn` library.
-- __Apps__: Multiple executables in [the apps folder](https://github.com/Weiming-Hu/AnalogsEnsemble/tree/master/apps) are designed for analog computation and file management.
 
 ## Citation
 
