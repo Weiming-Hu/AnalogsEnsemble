@@ -12,6 +12,13 @@
 
 #include "AnEnIS.h"
 
+/**
+ * \class AnEnSSE
+ * 
+ * \brief AnEnSSE is an implementation of the abstrct class AnEn for the 
+ * search space extension algorithm.
+ * 
+ */
 class AnEnSSE : public AnEnIS {
 public:
     AnEnSSE();

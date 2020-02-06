@@ -27,9 +27,22 @@ public:
     
     virtual ~AnEn();
     
+    /**
+     * Computes the analog ensembles.
+     * @param forecasts Forecasts
+     * @param observations Observations
+     * @param test_times Times for test
+     * @param search_times Times for search
+     */
     virtual void compute(const Forecasts & forecasts,
             const Observations & observations,
             const Times & test_times, const Times & search_times) = 0;
+    
+    /**
+     * Computes the analog ensembles.
+     * @param fcsts_test_index A vector of forecast test indices 
+     * @param fcsts_search_index A vector of forecast search indices
+     */
     virtual void compute(const Forecasts & forecasts,
             const Observations & observations,
             std::vector<std::size_t> & fcsts_test_index,

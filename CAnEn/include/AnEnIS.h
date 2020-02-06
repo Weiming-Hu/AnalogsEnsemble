@@ -28,6 +28,12 @@
 template <std::size_t len>
 using SimsVec = std::vector< std::array<double, len> >;
 
+/**
+ * \class AnEnIS
+ * 
+ * \brief AnEnIS is an implementation of the class AnEn for the independent 
+ * search algorithm.
+ */
 class AnEnIS : public AnEn {
 public:
     AnEnIS();

@@ -26,6 +26,13 @@ enum class Verbose {
     Debug = 4
 };
 
+/**
+ * \class Config
+ * 
+ * \brief Config class provides detailed parameters for configuring analog
+ * ensemble generation. This class also defines names of different parameters
+ * that can be used in R API and the file I/O process.
+ */
 class Config {
 public:
     Config();

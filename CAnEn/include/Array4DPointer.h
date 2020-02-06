@@ -14,7 +14,9 @@
 using vector4 = size_t[4];
 
 /**
- * Array4DPointer is an implementation of the abstract class Array4D.
+ * \class Array4DPointer 
+ * 
+ * \brief Array4DPointer is an implementation of the abstract class Array4D.
  */
 class Array4DPointer : virtual public Array4D {
 public:
