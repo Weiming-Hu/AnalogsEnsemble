@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['panen_203_2e7_2e1',['PAnEn 3.7.1',['../md__home_graduate_wuh20_github__analogs_ensemble__n_e_w_s.html',1,'']]]
+  ['notes_20for_20generating_20docker_20image',['Notes for Generating Docker Image',['../md__home_graduate_wuh20_github__analogs_ensemble_notes_generate_docker_image.html',1,'']]],
+  ['notes_20for_20using_20jupyter_20notebook',['Notes for Using Jupyter Notebook',['../md__home_graduate_wuh20_github__analogs_ensemble_notes_use_jupyter_notebook.html',1,'']]]
 ];

@@ -1,7 +1,5 @@
 var searchData=
 [
-  ['flts',['FLTs',['../classanen_time_1_1_f_l_ts.html',1,'anenTime']]],
-  ['forecasts',['Forecasts',['../class_forecasts.html',1,'']]],
-  ['forecasts_5farray',['Forecasts_array',['../class_forecasts__array.html',1,'']]],
-  ['functions',['Functions',['../class_functions.html',1,'']]]
+  ['calculator',['Calculator',['../class_calculator.html',1,'']]],
+  ['config',['Config',['../class_config.html',1,'']]]
 ];

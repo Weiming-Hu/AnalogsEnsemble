@@ -67,7 +67,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAnEn</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.7.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">4.0.0</span>
       </span>
     </div>
 
@@ -110,11 +110,29 @@
       <small>Source: <a href='https://github.com/Weiming-Hu/AnalogsEnsemble/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="panen-4-0-0-pandora" class="section level1">
+<h1 class="page-header">
+<a href="#panen-4-0-0-pandora" class="anchor"></a>PAnEn 4.0.0 Pandora</h1>
+<ul>
+<li>Changed Underlying data structure from boost to pointer for better performance</li>
+<li>Introduced functionalities like checks of searching into future</li>
+<li>Reduced memory consumption when using the R API</li>
+<li>Changed several configuration names in R</li>
+<li>Some functions are deprecated</li>
+<li>R API changed</li>
+</ul>
+</div>
     <div id="panen-3-7-1" class="section level1">
 <h1 class="page-header">
 <a href="#panen-3-7-1" class="anchor"></a>PAnEn 3.7.1</h1>
 <ul>
-<li>Introduced auto generation of HPC work flows using <code><a href="../reference/generateHPCWorkflow.html">RAnEn::generateHPCWorkflow</a></code>.</li>
+<li>Introduced auto generation of HPC work flows using <code>RAnEn::generateHPCWorkflow</code>.</li>
+<li>Fixed a bug during subseting observation times in <code>RAnEn::plotAnalogTimeSeries</code>.</li>
+<li>Added <code>operational</code> in <code>RAnEn::generateHPCWorkflow</code>
+</li>
+<li>
+<code>search_times_compare</code> automatically changed when <code>operational</code> was used.</li>
+<li>Changed <code><a href="../reference/writeConfiguration.html">RAnEn::writeConfiguration</a></code> from <code>ifelse</code> to using the function <code>if</code>.</li>
 </ul>
 </div>
     <div id="panen-3-7-0" class="section level1">
@@ -126,10 +144,10 @@
 </li>
 <li>Updated the docker image</li>
 <li>Change <code>require</code> to <code>requireNamespace</code> to avoid function name conflicts</li>
-<li>Added <code><a href="../reference/subsetStations.html">RAnEn::subsetStations</a></code>
+<li>Added <code>RAnEn::subsetStations</code>
 </li>
 <li>Improve <code>RAnEn</code> name space management</li>
-<li>Added <code><a href="../reference/plotAnalogTimeSeries.html">RAnEn::plotAnalogTimeSeries</a></code>
+<li>Added <code>RAnEn::plotAnalogTimeSeries</code>
 </li>
 <li>Changed default values for <code>Configuration</code> from <code>NA</code> to <code>NULL</code> when it is necessary</li>
 </ul>
@@ -139,7 +157,7 @@
 <a href="#panen-3-6-5" class="anchor"></a>PAnEn 3.6.5</h1>
 <ul>
 <li>Added reading forecast circular parameters in `RAnEn::readForecasts</li>
-<li>Added station subset function <code><a href="../reference/subsetCoordinates.html">RAnEn::subsetCoordinates</a></code>
+<li>Added station subset function <code>RAnEn::subsetCoordinates</code>
 </li>
 <li>Minor document fix</li>
 <li>Added Github repository link on R documentation website</li>
@@ -150,7 +168,7 @@
 <h1 class="page-header">
 <a href="#panen-3-6-4" class="anchor"></a>PAnEn 3.6.4</h1>
 <ul>
-<li>Fixed environment issue for <code><a href="../reference/verify.html">RAnEn::verify</a></code>
+<li>Fixed environment issue for <code>RAnEn::verify</code>
 </li>
 <li>Bug fixed in <code>RAnEn::plotAnEnSelection</code>
 </li>
@@ -170,13 +188,13 @@
 <h1 class="page-header">
 <a href="#panen-3-6-2" class="anchor"></a>PAnEn 3.6.2</h1>
 <ul>
-<li>Changed the implementation of <code><a href="../reference/verifySpreadSkill.html">RAnEn::verifySpreadSkill</a></code>
+<li>Changed the implementation of <code>RAnEn::verifySpreadSkill</code>
 </li>
 <li>Changed legal information</li>
 <li>Added checks and default values in <code>RAnEn::generateSearchStation</code>
 </li>
 <li>Resolved issues in tests</li>
-<li>Added a convenient function <code><a href="../reference/getAssociatedForecasts.html">RAnEn::getAssociatedForecasts</a></code>
+<li>Added a convenient function <code>RAnEn::getAssociatedForecasts</code>
 </li>
 <li>Used <code>magrittr</code> pipes to improve code readability</li>
 <li>Added the printing method for R class ‘Configuration’</li>
@@ -186,7 +204,7 @@
 <h1 class="page-header">
 <a href="#panen-3-6-1" class="anchor"></a>PAnEn 3.6.1</h1>
 <ul>
-<li>Added <code><a href="../reference/generatePersistent.html">RAnEn::generatePersistent</a></code>
+<li>Added <code>RAnEn::generatePersistent</code>
 </li>
 <li>Added function names when <code>Done</code> is printed</li>
 </ul>
@@ -195,7 +213,7 @@
 <h1 class="page-header">
 <a href="#panen-3-6-0" class="anchor"></a>PAnEn 3.6.0</h1>
 <ul>
-<li>Verification just became simpler. Added a caller function <code><a href="../reference/verify.html">RAnEn::verify</a></code> and helper function <code>RAnEn::showVerificationMethods</code>
+<li>Verification just became simpler. Added a caller function <code>RAnEn::verify</code> and helper function <code>RAnEn::showVerificationMethods</code>
 </li>
 <li>Resolved a variable missing bug in <code><a href="../reference/writeNetCDF.html">RAnEn::writeNetCDF</a></code>
 </li>
@@ -207,7 +225,7 @@
 <ul>
 <li>Changed warnings of <code>CAnEnIO</code> from <code>cout</code> to <code>cerr</code>
 </li>
-<li>Reduced copies in <code><a href="../reference/AnEnC2R.html">RAnEn::AnEnC2R</a></code>
+<li>Reduced copies in <code>RAnEn::AnEnC2R</code>
 </li>
 <li>Added garbage collection mechanism to R file I/O functions</li>
 </ul>
@@ -218,7 +236,7 @@
 <ul>
 <li>Resolved a naming bug in <code><a href="../reference/schaakeShuffle.html">RAnEn::schaakeShuffle</a></code>
 </li>
-<li>Resolved a path bug in <code><a href="../reference/readAnEn.html">RAnEn::readAnEn</a></code>
+<li>Resolved a path bug in <code>RAnEn::readAnEn</code>
 </li>
 <li>Added <code><a href="../reference/writeConfiguration.html">RAnEn::writeConfiguration</a></code>
 </li>
@@ -231,7 +249,7 @@
 <h1 class="page-header">
 <a href="#panen-3-5-2" class="anchor"></a>PAnEn 3.5.2</h1>
 <ul>
-<li>Improved documentation for <code><a href="../reference/verifyBrier.html">RAnEn::verifyBrier</a></code> and <code><a href="../reference/verifyThreatScore.html">RAnEn::verifyThreatScore</a></code>
+<li>Improved documentation for <code>RAnEn::verifyBrier</code> and <code>RAnEn::verifyThreatScore</code>
 </li>
 <li>Improved the printing information for ‘class: AnEn list’</li>
 </ul>
@@ -326,13 +344,13 @@
 <h1 class="page-header">
 <a href="#panen-3-2-5" class="anchor"></a>PAnEn 3.2.5</h1>
 <ul>
-<li>Add function <code><a href="../reference/plotAnalogSample.html">RAnEn::plotAnalogSample</a></code> and <code><a href="../reference/plotAnalogSelection.html">RAnEn::plotAnalogSelection</a></code>.</li>
+<li>Add function <code>RAnEn::plotAnalogSample</code> and <code>RAnEn::plotAnalogSelection</code>.</li>
 <li>Add the feature for <code>RAnEn</code> to preserve standard deviations.</li>
 <li>Add tests for R and C++ for similarity calculation and standard deviation calculation.</li>
 <li>Add verification functions.</li>
 <li>Change R interface input parameters to constant references.</li>
 <li>Bug fixed for the <code>RAnEn</code> configuration parameter <code>num_nearest</code> and <code>num_max_search_stations</code>.</li>
-<li>Bug fixed in <code><a href="../reference/verifyCorrelation.html">RAnEn::verifyCorrelation</a></code>.</li>
+<li>Bug fixed in <code>RAnEn::verifyCorrelation</code>.</li>
 <li>Add mapping calculation feature to analog selector.</li>
 </ul>
 </div>
@@ -343,7 +361,7 @@
 <li>Bug fixed for using weights.</li>
 <li>Bug fixed for using partial compare times from test and search. This was causing stack overflow.</li>
 <li>Change the onload message of <code>RAnEn</code>.</li>
-<li>Add density limit parameter for <code><a href="../reference/biasCorrectionInsitu.html">RAnEn::biasCorrectionInsitu</a></code>.</li>
+<li>Add density limit parameter for <code>RAnEn::biasCorrectionInsitu</code>.</li>
 </ul>
 </div>
     <div id="panen-3-2-3" class="section level1">
@@ -426,7 +444,7 @@
 <ul>
 <li>Reduce code size of the <code>computeSimilarity</code> function.</li>
 <li>Resolve a potential bug in <code>computeSimilarity</code> and introduce a new parameter <code>extend_observations</code> to this function. Now, <code>extend_observations</code> is supported by both <code>computeSimilarity</code> and <code>selectAnalogs</code> functions.</li>
-<li>Minor changes to <code><a href="../reference/biasCorrection.html">RAnEn::biasCorrection</a></code>.</li>
+<li>Minor changes to <code>RAnEn::biasCorrection</code>.</li>
 <li>Introduce a new function for bias correction using a neural network.</li>
 <li>Change authors of the package.</li>
 <li>Update documentation.</li>
@@ -452,6 +470,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#panen-4-0-0-pandora">4.0.0</a></li>
         <li><a href="#panen-3-7-1">3.7.1</a></li>
         <li><a href="#panen-3-7-0">3.7.0</a></li>
         <li><a href="#panen-3-6-5">3.6.5</a></li>

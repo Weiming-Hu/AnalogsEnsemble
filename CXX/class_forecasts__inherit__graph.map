@@ -1,3 +1,5 @@
 <map id="Forecasts" name="Forecasts">
-<area shape="rect" id="node2" href="$class_forecasts__array.html" title="Forecasts_array class is an implementation of class Forecasts. Data are stored using the Array4D clas..." alt="" coords="5,321,149,560"/>
+<area shape="rect" id="node4" href="$class_forecasts_pointer.html" title="ForecastsPointer is an implementation of the abstract class Forecasts. It also inherits from Array4DP..." alt="" coords="65,623,222,817"/>
+<area shape="rect" id="node2" href="$class_array4_d.html" title="Array4D is an abstract class for 4&#45;dimensional array. " alt="" coords="5,35,132,273"/>
+<area shape="rect" id="node3" href="$class_basic_data.html" title="BasicData is an implementation of the data structure used by Analog Ensemble. It includes parameters..." alt="" coords="156,5,283,303"/>
 </map>

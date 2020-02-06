@@ -1,3 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$class_an_en.html" title="AnEn class provides interfaces for computing Analog Ensembles. " alt="" coords="5,5,60,32"/>
+<area shape="rect" id="node1" href="$class_an_en_read.html" title="AnEnRead is an abstract class that defines the interface for the reading functionality required for A..." alt="" coords="5,5,91,32"/>
+<area shape="rect" id="node2" href="$class_an_en_read_ncdf.html" title="AnEnRead derives from AnEnRead and it provides the functionality to read the NetCDF format..." alt="" coords="139,5,252,32"/>
 </map>

@@ -1,6 +1,7 @@
 <map id="Forecasts" name="Forecasts">
-<area shape="rect" id="node2" href="$classanen_time_1_1_f_l_ts.html" title="FLTs class is used to store time information for prediction forecast lead times (FLTs). If a temperature forecast on January 1st, 2028 contains predictions at 00h, 06h, 12h, 18h on that day, this forecast has 4 FLTs, which are 0, 6, 12, 18. " alt="" coords="99,427,216,505"/>
-<area shape="rect" id="node3" href="$classanen_time_1_1_times.html" title="Times class is used to store time information for predictions. By default this is the number of secon..." alt="" coords="5,132,128,312"/>
-<area shape="rect" id="node5" href="$classanen_par_1_1_parameters.html" title="Parameters class stores Parameter objects. " alt="" coords="240,398,411,534"/>
-<area shape="rect" id="node7" href="$classanen_sta_1_1_stations.html" title="Stations class stores Station objects. " alt="" coords="435,361,621,571"/>
+<area shape="rect" id="node2" href="$class_array4_d.html" title="Array4D is an abstract class for 4&#45;dimensional array. " alt="" coords="5,360,132,599"/>
+<area shape="rect" id="node3" href="$class_basic_data.html" title="BasicData is an implementation of the data structure used by Analog Ensemble. It includes parameters..." alt="" coords="243,345,369,613"/>
+<area shape="rect" id="node4" href="$class_times.html" title="Times class is used to store Time. It is a bidirectional map implemented from Boost so that it provid..." alt="" coords="135,139,227,275"/>
+<area shape="rect" id="node6" href="$class_stations.html" title="Stations class stores Station objects. It is a bidirectional map implemented from Boost so that it pr..." alt="" coords="255,139,357,275"/>
+<area shape="rect" id="node8" href="$class_parameters.html" title="Parameters class stores Parameter objects. It is a bidirectional map implemented from Boost so that i..." alt="" coords="398,132,518,283"/>
 </map>

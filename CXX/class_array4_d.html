@@ -60,13 +60,14 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pro-attribs">Protected Attributes</a> &#124;
-<a href="#friends">Friends</a> &#124;
 <a href="class_array4_d-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">Array4D Class Reference</div>  </div>
+<div class="title">Array4D Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><a class="el" href="class_array4_d.html" title="Array4D is an abstract class for 4-dimensional array. ">Array4D</a> is an abstract class for 4-dimensional array.  
+ <a href="class_array4_d.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="_array4_d_8h_source.html">Array4D.h</a>&gt;</code></p>
 <div class="dynheader">
@@ -74,6 +75,9 @@ Inheritance diagram for Array4D:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_array4_d__inherit__graph.png" border="0" usemap="#_array4_d_inherit__map" alt="Inheritance graph"/></div>
 <map name="_array4_d_inherit__map" id="_array4_d_inherit__map">
+<area shape="rect" id="node2" href="class_array4_d_pointer.html" title="Array4DPointer is an implementation of the abstract class Array4D. " alt="" coords="5,292,159,633"/>
+<area shape="rect" id="node4" href="class_forecasts.html" title="Forecasts is an abstract class that extends BasicData and the abstract class Array4D. It defines the interface of how to interact with the underlying data storage through the abstract class Array4D. This interface is accepted by the Analog Ensemble algorithm. " alt="" coords="183,351,325,575"/>
+<area shape="rect" id="node3" href="class_forecasts_pointer.html" title="ForecastsPointer is an implementation of the abstract class Forecasts. It also inherits from Array4DP..." alt="" coords="89,681,246,876"/>
 </map>
 </div>
 <div class="dynheader">
@@ -86,248 +90,36 @@ Collaboration diagram for Array4D:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a1bc84c0dcc22ed0e218040b01f56b816"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#a1bc84c0dcc22ed0e218040b01f56b816">Array4D</a> ()</td></tr>
-<tr class="separator:a1bc84c0dcc22ed0e218040b01f56b816"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7395b077e949df98c4cfe0c0aa93f2a8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#a7395b077e949df98c4cfe0c0aa93f2a8">Array4D</a> (const <a class="el" href="class_array4_d.html">Array4D</a> &amp;)</td></tr>
-<tr class="separator:a7395b077e949df98c4cfe0c0aa93f2a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2b0e0536b5e40fec5694fdcaebdcff6a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#a2b0e0536b5e40fec5694fdcaebdcff6a">Array4D</a> (size_t d1, size_t d2, size_t d3, size_t d4)</td></tr>
-<tr class="separator:a2b0e0536b5e40fec5694fdcaebdcff6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8ee78d0fd3a893d067386b1afd9a742e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#a8ee78d0fd3a893d067386b1afd9a742e">Array4D</a> (std::vector&lt; double &gt; const &amp;, size_t M, size_t N, size_t O, size_t P)</td></tr>
-<tr class="separator:a8ee78d0fd3a893d067386b1afd9a742e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5c5b3aa5f576edefc2e9a61afa87e451"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#a5c5b3aa5f576edefc2e9a61afa87e451">Array4D</a> (Array4D::array_view&lt; 4 &gt;::type &amp;)</td></tr>
-<tr class="separator:a5c5b3aa5f576edefc2e9a61afa87e451"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae82ddfe43f803f16e7904dc839b63eab"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#ae82ddfe43f803f16e7904dc839b63eab">~Array4D</a> ()</td></tr>
-<tr class="separator:ae82ddfe43f803f16e7904dc839b63eab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa56a432098cf289a2cc340dfc5635634"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_array4_d.html">Array4D</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#aa56a432098cf289a2cc340dfc5635634">operator=</a> (const <a class="el" href="class_array4_d.html">Array4D</a> &amp;rhs)</td></tr>
-<tr class="separator:aa56a432098cf289a2cc340dfc5635634"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a27a7b3dc2759941c5849a3843d9ad5d1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#a27a7b3dc2759941c5849a3843d9ad5d1">setFirstDimension</a> (std::vector&lt; double &gt; const &amp;data, size_t pos)</td></tr>
-<tr class="separator:a27a7b3dc2759941c5849a3843d9ad5d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac4d55dadfae71139e8d860fe171146c7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#ac4d55dadfae71139e8d860fe171146c7">getFirstDimensionData</a> (std::vector&lt; double &gt; &amp;data, size_t pos)</td></tr>
-<tr class="separator:ac4d55dadfae71139e8d860fe171146c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af6879e11496cc7a736b813bbdeccd5d5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#af6879e11496cc7a736b813bbdeccd5d5">setDataFromVector</a> (std::vector&lt; double &gt; const &amp;data, size_t M, size_t N, size_t O, size_t P)</td></tr>
-<tr class="separator:af6879e11496cc7a736b813bbdeccd5d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abbcf6caa1305cd5709e6f194e961614d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#abbcf6caa1305cd5709e6f194e961614d">isCircular</a> (size_t pos) const</td></tr>
-<tr class="separator:abbcf6caa1305cd5709e6f194e961614d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab4574e45a22610a3e9768542afe76797"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#ab4574e45a22610a3e9768542afe76797">setCircular</a> (size_t pos)</td></tr>
-<tr class="separator:ab4574e45a22610a3e9768542afe76797"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac6d1282e0d765748c192a72d60274853"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#ac6d1282e0d765748c192a72d60274853">unsetCircular</a> (size_t pos)</td></tr>
-<tr class="separator:ac6d1282e0d765748c192a72d60274853"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8715e92d0a11f73a16ac3d67b7527f86"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#a8715e92d0a11f73a16ac3d67b7527f86">setNames</a> (const std::vector&lt; std::string &gt; &amp;newNames)</td></tr>
-<tr class="separator:a8715e92d0a11f73a16ac3d67b7527f86"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a921401f1e3a471b6b5665d718c636daf"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#a921401f1e3a471b6b5665d718c636daf">setName</a> (size_t pos, const std::string &amp;newName)</td></tr>
-<tr class="separator:a921401f1e3a471b6b5665d718c636daf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a21932242976a122108f7cdf845f7aeca"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#a21932242976a122108f7cdf845f7aeca">getName</a> (size_t pos)</td></tr>
-<tr class="separator:a21932242976a122108f7cdf845f7aeca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afc2d361e388a5faba62caef697033911"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#afc2d361e388a5faba62caef697033911">getSizeDim0</a> () const</td></tr>
-<tr class="separator:afc2d361e388a5faba62caef697033911"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a32f89196e8a5384f8a207812376f716d"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#a32f89196e8a5384f8a207812376f716d">getSizeDim1</a> () const</td></tr>
-<tr class="separator:a32f89196e8a5384f8a207812376f716d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abc321f73fd2665ac1c58afaf3ebe60e6"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#abc321f73fd2665ac1c58afaf3ebe60e6">getSizeDim2</a> () const</td></tr>
-<tr class="separator:abc321f73fd2665ac1c58afaf3ebe60e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af767db0beba39cd815b903a8076d2695"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#af767db0beba39cd815b903a8076d2695">getSizeDim3</a> () const</td></tr>
-<tr class="separator:af767db0beba39cd815b903a8076d2695"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae829ad7badd47b721a9ecea2324f3168"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#ae829ad7badd47b721a9ecea2324f3168">myresize</a> (index, index, index, index)</td></tr>
-<tr class="separator:ae829ad7badd47b721a9ecea2324f3168"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a15626fe44d3792ccc2822afb30bcbd98"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#a15626fe44d3792ccc2822afb30bcbd98">randomize</a> ()</td></tr>
-<tr class="separator:a15626fe44d3792ccc2822afb30bcbd98"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad4bf624213ab880802c14204a54bb1b4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#ad4bf624213ab880802c14204a54bb1b4">print</a> (std::ostream &amp;) const</td></tr>
-<tr class="separator:ad4bf624213ab880802c14204a54bb1b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a838161eccbcb59c67d8ec5167e710cb2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#a838161eccbcb59c67d8ec5167e710cb2">print_size</a> (std::ostream &amp;) const</td></tr>
-<tr class="separator:a838161eccbcb59c67d8ec5167e710cb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2f9f3a7f699f705ebbc3067adf923922"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#a2f9f3a7f699f705ebbc3067adf923922">get_nx</a> ()</td></tr>
-<tr class="separator:a2f9f3a7f699f705ebbc3067adf923922"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6f75a07d72213eff83aabbfd8442d1d3"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#a6f75a07d72213eff83aabbfd8442d1d3">get_ny</a> ()</td></tr>
-<tr class="separator:a6f75a07d72213eff83aabbfd8442d1d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4071001d8fd5248bcaf89c54556a6fe2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#a4071001d8fd5248bcaf89c54556a6fe2">set_nx_ny</a> (size_t nx, size_t ny)</td></tr>
-<tr class="separator:a4071001d8fd5248bcaf89c54556a6fe2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5b72fa60e0feacd807d4d2e7bd1bf5fd"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; double &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#a5b72fa60e0feacd807d4d2e7bd1bf5fd">get_xs</a> () const</td></tr>
-<tr class="separator:a5b72fa60e0feacd807d4d2e7bd1bf5fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3f6fa1fc8bc07a3aa51cbdada40e25e7"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; double &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#a3f6fa1fc8bc07a3aa51cbdada40e25e7">get_ys</a> () const</td></tr>
-<tr class="separator:a3f6fa1fc8bc07a3aa51cbdada40e25e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a66b2635ff1ce8ef57e9c55bba8e2bbda"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#a66b2635ff1ce8ef57e9c55bba8e2bbda">empty_xs</a> () const</td></tr>
-<tr class="separator:a66b2635ff1ce8ef57e9c55bba8e2bbda"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a40d87667978c6824f536367dcffbac39"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#a40d87667978c6824f536367dcffbac39">empty_ys</a> () const</td></tr>
-<tr class="separator:a40d87667978c6824f536367dcffbac39"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a440c545fcf694923767581f590d808df"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#a440c545fcf694923767581f590d808df">xs_size</a> () const</td></tr>
-<tr class="separator:a440c545fcf694923767581f590d808df"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7c08ac86562c729d9fa24165cba55a97"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#a7c08ac86562c729d9fa24165cba55a97">ys_size</a> () const</td></tr>
-<tr class="separator:a7c08ac86562c729d9fa24165cba55a97"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a92afa660eb005779a0c2cf602aa4c6fe"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#a92afa660eb005779a0c2cf602aa4c6fe">set_xs</a> (std::vector&lt; double &gt; input)</td></tr>
-<tr class="separator:a92afa660eb005779a0c2cf602aa4c6fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a03ed88518d6991a55f3e48ad7de15d73"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#a03ed88518d6991a55f3e48ad7de15d73">set_ys</a> (std::vector&lt; double &gt; input)</td></tr>
-<tr class="separator:a03ed88518d6991a55f3e48ad7de15d73"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4668c9767181db6bd228e054a3f81696"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#a4668c9767181db6bd228e054a3f81696">xs_max</a> () const</td></tr>
-<tr class="separator:a4668c9767181db6bd228e054a3f81696"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a642efdce56ea7ffaf7e24ed1d63b3151"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#a642efdce56ea7ffaf7e24ed1d63b3151">xs_min</a> () const</td></tr>
-<tr class="separator:a642efdce56ea7ffaf7e24ed1d63b3151"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1e142285afbb8b00662d8f77f0b92b80"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#a1e142285afbb8b00662d8f77f0b92b80">ys_max</a> () const</td></tr>
-<tr class="separator:a1e142285afbb8b00662d8f77f0b92b80"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af27f181faf93d0ca96e65b1e5bdab82d"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#af27f181faf93d0ca96e65b1e5bdab82d">ys_min</a> () const</td></tr>
-<tr class="separator:af27f181faf93d0ca96e65b1e5bdab82d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
-Protected Attributes</h2></td></tr>
-<tr class="memitem:a5fa707d43fe236f8890dae010de99bf1"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#a5fa707d43fe236f8890dae010de99bf1">nx_</a> = 0</td></tr>
-<tr class="separator:a5fa707d43fe236f8890dae010de99bf1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0c3053b1362730bb52d2d6e9c4402099"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#a0c3053b1362730bb52d2d6e9c4402099">ny_</a> = 0</td></tr>
-<tr class="separator:a0c3053b1362730bb52d2d6e9c4402099"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6fdbbc14cbe18e25f68ec9773df18783"><td class="memItemLeft" align="right" valign="top">std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#a6fdbbc14cbe18e25f68ec9773df18783">xs_</a></td></tr>
-<tr class="separator:a6fdbbc14cbe18e25f68ec9773df18783"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa9277734c8de6f2a02e6b06ccccbdaad"><td class="memItemLeft" align="right" valign="top">std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#aa9277734c8de6f2a02e6b06ccccbdaad">ys_</a></td></tr>
-<tr class="separator:aa9277734c8de6f2a02e6b06ccccbdaad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
-Friends</h2></td></tr>
-<tr class="memitem:af0c2770deee0bf3f3fc90fc3ea22147c"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#af0c2770deee0bf3f3fc90fc3ea22147c">operator&lt;&lt;</a> (std::ostream &amp;, <a class="el" href="class_array4_d.html">Array4D</a> const &amp;)</td></tr>
-<tr class="separator:af0c2770deee0bf3f3fc90fc3ea22147c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e00db3fed48f5ae075fd2abda413fc6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#a7e00db3fed48f5ae075fd2abda413fc6">Array4D</a> ()=default</td></tr>
+<tr class="separator:a7e00db3fed48f5ae075fd2abda413fc6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f944bab04d0dba2eee2606340884d9a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#a1f944bab04d0dba2eee2606340884d9a">Array4D</a> (const <a class="el" href="class_array4_d.html">Array4D</a> &amp;orig)=default</td></tr>
+<tr class="separator:a1f944bab04d0dba2eee2606340884d9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a426c1f718b911f30bfae40638bb6a6d6"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#a426c1f718b911f30bfae40638bb6a6d6">~Array4D</a> ()=default</td></tr>
+<tr class="separator:a426c1f718b911f30bfae40638bb6a6d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b61cee8e84f6b793f172c57c68c44d6"><td class="memItemLeft" align="right" valign="top">virtual const std::size_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#a0b61cee8e84f6b793f172c57c68c44d6">shape</a> () const =0</td></tr>
+<tr class="separator:a0b61cee8e84f6b793f172c57c68c44d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3827e96fb1adea99f1a5317791639d3e"><td class="memItemLeft" align="right" valign="top">virtual std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#a3827e96fb1adea99f1a5317791639d3e">num_elements</a> () const =0</td></tr>
+<tr class="separator:a3827e96fb1adea99f1a5317791639d3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a90e6592e88215bd6572c79f4395c27ba"><td class="memItemLeft" align="right" valign="top">virtual const double *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#a90e6592e88215bd6572c79f4395c27ba">getValuesPtr</a> () const =0</td></tr>
+<tr class="separator:a90e6592e88215bd6572c79f4395c27ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b1a1517e6312361635f6d6416a913da"><td class="memItemLeft" align="right" valign="top">virtual double *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#a7b1a1517e6312361635f6d6416a913da">getValuesPtr</a> ()=0</td></tr>
+<tr class="separator:a7b1a1517e6312361635f6d6416a913da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a202eb4769e149d7667dc9e0845d9e53c"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#a202eb4769e149d7667dc9e0845d9e53c">resize</a> (std::size_t, std::size_t, std::size_t, std::size_t)=0</td></tr>
+<tr class="separator:a202eb4769e149d7667dc9e0845d9e53c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c8c636de5d652a051820910efcf51ce"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#a0c8c636de5d652a051820910efcf51ce">initialize</a> (double)=0</td></tr>
+<tr class="separator:a0c8c636de5d652a051820910efcf51ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace14d3ee0e335767689527bc15da9fad"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#ace14d3ee0e335767689527bc15da9fad">getValue</a> (std::size_t, std::size_t, std::size_t, std::size_t) const =0</td></tr>
+<tr class="separator:ace14d3ee0e335767689527bc15da9fad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e89720108c37465bc68ee1529184eae"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#a7e89720108c37465bc68ee1529184eae">setValue</a> (double val, std::size_t, std::size_t, std::size_t, std::size_t)=0</td></tr>
+<tr class="separator:a7e89720108c37465bc68ee1529184eae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ada3abf2e6d9c09eebbf7f2c1f3b0df40"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#ada3abf2e6d9c09eebbf7f2c1f3b0df40">print</a> (std::ostream &amp;) const =0</td></tr>
+<tr class="separator:ada3abf2e6d9c09eebbf7f2c1f3b0df40"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>GC: This is the basic data structure that is used to store the forecasts and the observations. Normally the data is stored in the following format:</p>
-<p>[Parameter][Station][Days][Forecast Lead Time]</p>
-<p>It is assumed that all the data is stored as double. It has not been templated for optimization purposes, but it should be rather trivial to make this class work with different data types.</p>
-<p>The class extends the functionality of the boost multidimensional array structure, which is used as the underlying container for the data. Although defining a built 4D array could lead to an increase in speed, it is not possible to use standard STL paradigm and algorithms. The boost library allows for a transparent integration with STL, and provides an optimized data structure bug free. The library is currently maintained and used worldwide. </p>
+<div class="textblock"><p><a class="el" href="class_array4_d.html" title="Array4D is an abstract class for 4-dimensional array. ">Array4D</a> is an abstract class for 4-dimensional array. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a1bc84c0dcc22ed0e218040b01f56b816"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1bc84c0dcc22ed0e218040b01f56b816">&#9670;&nbsp;</a></span>Array4D() <span class="overload">[1/5]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">Array4D::Array4D </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a7395b077e949df98c4cfe0c0aa93f2a8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7395b077e949df98c4cfe0c0aa93f2a8">&#9670;&nbsp;</a></span>Array4D() <span class="overload">[2/5]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">Array4D::Array4D </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="class_array4_d.html">Array4D</a> &amp;&#160;</td>
-          <td class="paramname"><em>rhs</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a2b0e0536b5e40fec5694fdcaebdcff6a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2b0e0536b5e40fec5694fdcaebdcff6a">&#9670;&nbsp;</a></span>Array4D() <span class="overload">[3/5]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">Array4D::Array4D </td>
-          <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>d1</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>d2</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>d3</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>d4</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a8ee78d0fd3a893d067386b1afd9a742e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8ee78d0fd3a893d067386b1afd9a742e">&#9670;&nbsp;</a></span>Array4D() <span class="overload">[4/5]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">Array4D::Array4D </td>
-          <td>(</td>
-          <td class="paramtype">std::vector&lt; double &gt; const &amp;&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>M</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>N</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>O</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>P</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a5c5b3aa5f576edefc2e9a61afa87e451"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5c5b3aa5f576edefc2e9a61afa87e451">&#9670;&nbsp;</a></span>Array4D() <span class="overload">[5/5]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">Array4D::Array4D </td>
-          <td>(</td>
-          <td class="paramtype">Array4D::array_view&lt; 4 &gt;::type &amp;&#160;</td>
-          <td class="paramname"><em>view</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ae82ddfe43f803f16e7904dc839b63eab"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae82ddfe43f803f16e7904dc839b63eab">&#9670;&nbsp;</a></span>~Array4D()</h2>
+<a id="a7e00db3fed48f5ae075fd2abda413fc6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7e00db3fed48f5ae075fd2abda413fc6">&#9670;&nbsp;</a></span>Array4D() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -336,7 +128,7 @@ Friends</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Array4D::~Array4D </td>
+          <td class="memname">Array4D::Array4D </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -344,694 +136,15 @@ Friends</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">default</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a id="a66b2635ff1ce8ef57e9c55bba8e2bbda"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a66b2635ff1ce8ef57e9c55bba8e2bbda">&#9670;&nbsp;</a></span>empty_xs()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool Array4D::empty_xs </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a40d87667978c6824f536367dcffbac39"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a40d87667978c6824f536367dcffbac39">&#9670;&nbsp;</a></span>empty_ys()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool Array4D::empty_ys </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a2f9f3a7f699f705ebbc3067adf923922"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2f9f3a7f699f705ebbc3067adf923922">&#9670;&nbsp;</a></span>get_nx()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">size_t Array4D::get_nx </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a6f75a07d72213eff83aabbfd8442d1d3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6f75a07d72213eff83aabbfd8442d1d3">&#9670;&nbsp;</a></span>get_ny()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">size_t Array4D::get_ny </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a5b72fa60e0feacd807d4d2e7bd1bf5fd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5b72fa60e0feacd807d4d2e7bd1bf5fd">&#9670;&nbsp;</a></span>get_xs()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const vector&lt; double &gt; &amp; Array4D::get_xs </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a3f6fa1fc8bc07a3aa51cbdada40e25e7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3f6fa1fc8bc07a3aa51cbdada40e25e7">&#9670;&nbsp;</a></span>get_ys()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const vector&lt; double &gt; &amp; Array4D::get_ys </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ac4d55dadfae71139e8d860fe171146c7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac4d55dadfae71139e8d860fe171146c7">&#9670;&nbsp;</a></span>getFirstDimensionData()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Array4D::getFirstDimensionData </td>
-          <td>(</td>
-          <td class="paramtype">std::vector&lt; double &gt; &amp;&#160;</td>
-          <td class="paramname"><em>data</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>pos</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a21932242976a122108f7cdf845f7aeca"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a21932242976a122108f7cdf845f7aeca">&#9670;&nbsp;</a></span>getName()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string Array4D::getName </td>
-          <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>pos</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="afc2d361e388a5faba62caef697033911"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afc2d361e388a5faba62caef697033911">&#9670;&nbsp;</a></span>getSizeDim0()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">size_t Array4D::getSizeDim0 </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a32f89196e8a5384f8a207812376f716d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a32f89196e8a5384f8a207812376f716d">&#9670;&nbsp;</a></span>getSizeDim1()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">size_t Array4D::getSizeDim1 </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="abc321f73fd2665ac1c58afaf3ebe60e6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abc321f73fd2665ac1c58afaf3ebe60e6">&#9670;&nbsp;</a></span>getSizeDim2()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">size_t Array4D::getSizeDim2 </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="af767db0beba39cd815b903a8076d2695"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af767db0beba39cd815b903a8076d2695">&#9670;&nbsp;</a></span>getSizeDim3()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">size_t Array4D::getSizeDim3 </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="abbcf6caa1305cd5709e6f194e961614d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abbcf6caa1305cd5709e6f194e961614d">&#9670;&nbsp;</a></span>isCircular()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool Array4D::isCircular </td>
-          <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>pos</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ae829ad7badd47b721a9ecea2324f3168"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae829ad7badd47b721a9ecea2324f3168">&#9670;&nbsp;</a></span>myresize()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool Array4D::myresize </td>
-          <td>(</td>
-          <td class="paramtype">index&#160;</td>
-          <td class="paramname"><em>d1</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">index&#160;</td>
-          <td class="paramname"><em>d2</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">index&#160;</td>
-          <td class="paramname"><em>d3</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">index&#160;</td>
-          <td class="paramname"><em>d4</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aa56a432098cf289a2cc340dfc5635634"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa56a432098cf289a2cc340dfc5635634">&#9670;&nbsp;</a></span>operator=()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_array4_d.html">Array4D</a> &amp; Array4D::operator= </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="class_array4_d.html">Array4D</a> &amp;&#160;</td>
-          <td class="paramname"><em>rhs</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ad4bf624213ab880802c14204a54bb1b4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad4bf624213ab880802c14204a54bb1b4">&#9670;&nbsp;</a></span>print()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Array4D::print </td>
-          <td>(</td>
-          <td class="paramtype">std::ostream &amp;&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a838161eccbcb59c67d8ec5167e710cb2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a838161eccbcb59c67d8ec5167e710cb2">&#9670;&nbsp;</a></span>print_size()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Array4D::print_size </td>
-          <td>(</td>
-          <td class="paramtype">std::ostream &amp;&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a15626fe44d3792ccc2822afb30bcbd98"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a15626fe44d3792ccc2822afb30bcbd98">&#9670;&nbsp;</a></span>randomize()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Array4D::randomize </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a4071001d8fd5248bcaf89c54556a6fe2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4071001d8fd5248bcaf89c54556a6fe2">&#9670;&nbsp;</a></span>set_nx_ny()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool Array4D::set_nx_ny </td>
-          <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>nx</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>ny</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>The function sets the protected variables nx_ and ny_. These two variables are set when the stations lies on a perfect grid structure. They both must be set together because the function makes sure that the values to be set are in consistency with the number of stations in the data.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">nx</td><td>an size_t variable for the number of stations along x; </td></tr>
-    <tr><td class="paramname">ny</td><td>an size_t variable for the number of stations along y; </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>a boolean; </dd></dl>
-
-</div>
-</div>
-<a id="a92afa660eb005779a0c2cf602aa4c6fe"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a92afa660eb005779a0c2cf602aa4c6fe">&#9670;&nbsp;</a></span>set_xs()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool Array4D::set_xs </td>
-          <td>(</td>
-          <td class="paramtype">std::vector&lt; double &gt;&#160;</td>
-          <td class="paramname"><em>input</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a03ed88518d6991a55f3e48ad7de15d73"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a03ed88518d6991a55f3e48ad7de15d73">&#9670;&nbsp;</a></span>set_ys()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool Array4D::set_ys </td>
-          <td>(</td>
-          <td class="paramtype">std::vector&lt; double &gt;&#160;</td>
-          <td class="paramname"><em>input</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ab4574e45a22610a3e9768542afe76797"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab4574e45a22610a3e9768542afe76797">&#9670;&nbsp;</a></span>setCircular()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Array4D::setCircular </td>
-          <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>pos</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="af6879e11496cc7a736b813bbdeccd5d5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af6879e11496cc7a736b813bbdeccd5d5">&#9670;&nbsp;</a></span>setDataFromVector()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Array4D::setDataFromVector </td>
-          <td>(</td>
-          <td class="paramtype">std::vector&lt; double &gt; const &amp;&#160;</td>
-          <td class="paramname"><em>data</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>M</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>N</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>O</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>P</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a27a7b3dc2759941c5849a3843d9ad5d1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a27a7b3dc2759941c5849a3843d9ad5d1">&#9670;&nbsp;</a></span>setFirstDimension()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Array4D::setFirstDimension </td>
-          <td>(</td>
-          <td class="paramtype">std::vector&lt; double &gt; const &amp;&#160;</td>
-          <td class="paramname"><em>data</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>pos</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>GC: Used to set the data from a file when read one parameter at a time </p>
-
-</div>
-</div>
-<a id="a921401f1e3a471b6b5665d718c636daf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a921401f1e3a471b6b5665d718c636daf">&#9670;&nbsp;</a></span>setName()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool Array4D::setName </td>
-          <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>pos</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>newName</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a8715e92d0a11f73a16ac3d67b7527f86"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8715e92d0a11f73a16ac3d67b7527f86">&#9670;&nbsp;</a></span>setNames()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool Array4D::setNames </td>
-          <td>(</td>
-          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
-          <td class="paramname"><em>newNames</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ac6d1282e0d765748c192a72d60274853"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac6d1282e0d765748c192a72d60274853">&#9670;&nbsp;</a></span>unsetCircular()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Array4D::unsetCircular </td>
-          <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>pos</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a4668c9767181db6bd228e054a3f81696"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4668c9767181db6bd228e054a3f81696">&#9670;&nbsp;</a></span>xs_max()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">double Array4D::xs_max </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a642efdce56ea7ffaf7e24ed1d63b3151"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a642efdce56ea7ffaf7e24ed1d63b3151">&#9670;&nbsp;</a></span>xs_min()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">double Array4D::xs_min </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a440c545fcf694923767581f590d808df"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a440c545fcf694923767581f590d808df">&#9670;&nbsp;</a></span>xs_size()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">size_t Array4D::xs_size </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a1e142285afbb8b00662d8f77f0b92b80"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1e142285afbb8b00662d8f77f0b92b80">&#9670;&nbsp;</a></span>ys_max()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">double Array4D::ys_max </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="af27f181faf93d0ca96e65b1e5bdab82d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af27f181faf93d0ca96e65b1e5bdab82d">&#9670;&nbsp;</a></span>ys_min()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">double Array4D::ys_min </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a7c08ac86562c729d9fa24165cba55a97"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7c08ac86562c729d9fa24165cba55a97">&#9670;&nbsp;</a></span>ys_size()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">size_t Array4D::ys_size </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<h2 class="groupheader">Friends And Related Function Documentation</h2>
-<a id="af0c2770deee0bf3f3fc90fc3ea22147c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af0c2770deee0bf3f3fc90fc3ea22147c">&#9670;&nbsp;</a></span>operator<<</h2>
+<a id="a1f944bab04d0dba2eee2606340884d9a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1f944bab04d0dba2eee2606340884d9a">&#9670;&nbsp;</a></span>Array4D() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1040,15 +153,284 @@ Friends</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::ostream&amp; operator&lt;&lt; </td>
+          <td class="memname">Array4D::Array4D </td>
           <td>(</td>
-          <td class="paramtype">std::ostream &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="class_array4_d.html">Array4D</a> &amp;&#160;</td>
+          <td class="paramname"><em>orig</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a426c1f718b911f30bfae40638bb6a6d6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a426c1f718b911f30bfae40638bb6a6d6">&#9670;&nbsp;</a></span>~Array4D()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual Array4D::~Array4D </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="ace14d3ee0e335767689527bc15da9fad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ace14d3ee0e335767689527bc15da9fad">&#9670;&nbsp;</a></span>getValue()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual double Array4D::getValue </td>
+          <td>(</td>
+          <td class="paramtype">std::size_t&#160;</td>
           <td class="paramname">, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="class_array4_d.html">Array4D</a> const &amp;&#160;</td>
+          <td class="paramtype">std::size_t&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gets or sets a value using the array indices. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">parameter_index</td><td><a class="el" href="class_parameter.html" title="Parameter stores parameter information including name and circular. ">Parameter</a> index. </td></tr>
+    <tr><td class="paramname">station_index</td><td><a class="el" href="class_station.html" title="Class Station stores station information including name, X, and Y. Each Station Object is assigned wi...">Station</a> index. </td></tr>
+    <tr><td class="paramname">time_index</td><td><a class="el" href="class_time.html">Time</a> index. </td></tr>
+    <tr><td class="paramname">flt_index</td><td>FLT index. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A value. </dd></dl>
+
+<p>Implemented in <a class="el" href="class_array4_d_pointer.html#a91637dfd51b1932262bb0936f327bc5e">Array4DPointer</a>.</p>
+
+</div>
+</div>
+<a id="a90e6592e88215bd6572c79f4395c27ba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a90e6592e88215bd6572c79f4395c27ba">&#9670;&nbsp;</a></span>getValuesPtr() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual const double* Array4D::getValuesPtr </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gets a double pointer to the start of the values. </p><dl class="section return"><dt>Returns</dt><dd>A double pointer. </dd></dl>
+
+<p>Implemented in <a class="el" href="class_array4_d_pointer.html#acc02b8869b266dc887255c9daeae7e56">Array4DPointer</a>.</p>
+
+</div>
+</div>
+<a id="a7b1a1517e6312361635f6d6416a913da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7b1a1517e6312361635f6d6416a913da">&#9670;&nbsp;</a></span>getValuesPtr() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual double* Array4D::getValuesPtr </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="class_array4_d_pointer.html#a6135e735d39f960a1c55224488374e06">Array4DPointer</a>.</p>
+
+</div>
+</div>
+<a id="a0c8c636de5d652a051820910efcf51ce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0c8c636de5d652a051820910efcf51ce">&#9670;&nbsp;</a></span>initialize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void Array4D::initialize </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Initialize the values </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">The</td><td>value for initialization </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Implemented in <a class="el" href="class_array4_d_pointer.html#aa728a144c17d1da8515b74488d03e4c5">Array4DPointer</a>.</p>
+
+</div>
+</div>
+<a id="a3827e96fb1adea99f1a5317791639d3e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3827e96fb1adea99f1a5317791639d3e">&#9670;&nbsp;</a></span>num_elements()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual std::size_t Array4D::num_elements </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Returns the total number of data values. </p><dl class="section return"><dt>Returns</dt><dd>A value. </dd></dl>
+
+<p>Implemented in <a class="el" href="class_array4_d_pointer.html#ae49af77f9069a8952985b6406350e3c9">Array4DPointer</a>.</p>
+
+</div>
+</div>
+<a id="ada3abf2e6d9c09eebbf7f2c1f3b0df40"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ada3abf2e6d9c09eebbf7f2c1f3b0df40">&#9670;&nbsp;</a></span>print()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void Array4D::print </td>
+          <td>(</td>
+          <td class="paramtype">std::ostream &amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="class_forecasts.html#addb1f75f0dc6833c466453c51256812c">Forecasts</a>, <a class="el" href="class_array4_d_pointer.html#a56a80cf0e1cca8e44b24a5348e3a9565">Array4DPointer</a>, and <a class="el" href="class_forecasts_pointer.html#a49eb0dda69c415ad44af77ea03e8d58e">ForecastsPointer</a>.</p>
+
+</div>
+</div>
+<a id="a202eb4769e149d7667dc9e0845d9e53c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a202eb4769e149d7667dc9e0845d9e53c">&#9670;&nbsp;</a></span>resize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void Array4D::resize </td>
+          <td>(</td>
+          <td class="paramtype">std::size_t&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t&#160;</td>
           <td class="paramname">&#160;</td>
         </tr>
         <tr>
@@ -1059,16 +441,26 @@ Friends</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Resize the dimensions and allocate memory. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">Length</td><td>of the first dimension </td></tr>
+    <tr><td class="paramname">Length</td><td>of the second dimension </td></tr>
+    <tr><td class="paramname">Length</td><td>of the third dimension </td></tr>
+    <tr><td class="paramname">Length</td><td>of the fourth dimension </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Implemented in <a class="el" href="class_array4_d_pointer.html#a128becb8688e5a216ed16a206714bc16">Array4DPointer</a>.</p>
 
 </div>
 </div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a id="a5fa707d43fe236f8890dae010de99bf1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5fa707d43fe236f8890dae010de99bf1">&#9670;&nbsp;</a></span>nx_</h2>
+<a id="a7e89720108c37465bc68ee1529184eae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7e89720108c37465bc68ee1529184eae">&#9670;&nbsp;</a></span>setValue()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1077,20 +469,54 @@ Friends</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">size_t Array4D::nx_ = 0</td>
+          <td class="memname">virtual void Array4D::setValue </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>val</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
+<p>Implemented in <a class="el" href="class_array4_d_pointer.html#afe7d3aab8c2f2c68d8b81f57fa13c8e9">Array4DPointer</a>.</p>
+
 </div>
 </div>
-<a id="a0c3053b1362730bb52d2d6e9c4402099"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0c3053b1362730bb52d2d6e9c4402099">&#9670;&nbsp;</a></span>ny_</h2>
+<a id="a0b61cee8e84f6b793f172c57c68c44d6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b61cee8e84f6b793f172c57c68c44d6">&#9670;&nbsp;</a></span>shape()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1099,65 +525,25 @@ Friends</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">size_t Array4D::ny_ = 0</td>
+          <td class="memname">virtual const std::size_t* Array4D::shape </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-</div>
-</div>
-<a id="a6fdbbc14cbe18e25f68ec9773df18783"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6fdbbc14cbe18e25f68ec9773df18783">&#9670;&nbsp;</a></span>xs_</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::vector&lt;double&gt; Array4D::xs_</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
+<p>Implemented in <a class="el" href="class_array4_d_pointer.html#a41fbb8cb37ce4f6894b8dd9a1c504fb2">Array4DPointer</a>.</p>
 
 </div>
 </div>
-<a id="aa9277734c8de6f2a02e6b06ccccbdaad"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa9277734c8de6f2a02e6b06ccccbdaad">&#9670;&nbsp;</a></span>ys_</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::vector&lt;double&gt; Array4D::ys_</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<hr/>The documentation for this class was generated from the following files:<ul>
+<hr/>The documentation for this class was generated from the following file:<ul>
 <li>/home/graduate/wuh20/github/AnalogsEnsemble/CAnEn/include/<a class="el" href="_array4_d_8h_source.html">Array4D.h</a></li>
-<li>/home/graduate/wuh20/github/AnalogsEnsemble/CAnEn/src/<a class="el" href="_array4_d_8cpp.html">Array4D.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

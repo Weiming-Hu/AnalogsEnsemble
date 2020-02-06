@@ -1,5 +1,8 @@
 <map id="/home/graduate/wuh20/github/AnalogsEnsemble/CAnEn/include/Observations.h" name="/home/graduate/wuh20/github/AnalogsEnsemble/CAnEn/include/Observations.h">
-<area shape="rect" id="node7" href="$_parameters_8h.html" title="Parameters.h" alt="" coords="1043,109,1143,136"/>
-<area shape="rect" id="node16" href="$_stations_8h.html" title="Stations.h" alt="" coords="938,109,1019,136"/>
-<area shape="rect" id="node20" href="$_times_8h.html" title="Times.h" alt="" coords="1285,109,1355,136"/>
+<area shape="rect" id="node2" href="$_basic_data_8h.html" title="BasicData.h" alt="" coords="127,109,222,136"/>
+<area shape="rect" id="node3" href="$_parameters_8h.html" title="Parameters.h" alt="" coords="125,184,225,211"/>
+<area shape="rect" id="node12" href="$_stations_8h.html" title="Stations.h" alt="" coords="19,184,101,211"/>
+<area shape="rect" id="node13" href="$_times_8h.html" title="Times.h" alt="" coords="249,184,319,211"/>
+<area shape="rect" id="node5" href="$_bm_dim_8h.html" title="BmDim.h" alt="" coords="313,259,391,285"/>
+<area shape="rect" id="node9" href="$_config_8h.html" title="Config.h" alt="" coords="66,259,137,285"/>
 </map>

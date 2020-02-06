@@ -1,4 +1,7 @@
 var searchData=
 [
-  ['variance',['variance',['../class_functions.html#a4d1b3d8301b4aa4144768566509711ab',1,'Functions']]]
+  ['varexists',['varExists',['../namespace_ncdf.html#a9bc168bb869c51dd322817550189e940',1,'Ncdf']]],
+  ['variance',['variance',['../class_calculator.html#abe53e1dcb74bd33a888c55eec495fe91',1,'Calculator::variance()'],['../namespace_functions.html#a792b17d917560feaa7ac79d7fed2c16f',1,'Functions::variance()']]],
+  ['vtoi',['vtoi',['../namespace_functions.html#a28cf199876092c0cead2a25773e53504',1,'Functions']]],
+  ['vtos',['vtos',['../namespace_functions.html#a72adfaf04a4b202b21992fb30c039515',1,'Functions']]]
 ];

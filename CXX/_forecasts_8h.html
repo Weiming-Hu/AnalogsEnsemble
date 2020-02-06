@@ -68,22 +68,20 @@ $(function() {
 <div class="title">Forecasts.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;ostream&gt;</code><br />
-<code>#include &lt;vector&gt;</code><br />
-<code>#include &lt;limits&gt;</code><br />
-<code>#include &quot;<a class="el" href="_stations_8h_source.html">Stations.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="_parameters_8h_source.html">Parameters.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="_times_8h_source.html">Times.h</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="_basic_data_8h_source.html">BasicData.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_array4_d_8h_source.html">Array4D.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for Forecasts.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="_forecasts_8h__incl.png" border="0" usemap="#_2home_2graduate_2wuh20_2github_2_analogs_ensemble_2_c_an_en_2include_2_forecasts_8h" alt=""/></div>
 <map name="_2home_2graduate_2wuh20_2github_2_analogs_ensemble_2_c_an_en_2include_2_forecasts_8h" id="_2home_2graduate_2wuh20_2github_2_analogs_ensemble_2_c_an_en_2include_2_forecasts_8h">
-<area shape="rect" id="node5" href="_stations_8h.html" title="Stations.h" alt="" coords="958,109,1039,136"/>
-<area shape="rect" id="node18" href="_parameters_8h.html" title="Parameters.h" alt="" coords="739,109,839,136"/>
-<area shape="rect" id="node19" href="_times_8h.html" title="Times.h" alt="" coords="864,109,933,136"/>
-<area shape="rect" id="node21" href="_array4_d_8h.html" title="Array4D.h" alt="" coords="254,109,335,136"/>
+<area shape="rect" id="node2" href="_basic_data_8h.html" title="BasicData.h" alt="" coords="523,109,618,136"/>
+<area shape="rect" id="node14" href="_array4_d_8h.html" title="Array4D.h" alt="" coords="699,259,781,285"/>
+<area shape="rect" id="node3" href="_parameters_8h.html" title="Parameters.h" alt="" coords="578,184,678,211"/>
+<area shape="rect" id="node12" href="_stations_8h.html" title="Stations.h" alt="" coords="473,184,554,211"/>
+<area shape="rect" id="node13" href="_times_8h.html" title="Times.h" alt="" coords="379,184,448,211"/>
+<area shape="rect" id="node5" href="_bm_dim_8h.html" title="BmDim.h" alt="" coords="299,259,376,285"/>
+<area shape="rect" id="node9" href="_config_8h.html" title="Config.h" alt="" coords="553,259,623,285"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -91,42 +89,35 @@ This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="_forecasts_8h__dep__incl.png" border="0" usemap="#_2home_2graduate_2wuh20_2github_2_analogs_ensemble_2_c_an_en_2include_2_forecasts_8hdep" alt=""/></div>
 <map name="_2home_2graduate_2wuh20_2github_2_analogs_ensemble_2_c_an_en_2include_2_forecasts_8hdep" id="_2home_2graduate_2wuh20_2github_2_analogs_ensemble_2_c_an_en_2include_2_forecasts_8hdep">
-<area shape="rect" id="node2" href="_analogs_8h.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/CAnEn/include/Analogs.h" alt="" coords="1353,117,1527,173"/>
-<area shape="rect" id="node26" href="_an_en_i_o_8h.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/CAnEnIO/include/AnEnIO.h" alt="" coords="1479,354,1667,410"/>
-<area shape="rect" id="node31" href="_similarity_matrices_8h.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/CAnEn/include/SimilarityMatrices.h" alt="" coords="1600,117,1832,173"/>
-<area shape="rect" id="node33" href="test_similarity_matrices_8h.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/tests/SimilarityMatrices\l/testSimilarityMatrices.h" alt="" coords="1995,228,2165,299"/>
-<area shape="rect" id="node36" href="_forecasts_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/CAnEn/src/Forecasts.cpp" alt="" coords="1958,117,2135,173"/>
-<area shape="rect" id="node37" href="test_forecasts_array_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/tests/ForecastsArray/testForecasts\lArray.cpp" alt="" coords="2160,109,2392,180"/>
-<area shape="rect" id="node3" href="_functions_8h.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/CAnEn/include/Functions.h" alt="" coords="1299,235,1485,291"/>
-<area shape="rect" id="node25" href="_analogs_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/CAnEn/src/Analogs.cpp" alt="" coords="1104,235,1275,291"/>
-<area shape="rect" id="node4" href="forecasts_to_observations_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/apps/app_forecastsToObservations\l/forecastsToObservations.cpp" alt="" coords="253,465,485,536"/>
-<area shape="rect" id="node5" href="standard_deviation_calculator_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/apps/app_standardDeviationCalculator\l/standardDeviationCalculator.cpp" alt="" coords="509,465,760,536"/>
-<area shape="rect" id="node6" href="_an_en_8h.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/CAnEn/include/AnEn.h" alt="" coords="1885,354,2056,410"/>
-<area shape="rect" id="node22" href="error_type_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/CAnEn/src/errorType.cpp" alt="" coords="1005,354,1179,410"/>
-<area shape="rect" id="node23" href="_functions_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/CAnEn/src/Functions.cpp" alt="" coords="1204,354,1380,410"/>
-<area shape="rect" id="node24" href="test_functions_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/tests/Functions/testFunctions.cpp" alt="" coords="5,473,229,529"/>
-<area shape="rect" id="node7" href="analog_generator_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/apps/app_analogGenerator\l/analogGenerator.cpp" alt="" coords="1483,465,1664,536"/>
-<area shape="rect" id="node8" href="analog_selector_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/apps/app_analogSelector\l/analogSelector.cpp" alt="" coords="1689,465,1861,536"/>
-<area shape="rect" id="node9" href="file_aggregate_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/apps/app_fileAggregate\l/fileAggregate.cpp" alt="" coords="1885,465,2056,536"/>
-<area shape="rect" id="node10" href="file_slice_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/apps/app_fileSlice/fileSlice.cpp" alt="" coords="2081,473,2287,529"/>
-<area shape="rect" id="node11" href="grib_converter_functions_8h.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/apps/app_gribConverter\l/gribConverterFunctions.h" alt="" coords="2311,465,2483,536"/>
-<area shape="rect" id="node15" href="similarity_calculator_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/apps/app_similarityCalculator\l/similarityCalculator.cpp" alt="" coords="2508,465,2705,536"/>
-<area shape="rect" id="node16" href="wind_field_calculator_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/apps/app_windFieldCalculator\l/windFieldCalculator.cpp" alt="" coords="2729,465,2929,536"/>
-<area shape="rect" id="node17" href="_an_en_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/CAnEn/src/AnEn.cpp" alt="" coords="3148,473,3319,529"/>
-<area shape="rect" id="node18" href="_an_en_i_o_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/CAnEnIO/src/AnEnIO.cpp" alt="" coords="1280,473,1459,529"/>
-<area shape="rect" id="node19" href="test_an_en_8h.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/tests/AnEn/testAnEn.h" alt="" coords="2953,473,3124,529"/>
-<area shape="rect" id="node12" href="grib_converter_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/apps/app_gribConverter\l/gribConverter.cpp" alt="" coords="2556,584,2727,655"/>
-<area shape="rect" id="node13" href="grib_converter_functions_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/apps/app_gribConverter\l/gribConverterFunctions.cpp" alt="" coords="2052,584,2239,655"/>
-<area shape="rect" id="node14" href="test_grib_converter_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/tests/gribConverter/testGribConverter.cpp" alt="" coords="2263,591,2532,647"/>
-<area shape="rect" id="node20" href="runner_an_en_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/tests/AnEn/runnerAnEn.cpp" alt="" coords="3050,591,3238,647"/>
-<area shape="rect" id="node21" href="test_an_en_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/tests/AnEn/testAnEn.cpp" alt="" coords="2851,591,3026,647"/>
-<area shape="rect" id="node27" href="test_m_p_i_read_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/apps/app_mpiAnEnIO/testMPIRead.cpp" alt="" coords="997,473,1256,529"/>
-<area shape="rect" id="node28" href="test_an_en_i_o_8h.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/tests/AnEnIO/testAnEnIO.h" alt="" coords="785,473,973,529"/>
-<area shape="rect" id="node29" href="runner_an_en_i_o_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/tests/AnEnIO/runnerAnEnIO.cpp" alt="" coords="653,591,869,647"/>
-<area shape="rect" id="node30" href="test_an_en_i_o_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/tests/AnEnIO/testAnEnIO.cpp" alt="" coords="893,591,1096,647"/>
-<area shape="rect" id="node32" href="_similarity_matrices_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/CAnEn/src/SimilarityMatrices.cpp" alt="" coords="1610,235,1833,291"/>
-<area shape="rect" id="node34" href="runner_similarity_matrices_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/tests/SimilarityMatrices\l/runnerSimilarityMatrices.cpp" alt="" coords="2282,347,2473,417"/>
-<area shape="rect" id="node35" href="test_similarity_matrices_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/tests/SimilarityMatrices\l/testSimilarityMatrices.cpp" alt="" coords="2081,347,2258,417"/>
+<area shape="rect" id="node2" href="_an_en_8h.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/CAnEn/include/AnEn.h" alt="" coords="1237,109,1408,165"/>
+<area shape="rect" id="node17" href="test_an_en_s_s_e_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/tests/AnEnSSE/testAnEnSSE.cpp" alt="" coords="2211,451,2439,507"/>
+<area shape="rect" id="node19" href="test_an_en_i_s_8h.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/tests/AnEnIS/testAnEnIS.h" alt="" coords="1413,339,1600,395"/>
+<area shape="rect" id="node23" href="_forecasts_pointer_8h.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/CAnEn/include/ForecastsPointer.h" alt="" coords="2212,221,2439,277"/>
+<area shape="rect" id="node27" href="_forecasts_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/CAnEn/src/Forecasts.cpp" alt="" coords="2910,109,3087,165"/>
+<area shape="rect" id="node28" href="_an_en_read_8h.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/CAnEnIO/include/AnEnRead.h" alt="" coords="2420,109,2625,165"/>
+<area shape="rect" id="node3" href="analog_generator_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/apps/app_analogGenerator\l/analogGenerator.cpp" alt="" coords="1332,213,1513,284"/>
+<area shape="rect" id="node4" href="analog_selector_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/apps/app_analogSelector\l/analogSelector.cpp" alt="" coords="1538,213,1710,284"/>
+<area shape="rect" id="node5" href="file_aggregate_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/apps/app_fileAggregate\l/fileAggregate.cpp" alt="" coords="1735,213,1905,284"/>
+<area shape="rect" id="node6" href="file_slice_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/apps/app_fileSlice/fileSlice.cpp" alt="" coords="1930,221,2137,277"/>
+<area shape="rect" id="node7" href="grib_converter_functions_8h.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/apps/app_gribConverter\l/gribConverterFunctions.h" alt="" coords="298,213,470,284"/>
+<area shape="rect" id="node11" href="similarity_calculator_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/apps/app_similarityCalculator\l/similarityCalculator.cpp" alt="" coords="495,213,692,284"/>
+<area shape="rect" id="node12" href="wind_field_calculator_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/apps/app_windFieldCalculator\l/windFieldCalculator.cpp" alt="" coords="716,213,916,284"/>
+<area shape="rect" id="node13" href="_an_en_i_s_8h.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/CAnEn/include/AnEnIS.h" alt="" coords="940,221,1113,277"/>
+<area shape="rect" id="node22" href="_an_en_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/CAnEn/src/AnEn.cpp" alt="" coords="1137,221,1308,277"/>
+<area shape="rect" id="node8" href="grib_converter_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/apps/app_gribConverter\l/gribConverter.cpp" alt="" coords="299,332,469,403"/>
+<area shape="rect" id="node9" href="grib_converter_functions_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/apps/app_gribConverter\l/gribConverterFunctions.cpp" alt="" coords="493,332,680,403"/>
+<area shape="rect" id="node10" href="test_grib_converter_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/tests/gribConverter/testGribConverter.cpp" alt="" coords="5,339,275,395"/>
+<area shape="rect" id="node14" href="spring_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/apps/app_test/spring.cpp" alt="" coords="1625,339,1797,395"/>
+<area shape="rect" id="node15" href="_an_en_s_s_e_8h.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/CAnEn/include/AnEnSSE.h" alt="" coords="933,339,1120,395"/>
+<area shape="rect" id="node18" href="_an_en_i_s_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/CAnEn/src/AnEnIS.cpp" alt="" coords="1144,339,1315,395"/>
+<area shape="rect" id="node16" href="_an_en_s_s_e_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/CAnEn/src/AnEnSSE.cpp" alt="" coords="937,451,1116,507"/>
+<area shape="rect" id="node20" href="runner_an_en_i_s_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/tests/AnEnIS/runnerAnEnIS.cpp" alt="" coords="1399,451,1614,507"/>
+<area shape="rect" id="node21" href="test_an_en_i_s_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/tests/AnEnIS/testAnEnIS.cpp" alt="" coords="1813,451,2013,507"/>
+<area shape="rect" id="node24" href="_forecasts_pointer_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/CAnEn/src/ForecastsPointer.cpp" alt="" coords="1821,339,2040,395"/>
+<area shape="rect" id="node25" href="test_forecasts_pointer_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/tests/ForecastsPointer\l/testForecastsPointer.cpp" alt="" coords="2065,332,2237,403"/>
+<area shape="rect" id="node26" href="test_functions_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/tests/Functions/testFunctions.cpp" alt="" coords="2363,339,2587,395"/>
+<area shape="rect" id="node29" href="_an_en_read_ncdf_8h.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/CAnEnIO/include/AnEnReadNcdf.h" alt="" coords="2463,221,2697,277"/>
+<area shape="rect" id="node30" href="_an_en_read_ncdf_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/CAnEnIO/src/AnEnReadNcdf.cpp" alt="" coords="2611,339,2835,395"/>
 </map>
 </div>
 </div>
@@ -135,10 +126,7 @@ This graph shows which files directly or indirectly include this file:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_forecasts.html">Forecasts</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_forecasts.html" title="Forecasts class provides interface for reading and writing forecast data from and to a NetCDF file...">Forecasts</a> class provides interface for reading and writing forecast data from and to a NetCDF file. It also supports data indexing and searching.  <a href="class_forecasts.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_forecasts__array.html">Forecasts_array</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_forecasts__array.html" title="Forecasts_array class is an implementation of class Forecasts. Data are stored using the Array4D clas...">Forecasts_array</a> class is an implementation of class <a class="el" href="class_forecasts.html" title="Forecasts class provides interface for reading and writing forecast data from and to a NetCDF file...">Forecasts</a>. Data are stored using the <a class="el" href="class_array4_d.html">Array4D</a> class.  <a href="class_forecasts__array.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_forecasts.html" title="Forecasts is an abstract class that extends BasicData and the abstract class Array4D. It defines the interface of how to interact with the underlying data storage through the abstract class Array4D. This interface is accepted by the Analog Ensemble algorithm. ">Forecasts</a> is an abstract class that extends <a class="el" href="class_basic_data.html" title="BasicData is an implementation of the data structure used by Analog Ensemble. It includes parameters...">BasicData</a> and the abstract class <a class="el" href="class_array4_d.html" title="Array4D is an abstract class for 4-dimensional array. ">Array4D</a>. It defines the interface of how to interact with the underlying data storage through the abstract class <a class="el" href="class_array4_d.html" title="Array4D is an abstract class for 4-dimensional array. ">Array4D</a>. This interface is accepted by the Analog Ensemble algorithm.  <a href="class_forecasts.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->

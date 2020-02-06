@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAnEn</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.7.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">4.0.0</span>
       </span>
     </div>
 
@@ -125,12 +125,11 @@
     <tr>
       <th>observation.time.id</th>
       <td><p>The observation time index(es) from the <code>Time</code> column of the <code>analogs</code> member in
-in the results of <code><a href='generateAnalogs.html'>generateAnalogs</a></code>.</p></td>
+in the results of <code>generateAnalogs</code>.</p></td>
     </tr>
     <tr>
       <th>mapping</th>
-      <td><p>The mapping table from the <code>mapping</code> member in the results of <code><a href='generateAnalogs.html'>generateAnalogs</a></code>.
-Or it can be created from <code><a href='generateTimeMapping.html'>generateTimeMapping</a></code>.</p></td>
+      <td><p>The mapping table created from <code><a href='generateTimeMapping.html'>generateTimeMapping</a></code>.</p></td>
     </tr>
     <tr>
       <th>flt</th>
@@ -148,7 +147,7 @@ convert from observation times to forecast times. Please note that, an observati
 with multiple forecast times because of the existence of forecast lead times. If you have constraints on the
 lead time, then the match between forecasts and observations becomes one-on-one.</p>
 <p>The observation time index usually comes from the <code>Time</code> column of the <code>analogs</code> member in the results of
-<code><a href='generateAnalogs.html'>generateAnalogs</a></code>. This time is observation times. However, please note that the times in the
+<code>generateAnalogs</code>. This time is observation times. However, please note that the times in the
 <code>similarity</code> member are <strong>forecast times</strong>. These two are different.</p>
 
   </div>

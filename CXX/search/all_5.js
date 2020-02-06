@@ -1,12 +1,13 @@
 var searchData=
 [
-  ['data',['data',['../class_forecasts__array.html#a989f43aa5d819b50ddd8df5a2f33129d',1,'Forecasts_array::data() const'],['../class_forecasts__array.html#a18b001ae7bb400a5446418e8e9ee208f',1,'Forecasts_array::data()'],['../class_observations__array.html#a085f4583439ecdd3327f3fac1e6bd2ce',1,'Observations_array::data() const'],['../class_observations__array.html#a66626693063fbd699fe6e08cdc966bf3',1,'Observations_array::data()']]],
-  ['data_5f',['data_',['../class_forecasts__array.html#a7728e0b9fcd6f12b13abe5a17fb6fe9a',1,'Forecasts_array::data_()'],['../class_observations__array.html#a758b0b29d1b519098c593da6d81f599c',1,'Observations_array::data_()']]],
-  ['deallocate_5fmemory',['deallocate_memory',['../functions__netcdf_8h.html#a203cb687f5f6098f48e358ac03d2f64d',1,'deallocate_memory(void *&amp;p, const netCDF::NcType::ncType &amp;vartype, int verbose):&#160;functions_netcdf.h'],['../functions__netcdf_8h.html#a746ce562b96c4ab4d992d096d467ba40',1,'deallocate_memory(void *&amp;p, const nc_type &amp;vartype, int verbose):&#160;functions_netcdf.h']]],
-  ['diffcircular',['diffCircular',['../class_functions.html#a31809c0b10670451271e9a021ffdcd8d',1,'Functions']]],
-  ['dimension_5fexists',['DIMENSION_EXISTS',['../error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffda59cfc054b584a577a78dd0c7dd85e079',1,'errorType.h']]],
-  ['dimension_5fmissing',['DIMENSION_MISSING',['../error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffda83608b23fa708b1473f392deaf8f5b4d',1,'errorType.h']]],
+  ['data_5f',['data_',['../class_array4_d_pointer.html#a445b43fb963863d81a49e5a423b710c2',1,'Array4DPointer::data_()'],['../class_observations_pointer.html#a1a18e1674155e8c7380be3c21fe9ef97',1,'ObservationsPointer::data_()']]],
+  ['debug',['Debug',['../_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9aa603905470e2a5b8c13e96b579ef0dba',1,'Config.h']]],
+  ['detail',['Detail',['../_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9aa254c25adc7d10d7e9c4889484f875a5',1,'Config.h']]],
+  ['diffcircular',['diffCircular',['../namespace_functions.html#aa7588faf5c671515dd4dbf34f1f37bdb',1,'Functions']]],
+  ['dimexists',['dimExists',['../namespace_ncdf.html#a499237f6b275baf9e4d52708749b95e7',1,'Ncdf']]],
+  ['dims_5f',['dims_',['../class_array4_d_pointer.html#a68c4ae33e1c8de5e7f67ebfb410433a8',1,'Array4DPointer::dims_()'],['../class_observations_pointer.html#a5c01b287d04fb56e6a155484f66abbf4',1,'ObservationsPointer::dims_()']]],
+  ['distance',['distance',['../class_config.html#a1689b8b5b75dd13334f8a45527fff690',1,'Config']]],
+  ['distance_5f',['distance_',['../class_an_en_s_s_e.html#a05849b3021c77e0ae9e684d92d0d8f53',1,'AnEnSSE']]],
   ['doc_2emd',['doc.md',['../doc_8md.html',1,'']]],
-  ['dumpvariable',['dumpVariable',['../class_an_en_i_o.html#acd5682e81361d75ff5566ae1df5fa023',1,'AnEnIO']]],
   ['doc',['doc',['../md__home_graduate_wuh20_github__analogs_ensemble_out_doc.html',1,'']]]
 ];

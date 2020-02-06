@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['dimension_5fexists',['DIMENSION_EXISTS',['../error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffda59cfc054b584a577a78dd0c7dd85e079',1,'errorType.h']]],
-  ['dimension_5fmissing',['DIMENSION_MISSING',['../error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffda83608b23fa708b1473f392deaf8f5b4d',1,'errorType.h']]]
+  ['analogs',['Analogs',['../class_an_en_read_ncdf.html#ac46a6614ed62aee709bb3431739ab652a4cab9a759d70032437147e37bc4b20be',1,'AnEnReadNcdf::Analogs()'],['../class_an_en_write_ncdf.html#a9ab8c1904116c068141eff69a97cd6efa4cab9a759d70032437147e37bc4b20be',1,'AnEnWriteNcdf::Analogs()']]]
 ];

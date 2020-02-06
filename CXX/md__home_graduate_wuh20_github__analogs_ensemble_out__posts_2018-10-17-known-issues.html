@@ -94,7 +94,7 @@ $(function() {
 <h4>Compilation failure on Windows</h4>
 <p>Please see the <a href="https://weiming-hu.github.io/AnalogsEnsemble/2018/10/10/installation-on-windows.html">article</a>.</p>
 <h4>Dynamic linking error on MacOS.</h4>
-<p>Sometimes when I run the test for <code><a class="el" href="class_an_en_i_o.html" title="AnEnIO class provides interfaces for reading and writing NetCDF files in forecast, observation, and prediction format. These formats are predefined for generating predictions. ">AnEnIO</a></code> and I will see the following error.</p>
+<p>Sometimes when I run the test for <code>AnEnIO</code> and I will see the following error.</p>
 <div class="fragment"><div class="line">testAnEnIO::testReadObservationFile</div><div class="line">dyld: lazy symbol binding failed: Symbol not found: __ZN6netCDF6NcFileC1ERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEENS0_8FileModeE</div><div class="line">  Referenced from: /Users/wuh20/github/AnalogsEnsemble/output/lib/libAnEnIO.dylib</div><div class="line">  Expected in: /usr/local/lib/libnetcdf-cxx4.1.dylib</div><div class="line"></div><div class="line">dyld: Symbol not found: __ZN6netCDF6NcFileC1ERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEENS0_8FileModeE</div><div class="line">  Referenced from: /Users/wuh20/github/AnalogsEnsemble/output/lib/libAnEnIO.dylib</div><div class="line">  Expected in: /usr/local/lib/libnetcdf-cxx4.1.dylib</div><div class="line"></div><div class="line">Abort trap: 6</div></div><!-- fragment --><p>I can normally get away from this by specifying <code>-DCMAKE_MACOSX_RPATH=ON</code> for <code>cmake</code> and then recompile everything. </p>
 </div></div><!-- contents -->
 <!-- start footer part -->

@@ -36,11 +36,8 @@
 
 
 <meta property="og:title" content="RAnEn::generateTimeMapping — generateTimeMapping" />
-<meta property="og:description" content="RAnEn::generateTimeMapping returns a matrix that maps each combination of
-forecast times and flts to observation times. The rows are forecast FLTs 
-and columns are forecast times, the values are the index of the corresponding
-observation times. Same results can be generated from the function
-generateConfiguration if preserve_mapping is selected." />
+<meta property="og:description" content="RAnEn::generateTimeMapping generates the index mapping table from foreacst times and lead times
+to observation times." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -73,7 +70,7 @@ generateConfiguration if preserve_mapping is selected." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAnEn</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.7.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">4.0.0</span>
       </span>
     </div>
 
@@ -113,57 +110,38 @@ generateConfiguration if preserve_mapping is selected." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>RAnEn::generateTimeMapping</h1>
-    <small class="dont-index">Source: <a href='https://github.com/Weiming-Hu/AnalogsEnsemble/blob/master/R/generateTimeMapping.R'><code>R/generateTimeMapping.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/Weiming-Hu/AnalogsEnsemble/blob/master/R/RcppExports.R'><code>R/RcppExports.R</code></a></small>
     <div class="hidden name"><code>generateTimeMapping.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>RAnEn::generateTimeMapping returns a matrix that maps each combination of
-forecast times and flts to observation times. The rows are forecast FLTs 
-and columns are forecast times, the values are the index of the corresponding
-observation times. Same results can be generated from the function
-<code><a href='generateConfiguration.html'>generateConfiguration</a></code> if <b>preserve_mapping</b> is selected.</p>
+    <p>RAnEn::generateTimeMapping generates the index mapping table from foreacst times and lead times
+to observation times.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>generateTimeMapping</span>(
-  <span class='no'>forecast_times</span>,
-  <span class='no'>forecast_flts</span>,
-  <span class='no'>observation_times</span>,
-  <span class='kw'>time_match_mode</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>2</span>
-)</pre>
+    <pre class="usage"><span class='fu'>generateTimeMapping</span>(<span class='no'>sx_fcst_times</span>, <span class='no'>sx_fcst_flts</span>, <span class='no'>sx_obs_times</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>forecast_times</th>
-      <td><p>A vector of forecast times.</p></td>
+      <th>sx_fcst_times</th>
+      <td><p>forecast times</p></td>
     </tr>
     <tr>
-      <th>forecast_flts</th>
-      <td><p>A vector of forecast FLTs.</p></td>
+      <th>sx_fcst_flts</th>
+      <td><p>forecast lead times</p></td>
     </tr>
     <tr>
-      <th>observation_times</th>
-      <td><p>A vector of observation times.</p></td>
-    </tr>
-    <tr>
-      <th>time_match_mode</th>
-      <td><p>This is the method used to computed the mapping matrix
-between forecast times/flts and observation times. 0 for strict search (return
-error when matching observation times cannot be found) and 1 for loose search.</p></td>
-    </tr>
-    <tr>
-      <th>verbose</th>
-      <td><p>Verbose level. You can find settings for different values in the
-[C++ documentation verbose](https://weiming-hu.github.io/AnalogsEnsemble/CXX/class_an_en.html#a25984b953516a987e2e9eb23048e5d60).</p></td>
+      <th>sx_obs_times</th>
+      <td><p>observation times</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A matrix with rows for forecast FLTs and columns for forecast times.</p>
+    <p>A matrix with rows being forecast times and columns being lead times, the cell
+values are the index to the corresponding observation times.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -173,8 +151,6 @@ error when matching observation times cannot be found) and 1 for loose search.</
       <li><a href="#value">Value</a></li>
     </ul>
 
-    <h2>Author</h2>
-    <p>Weiming Hu <a href='mailto:weiming@psu.edu'>weiming@psu.edu</a></p>
   </div>
 </div>
 

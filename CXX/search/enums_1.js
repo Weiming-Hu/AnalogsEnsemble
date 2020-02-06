@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['errortype',['errorType',['../error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd',1,'errorType.h']]]
+  ['filetype',['FileType',['../class_an_en_read_ncdf.html#ac46a6614ed62aee709bb3431739ab652',1,'AnEnReadNcdf::FileType()'],['../class_an_en_write_ncdf.html#a9ab8c1904116c068141eff69a97cd6ef',1,'AnEnWriteNcdf::FileType()']]]
 ];

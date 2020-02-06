@@ -73,7 +73,7 @@ Functions</h2></td></tr>
 <tr class="separator:a43c29f4542514b8c9fcd0862b214cff7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6a1a02f02007ca2b1b959d3e5ab6b8d8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegrib_converter.html#a6a1a02f02007ca2b1b959d3e5ab6b8d8">getDoubles</a> (vector&lt; double &gt; &amp;vals, const string &amp;file, long par_id, long level, const string &amp;type, const string &amp;par_key, const string &amp;level_key, const string &amp;type_key, const string &amp;val_key)</td></tr>
 <tr class="separator:a6a1a02f02007ca2b1b959d3e5ab6b8d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af517cca47078cfad1d84f9acfd35114d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegrib_converter.html#af517cca47078cfad1d84f9acfd35114d">getStations</a> (vector&lt; string &gt; &amp;files_in, const vector&lt; long &gt; &amp;pars_id, const vector&lt; long &gt; &amp;levels, const string &amp;par_key, const string &amp;level_key, const string &amp;val_key, int verbose, vector&lt; long &gt; &amp;subset_stations_i, <a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> &amp;stations)</td></tr>
+<tr class="memitem:af517cca47078cfad1d84f9acfd35114d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegrib_converter.html#af517cca47078cfad1d84f9acfd35114d">getStations</a> (vector&lt; string &gt; &amp;files_in, const vector&lt; long &gt; &amp;pars_id, const vector&lt; long &gt; &amp;levels, const string &amp;par_key, const string &amp;level_key, const string &amp;val_key, int verbose, vector&lt; long &gt; &amp;subset_stations_i, anenSta::Stations &amp;stations)</td></tr>
 <tr class="separator:af517cca47078cfad1d84f9acfd35114d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a86449cbd006c0811b1250c978fca543c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegrib_converter.html#a86449cbd006c0811b1250c978fca543c">toForecasts</a> (vector&lt; string &gt; &amp;files_in, const string &amp;file_out, const vector&lt; long &gt; &amp;pars_id, const vector&lt; string &gt; &amp;pars_new_name, const vector&lt; long &gt; &amp;crcl_pars_id, vector&lt; long &gt; &amp;subset_stations_i, const vector&lt; long &gt; &amp;levels, const vector&lt; string &gt; &amp;level_types, const string &amp;par_key, const string &amp;level_key, const string &amp;type_key, const string &amp;val_key, string regex_time_str, string regex_flt_str, string regex_cycle_str, double flt_interval, bool delimited, bool skip_data, int verbose)</td></tr>
 <tr class="separator:a86449cbd006c0811b1250c978fca543c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -225,7 +225,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> &amp;&#160;</td>
+          <td class="paramtype">anenSta::Stations &amp;&#160;</td>
           <td class="paramname"><em>stations</em>&#160;</td>
         </tr>
         <tr>
@@ -541,16 +541,16 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>toForecasts function reads data multiple forecast files and write them in <a class="el" href="class_forecasts.html" title="Forecasts class provides interface for reading and writing forecast data from and to a NetCDF file...">Forecasts</a> NetCDf file that is ready to be used to compute Analog Ensembles.</p>
-<p>Parameter and Station information are determined from the data in file. Parameter is determined by the combination of the parameter ID and the level number. Station is determined by the x (or lon) and y (or lat) variable.</p>
-<p>FLT and Time information are determined from the file names using regular expressions. The first variable matched in the regular expression will be used. For example, we have a regular expression like this '.*nam_218_{8}_{4}_({3}).grb2$'</p>
-<p>This expression has one extract variable '({3})', and therefore the string matched here will be used to calculate the FLT or Time information. The Time information will be determined by calculating the duration in second from the original date.</p>
+<p>toForecasts function reads data multiple forecast files and write them in <a class="el" href="class_forecasts.html" title="Forecasts is an abstract class that extends BasicData and the abstract class Array4D. It defines the interface of how to interact with the underlying data storage through the abstract class Array4D. This interface is accepted by the Analog Ensemble algorithm. ">Forecasts</a> NetCDf file that is ready to be used to compute Analog Ensembles.</p>
+<p><a class="el" href="class_parameter.html" title="Parameter stores parameter information including name and circular. ">Parameter</a> and <a class="el" href="class_station.html" title="Class Station stores station information including name, X, and Y. Each Station Object is assigned wi...">Station</a> information are determined from the data in file. <a class="el" href="class_parameter.html" title="Parameter stores parameter information including name and circular. ">Parameter</a> is determined by the combination of the parameter ID and the level number. <a class="el" href="class_station.html" title="Class Station stores station information including name, X, and Y. Each Station Object is assigned wi...">Station</a> is determined by the x (or lon) and y (or lat) variable.</p>
+<p>FLT and <a class="el" href="class_time.html">Time</a> information are determined from the file names using regular expressions. The first variable matched in the regular expression will be used. For example, we have a regular expression like this '.*nam_218_{8}_{4}_({3}).grb2$'</p>
+<p>This expression has one extract variable '({3})', and therefore the string matched here will be used to calculate the FLT or <a class="el" href="class_time.html">Time</a> information. The <a class="el" href="class_time.html">Time</a> information will be determined by calculating the duration in second from the original date.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">files_in</td><td>A vector of file names that are found in the folder. The folder is provided in the program option. </td></tr>
     <tr><td class="paramname">file_out</td><td>The output file path. </td></tr>
     <tr><td class="paramname">pars_id</td><td>A vector of parameters ID that will be read from each file. </td></tr>
-    <tr><td class="paramname">pars_new_name</td><td>A vector of names that will assign to the parameters in the new <a class="el" href="class_forecasts.html" title="Forecasts class provides interface for reading and writing forecast data from and to a NetCDF file...">Forecasts</a> NetCDF file. </td></tr>
+    <tr><td class="paramname">pars_new_name</td><td>A vector of names that will assign to the parameters in the new <a class="el" href="class_forecasts.html" title="Forecasts is an abstract class that extends BasicData and the abstract class Array4D. It defines the interface of how to interact with the underlying data storage through the abstract class Array4D. This interface is accepted by the Analog Ensemble algorithm. ">Forecasts</a> NetCDF file. </td></tr>
     <tr><td class="paramname">crcl_pars_id</td><td>A vector of parameters ID for circular parameters. </td></tr>
     <tr><td class="paramname">subset_stations_i</td><td>A vector of the indices of subset stations. </td></tr>
     <tr><td class="paramname">levels</td><td>A vector of level numbers to specify for each parameter. </td></tr>
@@ -562,7 +562,7 @@ Functions</h2></td></tr>
     <tr><td class="paramname">regex_time_str</td><td>The regular expression used to extract time information. </td></tr>
     <tr><td class="paramname">regex_flt_str</td><td>The regular expression used to extract FLT information. </td></tr>
     <tr><td class="paramname">flt_interval</td><td>The FLT interval in seconds. This interval will be used to multiply the FLT information extracted from the file name to determine the actual offset in seconds for each FLT timestamp from the origin. </td></tr>
-    <tr><td class="paramname">delimited</td><td>Whether the extract Time information is delimited. A string like '19900701' will be undelimited; a string like '1990-07-01' or '1990/07/01' is delimited. </td></tr>
+    <tr><td class="paramname">delimited</td><td>Whether the extract <a class="el" href="class_time.html">Time</a> information is delimited. A string like '19900701' will be undelimited; a string like '1990-07-01' or '1990/07/01' is delimited. </td></tr>
     <tr><td class="paramname">verbose</td><td>An integer for the verbose level. </td></tr>
   </table>
   </dd>
@@ -673,16 +673,16 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>toObservations function reads data from multiple observation files and write them in <a class="el" href="class_observations.html" title="Observations class provides interface for reading and writing observations from and to a NetCDF file...">Observations</a> NetCDF fiel that is ready to be used to compute Analog Ensembles.</p>
-<p>Parameter and Station information are determined from the data in file. Parameter is determined by the combination of the parameter ID and the level number. Station is determined by the x (or lon) and y (or lat) variable.</p>
-<p>Time information are determined from the file names using regular expressions. The first variable matched in the regular expression will be used. For example, we have a regular expression like this '.*nam_218_{8}_({4})_{3}.grb2$'</p>
-<p>This expression has one extract variable '({4})', and therefore the string matched here will be used to calculate the Time information. The Time information will be determined by calculating the duration in second from the original date.</p>
+<p>toObservations function reads data from multiple observation files and write them in <a class="el" href="class_observations.html" title="Observations is an abstract class that extends BasicData. It defines the interface of how to interact...">Observations</a> NetCDF fiel that is ready to be used to compute Analog Ensembles.</p>
+<p><a class="el" href="class_parameter.html" title="Parameter stores parameter information including name and circular. ">Parameter</a> and <a class="el" href="class_station.html" title="Class Station stores station information including name, X, and Y. Each Station Object is assigned wi...">Station</a> information are determined from the data in file. <a class="el" href="class_parameter.html" title="Parameter stores parameter information including name and circular. ">Parameter</a> is determined by the combination of the parameter ID and the level number. <a class="el" href="class_station.html" title="Class Station stores station information including name, X, and Y. Each Station Object is assigned wi...">Station</a> is determined by the x (or lon) and y (or lat) variable.</p>
+<p><a class="el" href="class_time.html">Time</a> information are determined from the file names using regular expressions. The first variable matched in the regular expression will be used. For example, we have a regular expression like this '.*nam_218_{8}_({4})_{3}.grb2$'</p>
+<p>This expression has one extract variable '({4})', and therefore the string matched here will be used to calculate the <a class="el" href="class_time.html">Time</a> information. The <a class="el" href="class_time.html">Time</a> information will be determined by calculating the duration in second from the original date.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">files_in</td><td>A vector of file names that are found in the folder. The folder is provided in the program option. </td></tr>
     <tr><td class="paramname">file_out</td><td>The output file path. </td></tr>
     <tr><td class="paramname">pars_id</td><td>A vector of parameters ID that will be read from each file. </td></tr>
-    <tr><td class="paramname">pars_new_name</td><td>A vector of names that will assign to the parameters in the new <a class="el" href="class_forecasts.html" title="Forecasts class provides interface for reading and writing forecast data from and to a NetCDF file...">Forecasts</a> NetCDF file. </td></tr>
+    <tr><td class="paramname">pars_new_name</td><td>A vector of names that will assign to the parameters in the new <a class="el" href="class_forecasts.html" title="Forecasts is an abstract class that extends BasicData and the abstract class Array4D. It defines the interface of how to interact with the underlying data storage through the abstract class Array4D. This interface is accepted by the Analog Ensemble algorithm. ">Forecasts</a> NetCDF file. </td></tr>
     <tr><td class="paramname">crcl_pars_id</td><td>A vector of parameters ID for circular parameters. </td></tr>
     <tr><td class="paramname">levels</td><td>A vector of level numbers to specify for each parameter. </td></tr>
     <tr><td class="paramname">level_types</td><td>A vector of types of levels. </td></tr>
@@ -691,7 +691,7 @@ Functions</h2></td></tr>
     <tr><td class="paramname">type_key</td><td>The key name of type of level. </td></tr>
     <tr><td class="paramname">val_key</td><td>The key name of values. </td></tr>
     <tr><td class="paramname">regex_time_str</td><td>The regular expression used to extract time information. </td></tr>
-    <tr><td class="paramname">delimited</td><td>Whether the extract Time information is delimited. A string like '19900701' will be undelimited; a string like '1990-07-01' or '1990/07/01' is delimited. </td></tr>
+    <tr><td class="paramname">delimited</td><td>Whether the extract <a class="el" href="class_time.html">Time</a> information is delimited. A string like '19900701' will be undelimited; a string like '1990-07-01' or '1990/07/01' is delimited. </td></tr>
     <tr><td class="paramname">verbose</td><td>An integer for the verbose level. </td></tr>
   </table>
   </dd>

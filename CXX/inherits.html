@@ -67,138 +67,85 @@ $(function() {
 </div><table border="0" cellspacing="10" cellpadding="0">
 <tr><td><img src="inherit_graph_0.png" border="0" alt="" usemap="#_analogs"/>
 <map name="_analogs" id="_analogs">
-<area shape="rect" id="node2" href="class_analogs.html" title="This is the class to store analogs. The default dimensions are: [test stations][test times][FLTs][mem..." alt="" coords="170,5,239,32"/>
-<area shape="rect" id="node3" href="class_array4_d.html" title="Array4D" alt="" coords="169,56,240,83"/>
-<area shape="rect" id="node4" href="class_similarity_matrices.html" title="SimilarityMatrices class stores similarity metrics. Default dimensions of SimilarityMatrices are: [te..." alt="" coords="141,107,268,133"/>
-<area shape="rect" id="node5" href="class_standard_deviation.html" title="StandardDeviation class is designed for storing the standard deviation of a Forecasts object..." alt="" coords="140,157,269,184"/>
+<area shape="rect" id="node2" href="class_analogs.html" title="This is the class to store analogs. The default dimensions are: [test stations][test times][FLTs][mem..." alt="" coords="140,5,209,32"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_1.png" border="0" alt="" usemap="#_an_en"/>
-<map name="_an_en" id="_an_en">
-<area shape="rect" id="node1" href="class_an_en.html" title="AnEn class provides interfaces for computing Analog Ensembles. " alt="" coords="5,5,60,32"/>
+<tr><td><img src="inherit_graph_1.png" border="0" alt="" usemap="#_an_en_read"/>
+<map name="_an_en_read" id="_an_en_read">
+<area shape="rect" id="node1" href="class_an_en_read.html" title="AnEnRead is an abstract class that defines the interface for the reading functionality required for A..." alt="" coords="5,5,91,32"/>
+<area shape="rect" id="node2" href="class_an_en_read_ncdf.html" title="AnEnRead derives from AnEnRead and it provides the functionality to read the NetCDF format..." alt="" coords="139,5,252,32"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_2.png" border="0" alt="" usemap="#_an_en_i_o"/>
-<map name="_an_en_i_o" id="_an_en_i_o">
-<area shape="rect" id="node1" href="class_an_en_i_o.html" title="AnEnIO class provides interfaces for reading and writing NetCDF files in forecast, observation, and prediction format. These formats are predefined for generating predictions. " alt="" coords="5,5,73,32"/>
+<tr><td><img src="inherit_graph_2.png" border="0" alt="" usemap="#_an_en_write_ncdf"/>
+<map name="_an_en_write_ncdf" id="_an_en_write_ncdf">
+<area shape="rect" id="node1" href="class_an_en_write_ncdf.html" title="AnEnWriteNcdf" alt="" coords="5,5,119,32"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_3.png" border="0" alt="" usemap="#anen_par_1_1by___i_d"/>
-<map name="anen_par_1_1by___i_d" id="anen_par_1_1by___i_d">
-<area shape="rect" id="node1" href="structanen_par_1_1by___i_d.html" title="anenPar::by_ID" alt="" coords="5,5,119,32"/>
+<tr><td><img src="inherit_graph_3.png" border="0" alt="" usemap="#_basic_data"/>
+<map name="_basic_data" id="_basic_data">
+<area shape="rect" id="node1" href="class_array4_d.html" title="Array4D is an abstract class for 4&#45;dimensional array. " alt="" coords="11,19,82,45"/>
+<area shape="rect" id="node2" href="class_array4_d_pointer.html" title="Array4DPointer is an implementation of the abstract class Array4D. " alt="" coords="136,5,247,32"/>
+<area shape="rect" id="node4" href="class_forecasts.html" title="Forecasts is an abstract class that extends BasicData and the abstract class Array4D. It defines the interface of how to interact with the underlying data storage through the abstract class Array4D. This interface is accepted by the Analog Ensemble algorithm. " alt="" coords="151,56,231,83"/>
+<area shape="rect" id="node3" href="class_forecasts_pointer.html" title="ForecastsPointer is an implementation of the abstract class Forecasts. It also inherits from Array4DP..." alt="" coords="304,31,425,57"/>
+<area shape="rect" id="node5" href="class_basic_data.html" title="BasicData is an implementation of the data structure used by Analog Ensemble. It includes parameters..." alt="" coords="5,81,88,108"/>
+<area shape="rect" id="node6" href="class_observations.html" title="Observations is an abstract class that extends BasicData. It defines the interface of how to interact..." alt="" coords="142,107,241,133"/>
+<area shape="rect" id="node7" href="class_observations_pointer.html" title="ObservationsPointer is an implementation of the abstract class Observations. The underlying storage u..." alt="" coords="295,107,435,133"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_4.png" border="0" alt="" usemap="#anen_par_1_1by__insert"/>
-<map name="anen_par_1_1by__insert" id="anen_par_1_1by__insert">
-<area shape="rect" id="node1" href="structanen_par_1_1by__insert.html" title="anenPar::by_insert" alt="" coords="5,5,136,32"/>
+<tr><td><img src="inherit_graph_4.png" border="0" alt="" usemap="#_calculator"/>
+<map name="_calculator" id="_calculator">
+<area shape="rect" id="node1" href="class_calculator.html" title="Calculator is designed for vector arithmetics, including linear and circular variables like wind dire..." alt="" coords="5,5,87,32"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_5.png" border="0" alt="" usemap="#anen_par_1_1by__name"/>
-<map name="anen_par_1_1by__name" id="anen_par_1_1by__name">
-<area shape="rect" id="node1" href="structanen_par_1_1by__name.html" title="anenPar::by_name" alt="" coords="5,5,136,32"/>
+<tr><td><img src="inherit_graph_5.png" border="0" alt="" usemap="#_config"/>
+<map name="_config" id="_config">
+<area shape="rect" id="node1" href="class_config.html" title="Config class provides detailed parameters for configuring analog ensemble generation. This class also defines names of different parameters that can be used in R API and the file I/O process. " alt="" coords="5,5,65,32"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_6.png" border="0" alt="" usemap="#anen_par_1_1_parameter"/>
-<map name="anen_par_1_1_parameter" id="anen_par_1_1_parameter">
-<area shape="rect" id="node1" href="classanen_par_1_1_parameter.html" title="Parameter stores parameter information including name, weight, and circular. Each Parameter object is..." alt="" coords="5,5,144,32"/>
+<tr><td><img src="inherit_graph_6.png" border="0" alt="" usemap="#_parameter"/>
+<map name="_parameter" id="_parameter">
+<area shape="rect" id="node1" href="class_parameter.html" title="Parameter stores parameter information including name and circular. " alt="" coords="5,5,88,32"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_7.png" border="0" alt="" usemap="#anen_par_1_1_parameters"/>
-<map name="anen_par_1_1_parameters" id="anen_par_1_1_parameters">
-<area shape="rect" id="node2" href="classanen_par_1_1_parameters.html" title="Parameters class stores Parameter objects. " alt="" coords="203,5,348,32"/>
+<tr><td><img src="inherit_graph_7.png" border="0" alt="" usemap="#_parameters"/>
+<map name="_parameters" id="_parameters">
+<area shape="rect" id="node2" href="class_parameters.html" title="Parameters class stores Parameter objects. It is a bidirectional map implemented from Boost so that i..." alt="" coords="124,5,213,32"/>
+<area shape="rect" id="node3" href="class_stations.html" title="Stations class stores Station objects. It is a bidirectional map implemented from Boost so that it pr..." alt="" coords="133,56,204,83"/>
+<area shape="rect" id="node4" href="class_times.html" title="Times class is used to store Time. It is a bidirectional map implemented from Boost so that it provid..." alt="" coords="139,107,198,133"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_8.png" border="0" alt="" usemap="#anen_sta_1_1by___i_d"/>
-<map name="anen_sta_1_1by___i_d" id="anen_sta_1_1by___i_d">
-<area shape="rect" id="node1" href="structanen_sta_1_1by___i_d.html" title="anenSta::by_ID" alt="" coords="5,5,119,32"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_9.png" border="0" alt="" usemap="#anen_sta_1_1by__insert"/>
-<map name="anen_sta_1_1by__insert" id="anen_sta_1_1by__insert">
-<area shape="rect" id="node1" href="structanen_sta_1_1by__insert.html" title="anenSta::by_insert" alt="" coords="5,5,136,32"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_10.png" border="0" alt="" usemap="#anen_sta_1_1by__name"/>
-<map name="anen_sta_1_1by__name" id="anen_sta_1_1by__name">
-<area shape="rect" id="node1" href="structanen_sta_1_1by__name.html" title="anenSta::by_name" alt="" coords="5,5,136,32"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_11.png" border="0" alt="" usemap="#anen_sta_1_1by__x"/>
-<map name="anen_sta_1_1by__x" id="anen_sta_1_1by__x">
-<area shape="rect" id="node1" href="structanen_sta_1_1by__x.html" title="anenSta::by_x" alt="" coords="5,5,112,32"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_12.png" border="0" alt="" usemap="#anen_sta_1_1by__y"/>
-<map name="anen_sta_1_1by__y" id="anen_sta_1_1by__y">
-<area shape="rect" id="node1" href="structanen_sta_1_1by__y.html" title="anenSta::by_y" alt="" coords="5,5,112,32"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_13.png" border="0" alt="" usemap="#anen_sta_1_1_station"/>
-<map name="anen_sta_1_1_station" id="anen_sta_1_1_station">
-<area shape="rect" id="node1" href="classanen_sta_1_1_station.html" title="Class Station stores station information including name, X, and Y. Each Station Object is assigned wi..." alt="" coords="5,5,124,32"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_14.png" border="0" alt="" usemap="#anen_sta_1_1_stations"/>
-<map name="anen_sta_1_1_stations" id="anen_sta_1_1_stations">
-<area shape="rect" id="node2" href="classanen_sta_1_1_stations.html" title="Stations class stores Station objects. " alt="" coords="184,5,311,32"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_15.png" border="0" alt="" usemap="#anen_time_1_1by__insert"/>
-<map name="anen_time_1_1by__insert" id="anen_time_1_1by__insert">
-<area shape="rect" id="node1" href="structanen_time_1_1by__insert.html" title="anenTime::by_insert" alt="" coords="5,5,145,32"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_16.png" border="0" alt="" usemap="#anen_time_1_1by__value"/>
-<map name="anen_time_1_1by__value" id="anen_time_1_1by__value">
-<area shape="rect" id="node1" href="structanen_time_1_1by__value.html" title="anenTime::by_value" alt="" coords="5,5,144,32"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_17.png" border="0" alt="" usemap="#anen_time_1_1_times"/>
-<map name="anen_time_1_1_times" id="anen_time_1_1_times">
-<area shape="rect" id="node2" href="classanen_time_1_1_times.html" title="Times class is used to store time information for predictions. By default this is the number of secon..." alt="" coords="172,5,295,32"/>
-<area shape="rect" id="node3" href="classanen_time_1_1_f_l_ts.html" title="FLTs class is used to store time information for prediction forecast lead times (FLTs). If a temperature forecast on January 1st, 2028 contains predictions at 00h, 06h, 12h, 18h on that day, this forecast has 4 FLTs, which are 0, 6, 12, 18. " alt="" coords="343,5,460,32"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_18.png" border="0" alt="" usemap="#_forecasts"/>
-<map name="_forecasts" id="_forecasts">
-<area shape="rect" id="node1" href="class_forecasts.html" title="Forecasts class provides interface for reading and writing forecast data from and to a NetCDF file..." alt="" coords="5,5,85,32"/>
-<area shape="rect" id="node2" href="class_forecasts__array.html" title="Forecasts_array class is an implementation of class Forecasts. Data are stored using the Array4D clas..." alt="" coords="133,5,249,32"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_19.png" border="0" alt="" usemap="#_functions"/>
-<map name="_functions" id="_functions">
-<area shape="rect" id="node1" href="class_functions.html" title="Functions" alt="" coords="5,5,84,32"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_20.png" border="0" alt="" usemap="#_observations"/>
-<map name="_observations" id="_observations">
-<area shape="rect" id="node1" href="class_observations.html" title="Observations class provides interface for reading and writing observations from and to a NetCDF file..." alt="" coords="5,5,104,32"/>
-<area shape="rect" id="node2" href="class_observations__array.html" title="Observations_array class is an implementation of the class Observations. Data are stored using the bo..." alt="" coords="152,5,287,32"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_21.png" border="0" alt="" usemap="#_progress_listener"/>
+<tr><td><img src="inherit_graph_8.png" border="0" alt="" usemap="#_progress_listener"/>
 <map name="_progress_listener" id="_progress_listener">
-<area shape="rect" id="node1" href="class_progress_listener.html" title="ProgressListener" alt="" coords="5,29,125,56"/>
+<area shape="rect" id="node2" href="class_progress_listener.html" title="ProgressListener" alt="" coords="148,5,268,32"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_22.png" border="0" alt="" usemap="#_similarity_matrices_1_1matrix_sort"/>
-<map name="_similarity_matrices_1_1matrix_sort" id="_similarity_matrices_1_1matrix_sort">
-<area shape="rect" id="node1" href="struct_similarity_matrices_1_1matrix_sort.html" title="SimilarityMatrices\l::matrixSort" alt="" coords="5,5,132,47"/>
+<tr><td><img src="inherit_graph_9.png" border="0" alt="" usemap="#_station"/>
+<map name="_station" id="_station">
+<area shape="rect" id="node1" href="class_station.html" title="Class Station stores station information including name, X, and Y. Each Station Object is assigned wi..." alt="" coords="5,5,68,32"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_23.png" border="0" alt="" usemap="#test_an_en"/>
-<map name="test_an_en" id="test_an_en">
-<area shape="rect" id="node2" href="classtest_an_en.html" title="testAnEn" alt="" coords="179,5,255,32"/>
-<area shape="rect" id="node3" href="classtest_an_en_i_o.html" title="testAnEnIO" alt="" coords="172,56,263,83"/>
-<area shape="rect" id="node4" href="classtest_forecasts_array.html" title="testForecastsArray" alt="" coords="151,107,284,133"/>
-<area shape="rect" id="node5" href="classtest_functions.html" title="testFunctions" alt="" coords="167,157,268,184"/>
-<area shape="rect" id="node6" href="classtest_grib_converter.html" title="testGribConverter" alt="" coords="155,208,280,235"/>
-<area shape="rect" id="node7" href="classtest_observations_array.html" title="testObservationsArray" alt="" coords="141,259,293,285"/>
-<area shape="rect" id="node8" href="classtest_similarity_matrices.html" title="testSimilarityMatrices" alt="" coords="143,309,291,336"/>
-<area shape="rect" id="node9" href="classtest_standard_deviation.html" title="testStandardDeviation" alt="" coords="142,360,293,387"/>
-<area shape="rect" id="node10" href="classtest_station.html" title="testStation" alt="" coords="175,411,260,437"/>
-<area shape="rect" id="node11" href="classtest_stations.html" title="testStations" alt="" coords="171,461,263,488"/>
-<area shape="rect" id="node12" href="classtest_times.html" title="testTimes" alt="" coords="177,512,257,539"/>
+<tr><td><img src="inherit_graph_10.png" border="0" alt="" usemap="#test_an_en_i_o"/>
+<map name="test_an_en_i_o" id="test_an_en_i_o">
+<area shape="rect" id="node1" href="class_an_en.html" title="AnEn is an abstract class that defines the interface for implement analog ensemble generation..." alt="" coords="5,31,60,57"/>
+<area shape="rect" id="node2" href="class_an_en_i_s.html" title="AnEnIS is an implementation of the class AnEn for the independent search algorithm. " alt="" coords="119,31,185,57"/>
+<area shape="rect" id="node3" href="class_an_en_s_s_e.html" title="AnEnSSE is an implementation of the abstrct class AnEn for the search space extension algorithm..." alt="" coords="285,5,366,32"/>
+<area shape="rect" id="node4" href="classtest_an_en_i_s.html" title="testAnEnIS" alt="" coords="281,56,370,83"/>
+<area shape="rect" id="node6" href="classtest_an_en_i_o.html" title="testAnEnIO" alt="" coords="280,107,371,133"/>
+<area shape="rect" id="node7" href="classtest_an_en_s_s_e.html" title="testAnEnSSE" alt="" coords="274,157,377,184"/>
+<area shape="rect" id="node8" href="classtest_calculator.html" title="testCalculator" alt="" coords="274,208,377,235"/>
+<area shape="rect" id="node9" href="classtest_forecasts_pointer.html" title="testForecastsPointer" alt="" coords="254,259,397,285"/>
+<area shape="rect" id="node10" href="classtest_functions.html" title="testFunctions" alt="" coords="275,309,376,336"/>
+<area shape="rect" id="node11" href="classtest_grib_converter.html" title="testGribConverter" alt="" coords="263,360,388,387"/>
+<area shape="rect" id="node12" href="classtest_observations_pointer.html" title="testObservationsPointer" alt="" coords="244,411,407,437"/>
+<area shape="rect" id="node13" href="classtest_parameters.html" title="testParameters" alt="" coords="270,461,381,488"/>
+<area shape="rect" id="node14" href="classtest_station.html" title="testStation" alt="" coords="283,512,368,539"/>
+<area shape="rect" id="node15" href="classtest_stations.html" title="testStations" alt="" coords="279,563,371,589"/>
+<area shape="rect" id="node16" href="classtest_times.html" title="testTimes" alt="" coords="285,613,365,640"/>
+</map>
+</td></tr>
+<tr><td><img src="inherit_graph_11.png" border="0" alt="" usemap="#_time"/>
+<map name="_time" id="_time">
+<area shape="rect" id="node1" href="class_time.html" title="Time" alt="" coords="5,5,56,32"/>
 </map>
 </td></tr>
 </table>

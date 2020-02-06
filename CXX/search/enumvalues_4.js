@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['method_5fnot_5fimplemented',['METHOD_NOT_IMPLEMENTED',['../error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffda7ad427e0c993f96564b0e2fa90d90a78',1,'errorType.h']]],
-  ['missing_5fvalue',['MISSING_VALUE',['../error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffdaec37e3828c73a73cab682d65b130a51d',1,'errorType.h']]]
+  ['observations',['Observations',['../class_an_en_read_ncdf.html#ac46a6614ed62aee709bb3431739ab652a263df4303fc8e2f27499caefad0c6f25',1,'AnEnReadNcdf::Observations()'],['../class_an_en_write_ncdf.html#a9ab8c1904116c068141eff69a97cd6efa263df4303fc8e2f27499caefad0c6f25',1,'AnEnWriteNcdf::Observations()']]]
 ];

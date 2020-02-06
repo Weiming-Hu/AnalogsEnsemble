@@ -60,7 +60,6 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="#friends">Friends</a> &#124;
 <a href="class_observations-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -68,7 +67,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p><a class="el" href="class_observations.html" title="Observations class provides interface for reading and writing observations from and to a NetCDF file...">Observations</a> class provides interface for reading and writing observations from and to a NetCDF file. It also supports data indexing and searching.  
+<p><a class="el" href="class_observations.html" title="Observations is an abstract class that extends BasicData. It defines the interface of how to interact...">Observations</a> is an abstract class that extends <a class="el" href="class_basic_data.html" title="BasicData is an implementation of the data structure used by Analog Ensemble. It includes parameters...">BasicData</a>. It defines the interface of how to interact with the underlying data storage. This interface is accepted by the Analog Ensemble algorithm.  
  <a href="class_observations.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="_observations_8h_source.html">Observations.h</a>&gt;</code></p>
@@ -77,7 +76,8 @@ Inheritance diagram for Observations:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_observations__inherit__graph.png" border="0" usemap="#_observations_inherit__map" alt="Inheritance graph"/></div>
 <map name="_observations_inherit__map" id="_observations_inherit__map">
-<area shape="rect" id="node2" href="class_observations__array.html" title="Observations_array class is an implementation of the class Observations. Data are stored using the bo..." alt="" coords="5,307,168,545"/>
+<area shape="rect" id="node3" href="class_observations_pointer.html" title="ObservationsPointer is an implementation of the abstract class Observations. The underlying storage u..." alt="" coords="5,623,173,949"/>
+<area shape="rect" id="node2" href="class_basic_data.html" title="BasicData is an implementation of the data structure used by Analog Ensemble. It includes parameters..." alt="" coords="26,5,153,303"/>
 </map>
 </div>
 <div class="dynheader">
@@ -85,9 +85,10 @@ Collaboration diagram for Observations:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_observations__coll__graph.png" border="0" usemap="#_observations_coll__map" alt="Collaboration graph"/></div>
 <map name="_observations_coll__map" id="_observations_coll__map">
-<area shape="rect" id="node2" href="classanen_par_1_1_parameters.html" title="Parameters class stores Parameter objects. " alt="" coords="5,169,176,305"/>
-<area shape="rect" id="node4" href="classanen_sta_1_1_stations.html" title="Stations class stores Station objects. " alt="" coords="200,132,387,341"/>
-<area shape="rect" id="node6" href="classanen_time_1_1_times.html" title="Times class is used to store time information for predictions. By default this is the number of secon..." alt="" coords="411,147,533,327"/>
+<area shape="rect" id="node2" href="class_basic_data.html" title="BasicData is an implementation of the data structure used by Analog Ensemble. It includes parameters..." alt="" coords="159,345,285,613"/>
+<area shape="rect" id="node3" href="class_times.html" title="Times class is used to store Time. It is a bidirectional map implemented from Boost so that it provid..." alt="" coords="39,139,131,275"/>
+<area shape="rect" id="node5" href="class_stations.html" title="Stations class stores Station objects. It is a bidirectional map implemented from Boost so that it pr..." alt="" coords="171,139,273,275"/>
+<area shape="rect" id="node7" href="class_parameters.html" title="Parameters class stores Parameter objects. It is a bidirectional map implemented from Boost so that i..." alt="" coords="314,132,434,283"/>
 </map>
 </div>
 <table class="memberdecls">
@@ -95,77 +96,71 @@ Collaboration diagram for Observations:</div>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a80e66bee67e5e5eb41aa60b6d6f71544"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#a80e66bee67e5e5eb41aa60b6d6f71544">Observations</a> ()</td></tr>
 <tr class="separator:a80e66bee67e5e5eb41aa60b6d6f71544"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a579feccdac9c26226cf813ac8cf3521a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#a579feccdac9c26226cf813ac8cf3521a">Observations</a> (const <a class="el" href="class_observations.html">Observations</a> &amp;orig)=delete</td></tr>
-<tr class="separator:a579feccdac9c26226cf813ac8cf3521a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acd73489a964b9794e0a265ce394d6f17"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#acd73489a964b9794e0a265ce394d6f17">Observations</a> (<a class="el" href="classanen_par_1_1_parameters.html">anenPar::Parameters</a>, <a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a>, <a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a>)</td></tr>
-<tr class="separator:acd73489a964b9794e0a265ce394d6f17"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea648fa2c35c1925eb4452132fdeeb49"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#aea648fa2c35c1925eb4452132fdeeb49">Observations</a> (const <a class="el" href="class_observations.html">Observations</a> &amp;orig)</td></tr>
+<tr class="separator:aea648fa2c35c1925eb4452132fdeeb49"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3f517d12f4fd4e69f15b75dfbb5b75c9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#a3f517d12f4fd4e69f15b75dfbb5b75c9">Observations</a> (const <a class="el" href="class_parameters.html">Parameters</a> &amp;, const <a class="el" href="class_stations.html">Stations</a> &amp;, const <a class="el" href="class_times.html">Times</a> &amp;)</td></tr>
+<tr class="separator:a3f517d12f4fd4e69f15b75dfbb5b75c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8724b267cce796b0f77f8f2b9e4aaf1d"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#a8724b267cce796b0f77f8f2b9e4aaf1d">~Observations</a> ()</td></tr>
 <tr class="separator:a8724b267cce796b0f77f8f2b9e4aaf1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a85358b5d09f0ea02e27e06be09501cec"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#a85358b5d09f0ea02e27e06be09501cec">getValueByIndex</a> (std::size_t parameter_index, std::size_t station_index, std::size_t time_index) const =0</td></tr>
-<tr class="separator:a85358b5d09f0ea02e27e06be09501cec"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0da5d441448944fb88841b8883f823b7"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#a0da5d441448944fb88841b8883f823b7">getValueByID</a> (std::size_t parameter_ID, std::size_t station_ID, double timestamp) const =0</td></tr>
-<tr class="separator:a0da5d441448944fb88841b8883f823b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa626ffb450b4647e1291053dd5b6d03c"><td class="memItemLeft" align="right" valign="top">virtual const double *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#aa626ffb450b4647e1291053dd5b6d03c">getValues</a> () const =0</td></tr>
-<tr class="separator:aa626ffb450b4647e1291053dd5b6d03c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf3d645db2d29a6033554f094cf580fe"><td class="memItemLeft" align="right" valign="top">virtual std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#abf3d645db2d29a6033554f094cf580fe">num_elements</a> () const =0</td></tr>
+<tr class="separator:abf3d645db2d29a6033554f094cf580fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af150e01ed5c5482903f4df0409df3d89"><td class="memItemLeft" align="right" valign="top">virtual const double *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#af150e01ed5c5482903f4df0409df3d89">getValuesPtr</a> () const =0</td></tr>
+<tr class="separator:af150e01ed5c5482903f4df0409df3d89"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e43f3af319d0572308341c3a29393a6"><td class="memItemLeft" align="right" valign="top">virtual double *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#a1e43f3af319d0572308341c3a29393a6">getValuesPtr</a> ()=0</td></tr>
+<tr class="separator:a1e43f3af319d0572308341c3a29393a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac8291a64d9b2ce948dd400d18cbe5a0c"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#ac8291a64d9b2ce948dd400d18cbe5a0c">setDimensions</a> (const <a class="el" href="class_parameters.html">Parameters</a> &amp;parameters, const <a class="el" href="class_stations.html">Stations</a> &amp;stations, const <a class="el" href="class_times.html">Times</a> &amp;times)=0</td></tr>
+<tr class="separator:ac8291a64d9b2ce948dd400d18cbe5a0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad7b52b880869698f4d191f47bae766e2"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#ad7b52b880869698f4d191f47bae766e2">getValue</a> (std::size_t parameter_index, std::size_t station_index, std::size_t time_index) const =0</td></tr>
+<tr class="separator:ad7b52b880869698f4d191f47bae766e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6f00b4a2277ce9e77cd0d5975f4066f8"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#a6f00b4a2277ce9e77cd0d5975f4066f8">setValue</a> (double val, std::size_t parameter_index, std::size_t station_index, std::size_t time_index)=0</td></tr>
 <tr class="separator:a6f00b4a2277ce9e77cd0d5975f4066f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6ec8166ad0f141e23a07847ab3646a61"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#a6ec8166ad0f141e23a07847ab3646a61">setValue</a> (double val, std::size_t parameter_ID, std::size_t station_ID, double timestamp)=0</td></tr>
-<tr class="separator:a6ec8166ad0f141e23a07847ab3646a61"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3aaf49cad714ff61c105d26b4b083ac3"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#a3aaf49cad714ff61c105d26b4b083ac3">setValues</a> (const std::vector&lt; double &gt; &amp;vals)=0</td></tr>
-<tr class="separator:a3aaf49cad714ff61c105d26b4b083ac3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a683e74974a084a67eff703c2b258ab42"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#a683e74974a084a67eff703c2b258ab42">updateDataDims</a> (bool initialize_values=true)=0</td></tr>
-<tr class="separator:a683e74974a084a67eff703c2b258ab42"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a73897578d7e1d4aaf6023857db896ee8"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#a73897578d7e1d4aaf6023857db896ee8">getParameterIndex</a> (std::size_t parameter_ID) const</td></tr>
-<tr class="separator:a73897578d7e1d4aaf6023857db896ee8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa485e3d95a967b9b4efd5c4efaf0c9e1"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#aa485e3d95a967b9b4efd5c4efaf0c9e1">getStationIndex</a> (std::size_t station_ID) const</td></tr>
-<tr class="separator:aa485e3d95a967b9b4efd5c4efaf0c9e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a60c87d96be325c830c88d83bb60353ef"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#a60c87d96be325c830c88d83bb60353ef">getTimeIndex</a> (double timestamp) const</td></tr>
-<tr class="separator:a60c87d96be325c830c88d83bb60353ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa54d9a904c390e964103bea086e065ee"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#aa54d9a904c390e964103bea086e065ee">getParametersSize</a> () const</td></tr>
-<tr class="separator:aa54d9a904c390e964103bea086e065ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ada795eafca78fe436908ec66f2bb161e"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#ada795eafca78fe436908ec66f2bb161e">getStationsSize</a> () const</td></tr>
-<tr class="separator:ada795eafca78fe436908ec66f2bb161e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeac31b76b1e849571bb277da8f4fe7a6"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#aeac31b76b1e849571bb277da8f4fe7a6">getTimesSize</a> () const</td></tr>
-<tr class="separator:aeac31b76b1e849571bb277da8f4fe7a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3ad688dc4ef6dc6adabe212808fd32a9"><td class="memItemLeft" align="right" valign="top">virtual std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#a3ad688dc4ef6dc6adabe212808fd32a9">getDataLength</a> () const =0</td></tr>
-<tr class="separator:a3ad688dc4ef6dc6adabe212808fd32a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5347196195a72495217dc0614c9224c2"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classanen_par_1_1_parameters.html">anenPar::Parameters</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#a5347196195a72495217dc0614c9224c2">getParameters</a> () const</td></tr>
-<tr class="separator:a5347196195a72495217dc0614c9224c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0f6deefe6b26a0546ea6d7642d190bfa"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#a0f6deefe6b26a0546ea6d7642d190bfa">getStations</a> () const</td></tr>
-<tr class="separator:a0f6deefe6b26a0546ea6d7642d190bfa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa0929286a88fe261af73cc67c6c8df92"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#aa0929286a88fe261af73cc67c6c8df92">getTimes</a> () const</td></tr>
-<tr class="separator:aa0929286a88fe261af73cc67c6c8df92"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac05528c352cd617521e42c0800362b86"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classanen_par_1_1_parameters.html">anenPar::Parameters</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#ac05528c352cd617521e42c0800362b86">getParameters</a> ()</td></tr>
-<tr class="separator:ac05528c352cd617521e42c0800362b86"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa12a9640fc370dbc8e45d84521224cf6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#aa12a9640fc370dbc8e45d84521224cf6">getStations</a> ()</td></tr>
-<tr class="separator:aa12a9640fc370dbc8e45d84521224cf6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae6b340ea6602a94ae89a3fecb2545801"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#ae6b340ea6602a94ae89a3fecb2545801">getTimes</a> ()</td></tr>
-<tr class="separator:ae6b340ea6602a94ae89a3fecb2545801"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6965bc35582ce23ed840e9e6bf1fa228"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#a6965bc35582ce23ed840e9e6bf1fa228">setParameters</a> (<a class="el" href="classanen_par_1_1_parameters.html">anenPar::Parameters</a> <a class="el" href="class_observations.html#a9e80eaaa9c096dda1dbbe8fcf631c087">parameters_</a>)</td></tr>
-<tr class="separator:a6965bc35582ce23ed840e9e6bf1fa228"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a01ddf7eb5d0b9c3fec31731a931cfdf4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#a01ddf7eb5d0b9c3fec31731a931cfdf4">setStations</a> (<a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> <a class="el" href="class_observations.html#a03e2d3c69e46066f48e4381657a995f7">stations_</a>)</td></tr>
-<tr class="separator:a01ddf7eb5d0b9c3fec31731a931cfdf4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a28c65d41c60cb95607e06d090d03a8d2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#a28c65d41c60cb95607e06d090d03a8d2">setTimes</a> (<a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a> <a class="el" href="class_observations.html#ad379be63239b03e0db53dc31014a2d74">times_</a>)</td></tr>
-<tr class="separator:a28c65d41c60cb95607e06d090d03a8d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a523647c5ae644959f0ed583cd7b11aba"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#a523647c5ae644959f0ed583cd7b11aba">print</a> (std::ostream &amp;) const</td></tr>
 <tr class="separator:a523647c5ae644959f0ed583cd7b11aba"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
-Protected Attributes</h2></td></tr>
-<tr class="memitem:a9e80eaaa9c096dda1dbbe8fcf631c087"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classanen_par_1_1_parameters.html">anenPar::Parameters</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#a9e80eaaa9c096dda1dbbe8fcf631c087">parameters_</a></td></tr>
-<tr class="separator:a9e80eaaa9c096dda1dbbe8fcf631c087"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a03e2d3c69e46066f48e4381657a995f7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#a03e2d3c69e46066f48e4381657a995f7">stations_</a></td></tr>
-<tr class="separator:a03e2d3c69e46066f48e4381657a995f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad379be63239b03e0db53dc31014a2d74"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#ad379be63239b03e0db53dc31014a2d74">times_</a></td></tr>
-<tr class="separator:ad379be63239b03e0db53dc31014a2d74"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_class_basic_data"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_basic_data')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_basic_data.html">BasicData</a></td></tr>
+<tr class="memitem:ace60c0431ec876c0163aee9a50c98f27 inherit pub_methods_class_basic_data"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_basic_data.html#ace60c0431ec876c0163aee9a50c98f27">BasicData</a> ()</td></tr>
+<tr class="separator:ace60c0431ec876c0163aee9a50c98f27 inherit pub_methods_class_basic_data"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a65a1397148d14f664bd8dd979c8d21bc inherit pub_methods_class_basic_data"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_basic_data.html#a65a1397148d14f664bd8dd979c8d21bc">BasicData</a> (const <a class="el" href="class_parameters.html">Parameters</a> &amp;, const <a class="el" href="class_stations.html">Stations</a> &amp;, const <a class="el" href="class_times.html">Times</a> &amp;)</td></tr>
+<tr class="separator:a65a1397148d14f664bd8dd979c8d21bc inherit pub_methods_class_basic_data"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a503d998763e0b3f5080f48ce795997d8 inherit pub_methods_class_basic_data"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_basic_data.html#a503d998763e0b3f5080f48ce795997d8">BasicData</a> (const <a class="el" href="class_basic_data.html">BasicData</a> &amp;orig)</td></tr>
+<tr class="separator:a503d998763e0b3f5080f48ce795997d8 inherit pub_methods_class_basic_data"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae228e60c133f553beeaf91fa00b9db75 inherit pub_methods_class_basic_data"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_basic_data.html#ae228e60c133f553beeaf91fa00b9db75">~BasicData</a> ()</td></tr>
+<tr class="separator:ae228e60c133f553beeaf91fa00b9db75 inherit pub_methods_class_basic_data"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad3079290b5f775cfef1b942ef64169f5 inherit pub_methods_class_basic_data"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="class_parameters.html">Parameters</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_basic_data.html#ad3079290b5f775cfef1b942ef64169f5">getParameters</a> () const</td></tr>
+<tr class="separator:ad3079290b5f775cfef1b942ef64169f5 inherit pub_methods_class_basic_data"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70beb929324c0cd04eb014aa3f6c68f6 inherit pub_methods_class_basic_data"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="class_stations.html">Stations</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_basic_data.html#a70beb929324c0cd04eb014aa3f6c68f6">getStations</a> () const</td></tr>
+<tr class="separator:a70beb929324c0cd04eb014aa3f6c68f6 inherit pub_methods_class_basic_data"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aedbe57b9f966bfcc149ba33157457683 inherit pub_methods_class_basic_data"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="class_times.html">Times</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_basic_data.html#aedbe57b9f966bfcc149ba33157457683">getTimes</a> () const</td></tr>
+<tr class="separator:aedbe57b9f966bfcc149ba33157457683 inherit pub_methods_class_basic_data"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c3a3b1e600bde24197023889f3cb941 inherit pub_methods_class_basic_data"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_parameters.html">Parameters</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_basic_data.html#a3c3a3b1e600bde24197023889f3cb941">getParameters</a> ()</td></tr>
+<tr class="separator:a3c3a3b1e600bde24197023889f3cb941 inherit pub_methods_class_basic_data"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a60b0c78687c4fa30d9e86067f479d714 inherit pub_methods_class_basic_data"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_stations.html">Stations</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_basic_data.html#a60b0c78687c4fa30d9e86067f479d714">getStations</a> ()</td></tr>
+<tr class="separator:a60b0c78687c4fa30d9e86067f479d714 inherit pub_methods_class_basic_data"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a75e5be292cb5590d487949a4f75622cd inherit pub_methods_class_basic_data"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_times.html">Times</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_basic_data.html#a75e5be292cb5590d487949a4f75622cd">getTimes</a> ()</td></tr>
+<tr class="separator:a75e5be292cb5590d487949a4f75622cd inherit pub_methods_class_basic_data"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a969e8e1c29d92efb4fcf883ae86bf7 inherit pub_methods_class_basic_data"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_basic_data.html#a3a969e8e1c29d92efb4fcf883ae86bf7">getTimeStamp</a> (std::size_t index) const</td></tr>
+<tr class="separator:a3a969e8e1c29d92efb4fcf883ae86bf7 inherit pub_methods_class_basic_data"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef563e599ebab85a7670011b842b7b2b inherit pub_methods_class_basic_data"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_basic_data.html#aef563e599ebab85a7670011b842b7b2b">getTimeIndex</a> (std::size_t timestamp) const</td></tr>
+<tr class="separator:aef563e599ebab85a7670011b842b7b2b inherit pub_methods_class_basic_data"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a984785b4a56082a013530034e05bf40b inherit pub_methods_class_basic_data"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_basic_data.html#a984785b4a56082a013530034e05bf40b">getTimeIndex</a> (const <a class="el" href="class_time.html">Time</a> &amp;) const</td></tr>
+<tr class="separator:a984785b4a56082a013530034e05bf40b inherit pub_methods_class_basic_data"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
 <tr class="memitem:ad93ae2b52ac4bae27e3419d1545ee68f"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#ad93ae2b52ac4bae27e3419d1545ee68f">operator&lt;&lt;</a> (std::ostream &amp;, const <a class="el" href="class_observations.html">Observations</a> &amp;)</td></tr>
 <tr class="separator:ad93ae2b52ac4bae27e3419d1545ee68f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
+Additional Inherited Members</h2></td></tr>
+<tr class="inherit_header pro_attribs_class_basic_data"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_class_basic_data')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="class_basic_data.html">BasicData</a></td></tr>
+<tr class="memitem:af8038e3a82853aa259ddd066f0b777f2 inherit pro_attribs_class_basic_data"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_parameters.html">Parameters</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_basic_data.html#af8038e3a82853aa259ddd066f0b777f2">parameters_</a></td></tr>
+<tr class="separator:af8038e3a82853aa259ddd066f0b777f2 inherit pro_attribs_class_basic_data"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a72ee55e670083315d122d885cae4cc7f inherit pro_attribs_class_basic_data"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_stations.html">Stations</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_basic_data.html#a72ee55e670083315d122d885cae4cc7f">stations_</a></td></tr>
+<tr class="separator:a72ee55e670083315d122d885cae4cc7f inherit pro_attribs_class_basic_data"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad94e86fcc42eb2268b6695f6c4bf04a4 inherit pro_attribs_class_basic_data"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_times.html">Times</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_basic_data.html#ad94e86fcc42eb2268b6695f6c4bf04a4">times_</a></td></tr>
+<tr class="separator:ad94e86fcc42eb2268b6695f6c4bf04a4 inherit pro_attribs_class_basic_data"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><a class="el" href="class_observations.html" title="Observations class provides interface for reading and writing observations from and to a NetCDF file...">Observations</a> class provides interface for reading and writing observations from and to a NetCDF file. It also supports data indexing and searching. </p>
+<div class="textblock"><p><a class="el" href="class_observations.html" title="Observations is an abstract class that extends BasicData. It defines the interface of how to interact...">Observations</a> is an abstract class that extends <a class="el" href="class_basic_data.html" title="BasicData is an implementation of the data structure used by Analog Ensemble. It includes parameters...">BasicData</a>. It defines the interface of how to interact with the underlying data storage. This interface is accepted by the Analog Ensemble algorithm. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a80e66bee67e5e5eb41aa60b6d6f71544"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a80e66bee67e5e5eb41aa60b6d6f71544">&#9670;&nbsp;</a></span>Observations() <span class="overload">[1/3]</span></h2>
@@ -184,14 +179,11 @@ Friends</h2></td></tr>
 
 </div>
 </div>
-<a id="a579feccdac9c26226cf813ac8cf3521a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a579feccdac9c26226cf813ac8cf3521a">&#9670;&nbsp;</a></span>Observations() <span class="overload">[2/3]</span></h2>
+<a id="aea648fa2c35c1925eb4452132fdeeb49"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aea648fa2c35c1925eb4452132fdeeb49">&#9670;&nbsp;</a></span>Observations() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">Observations::Observations </td>
@@ -201,17 +193,12 @@ Friends</h2></td></tr>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">delete</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="acd73489a964b9794e0a265ce394d6f17"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acd73489a964b9794e0a265ce394d6f17">&#9670;&nbsp;</a></span>Observations() <span class="overload">[3/3]</span></h2>
+<a id="a3f517d12f4fd4e69f15b75dfbb5b75c9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3f517d12f4fd4e69f15b75dfbb5b75c9">&#9670;&nbsp;</a></span>Observations() <span class="overload">[3/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -219,19 +206,19 @@ Friends</h2></td></tr>
         <tr>
           <td class="memname">Observations::Observations </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classanen_par_1_1_parameters.html">anenPar::Parameters</a>&#160;</td>
+          <td class="paramtype">const <a class="el" href="class_parameters.html">Parameters</a> &amp;&#160;</td>
           <td class="paramname"><em>parameters</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a>&#160;</td>
+          <td class="paramtype">const <a class="el" href="class_stations.html">Stations</a> &amp;&#160;</td>
           <td class="paramname"><em>stations</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a>&#160;</td>
+          <td class="paramtype">const <a class="el" href="class_times.html">Times</a> &amp;&#160;</td>
           <td class="paramname"><em>times</em>&#160;</td>
         </tr>
         <tr>
@@ -270,8 +257,8 @@ Friends</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a3ad688dc4ef6dc6adabe212808fd32a9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3ad688dc4ef6dc6adabe212808fd32a9">&#9670;&nbsp;</a></span>getDataLength()</h2>
+<a id="ad7b52b880869698f4d191f47bae766e2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad7b52b880869698f4d191f47bae766e2">&#9670;&nbsp;</a></span>getValue()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -280,303 +267,7 @@ Friends</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual std::size_t Observations::getDataLength </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implemented in <a class="el" href="class_observations__array.html#ae535b742be4ea895117da607fbe7c702">Observations_array</a>.</p>
-
-</div>
-</div>
-<a id="a73897578d7e1d4aaf6023857db896ee8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a73897578d7e1d4aaf6023857db896ee8">&#9670;&nbsp;</a></span>getParameterIndex()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">size_t Observations::getParameterIndex </td>
-          <td>(</td>
-          <td class="paramtype">std::size_t&#160;</td>
-          <td class="paramname"><em>parameter_ID</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Given a valid parameter ID, this function returns the corresponding index of that specific parameter from underlying data.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">parameter_ID</td><td>A valid parameter ID. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The parameter ID index. </dd></dl>
-
-</div>
-</div>
-<a id="a5347196195a72495217dc0614c9224c2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5347196195a72495217dc0614c9224c2">&#9670;&nbsp;</a></span>getParameters() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classanen_par_1_1_parameters.html">anenPar::Parameters</a> const  &amp; Observations::getParameters </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ac05528c352cd617521e42c0800362b86"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac05528c352cd617521e42c0800362b86">&#9670;&nbsp;</a></span>getParameters() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classanen_par_1_1_parameters.html">anenPar::Parameters</a> &amp; Observations::getParameters </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aa54d9a904c390e964103bea086e065ee"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa54d9a904c390e964103bea086e065ee">&#9670;&nbsp;</a></span>getParametersSize()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">size_t Observations::getParametersSize </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aa485e3d95a967b9b4efd5c4efaf0c9e1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa485e3d95a967b9b4efd5c4efaf0c9e1">&#9670;&nbsp;</a></span>getStationIndex()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">size_t Observations::getStationIndex </td>
-          <td>(</td>
-          <td class="paramtype">std::size_t&#160;</td>
-          <td class="paramname"><em>station_ID</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a0f6deefe6b26a0546ea6d7642d190bfa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0f6deefe6b26a0546ea6d7642d190bfa">&#9670;&nbsp;</a></span>getStations() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> const  &amp; Observations::getStations </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aa12a9640fc370dbc8e45d84521224cf6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa12a9640fc370dbc8e45d84521224cf6">&#9670;&nbsp;</a></span>getStations() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> &amp; Observations::getStations </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ada795eafca78fe436908ec66f2bb161e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ada795eafca78fe436908ec66f2bb161e">&#9670;&nbsp;</a></span>getStationsSize()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">size_t Observations::getStationsSize </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a60c87d96be325c830c88d83bb60353ef"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a60c87d96be325c830c88d83bb60353ef">&#9670;&nbsp;</a></span>getTimeIndex()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">size_t Observations::getTimeIndex </td>
-          <td>(</td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>timestamp</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aa0929286a88fe261af73cc67c6c8df92"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa0929286a88fe261af73cc67c6c8df92">&#9670;&nbsp;</a></span>getTimes() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a> const  &amp; Observations::getTimes </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ae6b340ea6602a94ae89a3fecb2545801"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae6b340ea6602a94ae89a3fecb2545801">&#9670;&nbsp;</a></span>getTimes() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a> &amp; Observations::getTimes </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aeac31b76b1e849571bb277da8f4fe7a6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aeac31b76b1e849571bb277da8f4fe7a6">&#9670;&nbsp;</a></span>getTimesSize()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">size_t Observations::getTimesSize </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a0da5d441448944fb88841b8883f823b7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0da5d441448944fb88841b8883f823b7">&#9670;&nbsp;</a></span>getValueByID()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual double Observations::getValueByID </td>
-          <td>(</td>
-          <td class="paramtype">std::size_t&#160;</td>
-          <td class="paramname"><em>parameter_ID</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::size_t&#160;</td>
-          <td class="paramname"><em>station_ID</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>timestamp</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Gets value by searching with IDs and timestamps.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">parameter_ID</td><td>Parameter ID. </td></tr>
-    <tr><td class="paramname">station_ID</td><td>Station ID. </td></tr>
-    <tr><td class="paramname">timestamp</td><td>A double for the time. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A double. </dd></dl>
-
-<p>Implemented in <a class="el" href="class_observations__array.html#a42449c7be492f7df27d74c370c8e719f">Observations_array</a>.</p>
-
-</div>
-</div>
-<a id="a85358b5d09f0ea02e27e06be09501cec"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a85358b5d09f0ea02e27e06be09501cec">&#9670;&nbsp;</a></span>getValueByIndex()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual double Observations::getValueByIndex </td>
+          <td class="memname">virtual double Observations::getValue </td>
           <td>(</td>
           <td class="paramtype">std::size_t&#160;</td>
           <td class="paramname"><em>parameter_index</em>, </td>
@@ -605,23 +296,22 @@ Friends</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Gets value using array index.</p>
-<dl class="params"><dt>Parameters</dt><dd>
+<p>Gets or sets a value using the array indices. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">parameter_index</td><td>Parameter index. </td></tr>
-    <tr><td class="paramname">station_index</td><td>Station index. </td></tr>
-    <tr><td class="paramname">time_index</td><td>Time index. </td></tr>
+    <tr><td class="paramname">parameter_index</td><td><a class="el" href="class_parameter.html" title="Parameter stores parameter information including name and circular. ">Parameter</a> index. </td></tr>
+    <tr><td class="paramname">station_index</td><td><a class="el" href="class_station.html" title="Class Station stores station information including name, X, and Y. Each Station Object is assigned wi...">Station</a> index. </td></tr>
+    <tr><td class="paramname">time_index</td><td><a class="el" href="class_time.html">Time</a> index. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A double. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>a value. </dd></dl>
 
-<p>Implemented in <a class="el" href="class_observations__array.html#aa90203b110c6fb6bda4e201df163510d">Observations_array</a>.</p>
+<p>Implemented in <a class="el" href="class_observations_pointer.html#a637a45a4460f2c81e70a240a590847f7">ObservationsPointer</a>.</p>
 
 </div>
 </div>
-<a id="aa626ffb450b4647e1291053dd5b6d03c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa626ffb450b4647e1291053dd5b6d03c">&#9670;&nbsp;</a></span>getValues()</h2>
+<a id="af150e01ed5c5482903f4df0409df3d89"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af150e01ed5c5482903f4df0409df3d89">&#9670;&nbsp;</a></span>getValuesPtr() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -630,7 +320,7 @@ Friends</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual const double* Observations::getValues </td>
+          <td class="memname">virtual const double* Observations::getValuesPtr </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -642,9 +332,64 @@ Friends</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Gets data in form of a double pointer. </p><dl class="section return"><dt>Returns</dt><dd>A double pointer. </dd></dl>
+<p>Gets a double pointer to the start of the values. </p><dl class="section return"><dt>Returns</dt><dd>A double pointer. </dd></dl>
 
-<p>Implemented in <a class="el" href="class_observations__array.html#ac024322acc4826e7fa60fddc74e4b3a3">Observations_array</a>.</p>
+<p>Implemented in <a class="el" href="class_observations_pointer.html#a1fe5dab40edbb133130724ef8893659f">ObservationsPointer</a>.</p>
+
+</div>
+</div>
+<a id="a1e43f3af319d0572308341c3a29393a6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1e43f3af319d0572308341c3a29393a6">&#9670;&nbsp;</a></span>getValuesPtr() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual double* Observations::getValuesPtr </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="class_observations_pointer.html#aeb677c27395e9d391002a6eefc2451e6">ObservationsPointer</a>.</p>
+
+</div>
+</div>
+<a id="abf3d645db2d29a6033554f094cf580fe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abf3d645db2d29a6033554f094cf580fe">&#9670;&nbsp;</a></span>num_elements()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual std::size_t Observations::num_elements </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Returns the total number of data values as one dimension. </p><dl class="section return"><dt>Returns</dt><dd>A value. </dd></dl>
+
+<p>Implemented in <a class="el" href="class_observations_pointer.html#ab33f1b7acffa2c95d058c6cbca1bb5c6">ObservationsPointer</a>.</p>
 
 </div>
 </div>
@@ -672,66 +417,66 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Reimplemented in <a class="el" href="class_observations__array.html#a2563545e5a38ec7e3ec09380c0b38855">Observations_array</a>.</p>
+<p>Reimplemented from <a class="el" href="class_basic_data.html#a58f02cd3cfc4aab0a8d321b309254b71">BasicData</a>.</p>
+
+<p>Reimplemented in <a class="el" href="class_observations_pointer.html#abe9a07344ebe8ff4faaa712c79d8d61e">ObservationsPointer</a>.</p>
 
 </div>
 </div>
-<a id="a6965bc35582ce23ed840e9e6bf1fa228"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6965bc35582ce23ed840e9e6bf1fa228">&#9670;&nbsp;</a></span>setParameters()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Observations::setParameters </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classanen_par_1_1_parameters.html">anenPar::Parameters</a>&#160;</td>
-          <td class="paramname"><em>parameters_</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a01ddf7eb5d0b9c3fec31731a931cfdf4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a01ddf7eb5d0b9c3fec31731a931cfdf4">&#9670;&nbsp;</a></span>setStations()</h2>
+<a id="ac8291a64d9b2ce948dd400d18cbe5a0c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac8291a64d9b2ce948dd400d18cbe5a0c">&#9670;&nbsp;</a></span>setDimensions()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void Observations::setStations </td>
+          <td class="memname">virtual void Observations::setDimensions </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a>&#160;</td>
-          <td class="paramname"><em>stations_</em></td><td>)</td>
-          <td></td>
+          <td class="paramtype">const <a class="el" href="class_parameters.html">Parameters</a> &amp;&#160;</td>
+          <td class="paramname"><em>parameters</em>, </td>
         </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a28c65d41c60cb95607e06d090d03a8d2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a28c65d41c60cb95607e06d090d03a8d2">&#9670;&nbsp;</a></span>setTimes()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
         <tr>
-          <td class="memname">void Observations::setTimes </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a>&#160;</td>
-          <td class="paramname"><em>times_</em></td><td>)</td>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">const <a class="el" href="class_stations.html">Stations</a> &amp;&#160;</td>
+          <td class="paramname"><em>stations</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="class_times.html">Times</a> &amp;&#160;</td>
+          <td class="paramname"><em>times</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
+<p>Sets the dimensions of forecasts and allocates memory for data values. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">parameters</td><td>The <a class="el" href="class_parameters.html" title="Parameters class stores Parameter objects. It is a bidirectional map implemented from Boost so that i...">Parameters</a> container. </td></tr>
+    <tr><td class="paramname">stations</td><td>The <a class="el" href="class_stations.html" title="Stations class stores Station objects. It is a bidirectional map implemented from Boost so that it pr...">Stations</a> container. </td></tr>
+    <tr><td class="paramname">times</td><td>The <a class="el" href="class_times.html" title="Times class is used to store Time. It is a bidirectional map implemented from Boost so that it provid...">Times</a> container. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Implemented in <a class="el" href="class_observations_pointer.html#aaa5b2d72720dca9f24b0bab90fde4d2e">ObservationsPointer</a>.</p>
 
 </div>
 </div>
 <a id="a6f00b4a2277ce9e77cd0d5975f4066f8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6f00b4a2277ce9e77cd0d5975f4066f8">&#9670;&nbsp;</a></span>setValue() <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f00b4a2277ce9e77cd0d5975f4066f8">&#9670;&nbsp;</a></span>setValue()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -776,121 +521,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implemented in <a class="el" href="class_observations__array.html#aa6b6e042f8db0afad3beaff248b4a602">Observations_array</a>.</p>
-
-</div>
-</div>
-<a id="a6ec8166ad0f141e23a07847ab3646a61"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6ec8166ad0f141e23a07847ab3646a61">&#9670;&nbsp;</a></span>setValue() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual void Observations::setValue </td>
-          <td>(</td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>val</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::size_t&#160;</td>
-          <td class="paramname"><em>parameter_ID</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::size_t&#160;</td>
-          <td class="paramname"><em>station_ID</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>timestamp</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implemented in <a class="el" href="class_observations__array.html#a3994f0e11a8207c5e1182a9b20a67ec4">Observations_array</a>.</p>
-
-</div>
-</div>
-<a id="a3aaf49cad714ff61c105d26b4b083ac3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3aaf49cad714ff61c105d26b4b083ac3">&#9670;&nbsp;</a></span>setValues()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual void Observations::setValues </td>
-          <td>(</td>
-          <td class="paramtype">const std::vector&lt; double &gt; &amp;&#160;</td>
-          <td class="paramname"><em>vals</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Sets values from a vector.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">vals</td><td>A vector&lt;double&gt; with values. Call <a class="el" href="class_observations.html#a683e74974a084a67eff703c2b258ab42">Observations::updateDataDims</a> to make sure sufficient space is allocated. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Implemented in <a class="el" href="class_observations__array.html#ae4ed49512506eae597a158d4c87dbd31">Observations_array</a>.</p>
-
-</div>
-</div>
-<a id="a683e74974a084a67eff703c2b258ab42"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a683e74974a084a67eff703c2b258ab42">&#9670;&nbsp;</a></span>updateDataDims()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual void Observations::updateDataDims </td>
-          <td>(</td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>initialize_values</em> = <code>true</code></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Resizes underlying data member according to the sizes of parameters, stations, and times. </p>
-
-<p>Implemented in <a class="el" href="class_observations__array.html#a6d9a0f3d80db18da1f1c8f99e43ba000">Observations_array</a>.</p>
+<p>Implemented in <a class="el" href="class_observations_pointer.html#a0da11ee4a584f037473cc6ab75c9f778">ObservationsPointer</a>.</p>
 
 </div>
 </div>
@@ -925,73 +556,6 @@ Friends</h2></td></tr>
   </td>
   <td class="mlabels-right">
 <span class="mlabels"><span class="mlabel">friend</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a id="a9e80eaaa9c096dda1dbbe8fcf631c087"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9e80eaaa9c096dda1dbbe8fcf631c087">&#9670;&nbsp;</a></span>parameters_</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classanen_par_1_1_parameters.html">anenPar::Parameters</a> Observations::parameters_</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a03e2d3c69e46066f48e4381657a995f7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a03e2d3c69e46066f48e4381657a995f7">&#9670;&nbsp;</a></span>stations_</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> Observations::stations_</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ad379be63239b03e0db53dc31014a2d74"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad379be63239b03e0db53dc31014a2d74">&#9670;&nbsp;</a></span>times_</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a> Observations::times_</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">

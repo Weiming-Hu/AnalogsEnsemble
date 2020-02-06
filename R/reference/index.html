@@ -67,7 +67,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAnEn</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.7.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">4.0.0</span>
       </span>
     </div>
 
@@ -127,21 +127,21 @@
       <tr>
         
         <td>
-          <p><code><a href="generateConfiguration.html">generateConfiguration()</a></code> </p>
-        </td>
-        <td><p>RAnEn::generateConfiguration</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="generateAnalogs.html">generateAnalogs()</a></code> </p>
+          <p><code><a href="generateAnalogs.default.html">generateAnalogs(<i>&lt;default&gt;</i>)</a></code> </p>
         </td>
         <td><p>RAnEn::generateAnalogs</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="generatePersistent.html">generatePersistent()</a></code> </p>
+          <p><code><a href="generateForecastsTemplate.html">generateForecastsTemplate()</a></code> </p>
         </td>
-        <td><p>RAnEn::generatePersistent</p></td>
+        <td><p>RAnEn::generateForecastsTemplate</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="generateObservationsTemplate.html">generateObservationsTemplate()</a></code> </p>
+        </td>
+        <td><p>RAnEn::generateObservationsTemplate</p></td>
       </tr><tr>
         
         <td>
@@ -151,195 +151,9 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="generateSearchStations.html">generateSearchStations()</a></code> </p>
-        </td>
-        <td><p>RAnEn::generateSearchStations</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="compute_analogs.html">compute_analogs()</a></code> </p>
-        </td>
-        <td><p>RAnEn::compute_analogs</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="rcpp_compute_analogs.html">rcpp_compute_analogs()</a></code> </p>
-        </td>
-        <td><p>RAnEn::rcpp_compute_analogs</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-data-pre-post-processing" class="hasAnchor"><a href="#section-data-pre-post-processing" class="anchor"></a>Data Pre-/Post- Processing</h2>
-          <p class="section-desc"><p>Functions for bias correction or generating wind-related fields, and more.</p></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="biasCorrection.html">biasCorrection()</a></code> </p>
-        </td>
-        <td><p>RAnEn::biasCorrection</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="biasCorrectionInsitu.html">biasCorrectionInsitu()</a></code> </p>
-        </td>
-        <td><p>RAnEn::biasCorrectionInsitu</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="biasCorrectionNeuralNet.html">biasCorrectionNeuralNet()</a></code> </p>
-        </td>
-        <td><p>RAnEn::biasCorrectionNeuralNet</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="computeWindDir.html">computeWindDir()</a></code> </p>
-        </td>
-        <td><p>RAnEn::computeWindDir</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="computeWindSpeed.html">computeWindSpeed()</a></code> </p>
-        </td>
-        <td><p>RAnEn::computeWindSpeed</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="convertToAdvance.html">convertToAdvance()</a></code> </p>
-        </td>
-        <td><p>RAnEn::convertToAdvance</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="alignObservations.html">alignObservations()</a></code> </p>
-        </td>
-        <td><p>RAnEn::alignObservations</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="schaakeShuffle.html">schaakeShuffle()</a></code> </p>
         </td>
         <td><p>RAnEn::schaakeShuffle</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-verification" class="hasAnchor"><a href="#section-verification" class="anchor"></a>Verification</h2>
-          <p class="section-desc"><p>Functions for verification.</p></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="verify.html">verify()</a></code> </p>
-        </td>
-        <td><p>RAnEn::verify</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="verifyBias.html">verifyBias()</a></code> </p>
-        </td>
-        <td><p>RAnEn::verifyBias</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="verifyBrier.html">verifyBrier()</a></code> </p>
-        </td>
-        <td><p>RAnEn::verifyBrier</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="verifyCRMSE.html">verifyCRMSE()</a></code> </p>
-        </td>
-        <td><p>RAnEn::verifyCRMSE</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="verifyCRPS.html">verifyCRPS()</a></code> </p>
-        </td>
-        <td><p>RAnEn::verifyCRPS</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="verifyCorrelation.html">verifyCorrelation()</a></code> </p>
-        </td>
-        <td><p>RAnEn::verifyCorrelation</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="verifyDispersion.html">verifyDispersion()</a></code> </p>
-        </td>
-        <td><p>RAnEn::verifyDispersion</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="verifyMAE.html">verifyMAE()</a></code> </p>
-        </td>
-        <td><p>RAnEn::verifyMAE</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="verifyRMSE.html">verifyRMSE()</a></code> </p>
-        </td>
-        <td><p>RAnEn::verifyRMSE</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="verifyRankHist.html">verifyRankHist()</a></code> </p>
-        </td>
-        <td><p>RAnEn::verifyRankHist</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="verifySpread.html">verifySpread()</a></code> </p>
-        </td>
-        <td><p>RAnEn::verifySpread</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="verifySpreadSkill.html">verifySpreadSkill()</a></code> </p>
-        </td>
-        <td><p>RAnEn::verifySpreadSkill</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="verifyThreatScore.html">verifyThreatScore()</a></code> </p>
-        </td>
-        <td><p>RAnEn::verifyThreatScore</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-visualization" class="hasAnchor"><a href="#section-visualization" class="anchor"></a>Visualization</h2>
-          <p class="section-desc"><p>Functions for visualization of observations, forecasts, analogs, and more.</p></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="plotAnalogSample.html">plotAnalogSample()</a></code> </p>
-        </td>
-        <td><p>RAnEn::plotAnalogSample</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plotAnalogSelection.html">plotAnalogSelection()</a></code> </p>
-        </td>
-        <td><p>RAnEn::plotAnalogSelection</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plotAnalogTimeSeries.html">plotAnalogTimeSeries()</a></code> </p>
-        </td>
-        <td><p>RAnEn::plotAnalogTimeSeries</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plotBackground.html">plotBackground()</a></code> </p>
-        </td>
-        <td><p>RAnEn::plotBackground</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -351,15 +165,9 @@
       <tr>
         
         <td>
-          <p><code><a href="readAnEn.html">readAnEn()</a></code> </p>
+          <p><code><a href="readConfig.html">readConfig()</a></code> </p>
         </td>
-        <td><p>RAnEn::readAnEn</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="readConfiguration.html">readConfiguration()</a></code> </p>
-        </td>
-        <td><p>RAnEn::readConfiguration</p></td>
+        <td><p>RAnEn::readConfig</p></td>
       </tr><tr>
         
         <td>
@@ -372,6 +180,12 @@
           <p><code><a href="readObservations.html">readObservations()</a></code> </p>
         </td>
         <td><p>RAnEn::readObservations</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="writeConfig.html">writeConfig()</a></code> </p>
+        </td>
+        <td><p>RAnEn::writeConfig</p></td>
       </tr><tr>
         
         <td>
@@ -388,102 +202,16 @@
     </tbody><tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-general-information" class="hasAnchor"><a href="#section-general-information" class="anchor"></a>General Information</h2>
-          <p class="section-desc"><p>Functions to provide generate information.</p></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="RAnEn-package.html">RAnEn-package</a></code> </p>
-        </td>
-        <td><p>RAnEn::RAnEn</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="checkOpenMP.html">checkOpenMP()</a></code> </p>
-        </td>
-        <td><p>RAnEn::checkOpenMP</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="print.AnEn.html">print(<i>&lt;AnEn&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>RAnEn::print.AnEn</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="print.Configuration.html">print(<i>&lt;Configuration&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>RAnEn::print.Configuration</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
           <h2 id="section-helpers" class="hasAnchor"><a href="#section-helpers" class="anchor"></a>Helpers</h2>
-          <p class="section-desc"><p>Helper function to ease our lives.</p></p>
+          <p class="section-desc"><p>Helper function</p></p>
         </th>
       </tr>
       <tr>
         
         <td>
-          <p><code><a href="val2Col.html">val2Col()</a></code> </p>
+          <p><code><a href="alignObservations.html">alignObservations()</a></code> </p>
         </td>
-        <td><p>RAnEn::val2Col</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="AnEnC2R.html">AnEnC2R()</a></code> </p>
-        </td>
-        <td><p>RAnEn::AnEnC2R</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="toDateTime.html">toDateTime()</a></code> </p>
-        </td>
-        <td><p>RAnEn::toDateTime</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="toForecastTime.html">toForecastTime()</a></code> </p>
-        </td>
-        <td><p>RAnEn::toForecastTime</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="makeTransparent.html">makeTransparent()</a></code> </p>
-        </td>
-        <td><p>RAnEn::makeTransparent</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="subsetCoordinates.html">subsetCoordinates()</a></code> </p>
-        </td>
-        <td><p>RAnEn::subsetCoordinates</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="subsetStations.html">subsetStations()</a></code> </p>
-        </td>
-        <td><p>RAnEn::subsetStations</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="generateCircleCoords.html">generateCircleCoords()</a></code> </p>
-        </td>
-        <td><p>RAnEn::generateCircleCoords</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="showVerificationMetrics.html">showVerificationMetrics()</a></code> </p>
-        </td>
-        <td><p>RAnEn::showVerificationMetrics</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="validateConfiguration.html">validateConfiguration()</a></code> </p>
-        </td>
-        <td><p>RAnEn::validateConfiguration</p></td>
+        <td><p>RAnEn::alignObservations</p></td>
       </tr><tr>
         
         <td>
@@ -493,9 +221,15 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="formatConfiguration.html">formatConfiguration()</a></code> </p>
+          <p><code><a href="toMemberForecasts.html">toMemberForecasts()</a></code> </p>
         </td>
-        <td><p>RAnEn::formatConfiguration</p></td>
+        <td><p>RAnEn::toMemberForecasts</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="toForecastTime.html">toForecastTime()</a></code> </p>
+        </td>
+        <td><p>RAnEn::toForecastTime</p></td>
       </tr>
     </tbody>
     </table>
@@ -505,11 +239,7 @@
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#section-analog-ensemble-computation">Analog Ensemble Computation</a></li>
-      <li><a href="#section-data-pre-post-processing">Data Pre-/Post- Processing</a></li>
-      <li><a href="#section-verification">Verification</a></li>
-      <li><a href="#section-visualization">Visualization</a></li>
       <li><a href="#section-file-i-o">File I/O</a></li>
-      <li><a href="#section-general-information">General Information</a></li>
       <li><a href="#section-helpers">Helpers</a></li>
     </ul>
   </div>

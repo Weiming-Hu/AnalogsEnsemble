@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['errortype',['errorType',['../_an_en_i_o_8cpp.html#a0a9495e5681b627b943982008b17d4e3',1,'AnEnIO.cpp']]]
+  ['bmtype',['BmType',['../_bm_dim_8h.html#ac701e9d6dedc02de60794649e5bfd54c',1,'BmDim.h']]]
 ];

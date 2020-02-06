@@ -75,10 +75,10 @@ $(function() {
 <li><a href="#references">References</a></li>
 </ul>
 <h2>Vocabulary List</h2>
-<h3>Analog Ensemble (<a class="el" href="class_an_en.html" title="AnEn class provides interfaces for computing Analog Ensembles. ">AnEn</a>)</h3>
-<p>The <a class="el" href="class_an_en.html" title="AnEn class provides interfaces for computing Analog Ensembles. ">AnEn</a> is a technique to generate probabilistic forecasts from deterministic predictions and corresponding historical observations. It is an efficient method to produce uncertainty information without running weather prediction models multiple times.</p>
-<p>In the <code>RAnEn</code> library, <code><a class="el" href="class_an_en.html" title="AnEn class provides interfaces for computing Analog Ensembles. ">AnEn</a></code> is also the class name of the returned value of the function <code>generateAnalogs</code>. You can use <code>print</code> function to analyze the members of the class.</p>
-<h3>Forecast Lead Time (FLT)</h3>
+<h3>Analog Ensemble (<a class="el" href="class_an_en.html" title="AnEn is an abstract class that defines the interface for implement analog ensemble generation...">AnEn</a>)</h3>
+<p>The <a class="el" href="class_an_en.html" title="AnEn is an abstract class that defines the interface for implement analog ensemble generation...">AnEn</a> is a technique to generate probabilistic forecasts from deterministic predictions and corresponding historical observations. It is an efficient method to produce uncertainty information without running weather prediction models multiple times.</p>
+<p>In the <code>RAnEn</code> library, <code><a class="el" href="class_an_en.html" title="AnEn is an abstract class that defines the interface for implement analog ensemble generation...">AnEn</a></code> is also the class name of the returned value of the function <code>generateAnalogs</code>. You can use <code>print</code> function to analyze the members of the class.</p>
+<h3>Forecast Lead <a class="el" href="class_time.html">Time</a> (FLT)</h3>
 <p>In meteorology, FLT means the length of time between the issuance of a forecast and the occurrence of the phenomena that were predicted. For example, a forecast for surface temperature at the beginning (00Z) of the day January 1st, 2018, with a lead time of 6 hours will be the predicted surface temperature at 6 AM. Usually this interval is represented using the number of seconds from the initial time stamp, therefore 6 hours become 6 * 60 * 60 = 21600 seconds.</p>
 <h3>Similarity Matrix</h3>
 <p>This is a multi-dimensional matrix with similarity values between test and search forecasts. Each test forecast at a given station/grid point, a given time stamp, and a given FLT, is compared with search forecasts for all search stations/grid points and all search times. Therefore, there are in total <code># of test forecast stations/grid points X # of test forecast times X # of test forecast FLTs X # of search forecast stations X # of search forecast times</code> similairity values.</p>
@@ -86,7 +86,7 @@ $(function() {
 <p>Please see an example table.</p>
 <table class="tg">
 <tr>
-<th class="tg-uys7"></th><th class="tg-uys7"></th><th class="tg-uys7" colspan="2">Forecast Times  </th></tr>
+<th class="tg-uys7"></th><th class="tg-uys7"></th><th class="tg-uys7" colspan="2">Forecast <a class="el" href="class_times.html" title="Times class is used to store Time. It is a bidirectional map implemented from Boost so that it provid...">Times</a>  </th></tr>
 <tr>
 <td class="tg-uys7"></td><td class="tg-uys7"></td><td class="tg-uys7">0 </td><td class="tg-uys7">24  </td></tr>
 <tr>

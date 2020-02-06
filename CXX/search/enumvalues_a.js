@@ -1,8 +1,5 @@
 var searchData=
 [
-  ['unknown',['UNKNOWN',['../class_analogs.html#a9b56dcdb212f44c3ba40a60736d648bba5a08d0e60f9a619e16546d744854c670',1,'Analogs']]],
-  ['unknown_5ferror',['UNKNOWN_ERROR',['../error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffda8216aa4b3a817cdf8c15ed32aa946e83',1,'errorType.h']]],
-  ['unknown_5fmethod',['UNKNOWN_METHOD',['../error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffda9be72a1dd98d3d71dd67232a28f26e41',1,'errorType.h']]],
-  ['unknown_5fmode',['UNKNOWN_MODE',['../error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffdad9b53bee323914246a38ad43b874310d',1,'errorType.h']]],
-  ['unkown_5ffile_5ftype',['UNKOWN_FILE_TYPE',['../error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffdaaea64320e31ff6373801db7810dfd712',1,'errorType.h']]]
+  ['warning',['Warning',['../_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9a0eaadb4fcb48a0a0ed7bc9868be9fbaa',1,'Config.h']]],
+  ['write',['Write',['../namespace_ncdf.html#a6967c61bfe43b77aa00e1605a898f3e4a1129c0e4d43f2d121652a7302712cff6',1,'Ncdf::Write()'],['../namespace_txt.html#ae46a1b2e882957b3e249bd56fbc5a152a1129c0e4d43f2d121652a7302712cff6',1,'Txt::Write()']]]
 ];

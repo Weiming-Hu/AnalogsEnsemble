@@ -1,3 +1,9 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$structanen_par_1_1by___i_d.html" title="anenPar::by_ID" alt="" coords="5,5,119,32"/>
+<area shape="rect" id="node1" href="$class_array4_d.html" title="Array4D is an abstract class for 4&#45;dimensional array. " alt="" coords="11,19,82,45"/>
+<area shape="rect" id="node2" href="$class_array4_d_pointer.html" title="Array4DPointer is an implementation of the abstract class Array4D. " alt="" coords="136,5,247,32"/>
+<area shape="rect" id="node4" href="$class_forecasts.html" title="Forecasts is an abstract class that extends BasicData and the abstract class Array4D. It defines the interface of how to interact with the underlying data storage through the abstract class Array4D. This interface is accepted by the Analog Ensemble algorithm. " alt="" coords="151,56,231,83"/>
+<area shape="rect" id="node3" href="$class_forecasts_pointer.html" title="ForecastsPointer is an implementation of the abstract class Forecasts. It also inherits from Array4DP..." alt="" coords="304,31,425,57"/>
+<area shape="rect" id="node5" href="$class_basic_data.html" title="BasicData is an implementation of the data structure used by Analog Ensemble. It includes parameters..." alt="" coords="5,81,88,108"/>
+<area shape="rect" id="node6" href="$class_observations.html" title="Observations is an abstract class that extends BasicData. It defines the interface of how to interact..." alt="" coords="142,107,241,133"/>
+<area shape="rect" id="node7" href="$class_observations_pointer.html" title="ObservationsPointer is an implementation of the abstract class Observations. The underlying storage u..." alt="" coords="295,107,435,133"/>
 </map>

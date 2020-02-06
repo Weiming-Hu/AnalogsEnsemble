@@ -64,9 +64,22 @@ $(function() {
 <div class="contents">
 <div class="textblock"><hr/>
 <p> layout: page title: Changelog </p><h2>sidebar_link: true </h2>
+<h1>PAnEn 4.0.0 Pandora</h1>
+<ul>
+<li>Changed Underlying data structure from boost to pointer for better performance</li>
+<li>Introduced functionalities like checks of searching into future</li>
+<li>Reduced memory consumption when using the R API</li>
+<li>Changed several configuration names in R</li>
+<li>Some functions are deprecated</li>
+<li>R API changed</li>
+</ul>
 <h1>PAnEn 3.7.1</h1>
 <ul>
 <li>Introduced auto generation of HPC work flows using <code>RAnEn::generateHPCWorkflow</code>.</li>
+<li>Fixed a bug during subseting observation times in <code>RAnEn::plotAnalogTimeSeries</code>.</li>
+<li>Added <code>operational</code> in <code>RAnEn::generateHPCWorkflow</code></li>
+<li><code>search_times_compare</code> automatically changed when <code>operational</code> was used.</li>
+<li>Changed <code>RAnEn::writeConfiguration</code> from <code>ifelse</code> to using the function <code>if</code>.</li>
 </ul>
 <h1>PAnEn 3.7.0</h1>
 <ul>
@@ -136,13 +149,13 @@ $(function() {
 <h1>PAnEn 3.5.2</h1>
 <ul>
 <li>Improved documentation for <code>RAnEn::verifyBrier</code> and <code>RAnEn::verifyThreatScore</code></li>
-<li>Improved the printing information for 'class: <a class="el" href="class_an_en.html" title="AnEn class provides interfaces for computing Analog Ensembles. ">AnEn</a> list'</li>
+<li>Improved the printing information for 'class: <a class="el" href="class_an_en.html" title="AnEn is an abstract class that defines the interface for implement analog ensemble generation...">AnEn</a> list'</li>
 </ul>
 <h1>PAnEn 3.5.1</h1>
 <ul>
 <li>Added the beta function <code>RAnEn::schaakeShuffle</code>.</li>
 <li>Added multiple variable support for <code>windFieldCalculator</code>.</li>
-<li>Added support for <code><a class="el" href="class_forecasts.html" title="Forecasts class provides interface for reading and writing forecast data from and to a NetCDF file...">Forecasts</a></code> in <code>RAnEn::writeNetCDF</code>.</li>
+<li>Added support for <code><a class="el" href="class_forecasts.html" title="Forecasts is an abstract class that extends BasicData and the abstract class Array4D. It defines the interface of how to interact with the underlying data storage through the abstract class Array4D. This interface is accepted by the Analog Ensemble algorithm. ">Forecasts</a></code> in <code>RAnEn::writeNetCDF</code>.</li>
 </ul>
 <h1>PAnEn 3.5.0</h1>
 <ul>
@@ -164,7 +177,7 @@ $(function() {
 </ul>
 <h1>PAnEn 3.4.1</h1>
 <ul>
-<li>Added grid subset functionality to <code><a class="el" href="namespacegrib_converter.html">gribConverter</a></code> for type <code><a class="el" href="class_forecasts.html" title="Forecasts class provides interface for reading and writing forecast data from and to a NetCDF file...">Forecasts</a></code>. This function has been tested.</li>
+<li>Added grid subset functionality to <code><a class="el" href="namespacegrib_converter.html">gribConverter</a></code> for type <code><a class="el" href="class_forecasts.html" title="Forecasts is an abstract class that extends BasicData and the abstract class Array4D. It defines the interface of how to interact with the underlying data storage through the abstract class Array4D. This interface is accepted by the Analog Ensemble algorithm. ">Forecasts</a></code>. This function has been tested.</li>
 <li>Fixed <code>RAnEn</code> installation script for C/C++ compilers.</li>
 <li>Fixed <code>OpenMP</code> shared object issue for <code>runtime_error</code>.</li>
 </ul>
@@ -188,7 +201,7 @@ $(function() {
 <li>Add parameters to restrict the number of similarities to keep. This can be very helpful to reduce the memory required. The C++ parameter is <code>max-num-sims</code> and the R parameter is <code>max_num_sims</code>.</li>
 <li>Change package name from <code>Parallel Ensemble Forecast</code> to <code>Parallel Analog Ensemble</code>.</li>
 <li><code>similarityCalculator</code>, <code>analogSelector</code>, <code>analogGenerator</code> now accept multiple configuration files.</li>
-<li>Add <code>along</code> parameter check to <code><a class="el" href="class_an_en_i_o.html" title="AnEnIO class provides interfaces for reading and writing NetCDF files in forecast, observation, and prediction format. These formats are predefined for generating predictions. ">AnEnIO</a></code>.</li>
+<li>Add <code>along</code> parameter check to <code>AnEnIO</code>.</li>
 <li>'analogGenerator' accepts multiple search forecast and observation files.</li>
 <li>Add parallelization to verification functions.</li>
 </ul>
@@ -229,7 +242,7 @@ $(function() {
 <li>Add a cleaner version of configuration. Configuration now, by default, is the cleaner version. The old version can be accessed by using <code>advanced</code> parameter when generating a configuration.</li>
 <li>Remove some of the post contents to reduce redundant information. Tutorials are now only hosted on binder.</li>
 <li>Add MPI implementation for "MPI_UNIVERSE_SIZE" to limit the number of child spawned processes.</li>
-<li>Add unique identifier in <code><a class="el" href="class_similarity_matrices.html" title="SimilarityMatrices class stores similarity metrics. Default dimensions of SimilarityMatrices are: [te...">SimilarityMatrices</a></code> and <code><a class="el" href="class_analogs.html" title="This is the class to store analogs. The default dimensions are: [test stations][test times][FLTs][mem...">Analogs</a></code> to distinguish the reason for the NAN value.</li>
+<li>Add unique identifier in <code>SimilarityMatrices</code> and <code><a class="el" href="class_analogs.html" title="This is the class to store analogs. The default dimensions are: [test stations][test times][FLTs][mem...">Analogs</a></code> to distinguish the reason for the NAN value.</li>
 </ul>
 <h1>PAnEn 3.2.1</h1>
 <ul>
@@ -262,7 +275,7 @@ $(function() {
 <ul>
 <li>Add MPI read functions for values only.</li>
 <li>Fix bug for MPI functions in reading.</li>
-<li>Add serial program limit to <a class="el" href="class_an_en.html" title="AnEn class provides interfaces for computing Analog Ensembles. ">AnEn</a> library.</li>
+<li>Add serial program limit to <a class="el" href="class_an_en.html" title="AnEn is an abstract class that defines the interface for implement analog ensemble generation...">AnEn</a> library.</li>
 <li>Add MPI read functions for strings.</li>
 <li>Speed up the station matching process.</li>
 </ul>
@@ -280,7 +293,7 @@ $(function() {
 <h1>PAnEn 3.0.0</h1>
 <h2>CAnEnIO</h2>
 <ul>
-<li>Basic <a class="el" href="class_an_en.html" title="AnEn class provides interfaces for computing Analog Ensembles. ">AnEn</a> I/O functions. </li>
+<li>Basic <a class="el" href="class_an_en.html" title="AnEn is an abstract class that defines the interface for implement analog ensemble generation...">AnEn</a> I/O functions. </li>
 </ul>
 </div></div><!-- contents -->
 <!-- start footer part -->

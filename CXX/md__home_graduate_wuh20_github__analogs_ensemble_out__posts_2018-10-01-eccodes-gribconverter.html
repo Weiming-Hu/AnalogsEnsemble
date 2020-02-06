@@ -100,16 +100,16 @@ $(function() {
 </ul>
 <h2>Usage</h2>
 <p>I have prepared a GRB2 file downloaded from <a href="https://www.ncdc.noaa.gov/data-access/model-data/model-datasets/north-american-mesoscale-forecast-system-nam">NAM Forecast System</a>. It can be accessed <a href="https://weiming.ddns.net/nextcloud/index.php/s/9QS4YJPDAirjtoM">here</a>(54.6 MB).</p>
-<p><code><a class="el" href="namespacegrib_converter.html">gribConverter</a></code> reads from all files found in the folder specifed by arguments <code>folder</code> and <code>ext</code>. It assumes that the time and the Forecast Lead Time (FLT) information comes from the file name. In the case of the example data file, the file name is <code>nam_218_20180701_0000_000.grb2</code>. <code>20180701</code> is the date (time) information, <code>0000</code> is the model cycle time information, and <code>000</code> is the forecast lead time. Later on, we are going to extract the needed information using regular expression.</p>
+<p><code><a class="el" href="namespacegrib_converter.html">gribConverter</a></code> reads from all files found in the folder specifed by arguments <code>folder</code> and <code>ext</code>. It assumes that the time and the Forecast Lead <a class="el" href="class_time.html">Time</a> (FLT) information comes from the file name. In the case of the example data file, the file name is <code>nam_218_20180701_0000_000.grb2</code>. <code>20180701</code> is the date (time) information, <code>0000</code> is the model cycle time information, and <code>000</code> is the forecast lead time. Later on, we are going to extract the needed information using regular expression.</p>
 <p>For parameter information, <code><a class="el" href="namespacegrib_converter.html">gribConverter</a></code> will try to read them from the file according to the input arguments.</p>
 <p>For station information, <code><a class="el" href="namespacegrib_converter.html">gribConverter</a></code> automatically reads lat/lon or x/y from the file.</p>
-<h4>Extract Time and FLTs</h4>
+<h4>Extract <a class="el" href="class_time.html">Time</a> and FLTs</h4>
 <p>In order to extract time information from the file name, we use the following regular expression.</p>
 <div class="fragment"><div class="line">.*nam_218_(\d{8})_\d{4}_\d{3}\.grb2$</div></div><!-- fragment --><p><code>.*</code> means to match any character 0 or more times. <code>\d{8}</code> means to match numeric digit exactly 8 times. When it is enclosed by a pair of parenthesis, it shows that this string of number is what we need. In this case, the 8-digit number is what we need for time information. Sometimes, if the string is delimited, for example <code>2018-09-01</code>, you can use the option <code>--delimited</code> to solve the problem. The program should automatically detect the dilimiter.</p>
 <p>Same story to extract FLT information.</p>
 <div class="fragment"><div class="line">.*nam_218_\d{8}_\d{4}_(\d{3})\.grb2$</div></div><!-- fragment --><p>We only changed the location of parenthesis, because the 3-digit number is what we need for the FLT information. Please pay attention to the options <code>flt-interval</code>. This is the number of seconds between two forecast lead times. For example, in the case of an hourly forecasts, this should be 60 * 60 = 3600.</p>
 <p><b>I recommend specifying the regular expression in a configuration file in stead of in commandline options to avoid worrying about escaping characters.</b></p>
-<h4>Specifying Parameters</h4>
+<h4>Specifying <a class="el" href="class_parameters.html" title="Parameters class stores Parameter objects. It is a bidirectional map implemented from Boost so that i...">Parameters</a></h4>
 <p>In order for the program to know exactly which parameters you want to extract from the GRB2 file and wirte into a NetCDF file, we need to specify three attributes of a parameter:</p>
 <ul>
 <li>pars-id</li>

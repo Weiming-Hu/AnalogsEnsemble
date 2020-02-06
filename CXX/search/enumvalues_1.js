@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['element_5fnot_5funique',['ELEMENT_NOT_UNIQUE',['../error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffda983b123595c626873b746ac06027b426',1,'errorType.h']]],
-  ['error_5fsetting_5fvalues',['ERROR_SETTING_VALUES',['../error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffda8aa11addaf99f9dd12de697d3e911d1e',1,'errorType.h']]]
+  ['debug',['Debug',['../_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9aa603905470e2a5b8c13e96b579ef0dba',1,'Config.h']]],
+  ['detail',['Detail',['../_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9aa254c25adc7d10d7e9c4889484f875a5',1,'Config.h']]]
 ];

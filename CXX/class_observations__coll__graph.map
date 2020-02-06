@@ -1,5 +1,6 @@
 <map id="Observations" name="Observations">
-<area shape="rect" id="node2" href="$classanen_par_1_1_parameters.html" title="Parameters class stores Parameter objects. " alt="" coords="5,169,176,305"/>
-<area shape="rect" id="node4" href="$classanen_sta_1_1_stations.html" title="Stations class stores Station objects. " alt="" coords="200,132,387,341"/>
-<area shape="rect" id="node6" href="$classanen_time_1_1_times.html" title="Times class is used to store time information for predictions. By default this is the number of secon..." alt="" coords="411,147,533,327"/>
+<area shape="rect" id="node2" href="$class_basic_data.html" title="BasicData is an implementation of the data structure used by Analog Ensemble. It includes parameters..." alt="" coords="159,345,285,613"/>
+<area shape="rect" id="node3" href="$class_times.html" title="Times class is used to store Time. It is a bidirectional map implemented from Boost so that it provid..." alt="" coords="39,139,131,275"/>
+<area shape="rect" id="node5" href="$class_stations.html" title="Stations class stores Station objects. It is a bidirectional map implemented from Boost so that it pr..." alt="" coords="171,139,273,275"/>
+<area shape="rect" id="node7" href="$class_parameters.html" title="Parameters class stores Parameter objects. It is a bidirectional map implemented from Boost so that i..." alt="" coords="314,132,434,283"/>
 </map>

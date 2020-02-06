@@ -1,3 +1,17 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$structanen_sta_1_1by__name.html" title="anenSta::by_name" alt="" coords="5,5,136,32"/>
+<area shape="rect" id="node1" href="$class_an_en.html" title="AnEn is an abstract class that defines the interface for implement analog ensemble generation..." alt="" coords="5,31,60,57"/>
+<area shape="rect" id="node2" href="$class_an_en_i_s.html" title="AnEnIS is an implementation of the class AnEn for the independent search algorithm. " alt="" coords="119,31,185,57"/>
+<area shape="rect" id="node3" href="$class_an_en_s_s_e.html" title="AnEnSSE is an implementation of the abstrct class AnEn for the search space extension algorithm..." alt="" coords="285,5,366,32"/>
+<area shape="rect" id="node4" href="$classtest_an_en_i_s.html" title="testAnEnIS" alt="" coords="281,56,370,83"/>
+<area shape="rect" id="node6" href="$classtest_an_en_i_o.html" title="testAnEnIO" alt="" coords="280,107,371,133"/>
+<area shape="rect" id="node7" href="$classtest_an_en_s_s_e.html" title="testAnEnSSE" alt="" coords="274,157,377,184"/>
+<area shape="rect" id="node8" href="$classtest_calculator.html" title="testCalculator" alt="" coords="274,208,377,235"/>
+<area shape="rect" id="node9" href="$classtest_forecasts_pointer.html" title="testForecastsPointer" alt="" coords="254,259,397,285"/>
+<area shape="rect" id="node10" href="$classtest_functions.html" title="testFunctions" alt="" coords="275,309,376,336"/>
+<area shape="rect" id="node11" href="$classtest_grib_converter.html" title="testGribConverter" alt="" coords="263,360,388,387"/>
+<area shape="rect" id="node12" href="$classtest_observations_pointer.html" title="testObservationsPointer" alt="" coords="244,411,407,437"/>
+<area shape="rect" id="node13" href="$classtest_parameters.html" title="testParameters" alt="" coords="270,461,381,488"/>
+<area shape="rect" id="node14" href="$classtest_station.html" title="testStation" alt="" coords="283,512,368,539"/>
+<area shape="rect" id="node15" href="$classtest_stations.html" title="testStations" alt="" coords="279,563,371,589"/>
+<area shape="rect" id="node16" href="$classtest_times.html" title="testTimes" alt="" coords="285,613,365,640"/>
 </map>

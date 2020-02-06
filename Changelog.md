@@ -5,9 +5,22 @@ sidebar_link: true
 ---
 
 
+# PAnEn 4.0.0 Pandora
+
+- Changed Underlying data structure from boost to pointer for better performance
+- Introduced functionalities like checks of searching into future
+- Reduced memory consumption when using the R API
+- Changed several configuration names in R
+- Some functions are deprecated
+- R API changed
+
 # PAnEn 3.7.1
 
 - Introduced auto generation of HPC work flows using `RAnEn::generateHPCWorkflow`.
+- Fixed a bug during subseting observation times in `RAnEn::plotAnalogTimeSeries`.
+- Added `operational` in `RAnEn::generateHPCWorkflow`
+- `search_times_compare` automatically changed when `operational` was used.
+- Changed `RAnEn::writeConfiguration` from `ifelse` to using the function `if`.
 
 # PAnEn 3.7.0
 

@@ -59,21 +59,30 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
-<a href="#pri-methods">Private Member Functions</a> &#124;
-<a href="#pri-attribs">Private Attributes</a> &#124;
+<a href="#pro-methods">Protected Member Functions</a> &#124;
+<a href="#pro-attribs">Protected Attributes</a> &#124;
+<a href="#friends">Friends</a> &#124;
 <a href="class_an_en-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">AnEn Class Reference</div>  </div>
+<div class="title">AnEn Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p><a class="el" href="class_an_en.html" title="AnEn class provides interfaces for computing Analog Ensembles. ">AnEn</a> class provides interfaces for computing Analog Ensembles.  
+<p><a class="el" href="class_an_en.html" title="AnEn is an abstract class that defines the interface for implement analog ensemble generation...">AnEn</a> is an abstract class that defines the interface for implement analog ensemble generation.  
  <a href="class_an_en.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="_an_en_8h_source.html">AnEn.h</a>&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for AnEn:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_an_en__inherit__graph.png" border="0" usemap="#_an_en_inherit__map" alt="Inheritance graph"/></div>
+<map name="_an_en_inherit__map" id="_an_en_inherit__map">
+<area shape="rect" id="node2" href="class_an_en_i_s.html" title="AnEnIS is an implementation of the class AnEn for the independent search algorithm. " alt="" coords="124,248,321,941"/>
+<area shape="rect" id="node3" href="class_an_en_s_s_e.html" title="AnEnSSE is an implementation of the abstrct class AnEn for the search space extension algorithm..." alt="" coords="5,1004,203,1419"/>
+<area shape="rect" id="node4" href="classtest_an_en_i_s.html" title="{testAnEnIS\n|&#45; parameters_\l&#45; stations_\l&#45; fcst_times_\l&#45; obs_times_\l&#45; flts_\l|+ testAnEnIS()\l+ ~testAnEnIS()\l+ setUp()\l+ tearDown()\l+ setUpSds()\l+ tearDownSds()\l+ setUpCompute()\l+ tearDownCompute()\l&#45; CPPUNIT_TEST_SUITE()\l&#45; CPPUNIT_TEST()\l&#45; CPPUNIT_TEST()\l&#45; CPPUNIT_TEST()\l&#45; CPPUNIT_TEST()\l&#45; CPPUNIT_TEST()\l&#45; CPPUNIT_TEST_SUITE_END()\l&#45; testOpenMP_()\l&#45; testFixedLengthSds_()\l&#45; compareOperationalSds_()\l&#45; compareComputeOperational_()\l&#45; compareComputeLeaveOneOut_()\l&#45; randomizeForecasts_()\l&#45; randomizeObservations_()\l}" alt="" coords="227,989,455,1433"/>
+</map>
+</div>
 <div class="dynheader">
 Collaboration diagram for AnEn:</div>
 <div class="dyncontent">
@@ -82,126 +91,43 @@ Collaboration diagram for AnEn:</div>
 </map>
 </div>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
-Public Types</h2></td></tr>
-<tr class="memitem:a94dd770690ca98baca9c2a62a36bc62a"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en.html#a94dd770690ca98baca9c2a62a36bc62a">simMethod</a> { <a class="el" href="class_an_en.html#a94dd770690ca98baca9c2a62a36bc62aa951dc29c260676ddba508790abfdb2d0">OneToOne</a> = 1, 
-<a class="el" href="class_an_en.html#a94dd770690ca98baca9c2a62a36bc62aade3456ad0e377ebc7ffb374454433326">OneToMany</a> = 2
- }</td></tr>
-<tr class="separator:a94dd770690ca98baca9c2a62a36bc62a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a44ceab50f0bf394bd35871469d5a36b2"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en.html#a44ceab50f0bf394bd35871469d5a36b2">TimeMapMatrix</a> = <a class="el" href="class_functions.html#a1e68b8656e6b5405d550e1d197c2d10e">Functions::TimeMapMatrix</a></td></tr>
-<tr class="separator:a44ceab50f0bf394bd35871469d5a36b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adc55d358a20ee6bb711ca5efb33a1bb0"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en.html#adc55d358a20ee6bb711ca5efb33a1bb0">SearchStationMatrix</a> = boost::numeric::ublas::matrix&lt; double &gt;</td></tr>
-<tr class="separator:adc55d358a20ee6bb711ca5efb33a1bb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a60c12de232af95794a6194fbac06623a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en.html#a60c12de232af95794a6194fbac06623a">AnEn</a> ()</td></tr>
 <tr class="separator:a60c12de232af95794a6194fbac06623a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a71a7c34cc125ce75e1377fd6f62988da"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en.html#a71a7c34cc125ce75e1377fd6f62988da">AnEn</a> (int verbose)</td></tr>
-<tr class="separator:a71a7c34cc125ce75e1377fd6f62988da"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a97a51c40812584b01413a4426b1285a6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en.html#a97a51c40812584b01413a4426b1285a6">AnEn</a> (const <a class="el" href="class_an_en.html">AnEn</a> &amp;orig)=delete</td></tr>
-<tr class="separator:a97a51c40812584b01413a4426b1285a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7fed6ed88ade22211fd75028a3a9491e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en.html#a7fed6ed88ade22211fd75028a3a9491e">AnEn</a> (const <a class="el" href="class_an_en.html">AnEn</a> &amp;orig)</td></tr>
+<tr class="separator:a7fed6ed88ade22211fd75028a3a9491e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5d1d7aa1a7872ada9330af2db544e559"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en.html#a5d1d7aa1a7872ada9330af2db544e559">AnEn</a> (const <a class="el" href="class_config.html">Config</a> &amp;)</td></tr>
+<tr class="separator:a5d1d7aa1a7872ada9330af2db544e559"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a18609907411058ee2c343727ab69bff4"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en.html#a18609907411058ee2c343727ab69bff4">~AnEn</a> ()</td></tr>
 <tr class="separator:a18609907411058ee2c343727ab69bff4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2e1bfd098d870d5d994c1d4614b18fd3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en.html#a2e1bfd098d870d5d994c1d4614b18fd3">computeSearchStations</a> (const <a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> &amp;test_stations, const <a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> &amp;search_stations, <a class="el" href="class_an_en.html#adc55d358a20ee6bb711ca5efb33a1bb0">SearchStationMatrix</a> &amp;i_search_stations, size_t max_num_search_stations=1, double distance=0, size_t num_nearest_stations=0, std::vector&lt; size_t &gt; test_station_tags={}, std::vector&lt; size_t &gt; search_station_tags={}) const</td></tr>
-<tr class="separator:a2e1bfd098d870d5d994c1d4614b18fd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5f4b7a1a538ec9a2b2282e49fc225044"><td class="memItemLeft" align="right" valign="top"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en.html#a5f4b7a1a538ec9a2b2282e49fc225044">generateOperationalSearchTimes</a> (const <a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a> &amp;test_times, const <a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a> &amp;search_times, const <a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a> &amp;search_forecast_times, std::vector&lt; <a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a> &gt; &amp;search_times_operational, std::vector&lt; std::vector&lt; size_t &gt; &gt; &amp;i_search_times_operational, double max_flt) const</td></tr>
-<tr class="separator:a5f4b7a1a538ec9a2b2282e49fc225044"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a23333ebae68429eae96a62f2c4c5054a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en.html#a23333ebae68429eae96a62f2c4c5054a">computeSimilarity</a> (const <a class="el" href="class_forecasts__array.html">Forecasts_array</a> &amp;test_forecasts, const <a class="el" href="class_forecasts__array.html">Forecasts_array</a> &amp;search_forecasts, const <a class="el" href="class_standard_deviation.html">StandardDeviation</a> &amp;sds, <a class="el" href="class_similarity_matrices.html">SimilarityMatrices</a> &amp;sims, const <a class="el" href="class_observations__array.html">Observations_array</a> &amp;search_observations, const <a class="el" href="class_an_en.html#a44ceab50f0bf394bd35871469d5a36b2">TimeMapMatrix</a> &amp;mapping, const <a class="el" href="class_an_en.html#adc55d358a20ee6bb711ca5efb33a1bb0">SearchStationMatrix</a> &amp;i_search_stations, size_t i_observation_parameter=0, bool extend_observations=false, double max_par_nan=0, double max_flt_nan=0, <a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a> test_times={}, <a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a> search_times={}, bool operational=false, int max_sims_entries=-1, int window_half_size=1, bool debug=false) const</td></tr>
-<tr class="separator:a23333ebae68429eae96a62f2c4c5054a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac2dba969846fe2d85ef06f73cd8c8dfa"><td class="memItemLeft" align="right" valign="top"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en.html#ac2dba969846fe2d85ef06f73cd8c8dfa">selectAnalogs</a> (<a class="el" href="class_analogs.html">Analogs</a> &amp;analogs, <a class="el" href="class_similarity_matrices.html">SimilarityMatrices</a> &amp;sims, const <a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> &amp;test_stations, const <a class="el" href="class_observations__array.html">Observations_array</a> &amp;search_observations, const <a class="el" href="class_an_en.html#a44ceab50f0bf394bd35871469d5a36b2">TimeMapMatrix</a> &amp;mapping, size_t i_parameter, size_t num_members, bool quick=true, bool extend_observations=false, bool debug=false) const</td></tr>
-<tr class="separator:ac2dba969846fe2d85ef06f73cd8c8dfa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa937a792202a83e88df6e019a991b848"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en.html#aa937a792202a83e88df6e019a991b848">getVerbose</a> () const</td></tr>
-<tr class="separator:aa937a792202a83e88df6e019a991b848"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5e703c85514bb4768278bebe20fe4642"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en.html#a94dd770690ca98baca9c2a62a36bc62a">simMethod</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en.html#a5e703c85514bb4768278bebe20fe4642">getMethod</a> () const</td></tr>
-<tr class="separator:a5e703c85514bb4768278bebe20fe4642"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afd6b6018f1ca8b138af2aaafe5464cbd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en.html#afd6b6018f1ca8b138af2aaafe5464cbd">setMethod</a> (<a class="el" href="class_an_en.html#a94dd770690ca98baca9c2a62a36bc62a">simMethod</a> method)</td></tr>
-<tr class="separator:afd6b6018f1ca8b138af2aaafe5464cbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af1009201b008da7395f1c1ed0ec287cd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en.html#af1009201b008da7395f1c1ed0ec287cd">setVerbose</a> (int verbose)</td></tr>
-<tr class="separator:af1009201b008da7395f1c1ed0ec287cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb2293ca74029f9312ff31ff7aac1d43"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en.html#aeb2293ca74029f9312ff31ff7aac1d43">compute</a> (const <a class="el" href="class_forecasts.html">Forecasts</a> &amp;forecasts, const <a class="el" href="class_observations.html">Observations</a> &amp;observations, const <a class="el" href="class_times.html">Times</a> &amp;test_times, const <a class="el" href="class_times.html">Times</a> &amp;search_times)=0</td></tr>
+<tr class="separator:aeb2293ca74029f9312ff31ff7aac1d43"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed2e8e8914b236c07acab02dbecba37a"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en.html#aed2e8e8914b236c07acab02dbecba37a">compute</a> (const <a class="el" href="class_forecasts.html">Forecasts</a> &amp;forecasts, const <a class="el" href="class_observations.html">Observations</a> &amp;observations, std::vector&lt; std::size_t &gt; &amp;fcsts_test_index, std::vector&lt; std::size_t &gt; &amp;fcsts_search_index)=0</td></tr>
+<tr class="separator:aed2e8e8914b236c07acab02dbecba37a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a17b9a36cd5002cda3c934fe3e1002aa5"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en.html#a17b9a36cd5002cda3c934fe3e1002aa5">print</a> (std::ostream &amp;) const</td></tr>
+<tr class="separator:a17b9a36cd5002cda3c934fe3e1002aa5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3160cbcd29b717db0e15b90d77ee73fa"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en.html">AnEn</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en.html#a3160cbcd29b717db0e15b90d77ee73fa">operator=</a> (const <a class="el" href="class_an_en.html">AnEn</a> &amp;rhs)</td></tr>
+<tr class="separator:a3160cbcd29b717db0e15b90d77ee73fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
-Static Public Attributes</h2></td></tr>
-<tr class="memitem:a085c41c286923d751230f4abf2985292"><td class="memItemLeft" align="right" valign="top">static const double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en.html#a085c41c286923d751230f4abf2985292">_FILL_VALUE</a> = NAN</td></tr>
-<tr class="separator:a085c41c286923d751230f4abf2985292"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a15e0444046a071247082296d78ed5aa3"><td class="memItemLeft" align="right" valign="top">static const size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en.html#a15e0444046a071247082296d78ed5aa3">_SERIAL_LENGTH_LIMIT</a> = 500</td></tr>
-<tr class="separator:a15e0444046a071247082296d78ed5aa3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr class="memitem:a45c1b3e0189e7707e09d3a3fe9137754"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en.html#a45c1b3e0189e7707e09d3a3fe9137754">setMembers_</a> (const <a class="el" href="class_config.html">Config</a> &amp;)</td></tr>
+<tr class="separator:a45c1b3e0189e7707e09d3a3fe9137754"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
-Private Member Functions</h2></td></tr>
-<tr class="memitem:a749842b3a1f17ca6805ed87a0ba95311"><td class="memItemLeft" align="right" valign="top"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en.html#a749842b3a1f17ca6805ed87a0ba95311">check_input_</a> (const <a class="el" href="class_forecasts__array.html">Forecasts_array</a> &amp;test_forecasts, const <a class="el" href="class_forecasts__array.html">Forecasts_array</a> &amp;search_forecasts, const <a class="el" href="class_standard_deviation.html">StandardDeviation</a> &amp;sds, const <a class="el" href="class_observations__array.html">Observations_array</a> &amp;search_observations, const <a class="el" href="class_an_en.html#a44ceab50f0bf394bd35871469d5a36b2">TimeMapMatrix</a> &amp;mapping, const <a class="el" href="class_an_en.html#adc55d358a20ee6bb711ca5efb33a1bb0">AnEn::SearchStationMatrix</a> &amp;i_search_stations, size_t i_observation_parameter, double max_par_nan, double max_flt_nan, bool operational, int window_half_size) const</td></tr>
-<tr class="separator:a749842b3a1f17ca6805ed87a0ba95311"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afbccb0a25e09ef2353d0f754afe7273e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en.html#afbccb0a25e09ef2353d0f754afe7273e">find_nearest_station_match_</a> (const <a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> &amp;test_stations, const <a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> &amp;search_stations, std::vector&lt; size_t &gt; &amp;test_stations_index_in_search) const</td></tr>
-<tr class="separator:afbccb0a25e09ef2353d0f754afe7273e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9b2132b93af1850fe2a6cb358936ea19"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en.html#a9b2132b93af1850fe2a6cb358936ea19">compute_single_similarity_</a> (const <a class="el" href="class_forecasts__array.html">Forecasts_array</a> &amp;test_forecasts, const <a class="el" href="class_forecasts__array.html">Forecasts_array</a> &amp;search_forecasts, const <a class="el" href="class_standard_deviation.html">StandardDeviation</a> &amp;sds, const std::vector&lt; double &gt; &amp;weights, const boost::numeric::ublas::matrix&lt; size_t &gt; &amp;flts_window, const std::vector&lt; bool &gt; &amp;circular_flags, size_t i_test_station, size_t i_test_time, size_t i_search_station, size_t i_search_time, size_t i_flt, double max_par_nan, double max_flt_nan) const</td></tr>
-<tr class="separator:a9b2132b93af1850fe2a6cb358936ea19"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
+Protected Attributes</h2></td></tr>
+<tr class="memitem:a45bd574992e14d033373fdd338360e60"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9">Verbose</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en.html#a45bd574992e14d033373fdd338360e60">verbose_</a></td></tr>
+<tr class="separator:a45bd574992e14d033373fdd338360e60"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
-Private Attributes</h2></td></tr>
-<tr class="memitem:a25984b953516a987e2e9eb23048e5d60"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en.html#a25984b953516a987e2e9eb23048e5d60">verbose_</a> = 2</td></tr>
-<tr class="separator:a25984b953516a987e2e9eb23048e5d60"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3c503cbae77244126d1616e90a07c92f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en.html#a94dd770690ca98baca9c2a62a36bc62a">simMethod</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en.html#a3c503cbae77244126d1616e90a07c92f">method_</a> = <a class="el" href="class_an_en.html#a94dd770690ca98baca9c2a62a36bc62aa951dc29c260676ddba508790abfdb2d0">OneToOne</a></td></tr>
-<tr class="separator:a3c503cbae77244126d1616e90a07c92f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
+Friends</h2></td></tr>
+<tr class="memitem:aa0f90d1e889653695385e2e716ef6525"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en.html#aa0f90d1e889653695385e2e716ef6525">operator&lt;&lt;</a> (std::ostream &amp;, const <a class="el" href="class_an_en.html">AnEn</a> &amp;)</td></tr>
+<tr class="separator:aa0f90d1e889653695385e2e716ef6525"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><a class="el" href="class_an_en.html" title="AnEn class provides interfaces for computing Analog Ensembles. ">AnEn</a> class provides interfaces for computing Analog Ensembles. </p>
-</div><h2 class="groupheader">Member Typedef Documentation</h2>
-<a id="adc55d358a20ee6bb711ca5efb33a1bb0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adc55d358a20ee6bb711ca5efb33a1bb0">&#9670;&nbsp;</a></span>SearchStationMatrix</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="class_an_en.html#adc55d358a20ee6bb711ca5efb33a1bb0">AnEn::SearchStationMatrix</a> =  boost::numeric::ublas::matrix&lt;double&gt;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p><a class="el" href="class_an_en.html#adc55d358a20ee6bb711ca5efb33a1bb0">AnEn::SearchStationMatrix</a> is a lookup table for search stations of each test station. The number of rows is the number of test stations, and the number of column is the maximum number of search stations for each test stations. NA values can exist in the table because the numbers of search stations can vary for test stations. </p>
-
-</div>
-</div>
-<a id="a44ceab50f0bf394bd35871469d5a36b2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a44ceab50f0bf394bd35871469d5a36b2">&#9670;&nbsp;</a></span>TimeMapMatrix</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="class_an_en.html#a44ceab50f0bf394bd35871469d5a36b2">AnEn::TimeMapMatrix</a> =  <a class="el" href="class_functions.html#a1e68b8656e6b5405d550e1d197c2d10e">Functions::TimeMapMatrix</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<h2 class="groupheader">Member Enumeration Documentation</h2>
-<a id="a94dd770690ca98baca9c2a62a36bc62a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a94dd770690ca98baca9c2a62a36bc62a">&#9670;&nbsp;</a></span>simMethod</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum <a class="el" href="class_an_en.html#a94dd770690ca98baca9c2a62a36bc62a">AnEn::simMethod</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Specifies the how similarity is computed across stations.</p>
-<ul>
-<li>OneToOne: Each test station is assigned with the closest station in the search stations;</li>
-<li>OneToMany: Each test station is assigned with a set of nearby stations in the search stations (Search space extension); </li>
-</ul>
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a94dd770690ca98baca9c2a62a36bc62aa951dc29c260676ddba508790abfdb2d0"></a>OneToOne&#160;</td><td class="fielddoc"><p>1 </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a94dd770690ca98baca9c2a62a36bc62aade3456ad0e377ebc7ffb374454433326"></a>OneToMany&#160;</td><td class="fielddoc"><p>2 </p>
-</td></tr>
-</table>
-
-</div>
-</div>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<div class="textblock"><p><a class="el" href="class_an_en.html" title="AnEn is an abstract class that defines the interface for implement analog ensemble generation...">AnEn</a> is an abstract class that defines the interface for implement analog ensemble generation. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a60c12de232af95794a6194fbac06623a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a60c12de232af95794a6194fbac06623a">&#9670;&nbsp;</a></span>AnEn() <span class="overload">[1/3]</span></h2>
 
@@ -219,32 +145,11 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a71a7c34cc125ce75e1377fd6f62988da"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a71a7c34cc125ce75e1377fd6f62988da">&#9670;&nbsp;</a></span>AnEn() <span class="overload">[2/3]</span></h2>
+<a id="a7fed6ed88ade22211fd75028a3a9491e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7fed6ed88ade22211fd75028a3a9491e">&#9670;&nbsp;</a></span>AnEn() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">AnEn::AnEn </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>verbose</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a97a51c40812584b01413a4426b1285a6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a97a51c40812584b01413a4426b1285a6">&#9670;&nbsp;</a></span>AnEn() <span class="overload">[3/3]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">AnEn::AnEn </td>
@@ -254,11 +159,24 @@ Private Attributes</h2></td></tr>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">delete</span></span>  </td>
-  </tr>
-</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5d1d7aa1a7872ada9330af2db544e559"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5d1d7aa1a7872ada9330af2db544e559">&#9670;&nbsp;</a></span>AnEn() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">AnEn::AnEn </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_config.html">Config</a> &amp;&#160;</td>
+          <td class="paramname"><em>config</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
 </div><div class="memdoc">
 
 </div>
@@ -289,8 +207,8 @@ Private Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a749842b3a1f17ca6805ed87a0ba95311"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a749842b3a1f17ca6805ed87a0ba95311">&#9670;&nbsp;</a></span>check_input_()</h2>
+<a id="aeb2293ca74029f9312ff31ff7aac1d43"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeb2293ca74029f9312ff31ff7aac1d43">&#9670;&nbsp;</a></span>compute() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -299,719 +217,123 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEn::check_input_ </td>
+          <td class="memname">virtual void AnEn::compute </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="class_forecasts__array.html">Forecasts_array</a> &amp;&#160;</td>
-          <td class="paramname"><em>test_forecasts</em>, </td>
+          <td class="paramtype">const <a class="el" href="class_forecasts.html">Forecasts</a> &amp;&#160;</td>
+          <td class="paramname"><em>forecasts</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="class_forecasts__array.html">Forecasts_array</a> &amp;&#160;</td>
-          <td class="paramname"><em>search_forecasts</em>, </td>
+          <td class="paramtype">const <a class="el" href="class_observations.html">Observations</a> &amp;&#160;</td>
+          <td class="paramname"><em>observations</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="class_standard_deviation.html">StandardDeviation</a> &amp;&#160;</td>
-          <td class="paramname"><em>sds</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="class_observations__array.html">Observations_array</a> &amp;&#160;</td>
-          <td class="paramname"><em>search_observations</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="class_an_en.html#a44ceab50f0bf394bd35871469d5a36b2">TimeMapMatrix</a> &amp;&#160;</td>
-          <td class="paramname"><em>mapping</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="class_an_en.html#adc55d358a20ee6bb711ca5efb33a1bb0">AnEn::SearchStationMatrix</a> &amp;&#160;</td>
-          <td class="paramname"><em>i_search_stations</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>i_observation_parameter</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>max_par_nan</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>max_flt_nan</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>operational</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>window_half_size</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Check input. </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">test_forecasts</td><td>Test forecasts. </td></tr>
-    <tr><td class="paramname">search_forecasts</td><td>Search forecasts. </td></tr>
-    <tr><td class="paramname">sds</td><td><a class="el" href="class_standard_deviation.html" title="StandardDeviation class is designed for storing the standard deviation of a Forecasts object...">StandardDeviation</a>. </td></tr>
-    <tr><td class="paramname">search_observations</td><td>Search observations. </td></tr>
-    <tr><td class="paramname">mapping</td><td>Time and FLT mapping matrix. </td></tr>
-    <tr><td class="paramname">i_observation_parameter</td><td>The index of observation parameter used. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>An errorType. </dd></dl>
-
-</div>
-</div>
-<a id="a9b2132b93af1850fe2a6cb358936ea19"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9b2132b93af1850fe2a6cb358936ea19">&#9670;&nbsp;</a></span>compute_single_similarity_()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">double AnEn::compute_single_similarity_ </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="class_forecasts__array.html">Forecasts_array</a> &amp;&#160;</td>
-          <td class="paramname"><em>test_forecasts</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="class_forecasts__array.html">Forecasts_array</a> &amp;&#160;</td>
-          <td class="paramname"><em>search_forecasts</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="class_standard_deviation.html">StandardDeviation</a> &amp;&#160;</td>
-          <td class="paramname"><em>sds</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; double &gt; &amp;&#160;</td>
-          <td class="paramname"><em>weights</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const boost::numeric::ublas::matrix&lt; size_t &gt; &amp;&#160;</td>
-          <td class="paramname"><em>flts_window</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; bool &gt; &amp;&#160;</td>
-          <td class="paramname"><em>circular_flags</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>i_test_station</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>i_test_time</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>i_search_station</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>i_search_time</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>i_flt</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>max_par_nan</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>max_flt_nan</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>This function is the core function for computing a single similarity metric value between two forecasts (usually one test forecast and one historical search forecast).</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">test_forecasts</td><td>The test forecasts. </td></tr>
-    <tr><td class="paramname">search_forecasts</td><td>The search forecasts. </td></tr>
-    <tr><td class="paramname">sims</td><td>A <a class="el" href="class_similarity_matrices.html" title="SimilarityMatrices class stores similarity metrics. Default dimensions of SimilarityMatrices are: [te...">SimilarityMatrices</a>. </td></tr>
-    <tr><td class="paramname">sds</td><td>A <a class="el" href="class_standard_deviation.html" title="StandardDeviation class is designed for storing the standard deviation of a Forecasts object...">StandardDeviation</a>. </td></tr>
-    <tr><td class="paramname">weights</td><td>A vector of weights for each parameter in the forecasts. </td></tr>
-    <tr><td class="paramname">flts_window</td><td>A matrix specifying the time window for each FLT. </td></tr>
-    <tr><td class="paramname">circular_flags</td><td>A vector of boolean for whether a parameter is circular or not. </td></tr>
-    <tr><td class="paramname">i_test_station</td><td>The index of the test station in test forecasts. </td></tr>
-    <tr><td class="paramname">i_test_time</td><td>The index of the test time in test forecasts. </td></tr>
-    <tr><td class="paramname">i_search_station</td><td>The index of search station in search forecasts. </td></tr>
-    <tr><td class="paramname">i_search_time</td><td>The index of search time in search forecasts. </td></tr>
-    <tr><td class="paramname">i_flt</td><td>The index of FLT of both the search and test forecasts. </td></tr>
-    <tr><td class="paramname">max_par_nan</td><td>The maximum number of NAN allowed in parameters. </td></tr>
-    <tr><td class="paramname">max_flt_nan</td><td>The maximum number of NAN allowed in the FLT window. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A similarity metric value. </dd></dl>
-
-</div>
-</div>
-<a id="a2e1bfd098d870d5d994c1d4614b18fd3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2e1bfd098d870d5d994c1d4614b18fd3">&#9670;&nbsp;</a></span>computeSearchStations()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEn::computeSearchStations </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> &amp;&#160;</td>
-          <td class="paramname"><em>test_stations</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> &amp;&#160;</td>
-          <td class="paramname"><em>search_stations</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="class_an_en.html#adc55d358a20ee6bb711ca5efb33a1bb0">SearchStationMatrix</a> &amp;&#160;</td>
-          <td class="paramname"><em>i_search_stations</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>max_num_search_stations</em> = <code>1</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>distance</em> = <code>0</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>num_nearest_stations</em> = <code>0</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::vector&lt; size_t &gt;&#160;</td>
-          <td class="paramname"><em>test_station_tags</em> = <code>{}</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::vector&lt; size_t &gt;&#160;</td>
-          <td class="paramname"><em>search_station_tags</em> = <code>{}</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Computes the search stations of each test stations. Search stations are represented using the their index.</p>
-<p>There are two methods to compute search stations for each test stations. </p><pre class="fragment">- OneToOne: Each test station is only associated with one search station
-based on the Euclidean distances. The closest search station will be 
-assigned to the test station. This is referred to as the independent
-search method because each test has only one search station, and therefore
-AnEn results will be independent for each test station.
-- OneToMany: Each test station is associated with multiple search stations.
-Search stations are computed using a series of criteria. First, only search
-stations with the same tag as the current test station will be considered
-during the computation; then a Euclidean distance based search is carrid for
-the current test station with constraints like the number of nearest 
-neighbors and/or the distance.
-</pre><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">test_stations</td><td>Test <a class="el" href="classanen_sta_1_1_stations.html" title="Stations class stores Station objects. ">anenSta::Stations</a>. </td></tr>
-    <tr><td class="paramname">search_stations</td><td>Search <a class="el" href="classanen_sta_1_1_stations.html" title="Stations class stores Station objects. ">anenSta::Stations</a>. </td></tr>
-    <tr><td class="paramname">i_search_stations</td><td>A matrix to store the search stations for each test stations per row. </td></tr>
-    <tr><td class="paramname">max_num_search_stations</td><td>The maximum number of search stations that will be stored. </td></tr>
-    <tr><td class="paramname">distance</td><td>The buffer distance from each test station to look for search stations. </td></tr>
-    <tr><td class="paramname">num_nearest_stations</td><td>The number of KNN search stations to look for for each test stations. </td></tr>
-    <tr><td class="paramname">test_station_tags</td><td>A vector for test station tags. </td></tr>
-    <tr><td class="paramname">search_station_tags</td><td>A vector for search station tags.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>An errorType; </dd></dl>
-
-</div>
-</div>
-<a id="a23333ebae68429eae96a62f2c4c5054a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a23333ebae68429eae96a62f2c4c5054a">&#9670;&nbsp;</a></span>computeSimilarity()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEn::computeSimilarity </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="class_forecasts__array.html">Forecasts_array</a> &amp;&#160;</td>
-          <td class="paramname"><em>test_forecasts</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="class_forecasts__array.html">Forecasts_array</a> &amp;&#160;</td>
-          <td class="paramname"><em>search_forecasts</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="class_standard_deviation.html">StandardDeviation</a> &amp;&#160;</td>
-          <td class="paramname"><em>sds</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="class_similarity_matrices.html">SimilarityMatrices</a> &amp;&#160;</td>
-          <td class="paramname"><em>sims</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="class_observations__array.html">Observations_array</a> &amp;&#160;</td>
-          <td class="paramname"><em>search_observations</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="class_an_en.html#a44ceab50f0bf394bd35871469d5a36b2">TimeMapMatrix</a> &amp;&#160;</td>
-          <td class="paramname"><em>mapping</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="class_an_en.html#adc55d358a20ee6bb711ca5efb33a1bb0">SearchStationMatrix</a> &amp;&#160;</td>
-          <td class="paramname"><em>i_search_stations</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>i_observation_parameter</em> = <code>0</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>extend_observations</em> = <code>false</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>max_par_nan</em> = <code>0</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>max_flt_nan</em> = <code>0</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a>&#160;</td>
-          <td class="paramname"><em>test_times</em> = <code>{}</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a>&#160;</td>
-          <td class="paramname"><em>search_times</em> = <code>{}</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>operational</em> = <code>false</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>max_sims_entries</em> = <code>-1</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>window_half_size</em> = <code>1</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>debug</em> = <code>false</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Computes the similarity matrices.</p>
-<p>If max_sims_entries is set to a negative number and then a particular similarity value is NAN, you can inspect the reason for this value being NAN by looking at the time index column. Be careful, if max_sims_entries is set to a non-negative value, this method would not work.</p>
-<p>The time index column can be any one from the following list:</p><ul>
-<li>-1: Cannot find the corresponding observation time. Mapping entry is NAN.</li>
-<li>-2: Search forecast excluded because it overlaps with the current test foreacst.</li>
-<li>NAN: Noun of the above. This can be caused by a numebr of reaons: 1) the search station is NAN; 2) If the station index column is a valid value, the NA is caused by the observation associated with this historical forecast being NAN or ; 3) too many NAN parameters when computing the similarity and averaging across FLTs and multiple parameters (for this specific case, you can set the max_flt_nan and max_par_nan to allow more NA values during comparison.).</li>
-</ul>
-<p>The debug numbers do not apply to cases when max_sims_entries is used and set to a positive number.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">test_forecasts</td><td><a class="el" href="class_forecasts.html" title="Forecasts class provides interface for reading and writing forecast data from and to a NetCDF file...">Forecasts</a> to test. </td></tr>
-    <tr><td class="paramname">search_forecasts</td><td><a class="el" href="class_forecasts.html" title="Forecasts class provides interface for reading and writing forecast data from and to a NetCDF file...">Forecasts</a> to search. </td></tr>
-    <tr><td class="paramname">sds</td><td>Pre-computed standard deviation of the forecasts to search. This can be computed from the function AnEn::computeStandardDeviation; </td></tr>
-    <tr><td class="paramname">sims</td><td>A <a class="el" href="class_similarity_matrices.html" title="SimilarityMatrices class stores similarity metrics. Default dimensions of SimilarityMatrices are: [te...">SimilarityMatrices</a>. </td></tr>
-    <tr><td class="paramname">search_observations</td><td><a class="el" href="class_observations.html" title="Observations class provides interface for reading and writing observations from and to a NetCDF file...">Observations</a> to search. </td></tr>
-    <tr><td class="paramname">mapping</td><td>A matrix stores the mapping indices from forecasts times and FLTs to observation times. </td></tr>
-    <tr><td class="paramname">i_search_stations</td><td>A precomputed matrix with the search stations for each test station stored per row. </td></tr>
-    <tr><td class="paramname">i_observation_parameter</td><td>The parameter in observations that will be checked for NAN values. By default it is 0 pointing at the first parameter. </td></tr>
-    <tr><td class="paramname">extend_observations</td><td>Whether to extend observation stations to search stations. This only works when search space extension is used. </td></tr>
-    <tr><td class="paramname">max_par_nan</td><td>The number of NAN values allowed when computing similarity across different parameters. Set it to NAN to allow any number of NAN values. </td></tr>
-    <tr><td class="paramname">max_flt_nan</td><td>The number of NAN values allowed when computing FLT window averages. Set it to NAN to allow any number of NAN values. </td></tr>
-    <tr><td class="paramname">operational</td><td>Whether to use operational search. </td></tr>
-    <tr><td class="paramname">max_sims_entries</td><td>If this is set to a positive number, the reduced-memory mode is used so that a smaller similarity matrix will be created, and not all similarity will be kept. This mode will cause certain amount of the program slowdown. </td></tr>
-    <tr><td class="paramname">window_half_size</td><td>The half size of FLT window when extracting the trend in time. For example, setting this to 1 means extracting the trend from current - 1 to current + 1 FLTs. </td></tr>
-    <tr><td class="paramname">debug</td><td>Whether to return debug flags when NA values present.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>An errorType. </dd></dl>
-
-</div>
-</div>
-<a id="afbccb0a25e09ef2353d0f754afe7273e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afbccb0a25e09ef2353d0f754afe7273e">&#9670;&nbsp;</a></span>find_nearest_station_match_()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEn::find_nearest_station_match_ </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> &amp;&#160;</td>
-          <td class="paramname"><em>test_stations</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> &amp;&#160;</td>
-          <td class="paramname"><em>search_stations</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::vector&lt; size_t &gt; &amp;&#160;</td>
-          <td class="paramname"><em>test_stations_index_in_search</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>This function is a special case of <a class="el" href="class_an_en.html#a2e1bfd098d870d5d994c1d4614b18fd3">AnEn::computeSearchStations</a>. It finds the nearest search station to a specific test station. If location information is not provided, test and search stations are assumed to be the same, and they are matched based on their respective index.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">test_stations</td><td>Test <a class="el" href="classanen_sta_1_1_stations.html" title="Stations class stores Station objects. ">anenSta::Stations</a>. </td></tr>
-    <tr><td class="paramname">search_stations</td><td>Search <a class="el" href="classanen_sta_1_1_stations.html" title="Stations class stores Station objects. ">anenSta::Stations</a>. </td></tr>
-    <tr><td class="paramname">test_stations_index_in_search</td><td>A size_t vector to store the matching search indices for each test station.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>An errorType. </dd></dl>
-
-</div>
-</div>
-<a id="a5f4b7a1a538ec9a2b2282e49fc225044"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5f4b7a1a538ec9a2b2282e49fc225044">&#9670;&nbsp;</a></span>generateOperationalSearchTimes()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEn::generateOperationalSearchTimes </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="class_times.html">Times</a> &amp;&#160;</td>
           <td class="paramname"><em>test_times</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a> &amp;&#160;</td>
-          <td class="paramname"><em>search_times</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a> &amp;&#160;</td>
-          <td class="paramname"><em>search_forecast_times</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::vector&lt; <a class="el" href="classanen_time_1_1_times.html">anenTime::Times</a> &gt; &amp;&#160;</td>
-          <td class="paramname"><em>search_times_operational</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::vector&lt; std::vector&lt; size_t &gt; &gt; &amp;&#160;</td>
-          <td class="paramname"><em>i_search_times_operational</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>max_flt</em>&#160;</td>
+          <td class="paramtype">const <a class="el" href="class_times.html">Times</a> &amp;&#160;</td>
+          <td class="paramname"><em>search_times</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td> const</td>
+          <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
-<p>Generates the search times and the corresponding index with an operational mode.</p>
-<dl class="params"><dt>Parameters</dt><dd>
+<p>Computes the analog ensembles. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">test_times</td><td>The test <a class="el" href="classanen_time_1_1_times.html" title="Times class is used to store time information for predictions. By default this is the number of secon...">anenTime::Times</a>; </td></tr>
-    <tr><td class="paramname">search_times</td><td>The search <a class="el" href="classanen_time_1_1_times.html" title="Times class is used to store time information for predictions. By default this is the number of secon...">anenTime::Times</a>; </td></tr>
-    <tr><td class="paramname">search_forecast_times</td><td>The complete search times associated with the search forecasts. Indices will be created in regarding to this container. </td></tr>
-    <tr><td class="paramname">search_times_operational</td><td>The search <a class="el" href="classanen_time_1_1_times.html" title="Times class is used to store time information for predictions. By default this is the number of secon...">anenTime::Times</a> for operational mode. </td></tr>
-    <tr><td class="paramname">i_search_times_operational</td><td>The index for search <a class="el" href="classanen_time_1_1_times.html" title="Times class is used to store time information for predictions. By default this is the number of secon...">anenTime::Times</a> for operational mode. </td></tr>
-    <tr><td class="paramname">max_flt</td><td>The maximum FLT. </td></tr>
+    <tr><td class="paramname">forecasts</td><td><a class="el" href="class_forecasts.html" title="Forecasts is an abstract class that extends BasicData and the abstract class Array4D. It defines the interface of how to interact with the underlying data storage through the abstract class Array4D. This interface is accepted by the Analog Ensemble algorithm. ">Forecasts</a> </td></tr>
+    <tr><td class="paramname">observations</td><td><a class="el" href="class_observations.html" title="Observations is an abstract class that extends BasicData. It defines the interface of how to interact...">Observations</a> </td></tr>
+    <tr><td class="paramname">test_times</td><td><a class="el" href="class_times.html" title="Times class is used to store Time. It is a bidirectional map implemented from Boost so that it provid...">Times</a> for test </td></tr>
+    <tr><td class="paramname">search_times</td><td><a class="el" href="class_times.html" title="Times class is used to store Time. It is a bidirectional map implemented from Boost so that it provid...">Times</a> for search </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>An errorType. </dd></dl>
+
+<p>Implemented in <a class="el" href="class_an_en_i_s.html#a0bf4ba05c90310a74671e79243d20c8c">AnEnIS</a>.</p>
 
 </div>
 </div>
-<a id="a5e703c85514bb4768278bebe20fe4642"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5e703c85514bb4768278bebe20fe4642">&#9670;&nbsp;</a></span>getMethod()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_an_en.html#a94dd770690ca98baca9c2a62a36bc62a">simMethod</a> AnEn::getMethod </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aa937a792202a83e88df6e019a991b848"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa937a792202a83e88df6e019a991b848">&#9670;&nbsp;</a></span>getVerbose()</h2>
+<a id="aed2e8e8914b236c07acab02dbecba37a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed2e8e8914b236c07acab02dbecba37a">&#9670;&nbsp;</a></span>compute() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">int AnEn::getVerbose </td>
+          <td class="memname">virtual void AnEn::compute </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ac2dba969846fe2d85ef06f73cd8c8dfa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac2dba969846fe2d85ef06f73cd8c8dfa">&#9670;&nbsp;</a></span>selectAnalogs()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="error_type_8h.html#a0455f547a8d97c35c868b184e0c92ffd">errorType</a> AnEn::selectAnalogs </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_analogs.html">Analogs</a> &amp;&#160;</td>
-          <td class="paramname"><em>analogs</em>, </td>
+          <td class="paramtype">const <a class="el" href="class_forecasts.html">Forecasts</a> &amp;&#160;</td>
+          <td class="paramname"><em>forecasts</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="class_similarity_matrices.html">SimilarityMatrices</a> &amp;&#160;</td>
-          <td class="paramname"><em>sims</em>, </td>
+          <td class="paramtype">const <a class="el" href="class_observations.html">Observations</a> &amp;&#160;</td>
+          <td class="paramname"><em>observations</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="classanen_sta_1_1_stations.html">anenSta::Stations</a> &amp;&#160;</td>
-          <td class="paramname"><em>test_stations</em>, </td>
+          <td class="paramtype">std::vector&lt; std::size_t &gt; &amp;&#160;</td>
+          <td class="paramname"><em>fcsts_test_index</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="class_observations__array.html">Observations_array</a> &amp;&#160;</td>
-          <td class="paramname"><em>search_observations</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="class_an_en.html#a44ceab50f0bf394bd35871469d5a36b2">TimeMapMatrix</a> &amp;&#160;</td>
-          <td class="paramname"><em>mapping</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>i_parameter</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>num_members</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>quick</em> = <code>true</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>extend_observations</em> = <code>false</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>debug</em> = <code>false</code>&#160;</td>
+          <td class="paramtype">std::vector&lt; std::size_t &gt; &amp;&#160;</td>
+          <td class="paramname"><em>fcsts_search_index</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td> const</td>
+          <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
-<p>Select analogs based on the similarity matrices.</p>
-<p>If a particular value is NAN, you can inspect the reason for this value being NAN by looking at the time index column. The value can be any one from the following list:</p><ul>
-<li>-1: Cannot find the corresponding observation time. Mapping entry is NAN.</li>
-<li>-2: Similarity is NAN.</li>
-<li>-3: Number of members is larger than number of similarity entries.</li>
-<li>NAN: Unknown reason.</li>
-</ul>
-<dl class="params"><dt>Parameters</dt><dd>
+<p>Computes the analog ensembles. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">analogs</td><td><a class="el" href="class_analogs.html" title="This is the class to store analogs. The default dimensions are: [test stations][test times][FLTs][mem...">Analogs</a> object to write the analogs </td></tr>
-    <tr><td class="paramname">sims</td><td><a class="el" href="class_similarity_matrices.html" title="SimilarityMatrices class stores similarity metrics. Default dimensions of SimilarityMatrices are: [te...">SimilarityMatrices</a> on which the selection is based </td></tr>
-    <tr><td class="paramname">test_stations</td><td><a class="el" href="classanen_sta_1_1_stations.html" title="Stations class stores Station objects. ">anenSta::Stations</a> for the test. </td></tr>
-    <tr><td class="paramname">search_observations</td><td><a class="el" href="class_observations__array.html" title="Observations_array class is an implementation of the class Observations. Data are stored using the bo...">Observations_array</a> where the analog values come from. </td></tr>
-    <tr><td class="paramname">mapping</td><td>A Boost Matrix for the mapping of times between forecasts and observations. This is computed from the function AnEn::computeObservationsTimeIndices. </td></tr>
-    <tr><td class="paramname">i_parameter</td><td>The index of the parameter to select in <a class="el" href="class_observations.html" title="Observations class provides interface for reading and writing observations from and to a NetCDF file...">Observations</a>. </td></tr>
-    <tr><td class="paramname">num_members</td><td>How many members each analog should have. </td></tr>
-    <tr><td class="paramname">quick</td><td>Whether to use quick sort mechanism. </td></tr>
-    <tr><td class="paramname">extend_observations</td><td>Whether to extend observation stations to search stations. This only works when search space extension is used. </td></tr>
-    <tr><td class="paramname">debug</td><td>Whether to return debug flags when NA values present.</td></tr>
+    <tr><td class="paramname">fcsts_test_index</td><td>A vector of forecast test indices </td></tr>
+    <tr><td class="paramname">fcsts_search_index</td><td>A vector of forecast search indices </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>An errorType. </dd></dl>
+
+<p>Implemented in <a class="el" href="class_an_en_i_s.html#a53f9bc4570b3a021bbce495ea4836d7f">AnEnIS</a>, and <a class="el" href="class_an_en_s_s_e.html#ac38e803582ace56ce786ac138ee808a8">AnEnSSE</a>.</p>
 
 </div>
 </div>
-<a id="afd6b6018f1ca8b138af2aaafe5464cbd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afd6b6018f1ca8b138af2aaafe5464cbd">&#9670;&nbsp;</a></span>setMethod()</h2>
+<a id="a3160cbcd29b717db0e15b90d77ee73fa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3160cbcd29b717db0e15b90d77ee73fa">&#9670;&nbsp;</a></span>operator=()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void AnEn::setMethod </td>
+          <td class="memname"><a class="el" href="class_an_en.html">AnEn</a> &amp; AnEn::operator= </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="class_an_en.html#a94dd770690ca98baca9c2a62a36bc62a">simMethod</a>&#160;</td>
-          <td class="paramname"><em>method</em></td><td>)</td>
+          <td class="paramtype">const <a class="el" href="class_an_en.html">AnEn</a> &amp;&#160;</td>
+          <td class="paramname"><em>rhs</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -1019,27 +341,102 @@ neighbors and/or the distance.
 
 </div>
 </div>
-<a id="af1009201b008da7395f1c1ed0ec287cd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af1009201b008da7395f1c1ed0ec287cd">&#9670;&nbsp;</a></span>setVerbose()</h2>
+<a id="a17b9a36cd5002cda3c934fe3e1002aa5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a17b9a36cd5002cda3c934fe3e1002aa5">&#9670;&nbsp;</a></span>print()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void AnEn::setVerbose </td>
+          <td class="memname">void AnEn::print </td>
           <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>verbose</em></td><td>)</td>
+          <td class="paramtype">std::ostream &amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reimplemented in <a class="el" href="class_an_en_i_s.html#a99c363e84ffb2dfa862b6b48f5c6b66e">AnEnIS</a>, and <a class="el" href="class_an_en_s_s_e.html#af6934f53e98357a45c166ef2b52a976d">AnEnSSE</a>.</p>
+
+</div>
+</div>
+<a id="a45c1b3e0189e7707e09d3a3fe9137754"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a45c1b3e0189e7707e09d3a3fe9137754">&#9670;&nbsp;</a></span>setMembers_()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void AnEn::setMembers_ </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_config.html">Config</a> &amp;&#160;</td>
+          <td class="paramname"><em>config</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reimplemented in <a class="el" href="class_an_en_i_s.html#a501f557147e360a1fa728fc5ff3e3967">AnEnIS</a>, and <a class="el" href="class_an_en_s_s_e.html#af12192089417d6ad2b11ed91aa47f21d">AnEnSSE</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Friends And Related Function Documentation</h2>
+<a id="aa0f90d1e889653695385e2e716ef6525"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa0f90d1e889653695385e2e716ef6525">&#9670;&nbsp;</a></span>operator<<</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::ostream&amp; operator&lt;&lt; </td>
+          <td>(</td>
+          <td class="paramtype">std::ostream &amp;&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="class_an_en.html">AnEn</a> &amp;&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a id="a085c41c286923d751230f4abf2985292"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a085c41c286923d751230f4abf2985292">&#9670;&nbsp;</a></span>_FILL_VALUE</h2>
+<a id="a45bd574992e14d033373fdd338360e60"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a45bd574992e14d033373fdd338360e60">&#9670;&nbsp;</a></span>verbose_</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1048,91 +445,15 @@ neighbors and/or the distance.
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const double AnEn::_FILL_VALUE = NAN</td>
+          <td class="memname"><a class="el" href="_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9">Verbose</a> AnEn::verbose_</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>The default fill value for analogs. </p>
-
-</div>
-</div>
-<a id="a15e0444046a071247082296d78ed5aa3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a15e0444046a071247082296d78ed5aa3">&#9670;&nbsp;</a></span>_SERIAL_LENGTH_LIMIT</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const size_t AnEn::_SERIAL_LENGTH_LIMIT = 500</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>The upper limit for running program serially. If the length is larger than the limit, it will be parallelized. </p>
-
-</div>
-</div>
-<a id="a3c503cbae77244126d1616e90a07c92f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3c503cbae77244126d1616e90a07c92f">&#9670;&nbsp;</a></span>method_</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_an_en.html#a94dd770690ca98baca9c2a62a36bc62a">simMethod</a> AnEn::method_ = <a class="el" href="class_an_en.html#a94dd770690ca98baca9c2a62a36bc62aa951dc29c260676ddba508790abfdb2d0">OneToOne</a></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a25984b953516a987e2e9eb23048e5d60"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a25984b953516a987e2e9eb23048e5d60">&#9670;&nbsp;</a></span>verbose_</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">int AnEn::verbose_ = 2</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Specifies the verbose level.</p><ul>
-<li>0: Quiet.</li>
-<li>1: Errors.</li>
-<li>2: The above plus Warnings.</li>
-<li>3: The above plus program progress information.</li>
-<li>4: The above plus check information.</li>
-<li>5: The above plus session information. </li>
-</ul>
 
 </div>
 </div>

@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['timemapmatrix',['TimeMapMatrix',['../class_an_en.html#a44ceab50f0bf394bd35871469d5a36b2',1,'AnEn::TimeMapMatrix()'],['../class_functions.html#a1e68b8656e6b5405d550e1d197c2d10e',1,'Functions::TimeMapMatrix()']]]
+  ['vector3',['vector3',['../_observations_pointer_8h.html#a9b2c17d57f33daffcb220fc4c30bba49',1,'ObservationsPointer.h']]],
+  ['vector4',['vector4',['../_array4_d_pointer_8h.html#ad60e77770bb3358bd06961f74e5ca5a6',1,'Array4DPointer.h']]]
 ];

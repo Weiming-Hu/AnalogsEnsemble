@@ -68,32 +68,40 @@ $(function() {
 <div class="title">testFunctions.cpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="test_functions_8h_source.html">testFunctions.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="_an_en_i_o_8h_source.html">../../CAnEnIO/include/AnEnIO.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="_functions_8h_source.html">../../CAnEn/include/Functions.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="color_texts_8h_source.html">../../CAnEn/include/colorTexts.h</a>&quot;</code><br />
-<code>#include &lt;vector&gt;</code><br />
+<div class="textblock"><code>#include &lt;vector&gt;</code><br />
 <code>#include &lt;iostream&gt;</code><br />
-<code>#include &lt;boost/numeric/ublas/io.hpp&gt;</code><br />
+<code>#include &quot;<a class="el" href="test_functions_8h_source.html">testFunctions.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="_forecasts_pointer_8h_source.html">ForecastsPointer.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="_an_en_read_ncdf_8h_source.html">AnEnReadNcdf.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="_observations_pointer_8h_source.html">ObservationsPointer.h</a>&quot;</code><br />
+<code>#include &quot;boost/bimap/bimap.hpp&quot;</code><br />
+<code>#include &quot;boost/numeric/ublas/io.hpp&quot;</code><br />
+<code>#include &quot;boost/assign/list_of.hpp&quot;</code><br />
+<code>#include &quot;boost/assign/list_inserter.hpp&quot;</code><br />
+<code>#include &quot;boost/numeric/ublas/matrix_proxy.hpp&quot;</code><br />
+<code>#include &quot;boost/lambda/lambda.hpp&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for testFunctions.cpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="test_functions_8cpp__incl.png" border="0" usemap="#_2home_2graduate_2wuh20_2github_2_analogs_ensemble_2tests_2_functions_2test_functions_8cpp" alt=""/></div>
 <map name="_2home_2graduate_2wuh20_2github_2_analogs_ensemble_2tests_2_functions_2test_functions_8cpp" id="_2home_2graduate_2wuh20_2github_2_analogs_ensemble_2tests_2_functions_2test_functions_8cpp">
-<area shape="rect" id="node2" href="test_functions_8h.html" title="testFunctions.h" alt="" coords="124,117,236,143"/>
-<area shape="rect" id="node4" href="_an_en_i_o_8h.html" title="../../CAnEnIO/include\l/AnEnIO.h" alt="" coords="1283,109,1429,151"/>
-<area shape="rect" id="node32" href="color_texts_8h.html" title="colorTexts.h" alt="" coords="1853,206,1947,233"/>
-<area shape="rect" id="node41" href="_functions_8h.html" title="../../CAnEn/include\l/Functions.h" alt="" coords="368,109,501,151"/>
-<area shape="rect" id="node10" href="_times_8h.html" title="Times.h" alt="" coords="1847,363,1916,389"/>
-<area shape="rect" id="node19" href="_analogs_8h.html" title="Analogs.h" alt="" coords="261,206,341,233"/>
-<area shape="rect" id="node21" href="_forecasts_8h.html" title="Forecasts.h" alt="" coords="1164,288,1255,315"/>
-<area shape="rect" id="node24" href="_stations_8h.html" title="Stations.h" alt="" coords="1617,363,1698,389"/>
-<area shape="rect" id="node29" href="_parameters_8h.html" title="Parameters.h" alt="" coords="1722,363,1822,389"/>
-<area shape="rect" id="node31" href="error_type_8h.html" title="errorType.h" alt="" coords="579,206,667,233"/>
-<area shape="rect" id="node33" href="_observations_8h.html" title="Observations.h" alt="" coords="1350,288,1461,315"/>
-<area shape="rect" id="node34" href="_standard_deviation_8h.html" title="StandardDeviation.h" alt="" coords="547,288,687,315"/>
-<area shape="rect" id="node35" href="_similarity_matrices_8h.html" title="SimilarityMatrices.h" alt="" coords="366,206,503,233"/>
-<area shape="rect" id="node30" href="_array4_d_8h.html" title="Array4D.h" alt="" coords="845,363,926,389"/>
+<area shape="rect" id="node4" href="test_functions_8h.html" title="testFunctions.h" alt="" coords="559,273,671,300"/>
+<area shape="rect" id="node20" href="_forecasts_pointer_8h.html" title="ForecastsPointer.h" alt="" coords="690,199,822,225"/>
+<area shape="rect" id="node26" href="_an_en_read_ncdf_8h.html" title="AnEnReadNcdf.h" alt="" coords="915,117,1039,143"/>
+<area shape="rect" id="node32" href="_observations_pointer_8h.html" title="ObservationsPointer.h" alt="" coords="1311,199,1462,225"/>
+<area shape="rect" id="node6" href="_functions_8h.html" title="Functions.h" alt="" coords="749,355,840,382"/>
+<area shape="rect" id="node7" href="_times_8h.html" title="Times.h" alt="" coords="1393,445,1463,471"/>
+<area shape="rect" id="node13" href="_config_8h.html" title="Config.h" alt="" coords="1046,527,1117,553"/>
+<area shape="rect" id="node14" href="_stations_8h.html" title="Stations.h" alt="" coords="1163,445,1245,471"/>
+<area shape="rect" id="node9" href="_bm_dim_8h.html" title="BmDim.h" alt="" coords="1293,527,1371,553"/>
+<area shape="rect" id="node21" href="_forecasts_8h.html" title="Forecasts.h" alt="" coords="1085,273,1176,300"/>
+<area shape="rect" id="node25" href="_array4_d_pointer_8h.html" title="Array4DPointer.h" alt="" coords="695,273,817,300"/>
+<area shape="rect" id="node22" href="_basic_data_8h.html" title="BasicData.h" alt="" coords="1231,355,1326,382"/>
+<area shape="rect" id="node24" href="_array4_d_8h.html" title="Array4D.h" alt="" coords="763,527,845,553"/>
+<area shape="rect" id="node23" href="_parameters_8h.html" title="Parameters.h" alt="" coords="1269,445,1369,471"/>
+<area shape="rect" id="node28" href="_an_en_read_8h.html" title="AnEnRead.h" alt="" coords="1191,199,1287,225"/>
+<area shape="rect" id="node30" href="_analogs_8h.html" title="Analogs.h" alt="" coords="391,355,471,382"/>
+<area shape="rect" id="node29" href="_observations_8h.html" title="Observations.h" alt="" coords="1223,273,1334,300"/>
 </map>
 </div>
 </div><table class="memberdecls">

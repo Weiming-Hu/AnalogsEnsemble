@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['simmethod',['simMethod',['../class_an_en.html#a94dd770690ca98baca9c2a62a36bc62a',1,'AnEn']]]
+  ['mode',['Mode',['../namespace_ncdf.html#a6967c61bfe43b77aa00e1605a898f3e4',1,'Ncdf::Mode()'],['../namespace_txt.html#ae46a1b2e882957b3e249bd56fbc5a152',1,'Txt::Mode()']]]
 ];
