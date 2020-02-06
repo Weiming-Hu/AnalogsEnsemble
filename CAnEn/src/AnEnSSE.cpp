@@ -155,7 +155,7 @@ firstprivate(sims_arr)
                         sims_arr[search_entry_i][_SIM_FCST_TIME_INDEX] = current_search_index;
                         sims_arr[search_entry_i][_SIM_OBS_TIME_INDEX] = obs_time_index;
 
-                        // Note that no matter observations are extended or not, this
+                        // Note that no matter whether observations are extended or not, this
                         // index to be saved should be the one from the extended search
                         // station because this index corresponds to the similarity metric.
                         //
@@ -170,9 +170,9 @@ firstprivate(sims_arr)
                  * Sort based on similarity metrics
                  */
                 if (quick_sort_) nth_element(sims_arr.begin(),
-                        sims_arr.begin() + num_sims_, sims_arr.end(), _simsSort_);
+                        sims_arr.begin() + num_analogs_, sims_arr.end(), _simsSort_);
                 else partial_sort(sims_arr.begin(),
-                        sims_arr.begin() + num_sims_, sims_arr.end(), _simsSort_);
+                        sims_arr.begin() + num_analogs_, sims_arr.end(), _simsSort_);
 
                 /*
                  * Output values and indices
