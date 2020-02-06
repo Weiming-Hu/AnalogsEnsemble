@@ -13,6 +13,12 @@
 #include "Observations.h"
 #include "Config.h"
 
+/**
+ * \class AnEn
+ * 
+ * \brief AnEn is an abstract class that defines the interface for implement
+ * analog ensemble generation.
+ */
 class AnEn {
 public:
     AnEn();
@@ -20,7 +26,7 @@ public:
     AnEn(const Config &);
     
     virtual ~AnEn();
-
+    
     virtual void compute(const Forecasts & forecasts,
             const Observations & observations,
             const Times & test_times, const Times & search_times) = 0;
