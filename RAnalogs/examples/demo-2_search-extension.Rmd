@@ -10,6 +10,7 @@ output: html_document
   
 ```{r setup, include=F}
 library(RAnEn)
+library(RAnEnExtra)
 library(maps)
 
 stopifnot(packageVersion('RAnEn')>="3.2.5")
@@ -54,7 +55,7 @@ For a full list of avaiable options, please check the document for [RAnEn::gener
 
 ```{r}
 # Create a configuration for SSE
-config <- generateConfiguration('extendedSearch')
+config <- new(Config)
 
 # This following part is migrated from the independent search as the
 # parameter settings are the same.
@@ -66,17 +67,8 @@ test.end <- 372
 search.start <- 1
 search.end <- 365
 
-# Set up forecasts and time, FLT information
-config$forecasts <- forecasts$Data
-config$forecast_times <- forecasts$Times
-config$flts <- forecasts$FLTs
-
-# Set up observations and time information
-config$search_observations <- observations$Data
-config$observation_times <- observations$Times
-
 # Set up other parameters
-config$num_members <- sqrt(search.end - search.start + 1)
+config$num_analogs <- sqrt(search.end - search.start + 1)
 config$verbose <- 3
 
 # Set up predictand id and predictor weights
@@ -84,16 +76,10 @@ config$observation_id <- 8
 config$weights <- c(1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1)
 
 # Set up test times
-config$test_times_compare <- forecasts$Times[test.start:test.end]
+test.times <- forecasts$Times[test.start:test.end]
 
 # Set up search times
-config$search_times_compare <- forecasts$Times[search.start:search.end]
-
-# Set circular variable if there is any
-if ('ParameterCirculars' %in% names(forecasts)) {
-  config$circulars <- unlist(lapply(forecasts$ParameterCirculars, function(x) {
-    return(which(x == forecasts$ParameterNames))}))
-}
+search.times <- forecasts$Times[search.start:search.end]
 ```
 
 Now that we have set up the basic parameters, we need to set the parameters for SSE. A list of parameters specific to SSE is shown below:
@@ -119,8 +105,7 @@ Now that we understand the parameters, we set these parameters.
 # Set up coordinates for forecast stations.
 # Change the range of x to [-180, 180] for visualization purpose,
 #
-config$forecast_stations_x <- forecasts$Xs - 360
-config$forecast_stations_y <- forecasts$Ys
+forecasts$Xs <- forecasts$Xs - 360
 
 # Set the number of nearest neighbors to utilize.
 # We want to have 9 search stations including the current staion itself.
@@ -128,13 +113,16 @@ config$forecast_stations_y <- forecasts$Ys
 config$num_nearest <- 9
 
 # Let the package return the search stations for each test station
-config$preserve_search_stations <- T
+config$save_similarity_station_index <- T
+config$save_analogs_time_index <- T
+config$save_similarity_time_index <- T
+config$save_search_stations_index <- T
 ```
 
 Similar to the [RAnEn basic tutorial](https://weiming-hu.github.io/AnalogsEnsemble/2018/11/04/demo-1-RAnEn-basics.html) we can generate AnEn. This might take a while. On a Mac Air, it takes about 3 minutes.
 
 ```{r}
-AnEn <- generateAnalogs(config)
+AnEn <- generateAnalogs(forecasts, observations, test.times, search.times, config, 'SSE')
 ```
 
 By now we have our AnEn forecasts. Note that we have the search stations stored in the returned result.
@@ -146,7 +134,7 @@ AnEn
 Here we print an AnEn at a specific grid point (#10), a specific day (#1), and a specific forecast lead time (#7). Take a look at the rows (members). The second and the third columns show the station and time index in observations where the forecast values are taken from. More information can be found in the documentation for `RAnEn::generateAnalogs`.
 
 ```{r}
-AnEn$analogs[10, 1, 7, , ]
+AnEn$analogs[10, 1, 7, ]
 ```
 
 ## Verification
@@ -155,11 +143,11 @@ Finally, let's extract the AnEn forecast values and the corresponding observatio
 
 ```{r}
 # Collect analog ensemble values
-anen <- AnEn$analogs[, , , , 1]
+anen <- AnEn$analogs
 
 # Collect observations for the test period and the forecasted weather variable
 obs <- alignObservations(observations$Data, observations$Times,
-                         config$test_times_compare, config$flts,
+                         test.times, forecasts$FLTs,
                          silent = T, show.progress = F)
 obs <- obs[config$observation_id, , , ]
 ```
@@ -175,11 +163,11 @@ ret.RH <- verifyRankHist(anen, obs)
 
 # Let's make some figures
 par(mfrow = c(4, 1), mar = c(3, 4.5, 1, 1))
-plot(config$flts/3600, ret.MAE$flt, type = 'b', pch = 1, cex = 0.5,
+plot(forecasts$FLTs/3600, ret.MAE$flt, type = 'b', pch = 1, cex = 0.5,
      xlab = '', ylab = 'MAE')
-plot(config$flts/3600, ret.RMSE$flt, type = 'b', pch = 1, cex = 0.5,
+plot(forecasts$FLTs/3600, ret.RMSE$flt, type = 'b', pch = 1, cex = 0.5,
      xlab = '', ylab = 'RMSE')
-plot(config$flts/3600, ret.Bias$flt, type = 'b', pch = 1, cex = 0.5,
+plot(forecasts$FLTs/3600, ret.Bias$flt, type = 'b', pch = 1, cex = 0.5,
      xlab = 'Lead Times (h)', ylab = 'Bias')
 barplot(ret.RH$rank, ylab = 'Rank Frequency')
 ```
@@ -200,37 +188,37 @@ title <- 'Search Space Extension'
 
 # Get the selected stations from ensemble members
 selected.stations <- unique(
-  AnEn$analogs[test.station.index, day.index, flt.index, , 2])
+  AnEn$similarity_station_index[test.station.index, day.index, flt.index, ])
 
 # plot different types of stations together
 par(mfrow = c(1, 1))
 
 # Plot all forecast stations
-plot(config$forecast_stations_x, config$forecast_stations_y, xlab = 'x', ylab = 'y',
+plot(forecasts$Xs, forecasts$Ys, xlab = 'x', ylab = 'y',
      main = title, pch = 19, cex = cex/2, col = 'grey', asp=1)
 
 # Plot a base map
 map('county', col = 'grey', add = T)
 
 # Plot search stations for the current test station
-points(config$forecast_stations_x[AnEn$searchStations[, test.station.index]],
-       config$forecast_stations_y[AnEn$searchStations[, test.station.index]],
+points(forecasts$Xs[AnEn$searchStations[test.station.index, ]],
+       forecasts$Ys[AnEn$searchStations[test.station.index, ]],
        pch = 19, cex = cex, col = 'green')
 
 # Plot the test station
-points(config$forecast_stations_x[test.station.index],
-       config$forecast_stations_y[test.station.index],
+points(forecasts$Xs[test.station.index],
+       forecasts$Ys[test.station.index],
        pch = 8, cex = cex, col = 'red')
 
 # Plot the search stations that have contribution to the analog ensemble
-points(config$forecast_stations_x[selected.stations],
-       config$forecast_stations_y[selected.stations],
+points(forecasts$Xs[selected.stations],
+       forecasts$Ys[selected.stations],
        cex = cex*1.6, col = 'red')
 
 if (config$distance > 0) {
   coords <- generateCircleCoords(
-    x = config$forecast_stations_x[test.station.index],
-    y = config$forecast_stations_y[test.station.index],
+    x = forecasts$Xs[test.station.index],
+    y = forecasts$Ys[test.station.index],
     radius = config$distance, np = 100)
   
   points(coords, cex = .1, pch = 19)

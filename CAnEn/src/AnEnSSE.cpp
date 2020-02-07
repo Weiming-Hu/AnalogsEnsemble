@@ -187,7 +187,7 @@ firstprivate(sims_arr)
         } // End of loop for flts
     } // End of loop for stations
 
-    if (verbose_ >= Verbose::Progress) cout << "AnEnIS generation done!" << endl;
+    if (verbose_ >= Verbose::Progress) cout << "AnEnSSE generation done!" << endl;
 
     return;
 }

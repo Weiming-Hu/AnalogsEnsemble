@@ -16,7 +16,7 @@ if (packageVersion('RAnEn') < "3.7.0") {
 
 library(sp)
 library(dplyr)
-library(RAnEn)
+library(RAnEnExtra)
 library(ggplot2)
 ```
 

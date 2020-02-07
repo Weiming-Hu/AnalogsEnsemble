@@ -10,6 +10,7 @@ output: html_document
 
 ```{r setup, include=F}
 library(RAnEn)
+library(RAnEnExtra)
 library(maps)
 
 stopifnot(packageVersion('RAnEn')>="3.5.0")
@@ -85,8 +86,8 @@ Now that we have a general idea of the data, we can generate temperature forecas
 First, we set up the configuration. We generate an AnEn for one day using about one year of historical data for all the grid points available. For a full list of avaiable options, please check the document for [RAnEn::generateConfiguration](https://weiming-hu.github.io/AnalogsEnsemble/R/reference/generateConfiguration.html).
 
 ```{r}
-# We use independent search configuration.
-config <- generateConfiguration('independentSearch')
+# We then generate a configuration
+config <- new(Config)
 
 # Set up the start and end indices for test times
 test.start <- 366
@@ -96,18 +97,15 @@ test.end <- 372
 search.start <- 1
 search.end <- 365
 
-# Set up forecasts and the time, FLT information
-config$forecasts <- forecasts$Data
-config$forecast_times <- forecasts$Times
-config$flts <- forecasts$FLTs
-
-# Set up observations and the time information
-config$search_observations <- observations$Data
-config$observation_times <- observations$Times
+# # Set the test times to generate AnEn for
+test.times <- forecasts$Times[test.start:test.end]
+# 
+# # Set the search times to generate AnEn from
+search.times <- forecasts$Times[search.start:search.end]
 
 # Set up the number of members to keep in the analog ensemble
 # Empirically, the number of members is the square root of number of search times.
-config$num_members <- sqrt(search.end - search.start + 1)
+config$num_analogs <- sqrt(search.end - search.start + 1)
 
 # Set up the variable that we want to generate AnEn for.
 # This is the index of parameter in observation parameter names.
@@ -117,23 +115,12 @@ config$observation_id <- 8
 # Set up weights for each parameters
 config$weights <- c(1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1)
 
-# Set the test times to generate AnEn for
-config$test_times_compare <- forecasts$Times[test.start:test.end]
-
-# Set the search times to generate AnEn from
-config$search_times_compare <- forecasts$Times[search.start:search.end]
-
-# Set circular variable if there is any
-if ('ParameterCirculars' %in% names(forecasts)) {
-  config$circulars <- unlist(lapply(forecasts$ParameterCirculars, function(x) {
-    return(which(x == forecasts$ParameterNames))}))
-}
 ```
 
 Now we can generate an AnEn. This could take a while. On a Mac Air, it takes about 2 minutes.
 
 ```{r}
-AnEn <- generateAnalogs(config)
+AnEn <- generateAnalogs(forecasts, observations, test.times, search.times, config)
 ```
 
 The result variable `AnEn` is a list of members. Let's check what the members are.
@@ -148,11 +135,11 @@ Finally, let's extract the AnEn forecast values and the corresponding observatio
 
 ```{r}
 # Collect analog ensemble values
-anen <- AnEn$analogs[, , , , 1]
+anen <- AnEn$analogs
 
 # Collect observations for the test period and the forecasted weather variable
 obs <- alignObservations(observations$Data, observations$Times,
-                         config$test_times_compare, config$flts,
+                         test.times, forecasts$FLTs,
                          silent = T, show.progress = F)
 obs <- obs[config$observation_id, , , ]
 ```
@@ -168,11 +155,11 @@ ret.RH <- verifyRankHist(anen, obs)
 
 # Let's make some figures
 par(mfrow = c(4, 1), mar = c(3, 4.5, 1, 1))
-plot(config$flts/3600, ret.MAE$flt, type = 'b', pch = 1, cex = 0.5,
+plot(forecasts$FLTs/3600, ret.MAE$flt, type = 'b', pch = 1, cex = 0.5,
      xlab = '', ylab = 'MAE')
-plot(config$flts/3600, ret.RMSE$flt, type = 'b', pch = 1, cex = 0.5,
+plot(forecasts$FLTs/3600, ret.RMSE$flt, type = 'b', pch = 1, cex = 0.5,
      xlab = '', ylab = 'RMSE')
-plot(config$flts/3600, ret.Bias$flt, type = 'b', pch = 1, cex = 0.5,
+plot(forecasts$FLTs/3600, ret.Bias$flt, type = 'b', pch = 1, cex = 0.5,
      xlab = 'Lead Times (h)', ylab = 'Bias')
 barplot(ret.RH$rank, ylab = 'Rank Frequency')
 ```

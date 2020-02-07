@@ -10,6 +10,7 @@ output: html_document
 
 ```{r setup, include=FALSE}
 library(RAnEn)
+library(RAnEnExtra)
 library(maps)
 
 stopifnot(packageVersion('RAnEn')>="3.2.5")

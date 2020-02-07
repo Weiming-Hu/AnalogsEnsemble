@@ -20,6 +20,7 @@ First, let's load the R libraries we will use.
 
 ```{r setup, include=F}
 library(RAnEn)
+library(RAnEnExtra)
 library(maps)
 
 # Check your version
