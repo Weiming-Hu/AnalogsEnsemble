@@ -31,7 +31,7 @@ AnEnReadNcdf::AnEnReadNcdf(Verbose verbose) :
 verbose_(verbose) {
 }
 
-AnEnReadNcdf::AnEnReadNcdf(const AnEnReadNcdf & orig) : AnEnRead(orig) {
+AnEnReadNcdf::AnEnReadNcdf(const AnEnReadNcdf & orig) {
     if (this != &orig) verbose_ = orig.verbose_;
 }
 
@@ -158,48 +158,6 @@ AnEnReadNcdf::readObservations(const std::string & file_path,
     read_(nc, observations.getValuesPtr(), VAR_DATA, start, count);  
     nc.close();
     
-    return;
-}
-
-void
-AnEnReadNcdf::readAnalogs(
-        const string & file_path, Analogs & analogs,
-        vector<size_t> start, vector<size_t> count) const {
-
-    if (verbose_ >= Verbose::Progress) {
-        cout << "Reading analog file (" << file_path << ") ..." << endl;
-    }
-
-    // Check whether we are reading partial or the entire variable
-    bool entire = (start.size() == 0 || count.size() == 0);
-
-    if (!entire) {
-        if (start.size() != _ANALOGS_DIMENSIONS ||
-                count.size() != _ANALOGS_DIMENSIONS) {
-            ostringstream msg;
-            msg << "#start (" << start.size() << ") and #count (" << count.size()
-                    << ") should both be " << _ANALOGS_DIMENSIONS << " for Analogs";
-            throw runtime_error(msg.str());
-        }
-    }
-    
-    if (verbose_ >= Verbose::Detail) cout << "Updating dimensions ..." << endl;
-    NcFile nc(file_path, NcFile::FileMode::read);
-    
-    if (entire) {
-        analogs.resize(boost::extents
-                [nc.getDim(DIM_STATIONS).getSize()]
-                [nc.getDim(DIM_TIMES).getSize()]
-                [nc.getDim(DIM_FLTS).getSize()]
-                [nc.getDim(DIM_MEMBERS).getSize()]
-                [nc.getDim(DIM_COLS).getSize()]);
-    } else {
-        analogs.resize(boost::extents
-                [count[0]][count[1]][count[2]][count[3]][count[4]]);
-    }
-    
-    read_(nc, analogs.data(), VAR_ANALOGS, start, count);
-    nc.close();
     return;
 }
 

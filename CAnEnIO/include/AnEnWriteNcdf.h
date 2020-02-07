@@ -9,11 +9,10 @@
 #define ANENWRITENCDF_H
 
 #include "Ncdf.h"
-#include "Analogs.h"
-#include "Stations.h"
 #include "Times.h"
-#include "Parameters.h"
 #include "Config.h"
+#include "Stations.h"
+#include "Parameters.h"
 
 class AnEnWriteNcdf {
 public:
@@ -41,9 +40,6 @@ protected:
 
     netCDF::NcDim getDim_(const netCDF::NcFile & nc,
             std::string name, size_t len = 0) const;
-
-    void append_(const netCDF::NcFile & nc, const Analogs & analogs) const;
-
 };
 
 #endif /* ANENWRITENCDF_H */

@@ -24,14 +24,15 @@ class AnEnRead {
 public:
     AnEnRead() = default;
     virtual ~AnEnRead() = default;
-    
+
     /**************************************************************************
      *                          Pure Virtual Functions                        *
      **************************************************************************/
-    
+
     virtual void readForecasts(
             const std::string & file_path,
             Forecasts & forecasts) const = 0;
+
     virtual void readObservations(
             const std::string & file_path,
             Observations & observations) const = 0;

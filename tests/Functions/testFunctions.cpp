@@ -6,11 +6,12 @@
  */
 
 #include <vector>
+#include <numeric>
 #include <iostream>
 
+#include "AnEnReadNcdf.h"
 #include "testFunctions.h"
 #include "ForecastsPointer.h"
-#include "AnEnReadNcdf.h"
 #include "ObservationsPointer.h"
 
 #include "boost/bimap/bimap.hpp"

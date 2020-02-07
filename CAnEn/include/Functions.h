@@ -12,7 +12,6 @@
 #include "Times.h"
 #include "Config.h"
 #include "Stations.h"
-#include "boost/multi_array.hpp"
 #include "boost/numeric/ublas/matrix.hpp"
 #include "boost/numeric/ublas/io.hpp"
 
@@ -24,9 +23,6 @@
 namespace Functions {
 
     static const std::size_t _MAX_SIZE_T = std::numeric_limits<std::size_t>::max();
-
-    template <typename T, std::size_t NDims>
-    using array_view = boost::detail::multi_array::multi_array_view<T, NDims>;
     
     /**
      * The Matrix type is from boost uBLAS matrix.
@@ -128,27 +124,6 @@ namespace Functions {
      * @return  A double.
      */
     double diffCircular(double i, double j);
-
-    /**************************************************************************
-     *                          Template Functions                            *
-     **************************************************************************/
-    
-    /**
-     * Print multi_array and multi_array_view.
-     * 
-     * @param os output stream
-     * @param arr multi_array obejct to be printed.
-     */
-    template <typename T>
-    void print(std::ostream & os, const boost::multi_array<T, 2> & arr);
-    template <typename T>
-    void print(std::ostream & os, const boost::multi_array<T, 3> & arr);
-    template <typename T>
-    void print(std::ostream & os, const boost::multi_array<T, 4> & arr);
-    template <typename T>
-    void print(std::ostream & os, const boost::multi_array<T, 5> & arr);
-    template <typename T, std::size_t NDims>
-    void print(std::ostream & os, const array_view<T, NDims> & view);
     
     /**
      * Format a vector as a string for printing.

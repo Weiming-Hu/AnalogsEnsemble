@@ -19,7 +19,7 @@
  * 
  * \brief Parameter stores parameter information including name and circular.
  */
-class Parameter final {
+class Parameter {
 public:
     Parameter();
 

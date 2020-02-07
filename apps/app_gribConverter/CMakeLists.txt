@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.0)
 project(gribConverter)
 
 if (NOT ECCODES_TYPE)
@@ -88,7 +88,8 @@ endif (ECCODES_TYPE STREQUAL "BUILD")
 enable_language(C CXX)
 
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}")
-set(SOURCE_MAIN "${CMAKE_CURRENT_SOURCE_DIR}/gribConverter.cpp;${CMAKE_CURRENT_SOURCE_DIR}/gribConverterFunctions.cpp")
+#set(SOURCE_MAIN "${CMAKE_CURRENT_SOURCE_DIR}/gribConverter.cpp;${CMAKE_CURRENT_SOURCE_DIR}/gribConverterFunctions.cpp")
+set(SOURCE_MAIN "${CMAKE_CURRENT_SOURCE_DIR}/testEccodes.cpp")
 add_executable(${PROJECT_NAME} ${SOURCE_MAIN})
 
 include_directories(SYSTEM ${NETCDF_INCLUDES})

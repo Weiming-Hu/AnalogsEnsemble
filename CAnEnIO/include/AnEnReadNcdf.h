@@ -11,19 +11,19 @@
 #include <vector>
 #include <netcdf>
 
-#include "AnEnRead.h"
-#include "Analogs.h"
 #include "Config.h"
+#include "Forecasts.h"
+#include "Observations.h"
 
 /**
  * \class AnEnReadNcdf
  * 
- * \brief AnEnRead derives from AnEnRead and it provides the functionality to
- * read the NetCDF format. The recognized NetCDF file structure is below
+ * \brief AnEnRead provides the functionality to read the NetCDF format.
+ * The recognized NetCDF file structure is below
  * 
  * https://weiming-hu.github.io/AnalogsEnsemble/2019/01/16/NetCDF-File-Types.html
  */
-class AnEnReadNcdf : public AnEnRead {
+class AnEnReadNcdf {
 public:
 
     enum class FileType {
@@ -37,22 +37,16 @@ public:
     virtual ~AnEnReadNcdf();
 
     void readForecasts(const std::string & file_path,
-            Forecasts & forecasts) const override;
+            Forecasts & forecasts) const ;
     void readForecasts(
             const std::string & file_path, Forecasts & forecasts,
             std::vector<size_t> start, std::vector<size_t> count) const;
     
     void readObservations(const std::string & file_path,
-            Observations & observations) const override;
+            Observations & observations) const ;
     void readObservations(
             const std::string & file_path, Observations & observations,
             std::vector<size_t> start, std::vector<size_t> count) const;
-    
-    void readAnalogs(
-            const std::string & file_path, Analogs & analogs,
-            std::vector<size_t> start = {},
-            std::vector<size_t> count = {}) const;
-    
     
 protected:
     Verbose verbose_;

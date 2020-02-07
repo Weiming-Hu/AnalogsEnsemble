@@ -10,7 +10,7 @@
 #include "Functions.h"
 
 #include <iostream>
-#include <ctime>
+#include <numeric>
 #include <vector>
 #include <iomanip>
 #include <sstream>

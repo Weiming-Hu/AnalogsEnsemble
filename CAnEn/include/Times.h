@@ -14,7 +14,7 @@
 
 #include "BmDim.h"
 
-class Time final {
+class Time {
 public:
     Time();
     Time(std::size_t);

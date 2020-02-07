@@ -63,26 +63,3 @@ AnEnWriteNcdf::getDim_(const NcFile & nc, string name, size_t len) const {
     
     return (dim);
 }
-
-void
-AnEnWriteNcdf::append_(const NcFile & nc, const Analogs & analogs) const {
-
-    if (verbose_ >= Verbose::Detail) cout << "Appending analogs ..." << endl;
-
-    // Create analog dimensions
-    const auto & shape = analogs.shape();
-    NcDim dim_stations = getDim_(nc, DIM_STATIONS, shape[0]),
-            dim_times = getDim_(nc, DIM_TIMES, shape[1]),
-            dim_flts = getDim_(nc, DIM_FLTS, shape[2]),
-            dim_members = getDim_(nc, DIM_MEMBERS, shape[3]),
-            dim_cols = getDim_(nc, DIM_COLS, shape[4]);
-
-    // Create the analog variable
-    NcVar var_analogs = nc.addVar(VAR_ANALOGS, NC_DOUBLE,{
-        dim_cols, dim_members, dim_flts, dim_times, dim_stations
-    });
-
-    // Put data
-    var_analogs.putVar(analogs.data());
-    return;
-}

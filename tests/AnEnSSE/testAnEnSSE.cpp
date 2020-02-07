@@ -4,6 +4,7 @@
  *
  * Created on Aug 4, 2018, 4:09:20 PM
  */
+#include <numeric>
 
 #include "AnEnSSE.h"
 #include "Forecasts.h"

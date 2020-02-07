@@ -5,8 +5,10 @@
  * Created on Aug 4, 2018, 4:09:20 PM
  */
 
+#include <numeric>
+
 #include "testAnEnIS.h"
-#include <boost/bimap/bimap.hpp>
+#include "boost/bimap/bimap.hpp"
 #include "boost/assign/list_of.hpp"
 #include "boost/assign/list_inserter.hpp"
 #include "ForecastsPointer.h"

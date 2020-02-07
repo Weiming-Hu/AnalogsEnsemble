@@ -23,6 +23,6 @@ add_subdirectory("AnEnSSE")
 
 if (BUILD_GRIBCONVERTER)
     message(STATUS "Build test for GRIB converter.")
-    add_subdirectory("gribConverter")
+#    add_subdirectory("gribConverter")
 endif (BUILD_GRIBCONVERTER)
 

@@ -22,7 +22,7 @@
  * useful for station retrieval.
  * 
  */
-class Station final {
+class Station {
 public:
     Station();
     Station(Station const &);

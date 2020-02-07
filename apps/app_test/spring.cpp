@@ -14,10 +14,7 @@
 #include "ForecastsPointer.h"
 #include "ObservationsPointer.h"
 #include <algorithm>
-
-#include <map>
-
-#include <ctime>
+#include <numeric>
 
 using namespace std;
 
