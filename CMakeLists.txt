@@ -20,7 +20,6 @@ enable_language(CXX C)
 ##################################################################################
 #                 Start of the list of parameters                                #
 ##################################################################################
-
 option(CMAKE_BUILD_TESTS "Build tests" ON)
 option(VERBOSE "Verbose standout output" OFF)
 option(INSTALL_RAnEn "install RAnEn package" OFF)

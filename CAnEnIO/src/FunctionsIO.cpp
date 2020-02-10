@@ -51,7 +51,7 @@ FunctionsIO::parseFilename(Time & time, Time & flt,
         const string & file, const date & start_day,
         const regex & regex_day,
         const regex & regex_flt,
-        double flt_unit_in_seconds,
+        double unit_in_seconds,
         bool delimited) {
 
     date current_day;
@@ -72,7 +72,7 @@ FunctionsIO::parseFilename(Time & time, Time & flt,
     size_t timestamp = (current_day - start_day).days() * _SECONDS_IN_DAY;
 
     time.timestamp = timestamp;
-    flt.timestamp = stoi(match_flt[1]) * flt_unit_in_seconds;
+    flt.timestamp = stoi(match_flt[1]) * unit_in_seconds;
 
     return true;
 }
@@ -83,13 +83,13 @@ FunctionsIO::parseFilename(Time & time, Time & flt,
         const regex & regex_day,
         const regex & regex_flt,
         const regex & regex_cycle,
-        double flt_unit_in_seconds,
+        double unit_in_seconds,
         bool delimited) {
 
     // Match only the day and the lead time parts
     bool ret = parseFilename(time, flt, file,
             start_day, regex_day, regex_flt,
-            flt_unit_in_seconds, delimited);
+            unit_in_seconds, delimited);
 
     // If the first step of matching has failed, return false
     if (!ret) return false;
@@ -98,7 +98,7 @@ FunctionsIO::parseFilename(Time & time, Time & flt,
     smatch match_cycle;
 
     if (regex_search(file.begin(), file.end(), match_cycle, regex_cycle)) {
-        time.timestamp += stoi(match_cycle[1]) * _SECONDS_IN_HOUR;
+        time.timestamp += stoi(match_cycle[1]) * unit_in_seconds;
     } else {
         throw runtime_error("Cannot find cycle time using the regular expression");
     }
@@ -112,7 +112,7 @@ FunctionsIO::parseFilenames(Times & times, Times & flts,
         const string & regex_day_str,
         const string & regex_flt_str,
         const string & regex_cycle_str,
-        double flt_unit_in_seconds,
+        double unit_in_seconds,
         bool delimited) {
 
     // Convert regular expression string to a regular expression object
@@ -136,10 +136,10 @@ FunctionsIO::parseFilenames(Times & times, Times & flts,
 
         if (regex_cycle_str.empty()) ret = parseFilename(
                 time, flt, file, start_day, regex_day, regex_flt,
-                flt_unit_in_seconds, delimited);
+                unit_in_seconds, delimited);
         else ret = parseFilename(
                 time, flt, file, start_day, regex_day, regex_flt,
-                regex_cycle, flt_unit_in_seconds, delimited);
+                regex_cycle, unit_in_seconds, delimited);
 
         if (ret) {
             times.push_back(Times::value_type(counter, time));
@@ -163,9 +163,16 @@ FunctionsIO::collapseLeadTimes(
     const auto & fcst_times = forecasts.getTimes();
     const auto & fcst_flts = forecasts.getFLTs();
 
-    // Insert times from forecasts to observations
-    for (size_t time_i = 0; time_i < fcst_times.size(); ++time_i) {
-        for (size_t flt_i = 0; flt_i < fcst_flts.size(); ++flt_i) {
+    /*
+     * Insert times from forecasts to observations.
+     * 
+     * Please note that I'm looping first on forecast lead times and then forecast
+     * times because I'm giving priority to earlier forecast lead times compared
+     * to later lead time that are further into the future. I will keep the values
+     * that are close to the initialization time.
+     */
+    for (size_t flt_i = 0; flt_i < fcst_flts.size(); ++flt_i) {
+        for (size_t time_i = 0; time_i < fcst_times.size(); ++time_i) {
 
             time_entry[_TIME_INDEX] = time_i;
             time_entry[_FLT_INDEX] = flt_i;
@@ -178,25 +185,24 @@ FunctionsIO::collapseLeadTimes(
 
     // Insert the sorted unique times into observation times
     Times obs_times;
-    size_t counter = 0;
+    size_t time_i = 0;
     const auto & unique_times_end = unique_times.end();
-    for (auto it = unique_times.begin(); it != unique_times_end; ++it) {
-        obs_times.push_back(Times::value_type(counter, (*it)[_VALUE_INDEX]));
-        counter++;
+    for (auto it = unique_times.begin(); it != unique_times_end; ++it, ++time_i) {
+        obs_times.push_back(Times::value_type(time_i, (*it)[_VALUE_INDEX]));
     }
 
     // Set dimensions for observations
     observations.setDimensions(forecasts.getParameters(), forecasts.getStations(), obs_times);
 
     // Copy values from forecasts
+    time_i = 0;
     double value;
-    size_t time_i = 0;
     size_t num_parameters = observations.getParameters().size();
     size_t num_stations = observations.getStations().size();
 
-    for (size_t parameter_i = 0; parameter_i < num_parameters; ++parameter_i) {
-        for (size_t station_i = 0; station_i < num_stations; ++station_i) {
-            for (auto it = unique_times.begin(); it != unique_times_end; ++it, ++time_i) {
+    for (auto it = unique_times.begin(); it != unique_times_end; ++it, ++time_i) {
+        for (size_t parameter_i = 0; parameter_i < num_parameters; ++parameter_i) {
+            for (size_t station_i = 0; station_i < num_stations; ++station_i) {
                 value = forecasts.getValue(parameter_i, station_i, (*it)[_TIME_INDEX], (*it)[_FLT_INDEX]);
                 observations.setValue(value, parameter_i, station_i, time_i);
             }

@@ -7,9 +7,16 @@
 
 /** @file */
 
-
 #include "boost/program_options.hpp"
 #include "boost/filesystem.hpp"
+
+#include "AnEnIS.h"
+#include "AnEnSSE.h"
+#include "AnEnReadGrib.h"
+#include "ForecastsPointer.h"
+#include "ObservationsPointer.h"
+
+using namespace std;
 
 int main() {
     
