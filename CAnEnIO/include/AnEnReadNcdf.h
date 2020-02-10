@@ -27,8 +27,7 @@ class AnEnReadNcdf {
 public:
 
     enum class FileType {
-        Forecasts, Observations, Similarity,
-        Analogs, StandardDeviation
+        Forecasts, Observations
     };
 
     AnEnReadNcdf();
@@ -69,7 +68,7 @@ protected:
     
     template <typename T>
     void read_(const netCDF::NcFile & nc, T * p_vals,
-            const std::string & var_name = "Data",
+            const std::string & var_name = Config::_DATA,
             std::vector<size_t> start = {},
             std::vector<size_t> count = {}) const;
 };
