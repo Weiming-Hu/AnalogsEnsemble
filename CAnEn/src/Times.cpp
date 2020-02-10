@@ -24,8 +24,8 @@
 
 using namespace std;
 
-std::string Time::_origin = Config::_ORIGIN;
-std::string Time::_unit = Config::_UNIT;
+const std::string Time::_unit = "seconds";
+const std::string Time::_origin = "1970-01-01";
 
 Time::Time() : timestamp(Config::_TIME) {
 }
@@ -105,7 +105,8 @@ Times::getTime(size_t index) const {
 
 void
 Times::print(ostream &os) const {
-    os << "[Times] size: " << size() << endl;
+    os << "[Times] size: " << size() << " origin: " << Time::_origin
+        << " unit: " << Time::_unit << endl;
 
     for (left_const_iterator it = left.begin(); it < left.end(); it++) {
         os << "[" << it->first << "] " << it->second;

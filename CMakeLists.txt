@@ -28,7 +28,7 @@ option(BUILD_SIMS "Build similarity calculator" OFF)
 option(BUILD_WIND "Build wind field calculator" OFF)
 option(BUILD_SD "Build standard deviation calculator" OFF)
 option(BUILD_F2O "Build forecast to observation utility" OFF)
-option(BUILD_GRIBCONVERTER "Build gribConverter utility. Eccodes required." OFF)
+option(BUILD_GRIBCONVERTER "Build gribConverter utility. Eccodes required." ON)
 
 option(CMAKE_BUILD_TESTS "Build tests" ON)
 option(VERBOSE "Verbose standout output" OFF)

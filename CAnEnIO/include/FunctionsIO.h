@@ -10,23 +10,37 @@
 
 #include <vector>
 #include <string>
+#include <regex>
 
 #include "Times.h"
+#include "boost/date_time/gregorian/gregorian.hpp"
 
 namespace FunctionsIO {
 
-    void parseFiles(Times&, Times&, std::vector<std::string> & files,
-            const std::string & regex_time_str,
+    bool parseFilename(Time & time, Time & flt,
+            const std::string & file,
+            const boost::gregorian::date & start_day,
+            const std::regex & regex_day,
+            const std::regex & regex_flt,
+            const std::regex & regex_cycle,
+            double flt_unit_in_seconds,
+            bool delimited);
+
+    bool parseFilename(Time & time, Time & flt,
+            const std::string & file,
+            const boost::gregorian::date & start_day,
+            const std::regex & regex_day,
+            const std::regex & regex_flt,
+            double flt_unit_in_seconds,
+            bool delimited);
+
+    void parseFilenames(Times&, Times&,
+            const std::vector<std::string> & files,
+            const std::string & regex_day_str,
             const std::string & regex_flt_str,
             const std::string & regex_cycle_str,
             double flt_unit_in_seconds,
             bool delimited);
-
-    void parseFile(Time&, Time&, const std::string & file,
-            const std::string & regex_time_str,
-            const std::string & regex_flt_str,
-            const std::string & regex_cycle_str,
-            double flt_unit_in_seconds, bool delimited);
 };
 
 #endif /* FUNCTIONSIO_H */

@@ -8,8 +8,6 @@ endif (NOT ECCODES_TYPE)
 message (STATUS "ECCODES_TYPE is set to ${ECCODES_TYPE}")
 
 message(STATUS "Build application Grib Converter.")
-message(STATUS "Alway remeber to avoid using multi-field feature.")
-message(STATUS "Reference: http://bit.ly/avoidMultiField")
 if (ECCODES_TYPE STREQUAL "SYSTEM")
     find_package(eccodes)
     if(eccodes_FOUND)
@@ -94,6 +92,7 @@ add_executable(${PROJECT_NAME} ${SOURCE_MAIN})
 
 include_directories(SYSTEM ${NETCDF_INCLUDES})
 include_directories(SYSTEM ${NETCDF_CXX4_INCLUDE_DIR})
+
 include_directories("${CMAKE_SOURCE_DIR}/CAnEnIO/include")
 add_dependencies(${PROJECT_NAME} AnEnIO)
 target_link_libraries(${PROJECT_NAME} AnEnIO)

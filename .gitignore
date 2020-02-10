@@ -146,3 +146,6 @@ out
 
 # VS code project
 *.vscode
+
+# YCM support
+.ycm_extra_conf.py

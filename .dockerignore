@@ -149,3 +149,6 @@ out
 .gitignore
 _config.yml
 *csv
+
+# YCM support
+.ycm_extra_conf.py

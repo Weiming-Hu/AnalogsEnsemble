@@ -32,11 +32,8 @@ public:
     void print(std::ostream & os) const;
     friend std::ostream& operator<<(std::ostream& os, Time const & obj);
     
-    // They are static members because unit and origin should be
-    // consistent throughout the program.
-    //
-    static std::string _unit;
-    static std::string _origin;
+    static const std::string _unit;
+    static const std::string _origin;
 };
 
 /**

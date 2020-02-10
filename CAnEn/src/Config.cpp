@@ -19,8 +19,6 @@ const double Config::_X = 0.0;
 const double Config::_Y = 0.0;
 const size_t Config::_TIME = 0;
 const string Config::_NAME = "UNDEFINED";
-const string Config::_UNIT = "seconds";
-const string Config::_ORIGIN = "1970-01-01";
 
 const string Config::_NUM_ANALOGS = "num_analogs";
 const string Config::_NUM_SIMS = "num_similarity";
