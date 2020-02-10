@@ -96,9 +96,11 @@ int main() {
     string regex_cycle_str = ".*nam_218_\\d{8}_(\\d{2})\\d{2}_\\d{3}\\.grb2$";
 
     AnEnReadGrib anen_read;
-    anen_read.readForecasts(forecasts, grib_parameters, files, regex_day_str, regex_flt_str, regex_cycle_str);
+    anen_read.readForecasts(forecasts, grib_parameters, files,
+            regex_day_str, regex_flt_str, regex_cycle_str,
+            3600, false, {0, 3, 5});
 
-    cout << forecasts.getStations() << endl;
+    cout << forecasts << endl;
 
     return 0;
 }

@@ -12,7 +12,9 @@
 #include <string>
 #include <regex>
 
-#include "Times.h"
+#include "Forecasts.h"
+#include "Observations.h"
+
 #include "boost/date_time/gregorian/gregorian.hpp"
 
 namespace FunctionsIO {
@@ -41,6 +43,8 @@ namespace FunctionsIO {
             const std::string & regex_cycle_str,
             double flt_unit_in_seconds,
             bool delimited);
+    
+    void collapseLeadTimes(Observations &, const Forecasts &);
 };
 
 #endif /* FUNCTIONSIO_H */

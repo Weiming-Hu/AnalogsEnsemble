@@ -15,13 +15,6 @@
 using namespace std;
 using namespace boost::gregorian;
 
-AnEnReadGrib::AnEnReadGrib() {
-}
-
-AnEnReadGrib::AnEnReadGrib(const AnEnReadGrib& orig) {
-}
-
-
 AnEnReadGrib::~AnEnReadGrib() {
 }
 
@@ -33,11 +26,13 @@ AnEnReadGrib::readForecasts(Forecasts & forecasts,
         const string & regex_flt_str,
         const string & regex_cycle_str,
         double flt_unit_in_seconds, bool delimited,
-        vector<int> stations_index) const {
+        vector<int> stations_index,
+        bool verbose) const {
     
     /*
      * Parse files for forecast times and forecast lead times
      */
+    if (verbose) cout << "Parsing files names for times and forecast lead times ..." << endl;
     Times times, flts;
     FunctionsIO::parseFilenames(times, flts, files,
             regex_day_str, regex_flt_str, regex_cycle_str,
@@ -45,16 +40,19 @@ AnEnReadGrib::readForecasts(Forecasts & forecasts,
 
     if (times.size() == 0) throw runtime_error("No day information extracted. Check filenames and regular expressions");
     if (flts.size() == 0) throw runtime_error("No lead time information extracted. Check filenames and regular expressions");
+    if (!is_sorted(stations_index.begin(), stations_index.end())) throw runtime_error("Stations index should be sorted in ascension order");
 
     /*
      * Read the first message from the first file and retrieve station coordinates
      */
+    if (verbose) cout << "Read stations from the first file ..." << endl;
     Stations stations;
     readStations_(stations, files[0], stations_index);
 
     /*
      * Set up parameters
      */
+    if (verbose) cout << "Insert forecast parameters ..." << endl;
     Parameters parameters;
     size_t counter = 0;
     for (auto it = grib_parameters.begin(); it != grib_parameters.end(); ++it, ++counter) {
@@ -71,6 +69,7 @@ AnEnReadGrib::readForecasts(Forecasts & forecasts,
     /*
      * Read forecasts
      */
+    if (verbose) cout << "Read forecast ..." << endl;
     bool ret;
     int err = 0;
     double* p_data = nullptr;
@@ -78,7 +77,7 @@ AnEnReadGrib::readForecasts(Forecasts & forecasts,
 
     size_t data_len;
     size_t time_i, flt_i;
-    size_t num_stations = forecasts.getStations().size();
+    size_t num_stations = stations.size();
 
     // These regular expressions can be reused
     regex regex_day = regex(regex_day_str);
@@ -112,7 +111,12 @@ AnEnReadGrib::readForecasts(Forecasts & forecasts,
                 regex_cycle, flt_unit_in_seconds, delimited);
 
         // Skip this file if the file is not recognized
-        if (!ret) continue;
+        if (ret) {
+            if (verbose) cout << "Reading " << file << endl;
+        } else {
+            if (verbose) cout << "Skipped " << file << endl;
+            continue;
+        }
 
         // Get index
         time_i = times.getIndex(file_time);
@@ -162,8 +166,14 @@ AnEnReadGrib::readForecasts(Forecasts & forecasts,
                             h, ParameterGrib::_key_values.c_str(),
                             stations_index.data(), data_len, p_data), 0);
             }
-
-            assert(data_len == num_stations);
+            
+            if (num_stations != data_len) {
+                ostringstream msg;
+                msg << "The number of data values (" << data_len
+                        << ") do not match the number of stations (" << num_stations
+                        << "). Do you have duplicates in station coordinates?";
+                throw runtime_error(msg.str());
+            }
 
             // Set values into the forecasts
             for (size_t station_i = 0; station_i < data_len; ++station_i) {
@@ -179,11 +189,6 @@ AnEnReadGrib::readForecasts(Forecasts & forecasts,
     }
 
     return;
-}
-
-void
-AnEnReadGrib::readObservations(vector<string> files, Observations& observations) const {
-
 }
 
 void
@@ -204,19 +209,32 @@ AnEnReadGrib::readStations_(Stations & stations, const string & file,
 
     // Start with a clean repository
     stations.clear();
-
+    
     double x, y, val;
-    size_t counter = 0;
+    int counter = 0, station_index = 0;
 
     while (codes_grib_iterator_next(iter, &x, &y, &val)) {
+        
+        if (stations_index.size() != 0) {
+            // If we are reading a subset of the stations
+            
+            if (stations_index[station_index] != counter) {
+                // If the current station is not what we want to read
+                counter++;
+                continue;
+            }
+        }
+
+        // The current station is what we want to read
         Station station(x, y);
-        stations.push_back(Stations::value_type(counter, station));
+        stations.push_back(Stations::value_type(station_index, station));    
         counter++;
+        station_index++;
     }
 
     codes_grib_iterator_delete(iter);
     codes_handle_delete(h);
     fclose(in);
-
+    
     return;
 }

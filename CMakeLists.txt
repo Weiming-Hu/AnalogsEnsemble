@@ -20,15 +20,6 @@ enable_language(CXX C)
 ##################################################################################
 #                 Start of the list of parameters                                #
 ##################################################################################
-option(BUILD_FS "Build file slicer" OFF)
-option(BUILD_AGG "Build file aggregator" OFF)
-option(BUILD_ANENS "Build analog selector" OFF)
-option(BUILD_ANENGEN "Build analog generator" OFF)
-option(BUILD_SIMS "Build similarity calculator" OFF)
-option(BUILD_WIND "Build wind field calculator" OFF)
-option(BUILD_SD "Build standard deviation calculator" OFF)
-option(BUILD_F2O "Build forecast to observation utility" OFF)
-option(BUILD_GRIBCONVERTER "Build gribConverter utility. Eccodes required." ON)
 
 option(CMAKE_BUILD_TESTS "Build tests" ON)
 option(VERBOSE "Verbose standout output" OFF)
@@ -206,43 +197,7 @@ add_subdirectory("${CMAKE_SOURCE_DIR}/CAnEn")
 #####################
 # build executables #
 #####################
-add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_test")
-
-if (BUILD_SD)
-    add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_standardDeviationCalculator")
-endif (BUILD_SD)
-
-if (BUILD_F2O)
-    add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_forecastsToObservations")
-endif (BUILD_F2O)
-
-if (BUILD_SIMS)
-    add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_similarityCalculator")
-endif (BUILD_SIMS)
-
-if (BUILD_WIND)
-    add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_windFieldCalculator")
-endif (BUILD_WIND)
-
-if (BUILD_ANENGEN)
-    add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_analogGenerator")
-endif (BUILD_ANENGEN)
-
-if (BUILD_ANENS)
-    add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_analogSelector")
-endif (BUILD_ANENS)
-
-if (BUILD_AGG)
-    add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_fileAggregate")
-endif (BUILD_AGG)
-
-if (BUILD_FS)
-    add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_fileSlice")
-endif (BUILD_FS)
-
-if (BUILD_GRIBCONVERTER)
-    add_subdirectory("${CMAKE_SOURCE_DIR}/apps/app_gribConverter")
-endif (BUILD_GRIBCONVERTER)
+add_subdirectory("${CMAKE_SOURCE_DIR}/apps/anen")
 
 
 #####################

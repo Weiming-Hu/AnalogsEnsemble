@@ -25,7 +25,8 @@ Array4DPointer::Array4DPointer(const Array4DPointer& rhs) : Array4D(rhs) {
     *this = rhs;
 }
 
-Array4DPointer::Array4DPointer(size_t dim0, size_t dim1, size_t dim2, size_t dim3) {
+Array4DPointer::Array4DPointer(size_t dim0, size_t dim1, size_t dim2, size_t dim3) :
+Array4D() {
     allocated_ = false;
     resize(dim0, dim1, dim2, dim3);
 }

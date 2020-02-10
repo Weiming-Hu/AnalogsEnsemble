@@ -17,8 +17,8 @@
 
 class AnEnReadGrib {
 public:
-    AnEnReadGrib();
-    AnEnReadGrib(const AnEnReadGrib& orig);
+    AnEnReadGrib() = default;
+    AnEnReadGrib(const AnEnReadGrib& orig) = default;
     virtual ~AnEnReadGrib();
 
     void readForecasts(Forecasts & forecasts,
@@ -29,9 +29,8 @@ public:
             const std::string & regex_cycle_str = "",
             double flt_unit_in_seconds = 3600,
             bool delimited = false,
-            std::vector<int> stations_index = {}) const;
-
-    virtual void readObservations(std::vector<std::string>, Observations &) const;
+            std::vector<int> stations_index = {},
+            bool verbose = false) const;
 
 protected:
     void readStations_(Stations&, const std::string &,
