@@ -9,11 +9,24 @@
 #include <stdexcept>
 
 #include "eccodes.h"
+#include "Functions.h"
 #include "FunctionsIO.h"
 #include "AnEnReadGrib.h"
 
 using namespace std;
 using namespace boost::gregorian;
+
+AnEnReadGrib::AnEnReadGrib() {
+    Config config;
+    verbose_ = config.verbose;
+}
+
+AnEnReadGrib::AnEnReadGrib(const AnEnReadGrib& orig) {
+    verbose_ = orig.verbose_;
+}
+
+AnEnReadGrib::AnEnReadGrib(Verbose verbose) : verbose_(verbose) {
+}
 
 AnEnReadGrib::~AnEnReadGrib() {
 }
@@ -26,13 +39,12 @@ AnEnReadGrib::readForecasts(Forecasts & forecasts,
         const string & regex_flt_str,
         const string & regex_cycle_str,
         double flt_unit_in_seconds, bool delimited,
-        vector<int> stations_index,
-        bool verbose) const {
+        vector<int> stations_index) const {
     
     /*
      * Parse files for forecast times and forecast lead times
      */
-    if (verbose) cout << "Parsing files names for times and forecast lead times ..." << endl;
+    if (verbose_ >= Verbose::Progress) cout << "Parsing files names for times and forecast lead times ..." << endl;
     Times times, flts;
     FunctionsIO::parseFilenames(times, flts, files,
             regex_day_str, regex_flt_str, regex_cycle_str,
@@ -45,14 +57,14 @@ AnEnReadGrib::readForecasts(Forecasts & forecasts,
     /*
      * Read the first message from the first file and retrieve station coordinates
      */
-    if (verbose) cout << "Read stations from the first file ..." << endl;
+    if (verbose_ >= Verbose::Progress) cout << "Read stations from the first file ..." << endl;
     Stations stations;
     readStations_(stations, files[0], stations_index);
 
     /*
      * Set up parameters
      */
-    if (verbose) cout << "Insert forecast parameters ..." << endl;
+    if (verbose_ >= Verbose::Progress) cout << "Insert forecast parameters ..." << endl;
     Parameters parameters;
     size_t counter = 0;
     for (auto it = grib_parameters.begin(); it != grib_parameters.end(); ++it, ++counter) {
@@ -69,7 +81,7 @@ AnEnReadGrib::readForecasts(Forecasts & forecasts,
     /*
      * Read forecasts
      */
-    if (verbose) cout << "Read forecast ..." << endl;
+    if (verbose_ >= Verbose::Progress) cout << "Read forecast ..." << endl;
     bool ret;
     int err = 0;
     double* p_data = nullptr;
@@ -112,9 +124,9 @@ AnEnReadGrib::readForecasts(Forecasts & forecasts,
 
         // Skip this file if the file is not recognized
         if (ret) {
-            if (verbose) cout << "Reading " << file << endl;
+            if (verbose_ >= Verbose::Progress) cout << "Reading " << file << endl;
         } else {
-            if (verbose) cout << "Skipped " << file << endl;
+            if (verbose_ >= Verbose::Progress) cout << "Skipped " << file << endl;
             continue;
         }
 

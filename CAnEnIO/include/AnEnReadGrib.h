@@ -10,6 +10,7 @@
 
 #include <vector>
 
+#include "Config.h"
 #include "Forecasts.h"
 #include "FunctionsIO.h"
 #include "Observations.h"
@@ -17,8 +18,9 @@
 
 class AnEnReadGrib {
 public:
-    AnEnReadGrib() = default;
-    AnEnReadGrib(const AnEnReadGrib& orig) = default;
+    AnEnReadGrib();
+    AnEnReadGrib(const AnEnReadGrib& orig);
+    AnEnReadGrib(Verbose verbose);
     virtual ~AnEnReadGrib();
 
     void readForecasts(Forecasts & forecasts,
@@ -29,10 +31,11 @@ public:
             const std::string & regex_cycle_str = "",
             double flt_unit_in_seconds = 3600,
             bool delimited = false,
-            std::vector<int> stations_index = {},
-            bool verbose = false) const;
+            std::vector<int> stations_index = {}) const;
 
 protected:
+    Verbose verbose_;
+    
     void readStations_(Stations&, const std::string &,
             const std::vector<int> & stations_index = {}) const;
 };
