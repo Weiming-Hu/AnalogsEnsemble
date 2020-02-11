@@ -5,10 +5,10 @@
  * Created on December 30, 2019, 7:55 PM
  */
 
-#include "Ncdf.h"
-#include "boost/filesystem.hpp"
+#include <boost/filesystem.hpp>
 
-#include <stdexcept>
+#include "Ncdf.h"
+#include "Config.h"
 
 namespace filesys = boost::filesystem;
 using namespace netCDF;
@@ -60,6 +60,73 @@ Ncdf::checkIndex(size_t start, size_t count, size_t len) {
     return;
 }
 
+void
+Ncdf::checkDims(const NcFile & nc,
+        const vector<string> & names) {
+
+    for (const auto & name : names) {
+        if (!name.empty() && !dimExists(nc, name)) {
+            ostringstream msg;
+            msg << "Dimension (" + name + ") is missing";
+            throw invalid_argument(msg.str());
+        }
+    }
+
+    return;
+}
+
+void
+Ncdf::checkVars(const NcFile & nc,
+        const vector<string> & names) {
+
+    for (const auto & name : names) {
+        if (!name.empty() && !varExists(nc, name)) {
+            ostringstream msg;
+            msg << "Variable (" << name << ") is missing";
+            throw invalid_argument(msg.str());
+        }
+    }
+
+    return;
+}
+
+void
+Ncdf::checkVarShape(const NcFile & nc,
+        const string & var_name, const vector<string> & dim_names) {
+
+    const auto & var = nc.getVar(var_name);
+    auto dims = var.getDims();
+    
+    if (dims.size() != dim_names.size()) {
+        ostringstream msg;
+        msg << "Variable " << var_name << " has " << dims.size() <<
+                " dimensions while " << dim_names.size() << " are expected";
+        throw runtime_error(msg.str());
+    }
+    
+    reverse(dims.begin(), dims.end());
+
+    for (size_t i = 0; i < dims.size(); ++i) {
+        if (dim_names[i] != dims[i].getName()) {
+            ostringstream msg;
+            msg << "Variable " << var_name << " dimension #" << i + 1 << " ("
+                    << dims[i].getName() << ") should be " << dim_names[i];
+            throw runtime_error(msg.str());
+        }
+    }
+
+    return;
+}
+
+bool
+Ncdf::dimExists(const NcFile & nc, const string & name) {
+    return (!nc.getDim(name).isNull());
+}
+
+bool
+Ncdf::varExists(const NcFile & nc, const string & name) {
+    return (!nc.getVar(name).isNull());
+}
 void
 Ncdf::readStringVector(
         const NcFile & nc, string var_name,
@@ -129,6 +196,105 @@ Ncdf::readStringVector(
     return;
 }
 
+NcDim
+Ncdf::getDimension(NcFile & nc, const string & name, bool unlimited, size_t len) {
+    
+    NcDim dim = nc.getDim(name);
+    if (dim.isNull()) {
+        
+        // The dimension name does not exist. Add this parameter
+        if (unlimited) return nc.addDim(name);
+        else return nc.addDim(name, len);
+        
+    } else {
+        // The dimension name already exists
+        bool check = (dim.isUnlimited() == unlimited);
+        if (!dim.isUnlimited()) check = check && (dim.getSize() == len);
+        
+        if (check) {
+            // The exact dimension exists. Do not add this parameter
+            return dim;
+        } else {
+            ostringstream msg;
+            msg << "Parameter " << name << " already exists with different settings";
+            throw runtime_error(msg.str());
+        }
+    }
+}
+
+void
+Ncdf::writeStringVector(netCDF::NcFile & nc, const std::string & var_name,
+        const std::string & dim_name, const std::vector<std::string> & values,
+        bool unlimited) {
+
+    using namespace netCDF;
+    using namespace std;
+
+    // Check whether the variable exists
+    if (!nc.getVar(var_name).isNull()) {
+        ostringstream msg;
+        msg << "Variable " << var_name << " exists";
+        throw runtime_error(msg.str());
+    }
+
+    // Get the dimension object
+    NcDim dim = getDimension(nc, dim_name, unlimited, values.size());
+
+    NcVar var = nc.addVar(var_name, NcType::nc_STRING, dim);
+
+    for (size_t string_i = 0; string_i < values.size(); ++string_i) {
+        /* For string vectors, there is not methods to add them directly.
+         * But there is a method to add them one by one. So I'm using the
+         * following method.
+         */
+        var.putVar({string_i}, values[string_i]);
+    }
+
+    return;
+}
+
+void
+Ncdf::writeArray4D(NcFile & nc, const Array4D & arr, const string & var_name,
+        const array<string, 4> & dim_names, const array<bool, 4> & unlimited) {
+    
+    // Check whether array is column major
+    if (arr.num_elements() >= 2) {
+        if (arr.getValue(1, 0, 0, 0) != arr.getValuesPtr()[1]) {
+            throw runtime_error("The input array is not column major");
+        }
+    }
+    
+    // Check whether the variable name already exists
+    NcVar var = nc.getVar(var_name);
+    if (!var.isNull()) {
+        ostringstream msg;
+        msg << "Variable " << var_name << " exists";
+        throw runtime_error(msg.str());
+    }
+    
+    NcDim dim0, dim1, dim2, dim3;
+    try {
+        dim0 = getDimension(nc, dim_names[0], unlimited[0], arr.shape()[0]);
+        dim1 = getDimension(nc, dim_names[1], unlimited[1], arr.shape()[1]);
+        dim2 = getDimension(nc, dim_names[2], unlimited[2], arr.shape()[2]);
+        dim3 = getDimension(nc, dim_names[3], unlimited[3], arr.shape()[3]);
+    } catch (exception & e) {
+        ostringstream msg;
+        msg << "appendArray4D(var_name = " << var_name << ") -> " << e.what();
+        throw runtime_error(msg.str());
+    }
+    
+    /*
+     * Create an NetCDF variable. Note the reversed dimension order so that we
+     * can copy values from the column-major ordered pointer directly. The first
+     * dimension in the initializer list is the slowest varying dimension
+     */
+    var = nc.addVar(var_name, NC_DOUBLE, {dim3, dim2, dim1, dim0});
+    
+    var.putVar(arr.getValuesPtr());
+    return;
+}
+
 void
 Ncdf::purge(string & str) {
     str.erase(remove_if(str.begin(), str.end(), [](const unsigned char & c) {
@@ -140,72 +306,4 @@ Ncdf::purge(string & str) {
 void
 Ncdf::purge(vector<string> & strs) {
     for (auto & str : strs) purge(str);
-}
-
-void
-Ncdf::checkDims(const netCDF::NcFile & nc,
-        const vector<string> & names) {
-
-    for (const auto & name : names) {
-        if (!name.empty() && !dimExists(nc, name)) {
-            ostringstream msg;
-            msg << "Dimension (" + name + ") is missing";
-            throw invalid_argument(msg.str());
-        }
-    }
-
-    return;
-}
-
-void
-Ncdf::checkVars(const netCDF::NcFile & nc,
-        const vector<string> & names) {
-
-    for (const auto & name : names) {
-        if (!name.empty() && !varExists(nc, name)) {
-            ostringstream msg;
-            msg << "Variable (" << name << ") is missing";
-            throw invalid_argument(msg.str());
-        }
-    }
-
-    return;
-}
-
-void
-Ncdf::checkVarShape(const NcFile & nc,
-        const string & var_name, const vector<string> & dim_names) {
-
-    const auto & var = nc.getVar(var_name);
-    auto dims = var.getDims();
-    
-    if (dims.size() != dim_names.size()) {
-        ostringstream msg;
-        msg << "Variable " << var_name << " has " << dims.size() <<
-                " dimensions while " << dim_names.size() << " are expected";
-        throw runtime_error(msg.str());
-    }
-    
-    reverse(dims.begin(), dims.end());
-
-    for (size_t i = 0; i < dims.size(); ++i) {
-        if (dim_names[i] != dims[i].getName()) {
-            ostringstream msg;
-            msg << "Variable " << var_name << " dimension #" << i + 1 << " ("
-                    << dims[i].getName() << ") should be " << dim_names[i];
-            throw runtime_error(msg.str());
-        }
-    }
-
-    return;
-}
-
-bool
-Ncdf::dimExists(const NcFile & nc, const string & name) {
-    return (!nc.getDim(name).isNull());
-}
-
-bool
-Ncdf::varExists(const NcFile & nc, const string & name) {
-    return (!nc.getVar(name).isNull());
 }

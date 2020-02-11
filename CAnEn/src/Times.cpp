@@ -102,6 +102,18 @@ Times::getTime(size_t index) const {
     return this->left[index].second;
 }
 
+void
+Times::getTimestamps(std::vector<size_t> & timestamps) const {
+    timestamps.resize(size());
+    const auto & end = left.end();
+    
+    for (auto it = left.begin(); it != end; ++it)
+        timestamps[it->first] = it->second.timestamp;
+    
+    return;
+}
+
+
 
 void
 Times::print(ostream &os) const {

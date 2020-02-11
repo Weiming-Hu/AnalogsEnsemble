@@ -123,12 +123,12 @@ testAnEnSSE::testCompute_() {
     // Run AnEnSSE
     AnEnSSE anen(config);
     anen.compute(fcsts, obs, fcsts_test_index, fcsts_search_index);
-    const Array4DPointer & sims = anen.getSimsValue();
-    const Array4DPointer & sims_time_index = anen.getSimsTimeIndex();
-    const Array4DPointer & sims_station_index = anen.getSimsStationIndex();
-    const Array4DPointer & analogs = anen.getAnalogsValue();
-    const Array4DPointer & analogs_time_index = anen.getAnalogsTimeIndex();
-    const Functions::Matrix & search_stations_index = anen.getSearchStationsIndex();
+    const Array4DPointer & sims = anen.sims_metric();
+    const Array4DPointer & sims_time_index = anen.sims_time_index();
+    const Array4DPointer & sims_station_index = anen.sims_station_index();
+    const Array4DPointer & analogs = anen.analogs_value();
+    const Array4DPointer & analogs_time_index = anen.analogs_time_index();
+    const Functions::Matrix & search_stations_index = anen.search_stations_index();
 
     /***************************************************************************
      *                              Check results                              *

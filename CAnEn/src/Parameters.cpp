@@ -124,11 +124,21 @@ Parameters::getParameter(size_t index) const {
 }
 
 void
-Parameters::getCirculars(std::vector<bool> & circulars) const {
+Parameters::getCirculars(vector<bool> & circulars) const {
     circulars.resize(size());
     for (size_t i = 0; i < size(); ++i) {
         circulars[i] = this->left[i].second.getCircular();
     }
+    return;
+}
+
+void
+Parameters::getNames(vector<string>& names) const {
+    names.resize(size());
+    
+    const auto & end = left.end();
+    for (auto it = left.begin(); it != end; ++it)
+        names[it->first] = it->second.getName();
     return;
 }
 

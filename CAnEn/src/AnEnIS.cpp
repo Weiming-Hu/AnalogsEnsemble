@@ -163,11 +163,11 @@ firstprivate(sims_arr)
 
                     // Check whether this search time is found in observations
                     double obs_time_index = obs_time_index_table_(search_time_i, flt_i);
-                    if (std::isnan(obs_time_index)) continue;
+                    if (isnan(obs_time_index)) continue;
 
                     // Check whether the associated observation is NA
                     double obs = observations.getValue(obs_var_index_, station_i, obs_time_index);
-                    if (std::isnan(obs)) continue;
+                    if (isnan(obs)) continue;
 
                     /***********************************************************
                      *                                                         *
@@ -213,47 +213,6 @@ firstprivate(sims_arr)
     if (verbose_ >= Verbose::Progress) cout << "AnEnIS generation done!" << endl;
 
     return;
-}
-
-const Array4DPointer &
-AnEnIS::getSds() const {
-    return sds_;
-}
-
-const Array4DPointer &
-AnEnIS::getSimsValue() const {
-    if (!save_sims_) throw runtime_error(
-            "Similarity array is not saved. Please change your configuration");
-    return sims_metric_;
-}
-
-const Array4DPointer &
-AnEnIS::getSimsTimeIndex() const {
-    if (!save_sims_time_index_) throw runtime_error(
-            "Similarity times index array is not saved. Please change your configuration");
-
-    return sims_time_index_;
-}
-
-const Array4DPointer &
-AnEnIS::getAnalogsValue() const {
-    if (!save_analogs_) throw runtime_error(
-            "Analog array is not saved. Please change your configuration");
-
-    return analogs_value_;
-}
-
-const Array4DPointer &
-AnEnIS::getAnalogsTimeIndex() const {
-    if (!save_analogs_time_index_) throw runtime_error(
-            "Analog times index array is not saved. Please change your configuration");
-
-    return analogs_time_index_;
-}
-
-const Functions::Matrix &
-AnEnIS::getObsTimeIndexTable() const {
-    return obs_time_index_table_;
 }
 
 void
@@ -331,6 +290,103 @@ AnEnIS &
     }
 
     return *this;
+}
+
+size_t AnEnIS::num_analogs() const {
+    return num_analogs_;
+}
+
+size_t AnEnIS::num_sims() const {
+    return num_sims_;
+}
+
+size_t AnEnIS::obs_var_index() const {
+    return obs_var_index_;
+}
+
+size_t AnEnIS::max_par_nan() const {
+    return max_par_nan_;
+}
+
+size_t AnEnIS::max_flt_nan() const {
+    return max_flt_nan_;
+}
+
+size_t AnEnIS::flt_radius() const {
+    return flt_radius_;
+}
+
+bool AnEnIS::save_analogs() const {
+    return save_analogs_;
+}
+
+bool AnEnIS::save_analogs_time_index() const {
+    return save_analogs_time_index_;
+}
+
+bool AnEnIS::save_sims() const {
+    return save_sims_;
+}
+
+bool AnEnIS::save_sims_time_index() const {
+    return save_sims_time_index_;
+}
+
+bool AnEnIS::operation() const {
+    return operation_;
+}
+
+bool AnEnIS::quick_sort() const {
+    return quick_sort_;
+}
+
+bool AnEnIS::prevent_search_future() const {
+    return prevent_search_future_;
+}
+
+const vector<double>& AnEnIS::weights() const {
+    return weights_;
+}
+
+const Array4DPointer &
+AnEnIS::sds() const {
+    return sds_;
+}
+
+const Array4DPointer &
+AnEnIS::sims_metric() const {
+    if (!save_sims_) throw runtime_error(
+            "Similarity array is not saved. Please change your configuration");
+    return sims_metric_;
+}
+
+const Array4DPointer &
+AnEnIS::sims_time_index() const {
+    if (!save_sims_time_index_) throw runtime_error(
+            "Similarity times index array is not saved. Please change your configuration");
+
+    return sims_time_index_;
+}
+
+const Array4DPointer &
+AnEnIS::analogs_value() const {
+    if (!save_analogs_) throw runtime_error(
+            "Analog array is not saved. Please change your configuration");
+
+    return analogs_value_;
+}
+
+const Array4DPointer &
+AnEnIS::analogs_time_index() const {
+    if (!save_analogs_time_index_) throw runtime_error(
+            "Analog times index array is not saved. Please change your configuration");
+
+    return analogs_time_index_;
+}
+
+const Functions::Matrix &
+AnEnIS::obs_time_index_table() const {
+    return obs_time_index_table_;
 }
 
 void
@@ -428,10 +484,10 @@ AnEnIS::allocate_memory_(const Forecasts & forecasts,
 }
 
 bool
-AnEnIS::_simsSort_(const std::array<double, 3> & lhs,
-        const std::array<double, 3> & rhs) {
-    if (std::isnan(lhs[_SIM_VALUE_INDEX])) return false;
-    if (std::isnan(rhs[_SIM_VALUE_INDEX])) return true;
+AnEnIS::_simsSort_(const array<double, 3> & lhs,
+        const array<double, 3> & rhs) {
+    if (isnan(lhs[_SIM_VALUE_INDEX])) return false;
+    if (isnan(rhs[_SIM_VALUE_INDEX])) return true;
     return (lhs[_SIM_VALUE_INDEX] < rhs[_SIM_VALUE_INDEX]);
 }
 
@@ -517,7 +573,7 @@ AnEnIS::computeSimMetric_(const Forecasts & forecasts,
             double value_search = forecasts.getValue(parameter_i, sta_search_i, time_search_i, window_i);
             double value_test = forecasts.getValue(parameter_i, sta_test_i, time_test_i, window_i);
 
-            if (std::isnan(value_search) || std::isnan(value_test)) {
+            if (isnan(value_search) || isnan(value_test)) {
                 window[pos] = NAN;
             } else {
                 if (circulars[parameter_i]) {
@@ -530,7 +586,7 @@ AnEnIS::computeSimMetric_(const Forecasts & forecasts,
 
         double average = Functions::sum(window, max_flt_nan_);
 
-        if (std::isnan(average)) {
+        if (isnan(average)) {
             ++count_par_nan;
             if (count_par_nan > max_par_nan_) return NAN;
         } else {
@@ -591,7 +647,7 @@ times_accum_index, circulars, num_times, calculator_capacity)
                     value = forecasts.getValue(par_i, sta_i, times_fixed_index[i], flt_i);
 
                     // Remove NAN value
-                    if (!std::isnan(value)) calc.pushValue(value);
+                    if (!isnan(value)) calc.pushValue(value);
                 }
 
                 // Calculate standard deviation
@@ -603,7 +659,7 @@ times_accum_index, circulars, num_times, calculator_capacity)
                         // Get the forecast value
                         value = forecasts.getValue(par_i, sta_i, times_accum_index[time_i - 1], flt_i);
 
-                        if (std::isnan(value)) {
+                        if (isnan(value)) {
                             // Copy the value from previous iteration if the value is NAN
                             sds_.setValue(
                                     sds_.getValue(par_i, sta_i, flt_i, time_i - 1),

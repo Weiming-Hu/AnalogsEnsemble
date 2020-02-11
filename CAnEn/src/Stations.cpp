@@ -133,6 +133,38 @@ Stations::getStation(size_t index) const {
 }
 
 void
+Stations::getCoordinates(vector<double> & xs, vector<double> & ys) const {
+    
+    // Resize the vectors
+    xs.resize(size());
+    ys.resize(size());
+    
+    // Copy coordinates from stations to vectors
+    const auto & end = left.end();
+    for (auto it = left.begin(); it != end; ++it) {
+        xs[it->first] = it->second.getX();
+        ys[it->first] = it->second.getY();
+    }
+    
+    return;
+}
+
+void
+Stations::getNames(vector<string> & names) const {
+
+    // Resize the vectors
+    names.resize(size());
+
+    // Copy coordinates from stations to the name vector
+    const auto & end = left.end();
+    for (auto it = left.begin(); it != end; ++it) {
+        names[it->first] = it->second.getName();
+    }
+
+    return;
+}
+
+void
 Stations::print(ostream & os) const {
     os << "[Stations] size: " << size() << endl;
 

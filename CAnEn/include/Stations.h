@@ -69,6 +69,9 @@ public:
     std::size_t getIndex(const Station &) const;
     const Station & getStation(size_t index) const;
     
+    void getCoordinates(std::vector<double> &, std::vector<double> &) const;
+    void getNames(std::vector<std::string> &) const;
+    
     void print(std::ostream &) const;
     friend std::ostream& operator<<(std::ostream&, Stations const &);
 };

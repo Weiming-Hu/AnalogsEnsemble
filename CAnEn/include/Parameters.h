@@ -86,8 +86,9 @@ public:
 
     std::size_t getIndex(const Parameter &) const;
     const Parameter & getParameter(std::size_t index) const;
-    
+
     void getCirculars(std::vector<bool> & circulars) const;
+    void getNames(std::vector<std::string> & names) const;
 
     void print(std::ostream &) const;
     friend std::ostream& operator<<(std::ostream&, Parameters const &);

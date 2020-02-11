@@ -54,9 +54,13 @@ const string Config::_FLTS = "FLTs";
 
 const string Config::_DIM_STATIONS = "num_stations";
 const string Config::_DIM_TIMES = "num_times";
+const string Config::_DIM_TEST_TIMES = "num_test_times";
+const string Config::_DIM_SEARCH_TIMES = "num_search_times";
 const string Config::_DIM_FLTS = "num_flts";
 const string Config::_DIM_PARS = "num_parameters";
 const string Config::_DIM_CHARS = "num_chars";
+const string Config::_DIM_ANALOGS = "num_analogs";
+const string Config::_DIM_SIMS = "num_similarity";
 
 const string Config::_ANALOGS = "analogs";
 const string Config::_ANALOGS_TIME_IND = "analogs_time_index";
@@ -66,6 +70,8 @@ const string Config::_SIMS_STATION_IND = "similarity_station_index";
 const string Config::_SDS = "sds";
 const string Config::_TIME_MAPPING = "mapping";
 const string Config::_SEARCH_STATIONS_IND = "search_stations";
+const string Config::_TEST_TIMES = "test_times";
+const string Config::_SEARCH_TIMES = "search_times";
 
 Config::Config() {
     reset();

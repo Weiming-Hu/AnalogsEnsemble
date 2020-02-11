@@ -7,11 +7,79 @@
 
 #include <algorithm>
 
-template<typename T>
+#include "Ncdf.h"
+
+template <typename nctype, typename valuetype>
+void
+Ncdf::writeAttributes(nctype & nc, const std::string & att_name,
+        const valuetype & value, netCDF::NcType type, bool overwrite) {
+
+    /*
+     * If you don't want to overwrite, I need to check whether the attribute
+     * already exists in the object.
+     */
+    if (!overwrite) {
+        auto att = nc.getAtt(att_name);
+        if (!att.isNull()) {
+            std::ostringstream msg;
+            msg << "Attribute " << att_name << " exists. Use overwrite = true";
+            throw std::runtime_error(msg.str());
+        }
+    }
+    nc.putAtt(att_name, type, value);
+    return;
+}
+
+template <typename nctype>
+void
+Ncdf::writeStringAttributes(nctype & nc, const std::string & att_name,
+        const std::string & value, bool overwrite) {
+
+    /*
+     * If you don't want to overwrite, I need to check whether the attribute
+     * already exists in the object.
+     */
+    if (!overwrite) {
+        auto att = nc.getAtt(att_name);
+        if (!att.isNull()) {
+            std::ostringstream msg;
+            msg << "Attribute " << att_name << " exists. Use overwrite = true";
+            throw std::runtime_error(msg.str());
+        }
+    }
+
+    nc.putAtt(att_name, value);
+    return;
+}
+
+template <typename T>
+void
+Ncdf::writeVector(netCDF::NcFile & nc, const std::string & var_name,
+        const std::string & dim_name, const std::vector<T> & values,
+        netCDF::NcType type, bool unlimited) {
+
+    using namespace netCDF;
+    using namespace std;
+
+    // Check whether the variable exists
+    if (!nc.getVar(var_name).isNull()) {
+        ostringstream msg;
+        msg << "Variable " << var_name << " exists";
+        throw runtime_error(msg.str());
+    }
+
+    // Get the dimension object
+    NcDim dim = getDimension(nc, dim_name, unlimited, values.size());
+
+    NcVar var = nc.addVar(var_name, type, dim);
+    var.putVar(values.data());
+    return;
+}
+
+template <typename T>
 void
 Ncdf::readVector(const netCDF::NcFile & nc, std::string var_name,
-        std::vector<T> & results,
-        std::vector<size_t> start, std::vector<size_t> count) {
+        std::vector<T> & results, std::vector<size_t> start, std::vector<size_t> count) {
 
     using namespace netCDF;
     using namespace std;

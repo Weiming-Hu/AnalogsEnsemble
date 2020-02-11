@@ -51,17 +51,34 @@ public:
             std::vector<std::size_t> & fcsts_test_index,
             std::vector<std::size_t> & fcsts_search_index) override;
 
-    const Array4DPointer & getSds() const;
-    const Array4DPointer & getSimsValue() const;
-    const Array4DPointer & getSimsTimeIndex() const;
-    const Array4DPointer & getAnalogsValue() const;
-    const Array4DPointer & getAnalogsTimeIndex() const;
-    const Functions::Matrix & getObsTimeIndexTable() const;
-
     virtual void print(std::ostream &) const override;
     friend std::ostream& operator<<(std::ostream&, const AnEnIS &);
 
     AnEnIS & operator=(const AnEnIS & rhs);
+    
+    /*
+     * Member variable getter functions
+     */
+    std::size_t num_analogs() const;
+    std::size_t num_sims() const;
+    std::size_t obs_var_index() const;
+    std::size_t max_par_nan() const;
+    std::size_t max_flt_nan() const;
+    std::size_t flt_radius() const;
+    bool save_analogs() const;
+    bool save_analogs_time_index() const;
+    bool save_sims() const;
+    bool save_sims_time_index() const;
+    bool operation() const;
+    bool quick_sort() const;
+    bool prevent_search_future() const;
+    const std::vector<double> & weights() const;
+    const Array4DPointer & sds() const;
+    const Array4DPointer & sims_metric() const;
+    const Array4DPointer & sims_time_index() const;
+    const Array4DPointer & analogs_value() const;
+    const Array4DPointer & analogs_time_index() const;
+    const Functions::Matrix & obs_time_index_table() const;
 
     /**
      * These variables define what the value is on different positions in the

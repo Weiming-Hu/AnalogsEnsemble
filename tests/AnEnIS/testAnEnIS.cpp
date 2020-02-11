@@ -372,10 +372,10 @@ testAnEnIS::compareComputeLeaveOneOut_() {
         anen.compute(fcsts, obs, fcsts_test_index, fcsts_search_index);
 
         // Copy results
-        Array4DPointer my_analogs = anen.getAnalogsValue();
-        Array4DPointer my_analogs_index = anen.getAnalogsTimeIndex();
-        Array4DPointer my_sims = anen.getSimsValue();
-        Array4DPointer my_sims_index = anen.getSimsTimeIndex();
+        Array4DPointer my_analogs = anen.analogs_value();
+        Array4DPointer my_analogs_index = anen.analogs_time_index();
+        Array4DPointer my_sims = anen.sims_metric();
+        Array4DPointer my_sims_index = anen.sims_time_index();
 
         /*
          * Carry out manual calculation for each test day
@@ -391,10 +391,10 @@ testAnEnIS::compareComputeLeaveOneOut_() {
             anen.compute(fcsts, obs, test_index, manual_search_index);
 
             // Get references to results
-            const Array4DPointer & manual_analogs = anen.getAnalogsValue();
-            const Array4DPointer & manual_analogs_index = anen.getAnalogsTimeIndex();
-            const Array4DPointer & manual_sims = anen.getSimsValue();
-            const Array4DPointer & manual_sims_index = anen.getSimsTimeIndex();
+            const Array4DPointer & manual_analogs = anen.analogs_value();
+            const Array4DPointer & manual_analogs_index = anen.analogs_time_index();
+            const Array4DPointer & manual_sims = anen.sims_metric();
+            const Array4DPointer & manual_sims_index = anen.sims_time_index();
 
             for (size_t i = 0; i < my_analogs.shape()[0]; ++i) {
                 for (size_t m = 0; m < my_analogs.shape()[2]; ++m) {
@@ -482,10 +482,10 @@ testAnEnIS::compareComputeOperational_() {
     anen.compute(fcsts, obs, fcsts_test_index, fcsts_search_index);
 
     // Copy results
-    Array4DPointer my_analogs = anen.getAnalogsValue();
-    Array4DPointer my_analogs_index = anen.getAnalogsTimeIndex();
-    Array4DPointer my_sims = anen.getSimsValue();
-    Array4DPointer my_sims_index = anen.getSimsTimeIndex();
+    Array4DPointer my_analogs = anen.analogs_value();
+    Array4DPointer my_analogs_index = anen.analogs_time_index();
+    Array4DPointer my_sims = anen.sims_metric();
+    Array4DPointer my_sims_index = anen.sims_time_index();
 
     // Since we increase the number of analogs, the number of similarity
     // should be increased automatically to be consistent with the number
@@ -511,10 +511,10 @@ testAnEnIS::compareComputeOperational_() {
         anen.compute(fcsts, obs, fcsts_test_index_manual, fcsts_search_index_manual);
 
         // Copy results
-        Array4DPointer manual_analogs = anen.getAnalogsValue();
-        Array4DPointer manual_analogs_index = anen.getAnalogsTimeIndex();
-        Array4DPointer manual_sims = anen.getSimsValue();
-        Array4DPointer manual_sims_index = anen.getSimsTimeIndex();
+        Array4DPointer manual_analogs = anen.analogs_value();
+        Array4DPointer manual_analogs_index = anen.analogs_time_index();
+        Array4DPointer manual_sims = anen.sims_metric();
+        Array4DPointer manual_sims_index = anen.sims_time_index();
         
         // Compare the results
         for (size_t station_i = 0; station_i < stations_.size(); ++station_i) {

@@ -32,13 +32,20 @@ public:
             std::vector<std::size_t> & fcsts_test_index,
             std::vector<std::size_t> & fcsts_search_index) override;
 
-    const Array4DPointer & getSimsStationIndex() const;
-    const Functions::Matrix & getSearchStationsIndex() const;
-
     virtual void print(std::ostream &) const override;
     friend std::ostream& operator<<(std::ostream&, const AnEnSSE &);
     
     AnEnSSE & operator=(const AnEnSSE & rhs);
+
+    /*
+     * Member variable getter functions
+     */
+    std::size_t num_nearest() const;
+    double distance() const;
+    bool extend_obs() const;
+    bool save_sims_station_index() const;
+    const Array4DPointer & sims_station_index() const;
+    const Functions::Matrix & search_stations_index() const;
     
     /**
      * This variable defines the index of similarity station index in the

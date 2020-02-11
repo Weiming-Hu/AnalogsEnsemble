@@ -62,6 +62,8 @@ public:
      */
     std::size_t getIndex(const Time & time) const;
     const Time & getTime(std::size_t index) const;
+    
+    void getTimestamps(std::vector<std::size_t> & timestamps) const;
 
     void print(std::ostream & os) const;
     friend std::ostream& operator<<(std::ostream& os, Times const & obj);

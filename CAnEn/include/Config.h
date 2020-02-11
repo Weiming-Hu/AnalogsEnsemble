@@ -131,9 +131,13 @@ public:
 
     static const std::string _DIM_STATIONS;
     static const std::string _DIM_TIMES;
+    static const std::string _DIM_TEST_TIMES;
+    static const std::string _DIM_SEARCH_TIMES;
     static const std::string _DIM_FLTS;
     static const std::string _DIM_PARS;
     static const std::string _DIM_CHARS;
+    static const std::string _DIM_ANALOGS;
+    static const std::string _DIM_SIMS;
 
     // Output member names
     static const std::string _ANALOGS;
@@ -144,6 +148,9 @@ public:
     static const std::string _SDS;
     static const std::string _TIME_MAPPING;
     static const std::string _SEARCH_STATIONS_IND;
+    static const std::string _TEST_TIMES;
+    static const std::string _SEARCH_TIMES;
+
 
 };
 
