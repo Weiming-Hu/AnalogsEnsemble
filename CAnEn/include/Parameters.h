@@ -81,8 +81,10 @@ private:
  */
 class Parameters : public BmType<Parameter> {
 public:
-    Parameters();
-    virtual ~Parameters();
+    Parameters() = default;
+    virtual ~Parameters() = default;
+
+    void push_back(const Parameter &);
 
     std::size_t getIndex(const Parameter &) const;
     const Parameter & getParameter(std::size_t index) const;

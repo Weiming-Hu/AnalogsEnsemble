@@ -96,14 +96,14 @@ operator<<(ostream& os, Parameter const & obj) {
     return os;
 }
 
+
 /***************************************************************************
  *                              Parameters                                 *
  **************************************************************************/
 
-Parameters::Parameters() {
-}
-
-Parameters::~Parameters() {
+void Parameters::push_back(const Parameter& parameter) {
+    BmType<Parameter>::push_back(value_type(size(), parameter));
+    return;
 }
 
 size_t

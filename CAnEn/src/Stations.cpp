@@ -105,14 +105,14 @@ operator<<(ostream& os, Station const & obj) {
     return os;
 }
 
+
 /**************************************************************************
  *                            Stations                                    *
  **************************************************************************/
 
-Stations::Stations() {
-}
-
-Stations::~Stations() {
+void Stations::push_back(const Station & station) {
+    BmType<Station>::push_back(value_type(size(), station));
+    return;
 }
 
 size_t

@@ -84,7 +84,7 @@ operator<<(ostream& os, Time const & obj) {
 
 void
 Times::push_back(const Time & time) {
-    BmType<Time>::push_back(Times::value_type(size(), time));
+    BmType<Time>::push_back(value_type(size(), time));
     return;
 }
 

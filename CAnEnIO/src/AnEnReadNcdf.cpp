@@ -204,7 +204,7 @@ AnEnReadNcdf::read_(const NcFile & nc, Parameters & parameters,
         if (it != circulars.end()) parameter.setCircular(true);
 
         // Push the parameter to the dimension class with an index
-        parameters.push_back(Parameters::value_type(dim_i, parameter));
+        parameters.push_back(parameter);
     }
 
     // Check for duplicates
@@ -277,8 +277,7 @@ AnEnReadNcdf::read_(const NcFile & nc, Stations & stations,
         if (names.size() != 0) station_name = names[i];
 
         // Create and push the station to the dimension class
-        stations.push_back(Stations::value_type(
-                dim_i, Station(xs[i], ys[i], station_name)));
+        stations.push_back(Station(xs[i], ys[i], station_name));
     }
 
     if (stations.size() - size_ori != xs.size()) {

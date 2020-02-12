@@ -68,9 +68,8 @@ AnEnReadGrib::readForecasts(Forecasts & forecasts,
      */
     if (verbose_ >= Verbose::Progress) cout << "Insert forecast parameters ..." << endl;
     Parameters parameters;
-    size_t counter = 0;
-    for (auto it = grib_parameters.begin(); it != grib_parameters.end(); ++it, ++counter) {
-        parameters.push_back(Parameters::value_type(counter, *it));
+    for (auto it = grib_parameters.begin(); it != grib_parameters.end(); ++it) {
+        parameters.push_back(*it);
     }
 
     if (verbose_ >= Verbose::Debug) {
@@ -248,7 +247,7 @@ AnEnReadGrib::readStations_(Stations & stations, const string & file,
 
         // The current station is what we want to read
         Station station(x, y);
-        stations.push_back(Stations::value_type(station_index, station));
+        stations.push_back(station);
         counter++;
         station_index++;
     }

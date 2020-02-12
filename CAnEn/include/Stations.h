@@ -63,9 +63,11 @@ private:
  */
 class Stations : public BmType<Station> {
 public:
-    Stations();
-    virtual ~Stations();
-    
+    Stations() = default;
+    virtual ~Stations() = default;
+
+    void push_back(const Station &);
+
     std::size_t getIndex(const Station &) const;
     const Station & getStation(size_t index) const;
     
