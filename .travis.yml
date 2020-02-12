@@ -15,6 +15,7 @@ matrix:
            packages:
              - g++-4.9
              - libnetcdf-dev
+             - libeccodes-dev
        env:
          - MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9"
          - ENVIRONMENT_LANGUAGE="c++"
@@ -28,6 +29,7 @@ matrix:
            packages:
              - g++-5
              - libnetcdf-dev
+             - libeccodes-dev
        env:
          - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"
          - ENVIRONMENT_LANGUAGE="c++"
@@ -41,6 +43,7 @@ matrix:
            packages:
              - g++-6
              - libnetcdf-dev
+             - libeccodes-dev
        env:
          - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
          - ENVIRONMENT_LANGUAGE="c++"
@@ -54,6 +57,7 @@ matrix:
            packages:
              - g++-7
              - libnetcdf-dev
+             - libeccodes-dev
        env:
          - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
          - ENVIRONMENT_LANGUAGE="c++"
@@ -67,6 +71,7 @@ matrix:
             packages:
              - libnetcdf-dev
              - g++-8
+             - libeccodes-dev
        env:
          - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
          - ENVIRONMENT_LANGUAGE="c++"
@@ -74,7 +79,7 @@ matrix:
      - os: osx
        language: cpp
        env:
-         - MATRIX_EVAL=""
+         - MATRIX_EVAL="brew install eccodes"
          - ENVIRONMENT_LANGUAGE="c++"
 
      - os: linux
