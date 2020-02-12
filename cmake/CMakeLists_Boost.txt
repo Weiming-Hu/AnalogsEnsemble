@@ -22,13 +22,8 @@ set (LIBRARY_MINIMALBOOST "${DEPENDENCY_PATH}/minimal_boost")
 
 if (BOOST_TYPE STREQUAL "SYSTEM")
 
-    if (BUILD_GRIBCONVERTER)
-        find_package (Boost 1.41.0 REQUIRED
-            COMPONENTS program_options system filesystem date_time)
-    else (BUILD_GRIBCONVERTER)
-        find_package (Boost 1.41.0 REQUIRED
-            COMPONENTS program_options system filesystem)
-    endif (BUILD_GRIBCONVERTER)
+    find_package (Boost 1.41.0 REQUIRED
+        COMPONENTS program_options system filesystem date_time)
 
     include_directories (SYSTEM ${Boost_INCLUDE_DIRS})
     set (Boost_USE_MULTITHREADED ON)
@@ -52,15 +47,13 @@ if (BOOST_TYPE STREQUAL "BUILD")
 
         find_package(Git 1.9 REQUIRED QUIET)
 
-        if (BUILD_GRIBCONVERTER)
-            if (NOT EXISTS ${LIBRARY_DATETIME})
-                execute_process(COMMAND ${GIT_EXECUTABLE} "clone" "-b" "master" "--single-branch" "https://github.com/boostorg/date_time.git" ${LIBRARY_DATETIME})
-                file(COPY "${EXTRA_MODULE_PATH}/date_time_CMakeLists.txt" DESTINATION ${LIBRARY_DATETIME})
-                file(RENAME "${LIBRARY_DATETIME}/date_time_CMakeLists.txt" "${LIBRARY_DATETIME}/CMakeLists.txt")
-            else(NOT EXISTS ${LIBRARY_DATETIME})
-                message(STATUS "date_time submodule is already downloaded")
-            endif (NOT EXISTS ${LIBRARY_DATETIME})
-        endif (BUILD_GRIBCONVERTER)
+        if (NOT EXISTS ${LIBRARY_DATETIME})
+            execute_process(COMMAND ${GIT_EXECUTABLE} "clone" "-b" "master" "--single-branch" "https://github.com/boostorg/date_time.git" ${LIBRARY_DATETIME})
+            file(COPY "${EXTRA_MODULE_PATH}/date_time_CMakeLists.txt" DESTINATION ${LIBRARY_DATETIME})
+            file(RENAME "${LIBRARY_DATETIME}/date_time_CMakeLists.txt" "${LIBRARY_DATETIME}/CMakeLists.txt")
+        else(NOT EXISTS ${LIBRARY_DATETIME})
+            message(STATUS "date_time submodule is already downloaded")
+        endif (NOT EXISTS ${LIBRARY_DATETIME})
 
         if(NOT EXISTS ${LIBRARY_PROGRAMOPTIONS})
             execute_process(COMMAND ${GIT_EXECUTABLE} "clone" "-b" "master" "--single-branch" "https://github.com/boostorg/program_options.git" ${LIBRARY_PROGRAMOPTIONS})
@@ -101,14 +94,12 @@ if (BOOST_TYPE STREQUAL "BUILD")
     include_directories (SYSTEM "${LIBRARY_SYSTEM}/include")
     include_directories (SYSTEM "${LIBRARY_FILESYSTEM}/include")
     include_directories (SYSTEM "${LIBRARY_PROGRAMOPTIONS}/include")
+    include_directories (SYSTEM "${LIBRARY_DATETIME}/include")
+
     add_subdirectory ("${DEPENDENCY_PATH}/system")
     add_subdirectory ("${DEPENDENCY_PATH}/filesystem")
     add_subdirectory ("${DEPENDENCY_PATH}/program_options")
-
-    if (BUILD_GRIBCONVERTER)
-        include_directories (SYSTEM "${LIBRARY_DATETIME}/include")
-        add_subdirectory ("${DEPENDENCY_PATH}/datetime")
-    endif (BUILD_GRIBCONVERTER)
+    add_subdirectory ("${DEPENDENCY_PATH}/datetime")
 
     # add Boost minimal_boost
     if (EXISTS "${LIBRARY_MINIMALBOOST}/boost")
