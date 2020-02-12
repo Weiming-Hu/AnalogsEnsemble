@@ -23,7 +23,6 @@ public:
     
     void start();
     void log_time_session(const std::string & session_name);
-    void end();
     
     void summary(std::ostream &) const;
     

@@ -280,7 +280,7 @@ Ncdf::writeArray4D(NcFile & nc, const Array4D & arr, const string & var_name,
         dim3 = getDimension(nc, dim_names[3], unlimited[3], arr.shape()[3]);
     } catch (exception & e) {
         ostringstream msg;
-        msg << "appendArray4D(var_name = " << var_name << ") -> " << e.what();
+        msg << "writeArray4D(var_name = " << var_name << ") -> " << e.what();
         throw runtime_error(msg.str());
     }
     

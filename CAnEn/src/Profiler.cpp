@@ -15,7 +15,6 @@ using namespace std;
 using namespace boost::posix_time;
 
 static const string _SESSION_START = "start";
-static const string _SESSION_END = "end";
 
 Profiler::Profiler(size_t num_sessions) {
     session_names_.reserve(num_sessions);
@@ -38,17 +37,11 @@ Profiler::start() {
 void
 Profiler::log_time_session(const std::string& session_name) {
     session_names_.push_back(session_name);
-    ptimes_.push_back(clock_t());
+    ptimes_.push_back(clock());
 
 #if defined(_OPENMP)
     wtimes_.push_back(omp_get_wtime());
 #endif
-}
-
-void
-Profiler::end() {
-    log_time_session(_SESSION_END);
-    return;
 }
 
 void
@@ -58,7 +51,6 @@ Profiler::summary(std::ostream& os) const {
     size_t num_sessions = session_names_.size();
     if (num_sessions <= 1) throw runtime_error("No sessions to report. Did you call start/log_time_session/end?");
     if (session_names_.front() != _SESSION_START) throw runtime_error("You didn't start the profiler by calling start");
-    if (session_names_.back() != _SESSION_END) throw runtime_error("You didn't close the profiler by calling end");
     
     // Define time variables
     clock_t ptime;
@@ -72,10 +64,10 @@ Profiler::summary(std::ostream& os) const {
 #endif
 
     // Start printing
-    os << setprecision(6) << fixed;
-    os << "**************** Profiler Summary *****************" << endl;
+    os << setprecision(3) << fixed;
+    os << "****************     Profiler Summary    *****************" << endl;
     
-    for (size_t session_i = 1; session_i < num_sessions - 1; ++session_i) {
+    for (size_t session_i = 1; session_i < num_sessions; ++session_i) {
         
         // Calculate processor time consumption
         ptime = (ptimes_[session_i] - ptimes_[session_i - 1]) / CLOCKS_PER_SEC;
@@ -97,5 +89,7 @@ Profiler::summary(std::ostream& os) const {
                 << endl;
                 
     }
+    os << "**************** End of Profiler Summary *****************" << endl;
+
     
 }

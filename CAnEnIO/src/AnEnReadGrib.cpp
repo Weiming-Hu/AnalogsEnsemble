@@ -132,9 +132,9 @@ AnEnReadGrib::readForecasts(Forecasts & forecasts,
 
         // Skip this file if the file is not recognized
         if (ret) {
-            if (verbose_ >= Verbose::Progress) cout << "Reading " << file << endl;
+            if (verbose_ >= Verbose::Detail) cout << "Reading " << file << endl;
         } else {
-            if (verbose_ >= Verbose::Progress) cout << "Skipped " << file << endl;
+            if (verbose_ >= Verbose::Detail) cout << "Skipped " << file << endl;
             continue;
         }
 
@@ -208,6 +208,7 @@ AnEnReadGrib::readForecasts(Forecasts & forecasts,
         codes_index_delete(p_index);
     }
 
+    if (verbose_ >= Verbose::Progress) cout << "Forecast reading complete" << endl;
     return;
 }
 

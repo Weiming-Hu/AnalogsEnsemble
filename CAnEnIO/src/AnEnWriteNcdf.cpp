@@ -20,8 +20,8 @@ namespace filesys = boost::filesystem;
  * - Unlimited dimensions: num_stations, num_test_times;
  * - Fixed length dimensions: num_flts, num_analogs/similairty;
  */
-const bool AnEnWriteNcdf::_unlimited_stations = true;
-const bool AnEnWriteNcdf::_unlimited_test_times = true;
+const bool AnEnWriteNcdf::_unlimited_stations = false;
+const bool AnEnWriteNcdf::_unlimited_test_times = false;
 const bool AnEnWriteNcdf::_unlimited_flts = false;
 const bool AnEnWriteNcdf::_unlimited_members = false;
 
@@ -109,9 +109,9 @@ AnEnWriteNcdf::writeAnEn(const std::string & file, const AnEnIS & anen,
 
     // Write to the file
     addStations_(nc, forecast_stations, _unlimited_stations);
-    Ncdf::writeVector(nc, Config::_TEST_TIMES, Config::_DIM_TEST_TIMES, test_timestamps, NcType::nc_DOUBLE, _unlimited_test_times);
-    Ncdf::writeVector(nc, Config::_FLTS, Config::_DIM_FLTS, flt_timestamps, NcType::nc_DOUBLE, _unlimited_flts);
-    Ncdf::writeVector(nc, Config::_SEARCH_TIMES, Config::_DIM_SEARCH_TIMES, search_timestamps, NcType::nc_DOUBLE, false);
+    Ncdf::writeVector(nc, Config::_TEST_TIMES, Config::_DIM_TEST_TIMES, test_timestamps, NcType::nc_UINT64, _unlimited_test_times);
+    Ncdf::writeVector(nc, Config::_FLTS, Config::_DIM_FLTS, flt_timestamps, NcType::nc_UINT64, _unlimited_flts);
+    Ncdf::writeVector(nc, Config::_SEARCH_TIMES, Config::_DIM_SEARCH_TIMES, search_timestamps, NcType::nc_UINT64, false);
     Ncdf::writeStringVector(nc, Config::_PAR_NAMES, Config::_DIM_PARS, parameter_names, false);
     
     nc.close();

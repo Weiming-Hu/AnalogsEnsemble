@@ -46,7 +46,7 @@ void runAnEnGrib(
     /**************************************************************************
      *                     Read Forecasts and Analysis                        *
      **************************************************************************/
-    
+
     Profiler profiler;
     profiler.start();
 
@@ -64,12 +64,13 @@ void runAnEnGrib(
      * Read forecast analysis from files and convert them to observations
      */
     ForecastsPointer analysis;
-    anen_read.readForecasts(forecasts, grib_parameters, analysis_files,
+    anen_read.readForecasts(analysis, grib_parameters, analysis_files,
             regex_day_str, regex_flt_str, regex_cycle_str,
             unit_in_seconds, delimited, stations_index);
     profiler.log_time_session("reading analysis");
 
     // Convert analysis to observations
+    if (config.verbose >= Verbose::Progress) cout << "Collapsing forecast analysis ..." << endl;
     ObservationsPointer observations;
     Functions::collapseLeadTimes(observations, analysis);
     profiler.log_time_session("converting analysis");
@@ -78,8 +79,22 @@ void runAnEnGrib(
     const Times & forecast_times = forecasts.getTimes();
     Times test_times, search_times;
 
-    forecast_times(test_start, test_end, test_times, false);
-    forecast_times(search_start, search_end, search_times, false);
+    try {
+        forecast_times(test_start, test_end, test_times, false);
+        forecast_times(search_start, search_end, search_times, false);
+    } catch (exception & e) {
+        ostringstream msg;
+        msg << "Failed during extracting test/search times." << endl << endl
+                << "Did you follow the format (YYYY-mm-dd HH:MM:SS)?" << endl
+                << "Do you have extra quotes?" << endl << endl
+                << "I got test_start: " << test_start
+                << ", test_end: " << test_end << endl
+                << "search_start: " << search_start <<
+                ", search_end: " << search_end << endl << endl
+                << "The messages below come from the original error message:"
+                << endl << e.what();
+        throw runtime_error(msg.str());
+    }
 
 
     /**************************************************************************
@@ -91,9 +106,9 @@ void runAnEnGrib(
      */
     AnEn* anen = nullptr;
 
-    if (algorithm == "AnEnIS") {
+    if (algorithm == "IS") {
         anen = new AnEnIS(config);
-    } else if (algorithm == "AnEnSSE") {
+    } else if (algorithm == "SSE") {
         anen = new AnEnSSE(config);
     } else {
         throw runtime_error("The algorithm is not recognized");
@@ -116,16 +131,14 @@ void runAnEnGrib(
     const auto & forecast_parameters = forecasts.getParameters();
     const auto & forecast_stations = forecasts.getStations();
 
-    if (algorithm == "AnEnIS") {
+    if (algorithm == "IS") {
         AnEnIS* anen_is = dynamic_cast<AnEnIS *> (anen);
         anen_write.writeAnEn(fileout, *anen_is, test_times, search_times,
                 forecast_flts, forecast_parameters, forecast_stations, overwrite);
-        delete anen_is;
-    } else if (algorithm == "AnEnSSE") {
+    } else if (algorithm == "SSE") {
         AnEnSSE* anen_sse = dynamic_cast<AnEnSSE *> (anen);
         anen_write.writeAnEn(fileout, *anen_sse, test_times, search_times,
                 forecast_flts, forecast_parameters, forecast_stations, overwrite);
-        delete anen_sse;
     } else {
         throw runtime_error("The algorithm is not recognized");
     }
@@ -133,17 +146,8 @@ void runAnEnGrib(
     /*
      * Housekeeping
      */
-    // Delete the pointer based on the algorithm used
-    if (algorithm == "IS") {
-        delete dynamic_cast<AnEnIS *> (anen);
-    } else if (algorithm == "SSE") {
-        delete dynamic_cast<AnEnSSE *> (anen);
-    } else {
-        throw std::runtime_error("algorithm not recognized");
-    }
-
+    delete anen;
     profiler.log_time_session("writing results");
-
     if (profile) profiler.summary(cout);
     return;
 }
@@ -188,12 +192,12 @@ int main(int argc, char** argv) {
             ("level-types", value< vector<string> >(&parameters_level_type)->multitoken()->required(), "Level type for parameter ID.")
             ("weights", value< vector<double> >(&weights)->multitoken(), "[Optional] Weight for each parameter ID.")
             ("stations-index", value< vector<int> >(&stations_index)->multitoken(), "[Optional] Stations index to be read from files.")
-            ("test-start", value<string>(&test_start)->required(), "Start date time for test with the format YYYY/MM/DD HH:MM:SS")
+            ("test-start", value<string>(&test_start)->required(), "Start date time for test with the format YYYY-mm-dd HH:MM:SS")
             ("test-end", value<string>(&test_end)->required(), "End date time for test.")
             ("search-start", value<string>(&search_start)->required(), "Start date time for search.")
             ("search-end", value<string>(&search_end)->required(), "End date time for search.")
             ("out", value<string>(&fileout)->required(), "Output file path.")
-            ("algorithm", value<string>(&algorithm)->default_value("AnEnIS"), "[Optional] AnEnIS or AnEnSSE")
+            ("algorithm", value<string>(&algorithm)->default_value("IS"), "[Optional] IS for Independent Search or SSE for Search Space Extension")
             ("delimited", bool_switch(&delimited)->default_value(false), "[Optional] Date strings in forecasts and analysis have separators.")
             ("overwrite", bool_switch(&overwrite)->default_value(false), "[Optional] Overwrite files and variables.")
             ("profile", bool_switch(&profile)->default_value(false), "[Optional] Print profiler's report.")
@@ -207,16 +211,16 @@ int main(int argc, char** argv) {
             ("flt-radius", value<size_t>(&(config.flt_radius)), "[Optional] The number of surrounding lead times to compare for trends.")
             ("num-nearest", value<size_t>(&(config.num_nearest)), "[Optional] Number of neighbor stations to search.")
             ("distance", value<double>(&(config.distance)), "[Optional] Distance threshold when searching for neighbors.")
-            ("extend-obs", bool_switch(&(config.extend_obs)), "[Optional] Use observations from search stations.")
-            ("operation", bool_switch(&(config.operation)), "[Optional] Use operational mode.")
-            ("prevent-search-future", bool_switch(&(config.prevent_search_future)), "[Optional] Prevent using observations that are later than the current test forecast.")
-            ("extend-obs", bool_switch(&(config.extend_obs)), "[Optional] Whether to use observations from search stations.")
-            ("save-analogs", bool_switch(&(config.save_analogs)), "[Optional] Save analogs.")
-            ("save-analogs-time-index", bool_switch(&(config.save_analogs_time_index)), "[Optional] Save time indices of analogs.")
-            ("save-sims", bool_switch(&(config.save_sims)), "[Optional] Save similarity.")
-            ("save-sims-time-index", bool_switch(&(config.save_sims_time_index)), "[Optional] Save time indices of similarity.")
-            ("save-sims-station-index", bool_switch(&(config.save_sims_station_index)), "[Optional] Save station indices of similarity.")
-            ("quick", bool_switch(&(config.quick_sort)), "[Optional] Use quick sort.");
+            ("extend-obs", bool_switch(&(config.extend_obs))->default_value(config.extend_obs), "[Optional] Use observations from search stations.")
+            ("operation", bool_switch(&(config.operation))->default_value(config.operation), "[Optional] Use operational mode.")
+            ("prevent-search-future", bool_switch(&(config.prevent_search_future))->default_value(config.prevent_search_future), "[Optional] Prevent using observations that are later than the current test forecast.")
+            ("extend-obs", bool_switch(&(config.extend_obs))->default_value(config.extend_obs), "[Optional] Whether to use observations from search stations.")
+            ("save-analogs", bool_switch(&(config.save_analogs))->default_value(config.save_analogs), "[Optional] Save analogs.")
+            ("save-analogs-time-index", bool_switch(&(config.save_analogs_time_index))->default_value(config.save_analogs_time_index), "[Optional] Save time indices of analogs.")
+            ("save-sims", bool_switch(&(config.save_sims))->default_value(config.save_sims), "[Optional] Save similarity.")
+            ("save-sims-time-index", bool_switch(&(config.save_sims_time_index))->default_value(config.save_sims_time_index), "[Optional] Save time indices of similarity.")
+            ("save-sims-station-index", bool_switch(&(config.save_sims_station_index))->default_value(config.save_sims_station_index), "[Optional] Save station indices of similarity.")
+            ("quick", bool_switch(&(config.quick_sort))->default_value(config.quick_sort), "[Optional] Use quick sort.");
 
     // Get all the available options
     vector<string> available_options;
@@ -300,7 +304,7 @@ int main(int argc, char** argv) {
         has_circular = true;
         if (num_parameters != parameters_circular.size()) throw runtime_error("Different numbers of parameters ID and circular flags");
     }
-    
+
     // List files from folders
     vector<string> forecast_files, analysis_files;
     FunctionsIO::listFiles(forecast_files, forecast_folder, ext);
