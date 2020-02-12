@@ -20,7 +20,6 @@ class testFunctionsIO : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST_SUITE(testFunctionsIO);
 
     CPPUNIT_TEST(testParseFilename);
-    CPPUNIT_TEST(testCollapseLeadTimes);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -30,7 +29,6 @@ public:
 
 private:
     void testParseFilename();
-    void testCollapseLeadTimes();
 };
 
 #endif /* TESTFUNCTIONSIO_H */

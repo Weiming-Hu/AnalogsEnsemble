@@ -13,6 +13,7 @@
 #include "Config.h"
 #include "AnEnIS.h"
 #include "AnEnSSE.h"
+#include "Profiler.h"
 #include "AnEnReadGrib.h"
 #include "ForecastsPointer.h"
 #include "ObservationsPointer.h"
@@ -38,11 +39,16 @@ void runAnEnGrib(
         const Config & config,
         size_t unit_in_seconds,
         bool delimited,
-        bool overwrite) {
+        bool overwrite,
+        bool profile) {
+
 
     /**************************************************************************
      *                     Read Forecasts and Analysis                        *
      **************************************************************************/
+    
+    Profiler profiler;
+    profiler.start();
 
     /*
      * Read forecasts from files
@@ -52,6 +58,7 @@ void runAnEnGrib(
     anen_read.readForecasts(forecasts, grib_parameters, forecast_files,
             regex_day_str, regex_flt_str, regex_cycle_str,
             unit_in_seconds, delimited, stations_index);
+    profiler.log_time_session("reading forecasts");
 
     /*
      * Read forecast analysis from files and convert them to observations
@@ -60,15 +67,17 @@ void runAnEnGrib(
     anen_read.readForecasts(forecasts, grib_parameters, analysis_files,
             regex_day_str, regex_flt_str, regex_cycle_str,
             unit_in_seconds, delimited, stations_index);
+    profiler.log_time_session("reading analysis");
 
     // Convert analysis to observations
     ObservationsPointer observations;
-    FunctionsIO::collapseLeadTimes(observations, analysis);
+    Functions::collapseLeadTimes(observations, analysis);
+    profiler.log_time_session("converting analysis");
 
     // Convert string date times to Times objects
     const Times & forecast_times = forecasts.getTimes();
     Times test_times, search_times;
-    
+
     forecast_times(test_start, test_end, test_times, false);
     forecast_times(search_start, search_end, search_times, false);
 
@@ -91,6 +100,7 @@ void runAnEnGrib(
     }
 
     anen->compute(forecasts, observations, test_times, search_times);
+    profiler.log_time_session("generating analogs");
 
 
     /**************************************************************************
@@ -132,6 +142,9 @@ void runAnEnGrib(
         throw std::runtime_error("algorithm not recognized");
     }
 
+    profiler.log_time_session("writing results");
+
+    if (profile) profiler.summary(cout);
     return;
 }
 
@@ -142,16 +155,16 @@ int main(int argc, char** argv) {
      **************************************************************************/
 
     // Define variables to be parsed and extracted
-    vector<string> forecast_files, analysis_files, config_files;
-    vector<string> parameters_level_type, parameters_name;
+    vector<string> config_files, parameters_level_type, parameters_name;
     vector<long> parameters_id, parameters_level;
     vector<bool> parameters_circular;
     vector<int> stations_index;
     vector<double> weights;
 
-    string regex_day_str, regex_flt_str, regex_cycle_str, test_start, test_end;
-    string search_start, search_end, fileout, algorithm;
-    bool delimited, overwrite;
+    string forecast_folder, analysis_folder, regex_day_str, regex_flt_str;
+    string regex_cycle_str, test_start, test_end, search_start, search_end;
+    string fileout, algorithm, ext;
+    bool delimited, overwrite, profile;
     size_t unit_in_seconds;
     int verbose;
 
@@ -162,8 +175,9 @@ int main(int argc, char** argv) {
     desc.add_options()
             ("help,h", "Print help information for options.")
             ("config,c", value< vector<string> >(&config_files)->multitoken(), "Config files (.cfg). Command line options overwrite config files.")
-            ("forecasts", value< vector<string> >(&forecast_files)->multitoken()->required(), "GRIB files for forecasts.")
-            ("analysis", value< vector<string> >(&analysis_files)->multitoken()->required(), "GRIB files for analysis.")
+            ("forecasts-folder", value<string>(&forecast_folder)->multitoken()->required(), "Folder for forecast GRIB files.")
+            ("analysis-folder", value<string>(&analysis_folder)->multitoken()->required(), "Folder for analysis GRIB files.")
+            ("ext", value<string>(&ext)->default_value(".grb2"), "[Optional] GRIB file extension")
             ("regex-day", value<string>(&regex_day_str)->required(), "Regular expression for the date. Regular expressions are used on file names.")
             ("regex-flt", value<string>(&regex_flt_str)->required(), "Regular expression for lead times.")
             ("regex-cycle", value<string>(&regex_cycle_str), "[Optional] Regular expression for initialization cycle time.")
@@ -182,6 +196,7 @@ int main(int argc, char** argv) {
             ("algorithm", value<string>(&algorithm)->default_value("AnEnIS"), "[Optional] AnEnIS or AnEnSSE")
             ("delimited", bool_switch(&delimited)->default_value(false), "[Optional] Date strings in forecasts and analysis have separators.")
             ("overwrite", bool_switch(&overwrite)->default_value(false), "[Optional] Overwrite files and variables.")
+            ("profile", bool_switch(&profile)->default_value(false), "[Optional] Print profiler's report.")
             ("unit-in-seconds", value<size_t>(&unit_in_seconds)->default_value(3600), "[Optional] The number of seconds for the unit of lead times. Usually lead times have hours as unit, so it defaults to 3600.")
             ("verbose,v", value<int>(&verbose)->default_value(2), "[Optional] Verbose level (0 - 4).")
             ("analogs", value<size_t>(&(config.num_analogs)), "[Optional] Number of analogs members.")
@@ -260,11 +275,12 @@ int main(int argc, char** argv) {
 
     notify(vm);
 
+    if (vm.count("verbose")) {
+        config.setVerbose(vm["verbose"].as<int>());
+    }
+
     if (config.verbose >= Verbose::Progress) {
         cout << "Parallel Analogs Ensemble -- anen "
-#if defined(_CODE_PROFILING)
-                << "(with code profiling) "
-#endif
                 << _APPVERSION << endl << "GEOlab @ Penn State" << endl;
     }
 
@@ -277,16 +293,28 @@ int main(int argc, char** argv) {
     bool has_circular = false;
     size_t num_parameters = parameters_id.size();
 
-    if (num_parameters != parameters_level.size()) throw runtime_error("Parameters ID and level do not match");
-    if (num_parameters != parameters_name.size()) throw runtime_error("Parameters ID and name do not match");
-    if (num_parameters != parameters_level_type.size()) throw runtime_error("Parameters ID and level type do not match");
+    if (num_parameters != parameters_level.size()) throw runtime_error("Different numbers of parameters ID and levels");
+    if (num_parameters != parameters_name.size()) throw runtime_error("Different numbers of parameters ID and names");
+    if (num_parameters != parameters_level_type.size()) throw runtime_error("Different numbers of parameters ID and level types");
     if (parameters_circular.size() != 0) {
         has_circular = true;
-        if (num_parameters != parameters_circular.size()) throw runtime_error("Parameters ID and circular flag do not match");
+        if (num_parameters != parameters_circular.size()) throw runtime_error("Different numbers of parameters ID and circular flags");
+    }
+    
+    // List files from folders
+    vector<string> forecast_files, analysis_files;
+    FunctionsIO::listFiles(forecast_files, forecast_folder, ext);
+    FunctionsIO::listFiles(analysis_files, analysis_folder, ext);
+
+    if (config.verbose >= Verbose::Debug) {
+        cout << "Forecast files:" << endl
+                << Functions::format(forecast_files, "\n") << endl
+                << "Analysis files:" << endl
+                << Functions::format(analysis_files, "\n") << endl;
     }
 
-    vector<ParameterGrib> grib_parameters(num_parameters);
-
+    // Convert parameters
+    vector<ParameterGrib> grib_parameters;
     for (size_t parameter_i = 0; parameter_i < num_parameters; ++parameter_i) {
         ParameterGrib grib_parameter(parameters_name[parameter_i],
                 Config::_CIRCULAR, parameters_id[parameter_i],
@@ -294,12 +322,13 @@ int main(int argc, char** argv) {
 
         if (has_circular) grib_parameter.setCircular(parameters_circular[parameter_i]);
         grib_parameters.push_back(grib_parameter);
+        if (config.verbose >= Verbose::Debug) cout << grib_parameter << endl;
     }
 
     runAnEnGrib(forecast_files, analysis_files,
             regex_day_str, regex_flt_str, regex_cycle_str,
             grib_parameters, stations_index, test_start, test_end, search_start, search_end,
-            fileout, algorithm, config, unit_in_seconds, delimited, overwrite);
+            fileout, algorithm, config, unit_in_seconds, delimited, overwrite, profile);
 
     return 0;
 }

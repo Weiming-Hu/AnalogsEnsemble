@@ -11,7 +11,8 @@
 
 #include "Times.h"
 #include "Config.h"
-#include "Stations.h"
+#include "Forecasts.h"
+#include "Observations.h"
 #include "boost/numeric/ublas/matrix.hpp"
 #include "boost/numeric/ublas/io.hpp"
 
@@ -160,6 +161,14 @@ namespace Functions {
      */
     long toSeconds(const std::string & datetime_str,
             const std::string & origin_str, bool iso_string);
+
+    /**
+     * Collapse the time and lead time dimensions of a forecasts and convert
+     * them to observations;
+     * @param  Observations
+     * @param  Forecasts
+     */
+    void collapseLeadTimes(Observations &, const Forecasts &);
 
     /**************************************************************************
      *                          Template Functions                            *

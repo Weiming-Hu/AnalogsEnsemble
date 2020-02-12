@@ -48,7 +48,7 @@ void testObservationsPointer::testObservationValueSequence_() {
 
     Times times;
     for (size_t i = 1; i <= 10; ++i) {
-        times.push_back(Times::value_type(i, Time(i)));
+        times.push_back(Time(i));
     }
 
     vector<double> values(parameters.size() * stations.size() * times.size());

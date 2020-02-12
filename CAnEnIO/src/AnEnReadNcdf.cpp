@@ -40,9 +40,7 @@ void
 AnEnReadNcdf::readForecasts(const string & file_path,
         Forecasts & forecasts) const {
     // Call the handling function
-    readForecasts(file_path, forecasts,{},
-    {
-    });
+    readForecasts(file_path, forecasts, {}, {});
     return;
 }
 
@@ -259,8 +257,8 @@ AnEnReadNcdf::read_(const NcFile & nc, Stations & stations,
         throw runtime_error(msg.str());
     }
 
-    if (varExists(nc, var_name_prefix + Config::_PAR_NAMES)) {
-        readStringVector(nc, var_name_prefix + Config::_PAR_NAMES,
+    if (varExists(nc, var_name_prefix + Config::_STATION_NAMES)) {
+        readStringVector(nc, var_name_prefix + Config::_STATION_NAMES,
                 names, start, count);
 
         if (xs.size() != names.size()) {
@@ -335,7 +333,7 @@ AnEnReadNcdf::read_(const netCDF::NcFile & nc, Times & times,
             throw runtime_error("Times should be in ascension order!");
         }
 
-        times.push_back(Times::value_type(dim_i, Time(vec[i])));
+        times.push_back(vec[i]);
         last_timestamp = vec[i];
     }
 

@@ -64,5 +64,21 @@ ParameterGrib::operator=(const ParameterGrib & rhs) {
 bool
 ParameterGrib::operator<(const ParameterGrib & rhs) const {
     if (id_ != rhs.id_) return id_ < rhs.id_;
-    else return level_ < rhs.level_;
+    else if (level_ != rhs.level_) return level_ < rhs.level_;
+    else Parameter::operator <(rhs);
 }
+
+void ParameterGrib::print(std::ostream& os) const {
+    Parameter::print(os);
+    os << ", id: " << id_
+            << ", level: " << level_
+            << ", level type: " << level_type_;
+    return;
+}
+
+ostream&
+operator<<(ostream& os, ParameterGrib const & obj) {
+    obj.print(os);
+    return os;
+}
+

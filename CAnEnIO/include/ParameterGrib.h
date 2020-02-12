@@ -31,6 +31,9 @@ public:
     ParameterGrib & operator=(const ParameterGrib &);
     bool operator<(const ParameterGrib &) const;
 
+    void print(std::ostream &) const;
+    friend std::ostream& operator<<(std::ostream&, ParameterGrib const &);
+
     static const std::string _key_id;
     static const std::string _key_level;
     static const std::string _key_level_type;

@@ -44,7 +44,7 @@ void testForecastsPointer::testForecastSetVectorValues_() {
 
     Times times;
     for (size_t i = 0; i < 10; ++i) {
-        times.push_back(Times::value_type(i, Time(i + 1)));
+        times.push_back(Time(i + 1));
     }
 
     Times flts;

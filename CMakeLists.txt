@@ -25,7 +25,6 @@ option(VERBOSE "Verbose standout output" OFF)
 option(INSTALL_RAnEn "install RAnEn package" OFF)
 option(OPENMP "Insert OpenMP parallelization flags" ON)
 option(USE_NCCONFIG "Use nc-config to determine cflags and libdirs." OFF)
-option(CODE_PROFILING "Insert profiling code and print time information." OFF)
 
 # Set this variable to prevent CMake from removing
 # non-standard build paths. This would be helpful on
@@ -160,11 +159,6 @@ endif (OPENMP)
 if (VERBOSE)
     message(STATUS "CMAKE_CXX_FLAGS: ${CMAKE_CXX_FLAGS}")
 endif (VERBOSE)
-
-if(CODE_PROFILING)
-    message(STATUS "Insert codes to profiling functions and print time information.")
-    add_definitions(-D_CODE_PROFILING)
-endif(CODE_PROFILING)
 
 # if INSTALL_RAnEn is set to TRUE
 # only install RAnEn package

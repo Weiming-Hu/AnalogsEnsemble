@@ -150,14 +150,14 @@ testFunctions::testComputeObservationTimeIndices1_() {
 
     Times flts_forecasts;
     for (size_t i = 0; i < 10; ++i) {
-        flts_forecasts.push_back(Times::value_type(i, Time(i)));
+        flts_forecasts.push_back(i);
     }
 
     vector<double> values(700);
     iota(values.begin(), values.end(), 90);
     Times times_observations;
     for (size_t i = 0; i < values.size(); ++i) {
-        times_observations.push_back(Times::value_type(i, Time(values[i])));
+        times_observations.push_back(values[i]);
     }
 
     Functions::Matrix mapping(times_forecasts.size(), flts_forecasts.size());
@@ -187,9 +187,11 @@ testFunctions::testComputeObservationTimeIndices2_() {
 
     AnEnReadNcdf io;
 
+    cout << "Reading forecasts ..." << endl;
     ForecastsPointer forecasts;
     io.readForecasts(file_forecasts, forecasts);
 
+    cout << "Reading observations ..." << endl;
     ObservationsPointer observations;
     io.readObservations(file_observations, observations);
 
@@ -206,6 +208,74 @@ testFunctions::testComputeObservationTimeIndices2_() {
         for (size_t i_col = 0; i_col < mapping.size2(); i_col++) {
             CPPUNIT_ASSERT(mapping(i_row, i_col) == i_start);
             i_start++;
+        }
+    }
+}
+
+void
+testFunctions::testCollapseLeadTimes_() {
+
+    /**
+     * This function tests the conversion from forecasts to observations
+     */
+    // Parameters
+    Parameters parameters;
+    Parameter p1, p2("temperature"), p3("Direction"), p4("wind direction", true);
+    assign::push_back(parameters.left)(0, p1)(1, p2)(2, p3)(3, p4);
+
+    // Stations
+    Stations stations;
+    Station s0, s1(5, 3), s2(10, 20, "station3"), s3(10, 20, "station2");
+    assign::push_back(stations.left)(0, s0)(1, s1)(2, s2)(3, s3);
+
+    // Times and FLTs
+    Times times, flts;
+    assign::push_back(times.left)(0, 0)(0, 6)(0, 12);
+    assign::push_back(flts.left)(0, 0)(0, 3)(0, 6)(0, 9)(0, 12);
+
+    // Forecasts
+    ForecastsPointer forecasts(parameters, stations, times, flts);
+
+    double* p_data = forecasts.getValuesPtr();
+    for (size_t value_i = 0; value_i < forecasts.num_elements(); ++value_i) {
+        p_data[value_i] = value_i;
+    }
+
+    cout << "Forecasts initialized" << endl;
+
+    // Call the method
+    ObservationsPointer observations;
+    Functions::collapseLeadTimes(observations, forecasts);
+
+    cout << "Forecasts collapsed to observations" << endl;
+
+    // Check results
+    double obs, fcst;
+    CPPUNIT_ASSERT(observations.num_elements() == 4 * 4 * 9);
+
+    for (size_t parameter_i = 0; parameter_i < parameters.size(); ++parameter_i) {
+        for (size_t station_i = 0; station_i < stations.size(); ++station_i) {
+            for (size_t time_i = 0; time_i < observations.getTimes().size(); ++time_i) {
+                obs = observations.getValue(parameter_i, station_i, time_i);
+
+                /*
+                 * If you fail this test, you need to check whether your algorithm
+                 * prefers values that are from an earlier forecast lead time
+                 */
+                if (time_i == 0) fcst = forecasts.getValue(parameter_i, station_i, 0, 0);
+                else if (time_i == 1) fcst = forecasts.getValue(parameter_i, station_i, 0, 1);
+                else if (time_i == 2) fcst = forecasts.getValue(parameter_i, station_i, 1, 0);
+                else if (time_i == 3) fcst = forecasts.getValue(parameter_i, station_i, 1, 1);
+                else if (time_i == 4) fcst = forecasts.getValue(parameter_i, station_i, 2, 0);
+                else if (time_i == 5) fcst = forecasts.getValue(parameter_i, station_i, 2, 1);
+                else if (time_i == 6) fcst = forecasts.getValue(parameter_i, station_i, 2, 2);
+                else if (time_i == 7) fcst = forecasts.getValue(parameter_i, station_i, 2, 3);
+                else if (time_i == 8) fcst = forecasts.getValue(parameter_i, station_i, 2, 4);
+                else throw runtime_error("Wrong time index");
+
+                CPPUNIT_ASSERT(obs == fcst);
+
+            }
         }
     }
 }

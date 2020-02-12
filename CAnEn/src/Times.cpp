@@ -77,9 +77,16 @@ operator<<(ostream& os, Time const & obj) {
     return os;
 }
 
+
 /***************************************************************************
  *                               Times                                     *
  **************************************************************************/
+
+void
+Times::push_back(const Time & time) {
+    BmType<Time>::push_back(Times::value_type(size(), time));
+    return;
+}
 
 size_t
 Times::getIndex(const Time & time) const {
@@ -143,14 +150,13 @@ void
 Times::operator()(size_t start_time, size_t end_time, Times & sliced_times) const {
     
     sliced_times.clear();
-    size_t counter = 0, current_time;
+    size_t current_time;
     
     const auto & end = left.end();
     for (auto it = left.begin(); it != end; ++it) {
         current_time = it->second.timestamp;
         if (current_time >= start_time && current_time <= end_time) {
-            sliced_times.push_back(value_type(counter, current_time));
-            counter++;
+            sliced_times.push_back(current_time);
         }
     }
     

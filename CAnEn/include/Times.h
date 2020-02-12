@@ -56,6 +56,8 @@ public:
     Times(const Times &) = default;
     virtual ~Times() = default;
     
+    void push_back(const Time &);
+
     /**
      * Retrieve the associated index with a Time object.
      * @param time A Time object

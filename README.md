@@ -317,8 +317,6 @@ For more information on how to use the tool, please see an example [here](https:
 |     USE\_NCCONFIG    |    Use the `nc_config` program if found. This might cause problems if `NetCDF` is not properly setup.                                              |         OFF        |
 |      BUILD\_HDF5     |                            Build `HDF5` library regardless of its existence.                                                                       |         OFF        |
 |        VERBOSE       |                          Print detailed messages during the compiling process.                                                                     |         OFF        |
-|    CODE\_PROFILING   |                                     Print time profiling information.                                                                              |         OFF        |
-| BUILD\_GRIBCONVERTER | Build the GRIB Converter program. [Eccodes](https://confluence.ecmwf.int/display/ECC) library is required.                                         |         OFF        |
 |    ECCODES\_TYPE     | `BUILD` for building `Eccodes`; `SYSTEM` for using the library on the system.                                                                      |         SYSTEM     |
 
 ## References

@@ -15,36 +15,15 @@
 #include <algorithm>
 
 #include "FunctionsIO.h"
+#include "boost/filesystem.hpp"
 
 using namespace std;
 using namespace boost::gregorian;
-
-/*
- * This definition is used to record the mapping from observation times to
- * forecast times and lead times. This is the reverse of the observation time
- * index table which goes from forecast times and lead times to observation times.
- */
-using time_arr = array<size_t, 3>;
-
-// These defines the value type on each position in the time array.
-static const size_t _VALUE_INDEX = 0;
-static const size_t _TIME_INDEX = 1;
-static const size_t _FLT_INDEX = 2;
+namespace fs = boost::filesystem;
 
 // These defines how to convert string-like times to double value times
 static const size_t _SECONDS_IN_DAY = 24 * 60 * 60;
 static const size_t _SECONDS_IN_HOUR = 60 * 60;
-
-/*
- * This defines an operator for comparing observation time entry which is based
- * on the first position, time stamp value.
- */
-struct time_arr_compare {
-
-    bool operator()(const time_arr & lhs, const time_arr & rhs) const {
-        return lhs[_VALUE_INDEX] < rhs[_VALUE_INDEX];
-    }
-};
 
 bool
 FunctionsIO::parseFilename(Time & time, Time & flt,
@@ -108,12 +87,17 @@ FunctionsIO::parseFilename(Time & time, Time & flt,
 
 void
 FunctionsIO::parseFilenames(Times & times, Times & flts,
-        const vector<string> & files,
+        vector<string> files,
         const string & regex_day_str,
         const string & regex_flt_str,
         const string & regex_cycle_str,
         size_t unit_in_seconds,
         bool delimited) {
+    
+    // Sort file names because time should be sorted and time will be
+    // extracted from file names
+    //
+    sort(files.begin(), files.end());
 
     // Convert regular expression string to a regular expression object
     regex regex_day = regex(regex_day_str);
@@ -126,7 +110,6 @@ FunctionsIO::parseFilenames(Times & times, Times & flts,
 
     bool ret;
     Time time, flt;
-    size_t counter = 0;
 
     // Determine our start day
     date start_day(from_string(Time::_origin));
@@ -142,9 +125,8 @@ FunctionsIO::parseFilenames(Times & times, Times & flts,
                 regex_cycle, unit_in_seconds, delimited);
 
         if (ret) {
-            times.push_back(Times::value_type(counter, time));
-            flts.push_back(Times::value_type(counter, flt));
-            counter++;
+            times.push_back(time);
+            flts.push_back(flt);
         }
     }
 
@@ -152,62 +134,24 @@ FunctionsIO::parseFilenames(Times & times, Times & flts,
 }
 
 void
-FunctionsIO::collapseLeadTimes(
-        Observations & observations,
-        const Forecasts & forecasts) {
+FunctionsIO::listFiles(vector<string> & files, string& folder, const string& ext) {
 
-    // Calculate the unique time combination from forecast times and lead times
-    time_arr time_entry;
-    set<time_arr, time_arr_compare> unique_times;
+    if (folder.empty()) throw runtime_error("Specify folder");
 
-    const auto & fcst_times = forecasts.getTimes();
-    const auto & fcst_flts = forecasts.getFLTs();
+    files.clear();
 
-    /*
-     * Insert times from forecasts to observations.
-     * 
-     * Please note that I'm looping first on forecast lead times and then forecast
-     * times because I'm giving priority to earlier forecast lead times compared
-     * to later lead time that are further into the future. I will keep the values
-     * that are close to the initialization time.
-     */
-    for (size_t flt_i = 0; flt_i < fcst_flts.size(); ++flt_i) {
-        for (size_t time_i = 0; time_i < fcst_times.size(); ++time_i) {
+    // Append a trailing slash if there is none
+    if (folder.back() != '/') folder += '/';
 
-            time_entry[_TIME_INDEX] = time_i;
-            time_entry[_FLT_INDEX] = flt_i;
-            time_entry[_VALUE_INDEX] = fcst_times.getTime(time_i).timestamp
-                    + fcst_flts.getTime(flt_i).timestamp;
+    // List all files in a folder
+    fs::recursive_directory_iterator it(folder), endit;
+    while (it != endit) {
 
-            unique_times.insert(time_entry);
+        // Check file extension
+        if (fs::is_regular_file(*it) && it->path().extension() == ext) {
+            files.push_back(folder + it->path().filename().string());
         }
+
+        it++;
     }
-
-    // Insert the sorted unique times into observation times
-    Times obs_times;
-    size_t time_i = 0;
-    const auto & unique_times_end = unique_times.end();
-    for (auto it = unique_times.begin(); it != unique_times_end; ++it, ++time_i) {
-        obs_times.push_back(Times::value_type(time_i, (*it)[_VALUE_INDEX]));
-    }
-
-    // Set dimensions for observations
-    observations.setDimensions(forecasts.getParameters(), forecasts.getStations(), obs_times);
-
-    // Copy values from forecasts
-    time_i = 0;
-    double value;
-    size_t num_parameters = observations.getParameters().size();
-    size_t num_stations = observations.getStations().size();
-
-    for (auto it = unique_times.begin(); it != unique_times_end; ++it, ++time_i) {
-        for (size_t parameter_i = 0; parameter_i < num_parameters; ++parameter_i) {
-            for (size_t station_i = 0; station_i < num_stations; ++station_i) {
-                value = forecasts.getValue(parameter_i, station_i, (*it)[_TIME_INDEX], (*it)[_FLT_INDEX]);
-                observations.setValue(value, parameter_i, station_i, time_i);
-            }
-        }
-    }
-
-    return;
 }

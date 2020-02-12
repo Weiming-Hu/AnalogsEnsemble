@@ -80,7 +80,7 @@ void testAnEnIS::setUpSds() {
 
     // Manually create 10 times
     for (size_t i = 0; i < 10; ++i) {
-        fcst_times_.push_back(Times::value_type(i, Time(i * 100)));
+        fcst_times_.push_back(Time(i * 100));
     }
 
     // Manually create 2 FLTs
@@ -121,7 +121,7 @@ void testAnEnIS::setUpCompute() {
 
     // Manually create 20 forecast times
     for (size_t i = 0; i < 20; ++i) {
-        fcst_times_.push_back(Times::value_type(i, Time(i * 100)));
+        fcst_times_.push_back(Time(i * 100));
     }
 
     // Manually create 3 FLTs
@@ -129,7 +129,7 @@ void testAnEnIS::setUpCompute() {
 
     // Manually create 50 observation times
     for (size_t i = 0; i < 50; ++i) {
-        obs_times_.push_back(Times::value_type(i, Time(i * 50)));
+        obs_times_.push_back(i * 50);
     }
 
     return;

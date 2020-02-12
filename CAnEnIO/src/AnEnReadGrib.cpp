@@ -40,7 +40,7 @@ AnEnReadGrib::readForecasts(Forecasts & forecasts,
         const string & regex_cycle_str,
         size_t flt_unit_in_seconds, bool delimited,
         vector<int> stations_index) const {
-    
+
     /*
      * Parse files for forecast times and forecast lead times
      */
@@ -52,6 +52,8 @@ AnEnReadGrib::readForecasts(Forecasts & forecasts,
 
     if (times.size() == 0) throw runtime_error("No day information extracted. Check filenames and regular expressions");
     if (flts.size() == 0) throw runtime_error("No lead time information extracted. Check filenames and regular expressions");
+
+    // If stations index are not sorted, it will affect how I'm extracting coordinates.
     if (!is_sorted(stations_index.begin(), stations_index.end())) throw runtime_error("Stations index should be sorted in ascension order");
 
     /*
@@ -71,17 +73,24 @@ AnEnReadGrib::readForecasts(Forecasts & forecasts,
         parameters.push_back(Parameters::value_type(counter, *it));
     }
 
+    if (verbose_ >= Verbose::Debug) {
+        cout << "(readForecasts) " << parameters
+                << "(readForecasts)" << stations
+                << "(readForecasts)" << times
+                << "(readForecasts)" << flts;
+    }
+
     if (parameters.size() != grib_parameters.size()) {
         stringstream msg;
         msg << grib_parameters.size() << " parameters specified but only "
-            << parameters.size() << " parameters inserted. Do you have duplicated names?";
+                << parameters.size() << " parameters inserted. Do you have duplicated names?";
         throw runtime_error(msg.str());
     }
 
     /*
      * Read forecasts
      */
-    if (verbose_ >= Verbose::Progress) cout << "Read forecast ..." << endl;
+    if (verbose_ >= Verbose::Progress) cout << "Reading forecast ..." << endl;
     bool ret;
     int err = 0;
     double* p_data = nullptr;
@@ -99,8 +108,8 @@ AnEnReadGrib::readForecasts(Forecasts & forecasts,
     // Prepare the keys to be filtered when reading a file
     ostringstream index_keys_ss;
     index_keys_ss << ParameterGrib::_key_id << ","
-        << ParameterGrib::_key_level << ","
-        << ParameterGrib::_key_level_type;
+            << ParameterGrib::_key_level << ","
+            << ParameterGrib::_key_level_type;
     string index_keys = index_keys_ss.str();
 
     // This is the start time
@@ -118,7 +127,7 @@ AnEnReadGrib::readForecasts(Forecasts & forecasts,
         if (regex_cycle_str.empty()) ret = FunctionsIO::parseFilename(
                 file_time, file_flt, file, start_day, regex_day, regex_flt,
                 flt_unit_in_seconds, delimited);
-        else  ret = FunctionsIO::parseFilename(
+        else ret = FunctionsIO::parseFilename(
                 file_time, file_flt, file, start_day, regex_day, regex_flt,
                 regex_cycle, flt_unit_in_seconds, delimited);
 
@@ -144,7 +153,7 @@ AnEnReadGrib::readForecasts(Forecasts & forecasts,
             msg << "Failed when opening file " << file;
             throw runtime_error(msg.str());
         }
-        
+
         for (size_t parameter_i = 0; parameter_i < parameters.size(); ++parameter_i) {
             const ParameterGrib & parameter = grib_parameters[parameter_i];
 
@@ -161,24 +170,24 @@ AnEnReadGrib::readForecasts(Forecasts & forecasts,
             // Read data from the GRIB file
             if (stations_index.empty()) {
                 CODES_CHECK(codes_get_size(
-                            h, ParameterGrib::_key_values.c_str(),
-                            &data_len), 0);
+                        h, ParameterGrib::_key_values.c_str(),
+                        &data_len), 0);
 
                 p_data = new double [data_len];
 
                 CODES_CHECK(codes_get_double_array(
-                            h, ParameterGrib::_key_values.c_str(),
-                            p_data, &data_len), 0);
+                        h, ParameterGrib::_key_values.c_str(),
+                        p_data, &data_len), 0);
             } else {
                 data_len = stations_index.size();
 
                 p_data = new double [data_len];
 
                 CODES_CHECK(codes_get_double_elements(
-                            h, ParameterGrib::_key_values.c_str(),
-                            stations_index.data(), data_len, p_data), 0);
+                        h, ParameterGrib::_key_values.c_str(),
+                        stations_index.data(), data_len, p_data), 0);
             }
-            
+
             if (num_stations != data_len) {
                 ostringstream msg;
                 msg << "The number of data values (" << data_len
@@ -221,15 +230,15 @@ AnEnReadGrib::readStations_(Stations & stations, const string & file,
 
     // Start with a clean repository
     stations.clear();
-    
+
     double x, y, val;
     int counter = 0, station_index = 0;
 
     while (codes_grib_iterator_next(iter, &x, &y, &val)) {
-        
+
         if (stations_index.size() != 0) {
             // If we are reading a subset of the stations
-            
+
             if (stations_index[station_index] != counter) {
                 // If the current station is not what we want to read
                 counter++;
@@ -239,7 +248,7 @@ AnEnReadGrib::readStations_(Stations & stations, const string & file,
 
         // The current station is what we want to read
         Station station(x, y);
-        stations.push_back(Stations::value_type(station_index, station));    
+        stations.push_back(Stations::value_type(station_index, station));
         counter++;
         station_index++;
     }
@@ -247,6 +256,6 @@ AnEnReadGrib::readStations_(Stations & stations, const string & file,
     codes_grib_iterator_delete(iter);
     codes_handle_delete(h);
     fclose(in);
-    
+
     return;
 }
