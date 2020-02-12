@@ -150,11 +150,10 @@ void
 Times::operator()(size_t start_time, size_t end_time, Times & sliced_times) const {
     
     sliced_times.clear();
-    size_t current_time;
     
     const auto & end = left.end();
     for (auto it = left.begin(); it != end; ++it) {
-        current_time = it->second.timestamp;
+        size_t current_time = it->second.timestamp;
         if (current_time >= start_time && current_time <= end_time) {
             sliced_times.push_back(current_time);
         }

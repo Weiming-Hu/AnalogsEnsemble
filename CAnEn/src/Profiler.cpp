@@ -53,13 +53,9 @@ Profiler::summary(std::ostream& os) const {
     if (session_names_.front() != _SESSION_START) throw runtime_error("You didn't start the profiler by calling start");
     
     // Define time variables
-    clock_t ptime;
-    time_duration ptime_duration;
     float full_pduration = (ptimes_.back() - ptimes_.front()) / (float) CLOCKS_PER_SEC;
     
 #if defined(_OPENMP)
-    long wtime;
-    time_duration wtime_duration;
     double full_wduration = wtimes_.back() - wtimes_.front();
 #endif
 
@@ -70,13 +66,13 @@ Profiler::summary(std::ostream& os) const {
     for (size_t session_i = 1; session_i < num_sessions; ++session_i) {
         
         // Calculate processor time consumption
-        ptime = (ptimes_[session_i] - ptimes_[session_i - 1]) / CLOCKS_PER_SEC;
-        ptime_duration = seconds(ptime);
+        clock_t ptime = (ptimes_[session_i] - ptimes_[session_i - 1]) / CLOCKS_PER_SEC;
+        time_duration ptime_duration = seconds(ptime);
         
 #if defined(_OPENMP)
         // Calculate wall time consumption
-        wtime = wtimes_[session_i] - wtimes_[session_i - 1];
-        wtime_duration = seconds(wtime);
+        long wtime = wtimes_[session_i] - wtimes_[session_i - 1];
+        time_duration wtime_duration = seconds(wtime);
 #endif
         
         os << "Session " << session_names_[session_i] <<
