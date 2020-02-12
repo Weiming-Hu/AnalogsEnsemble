@@ -62,3 +62,42 @@ Functions::toIndex(std::vector<std::size_t> & index,
 
     return;
 }
+
+template <class T>
+void
+Functions::guess_arguments(const std::vector< std::basic_string<T> >& unregistered_keys,
+        const std::vector<std::string> & available_options,
+        std::ostream & os) {
+    
+    using namespace std;
+    
+    vector<int> distances;
+    os << "Found unknown arguments: " << endl;
+    for (auto arg : unregistered_keys) {
+
+        distances.clear();
+        os << arg.c_str();
+
+        // compute the Leveshtein distances
+        for (auto arg_available : available_options) {
+
+            // the weights are suggested by Github
+            distances.push_back(levenshtein(arg, arg_available, 0, 2, 1, 3));
+        }
+
+        // find the most similar ones and print them out
+        os << ": did you mean ";
+        int min = *min_element(distances.begin(), distances.end());
+        auto iter = distances.begin();
+        while (iter != distances.end()) {
+            if (*iter == min) {
+                os << available_options.at(iter - distances.begin()) << " ";
+            }
+            iter++;
+        }
+        os << endl;
+    }
+    os << "Please refer to the full list of parameters using -h or --help" << endl;
+    
+    return;
+}

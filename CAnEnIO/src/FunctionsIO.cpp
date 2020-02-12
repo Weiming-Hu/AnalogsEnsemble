@@ -51,7 +51,7 @@ FunctionsIO::parseFilename(Time & time, Time & flt,
         const string & file, const date & start_day,
         const regex & regex_day,
         const regex & regex_flt,
-        double unit_in_seconds,
+        size_t unit_in_seconds,
         bool delimited) {
 
     date current_day;
@@ -83,7 +83,7 @@ FunctionsIO::parseFilename(Time & time, Time & flt,
         const regex & regex_day,
         const regex & regex_flt,
         const regex & regex_cycle,
-        double unit_in_seconds,
+        size_t unit_in_seconds,
         bool delimited) {
 
     // Match only the day and the lead time parts
@@ -112,7 +112,7 @@ FunctionsIO::parseFilenames(Times & times, Times & flts,
         const string & regex_day_str,
         const string & regex_flt_str,
         const string & regex_cycle_str,
-        double unit_in_seconds,
+        size_t unit_in_seconds,
         bool delimited) {
 
     // Convert regular expression string to a regular expression object

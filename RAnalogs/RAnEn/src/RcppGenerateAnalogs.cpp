@@ -181,7 +181,15 @@ List generateAnalogs(SEXP sx_forecasts, SEXP sx_observations,
     }
 
     ret.attr("class") = "AnEn";
-    delete anen;
+    
+    // Delete the pointer based on the algorithm used
+    if (algorithm == "IS") {
+        delete dynamic_cast<AnEnIS *> (anen);
+    } else if (algorithm == "SSE") {
+        delete dynamic_cast<AnEnSSE *> (anen);
+    } else {
+        throw std::runtime_error("algorithm not recognized");
+    }
 
     return ret;
 }

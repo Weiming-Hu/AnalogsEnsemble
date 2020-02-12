@@ -29,7 +29,7 @@ public:
             const std::string & regex_day_str,
             const std::string & regex_flt_str,
             const std::string & regex_cycle_str = "",
-            double unit_in_seconds = 3600,
+            size_t unit_in_seconds = 3600,
             bool delimited = false,
             std::vector<int> stations_index = {}) const;
 

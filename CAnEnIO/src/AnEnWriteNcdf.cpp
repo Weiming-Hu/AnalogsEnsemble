@@ -34,6 +34,9 @@ AnEnWriteNcdf::AnEnWriteNcdf(const AnEnWriteNcdf& orig) {
     verbose_ = orig.verbose_;
 }
 
+AnEnWriteNcdf::AnEnWriteNcdf(Verbose verbose) : verbose_(verbose) {
+}
+
 AnEnWriteNcdf::~AnEnWriteNcdf() {
 }
 

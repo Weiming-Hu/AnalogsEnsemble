@@ -25,7 +25,7 @@ namespace FunctionsIO {
             const std::regex & regex_day,
             const std::regex & regex_flt,
             const std::regex & regex_cycle,
-            double unit_in_seconds,
+            size_t unit_in_seconds,
             bool delimited);
 
     bool parseFilename(Time & time, Time & flt,
@@ -33,7 +33,7 @@ namespace FunctionsIO {
             const boost::gregorian::date & start_day,
             const std::regex & regex_day,
             const std::regex & regex_flt,
-            double unit_in_seconds,
+            size_t unit_in_seconds,
             bool delimited);
 
     void parseFilenames(Times&, Times&,
@@ -41,7 +41,7 @@ namespace FunctionsIO {
             const std::string & regex_day_str,
             const std::string & regex_flt_str,
             const std::string & regex_cycle_str,
-            double unit_in_seconds,
+            size_t unit_in_seconds,
             bool delimited);
     
     void collapseLeadTimes(Observations &, const Forecasts &);

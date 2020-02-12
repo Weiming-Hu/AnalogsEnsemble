@@ -52,9 +52,10 @@ public:
  */
 class Times : public BmType<Time> {
 public:
-    Times();
-    virtual ~Times();
-
+    Times() = default;
+    Times(const Times &) = default;
+    virtual ~Times() = default;
+    
     /**
      * Retrieve the associated index with a Time object.
      * @param time A Time object
@@ -67,6 +68,26 @@ public:
 
     void print(std::ostream & os) const;
     friend std::ostream& operator<<(std::ostream& os, Times const & obj);
+    
+    /**
+     * Slice times based on the start and end times. The input strings should 
+     * follow
+     * 
+     * - (1) the delimited format: YYYY-mm-dd HH:MM:SS.SSS
+     * - (2) the non delimited iso format: YYYYmmddTHHMMSS
+     * 
+     * Note that the letter 'T' in the non delimited iso format is a literal letter.
+     * 
+     * For more documentation, please go to
+     * https://www.boost.org/doc/libs/1_72_0/doc/html/date_time/posix_time.html
+     * 
+     * @param start The string or size_t for start time.
+     * @param end The string or size_t for end time.
+     * @param sliced_times The Times object to store the sliced times.
+     * @param iso_string Whether the strings use the ISO format.
+     */
+    void operator()(const std::string &, const std::string &, Times &, bool iso_string = false) const;
+    void operator()(size_t, size_t, Times &) const;
 };
 
 #endif /* TIME_H */

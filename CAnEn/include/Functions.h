@@ -23,7 +23,7 @@
 namespace Functions {
 
     static const std::size_t _MAX_SIZE_T = std::numeric_limits<std::size_t>::max();
-    
+
     /**
      * The Matrix type is from boost uBLAS matrix.
      * 
@@ -86,11 +86,11 @@ namespace Functions {
      * @param values A vector of values.
      */
     double sdCircular(const std::vector<double> & degs);
-    
-    
+
+
     double sum(const std::vector<double> & values,
             std::size_t max_nan_allowed = _MAX_SIZE_T);
-    
+
     /**
      * Computes the mean of a vector.
      * @param values A vector of values.
@@ -115,7 +115,7 @@ namespace Functions {
      * @param average The average of input values.
      */
     double variance(const std::vector<double> & values);
-    
+
     /**
      * Computes the difference of two circular numbers
      * 
@@ -124,7 +124,47 @@ namespace Functions {
      * @return  A double.
      */
     double diffCircular(double i, double j);
+
+    /**
+     * Computes the Levenshtein distance of two strings. The function can be
+     * used to guess the intended argument of an unknown one. This function is
+     * used by the function Functions::guess_arguments.
+     * 
+     * The implementation is referenced from Github
+     * https://github.com/git/git/blob/master/levenshtein.h
+     *
+     * Thanks to the pointer of Vlad Lazarenko
+     * http://lazarenko.me/smart-getopt/
+     * 
+     * @param str1 A string.
+     * @param str2 A string.
+     * @param w Weight suggested by GitHub.
+     * @param s Weight suggested by GitHub.
+     * @param a Weight suggested by GitHub.
+     * @param d Weight suggested by GitHub.
+     * @return A distance measure
+     */
+    size_t levenshtein(const std::string & str1, const std::string & str2,
+            size_t w = 0, size_t s = 2, size_t a = 1, size_t d = 3);
     
+    /**
+     * Convert a date time string to the number of seconds since origin time.
+     * 
+     * The format should follow the section 'Construct from String' from here
+     * https://www.boost.org/doc/libs/1_72_0/doc/html/date_time/posix_time.html
+     * 
+     * @param datetime_str A date time string for start time
+     * @param origin_str A date time string for the original time
+     * @param iso_string Whether the string is in ISO format
+     * @return The number of seconds since the origin;
+     */
+    long toSeconds(const std::string & datetime_str,
+            const std::string & origin_str, bool iso_string);
+
+    /**************************************************************************
+     *                          Template Functions                            *
+     **************************************************************************/
+
     /**
      * Format a vector as a string for printing.
      * 
@@ -149,6 +189,20 @@ namespace Functions {
      */
     template <class T>
     void toIndex(std::vector<std::size_t> & index, const T & query, const T & pool);
+
+    /**
+     * Guess the unregistered parameters.
+     * 
+     * @param unregistered_keys The unregistered keys returned by 
+     * boost::program_options::collect_unrecognized.
+     * @param available_options A vector of string for available options.
+     * @param os An output stream.
+     */
+    template <class T>
+    void guess_arguments(
+            const std::vector< std::basic_string<T> > & unregistered_keys,
+            const std::vector<std::string> & available_options,
+            std::ostream & os);
 }
 
 // Definition of template functions

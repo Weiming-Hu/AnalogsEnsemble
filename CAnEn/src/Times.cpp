@@ -18,14 +18,15 @@
 
 #include "Times.h"
 #include "Config.h"
+#include "Functions.h"
 
 #include <stdexcept>
 #include <sstream>
 
 using namespace std;
 
-const std::string Time::_unit = "seconds";
-const std::string Time::_origin = "1970-01-01";
+const string Time::_unit = "seconds";
+const string Time::_origin = "1970-01-01 00:00:00";
 
 Time::Time() : timestamp(Config::_TIME) {
 }
@@ -80,12 +81,6 @@ operator<<(ostream& os, Time const & obj) {
  *                               Times                                     *
  **************************************************************************/
 
-Times::Times() {
-}
-
-Times::~Times() {
-}
-
 size_t
 Times::getIndex(const Time & time) const {
     auto it = right.find(time);
@@ -103,7 +98,7 @@ Times::getTime(size_t index) const {
 }
 
 void
-Times::getTimestamps(std::vector<size_t> & timestamps) const {
+Times::getTimestamps(vector<size_t> & timestamps) const {
     timestamps.resize(size());
     const auto & end = left.end();
     
@@ -131,4 +126,33 @@ ostream&
 operator<<(ostream& os, Times const & obj) {
     obj.print(os);
     return os;
+}
+
+void
+Times::operator()(const string & start, const string & end,
+        Times & sliced_times, bool iso_string) const {
+
+    // Convert string to POSIXct time
+    size_t start_time = Functions::toSeconds(start, Time::_origin, iso_string);
+    size_t end_time = Functions::toSeconds(end, Time::_origin, iso_string);
+    return operator ()(start_time, end_time, sliced_times);
+}
+
+
+void
+Times::operator()(size_t start_time, size_t end_time, Times & sliced_times) const {
+    
+    sliced_times.clear();
+    size_t counter = 0, current_time;
+    
+    const auto & end = left.end();
+    for (auto it = left.begin(); it != end; ++it) {
+        current_time = it->second.timestamp;
+        if (current_time >= start_time && current_time <= end_time) {
+            sliced_times.push_back(value_type(counter, current_time));
+            counter++;
+        }
+    }
+    
+    return;
 }

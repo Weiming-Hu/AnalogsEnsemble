@@ -18,17 +18,18 @@ class AnEnWriteNcdf {
 public:
     AnEnWriteNcdf();
     AnEnWriteNcdf(const AnEnWriteNcdf& orig);
+    AnEnWriteNcdf(Verbose verbose);
     virtual ~AnEnWriteNcdf();
 
     void writeAnEn(const std::string & file, const AnEnIS &,
             const Times & test_times, const Times & search_times,
-            const Times & forecast_flts,  const Parameters &, const Stations &,
+            const Times & forecast_flts, const Parameters &, const Stations &,
             bool overwrite = false) const;
     void writeAnEn(const std::string & file, const AnEnSSE &,
             const Times & test_times, const Times & search_times,
             const Times & forecast_flts, const Parameters &, const Stations &,
             bool overwrite = false) const;
-    
+
     const static bool _unlimited_stations;
     const static bool _unlimited_test_times;
     const static bool _unlimited_flts;

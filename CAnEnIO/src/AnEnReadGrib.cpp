@@ -38,7 +38,7 @@ AnEnReadGrib::readForecasts(Forecasts & forecasts,
         const string & regex_day_str,
         const string & regex_flt_str,
         const string & regex_cycle_str,
-        double flt_unit_in_seconds, bool delimited,
+        size_t flt_unit_in_seconds, bool delimited,
         vector<int> stations_index) const {
     
     /*
