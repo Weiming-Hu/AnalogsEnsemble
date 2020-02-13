@@ -13,6 +13,10 @@ set(RAnEn_EXTRA_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/CAnEn/include")
 set(RAnEn_EXTRA_SOURCE_DIR "${CMAKE_SOURCE_DIR}/CAnEn/src")
 set(RAnEn_RELEASES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/releases")
 
+# For more information about this definition, please see
+# the source file for Functions::toSeconds
+#
+add_definitions(-D_DISABLE_NON_HEADER_BOOST)
 
 ##########################
 # complete src directory #
