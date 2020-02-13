@@ -2,9 +2,6 @@ cmake_minimum_required(VERSION 3.1)
 project(RAnEn)
 enable_language(CXX C)
 
-# Specify where the shared library should be
-# set(CMAKE_SHARED_LIBRARY_PREFIX "")
-
 # Add the cmake module directory to the source
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
@@ -125,19 +122,6 @@ foreach(COPYFILE IN LISTS COPYFILES)
 		"${CMAKE_CURRENT_SOURCE_DIR}/${COPYFILE}"
 		"${CMAKE_CURRENT_BINARY_DIR}/${COPYFILE}")
 endforeach(COPYFILE IN LISTS COPYFILES)
-
-# Copy empty Makefiles to suppress any compiling of the source code when
-# using make install to install R package because the RAnEn.so should already
-# be compiled.
-#
-add_custom_command(TARGET copyPackage
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different
-    "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Makefile.win"
-    "${CMAKE_CURRENT_BINARY_DIR}/src/Makefile.win")
-add_custom_command(TARGET copyPackage
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different
-    "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Makefile"
-    "${CMAKE_CURRENT_BINARY_DIR}/src/Makefile")
 
 install(CODE "execute_process(COMMAND \"${R_COMMAND}\"
 CMD INSTALL . WORKING_DIRECTORY \"${CMAKE_CURRENT_BINARY_DIR}\")")

@@ -89,6 +89,8 @@ foreach(file_name ${REQUIRED_HEADER_ONLY_FILES})
 endforeach(file_name ${REQUIRED_HEADER_ONLY_FILES})
 
 set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_SOURCE_DIR}/RAnEn.so")
+set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_PACKAGE_DIR}/config.log")
+set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_PACKAGE_DIR}/DESCRIPTION")
 
 message(STATUS "Add clean-rsrc target for cleaning the copied files")
 add_custom_target(
