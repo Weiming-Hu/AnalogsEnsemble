@@ -13,6 +13,7 @@
 #include "Config.h"
 #include "Forecasts.h"
 #include "Observations.h"
+#include "boost/serialization/array_wrapper.hpp"
 #include "boost/numeric/ublas/matrix.hpp"
 #include "boost/numeric/ublas/io.hpp"
 

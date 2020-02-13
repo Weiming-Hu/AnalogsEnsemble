@@ -5,6 +5,7 @@ set(GRAND_VERSION "4.0.0")
 set(GRAND_VERSION_NICKNAME "Pandora")
 message("You are building version ${GRAND_VERSION}")
 add_definitions(-D_APPVERSION="v ${GRAND_VERSION}")
+add_definitions(-DBOOST_NO_AUTO_PTR)
 
 # policy setting for backward compatibility
 if(POLICY CMP0054)
@@ -168,6 +169,23 @@ if(INSTALL_RAnEn)
     add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/RAnalogs")
     return()
 else (INSTALL_RAnEn)
+
+    if(VERBOSE)
+        # If verbose is set to true, the following information will be printed
+        set(VERBOSE_DOWNLOAD 0)
+        set(VERBOSE_CONFIGURE 0)
+        set(VERBOSE_BUILD 0)
+        set(VERBOSE_INSTALL 0) 
+        set(VERBOSE_TEST 0)
+    else(VERBOSE)
+        # If verbose is set to true, the following information will be logged to file
+        set(VERBOSE_DOWNLOAD 1)
+        set(VERBOSE_CONFIGURE 1)
+        set(VERBOSE_BUILD 1)
+        set(VERBOSE_INSTALL 1) 
+        set(VERBOSE_TEST 1)
+    endif(VERBOSE)
+
 	# The Release and Debug mode also apply to the libraries that we are going to build
 	# But we don't want the -fopenmp option to be applied to dependent libraries
 	#

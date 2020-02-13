@@ -14,22 +14,6 @@ enable_language(CXX)
 option(BUILD_NETCDF "build NETCDF" OFF)
 set(CMAKE_EXTERNAL_PROJECT_BUILD_TYPE "Release")
 
-if(VERBOSE)
-    # If verbose is set to true, the following information will be printed
-    set(VERBOSE_DOWNLOAD 0)
-    set(VERBOSE_CONFIGURE 0)
-    set(VERBOSE_BUILD 0)
-    set(VERBOSE_INSTALL 0) 
-    set(VERBOSE_TEST 0)
-else(VERBOSE)
-    # If verbose is set to true, the following information will be logged to file
-    set(VERBOSE_DOWNLOAD 1)
-    set(VERBOSE_CONFIGURE 1)
-    set(VERBOSE_BUILD 1)
-    set(VERBOSE_INSTALL 1) 
-    set(VERBOSE_TEST 1)
-endif(VERBOSE)
-
 ###########
 # NetCDF4 #
 ###########
@@ -105,10 +89,7 @@ else(NETCDF_FOUND)
     set(NETCDF_CMAKE_ARGS ${NETCDF_CMAKE_ARGS}
         ${NETCDF_C_COMPILER} ${NETCDF_CXX_COMPILER} ${RPATH_ARGS})
 
-    if(VERBOSE)
-        message(STATUS "NETCDF_CMAKE_ARGS: ${NETCDF_CMAKE_ARGS}")
-    endif(VERBOSE)
-
+    message(STATUS "NETCDF_CMAKE_ARGS: ${NETCDF_CMAKE_ARGS}")
     ExternalProject_add(NETCDF_PROJECT
         DEPENDS ${NETCDF_DEPENDENCY}
         PREFIX ${NETCDF_ROOT_PATH}
@@ -209,10 +190,7 @@ if (NETCDF_CXX4_TYPE STREQUAL BUILD)
         ${NETCDF_CXX4_C_COMPILER} ${NETCDF_CXX4_CXX_COMPILER} ${RPATH_ARGS}
         "-DNCXX_ENABLE_TESTS=OFF")
 
-    if(VERBOSE)
-        message(STATUS "NETCD_CXX4_CMAKE_ARGS: ${NETCDF_CXX4_CMAKE_ARGS}")
-    endif(VERBOSE)
-
+    message(STATUS "NETCD_CXX4_CMAKE_ARGS: ${NETCDF_CXX4_CMAKE_ARGS}")
     ExternalProject_add(NETCDF_CXX4_PROJECT
         DEPENDS ${NETCDF_CXX4_DEPENDENCY}
         PREFIX ${NETCDF_CXX4_ROOT_PATH}

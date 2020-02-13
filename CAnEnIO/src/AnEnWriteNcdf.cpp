@@ -8,7 +8,7 @@
 #include "Ncdf.h"
 #include "AnEnWriteNcdf.h"
 
-#include <boost/filesystem.hpp>
+#include "boost/filesystem.hpp"
 
 using namespace std;
 using namespace netCDF;

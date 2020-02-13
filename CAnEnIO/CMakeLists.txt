@@ -29,18 +29,14 @@ endforeach(file ${EXTRA_SOURCE_FILES})
 add_library (${LIBRARY_NAME} STATIC ${SOURCES})
 
 if(BOOST_TYPE STREQUAL "BUILD")
-    target_link_libraries (${LIBRARY_NAME} "system")
-    target_link_libraries (${LIBRARY_NAME} "filesystem")
-    target_link_libraries (${LIBRARY_NAME} "program_options")
+    add_dependencies(${LIBRARY_NAME} CMAKE_BOOST)
+    target_link_libraries (${LIBRARY_NAME} CMAKE_BOOST_SYSTEM)
+    target_link_libraries (${LIBRARY_NAME} CMAKE_BOOST_FILESYSTEM)
+    target_link_libraries (${LIBRARY_NAME} CMAKE_BOOST_PROGRAM_OPTIONS)
+
 elseif(BOOST_TYPE STREQUAL "SYSTEM")
     target_link_libraries (${LIBRARY_NAME} ${Boost_LIBRARIES})
 endif(BOOST_TYPE STREQUAL "BUILD")
-
-# TODO: Install external libraries
-# The external libraries are not installed to destinations. This might be changed.
-# https://stackoverflow.com/questions/35934112/installing-an-externalproject-with-cmake
-#
-set(AnEnIO_RPATH "")
 
 if(NETCDF_CXX4_BUILT)
     include_directories(SYSTEM ${NETCDF_CXX4_INCLUDE_DIR})
@@ -84,7 +80,6 @@ if (NOT ECCODES_TYPE)
 endif (NOT ECCODES_TYPE)
 message (STATUS "ECCODES_TYPE is set to ${ECCODES_TYPE}")
 
-message(STATUS "Build application Grib Converter.")
 if (ECCODES_TYPE STREQUAL "SYSTEM")
     find_package(eccodes)
     if(eccodes_FOUND)
@@ -143,6 +138,7 @@ if (ECCODES_TYPE STREQUAL "BUILD")
         set(VERBOSE_INSTALL 1) 
         set(VERBOSE_TEST 1)
     endif(VERBOSE)
+
     ExternalProject_add(ECCODES_PROJECT
         PREFIX ${ECCODES_ROOT_PATH}
         URL ${ECCODES_URL}
@@ -175,10 +171,6 @@ else (ECCODES_TYPE STREQUAL "SYSTEM")
     target_link_libraries(${LIBRARY_NAME} eccodes_built)
 
 endif (ECCODES_TYPE STREQUAL "SYSTEM")
-
-if(BOOST_TYPE STREQUAL "BUILD")
-    target_link_libraries (${PROJECT_NAME} datetime)
-endif(BOOST_TYPE STREQUAL "BUILD")
 
 set_target_properties(${LIBRARY_NAME} PROPERTIES INSTALL_RPATH "${AnEnIO_RPATH}")
 
