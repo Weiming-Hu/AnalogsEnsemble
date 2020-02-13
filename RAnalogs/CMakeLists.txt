@@ -89,7 +89,6 @@ foreach(file_name ${REQUIRED_HEADER_ONLY_FILES})
 endforeach(file_name ${REQUIRED_HEADER_ONLY_FILES})
 
 set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_SOURCE_DIR}/RAnEn.so")
-set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_SOURCE_DIR}/Makefile")
 
 message(STATUS "Add clean-rsrc target for cleaning the copied files")
 add_custom_target(
@@ -109,22 +108,6 @@ add_custom_target(build-release)
 
 add_custom_command(TARGET build-release
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
-    "${RAnEn_PACKAGE_DIR}/cmake/configure"
-    "${RAnEn_PACKAGE_DIR}/configure")
-add_custom_command(TARGET build-release
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different
-    "${RAnEn_PACKAGE_DIR}/cmake/Makevars.in"
-    "${RAnEn_SOURCE_DIR}/Makevars.in")
-add_custom_command(TARGET build-release
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different
-    "${RAnEn_PACKAGE_DIR}/cmake/Makevars.win.in"
-    "${RAnEn_SOURCE_DIR}/Makevars.win")
-add_custom_command(TARGET build-release
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different
-    "${RAnEn_PACKAGE_DIR}/cmake/Makevars.win.in"
-    "${RAnEn_SOURCE_DIR}/Makevars.win.in")
-add_custom_command(TARGET build-release
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different
     "${CMAKE_SOURCE_DIR}/README.md"
     "${RAnEn_PACKAGE_DIR}/README.md")
 
@@ -134,14 +117,6 @@ add_custom_command(
     COMMENT "target for building RAnEn release tarbal"
     WORKING_DIRECTORY ${RAnEn_RELEASES_DIR})
 
-add_custom_command(TARGET build-release
-    COMMAND ${CMAKE_COMMAND} -E remove "${RAnEn_PACKAGE_DIR}/configure")
-add_custom_command(TARGET build-release
-    COMMAND ${CMAKE_COMMAND} -E remove "${RAnEn_SOURCE_DIR}/Makevars.in")
-add_custom_command(TARGET build-release
-    COMMAND ${CMAKE_COMMAND} -E remove "${RAnEn_SOURCE_DIR}/Makevars.win")
-add_custom_command(TARGET build-release
-    COMMAND ${CMAKE_COMMAND} -E remove "${RAnEn_SOURCE_DIR}/Makevars.win.in")
 add_custom_command(TARGET build-release
     COMMAND ${CMAKE_COMMAND} -E remove "${RAnEn_PACKAGE_DIR}/README.md")
 add_custom_command(TARGET build-release
