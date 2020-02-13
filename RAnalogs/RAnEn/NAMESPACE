@@ -40,4 +40,5 @@ export(writeNetCDF)
 import(BH)
 import(Rcpp)
 
+importFrom(Rcpp, evalCpp)
 useDynLib(RAnEn, .registration = TRUE)
