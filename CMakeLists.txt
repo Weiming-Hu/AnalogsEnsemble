@@ -1,25 +1,15 @@
-cmake_minimum_required(VERSION 3.0)
-project(ParallelAnalogEnsemble)
+cmake_minimum_required(VERSION 3.5)
+project(ParallelAnalogEnsemble LANGUAGES CXX)
 
+# This is the variable that controls the version of all components (AnEnIO, AnEn, RAnEn)
 set(GRAND_VERSION "4.0.0")
+
+# This is the version nickname
 set(GRAND_VERSION_NICKNAME "Pandora")
-message("You are building version ${GRAND_VERSION}")
-add_definitions(-D_APPVERSION="v ${GRAND_VERSION}")
-add_definitions(-DBOOST_NO_AUTO_PTR)
 
-# policy setting for backward compatibility
-if(POLICY CMP0054)
-    cmake_policy(SET CMP0054 NEW)
-endif(POLICY CMP0054)
-
-if(POLICY CMP0042)
-    cmake_policy(SET CMP0042 NEW)
-endif(POLICY CMP0042)
-
-enable_language(CXX C)
 
 ##################################################################################
-#                 Start of the list of parameters                                #
+#                 Start of the list of tunable parameters                        #
 ##################################################################################
 option(CMAKE_BUILD_TESTS "Build tests" ON)
 option(VERBOSE "Verbose standout output" OFF)
@@ -35,12 +25,40 @@ option(USE_NCCONFIG "Use nc-config to determine cflags and libdirs." OFF)
 option(CMAKE_MACOSX_RPATH "Whether RPATH should be used on MacOS" ON)
 option(CMAKE_INSTALL_RPATH_USE_LINK_PATH "Whether to use link path during installation" ON)
 ##################################################################################
-#                   End of the list of parameters                                #
+#                   End of the list of tunable parameters                        #
 ##################################################################################
 
-set(EXTRA_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
+
+# Policy settings
+if(POLICY CMP0054)
+    cmake_policy(SET CMP0054 NEW)
+endif(POLICY CMP0054)
+
+if(POLICY CMP0042)
+    cmake_policy(SET CMP0042 NEW)
+endif(POLICY CMP0042)
+
+# Compilation Definitions
+add_definitions(-D_COPYRIGHT_MSG="Geoinformatics and Earth Observation Laboratory @ Penn State")
+add_definitions(-D_APPVERSION="v ${GRAND_VERSION}")
+add_definitions(-DBOOST_NO_AUTO_PTR)
+
+# Define some basic variables
+set(EXTRA_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
+set(COMMON_OUTPUT_DIR ${CMAKE_SOURCE_DIR}/output)
+set(DEPENDENCY_PATH ${CMAKE_SOURCE_DIR}/dependency)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${EXTRA_MODULE_PATH})
-set(DEPENDENCY_PATH "${CMAKE_SOURCE_DIR}/dependency")
+
+if (CMAKE_INSTALL_RPATH)
+    set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_RPATH};${DEPENDENCY_PATH}/install/lib/;${COMMON_OUTPUT_DIR}/lib")
+else (CMAKE_INSTALL_RPATH)
+    set(CMAKE_INSTALL_RPATH "${DEPENDENCY_PATH}/install/lib/;${COMMON_OUTPUT_DIR}/lib")
+endif (CMAKE_INSTALL_RPATH)
+
+# This variable should be used for all the external projects to deal with RPATH issues
+set(RPATH_ARGS "-DCMAKE_INSTALL_RPATH_USE_LINK_PATH=${CMAKE_INSTALL_RPATH_USE_LINK_PATH}")
+set(RPATH_ARGS ${RPATH_ARGS} "-DCMAKE_INSTALL_RPATH=${CMAKE_INSTALL_RPATH}")
+set(RPATH_ARGS ${RPATH_ARGS} "-DCMAKE_MACOSX_RPATH=${CMAKE_MACOSX_RPATH}")
 
 if(NOT EXISTS ${DEPENDENCY_PATH})
     file(MAKE_DIRECTORY ${DEPENDENCY_PATH})
@@ -50,24 +68,8 @@ if(NOT CMAKE_INSTALL_LIBDIR)
     set(CMAKE_INSTALL_LIBDIR "lib")
 endif(NOT CMAKE_INSTALL_LIBDIR)
 
-set(COMMON_OUTPUT_DIR "${CMAKE_SOURCE_DIR}/output")
-
-if (CMAKE_INSTALL_RPATH)
-    set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_RPATH};${DEPENDENCY_PATH}/install/lib/;${COMMON_OUTPUT_DIR}/lib")
-else (CMAKE_INSTALL_RPATH)
-    set(CMAKE_INSTALL_RPATH "${DEPENDENCY_PATH}/install/lib/;${COMMON_OUTPUT_DIR}/lib")
-endif (CMAKE_INSTALL_RPATH)
+message("You are building version ${GRAND_VERSION} ${GRAND_VERSION_NICKNAME}")
 message(STATUS "CMAKE_INSTALL_RPATH: ${CMAKE_INSTALL_RPATH}")
-
-# This variable is used for all the external projects
-# to deal with RPATH issues
-#
-set(RPATH_ARGS "-DCMAKE_INSTALL_RPATH_USE_LINK_PATH=${CMAKE_INSTALL_RPATH_USE_LINK_PATH}")
-set(RPATH_ARGS ${RPATH_ARGS} "-DCMAKE_INSTALL_RPATH=${CMAKE_INSTALL_RPATH}")
-set(RPATH_ARGS ${RPATH_ARGS} "-DCMAKE_MACOSX_RPATH=${CMAKE_MACOSX_RPATH}")
-
-# Define copyright message
-add_definitions(-D_COPYRIGHT_MSG="Geoinformatics and Earth Observation Laboratory @ Penn State")
 
 
 ###################
@@ -156,14 +158,11 @@ else (OPENMP)
     message(STATUS "OPENMP is disabled")
 endif (OPENMP)
 
-
 if (VERBOSE)
     message(STATUS "CMAKE_CXX_FLAGS: ${CMAKE_CXX_FLAGS}")
 endif (VERBOSE)
 
-# if INSTALL_RAnEn is set to TRUE
-# only install RAnEn package
-#
+# if INSTALL_RAnEn is set to TRUE, install RAnEn package only
 if(INSTALL_RAnEn)
     message(STATUS "install RAnEn package")
     add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/RAnalogs")
@@ -248,7 +247,7 @@ if(CMAKE_BUILD_TESTS)
         # - 1. Include the subdirectory if a CMakeLists.txt is provided, and this CMakeLists.txt 
         #      supports being included as a subdirectory. With that being said, the CMakeLists.txt
         #      carefully uses variables like CMake_SOURCE_DIR since, as a subdirectory, CMAKE_SOURCE_DIR
-        #      is differentiated from CMAKE_CURRENT_SOURCE_DIR.
+        #      is different from CMAKE_CURRENT_SOURCE_DIR.
         # - 2. Add an external project and import the library. This approach is architecture dependent in
         #      that the full path to the built library needs to be specified at compile time. NetCDF-CXX4
         #      uses this method to be included in the project. This method is useful when you are building
