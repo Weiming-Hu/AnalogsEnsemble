@@ -9,6 +9,7 @@
 
 // [[Rcpp::plugins(cpp11)]]
 // [[Rcpp::plugins(openmp)]]
+// [[Rcpp::depends(BH)]]
 
 #include <Rcpp.h>
 #include <stdexcept>
@@ -142,42 +143,42 @@ List generateAnalogs(SEXP sx_forecasts, SEXP sx_observations,
 
     if (config.save_sims_station_index && algorithm == "SSE") {
         AnEnSSE* anen_sse = dynamic_cast<AnEnSSE *> (anen);
-        FunctionsR::setElement(ret, Config::_SIMS_STATION_IND, anen_sse->getSimsStationIndex(), true);
+        FunctionsR::setElement(ret, Config::_SIMS_STATION_IND, anen_sse->sims_station_index(), true);
     }
 
     if (config.save_sims_time_index) {
         AnEnIS* anen_is = dynamic_cast<AnEnIS *> (anen);
-        FunctionsR::setElement(ret, Config::_SIMS_TIME_IND, anen_is->getSimsTimeIndex(), true);
+        FunctionsR::setElement(ret, Config::_SIMS_TIME_IND, anen_is->sims_time_index(), true);
     }
 
     if (config.save_sims) {
         AnEnIS* anen_is = dynamic_cast<AnEnIS *> (anen);
-        FunctionsR::setElement(ret, Config::_SIMS, anen_is->getSimsValue(), false);
+        FunctionsR::setElement(ret, Config::_SIMS, anen_is->sims_metric(), false);
     }
 
     if (config.save_analogs_time_index) {
         AnEnIS* anen_is = dynamic_cast<AnEnIS *> (anen);
-        FunctionsR::setElement(ret, Config::_ANALOGS_TIME_IND, anen_is->getAnalogsTimeIndex(), true);
+        FunctionsR::setElement(ret, Config::_ANALOGS_TIME_IND, anen_is->analogs_time_index(), true);
     }
 
     if (config.save_analogs) {
         AnEnIS* anen_is = dynamic_cast<AnEnIS *> (anen);
-        FunctionsR::setElement(ret, Config::_ANALOGS, anen_is->getAnalogsValue(), false);
+        FunctionsR::setElement(ret, Config::_ANALOGS, anen_is->analogs_value(), false);
     }
 
     if (config.save_sds) {
         AnEnIS* anen_is = dynamic_cast<AnEnIS *> (anen);
-        FunctionsR::setElement(ret, Config::_SDS, anen_is->getSds(), false);
+        FunctionsR::setElement(ret, Config::_SDS, anen_is->sds(), false);
     }
 
     if (config.save_obs_time_index_table) {
       AnEnIS* anen_is = dynamic_cast<AnEnIS *> (anen);
-                FunctionsR::setElement(ret, Config::_TIME_MAPPING, anen_is->getObsTimeIndexTable(), true);
+                FunctionsR::setElement(ret, Config::_TIME_MAPPING, anen_is->obs_time_index_table(), true);
     }
 
     if (config.save_search_stations_index && algorithm == "SSE") {
       AnEnSSE* anen_sse = dynamic_cast<AnEnSSE *> (anen);
-      FunctionsR::setElement(ret, Config::_SEARCH_STATIONS_IND, anen_sse->getSearchStationsIndex(), true);
+      FunctionsR::setElement(ret, Config::_SEARCH_STATIONS_IND, anen_sse->search_stations_index(), true);
     }
 
     ret.attr("class") = "AnEn";

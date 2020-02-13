@@ -16,12 +16,12 @@
 
 #include <Rcpp.h>
 
+// [[Rcpp::depends(BH)]]    
 // [[Rcpp::plugins(cpp11)]]
 
 namespace FunctionsR {
     void createParameters(const SEXP & sx_circulars, Parameters & parameters, size_t total);
     void createStations(const SEXP & sx_names, Stations & stations, size_t total);
-    void createTimes(Times & times, size_t total);
 
     void toParameters(const SEXP & sx_name, const SEXP & sx_circulars, Parameters & parameters);
     void toStations(const SEXP & sx_xs, const SEXP & sx_ys, const SEXP & sx_names, Stations & stations);

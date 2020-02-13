@@ -38,7 +38,7 @@ FunctionsR::createParameters(const SEXP & sx_circulars, Parameters & parameters,
             if (it != circulars.end()) parameter.setCircular(true);
         }
 
-        parameters.push_back(Parameters::value_type(i, parameter));
+        parameters.push_back(parameter);
     }
 
     return;
@@ -68,19 +68,7 @@ FunctionsR::createStations(const SEXP & sx_names, Stations& stations, size_t tot
             name = names(i);
         }
 
-        stations.push_back(Stations::value_type(i, Station(i, i, name)));
-    }
-
-    return;
-}
-
-void
-FunctionsR::createTimes(Times& times, size_t total) {
-
-    times.clear();
-
-    for (size_t i = 0; i < total; ++i) {
-        times.push_back(Times::value_type(i, Time(i)));
+        stations.push_back(Station(i, i, name));
     }
 
     return;
@@ -118,7 +106,7 @@ FunctionsR::toParameters(const SEXP & sx_names, const SEXP & sx_circulars, Param
             if (it != circulars.end()) parameter.setCircular(true);
         }
 
-        parameters.push_back(Parameters::value_type(i, parameter));
+        parameters.push_back(parameter);
     }
 
     return;
@@ -163,7 +151,7 @@ FunctionsR::toStations(const SEXP & sx_xs, const SEXP & sx_ys, const SEXP & sx_n
         }
 
         Station station(xs[i], ys[i], name);
-        stations.push_back(Stations::value_type(i, station));
+        stations.push_back(station);
     }
 
     return;
@@ -194,7 +182,7 @@ FunctionsR::toTimes(const SEXP & sx_times, Times & times) {
             throw std::runtime_error(msg.str());
         }
 
-        times.push_back(Times::value_type(i, Time(nv_times[i])));
+        times.push_back(nv_times[i]);
     }
 
     // Check uniqueness
