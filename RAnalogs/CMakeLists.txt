@@ -67,9 +67,12 @@ foreach(file_name ${REQUIRED_HEADER_ONLY_FILES})
 endforeach(file_name ${REQUIRED_HEADER_ONLY_FILES})
 
 file(COPY "${CMAKE_SOURCE_DIR}/NEWS.md" DESTINATION ${RAnEn_PACKAGE_DIR})
+file(COPY "${EXTRA_MODULE_PATH}/configure" DESTINATION ${RAnEn_PACKAGE_DIR})
+file(COPY "${EXTRA_MODULE_PATH}/Makevars.in" DESTINATION ${RAnEn_SOURCE_DIR})
+file(COPY "${EXTRA_MODULE_PATH}/Makevars.win" DESTINATION ${RAnEn_SOURCE_DIR})
+file(COPY "${CMAKE_SOURCE_DIR}/README.md" DESTINATION ${RAnEn_PACKAGE_DIR})
 
 add_subdirectory(${RAnEn_PACKAGE_DIR})
-
 
 ##########################
 # customize clean target #
@@ -95,6 +98,13 @@ endforeach(file_name ${REQUIRED_HEADER_ONLY_FILES})
 set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_SOURCE_DIR}/RAnEn.so")
 set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_PACKAGE_DIR}/config.log")
 set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_PACKAGE_DIR}/DESCRIPTION")
+set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_SOURCE_DIR}/Makefile")
+set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_PACKAGE_DIR}/configure")
+set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_SOURCE_DIR}/README.md")
+set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_SOURCE_DIR}/NEWS.md")
+set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_SOURCE_DIR}/Makevars.in")
+set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_SOURCE_DIR}/Makevars.win")
+set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_SOURCE_DIR}/Makevars")
 
 message(STATUS "Add clean-rsrc target for cleaning the copied files")
 add_custom_target(
@@ -112,21 +122,12 @@ endif(TARGET clean-all)
 # Add target to build release
 add_custom_target(build-release)	
 
-add_custom_command(TARGET build-release
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different
-    "${CMAKE_SOURCE_DIR}/README.md"
-    "${RAnEn_PACKAGE_DIR}/README.md")
-
 add_custom_command(
     TARGET build-release
     COMMAND ${R_COMMAND} CMD build ${RAnEn_PACKAGE_DIR}
     COMMENT "target for building RAnEn release tarbal"
     WORKING_DIRECTORY ${RAnEn_RELEASES_DIR})
 
-add_custom_command(TARGET build-release
-    COMMAND ${CMAKE_COMMAND} -E remove "${RAnEn_PACKAGE_DIR}/README.md")
-add_custom_command(TARGET build-release
-    COMMAND ${CMAKE_COMMAND} -E remove "${RAnEn_PACKAGE_DIR}/NEWS.md")
 add_custom_command(TARGET build-release
     COMMAND ${CMAKE_COMMAND} -E copy
     "${CMAKE_CURRENT_SOURCE_DIR}/releases/${LIBRARY_NAME}_${LIBRARY_VERSION}.tar.gz"

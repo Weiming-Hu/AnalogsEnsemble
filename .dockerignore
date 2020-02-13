@@ -64,6 +64,12 @@ output
 dependency
 doxygen-output
 
+RAnalogs/releases/RAnEn/
+RAnalogs/RAnEn/build
+RAnalogs/RAnEn/docs
+RAnalogs/RAnEn/README*
+RAnalogs/releases/RAnEn/
+
 # Ignore the folder
 RAnalogs/RAnEn/src/*
 
@@ -79,11 +85,6 @@ RAnalogs/RAnEn/src/*
 !RAnalogs/RAnEn/src/RcppConfig.cpp
 !RAnalogs/RAnEn/src/RcppGenerateAnalogs.cpp
 !RAnalogs/RAnEn/src/RcppGenerateTimeMapping.cpp
-
-RAnalogs/RAnEn/build
-RAnalogs/RAnEn/docs
-RAnalogs/RAnEn/README*
-RAnalogs/releases/RAnEn/
 
 # From the base theme and jekyll ignore
 # Ignore docs files

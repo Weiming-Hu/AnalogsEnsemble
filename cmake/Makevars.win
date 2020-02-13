@@ -1,0 +1,3 @@
+PKG_CXXFLAGS=-fopenmp
+PKG_LIBS=-fopenmp
+CXX_STD=CXX11

@@ -39,8 +39,9 @@ if (BOOST_TYPE STREQUAL "BUILD")
     # I'm disabling them since I'm not using them.
     # 
     # Reference: https://github.com/boost-cmake/boost/issues/13#issuecomment-381737966
+    #
     set(BOOST_EXCLUDE_LIBS "-DEXCLUDE_LIBS=beast|callable_traits|mp11|poly_collection|stacktrace")
-    set(BOOST_CMAKE_ARGS ${BOOST_CMAKE_ARGS} ${BOOST_EXCLUDE_LIBS})
+    set(BOOST_CMAKE_ARGS ${BOOST_CMAKE_ARGS} ${BOOST_EXCLUDE_LIBS} ${RPATH_ARGS})
     
     message(STATUS "Using the Boost from https://github.com/boost-cmake/boost.git")
     message(STATUS "BOOST_CMAKE_ARGS: ${BOOST_CMAKE_ARGS}")
