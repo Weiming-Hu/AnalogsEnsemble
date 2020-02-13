@@ -405,6 +405,13 @@ Functions::toSeconds(const string& datetime_str,
         const string& origin_str, bool iso_string) {
     
 #ifdef _DISABLE_NON_HEADER_BOOST 
+    /*
+     * Please note that if _DISABLE_NON_HEADER_BOOST is defined, this function
+     * will be unavailable because it depends on the non-header portion of boost.
+     * The R package BH only provides header-only boost so this function won't work.
+     * I'm aware of the R package RcppBDT but, since this function is never used 
+     * in R routines, I can simply disable this function and avoid an extra dependency.
+     */
     throw runtime_error("Functions::toSeconds is disabled because it depends on non-header boost libraries");
 #else
     using namespace boost::posix_time;
