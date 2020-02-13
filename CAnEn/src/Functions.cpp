@@ -404,25 +404,29 @@ long
 Functions::toSeconds(const string& datetime_str,
         const string& origin_str, bool iso_string) {
     
+#ifdef _DISABLE_NON_HEADER_BOOST 
+    throw runtime_error("Functions::toSeconds is disabled because it depends on non-header boost libraries");
+#else
     using namespace boost::posix_time;
-    
+
     ptime input_time, origin_time;
-    
+
     // Origin time is supposed to be always standard format
     origin_time = time_from_string(origin_str);
-    
+
     // Input Date time string can be either the standard format or the ISO format
     if (iso_string) {
         input_time = from_iso_string(datetime_str);
     } else {
         input_time = time_from_string(datetime_str);
     }
-    
-     // Calculate duration in seconds
+
+    // Calculate duration in seconds
     time_duration duration = input_time - origin_time;
     if (duration.is_negative()) throw runtime_error("Input time is earlier than the origin time");
-    
+
     return duration.total_seconds();
+#endif
 }
 
 void
