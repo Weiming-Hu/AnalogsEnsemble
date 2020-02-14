@@ -63,7 +63,6 @@ target_link_libraries(AnEnIO
 
 target_include_directories(AnEnIO
     PUBLIC 
-    ${ECCODES_INCLUDES}
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}../AnEn/include>
     $<INSTALL_INTERFACE:include>)
