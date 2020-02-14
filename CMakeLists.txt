@@ -17,6 +17,9 @@
 cmake_minimum_required(VERSION 3.12)
 project(PAnEn LANGUAGES C CXX)
 
+# Whether to build RAnEn
+option(INSTALL_RAnEn "Install RAnEn package" OFF)
+
 # Whether to build tests
 option(CMAKE_BUILD_TESTS "Build tests" OFF)
 
@@ -38,14 +41,21 @@ add_definitions(-DBOOST_NO_AUTO_PTR)
 set(GRAND_VERSION "4.0.0")
 set(GRAND_VERSION_NICKNAME "Pandora")
 set(WE_ARE "GEOlab @ Penn State")
+set(SUBPROJECT_TARGETS "AnEn;AnEnIO")
+set(EXTRA_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+list(APPEND CMAKE_MODULE_PATH ${EXTRA_MODULE_PATH})
+
+include("${EXTRA_MODULE_PATH}/macros.cmake")
+
 message(STATUS "You are building PAnEn version " ${GRAND_VERSION} " "
     ${GRAND_VERSION_NICKNAME} " from " ${WE_ARE})
 
-# Explicitly specify the subprojects
-set(SUBPROJECT_TARGETS "AnEn;AnEnIO")
-
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
-include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/macros.cmake")
+# Go to RAnEn build procedures if it is requested
+if(INSTALL_RAnEn)
+    message(STATUS "Configuring RAnEn package")
+    add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/RAnalogs")
+    return()
+endif(INSTALL_RAnEn)
 
 if(BUILD_BOOST)
     set(NO_INSTALL_LIBRARIES "AnEn;AnEnIO")
