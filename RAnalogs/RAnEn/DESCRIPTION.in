@@ -24,6 +24,7 @@ Imports:
     BH (>= 1.62.0-1),
 LinkingTo:
     Rcpp,
+    BH,
 Suggests:
     ncdf4,
     abind,

@@ -8,10 +8,6 @@
 #include "Ncdf.h"
 #include "AnEnReadNcdf.h"
 
-#if defined(_OPENMP)
-#include <omp.h>
-#endif
-
 using namespace std;
 using namespace Ncdf;
 using namespace netCDF;

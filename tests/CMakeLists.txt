@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
-project(ParallelEnsembleForecastsTests)
+project(testPAnEn)
 enable_language(CXX C)
+message(STATUS "Building tests")
 
 # Include libraries
 include_directories(${NETCDF_INCLUDES})

@@ -30,51 +30,75 @@ elseif(BOOST_TYPE STREQUAL "SYSTEM")
 endif (BOOST_TYPE STREQUAL "SYSTEM")
 
 if (BOOST_TYPE STREQUAL "BUILD")
-    include(ExternalProject)
-    set(BOOST_ROOT_PATH ${DEPENDENCY_PATH})
-    set(BOOST_INSTALL_PREFIX "${DEPENDENCY_PATH}/install")
-    set(BOOST_CMAKE_ARGS "-DCMAKE_INSTALL_PREFIX=${BOOST_INSTALL_PREFIX}")
+    find_package(Git 1.9 REQUIRED QUIET)
 
-    # For some reason, these packages fail during the installation time. So
-    # I'm disabling them since I'm not using them.
-    # 
-    # Reference: https://github.com/boost-cmake/boost/issues/13#issuecomment-381737966
-    #
-    set(BOOST_EXCLUDE_LIBS "-DEXCLUDE_LIBS=beast|callable_traits|mp11|poly_collection|stacktrace")
-    set(BOOST_CMAKE_ARGS ${BOOST_CMAKE_ARGS} ${BOOST_EXCLUDE_LIBS} ${RPATH_ARGS})
-    
-    message(STATUS "Using the Boost from https://github.com/boost-cmake/boost.git")
-    message(STATUS "BOOST_CMAKE_ARGS: ${BOOST_CMAKE_ARGS}")
-    ExternalProject_Add(CMAKE_BOOST
-        GIT_REPOSITORY https://github.com/boost-cmake/boost.git
-        PREFIX ${BOOST_ROOT_PATH}
-        CMAKE_ARGS ${BOOST_CMAKE_ARGS}
-        LIST_SEPARATOR | # Use the alternate list separator
-        PATCH_COMMAND ""
-        UPDATE_COMMAND ""
-        LOG_DOWNLOAD ${VERBOSE_DOWNLOAD}
-        LOG_CONFIGURE ${VERBOSE_CONFIGURE}
-        LOG_BUILD ${VERBOSE_BUILD}
-        LOG_TEST ${VERBOSE_TEST}
-        LOG_INSTALL ${VERBOSE_INSTALL})
+    set(CMAKE_EXTERNAL_PROJECT_BUILD_TYPE "Release")
+    set(CPPUNIT_URL "https://github.com/boost-cmake/bcm.git")
+    set (LIBRARY_CPPUNIT "${DEPENDENCY_PATH}/bcm")
 
-    # These packages are imported
-    ExternalProject_Get_Property(CMAKE_BOOST install_dir)
+    if(NOT EXISTS ${LIBRARY_CPPUNIT})
+        execute_process(COMMAND ${GIT_EXECUTABLE} "clone" ${CPPUNIT_URL} ${LIBRARY_CPPUNIT})
+    else(NOT EXISTS ${LIBRARY_CPPUNIT})
+        message(STATUS "CppUnit submodule is already downloaded")
+    endif(NOT EXISTS ${LIBRARY_CPPUNIT})
 
-    add_library(CMAKE_BOOST_SYSTEM STATIC IMPORTED)
-    add_library(CMAKE_BOOST_FILESYSTEM STATIC IMPORTED)
-    add_library(CMAKE_BOOST_PROGRAM_OPTIONS STATIC IMPORTED)
-    add_library(CMAKE_BOOST_DATE_TIME STATIC IMPORTED)
+    add_subdirectory ("${DEPENDENCY_PATH}/bcm")
 
-    set_target_properties(CMAKE_BOOST_SYSTEM PROPERTIES IMPORTED_LOCATION "${install_dir}/install/lib/${CMAKE_STATIC_LIBRARY_PREFIX}boost_system${CMAKE_STATIC_LIBRARY_SUFFIX}")
-    set_target_properties(CMAKE_BOOST_FILESYSTEM PROPERTIES IMPORTED_LOCATION "${install_dir}/install/lib/${CMAKE_STATIC_LIBRARY_PREFIX}boost_filesystem${CMAKE_STATIC_LIBRARY_SUFFIX}")
-    set_target_properties(CMAKE_BOOST_PROGRAM_OPTIONS PROPERTIES IMPORTED_LOCATION "${install_dir}/install/lib/${CMAKE_STATIC_LIBRARY_PREFIX}boost_program_options${CMAKE_STATIC_LIBRARY_SUFFIX}")
-    set_target_properties(CMAKE_BOOST_DATE_TIME PROPERTIES IMPORTED_LOCATION "${install_dir}/install/lib/${CMAKE_STATIC_LIBRARY_PREFIX}boost_date_time${CMAKE_STATIC_LIBRARY_SUFFIX}")
-
-    add_dependencies(CMAKE_BOOST_SYSTEM CMAKE_BOOST)
-    add_dependencies(CMAKE_BOOST_FILESYSTEM CMAKE_BOOST)
-    add_dependencies(CMAKE_BOOST_PROGRAM_OPTIONS CMAKE_BOOST)
-    add_dependencies(CMAKE_BOOST_DATE_TIME CMAKE_BOOST)
-
+    find_package(BCM)
+    include(BCMPackage)
 endif (BOOST_TYPE STREQUAL "BUILD")
+
+# if (BOOST_TYPE STREQUAL "BUILD")
+#     include(ExternalProject)
+#     set(BOOST_ROOT_PATH ${DEPENDENCY_PATH})
+#     set(BOOST_INSTALL_PREFIX "${DEPENDENCY_PATH}/install")
+#     set(BOOST_CXX_STANDARD "-DCMAKE_CXX_STANDARD=11")
+#     set(BOOST_CXX_STANDARD_REQUIRED "-DCMAKE_CXX_STANDARD_REQUIRED=ON")
+#     set(BOOST_CMAKE_ARGS "-DCMAKE_INSTALL_PREFIX=${BOOST_INSTALL_PREFIX}")
+# 
+#     # For some reason, these packages fail during the installation time. So
+#     # I'm disabling them since I'm not using them. I'm also disabling compiled libraries
+#     # that I'm not using.
+#     # 
+#     # Reference: https://github.com/boost-cmake/boost/issues/13#issuecomment-381737966
+#     #
+#     set(BOOST_EXCLUDE_LIBS "-DEXCLUDE_LIBS=serialization|wave|mpi|python|beast|callable_traits|mp11|poly_collection|stacktrace|chrono|context|graph_parallel|iostreams|locale|log|python|regex|thread|timer|graph|math|random|test|exception")
+# 
+#     set(BOOST_CMAKE_ARGS ${BOOST_CMAKE_ARGS} ${BOOST_EXCLUDE_LIBS}
+#         ${RPATH_ARGS} ${BOOST_CXX_STANDARD} ${BOOST_CXX_STANDARD_REQUIRED})
+#     
+#     message(STATUS "Using the Boost from https://github.com/boost-cmake/boost.git")
+#     message(STATUS "BOOST_CMAKE_ARGS: ${BOOST_CMAKE_ARGS}")
+#     ExternalProject_Add(CMAKE_BOOST
+#         GIT_REPOSITORY https://github.com/boost-cmake/boost.git
+#         PREFIX ${BOOST_ROOT_PATH}
+#         CMAKE_ARGS ${BOOST_CMAKE_ARGS}
+#         LIST_SEPARATOR | # Use the alternate list separator
+#         PATCH_COMMAND ""
+#         UPDATE_COMMAND ""
+#         LOG_DOWNLOAD ${VERBOSE_DOWNLOAD}
+#         LOG_CONFIGURE ${VERBOSE_CONFIGURE}
+#         LOG_BUILD ${VERBOSE_BUILD}
+#         LOG_TEST ${VERBOSE_TEST}
+#         LOG_INSTALL ${VERBOSE_INSTALL})
+# 
+#     # These packages are imported
+#     ExternalProject_Get_Property(CMAKE_BOOST install_dir)
+# 
+#     add_library(CMAKE_BOOST_SYSTEM STATIC IMPORTED)
+#     add_library(CMAKE_BOOST_FILESYSTEM STATIC IMPORTED)
+#     add_library(CMAKE_BOOST_PROGRAM_OPTIONS STATIC IMPORTED)
+#     add_library(CMAKE_BOOST_DATE_TIME STATIC IMPORTED)
+# 
+#     set_target_properties(CMAKE_BOOST_SYSTEM PROPERTIES IMPORTED_LOCATION "${install_dir}/install/lib/${CMAKE_STATIC_LIBRARY_PREFIX}boost_system${CMAKE_STATIC_LIBRARY_SUFFIX}")
+#     set_target_properties(CMAKE_BOOST_FILESYSTEM PROPERTIES IMPORTED_LOCATION "${install_dir}/install/lib/${CMAKE_STATIC_LIBRARY_PREFIX}boost_filesystem${CMAKE_STATIC_LIBRARY_SUFFIX}")
+#     set_target_properties(CMAKE_BOOST_PROGRAM_OPTIONS PROPERTIES IMPORTED_LOCATION "${install_dir}/install/lib/${CMAKE_STATIC_LIBRARY_PREFIX}boost_program_options${CMAKE_STATIC_LIBRARY_SUFFIX}")
+#     set_target_properties(CMAKE_BOOST_DATE_TIME PROPERTIES IMPORTED_LOCATION "${install_dir}/install/lib/${CMAKE_STATIC_LIBRARY_PREFIX}boost_date_time${CMAKE_STATIC_LIBRARY_SUFFIX}")
+# 
+#     add_dependencies(CMAKE_BOOST_SYSTEM CMAKE_BOOST)
+#     add_dependencies(CMAKE_BOOST_FILESYSTEM CMAKE_BOOST)
+#     add_dependencies(CMAKE_BOOST_PROGRAM_OPTIONS CMAKE_BOOST)
+#     add_dependencies(CMAKE_BOOST_DATE_TIME CMAKE_BOOST)
+# 
+# endif (BOOST_TYPE STREQUAL "BUILD")
 
