@@ -17,8 +17,22 @@
 cmake_minimum_required(VERSION 3.5)
 project(PAnEn LANGUAGES C CXX)
 
-# This is a list of options that users can change through the command line
+# Whether to build tests
 option(CMAKE_BUILD_TESTS "Build tests" OFF)
+
+# Whether to build boost
+#
+# This is helpful when you the compiler used for boost is different
+# from the one used in this project. For example, on Mac OS, if
+# you installed Boost using Clang and you are using GNU in this project,
+# it is going to create problems because compilers have different standards.
+#
+option(BUILD_BOOST "Build Boost" ON)
+
+# Add defitions to project space so that they affect all sub projects
+add_definitions(-D_APPVERSION="v ${GRAND_VERSION}")
+add_definitions(-D_COPYRIGHT_MSG="${WE_ARE}")
+add_definitions(-DBOOST_NO_AUTO_PTR)
 
 # Set variables
 set(GRAND_VERSION "4.0.0")
@@ -27,9 +41,6 @@ set(WE_ARE "GEOlab @ Penn State")
 message(STATUS "You are building PAnEn version " ${GRAND_VERSION} " "
     ${GRAND_VERSION_NICKNAME} " from " ${WE_ARE})
 
-# Explicitly specify my subprojects
-set(my_subprojects "AnEn;AnEnIO")
-
 # Define a macro for find_package so that it works for our subprojects
 macro(find_package)
     if(NOT "${ARGV0}" IN_LIST my_subprojects)
@@ -37,10 +48,13 @@ macro(find_package)
     endif(NOT "${ARGV0}" IN_LIST my_subprojects)
 endmacro(find_package)
 
-# Add definitions
-add_definitions(-D_APPVERSION="v ${GRAND_VERSION}")
-add_definitions(-D_COPYRIGHT_MSG="${WE_ARE}")
-add_definitions(-DBOOST_NO_AUTO_PTR)
+# Explicitly specify my subprojects
+set(my_subprojects "AnEn;AnEnIO")
+
+if(BUILD_BOOST)
+    list(APPEND my_subprojects "Boost")
+    include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/buildBoost.cmake)
+endif(BUILD_BOOST)
 
 # Add libraries as subprojects
 add_subdirectory(CAnEn)
@@ -67,12 +81,12 @@ else(CMAKE_BUILD_TESTS)
 endif(CMAKE_BUILD_TESTS)
 
 message(STATUS "\n"
-    "**************************************************\n\n"
-    "The build system generation is complete.\n"
-    "Now you can type 'make' to build projects.\n\n"
+    "**********************************************************************\n"
+    "If the build system generation is complete,\n"
+    "you can type 'make' or 'make -j <number of cores>' to build projects.\n\n"
     "If you have set -DCMAKE_INSTALL_PREFIX=[path],\n"
-    "you can also type 'make install'\n\n"
-    "**************************************************")
+    "you can also type 'make install' to build and install projects\n"
+    "**********************************************************************")
 
 
 ###################################################################################
