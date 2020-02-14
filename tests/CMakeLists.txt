@@ -1,9 +1,10 @@
 cmake_minimum_required(VERSION 3.12)
 project(testPAnEn VERSION ${GRAND_VERSION} LANGUAGES C CXX)
+
 enable_testing()
 
 # Find the dependency package
-find_package(CppUnit)
+find_package(CppUnit REQUIRED)
 
 # Add all the tests
 add_subdirectory("ObservationsPointer")

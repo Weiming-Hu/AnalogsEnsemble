@@ -79,5 +79,6 @@ install(EXPORT AnEnIOTargets
     FILE AnEnIOTargets.cmake
     NAMESPACE AnEnIO::
     DESTINATION lib/cmake)
- nstall(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include DESTINATION .)
+
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include DESTINATION .)
 

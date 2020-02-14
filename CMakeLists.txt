@@ -65,6 +65,37 @@ else(CMAKE_BUILD_TESTS)
     message(STATUS "No tests built (CMAKE_BUILD_TESTS OFF)")
 endif(CMAKE_BUILD_TESTS)
 
+# Use doxygen to generate documents for C++
+find_package (Doxygen)
+if (DOXYGEN_FOUND)
+    set(DOXYGEN_QUIET "NO")
+    set(DOXYGEN_GENERATE_XML "NO")
+    set(DOXYGEN_GENERATE_HTML YES)
+    set(DOXYGEN_GENERATE_MAN YES)
+    set(DOXYGEN_GENERATE_LATEX "NO")
+    set(DOXYGEN_PROJECT_NAME "Parallel Analog Ensemble")
+    set(DOXYGEN_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR})
+    set(DOXYGEN_MAINPAGE_MDFILE "${CMAKE_CURRENT_SOURCE_DIR}/README.md")
+    set(DOXYGEN_EXCLUDE_PATTERNS "*build* *nbproject* *RAnalogs* *cmake*")
+
+    if (${DOXYGEN_DOT_FOUND})
+        set (DOXYGEN_HAVE_DOT YES)
+        message (STATUS "Graphviz is found.")
+    else (${DOXYGEN_DOT_FOUND}) 
+        set (DOXYGEN_HAVE_DOT "NO")
+        message (STATUS "Graphviz is NOT found. No DOT support.")
+    endif (${DOXYGEN_DOT_FOUND})
+
+    configure_file ("${CMAKE_CURRENT_SOURCE_DIR}/doxygen-config.in" "${CMAKE_CURRENT_BINARY_DIR}/doxygen-config")
+
+    message (STATUS "Type 'make document' to generate C++ documentation.")
+
+    add_custom_target(document
+        COMMAND ${DOXYGEN_EXECUTABLE} "${CMAKE_CURRENT_BINARY_DIR}/doxygen-config"
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+        COMMENT "Generate help page using doxygen")
+endif (DOXYGEN_FOUND)
+
 
 message(STATUS "\n"
     "**********************************************************************\n\n"
@@ -366,33 +397,3 @@ message(STATUS "\n"
 ##########################
 ##     Add ducoment      #
 ##########################
-## Use doxygen to generate documents for C++
-#find_package (Doxygen)
-#if (DOXYGEN_FOUND)
-#    set (DOXYGEN_QUIET "NO")
-#    set (DOXYGEN_GENERATE_XML "NO")
-#    set (DOXYGEN_GENERATE_HTML YES)
-#    set (DOXYGEN_GENERATE_MAN YES)
-#    set (DOXYGEN_GENERATE_LATEX "NO")
-#    set (DOXYGEN_PROJECT_NAME "Analog Ensemble")
-#    set (DOXYGEN_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR})
-#    set (DOXYGEN_MAINPAGE_MDFILE "${CMAKE_CURRENT_SOURCE_DIR}/README.md")
-#    set (DOXYGEN_EXCLUDE_PATTERNS "*build* *output* *dependency* *nbproject* *RAnalogs* *important* *cmake*")
-#
-#    if (${DOXYGEN_DOT_FOUND})
-#        set (DOXYGEN_HAVE_DOT YES)
-#        message (STATUS "Graphviz is found.")
-#    else (${DOXYGEN_DOT_FOUND}) 
-#        set (DOXYGEN_HAVE_DOT "NO")
-#        message (STATUS "Graphviz is NOT found. No DOT support.")
-#    endif (${DOXYGEN_DOT_FOUND})
-#
-#    configure_file ("${CMAKE_CURRENT_SOURCE_DIR}/doxygen-config.in" "${CMAKE_CURRENT_BINARY_DIR}/doxygen-config")
-#
-#    message (STATUS "Doxygen found. Use make document to generate package C++ documentation.")
-#
-#    add_custom_target(document
-#        COMMAND ${DOXYGEN_EXECUTABLE} "${CMAKE_CURRENT_BINARY_DIR}/doxygen-config"
-#        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-#        COMMENT "Generate help page using doxygen")
-#endif (DOXYGEN_FOUND)
