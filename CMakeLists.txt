@@ -66,6 +66,13 @@ else(CMAKE_BUILD_TESTS)
     message(STATUS "No tests built (CMAKE_BUILD_TESTS OFF)")
 endif(CMAKE_BUILD_TESTS)
 
+message(STATUS "\n"
+    "**************************************************\n\n"
+    "The build system generation is complete.\n"
+    "Now you can type 'make' to build projects.\n\n"
+    "If you have set -DCMAKE_INSTALL_PREFIX=[path],\n"
+    "you can also type 'make install'\n\n"
+    "**************************************************")
 
 
 ###################################################################################
