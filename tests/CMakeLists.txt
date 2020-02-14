@@ -1,13 +1,9 @@
-cmake_minimum_required(VERSION 2.8)
-project(testPAnEn)
-enable_language(CXX C)
-message(STATUS "Building tests")
+cmake_minimum_required(VERSION 3.12)
+project(testPAnEn VERSION ${GRAND_VERSION} LANGUAGES C CXX)
+enable_testing()
 
-# Include libraries
-include_directories(${NETCDF_INCLUDES})
-include_directories(${NETCDF_CXX4_INCLUDE_DIR})
-include_directories("${CMAKE_SOURCE_DIR}/CAnEnIO/include")
-include_directories("${CMAKE_SOURCE_DIR}/CAnEn/include")
+# Find the dependency package
+find_package(CppUnit)
 
 # Add all the tests
 add_subdirectory("ObservationsPointer")

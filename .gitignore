@@ -13,8 +13,7 @@
 *.o
 *.obj
 
-# Precompiled Headers
-*.gch
+# Precompiled Headers *.gch
 *.pch
 
 # Compiled Dynamic libraries
@@ -150,3 +149,6 @@ out
 
 # YCM support
 .ycm_extra_conf.py
+
+# Git submodule
+boost-cmake

@@ -14,7 +14,7 @@
 # - RAnEn
 #
 
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.12)
 project(PAnEn LANGUAGES C CXX)
 
 # Whether to build tests
@@ -41,19 +41,13 @@ set(WE_ARE "GEOlab @ Penn State")
 message(STATUS "You are building PAnEn version " ${GRAND_VERSION} " "
     ${GRAND_VERSION_NICKNAME} " from " ${WE_ARE})
 
-# Define a macro for find_package so that it works for our subprojects
-macro(find_package)
-    if(NOT "${ARGV0}" IN_LIST my_subprojects)
-        _find_package(${ARGV})
-    endif(NOT "${ARGV0}" IN_LIST my_subprojects)
-endmacro(find_package)
-
-# Explicitly specify my subprojects
-set(my_subprojects "AnEn;AnEnIO")
+# Explicitly specify the subprojects
+set(SUBPROJECT_TARGETS "AnEn;AnEnIO")
+include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/macros.cmake")
 
 if(BUILD_BOOST)
-    list(APPEND my_subprojects "Boost")
-    include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/buildBoost.cmake)
+    add_subdirectory(boost-cmake)
+    set(NO_INSTALL_LIBRARIES "AnEn;AnEnIO")
 endif(BUILD_BOOST)
 
 # Add libraries as subprojects
@@ -65,27 +59,19 @@ add_subdirectory(apps/anen)
 
 # if CMAKE_BUILD_TESTS is set to ON, build the test cases
 if(CMAKE_BUILD_TESTS)
-
-    # We provided extra modules for finding dependencies
-    list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
-
-    file(MAKE_DIRECTORY "${COMMON_OUTPUT_DIR}/test")
-    enable_testing()
-    add_custom_target(test_all ${CMAKE_CTEST_COMMAND} -V)
-
-    find_package(CppUnit)
+    message(STATUS "Building tests")
     add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/tests")
-
 else(CMAKE_BUILD_TESTS)
     message(STATUS "No tests built (CMAKE_BUILD_TESTS OFF)")
 endif(CMAKE_BUILD_TESTS)
 
+
 message(STATUS "\n"
-    "**********************************************************************\n"
+    "**********************************************************************\n\n"
     "If the build system generation is complete,\n"
     "you can type 'make' or 'make -j <number of cores>' to build projects.\n\n"
     "If you have set -DCMAKE_INSTALL_PREFIX=[path],\n"
-    "you can also type 'make install' to build and install projects\n"
+    "you can also type 'make install' to build and install projects\n\n"
     "**********************************************************************")
 
 

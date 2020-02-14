@@ -8,8 +8,8 @@
 #
 # This file adds all source files and export the AnEn library
 
-cmake_minimum_required(VERSION 3.9 FATAL_ERROR)
 project(AnEn VERSION ${GRAND_VERSION} LANGUAGES CXX)
+cmake_minimum_required(VERSION 3.9 FATAL_ERROR)
 message(STATUS "Configuring the library AnEn")
 
 # Define the source files
@@ -58,7 +58,6 @@ set(AnEn_headers
 # Find the dependent library and components
 find_package(OpenMP)
 find_package(Boost 1.65.0 REQUIRED COMPONENTS date_time)
-find_package(boost_date_time)
 
 # Create target by explicitly listing all source files
 add_library(AnEn ${AnEn_source_files})
@@ -83,7 +82,6 @@ if(OpenMP_CXX_FOUND)
     target_link_libraries(AnEn PRIVATE OpenMP::OpenMP_CXX)
 endif(OpenMP_CXX_FOUND)
 
-# Export the library interface
 install(TARGETS AnEn EXPORT AnEnTargets
     LIBRARY DESTINATION lib
     ARCHIVE DESTINATION lib
@@ -96,3 +94,4 @@ install(EXPORT AnEnTargets
     FILE AnEnTargets.cmake
     NAMESPACE AnEn::
     DESTINATION lib/cmake)
+
