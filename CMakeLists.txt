@@ -48,8 +48,8 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/macros.cmake")
 
 if(BUILD_BOOST)
-    add_subdirectory(boost-cmake)
     set(NO_INSTALL_LIBRARIES "AnEn;AnEnIO")
+    add_subdirectory(boost-cmake)
 endif(BUILD_BOOST)
 
 # Add libraries as subprojects

@@ -76,22 +76,26 @@ target_compile_features(AnEn PUBLIC cxx_std_11)
 target_link_libraries(AnEn PUBLIC Boost::date_time Boost::boost)
 
 if(OpenMP_CXX_FOUND)
-    # If OpenMP is found, it is privately linked because this
-    # flag should not be propagated to other targets.
-    #
-    target_link_libraries(AnEn PRIVATE OpenMP::OpenMP_CXX)
+    target_link_libraries(AnEn PUBLIC OpenMP::OpenMP_CXX)
 endif(OpenMP_CXX_FOUND)
 
-install(TARGETS AnEn EXPORT AnEnTargets
-    LIBRARY DESTINATION lib
-    ARCHIVE DESTINATION lib
-    RUNTIME DESTINATION bin
-    INCLUDES DESTINATION include)
+if(NOT BUILD_BOOST)
 
-install(FILES ${AnEn_headers} DESTINATION include)
+    # Since this project dependends on boost-cmake which does not support installation
+    # yet, if boost was built, the libraries that depend on the built boost are not
+    # installed.
+    # 
+    install(TARGETS AnEn EXPORT AnEnTargets
+        LIBRARY DESTINATION lib
+        ARCHIVE DESTINATION lib
+        RUNTIME DESTINATION bin
+        INCLUDES DESTINATION include)
 
-install(EXPORT AnEnTargets
-    FILE AnEnTargets.cmake
-    NAMESPACE AnEn::
-    DESTINATION lib/cmake)
+    install(FILES ${AnEn_headers} DESTINATION include)
 
+    install(EXPORT AnEnTargets
+        FILE AnEnTargets.cmake
+        NAMESPACE AnEn::
+        DESTINATION lib/cmake)
+
+endif(NOT BUILD_BOOST)

@@ -67,18 +67,26 @@ target_include_directories(AnEnIO
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}../AnEn/include>
     $<INSTALL_INTERFACE:include>)
 
-install(TARGETS AnEnIO EXPORT AnEnIOTargets
-    LIBRARY DESTINATION lib
-    ARCHIVE DESTINATION lib
-    RUNTIME DESTINATION bin
-    INCLUDES DESTINATION include)
+if(NOT BUILD_BOOST)
 
-install(FILES ${AnEnIO_headers} DESTINATION include)
+    # Since this project dependends on boost-cmake which does not support installation
+    # yet, if boost was built, the libraries that depend on the built boost are not
+    # installed.
+    # 
+    install(TARGETS AnEnIO EXPORT AnEnIOTargets
+        LIBRARY DESTINATION lib
+        ARCHIVE DESTINATION lib
+        RUNTIME DESTINATION bin
+        INCLUDES DESTINATION include)
 
-install(EXPORT AnEnIOTargets
-    FILE AnEnIOTargets.cmake
-    NAMESPACE AnEnIO::
-    DESTINATION lib/cmake)
+    install(FILES ${AnEnIO_headers} DESTINATION include)
 
-install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include DESTINATION .)
+    install(EXPORT AnEnIOTargets
+        FILE AnEnIOTargets.cmake
+        NAMESPACE AnEnIO::
+        DESTINATION lib/cmake)
+
+    install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include DESTINATION .)
+
+endif(NOT BUILD_BOOST)
 

@@ -25,22 +25,6 @@ macro(find_package)
 endmacro(find_package)
 
 
-# Since this project dependends on boost-cmake which does not support installation
-# yet, if boost was built, one should set the NO_INSTALLL_TARGETS to include the
-# libraries that depend on the built boost so that they are not installed. But
-# executables can be installed so they should not be included.
-# 
-# ${ARGV0} is the name of the target.
-#
-macro(install)
-    
-    if(NOT "${ARGV0}" IN_LIST NO_INSTALL_LIBRARIES)
-        _install(${ARGV})
-    endif(NOT "${ARGV0}" IN_LIST NO_INSTALL_LIBRARIES)
-
-endmacro(install)
-
-
 # Add a folder as a test target. This macro takes a single argument which is the
 # class name to be tested. This name should also be the folder name. For example,
 # if the class name is Times, the folder name should also be Times, the source
