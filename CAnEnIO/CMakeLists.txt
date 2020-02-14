@@ -45,8 +45,8 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 # Find the dependent libraries and components
 set(NETCDF_CXX "YES")
 find_package(AnEn)
-find_package(eccodes)
-find_package(NetCDF COMPONENTS cxx4)
+find_package(eccodes REQUIRED)
+find_package(NetCDF REQUIRED)
 find_package(Boost 1.65.0 REQUIRED COMPONENTS filesystem)
 
 # Create target by explicitly listing all source files
@@ -56,15 +56,14 @@ add_library(AnEnIO ${AnEnIO_source_files})
 add_library(AnEnIO::AnEnIO ALIAS AnEnIO)
 
 # Configure the properties of this target
-target_compile_features(AnEnIO PRIVATE cxx_std_11)
-
 target_link_libraries(AnEnIO
     PUBLIC
     Boost::boost Boost::filesystem AnEn::AnEn
-    ${NETCDF_LIBRARIES} ${ECCODES_LIB_C})
+    ${ECCODES_LIB_C} ${NETCDF_LIBRARIES_CXX})
 
 target_include_directories(AnEnIO
     PUBLIC 
+    ${ECCODES_INCLUDES}
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}../AnEn/include>
     $<INSTALL_INTERFACE:include>)

@@ -71,7 +71,7 @@ target_include_directories(AnEn
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>)
 
-target_compile_features(AnEn PRIVATE cxx_std_11)
+target_compile_features(AnEn PUBLIC cxx_std_11)
 
 target_link_libraries(AnEn PUBLIC Boost::date_time Boost::boost)
 

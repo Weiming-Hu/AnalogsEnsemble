@@ -23,7 +23,7 @@ add_executable(anen ${CMAKE_CURRENT_SOURCE_DIR}/anen.cpp)
 # Configure the properties of this target
 target_link_libraries(anen
     PUBLIC
-    AnEn::AnEn AnEnIO::AnEnIO Boost::program_options)
+    AnEnIO::AnEnIO Boost::program_options)
 
 # Export the executable
 install(TARGETS anen

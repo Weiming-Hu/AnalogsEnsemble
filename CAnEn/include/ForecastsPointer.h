@@ -30,7 +30,7 @@ public:
             const Parameters & parameters, const Stations & stations,
             const Times & times, const Times & flts) override;
 
-    void print(std::ostream &) const;
+    void print(std::ostream &) const override;
     friend std::ostream & operator<<(std::ostream &, const ForecastsPointer &);
 
     static const size_t _DIM_PARAMETER;
