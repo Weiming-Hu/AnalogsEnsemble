@@ -2,14 +2,6 @@ cmake_minimum_required(VERSION 3.1)
 project(RAnEn)
 enable_language(CXX C)
 
-# Add the cmake module directory to the source
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
-
-# Define build type if not defined
-if(NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE "Release")
-endif(NOT CMAKE_BUILD_TYPE)
-
 # Find R
 find_package(R REQUIRED)
 message(STATUS "R is found at ${R_LIBRARY_BASE}")
