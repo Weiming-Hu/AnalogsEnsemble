@@ -27,7 +27,7 @@ option(CMAKE_BUILD_TESTS "Build tests" OFF)
 # you installed Boost using Clang and you are using GNU in this project,
 # it is going to create problems because compilers have different standards.
 #
-option(BUILD_BOOST "Build Boost" ON)
+option(BUILD_BOOST "Build Boost" OFF)
 
 # Add defitions to project space so that they affect all sub projects
 add_definitions(-D_APPVERSION="v ${GRAND_VERSION}")
