@@ -51,10 +51,12 @@ endmacro(PAnEn_test_this)
 #
 macro(check_boost_cmake_download)
 
-    if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/boost-cmake/CMakeLists.txt)
+    if(NOT EXISTS ${CMAKE_CURRENT_BINARY_DIR}/boost-cmake/CMakeLists.txt)
         find_package(Git 1.9 REQUIRED QUIET)
-        message(STATUS "Checkout the submodule boost-cmake")
-        execute_process(COMMAND ${GIT_EXECUTABLE} "submodule" "update" "--init")
-    endif(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/boost-cmake/CMakeLists.txt)
+        message(STATUS "Checkout the dependency boost-cmake")
+        execute_process(COMMAND ${GIT_EXECUTABLE} "clone"
+            "https://github.com/Orphis/boost-cmake.git"
+            "${CMAKE_CURRENT_BINARY_DIR}/boost-cmake")
+    endif(NOT EXISTS ${CMAKE_CURRENT_BINARY_DIR}/boost-cmake/CMakeLists.txt)
 
 endmacro(check_boost_cmake_download)

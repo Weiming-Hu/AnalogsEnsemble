@@ -60,7 +60,7 @@ endif(INSTALL_RAnEn)
 if(BUILD_BOOST)
     set(NO_INSTALL_LIBRARIES "AnEn;AnEnIO")
     check_boost_cmake_download()
-    add_subdirectory(boost-cmake)
+    add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/boost-cmake)
 endif(BUILD_BOOST)
 
 # Add libraries as subprojects
