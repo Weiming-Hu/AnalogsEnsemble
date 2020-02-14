@@ -49,6 +49,7 @@ include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/macros.cmake")
 
 if(BUILD_BOOST)
     set(NO_INSTALL_LIBRARIES "AnEn;AnEnIO")
+    check_boost_cmake_download()
     add_subdirectory(boost-cmake)
 endif(BUILD_BOOST)
 

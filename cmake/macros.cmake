@@ -9,7 +9,6 @@
 # This file includes some macros for the project
 #
 
-
 # Define a macro for find_package so that it works for our subprojects.
 # If the package is in the list SUBPROJECT_TARGETS, this macro will simply 
 # make the find_package into an no-op.
@@ -45,3 +44,17 @@ macro(PAnEn_test_this)
     install(TARGETS "run${ARGV0}" RUNTIME DESTINATION test)
 
 endmacro(PAnEn_test_this)
+
+
+# If the boost cmake folder is empty, it is probably not downloaded. I'm going to
+# print some help messages on how to download.
+#
+macro(check_boost_cmake_download)
+
+    if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/boost-cmake/CMakeLists.txt)
+        find_package(Git 1.9 REQUIRED QUIET)
+        message(STATUS "Checkout the submodule boost-cmake")
+        execute_process(COMMAND ${GIT_EXECUTABLE} "submodule" "update" "--init")
+    endif(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/boost-cmake/CMakeLists.txt)
+
+endmacro(check_boost_cmake_download)
