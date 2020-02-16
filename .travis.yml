@@ -7,57 +7,55 @@ matrix:
         -
             os: linux
             language: cpp
-            addons: {apt: {sources: [ubuntu-toolchain-r-test], packages: [g++-4.9, libeccodes-dev, libboost-dev]}}
-            env: ['MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9"', 'ENVIRONMENT_LANGUAGE="c++"']
+            addons: {apt: {sources: [ubuntu-toolchain-r-test], packages: [g++-4.9, libnetcdf-dev, libcppunit-dev]}}
+            env: ['MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9"', 'ENVIRONMENT_LANGUAGE="c++"', 'INSTALL_ECCODES="YES"']
         -
             os: linux
             language: cpp
-            addons: {apt: {sources: [ubuntu-toolchain-r-test], packages: [g++-5, libnetcdf-dev, libeccodes-dev, libboost-dev]}}
-            env: ['MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"', 'ENVIRONMENT_LANGUAGE="c++"']
+            addons: {apt: {sources: [ubuntu-toolchain-r-test], packages: [g++-5, libnetcdf-dev, libcppunit-dev]}}
+            env: ['MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"', 'ENVIRONMENT_LANGUAGE="c++"', 'INSTALL_ECCODES="YES"']
         -
             os: linux
             language: cpp
-            addons: {apt: {sources: [ubuntu-toolchain-r-test], packages: [g++-6, libnetcdf-dev, libeccodes-dev, libboost-dev]}}
-            env: ['MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"', 'ENVIRONMENT_LANGUAGE="c++"']
+            addons: {apt: {sources: [ubuntu-toolchain-r-test], packages: [g++-6, libnetcdf-dev, libcppunit-dev]}}
+            env: ['MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"', 'ENVIRONMENT_LANGUAGE="c++"', 'INSTALL_ECCODES="YES"']
         -
             os: linux
             language: cpp
-            addons: {apt: {sources: [ubuntu-toolchain-r-test], packages: [g++-7, libnetcdf-dev, libeccodes-dev, libboost-dev]}}
-            env: ['MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"', 'ENVIRONMENT_LANGUAGE="c++"']
+            addons: {apt: {sources: [ubuntu-toolchain-r-test], packages: [g++-7, libnetcdf-dev, libcppunit-dev]}}
+            env: ['MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"', 'ENVIRONMENT_LANGUAGE="c++"', 'INSTALL_ECCODES="YES"']
         -
             os: linux
             language: cpp
-            addons: {apt: {sources: [ubuntu-toolchain-r-test], packages: [libnetcdf-dev, libeccodes-dev, libboost-dev, g++-8]}}
-            env: ['MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"', 'ENVIRONMENT_LANGUAGE="c++"']
+            addons: {apt: {sources: [ubuntu-toolchain-r-test], packages: [g++-8, libnetcdf-dev, libcppunit-dev]}}
+            env: ['MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"', 'ENVIRONMENT_LANGUAGE="c++"', 'INSTALL_ECCODES="YES"']
         -
             os: osx
             language: cpp
-            env: ['MATRIX_EVAL="brew install eccodes"', 'ENVIRONMENT_LANGUAGE="c++"']
+            env: ['MATRIX_EVAL="brew install eccodes cppunit"', 'ENVIRONMENT_LANGUAGE="c++"']
         -
             os: linux
             language: r
             cache: Rcpp
             addons: {apt: {sources: [ubuntu-toolchain-r-test], packages: [g++-4.9]}}
-            env: ['MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9"', 'ENVIRONMENT_LANGUAGE="r"']
+            env: ['ENVIRONMENT_LANGUAGE="r"']
         -
             os: osx
             language: r
             cache: Rcpp
             env: ['ENVIRONMENT_LANGUAGE="r"']
 before_install:
-    - 'set -e'
-    - 'cmake --version'
-    - 'eval "${MATRIX_EVAL}"'
-    - 'if [[ "$ENVIRONMENT_LANGUAGE" == "r" ]]; then R -e "install.packages(''Rcpp'')"; R -e "install.packages(''BH'')";fi'
-    - 'if [[ "$ENVIRONMENT_LANGUAGE" == "doc" ]]; then R -e "install.packages(''Rcpp'')"; R -e "install.packages(''pkgdown'')"; R -e "install.packages(''BH'')";fi'
+    - set -e
+    - cmake --version
+    - eval "${MATRIX_EVAL}"
+    - if [[ "$ENVIRONMENT_LANGUAGE" == "r" ]]; then R -e "install.packages('Rcpp')"; R -e "install.packages('BH')";fi
+    - if [[ "$INSTALL_ECCODES" == "YES" ]]; then ./CAnEnIO/cmake/install_eccodes.sh;fi
 install:
-    - 'if [[ "$ENVIRONMENT_LANGUAGE" == "r" ]]; then mkdir build-RAnEn; cd build-RAnEn; CC=$CC CXX=$CXX cmake -DINSTALL_RAnEn=On ..; fi'
+    - if [[ "$ENVIRONMENT_LANGUAGE" == "r" ]]; then R -e "install.packages('https://github.com/Weiming-Hu/AnalogsEnsemble/raw/master/RAnalogs/releases/RAnEn_latest.tar.gz', repos = NULL)"; fi
 script:
-    - 'if [[ "$ENVIRONMENT_LANGUAGE" == "c++" ]]; then mkdir build; cd build; CC=$CC CXX=$CXX cmake -DCMAKE_CXX_FLAGS="-coverage" -DCMAKE_BUILD_TESTS=ON ..; make -j16; fi'
-    - 'if [[ "$ENVIRONMENT_LANGUAGE" == "r" ]]; then make -j16 install; fi'
-    - 'if [[ "$ENVIRONMENT_LANGUAGE" == "doc" ]]; then ./deploymentAutomation/deploy.sh; fi'
+    - if [[ "$ENVIRONMENT_LANGUAGE" == "c++" ]]; then mkdir build; cd build; CC=$CC CXX=$CXX cmake -DCMAKE_CXX_FLAGS="-coverage" ..; make -j16; fi
 after_success:
-    - 'if [[ "$ENVIRONMENT_LANGUAGE" == "c++" ]]; then export LD_LIBRARY_PATH=/Users/travis/build/Weiming-Hu/AnalogsEnsemble/dependency/install/lib/; ctest; fi'
-    - 'if [[ "$ENVIRONMENT_LANGUAGE" == "r" ]]; then R -e "library(RAnEn)"; fi'
-    - 'bash <(curl -s https://codecov.io/bash)'
+    - if [[ "$ENVIRONMENT_LANGUAGE" == "c++" ]]; make test; fi
+    - if [[ "$ENVIRONMENT_LANGUAGE" == "r" ]]; then cd RAnalogs/tests; Rscript test_all.R; fi
+    - bash <(curl -s https://codecov.io/bash)
 

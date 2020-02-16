@@ -20,9 +20,6 @@ project(PAnEn LANGUAGES C CXX)
 # Whether to build RAnEn
 option(INSTALL_RAnEn "Install RAnEn package" OFF)
 
-# Whether to build tests
-option(CMAKE_BUILD_TESTS "Build tests" OFF)
-
 # Whether to build boost
 #
 # This is helpful when you the compiler used for boost is different
@@ -70,14 +67,13 @@ add_subdirectory(CAnEnIO)
 # Add applications as subprojects
 add_subdirectory(apps/anen)
 
-# if CMAKE_BUILD_TESTS is set to ON, build the test cases
-find_package(CppUnit REQUIRED)
+find_package(CppUnit)
 if(CPPUNIT_FOUND)
     message(STATUS "CppUnit found. Building tests")
     enable_testing()
     add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/tests")
 else(CPPUNIT_FOUND)
-    message(STATUS "No tests built. Install CppUnit to enable tests")
+    message(STATUS "No tests built. Install CppUnit to automatically enable tests")
 endif(CPPUNIT_FOUND)
 
 # Use doxygen to generate documents for C++
