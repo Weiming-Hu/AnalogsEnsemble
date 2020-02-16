@@ -17,16 +17,23 @@
 # This is the version to download
 export ECCODES_VERSION=2.16.0
 
+# Create a folder for eccodes. This will be the folder for both the source files and
+# the compiled libraries.
+#
+mkdir ~/eccodes
+cd ~/eccodes
+
 # Download the tarball file
-wget "https://confluence.ecmwf.int/download/attachments/45757960/eccodes-$ECCODES_VERSION-Source.tar.gz?api=v2"
+wget "https://confluence.ecmwf.int/download/attachments/45757960/eccodes-$ECCODES_VERSION-Source.tar.gz?api=v2" -O eccodes.tar.gz
 
 # Extract the tarball file
-tar -xzf eccodes-$ECCODES_VERSION-Source.tar.gz
+tar -xvzf eccodes.tar.gz
 
 # Carry out out-of-tree build
+cd eccodes-$ECCODES_VERSION-Source
 mkdir build
 cd build
-cmake -DENABLE_PYTHON=OFF -DENABLE_FORTRAN=OFF ..
+cmake -DCMAKE_INSTALL_PREFIX=~/eccodes -DENABLE_PYTHON=OFF -DENABLE_FORTRAN=OFF ..
 
 # Build the project in parallel with the -j 16 option. 16 is the number of cores.
 make -j 16
@@ -36,3 +43,16 @@ ctest
 
 # Install to system. This is the place you might need sudo permission
 make install
+
+# Print out message
+echo "
+########################################################################################
+#                                                                                      #
+# Now, Eccodes have been installed to your user space at ~/eccodes.                    #
+# If you want cmake to be able to find eccodes, you can adding the following arguments #
+#                                                                                      #
+#          cmake -DCMAKE-PREFIX_PATH=~/eccodes [your extra arguments] ..               #
+#                                                                                      #
+########################################################################################
+"
+
