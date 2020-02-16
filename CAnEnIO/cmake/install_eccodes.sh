@@ -27,7 +27,7 @@ cd ~/eccodes
 wget "https://confluence.ecmwf.int/download/attachments/45757960/eccodes-$ECCODES_VERSION-Source.tar.gz?api=v2" -O eccodes.tar.gz
 
 # Extract the tarball file
-tar -xvzf eccodes.tar.gz
+tar -xzf eccodes.tar.gz
 
 # Carry out out-of-tree build
 cd eccodes-$ECCODES_VERSION-Source
