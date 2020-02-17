@@ -18,6 +18,8 @@
 # CAnEnIO compilation because CAnEnIO needs the function. So then you need to build
 # the latest NetCDF C++4 API.
 #
+# I'm downloading the 4.3.0 version rather than the latest version because there
+# is known issues with the later versions when compiled with NetCDF newer versions.
 #
 # Make sure you already have installed NetCDF.
 #
