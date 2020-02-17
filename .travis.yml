@@ -43,7 +43,7 @@ matrix:
             os: osx
             language: r
             cache: Rcpp
-            env: ['MATRIX_EVAL="brew install netcdf"', 'ENVIRONMENT_LANGUAGE="r"']
+            env: ['ENVIRONMENT_LANGUAGE="r"']
 before_install:
     - set -e
     - cmake --version
@@ -53,7 +53,7 @@ before_install:
 install:
     - if [[ "$ENVIRONMENT_LANGUAGE" == "r" ]]; then R CMD INSTALL RAnalogs/releases/RAnEn_latest.tar.gz; fi
 script:
-    - if [[ "$ENVIRONMENT_LANGUAGE" == "c++" ]]; then mkdir build; cd build; CC=$CC CXX=$CXX cmake -DCMAKE_CXX_FLAGS="-coverage" -DCMAKE_PREFIX_PATH=~/eccodes;~/netcdf-c++4 ..; make -j16; fi
+    - if [[ "$ENVIRONMENT_LANGUAGE" == "c++" ]]; then mkdir build; cd build; CC=$CC CXX=$CXX cmake -DCMAKE_CXX_FLAGS="-coverage" -DCMAKE_PREFIX_PATH="~/eccodes;~/netcdf-c++4" ..; make -j16; fi
 after_success:
     - if [[ "$ENVIRONMENT_LANGUAGE" == "c++" ]]; then make test; fi
     - if [[ "$ENVIRONMENT_LANGUAGE" == "r" ]]; then cd RAnalogs/tests; Rscript test_all.R; fi

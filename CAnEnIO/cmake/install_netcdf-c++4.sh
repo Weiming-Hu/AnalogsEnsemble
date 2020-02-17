@@ -53,7 +53,8 @@ echo "
 #                                                                                      #
 #          cmake -DCMAKE_PREFIX_PATH=~/netcdf-c++4 [your extra arguments] ..           #
 #                                                                                      #
-# If you have multiple paths for the prefix path argument, separate them with ;        #
+# If you have multiple paths in the prefix path argument, separate them with ; and     #
+# surround them with double quotes.                                                    #
 #                                                                                      #
 ########################################################################################
 "

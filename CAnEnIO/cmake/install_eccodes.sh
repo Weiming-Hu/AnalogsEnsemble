@@ -56,7 +56,8 @@ echo "
 #                                                                                      #
 #          cmake -DCMAKE_PREFIX_PATH=~/eccodes [your extra arguments] ..               #
 #                                                                                      #
-# If you have multiple paths in the prefix path argument, separate them with ;         #
+# If you have multiple paths in the prefix path argument, separate them with ; and     #
+# surround them with double quotes.                                                    #
 #                                                                                      #
 ########################################################################################
 "
