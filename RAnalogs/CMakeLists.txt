@@ -1,28 +1,43 @@
+###################################################################################
+# Author: Weiming Hu <weiming@psu.edu>                                            #
+#         Geoinformatics and Earth Observation Laboratory (http://geolab.psu.edu) #
+#         Department of Geography                                                 #
+#         Institute for Computational and Data Science                            #
+#         The Pennsylvania State University                                       #
+###################################################################################
+#
+# This script sets up the build environment for the RAnEn package. It copies the 
+# source files from CAnEn and CAnEnIO directories to RAnEn directory and then defines
+# some targets to build release version and clean copied files. It also configures
+# some *.in files with the correct setting from the superproject.
+#
+# This script does not actually carry out the installation process.
+#
+
 cmake_minimum_required (VERSION 3.1)
-project (RAnalogs LANGUAGES NONE)
 
 set(LIBRARY_NAME "RAnEn")
 set(LIBRARY_VERSION "${GRAND_VERSION}")
 set(LIBRARY_VERSION_NICKNAME "${GRAND_VERSION_NICKNAME}")
-message(STATUS "RAnEn version ${LIBRARY_VERSION}")
-
 set(RAnEn_PACKAGE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/${LIBRARY_NAME}")
 set(RAnEn_SOURCE_DIR "${RAnEn_PACKAGE_DIR}/src")
-
 set(RAnEn_EXTRA_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/CAnEn/include")
 set(RAnEn_EXTRA_SOURCE_DIR "${CMAKE_SOURCE_DIR}/CAnEn/src")
 set(RAnEn_RELEASES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/releases")
 
-# For more information about this definition, please see
-# the source file for Functions::toSeconds
+message(STATUS "Preparing RAnEn version ${LIBRARY_VERSION}")
+
+# Disable the Boost libraries that need compilation. For more information about
+# this definition, please see the source file for Functions::toSeconds
 #
 add_definitions(-D_DISABLE_NON_HEADER_BOOST)
 
 ##########################
 # complete src directory #
 ##########################
-# because some of the source files are deliberately missing in the src directory
-# we will copy them from the original directory every time we build our R package.
+#
+# RAnEn needs the source files from CAnEn and CAnEnIO, we will copy them from
+# the original directory every time we build our R package.
 #
 # By doing this, we make sure
 #
@@ -30,24 +45,19 @@ add_definitions(-D_DISABLE_NON_HEADER_BOOST)
 # 2) we always build the R package using the latest C++ code;
 #
 # make sure all the required source and header files exist
-if(NOT EXISTS ${RAnEn_SOURCE_DIR})
-    message(FATAL_ERROR "ERROR: source file directory for RAnEn package could not be found in ${RAnEn_SOURCE_DIR}")
-endif(NOT EXISTS ${RAnEn_SOURCE_DIR})
-
-if(NOT EXISTS ${RAnEn_EXTRA_SOURCE_DIR})
-    message(FATAL_ERROR "ERROR: extra source file directory for RAnEn package could not be found in ${RAnEn_EXTRA_SOURCE_DIR}")
-endif(NOT EXISTS ${RAnEn_EXTRA_SOURCE_DIR})
-
-if(NOT EXISTS ${RAnEn_EXTRA_INCLUDE_DIR})
-    message(FATAL_ERROR "ERROR: extra include file directory for RAnEn package could not be found in ${RAnEn_EXTRA_INCLUDE_DIR}")
-endif(NOT EXISTS ${RAnEn_EXTRA_INCLUDE_DIR})
+foreach(CHECK_PATH ${RAnEn_SOURCE_DIR} ${RAnEn_EXTRA_SOURCE_DIR} ${RAnEn_EXTRA_INCLUDE_DIR})
+    if(NOT EXISTS ${CHECK_PATH})
+        message(FATAL_ERROR "${CHECK_PATH} not found")
+    endif(NOT EXISTS ${CHECK_PATH})
+endforeach(CHECK_PATH ${RAnEn_SOURCE_DIR} ${RAnEn_EXTRA_SOURCE_DIR} ${RAnEn_EXTRA_INCLUDE_DIR})
 
 # Configure DESCRIPTION
 string(TIMESTAMP LIBRARY_CONFIGURE_TIMESTAMP "%Y-%m-%d_%H:%M")
 configure_file("${RAnEn_PACKAGE_DIR}/DESCRIPTION.in" "${RAnEn_PACKAGE_DIR}/DESCRIPTION")
 
-# copy files
-set(REQUIRED_SOURCE_FILES "AnEn;Array4DPointer;BasicData;Calculator;Config;Forecasts;ForecastsPointer;Observations;ObservationsPointer;Parameters;Stations;Times")
+# These are the files with different types that will be copied
+set(REQUIRED_SOURCE_FILES "AnEn;Array4DPointer;BasicData;Calculator;Config;Forecasts;ForecastsPointer")
+list(APPEND REQUIRED_SOURCE_FILES "Observations;ObservationsPointer;Parameters;Stations;Times")
 set(REQUIRED_TEMPLATE_FILES "AnEnIS;AnEnSSE;Functions")
 set(REQUIRED_HEADER_ONLY_FILES "BmDim;Array4D")
 
@@ -67,6 +77,10 @@ foreach(file_name ${REQUIRED_HEADER_ONLY_FILES})
 endforeach(file_name ${REQUIRED_HEADER_ONLY_FILES})
 
 file(COPY "${CMAKE_SOURCE_DIR}/NEWS.md" DESTINATION ${RAnEn_PACKAGE_DIR})
+file(COPY "${EXTRA_MODULE_PATH}/configure" DESTINATION ${RAnEn_PACKAGE_DIR})
+file(COPY "${EXTRA_MODULE_PATH}/Makevars.in" DESTINATION ${RAnEn_SOURCE_DIR})
+file(COPY "${EXTRA_MODULE_PATH}/Makevars.win" DESTINATION ${RAnEn_SOURCE_DIR})
+file(COPY "${CMAKE_SOURCE_DIR}/README.md" DESTINATION ${RAnEn_PACKAGE_DIR})
 
 add_subdirectory(${RAnEn_PACKAGE_DIR})
 
@@ -76,7 +90,6 @@ add_subdirectory(${RAnEn_PACKAGE_DIR})
 ##########################
 #
 file(GLOB FILES_TO_DELETE "${RAnEn_SOURCE_DIR}/*.o")
-message("")
 foreach(file_name ${REQUIRED_SOURCE_FILES})
     set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_SOURCE_DIR}/${file_name}.cpp")
     set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_SOURCE_DIR}/${file_name}.h")
@@ -95,14 +108,21 @@ endforeach(file_name ${REQUIRED_HEADER_ONLY_FILES})
 set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_SOURCE_DIR}/RAnEn.so")
 set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_PACKAGE_DIR}/config.log")
 set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_PACKAGE_DIR}/DESCRIPTION")
+set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_SOURCE_DIR}/Makefile")
+set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_PACKAGE_DIR}/configure")
+set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_SOURCE_DIR}/README.md")
+set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_SOURCE_DIR}/NEWS.md")
+set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_SOURCE_DIR}/Makevars.in")
+set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_SOURCE_DIR}/Makevars.win")
+set(FILES_TO_DELETE "${FILES_TO_DELETE};${RAnEn_SOURCE_DIR}/Makevars")
 
-message(STATUS "Add clean-rsrc target for cleaning the copied files")
 add_custom_target(
     clean-rsrc 
     COMMAND ${CMAKE_COMMAND} -E remove ${FILES_TO_DELETE}
     COMMAND ${CMAKE_COMMAND} -E remove ${RAnEn_SOURCE_DIR}/*.o
     COMMENT "clean the copied files in RAnEn/src. You will need to cmake again if you want to make.")
 
+message(STATUS "Use `make clean-all` to clean all intermediate files during RAnEn compilation and installation")
 if(TARGET clean-all)
     add_dependencies(clean-all clean-rsrc)
 else(TARGET clean-all)
@@ -110,12 +130,8 @@ else(TARGET clean-all)
 endif(TARGET clean-all)
 
 # Add target to build release
+message(STATUS "Use `make build-release` to make a release with the current version")
 add_custom_target(build-release)	
-
-add_custom_command(TARGET build-release
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different
-    "${CMAKE_SOURCE_DIR}/README.md"
-    "${RAnEn_PACKAGE_DIR}/README.md")
 
 add_custom_command(
     TARGET build-release
@@ -123,10 +139,6 @@ add_custom_command(
     COMMENT "target for building RAnEn release tarbal"
     WORKING_DIRECTORY ${RAnEn_RELEASES_DIR})
 
-add_custom_command(TARGET build-release
-    COMMAND ${CMAKE_COMMAND} -E remove "${RAnEn_PACKAGE_DIR}/README.md")
-add_custom_command(TARGET build-release
-    COMMAND ${CMAKE_COMMAND} -E remove "${RAnEn_PACKAGE_DIR}/NEWS.md")
 add_custom_command(TARGET build-release
     COMMAND ${CMAKE_COMMAND} -E copy
     "${CMAKE_CURRENT_SOURCE_DIR}/releases/${LIBRARY_NAME}_${LIBRARY_VERSION}.tar.gz"

@@ -1,16 +1,18 @@
+###################################################################################
+# Author: Weiming Hu <weiming@psu.edu>                                            #
+#         Geoinformatics and Earth Observation Laboratory (http://geolab.psu.edu) #
+#         Department of Geography                                                 #
+#         Institute for Computational and Data Science                            #
+#         The Pennsylvania State University                                       #
+###################################################################################
+#
+# This file builds RAnEn with CMake
+
 cmake_minimum_required(VERSION 3.1)
-project(RAnEn)
-enable_language(CXX C)
+project(RAnEn LANGUAGES CXX C)
 
-# Add the cmake module directory to the source
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
-
-# Define build type if not defined
-if(NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE "Release")
-endif(NOT CMAKE_BUILD_TYPE)
-
-# Find R
+# Find packages
+find_package(OpenMP)
 find_package(R REQUIRED)
 message(STATUS "R is found at ${R_LIBRARY_BASE}")
 
@@ -87,7 +89,7 @@ set_property(TARGET RAnEn PROPERTY SUFFIX ".so")
 # Include and link libraries
 set_property(TARGET RAnEn APPEND PROPERTY COMPILE_FLAGS ${RCPP_CXXFLAGS})
 include_directories (SYSTEM "${CMAKE_CURRENT_SOURCE_DIR}/src" ${R_INCLUDE_DIR})
-target_link_libraries(RAnEn ${R_LIBRARY_BASE})
+target_link_libraries(RAnEn PUBLIC OpenMP::OpenMP_CXX ${R_LIBRARY_BASE})
 
 if (R_BH_INCLUDE_DIR)
     include_directories (SYSTEM ${R_BH_INCLUDE_DIR})
@@ -122,6 +124,19 @@ foreach(COPYFILE IN LISTS COPYFILES)
 		"${CMAKE_CURRENT_SOURCE_DIR}/${COPYFILE}"
 		"${CMAKE_CURRENT_BINARY_DIR}/${COPYFILE}")
 endforeach(COPYFILE IN LISTS COPYFILES)
+
+# Copy empty Makefiles to suppress any compiling of the source code when
+# using make install to install R package because the RAnEn.so should already
+# be compiled.
+#
+add_custom_command(TARGET copyPackage
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    "${EXTRA_MODULE_PATH}/Makefile.win"
+    "${CMAKE_CURRENT_BINARY_DIR}/src/Makefile.win")
+add_custom_command(TARGET copyPackage
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    "${EXTRA_MODULE_PATH}/Makefile"
+    "${CMAKE_CURRENT_BINARY_DIR}/src/Makefile")
 
 install(CODE "execute_process(COMMAND \"${R_COMMAND}\"
 CMD INSTALL . WORKING_DIRECTORY \"${CMAKE_CURRENT_BINARY_DIR}\")")

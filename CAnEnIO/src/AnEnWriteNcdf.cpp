@@ -8,7 +8,7 @@
 #include "Ncdf.h"
 #include "AnEnWriteNcdf.h"
 
-#include <boost/filesystem.hpp>
+#include "boost/filesystem.hpp"
 
 using namespace std;
 using namespace netCDF;
@@ -114,7 +114,10 @@ AnEnWriteNcdf::writeAnEn(const std::string & file, const AnEnIS & anen,
     Ncdf::writeVector(nc, Config::_SEARCH_TIMES, Config::_DIM_SEARCH_TIMES, search_timestamps, NcType::nc_UINT64, false);
     Ncdf::writeStringVector(nc, Config::_PAR_NAMES, Config::_DIM_PARS, parameter_names, false);
     
-    nc.close();
+    // The file handler will automatically be closed when it is out of scope.
+    // For C++ API older than 4.3.0, this function was not available.
+    //
+    // nc.close();
     return;
 }
 
@@ -146,7 +149,11 @@ AnEnWriteNcdf::writeAnEn(const std::string& file, const AnEnSSE& anen,
     Ncdf::writeAttributes(nc, Config::_DISTANCE,  anen.distance(), NcType::nc_DOUBLE, overwrite);
     Ncdf::writeAttributes(nc, Config::_EXTEND_OBS, (int) anen.extend_obs(), NcType::nc_INT, overwrite);
 
-    nc.close();
+    // The file handler will automatically be closed when it is out of scope.
+    // For C++ API older than 4.3.0, this function was not available.
+    //
+    // nc.close();
+
     return;
 }
 

@@ -42,7 +42,7 @@ public:
     
     size_t toIndex(const vector3 & indices) const;
     
-    void print(std::ostream &) const;
+    void print(std::ostream &) const override;
     friend std::ostream & operator<<(std::ostream &, const ObservationsPointer &);
     
     static const size_t _DIM_PARAMETER;

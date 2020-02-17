@@ -1,126 +1,126 @@
 fortran: false
-
 env:
-   global:
-    - CODECOV_TOKEN=11fbe283-94bd-4eca-88d0-a3083178cf25
-
+    global:
+        - CODECOV_TOKEN=11fbe283-94bd-4eca-88d0-a3083178cf25
 matrix:
-   include:
-     - os: linux
-       language: cpp
-       addons:
-         apt:
-           sources:
-             - ubuntu-toolchain-r-test
-           packages:
-             - g++-4.9
-             - libnetcdf-dev
-             - libopenjpeg-dev
-             - libjpeg-dev
-       env:
-         - MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9"
-         - ENVIRONMENT_LANGUAGE="c++"
+    include:
 
-     - os: linux
-       language: cpp
-       addons:
-         apt:
-           sources:
-             - ubuntu-toolchain-r-test
-           packages:
-             - g++-5
-             - libnetcdf-dev
-             - libopenjpeg-dev
-             - libjpeg-dev
-       env:
-         - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"
-         - ENVIRONMENT_LANGUAGE="c++"
+        ###############################################################
+        # Test on Linux machines with different version of compilers  #
+        ###############################################################
+        #
+        # Test PAnEn installation
+        #
+        # Boost is compiled within the CMake process
+        #
+        -
+            os: linux
+            language: cpp
+            addons: {apt: {sources: [ubuntu-toolchain-r-test], packages: [g++-5, libnetcdf-dev, libnetcdf-c++4-dev, libcppunit-dev]}}
+            env: ['MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"', 'ENVIRONMENT_LANGUAGE="c++"', 'RUN_INSTALL_SCRIPTS="YES"', 'BUILD_BOOST="ON"']
+        -
+            os: linux
+            language: cpp
+            addons: {apt: {sources: [ubuntu-toolchain-r-test], packages: [g++-6, libnetcdf-dev, libnetcdf-c++4-dev, libcppunit-dev]}}
+            env: ['MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"', 'ENVIRONMENT_LANGUAGE="c++"', 'RUN_INSTALL_SCRIPTS="YES"', 'BUILD_BOOST="ON"']
+        -
+            os: linux
+            language: cpp
+            addons: {apt: {sources: [ubuntu-toolchain-r-test], packages: [g++-7, libnetcdf-dev, libnetcdf-c++4-dev, libcppunit-dev]}}
+            env: ['MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"', 'ENVIRONMENT_LANGUAGE="c++"', 'RUN_INSTALL_SCRIPTS="YES"', 'BUILD_BOOST="ON"']
+        -
+            os: linux
+            language: cpp
+            addons: {apt: {sources: [ubuntu-toolchain-r-test], packages: [g++-8, libnetcdf-dev, libnetcdf-c++4-dev, libcppunit-dev]}}
+            env: ['MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"', 'ENVIRONMENT_LANGUAGE="c++"', 'RUN_INSTALL_SCRIPTS="YES"', 'BUILD_BOOST="ON"']
 
-     - os: linux
-       language: cpp
-       addons:
-         apt:
-           sources:
-             - ubuntu-toolchain-r-test
-           packages:
-             - g++-6
-             - libnetcdf-dev
-             - libopenjpeg-dev
-             - libjpeg-dev
-       env:
-         - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
-         - ENVIRONMENT_LANGUAGE="c++"
+        #
+        # Test PAnEn installation
+        #
+        # Boost is installed using system package manager
+        #
+        -
+            os: linux
+            language: cpp
+            addons: {apt: {sources: [ubuntu-toolchain-r-test], packages: [g++-5, libnetcdf-dev, libnetcdf-c++4-dev, libcppunit-dev, libboost-all-dev]}}
+            env: ['MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"', 'ENVIRONMENT_LANGUAGE="c++"', 'RUN_INSTALL_SCRIPTS="YES"', 'BUILD_BOOST="OFF"']
+        -
+            os: linux
+            language: cpp
+            addons: {apt: {sources: [ubuntu-toolchain-r-test], packages: [g++-6, libnetcdf-dev, libnetcdf-c++4-dev, libcppunit-dev, libboost-all-dev]}}
+            env: ['MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"', 'ENVIRONMENT_LANGUAGE="c++"', 'RUN_INSTALL_SCRIPTS="YES"', 'BUILD_BOOST="OFF"']
+        -
+            os: linux
+            language: cpp
+            addons: {apt: {sources: [ubuntu-toolchain-r-test], packages: [g++-7, libnetcdf-dev, libnetcdf-c++4-dev, libcppunit-dev, libboost-all-dev]}}
+            env: ['MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"', 'ENVIRONMENT_LANGUAGE="c++"', 'RUN_INSTALL_SCRIPTS="YES"', 'BUILD_BOOST="OFF"']
+        -
+            os: linux
+            language: cpp
+            addons: {apt: {sources: [ubuntu-toolchain-r-test], packages: [g++-8, libnetcdf-dev, libnetcdf-c++4-dev, libcppunit-dev, libboost-all-dev]}}
+            env: ['MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"', 'ENVIRONMENT_LANGUAGE="c++"', 'RUN_INSTALL_SCRIPTS="YES"', 'BUILD_BOOST="OFF"']
 
-     - os: linux
-       language: cpp
-       addons:
-         apt:
-           sources:
-             - ubuntu-toolchain-r-test
-           packages:
-             - g++-7
-             - libnetcdf-dev
-             - libopenjpeg-dev
-             - libjpeg-dev
-       env:
-         - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
-         - ENVIRONMENT_LANGUAGE="c++"
+        #
+        # Test RAnEn installation
+        #
+        # NetCDF is pre-installed
+        #
+        -
+            os: linux
+            language: r
+            cache: Rcpp
+            addons: {apt: {sources: [ubuntu-toolchain-r-test], packages: [g++-5]}}
+            env: ['ENVIRONMENT_LANGUAGE="r"']
 
-     - os: linux
-       language: cpp
-       addons:
-          apt:
-            sources:
-              - ubuntu-toolchain-r-test
-            packages:
-             - libnetcdf-dev
-             - g++-8
-             - libopenjpeg-dev
-             - libjpeg-dev
-       env:
-         - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
-         - ENVIRONMENT_LANGUAGE="c++"
 
-     - os: osx
-       language: cpp
-       env:
-         - MATRIX_EVAL="brew install eccodes"
-         - ENVIRONMENT_LANGUAGE="c++"
+        ###############################################################
+        #                Test on Mac OS machines                      #
+        ###############################################################
+        #
+        # Test PAnEn installation
+        #
+        # Boost is installed with the system package manager. Actually it is already installed,
+        # so I don't have to install it manually
+        #
+        -
+            os: osx
+            language: cpp
+            env: ['MATRIX_EVAL="brew install eccodes cppunit"', 'ENVIRONMENT_LANGUAGE="c++"', 'BUILD_BOOST="OFF"']
 
-     - os: linux
-       language: r
-       cache: Rcpp
-       addons:
-          apt:
-            sources:
-              - ubuntu-toolchain-r-test
-            packages:
-              - g++-4.9
-       env:
-         - MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9"
-         - ENVIRONMENT_LANGUAGE="r"
+        #
+        # Test PAnEn installation
+        #
+        # Boost is compiled within the CMake process
+        #
+        -
+            os: osx
+            language: cpp
+            env: ['MATRIX_EVAL="brew install eccodes cppunit"', 'ENVIRONMENT_LANGUAGE="c++"', 'BUILD_BOOST="ON"']
 
-     - os: osx
-       language: r
-       cache: Rcpp
-       env:
-         - ENVIRONMENT_LANGUAGE="r"
+        #
+        # Test RAnEn installation
+        #
+        # Boost is installed with the system package manager
+        #
+        # Looks like NetCDF is already installed so I don't need to manually install it again.
+        #
+        -
+            os: osx
+            language: r
+            cache: Rcpp
+            env: ['ENVIRONMENT_LANGUAGE="r"']
 
 before_install:
     - cmake --version
     - eval "${MATRIX_EVAL}"
-    - if [[ "$ENVIRONMENT_LANGUAGE" == "r" ]]; then R -e "install.packages('Rcpp')"; R -e "install.packages('BH')";fi
-    - if [[ "$ENVIRONMENT_LANGUAGE" == "doc" ]]; then R -e "install.packages('Rcpp')"; R -e "install.packages('pkgdown')"; R -e "install.packages('BH')";fi
-
+    - if [[ "$ENVIRONMENT_LANGUAGE" == "r" ]]; then R -e "install.packages(c('abind', 'Rcpp', 'BH'))";fi
+    - if [[ "$RUN_INSTALL_SCRIPTS" == "YES" ]]; then ./CAnEnIO/cmake/install_eccodes.sh; fi
 install:
-    - if [[ "$ENVIRONMENT_LANGUAGE" == "r" ]]; then mkdir build-RAnEn; cd build-RAnEn; CC=$CC CXX=$CXX cmake -DINSTALL_RAnEn=On ..; fi
-
+    - if [[ "$ENVIRONMENT_LANGUAGE" == "r" ]]; then R CMD INSTALL RAnalogs/releases/RAnEn_latest.tar.gz; fi
 script:
-    - if [[ "$ENVIRONMENT_LANGUAGE" == "c++" ]]; then mkdir build; cd build; CC=$CC CXX=$CXX cmake -DCMAKE_CXX_FLAGS="-coverage" -DCMAKE_BUILD_TESTS=ON ..; make -j16; fi
-    - if [[ "$ENVIRONMENT_LANGUAGE" == "r" ]]; then make -j16 install; fi
-    - if [[ "$ENVIRONMENT_LANGUAGE" == "doc" ]]; then ./deploymentAutomation/deploy.sh; fi
-
+    - if [[ "$ENVIRONMENT_LANGUAGE" == "c++" ]]; then mkdir build; cd build; CC=$CC CXX=$CXX cmake -DBUILD_BOOST=$BUILD_BOOST -DCMAKE_CXX_FLAGS="-coverage" -DCMAKE_PREFIX_PATH=~/eccodes ..; make -j16; fi
 after_success:
-    - if [[ "$ENVIRONMENT_LANGUAGE" == "c++" ]]; then export LD_LIBRARY_PATH=/Users/travis/build/Weiming-Hu/AnalogsEnsemble/dependency/install/lib/; ctest; fi
-    - if [[ "$ENVIRONMENT_LANGUAGE" == "r" ]]; then R -e "library(RAnEn)"; fi
-    - bash <(curl -s https://codecov.io/bash)
+    - if [[ "$ENVIRONMENT_LANGUAGE" == "c++" ]]; then make test; fi
+    - if [[ "$ENVIRONMENT_LANGUAGE" == "r" ]]; then cd RAnalogs/tests; Rscript test_R-API-v4.R; fi
+    - if [[ "$ENVIRONMENT_LANGUAGE" == "c++" ]]; then if [[ "CC" == "gcc-8" ]]; then bash <(curl -s https://codecov.io/bash); fi; fi
+

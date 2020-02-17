@@ -8,10 +8,6 @@
 #include "Ncdf.h"
 #include "AnEnReadNcdf.h"
 
-#if defined(_OPENMP)
-#include <omp.h>
-#endif
-
 using namespace std;
 using namespace Ncdf;
 using namespace netCDF;
@@ -95,7 +91,10 @@ AnEnReadNcdf::readForecasts(const string & file_path,
 
     // Read data values
     read_(nc, forecasts.getValuesPtr(), Config::_DATA, start, count);
-    nc.close();
+    // The file handler will automatically be closed when it is out of scope.
+    // For C++ API older than 4.3.0, this function was not available.
+    //
+    // nc.close();
 
     return;
 }
@@ -156,7 +155,11 @@ AnEnReadNcdf::readObservations(const std::string & file_path,
     if (verbose_ >= Verbose::Detail) cout << "Updating dimensions ..." << endl;
     observations.setDimensions(parameters, stations, times);
     read_(nc, observations.getValuesPtr(), Config::_DATA, start, count);
-    nc.close();
+
+    // The file handler will automatically be closed when it is out of scope.
+    // For C++ API older than 4.3.0, this function was not available.
+    //
+    // nc.close();
 
     return;
 }

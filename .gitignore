@@ -13,8 +13,7 @@
 *.o
 *.obj
 
-# Precompiled Headers
-*.gch
+# Precompiled Headers *.gch
 *.pch
 
 # Compiled Dynamic libraries
@@ -75,6 +74,7 @@ RAnalogs/RAnEn/build
 RAnalogs/RAnEn/docs
 RAnalogs/RAnEn/README*
 RAnalogs/RAnEn/NEWS.md
+RAnalogs/RAnEn/configure
 RAnalogs/releases/RAnEn/
 
 # Ignore the folder
@@ -149,3 +149,6 @@ out
 
 # YCM support
 .ycm_extra_conf.py
+
+# Git submodule
+boost-cmake

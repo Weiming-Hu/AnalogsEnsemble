@@ -1,23 +1,25 @@
-cmake_minimum_required(VERSION 2.8)
-project(ParallelEnsembleForecastsTests)
-enable_language(CXX C)
+cmake_minimum_required(VERSION 3.12)
+project(testPAnEn VERSION ${GRAND_VERSION} LANGUAGES C CXX)
 
-# Include libraries
-include_directories(${NETCDF_INCLUDES})
-include_directories(${NETCDF_CXX4_INCLUDE_DIR})
-include_directories("${CMAKE_SOURCE_DIR}/CAnEnIO/include")
-include_directories("${CMAKE_SOURCE_DIR}/CAnEn/include")
+add_custom_target(test_all ${CMAKE_CTEST_COMMAND} -V)
 
-# Add all the tests
-add_subdirectory("ObservationsPointer")
-add_subdirectory("ForecastsPointer")
-add_subdirectory("Calculator")
-add_subdirectory("Parameters")
-add_subdirectory("Functions")
-add_subdirectory("FunctionsIO")
-add_subdirectory("Stations")
-add_subdirectory("Station")
-add_subdirectory("Times")
-add_subdirectory("AnEnIS")
-add_subdirectory("AnEnSSE")
+# Find the dependency package
+find_package(AnEnIO REQUIRED)
+
+# Some tests need data files which are defined using definitions
+add_definitions(-D_PATH_OBSERVATIONS="${CMAKE_CURRENT_SOURCE_DIR}/Data/test_observations.nc")
+add_definitions(-D_PATH_FORECASTS="${CMAKE_CURRENT_SOURCE_DIR}/Data/test_forecasts.nc")
+
+# Add tests
+PAnEn_test_this("ObservationsPointer")
+PAnEn_test_this("ForecastsPointer")
+PAnEn_test_this("Calculator")
+PAnEn_test_this("Parameters")
+PAnEn_test_this("Functions")
+PAnEn_test_this("FunctionsIO")
+PAnEn_test_this("Stations")
+PAnEn_test_this("Station")
+PAnEn_test_this("Times")
+PAnEn_test_this("AnEnIS")
+PAnEn_test_this("AnEnSSE")
 

@@ -7,6 +7,7 @@
 
 /** @file */
 
+#include <fstream>
 #include "boost/program_options.hpp"
 #include "boost/filesystem.hpp"
 
@@ -285,7 +286,7 @@ int main(int argc, char** argv) {
 
     if (config.verbose >= Verbose::Progress) {
         cout << "Parallel Analogs Ensemble -- anen "
-                << _APPVERSION << endl << "GEOlab @ Penn State" << endl;
+                << _APPVERSION << endl << _COPYRIGHT_MSG << endl;
     }
 
 
