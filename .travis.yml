@@ -45,7 +45,6 @@ matrix:
             cache: Rcpp
             env: ['ENVIRONMENT_LANGUAGE="r"']
 before_install:
-    - set -e
     - cmake --version
     - eval "${MATRIX_EVAL}"
     - if [[ "$ENVIRONMENT_LANGUAGE" == "r" ]]; then R -e "install.packages(c('abind', 'Rcpp', 'BH', 'ncdf4'))";fi

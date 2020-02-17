@@ -44,6 +44,9 @@ make -j 16
 # Test installation
 make check
 
+# Install
+make install
+
 # Print out message
 echo "
 ########################################################################################
