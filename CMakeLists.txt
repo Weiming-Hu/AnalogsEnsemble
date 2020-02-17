@@ -21,13 +21,7 @@ project(PAnEn LANGUAGES C CXX)
 option(INSTALL_RAnEn "Install RAnEn package" OFF)
 
 # Whether to build boost
-#
-# This is helpful when you the compiler used for boost is different
-# from the one used in this project. For example, on Mac OS, if
-# you installed Boost using Clang and you are using GNU in this project,
-# it is going to create problems because compilers have different standards.
-#
-option(BUILD_BOOST "Build Boost" ON)
+option(BUILD_BOOST "Build Boost" OFF)
 
 # Add defitions to project space so that they affect all sub projects
 add_definitions(-D_APPVERSION="v ${GRAND_VERSION}")
@@ -54,12 +48,26 @@ if(INSTALL_RAnEn)
     return()
 endif(INSTALL_RAnEn)
 
+
+# Build Boost if requested
+# 
+# Some libraries like date_time, filesystem, and program_options, needs
+# compilation. This option is helpful when you are using a different
+# compiler to build PAnEn than the one you used to build Boost. For example,
+# on Mac OS, you probably want to use GNU compiler for OpenMP support, but
+# usually, Boost (if you used brew install boost) was built with Clang which
+# will cause problems. Then this option is needed.
+#
+# Since users should not be concerning about this, I default this to ON so
+# Boost will be built automatically. Only the submodules needed by PAnEn will
+# be built.
+#
 if(BUILD_BOOST)
-    set(NO_INSTALL_LIBRARIES "AnEn;AnEnIO")
     list(APPEND SUBPROJECT_TARGETS "Boost")
-    check_boost_cmake_download()
+    check_boost_download()
     add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/boost-cmake)
 endif(BUILD_BOOST)
+
 
 # Add libraries as subprojects
 add_subdirectory(CAnEn)

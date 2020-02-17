@@ -59,9 +59,9 @@ add_library(AnEnIO::AnEnIO ALIAS AnEnIO)
 target_link_libraries(AnEnIO
     PUBLIC
     Boost::program_options Boost::filesystem AnEn::AnEn
-    ${ECCODES_LIBRARIES} ${NETCDF_LIBRARIES_CXX})
+    ${ECCODES_LIBRARIES} ${NETCDF_LIBRARIES})
 
-target_include_directories(AnEnIO
+target_include_directories(AnEnIO SYSTEM
     PUBLIC 
     ${ECCODES_INCLUDES} ${NETCDF_INCLUDES}
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>

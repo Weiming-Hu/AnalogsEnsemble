@@ -46,17 +46,40 @@ macro(PAnEn_test_this)
 endmacro(PAnEn_test_this)
 
 
-# If the boost cmake folder is empty, it is probably not downloaded. I'm going to
-# print some help messages on how to download.
-#
-macro(check_boost_cmake_download)
+# Check whether boost source files have been downloaded
+macro(check_boost_download)
 
     if(NOT EXISTS ${CMAKE_CURRENT_BINARY_DIR}/boost-cmake/CMakeLists.txt)
         find_package(Git 1.9 REQUIRED QUIET)
-        message(STATUS "Checkout the dependency boost-cmake")
+        message(STATUS "Download source files for Boost")
         execute_process(COMMAND ${GIT_EXECUTABLE} "clone"
             "https://github.com/Orphis/boost-cmake.git"
             "${CMAKE_CURRENT_BINARY_DIR}/boost-cmake")
     endif(NOT EXISTS ${CMAKE_CURRENT_BINARY_DIR}/boost-cmake/CMakeLists.txt)
 
-endmacro(check_boost_cmake_download)
+endmacro(check_boost_download)
+
+
+# Check whether netcdf cxx4 source files have been downloaded
+macro(check_netcdfcxx_download)
+
+    if(NOT EXISTS ${NETCDFCXX_ROOT}/CMakeLists.txt)
+
+        if(NOT EXISTS NETCDFCXX_TARBALL)
+            message(STATUS "Download the tarball for NetCDF C++4 APIs")
+            file(DOWNLOAD "https://github.com/Unidata/netcdf-cxx4/archive/v4.3.0.tar.gz" ${NETCDFCXX_TARBALL})
+        else(NOT EXISTS NETCDFCXX_TARBALL)
+            message(STATUS "NetCDF C++4 tarball exists.")
+        endif(NOT EXISTS NETCDFCXX_TARBALL)
+
+        if(NOT EXISTS ${NETCDFCXX_ROOT})
+            message(STATUS "Extracting source files for NetCDF C++4 APIs")
+            execute_process(COMMAND ${CMAKE_COMMAND} -E tar -xzf ${NETCDFCXX_TARBALL}
+                WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+        else(NOT EXISTS ${NETCDFCXX_ROOT})
+            message(STATUS "NetCDF C++4 root folder exists.")
+        endif(NOT EXISTS ${NETCDFCXX_ROOT})
+
+    endif(NOT EXISTS ${NETCDFCXX_ROOT}/CMakeLists.txt)
+
+endmacro(check_netcdfcxx_download)
