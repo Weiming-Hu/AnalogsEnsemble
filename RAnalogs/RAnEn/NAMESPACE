@@ -1,5 +1,7 @@
 # Print functions
-S3method(print,AnEn)
+S3method(print, AnEn)
+S3method(print, Forecasts)
+S3method(print, Observations)
 
 # Classes
 export(Config)

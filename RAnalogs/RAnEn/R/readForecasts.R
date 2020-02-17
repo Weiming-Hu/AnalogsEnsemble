@@ -34,7 +34,7 @@ readForecasts <- function(file, origin = '1970-01-01', tz = 'UTC') {
   config <- new(Config)
   pairs <- config$getNames()
   
-  forecasts <- list()
+  forecasts <- generateForecastsTemplate()
   
   nc <- ncdf4::nc_open(file)
   forecasts[[pairs$`_DATA`]] <- ncdf4::ncvar_get(nc, pairs$`_DATA`, collapse_degen = F)
