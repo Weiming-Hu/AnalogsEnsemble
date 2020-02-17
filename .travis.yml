@@ -4,8 +4,6 @@ env:
         - CODECOV_TOKEN=11fbe283-94bd-4eca-88d0-a3083178cf25
 matrix:
     include:
-    
-    # Comments
         -
             os: linux
             language: cpp
@@ -35,7 +33,7 @@ matrix:
             os: osx
             language: cpp
             env: ['MATRIX_EVAL="brew install eccodes cppunit"', 'ENVIRONMENT_LANGUAGE="c++"', 'BUILD_BOOST="ON"']
-         -
+        -
             os: linux
             language: cpp
             addons: {apt: {sources: [ubuntu-toolchain-r-test], packages: [g++-4.9, libnetcdf-dev, libnetcdf-c++4-dev, libcppunit-dev, libboost-all-dev]}}
