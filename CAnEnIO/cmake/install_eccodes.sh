@@ -14,6 +14,9 @@
 # last command to install the library to your system.
 #
 
+# If errors, quit
+set -e
+
 # This is the version to download
 export ECCODES_VERSION=2.16.0
 
@@ -48,10 +51,12 @@ make install
 echo "
 ########################################################################################
 #                                                                                      #
-# Now, Eccodes have been installed to your user space at ~/eccodes.                    #
+# Now, Eccodes have been installed to your user space at ~/eccodes                     #
 # If you want cmake to be able to find eccodes, you can adding the following arguments #
 #                                                                                      #
-#          cmake -DCMAKE-PREFIX_PATH=~/eccodes [your extra arguments] ..               #
+#          cmake -DCMAKE_PREFIX_PATH=~/eccodes [your extra arguments] ..               #
+#                                                                                      #
+# If you have multiple paths in the prefix path argument, separate them with ;         #
 #                                                                                      #
 ########################################################################################
 "
