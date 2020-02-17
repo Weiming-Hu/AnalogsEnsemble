@@ -69,7 +69,7 @@ matrix:
             os: linux
             language: r
             cache: Rcpp
-            addons: {apt: {sources: [ubuntu-toolchain-r-test], packages: [g++-5, libnetcdf-dev]}}
+            addons: {apt: {sources: [ubuntu-toolchain-r-test], packages: [g++-5]}}
             env: ['ENVIRONMENT_LANGUAGE="r"']
 
 
@@ -113,7 +113,7 @@ matrix:
 before_install:
     - cmake --version
     - eval "${MATRIX_EVAL}"
-    - if [[ "$ENVIRONMENT_LANGUAGE" == "r" ]]; then R -e "install.packages(c('abind', 'Rcpp', 'BH', 'ncdf4'))";fi
+    - if [[ "$ENVIRONMENT_LANGUAGE" == "r" ]]; then R -e "install.packages(c('abind', 'Rcpp', 'BH'))";fi
     - if [[ "$RUN_INSTALL_SCRIPTS" == "YES" ]]; then ./CAnEnIO/cmake/install_eccodes.sh; fi
 install:
     - if [[ "$ENVIRONMENT_LANGUAGE" == "r" ]]; then R CMD INSTALL RAnalogs/releases/RAnEn_latest.tar.gz; fi
@@ -121,6 +121,6 @@ script:
     - if [[ "$ENVIRONMENT_LANGUAGE" == "c++" ]]; then mkdir build; cd build; CC=$CC CXX=$CXX cmake -DBUILD_BOOST=$BUILD_BOOST -DCMAKE_CXX_FLAGS="-coverage" -DCMAKE_PREFIX_PATH=~/eccodes ..; make -j16; fi
 after_success:
     - if [[ "$ENVIRONMENT_LANGUAGE" == "c++" ]]; then make test; fi
-    - if [[ "$ENVIRONMENT_LANGUAGE" == "r" ]]; then cd RAnalogs/tests; Rscript test_all.R; fi
+    - if [[ "$ENVIRONMENT_LANGUAGE" == "r" ]]; then cd RAnalogs/tests; Rscript test_R-API-v4.R; fi
     - if [[ "$ENVIRONMENT_LANGUAGE" == "c++" ]]; then if [[ "CC" == "gcc-8" ]]; then bash <(curl -s https://codecov.io/bash); fi; fi
 
