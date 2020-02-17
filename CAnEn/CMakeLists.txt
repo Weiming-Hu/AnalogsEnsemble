@@ -57,7 +57,7 @@ set(AnEn_headers
 
 # Find the dependent library and components
 find_package(OpenMP)
-find_package(Boost 1.65.0 REQUIRED COMPONENTS date_time)
+find_package(Boost 1.58.0 REQUIRED COMPONENTS date_time)
 
 # Create target by explicitly listing all source files
 add_library(AnEn ${AnEn_source_files})

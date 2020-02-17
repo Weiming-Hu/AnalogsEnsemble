@@ -12,7 +12,6 @@
 #include <sstream>
 #include <stdexcept>
 
-#include "boost/serialization/array_wrapper.hpp"
 #include "boost/numeric/ublas/matrix.hpp"
 
 /**

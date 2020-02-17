@@ -7,6 +7,7 @@
 
 /** @file */
 
+#include <fstream>
 #include "boost/program_options.hpp"
 #include "boost/filesystem.hpp"
 

@@ -47,7 +47,7 @@ set(NETCDF_CXX "YES")
 find_package(AnEn REQUIRED)
 find_package(eccodes REQUIRED)
 find_package(NetCDF REQUIRED)
-find_package(Boost 1.65.0 REQUIRED COMPONENTS filesystem program_options)
+find_package(Boost 1.58.0 REQUIRED COMPONENTS filesystem program_options)
 
 # Create target by explicitly listing all source files
 add_library(AnEnIO ${AnEnIO_source_files})

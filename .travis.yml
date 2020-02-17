@@ -11,7 +11,7 @@ matrix:
         #
         # Test PAnEn installation
         #
-        # Boost is installed using system package manager
+        # Boost is compiled within the CMake process
         #
         -
             os: linux
@@ -42,7 +42,7 @@ matrix:
         #
         # Test PAnEn installation
         #
-        # Boost is compiled within the CMake process
+        # Boost is installed using system package manager
         #
         -
             os: linux
@@ -89,12 +89,13 @@ matrix:
         #
         # Test PAnEn installation
         #
-        # Boost is installed with the system package manager
+        # Boost is installed with the system package manager. Actually it is already installed,
+        # so I don't have to install it manually
         #
         -
             os: osx
             language: cpp
-            env: ['MATRIX_EVAL="brew install eccodes cppunit"', 'ENVIRONMENT_LANGUAGE="c++"', 'BUILD_BOOST="ON"']
+            env: ['MATRIX_EVAL="brew install eccodes cppunit"', 'ENVIRONMENT_LANGUAGE="c++"', 'BUILD_BOOST="OFF"']
 
         #
         # Test PAnEn installation
@@ -104,7 +105,7 @@ matrix:
         -
             os: osx
             language: cpp
-            env: ['MATRIX_EVAL="brew install eccodes cppunit boost"', 'ENVIRONMENT_LANGUAGE="c++"', 'BUILD_BOOST="OFF"']
+            env: ['MATRIX_EVAL="brew install eccodes cppunit"', 'ENVIRONMENT_LANGUAGE="c++"', 'BUILD_BOOST="ON"']
 
         #
         # Test RAnEn installation
