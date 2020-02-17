@@ -69,7 +69,7 @@ matrix:
             os: linux
             language: r
             cache: Rcpp
-            addons: {apt: {sources: [ubuntu-toolchain-r-test], packages: [g++-5, libnetcdf-dev, libnetcdf-c++4-dev]}}
+            addons: {apt: {sources: [ubuntu-toolchain-r-test], packages: [g++-5, libnetcdf-dev]}}
             env: ['ENVIRONMENT_LANGUAGE="r"']
 
 
