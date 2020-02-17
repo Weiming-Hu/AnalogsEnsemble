@@ -48,7 +48,7 @@ before_install:
     - cmake --version
     - eval "${MATRIX_EVAL}"
     - if [[ "$ENVIRONMENT_LANGUAGE" == "r" ]]; then R -e "install.packages(c('abind', 'Rcpp', 'BH', 'ncdf4'))";fi
-    - if [[ "$RUN_INSTALL_SCRIPTS" == "YES" ]]; then ./CAnEnIO/cmake/install_eccodes.sh; ./CAnEnIO/cmake/install_netcdf-c++4.sh; fi
+    - if [[ "$RUN_INSTALL_SCRIPTS" == "YES" ]]; then ./CAnEnIO/cmake/install_eccodes.sh; fi
 install:
     - if [[ "$ENVIRONMENT_LANGUAGE" == "r" ]]; then R CMD INSTALL RAnalogs/releases/RAnEn_latest.tar.gz; fi
 script:
