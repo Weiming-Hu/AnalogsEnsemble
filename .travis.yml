@@ -4,6 +4,15 @@ env:
         - CODECOV_TOKEN=11fbe283-94bd-4eca-88d0-a3083178cf25
 matrix:
     include:
+
+        ###############################################################
+        # Test on Linux machines with different version of compilers  #
+        ###############################################################
+        #
+        # Test PAnEn installation
+        #
+        # Boost is installed using system package manager
+        #
         -
             os: linux
             language: cpp
@@ -29,10 +38,12 @@ matrix:
             language: cpp
             addons: {apt: {sources: [ubuntu-toolchain-r-test], packages: [g++-8, libnetcdf-dev, libnetcdf-c++4-dev, libcppunit-dev]}}
             env: ['MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"', 'ENVIRONMENT_LANGUAGE="c++"', 'RUN_INSTALL_SCRIPTS="YES"', 'BUILD_BOOST="ON"']
-        -
-            os: osx
-            language: cpp
-            env: ['MATRIX_EVAL="brew install eccodes cppunit"', 'ENVIRONMENT_LANGUAGE="c++"', 'BUILD_BOOST="ON"']
+
+        #
+        # Test PAnEn installation
+        #
+        # Boost is compiled within the CMake process
+        #
         -
             os: linux
             language: cpp
@@ -58,21 +69,56 @@ matrix:
             language: cpp
             addons: {apt: {sources: [ubuntu-toolchain-r-test], packages: [g++-8, libnetcdf-dev, libnetcdf-c++4-dev, libcppunit-dev, libboost-all-dev]}}
             env: ['MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"', 'ENVIRONMENT_LANGUAGE="c++"', 'RUN_INSTALL_SCRIPTS="YES"', 'BUILD_BOOST="OFF"']
-        -
-            os: osx
-            language: cpp
-            env: ['MATRIX_EVAL="brew install eccodes cppunit boost"', 'ENVIRONMENT_LANGUAGE="c++"', 'BUILD_BOOST="OFF"']
+
+        #
+        # Test RAnEn installation
+        #
+        # NetCDF is pre-installed
+        #
         -
             os: linux
             language: r
             cache: Rcpp
             addons: {apt: {sources: [ubuntu-toolchain-r-test], packages: [g++-4.9, libnetcdf-dev, libnetcdf-c++4-dev]}}
             env: ['ENVIRONMENT_LANGUAGE="r"']
+
+
+        ###############################################################
+        #                Test on Mac OS machines                      #
+        ###############################################################
+        #
+        # Test PAnEn installation
+        #
+        # Boost is installed with the system package manager
+        #
+        -
+            os: osx
+            language: cpp
+            env: ['MATRIX_EVAL="brew install eccodes cppunit"', 'ENVIRONMENT_LANGUAGE="c++"', 'BUILD_BOOST="ON"']
+
+        #
+        # Test PAnEn installation
+        #
+        # Boost is compiled within the CMake process
+        #
+        -
+            os: osx
+            language: cpp
+            env: ['MATRIX_EVAL="brew install eccodes cppunit boost"', 'ENVIRONMENT_LANGUAGE="c++"', 'BUILD_BOOST="OFF"']
+
+        #
+        # Test RAnEn installation
+        #
+        # Boost is installed with the system package manager
+        #
+        # Looks like NetCDF is already installed so I don't need to manually install it again.
+        #
         -
             os: osx
             language: r
             cache: Rcpp
             env: ['ENVIRONMENT_LANGUAGE="r"']
+
 before_install:
     - cmake --version
     - eval "${MATRIX_EVAL}"
