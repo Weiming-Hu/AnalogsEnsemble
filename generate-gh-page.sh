@@ -47,7 +47,7 @@ function doCompileR {
     fi
 
     cd RAnEn
-    Rscript ../../developerGuides/generate_site.R
+    Rscript ../../notes/generate_site.R
     cd docs
 
     echo -e '\n' | cat - index.html > temp && mv temp index.html
