@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>AnalogEnsemble: /home/graduate/wuh20/github/AnalogsEnsemble/CAnEn/include/Functions.h File Reference</title>
+<title>ParallelAnalogEnsemble: /home/graduate/wuh20/github/AnalogsEnsemble/CAnEn/include/Functions.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,7 +21,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">AnalogEnsemble
+   <div id="projectname">ParallelAnalogEnsemble
    </div>
   </td>
  </tr>
@@ -72,8 +72,8 @@ $(function() {
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="_times_8h_source.html">Times.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_config_8h_source.html">Config.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="_stations_8h_source.html">Stations.h</a>&quot;</code><br />
-<code>#include &quot;boost/multi_array.hpp&quot;</code><br />
+<code>#include &quot;<a class="el" href="_forecasts_8h_source.html">Forecasts.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="_observations_8h_source.html">Observations.h</a>&quot;</code><br />
 <code>#include &quot;boost/numeric/ublas/matrix.hpp&quot;</code><br />
 <code>#include &quot;boost/numeric/ublas/io.hpp&quot;</code><br />
 <code>#include &lt;vector&gt;</code><br />
@@ -86,10 +86,15 @@ Include dependency graph for Functions.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="_functions_8h__incl.png" border="0" usemap="#_2home_2graduate_2wuh20_2github_2_analogs_ensemble_2_c_an_en_2include_2_functions_8h" alt=""/></div>
 <map name="_2home_2graduate_2wuh20_2github_2_analogs_ensemble_2_c_an_en_2include_2_functions_8h" id="_2home_2graduate_2wuh20_2github_2_analogs_ensemble_2_c_an_en_2include_2_functions_8h">
-<area shape="rect" id="node2" href="_times_8h.html" title="Times.h" alt="" coords="333,117,402,143"/>
-<area shape="rect" id="node9" href="_config_8h.html" title="Config.h" alt="" coords="515,199,585,225"/>
-<area shape="rect" id="node11" href="_stations_8h.html" title="Stations.h" alt="" coords="440,117,521,143"/>
-<area shape="rect" id="node5" href="_bm_dim_8h.html" title="BmDim.h" alt="" coords="311,199,389,225"/>
+<area shape="rect" id="node2" href="_times_8h.html" title="Times.h" alt="" coords="286,273,355,300"/>
+<area shape="rect" id="node9" href="_config_8h.html" title="Config.h" alt="" coords="459,348,529,375"/>
+<area shape="rect" id="node11" href="_forecasts_8h.html" title="Forecasts.h" alt="" coords="546,117,637,143"/>
+<area shape="rect" id="node16" href="_observations_8h.html" title="Observations.h" alt="" coords="411,117,521,143"/>
+<area shape="rect" id="node5" href="_bm_dim_8h.html" title="BmDim.h" alt="" coords="255,348,333,375"/>
+<area shape="rect" id="node12" href="_basic_data_8h.html" title="BasicData.h" alt="" coords="419,199,513,225"/>
+<area shape="rect" id="node15" href="_array4_d_8h.html" title="Array4D.h" alt="" coords="605,348,687,375"/>
+<area shape="rect" id="node13" href="_parameters_8h.html" title="Parameters.h" alt="" coords="485,273,585,300"/>
+<area shape="rect" id="node14" href="_stations_8h.html" title="Stations.h" alt="" coords="380,273,461,300"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -97,25 +102,26 @@ This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="_functions_8h__dep__incl.png" border="0" usemap="#_2home_2graduate_2wuh20_2github_2_analogs_ensemble_2_c_an_en_2include_2_functions_8hdep" alt=""/></div>
 <map name="_2home_2graduate_2wuh20_2github_2_analogs_ensemble_2_c_an_en_2include_2_functions_8hdep" id="_2home_2graduate_2wuh20_2github_2_analogs_ensemble_2_c_an_en_2include_2_functions_8hdep">
-<area shape="rect" id="node2" href="forecasts_to_observations_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/apps/app_forecastsToObservations\l/forecastsToObservations.cpp" alt="" coords="5,109,237,180"/>
-<area shape="rect" id="node3" href="standard_deviation_calculator_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/apps/app_standardDeviationCalculator\l/standardDeviationCalculator.cpp" alt="" coords="261,109,512,180"/>
-<area shape="rect" id="node4" href="_an_en_i_s_8h.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/CAnEn/include/AnEnIS.h" alt="" coords="536,117,709,173"/>
-<area shape="rect" id="node13" href="_an_en_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/CAnEn/src/AnEn.cpp" alt="" coords="733,117,904,173"/>
-<area shape="rect" id="node14" href="_config_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/CAnEn/src/Config.cpp" alt="" coords="928,117,1099,173"/>
-<area shape="rect" id="node15" href="_functions_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/CAnEn/src/Functions.cpp" alt="" coords="1123,117,1299,173"/>
-<area shape="rect" id="node16" href="_analogs_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/CAnEnIO/src/Analogs.cpp" alt="" coords="1323,117,1503,173"/>
-<area shape="rect" id="node17" href="test_functions_8h.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/tests/Functions/testFunctions.h" alt="" coords="1528,117,1739,173"/>
-<area shape="rect" id="node20" href="test_observations_pointer_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/tests/ObservationsPointer\l/testObservationsPointer.cpp" alt="" coords="1763,109,1954,180"/>
-<area shape="rect" id="node5" href="spring_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/apps/app_test/spring.cpp" alt="" coords="231,228,403,284"/>
-<area shape="rect" id="node6" href="_an_en_s_s_e_8h.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/CAnEn/include/AnEnSSE.h" alt="" coords="428,228,615,284"/>
-<area shape="rect" id="node9" href="_an_en_i_s_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/CAnEn/src/AnEnIS.cpp" alt="" coords="639,228,809,284"/>
-<area shape="rect" id="node10" href="test_an_en_i_s_8h.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/tests/AnEnIS/testAnEnIS.h" alt="" coords="833,228,1020,284"/>
-<area shape="rect" id="node7" href="_an_en_s_s_e_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/CAnEn/src/AnEnSSE.cpp" alt="" coords="244,332,423,388"/>
-<area shape="rect" id="node8" href="test_an_en_s_s_e_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/tests/AnEnSSE/testAnEnSSE.cpp" alt="" coords="447,332,675,388"/>
-<area shape="rect" id="node11" href="runner_an_en_i_s_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/tests/AnEnIS/runnerAnEnIS.cpp" alt="" coords="779,332,994,388"/>
-<area shape="rect" id="node12" href="test_an_en_i_s_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/tests/AnEnIS/testAnEnIS.cpp" alt="" coords="1019,332,1219,388"/>
-<area shape="rect" id="node18" href="runner_functions_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/tests/Functions/runnerFunctions.cpp" alt="" coords="1386,228,1625,284"/>
-<area shape="rect" id="node19" href="test_functions_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/tests/Functions/testFunctions.cpp" alt="" coords="1649,228,1873,284"/>
+<area shape="rect" id="node2" href="_an_en_i_s_8h.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/CAnEn/include/AnEnIS.h" alt="" coords="512,117,685,173"/>
+<area shape="rect" id="node13" href="_c_an_en_2src_2anen_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/CAnEn/src/AnEn.cpp" alt="" coords="709,117,880,173"/>
+<area shape="rect" id="node14" href="_config_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/CAnEn/src/Config.cpp" alt="" coords="904,117,1075,173"/>
+<area shape="rect" id="node15" href="_functions_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/CAnEn/src/Functions.cpp" alt="" coords="1099,117,1275,173"/>
+<area shape="rect" id="node16" href="_times_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/CAnEn/src/Times.cpp" alt="" coords="1299,117,1469,173"/>
+<area shape="rect" id="node17" href="_an_en_read_grib_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/CAnEnIO/src/AnEnReadGrib.cpp" alt="" coords="1494,117,1714,173"/>
+<area shape="rect" id="node18" href="test_functions_8h.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/tests/Functions/testFunctions.h" alt="" coords="1739,117,1949,173"/>
+<area shape="rect" id="node21" href="test_observations_pointer_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/tests/ObservationsPointer\l/testObservationsPointer.cpp" alt="" coords="1974,109,2165,180"/>
+<area shape="rect" id="node3" href="apps_2anen_2anen_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/apps/anen/anen.cpp" alt="" coords="5,436,176,492"/>
+<area shape="rect" id="node4" href="_an_en_s_s_e_8h.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/CAnEn/include/AnEnSSE.h" alt="" coords="352,228,539,284"/>
+<area shape="rect" id="node6" href="_an_en_write_ncdf_8h.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/CAnEnIO/include/AnEnWriteNcdf.h" alt="" coords="583,332,817,388"/>
+<area shape="rect" id="node9" href="_an_en_i_s_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/CAnEn/src/AnEnIS.cpp" alt="" coords="636,228,807,284"/>
+<area shape="rect" id="node10" href="test_an_en_i_s_8h.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/tests/AnEnIS/testAnEnIS.h" alt="" coords="855,228,1041,284"/>
+<area shape="rect" id="node5" href="_an_en_s_s_e_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/CAnEn/src/AnEnSSE.cpp" alt="" coords="128,332,307,388"/>
+<area shape="rect" id="node8" href="test_an_en_s_s_e_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/tests/AnEnSSE/testAnEnSSE.cpp" alt="" coords="331,332,559,388"/>
+<area shape="rect" id="node7" href="_an_en_write_ncdf_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/CAnEnIO/src/AnEnWriteNcdf.cpp" alt="" coords="588,436,812,492"/>
+<area shape="rect" id="node11" href="runner_an_en_i_s_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/tests/AnEnIS/runnerAnEnIS.cpp" alt="" coords="841,332,1055,388"/>
+<area shape="rect" id="node12" href="test_an_en_i_s_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/tests/AnEnIS/testAnEnIS.cpp" alt="" coords="1080,332,1280,388"/>
+<area shape="rect" id="node19" href="runner_functions_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/tests/Functions/runnerFunctions.cpp" alt="" coords="1597,228,1835,284"/>
+<area shape="rect" id="node20" href="test_functions_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/tests/Functions/testFunctions.cpp" alt="" coords="1860,228,2084,284"/>
 </map>
 </div>
 </div>
@@ -128,9 +134,6 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:a2e1490202541d355730e5a7ebe1b248f"><td class="memTemplParams" colspan="2">template&lt;typename T , std::size_t NDims&gt; </td></tr>
-<tr class="memitem:a2e1490202541d355730e5a7ebe1b248f"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_functions.html#a2e1490202541d355730e5a7ebe1b248f">Functions::array_view</a> = boost::detail::multi_array::multi_array_view&lt; T, NDims &gt;</td></tr>
-<tr class="separator:a2e1490202541d355730e5a7ebe1b248f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1a53efc30f777b3253fe8f0e7a54f30f"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions.html#a1a53efc30f777b3253fe8f0e7a54f30f">Functions::Matrix</a> = boost::numeric::ublas::matrix&lt; double, boost::numeric::ublas::column_major, std::vector&lt; double &gt; &gt;</td></tr>
 <tr class="separator:a1a53efc30f777b3253fe8f0e7a54f30f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -142,8 +145,8 @@ Functions</h2></td></tr>
 <tr class="separator:a9604a2b84f3af91add3e2ad677503af3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a28cf199876092c0cead2a25773e53504"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions.html#a28cf199876092c0cead2a25773e53504">Functions::vtoi</a> (<a class="el" href="_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9">Verbose</a>)</td></tr>
 <tr class="separator:a28cf199876092c0cead2a25773e53504"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a72adfaf04a4b202b21992fb30c039515"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions.html#a72adfaf04a4b202b21992fb30c039515">Functions::vtos</a> (<a class="el" href="_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9">Verbose</a>)</td></tr>
-<tr class="separator:a72adfaf04a4b202b21992fb30c039515"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8567a527538b0d921dda13622b6ac568"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions.html#a8567a527538b0d921dda13622b6ac568">Functions::vtos</a> (<a class="el" href="_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9">Verbose</a>)</td></tr>
+<tr class="separator:a8567a527538b0d921dda13622b6ac568"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a74848f0e55146e8eccd052ca71aff662"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions.html#a74848f0e55146e8eccd052ca71aff662">Functions::updateTimeTable</a> (const <a class="el" href="class_times.html">Times</a> &amp;fcst_times, const std::vector&lt; std::size_t &gt; &amp;fcst_times_index, const <a class="el" href="class_times.html">Times</a> &amp;fcst_flts, const <a class="el" href="class_times.html">Times</a> &amp;obs_times, Matrix &amp;table)</td></tr>
 <tr class="separator:a74848f0e55146e8eccd052ca71aff662"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2015a2e06a7b904c16642dbccb1fc0b0"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions.html#a2015a2e06a7b904c16642dbccb1fc0b0">Functions::sdLinear</a> (const std::vector&lt; double &gt; &amp;values)</td></tr>
@@ -160,21 +163,12 @@ Functions</h2></td></tr>
 <tr class="separator:a792b17d917560feaa7ac79d7fed2c16f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa7588faf5c671515dd4dbf34f1f37bdb"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions.html#aa7588faf5c671515dd4dbf34f1f37bdb">Functions::diffCircular</a> (double i, double j)</td></tr>
 <tr class="separator:aa7588faf5c671515dd4dbf34f1f37bdb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a25028a5a2bfa4306b351093d5d449603"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a25028a5a2bfa4306b351093d5d449603"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_functions.html#a25028a5a2bfa4306b351093d5d449603">Functions::print</a> (std::ostream &amp;os, const boost::multi_array&lt; T, 2 &gt; &amp;arr)</td></tr>
-<tr class="separator:a25028a5a2bfa4306b351093d5d449603"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af4abf8c70c09a60a301041b3b4e1e5a9"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:af4abf8c70c09a60a301041b3b4e1e5a9"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_functions.html#af4abf8c70c09a60a301041b3b4e1e5a9">Functions::print</a> (std::ostream &amp;os, const boost::multi_array&lt; T, 3 &gt; &amp;arr)</td></tr>
-<tr class="separator:af4abf8c70c09a60a301041b3b4e1e5a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2f1399ff16fba8c8cfb98d74970266b8"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a2f1399ff16fba8c8cfb98d74970266b8"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_functions.html#a2f1399ff16fba8c8cfb98d74970266b8">Functions::print</a> (std::ostream &amp;os, const boost::multi_array&lt; T, 4 &gt; &amp;arr)</td></tr>
-<tr class="separator:a2f1399ff16fba8c8cfb98d74970266b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2616078e6b75ca75574bc896018f8c09"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a2616078e6b75ca75574bc896018f8c09"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_functions.html#a2616078e6b75ca75574bc896018f8c09">Functions::print</a> (std::ostream &amp;os, const boost::multi_array&lt; T, 5 &gt; &amp;arr)</td></tr>
-<tr class="separator:a2616078e6b75ca75574bc896018f8c09"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adcd03f5ceb573797ef6a91b605fb1f1b"><td class="memTemplParams" colspan="2">template&lt;typename T , std::size_t NDims&gt; </td></tr>
-<tr class="memitem:adcd03f5ceb573797ef6a91b605fb1f1b"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_functions.html#adcd03f5ceb573797ef6a91b605fb1f1b">Functions::print</a> (std::ostream &amp;os, const array_view&lt; T, NDims &gt; &amp;view)</td></tr>
-<tr class="separator:adcd03f5ceb573797ef6a91b605fb1f1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaeb9bce40d7689c2c93021b991c5252b"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions.html#aaeb9bce40d7689c2c93021b991c5252b">Functions::levenshtein</a> (const std::string &amp;str1, const std::string &amp;str2, size_t w=0, size_t s=2, size_t a=1, size_t d=3)</td></tr>
+<tr class="separator:aaeb9bce40d7689c2c93021b991c5252b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab01b5fb932ba5fd5218fbb207e9edd78"><td class="memItemLeft" align="right" valign="top">long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions.html#ab01b5fb932ba5fd5218fbb207e9edd78">Functions::toSeconds</a> (const std::string &amp;datetime_str, const std::string &amp;origin_str, bool iso_string)</td></tr>
+<tr class="separator:ab01b5fb932ba5fd5218fbb207e9edd78"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abbdb18407c68ff2b1029eb3a2a6a868d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions.html#abbdb18407c68ff2b1029eb3a2a6a868d">Functions::collapseLeadTimes</a> (<a class="el" href="class_observations.html">Observations</a> &amp;, const <a class="el" href="class_forecasts.html">Forecasts</a> &amp;)</td></tr>
+<tr class="separator:abbdb18407c68ff2b1029eb3a2a6a868d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1b5b03cd685628f8f7a2968a3d11ab5d"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a1b5b03cd685628f8f7a2968a3d11ab5d"><td class="memTemplItemLeft" align="right" valign="top">std::string&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_functions.html#a1b5b03cd685628f8f7a2968a3d11ab5d">Functions::format</a> (const std::vector&lt; T &gt; &amp;vec, const std::string &amp;delim=&quot;,&quot;)</td></tr>
 <tr class="separator:a1b5b03cd685628f8f7a2968a3d11ab5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -184,6 +178,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ac7f2c7da969414ed7e5f13b672191288"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
 <tr class="memitem:ac7f2c7da969414ed7e5f13b672191288"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_functions.html#ac7f2c7da969414ed7e5f13b672191288">Functions::toIndex</a> (std::vector&lt; std::size_t &gt; &amp;index, const T &amp;query, const T &amp;pool)</td></tr>
 <tr class="separator:ac7f2c7da969414ed7e5f13b672191288"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adfa120d594f9ce152d0aa1a4bd7b4e7b"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
+<tr class="memitem:adfa120d594f9ce152d0aa1a4bd7b4e7b"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_functions.html#adfa120d594f9ce152d0aa1a4bd7b4e7b">Functions::guess_arguments</a> (const std::vector&lt; std::basic_string&lt; T &gt; &gt; &amp;unregistered_keys, const std::vector&lt; std::string &gt; &amp;available_options, std::ostream &amp;os)</td></tr>
+<tr class="separator:adfa120d594f9ce152d0aa1a4bd7b4e7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 <!-- start footer part -->

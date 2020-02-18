@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>AnalogEnsemble: Parameters Class Reference</title>
+<title>ParallelAnalogEnsemble: Parameters Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,7 +21,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">AnalogEnsemble
+   <div id="projectname">ParallelAnalogEnsemble
    </div>
   </td>
  </tr>
@@ -88,16 +88,20 @@ Collaboration diagram for Parameters:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:af4d94ee360ac0157d9065f78797fe9a1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_parameters.html#af4d94ee360ac0157d9065f78797fe9a1">Parameters</a> ()</td></tr>
-<tr class="separator:af4d94ee360ac0157d9065f78797fe9a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a640a1a349975a8cb023696f25e563a5c"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_parameters.html#a640a1a349975a8cb023696f25e563a5c">~Parameters</a> ()</td></tr>
-<tr class="separator:a640a1a349975a8cb023696f25e563a5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e3c72bebe6cc8a15ada7346f7e16e2a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_parameters.html#a1e3c72bebe6cc8a15ada7346f7e16e2a">Parameters</a> ()=default</td></tr>
+<tr class="separator:a1e3c72bebe6cc8a15ada7346f7e16e2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a293df3e5895b71ef112a790983477d0d"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_parameters.html#a293df3e5895b71ef112a790983477d0d">~Parameters</a> ()=default</td></tr>
+<tr class="separator:a293df3e5895b71ef112a790983477d0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aedf542b52179baceb48976050b3fbc38"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_parameters.html#aedf542b52179baceb48976050b3fbc38">push_back</a> (const <a class="el" href="class_parameter.html">Parameter</a> &amp;)</td></tr>
+<tr class="separator:aedf542b52179baceb48976050b3fbc38"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7a023a46edf43911ebefa26d7a0057b9"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_parameters.html#a7a023a46edf43911ebefa26d7a0057b9">getIndex</a> (const <a class="el" href="class_parameter.html">Parameter</a> &amp;) const</td></tr>
 <tr class="separator:a7a023a46edf43911ebefa26d7a0057b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4b2a784bb52743657f5bdd592a43d4e2"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="class_parameter.html">Parameter</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_parameters.html#a4b2a784bb52743657f5bdd592a43d4e2">getParameter</a> (std::size_t index) const</td></tr>
 <tr class="separator:a4b2a784bb52743657f5bdd592a43d4e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad71a867517ad88814143fa9d0868b866"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_parameters.html#ad71a867517ad88814143fa9d0868b866">getCirculars</a> (std::vector&lt; bool &gt; &amp;circulars) const</td></tr>
 <tr class="separator:ad71a867517ad88814143fa9d0868b866"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a770269b6f2cf8cb90bb03c9e7a29b10f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_parameters.html#a770269b6f2cf8cb90bb03c9e7a29b10f">getNames</a> (std::vector&lt; std::string &gt; &amp;names) const</td></tr>
+<tr class="separator:a770269b6f2cf8cb90bb03c9e7a29b10f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adff840358049658c4bb93c2b17480e74"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_parameters.html#adff840358049658c4bb93c2b17480e74">print</a> (std::ostream &amp;) const</td></tr>
 <tr class="separator:adff840358049658c4bb93c2b17480e74"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -114,25 +118,8 @@ Friends</h2></td></tr>
 <li>Index of a <a class="el" href="class_parameter.html" title="Parameter stores parameter information including name and circular. ">Parameter</a> object can be quickly retrieved using <a class="el" href="class_parameter.html" title="Parameter stores parameter information including name and circular. ">Parameter</a>. </li>
 </ol>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="af4d94ee360ac0157d9065f78797fe9a1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af4d94ee360ac0157d9065f78797fe9a1">&#9670;&nbsp;</a></span>Parameters()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">Parameters::Parameters </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a640a1a349975a8cb023696f25e563a5c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a640a1a349975a8cb023696f25e563a5c">&#9670;&nbsp;</a></span>~Parameters()</h2>
+<a id="a1e3c72bebe6cc8a15ada7346f7e16e2a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1e3c72bebe6cc8a15ada7346f7e16e2a">&#9670;&nbsp;</a></span>Parameters()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -141,7 +128,7 @@ Friends</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Parameters::~Parameters </td>
+          <td class="memname">Parameters::Parameters </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -149,7 +136,32 @@ Friends</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a293df3e5895b71ef112a790983477d0d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a293df3e5895b71ef112a790983477d0d">&#9670;&nbsp;</a></span>~Parameters()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual Parameters::~Parameters </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span><span class="mlabel">default</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -193,6 +205,24 @@ Friends</h2></td></tr>
 
 </div>
 </div>
+<a id="a770269b6f2cf8cb90bb03c9e7a29b10f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a770269b6f2cf8cb90bb03c9e7a29b10f">&#9670;&nbsp;</a></span>getNames()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Parameters::getNames </td>
+          <td>(</td>
+          <td class="paramtype">std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>names</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a4b2a784bb52743657f5bdd592a43d4e2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4b2a784bb52743657f5bdd592a43d4e2">&#9670;&nbsp;</a></span>getParameter()</h2>
 
@@ -223,6 +253,24 @@ Friends</h2></td></tr>
           <td class="paramtype">std::ostream &amp;&#160;</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aedf542b52179baceb48976050b3fbc38"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aedf542b52179baceb48976050b3fbc38">&#9670;&nbsp;</a></span>push_back()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Parameters::push_back </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_parameter.html">Parameter</a> &amp;&#160;</td>
+          <td class="paramname"><em>parameter</em></td><td>)</td>
+          <td></td>
         </tr>
       </table>
 </div><div class="memdoc">

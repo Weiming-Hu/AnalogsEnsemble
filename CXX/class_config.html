@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>AnalogEnsemble: Config Class Reference</title>
+<title>ParallelAnalogEnsemble: Config Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,7 +21,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">AnalogEnsemble
+   <div id="projectname">ParallelAnalogEnsemble
    </div>
   </td>
  </tr>
@@ -156,10 +156,10 @@ Static Public Attributes</h2></td></tr>
 <tr class="separator:ae5e9915982a18879c2868316d3387b22"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4e1d73c5e602efe8054fe04dd45b3e7a"><td class="memItemLeft" align="right" valign="top">static const std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_config.html#a4e1d73c5e602efe8054fe04dd45b3e7a">_TIME</a> = 0</td></tr>
 <tr class="separator:a4e1d73c5e602efe8054fe04dd45b3e7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aea5ce64d73c8bb898be0d1ab654e9838"><td class="memItemLeft" align="right" valign="top">static const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_config.html#aea5ce64d73c8bb898be0d1ab654e9838">_UNIT</a> = &quot;seconds&quot;</td></tr>
-<tr class="separator:aea5ce64d73c8bb898be0d1ab654e9838"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a41c3d84845bb1bfaa9bf9978e49f6da1"><td class="memItemLeft" align="right" valign="top">static const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_config.html#a41c3d84845bb1bfaa9bf9978e49f6da1">_ORIGIN</a> = &quot;1970-01-01&quot;</td></tr>
-<tr class="separator:a41c3d84845bb1bfaa9bf9978e49f6da1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef0ee0d4bc6fbc85b7bfc4c65970acd1"><td class="memItemLeft" align="right" valign="top">static const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_config.html#aef0ee0d4bc6fbc85b7bfc4c65970acd1">_UNIT</a></td></tr>
+<tr class="separator:aef0ee0d4bc6fbc85b7bfc4c65970acd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac7836efa68e7c1f1d15cad9b3515ee6"><td class="memItemLeft" align="right" valign="top">static const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_config.html#aac7836efa68e7c1f1d15cad9b3515ee6">_ORIGIN</a></td></tr>
+<tr class="separator:aac7836efa68e7c1f1d15cad9b3515ee6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afa68f9db83175338f5701c3dc8652d97"><td class="memItemLeft" align="right" valign="top">static const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_config.html#afa68f9db83175338f5701c3dc8652d97">_NUM_ANALOGS</a> = &quot;num_analogs&quot;</td></tr>
 <tr class="separator:afa68f9db83175338f5701c3dc8652d97"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae9c87bb7b77095b9f85927d571e538c3"><td class="memItemLeft" align="right" valign="top">static const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_config.html#ae9c87bb7b77095b9f85927d571e538c3">_NUM_SIMS</a> = &quot;num_similarity&quot;</td></tr>
@@ -224,12 +224,20 @@ Static Public Attributes</h2></td></tr>
 <tr class="separator:a5febffcbea37a8cf10712d9f6b89c1fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa32528d184a6598832d1c950074bc9e9"><td class="memItemLeft" align="right" valign="top">static const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_config.html#aa32528d184a6598832d1c950074bc9e9">_DIM_TIMES</a> = &quot;num_times&quot;</td></tr>
 <tr class="separator:aa32528d184a6598832d1c950074bc9e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e1fe02f8e12ae692a128fe125734993"><td class="memItemLeft" align="right" valign="top">static const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_config.html#a2e1fe02f8e12ae692a128fe125734993">_DIM_TEST_TIMES</a> = &quot;num_test_times&quot;</td></tr>
+<tr class="separator:a2e1fe02f8e12ae692a128fe125734993"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a320dd6c6c6f3cabd0f8fded5c528c92f"><td class="memItemLeft" align="right" valign="top">static const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_config.html#a320dd6c6c6f3cabd0f8fded5c528c92f">_DIM_SEARCH_TIMES</a> = &quot;num_search_times&quot;</td></tr>
+<tr class="separator:a320dd6c6c6f3cabd0f8fded5c528c92f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4893ee6b40133010ed4feb3c7c83089e"><td class="memItemLeft" align="right" valign="top">static const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_config.html#a4893ee6b40133010ed4feb3c7c83089e">_DIM_FLTS</a> = &quot;num_flts&quot;</td></tr>
 <tr class="separator:a4893ee6b40133010ed4feb3c7c83089e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a553dc3dfba1ee22f0c1fcc1b186840ca"><td class="memItemLeft" align="right" valign="top">static const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_config.html#a553dc3dfba1ee22f0c1fcc1b186840ca">_DIM_PARS</a> = &quot;num_parameters&quot;</td></tr>
 <tr class="separator:a553dc3dfba1ee22f0c1fcc1b186840ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a84b3d36872a55d26fe881730f8391c13"><td class="memItemLeft" align="right" valign="top">static const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_config.html#a84b3d36872a55d26fe881730f8391c13">_DIM_CHARS</a> = &quot;num_chars&quot;</td></tr>
 <tr class="separator:a84b3d36872a55d26fe881730f8391c13"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac37f3df02e6060a01e52fd74162dd3bb"><td class="memItemLeft" align="right" valign="top">static const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_config.html#ac37f3df02e6060a01e52fd74162dd3bb">_DIM_ANALOGS</a> = &quot;num_analogs&quot;</td></tr>
+<tr class="separator:ac37f3df02e6060a01e52fd74162dd3bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a54fbd99435c8c275fd85d0232a24f575"><td class="memItemLeft" align="right" valign="top">static const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_config.html#a54fbd99435c8c275fd85d0232a24f575">_DIM_SIMS</a> = &quot;num_similarity&quot;</td></tr>
+<tr class="separator:a54fbd99435c8c275fd85d0232a24f575"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a09ade37419fb714d6bc0e11b0eb1d921"><td class="memItemLeft" align="right" valign="top">static const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_config.html#a09ade37419fb714d6bc0e11b0eb1d921">_ANALOGS</a> = &quot;analogs&quot;</td></tr>
 <tr class="separator:a09ade37419fb714d6bc0e11b0eb1d921"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a77feb4d8f4358953caa8f8ea6ac0959d"><td class="memItemLeft" align="right" valign="top">static const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_config.html#a77feb4d8f4358953caa8f8ea6ac0959d">_ANALOGS_TIME_IND</a> = &quot;analogs_time_index&quot;</td></tr>
@@ -238,7 +246,7 @@ Static Public Attributes</h2></td></tr>
 <tr class="separator:ab30504bf2ffac0065474d8489ed07683"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8e7738baab81b48bbda970849ed4aa90"><td class="memItemLeft" align="right" valign="top">static const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_config.html#a8e7738baab81b48bbda970849ed4aa90">_SIMS_TIME_IND</a> = &quot;similarity_time_index&quot;</td></tr>
 <tr class="separator:a8e7738baab81b48bbda970849ed4aa90"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aac9c039fde3a445b5afbee0bec378d96"><td class="memItemLeft" align="right" valign="top">static const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_config.html#aac9c039fde3a445b5afbee0bec378d96">_SIMS_STATION_IND</a> = &quot;station_index&quot;</td></tr>
+<tr class="memitem:aac9c039fde3a445b5afbee0bec378d96"><td class="memItemLeft" align="right" valign="top">static const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_config.html#aac9c039fde3a445b5afbee0bec378d96">_SIMS_STATION_IND</a> = &quot;similarity_station_index&quot;</td></tr>
 <tr class="separator:aac9c039fde3a445b5afbee0bec378d96"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a32309df93ae669addae45d7dba93156c"><td class="memItemLeft" align="right" valign="top">static const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_config.html#a32309df93ae669addae45d7dba93156c">_SDS</a> = &quot;sds&quot;</td></tr>
 <tr class="separator:a32309df93ae669addae45d7dba93156c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -246,6 +254,10 @@ Static Public Attributes</h2></td></tr>
 <tr class="separator:a7a6fbaceb0a445ede069be68c239c394"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a56819c3b4fbf4875c9e117d7619c2f3b"><td class="memItemLeft" align="right" valign="top">static const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_config.html#a56819c3b4fbf4875c9e117d7619c2f3b">_SEARCH_STATIONS_IND</a> = &quot;search_stations&quot;</td></tr>
 <tr class="separator:a56819c3b4fbf4875c9e117d7619c2f3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e023a14bece32dff279ac51e55f92de"><td class="memItemLeft" align="right" valign="top">static const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_config.html#a8e023a14bece32dff279ac51e55f92de">_TEST_TIMES</a> = &quot;test_times&quot;</td></tr>
+<tr class="separator:a8e023a14bece32dff279ac51e55f92de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ade381a7f8b81513fc6017e2511f7f9a0"><td class="memItemLeft" align="right" valign="top">static const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_config.html#ade381a7f8b81513fc6017e2511f7f9a0">_SEARCH_TIMES</a> = &quot;search_times&quot;</td></tr>
+<tr class="separator:ade381a7f8b81513fc6017e2511f7f9a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><a class="el" href="class_config.html" title="Config class provides detailed parameters for configuring analog ensemble generation. This class also defines names of different parameters that can be used in R API and the file I/O process. ">Config</a> class provides detailed parameters for configuring analog ensemble generation. This class also defines names of different parameters that can be used in R API and the file I/O process. </p>
@@ -492,6 +504,28 @@ Static Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="ac37f3df02e6060a01e52fd74162dd3bb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac37f3df02e6060a01e52fd74162dd3bb">&#9670;&nbsp;</a></span>_DIM_ANALOGS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const string Config::_DIM_ANALOGS = &quot;num_analogs&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a84b3d36872a55d26fe881730f8391c13"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a84b3d36872a55d26fe881730f8391c13">&#9670;&nbsp;</a></span>_DIM_CHARS</h2>
 
@@ -558,6 +592,50 @@ Static Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a320dd6c6c6f3cabd0f8fded5c528c92f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a320dd6c6c6f3cabd0f8fded5c528c92f">&#9670;&nbsp;</a></span>_DIM_SEARCH_TIMES</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const string Config::_DIM_SEARCH_TIMES = &quot;num_search_times&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a54fbd99435c8c275fd85d0232a24f575"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a54fbd99435c8c275fd85d0232a24f575">&#9670;&nbsp;</a></span>_DIM_SIMS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const string Config::_DIM_SIMS = &quot;num_similarity&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a5febffcbea37a8cf10712d9f6b89c1fa"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5febffcbea37a8cf10712d9f6b89c1fa">&#9670;&nbsp;</a></span>_DIM_STATIONS</h2>
 
@@ -569,6 +647,28 @@ Static Public Attributes</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">const string Config::_DIM_STATIONS = &quot;num_stations&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2e1fe02f8e12ae692a128fe125734993"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2e1fe02f8e12ae692a128fe125734993">&#9670;&nbsp;</a></span>_DIM_TEST_TIMES</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const string Config::_DIM_TEST_TIMES = &quot;num_test_times&quot;</td>
         </tr>
       </table>
   </td>
@@ -866,8 +966,8 @@ Static Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a41c3d84845bb1bfaa9bf9978e49f6da1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a41c3d84845bb1bfaa9bf9978e49f6da1">&#9670;&nbsp;</a></span>_ORIGIN</h2>
+<a id="aac7836efa68e7c1f1d15cad9b3515ee6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aac7836efa68e7c1f1d15cad9b3515ee6">&#9670;&nbsp;</a></span>_ORIGIN</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -876,7 +976,7 @@ Static Public Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const string Config::_ORIGIN = &quot;1970-01-01&quot;</td>
+          <td class="memname">const std::string Config::_ORIGIN</td>
         </tr>
       </table>
   </td>
@@ -1174,6 +1274,28 @@ Static Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="ade381a7f8b81513fc6017e2511f7f9a0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ade381a7f8b81513fc6017e2511f7f9a0">&#9670;&nbsp;</a></span>_SEARCH_TIMES</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const string Config::_SEARCH_TIMES = &quot;search_times&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="ab30504bf2ffac0065474d8489ed07683"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab30504bf2ffac0065474d8489ed07683">&#9670;&nbsp;</a></span>_SIMS</h2>
 
@@ -1206,7 +1328,7 @@ Static Public Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const string Config::_SIMS_STATION_IND = &quot;station_index&quot;</td>
+          <td class="memname">const string Config::_SIMS_STATION_IND = &quot;similarity_station_index&quot;</td>
         </tr>
       </table>
   </td>
@@ -1251,6 +1373,28 @@ Static Public Attributes</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">const string Config::_STATION_NAMES = &quot;StationNames&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8e023a14bece32dff279ac51e55f92de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8e023a14bece32dff279ac51e55f92de">&#9670;&nbsp;</a></span>_TEST_TIMES</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const string Config::_TEST_TIMES = &quot;test_times&quot;</td>
         </tr>
       </table>
   </td>
@@ -1328,8 +1472,8 @@ Static Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="aea5ce64d73c8bb898be0d1ab654e9838"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aea5ce64d73c8bb898be0d1ab654e9838">&#9670;&nbsp;</a></span>_UNIT</h2>
+<a id="aef0ee0d4bc6fbc85b7bfc4c65970acd1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aef0ee0d4bc6fbc85b7bfc4c65970acd1">&#9670;&nbsp;</a></span>_UNIT</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1338,7 +1482,7 @@ Static Public Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const string Config::_UNIT = &quot;seconds&quot;</td>
+          <td class="memname">const std::string Config::_UNIT</td>
         </tr>
       </table>
   </td>

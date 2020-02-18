@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['col_5ftag',['COL_TAG',['../class_analogs.html#a9b56dcdb212f44c3ba40a60736d648bb',1,'Analogs']]]
+  ['filetype',['FileType',['../class_an_en_read_ncdf.html#ac46a6614ed62aee709bb3431739ab652',1,'AnEnReadNcdf']]]
 ];

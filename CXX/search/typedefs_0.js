@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['array_5fview',['array_view',['../namespace_functions.html#a2e1490202541d355730e5a7ebe1b248f',1,'Functions']]]
+  ['bmtype',['BmType',['../_bm_dim_8h.html#ac701e9d6dedc02de60794649e5bfd54c',1,'BmDim.h']]]
 ];

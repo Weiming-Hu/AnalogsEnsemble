@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>AnalogEnsemble: Time Class Reference</title>
+<title>ParallelAnalogEnsemble: Time Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,7 +21,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">AnalogEnsemble
+   <div id="projectname">ParallelAnalogEnsemble
    </div>
   </td>
  </tr>
@@ -65,7 +65,7 @@ $(function() {
 <a href="#friends">Friends</a> &#124;
 <a href="class_time-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">Time Class Reference<span class="mlabels"><span class="mlabel">final</span></span></div>  </div>
+<div class="title">Time Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
@@ -106,10 +106,10 @@ Public Attributes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
-<tr class="memitem:aa3790675dac6b0864641769bf6202fa5"><td class="memItemLeft" align="right" valign="top">static std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_time.html#aa3790675dac6b0864641769bf6202fa5">_unit</a> = <a class="el" href="class_config.html#aea5ce64d73c8bb898be0d1ab654e9838">Config::_UNIT</a></td></tr>
-<tr class="separator:aa3790675dac6b0864641769bf6202fa5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4c7fed39ef9f50d663088eec245ddd5b"><td class="memItemLeft" align="right" valign="top">static std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_time.html#a4c7fed39ef9f50d663088eec245ddd5b">_origin</a> = <a class="el" href="class_config.html#a41c3d84845bb1bfaa9bf9978e49f6da1">Config::_ORIGIN</a></td></tr>
-<tr class="separator:a4c7fed39ef9f50d663088eec245ddd5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd01685a3d5cbae35c0be75ea7e9a274"><td class="memItemLeft" align="right" valign="top">static const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_time.html#abd01685a3d5cbae35c0be75ea7e9a274">_unit</a> = &quot;seconds&quot;</td></tr>
+<tr class="separator:abd01685a3d5cbae35c0be75ea7e9a274"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70b8eedb056e9c8a47040745f360fc45"><td class="memItemLeft" align="right" valign="top">static const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_time.html#a70b8eedb056e9c8a47040745f360fc45">_origin</a> = &quot;1970-01-01 00:00:00&quot;</td></tr>
+<tr class="separator:a70b8eedb056e9c8a47040745f360fc45"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
@@ -324,8 +324,8 @@ Friends</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a id="a4c7fed39ef9f50d663088eec245ddd5b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4c7fed39ef9f50d663088eec245ddd5b">&#9670;&nbsp;</a></span>_origin</h2>
+<a id="a70b8eedb056e9c8a47040745f360fc45"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a70b8eedb056e9c8a47040745f360fc45">&#9670;&nbsp;</a></span>_origin</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -334,7 +334,7 @@ Friends</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::string Time::_origin = <a class="el" href="class_config.html#a41c3d84845bb1bfaa9bf9978e49f6da1">Config::_ORIGIN</a></td>
+          <td class="memname">const string Time::_origin = &quot;1970-01-01 00:00:00&quot;</td>
         </tr>
       </table>
   </td>
@@ -346,8 +346,8 @@ Friends</h2></td></tr>
 
 </div>
 </div>
-<a id="aa3790675dac6b0864641769bf6202fa5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa3790675dac6b0864641769bf6202fa5">&#9670;&nbsp;</a></span>_unit</h2>
+<a id="abd01685a3d5cbae35c0be75ea7e9a274"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abd01685a3d5cbae35c0be75ea7e9a274">&#9670;&nbsp;</a></span>_unit</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -356,7 +356,7 @@ Friends</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::string Time::_unit = <a class="el" href="class_config.html#aea5ce64d73c8bb898be0d1ab654e9838">Config::_UNIT</a></td>
+          <td class="memname">const string Time::_unit = &quot;seconds&quot;</td>
         </tr>
       </table>
   </td>

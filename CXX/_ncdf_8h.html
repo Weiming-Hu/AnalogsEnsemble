@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>AnalogEnsemble: /home/graduate/wuh20/github/AnalogsEnsemble/CAnEnIO/include/Ncdf.h File Reference</title>
+<title>ParallelAnalogEnsemble: /home/graduate/wuh20/github/AnalogsEnsemble/CAnEnIO/include/Ncdf.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,7 +21,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">AnalogEnsemble
+   <div id="projectname">ParallelAnalogEnsemble
    </div>
   </td>
  </tr>
@@ -70,16 +70,20 @@ $(function() {
 <div class="title">Ncdf.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;netcdf&gt;</code><br />
+<div class="textblock"><code>#include &lt;array&gt;</code><br />
+<code>#include &lt;netcdf&gt;</code><br />
 <code>#include &lt;vector&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
 <code>#include &lt;sstream&gt;</code><br />
+<code>#include &lt;stdexcept&gt;</code><br />
+<code>#include &quot;<a class="el" href="_array4_d_8h_source.html">Array4D.h</a>&quot;</code><br />
 <code>#include &quot;Ncdf.tpp&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for Ncdf.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="_ncdf_8h__incl.png" border="0" usemap="#_2home_2graduate_2wuh20_2github_2_analogs_ensemble_2_c_an_en_i_o_2include_2_ncdf_8h" alt=""/></div>
 <map name="_2home_2graduate_2wuh20_2github_2_analogs_ensemble_2_c_an_en_i_o_2include_2_ncdf_8h" id="_2home_2graduate_2wuh20_2github_2_analogs_ensemble_2_c_an_en_i_o_2include_2_ncdf_8h">
+<area shape="rect" id="node8" href="_array4_d_8h.html" title="Array4D.h" alt="" coords="490,109,571,136"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -87,10 +91,9 @@ This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="_ncdf_8h__dep__incl.png" border="0" usemap="#_2home_2graduate_2wuh20_2github_2_analogs_ensemble_2_c_an_en_i_o_2include_2_ncdf_8hdep" alt=""/></div>
 <map name="_2home_2graduate_2wuh20_2github_2_analogs_ensemble_2_c_an_en_i_o_2include_2_ncdf_8hdep" id="_2home_2graduate_2wuh20_2github_2_analogs_ensemble_2_c_an_en_i_o_2include_2_ncdf_8hdep">
-<area shape="rect" id="node2" href="_an_en_write_ncdf_8h.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/CAnEnIO/include/AnEnWriteNcdf.h" alt="" coords="5,109,239,165"/>
-<area shape="rect" id="node4" href="_an_en_read_ncdf_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/CAnEnIO/src/AnEnReadNcdf.cpp" alt="" coords="263,109,487,165"/>
-<area shape="rect" id="node5" href="_ncdf_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/CAnEnIO/src/Ncdf.cpp" alt="" coords="511,109,682,165"/>
-<area shape="rect" id="node3" href="_an_en_write_ncdf_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/CAnEnIO/src/AnEnWriteNcdf.cpp" alt="" coords="10,213,234,269"/>
+<area shape="rect" id="node2" href="_an_en_read_ncdf_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/CAnEnIO/src/AnEnReadNcdf.cpp" alt="" coords="5,109,229,165"/>
+<area shape="rect" id="node3" href="_an_en_write_ncdf_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/CAnEnIO/src/AnEnWriteNcdf.cpp" alt="" coords="253,109,477,165"/>
+<area shape="rect" id="node4" href="_ncdf_8cpp.html" title="/home/graduate/wuh20\l/github/AnalogsEnsemble\l/CAnEnIO/src/Ncdf.cpp" alt="" coords="501,109,672,165"/>
 </map>
 </div>
 </div>
@@ -114,12 +117,6 @@ Functions</h2></td></tr>
 <tr class="separator:a0a94ef2f794cb1ca849a80eca129b008"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a67dfde37dc85b313651107ee8273f851"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_ncdf.html#a67dfde37dc85b313651107ee8273f851">Ncdf::checkIndex</a> (size_t start, size_t count, size_t len)</td></tr>
 <tr class="separator:a67dfde37dc85b313651107ee8273f851"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5d22bfd62dbcef0c70f1159061155459"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_ncdf.html#a5d22bfd62dbcef0c70f1159061155459">Ncdf::readStringVector</a> (const netCDF::NcFile &amp;nc, std::string var_name, std::vector&lt; std::string &gt; &amp;results, size_t start=0, size_t count=0, const std::string &amp;name_char=&quot;num_chars&quot;)</td></tr>
-<tr class="separator:a5d22bfd62dbcef0c70f1159061155459"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3371ed128ceb90bd3e406fddac2ffb32"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_ncdf.html#a3371ed128ceb90bd3e406fddac2ffb32">Ncdf::purge</a> (std::string &amp;str)</td></tr>
-<tr class="separator:a3371ed128ceb90bd3e406fddac2ffb32"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a93c900139d1a4dc98384937ed4f0d0fd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_ncdf.html#a93c900139d1a4dc98384937ed4f0d0fd">Ncdf::purge</a> (std::vector&lt; std::string &gt; &amp;strs)</td></tr>
-<tr class="separator:a93c900139d1a4dc98384937ed4f0d0fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0b9ab1d8b3d98ca735f7d48f308b815f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_ncdf.html#a0b9ab1d8b3d98ca735f7d48f308b815f">Ncdf::checkDims</a> (const netCDF::NcFile &amp;nc, const std::vector&lt; std::string &gt; &amp;names)</td></tr>
 <tr class="separator:a0b9ab1d8b3d98ca735f7d48f308b815f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0bc6a7da77914d94805ce54aedfccfd4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_ncdf.html#a0bc6a7da77914d94805ce54aedfccfd4">Ncdf::checkVars</a> (const netCDF::NcFile &amp;nc, const std::vector&lt; std::string &gt; &amp;names)</td></tr>
@@ -130,6 +127,27 @@ Functions</h2></td></tr>
 <tr class="separator:a499237f6b275baf9e4d52708749b95e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9bc168bb869c51dd322817550189e940"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_ncdf.html#a9bc168bb869c51dd322817550189e940">Ncdf::varExists</a> (const netCDF::NcFile &amp;nc, const std::string &amp;name)</td></tr>
 <tr class="separator:a9bc168bb869c51dd322817550189e940"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5d22bfd62dbcef0c70f1159061155459"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_ncdf.html#a5d22bfd62dbcef0c70f1159061155459">Ncdf::readStringVector</a> (const netCDF::NcFile &amp;nc, std::string var_name, std::vector&lt; std::string &gt; &amp;results, size_t start=0, size_t count=0, const std::string &amp;name_char=&quot;num_chars&quot;)</td></tr>
+<tr class="separator:a5d22bfd62dbcef0c70f1159061155459"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7db169503fbaae0ec6671f2e7e43542a"><td class="memItemLeft" align="right" valign="top">netCDF::NcDim&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_ncdf.html#a7db169503fbaae0ec6671f2e7e43542a">Ncdf::getDimension</a> (netCDF::NcFile &amp;, const std::string &amp;, bool unlimited=false, size_t len=0)</td></tr>
+<tr class="separator:a7db169503fbaae0ec6671f2e7e43542a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae4f68c49648f173c9594bcaf2ea69987"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_ncdf.html#ae4f68c49648f173c9594bcaf2ea69987">Ncdf::writeStringVector</a> (netCDF::NcFile &amp;, const std::string &amp;, const std::string &amp;, const std::vector&lt; std::string &gt; &amp;, bool unlimited=false)</td></tr>
+<tr class="separator:ae4f68c49648f173c9594bcaf2ea69987"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c84e7da4354f103dee2cceac0eab21c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_ncdf.html#a1c84e7da4354f103dee2cceac0eab21c">Ncdf::writeArray4D</a> (netCDF::NcFile &amp;, const <a class="el" href="class_array4_d.html">Array4D</a> &amp;, const std::string &amp;, const std::array&lt; std::string, 4 &gt; &amp;, const std::array&lt; bool, 4 &gt; &amp;unlimited={false, false, false, false})</td></tr>
+<tr class="separator:a1c84e7da4354f103dee2cceac0eab21c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3371ed128ceb90bd3e406fddac2ffb32"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_ncdf.html#a3371ed128ceb90bd3e406fddac2ffb32">Ncdf::purge</a> (std::string &amp;str)</td></tr>
+<tr class="separator:a3371ed128ceb90bd3e406fddac2ffb32"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a93c900139d1a4dc98384937ed4f0d0fd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_ncdf.html#a93c900139d1a4dc98384937ed4f0d0fd">Ncdf::purge</a> (std::vector&lt; std::string &gt; &amp;strs)</td></tr>
+<tr class="separator:a93c900139d1a4dc98384937ed4f0d0fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a96ba3c30c634afff589def084b47bec4"><td class="memTemplParams" colspan="2">template&lt;typename nctype , typename valuetype &gt; </td></tr>
+<tr class="memitem:a96ba3c30c634afff589def084b47bec4"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_ncdf.html#a96ba3c30c634afff589def084b47bec4">Ncdf::writeAttributes</a> (nctype &amp;nc, const std::string &amp;, const valuetype &amp;, netCDF::NcType, bool overwrite=false)</td></tr>
+<tr class="separator:a96ba3c30c634afff589def084b47bec4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aacfe07cbf6cb8f638dbe47686323fc36"><td class="memTemplParams" colspan="2">template&lt;typename nctype &gt; </td></tr>
+<tr class="memitem:aacfe07cbf6cb8f638dbe47686323fc36"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_ncdf.html#aacfe07cbf6cb8f638dbe47686323fc36">Ncdf::writeStringAttributes</a> (nctype &amp;nc, const std::string &amp;, const std::string &amp;, bool overwrite=false)</td></tr>
+<tr class="separator:aacfe07cbf6cb8f638dbe47686323fc36"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a62b16d9808510c642e0054dd086e81a9"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a62b16d9808510c642e0054dd086e81a9"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_ncdf.html#a62b16d9808510c642e0054dd086e81a9">Ncdf::writeVector</a> (netCDF::NcFile &amp;, const std::string &amp;, const std::string &amp;, const std::vector&lt; T &gt; &amp;, netCDF::NcType, bool unlimited=false)</td></tr>
+<tr class="separator:a62b16d9808510c642e0054dd086e81a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7298b2b8ea000a1a17a7af5587cc89a6"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a7298b2b8ea000a1a17a7af5587cc89a6"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_ncdf.html#a7298b2b8ea000a1a17a7af5587cc89a6">Ncdf::readVector</a> (const netCDF::NcFile &amp;nc, std::string var_name, std::vector&lt; T &gt; &amp;results, std::vector&lt; size_t &gt; start={}, std::vector&lt; size_t &gt; count={})</td></tr>
 <tr class="separator:a7298b2b8ea000a1a17a7af5587cc89a6"><td class="memSeparator" colspan="2">&#160;</td></tr>

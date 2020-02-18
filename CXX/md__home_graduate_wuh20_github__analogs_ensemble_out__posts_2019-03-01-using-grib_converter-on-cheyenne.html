@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>AnalogEnsemble: 2019-03-01-using-gribConverter-on-cheyenne</title>
+<title>ParallelAnalogEnsemble: 2019-03-01-using-gribConverter-on-cheyenne</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,7 +21,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">AnalogEnsemble
+   <div id="projectname">ParallelAnalogEnsemble
    </div>
   </td>
  </tr>
@@ -64,7 +64,7 @@ $(function() {
 <div class="contents">
 <div class="textblock"><hr/>
 <p> layout: post title: How to Automate Data Preprocessing for <a class="el" href="class_an_en.html" title="AnEn is an abstract class that defines the interface for implement analog ensemble generation...">AnEn</a> Computation on Cheyenne tags:</p><ul>
-<li>tutorial <h2>- <a class="el" href="namespacegrib_converter.html">gribConverter</a> </h2>
+<li>tutorial <h2>- gribConverter </h2>
 </li>
 </ul>
 <ul>
@@ -75,7 +75,7 @@ $(function() {
 <li><a href="#appendix">Appendix</a></li>
 </ul>
 <h2>Introduction</h2>
-<p>This tutorial shows how to use the data preprocessing tools (<code><a class="el" href="namespacegrib_converter.html">gribConverter</a></code>, <code>windFieldCalculator</code>) in the <a class="el" href="class_an_en.html" title="AnEn is an abstract class that defines the interface for implement analog ensemble generation...">AnEn</a> package to reformat the data to the correct form that can be directly used by a number of computation tools (<code>similarityCalculator</code>, <code>analogGenerator</code>, <code>RAnEn</code>) to generate analog ensembles. Addition to that, this tutorial also shows how to automate and parallelize the process on Cheyenne supercomputers.</p>
+<p>This tutorial shows how to use the data preprocessing tools (<code>gribConverter</code>, <code>windFieldCalculator</code>) in the <a class="el" href="class_an_en.html" title="AnEn is an abstract class that defines the interface for implement analog ensemble generation...">AnEn</a> package to reformat the data to the correct form that can be directly used by a number of computation tools (<code>similarityCalculator</code>, <code>analogGenerator</code>, <code>RAnEn</code>) to generate analog ensembles. Addition to that, this tutorial also shows how to automate and parallelize the process on Cheyenne supercomputers.</p>
 <p>This tutorial assumes the basic knowledge on bash script language and that <code><a class="el" href="class_an_en.html" title="AnEn is an abstract class that defines the interface for implement analog ensemble generation...">AnEn</a></code> package has already been successfully installed. More information of how to install <code><a class="el" href="class_an_en.html" title="AnEn is an abstract class that defines the interface for implement analog ensemble generation...">AnEn</a></code> on Cheyenne can be found <a href="https://weiming-hu.github.io/AnalogsEnsemble/2019/02/17/build-on-cheyenne.html">here</a>.</p>
 <p>This tutorial also assumes that you have already built the <a class="el" href="class_an_en.html" title="AnEn is an abstract class that defines the interface for implement analog ensemble generation...">AnEn</a> tools. Instructions for building the tools can be found <a href="https://weiming-hu.github.io/AnalogsEnsemble/2019/02/17/build-on-cheyenne.html">here</a>.</p>
 <h2>Data Preparation and Goals</h2>
