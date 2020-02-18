@@ -14,7 +14,7 @@ using namespace Rcpp;
 using namespace boost;
 
 void
-FunctionsR::createParameters(const SEXP & sx_circulars, Parameters & parameters, size_t total) {
+FunctionsR::createParameters(const SEXP & sx_circulars, Parameters & parameters, int total) {
 
     bool has_circulars = false;
     if (!Rf_isNull(sx_circulars)) {
@@ -28,7 +28,7 @@ FunctionsR::createParameters(const SEXP & sx_circulars, Parameters & parameters,
 
     parameters.clear();
 
-    for (size_t i = 0; i < total; ++i) {
+    for (int i = 0; i < total; ++i) {
 
         Parameter parameter(std::to_string(i));
 
@@ -45,7 +45,7 @@ FunctionsR::createParameters(const SEXP & sx_circulars, Parameters & parameters,
 }
 
 void
-FunctionsR::createStations(const SEXP & sx_names, Stations& stations, size_t total) {
+FunctionsR::createStations(const SEXP & sx_names, Stations& stations, int total) {
 
     bool has_name = false;
     if (Rf_isString(sx_names)) has_name = true;

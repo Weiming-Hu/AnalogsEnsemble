@@ -26,7 +26,7 @@
 #' lead time, then the match between forecasts and observations becomes one-on-one.
 #' 
 #' The observation time index usually comes from the `Time` column of the `analogs` member in the results of
-#' \code{\link{generateAnalogs}}. This time is observation times. However, please note that the times in the 
+#' \code{\link{generateAnalogs.default}}. This time is observation times. However, please note that the times in the 
 #' `similarity` member are **forecast times**. These two are different.
 #' 
 #' @author Guido Cervone \email{cervone@@psu.edu}
@@ -34,7 +34,7 @@
 #' @author Laura Clemente-Harding \email{laura@@psu.edu}
 #' 
 #' @param observation.time.id The observation time index(es) from the `Time` column of the `analogs` member in
-#' in the results of \code{\link{generateAnalogs}}.
+#' in the results of \code{\link{generateAnalogs.default}}.
 #' @param mapping The mapping table created from \code{\link{generateTimeMapping}}.
 #' @param flt The lead time index.
 #' 

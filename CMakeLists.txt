@@ -29,7 +29,7 @@ add_definitions(-D_COPYRIGHT_MSG="${WE_ARE}")
 add_definitions(-DBOOST_NO_AUTO_PTR)
 
 # Set variables
-set(GRAND_VERSION "4.0.0")
+set(GRAND_VERSION "4.0.1")
 set(GRAND_VERSION_NICKNAME "Pandora")
 set(WE_ARE "GEOlab @ Penn State")
 set(SUBPROJECT_TARGETS "AnEn;AnEnIO")

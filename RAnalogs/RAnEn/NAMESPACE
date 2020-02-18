@@ -26,6 +26,7 @@ export(checkOpenMP)
 
 # Generation functions
 export(generateAnalogs)
+export(generateSearchStations)
 export(generateAnalogs.default)
 export(generateTimeMapping)
 export(generateForecastsTemplate)

@@ -68,8 +68,8 @@ NumericMatrix generateTimeMapping(SEXP sx_fcst_times, SEXP sx_fcst_flts, SEXP sx
     // - I can avoid worrying about whether the internal storage of matrix is by column or by row.
     // 
     NumericMatrix mat(obs_index_table.size1(), obs_index_table.size2());
-    for (size_t row_i = 0; row_i < mat.nrow(); ++row_i) {
-      for (size_t col_i = 0; col_i < mat.ncol(); ++col_i) {
+    for (int row_i = 0; row_i < mat.nrow(); ++row_i) {
+      for (int col_i = 0; col_i < mat.ncol(); ++col_i) {
         mat(row_i, col_i) = obs_index_table(row_i, col_i) + 1;
       }
     }

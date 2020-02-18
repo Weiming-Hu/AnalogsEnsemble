@@ -92,6 +92,7 @@ RAnalogs/RAnEn/src/*
 !RAnalogs/RAnEn/src/RcppConfig.cpp
 !RAnalogs/RAnEn/src/RcppGenerateAnalogs.cpp
 !RAnalogs/RAnEn/src/RcppGenerateTimeMapping.cpp
+!RAnalogs/RAnEn/src/RcppGenerateSearchStations.cpp
 
 # From the base theme and jekyll ignore
 # Ignore docs files

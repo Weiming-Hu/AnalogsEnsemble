@@ -41,8 +41,8 @@
 #' @author Martina Calovi \email{mxc895@@psu.edu}
 #' @author Weiming Hu \email{weiming@@psu.edu}
 #' 
-#' @param anen The AnEn values extract from the member `analogs` in the results of
-#' \code{\link{generateAnalogs}}. The dimensions should be (stations, test times, FLTs, members).
+#' @param anen Analogs from \code{\link{generateAnalogs.default}}.
+#' The dimensions should be (stations, test times, FLTs, members).
 #' @param obs.search The aligned observations with 4 dimensions (parameters, stations,
 #' search times, FLTs). However, please make sure there is only 1 parameter. Observations
 #' can be created from \code{\link{alignObservations}}.
