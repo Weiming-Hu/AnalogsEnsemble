@@ -7,8 +7,8 @@
 schaakeShuffle(anen, obs.search, show.progress = F)
 }
 \arguments{
-\item{anen}{The AnEn values extract from the member \code{analogs} in the results of
-\code{\link{generateAnalogs}}. The dimensions should be (stations, test times, FLTs, members).}
+\item{anen}{Analogs from \code{\link{generateAnalogs.default}}.
+The dimensions should be (stations, test times, FLTs, members).}
 
 \item{obs.search}{The aligned observations with 4 dimensions (parameters, stations,
 search times, FLTs). However, please make sure there is only 1 parameter. Observations

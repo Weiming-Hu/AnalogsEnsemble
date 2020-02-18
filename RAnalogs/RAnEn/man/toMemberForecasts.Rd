@@ -16,8 +16,31 @@ toMemberForecasts(
   verbose = T
 )
 }
+\arguments{
+\item{forecasts}{The Data from Forecasts. Usually it is a 4D array.}
+
+\item{sims.time.index}{The similarity time index array from AnEn.}
+
+\item{sims.stations.index}{The similarity station index array from AnEn.}
+
+\item{stations.index}{The station index of the analogs.}
+
+\item{test.times.index}{The test time index of the analogs.}
+
+\item{flts.index}{The forecast lead time index of the analogs.}
+
+\item{members.index}{The analog members index.}
+
+\item{parameters.index}{The forecast parameters index.}
+
+\item{verbose}{Whether to show progress and summary information}
+}
+\value{
+A 5 dimensional array with the shape \verb{[parameters][stations][times][flts][members]}.
+}
 \description{
-RAnEn::toMemberForecasts
+RAnEn::toMemberForecasts finds the most similar historical forecasts
+that are associated with each analog members.
 }
 \author{
 Weiming Hu \email{weiming@psu.edu}

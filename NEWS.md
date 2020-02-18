@@ -1,6 +1,7 @@
 # PAnEn 4.0.1
 
 - Add `RAnEn::generateSearchStations`
+- Update document links
 
 # PAnEn 4.0.0 Pandora
 

@@ -63,7 +63,7 @@ FunctionsR::createStations(const SEXP & sx_names, Stations& stations, int total)
     stations.clear();
     std::string name = Config::_NAME;
 
-    for (size_t i = 0; i < total; ++i) {
+    for (int i = 0; i < total; ++i) {
         if (has_name) {
             name = names(i);
         }

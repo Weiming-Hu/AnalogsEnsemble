@@ -7,6 +7,8 @@
 // [[Rcpp::plugins(cpp11)]]
 // [[Rcpp::plugins(openmp)]]
 
+#include <cmath>
+#include "Config.h"
 #include "RcppFunctions.h"
 #include "Functions.h"
 
@@ -26,7 +28,17 @@ using namespace Rcpp;
 //' @export
 // [[Rcpp::export]]
 
-NumericMatrix generateSearchStations(SEXP sx_xs, SEXP sx_ys, int num_neighbors, double distance) {
+NumericMatrix generateSearchStations(SEXP sx_xs, SEXP sx_ys,
+        int num_neighbors, SEXP sx_distance = R_NilValue) {
+
+    // Convert distance value
+    double distance;
+    if (Rf_isNull(sx_distance)) {
+        Config config;
+        distance = config.distance;
+    } else {
+        distance = as<double>(sx_distance);
+    }
 
     // Convert coordinates to stations
     Stations stations;
@@ -34,6 +46,10 @@ NumericMatrix generateSearchStations(SEXP sx_xs, SEXP sx_ys, int num_neighbors, 
 
     // Create a matrix
     Functions::Matrix c_mat(stations.size(), num_neighbors);
+
+    // Initialize the values to NAN
+    auto & storage = c_mat.data();
+    fill_n(storage.begin(), storage.size(), NAN);
 
     // Call the C++ routine to find nearest stations
     Functions::setSearchStations(stations, c_mat, distance);

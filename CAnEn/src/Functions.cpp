@@ -63,6 +63,9 @@ Functions::setSearchStations(const Stations & stations, Matrix & table, double d
     size_t num_neighbors = table.size2();
     size_t num_stations = stations.size();
 
+    if (num_neighbors > num_stations)
+        throw runtime_error("Number of neighbors should not be larger than the number of stations");
+
     // Convert distance to squred distance
     distance *= distance;
 

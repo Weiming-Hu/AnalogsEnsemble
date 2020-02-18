@@ -41,6 +41,22 @@ generateAnalogs.default <- function(sx_forecasts, sx_observations, sx_test_times
     .Call(`_RAnEn_generateAnalogs`, sx_forecasts, sx_observations, sx_test_times, sx_search_times, sx_config, sx_algorithm)
 }
 
+#' RAnEn::generateSearchStations
+#' 
+#' RAnEn::generateSearchStations calculates the nearest coordinates for all input coordinates.
+#' 
+#' @param sx_xs X coordinates
+#' @param sx_ys Y coordinates
+#' @param num_neighbors The number of neighbors to find
+#' @param distance The distance threshold when finding nearest neighbors
+#' @return A matrix for nearest search station index. Each row is a set of search station index
+#' 
+#' @md
+#' @export
+generateSearchStations <- function(sx_xs, sx_ys, num_neighbors, sx_distance = NULL) {
+    .Call(`_RAnEn_generateSearchStations`, sx_xs, sx_ys, num_neighbors, sx_distance)
+}
+
 #' RAnEn::generateTimeMapping
 #' 
 #' RAnEn::generateTimeMapping generates the index mapping table from foreacst times and lead times

@@ -8,7 +8,7 @@ toForecastTime(observation.time.id, mapping, flt = NULL)
 }
 \arguments{
 \item{observation.time.id}{The observation time index(es) from the \code{Time} column of the \code{analogs} member in
-in the results of \code{\link{generateAnalogs}}.}
+in the results of \code{\link{generateAnalogs.default}}.}
 
 \item{mapping}{The mapping table created from \code{\link{generateTimeMapping}}.}
 
@@ -29,7 +29,7 @@ with multiple forecast times because of the existence of forecast lead times. If
 lead time, then the match between forecasts and observations becomes one-on-one.
 
 The observation time index usually comes from the \code{Time} column of the \code{analogs} member in the results of
-\code{\link{generateAnalogs}}. This time is observation times. However, please note that the times in the
+\code{\link{generateAnalogs.default}}. This time is observation times. However, please note that the times in the
 \code{similarity} member are \strong{forecast times}. These two are different.
 }
 \author{

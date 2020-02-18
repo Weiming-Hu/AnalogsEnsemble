@@ -31,6 +31,20 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// generateSearchStations
+NumericMatrix generateSearchStations(SEXP sx_xs, SEXP sx_ys, int num_neighbors, SEXP sx_distance);
+RcppExport SEXP _RAnEn_generateSearchStations(SEXP sx_xsSEXP, SEXP sx_ysSEXP, SEXP num_neighborsSEXP, SEXP sx_distanceSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type sx_xs(sx_xsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type sx_ys(sx_ysSEXP);
+    Rcpp::traits::input_parameter< int >::type num_neighbors(num_neighborsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type sx_distance(sx_distanceSEXP);
+    rcpp_result_gen = Rcpp::wrap(generateSearchStations(sx_xs, sx_ys, num_neighbors, sx_distance));
+    return rcpp_result_gen;
+END_RCPP
+}
 // generateTimeMapping
 NumericMatrix generateTimeMapping(SEXP sx_fcst_times, SEXP sx_fcst_flts, SEXP sx_obs_times);
 RcppExport SEXP _RAnEn_generateTimeMapping(SEXP sx_fcst_timesSEXP, SEXP sx_fcst_fltsSEXP, SEXP sx_obs_timesSEXP) {
@@ -50,6 +64,7 @@ RcppExport SEXP _rcpp_module_boot_Config();
 static const R_CallMethodDef CallEntries[] = {
     {"_RAnEn_checkOpenMP", (DL_FUNC) &_RAnEn_checkOpenMP, 0},
     {"_RAnEn_generateAnalogs", (DL_FUNC) &_RAnEn_generateAnalogs, 6},
+    {"_RAnEn_generateSearchStations", (DL_FUNC) &_RAnEn_generateSearchStations, 4},
     {"_RAnEn_generateTimeMapping", (DL_FUNC) &_RAnEn_generateTimeMapping, 3},
     {"_rcpp_module_boot_Config", (DL_FUNC) &_rcpp_module_boot_Config, 0},
     {NULL, NULL, 0}
