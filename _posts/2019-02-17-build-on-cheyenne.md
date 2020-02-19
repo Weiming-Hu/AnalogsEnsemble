@@ -63,4 +63,10 @@ cd ../../release/bin
 ./anen
 ```
 
+If you log out and log back in, you need to at least load the GNU module for `anen` to work.
+
+```
+module load gnu/9.1.0
+```
+
 If you encountered any problems, please open a ticket [here](https://github.com/Weiming-Hu/AnalogsEnsemble/issues).
