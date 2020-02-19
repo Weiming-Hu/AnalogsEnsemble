@@ -23,11 +23,6 @@ option(INSTALL_RAnEn "Install RAnEn package" OFF)
 # Whether to build boost
 option(BUILD_BOOST "Build Boost" OFF)
 
-# Add defitions to project space so that they affect all sub projects
-add_definitions(-D_APPVERSION="v ${GRAND_VERSION}")
-add_definitions(-D_COPYRIGHT_MSG="${WE_ARE}")
-add_definitions(-DBOOST_NO_AUTO_PTR)
-
 # Set variables
 set(GRAND_VERSION "4.0.1")
 set(GRAND_VERSION_NICKNAME "Pandora")
@@ -35,6 +30,11 @@ set(WE_ARE "GEOlab @ Penn State")
 set(SUBPROJECT_TARGETS "AnEn;AnEnIO")
 set(EXTRA_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 list(APPEND CMAKE_MODULE_PATH ${EXTRA_MODULE_PATH})
+
+# Add defitions to project space so that they affect all sub projects
+add_definitions(-D_APPVERSION="v ${GRAND_VERSION}")
+add_definitions(-D_COPYRIGHT_MSG="${WE_ARE}")
+add_definitions(-DBOOST_NO_AUTO_PTR)
 
 include("${EXTRA_MODULE_PATH}/macros.cmake")
 
