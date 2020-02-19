@@ -221,7 +221,7 @@ int main(int argc, char** argv) {
             ("save-sims", bool_switch(&(config.save_sims))->default_value(config.save_sims), "[Optional] Save similarity.")
             ("save-sims-time-index", bool_switch(&(config.save_sims_time_index))->default_value(config.save_sims_time_index), "[Optional] Save time indices of similarity.")
             ("save-sims-station-index", bool_switch(&(config.save_sims_station_index))->default_value(config.save_sims_station_index), "[Optional] Save station indices of similarity.")
-            ("quick", bool_switch(&(config.quick_sort))->default_value(config.quick_sort), "[Optional] Use quick sort.");
+            ("no-quick", bool_switch(&(config.quick_sort))->default_value(config.quick_sort), "[Optional] Disable nth_element sort, use partial sort.");
 
     // Get all the available options
     vector<string> available_options;
