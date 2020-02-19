@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>AnalogEnsemble: Ncdf Namespace Reference</title>
+<title>ParallelAnalogEnsemble: Ncdf Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,7 +21,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">AnalogEnsemble
+   <div id="projectname">ParallelAnalogEnsemble
    </div>
   </td>
  </tr>
@@ -79,12 +79,6 @@ Functions</h2></td></tr>
 <tr class="separator:a0a94ef2f794cb1ca849a80eca129b008"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a67dfde37dc85b313651107ee8273f851"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_ncdf.html#a67dfde37dc85b313651107ee8273f851">checkIndex</a> (size_t start, size_t count, size_t len)</td></tr>
 <tr class="separator:a67dfde37dc85b313651107ee8273f851"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5d22bfd62dbcef0c70f1159061155459"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_ncdf.html#a5d22bfd62dbcef0c70f1159061155459">readStringVector</a> (const netCDF::NcFile &amp;nc, std::string var_name, std::vector&lt; std::string &gt; &amp;results, size_t start=0, size_t count=0, const std::string &amp;name_char=&quot;num_chars&quot;)</td></tr>
-<tr class="separator:a5d22bfd62dbcef0c70f1159061155459"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3371ed128ceb90bd3e406fddac2ffb32"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_ncdf.html#a3371ed128ceb90bd3e406fddac2ffb32">purge</a> (std::string &amp;str)</td></tr>
-<tr class="separator:a3371ed128ceb90bd3e406fddac2ffb32"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a93c900139d1a4dc98384937ed4f0d0fd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_ncdf.html#a93c900139d1a4dc98384937ed4f0d0fd">purge</a> (std::vector&lt; std::string &gt; &amp;strs)</td></tr>
-<tr class="separator:a93c900139d1a4dc98384937ed4f0d0fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0b9ab1d8b3d98ca735f7d48f308b815f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_ncdf.html#a0b9ab1d8b3d98ca735f7d48f308b815f">checkDims</a> (const netCDF::NcFile &amp;nc, const std::vector&lt; std::string &gt; &amp;names)</td></tr>
 <tr class="separator:a0b9ab1d8b3d98ca735f7d48f308b815f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0bc6a7da77914d94805ce54aedfccfd4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_ncdf.html#a0bc6a7da77914d94805ce54aedfccfd4">checkVars</a> (const netCDF::NcFile &amp;nc, const std::vector&lt; std::string &gt; &amp;names)</td></tr>
@@ -95,6 +89,27 @@ Functions</h2></td></tr>
 <tr class="separator:a499237f6b275baf9e4d52708749b95e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9bc168bb869c51dd322817550189e940"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_ncdf.html#a9bc168bb869c51dd322817550189e940">varExists</a> (const netCDF::NcFile &amp;nc, const std::string &amp;name)</td></tr>
 <tr class="separator:a9bc168bb869c51dd322817550189e940"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5d22bfd62dbcef0c70f1159061155459"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_ncdf.html#a5d22bfd62dbcef0c70f1159061155459">readStringVector</a> (const netCDF::NcFile &amp;nc, std::string var_name, std::vector&lt; std::string &gt; &amp;results, size_t start=0, size_t count=0, const std::string &amp;name_char=&quot;num_chars&quot;)</td></tr>
+<tr class="separator:a5d22bfd62dbcef0c70f1159061155459"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7db169503fbaae0ec6671f2e7e43542a"><td class="memItemLeft" align="right" valign="top">netCDF::NcDim&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_ncdf.html#a7db169503fbaae0ec6671f2e7e43542a">getDimension</a> (netCDF::NcFile &amp;, const std::string &amp;, bool unlimited=false, size_t len=0)</td></tr>
+<tr class="separator:a7db169503fbaae0ec6671f2e7e43542a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae4f68c49648f173c9594bcaf2ea69987"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_ncdf.html#ae4f68c49648f173c9594bcaf2ea69987">writeStringVector</a> (netCDF::NcFile &amp;, const std::string &amp;, const std::string &amp;, const std::vector&lt; std::string &gt; &amp;, bool unlimited=false)</td></tr>
+<tr class="separator:ae4f68c49648f173c9594bcaf2ea69987"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c84e7da4354f103dee2cceac0eab21c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_ncdf.html#a1c84e7da4354f103dee2cceac0eab21c">writeArray4D</a> (netCDF::NcFile &amp;, const <a class="el" href="class_array4_d.html">Array4D</a> &amp;, const std::string &amp;, const std::array&lt; std::string, 4 &gt; &amp;, const std::array&lt; bool, 4 &gt; &amp;unlimited={false, false, false, false})</td></tr>
+<tr class="separator:a1c84e7da4354f103dee2cceac0eab21c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3371ed128ceb90bd3e406fddac2ffb32"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_ncdf.html#a3371ed128ceb90bd3e406fddac2ffb32">purge</a> (std::string &amp;str)</td></tr>
+<tr class="separator:a3371ed128ceb90bd3e406fddac2ffb32"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a93c900139d1a4dc98384937ed4f0d0fd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_ncdf.html#a93c900139d1a4dc98384937ed4f0d0fd">purge</a> (std::vector&lt; std::string &gt; &amp;strs)</td></tr>
+<tr class="separator:a93c900139d1a4dc98384937ed4f0d0fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a96ba3c30c634afff589def084b47bec4"><td class="memTemplParams" colspan="2">template&lt;typename nctype , typename valuetype &gt; </td></tr>
+<tr class="memitem:a96ba3c30c634afff589def084b47bec4"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_ncdf.html#a96ba3c30c634afff589def084b47bec4">writeAttributes</a> (nctype &amp;nc, const std::string &amp;, const valuetype &amp;, netCDF::NcType, bool overwrite=false)</td></tr>
+<tr class="separator:a96ba3c30c634afff589def084b47bec4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aacfe07cbf6cb8f638dbe47686323fc36"><td class="memTemplParams" colspan="2">template&lt;typename nctype &gt; </td></tr>
+<tr class="memitem:aacfe07cbf6cb8f638dbe47686323fc36"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_ncdf.html#aacfe07cbf6cb8f638dbe47686323fc36">writeStringAttributes</a> (nctype &amp;nc, const std::string &amp;, const std::string &amp;, bool overwrite=false)</td></tr>
+<tr class="separator:aacfe07cbf6cb8f638dbe47686323fc36"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a62b16d9808510c642e0054dd086e81a9"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a62b16d9808510c642e0054dd086e81a9"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_ncdf.html#a62b16d9808510c642e0054dd086e81a9">writeVector</a> (netCDF::NcFile &amp;, const std::string &amp;, const std::string &amp;, const std::vector&lt; T &gt; &amp;, netCDF::NcType, bool unlimited=false)</td></tr>
+<tr class="separator:a62b16d9808510c642e0054dd086e81a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7298b2b8ea000a1a17a7af5587cc89a6"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a7298b2b8ea000a1a17a7af5587cc89a6"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_ncdf.html#a7298b2b8ea000a1a17a7af5587cc89a6">readVector</a> (const netCDF::NcFile &amp;nc, std::string var_name, std::vector&lt; T &gt; &amp;results, std::vector&lt; size_t &gt; start={}, std::vector&lt; size_t &gt; count={})</td></tr>
 <tr class="separator:a7298b2b8ea000a1a17a7af5587cc89a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -309,6 +324,46 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a7db169503fbaae0ec6671f2e7e43542a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7db169503fbaae0ec6671f2e7e43542a">&#9670;&nbsp;</a></span>getDimension()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">netCDF::NcDim Ncdf::getDimension </td>
+          <td>(</td>
+          <td class="paramtype">netCDF::NcFile &amp;&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>unlimited</em> = <code>false</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>len</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a3371ed128ceb90bd3e406fddac2ffb32"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3371ed128ceb90bd3e406fddac2ffb32">&#9670;&nbsp;</a></span>purge() <span class="overload">[1/2]</span></h2>
 
@@ -462,6 +517,242 @@ template&lt;typename T &gt; </div>
           <td></td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>name</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1c84e7da4354f103dee2cceac0eab21c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1c84e7da4354f103dee2cceac0eab21c">&#9670;&nbsp;</a></span>writeArray4D()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Ncdf::writeArray4D </td>
+          <td>(</td>
+          <td class="paramtype">netCDF::NcFile &amp;&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="class_array4_d.html">Array4D</a> &amp;&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::array&lt; std::string, 4 &gt; &amp;&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::array&lt; bool, 4 &gt; &amp;&#160;</td>
+          <td class="paramname"><em>unlimited</em> = <code>{false,&#160;false,&#160;false,&#160;false}</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a96ba3c30c634afff589def084b47bec4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a96ba3c30c634afff589def084b47bec4">&#9670;&nbsp;</a></span>writeAttributes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename nctype , typename valuetype &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void Ncdf::writeAttributes </td>
+          <td>(</td>
+          <td class="paramtype">nctype &amp;&#160;</td>
+          <td class="paramname"><em>nc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const valuetype &amp;&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">netCDF::NcType&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>overwrite</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aacfe07cbf6cb8f638dbe47686323fc36"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aacfe07cbf6cb8f638dbe47686323fc36">&#9670;&nbsp;</a></span>writeStringAttributes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename nctype &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void Ncdf::writeStringAttributes </td>
+          <td>(</td>
+          <td class="paramtype">nctype &amp;&#160;</td>
+          <td class="paramname"><em>nc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>overwrite</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae4f68c49648f173c9594bcaf2ea69987"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae4f68c49648f173c9594bcaf2ea69987">&#9670;&nbsp;</a></span>writeStringVector()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Ncdf::writeStringVector </td>
+          <td>(</td>
+          <td class="paramtype">netCDF::NcFile &amp;&#160;</td>
+          <td class="paramname"><em>nc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>var_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>dim_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>values</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>unlimited</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a62b16d9808510c642e0054dd086e81a9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a62b16d9808510c642e0054dd086e81a9">&#9670;&nbsp;</a></span>writeVector()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void Ncdf::writeVector </td>
+          <td>(</td>
+          <td class="paramtype">netCDF::NcFile &amp;&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">netCDF::NcType&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>unlimited</em> = <code>false</code>&#160;</td>
         </tr>
         <tr>
           <td></td>

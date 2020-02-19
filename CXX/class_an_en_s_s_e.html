@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>AnalogEnsemble: AnEnSSE Class Reference</title>
+<title>ParallelAnalogEnsemble: AnEnSSE Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,7 +21,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">AnalogEnsemble
+   <div id="projectname">ParallelAnalogEnsemble
    </div>
   </td>
  </tr>
@@ -80,7 +80,7 @@ Inheritance diagram for AnEnSSE:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_an_en_s_s_e__inherit__graph.png" border="0" usemap="#_an_en_s_s_e_inherit__map" alt="Inheritance graph"/></div>
 <map name="_an_en_s_s_e_inherit__map" id="_an_en_s_s_e_inherit__map">
-<area shape="rect" id="node2" href="class_an_en_i_s.html" title="AnEnIS is an implementation of the class AnEn for the independent search algorithm. " alt="" coords="5,248,203,941"/>
+<area shape="rect" id="node2" href="class_an_en_i_s.html" title="AnEnIS is an implementation of the class AnEn for the independent search algorithm. " alt="" coords="5,248,203,897"/>
 <area shape="rect" id="node3" href="class_an_en.html" title="AnEn is an abstract class that defines the interface for implement analog ensemble generation..." alt="" coords="44,5,164,200"/>
 </map>
 </div>
@@ -89,7 +89,7 @@ Collaboration diagram for AnEnSSE:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_an_en_s_s_e__coll__graph.png" border="0" usemap="#_an_en_s_s_e_coll__map" alt="Collaboration graph"/></div>
 <map name="_an_en_s_s_e_coll__map" id="_an_en_s_s_e_coll__map">
-<area shape="rect" id="node2" href="class_an_en_i_s.html" title="AnEnIS is an implementation of the class AnEn for the independent search algorithm. " alt="" coords="5,800,203,1493"/>
+<area shape="rect" id="node2" href="class_an_en_i_s.html" title="AnEnIS is an implementation of the class AnEn for the independent search algorithm. " alt="" coords="5,800,203,1449"/>
 <area shape="rect" id="node3" href="class_an_en.html" title="AnEn is an abstract class that defines the interface for implement analog ensemble generation..." alt="" coords="21,367,141,561"/>
 <area shape="rect" id="node4" href="class_array4_d_pointer.html" title="Array4DPointer is an implementation of the abstract class Array4D. " alt="" coords="170,293,323,635"/>
 <area shape="rect" id="node5" href="class_array4_d.html" title="Array4D is an abstract class for 4&#45;dimensional array. " alt="" coords="183,5,310,244"/>
@@ -108,14 +108,22 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a0a5dd6d6e8bdc22b993f0b00e2427b3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac38e803582ace56ce786ac138ee808a8"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_s_s_e.html#ac38e803582ace56ce786ac138ee808a8">compute</a> (const <a class="el" href="class_forecasts.html">Forecasts</a> &amp;forecasts, const <a class="el" href="class_observations.html">Observations</a> &amp;observations, std::vector&lt; std::size_t &gt; &amp;fcsts_test_index, std::vector&lt; std::size_t &gt; &amp;fcsts_search_index) override</td></tr>
 <tr class="separator:ac38e803582ace56ce786ac138ee808a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a62485da30c2e0b963c0cd3a2316352fd"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="class_array4_d_pointer.html">Array4DPointer</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_s_s_e.html#a62485da30c2e0b963c0cd3a2316352fd">getSimsStationIndex</a> () const</td></tr>
-<tr class="separator:a62485da30c2e0b963c0cd3a2316352fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ada7c956eaa788a7d888f32c3781dba3c"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="namespace_functions.html#a1a53efc30f777b3253fe8f0e7a54f30f">Functions::Matrix</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_s_s_e.html#ada7c956eaa788a7d888f32c3781dba3c">getSearchStationsIndex</a> () const</td></tr>
-<tr class="separator:ada7c956eaa788a7d888f32c3781dba3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af6934f53e98357a45c166ef2b52a976d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_s_s_e.html#af6934f53e98357a45c166ef2b52a976d">print</a> (std::ostream &amp;) const override</td></tr>
 <tr class="separator:af6934f53e98357a45c166ef2b52a976d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a65ac7fdc10794c9813d3adfc2409b24c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_s_s_e.html">AnEnSSE</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_s_s_e.html#a65ac7fdc10794c9813d3adfc2409b24c">operator=</a> (const <a class="el" href="class_an_en_s_s_e.html">AnEnSSE</a> &amp;rhs)</td></tr>
 <tr class="separator:a65ac7fdc10794c9813d3adfc2409b24c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a918050232c81c34268e283b4c84ca7a9"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_s_s_e.html#a918050232c81c34268e283b4c84ca7a9">num_nearest</a> () const</td></tr>
+<tr class="separator:a918050232c81c34268e283b4c84ca7a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d920300bc357963fc62ad63f08e3a6f"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_s_s_e.html#a4d920300bc357963fc62ad63f08e3a6f">distance</a> () const</td></tr>
+<tr class="separator:a4d920300bc357963fc62ad63f08e3a6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adab159a33eddf30d8cf8fcfd0b8f4dbe"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_s_s_e.html#adab159a33eddf30d8cf8fcfd0b8f4dbe">extend_obs</a> () const</td></tr>
+<tr class="separator:adab159a33eddf30d8cf8fcfd0b8f4dbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a74de7e9ee55568cf16b064b27ed58616"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_s_s_e.html#a74de7e9ee55568cf16b064b27ed58616">save_sims_station_index</a> () const</td></tr>
+<tr class="separator:a74de7e9ee55568cf16b064b27ed58616"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afed9dda646930f82fdb9d7028176b1fe"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="class_array4_d_pointer.html">Array4DPointer</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_s_s_e.html#afed9dda646930f82fdb9d7028176b1fe">sims_station_index</a> () const</td></tr>
+<tr class="separator:afed9dda646930f82fdb9d7028176b1fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aadc87a6186af7db87c28a4bb0330820c"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="namespace_functions.html#a1a53efc30f777b3253fe8f0e7a54f30f">Functions::Matrix</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_s_s_e.html#aadc87a6186af7db87c28a4bb0330820c">search_stations_index</a> () const</td></tr>
+<tr class="separator:aadc87a6186af7db87c28a4bb0330820c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class_an_en_i_s"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_an_en_i_s')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_an_en_i_s.html">AnEnIS</a></td></tr>
 <tr class="memitem:a365fc6ed9edd53f794647534835f3ff7 inherit pub_methods_class_an_en_i_s"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_s.html#a365fc6ed9edd53f794647534835f3ff7">AnEnIS</a> ()</td></tr>
 <tr class="separator:a365fc6ed9edd53f794647534835f3ff7 inherit pub_methods_class_an_en_i_s"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -127,20 +135,48 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a925299904ce3083e63b55fcc7ac96b5b inherit pub_methods_class_an_en_i_s"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0bf4ba05c90310a74671e79243d20c8c inherit pub_methods_class_an_en_i_s"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_s.html#a0bf4ba05c90310a74671e79243d20c8c">compute</a> (const <a class="el" href="class_forecasts.html">Forecasts</a> &amp;forecasts, const <a class="el" href="class_observations.html">Observations</a> &amp;observations, const <a class="el" href="class_times.html">Times</a> &amp;test_times, const <a class="el" href="class_times.html">Times</a> &amp;search_times) override</td></tr>
 <tr class="separator:a0bf4ba05c90310a74671e79243d20c8c inherit pub_methods_class_an_en_i_s"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a943553407359f4bc7016690ea26b90b8 inherit pub_methods_class_an_en_i_s"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="class_array4_d_pointer.html">Array4DPointer</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_s.html#a943553407359f4bc7016690ea26b90b8">getSds</a> () const</td></tr>
-<tr class="separator:a943553407359f4bc7016690ea26b90b8 inherit pub_methods_class_an_en_i_s"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a753d0a6e580331ac20cd4025c2e27630 inherit pub_methods_class_an_en_i_s"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="class_array4_d_pointer.html">Array4DPointer</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_s.html#a753d0a6e580331ac20cd4025c2e27630">getSimsValue</a> () const</td></tr>
-<tr class="separator:a753d0a6e580331ac20cd4025c2e27630 inherit pub_methods_class_an_en_i_s"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad03402939b5fc49f42263498113fbd5c inherit pub_methods_class_an_en_i_s"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="class_array4_d_pointer.html">Array4DPointer</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_s.html#ad03402939b5fc49f42263498113fbd5c">getSimsTimeIndex</a> () const</td></tr>
-<tr class="separator:ad03402939b5fc49f42263498113fbd5c inherit pub_methods_class_an_en_i_s"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9554792f05c1cd02eb9ec893b744ec40 inherit pub_methods_class_an_en_i_s"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="class_array4_d_pointer.html">Array4DPointer</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_s.html#a9554792f05c1cd02eb9ec893b744ec40">getAnalogsValue</a> () const</td></tr>
-<tr class="separator:a9554792f05c1cd02eb9ec893b744ec40 inherit pub_methods_class_an_en_i_s"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a06b8325b2aaab34b0c3add9f153ff327 inherit pub_methods_class_an_en_i_s"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="class_array4_d_pointer.html">Array4DPointer</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_s.html#a06b8325b2aaab34b0c3add9f153ff327">getAnalogsTimeIndex</a> () const</td></tr>
-<tr class="separator:a06b8325b2aaab34b0c3add9f153ff327 inherit pub_methods_class_an_en_i_s"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad778aa4d839deee64ab222eaca17598e inherit pub_methods_class_an_en_i_s"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="namespace_functions.html#a1a53efc30f777b3253fe8f0e7a54f30f">Functions::Matrix</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_s.html#ad778aa4d839deee64ab222eaca17598e">getObsTimeIndexTable</a> () const</td></tr>
-<tr class="separator:ad778aa4d839deee64ab222eaca17598e inherit pub_methods_class_an_en_i_s"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acf9102c87a788b703362de3b6f8540e9 inherit pub_methods_class_an_en_i_s"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en_i_s.html">AnEnIS</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_s.html#acf9102c87a788b703362de3b6f8540e9">operator=</a> (const <a class="el" href="class_an_en_i_s.html">AnEnIS</a> &amp;rhs)</td></tr>
 <tr class="separator:acf9102c87a788b703362de3b6f8540e9 inherit pub_methods_class_an_en_i_s"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aefc0dd84ac0143790e6cc07a5747e4a8 inherit pub_methods_class_an_en_i_s"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_s.html#aefc0dd84ac0143790e6cc07a5747e4a8">num_analogs</a> () const</td></tr>
+<tr class="separator:aefc0dd84ac0143790e6cc07a5747e4a8 inherit pub_methods_class_an_en_i_s"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad2e3212455e9d7298ad34336889eea33 inherit pub_methods_class_an_en_i_s"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_s.html#ad2e3212455e9d7298ad34336889eea33">num_sims</a> () const</td></tr>
+<tr class="separator:ad2e3212455e9d7298ad34336889eea33 inherit pub_methods_class_an_en_i_s"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8fbb2d6d9bc74f39d725c25723163f42 inherit pub_methods_class_an_en_i_s"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_s.html#a8fbb2d6d9bc74f39d725c25723163f42">obs_var_index</a> () const</td></tr>
+<tr class="separator:a8fbb2d6d9bc74f39d725c25723163f42 inherit pub_methods_class_an_en_i_s"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa0f5aa777aded927f63e63a8dc7e097 inherit pub_methods_class_an_en_i_s"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_s.html#aaa0f5aa777aded927f63e63a8dc7e097">max_par_nan</a> () const</td></tr>
+<tr class="separator:aaa0f5aa777aded927f63e63a8dc7e097 inherit pub_methods_class_an_en_i_s"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afa272987b894743e768ee9fa887e3af5 inherit pub_methods_class_an_en_i_s"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_s.html#afa272987b894743e768ee9fa887e3af5">max_flt_nan</a> () const</td></tr>
+<tr class="separator:afa272987b894743e768ee9fa887e3af5 inherit pub_methods_class_an_en_i_s"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a62a20884c51336ffc638c1ec453df615 inherit pub_methods_class_an_en_i_s"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_s.html#a62a20884c51336ffc638c1ec453df615">flt_radius</a> () const</td></tr>
+<tr class="separator:a62a20884c51336ffc638c1ec453df615 inherit pub_methods_class_an_en_i_s"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab24e43973038c3c6d3a64287e2f8cec3 inherit pub_methods_class_an_en_i_s"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_s.html#ab24e43973038c3c6d3a64287e2f8cec3">save_analogs</a> () const</td></tr>
+<tr class="separator:ab24e43973038c3c6d3a64287e2f8cec3 inherit pub_methods_class_an_en_i_s"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae68c207c54b55e5dc14d7e9c2fa82a4d inherit pub_methods_class_an_en_i_s"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_s.html#ae68c207c54b55e5dc14d7e9c2fa82a4d">save_analogs_time_index</a> () const</td></tr>
+<tr class="separator:ae68c207c54b55e5dc14d7e9c2fa82a4d inherit pub_methods_class_an_en_i_s"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac48daaad111d098a9d2d0e3566097ff4 inherit pub_methods_class_an_en_i_s"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_s.html#ac48daaad111d098a9d2d0e3566097ff4">save_sims</a> () const</td></tr>
+<tr class="separator:ac48daaad111d098a9d2d0e3566097ff4 inherit pub_methods_class_an_en_i_s"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7af108b6fdbb9cbcecd22276daad6d4a inherit pub_methods_class_an_en_i_s"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_s.html#a7af108b6fdbb9cbcecd22276daad6d4a">save_sims_time_index</a> () const</td></tr>
+<tr class="separator:a7af108b6fdbb9cbcecd22276daad6d4a inherit pub_methods_class_an_en_i_s"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adffdc199f065eb5f771779eb70a43bf6 inherit pub_methods_class_an_en_i_s"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_s.html#adffdc199f065eb5f771779eb70a43bf6">operation</a> () const</td></tr>
+<tr class="separator:adffdc199f065eb5f771779eb70a43bf6 inherit pub_methods_class_an_en_i_s"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a68b247435f86aa491124960f972135e4 inherit pub_methods_class_an_en_i_s"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_s.html#a68b247435f86aa491124960f972135e4">quick_sort</a> () const</td></tr>
+<tr class="separator:a68b247435f86aa491124960f972135e4 inherit pub_methods_class_an_en_i_s"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc29c002ea7493f93f25a7ff97560ca8 inherit pub_methods_class_an_en_i_s"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_s.html#abc29c002ea7493f93f25a7ff97560ca8">prevent_search_future</a> () const</td></tr>
+<tr class="separator:abc29c002ea7493f93f25a7ff97560ca8 inherit pub_methods_class_an_en_i_s"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af5162a5d08a8fdecf70bbea2856f3143 inherit pub_methods_class_an_en_i_s"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; double &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_s.html#af5162a5d08a8fdecf70bbea2856f3143">weights</a> () const</td></tr>
+<tr class="separator:af5162a5d08a8fdecf70bbea2856f3143 inherit pub_methods_class_an_en_i_s"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d3c180695307cf258a983cbd43af4dc inherit pub_methods_class_an_en_i_s"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="class_array4_d_pointer.html">Array4DPointer</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_s.html#a6d3c180695307cf258a983cbd43af4dc">sds</a> () const</td></tr>
+<tr class="separator:a6d3c180695307cf258a983cbd43af4dc inherit pub_methods_class_an_en_i_s"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af131bb6c3ca5998ff8b5d17e804a081d inherit pub_methods_class_an_en_i_s"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="class_array4_d_pointer.html">Array4DPointer</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_s.html#af131bb6c3ca5998ff8b5d17e804a081d">sims_metric</a> () const</td></tr>
+<tr class="separator:af131bb6c3ca5998ff8b5d17e804a081d inherit pub_methods_class_an_en_i_s"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae6a7602ceede5a20965ca792d7a8301a inherit pub_methods_class_an_en_i_s"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="class_array4_d_pointer.html">Array4DPointer</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_s.html#ae6a7602ceede5a20965ca792d7a8301a">sims_time_index</a> () const</td></tr>
+<tr class="separator:ae6a7602ceede5a20965ca792d7a8301a inherit pub_methods_class_an_en_i_s"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2d28c20a04ff99d89233319a379ff2eb inherit pub_methods_class_an_en_i_s"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="class_array4_d_pointer.html">Array4DPointer</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_s.html#a2d28c20a04ff99d89233319a379ff2eb">analogs_value</a> () const</td></tr>
+<tr class="separator:a2d28c20a04ff99d89233319a379ff2eb inherit pub_methods_class_an_en_i_s"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a80a258ef701d6ea1402955f48915ca2b inherit pub_methods_class_an_en_i_s"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="class_array4_d_pointer.html">Array4DPointer</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_s.html#a80a258ef701d6ea1402955f48915ca2b">analogs_time_index</a> () const</td></tr>
+<tr class="separator:a80a258ef701d6ea1402955f48915ca2b inherit pub_methods_class_an_en_i_s"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac4289c25dfcee2823508998c3797820e inherit pub_methods_class_an_en_i_s"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="namespace_functions.html#a1a53efc30f777b3253fe8f0e7a54f30f">Functions::Matrix</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_s.html#ac4289c25dfcee2823508998c3797820e">obs_time_index_table</a> () const</td></tr>
+<tr class="separator:ac4289c25dfcee2823508998c3797820e inherit pub_methods_class_an_en_i_s"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class_an_en"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_an_en')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_an_en.html">AnEn</a></td></tr>
 <tr class="memitem:a60c12de232af95794a6194fbac06623a inherit pub_methods_class_an_en"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en.html#a60c12de232af95794a6194fbac06623a">AnEn</a> ()</td></tr>
 <tr class="separator:a60c12de232af95794a6194fbac06623a inherit pub_methods_class_an_en"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -380,13 +416,13 @@ Friends</h2></td></tr>
           <td class="memname">bool AnEnSSE::_simsSort_ </td>
           <td>(</td>
           <td class="paramtype">const std::array&lt; double, 4 &gt; &amp;&#160;</td>
-          <td class="paramname"><em>lhs</em>, </td>
+          <td class="paramname">, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const std::array&lt; double, 4 &gt; &amp;&#160;</td>
-          <td class="paramname"><em>rhs</em>&#160;</td>
+          <td class="paramname">&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -563,14 +599,14 @@ Friends</h2></td></tr>
 
 </div>
 </div>
-<a id="ada7c956eaa788a7d888f32c3781dba3c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ada7c956eaa788a7d888f32c3781dba3c">&#9670;&nbsp;</a></span>getSearchStationsIndex()</h2>
+<a id="a4d920300bc357963fc62ad63f08e3a6f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4d920300bc357963fc62ad63f08e3a6f">&#9670;&nbsp;</a></span>distance()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="namespace_functions.html#a1a53efc30f777b3253fe8f0e7a54f30f">Functions::Matrix</a> &amp; AnEnSSE::getSearchStationsIndex </td>
+          <td class="memname">double AnEnSSE::distance </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -580,14 +616,31 @@ Friends</h2></td></tr>
 
 </div>
 </div>
-<a id="a62485da30c2e0b963c0cd3a2316352fd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a62485da30c2e0b963c0cd3a2316352fd">&#9670;&nbsp;</a></span>getSimsStationIndex()</h2>
+<a id="adab159a33eddf30d8cf8fcfd0b8f4dbe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adab159a33eddf30d8cf8fcfd0b8f4dbe">&#9670;&nbsp;</a></span>extend_obs()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="class_array4_d_pointer.html">Array4DPointer</a> &amp; AnEnSSE::getSimsStationIndex </td>
+          <td class="memname">bool AnEnSSE::extend_obs </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a918050232c81c34268e283b4c84ca7a9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a918050232c81c34268e283b4c84ca7a9">&#9670;&nbsp;</a></span>num_nearest()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t AnEnSSE::num_nearest </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -690,6 +743,23 @@ Friends</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Reimplemented from <a class="el" href="class_an_en_i_s.html#a99c363e84ffb2dfa862b6b48f5c6b66e">AnEnIS</a>.</p>
+
+</div>
+</div>
+<a id="a74de7e9ee55568cf16b064b27ed58616"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a74de7e9ee55568cf16b064b27ed58616">&#9670;&nbsp;</a></span>save_sims_station_index()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool AnEnSSE::save_sims_station_index </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -799,6 +869,23 @@ template&lt;std::size_t len&gt; </div>
 
 </div>
 </div>
+<a id="aadc87a6186af7db87c28a4bb0330820c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aadc87a6186af7db87c28a4bb0330820c">&#9670;&nbsp;</a></span>search_stations_index()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="namespace_functions.html#a1a53efc30f777b3253fe8f0e7a54f30f">Functions::Matrix</a> &amp; AnEnSSE::search_stations_index </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="af12192089417d6ad2b11ed91aa47f21d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af12192089417d6ad2b11ed91aa47f21d">&#9670;&nbsp;</a></span>setMembers_()</h2>
 
@@ -824,6 +911,23 @@ template&lt;std::size_t len&gt; </div>
 </div><div class="memdoc">
 
 <p>Reimplemented from <a class="el" href="class_an_en_i_s.html#a501f557147e360a1fa728fc5ff3e3967">AnEnIS</a>.</p>
+
+</div>
+</div>
+<a id="afed9dda646930f82fdb9d7028176b1fe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afed9dda646930f82fdb9d7028176b1fe">&#9670;&nbsp;</a></span>sims_station_index()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="class_array4_d_pointer.html">Array4DPointer</a> &amp; AnEnSSE::sims_station_index </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>

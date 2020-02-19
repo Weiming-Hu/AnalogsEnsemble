@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>AnalogEnsemble: PAnEn 4.0.0 Pandora</title>
+<title>ParallelAnalogEnsemble: PAnEn 4.0.1</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,7 +21,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">AnalogEnsemble
+   <div id="projectname">ParallelAnalogEnsemble
    </div>
   </td>
  </tr>
@@ -59,10 +59,15 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">PAnEn 4.0.0 Pandora </div>  </div>
+<div class="title">PAnEn 4.0.1 </div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><ul>
+<li>Add <code>RAnEn::generateSearchStations</code></li>
+<li>Update document links</li>
+</ul>
+<h1>PAnEn 4.0.0 Pandora</h1>
+<ul>
 <li>Changed Underlying data structure from boost to pointer for better performance</li>
 <li>Introduced functionalities like checks of searching into future</li>
 <li>Reduced memory consumption when using the R API</li>
@@ -101,7 +106,7 @@ $(function() {
 <ul>
 <li>Fixed environment issue for <code>RAnEn::verify</code></li>
 <li>Bug fixed in <code>RAnEn::plotAnEnSelection</code></li>
-<li>Updated the building process of <code><a class="el" href="namespacegrib_converter.html">gribConverter</a></code>.</li>
+<li>Updated the building process of <code>gribConverter</code>.</li>
 <li>Changed the spread skill verification function to slicing by FLTs.</li>
 </ul>
 <h1>PAnEn 3.6.3</h1>
@@ -161,7 +166,7 @@ $(function() {
 <li>Improved <code>RAnEn</code> function documentation.</li>
 <li>Added identification for cycle time in C++ utilities.</li>
 <li>Bug fixed in checking functions in <code>RAnEn</code>.</li>
-<li>Added grid checks in <code><a class="el" href="namespacegrib_converter.html">gribConverter</a></code> for each file.</li>
+<li>Added grid checks in <code>gribConverter</code> for each file.</li>
 <li>Made <code>classifier</code> the parameter for <code>extendedSearch</code> only.</li>
 <li>Improved website and tutorials/posts.</li>
 </ul>
@@ -174,7 +179,7 @@ $(function() {
 </ul>
 <h1>PAnEn 3.4.1</h1>
 <ul>
-<li>Added grid subset functionality to <code><a class="el" href="namespacegrib_converter.html">gribConverter</a></code> for type <code><a class="el" href="class_forecasts.html" title="Forecasts is an abstract class that extends BasicData and the abstract class Array4D. It defines the interface of how to interact with the underlying data storage through the abstract class Array4D. This interface is accepted by the Analog Ensemble algorithm. ">Forecasts</a></code>. This function has been tested.</li>
+<li>Added grid subset functionality to <code>gribConverter</code> for type <code><a class="el" href="class_forecasts.html" title="Forecasts is an abstract class that extends BasicData and the abstract class Array4D. It defines the interface of how to interact with the underlying data storage through the abstract class Array4D. This interface is accepted by the Analog Ensemble algorithm. ">Forecasts</a></code>. This function has been tested.</li>
 <li>Fixed <code>RAnEn</code> installation script for C/C++ compilers.</li>
 <li>Fixed <code>OpenMP</code> shared object issue for <code>runtime_error</code>.</li>
 </ul>
@@ -189,7 +194,7 @@ $(function() {
 <li>Fix an indexing bug in <code>RAnEn</code> operational mode.</li>
 <li>Fix a parallelization bug in the internal verification function <code>anen.mean</code>.</li>
 <li>'analogGenerator' accepts multiple test forecast files.</li>
-<li>Add partial reading feature in <code>fileAggregate</code> for <code>Similarity</code> and <code><a class="el" href="class_analogs.html" title="This is the class to store analogs. The default dimensions are: [test stations][test times][FLTs][mem...">Analogs</a></code>.</li>
+<li>Add partial reading feature in <code>fileAggregate</code> for <code>Similarity</code> and <code>Analogs</code>.</li>
 <li>Improve efficiency of verification functions. Some missing functions have been resolved.</li>
 <li>Add <code>FLT_radius</code> parameter to <code>RAnEn</code></li>
 </ul>
@@ -239,7 +244,7 @@ $(function() {
 <li>Add a cleaner version of configuration. Configuration now, by default, is the cleaner version. The old version can be accessed by using <code>advanced</code> parameter when generating a configuration.</li>
 <li>Remove some of the post contents to reduce redundant information. Tutorials are now only hosted on binder.</li>
 <li>Add MPI implementation for "MPI_UNIVERSE_SIZE" to limit the number of child spawned processes.</li>
-<li>Add unique identifier in <code>SimilarityMatrices</code> and <code><a class="el" href="class_analogs.html" title="This is the class to store analogs. The default dimensions are: [test stations][test times][FLTs][mem...">Analogs</a></code> to distinguish the reason for the NAN value.</li>
+<li>Add unique identifier in <code>SimilarityMatrices</code> and <code>Analogs</code> to distinguish the reason for the NAN value.</li>
 </ul>
 <h1>PAnEn 3.2.1</h1>
 <ul>

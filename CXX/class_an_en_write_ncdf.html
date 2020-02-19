@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>AnalogEnsemble: AnEnWriteNcdf Class Reference</title>
+<title>ParallelAnalogEnsemble: AnEnWriteNcdf Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,7 +21,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">AnalogEnsemble
+   <div id="projectname">ParallelAnalogEnsemble
    </div>
   </td>
  </tr>
@@ -59,8 +59,8 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="class_an_en_write_ncdf-members.html">List of all members</a>  </div>
@@ -78,72 +78,42 @@ Collaboration diagram for AnEnWriteNcdf:</div>
 </map>
 </div>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
-Public Types</h2></td></tr>
-<tr class="memitem:a9ab8c1904116c068141eff69a97cd6ef"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_write_ncdf.html#a9ab8c1904116c068141eff69a97cd6ef">FileType</a> { <br />
-&#160;&#160;<a class="el" href="class_an_en_write_ncdf.html#a9ab8c1904116c068141eff69a97cd6efa46e20c827e9bdba53b124cbee184a5e6">FileType::Forecasts</a>, 
-<a class="el" href="class_an_en_write_ncdf.html#a9ab8c1904116c068141eff69a97cd6efa263df4303fc8e2f27499caefad0c6f25">FileType::Observations</a>, 
-<a class="el" href="class_an_en_write_ncdf.html#a9ab8c1904116c068141eff69a97cd6efaa9dea78180588431ec64d6bc4872fdbc">FileType::Similarity</a>, 
-<a class="el" href="class_an_en_write_ncdf.html#a9ab8c1904116c068141eff69a97cd6efa4cab9a759d70032437147e37bc4b20be">FileType::Analogs</a>, 
-<br />
-&#160;&#160;<a class="el" href="class_an_en_write_ncdf.html#a9ab8c1904116c068141eff69a97cd6efa690ab5004e5e4913a865cbc8ed6a53b4">FileType::StandardDeviation</a>
-<br />
- }</td></tr>
-<tr class="separator:a9ab8c1904116c068141eff69a97cd6ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:adcffd08c6ef9df8315a706bfdf55109f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_write_ncdf.html#adcffd08c6ef9df8315a706bfdf55109f">AnEnWriteNcdf</a> ()</td></tr>
 <tr class="separator:adcffd08c6ef9df8315a706bfdf55109f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2d0392bff4730c529b6b09ad7ed88bce"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_write_ncdf.html#a2d0392bff4730c529b6b09ad7ed88bce">AnEnWriteNcdf</a> (<a class="el" href="_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9">Verbose</a> verbose)</td></tr>
-<tr class="separator:a2d0392bff4730c529b6b09ad7ed88bce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a13047ffd9f852f6c76595794f4c26fea"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_write_ncdf.html#a13047ffd9f852f6c76595794f4c26fea">AnEnWriteNcdf</a> (const <a class="el" href="class_an_en_write_ncdf.html">AnEnWriteNcdf</a> &amp;orig)</td></tr>
 <tr class="separator:a13047ffd9f852f6c76595794f4c26fea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2d0392bff4730c529b6b09ad7ed88bce"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_write_ncdf.html#a2d0392bff4730c529b6b09ad7ed88bce">AnEnWriteNcdf</a> (<a class="el" href="_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9">Verbose</a> verbose)</td></tr>
+<tr class="separator:a2d0392bff4730c529b6b09ad7ed88bce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4cf62e581b150978c454de4c3dc0f8cc"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_write_ncdf.html#a4cf62e581b150978c454de4c3dc0f8cc">~AnEnWriteNcdf</a> ()</td></tr>
 <tr class="separator:a4cf62e581b150978c454de4c3dc0f8cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5728221082f5747a1f868899e9b75971"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_write_ncdf.html#a5728221082f5747a1f868899e9b75971">writeAnEn</a> (const std::string &amp;file, const <a class="el" href="class_an_en_i_s.html">AnEnIS</a> &amp;, const <a class="el" href="class_times.html">Times</a> &amp;test_times, const <a class="el" href="class_times.html">Times</a> &amp;search_times, const <a class="el" href="class_times.html">Times</a> &amp;forecast_flts, const <a class="el" href="class_parameters.html">Parameters</a> &amp;, const <a class="el" href="class_stations.html">Stations</a> &amp;, bool overwrite=false) const</td></tr>
+<tr class="separator:a5728221082f5747a1f868899e9b75971"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a63010a3a17ea25926d90365eeed271a9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_write_ncdf.html#a63010a3a17ea25926d90365eeed271a9">writeAnEn</a> (const std::string &amp;file, const <a class="el" href="class_an_en_s_s_e.html">AnEnSSE</a> &amp;, const <a class="el" href="class_times.html">Times</a> &amp;test_times, const <a class="el" href="class_times.html">Times</a> &amp;search_times, const <a class="el" href="class_times.html">Times</a> &amp;forecast_flts, const <a class="el" href="class_parameters.html">Parameters</a> &amp;, const <a class="el" href="class_stations.html">Stations</a> &amp;, bool overwrite=false) const</td></tr>
+<tr class="separator:a63010a3a17ea25926d90365eeed271a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
+Static Public Attributes</h2></td></tr>
+<tr class="memitem:af4689f1338619d4b0d705fe62eb24767"><td class="memItemLeft" align="right" valign="top">static const bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_write_ncdf.html#af4689f1338619d4b0d705fe62eb24767">_unlimited_stations</a> = false</td></tr>
+<tr class="separator:af4689f1338619d4b0d705fe62eb24767"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a465e92624c06d8e5281a5896d580c822"><td class="memItemLeft" align="right" valign="top">static const bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_write_ncdf.html#a465e92624c06d8e5281a5896d580c822">_unlimited_test_times</a> = false</td></tr>
+<tr class="separator:a465e92624c06d8e5281a5896d580c822"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad3855c4850f4b030f65f1acd9fdb0193"><td class="memItemLeft" align="right" valign="top">static const bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_write_ncdf.html#ad3855c4850f4b030f65f1acd9fdb0193">_unlimited_flts</a> = false</td></tr>
+<tr class="separator:ad3855c4850f4b030f65f1acd9fdb0193"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb4a6d7333ff18ce01137ea5976a4efe"><td class="memItemLeft" align="right" valign="top">static const bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_write_ncdf.html#afb4a6d7333ff18ce01137ea5976a4efe">_unlimited_members</a> = false</td></tr>
+<tr class="separator:afb4a6d7333ff18ce01137ea5976a4efe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:ac57e318d50882bc0dec68e4e93bbdbde"><td class="memItemLeft" align="right" valign="top">netCDF::NcDim&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_write_ncdf.html#ac57e318d50882bc0dec68e4e93bbdbde">getDim_</a> (const netCDF::NcFile &amp;nc, std::string name, size_t len=0) const</td></tr>
-<tr class="separator:ac57e318d50882bc0dec68e4e93bbdbde"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a790107b4d1a11cf8f6b4eccc9ff59fbd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_write_ncdf.html#a790107b4d1a11cf8f6b4eccc9ff59fbd">append_</a> (const netCDF::NcFile &amp;nc, const <a class="el" href="class_analogs.html">Analogs</a> &amp;analogs) const</td></tr>
-<tr class="separator:a790107b4d1a11cf8f6b4eccc9ff59fbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec5d3419e3bd68fe585fd7b84742efc7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_write_ncdf.html#aec5d3419e3bd68fe585fd7b84742efc7">addStations_</a> (netCDF::NcFile &amp;nc, const <a class="el" href="class_stations.html">Stations</a> &amp;, bool) const</td></tr>
+<tr class="separator:aec5d3419e3bd68fe585fd7b84742efc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
 <tr class="memitem:abb281822c1977dcc4659517b8445913e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9">Verbose</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_write_ncdf.html#abb281822c1977dcc4659517b8445913e">verbose_</a></td></tr>
 <tr class="separator:abb281822c1977dcc4659517b8445913e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Enumeration Documentation</h2>
-<a id="a9ab8c1904116c068141eff69a97cd6ef"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9ab8c1904116c068141eff69a97cd6ef">&#9670;&nbsp;</a></span>FileType</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum <a class="el" href="class_an_en_write_ncdf.html#a9ab8c1904116c068141eff69a97cd6ef">AnEnWriteNcdf::FileType</a></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a9ab8c1904116c068141eff69a97cd6efa46e20c827e9bdba53b124cbee184a5e6"></a>Forecasts&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a9ab8c1904116c068141eff69a97cd6efa263df4303fc8e2f27499caefad0c6f25"></a>Observations&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a9ab8c1904116c068141eff69a97cd6efaa9dea78180588431ec64d6bc4872fdbc"></a>Similarity&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a9ab8c1904116c068141eff69a97cd6efa4cab9a759d70032437147e37bc4b20be"></a>Analogs&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a9ab8c1904116c068141eff69a97cd6efa690ab5004e5e4913a865cbc8ed6a53b4"></a>StandardDeviation&#160;</td><td class="fielddoc"></td></tr>
-</table>
-
-</div>
-</div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="adcffd08c6ef9df8315a706bfdf55109f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#adcffd08c6ef9df8315a706bfdf55109f">&#9670;&nbsp;</a></span>AnEnWriteNcdf() <span class="overload">[1/3]</span></h2>
@@ -162,26 +132,8 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a2d0392bff4730c529b6b09ad7ed88bce"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2d0392bff4730c529b6b09ad7ed88bce">&#9670;&nbsp;</a></span>AnEnWriteNcdf() <span class="overload">[2/3]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">AnEnWriteNcdf::AnEnWriteNcdf </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9">Verbose</a>&#160;</td>
-          <td class="paramname"><em>verbose</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="a13047ffd9f852f6c76595794f4c26fea"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a13047ffd9f852f6c76595794f4c26fea">&#9670;&nbsp;</a></span>AnEnWriteNcdf() <span class="overload">[3/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a13047ffd9f852f6c76595794f4c26fea">&#9670;&nbsp;</a></span>AnEnWriteNcdf() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -191,6 +143,24 @@ Protected Attributes</h2></td></tr>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="class_an_en_write_ncdf.html">AnEnWriteNcdf</a> &amp;&#160;</td>
           <td class="paramname"><em>orig</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2d0392bff4730c529b6b09ad7ed88bce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2d0392bff4730c529b6b09ad7ed88bce">&#9670;&nbsp;</a></span>AnEnWriteNcdf() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">AnEnWriteNcdf::AnEnWriteNcdf </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9">Verbose</a>&#160;</td>
+          <td class="paramname"><em>verbose</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -224,8 +194,8 @@ Protected Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a790107b4d1a11cf8f6b4eccc9ff59fbd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a790107b4d1a11cf8f6b4eccc9ff59fbd">&#9670;&nbsp;</a></span>append_()</h2>
+<a id="aec5d3419e3bd68fe585fd7b84742efc7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aec5d3419e3bd68fe585fd7b84742efc7">&#9670;&nbsp;</a></span>addStations_()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -234,16 +204,22 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void AnEnWriteNcdf::append_ </td>
+          <td class="memname">void AnEnWriteNcdf::addStations_ </td>
           <td>(</td>
-          <td class="paramtype">const netCDF::NcFile &amp;&#160;</td>
+          <td class="paramtype">netCDF::NcFile &amp;&#160;</td>
           <td class="paramname"><em>nc</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="class_analogs.html">Analogs</a> &amp;&#160;</td>
-          <td class="paramname"><em>analogs</em>&#160;</td>
+          <td class="paramtype">const <a class="el" href="class_stations.html">Stations</a> &amp;&#160;</td>
+          <td class="paramname"><em>stations</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>unlimited</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -260,32 +236,59 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="ac57e318d50882bc0dec68e4e93bbdbde"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac57e318d50882bc0dec68e4e93bbdbde">&#9670;&nbsp;</a></span>getDim_()</h2>
+<a id="a5728221082f5747a1f868899e9b75971"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5728221082f5747a1f868899e9b75971">&#9670;&nbsp;</a></span>writeAnEn() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">NcDim AnEnWriteNcdf::getDim_ </td>
+          <td class="memname">void AnEnWriteNcdf::writeAnEn </td>
           <td>(</td>
-          <td class="paramtype">const netCDF::NcFile &amp;&#160;</td>
-          <td class="paramname"><em>nc</em>, </td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>file</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::string&#160;</td>
-          <td class="paramname"><em>name</em>, </td>
+          <td class="paramtype">const <a class="el" href="class_an_en_i_s.html">AnEnIS</a> &amp;&#160;</td>
+          <td class="paramname"><em>anen</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>len</em> = <code>0</code>&#160;</td>
+          <td class="paramtype">const <a class="el" href="class_times.html">Times</a> &amp;&#160;</td>
+          <td class="paramname"><em>test_times</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="class_times.html">Times</a> &amp;&#160;</td>
+          <td class="paramname"><em>search_times</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="class_times.html">Times</a> &amp;&#160;</td>
+          <td class="paramname"><em>forecast_flts</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="class_parameters.html">Parameters</a> &amp;&#160;</td>
+          <td class="paramname"><em>forecast_parameters</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="class_stations.html">Stations</a> &amp;&#160;</td>
+          <td class="paramname"><em>forecast_stations</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>overwrite</em> = <code>false</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -293,16 +296,163 @@ Protected Attributes</h2></td></tr>
           <td></td><td> const</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a63010a3a17ea25926d90365eeed271a9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a63010a3a17ea25926d90365eeed271a9">&#9670;&nbsp;</a></span>writeAnEn() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void AnEnWriteNcdf::writeAnEn </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>file</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="class_an_en_s_s_e.html">AnEnSSE</a> &amp;&#160;</td>
+          <td class="paramname"><em>anen</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="class_times.html">Times</a> &amp;&#160;</td>
+          <td class="paramname"><em>test_times</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="class_times.html">Times</a> &amp;&#160;</td>
+          <td class="paramname"><em>search_times</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="class_times.html">Times</a> &amp;&#160;</td>
+          <td class="paramname"><em>forecast_flts</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="class_parameters.html">Parameters</a> &amp;&#160;</td>
+          <td class="paramname"><em>forecast_parameters</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="class_stations.html">Stations</a> &amp;&#160;</td>
+          <td class="paramname"><em>forecast_stations</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>overwrite</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
 </div><div class="memdoc">
 
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
+<a id="ad3855c4850f4b030f65f1acd9fdb0193"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad3855c4850f4b030f65f1acd9fdb0193">&#9670;&nbsp;</a></span>_unlimited_flts</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const bool AnEnWriteNcdf::_unlimited_flts = false</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afb4a6d7333ff18ce01137ea5976a4efe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afb4a6d7333ff18ce01137ea5976a4efe">&#9670;&nbsp;</a></span>_unlimited_members</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const bool AnEnWriteNcdf::_unlimited_members = false</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af4689f1338619d4b0d705fe62eb24767"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af4689f1338619d4b0d705fe62eb24767">&#9670;&nbsp;</a></span>_unlimited_stations</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const bool AnEnWriteNcdf::_unlimited_stations = false</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a465e92624c06d8e5281a5896d580c822"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a465e92624c06d8e5281a5896d580c822">&#9670;&nbsp;</a></span>_unlimited_test_times</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const bool AnEnWriteNcdf::_unlimited_test_times = false</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="abb281822c1977dcc4659517b8445913e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#abb281822c1977dcc4659517b8445913e">&#9670;&nbsp;</a></span>verbose_</h2>
 

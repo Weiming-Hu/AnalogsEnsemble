@@ -1,9 +1,11 @@
 var searchData=
 [
-  ['obs_5ftime_5findex_5ftable_5f',['obs_time_index_table_',['../class_an_en_i_s.html#a933820e6dd9db84b7b32d003f785a55e',1,'AnEnIS']]],
-  ['obs_5ftimes_5f',['obs_times_',['../classtest_an_en_i_s.html#af657e9c5f442a377343d6a37ba1dc599',1,'testAnEnIS']]],
-  ['obs_5fvar_5findex',['obs_var_index',['../class_config.html#a45eee027a1dc1280dc2e08e7254bc9b9',1,'Config']]],
-  ['obs_5fvar_5findex_5f',['obs_var_index_',['../class_an_en_i_s.html#af026abe474c690468ad6c3ebcbd0e1a3',1,'AnEnIS']]],
-  ['operation',['operation',['../class_config.html#a549b3fe8a07430944dbc6a9857871323',1,'Config']]],
-  ['operation_5f',['operation_',['../class_an_en_i_s.html#ac278062feafa60db182efd86a9b3a361',1,'AnEnIS']]]
+  ['m_5flasttestfailed',['m_lastTestFailed',['../class_progress_listener.html#aff95c91a4fc171a4676755716a6f5c74',1,'ProgressListener']]],
+  ['max_5fflt_5fnan',['max_flt_nan',['../class_config.html#a5439ac53f69e9b3741cb5204031c3a61',1,'Config']]],
+  ['max_5fflt_5fnan_5f',['max_flt_nan_',['../class_an_en_i_s.html#a8a21d21385dd5fb6ba4847e4e3c9bdff',1,'AnEnIS']]],
+  ['max_5fpar_5fnan',['max_par_nan',['../class_config.html#a9abbee3183140d97b4b535c79ae96a55',1,'Config']]],
+  ['max_5fpar_5fnan_5f',['max_par_nan_',['../class_an_en_i_s.html#a77fe9976f5c7677863590e09f9f70194',1,'AnEnIS']]],
+  ['mean_5fcos_5f',['mean_cos_',['../class_calculator.html#a1cbee27fd0ecd9b433a76354f8bde49d',1,'Calculator']]],
+  ['mean_5flinear_5f',['mean_linear_',['../class_calculator.html#a3cbf06cd48a1183febfc1eaf3848c40f',1,'Calculator']]],
+  ['mean_5fsin_5f',['mean_sin_',['../class_calculator.html#a844a10d5c9336c7b148adf21fa656f3d',1,'Calculator']]]
 ];

@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['_5fpath_5fforecasts',['_PATH_FORECASTS',['../test_an_en_i_o_8h.html#a6036e6167bbf1a1d2a8d70fb72ba4ca5',1,'testAnEnIO.h']]],
-  ['_5fpath_5fobservations',['_PATH_OBSERVATIONS',['../test_an_en_i_o_8h.html#a10300e2b79b95d849af44aff8e3e0639',1,'testAnEnIO.h']]]
+  ['boost_5fno_5fauto_5fptr',['BOOST_NO_AUTO_PTR',['../_bm_dim_8h.html#a8f5c030105c10fbe6953ed183115511a',1,'BmDim.h']]]
 ];

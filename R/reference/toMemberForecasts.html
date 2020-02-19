@@ -36,7 +36,8 @@
 
 
 <meta property="og:title" content="RAnEn::toMemberForecasts — toMemberForecasts" />
-<meta property="og:description" content="RAnEn::toMemberForecasts" />
+<meta property="og:description" content="RAnEn::toMemberForecasts finds the most similar historical forecasts
+that are associated with each analog members." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -69,7 +70,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAnEn</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">4.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">4.0.1</span>
       </span>
     </div>
 
@@ -114,7 +115,8 @@
     </div>
 
     <div class="ref-description">
-    <p>RAnEn::toMemberForecasts</p>
+    <p>RAnEn::toMemberForecasts finds the most similar historical forecasts
+that are associated with each analog members.</p>
     </div>
 
     <pre class="usage"><span class='fu'>toMemberForecasts</span>(
@@ -129,12 +131,57 @@
   <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='no'>T</span>
 )</pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>forecasts</th>
+      <td><p>The Data from Forecasts. Usually it is a 4D array.</p></td>
+    </tr>
+    <tr>
+      <th>sims.time.index</th>
+      <td><p>The similarity time index array from AnEn.</p></td>
+    </tr>
+    <tr>
+      <th>sims.stations.index</th>
+      <td><p>The similarity station index array from AnEn.</p></td>
+    </tr>
+    <tr>
+      <th>stations.index</th>
+      <td><p>The station index of the analogs.</p></td>
+    </tr>
+    <tr>
+      <th>test.times.index</th>
+      <td><p>The test time index of the analogs.</p></td>
+    </tr>
+    <tr>
+      <th>flts.index</th>
+      <td><p>The forecast lead time index of the analogs.</p></td>
+    </tr>
+    <tr>
+      <th>members.index</th>
+      <td><p>The analog members index.</p></td>
+    </tr>
+    <tr>
+      <th>parameters.index</th>
+      <td><p>The forecast parameters index.</p></td>
+    </tr>
+    <tr>
+      <th>verbose</th>
+      <td><p>Whether to show progress and summary information</p></td>
+    </tr>
+    </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A 5 dimensional array with the shape <code>[parameters][stations][times][flts][members]</code>.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#value">Value</a></li>
     </ul>
 
     <h2>Author</h2>

@@ -1,7 +1,7 @@
 <map id="ObservationsPointer" name="ObservationsPointer">
-<area shape="rect" id="node2" href="$class_observations.html" title="Observations is an abstract class that extends BasicData. It defines the interface of how to interact..." alt="" coords="157,663,287,887"/>
-<area shape="rect" id="node3" href="$class_basic_data.html" title="BasicData is an implementation of the data structure used by Analog Ensemble. It includes parameters..." alt="" coords="159,345,285,613"/>
-<area shape="rect" id="node4" href="$class_times.html" title="Times class is used to store Time. It is a bidirectional map implemented from Boost so that it provid..." alt="" coords="39,139,131,275"/>
-<area shape="rect" id="node6" href="$class_stations.html" title="Stations class stores Station objects. It is a bidirectional map implemented from Boost so that it pr..." alt="" coords="171,139,273,275"/>
-<area shape="rect" id="node8" href="$class_parameters.html" title="Parameters class stores Parameter objects. It is a bidirectional map implemented from Boost so that i..." alt="" coords="314,132,434,283"/>
+<area shape="rect" id="node2" href="$class_observations.html" title="Observations is an abstract class that extends BasicData. It defines the interface of how to interact..." alt="" coords="163,721,292,945"/>
+<area shape="rect" id="node3" href="$class_basic_data.html" title="BasicData is an implementation of the data structure used by Analog Ensemble. It includes parameters..." alt="" coords="164,404,291,672"/>
+<area shape="rect" id="node4" href="$class_times.html" title="Times class is used to store Time. It is a bidirectional map implemented from Boost so that it provid..." alt="" coords="5,132,137,341"/>
+<area shape="rect" id="node6" href="$class_stations.html" title="Stations class stores Station objects. It is a bidirectional map implemented from Boost so that it pr..." alt="" coords="162,147,293,327"/>
+<area shape="rect" id="node8" href="$class_parameters.html" title="Parameters class stores Parameter objects. It is a bidirectional map implemented from Boost so that i..." alt="" coords="326,147,446,327"/>
 </map>

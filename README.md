@@ -20,7 +20,7 @@
     * [RAnEn](#ranen)
             * [One-Line Solution](#one-line-solution)
             * [Solution for a Specific Version](#solution-for-a-specific-version)
-    * [gribConverter](#gribconverter)
+    * [GRIB support from Eccodes](#grib-support-from-eccodes)
         * [Mac OS](#mac-os)
     * [CMake Parameter Look-Up Table](#cmake-parameter-look-up-table)
 * [References](#references)
@@ -165,31 +165,9 @@ install.packages("https://github.com/Weiming-Hu/AnalogsEnsemble/raw/master/RAnal
 CXX11=[C++11 compiler]
 ```
 
-### gribConverter
+### GRIB support from Eccodes
 
-`gribConverter` provides the functionality to convert from a GRIB2 file format to NetCDF file format directly that is ready to be used by other Analog computation tools like `similarityCalculator`. By default, this tool is **NOT** built.
-
-`gribConverter` uses `Eccodes`. `Eccodes` is not reliable when dealing with multi-field messages. **Always remember to make sure the GRIB file is flat which means it does not include any multi-field messages**. Check [here](http://bit.ly/avoidMultiField) for how to check this.
-
-If you have already installed `Eccodes` on your system, to build `gribConverter`, you need to include the following parameters. The order of the parameters does not matter.
-
-```
-cmake -DBUILD_GRIBCONVERTER=ON <other arguments if you have any> ..
-
-# If the eccodes library cannot be found at default locations,
-# explicitly specify the root folder which contains folders like
-# bin/, include/, and lib/.
-#
-cmake -DBUILD_GRIBCONVERTER=ON -CMAKE_PREFIX_PATH=<path to eccodes> <other arguments if you have any> ..
-```
-
-If you do not have `Eccodes` installed or you do not have the permission to install any libraries, the installation process is included in the `cmake` process. It will try to download and build the library for you under the project directory.
-
-```
-cmake -DBUILD_GRIBCONVERTER=ON -DECCODES_TYPE=BUILD <other arguments if you have any> ..
-```
-
-To build `Eccodes`, the following packages are needed:
+To have GRIB file support, you need to install `Eccodes` on your system. To build `Eccodes`, the following packages are needed:
 
 - [gfortran](https://gcc.gnu.org/wiki/GFortran) is part of GNU
 - JPEG on [Mac OS](https://formulae.brew.sh/formula/jpeg) or [Linux](https://www.howtoinstall.co/en/ubuntu/trusty/libjpeg-dev)
@@ -197,13 +175,9 @@ To build `Eccodes`, the following packages are needed:
   - OpenJPEG on [Mac OS](http://macappstore.org/openjpeg/) or [Linux](https://www.howtoinstall.co/en/ubuntu/xenial/libopenjpeg-dev)
   - Jasper on [Mac OS](http://macappstore.org/jasper/) or [Linux](https://www.howtoinstall.co/en/ubuntu/trusty/libjasper-dev)
 
-**Note** that if you do not have either `OpenJPEG` or `Jasper`, the compilation would complete but the test would not be complete.
-
 #### Mac OS
 
-If you are using Mac OS, the recommended way to build `gribConverter` is to install `Eccodes` and then just link to it.
-
-If you cannot install `Eccodes`, additional to that you need to make sure you have the required dependencies, you need check the followings:
+If you are using Mac OS, the recommended way is to use `HomeBrew`.
 
 ```
 $ # Check whether you have installed jasper. I have installed jasper because
@@ -277,28 +251,6 @@ make <-j 4>
 make test
 ```
 
-After compilation, the programs and libraries should be in the folder `AnalogsEnsemble/output`. Please `cd` into the binary folder `[Where your repository folder is]/AnalogsEnsemble/output/bin/` and run the following command to see help messages.
-
-```
-~/github/AnalogsEnsemble/output/bin$ ./gribConverter 
-Parallel Ensemble Forecasts --- GRIB Converter v 3.6.3
-Copyright (c) 2018 Weiming Hu @ GEOlab
-Available options:
-  -h [ --help ]                 Print help information for options.
-  -c [ --config ] arg           Set the configuration file path. Command line 
-                                options overwrite options in configuration 
-                                file.
-  --output-type arg             Set the output type. Currently it supports 
-                                'Forecasts' and 'Observations'.
-  --folder arg                  Set the data folder.
-
-# ... [subsequent texts ignored]
-```
-
-If you have specified an installation path, you program will reside under the `bin/` folder of your installation path.
-
-For more information on how to use the tool, please see an example [here](https://weiming-hu.github.io/AnalogsEnsemble/2018/10/01/eccodes-gribconverter.html).
-
 ### CMake Parameter Look-Up Table
 
 |      Parameter       |                                               Explanation                                                                                          |       Default      |
@@ -317,8 +269,6 @@ For more information on how to use the tool, please see an example [here](https:
 |     USE\_NCCONFIG    |    Use the `nc_config` program if found. This might cause problems if `NetCDF` is not properly setup.                                              |         OFF        |
 |      BUILD\_HDF5     |                            Build `HDF5` library regardless of its existence.                                                                       |         OFF        |
 |        VERBOSE       |                          Print detailed messages during the compiling process.                                                                     |         OFF        |
-|    CODE\_PROFILING   |                                     Print time profiling information.                                                                              |         OFF        |
-| BUILD\_GRIBCONVERTER | Build the GRIB Converter program. [Eccodes](https://confluence.ecmwf.int/display/ECC) library is required.                                         |         OFF        |
 |    ECCODES\_TYPE     | `BUILD` for building `Eccodes`; `SYSTEM` for using the library on the system.                                                                      |         SYSTEM     |
 
 ## References

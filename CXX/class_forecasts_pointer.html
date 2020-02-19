@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>AnalogEnsemble: ForecastsPointer Class Reference</title>
+<title>ParallelAnalogEnsemble: ForecastsPointer Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,7 +21,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">AnalogEnsemble
+   <div id="projectname">ParallelAnalogEnsemble
    </div>
   </td>
  </tr>
@@ -88,13 +88,13 @@ Collaboration diagram for ForecastsPointer:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_forecasts_pointer__coll__graph.png" border="0" usemap="#_forecasts_pointer_coll__map" alt="Collaboration graph"/></div>
 <map name="_forecasts_pointer_coll__map" id="_forecasts_pointer_coll__map">
-<area shape="rect" id="node2" href="class_forecasts.html" title="Forecasts is an abstract class that extends BasicData and the abstract class Array4D. It defines the interface of how to interact with the underlying data storage through the abstract class Array4D. This interface is accepted by the Analog Ensemble algorithm. " alt="" coords="183,721,325,945"/>
-<area shape="rect" id="node3" href="class_array4_d.html" title="Array4D is an abstract class for 4&#45;dimensional array. " alt="" coords="53,360,180,599"/>
-<area shape="rect" id="node11" href="class_array4_d_pointer.html" title="Array4DPointer is an implementation of the abstract class Array4D. " alt="" coords="5,663,159,1004"/>
-<area shape="rect" id="node4" href="class_basic_data.html" title="BasicData is an implementation of the data structure used by Analog Ensemble. It includes parameters..." alt="" coords="297,345,424,613"/>
-<area shape="rect" id="node5" href="class_times.html" title="Times class is used to store Time. It is a bidirectional map implemented from Boost so that it provid..." alt="" coords="189,139,281,275"/>
-<area shape="rect" id="node7" href="class_stations.html" title="Stations class stores Station objects. It is a bidirectional map implemented from Boost so that it pr..." alt="" coords="310,139,411,275"/>
-<area shape="rect" id="node9" href="class_parameters.html" title="Parameters class stores Parameter objects. It is a bidirectional map implemented from Boost so that i..." alt="" coords="453,132,573,283"/>
+<area shape="rect" id="node2" href="class_forecasts.html" title="Forecasts is an abstract class that extends BasicData and the abstract class Array4D. It defines the interface of how to interact with the underlying data storage through the abstract class Array4D. This interface is accepted by the Analog Ensemble algorithm. " alt="" coords="183,780,325,1004"/>
+<area shape="rect" id="node3" href="class_array4_d.html" title="Array4D is an abstract class for 4&#45;dimensional array. " alt="" coords="53,419,180,657"/>
+<area shape="rect" id="node11" href="class_array4_d_pointer.html" title="Array4DPointer is an implementation of the abstract class Array4D. " alt="" coords="5,721,159,1063"/>
+<area shape="rect" id="node4" href="class_basic_data.html" title="BasicData is an implementation of the data structure used by Analog Ensemble. It includes parameters..." alt="" coords="305,404,432,672"/>
+<area shape="rect" id="node5" href="class_times.html" title="Times class is used to store Time. It is a bidirectional map implemented from Boost so that it provid..." alt="" coords="155,132,287,341"/>
+<area shape="rect" id="node7" href="class_stations.html" title="Stations class stores Station objects. It is a bidirectional map implemented from Boost so that it pr..." alt="" coords="311,147,442,327"/>
+<area shape="rect" id="node9" href="class_parameters.html" title="Parameters class stores Parameter objects. It is a bidirectional map implemented from Boost so that i..." alt="" coords="475,147,595,327"/>
 </map>
 </div>
 <table class="memberdecls">
@@ -110,8 +110,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ab3dbc0450dc38e283bc84957871c6769"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3cc0c8c33008913695e8814bd720b8a4"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_forecasts_pointer.html#a3cc0c8c33008913695e8814bd720b8a4">setDimensions</a> (const <a class="el" href="class_parameters.html">Parameters</a> &amp;parameters, const <a class="el" href="class_stations.html">Stations</a> &amp;stations, const <a class="el" href="class_times.html">Times</a> &amp;times, const <a class="el" href="class_times.html">Times</a> &amp;flts) override</td></tr>
 <tr class="separator:a3cc0c8c33008913695e8814bd720b8a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a49eb0dda69c415ad44af77ea03e8d58e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_forecasts_pointer.html#a49eb0dda69c415ad44af77ea03e8d58e">print</a> (std::ostream &amp;) const</td></tr>
-<tr class="separator:a49eb0dda69c415ad44af77ea03e8d58e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac092e5728c909482ab367a9f3e56ca12"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_forecasts_pointer.html#ac092e5728c909482ab367a9f3e56ca12">print</a> (std::ostream &amp;) const override</td></tr>
+<tr class="separator:ac092e5728c909482ab367a9f3e56ca12"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class_forecasts"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_forecasts')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_forecasts.html">Forecasts</a></td></tr>
 <tr class="memitem:a2614be37bc63171f7d2b9d8b9f9d8871 inherit pub_methods_class_forecasts"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_forecasts.html#a2614be37bc63171f7d2b9d8b9f9d8871">Forecasts</a> ()</td></tr>
 <tr class="separator:a2614be37bc63171f7d2b9d8b9f9d8871 inherit pub_methods_class_forecasts"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -341,8 +341,8 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a49eb0dda69c415ad44af77ea03e8d58e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a49eb0dda69c415ad44af77ea03e8d58e">&#9670;&nbsp;</a></span>print()</h2>
+<a id="ac092e5728c909482ab367a9f3e56ca12"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac092e5728c909482ab367a9f3e56ca12">&#9670;&nbsp;</a></span>print()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -360,7 +360,7 @@ Additional Inherited Members</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">

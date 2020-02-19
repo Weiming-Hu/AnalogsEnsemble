@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['bmtype',['BmType',['../_bm_dim_8h.html#ac701e9d6dedc02de60794649e5bfd54c',1,'BmDim.h']]]
+  ['matrix',['Matrix',['../namespace_functions.html#a1a53efc30f777b3253fe8f0e7a54f30f',1,'Functions']]]
 ];

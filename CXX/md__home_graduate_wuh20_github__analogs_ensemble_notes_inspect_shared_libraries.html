@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>AnalogEnsemble: Inspect Shared Libraries</title>
+<title>ParallelAnalogEnsemble: Inspect Shared Libraries</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,7 +21,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">AnalogEnsemble
+   <div id="projectname">ParallelAnalogEnsemble
    </div>
   </td>
  </tr>
@@ -67,7 +67,7 @@ $(function() {
 <p>Display the contents of the ELF file's dynamic section. This command is used to print out the dependent library runpath. In stead of printing everything, we direct the output and only take the first several lines which contains the library runpath.</p>
 <div class="fragment"><div class="line">readelf -d &lt;file&gt; | head -10</div></div><!-- fragment --><h3>No rule to make for a dynamic library</h3>
 <p><em>OS: <code>Ubuntu 18.04.1 LTS</code></em></p>
-<p>If the following error message occurs during the build time for building <code><a class="el" href="namespacegrib_converter.html">gribConverter</a></code>:</p>
+<p>If the following error message occurs during the build time for building <code>gribConverter</code>:</p>
 <div class="fragment"><div class="line">make[2]: *** No rule to make target &#39;/usr/lib/x86_64-linux-gnu/libopenjp2.so&#39;, needed by &#39;../output/bin/gribConverter&#39;.  Stop.</div><div class="line">CMakeFiles/Makefile2:673: recipe for target &#39;apps/app_gribConverter/CMakeFiles/gribConverter.dir/all&#39; failed</div><div class="line">make[1]: *** [apps/app_gribConverter/CMakeFiles/gribConverter.dir/all] Error 2</div><div class="line">Makefile:140: recipe for target &#39;all&#39; failed</div><div class="line">make: *** [all] Error 2</div></div><!-- fragment --><p>This is probably because you don't have the dynamic library at the expected location. This can happen when you removed libraries that you should not.</p>
 <p>First, we need to make sure the file is missing at the expected location.</p>
 <div class="fragment"><div class="line">$ stat /usr/lib/x86_64-linux-gnu/libopenjp2.so</div><div class="line">stat: cannot stat &#39;/usr/lib/x86_64-linux-gnu/libopenjp2.so&#39;: No such file or directory</div></div><!-- fragment --><p>The file does not exist. So we need to find out which package to install in order to have this library. We do this with the help of <code>apt-file</code>.</p>

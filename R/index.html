@@ -37,7 +37,7 @@ title: R Documentation
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">RAnEn</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">4.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">4.0.1</span>
       </span>
     </div>
 
@@ -94,7 +94,7 @@ title: R Documentation
 <a href="#ranen">RAnEn</a> * <a href="#one-line-solution">One-Line Solution</a> * <a href="#solution-for-a-specific-version">Solution for a Specific Version</a>
 </li>
 <li>
-<a href="#gribconverter">gribConverter</a>
+<a href="#grib-support-from-eccodes">GRIB support from Eccodes</a>
 <ul>
 <li><a href="#mac-os">Mac OS</a></li>
 </ul>
@@ -257,22 +257,10 @@ install.packages("https://github.com/Weiming-Hu/AnalogsEnsemble/raw/master/RAnal
 <pre><code>CXX11=[C++11 compiler]</code></pre>
 </div>
 </div>
-<div id="gribconverter" class="section level3">
+<div id="grib-support-from-eccodes" class="section level3">
 <h3 class="hasAnchor">
-<a href="#gribconverter" class="anchor"></a>gribConverter</h3>
-<p><code>gribConverter</code> provides the functionality to convert from a GRIB2 file format to NetCDF file format directly that is ready to be used by other Analog computation tools like <code>similarityCalculator</code>. By default, this tool is <strong>NOT</strong> built.</p>
-<p><code>gribConverter</code> uses <code>Eccodes</code>. <code>Eccodes</code> is not reliable when dealing with multi-field messages. <strong>Always remember to make sure the GRIB file is flat which means it does not include any multi-field messages</strong>. Check <a href="http://bit.ly/avoidMultiField">here</a> for how to check this.</p>
-<p>If you have already installed <code>Eccodes</code> on your system, to build <code>gribConverter</code>, you need to include the following parameters. The order of the parameters does not matter.</p>
-<pre><code>cmake -DBUILD_GRIBCONVERTER=ON &lt;other arguments if you have any&gt; ..
-
-# If the eccodes library cannot be found at default locations,
-# explicitly specify the root folder which contains folders like
-# bin/, include/, and lib/.
-#
-cmake -DBUILD_GRIBCONVERTER=ON -CMAKE_PREFIX_PATH=&lt;path to eccodes&gt; &lt;other arguments if you have any&gt; ..</code></pre>
-<p>If you do not have <code>Eccodes</code> installed or you do not have the permission to install any libraries, the installation process is included in the <code>cmake</code> process. It will try to download and build the library for you under the project directory.</p>
-<pre><code>cmake -DBUILD_GRIBCONVERTER=ON -DECCODES_TYPE=BUILD &lt;other arguments if you have any&gt; ..</code></pre>
-<p>To build <code>Eccodes</code>, the following packages are needed:</p>
+<a href="#grib-support-from-eccodes" class="anchor"></a>GRIB support from Eccodes</h3>
+<p>To have GRIB file support, you need to install <code>Eccodes</code> on your system. To build <code>Eccodes</code>, the following packages are needed:</p>
 <ul>
 <li>
 <a href="https://gcc.gnu.org/wiki/GFortran">gfortran</a> is part of GNU</li>
@@ -284,12 +272,10 @@ cmake -DBUILD_GRIBCONVERTER=ON -CMAKE_PREFIX_PATH=&lt;path to eccodes&gt; &lt;ot
 <li>Jasper on <a href="http://macappstore.org/jasper/">Mac OS</a> or <a href="https://www.howtoinstall.co/en/ubuntu/trusty/libjasper-dev">Linux</a>
 </li>
 </ul>
-<p><strong>Note</strong> that if you do not have either <code>OpenJPEG</code> or <code>Jasper</code>, the compilation would complete but the test would not be complete.</p>
 <div id="mac-os" class="section level4">
 <h4 class="hasAnchor">
 <a href="#mac-os" class="anchor"></a>Mac OS</h4>
-<p>If you are using Mac OS, the recommended way to build <code>gribConverter</code> is to install <code>Eccodes</code> and then just link to it.</p>
-<p>If you cannot install <code>Eccodes</code>, additional to that you need to make sure you have the required dependencies, you need check the followings:</p>
+<p>If you are using Mac OS, the recommended way is to use <code>HomeBrew</code>.</p>
 <pre><code>$ # Check whether you have installed jasper. I have installed jasper because
 $ # there is a mark after formulae jasper.
 $ #
@@ -355,22 +341,6 @@ $ cmake -DOPENJPEG_INCLUDE_DIR=/usr/local/Cellar/openjpeg/2.3.1/include/openjpeg
 <p>Then you can follow the same commands for compiling and installation.</p>
 <pre><code>make &lt;-j 4&gt;
 make test</code></pre>
-<p>After compilation, the programs and libraries should be in the folder <code>AnalogsEnsemble/output</code>. Please <code>cd</code> into the binary folder <code>[Where your repository folder is]/AnalogsEnsemble/output/bin/</code> and run the following command to see help messages.</p>
-<pre><code>~/github/AnalogsEnsemble/output/bin$ ./gribConverter 
-Parallel Ensemble Forecasts --- GRIB Converter v 3.6.3
-Copyright (c) 2018 Weiming Hu @ GEOlab
-Available options:
-  -h [ --help ]                 Print help information for options.
-  -c [ --config ] arg           Set the configuration file path. Command line 
-                                options overwrite options in configuration 
-                                file.
-  --output-type arg             Set the output type. Currently it supports 
-                                'Forecasts' and 'Observations'.
-  --folder arg                  Set the data folder.
-
-# ... [subsequent texts ignored]</code></pre>
-<p>If you have specified an installation path, you program will reside under the <code>bin/</code> folder of your installation path.</p>
-<p>For more information on how to use the tool, please see an example <a href="https://weiming-hu.github.io/AnalogsEnsemble/2018/10/01/eccodes-gribconverter.html">here</a>.</p>
 </div>
 </div>
 <div id="cmake-parameter-look-up-table" class="section level3">
@@ -460,16 +430,6 @@ Available options:
 <tr class="even">
 <td align="center">VERBOSE</td>
 <td align="center">Print detailed messages during the compiling process.</td>
-<td align="center">OFF</td>
-</tr>
-<tr class="odd">
-<td align="center">CODE_PROFILING</td>
-<td align="center">Print time profiling information.</td>
-<td align="center">OFF</td>
-</tr>
-<tr class="even">
-<td align="center">BUILD_GRIBCONVERTER</td>
-<td align="center">Build the GRIB Converter program. <a href="https://confluence.ecmwf.int/display/ECC">Eccodes</a> library is required.</td>
 <td align="center">OFF</td>
 </tr>
 <tr class="odd">

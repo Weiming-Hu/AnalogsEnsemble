@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['functions',['Functions',['../namespace_functions.html',1,'']]]
+  ['ncdf',['Ncdf',['../namespace_ncdf.html',1,'']]]
 ];

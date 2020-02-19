@@ -5,6 +5,11 @@ sidebar_link: true
 ---
 
 
+# PAnEn 4.0.1
+
+- Add `RAnEn::generateSearchStations`
+- Update document links
+
 # PAnEn 4.0.0 Pandora
 
 - Changed Underlying data structure from boost to pointer for better performance

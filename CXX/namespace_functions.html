@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>AnalogEnsemble: Functions Namespace Reference</title>
+<title>ParallelAnalogEnsemble: Functions Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,7 +21,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">AnalogEnsemble
+   <div id="projectname">ParallelAnalogEnsemble
    </div>
   </td>
  </tr>
@@ -68,9 +68,6 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:a2e1490202541d355730e5a7ebe1b248f"><td class="memTemplParams" colspan="2">template&lt;typename T , std::size_t NDims&gt; </td></tr>
-<tr class="memitem:a2e1490202541d355730e5a7ebe1b248f"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_functions.html#a2e1490202541d355730e5a7ebe1b248f">array_view</a> = boost::detail::multi_array::multi_array_view&lt; T, NDims &gt;</td></tr>
-<tr class="separator:a2e1490202541d355730e5a7ebe1b248f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1a53efc30f777b3253fe8f0e7a54f30f"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions.html#a1a53efc30f777b3253fe8f0e7a54f30f">Matrix</a> = boost::numeric::ublas::matrix&lt; double, boost::numeric::ublas::column_major, std::vector&lt; double &gt; &gt;</td></tr>
 <tr class="separator:a1a53efc30f777b3253fe8f0e7a54f30f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -82,8 +79,8 @@ Functions</h2></td></tr>
 <tr class="separator:a9604a2b84f3af91add3e2ad677503af3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a28cf199876092c0cead2a25773e53504"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions.html#a28cf199876092c0cead2a25773e53504">vtoi</a> (<a class="el" href="_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9">Verbose</a>)</td></tr>
 <tr class="separator:a28cf199876092c0cead2a25773e53504"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a72adfaf04a4b202b21992fb30c039515"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions.html#a72adfaf04a4b202b21992fb30c039515">vtos</a> (<a class="el" href="_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9">Verbose</a>)</td></tr>
-<tr class="separator:a72adfaf04a4b202b21992fb30c039515"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8567a527538b0d921dda13622b6ac568"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions.html#a8567a527538b0d921dda13622b6ac568">vtos</a> (<a class="el" href="_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9">Verbose</a>)</td></tr>
+<tr class="separator:a8567a527538b0d921dda13622b6ac568"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a74848f0e55146e8eccd052ca71aff662"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions.html#a74848f0e55146e8eccd052ca71aff662">updateTimeTable</a> (const <a class="el" href="class_times.html">Times</a> &amp;fcst_times, const std::vector&lt; std::size_t &gt; &amp;fcst_times_index, const <a class="el" href="class_times.html">Times</a> &amp;fcst_flts, const <a class="el" href="class_times.html">Times</a> &amp;obs_times, <a class="el" href="namespace_functions.html#a1a53efc30f777b3253fe8f0e7a54f30f">Matrix</a> &amp;table)</td></tr>
 <tr class="separator:a74848f0e55146e8eccd052ca71aff662"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2015a2e06a7b904c16642dbccb1fc0b0"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions.html#a2015a2e06a7b904c16642dbccb1fc0b0">sdLinear</a> (const std::vector&lt; double &gt; &amp;values)</td></tr>
@@ -100,21 +97,12 @@ Functions</h2></td></tr>
 <tr class="separator:a792b17d917560feaa7ac79d7fed2c16f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa7588faf5c671515dd4dbf34f1f37bdb"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions.html#aa7588faf5c671515dd4dbf34f1f37bdb">diffCircular</a> (double i, double j)</td></tr>
 <tr class="separator:aa7588faf5c671515dd4dbf34f1f37bdb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a25028a5a2bfa4306b351093d5d449603"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a25028a5a2bfa4306b351093d5d449603"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_functions.html#a25028a5a2bfa4306b351093d5d449603">print</a> (std::ostream &amp;os, const boost::multi_array&lt; T, 2 &gt; &amp;arr)</td></tr>
-<tr class="separator:a25028a5a2bfa4306b351093d5d449603"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af4abf8c70c09a60a301041b3b4e1e5a9"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:af4abf8c70c09a60a301041b3b4e1e5a9"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_functions.html#af4abf8c70c09a60a301041b3b4e1e5a9">print</a> (std::ostream &amp;os, const boost::multi_array&lt; T, 3 &gt; &amp;arr)</td></tr>
-<tr class="separator:af4abf8c70c09a60a301041b3b4e1e5a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2f1399ff16fba8c8cfb98d74970266b8"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a2f1399ff16fba8c8cfb98d74970266b8"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_functions.html#a2f1399ff16fba8c8cfb98d74970266b8">print</a> (std::ostream &amp;os, const boost::multi_array&lt; T, 4 &gt; &amp;arr)</td></tr>
-<tr class="separator:a2f1399ff16fba8c8cfb98d74970266b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2616078e6b75ca75574bc896018f8c09"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a2616078e6b75ca75574bc896018f8c09"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_functions.html#a2616078e6b75ca75574bc896018f8c09">print</a> (std::ostream &amp;os, const boost::multi_array&lt; T, 5 &gt; &amp;arr)</td></tr>
-<tr class="separator:a2616078e6b75ca75574bc896018f8c09"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adcd03f5ceb573797ef6a91b605fb1f1b"><td class="memTemplParams" colspan="2">template&lt;typename T , std::size_t NDims&gt; </td></tr>
-<tr class="memitem:adcd03f5ceb573797ef6a91b605fb1f1b"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_functions.html#adcd03f5ceb573797ef6a91b605fb1f1b">print</a> (std::ostream &amp;os, const <a class="el" href="namespace_functions.html#a2e1490202541d355730e5a7ebe1b248f">array_view</a>&lt; T, NDims &gt; &amp;view)</td></tr>
-<tr class="separator:adcd03f5ceb573797ef6a91b605fb1f1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaeb9bce40d7689c2c93021b991c5252b"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions.html#aaeb9bce40d7689c2c93021b991c5252b">levenshtein</a> (const std::string &amp;str1, const std::string &amp;str2, size_t w=0, size_t s=2, size_t a=1, size_t d=3)</td></tr>
+<tr class="separator:aaeb9bce40d7689c2c93021b991c5252b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab01b5fb932ba5fd5218fbb207e9edd78"><td class="memItemLeft" align="right" valign="top">long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions.html#ab01b5fb932ba5fd5218fbb207e9edd78">toSeconds</a> (const std::string &amp;datetime_str, const std::string &amp;origin_str, bool iso_string)</td></tr>
+<tr class="separator:ab01b5fb932ba5fd5218fbb207e9edd78"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abbdb18407c68ff2b1029eb3a2a6a868d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions.html#abbdb18407c68ff2b1029eb3a2a6a868d">collapseLeadTimes</a> (<a class="el" href="class_observations.html">Observations</a> &amp;, const <a class="el" href="class_forecasts.html">Forecasts</a> &amp;)</td></tr>
+<tr class="separator:abbdb18407c68ff2b1029eb3a2a6a868d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1b5b03cd685628f8f7a2968a3d11ab5d"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a1b5b03cd685628f8f7a2968a3d11ab5d"><td class="memTemplItemLeft" align="right" valign="top">std::string&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_functions.html#a1b5b03cd685628f8f7a2968a3d11ab5d">format</a> (const std::vector&lt; T &gt; &amp;vec, const std::string &amp;delim=&quot;,&quot;)</td></tr>
 <tr class="separator:a1b5b03cd685628f8f7a2968a3d11ab5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -124,24 +112,11 @@ Functions</h2></td></tr>
 <tr class="memitem:ac7f2c7da969414ed7e5f13b672191288"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
 <tr class="memitem:ac7f2c7da969414ed7e5f13b672191288"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_functions.html#ac7f2c7da969414ed7e5f13b672191288">toIndex</a> (std::vector&lt; std::size_t &gt; &amp;index, const T &amp;query, const T &amp;pool)</td></tr>
 <tr class="separator:ac7f2c7da969414ed7e5f13b672191288"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adfa120d594f9ce152d0aa1a4bd7b4e7b"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
+<tr class="memitem:adfa120d594f9ce152d0aa1a4bd7b4e7b"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_functions.html#adfa120d594f9ce152d0aa1a4bd7b4e7b">guess_arguments</a> (const std::vector&lt; std::basic_string&lt; T &gt; &gt; &amp;unregistered_keys, const std::vector&lt; std::string &gt; &amp;available_options, std::ostream &amp;os)</td></tr>
+<tr class="separator:adfa120d594f9ce152d0aa1a4bd7b4e7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Typedef Documentation</h2>
-<a id="a2e1490202541d355730e5a7ebe1b248f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2e1490202541d355730e5a7ebe1b248f">&#9670;&nbsp;</a></span>array_view</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T , std::size_t NDims&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="namespace_functions.html#a2e1490202541d355730e5a7ebe1b248f">Functions::array_view</a> = typedef boost::detail::multi_array::multi_array_view&lt;T, NDims&gt;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="a1a53efc30f777b3253fe8f0e7a54f30f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1a53efc30f777b3253fe8f0e7a54f30f">&#9670;&nbsp;</a></span>Matrix</h2>
 
@@ -161,6 +136,41 @@ template&lt;typename T , std::size_t NDims&gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="abbdb18407c68ff2b1029eb3a2a6a868d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abbdb18407c68ff2b1029eb3a2a6a868d">&#9670;&nbsp;</a></span>collapseLeadTimes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Functions::collapseLeadTimes </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_observations.html">Observations</a> &amp;&#160;</td>
+          <td class="paramname"><em>observations</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="class_forecasts.html">Forecasts</a> &amp;&#160;</td>
+          <td class="paramname"><em>forecasts</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Collapse the time and lead time dimensions of a forecasts and convert them to observations; </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname"><a class="el" href="class_observations.html" title="Observations is an abstract class that extends BasicData. It defines the interface of how to interact...">Observations</a></td><td></td></tr>
+    <tr><td class="paramname"><a class="el" href="class_forecasts.html" title="Forecasts is an abstract class that extends BasicData and the abstract class Array4D. It defines the interface of how to interact with the underlying data storage through the abstract class Array4D. This interface is accepted by the Analog Ensemble algorithm. ">Forecasts</a></td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="aa7588faf5c671515dd4dbf34f1f37bdb"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa7588faf5c671515dd4dbf34f1f37bdb">&#9670;&nbsp;</a></span>diffCircular()</h2>
 
@@ -275,6 +285,51 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
+<a id="adfa120d594f9ce152d0aa1a4bd7b4e7b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adfa120d594f9ce152d0aa1a4bd7b4e7b">&#9670;&nbsp;</a></span>guess_arguments()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void Functions::guess_arguments </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; std::basic_string&lt; T &gt; &gt; &amp;&#160;</td>
+          <td class="paramname"><em>unregistered_keys</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>available_options</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::ostream &amp;&#160;</td>
+          <td class="paramname"><em>os</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Guess the unregistered parameters.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">unregistered_keys</td><td>The unregistered keys returned by boost::program_options::collect_unrecognized. </td></tr>
+    <tr><td class="paramname">available_options</td><td>A vector of string for available options. </td></tr>
+    <tr><td class="paramname">os</td><td>An output stream. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a9604a2b84f3af91add3e2ad677503af3"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9604a2b84f3af91add3e2ad677503af3">&#9670;&nbsp;</a></span>itov()</h2>
 
@@ -298,6 +353,73 @@ template&lt;typename T &gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Verbose </dd></dl>
+
+</div>
+</div>
+<a id="aaeb9bce40d7689c2c93021b991c5252b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaeb9bce40d7689c2c93021b991c5252b">&#9670;&nbsp;</a></span>levenshtein()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t Functions::levenshtein </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>str1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>str2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>w</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>s</em> = <code>2</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>a</em> = <code>1</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>d</em> = <code>3</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Computes the Levenshtein distance of two strings. The function can be used to guess the intended argument of an unknown one. This function is used by the function <a class="el" href="namespace_functions.html#adfa120d594f9ce152d0aa1a4bd7b4e7b">Functions::guess_arguments</a>.</p>
+<p>The implementation is referenced from Github <a href="https://github.com/git/git/blob/master/levenshtein.h">https://github.com/git/git/blob/master/levenshtein.h</a></p>
+<p>Thanks to the pointer of Vlad Lazarenko <a href="http://lazarenko.me/smart-getopt/">http://lazarenko.me/smart-getopt/</a></p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">str1</td><td>A string. </td></tr>
+    <tr><td class="paramname">str2</td><td>A string. </td></tr>
+    <tr><td class="paramname">w</td><td>Weight suggested by GitHub. </td></tr>
+    <tr><td class="paramname">s</td><td>Weight suggested by GitHub. </td></tr>
+    <tr><td class="paramname">a</td><td>Weight suggested by GitHub. </td></tr>
+    <tr><td class="paramname">d</td><td>Weight suggested by GitHub. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A distance measure </dd></dl>
 
 </div>
 </div>
@@ -333,164 +455,6 @@ template&lt;typename T &gt; </div>
   </table>
   </dd>
 </dl>
-
-</div>
-</div>
-<a id="a25028a5a2bfa4306b351093d5d449603"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a25028a5a2bfa4306b351093d5d449603">&#9670;&nbsp;</a></span>print() <span class="overload">[1/5]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">void Functions::print </td>
-          <td>(</td>
-          <td class="paramtype">std::ostream &amp;&#160;</td>
-          <td class="paramname"><em>os</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const boost::multi_array&lt; T, 2 &gt; &amp;&#160;</td>
-          <td class="paramname"><em>arr</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Print multi_array and multi_array_view.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">os</td><td>output stream </td></tr>
-    <tr><td class="paramname">arr</td><td>multi_array obejct to be printed. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="af4abf8c70c09a60a301041b3b4e1e5a9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af4abf8c70c09a60a301041b3b4e1e5a9">&#9670;&nbsp;</a></span>print() <span class="overload">[2/5]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">void Functions::print </td>
-          <td>(</td>
-          <td class="paramtype">std::ostream &amp;&#160;</td>
-          <td class="paramname"><em>os</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const boost::multi_array&lt; T, 3 &gt; &amp;&#160;</td>
-          <td class="paramname"><em>arr</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a2f1399ff16fba8c8cfb98d74970266b8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2f1399ff16fba8c8cfb98d74970266b8">&#9670;&nbsp;</a></span>print() <span class="overload">[3/5]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">void Functions::print </td>
-          <td>(</td>
-          <td class="paramtype">std::ostream &amp;&#160;</td>
-          <td class="paramname"><em>os</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const boost::multi_array&lt; T, 4 &gt; &amp;&#160;</td>
-          <td class="paramname"><em>arr</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a2616078e6b75ca75574bc896018f8c09"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2616078e6b75ca75574bc896018f8c09">&#9670;&nbsp;</a></span>print() <span class="overload">[4/5]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">void Functions::print </td>
-          <td>(</td>
-          <td class="paramtype">std::ostream &amp;&#160;</td>
-          <td class="paramname"><em>os</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const boost::multi_array&lt; T, 5 &gt; &amp;&#160;</td>
-          <td class="paramname"><em>arr</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="adcd03f5ceb573797ef6a91b605fb1f1b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adcd03f5ceb573797ef6a91b605fb1f1b">&#9670;&nbsp;</a></span>print() <span class="overload">[5/5]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T , std::size_t NDims&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">void Functions::print </td>
-          <td>(</td>
-          <td class="paramtype">std::ostream &amp;&#160;</td>
-          <td class="paramname"><em>os</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="namespace_functions.html#a2e1490202541d355730e5a7ebe1b248f">array_view</a>&lt; T, NDims &gt; &amp;&#160;</td>
-          <td class="paramname"><em>view</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
 
 </div>
 </div>
@@ -686,6 +650,51 @@ template&lt;class T &gt; </div>
 
 </div>
 </div>
+<a id="ab01b5fb932ba5fd5218fbb207e9edd78"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab01b5fb932ba5fd5218fbb207e9edd78">&#9670;&nbsp;</a></span>toSeconds()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">long Functions::toSeconds </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>datetime_str</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>origin_str</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>iso_string</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Convert a date time string to the number of seconds since origin time.</p>
+<p>The format should follow the section 'Construct from String' from here <a href="https://www.boost.org/doc/libs/1_72_0/doc/html/date_time/posix_time.html">https://www.boost.org/doc/libs/1_72_0/doc/html/date_time/posix_time.html</a></p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">datetime_str</td><td>A date time string for start time </td></tr>
+    <tr><td class="paramname">origin_str</td><td>A date time string for the original time </td></tr>
+    <tr><td class="paramname">iso_string</td><td>Whether the string is in ISO format </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The number of seconds since the origin; </dd></dl>
+
+</div>
+</div>
 <a id="a74848f0e55146e8eccd052ca71aff662"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a74848f0e55146e8eccd052ca71aff662">&#9670;&nbsp;</a></span>updateTimeTable()</h2>
 
@@ -786,14 +795,14 @@ template&lt;class T &gt; </div>
 
 </div>
 </div>
-<a id="a72adfaf04a4b202b21992fb30c039515"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a72adfaf04a4b202b21992fb30c039515">&#9670;&nbsp;</a></span>vtos()</h2>
+<a id="a8567a527538b0d921dda13622b6ac568"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8567a527538b0d921dda13622b6ac568">&#9670;&nbsp;</a></span>vtos()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::string Functions::vtos </td>
+          <td class="memname">string Functions::vtos </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9">Verbose</a>&#160;</td>
           <td class="paramname"><em>verbose</em></td><td>)</td>
