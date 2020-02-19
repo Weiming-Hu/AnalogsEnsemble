@@ -8,75 +8,59 @@ tags:
 <!-- vim-markdown-toc GitLab -->
 
 * [Introduction](#introduction)
-* [Building AnEn without MPI](#building-anen-without-mpi)
-* [Building AnEn with MPI](#building-anen-with-mpi)
-* [Building `gribConverter`](#building-gribconverter)
-
+* [Building AnEn](#building-anen)
 
 <!-- vim-markdown-toc -->
 
 Introduction
 ------------
 
-This short tutorial walks you through the steps of building the AnEn C++ program on [NCAR Cheyenne Supercomputers](https://www2.cisl.ucar.edu/resources/computational-systems/cheyenne/cheyenne) with and without MPI support.
+This short tutorial walks you through the steps of building the AnEn C++ program on [NCAR Cheyenne Supercomputers](https://www2.cisl.ucar.edu/resources/computational-systems/cheyenne/cheyenne).
 
-*Caveat: Computational tasks should be run on batch nodes. So it is also a good practice to [request for an interactive session first](https://www2.cisl.ucar.edu/resources/computational-systems/cheyenne/running-jobs/submitting-jobs-pbs), and then continue with all the configuring and building. Although I have observed a slow network connection on the computing nodes and this is causing a significant slow down during the configuration because some of the packages need to be downloaded. So you can first configure on the login node which has the faster Internet connection, and then build on the batch node to avoid clogging the shared resources.*
-
-
-Building AnEn without MPI
+Building AnEn 
 ------------
 
+Several things to be noted before we carry on:
+
+- Most of the dependencies are already available on Cheyenne, so I'm going to load them directly. `Boost`, however, is not available, so I tell `cmake` to build it for me.
+- I will be installing `PAnEn` into a user space folder after the successful building. You can change the argument `CMAKE_INSTALL_PREFIX`.
+- Notice the argument `CMAKE_INSTALL_RPATH`. This is needed because the modules are not in system path. When we install programs, `cmake` by default removes build-time run path, so we need to specify the run-time path for install and where the executable should be looking for libraries.
+
 ```
-# Download the source files from Github
-git clone https://github.com/Weiming-Hu/AnalogsEnsemble.git
+# Download the source files
+wget https://github.com/Weiming-Hu/AnalogsEnsemble/archive/master.zip
+
+# Unzip the tarball
+unzip master.zip
 
 # Go to the source folder
-cd AnalogEnsemble
+cd AnalogEnsemble-master
 
-# Clean modules and load required modules
-module purge && module load git/2.10.2 cmake/3.12.1 gnu/8.1.0 netcdf/4.6.1
+# Clean modules
+module purge
+
+# Load required modules
+module load gnu/9.1.0 netcdf/4.7.3 ncarenv/1.3 cmake/3.16.4 eccodes/2.12.5
 
 # Carry an out-of-tree build
-mkdir build && cd build
-cmake -DCMAKE_PREFIX_PATH=$NETCDF -DCMAKE_INSTALL_PREFIX=../release ..
-make -j 10 install
+mkdir build
+cd build
+
+# Generate build system
+cmake -DCMAKE_INSTALL_PREFIX=../../release -DBUILD_BOOST=ON -DCMAKE_PREFIX_PATH="$NCAR_ROOT_ECCODES;$NETCDF" -DCMAKE_INSTALL_RPATH="$NCAR_ROOT_ECCODES/lib;$NETCDF/lib" ..
+
+# Build
+make -j 16
 
 # Test
 make test
 
-# Test show analogGenerator
-cd ../release/bin
-./analogGenerator
+# Instal
+make install
+
+# Show help message
+cd ../../release/bin
+./anen
 ```
 
-Building AnEn with MPI
-------------
-
-**MPI implementation with AnEn is still under development.**
-
-```
-# Download the source files from Github
-git clone https://github.com/Weiming-Hu/AnalogsEnsemble.git
-
-# Go to the source folder
-cd AnalogEnsemble
-
-# Clean modules and load required modules
-module purge && module load git/2.10.2 cmake/3.12.1 gnu/8.1.0 mpt/2.18 netcdf-mpi/4.6.1
-
-# Carry an out-of-tree build
-mkdir build && cd build
-CC=mpicc CXX=mpicxx cmake -DCMAKE_PREFIX_PATH=$NETCDF -DCMAKE_INSTALL_PREFIX=../release -DENABLE_MPI=ON ..
-make -j 10 install
-
-# Test 
-export MPI_UNIVERSE_SIZE=10
-mpiexec_mpt -np 1 ../output/test/runAnEnIO
-```
-
-Building `gribConverter`
-------------
-
-The package provides a utility ,`gribConverter`, for converting grib2 files. It relies on [Eccodes](https://confluence.ecmwf.int/display/ECC/ecCodes+installation) which can be automatically built.
-
-If you wish to build `gribConverter`, you only need to add `-DBUILD_GRIBCONVERTER=ON` in your cmake arguments and the utility will be built. The rest of the process stays the same.
+If you encountered any problems, please open a ticket [here](https://github.com/Weiming-Hu/AnalogsEnsemble/issues).
