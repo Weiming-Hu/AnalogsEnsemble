@@ -115,18 +115,25 @@ FunctionsIO::parseFilenames(Times & times, Times & flts,
     date start_day(from_string(Time::_origin));
 
     // Loop through each file from the file list
-    for (const auto file : files) {
+    auto it_end = files.end();
+    for (auto it = files.begin(); it != it_end; ++it) {
 
+        // Try to parse time information from the file name
         if (regex_cycle_str.empty()) ret = parseFilename(
-                time, flt, file, start_day, regex_day, regex_flt,
+                time, flt, *it, start_day, regex_day, regex_flt,
                 unit_in_seconds, delimited);
         else ret = parseFilename(
-                time, flt, file, start_day, regex_day, regex_flt,
+                time, flt, *it, start_day, regex_day, regex_flt,
                 regex_cycle, unit_in_seconds, delimited);
 
+        // If information is successfully parsed, record the information;
+        // otherwise, this file is removed from further process.
+        //
         if (ret) {
             times.push_back(time);
             flts.push_back(flt);
+        } else {
+            files.erase(it);
         }
     }
 

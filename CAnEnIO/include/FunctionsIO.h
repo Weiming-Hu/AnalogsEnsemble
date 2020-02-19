@@ -42,7 +42,8 @@ namespace FunctionsIO {
             size_t unit_in_seconds,
             bool delimited);
 
-    void listFiles(std::vector<std::string> & files, std::string & folder,
+    void listFiles(std::vector<std::string> & files,
+            std::string & folder,
             const std::string & ext = ".grb2");
 };
 

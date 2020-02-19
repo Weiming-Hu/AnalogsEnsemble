@@ -99,6 +99,9 @@ AnEnReadGrib::readForecasts(Forecasts & forecasts,
     size_t time_i, flt_i;
     size_t num_stations = stations.size();
 
+    // This variable counts the number of failures when reading files
+    size_t failed_files = 0;
+
     // These regular expressions can be reused
     regex regex_day = regex(regex_day_str);
     regex regex_flt = regex(regex_flt_str);
@@ -142,73 +145,85 @@ AnEnReadGrib::readForecasts(Forecasts & forecasts,
         time_i = times.getIndex(file_time);
         flt_i = flts.getIndex(file_flt);
 
-        // Prepare reading from this file
-        codes_index *p_index = codes_index_new_from_file(
-                0, const_cast<char*> (file.c_str()),
-                index_keys.c_str(), &err);
+        try {
 
-        if (err) {
-            ostringstream msg;
-            msg << "Failed when opening file " << file;
-            throw runtime_error(msg.str());
-        }
+            // Prepare reading from this file
+            codes_index *p_index = codes_index_new_from_file(
+                    0, const_cast<char*> (file.c_str()),
+                    index_keys.c_str(), &err);
 
-        for (size_t parameter_i = 0; parameter_i < parameters.size(); ++parameter_i) {
-            const ParameterGrib & parameter = grib_parameters[parameter_i];
-
-            // Make the query
-            codes_index_select_long(p_index, ParameterGrib::_key_id.c_str(), parameter.getId());
-            codes_index_select_long(p_index, ParameterGrib::_key_level.c_str(), parameter.getLevel());
-            codes_index_select_string(p_index, ParameterGrib::_key_level_type.c_str(),
-                    const_cast<char*> (parameter.getLevelType().c_str()));
-
-            // Create a handle to the index
-            codes_handle* h = codes_handle_new_from_index(p_index, &err);
-            CODES_CHECK(err, 0);
-
-            // Read data from the GRIB file
-            if (stations_index.empty()) {
-                CODES_CHECK(codes_get_size(
-                        h, ParameterGrib::_key_values.c_str(),
-                        &data_len), 0);
-
-                p_data = new double [data_len];
-
-                CODES_CHECK(codes_get_double_array(
-                        h, ParameterGrib::_key_values.c_str(),
-                        p_data, &data_len), 0);
-            } else {
-                data_len = stations_index.size();
-
-                p_data = new double [data_len];
-
-                CODES_CHECK(codes_get_double_elements(
-                        h, ParameterGrib::_key_values.c_str(),
-                        stations_index.data(), data_len, p_data), 0);
-            }
-
-            if (num_stations != data_len) {
+            if (err) {
                 ostringstream msg;
-                msg << "The number of data values (" << data_len
-                        << ") do not match the number of stations (" << num_stations
-                        << "). Do you have duplicates in station coordinates?";
+                msg << "Failed when opening file " << file;
                 throw runtime_error(msg.str());
             }
 
-            // Set values into the forecasts
-            for (size_t station_i = 0; station_i < data_len; ++station_i) {
-                forecasts.setValue(p_data[station_i], parameter_i, station_i, time_i, flt_i);
+            for (size_t parameter_i = 0; parameter_i < parameters.size(); ++parameter_i) {
+                const ParameterGrib & parameter = grib_parameters[parameter_i];
+
+                // Make the query
+                codes_index_select_long(p_index, ParameterGrib::_key_id.c_str(), parameter.getId());
+                codes_index_select_long(p_index, ParameterGrib::_key_level.c_str(), parameter.getLevel());
+                codes_index_select_string(p_index, ParameterGrib::_key_level_type.c_str(),
+                        const_cast<char*> (parameter.getLevelType().c_str()));
+
+                // Create a handle to the index
+                codes_handle* h = codes_handle_new_from_index(p_index, &err);
+                CODES_CHECK(err, 0);
+
+                // Read data from the GRIB file
+                if (stations_index.empty()) {
+                    CODES_CHECK(codes_get_size(
+                                h, ParameterGrib::_key_values.c_str(),
+                                &data_len), 0);
+
+                    p_data = new double [data_len];
+
+                    CODES_CHECK(codes_get_double_array(
+                                h, ParameterGrib::_key_values.c_str(),
+                                p_data, &data_len), 0);
+                } else {
+                    data_len = stations_index.size();
+
+                    p_data = new double [data_len];
+
+                    CODES_CHECK(codes_get_double_elements(
+                                h, ParameterGrib::_key_values.c_str(),
+                                stations_index.data(), data_len, p_data), 0);
+                }
+
+                if (num_stations != data_len) {
+                    ostringstream msg;
+                    msg << "The number of data values (" << data_len
+                        << ") do not match the number of stations (" << num_stations
+                        << "). Do you have duplicates in station coordinates?";
+                    throw runtime_error(msg.str());
+                }
+
+                // Set values into the forecasts
+                for (size_t station_i = 0; station_i < data_len; ++station_i) {
+                    forecasts.setValue(p_data[station_i], parameter_i, station_i, time_i, flt_i);
+                }
+
+                delete [] p_data;
+                codes_handle_delete(h);
             }
 
-            delete [] p_data;
-            codes_handle_delete(h);
-        }
+            // Clean up
+            codes_index_delete(p_index);
 
-        // Clean up
-        codes_index_delete(p_index);
+        } catch (...) {
+            cerr << "Errorred when reading " << file << endl;
+            failed_files++;
+        }
     }
 
     if (verbose_ >= Verbose::Progress) cout << "Forecast reading complete" << endl;
+
+    if (failed_files != 0)
+        if (verbose_ >= Verbose::Warning)
+            cerr << failed_files << " out of " << files.size() << " files failed during the reading process" << endl;
+
     return;
 }
 
