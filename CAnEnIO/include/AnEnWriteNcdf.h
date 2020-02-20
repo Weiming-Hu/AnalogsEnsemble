@@ -13,6 +13,8 @@
 #include "Config.h"
 #include "AnEnIS.h"
 #include "AnEnSSE.h"
+#include "Forecasts.h"
+#include "Observations.h"
 
 class AnEnWriteNcdf {
 public:
@@ -30,6 +32,9 @@ public:
             const Times & forecast_flts, const Parameters &, const Stations &,
             bool overwrite = false) const;
 
+    void writeForecasts(const std::string & file, const Forecasts &, const Times &) const;
+    void writeObservations(const std::string & file, const Observations &, const Times &) const;
+
     const static bool _unlimited_stations;
     const static bool _unlimited_test_times;
     const static bool _unlimited_flts;
@@ -39,6 +44,7 @@ protected:
     Verbose verbose_;
 
     void addStations_(netCDF::NcFile & nc, const Stations &, bool) const;
+    void addMeta_(netCDF::NcFile & nc) const;
 };
 
 #endif /* ANENWRITENCDF_H */
