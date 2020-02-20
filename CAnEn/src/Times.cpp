@@ -6,8 +6,8 @@
  * Created on April 18, 2018, 12:33 AM
  * 
  *  "`-''-/").___..--''"`-._
- * (`6_ 6  )   `-.  (     ).`-.__.`)   WE ARE ...
  * (_Y_.)'  ._   )  `._ `. ``-..-'    PENN STATE!
+ * (`6_ 6  )   `-.  (     ).`-.__.`)   WE ARE ...
  *   _ ..`--'_..-_/  /--'_.' ,' 
  * (il),-''  (li),'  ((!.-'
  *
@@ -33,6 +33,14 @@ Time::Time() : timestamp(Config::_TIME) {
 
 Time::Time(size_t val) {
     timestamp = val;
+}
+
+Time::Time(const string & str, bool iso_string) {
+    timestamp = Functions::toSeconds(str, _origin, iso_string);
+}
+
+Time::Time(const string & str, const string & origin, bool iso_string) {
+    timestamp = Functions::toSeconds(str, origin, iso_string);
 }
 
 Time::Time(const Time & rhs) {
@@ -64,6 +72,21 @@ Time::operator+(const Time & rhs) const {
 bool
 Time::operator<(const Time & rhs) const {
     return (timestamp < rhs.timestamp);
+}
+
+bool
+Time::operator>(const Time & rhs) const {
+    return (timestamp > rhs.timestamp);
+}
+
+bool
+Time::operator<=(const Time & rhs) const {
+    return (timestamp <= rhs.timestamp);
+}
+
+bool
+Time::operator>=(const Time & rhs) const {
+    return (timestamp >= rhs.timestamp);
 }
 
 void
@@ -133,6 +156,11 @@ ostream&
 operator<<(ostream& os, Times const & obj) {
     obj.print(os);
     return os;
+}
+
+void
+Times::operator()(const Time & start, const Time & end, Times & sliced_times) const {
+    return operator()(start.timestamp, end.timestamp, sliced_times);
 }
 
 void

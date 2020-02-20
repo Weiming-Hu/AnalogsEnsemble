@@ -35,7 +35,7 @@ namespace FunctionsIO {
             bool delimited);
 
     void parseFilenames(Times&, Times&,
-            std::vector<std::string> files,
+            const std::vector<std::string> & files,
             const std::string & regex_day_str,
             const std::string & regex_flt_str,
             const std::string & regex_cycle_str,

@@ -87,17 +87,17 @@ FunctionsIO::parseFilename(Time & time, Time & flt,
 
 void
 FunctionsIO::parseFilenames(Times & times, Times & flts,
-        vector<string> files,
+        const vector<string> & files,
         const string & regex_day_str,
         const string & regex_flt_str,
         const string & regex_cycle_str,
         size_t unit_in_seconds,
         bool delimited) {
     
-    // Sort file names because time should be sorted and time will be
-    // extracted from file names
+    // File names must be sorted because times should be in order
+    // and time will be extracted from file names
     //
-    sort(files.begin(), files.end());
+    if (!is_sorted(files.begin(), files.end())) throw runtime_error("Filenames should be odered in ascension order");
 
     // Convert regular expression string to a regular expression object
     regex regex_day = regex(regex_day_str);
@@ -132,8 +132,6 @@ FunctionsIO::parseFilenames(Times & times, Times & flts,
         if (ret) {
             times.push_back(time);
             flts.push_back(flt);
-        } else {
-            files.erase(it);
         }
     }
 
@@ -141,7 +139,8 @@ FunctionsIO::parseFilenames(Times & times, Times & flts,
 }
 
 void
-FunctionsIO::listFiles(vector<string> & files, string& folder, const string& ext) {
+FunctionsIO::listFiles(vector<string> & files, string& folder,
+        const string& ext) {
 
     if (folder.empty()) throw runtime_error("Specify folder");
 
@@ -161,4 +160,9 @@ FunctionsIO::listFiles(vector<string> & files, string& folder, const string& ext
 
         it++;
     }
+
+    // Sort file names
+    sort(files.begin(), files.end());
+
+    return;
 }

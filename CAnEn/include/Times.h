@@ -18,6 +18,8 @@ class Time {
 public:
     Time();
     Time(std::size_t);
+    Time(const std::string & str, bool iso_string = false);
+    Time(const std::string & str, const std::string & origin, bool iso_string = false);
     Time(const Time &);
     virtual ~Time();
 
@@ -25,6 +27,9 @@ public:
     Time & operator=(std::size_t rhs);
     Time operator+(const Time & rhs) const;
     bool operator<(const Time &) const;
+    bool operator>(const Time &) const;
+    bool operator<=(const Time &) const;
+    bool operator>=(const Time &) const;
 
     // This is where we store the actual data as std::size_t.
     std::size_t timestamp;
@@ -83,11 +88,12 @@ public:
      * For more documentation, please go to
      * https://www.boost.org/doc/libs/1_72_0/doc/html/date_time/posix_time.html
      * 
-     * @param start The string or size_t for start time.
-     * @param end The string or size_t for end time.
+     * @param start The Time, string, or size_t for start time.
+     * @param end The Time, string, or size_t for end time.
      * @param sliced_times The Times object to store the sliced times.
      * @param iso_string Whether the strings use the ISO format.
      */
+    void operator()(const Time &, const Time &, Times &) const;
     void operator()(const std::string &, const std::string &, Times &, bool iso_string = false) const;
     void operator()(size_t, size_t, Times &) const;
 };

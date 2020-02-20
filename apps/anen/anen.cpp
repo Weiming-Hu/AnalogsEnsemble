@@ -31,10 +31,10 @@ void runAnEnGrib(
         const string & regex_cycle_str,
         const vector<ParameterGrib> & grib_parameters,
         const vector<int> & stations_index,
-        const string & test_start,
-        const string & test_end,
-        const string & search_start,
-        const string & search_end,
+        const string & test_start_str,
+        const string & test_end_str,
+        const string & search_start_str,
+        const string & search_end_str,
         const string & fileout,
         const string & algorithm,
         const Config & config,
@@ -51,6 +51,29 @@ void runAnEnGrib(
     Profiler profiler;
     profiler.start();
 
+    // Create times
+    Time test_start, test_end, search_start, search_end;
+
+    try {
+        test_start = Time(test_start_str);
+        test_end = Time(test_end_str);
+        search_start = Time(search_start_str);
+        search_end = Time(search_end_str);
+    } catch (exception & e) {
+        ostringstream msg;
+        msg << "Failed during extracting test/search times." << endl << endl
+            << "Did you follow the format YYYY-mm-dd HH:MM:SS ?" << endl
+            << "Do you have extra quotes?" << endl << endl
+            << "I got test_start: " << test_start_str
+            << ", test_end: " << test_end_str << endl
+            << "search_start: " << search_start_str <<
+            ", search_end: " << search_end_str << endl << endl
+            << "A common mistake is using surrounding double quotes. You don't need them if you see them."
+            << endl << endl << "The messages below come from the original error message:"
+            << endl << e.what();
+        throw runtime_error(msg.str());
+    }
+
     /*
      * Read forecasts from files
      */
@@ -59,7 +82,15 @@ void runAnEnGrib(
     anen_read.readForecasts(forecasts, grib_parameters, forecast_files,
             regex_day_str, regex_flt_str, regex_cycle_str,
             unit_in_seconds, delimited, stations_index);
+
     profiler.log_time_session("reading forecasts");
+
+    // Convert string date times to Times objects
+    const Times & forecast_times = forecasts.getTimes();
+    Times test_times, search_times;
+
+    forecast_times(test_start, test_end, test_times);
+    forecast_times(search_start, search_end, search_times);
 
     /*
      * Read forecast analysis from files and convert them to observations
@@ -68,34 +99,15 @@ void runAnEnGrib(
     anen_read.readForecasts(analysis, grib_parameters, analysis_files,
             regex_day_str, regex_flt_str, regex_cycle_str,
             unit_in_seconds, delimited, stations_index);
+
     profiler.log_time_session("reading analysis");
 
     // Convert analysis to observations
     if (config.verbose >= Verbose::Progress) cout << "Collapsing forecast analysis ..." << endl;
     ObservationsPointer observations;
     Functions::collapseLeadTimes(observations, analysis);
+
     profiler.log_time_session("converting analysis");
-
-    // Convert string date times to Times objects
-    const Times & forecast_times = forecasts.getTimes();
-    Times test_times, search_times;
-
-    try {
-        forecast_times(test_start, test_end, test_times, false);
-        forecast_times(search_start, search_end, search_times, false);
-    } catch (exception & e) {
-        ostringstream msg;
-        msg << "Failed during extracting test/search times." << endl << endl
-                << "Did you follow the format (YYYY-mm-dd HH:MM:SS)?" << endl
-                << "Do you have extra quotes?" << endl << endl
-                << "I got test_start: " << test_start
-                << ", test_end: " << test_end << endl
-                << "search_start: " << search_start <<
-                ", search_end: " << search_end << endl << endl
-                << "The messages below come from the original error message:"
-                << endl << e.what();
-        throw runtime_error(msg.str());
-    }
 
 
     /**************************************************************************
@@ -116,6 +128,7 @@ void runAnEnGrib(
     }
 
     anen->compute(forecasts, observations, test_times, search_times);
+
     profiler.log_time_session("generating analogs");
 
 
@@ -148,8 +161,10 @@ void runAnEnGrib(
      * Housekeeping
      */
     delete anen;
+
     profiler.log_time_session("writing results");
     if (profile) profiler.summary(cout);
+
     return;
 }
 
