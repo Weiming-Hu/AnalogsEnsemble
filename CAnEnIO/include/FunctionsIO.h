@@ -8,7 +8,8 @@
 #ifndef FUNCTIONSIO_H
 #define FUNCTIONSIO_H
 
-#include <regex>
+//#include <regex>
+#include <boost/regex.hpp>
 #include <vector>
 #include <string>
 
@@ -20,17 +21,17 @@ namespace FunctionsIO {
     bool parseFilename(Time & time, Time & flt,
             const std::string & file,
             const boost::gregorian::date & start_day,
-            const std::regex & regex_day,
-            const std::regex & regex_flt,
-            const std::regex & regex_cycle,
+            const boost::regex & regex_day,
+            const boost::regex & regex_flt,
+            const boost::regex & regex_cycle,
             size_t unit_in_seconds,
             bool delimited);
 
     bool parseFilename(Time & time, Time & flt,
             const std::string & file,
             const boost::gregorian::date & start_day,
-            const std::regex & regex_day,
-            const std::regex & regex_flt,
+            const boost::regex & regex_day,
+            const boost::regex & regex_flt,
             size_t unit_in_seconds,
             bool delimited);
 

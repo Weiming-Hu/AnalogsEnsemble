@@ -47,7 +47,7 @@ set(NETCDF_CXX "YES")
 find_package(AnEn REQUIRED)
 find_package(eccodes REQUIRED)
 find_package(NetCDF REQUIRED)
-find_package(Boost 1.58.0 REQUIRED COMPONENTS filesystem program_options)
+find_package(Boost 1.58.0 REQUIRED COMPONENTS filesystem program_options regex)
 
 # Create target by explicitly listing all source files
 add_library(AnEnIO ${AnEnIO_source_files})
@@ -58,8 +58,8 @@ add_library(AnEnIO::AnEnIO ALIAS AnEnIO)
 # Configure the properties of this target
 target_link_libraries(AnEnIO
     PUBLIC
-    Boost::program_options Boost::filesystem AnEn::AnEn
-    ${ECCODES_LIBRARIES} ${NETCDF_LIBRARIES})
+    Boost::program_options Boost::filesystem Boost::regex
+    AnEn::AnEn ${ECCODES_LIBRARIES} ${NETCDF_LIBRARIES})
 
 target_include_directories(AnEnIO SYSTEM
     PUBLIC 

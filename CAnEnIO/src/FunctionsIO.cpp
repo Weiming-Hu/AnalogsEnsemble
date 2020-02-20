@@ -28,13 +28,13 @@ static const size_t _SECONDS_IN_HOUR = 60 * 60;
 bool
 FunctionsIO::parseFilename(Time & time, Time & flt,
         const string & file, const date & start_day,
-        const regex & regex_day,
-        const regex & regex_flt,
+        const boost::regex & regex_day,
+        const boost::regex & regex_flt,
         size_t unit_in_seconds,
         bool delimited) {
 
     date current_day;
-    smatch match_day, match_flt;
+    boost::smatch match_day, match_flt;
 
     // Apply the regular expression
     bool has_day = regex_search(file.begin(), file.end(), match_day, regex_day);
@@ -59,9 +59,9 @@ FunctionsIO::parseFilename(Time & time, Time & flt,
 bool
 FunctionsIO::parseFilename(Time & time, Time & flt,
         const string & file, const date & start_day,
-        const regex & regex_day,
-        const regex & regex_flt,
-        const regex & regex_cycle,
+        const boost::regex & regex_day,
+        const boost::regex & regex_flt,
+        const boost::regex & regex_cycle,
         size_t unit_in_seconds,
         bool delimited) {
 
@@ -74,7 +74,7 @@ FunctionsIO::parseFilename(Time & time, Time & flt,
     if (!ret) return false;
 
     // If the first step of matching has gone through, match the cycle time
-    smatch match_cycle;
+    boost::smatch match_cycle;
 
     if (regex_search(file.begin(), file.end(), match_cycle, regex_cycle)) {
         time.timestamp += stoi(match_cycle[1]) * unit_in_seconds;
@@ -100,9 +100,9 @@ FunctionsIO::parseFilenames(Times & times, Times & flts,
     if (!is_sorted(files.begin(), files.end())) throw runtime_error("Filenames should be odered in ascension order");
 
     // Convert regular expression string to a regular expression object
-    regex regex_day = regex(regex_day_str);
-    regex regex_flt = regex(regex_flt_str);
-    regex regex_cycle = regex(regex_cycle_str);
+    boost::regex regex_day{regex_day_str};
+    boost::regex regex_flt{regex_flt_str};
+    boost::regex regex_cycle{regex_cycle_str};
 
     // Start with clean repositories
     times.clear();

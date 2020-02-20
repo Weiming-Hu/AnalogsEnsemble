@@ -103,9 +103,9 @@ AnEnReadGrib::readForecasts(Forecasts & forecasts,
     size_t failed_files = 0;
 
     // These regular expressions can be reused
-    regex regex_day = regex(regex_day_str);
-    regex regex_flt = regex(regex_flt_str);
-    regex regex_cycle = regex(regex_cycle_str);
+    boost::regex regex_day{regex_day_str};
+    boost::regex regex_flt{regex_flt_str};
+    boost::regex regex_cycle{regex_cycle_str};
 
     // Prepare the keys to be filtered when reading a file
     ostringstream index_keys_ss;
