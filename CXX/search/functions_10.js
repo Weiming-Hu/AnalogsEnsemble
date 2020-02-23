@@ -21,7 +21,7 @@ var searchData=
   ['setname',['setName',['../class_parameter.html#af399de059c88d2ae0b27afd3cb998261',1,'Parameter']]],
   ['setsdstimemap_5f',['setSdsTimeMap_',['../class_an_en_i_s.html#aec9dc64bd586a6893d9931c802145645',1,'AnEnIS']]],
   ['setsearchstations',['setSearchStations',['../namespace_functions.html#add93c68e401b4626f1169dd5be9fe5bf',1,'Functions']]],
-  ['settings',['Settings',['../_8ycm__extra__conf_8py.html#a8989cb0b1047bef2c19aee16c05bbfa9',1,'.ycm_extra_conf.py']]],
+  ['settings',['Settings',['../_8ycm__extra__conf_8py.html#a8989cb0b1047bef2c19aee16c05bbfa9',1,'Settings(kwargs):&#160;.ycm_extra_conf.py'],['../out_2_8ycm__extra__conf_8py.html#a8989cb0b1047bef2c19aee16c05bbfa9',1,'Settings(kwargs):&#160;.ycm_extra_conf.py']]],
   ['setup',['setUp',['../classtest_an_en_i_s.html#a541adf90e0bb399b063ff2620882dcb2',1,'testAnEnIS::setUp()'],['../classtest_calculator.html#adfaa04a4de010486156ff19af18e8619',1,'testCalculator::setUp()'],['../classtest_functions.html#aeab16019bd649fbf9b8b171484e7220e',1,'testFunctions::setUp()']]],
   ['setupcompute',['setUpCompute',['../classtest_an_en_i_s.html#afecffaa0550fa94631321c6afa9efe05',1,'testAnEnIS']]],
   ['setupsds',['setUpSds',['../classtest_an_en_i_s.html#afde5c82c5715d321d699c4e0309cd93e',1,'testAnEnIS']]],

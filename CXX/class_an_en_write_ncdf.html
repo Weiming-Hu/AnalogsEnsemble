@@ -92,6 +92,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a5728221082f5747a1f868899e9b75971"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a63010a3a17ea25926d90365eeed271a9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_write_ncdf.html#a63010a3a17ea25926d90365eeed271a9">writeAnEn</a> (const std::string &amp;file, const <a class="el" href="class_an_en_s_s_e.html">AnEnSSE</a> &amp;, const <a class="el" href="class_times.html">Times</a> &amp;test_times, const <a class="el" href="class_times.html">Times</a> &amp;search_times, const <a class="el" href="class_times.html">Times</a> &amp;forecast_flts, const <a class="el" href="class_parameters.html">Parameters</a> &amp;, const <a class="el" href="class_stations.html">Stations</a> &amp;, bool overwrite=false) const</td></tr>
 <tr class="separator:a63010a3a17ea25926d90365eeed271a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae89e16aa6a219867fac49001a4024a40"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_write_ncdf.html#ae89e16aa6a219867fac49001a4024a40">writeForecasts</a> (const std::string &amp;file, const <a class="el" href="class_forecasts.html">Forecasts</a> &amp;, const <a class="el" href="class_times.html">Times</a> &amp;) const</td></tr>
+<tr class="separator:ae89e16aa6a219867fac49001a4024a40"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeacc6903262f89f3e386fd851ea7b184"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_write_ncdf.html#aeacc6903262f89f3e386fd851ea7b184">writeObservations</a> (const std::string &amp;file, const <a class="el" href="class_observations.html">Observations</a> &amp;, const <a class="el" href="class_times.html">Times</a> &amp;) const</td></tr>
+<tr class="separator:aeacc6903262f89f3e386fd851ea7b184"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
@@ -108,6 +112,8 @@ Static Public Attributes</h2></td></tr>
 Protected Member Functions</h2></td></tr>
 <tr class="memitem:aec5d3419e3bd68fe585fd7b84742efc7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_write_ncdf.html#aec5d3419e3bd68fe585fd7b84742efc7">addStations_</a> (netCDF::NcFile &amp;nc, const <a class="el" href="class_stations.html">Stations</a> &amp;, bool) const</td></tr>
 <tr class="separator:aec5d3419e3bd68fe585fd7b84742efc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa7ffda620dd0dcdd9e91a637e231241d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_write_ncdf.html#aa7ffda620dd0dcdd9e91a637e231241d">addMeta_</a> (netCDF::NcFile &amp;nc) const</td></tr>
+<tr class="separator:aa7ffda620dd0dcdd9e91a637e231241d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -194,6 +200,32 @@ Protected Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="aa7ffda620dd0dcdd9e91a637e231241d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa7ffda620dd0dcdd9e91a637e231241d">&#9670;&nbsp;</a></span>addMeta_()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void AnEnWriteNcdf::addMeta_ </td>
+          <td>(</td>
+          <td class="paramtype">netCDF::NcFile &amp;&#160;</td>
+          <td class="paramname"><em>nc</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="aec5d3419e3bd68fe585fd7b84742efc7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aec5d3419e3bd68fe585fd7b84742efc7">&#9670;&nbsp;</a></span>addStations_()</h2>
 
@@ -353,6 +385,74 @@ Protected Attributes</h2></td></tr>
           <td></td>
           <td class="paramtype">bool&#160;</td>
           <td class="paramname"><em>overwrite</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae89e16aa6a219867fac49001a4024a40"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae89e16aa6a219867fac49001a4024a40">&#9670;&nbsp;</a></span>writeForecasts()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void AnEnWriteNcdf::writeForecasts </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>file</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="class_forecasts.html">Forecasts</a> &amp;&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="class_times.html">Times</a> &amp;&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aeacc6903262f89f3e386fd851ea7b184"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeacc6903262f89f3e386fd851ea7b184">&#9670;&nbsp;</a></span>writeObservations()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void AnEnWriteNcdf::writeObservations </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>file</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="class_observations.html">Observations</a> &amp;&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="class_times.html">Times</a> &amp;&#160;</td>
+          <td class="paramname">&#160;</td>
         </tr>
         <tr>
           <td></td>

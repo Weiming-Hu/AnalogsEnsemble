@@ -69,7 +69,7 @@ $(function() {
 <div class="title">FunctionsIO.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;regex&gt;</code><br />
+<div class="textblock"><code>#include &lt;boost/regex.hpp&gt;</code><br />
 <code>#include &lt;vector&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
 <code>#include &quot;<a class="el" href="_times_8h_source.html">Times.h</a>&quot;</code><br />
@@ -79,8 +79,8 @@ Include dependency graph for FunctionsIO.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="_functions_i_o_8h__incl.png" border="0" usemap="#_2home_2graduate_2wuh20_2github_2_analogs_ensemble_2_c_an_en_i_o_2include_2_functions_i_o_8h" alt=""/></div>
 <map name="_2home_2graduate_2wuh20_2github_2_analogs_ensemble_2_c_an_en_i_o_2include_2_functions_i_o_8h" id="_2home_2graduate_2wuh20_2github_2_analogs_ensemble_2_c_an_en_i_o_2include_2_functions_i_o_8h">
-<area shape="rect" id="node5" href="_times_8h.html" title="Times.h" alt="" coords="218,117,287,143"/>
-<area shape="rect" id="node7" href="_bm_dim_8h.html" title="BmDim.h" alt="" coords="321,199,398,225"/>
+<area shape="rect" id="node5" href="_times_8h.html" title="Times.h" alt="" coords="277,117,347,143"/>
+<area shape="rect" id="node7" href="_bm_dim_8h.html" title="BmDim.h" alt="" coords="380,199,457,225"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -105,12 +105,12 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:aa2388aa58aafa7fcbd5d58588ae5089c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions_i_o.html#aa2388aa58aafa7fcbd5d58588ae5089c">FunctionsIO::parseFilename</a> (<a class="el" href="class_time.html">Time</a> &amp;time, <a class="el" href="class_time.html">Time</a> &amp;flt, const std::string &amp;file, const boost::gregorian::date &amp;start_day, const std::regex &amp;regex_day, const std::regex &amp;regex_flt, const std::regex &amp;regex_cycle, size_t unit_in_seconds, bool delimited)</td></tr>
-<tr class="separator:aa2388aa58aafa7fcbd5d58588ae5089c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad3bf4cfd53e63613720549f5401c14c6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions_i_o.html#ad3bf4cfd53e63613720549f5401c14c6">FunctionsIO::parseFilename</a> (<a class="el" href="class_time.html">Time</a> &amp;time, <a class="el" href="class_time.html">Time</a> &amp;flt, const std::string &amp;file, const boost::gregorian::date &amp;start_day, const std::regex &amp;regex_day, const std::regex &amp;regex_flt, size_t unit_in_seconds, bool delimited)</td></tr>
-<tr class="separator:ad3bf4cfd53e63613720549f5401c14c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af9b902e94776fa26879ef40067ba5504"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions_i_o.html#af9b902e94776fa26879ef40067ba5504">FunctionsIO::parseFilenames</a> (<a class="el" href="class_times.html">Times</a> &amp;, <a class="el" href="class_times.html">Times</a> &amp;, std::vector&lt; std::string &gt; files, const std::string &amp;regex_day_str, const std::string &amp;regex_flt_str, const std::string &amp;regex_cycle_str, size_t unit_in_seconds, bool delimited)</td></tr>
-<tr class="separator:af9b902e94776fa26879ef40067ba5504"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0346a0bfd13656a5a2502d2aed41bf3f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions_i_o.html#a0346a0bfd13656a5a2502d2aed41bf3f">FunctionsIO::parseFilename</a> (<a class="el" href="class_time.html">Time</a> &amp;time, <a class="el" href="class_time.html">Time</a> &amp;flt, const std::string &amp;file, const boost::gregorian::date &amp;start_day, const boost::regex &amp;regex_day, const boost::regex &amp;regex_flt, const boost::regex &amp;regex_cycle, size_t unit_in_seconds, bool delimited)</td></tr>
+<tr class="separator:a0346a0bfd13656a5a2502d2aed41bf3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d0802cd784f668ac68d91d3422a02a1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions_i_o.html#a9d0802cd784f668ac68d91d3422a02a1">FunctionsIO::parseFilename</a> (<a class="el" href="class_time.html">Time</a> &amp;time, <a class="el" href="class_time.html">Time</a> &amp;flt, const std::string &amp;file, const boost::gregorian::date &amp;start_day, const boost::regex &amp;regex_day, const boost::regex &amp;regex_flt, size_t unit_in_seconds, bool delimited)</td></tr>
+<tr class="separator:a9d0802cd784f668ac68d91d3422a02a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a90f26cbf32ba34de02912fd0f39ca380"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions_i_o.html#a90f26cbf32ba34de02912fd0f39ca380">FunctionsIO::parseFilenames</a> (<a class="el" href="class_times.html">Times</a> &amp;, <a class="el" href="class_times.html">Times</a> &amp;, const std::vector&lt; std::string &gt; &amp;files, const std::string &amp;regex_day_str, const std::string &amp;regex_flt_str, const std::string &amp;regex_cycle_str, size_t unit_in_seconds, bool delimited)</td></tr>
+<tr class="separator:a90f26cbf32ba34de02912fd0f39ca380"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afef7fdcf466bfef18a2ef2926a4e5b04"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions_i_o.html#afef7fdcf466bfef18a2ef2926a4e5b04">FunctionsIO::listFiles</a> (std::vector&lt; std::string &gt; &amp;files, std::string &amp;folder, const std::string &amp;ext=&quot;.grb2&quot;)</td></tr>
 <tr class="separator:afef7fdcf466bfef18a2ef2926a4e5b04"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>

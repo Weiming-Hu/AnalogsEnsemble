@@ -1,5 +1,5 @@
 <map id="BasicData" name="BasicData">
-<area shape="rect" id="node2" href="$class_times.html" title="Times class is used to store Time. It is a bidirectional map implemented from Boost so that it provid..." alt="" coords="5,132,137,341"/>
-<area shape="rect" id="node4" href="$class_stations.html" title="Stations class stores Station objects. It is a bidirectional map implemented from Boost so that it pr..." alt="" coords="162,147,293,327"/>
-<area shape="rect" id="node6" href="$class_parameters.html" title="Parameters class stores Parameter objects. It is a bidirectional map implemented from Boost so that i..." alt="" coords="326,147,446,327"/>
+<area shape="rect" id="node2" href="$class_times.html" title="Times class is used to store Time. It is a bidirectional map implemented from Boost so that it provid..." alt="" coords="5,132,137,356"/>
+<area shape="rect" id="node4" href="$class_stations.html" title="Stations class stores Station objects. It is a bidirectional map implemented from Boost so that it pr..." alt="" coords="162,154,293,334"/>
+<area shape="rect" id="node6" href="$class_parameters.html" title="Parameters class stores Parameter objects. It is a bidirectional map implemented from Boost so that i..." alt="" coords="326,154,446,334"/>
 </map>

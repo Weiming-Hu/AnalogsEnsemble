@@ -104,6 +104,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a600e8e2a54088b8d761ce29793551d4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acdfa95279c544d2cee2f33415fe4909c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_times.html#acdfa95279c544d2cee2f33415fe4909c">print</a> (std::ostream &amp;os) const</td></tr>
 <tr class="separator:acdfa95279c544d2cee2f33415fe4909c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaf9f54c55eedc543130e5f2d03004e10"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_times.html#aaf9f54c55eedc543130e5f2d03004e10">operator()</a> (const <a class="el" href="class_time.html">Time</a> &amp;, const <a class="el" href="class_time.html">Time</a> &amp;, <a class="el" href="class_times.html">Times</a> &amp;) const</td></tr>
+<tr class="separator:aaf9f54c55eedc543130e5f2d03004e10"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6139f14fe56dd7ddd72a76ec5561086e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_times.html#a6139f14fe56dd7ddd72a76ec5561086e">operator()</a> (const std::string &amp;, const std::string &amp;, <a class="el" href="class_times.html">Times</a> &amp;, bool iso_string=false) const</td></tr>
 <tr class="separator:a6139f14fe56dd7ddd72a76ec5561086e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6415748b310c39feea8202ba6f32663b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_times.html#a6415748b310c39feea8202ba6f32663b">operator()</a> (size_t, size_t, <a class="el" href="class_times.html">Times</a> &amp;) const</td></tr>
@@ -261,8 +263,58 @@ Friends</h2></td></tr>
 
 </div>
 </div>
+<a id="aaf9f54c55eedc543130e5f2d03004e10"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaf9f54c55eedc543130e5f2d03004e10">&#9670;&nbsp;</a></span>operator()() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Times::operator() </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_time.html">Time</a> &amp;&#160;</td>
+          <td class="paramname"><em>start</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="class_time.html">Time</a> &amp;&#160;</td>
+          <td class="paramname"><em>end</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_times.html">Times</a> &amp;&#160;</td>
+          <td class="paramname"><em>sliced_times</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Slice times based on the start and end times. The input strings should follow</p>
+<ul>
+<li>(1) the delimited format: YYYY-mm-dd HH:MM:SS.SSS</li>
+<li>(2) the non delimited iso format: YYYYmmddTHHMMSS</li>
+</ul>
+<p>Note that the letter 'T' in the non delimited iso format is a literal letter.</p>
+<p>For more documentation, please go to <a href="https://www.boost.org/doc/libs/1_72_0/doc/html/date_time/posix_time.html">https://www.boost.org/doc/libs/1_72_0/doc/html/date_time/posix_time.html</a></p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">start</td><td>The <a class="el" href="class_time.html">Time</a>, string, or size_t for start time. </td></tr>
+    <tr><td class="paramname">end</td><td>The <a class="el" href="class_time.html">Time</a>, string, or size_t for end time. </td></tr>
+    <tr><td class="paramname">sliced_times</td><td>The <a class="el" href="class_times.html" title="Times class is used to store Time. It is a bidirectional map implemented from Boost so that it provid...">Times</a> object to store the sliced times. </td></tr>
+    <tr><td class="paramname">iso_string</td><td>Whether the strings use the ISO format. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a6139f14fe56dd7ddd72a76ec5561086e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6139f14fe56dd7ddd72a76ec5561086e">&#9670;&nbsp;</a></span>operator()() <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a6139f14fe56dd7ddd72a76ec5561086e">&#9670;&nbsp;</a></span>operator()() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -298,27 +350,11 @@ Friends</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Slice times based on the start and end times. The input strings should follow</p>
-<ul>
-<li>(1) the delimited format: YYYY-mm-dd HH:MM:SS.SSS</li>
-<li>(2) the non delimited iso format: YYYYmmddTHHMMSS</li>
-</ul>
-<p>Note that the letter 'T' in the non delimited iso format is a literal letter.</p>
-<p>For more documentation, please go to <a href="https://www.boost.org/doc/libs/1_72_0/doc/html/date_time/posix_time.html">https://www.boost.org/doc/libs/1_72_0/doc/html/date_time/posix_time.html</a></p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">start</td><td>The string or size_t for start time. </td></tr>
-    <tr><td class="paramname">end</td><td>The string or size_t for end time. </td></tr>
-    <tr><td class="paramname">sliced_times</td><td>The <a class="el" href="class_times.html" title="Times class is used to store Time. It is a bidirectional map implemented from Boost so that it provid...">Times</a> object to store the sliced times. </td></tr>
-    <tr><td class="paramname">iso_string</td><td>Whether the strings use the ISO format. </td></tr>
-  </table>
-  </dd>
-</dl>
 
 </div>
 </div>
 <a id="a6415748b310c39feea8202ba6f32663b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6415748b310c39feea8202ba6f32663b">&#9670;&nbsp;</a></span>operator()() <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a6415748b310c39feea8202ba6f32663b">&#9670;&nbsp;</a></span>operator()() <span class="overload">[3/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
