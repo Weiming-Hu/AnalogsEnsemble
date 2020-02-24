@@ -90,10 +90,10 @@ testObservationsPointer::testSubset_() {
         times.push_back(Time(i + 1));
     }
 
-    vector<double> values(parameters.size() * stations.size() * times.size());
-    iota(values.begin(), values.end(), rand());
-
     ObservationsPointer observations(parameters, stations, times);
+    
+    double * p_data = observations.getValuesPtr();
+    iota(p_data, p_data + observations.num_elements(), 0);
 
     // Create subset forecasts
     Stations stations_subset;

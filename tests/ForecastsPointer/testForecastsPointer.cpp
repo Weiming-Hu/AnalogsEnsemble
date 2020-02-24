@@ -100,11 +100,12 @@ testForecastsPointer::testSubset_() {
     assign::push_back(flts.left)
             (0, Time(100))(1, Time(200))(2, Time(300))(3, Time(400));
 
-    vector<double> values(parameters.size() * stations.size() *
-            times.size() * flts.size());
-    iota(values.begin(), values.end(), rand());
-
     ForecastsPointer forecasts(parameters, stations, times, flts);
+
+    double * p_data = forecasts.getValuesPtr();
+    iota(p_data, p_data + forecasts.num_elements(), 100);
+    
+    cout << forecasts;
 
     // Create subset forecasts
     Stations stations_subset;
