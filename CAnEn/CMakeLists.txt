@@ -57,7 +57,7 @@ set(AnEn_headers
 
 # Find the dependent library and components
 find_package(OpenMP)
-find_package(Boost 1.58.0 REQUIRED COMPONENTS date_time)
+find_package(Boost 1.58.0 REQUIRED COMPONENTS date_time serialization)
 
 # Create target by explicitly listing all source files
 add_library(AnEn ${AnEn_source_files})
@@ -73,7 +73,7 @@ target_include_directories(AnEn
 
 target_compile_features(AnEn PUBLIC cxx_std_11)
 
-target_link_libraries(AnEn PUBLIC Boost::date_time Boost::boost)
+target_link_libraries(AnEn PUBLIC Boost::date_time Boost::serialization Boost::boost)
 
 if(OpenMP_CXX_FOUND)
     target_link_libraries(AnEn PUBLIC OpenMP::OpenMP_CXX)
