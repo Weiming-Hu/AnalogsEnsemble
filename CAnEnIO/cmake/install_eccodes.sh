@@ -23,8 +23,8 @@ export ECCODES_VERSION=2.16.0
 # Create a folder for eccodes. This will be the folder for both the source files and
 # the compiled libraries.
 #
-mkdir ~/eccodes
-cd ~/eccodes
+mkdir eccodes
+cd eccodes
 
 # Download the tarball file
 wget "https://confluence.ecmwf.int/download/attachments/45757960/eccodes-$ECCODES_VERSION-Source.tar.gz?api=v2" -O eccodes.tar.gz
@@ -47,6 +47,10 @@ ctest
 # Install to system. This is the place you might need sudo permission
 make install
 
+# Remove extra files
+cd ..
+rm -rf eccodes
+
 # Print out message
 echo "
 ########################################################################################
@@ -61,4 +65,3 @@ echo "
 #                                                                                      #
 ########################################################################################
 "
-
