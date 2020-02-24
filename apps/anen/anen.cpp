@@ -41,7 +41,8 @@ void runAnEnGrib(
         size_t unit_in_seconds,
         bool delimited,
         bool overwrite,
-        bool profile) {
+        bool profile,
+        bool save_tests) {
 
 
     /**************************************************************************
@@ -62,15 +63,15 @@ void runAnEnGrib(
     } catch (exception & e) {
         ostringstream msg;
         msg << "Failed during extracting test/search times." << endl << endl
-            << "Did you follow the format YYYY-mm-dd HH:MM:SS ?" << endl
-            << "Do you have extra quotes?" << endl << endl
-            << "I got test_start: " << test_start_str
-            << ", test_end: " << test_end_str << endl
-            << "search_start: " << search_start_str <<
-            ", search_end: " << search_end_str << endl << endl
-            << "A common mistake is using surrounding double quotes. You don't need them if you see them."
-            << endl << endl << "The messages below come from the original error message:"
-            << endl << e.what();
+                << "Did you follow the format YYYY-mm-dd HH:MM:SS ?" << endl
+                << "Do you have extra quotes?" << endl << endl
+                << "I got test_start: " << test_start_str
+                << ", test_end: " << test_end_str << endl
+                << "search_start: " << search_start_str <<
+                ", search_end: " << search_end_str << endl << endl
+                << "A common mistake is using surrounding double quotes. You don't need them if you see them."
+                << endl << endl << "The messages below come from the original error message:"
+                << endl << e.what();
         throw runtime_error(msg.str());
     }
 
@@ -137,7 +138,7 @@ void runAnEnGrib(
      **************************************************************************/
 
     /*
-     * Write results to disk
+     * Write AnEn results to an NetCDF file
      */
     AnEnWriteNcdf anen_write(config.verbose);
 
@@ -156,12 +157,26 @@ void runAnEnGrib(
     } else {
         throw runtime_error("The algorithm is not recognized");
     }
+    
+    if (save_tests) {
+        /*
+         * Forecasts and observations are appended to the same file as AnEn
+         * results. Therefore, I don't want the output to overwrite the existing
+         * file which would remove the file entirely, but to append to the 
+         * existing file.
+         * 
+         * Therefore, I explicitly turn off overwriting (false) and
+         * turn on appending (true).
+         */
+        anen_write.writeForecasts(fileout, forecasts, false, true);
+        anen_write.writeObservations(fileout, observations, false, true);
+    }
 
     /*
      * Housekeeping
      */
     delete anen;
-
+    
     profiler.log_time_session("writing results");
     if (profile) profiler.summary(cout);
 
@@ -184,7 +199,7 @@ int main(int argc, char** argv) {
     string forecast_folder, analysis_folder, regex_day_str, regex_flt_str;
     string regex_cycle_str, test_start, test_end, search_start, search_end;
     string fileout, algorithm, ext;
-    bool delimited, overwrite, profile;
+    bool delimited, overwrite, profile, save_tests;
     size_t unit_in_seconds;
     int verbose;
 
@@ -236,6 +251,7 @@ int main(int argc, char** argv) {
             ("save-sims", bool_switch(&(config.save_sims))->default_value(config.save_sims), "[Optional] Save similarity.")
             ("save-sims-time-index", bool_switch(&(config.save_sims_time_index))->default_value(config.save_sims_time_index), "[Optional] Save time indices of similarity.")
             ("save-sims-station-index", bool_switch(&(config.save_sims_station_index))->default_value(config.save_sims_station_index), "[Optional] Save station indices of similarity.")
+            ("save-tests", bool_switch(&save_tests)->default_value(false), "[Optional] Save test forecasts and observations if available")
             ("no-quick", bool_switch(&(config.quick_sort))->default_value(config.quick_sort), "[Optional] Disable nth_element sort, use partial sort.");
 
     // Get all the available options
@@ -348,7 +364,7 @@ int main(int argc, char** argv) {
     runAnEnGrib(forecast_files, analysis_files,
             regex_day_str, regex_flt_str, regex_cycle_str,
             grib_parameters, stations_index, test_start, test_end, search_start, search_end,
-            fileout, algorithm, config, unit_in_seconds, delimited, overwrite, profile);
+            fileout, algorithm, config, unit_in_seconds, delimited, overwrite, profile, save_tests);
 
     return 0;
 }

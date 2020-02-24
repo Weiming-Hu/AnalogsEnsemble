@@ -24,34 +24,32 @@
  * types and functions.
  */
 namespace Ncdf {
-    
-    enum class Mode {
-        Read, Write
-    };
 
-    void checkPath(const std::string & file_path, Mode mode);
+    void checkExists(const std::string & file_path);
+    bool checkExists(const std::string& file_path, bool overwrite, bool append);
+    void checkExtension(const std::string&, const std::string & ext = ".nc");
     void checkIndex(size_t start, size_t count, size_t len);
-    void checkDims(const netCDF::NcFile & nc,
+    void checkDims(const netCDF::NcGroup & nc,
             const std::vector<std::string> & names);
-    void checkVars(const netCDF::NcFile & nc,
+    void checkVars(const netCDF::NcGroup & nc,
             const std::vector<std::string> & names);
-    void checkVarShape(const netCDF::NcFile & nc,
+    void checkVarShape(const netCDF::NcGroup & nc,
             const std::string & var_name,
             const std::vector<std::string> & dim_names);
-    bool dimExists(const netCDF::NcFile & nc, const std::string & name);
-    bool varExists(const netCDF::NcFile & nc, const std::string & name);
+    bool dimExists(const netCDF::NcGroup & nc, const std::string & name);
+    bool varExists(const netCDF::NcGroup & nc, const std::string & name);
 
-    void readStringVector(const netCDF::NcFile & nc,
+    void readStringVector(const netCDF::NcGroup & nc,
             std::string var_name, std::vector<std::string> & results,
             size_t start = 0, size_t count = 0,
             const std::string & name_char = "num_chars");
 
-    netCDF::NcDim getDimension(netCDF::NcFile &,
+    netCDF::NcDim getDimension(netCDF::NcGroup &,
             const std::string &, bool unlimited = false, size_t len = 0);
-    void writeStringVector(netCDF::NcFile &, const std::string &,
+    void writeStringVector(netCDF::NcGroup &, const std::string &,
             const std::string &, const std::vector<std::string> &,
             bool unlimited = false);
-    void writeArray4D(netCDF::NcFile &, const Array4D &, const std::string &,
+    void writeArray4D(netCDF::NcGroup &, const Array4D &, const std::string &,
             const std::array<std::string, 4> &,
             const std::array<bool, 4> & unlimited = {false, false, false, false});
 
@@ -63,20 +61,20 @@ namespace Ncdf {
      ************************************************************************/
     
     template <typename nctype, typename valuetype>
-    void writeAttributes(nctype & nc, const std::string &,
+    void writeAttribute(nctype & nc, const std::string &,
             const valuetype &, netCDF::NcType, bool overwrite = false);
     
     template <typename nctype>
-    void writeStringAttributes(nctype & nc, const std::string &,
+    void writeStringAttribute(nctype & nc, const std::string &,
             const std::string &, bool overwrite = false);
     
     template <typename T>
-    void writeVector(netCDF::NcFile &, const std::string &,
+    void writeVector(netCDF::NcGroup &, const std::string &,
             const std::string &, const std::vector<T> &, netCDF::NcType,
             bool unlimited = false);
     
     template <typename T>
-    void readVector(const netCDF::NcFile & nc, std::string var_name,
+    void readVector(const netCDF::NcGroup & nc, std::string var_name,
             std::vector<T> & results,
             std::vector<size_t> start = {},
             std::vector<size_t> count = {});
