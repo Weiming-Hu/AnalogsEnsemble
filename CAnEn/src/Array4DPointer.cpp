@@ -79,9 +79,64 @@ Array4DPointer::getValue(size_t dim0, size_t dim1, size_t dim2, size_t dim3) con
     return data_[toIndex_(dim0, dim1, dim2, dim3)];
 }
 
-void Array4DPointer::setValue(double val,
+void
+Array4DPointer::setValue(double val,
         size_t dim0, size_t dim1, size_t dim2, size_t dim3) {
     data_[toIndex_(dim0, dim1, dim2, dim3)] = val;
+    return;
+}
+
+void
+Array4DPointer::subset(const vector<size_t> & dim0_indices,
+        const vector<size_t> & dim1_indices,
+        const vector<size_t> & dim2_indices,
+        const vector<size_t> & dim3_indices,
+        Array4D & arr_subset) const {
+
+    // Make sure the indices are sorted
+    bool sorted = is_sorted(dim0_indices.begin(), dim0_indices.end()) &&
+            is_sorted(dim1_indices.begin(), dim1_indices.end()) &&
+            is_sorted(dim2_indices.begin(), dim2_indices.end()) &&
+            is_sorted(dim3_indices.begin(), dim3_indices.end());
+    if (!sorted) throw runtime_error("Subset indices must be sorted in ascension order");
+
+    // Allocate memory
+    arr_subset.resize(
+            dim0_indices.size(),
+            dim1_indices.size(),
+            dim2_indices.size(),
+            dim3_indices.size());
+
+    // Get pointers to data
+    const double * p_ori = getValuesPtr();
+    double * p_subset = arr_subset.getValuesPtr();
+
+    size_t from_pos, offset;
+    size_t last_pos = 0;
+
+    // Loop through the data in column-major
+    for (size_t dim3_i : dim3_indices)
+        for (size_t dim2_i : dim2_indices)
+            for (size_t dim1_i : dim1_indices)
+                for (size_t dim0_i : dim0_indices) {
+
+                    // Calculate position offset
+                    from_pos = toIndex_(dim0_i, dim1_i, dim2_i, dim3_i);
+                    offset = from_pos - last_pos;
+
+                    // Advance the original data pointer
+                    p_ori = p_ori + offset;
+
+                    // Copy this value
+                    *p_subset = *p_ori;
+
+                    // Advance the subset data pointer
+                    p_subset++;
+
+                    // Update last position
+                    last_pos = from_pos;
+                }
+
     return;
 }
 
@@ -105,9 +160,9 @@ Array4DPointer::allocateMemory_() {
 }
 
 void
-Array4DPointer::print(std::ostream & os) const {
+Array4DPointer::print(ostream & os) const {
     os << "[Array4D] shape [" << dims_[0] << "," << dims_[1] << ","
-            << dims_[2] << "," << dims_[3] << "]" << std::endl;
+            << dims_[2] << "," << dims_[3] << "]" << endl;
 
     for (size_t l = 0; l < dims_[0]; ++l) {
         for (size_t m = 0; m < dims_[1]; ++m) {
@@ -133,15 +188,15 @@ Array4DPointer::print(std::ostream & os) const {
     return;
 }
 
-std::ostream &
-operator<<(std::ostream & os, const Array4DPointer & obj) {
+ostream &
+operator<<(ostream & os, const Array4DPointer & obj) {
     obj.print(os);
     return os;
 }
 
 Array4DPointer &
         Array4DPointer::operator=(const Array4DPointer & rhs) {
-    
+
     if (this != &rhs) {
 
         // Copy dimensions
@@ -153,6 +208,6 @@ Array4DPointer &
 
         allocated_ = true;
     }
-    
+
     return *this;
 }

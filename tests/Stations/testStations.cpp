@@ -64,3 +64,27 @@ testStations::testUnique_() {
     CPPUNIT_ASSERT(stations.left[2].second == s2);
     CPPUNIT_ASSERT(stations.left[3].second == s3);
 }
+
+void testStations::testSubset_() {
+
+    /*
+     * Test the index subset functionality.
+     */
+
+    // Unique values
+    Station s0;
+    Station s1(5, 3);
+    Station s2(10, 20, "station3");
+    Station s3(10, 20, "station2");
+    
+    Stations stations_all, stations_subset;
+    assign::push_back(stations_all.left)(0, s0)(1, s1)(2, s2)(3, s3);
+    assign::push_back(stations_subset.left)(0, s0)(1, s3);
+
+    vector<size_t> indices;
+    stations_all.getIndices(stations_subset, indices);
+    
+    CPPUNIT_ASSERT(indices.size() == stations_subset.size());
+    CPPUNIT_ASSERT(indices[0] == 0);
+    CPPUNIT_ASSERT(indices[1] == 3);
+}

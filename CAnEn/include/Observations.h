@@ -62,6 +62,8 @@ public:
             std::size_t station_index, std::size_t time_index) const = 0;
     virtual void setValue(double val, std::size_t parameter_index,
             std::size_t station_index, std::size_t time_index) = 0;
+    
+    virtual void subset(Observations &) const = 0;
 
     /**************************************************************************
      *                           Member Functions                             *

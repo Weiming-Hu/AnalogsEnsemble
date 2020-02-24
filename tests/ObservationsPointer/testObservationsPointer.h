@@ -14,6 +14,7 @@ class testObservationsPointer : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST_SUITE(testObservationsPointer);
 
     CPPUNIT_TEST(testObservationValueSequence_);
+    CPPUNIT_TEST(testSubset_);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -23,6 +24,7 @@ public:
     
 private:
     void testObservationValueSequence_();
+    void testSubset_();
 };
 
 #endif /* TESTOBSERVATIONSPOINTER_H */

@@ -117,6 +117,18 @@ Parameters::getIndex(const Parameter & parameter) const {
     return (it->second);
 }
 
+void
+Parameters::getIndices(const Parameters & parameters, vector<size_t> & indices) const {
+    size_t num_parameters = parameters.size();
+    indices.resize(num_parameters);
+    
+    for (size_t i = 0; i < num_parameters; ++i) {
+        indices[i] = getIndex(parameters.getParameter(i));
+    }
+    
+    return;
+}
+
 const Parameter &
 Parameters::getParameter(size_t index) const {
     return this->left[index].second;

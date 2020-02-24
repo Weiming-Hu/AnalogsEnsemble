@@ -69,6 +69,8 @@ public:
      * @return an index
      */
     std::size_t getIndex(const Time & time) const;
+    void getIndices(const Times &, std::vector<std::size_t> &) const;
+    
     const Time & getTime(std::size_t index) const;
     
     void getTimestamps(std::vector<std::size_t> & timestamps) const;

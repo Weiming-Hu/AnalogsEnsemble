@@ -48,3 +48,25 @@ void testParameters::testUnique_() {
     CPPUNIT_ASSERT(parameters.left[0].second == p1);
     CPPUNIT_ASSERT(parameters.left[1].second == p3);
 }
+
+void testParameters::testSubset_() {
+
+    /*
+     * Test the index subset functionality.
+     */
+
+    // Unique values
+    Parameter p1, p2("temperature"), p3("Direction"),
+            p4("wind direction", true);
+    
+    Parameters all, subset;
+    assign::push_back(all.left)(0, p1)(1, p2)(2, p3)(3, p4);
+    assign::push_back(subset.left)(0, p2)(1, p4);
+
+    vector<size_t> indices;
+    all.getIndices(subset, indices);
+    
+    CPPUNIT_ASSERT(indices.size() == subset.size());
+    CPPUNIT_ASSERT(indices[0] == 1);
+    CPPUNIT_ASSERT(indices[1] == 3);
+}

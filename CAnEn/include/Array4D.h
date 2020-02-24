@@ -28,7 +28,7 @@ public:
      **************************************************************************/
 
     virtual const std::size_t* shape() const = 0;
-    
+
     /**
      * Returns the total number of data values.
      * @return A value.
@@ -50,7 +50,7 @@ public:
      * @param Length of the fourth dimension
      */
     virtual void resize(std::size_t, std::size_t, std::size_t, std::size_t) = 0;
-    
+
     /**
      * Initialize the values
      * @param The value for initialization
@@ -67,6 +67,10 @@ public:
      */
     virtual double getValue(std::size_t, std::size_t, std::size_t, std::size_t) const = 0;
     virtual void setValue(double val, std::size_t, std::size_t, std::size_t, std::size_t) = 0;
+
+    virtual void subset(const std::vector<std::size_t> &, const std::vector<std::size_t> &,
+            const std::vector<std::size_t> &, const std::vector<std::size_t> &,
+            Array4D &) const = 0;
 
     virtual void print(std::ostream &) const = 0;
 };

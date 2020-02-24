@@ -122,6 +122,18 @@ Times::getIndex(const Time & time) const {
     return (it->second);
 }
 
+void
+Times::getIndices(const Times & times, vector<size_t> & indices) const {
+    size_t num_times = times.size();
+    indices.resize(num_times);
+
+    for (size_t i = 0; i < num_times; ++i) {
+        indices[i] = getIndex(times.getTime(i));
+    }
+
+    return;
+}
+
 const Time &
 Times::getTime(size_t index) const {
     return this->left[index].second;

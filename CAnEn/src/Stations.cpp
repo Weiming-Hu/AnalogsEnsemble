@@ -126,6 +126,18 @@ Stations::getIndex(const Station & station) const {
     return it->second;
 }
 
+void
+Stations::getIndices(const Stations & stations, vector<size_t> & indices) const {
+    
+    size_t num_stations = stations.size();
+    indices.resize(num_stations);
+
+    for (size_t i = 0; i < num_stations; ++i) {
+        indices[i] = getIndex(stations.getStation(i));
+    }
+
+    return;
+}
 
 const Station &
 Stations::getStation(size_t index) const {

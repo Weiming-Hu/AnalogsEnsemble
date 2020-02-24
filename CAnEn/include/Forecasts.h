@@ -43,6 +43,9 @@ public:
     virtual void setDimensions(const Parameters & parameters,
             const Stations & stations, const Times & times,
             const Times & flts) = 0;
+    
+    virtual void subset(Forecasts & forecasts_subset) const = 0;
+    
 
     /**************************************************************************
      *                           Member Functions                             *

@@ -157,8 +157,17 @@ void runAnEnGrib(
     } else {
         throw runtime_error("The algorithm is not recognized");
     }
-    
+
     if (save_tests) {
+
+        // Create test forecasts
+        ForecastsPointer test_forecasts(
+                forecasts.getParameters(), forecasts.getStations(),
+                test_times, forecasts.getFLTs());
+
+        // Copy subset values from original forecasts
+        forecasts.subset(test_forecasts);
+
         /*
          * Forecasts and observations are appended to the same file as AnEn
          * results. Therefore, I don't want the output to overwrite the existing
@@ -168,15 +177,40 @@ void runAnEnGrib(
          * Therefore, I explicitly turn off overwriting (false) and
          * turn on appending (true).
          */
-        anen_write.writeForecasts(fileout, forecasts, false, true);
-        anen_write.writeObservations(fileout, observations, false, true);
+        anen_write.writeForecasts(fileout, test_forecasts, false, true);
+
+        // Create test observations times that should be saved
+        Times test_obs_times;
+        const Times & obs_times = observations.getTimes();
+        obs_times(test_start, test_end, test_obs_times);
+
+        if (obs_times.size() == 0) {
+
+            if (config.verbose >= Verbose::Progress)
+                cerr << "Warning: Observations do not cover the test time period."
+                    << " No test observations are saved." << endl;
+
+        } else {
+
+            // Create test observations
+            ObservationsPointer test_observations(
+                    observations.getParameters(),
+                    observations.getStations(),
+                    test_obs_times);
+
+            // Copy subset values from original observations
+            observations.subset(test_observations);
+
+            // Save subset observations
+            anen_write.writeObservations(fileout, observations, false, true);
+        }
     }
 
     /*
      * Housekeeping
      */
     delete anen;
-    
+
     profiler.log_time_session("writing results");
     if (profile) profiler.summary(cout);
 

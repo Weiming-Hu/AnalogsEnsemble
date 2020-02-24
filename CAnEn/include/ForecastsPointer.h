@@ -29,6 +29,8 @@ public:
     virtual void setDimensions(
             const Parameters & parameters, const Stations & stations,
             const Times & times, const Times & flts) override;
+    
+    void subset(Forecasts& forecasts_subset) const override;
 
     void print(std::ostream &) const override;
     friend std::ostream & operator<<(std::ostream &, const ForecastsPointer &);

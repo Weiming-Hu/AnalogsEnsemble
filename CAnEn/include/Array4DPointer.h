@@ -24,7 +24,7 @@ public:
     Array4DPointer(const Array4DPointer& orig);
     Array4DPointer(std::size_t, std::size_t, std::size_t, std::size_t);
     virtual ~Array4DPointer();
-    
+
     virtual const std::size_t* shape() const override;
     virtual std::size_t num_elements() const override;
 
@@ -37,13 +37,16 @@ public:
     virtual double getValue(std::size_t, std::size_t, std::size_t, std::size_t) const override;
     virtual void setValue(double val, std::size_t, std::size_t, std::size_t, std::size_t) override;
 
+    virtual void subset(const std::vector<std::size_t>&, const std::vector<std::size_t>&,
+            const std::vector<std::size_t>&, const std::vector<std::size_t>&, Array4D&) const override;
+
     virtual void print(std::ostream &) const override;
     friend std::ostream & operator<<(std::ostream &, const Array4DPointer &);
-    
+
     Array4DPointer & operator=(const Array4DPointer &);
 
     static const double _DEFAULT_VALUE;
-    
+
 protected:
     vector4 dims_;
     double * data_;
@@ -54,7 +57,7 @@ protected:
      * the de-constructor.
      */
     bool allocated_;
-  
+
     std::size_t toIndex_(std::size_t, std::size_t, std::size_t, std::size_t) const;
 
     void allocateMemory_();
