@@ -9,6 +9,12 @@
 #ifndef FUNCTIONS_H
 #define FUNCTIONS_H
 
+// This include file is needed because there is a bug in older versions of the ulas library
+//
+// Reference: https://stackoverflow.com/questions/44534516/error-make-array-is-not-a-member-of-boostserialization
+//
+#include <boost/serialization/array_wrapper.hpp>
+
 #include "Times.h"
 #include "Config.h"
 #include "Forecasts.h"
