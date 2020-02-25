@@ -66,8 +66,7 @@ add_library(AnEn ${AnEn_source_files})
 add_library(AnEn::AnEn ALIAS AnEn)
 
 # Configure the properties of this target
-target_include_directories(AnEn
-    PUBLIC 
+target_include_directories(AnEn SYSTEM PUBLIC 
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>)
 
