@@ -159,19 +159,37 @@ AnEnWriteNcdf::writeForecasts(const std::string& file,
     bool file_exists = Ncdf::checkExists(file, overwrite, append);
     Ncdf::checkExtension(file);
 
-    // Create an NetCDF file object for writing
-    NcFile nc;
-    if (file_exists) nc.open(file, NcFile::FileMode::write);
-    else nc.open(file, NcFile::FileMode::newFile, NcFile::FileFormat::nc4);
+    // If file exists, I always append. Note that if append is false, 
+    // program will fail during the check phase.
+    //
+    // If file does not exists, I create a new file.
+    //
+    NcFile::FileMode nc_filemode;
+    if (file_exists) nc_filemode = NcFile::FileMode::write;
+    else nc_filemode = NcFile::FileMode::newFile;
 
+    // Create an NetCDF file object for writing
+    //
+    // Note that, in older versions of the NetCDF C++ interface, there are
+    // no such members functions, NcFile::open and NcFile::close. So
+    // I'm trying to avoid them for better compatibility.
+    //
     // NetCDF version 4 supports adding groups. To avoid naming conflicts,
     // forecasts are created under a group if the file already exists.
     //
-    nc.addGroup("Forecasts");
+    NcFile nc(file, nc_filemode, NcFile::FileFormat::nc4);
 
+    // Write to child group if the file already exists.
+    // Write to parent group if the file is newly created.
+    //
     NcGroup nc_group;
-    if (file_exists) nc_group = nc.getGroup("Forecasts");
-    else nc_group = nc;
+    if (file_exists) {
+        nc.addGroup("Forecasts");
+        nc_group = nc.getGroup("Forecasts");
+    } else {
+        nc_group = nc;
+    }
+
 
     /*************************************************************************
      *                   Write Forecasts object                              *
@@ -208,19 +226,36 @@ AnEnWriteNcdf::writeObservations(const std::string & file,
     bool file_exists = Ncdf::checkExists(file, overwrite, append);
     Ncdf::checkExtension(file);
 
-    // Create an NetCDF file object for writing
-    NcFile nc;
-    if (file_exists) nc.open(file, NcFile::FileMode::write);
-    else nc.open(file, NcFile::FileMode::newFile, NcFile::FileFormat::nc4);
+    // If file exists, I always append. Note that if append is false, 
+    // program will fail during the check phase.
+    //
+    // If file does not exists, I create a new file.
+    //
+    NcFile::FileMode nc_filemode;
+    if (file_exists) nc_filemode = NcFile::FileMode::write;
+    else nc_filemode = NcFile::FileMode::newFile;
 
+    // Create an NetCDF file object for writing
+    //
+    // Note that, in older versions of the NetCDF C++ interface, there are
+    // no such members functions, NcFile::open and NcFile::close. So
+    // I'm trying to avoid them for better compatibility.
+    //
     // NetCDF version 4 supports adding groups. To avoid naming conflicts,
     // forecasts are created under a group if the file already exists.
     //
-    nc.addGroup("Observations");
+    NcFile nc(file, nc_filemode, NcFile::FileFormat::nc4);
 
+    // Write to child group if the file already exists.
+    // Write to parent group if the file is newly created.
+    //
     NcGroup nc_group;
-    if (file_exists) nc_group = nc.getGroup("Observations");
-    else nc_group = nc;
+    if (file_exists) {
+        nc.addGroup("Observations");
+        nc_group = nc.getGroup("Observations");
+    } else {
+        nc_group = nc;
+    }
 
 
     /*************************************************************************
