@@ -141,9 +141,9 @@ AnEnReadGrib::readForecasts(Forecasts & forecasts,
             continue;
         }
         
-        if (verbose_ >= Verbose::Debug) {
-            cout << file << " --> " << 
-                    ////
+        if (verbose_ >= Verbose::Detail) {
+            cout << file << " --> Time: " << file_time.toString()
+                    << " Lead time: " << file_flt << " " << Time::_unit << endl;
         }
 
         // Get index

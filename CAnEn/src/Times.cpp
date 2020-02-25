@@ -16,14 +16,17 @@
  *        The Pennsylvania State University
  */
 
+#include <stdexcept>
+#include <sstream>
+
 #include "Times.h"
 #include "Config.h"
 #include "Functions.h"
 
-#include <stdexcept>
-#include <sstream>
+#include "boost/date_time/posix_time/posix_time.hpp"
 
 using namespace std;
+
 
 const string Time::_unit = "seconds";
 const string Time::_origin = "1970-01-01 00:00:00";
@@ -53,13 +56,13 @@ Time::~Time() {
 }
 
 Time &
-Time::operator=(const Time & rhs) {
+        Time::operator=(const Time & rhs) {
     if (this != &rhs) timestamp = rhs.timestamp;
     return *this;
 }
 
 Time &
-Time::operator=(size_t rhs) {
+        Time::operator=(size_t rhs) {
     timestamp = rhs;
     return *this;
 }
@@ -89,9 +92,36 @@ Time::operator>=(const Time & rhs) const {
     return (timestamp >= rhs.timestamp);
 }
 
+string
+Time::toString() const {
+
+#ifdef _DISABLE_NON_HEADER_BOOST
+    /*
+     * Please note that if _DISABLE_NON_HEADER_BOOST is defined, this function
+     * will be unavailable because it depends on the non-header portion of boost.
+     * The R package BH only provides header-only boost so this function won't work.
+     * I'm aware of the R package RcppBDT but, since this function is never used 
+     * in R routines, I can simply disable this function and avoid an extra dependency.
+     */
+    throw runtime_error("Time::toString is disabled because it depends on non-header boost libraries");
+#else
+    // Create POSIX time using the original time
+    boost::posix_time::ptime mytime = boost::posix_time::time_from_string(Time::_origin);
+    
+    // Create a time duration for the offset
+    boost::posix_time::time_duration offset = boost::posix_time::seconds(timestamp);
+    
+    // Increment my time
+    mytime += offset;
+    
+    // Convert to string
+    return(boost::posix_time::to_simple_string(mytime));
+#endif
+}
+
 void
 Time::print(ostream &os) const {
-    os << timestamp << endl;
+    os << timestamp;
 }
 
 ostream&
@@ -99,7 +129,6 @@ operator<<(ostream& os, Time const & obj) {
     obj.print(os);
     return os;
 }
-
 
 /***************************************************************************
  *                               Times                                     *
@@ -143,22 +172,20 @@ void
 Times::getTimestamps(vector<size_t> & timestamps) const {
     timestamps.resize(size());
     const auto & end = left.end();
-    
+
     for (auto it = left.begin(); it != end; ++it)
         timestamps[it->first] = it->second.timestamp;
-    
+
     return;
 }
-
-
 
 void
 Times::print(ostream &os) const {
     os << "[Times] size: " << size() << " origin: " << Time::_origin
-        << " unit: " << Time::_unit << endl;
+            << " unit: " << Time::_unit << endl;
 
     for (left_const_iterator it = left.begin(); it < left.end(); it++) {
-        os << "[" << it->first << "] " << it->second;
+        os << "[" << it->first << "] " << it->second << endl;
     }
 
     return;
@@ -182,15 +209,14 @@ Times::operator()(const string & start, const string & end,
     // Convert string to POSIXct time
     size_t start_time = Functions::toSeconds(start, Time::_origin, iso_string);
     size_t end_time = Functions::toSeconds(end, Time::_origin, iso_string);
-    return operator ()(start_time, end_time, sliced_times);
+    return operator()(start_time, end_time, sliced_times);
 }
-
 
 void
 Times::operator()(size_t start_time, size_t end_time, Times & sliced_times) const {
-    
+
     sliced_times.clear();
-    
+
     const auto & end = left.end();
     for (auto it = left.begin(); it != end; ++it) {
         size_t current_time = it->second.timestamp;
@@ -198,6 +224,6 @@ Times::operator()(size_t start_time, size_t end_time, Times & sliced_times) cons
             sliced_times.push_back(current_time);
         }
     }
-    
+
     return;
 }

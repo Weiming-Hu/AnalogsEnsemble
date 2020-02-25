@@ -30,14 +30,23 @@ public:
     bool operator>(const Time &) const;
     bool operator<=(const Time &) const;
     bool operator>=(const Time &) const;
+    
+    std::string toString() const;
+    void print(std::ostream & os) const;
+    friend std::ostream& operator<<(std::ostream& os, Time const & obj);
 
     // This is where we store the actual data as std::size_t.
     std::size_t timestamp;
     
-    void print(std::ostream & os) const;
-    friend std::ostream& operator<<(std::ostream& os, Time const & obj);
-    
+    /**
+     * For now, Time only supports seconds. Support for other
+     * units will be future features.
+     */
     static const std::string _unit;
+    
+    /**
+     * Origin of all times. This can be changed only during compile-time.
+     */
     static const std::string _origin;
 };
 

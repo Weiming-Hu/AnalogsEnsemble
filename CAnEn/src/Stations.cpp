@@ -96,7 +96,7 @@ Station::getX() const {
 
 void
 Station::print(ostream &os) const {
-    os << "[Station] Name: " << name_ << ", x: " << x_ << ", y: " << y_ << endl;
+    os << "[Station] Name: " << name_ << ", x: " << x_ << ", y: " << y_;
 }
 
 ostream &
@@ -181,7 +181,7 @@ Stations::print(ostream & os) const {
     os << "[Stations] size: " << size() << endl;
 
     for (left_const_iterator it = left.begin(); it < left.end(); it++) {
-        os << "[" << it->first << "] " << it->second;
+        os << "[" << it->first << "] " << it->second << endl;
     }
 
     return;
