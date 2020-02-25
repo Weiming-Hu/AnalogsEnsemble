@@ -44,6 +44,8 @@ Weiming Hu, Guido Cervone, Laura Clemente-Harding, and Martina Calovi. (2019). P
 
 Please click [here](https://mybinder.org/v2/gh/Weiming-Hu/AnalogsEnsemble/master?urlpath=rstudio) to access our tutorials. The tutorials can be found under `RAnalogs/examples`.
 
+Here are also some tips and caveats in [this ticket](https://github.com/Weiming-Hu/AnalogsEnsemble/issues/81).
+
 ## Installation
 
 `RAnEn` is very easy to install if you are already using [R](https://www.r-project.org/). This is the recommended way to start.
