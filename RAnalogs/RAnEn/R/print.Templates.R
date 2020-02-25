@@ -49,8 +49,8 @@ printTemplates <- function(x) {
   # Define data dimensions
   data.dim.names <- `if`(
     type == 'Forecasts',
-    c('parameter', 'stations', 'times', 'flts'),
-    c('parameter', 'stations', 'times'))
+    c('parameters', 'stations', 'times', 'flts'),
+    c('parameters', 'stations', 'times'))
   
   # Get a config
   config <- new(Config)
