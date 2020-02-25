@@ -140,6 +140,11 @@ AnEnReadGrib::readForecasts(Forecasts & forecasts,
             if (verbose_ >= Verbose::Detail) cout << "Skipped " << file << endl;
             continue;
         }
+        
+        if (verbose_ >= Verbose::Debug) {
+            cout << file << " --> " << 
+                    ////
+        }
 
         // Get index
         time_i = times.getIndex(file_time);

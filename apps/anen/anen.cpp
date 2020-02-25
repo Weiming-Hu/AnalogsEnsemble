@@ -180,11 +180,14 @@ void runAnEnGrib(
         anen_write.writeForecasts(fileout, test_forecasts, false, true);
 
         // Create test observations times that should be saved
+        size_t max_flt = max_element(forecast_flts.left.begin(), forecast_flts.left.end())->second.timestamp;
+        Time obs_end_time(max_flt + test_end.timestamp);
+        
         Times test_obs_times;
         const Times & obs_times = observations.getTimes();
-        obs_times(test_start, test_end, test_obs_times);
+        obs_times(test_start, obs_end_time, test_obs_times);
 
-        if (obs_times.size() == 0) {
+        if (test_obs_times.size() == 0) {
 
             if (config.verbose >= Verbose::Progress)
                 cerr << "Warning: Observations do not cover the test time period."
@@ -202,7 +205,7 @@ void runAnEnGrib(
             observations.subset(test_observations);
 
             // Save subset observations
-            anen_write.writeObservations(fileout, observations, false, true);
+            anen_write.writeObservations(fileout, test_observations, false, true);
         }
     }
 
