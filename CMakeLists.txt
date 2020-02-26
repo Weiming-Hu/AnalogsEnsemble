@@ -17,10 +17,8 @@
 cmake_minimum_required(VERSION 3.12)
 project(PAnEn LANGUAGES C CXX)
 
-# Whether to build RAnEn
 option(INSTALL_RAnEn "Install RAnEn package" OFF)
-
-# Whether to build boost
+option(INSTALL_HEADERS "Install library header files for development" OFF)
 option(BUILD_BOOST "Build Boost" OFF)
 
 # Set variables

@@ -86,7 +86,9 @@ if(NOT BUILD_BOOST)
         RUNTIME DESTINATION bin
         INCLUDES DESTINATION include)
 
-    install(FILES ${AnEnIO_headers} DESTINATION include)
+    if(INSTALL_HEADERS)
+        install(FILES ${AnEnIO_headers} DESTINATION include)
+    endif(INSTALL_HEADERS)
 
     install(EXPORT AnEnIOTargets
         FILE AnEnIOTargets.cmake

@@ -96,11 +96,13 @@ if(NOT BUILD_BOOST)
         RUNTIME DESTINATION bin
         INCLUDES DESTINATION include)
 
-    install(FILES ${AnEn_headers} DESTINATION include)
-
     install(EXPORT AnEnTargets
         FILE AnEnTargets.cmake
         NAMESPACE AnEn::
         DESTINATION lib/cmake)
+
+    if(INSTALL_HEADERS)
+        install(FILES ${AnEn_headers} DESTINATION include)
+    endif(INSTALL_HEADERS)
 
 endif(NOT BUILD_BOOST)
