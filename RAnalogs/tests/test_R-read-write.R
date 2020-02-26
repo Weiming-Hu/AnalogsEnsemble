@@ -34,7 +34,6 @@ if (length(functions.to.test) != length(selected)) {
 file.observations <- 'observations.nc'
 observations <- list(
   ParameterNames = letters[1:3],
-  StationNames = paste0('s', 2:5),
   ParameterCirculars = letters[2],
   Xs = 1:4, Ys = 5:8,
   Times = seq(1, 50, by = 1),
@@ -57,8 +56,6 @@ stopifnot(all.equal(observations.read$ParameterCirculars,
                     observations$ParameterCirculars))
 stopifnot(all.equal(observations.read$ParameterNames,
                     observations$ParameterNames))
-stopifnot(all.equal(observations.read$StationNames,
-                    observations$StationNames))
 unlink(file.observations)
 
 

@@ -74,7 +74,7 @@ writeNetCDF <- function(
         stop(paste("Required member", required.member, "cannot be NULL!"))
       }
 
-      if (identical(NA, obj[[name]])) {
+      if (identical(NA, obj[[required.member]])) {
         stop(paste("Required member", required.member, "cannot be NA!"))
       }
       
