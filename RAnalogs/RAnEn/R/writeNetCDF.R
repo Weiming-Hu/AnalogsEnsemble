@@ -68,15 +68,19 @@ writeNetCDF <- function(
   
   # Check for required members
   for (required.member in required.members) {
-    if (! required.member %in% names(obj)) {
+    if (required.member %in% names(obj)) {
+      # Prevent NA and NULL variables
+      if (is.null(obj[[required.member]])) {
+        stop(paste("Required member", required.member, "cannot be NULL!"))
+      }
+
+      if (identical(NA, obj[[name]])) {
+        stop(paste("Required member", required.member, "cannot be NA!"))
+      }
+      
+    } else {
       stop(paste("Required member", required.member, "does not exist in the object!"))
     }
-  }
-  
-  # Prevent NA and NULL variables
-  for (name in names(obj)) {
-    stopifnot(!is.null(obj[[name]]))
-    stopifnot(!identical(NA, obj[[name]]))
   }
   
   # Define the maximum length of strings
@@ -86,8 +90,8 @@ writeNetCDF <- function(
   vars.list <- list()
   
   # Prepare ParameterNames
-  stopifnot(dim(obj$Data)[1] == length(obj$ParameterNames))
-  num.parameters <- dim(obj$Data)[1]
+  stopifnot(dim(obj[[pairs$`_DATA`]])[1] == length(obj[[pairs$`_PAR_NAMES`]]))
+  num.parameters <- dim(obj[[pairs$`_DATA`]])[1]
   nc.dim.parameters <- ncdf4::ncdim_def(pairs$`_DIM_PARS`, "", 1:num.parameters, create_dimvar = F)
   nc.var.par.names <- ncdf4::ncvar_def(pairs$`_PAR_NAMES`, "", list(nc.dim.chars, nc.dim.parameters), prec = "char")
   vars.list <- c(vars.list, list(ParameterNames = nc.var.par.names))
@@ -96,17 +100,17 @@ writeNetCDF <- function(
     nc.var.par.circulars <- ncdf4::ncvar_def(pairs$`_CIRCULARS`, "", list(nc.dim.chars, nc.dim.parameters), prec = "char")
     vars.list <- c(vars.list, list(ParameterCirculars = nc.var.par.circulars))
     
-    if (length(obj$ParameterCirculars) < length(obj$ParameterNames)) {
-      obj$ParameterCirculars <- c(obj$ParameterCirculars, 
-                                  rep('', length(obj$ParameterNames) -
-                                        length(obj$ParameterCirculars)))
+    if (length(obj[[pairs$`_CIRCULARS`]]) < length(obj[[pairs$`_PAR_NAMES`]])) {
+      obj[[pairs$`_CIRCULARS`]] <- c(obj[[pairs$`_CIRCULARS`]], 
+                                  rep('', length(obj[[pairs$`_PAR_NAMES`]]) -
+                                        length(obj[[pairs$`_CIRCULARS`]])))
     }
   }
   
   # Prepare Xs and Ys
-  stopifnot(dim(obj$Data)[2] == length(obj$Xs) &
-              length(obj$Xs) == length(obj$Ys))
-  num.stations <- dim(obj$Data)[2]
+  stopifnot(dim(obj[[pairs$`_DATA`]])[2] == length(obj[[pairs$`_XS`]]) &
+              length(obj[[pairs$`_XS`]]) == length(obj[[pairs$`_YS`]]))
+  num.stations <- dim(obj[[pairs$`_DATA`]])[2]
   nc.dim.stations <- ncdf4::ncdim_def(pairs$`_DIM_STATIONS`, "", 1:num.stations, create_dimvar = F)
   nc.var.xs <- ncdf4::ncvar_def(pairs$`_XS`, "", nc.dim.stations, prec = "double")
   nc.var.ys <- ncdf4::ncvar_def(pairs$`_YS`, "", nc.dim.stations, prec = "double")
@@ -114,7 +118,7 @@ writeNetCDF <- function(
   
   # Prepare StationNames
   if (pairs$`_STATION_NAMES` %in% names(obj)) {
-    if (length(obj$StationNames) != length(obj$Xs)) {
+    if (length(obj[[pairs$`_STATION_NAMES`]]) != length(obj[[pairs$`_XS`]])) {
       stop('The number of station names does not match the number of coordinates.')
     }
     nc.var.station.names <- ncdf4::ncvar_def(pairs$`_STATION_NAMES`, "", list(nc.dim.chars, nc.dim.stations), prec = "char")
@@ -122,16 +126,16 @@ writeNetCDF <- function(
   }
   
   # Prepare Times
-  stopifnot(dim(obj$Data)[3] == length(obj$Times))
-  num.times <- dim(obj$Data)[3]
+  stopifnot(dim(obj[[pairs$`_DATA`]])[3] == length(obj[[pairs$`_TIMES`]]))
+  num.times <- dim(obj[[pairs$`_DATA`]])[3]
   nc.dim.times <- ncdf4::ncdim_def(pairs$`_DIM_TIMES`, "", 1:num.times, create_dimvar = F)
   nc.var.times <- ncdf4::ncvar_def(pairs$`_TIMES`, "", nc.dim.times, prec = "double")
   vars.list <- c(vars.list, list(Times = nc.var.times))
   
   # Prepare FLTs
   if (file.type == "Forecasts") {
-    stopifnot(dim(obj$Data)[4] == length(obj$FLTs))
-    num.flts <- dim(obj$Data)[4]
+    stopifnot(dim(obj[[pairs$`_DATA`]])[4] == length(obj[[pairs$`_FLTS`]]))
+    num.flts <- dim(obj[[pairs$`_DATA`]])[4]
     nc.dim.flts <- ncdf4::ncdim_def(pairs$`_DIM_FLTS`, "", 1:num.flts, create_dimvar = F)
     nc.var.flts <- ncdf4::ncvar_def(pairs$`_FLTS`, "", nc.dim.flts, prec = "double")
     vars.list <- c(vars.list, list(FLTs = nc.var.flts))
@@ -139,11 +143,11 @@ writeNetCDF <- function(
   
   # Prepare Data
   if (file.type == "Observations") {
-    stopifnot(length(dim(obj$Data)) == 3)
+    stopifnot(length(dim(obj[[pairs$`_DATA`]])) == 3)
     nc.var.data <- ncdf4::ncvar_def(pairs$`_DATA`, "", list(
       nc.dim.parameters, nc.dim.stations, nc.dim.times), NA, prec = "double")
   } else if (file.type == "Forecasts") {
-    stopifnot(length(dim(obj$Data)) == 4)
+    stopifnot(length(dim(obj[[pairs$`_DATA`]])) == 4)
     nc.var.data <- ncdf4::ncvar_def(pairs$`_DATA`, "", list(
       nc.dim.parameters, nc.dim.stations, nc.dim.times, nc.dim.flts), NA, prec = "double")
   }
