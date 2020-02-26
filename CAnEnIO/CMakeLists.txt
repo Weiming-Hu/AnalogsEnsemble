@@ -52,7 +52,7 @@ find_package(Boost 1.58.0 REQUIRED
 
 if(Boost_MAJOR_VERSION EQUAL "1")
     if (Boost_MINOR_VERSION EQUAL "58")
-        add_definition(-D_BOOST_VERSION_1_58_)
+        add_definitions(-D_BOOST_VERSION_1_58_)
     endif(Boost_MINOR_VERSION EQUAL "58")
 endif(Boost_MAJOR_VERSION EQUAL "1")
 
@@ -86,16 +86,14 @@ if(NOT BUILD_BOOST)
         RUNTIME DESTINATION bin
         INCLUDES DESTINATION include)
 
-    if(INSTALL_HEADERS)
-        install(FILES ${AnEnIO_headers} DESTINATION include)
-    endif(INSTALL_HEADERS)
-
     install(EXPORT AnEnIOTargets
         FILE AnEnIOTargets.cmake
         NAMESPACE AnEnIO::
         DESTINATION lib/cmake)
 
-    install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include DESTINATION .)
+    if(INSTALL_HEADERS)
+        install(FILES ${AnEnIO_headers} DESTINATION include)
+    endif(INSTALL_HEADERS)
 
 endif(NOT BUILD_BOOST)
 

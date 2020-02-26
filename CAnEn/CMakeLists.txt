@@ -61,7 +61,7 @@ find_package(Boost 1.58.0 REQUIRED COMPONENTS date_time serialization)
 
 if(Boost_MAJOR_VERSION EQUAL "1")
     if (Boost_MINOR_VERSION EQUAL "58")
-        add_definition(-D_BOOST_VERSION_1_58_)
+        add_definitions(-D_BOOST_VERSION_1_58_)
     endif(Boost_MINOR_VERSION EQUAL "58")
 endif(Boost_MAJOR_VERSION EQUAL "1")
 
