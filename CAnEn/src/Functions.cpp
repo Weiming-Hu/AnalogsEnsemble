@@ -407,7 +407,7 @@ long
 Functions::toSeconds(const string& datetime_str,
         const string& origin_str, bool iso_string) {
     
-#ifdef _DISABLE_NON_HEADER_BOOST 
+#ifdef _DISABLE_NON_HEADER_BOOST
     /*
      * Please note that if _DISABLE_NON_HEADER_BOOST is defined, this function
      * will be unavailable because it depends on the non-header portion of boost.

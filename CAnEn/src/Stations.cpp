@@ -96,7 +96,7 @@ Station::getX() const {
 
 void
 Station::print(ostream &os) const {
-    os << "[Station] Name: " << name_ << ", x: " << x_ << ", y: " << y_ << endl;
+    os << "[Station] Name: " << name_ << ", x: " << x_ << ", y: " << y_;
 }
 
 ostream &
@@ -126,6 +126,18 @@ Stations::getIndex(const Station & station) const {
     return it->second;
 }
 
+void
+Stations::getIndices(const Stations & stations, vector<size_t> & indices) const {
+    
+    size_t num_stations = stations.size();
+    indices.resize(num_stations);
+
+    for (size_t i = 0; i < num_stations; ++i) {
+        indices[i] = getIndex(stations.getStation(i));
+    }
+
+    return;
+}
 
 const Station &
 Stations::getStation(size_t index) const {
@@ -169,7 +181,7 @@ Stations::print(ostream & os) const {
     os << "[Stations] size: " << size() << endl;
 
     for (left_const_iterator it = left.begin(); it < left.end(); it++) {
-        os << "[" << it->first << "] " << it->second;
+        os << "[" << it->first << "] " << it->second << endl;
     }
 
     return;

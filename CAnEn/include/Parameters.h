@@ -87,6 +87,8 @@ public:
     void push_back(const Parameter &);
 
     std::size_t getIndex(const Parameter &) const;
+    void getIndices(const Parameters &, std::vector<std::size_t> &) const;
+    
     const Parameter & getParameter(std::size_t index) const;
 
     void getCirculars(std::vector<bool> & circulars) const;

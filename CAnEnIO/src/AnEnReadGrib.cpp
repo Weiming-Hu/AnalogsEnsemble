@@ -140,6 +140,11 @@ AnEnReadGrib::readForecasts(Forecasts & forecasts,
             if (verbose_ >= Verbose::Detail) cout << "Skipped " << file << endl;
             continue;
         }
+        
+        if (verbose_ >= Verbose::Detail) {
+            cout << file << " --> Time: " << file_time.toString()
+                    << " Lead time: " << file_flt << " " << Time::_unit << endl;
+        }
 
         // Get index
         time_i = times.getIndex(file_time);

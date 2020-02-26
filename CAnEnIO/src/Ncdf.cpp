@@ -15,31 +15,76 @@ using namespace netCDF;
 using namespace std;
 
 void
-Ncdf::checkPath(const string & file_path, Mode mode) {
+Ncdf::checkExists(const string & file_path) {
 
     // Check whether the file exists
     bool file_exists = filesys::exists(file_path);
-    
-    if (mode == Mode::Read && !file_exists) {
+
+    if (!file_exists) {
         ostringstream msg;
-        msg << "File not found: " << file_path;
+        msg << "File to read is not found: " << file_path;
         throw invalid_argument(msg.str());
     }
-    
-    if (mode == Mode::Write && file_exists) {
-        ostringstream msg;
-        msg << "File exists: " << file_path;
-        throw invalid_argument(msg.str());
+
+    return;
+}
+
+bool
+Ncdf::checkExists(const string & file_path, bool overwrite, bool append) {
+
+    if (filesys::exists(file_path)) {
+        if (overwrite) {
+            filesys::remove(file_path);
+        } else {
+
+            if (append) {
+
+                // I need to make sure the file format is nc4 for appending
+                NcFile nc(file_path, NcFile::FileMode::read);
+                
+                int file_id = nc.getId();
+                int file_format;
+
+                nc_inq_format(file_id, &file_format);
+                
+                if (file_format != NC_FORMAT_NETCDF4) {
+                    throw runtime_error("Only supporting NetCDF version 4 files for appending");
+                }
+
+                /*
+                 * Return true if the file is found.
+                 * 
+                 * No errors because, although the file is found, variables are
+                 * meant to be appended to the file.
+                 * 
+                 * NetCDF files support writing extra variables into an
+                 * existing file by appending.
+                 */
+                return true;
+
+            } else {
+                ostringstream msg;
+                msg << "File to write (" << file_path << ") exists. "
+                        << "Use overwrite = true to remove the existing file or "
+                        << "append = true to write to the existing file.";
+                throw runtime_error(msg.str());
+            }
+        }
     }
+
+    // Return false if the file is not found
+    return false;
+}
+
+void
+Ncdf::checkExtension(const string & file_path, const string & ext) {
 
     filesys::path boost_path(file_path);
 
     // Succeed if the file path has .nc as its extension
     if (boost_path.has_extension()) {
-        if (boost_path.extension().string() == ".nc") return;
+        if (boost_path.extension().string() == ext) return;
     }
-    
-    // TODO: Make sure the file type is netCDF-4
 
     // Fail if the file path does not have a .nc extension
     ostringstream msg;
@@ -61,7 +106,7 @@ Ncdf::checkIndex(size_t start, size_t count, size_t len) {
 }
 
 void
-Ncdf::checkDims(const NcFile & nc,
+Ncdf::checkDims(const NcGroup & nc,
         const vector<string> & names) {
 
     for (const auto & name : names) {
@@ -76,7 +121,7 @@ Ncdf::checkDims(const NcFile & nc,
 }
 
 void
-Ncdf::checkVars(const NcFile & nc,
+Ncdf::checkVars(const NcGroup & nc,
         const vector<string> & names) {
 
     for (const auto & name : names) {
@@ -91,19 +136,19 @@ Ncdf::checkVars(const NcFile & nc,
 }
 
 void
-Ncdf::checkVarShape(const NcFile & nc,
+Ncdf::checkVarShape(const NcGroup & nc,
         const string & var_name, const vector<string> & dim_names) {
 
     const auto & var = nc.getVar(var_name);
     auto dims = var.getDims();
-    
+
     if (dims.size() != dim_names.size()) {
         ostringstream msg;
         msg << "Variable " << var_name << " has " << dims.size() <<
                 " dimensions while " << dim_names.size() << " are expected";
         throw runtime_error(msg.str());
     }
-    
+
     reverse(dims.begin(), dims.end());
 
     for (size_t i = 0; i < dims.size(); ++i) {
@@ -119,17 +164,18 @@ Ncdf::checkVarShape(const NcFile & nc,
 }
 
 bool
-Ncdf::dimExists(const NcFile & nc, const string & name) {
+Ncdf::dimExists(const NcGroup & nc, const string & name) {
     return (!nc.getDim(name).isNull());
 }
 
 bool
-Ncdf::varExists(const NcFile & nc, const string & name) {
+Ncdf::varExists(const NcGroup & nc, const string & name) {
     return (!nc.getVar(name).isNull());
 }
+
 void
 Ncdf::readStringVector(
-        const NcFile & nc, string var_name,
+        const NcGroup & nc, string var_name,
         vector<string> & results, size_t start, size_t count,
         const string & name_char) {
 
@@ -197,20 +243,20 @@ Ncdf::readStringVector(
 }
 
 NcDim
-Ncdf::getDimension(NcFile & nc, const string & name, bool unlimited, size_t len) {
-    
+Ncdf::getDimension(NcGroup & nc, const string & name, bool unlimited, size_t len) {
+
     NcDim dim = nc.getDim(name);
     if (dim.isNull()) {
-        
+
         // The dimension name does not exist. Add this parameter
         if (unlimited) return nc.addDim(name);
         else return nc.addDim(name, len);
-        
+
     } else {
         // The dimension name already exists
         bool check = (dim.isUnlimited() == unlimited);
         if (!dim.isUnlimited()) check = check && (dim.getSize() == len);
-        
+
         if (check) {
             // The exact dimension exists. Do not add this parameter
             return dim;
@@ -223,7 +269,7 @@ Ncdf::getDimension(NcFile & nc, const string & name, bool unlimited, size_t len)
 }
 
 void
-Ncdf::writeStringVector(netCDF::NcFile & nc, const std::string & var_name,
+Ncdf::writeStringVector(NcGroup & nc, const std::string & var_name,
         const std::string & dim_name, const std::vector<std::string> & values,
         bool unlimited) {
 
@@ -254,16 +300,16 @@ Ncdf::writeStringVector(netCDF::NcFile & nc, const std::string & var_name,
 }
 
 void
-Ncdf::writeArray4D(NcFile & nc, const Array4D & arr, const string & var_name,
-        const array<string, 4> & dim_names, const array<bool, 4> & unlimited) {
-    
+Ncdf::writeArray4D(NcGroup & nc, const Array4D & arr, const string & var_name,
+        const array<string, 4> & dim_names, const array<bool, 4 > & unlimited) {
+
     // Check whether array is column major
     if (arr.num_elements() >= 2) {
         if (arr.getValue(1, 0, 0, 0) != arr.getValuesPtr()[1]) {
             throw runtime_error("The input array is not column major");
         }
     }
-    
+
     // Check whether the variable name already exists
     NcVar var = nc.getVar(var_name);
     if (!var.isNull()) {
@@ -271,7 +317,7 @@ Ncdf::writeArray4D(NcFile & nc, const Array4D & arr, const string & var_name,
         msg << "Variable " << var_name << " exists";
         throw runtime_error(msg.str());
     }
-    
+
     NcDim dim0, dim1, dim2, dim3;
     try {
         dim0 = getDimension(nc, dim_names[0], unlimited[0], arr.shape()[0]);
@@ -283,14 +329,14 @@ Ncdf::writeArray4D(NcFile & nc, const Array4D & arr, const string & var_name,
         msg << "writeArray4D(var_name = " << var_name << ") -> " << e.what();
         throw runtime_error(msg.str());
     }
-    
+
     /*
      * Create an NetCDF variable. Note the reversed dimension order so that we
      * can copy values from the column-major ordered pointer directly. The first
      * dimension in the initializer list is the slowest varying dimension
      */
-    var = nc.addVar(var_name, NC_DOUBLE, {dim3, dim2, dim1, dim0});
-    
+    var = nc.addVar(var_name, NC_DOUBLE,{dim3, dim2, dim1, dim0});
+
     var.putVar(arr.getValuesPtr());
     return;
 }

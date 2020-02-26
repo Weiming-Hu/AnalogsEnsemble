@@ -14,6 +14,7 @@ class testStations : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST_SUITE(testStations);
 
     CPPUNIT_TEST(testUnique_);
+    CPPUNIT_TEST(testSubset_);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -23,6 +24,7 @@ public:
 
 private:
     void testUnique_();
+    void testSubset_();
 };
 
 #endif /* TESTSTATIONS_H */

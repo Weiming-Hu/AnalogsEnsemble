@@ -62,7 +62,8 @@ AnEnReadNcdf::readForecasts(const string & file_path,
         }
     }
 
-    checkPath(file_path, Ncdf::Mode::Read);
+    Ncdf::checkExists(file_path);
+    Ncdf::checkExtension(file_path);
 
     NcFile nc(file_path, NcFile::FileMode::read);
     checkFileType_(nc, FileType::Forecasts);
@@ -102,9 +103,7 @@ AnEnReadNcdf::readForecasts(const string & file_path,
 void
 AnEnReadNcdf::readObservations(const string & file_path,
         Observations & observations) const {
-    readObservations(file_path, observations,{},
-    {
-    });
+    readObservations(file_path, observations, {}, {});
     return;
 }
 
@@ -130,7 +129,8 @@ AnEnReadNcdf::readObservations(const std::string & file_path,
         }
     }
 
-    checkPath(file_path, Ncdf::Mode::Read);
+    Ncdf::checkExists(file_path);
+    Ncdf::checkExtension(file_path);
 
     NcFile nc(file_path, NcFile::FileMode::read);
     checkFileType_(nc, FileType::Observations);

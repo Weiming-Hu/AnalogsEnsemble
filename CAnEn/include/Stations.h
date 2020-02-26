@@ -69,6 +69,8 @@ public:
     void push_back(const Station &);
 
     std::size_t getIndex(const Station &) const;
+    void getIndices(const Stations &, std::vector<std::size_t> &) const;
+    
     const Station & getStation(size_t index) const;
     
     void getCoordinates(std::vector<double> &, std::vector<double> &) const;

@@ -26,7 +26,7 @@ public:
     ObservationsPointer(const ObservationsPointer& orig);
     ObservationsPointer(const Parameters &, const Stations &, const Times &);
     virtual ~ObservationsPointer();
-    
+
     std::size_t num_elements() const override;
 
     const double* getValuesPtr() const override;
@@ -39,16 +39,17 @@ public:
             std::size_t station_index, std::size_t time_index) const override;
     void setValue(double val, std::size_t parameter_index,
             std::size_t station_index, std::size_t time_index) override;
-    
-    size_t toIndex(const vector3 & indices) const;
-    
+
+    void subset(Observations&) const override;
+
+
     void print(std::ostream &) const override;
     friend std::ostream & operator<<(std::ostream &, const ObservationsPointer &);
-    
+
     static const size_t _DIM_PARAMETER;
     static const size_t _DIM_STATION;
     static const size_t _DIM_TIME;
-    
+
 protected:
     vector3 dims_;
     double * data_;
@@ -59,8 +60,13 @@ protected:
      * the de-constructor.
      */
     bool allocated_;
-    
+
+    size_t toIndex_(size_t dim0, size_t dim1, size_t dim2) const;
+
     void allocateMemory_();
+    void subset_data_(const std::vector<std::size_t>&,
+            const std::vector<std::size_t>&,
+            const std::vector<std::size_t>&, double*) const;
 };
 
 #endif /* OBSERVATIONSPOINTER_H */

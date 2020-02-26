@@ -11,7 +11,7 @@
 
 template <typename nctype, typename valuetype>
 void
-Ncdf::writeAttributes(nctype & nc, const std::string & att_name,
+Ncdf::writeAttribute(nctype & nc, const std::string & att_name,
         const valuetype & value, netCDF::NcType type, bool overwrite) {
 
     /*
@@ -26,13 +26,14 @@ Ncdf::writeAttributes(nctype & nc, const std::string & att_name,
             throw std::runtime_error(msg.str());
         }
     }
+
     nc.putAtt(att_name, type, value);
     return;
 }
 
 template <typename nctype>
 void
-Ncdf::writeStringAttributes(nctype & nc, const std::string & att_name,
+Ncdf::writeStringAttribute(nctype & nc, const std::string & att_name,
         const std::string & value, bool overwrite) {
 
     /*
@@ -54,7 +55,7 @@ Ncdf::writeStringAttributes(nctype & nc, const std::string & att_name,
 
 template <typename T>
 void
-Ncdf::writeVector(netCDF::NcFile & nc, const std::string & var_name,
+Ncdf::writeVector(netCDF::NcGroup & nc, const std::string & var_name,
         const std::string & dim_name, const std::vector<T> & values,
         netCDF::NcType type, bool unlimited) {
 
@@ -78,7 +79,7 @@ Ncdf::writeVector(netCDF::NcFile & nc, const std::string & var_name,
 
 template <typename T>
 void
-Ncdf::readVector(const netCDF::NcFile & nc, std::string var_name,
+Ncdf::readVector(const netCDF::NcGroup & nc, std::string var_name,
         std::vector<T> & results, std::vector<size_t> start, std::vector<size_t> count) {
 
     using namespace netCDF;

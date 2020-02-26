@@ -44,6 +44,8 @@ Weiming Hu, Guido Cervone, Laura Clemente-Harding, and Martina Calovi. (2019). P
 
 Please click [here](https://mybinder.org/v2/gh/Weiming-Hu/AnalogsEnsemble/master?urlpath=rstudio) to access our tutorials. The tutorials can be found under `RAnalogs/examples`.
 
+Here are also some tips and caveats in [this ticket](https://github.com/Weiming-Hu/AnalogsEnsemble/issues/81).
+
 ## Installation
 
 `RAnEn` is very easy to install if you are already using [R](https://www.r-project.org/). This is the recommended way to start.
@@ -105,6 +107,7 @@ You can change the default of the following parameters, for example, `cmake -DCM
 |  CMAKE_CXX_COMPILER  |                                        The C++ compiler to use.                                                                              | [System dependent] |
 |CMAKE\_INSTALL\_PREFIX|                                             The installation directory.                                                                      | [System dependent] |
 |  CMAKE\_PREFIX\_PATH | Which folder(s) should cmake search for packages besides the default. Paths are surrounded by double quotes and separated with semicolons.   |       [Empty]      |
+| CMAKE\_INSTALL\_RPATH|                                         The run-time library path. Paths are surrounded by double quotes and separated with semicolons.      |       [Empty]      |
 |   CMAKE\_BUILD\_TYPE |                          `Release` for release mode; `Debug` for debug mode.                                                                 |       Release      |
 |     INSTALL\_RAnEn   |                                 Build and install the `RAnEn` library.                                                                       |         OFF        |
 |     BUILD\_BOOST     |                                 Build `Boost` regardless of whether it exists in the system.                                                 |         OFF        |

@@ -15,6 +15,7 @@ class testParameters : public CPPUNIT_NS::TestFixture {
 
     CPPUNIT_TEST(testCreation_);
     CPPUNIT_TEST(testUnique_);
+    CPPUNIT_TEST(testSubset_);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -24,6 +25,7 @@ public:
 
     void testCreation_();
     void testUnique_();
+    void testSubset_();
 };
 
 #endif /* TESTPARAMETERS_H */

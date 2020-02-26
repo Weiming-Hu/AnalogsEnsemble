@@ -68,7 +68,7 @@ ObservationsPointer::setDimensions(
     parameters_ = parameters;
     stations_ = stations;
     times_ = times;
-    
+
     // Allocate memory
     allocateMemory_();
 
@@ -78,40 +78,36 @@ ObservationsPointer::setDimensions(
 double
 ObservationsPointer::getValue(
         size_t parameter_index, size_t station_index, size_t time_index) const {
-
-    vector3 indices{parameter_index, station_index, time_index};
-    return data_[toIndex(indices)];
+    return data_[toIndex_(parameter_index, station_index, time_index)];
 }
 
 void
 ObservationsPointer::setValue(double val,
         size_t parameter_index, size_t station_index, size_t time_index) {
 
-    vector3 indices{parameter_index, station_index, time_index};
-    data_[toIndex(indices)] = val;
+    data_[toIndex_(parameter_index, station_index, time_index)] = val;
     return;
 }
 
-size_t
-ObservationsPointer::toIndex(const vector3 & indices) const {
-    // Convert dimension indices to position offset by column-major
-    return indices[_DIM_PARAMETER] + dims_[_DIM_PARAMETER] *
-            (indices[_DIM_STATION] + dims_[_DIM_STATION] * indices[_DIM_TIME]);
-}
-
 void
-ObservationsPointer::allocateMemory_() {
+ObservationsPointer::subset(Observations & observations_subset) const {
 
-    // Set dimensions
-    dims_[_DIM_PARAMETER] = parameters_.size();
-    dims_[_DIM_STATION] = stations_.size();
-    dims_[_DIM_TIME] = times_.size();
+    // Get dimension variables
+    const Parameters & parameters_subset = observations_subset.getParameters();
+    const Stations & stations_subset = observations_subset.getStations();
+    const Times & times_subset = observations_subset.getTimes();
 
-    // Allocate memory for underlying data structure
-    if (allocated_) delete [] data_;
-    data_ = new double [num_elements()];
+    // Get the indices for dimensions to subset
+    vector<size_t> parameters_index, stations_index, times_index;
 
-    allocated_ = true;
+    parameters_.getIndices(parameters_subset, parameters_index);
+    stations_.getIndices(stations_subset, stations_index);
+    times_.getIndices(times_subset, times_index);
+
+    // Copy values
+    subset_data_(parameters_index, stations_index, times_index,
+            observations_subset.getValuesPtr());
+
     return;
 }
 
@@ -120,7 +116,7 @@ ObservationsPointer::print(std::ostream & os) const {
     Observations::print(os);
 
     os << "[Data] shape [" << dims_[_DIM_PARAMETER] << "," << dims_[_DIM_STATION]
-            << "," << dims_[_DIM_TIME] << "]"<< std::endl;
+            << "," << dims_[_DIM_TIME] << "]" << std::endl;
 
     for (size_t m = 0; m < dims_[_DIM_PARAMETER]; ++m) {
         cout << "[" << m << ",,]" << endl;
@@ -147,4 +143,69 @@ std::ostream &
 operator<<(std::ostream & os, const ObservationsPointer & obj) {
     obj.print(os);
     return os;
+}
+
+size_t
+ObservationsPointer::toIndex_(size_t dim0, size_t dim1, size_t dim2) const {
+    // Convert dimension indices to position offset by column-major
+    return dim0 + dims_[_DIM_PARAMETER] * (dim1 + dims_[_DIM_STATION] * dim2);
+}
+
+void
+ObservationsPointer::allocateMemory_() {
+
+    // Set dimensions
+    dims_[_DIM_PARAMETER] = parameters_.size();
+    dims_[_DIM_STATION] = stations_.size();
+    dims_[_DIM_TIME] = times_.size();
+
+    // Allocate memory for underlying data structure
+    if (allocated_) delete [] data_;
+    data_ = new double [num_elements()];
+
+    allocated_ = true;
+    return;
+}
+
+void ObservationsPointer::subset_data_(
+        const vector<size_t> & dim0_indices,
+        const vector<size_t> & dim1_indices,
+        const vector<size_t> & dim2_indices,
+        double * p_subset) const {
+
+    // Make sure the indices are sorted
+    bool sorted = is_sorted(dim0_indices.begin(), dim0_indices.end()) &&
+            is_sorted(dim1_indices.begin(), dim1_indices.end()) &&
+            is_sorted(dim2_indices.begin(), dim2_indices.end());
+    if (!sorted) throw runtime_error("Subset indices must be sorted in ascension order");
+
+    // Get pointers to data
+    const double * p_ori = getValuesPtr();
+
+    size_t from_pos, offset;
+    size_t last_pos = 0;
+
+    // Loop through the data in column-major
+    for (size_t dim2_i : dim2_indices)
+        for (size_t dim1_i : dim1_indices)
+            for (size_t dim0_i : dim0_indices) {
+
+                // Calculate position offset
+                from_pos = toIndex_(dim0_i, dim1_i, dim2_i);
+                offset = from_pos - last_pos;
+
+                // Advance the original data pointer
+                p_ori = p_ori + offset;
+
+                // Copy this value
+                *p_subset = *p_ori;
+
+                // Advance the subset data pointer
+                p_subset++;
+
+                // Update last position
+                last_pos = from_pos;
+            }
+
+    return;
 }

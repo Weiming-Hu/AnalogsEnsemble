@@ -150,8 +150,6 @@ public:
     static const std::string _SEARCH_STATIONS_IND;
     static const std::string _TEST_TIMES;
     static const std::string _SEARCH_TIMES;
-
-
 };
 
 #endif /* CONFIG_H */

@@ -16,9 +16,9 @@
 #define BOOST_NO_AUTO_PTR
 #endif
 
-#include "boost/bimap/vector_of.hpp"
-#include "boost/bimap/set_of.hpp"
-#include "boost/bimap.hpp"
+#include <boost/bimap/vector_of.hpp>
+#include <boost/bimap/set_of.hpp>
+#include <boost/bimap.hpp>
 
 template <class T>
 using BmType = boost::bimap<boost::bimaps::vector_of<std::size_t>, T,

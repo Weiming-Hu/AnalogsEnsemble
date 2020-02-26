@@ -20,7 +20,6 @@ print.Forecasts <- function(x) {
   printTemplates(x)
 }
 
-
 #' RAnEn::print.Observations
 #' 
 #' RAnEn::print.Observations print a Forecasts object.
@@ -49,8 +48,8 @@ printTemplates <- function(x) {
   # Define data dimensions
   data.dim.names <- `if`(
     type == 'Forecasts',
-    c('parameter', 'stations', 'times', 'flts'),
-    c('parameter', 'stations', 'times'))
+    c('parameters', 'stations', 'times', 'flts'),
+    c('parameters', 'stations', 'times'))
   
   # Get a config
   config <- new(Config)
@@ -81,7 +80,7 @@ printTemplates <- function(x) {
       } else {
         # Other expected members should just be a vector
         cat('[', length(x[[name]]), '] ', sep = '')
-        cat(head(x[[name]]))
+        cat(paste(head(x[[name]]), collapse = ', '))
       } 
     }
     

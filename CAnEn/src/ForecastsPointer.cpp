@@ -49,10 +49,35 @@ ForecastsPointer::setDimensions(
 }
 
 void
+ForecastsPointer::subset(Forecasts& forecasts_subset) const {
+
+    // Get dimension variables
+    const Parameters & parameters_subset = forecasts_subset.getParameters();
+    const Stations & stations_subset = forecasts_subset.getStations();
+    const Times & times_subset = forecasts_subset.getTimes();
+    const Times & flts_subset = forecasts_subset.getFLTs();
+
+    // Get the indices for dimensions to subset
+    vector<size_t> parameters_index, stations_index, times_index, flts_index;
+
+    parameters_.getIndices(parameters_subset, parameters_index);
+    stations_.getIndices(stations_subset, stations_index);
+    times_.getIndices(times_subset, times_index);
+    flts_.getIndices(flts_subset, flts_index);
+
+    // Copy values
+    Array4DPointer::subset(
+            parameters_index, stations_index,
+            times_index, flts_index, forecasts_subset);
+    
+    return;
+}
+
+void
 ForecastsPointer::print(std::ostream & os) const {
     Forecasts::print(os);
-    
-//    const size_t* dims = shape();
+
+    //    const size_t* dims = shape();
 
     os << "[Data] size: " << num_elements() << std::endl;
 
