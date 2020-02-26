@@ -20,7 +20,6 @@ print.Forecasts <- function(x) {
   printTemplates(x)
 }
 
-
 #' RAnEn::print.Observations
 #' 
 #' RAnEn::print.Observations print a Forecasts object.
@@ -81,7 +80,7 @@ printTemplates <- function(x) {
       } else {
         # Other expected members should just be a vector
         cat('[', length(x[[name]]), '] ', sep = '')
-        cat(head(x[[name]]))
+        cat(paste(head(x[[name]]), collapse = ', '))
       } 
     }
     
