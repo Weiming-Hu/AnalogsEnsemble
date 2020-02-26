@@ -12,15 +12,18 @@
 //
 // Reference: https://stackoverflow.com/questions/44534516/error-make-array-is-not-a-member-of-boostserialization
 //
-// #include <boost/serialization/array_wrapper.hpp>
-//
 // And then it seems like for some Boost versions, even the above file is missing, so 
 // I'm using the following files as a workaround.
 //
 // Reference: https://github.com/bitzy/DeepSort/issues/5#issuecomment-502518256
 //
+#ifdef _BOOST_VERSION_1_58_
 #include <boost/serialization/array.hpp>
 #include <boost/serialization/wrapper.hpp>
+#else
+#include <boost/serialization/array_wrapper.hpp>
+#endif
+
 #include <boost/numeric/ublas/matrix.hpp>
 
 #include <string>

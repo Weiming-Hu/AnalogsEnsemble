@@ -59,6 +59,10 @@ set(AnEn_headers
 find_package(OpenMP)
 find_package(Boost 1.58.0 REQUIRED COMPONENTS date_time serialization)
 
+if(Boost_VERSION VERSION_EQUAL "1.58") 
+    add_definition(-D_BOOST_VERSION_1_58_)
+endif(Boost_VERSION VERSION_EQUAL "1.58")
+
 # Create target by explicitly listing all source files
 add_library(AnEn ${AnEn_source_files})
 
