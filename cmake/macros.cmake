@@ -24,13 +24,13 @@ macro(find_package)
         # to solve the include file issue of the ublas library, I need to include
         # a different header file.
         #
-        if(${ARGV0} EQUAL Boost)
+        if("${ARGV0}" EQUAL "Boost")
             if(Boost_MAJOR_VERSION EQUAL "1")
                 if (Boost_MINOR_VERSION EQUAL "58")
                     add_definitions(-D_BOOST_VERSION_1_58_)
                 endif(Boost_MINOR_VERSION EQUAL "58")
             endif(Boost_MAJOR_VERSION EQUAL "1")
-        endif(${ARGV0} EQUAL Boost)
+        endif("${ARGV0}" EQUAL "Boost")
 
     endif(NOT "${ARGV0}" IN_LIST SUBPROJECT_TARGETS)
 
