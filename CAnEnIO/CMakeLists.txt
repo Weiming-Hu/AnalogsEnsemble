@@ -50,12 +50,6 @@ find_package(NetCDF REQUIRED)
 find_package(Boost 1.58.0 REQUIRED
     COMPONENTS filesystem program_options regex)
 
-if(Boost_MAJOR_VERSION EQUAL "1")
-    if (Boost_MINOR_VERSION EQUAL "58")
-        add_definitions(-D_BOOST_VERSION_1_58_)
-    endif(Boost_MINOR_VERSION EQUAL "58")
-endif(Boost_MAJOR_VERSION EQUAL "1")
-
 # Create target by explicitly listing all source files
 add_library(AnEnIO ${AnEnIO_source_files})
 

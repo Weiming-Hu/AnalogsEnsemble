@@ -10,6 +10,14 @@ find_package(AnEnIO REQUIRED)
 add_definitions(-D_PATH_OBSERVATIONS="${CMAKE_CURRENT_SOURCE_DIR}/Data/test_observations.nc")
 add_definitions(-D_PATH_FORECASTS="${CMAKE_CURRENT_SOURCE_DIR}/Data/test_forecasts.nc")
 
+# Boost should already be found by this point. But, I need to know the version of the
+# Boost library and include specific header files later on when I build various tests.
+#
+# A macro is defined if the Boost version is 1.58 to deal with ublas library issue.
+# You can check the macro for find_package under the root directory cmake/
+#
+find_package(Boost 1.58.0 REQUIRED)
+
 # Add tests
 PAnEn_test_this("ObservationsPointer")
 PAnEn_test_this("ForecastsPointer")
