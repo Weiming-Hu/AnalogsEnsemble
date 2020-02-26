@@ -7,8 +7,6 @@
 
 #include <algorithm>
 
-#include "Ncdf.h"
-
 template <typename nctype, typename valuetype>
 void
 Ncdf::writeAttribute(nctype & nc, const std::string & att_name,

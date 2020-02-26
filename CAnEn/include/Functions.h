@@ -25,7 +25,6 @@
 #include <boost/numeric/ublas/matrix.hpp>
 #include <boost/numeric/ublas/io.hpp>
 
-#include "Times.h"
 #include "Config.h"
 #include "Forecasts.h"
 #include "Observations.h"
