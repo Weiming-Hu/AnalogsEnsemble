@@ -63,7 +63,9 @@ target_link_libraries(AnEnIO
     AnEn::AnEn ${ECCODES_LIBRARIES} ${NETCDF_LIBRARIES})
 
 target_include_directories(AnEnIO SYSTEM PUBLIC 
-    ${ECCODES_INCLUDES} ${NETCDF_INCLUDES}
+    ${ECCODES_INCLUDES} ${NETCDF_INCLUDES})
+
+target_include_directories(AnEnIO BEFORE PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}../AnEn/include>
     $<INSTALL_INTERFACE:include>)
@@ -85,9 +87,7 @@ if(NOT BUILD_BOOST)
         NAMESPACE AnEnIO::
         DESTINATION lib/cmake)
 
-    if(INSTALL_HEADERS)
-        install(FILES ${AnEnIO_headers} DESTINATION include)
-    endif(INSTALL_HEADERS)
+    install(FILES ${AnEnIO_headers} DESTINATION include)
 
 endif(NOT BUILD_BOOST)
 

@@ -66,7 +66,7 @@ add_library(AnEn ${AnEn_source_files})
 add_library(AnEn::AnEn ALIAS AnEn)
 
 # Configure the properties of this target
-target_include_directories(AnEn SYSTEM PUBLIC 
+target_include_directories(AnEn PUBLIC 
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>)
 
@@ -95,8 +95,6 @@ if(NOT BUILD_BOOST)
         NAMESPACE AnEn::
         DESTINATION lib/cmake)
 
-    if(INSTALL_HEADERS)
-        install(FILES ${AnEn_headers} DESTINATION include)
-    endif(INSTALL_HEADERS)
+    install(FILES ${AnEn_headers} DESTINATION include)
 
 endif(NOT BUILD_BOOST)

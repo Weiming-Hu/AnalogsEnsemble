@@ -18,7 +18,6 @@ cmake_minimum_required(VERSION 3.12)
 project(PAnEn LANGUAGES C CXX)
 
 option(INSTALL_RAnEn "Install RAnEn package" OFF)
-option(INSTALL_HEADERS "Install library header files for development" OFF)
 option(BUILD_BOOST "Build Boost" OFF)
 
 # Set variables
@@ -66,6 +65,21 @@ if(BUILD_BOOST)
     add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/boost-cmake)
 endif(BUILD_BOOST)
 
+# I'm not using Boost directly in this direct file, rather I'm just checking the
+# version of Boost library to see whether I should include a certain compiler
+# definition.
+#
+find_package(Boost 1.58.0 REQUIRED)
+
+# For this specific version of Boost, I need to change the header files to include.
+# Therefore, I have a compiler definition to take care of this.
+#
+if(Boost_MAJOR_VERSION STREQUAL "1")
+    if (Boost_MINOR_VERSION STREQUAL "58")
+        message(STATUS "Add compiler definition for Boost version 1.58.x (_BOOST_VERSION_1_58_)")
+        add_definitions(-D_BOOST_VERSION_1_58_)
+    endif(Boost_MINOR_VERSION STREQUAL "58")
+endif(Boost_MAJOR_VERSION STREQUAL "1")
 
 # Add libraries as subprojects
 add_subdirectory(CAnEn)

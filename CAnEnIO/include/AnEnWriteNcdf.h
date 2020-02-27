@@ -34,6 +34,7 @@ public:
 
     void writeForecasts(const std::string & file, const Forecasts &,
             bool overwrite = false, bool append = false) const;
+
     void writeObservations(const std::string & file, const Observations &,
             bool overwrite = false, bool append = false) const;
 

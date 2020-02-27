@@ -19,22 +19,7 @@ macro(find_package)
 
     if(NOT "${ARGV0}" IN_LIST SUBPROJECT_TARGETS)
         _find_package(${ARGV})
-
-        # If Boost is found, then I need to take of this specific version because,
-        # to solve the include file issue of the ublas library, I need to include
-        # a different header file.
-        #
-        if(${ARGV0} STREQUAL "Boost")
-            if(Boost_MAJOR_VERSION STREQUAL "1")
-                if (Boost_MINOR_VERSION STREQUAL "58")
-                    message(STATUS "Add compiler definition for Boost version 1.58.x")
-                    add_definitions(-D_BOOST_VERSION_1_58_)
-                endif(Boost_MINOR_VERSION STREQUAL "58")
-            endif(Boost_MAJOR_VERSION STREQUAL "1")
-        endif(${ARGV0} STREQUAL "Boost")
-
     endif(NOT "${ARGV0}" IN_LIST SUBPROJECT_TARGETS)
-
 
 endmacro(find_package)
 
