@@ -86,7 +86,8 @@ add_subdirectory(CAnEn)
 add_subdirectory(CAnEnIO)
 
 # Add applications as subprojects
-add_subdirectory(apps/anen)
+add_subdirectory(apps/anen_grib)
+add_subdirectory(apps/grib_convert)
 
 find_package(CppUnit)
 if(CPPUNIT_FOUND)

@@ -25,6 +25,47 @@ namespace fs = boost::filesystem;
 static const size_t _SECONDS_IN_DAY = 24 * 60 * 60;
 static const size_t _SECONDS_IN_HOUR = 60 * 60;
 
+void
+FunctionsIO::toParameterVector(
+        vector<ParameterGrib> & grib_parameters,
+        const vector<string> & parameters_name,
+        const vector<long> & parameters_id,
+        const vector<long> & parameters_level,
+        const vector<string> & parameters_level_type,
+        const vector<bool> & parameters_circular,
+        Verbose verbose) {
+
+    // Convert parameter settings to grib parameters
+    bool has_circular = false;
+
+    // Make sure all vectors have the same length
+    size_t num_parameters = parameters_id.size();
+    if (num_parameters != parameters_level.size()) throw runtime_error("Different numbers of parameters ID and levels");
+    if (num_parameters != parameters_name.size()) throw runtime_error("Different numbers of parameters ID and names");
+    if (num_parameters != parameters_level_type.size()) throw runtime_error("Different numbers of parameters ID and level types");
+    if (parameters_circular.size() != 0) {
+        has_circular = true;
+        if (num_parameters != parameters_circular.size()) throw runtime_error("Different numbers of parameters ID and circular flags");
+    }
+
+    // Clear existing values in the output vector
+    grib_parameters.clear();
+
+    for (size_t parameter_i = 0; parameter_i < num_parameters; ++parameter_i) {
+        ParameterGrib grib_parameter(parameters_name[parameter_i],
+                Config::_CIRCULAR, parameters_id[parameter_i],
+                parameters_level[parameter_i], parameters_level_type[parameter_i]);
+
+        if (has_circular) grib_parameter.setCircular(parameters_circular[parameter_i]);
+
+        grib_parameters.push_back(grib_parameter);
+
+        if (verbose >= Verbose::Debug) cout << grib_parameter << endl;
+    }
+
+    return;
+}
+
 bool
 FunctionsIO::parseFilename(Time & time, Time & flt,
         const string & file, const date & start_day,

@@ -15,8 +15,18 @@
 #include <string>
 
 #include "Times.h"
+#include "Config.h"
+#include "ParameterGrib.h"
 
 namespace FunctionsIO {
+
+    void toParameterVector(std::vector<ParameterGrib> &,
+        const std::vector<std::string> & parameters_name,
+        const std::vector<long> & parameters_id,
+        const std::vector<long> & parameters_level,
+        const std::vector<std::string> & parameters_level_type,
+        const std::vector<bool> & parameters_circular = {},
+        Verbose verbose = Verbose::Warning);
 
     bool parseFilename(Time & time, Time & flt,
             const std::string & file,

@@ -1,5 +1,5 @@
 /* 
- * File:   anen.cpp
+ * File:   anen_grib.cpp
  * Author: Weiming Hu <weiming@psu.edu>
  *
  * Created on February, 2020, 11:10 AM
@@ -16,9 +16,9 @@
 #include "AnEnSSE.h"
 #include "Profiler.h"
 #include "AnEnReadGrib.h"
+#include "AnEnWriteNcdf.h"
 #include "ForecastsPointer.h"
 #include "ObservationsPointer.h"
-#include "AnEnWriteNcdf.h"
 
 using namespace std;
 using namespace boost::program_options;
@@ -361,17 +361,11 @@ int main(int argc, char** argv) {
      *                   Run analog generation with grib files                *
      **************************************************************************/
 
-    // Convert parameter settings to grib parameters
-    bool has_circular = false;
-    size_t num_parameters = parameters_id.size();
-
-    if (num_parameters != parameters_level.size()) throw runtime_error("Different numbers of parameters ID and levels");
-    if (num_parameters != parameters_name.size()) throw runtime_error("Different numbers of parameters ID and names");
-    if (num_parameters != parameters_level_type.size()) throw runtime_error("Different numbers of parameters ID and level types");
-    if (parameters_circular.size() != 0) {
-        has_circular = true;
-        if (num_parameters != parameters_circular.size()) throw runtime_error("Different numbers of parameters ID and circular flags");
-    }
+    // Convert parameters
+    vector<ParameterGrib> grib_parameters;
+    FunctionsIO::toParameterVector(grib_parameters,
+            parameters_name, parameters_id, parameters_level,
+            parameters_level_type, parameters_circular, config.verbose);
 
     // List files from folders
     vector<string> forecast_files, analysis_files;
@@ -383,18 +377,6 @@ int main(int argc, char** argv) {
                 << Functions::format(forecast_files, "\n") << endl
                 << "Analysis files:" << endl
                 << Functions::format(analysis_files, "\n") << endl;
-    }
-
-    // Convert parameters
-    vector<ParameterGrib> grib_parameters;
-    for (size_t parameter_i = 0; parameter_i < num_parameters; ++parameter_i) {
-        ParameterGrib grib_parameter(parameters_name[parameter_i],
-                Config::_CIRCULAR, parameters_id[parameter_i],
-                parameters_level[parameter_i], parameters_level_type[parameter_i]);
-
-        if (has_circular) grib_parameter.setCircular(parameters_circular[parameter_i]);
-        grib_parameters.push_back(grib_parameter);
-        if (config.verbose >= Verbose::Debug) cout << grib_parameter << endl;
     }
 
     runAnEnGrib(forecast_files, analysis_files,

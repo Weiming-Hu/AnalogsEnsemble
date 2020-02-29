@@ -6,23 +6,23 @@
 #         The Pennsylvania State University                                       #
 ###################################################################################
 
-# This file builds the utility anen. This target depends on targets AnEn and AnEnIO.
+# This file builds the utility anen_grib. This target depends on targets AnEn and AnEnIO.
 
 cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
-project(anen VERSION ${GRAND_VERSION} LANGUAGES CXX)
-message(STATUS "Configuring the executable anen")
+project(anen_grib VERSION ${GRAND_VERSION} LANGUAGES CXX)
+message(STATUS "Configuring the executable ${PROJECT_NAME}")
 
 # Find the dependent libraries
 find_package(AnEnIO)
 
 # Create target
-add_executable(anen ${CMAKE_CURRENT_SOURCE_DIR}/anen.cpp)
+add_executable(${PROJECT_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/anen_grib.cpp)
 
 # Configure the properties of this target
-target_link_libraries(anen PUBLIC AnEnIO::AnEnIO)
+target_link_libraries(${PROJECT_NAME} PUBLIC AnEnIO::AnEnIO)
 
 # Export the executable
-install(TARGETS anen
-    EXPORT anenTargets
+install(TARGETS ${PROJECT_NAME}
+    EXPORT ${PROJECT_NAME}Targets
     RUNTIME DESTINATION bin)
 
