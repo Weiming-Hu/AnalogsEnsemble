@@ -315,6 +315,23 @@ Functions::diffCircular(double i, double j) {
     return (min(res1, res2));
 }
 
+double
+Functions::wind_speed(double u, double v) {
+    return (sqrt(u * u + v * v));
+}
+
+double
+Functions::wind_dir(double u, double v) {
+
+    // Positive u wind is from the west
+    // Positive v wind is from the south
+    // reference: http://colaweb.gmu.edu/dev/clim301/lectures/wind/wind-uv
+    //
+    double dir = fmod(atan2(v, u) * 180 / M_PI, 360);
+
+    return (dir < 0 ? (dir + 360) : dir);
+}
+
 size_t
 Functions::levenshtein(const string & str1, const string & str2,
         size_t w, size_t s, size_t a, size_t d) {

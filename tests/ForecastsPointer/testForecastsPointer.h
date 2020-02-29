@@ -15,6 +15,7 @@ class testForecastsPointer : public CPPUNIT_NS::TestFixture {
     
     CPPUNIT_TEST(testForecastSetVectorValues_);
     CPPUNIT_TEST(testSubset_);
+    CPPUNIT_TEST(testWind_);
     
     CPPUNIT_TEST_SUITE_END();
 
@@ -24,6 +25,7 @@ public:
     
     void testForecastSetVectorValues_();
     void testSubset_();
+    void testWind_();
 
 private:
     

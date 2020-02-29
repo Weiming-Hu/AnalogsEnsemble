@@ -30,9 +30,13 @@ public:
             const Parameters & parameters, const Stations & stations,
             const Times & times, const Times & flts) override;
     
-    void subset(Forecasts& forecasts_subset) const override;
+    virtual void windTransform(
+            const std::string & name_u, const std::string & name_v,
+            const std::string & name_spd, const std::string & name_dir) override;
+    
+    virtual void subset(Forecasts& forecasts_subset) const override;
 
-    void print(std::ostream &) const override;
+    virtual void print(std::ostream &) const override;
     friend std::ostream & operator<<(std::ostream &, const ForecastsPointer &);
 
     static const size_t _DIM_PARAMETER;

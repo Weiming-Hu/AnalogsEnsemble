@@ -32,18 +32,18 @@ public:
     const double* getValuesPtr() const override;
     double * getValuesPtr() override;
 
-    void setDimensions(const Parameters & parameters,
+    virtual void setDimensions(const Parameters & parameters,
             const Stations & stations, const Times & times) override;
 
-    double getValue(std::size_t parameter_index,
+    virtual double getValue(std::size_t parameter_index,
             std::size_t station_index, std::size_t time_index) const override;
-    void setValue(double val, std::size_t parameter_index,
+    virtual void setValue(double val, std::size_t parameter_index,
             std::size_t station_index, std::size_t time_index) override;
 
-    void subset(Observations&) const override;
+    virtual void subset(Observations&) const override;
 
 
-    void print(std::ostream &) const override;
+    virtual void print(std::ostream &) const override;
     friend std::ostream & operator<<(std::ostream &, const ObservationsPointer &);
 
     static const size_t _DIM_PARAMETER;

@@ -143,6 +143,15 @@ namespace Functions {
     double diffCircular(double i, double j);
 
     /**
+     * Calculate wind speed and direction from U and V components.
+     * @param u U component value
+     * @param v V component value
+     * @return wind speed or direction value
+     */
+    double wind_speed(double u, double v);
+    double wind_dir(double u, double v);
+
+    /**
      * Computes the Levenshtein distance of two strings. The function can be
      * used to guess the intended argument of an unknown one. This function is
      * used by the function Functions::guess_arguments.

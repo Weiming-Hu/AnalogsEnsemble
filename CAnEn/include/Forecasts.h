@@ -44,8 +44,24 @@ public:
             const Stations & stations, const Times & times,
             const Times & flts) = 0;
     
-    virtual void subset(Forecasts & forecasts_subset) const = 0;
+    /**
+     * In some forecast model output, wind components U and V are available, but
+     * not wind speed and direction. This function is used to calculate wind
+     * speed and direction from U and V components.
+     *
+     * Note that U will be replaced by wind speed and V will be replaced by
+     * wind direction.
+     *
+     * @param name_u Parameter name for U component of wind
+     * @param name_v Parameter name for V component of wind
+     * @param name_spd Parameter name for wind speed
+     * @param name_dir Parameter name for wind direction
+     */
+    virtual void windTransform(
+            const std::string & name_u, const std::string & name_v,
+            const std::string & name_spd, const std::string & name_dir) = 0;
     
+    virtual void subset(Forecasts & forecasts_subset) const = 0;
 
     /**************************************************************************
      *                           Member Functions                             *

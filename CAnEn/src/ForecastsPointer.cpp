@@ -7,6 +7,9 @@
  */
 
 #include "ForecastsPointer.h"
+#include "Functions.h"
+
+#include <algorithm>
 
 using namespace std;
 
@@ -48,6 +51,74 @@ ForecastsPointer::setDimensions(
     return;
 }
 
+void 
+ForecastsPointer::windTransform(
+        const string & name_u, const string & name_v,
+        const string & name_spd, const string & name_dir) {
+
+    // Convert from names to indices
+    size_t u_index = parameters_.getIndex(name_u);
+    size_t v_index = parameters_.getIndex(name_v);
+
+    // Get existing names from parameters
+    vector<string> names;
+    parameters_.getNames(names);
+
+    // Make sure the new names do not exist in parameters
+    if (find(names.begin(), names.end(), name_spd) != names.end())
+        throw runtime_error("New name for wind speed exists. Choose another name");
+    if (find(names.begin(), names.end(), name_dir) != names.end())
+        throw runtime_error("New name for wind direction exists. Choose another name");
+
+    /* Because bidirectional map is immutable after creation for vector type.
+     * I need to do a manual copy and substitute names for wind parameters.
+     *
+     * U ---> Wind speed
+     * V ---> Wind direction
+     */
+    Parameters original = parameters_;
+    parameters_.clear();
+
+    for (size_t parameter_i = 0; parameter_i < original.size(); ++parameter_i) {
+        Parameter parameter;
+        if (parameter_i == u_index) {
+            parameter.setName(name_spd);
+        } else if (parameter_i == v_index) {
+            parameter.setName(name_dir);
+            parameter.setCircular(true);
+        } else {
+            parameter = original.getParameter(parameter_i);
+        }
+
+        parameters_.push_back(parameter);
+    }
+
+    /*
+     * Carry out the actual calculation and replace values in data with 
+     * wind speed and direction values.
+     */
+    size_t num_stations = stations_.size();
+    size_t num_times = times_.size();
+    size_t num_flts = flts_.size();
+
+    for (size_t station_i = 0; station_i < num_stations; ++station_i) {
+        for (size_t time_i = 0; time_i < num_times; ++time_i) {
+            for (size_t flt_i = 0; flt_i < num_flts; ++flt_i) {
+
+                // Get values
+                double u = getValue(u_index, station_i, time_i, flt_i);
+                double v = getValue(v_index, station_i, time_i, flt_i);
+
+                // Calculate and assign new values
+                setValue(Functions::wind_speed(u, v), u_index, station_i, time_i, flt_i);
+                setValue(Functions::wind_dir(u, v), v_index, station_i, time_i, flt_i);
+            }
+        }
+    }
+
+    return;
+}
+
 void
 ForecastsPointer::subset(Forecasts& forecasts_subset) const {
 
@@ -74,12 +145,12 @@ ForecastsPointer::subset(Forecasts& forecasts_subset) const {
 }
 
 void
-ForecastsPointer::print(std::ostream & os) const {
+ForecastsPointer::print(ostream & os) const {
     Forecasts::print(os);
 
     //    const size_t* dims = shape();
 
-    os << "[Data] size: " << num_elements() << std::endl;
+    os << "[Data] size: " << num_elements() << endl;
 
     for (size_t l = 0; l < dims_[_DIM_PARAMETER]; ++l) {
         for (size_t m = 0; m < dims_[_DIM_STATION]; ++m) {
@@ -105,8 +176,8 @@ ForecastsPointer::print(std::ostream & os) const {
     return;
 }
 
-std::ostream &
-operator<<(std::ostream & os, const ForecastsPointer & obj) {
+ostream &
+operator<<(ostream & os, const ForecastsPointer & obj) {
     obj.print(os);
     return os;
 }

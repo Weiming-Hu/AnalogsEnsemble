@@ -158,3 +158,89 @@ testForecastsPointer::testSubset_() {
                     CPPUNIT_ASSERT(subset_value == original_value);
                 }
 }
+
+void
+testForecastsPointer::testWind_() {
+    
+    /**
+     * Test wind field calculator
+     */
+
+    Station s1, s2(10, 20, "Hunan");
+    Stations stations;
+    assign::push_back(stations.left)(0, s1)(1, s2);
+
+    Parameter p1("my_V"), p2("angle", true), p3("my_U");
+            
+    Parameters parameters;
+    assign::push_back(parameters.left)(0, p1)(1, p2)(2, p3);
+
+    Times times;
+    times.push_back(100);
+
+    Times flts;
+    flts.push_back(0);
+    flts.push_back(10);
+    flts.push_back(20);
+
+    ForecastsPointer forecasts(parameters, stations, times, flts);
+
+    // Assign values manually
+    
+    // Parameter my_V
+    forecasts.setValue(0, 0, 0, 0, 0);
+    forecasts.setValue(3, 0, 0, 0, 1);
+    forecasts.setValue(3, 0, 0, 0, 2);
+    forecasts.setValue(1, 0, 1, 0, 0);
+    forecasts.setValue(0, 0, 1, 0, 1);
+    forecasts.setValue(-1.5, 0, 1, 0, 2);
+
+    // Parameter angle
+    forecasts.setValue(20, 1, 0, 0, 0);
+    forecasts.setValue(30, 1, 0, 0, 1);
+    forecasts.setValue(40, 1, 0, 0, 2);
+    forecasts.setValue(50, 1, 1, 0, 0);
+    forecasts.setValue(60, 1, 1, 0, 1);
+    forecasts.setValue(70, 1, 1, 0, 2);
+
+    // Parameter my_U
+    forecasts.setValue(0.5, 2, 0, 0, 0);
+    forecasts.setValue(3, 2, 0, 0, 1);
+    forecasts.setValue(0, 2, 0, 0, 2);
+    forecasts.setValue(-1, 2, 1, 0, 0);
+    forecasts.setValue(-1.5, 2, 1, 0, 1);
+    forecasts.setValue(-1.5, 2, 1, 0, 2);
+
+    ForecastsPointer original = forecasts;
+    cout << original;
+
+    forecasts.windTransform("my_U", "my_V", "wind_spd", "wind_dir");
+
+    cout << forecasts;
+
+    // Check results
+    CPPUNIT_ASSERT(forecasts.getParameters().getParameter(1).getCircular());
+
+    CPPUNIT_ASSERT(forecasts.getValue(0, 0, 0, 0) == 0);
+    CPPUNIT_ASSERT(forecasts.getValue(0, 0, 0, 1) == 45);
+    CPPUNIT_ASSERT(forecasts.getValue(0, 0, 0, 2) == 90);
+    CPPUNIT_ASSERT(forecasts.getValue(0, 1, 0, 0) == 135);
+    CPPUNIT_ASSERT(forecasts.getValue(0, 1, 0, 1) == 180);
+    CPPUNIT_ASSERT(forecasts.getValue(0, 1, 0, 2) == 225);
+
+    // Parameter angle
+    CPPUNIT_ASSERT(forecasts.getValue(1, 0, 0, 0) == original.getValue(1, 0, 0, 0));
+    CPPUNIT_ASSERT(forecasts.getValue(1, 0, 0, 1) == original.getValue(1, 0, 0, 1));
+    CPPUNIT_ASSERT(forecasts.getValue(1, 0, 0, 2) == original.getValue(1, 0, 0, 2));
+    CPPUNIT_ASSERT(forecasts.getValue(1, 1, 0, 0) == original.getValue(1, 1, 0, 0));
+    CPPUNIT_ASSERT(forecasts.getValue(1, 1, 0, 1) == original.getValue(1, 1, 0, 1));
+    CPPUNIT_ASSERT(forecasts.getValue(1, 1, 0, 2) == original.getValue(1, 1, 0, 2));
+
+    // Parameter my_U
+    CPPUNIT_ASSERT(forecasts.getValue(2, 0, 0, 0) == 0.5);
+    CPPUNIT_ASSERT(forecasts.getValue(2, 0, 0, 1) == sqrt(18));
+    CPPUNIT_ASSERT(forecasts.getValue(2, 0, 0, 2) == 3);
+    CPPUNIT_ASSERT(forecasts.getValue(2, 1, 0, 0) == sqrt(2));
+    CPPUNIT_ASSERT(forecasts.getValue(2, 1, 0, 1) == 1.5);
+    CPPUNIT_ASSERT(forecasts.getValue(2, 1, 0, 2) == sqrt(1.5 * 1.5 * 2));
+}
