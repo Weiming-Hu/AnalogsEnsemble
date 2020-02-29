@@ -110,7 +110,7 @@ int main(int argc, char** argv) {
             ("time-end", value<string>(&time_end_str), "[Optional] End date time for reading.")
             ("delimited", bool_switch(&delimited)->default_value(false), "[Optional] Date strings in forecasts and analysis have separators.")
             ("overwrite", bool_switch(&overwrite)->default_value(false), "[Optional] Overwrite files and variables.")
-            ("collapse-lead-times", bool_switch(&overwrite)->default_value(false), "[Optional] Collapse forecast lead times. This is helpful when you are reading and converting model analysis files to NetCDF files.")
+            ("collapse-lead-times", bool_switch(&collapse_lead_times)->default_value(false), "[Optional] Collapse forecast lead times. This is helpful when you are reading and converting model analysis files to observation NetCDF files.")
             ("unit-in-seconds", value<size_t>(&unit_in_seconds)->default_value(3600), "[Optional] The number of seconds for the unit of lead times. Usually lead times have hours as unit, so it defaults to 3600.")
             ("verbose,v", value<int>(&verbose_int)->default_value(2), "[Optional] Verbose level (0 - 4).")
             ("convert-wind", bool_switch(&(convert_wind))->default_value(false), "[Optional] Use this option if your forecasts have only wind U and V components and you need to convert them to wind speed and direction. Please also specify --name-u --name-v --name-spd --name-dir. Wind speed and direction values will be calculated internally and replacing U and V components respectively.")
