@@ -219,7 +219,9 @@ testForecastsPointer::testWind_() {
     cout << forecasts;
 
     // Check results
+    CPPUNIT_ASSERT(forecasts.getParameters().getParameter(0).getCircular());
     CPPUNIT_ASSERT(forecasts.getParameters().getParameter(1).getCircular());
+    CPPUNIT_ASSERT(!forecasts.getParameters().getParameter(2).getCircular());
 
     CPPUNIT_ASSERT(forecasts.getValue(0, 0, 0, 0) == 0);
     CPPUNIT_ASSERT(forecasts.getValue(0, 0, 0, 1) == 45);

@@ -31,7 +31,12 @@ void runGribConvert(
         bool delimited,
         bool overwrite,
         bool collapse_lead_times,
-        Verbose verbose) {
+        Verbose verbose,
+        bool convert_wind,
+        const string & u_name,
+        const string & v_name,
+        const string & spd_name,
+        const string & dir_name) {
 
     /*
      * Read files
@@ -41,6 +46,8 @@ void runGribConvert(
     anen_read.readForecasts(forecasts, grib_parameters, forecast_files,
             regex_day_str, regex_flt_str, regex_cycle_str,
             unit_in_seconds, delimited, stations_index);
+
+    if (convert_wind) forecasts.windTransform(u_name, v_name, spd_name, dir_name);
 
     /*
      * Collapse the lead time dimension in forecasts if this is intended.
@@ -76,8 +83,8 @@ int main(int argc, char** argv) {
     vector<int> stations_index;
 
     string forecast_folder, regex_day_str, regex_flt_str, regex_cycle_str;
-    string fileout, time_start_str, time_end_str, ext;
-    bool delimited, overwrite, collapse_lead_times;
+    string fileout, time_start_str, time_end_str, ext, u_name, v_name, spd_name, dir_name; 
+    bool delimited, overwrite, collapse_lead_times, convert_wind;
     size_t unit_in_seconds;
     Verbose verbose;
     int verbose_int;
@@ -105,7 +112,12 @@ int main(int argc, char** argv) {
             ("overwrite", bool_switch(&overwrite)->default_value(false), "[Optional] Overwrite files and variables.")
             ("collapse-lead-times", bool_switch(&overwrite)->default_value(false), "[Optional] Collapse forecast lead times. This is helpful when you are reading and converting model analysis files to NetCDF files.")
             ("unit-in-seconds", value<size_t>(&unit_in_seconds)->default_value(3600), "[Optional] The number of seconds for the unit of lead times. Usually lead times have hours as unit, so it defaults to 3600.")
-            ("verbose,v", value<int>(&verbose_int)->default_value(2), "[Optional] Verbose level (0 - 4).");
+            ("verbose,v", value<int>(&verbose_int)->default_value(2), "[Optional] Verbose level (0 - 4).")
+            ("convert-wind", bool_switch(&(convert_wind))->default_value(false), "[Optional] Use this option if your forecasts have only wind U and V components and you need to convert them to wind speed and direction. Please also specify --name-u --name-v --name-spd --name-dir. Wind speed and direction values will be calculated internally and replacing U and V components respectively.")
+            ("name-u", value<string>(&u_name)->default_value("U"), "[Optional] Parameter name for U component of wind")
+            ("name-v", value<string>(&v_name)->default_value("V"), "[Optional] Parameter name for V component of wind")
+            ("name-spd", value<string>(&spd_name)->default_value("windSpeed"), "[Optional] Parameter name for wind speed")
+            ("name-dir", value<string>(&dir_name)->default_value("windDirection"), "[Optional] Parameter name for wind direction");
 
     // Get all the available options
     vector<string> available_options;
@@ -197,7 +209,7 @@ int main(int argc, char** argv) {
 
     runGribConvert(forecast_files, regex_day_str, regex_flt_str, regex_cycle_str,
         grib_parameters, stations_index, fileout, unit_in_seconds, delimited, overwrite,
-        collapse_lead_times, verbose);
+        collapse_lead_times, verbose, convert_wind, u_name, v_name, spd_name, dir_name);
 
     return 0;
 }

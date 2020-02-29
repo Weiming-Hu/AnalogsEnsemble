@@ -42,7 +42,12 @@ void runAnEnGrib(
         bool delimited,
         bool overwrite,
         bool profile,
-        bool save_tests) {
+        bool save_tests,
+        bool convert_wind,
+        const string & u_name,
+        const string & v_name,
+        const string & spd_name,
+        const string & dir_name) {
 
 
     /**************************************************************************
@@ -84,6 +89,8 @@ void runAnEnGrib(
             regex_day_str, regex_flt_str, regex_cycle_str,
             unit_in_seconds, delimited, stations_index);
 
+    if (convert_wind) forecasts.windTransform(u_name, v_name, spd_name, dir_name);
+
     profiler.log_time_session("reading forecasts");
 
     // Convert string date times to Times objects
@@ -100,6 +107,8 @@ void runAnEnGrib(
     anen_read.readForecasts(analysis, grib_parameters, analysis_files,
             regex_day_str, regex_flt_str, regex_cycle_str,
             unit_in_seconds, delimited, stations_index);
+
+    if (convert_wind) analysis.windTransform(u_name, v_name, spd_name, dir_name);
 
     profiler.log_time_session("reading analysis");
 
@@ -235,8 +244,8 @@ int main(int argc, char** argv) {
 
     string forecast_folder, analysis_folder, regex_day_str, regex_flt_str;
     string regex_cycle_str, test_start, test_end, search_start, search_end;
-    string fileout, algorithm, ext;
-    bool delimited, overwrite, profile, save_tests;
+    string fileout, algorithm, ext, u_name, v_name, spd_name, dir_name;
+    bool delimited, overwrite, profile, save_tests, convert_wind;
     size_t unit_in_seconds;
     int verbose;
 
@@ -288,7 +297,13 @@ int main(int argc, char** argv) {
             ("save-sims-time-index", bool_switch(&(config.save_sims_time_index))->default_value(config.save_sims_time_index), "[Optional] Save time indices of similarity.")
             ("save-sims-station-index", bool_switch(&(config.save_sims_station_index))->default_value(config.save_sims_station_index), "[Optional] Save station indices of similarity.")
             ("save-tests", bool_switch(&save_tests)->default_value(false), "[Optional] Save test forecasts and observations if available")
-            ("no-quick", bool_switch(&(config.quick_sort))->default_value(config.quick_sort), "[Optional] Disable nth_element sort, use partial sort.");
+            ("no-quick", bool_switch(&(config.quick_sort))->default_value(config.quick_sort), "[Optional] Disable nth_element sort, use partial sort.")
+            ("convert-wind", bool_switch(&(convert_wind))->default_value(false), "[Optional] Use this option if your forecasts have only wind U and V components and you need to convert them to wind speed and direction. Please also specify --name-u --name-v --name-spd --name-dir. Wind speed and direction values will be calculated internally and replacing U and V components respectively.")
+            ("name-u", value<string>(&u_name)->default_value("U"), "[Optional] Parameter name for U component of wind")
+            ("name-v", value<string>(&v_name)->default_value("V"), "[Optional] Parameter name for V component of wind")
+            ("name-spd", value<string>(&spd_name)->default_value("windSpeed"), "[Optional] Parameter name for wind speed")
+            ("name-dir", value<string>(&dir_name)->default_value("windDirection"), "[Optional] Parameter name for wind direction");
+
 
     // Get all the available options
     vector<string> available_options;
@@ -382,7 +397,8 @@ int main(int argc, char** argv) {
     runAnEnGrib(forecast_files, analysis_files,
             regex_day_str, regex_flt_str, regex_cycle_str,
             grib_parameters, stations_index, test_start, test_end, search_start, search_end,
-            fileout, algorithm, config, unit_in_seconds, delimited, overwrite, profile, save_tests);
+            fileout, algorithm, config, unit_in_seconds, delimited, overwrite, profile, save_tests,
+            convert_wind, u_name, v_name, spd_name, dir_name);
 
     return 0;
 }
