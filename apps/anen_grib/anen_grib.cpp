@@ -7,7 +7,9 @@
 
 /** @file */
 
+// Needed for ifstream
 #include <fstream>
+
 #include "boost/program_options.hpp"
 #include "boost/filesystem.hpp"
 
