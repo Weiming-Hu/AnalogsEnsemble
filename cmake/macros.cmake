@@ -47,17 +47,17 @@ endmacro(PAnEn_test_this)
 
 
 # Check whether boost source files have been downloaded
-macro(check_boost_download)
+macro(check_boost_cmake_download)
 
     if(NOT EXISTS ${CMAKE_CURRENT_BINARY_DIR}/boost-cmake/CMakeLists.txt)
         find_package(Git 1.9 REQUIRED QUIET)
-        message(STATUS "Download source files for Boost")
+        message(STATUS "Download source files for boost-cmake")
         execute_process(COMMAND ${GIT_EXECUTABLE} "clone"
             "https://github.com/Orphis/boost-cmake.git"
             "${CMAKE_CURRENT_BINARY_DIR}/boost-cmake")
     endif(NOT EXISTS ${CMAKE_CURRENT_BINARY_DIR}/boost-cmake/CMakeLists.txt)
 
-endmacro(check_boost_download)
+endmacro(check_boost_cmake_download)
 
 
 # Check whether netcdf cxx4 source files have been downloaded

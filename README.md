@@ -111,6 +111,7 @@ You can change the default of the following parameters, for example, `cmake -DCM
 |   CMAKE\_BUILD\_TYPE |                          `Release` for release mode; `Debug` for debug mode.                                                                 |       Release      |
 |     INSTALL\_RAnEn   |                                 Build and install the `RAnEn` library.                                                                       |         OFF        |
 |     BUILD\_BOOST     |                                 Build `Boost` regardless of whether it exists in the system.                                                 |         OFF        |
+|     BOOST\_URL       |                        The URL for downloading Boost. This is only used when `BUILD_BOOST` is `ON`.                                          | [From SourceForge] |
 
 ## References
 
