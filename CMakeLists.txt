@@ -19,8 +19,6 @@ project(PAnEn LANGUAGES C CXX)
 
 option(INSTALL_RAnEn "Install RAnEn package" OFF)
 option(BUILD_BOOST "Build Boost" OFF)
-set(BOOST_URL https://sourceforge.net/projects/boost/files/boost/1.72.0/boost_1_72_0.tar.bz2
-    CACHE STRING "The URL for downloading Boost. This is only used when BUILD_BOOST is ON")
 
 # Set variables
 set(GRAND_VERSION "4.0.1")
@@ -64,11 +62,6 @@ endif(INSTALL_RAnEn)
 if(BUILD_BOOST)
     list(APPEND SUBPROJECT_TARGETS "Boost")
     check_boost_cmake_download()
-
-    include(FetchContent)
-    FetchContent_Declare(Boost URL ${BOOST_URL})
-    message(STATUS "Boost library is retrieved from ${BOOST_URL}")
-
     add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/boost-cmake)
 endif(BUILD_BOOST)
 
