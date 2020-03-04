@@ -200,6 +200,8 @@ void runAnEnGrib(
             throw runtime_error("The algorithm is not recognized");
         }
         
+        profiler.log_time_session("writing multivariate analogs");
+        
     } else {
         
         /*
@@ -447,7 +449,10 @@ int main(int argc, char** argv) {
     vector<string> forecast_files, analysis_files;
     FunctionsIO::listFiles(forecast_files, forecast_folder, ext);
     FunctionsIO::listFiles(analysis_files, analysis_folder, ext);
-
+    
+    if (forecast_files.size() == 0) throw runtime_error("No forecast files detected");
+    if (analysis_files.size() == 0) throw runtime_error("No analysis files detected");
+    
     if (config.verbose >= Verbose::Debug) {
         cout << "Forecast files:" << endl
                 << Functions::format(forecast_files, "\n") << endl

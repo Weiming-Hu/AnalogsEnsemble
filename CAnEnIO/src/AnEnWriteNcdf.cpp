@@ -200,7 +200,7 @@ AnEnWriteNcdf::writeMultiAnEn(const string& file,
     // Append multivariate analogs
     NcFile nc(file, NcFile::FileMode::write, NcFile::FileFormat::nc4);
     const auto & analogs_time_index = anen.analogs_time_index();
-
+    
     for (const auto & pair : obs_map) {
         Array4DPointer analogs;
 
