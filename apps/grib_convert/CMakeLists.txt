@@ -14,12 +14,13 @@ message(STATUS "Configuring the executable ${PROJECT_NAME}")
 
 # Find the dependent libraries
 find_package(AnEnIO)
+find_package(Boost 1.58.0 REQUIRED COMPONENTS program_options)
 
 # Create target
 add_executable(${PROJECT_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/grib_convert.cpp)
 
 # Configure the properties of this target
-target_link_libraries(${PROJECT_NAME} PUBLIC AnEnIO::AnEnIO)
+target_link_libraries(${PROJECT_NAME} PRIVATE AnEnIO::AnEnIO Boost::program_options)
 
 # Export the executable
 install(TARGETS ${PROJECT_NAME}

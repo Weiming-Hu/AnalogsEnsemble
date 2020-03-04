@@ -71,7 +71,7 @@ target_include_directories(AnEn PUBLIC
 
 target_compile_features(AnEn PUBLIC cxx_std_11)
 
-target_link_libraries(AnEn PUBLIC Boost::date_time Boost::serialization Boost::boost)
+target_link_libraries(AnEn PUBLIC Boost::boost Boost::serialization Boost::date_time)
 
 if(ENABLE_OPENMP)
     find_package(OpenMP)
@@ -96,7 +96,6 @@ if(NOT BUILD_BOOST)
         INCLUDES DESTINATION include)
 
     install(EXPORT AnEnConfig
-        FILE AnEnConfig.cmake
         NAMESPACE AnEn::
         DESTINATION lib/cmake)
 

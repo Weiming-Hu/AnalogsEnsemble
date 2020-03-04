@@ -1,8 +1,8 @@
 ###################################################################################
 # Author: Weiming Hu <weiming@psu.edu>                                            #
 #         Geoinformatics and Earth Observation Laboratory (http://geolab.psu.edu) #
-#         Department of Geography                                                 #
 #         Institute for Computational and Data Science                            #
+#         Department of Geography                                                 #
 #         The Pennsylvania State University                                       #
 ###################################################################################
 #
@@ -47,8 +47,7 @@ set(NETCDF_CXX "YES")
 find_package(AnEn REQUIRED)
 find_package(eccodes REQUIRED)
 find_package(NetCDF REQUIRED)
-find_package(Boost 1.58.0 REQUIRED
-    COMPONENTS filesystem program_options regex)
+find_package(Boost 1.58.0 REQUIRED COMPONENTS regex date_time filesystem)
 
 # Create target by explicitly listing all source files
 add_library(AnEnIO ${AnEnIO_source_files})
@@ -58,16 +57,15 @@ add_library(AnEnIO::AnEnIO ALIAS AnEnIO)
 
 # Configure the properties of this target
 target_link_libraries(AnEnIO
-    PUBLIC
-    Boost::program_options Boost::filesystem Boost::regex
-    AnEn::AnEn ${ECCODES_LIBRARIES} ${NETCDF_LIBRARIES})
+    PUBLIC AnEn::AnEn Boost::regex Boost::date_time ${NETCDF_LIBRARIES}
+    PRIVATE Boost::filesystem ${ECCODES_LIBRARIES})
 
 target_include_directories(AnEnIO SYSTEM PUBLIC 
     ${ECCODES_INCLUDES} ${NETCDF_INCLUDES})
 
 target_include_directories(AnEnIO BEFORE PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}../AnEn/include>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../CAnEn/include>
     $<INSTALL_INTERFACE:include>)
 
 if(NOT BUILD_BOOST)
@@ -84,7 +82,6 @@ if(NOT BUILD_BOOST)
         INCLUDES DESTINATION include)
 
     install(EXPORT AnEnIOConfig
-        FILE AnEnIOConfig.cmake
         NAMESPACE AnEnIO::
         DESTINATION lib/cmake)
 
