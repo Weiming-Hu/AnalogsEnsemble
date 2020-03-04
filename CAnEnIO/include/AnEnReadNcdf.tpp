@@ -7,7 +7,7 @@
 
 template <typename T>
 void
-AnEnReadNcdf::read_(const netCDF::NcFile & nc,
+AnEnReadNcdf::read(const netCDF::NcGroup & nc,
         T * p_vals, const std::string & var_name,
         std::vector<size_t> start, std::vector<size_t> count) const {
     

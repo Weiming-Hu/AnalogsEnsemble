@@ -70,28 +70,47 @@ AnEnReadNcdf::readForecasts(const string & file_path,
 
     // Initialization for meta information
     Parameters parameters;
-    Stations stations;
     Times times;
+    Stations stations;
     Times flts;
 
     // Read meta information
     if (entire) {
-        read_(nc, parameters);
-        read_(nc, stations);
-        read_(nc, times, Config::_TIMES);
-        read_(nc, flts, Config::_FLTS);
+        read(nc, parameters);
+        read(nc, stations);
+        read(nc, times, Config::_TIMES);
+        read(nc, flts, Config::_FLTS);
     } else {
-        read_(nc, parameters, start[0], count[0]);
-        read_(nc, stations, start[1], count[1]);
-        read_(nc, times, Config::_TIMES, start[2], count[2]);
-        read_(nc, flts, Config::_FLTS, start[3], count[3]);
+        read(nc, parameters, start[0], count[0]);
+        read(nc, stations, start[1], count[1]);
+        read(nc, times, Config::_TIMES, start[2], count[2]);
+        read(nc, flts, Config::_FLTS, start[3], count[3]);
     }
 
     if (verbose_ >= Verbose::Detail) cout << "Updating dimensions ..." << endl;
     forecasts.setDimensions(parameters, stations, times, flts);
 
     // Read data values
-    read_(nc, forecasts.getValuesPtr(), Config::_DATA, start, count);
+    //
+    // Forecasts might be in the root group or in a sub group called "Forecasts"
+    //
+    if (nc.getVar(Config::_DATA).isNull()) {
+        
+        auto nc_sub = nc.getGroup("Forecasts");
+        
+        if (nc_sub.isNull()) {
+            throw runtime_error("Forecasts can not be found");
+            
+        } else {
+            // Forecasts are found in the sub group
+            read(nc_sub, forecasts.getValuesPtr(), Config::_DATA, start, count);
+        }
+        
+    } else {
+        // Forecasts are found in the current group
+        read(nc, forecasts.getValuesPtr(), Config::_DATA, start, count);
+    }
+
     // The file handler will automatically be closed when it is out of scope.
     // For C++ API older than 4.3.0, this function was not available.
     //
@@ -142,19 +161,36 @@ AnEnReadNcdf::readObservations(const std::string & file_path,
 
     // Read meta information
     if (entire) {
-        read_(nc, parameters);
-        read_(nc, stations);
-        read_(nc, times, Config::_TIMES);
+        read(nc, parameters);
+        read(nc, stations);
+        read(nc, times, Config::_TIMES);
     } else {
-        read_(nc, parameters, start[0], count[0]);
-        read_(nc, stations, start[1], count[1]);
-        read_(nc, times, Config::_TIMES, start[2], count[2]);
+        read(nc, parameters, start[0], count[0]);
+        read(nc, stations, start[1], count[1]);
+        read(nc, times, Config::_TIMES, start[2], count[2]);
     }
 
     // Read data values
     if (verbose_ >= Verbose::Detail) cout << "Updating dimensions ..." << endl;
     observations.setDimensions(parameters, stations, times);
-    read_(nc, observations.getValuesPtr(), Config::_DATA, start, count);
+
+    if (nc.getVar(Config::_DATA).isNull()) {
+
+        auto nc_sub = nc.getGroup("Observations");
+
+        if (nc_sub.isNull()) {
+            throw runtime_error("Observations can not be found");
+
+        } else {
+            // Forecasts are found in the sub group
+            read(nc_sub, observations.getValuesPtr(), Config::_DATA, start, count);
+        }
+
+    } else {
+        // Forecasts are found in the current group
+        read(nc, observations.getValuesPtr(), Config::_DATA, start, count);
+    }
+    
 
     // The file handler will automatically be closed when it is out of scope.
     // For C++ API older than 4.3.0, this function was not available.
@@ -165,7 +201,7 @@ AnEnReadNcdf::readObservations(const std::string & file_path,
 }
 
 void
-AnEnReadNcdf::read_(const NcFile & nc, Parameters & parameters,
+AnEnReadNcdf::read(const NcGroup & nc, Parameters & parameters,
         size_t start, size_t count) const {
 
     size_t size_ori = parameters.size();
@@ -222,7 +258,7 @@ AnEnReadNcdf::read_(const NcFile & nc, Parameters & parameters,
 }
 
 void
-AnEnReadNcdf::read_(const NcFile & nc, Stations & stations,
+AnEnReadNcdf::read(const NcGroup & nc, Stations & stations,
         size_t start, size_t count,
         const string & dim_name_prefix,
         const string & var_name_prefix) const {
@@ -294,7 +330,7 @@ AnEnReadNcdf::read_(const NcFile & nc, Stations & stations,
 }
 
 void
-AnEnReadNcdf::read_(const netCDF::NcFile & nc, Times & times,
+AnEnReadNcdf::read(const NcGroup & nc, Times & times,
         const string & var_name, size_t start, size_t count) const {
 
     size_t size_ori = times.size();

@@ -63,10 +63,10 @@ Profiler::summary(std::ostream& os) const {
     if (session_names_.front() != _SESSION_START) throw runtime_error("You didn't start the profiler by calling start");
 
     // Define time variables
-    double full_pduration = (ptimes_.back() - ptimes_.front()) / CLOCKS_PER_SEC;
+    long full_pduration = (ptimes_.back() - ptimes_.front()) / CLOCKS_PER_SEC;
 
 #if defined(_OPENMP)
-    double full_wduration = wtimes_.back() - wtimes_.front();
+    long full_wduration = wtimes_.back() - wtimes_.front();
 #endif
 
     // Start printing
@@ -99,10 +99,10 @@ Profiler::summary(std::ostream& os) const {
 
         os << "Session " << session_names_[session_i] <<
                 ":\t processor time (" << to_simple_string(ptime_duration)
-                << ", " << ptime / full_pduration * 100 << "%)"
+                << ", " << ptime / (double) full_pduration * 100 << "%)"
 #if defined(_OPENMP)
                 << "\t wall time (" << to_simple_string(wtime_duration)
-                << ", " << wtime / full_wduration * 100 << "%)"
+                << ", " << wtime / (double) full_wduration * 100 << "%)"
 #endif
 
 #ifndef _UNKNOWN_OS_
