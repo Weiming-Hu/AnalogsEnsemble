@@ -18,6 +18,7 @@ class testAnEnIS : public CPPUNIT_NS::TestFixture, public AnEnIS {
     CPPUNIT_TEST_SUITE(testAnEnIS);
 
     CPPUNIT_TEST(testOpenMP_);
+    CPPUNIT_TEST(testMultiAnEn_);
     CPPUNIT_TEST(testFixedLengthSds_);
     CPPUNIT_TEST(compareOperationalSds_);
     CPPUNIT_TEST(compareComputeLeaveOneOut_);
@@ -46,6 +47,7 @@ private:
     Times flts_;
 
     void testOpenMP_();
+    void testMultiAnEn_();
     void testFixedLengthSds_();
     void compareOperationalSds_();
     void compareComputeOperational_();

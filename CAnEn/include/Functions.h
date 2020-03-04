@@ -32,6 +32,7 @@
 #include "Forecasts.h"
 #include "Observations.h"
 
+#include <unordered_map> 
 #include <vector>
 #include <string>
 #include <sstream>
@@ -58,7 +59,36 @@ namespace Functions {
      */
     using Matrix = boost::numeric::ublas::matrix<
             double, boost::numeric::ublas::column_major, std::vector<double> >;
+    
+    /**
+     * Create an unordered map with parameter names as keys and the id as values
+     * @param obs_map An unordered map
+     * @param obs_id Vectors with variables ID
+     * @param parameters Parameters
+     */
+    void createObsMap(std::unordered_map<std::string, std::size_t> & map,
+            const std::vector<std::size_t> & id, const Parameters &);
+    
+    /**
+     * Converts analogs time index to analogs value using the specified
+     * observation ID.
+     * @param analogs Analogs for storing values
+     * @param obs_id Observation ID
+     * @param analogs_time_index Analogs time index from AnEn
+     * @param analogs_station_index Analogs station index from AnEn. This is 
+     * usually the similarity station index because they are the same.
+     * @param observations Observations
+     */
+    void toValues(Array4D &, std::size_t, const Array4D&, const Observations&);
+    void toValues(Array4D &, std::size_t, const Array4D&, const Array4D&, const Observations&);
 
+    /**
+     * Set the search stations based on distance and nearest neighbors.
+     * @param stations Stations to find neighbors
+     * @param table An index table. Each row shows the indices for neighbor stations of
+     * a particular station in Stations.
+     * @param distance Distance threshold.
+     */
     void setSearchStations(const Stations &, Matrix & table, double);
 
     /**

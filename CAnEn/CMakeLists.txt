@@ -56,7 +56,6 @@ set(AnEn_headers
     ${CMAKE_CURRENT_SOURCE_DIR}/include/Times.h)
 
 # Find the dependent library and components
-find_package(OpenMP)
 find_package(Boost 1.58.0 REQUIRED COMPONENTS date_time serialization)
 
 # Create target by explicitly listing all source files
@@ -74,9 +73,14 @@ target_compile_features(AnEn PUBLIC cxx_std_11)
 
 target_link_libraries(AnEn PUBLIC Boost::date_time Boost::serialization Boost::boost)
 
-if(OpenMP_CXX_FOUND)
-    target_link_libraries(AnEn PUBLIC OpenMP::OpenMP_CXX)
-endif(OpenMP_CXX_FOUND)
+if(ENABLE_OPENMP)
+    find_package(OpenMP)
+
+    if(OpenMP_CXX_FOUND)
+        target_link_libraries(AnEn PUBLIC OpenMP::OpenMP_CXX)
+    endif(OpenMP_CXX_FOUND)
+
+endif(ENABLE_OPENMP)
 
 if(NOT BUILD_BOOST)
 

@@ -191,7 +191,7 @@ FunctionsIO::listFiles(vector<string> & files, string& folder,
     if (folder.back() != '/') folder += '/';
 
     // List all files in a folder
-    fs::recursive_directory_iterator it(folder), endit;
+    fs::directory_iterator it(folder), endit;
     while (it != endit) {
 
         // Check file extension

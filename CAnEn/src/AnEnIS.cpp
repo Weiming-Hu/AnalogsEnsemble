@@ -356,14 +356,14 @@ AnEnIS::sds() const {
 const Array4DPointer &
 AnEnIS::sims_metric() const {
     if (!save_sims_) throw runtime_error(
-            "Similarity array is not saved. Please change your configuration");
+            "Similarity array is not saved. Please change your configuration (save_sims)");
     return sims_metric_;
 }
 
 const Array4DPointer &
 AnEnIS::sims_time_index() const {
     if (!save_sims_time_index_) throw runtime_error(
-            "Similarity times index array is not saved. Please change your configuration");
+            "Similarity times index array is not saved. Please change your configuration (save_sims_time_index)");
 
     return sims_time_index_;
 }
@@ -371,7 +371,7 @@ AnEnIS::sims_time_index() const {
 const Array4DPointer &
 AnEnIS::analogs_value() const {
     if (!save_analogs_) throw runtime_error(
-            "Analog array is not saved. Please change your configuration");
+            "Analog array is not saved. Please change your configuration (save_analogs)");
 
     return analogs_value_;
 }
@@ -379,7 +379,7 @@ AnEnIS::analogs_value() const {
 const Array4DPointer &
 AnEnIS::analogs_time_index() const {
     if (!save_analogs_time_index_) throw runtime_error(
-            "Analog times index array is not saved. Please change your configuration");
+            "Analog times index array is not saved. Please change your configuration (save_analogs_time_index)");
 
     return analogs_time_index_;
 }

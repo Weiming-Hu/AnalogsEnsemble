@@ -70,6 +70,14 @@ Array4DPointer::resize(size_t dim0, size_t dim1, size_t dim2, size_t dim3) {
 }
 
 void
+Array4DPointer::resize(const Array4D& arr) {
+    const size_t * dims = arr.shape();
+    resize(dims[0], dims[1], dims[2], dims[3]);
+    return;
+}
+
+
+void
 Array4DPointer::initialize(double value) {
     if (data_ != nullptr) fill_n(data_, num_elements(), value);
 }

@@ -78,12 +78,33 @@ print.AnEn <- function (x) {
     existed.names <- existed.names[-matched]
   }
   
-  if (empty) {
-    cat('[empty list]\n')
+  # For extra members, I'm going to print either values, dimensions, or lengths
+  if (length(existed.names) != 0) {
+    empty <- F
+    cat("\nExtra members:\n")
+    
+    for (name in existed.names) {
+      cat("$", name, ":\t", sep = '')
+      
+      if (length(x[[name]]) == 1) {
+        # Print the value
+        cat('value:', paste(x[[name]]))
+        
+      } else if (!is.null(dim(x[[name]]))) {
+        # Print the dimensions
+        cat("dimensions: [", paste0(dim(x[[name]]), collapse = ','), ']', sep = '')
+        
+      } else {
+        # Print the length
+        cat("length: [", length(x[[name]]), ']', sep = '')
+      }
+      
+      cat("\n")
+    }
+    
   }
   
-  if (length(existed.names) != 0) {
-    cat("\nExtra members:\n")
-    cat(paste(existed.names, collapse = ', '), '\n')
+  if (empty) {
+    cat('[empty list]\n')
   }
 }
