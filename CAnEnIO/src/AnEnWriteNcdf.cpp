@@ -24,23 +24,6 @@ const bool AnEnWriteNcdf::_unlimited_times = false;
 const bool AnEnWriteNcdf::_unlimited_flts = false;
 const bool AnEnWriteNcdf::_unlimited_members = false;
 
-const array<string, 4> _analogs_dim = {
-    Config::_DIM_STATIONS, Config::_DIM_TEST_TIMES,
-    Config::_DIM_FLTS, Config::_DIM_ANALOGS
-};
-
-const array<string, 4> _sims_dim = {
-    Config::_DIM_STATIONS, Config::_DIM_TEST_TIMES,
-    Config::_DIM_FLTS, Config::_DIM_SIMS
-};
-
-const array<bool, 4 > _unlimited = {
-    AnEnWriteNcdf::_unlimited_stations,
-    AnEnWriteNcdf::_unlimited_test_times,
-    AnEnWriteNcdf::_unlimited_flts,
-    AnEnWriteNcdf::_unlimited_members
-};
-
 AnEnWriteNcdf::AnEnWriteNcdf() {
     Config config;
     verbose_ = config.verbose;
@@ -79,11 +62,15 @@ AnEnWriteNcdf::writeAnEn(const string & file, const AnEnIS & anen,
      * - 4D arrays that are controlled by save_* boolean variables
      */
 
+    array<string, 4> analogs_dim = {Config::_DIM_STATIONS, Config::_DIM_TEST_TIMES, Config::_DIM_FLTS, Config::_DIM_ANALOGS};
+    array<string, 4> sims_dim = {Config::_DIM_STATIONS, Config::_DIM_TEST_TIMES, Config::_DIM_FLTS, Config::_DIM_SIMS};
+    array<bool, 4 > unlimited = {_unlimited_stations, _unlimited_test_times, _unlimited_flts, _unlimited_members};
+
     // Save array if they are generated
-    if (anen.save_analogs()) Ncdf::writeArray4D(nc, anen.analogs_value(), Config::_ANALOGS, _analogs_dim, _unlimited);
-    if (anen.save_analogs_time_index()) Ncdf::writeArray4D(nc, anen.analogs_time_index(), Config::_ANALOGS_TIME_IND, _analogs_dim, _unlimited);
-    if (anen.save_sims()) Ncdf::writeArray4D(nc, anen.sims_metric(), Config::_SIMS, _sims_dim, _unlimited);
-    if (anen.save_sims_time_index()) Ncdf::writeArray4D(nc, anen.sims_time_index(), Config::_SIMS_TIME_IND, _sims_dim, _unlimited);
+    if (anen.save_analogs()) Ncdf::writeArray4D(nc, anen.analogs_value(), Config::_ANALOGS, analogs_dim, unlimited);
+    if (anen.save_analogs_time_index()) Ncdf::writeArray4D(nc, anen.analogs_time_index(), Config::_ANALOGS_TIME_IND, analogs_dim, unlimited);
+    if (anen.save_sims()) Ncdf::writeArray4D(nc, anen.sims_metric(), Config::_SIMS, sims_dim, unlimited);
+    if (anen.save_sims_time_index()) Ncdf::writeArray4D(nc, anen.sims_time_index(), Config::_SIMS_TIME_IND, sims_dim, unlimited);
 
     // Save configuration variables as global attributes
     Ncdf::writeAttribute(nc, Config::_NUM_ANALOGS, (int) anen.num_analogs(), NcType::nc_INT, overwrite);
@@ -194,13 +181,16 @@ AnEnWriteNcdf::writeMultiAnEn(const string& file,
      * - appending multivariate analogs
      */
 
+    array<string, 4> analogs_dim = {Config::_DIM_STATIONS, Config::_DIM_TEST_TIMES, Config::_DIM_FLTS, Config::_DIM_ANALOGS};
+    array<bool, 4 > unlimited = {_unlimited_stations, _unlimited_test_times, _unlimited_flts, _unlimited_members};
+
     // Write AnEn
     writeAnEn(file, anen, test_times, search_times, forecast_flts, parameters, stations, overwrite, append);
 
     // Append multivariate analogs
     NcFile nc(file, NcFile::FileMode::write, NcFile::FileFormat::nc4);
     const auto & analogs_time_index = anen.analogs_time_index();
-    
+
     for (const auto & pair : obs_map) {
         Array4DPointer analogs;
 
@@ -208,7 +198,7 @@ AnEnWriteNcdf::writeMultiAnEn(const string& file,
         Functions::toValues(analogs, pair.second, analogs_time_index, observations);
 
         // Append analog to the existing file
-        Ncdf::writeArray4D(nc, anen.analogs_value(), pair.first, _analogs_dim, _unlimited);
+        Ncdf::writeArray4D(nc, analogs, pair.first, analogs_dim, unlimited);
     }
 
     return;
@@ -234,7 +224,7 @@ AnEnWriteNcdf::writeMultiAnEn(const string& file,
     // Analogs time index and similarity station index must be saved
     if (!anen.save_analogs_time_index()) throw runtime_error("Analogs time index should be saved when generating multivariate AnEn. Set config.save_analogs_time_index = true");
     if (!anen.save_sims_station_index()) throw runtime_error("Similarity station index should be saved when generating multivariate AnEn. Set config.save_analogs_time_index = true");
-    
+
 
     /*
      * Write data
@@ -243,6 +233,9 @@ AnEnWriteNcdf::writeMultiAnEn(const string& file,
      * - writing AnEnSSE
      * - appending multivariate analogs
      */
+
+    array<string, 4> analogs_dim = {Config::_DIM_STATIONS, Config::_DIM_TEST_TIMES, Config::_DIM_FLTS, Config::_DIM_ANALOGS};
+    array<bool, 4 > unlimited = {_unlimited_stations, _unlimited_test_times, _unlimited_flts, _unlimited_members};
 
     // Write AnEn
     writeAnEn(file, anen, test_times, search_times, forecast_flts, parameters, stations, overwrite, append);
@@ -260,7 +253,7 @@ AnEnWriteNcdf::writeMultiAnEn(const string& file,
         else Functions::toValues(analogs, pair.second, analogs_time_index, observations);
 
         // Append analog to the existing file
-        Ncdf::writeArray4D(nc, anen.analogs_value(), pair.first, _analogs_dim, _unlimited);
+        Ncdf::writeArray4D(nc, analogs, pair.first, analogs_dim, unlimited);
     }
 
     return;
