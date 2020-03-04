@@ -201,6 +201,70 @@ AnEnReadNcdf::readObservations(const std::string & file_path,
 }
 
 void
+AnEnReadNcdf::readAnalogs(const string& file_path, Array4D& analogs,
+        const string& var_name, vector<size_t> start, vector<size_t> count) {
+
+    if (verbose_ >= Verbose::Progress) {
+        cout << "Reading analog file (" << file_path << ") ..." << endl;
+    }
+
+    // Check whether we are reading partial or the entire variable
+    bool entire = (start.size() == 0 || count.size() == 0);
+
+    if (!entire) {
+        if (start.size() != _ANALOGS_DIMENSIONS ||
+                count.size() != _ANALOGS_DIMENSIONS) {
+            ostringstream msg;
+            msg << "#start (" << start.size() << ") and #count (" << count.size()
+                    << ") should both be " << _ANALOGS_DIMENSIONS << " for analogs";
+            throw runtime_error(msg.str());
+        }
+    }
+
+    Ncdf::checkExists(file_path);
+    Ncdf::checkExtension(file_path);
+
+    NcFile nc(file_path, NcFile::FileMode::read);
+
+    vector<string> dim_names = {
+        Config::_DIM_STATIONS, Config::_DIM_TEST_TIMES,
+        Config::_DIM_FLTS, Config::_DIM_ANALOGS
+    };
+
+    checkFileType_(nc, FileType::Analogs);
+    checkVarShape(nc, var_name, dim_names);
+
+    // Read meta information
+    size_t num_stations, num_test_times, num_flts, num_analogs;
+    
+    if (entire) {
+        num_stations = nc.getDim(Config::_DIM_STATIONS).getSize();
+        num_test_times = nc.getDim(Config::_TIMES).getSize();
+        num_flts = nc.getDim(Config::_FLTS).getSize();
+        num_analogs = nc.getDim(Config::_DIM_ANALOGS).getSize();
+    } else {
+        num_stations = count[0];
+        num_test_times = count[1];
+        num_flts = count[2];
+        num_analogs = count[3];
+    }
+    
+    // Read data values
+    if (verbose_ >= Verbose::Detail) cout << "Updating dimensions ..." << endl;
+    analogs.resize(num_stations, num_test_times, num_flts, num_analogs);
+    
+    auto var = nc.getVar(var_name);
+    
+    if (var.isNull()) {
+        throw runtime_error("Variable cannot be found");
+    } else {
+        read(nc, analogs.getValuesPtr(), var_name, start, count);
+    }
+
+    return;
+}
+
+void
 AnEnReadNcdf::read(const NcGroup & nc, Parameters & parameters,
         size_t start, size_t count) const {
 
@@ -413,6 +477,13 @@ AnEnReadNcdf::checkFileType_(const NcFile & nc, FileType file_type) const {
                 Config::_DATA, Config::_TIMES, Config::_PAR_NAMES,
                 Config::_XS, Config::_YS
             };
+            break;
+        case FileType::Analogs:
+            dim_names = {
+                Config::_DIM_STATIONS, Config::_DIM_TEST_TIMES,
+                Config::_DIM_FLTS, Config::_DIM_ANALOGS
+            };
+            break;
     }
 
     // Make sure dimensions and variables exist in the NetCDF file
@@ -432,9 +503,10 @@ AnEnReadNcdf::checkFileType_(const NcFile & nc, FileType file_type) const {
         case FileType::Observations:
             var_name = Config::_DATA;
             dim_names = {Config::_DIM_PARS, Config::_DIM_STATIONS, Config::_DIM_TIMES};
+            break;
     }
 
-    checkVarShape(nc, var_name, dim_names);
+    if (!var_name.empty()) checkVarShape(nc, var_name, dim_names);
 
     return;
 }

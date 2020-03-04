@@ -27,7 +27,7 @@ class AnEnReadNcdf {
 public:
 
     enum class FileType {
-        Forecasts, Observations
+        Forecasts, Observations, Analogs
     };
 
     AnEnReadNcdf();
@@ -46,7 +46,11 @@ public:
     void readObservations(
             const std::string & file_path, Observations & observations,
             std::vector<size_t> start, std::vector<size_t> count) const;
-    
+
+    void readAnalogs(const std::string & file_path,
+            Array4D & analogs, const std::string & var_name = Config::_ANALOGS,
+            std::vector<size_t> start = {}, std::vector<size_t> count = {});
+
     /**
      * Read different components from an NetCDF group object
      * @param nc NcGroup to read
@@ -67,7 +71,7 @@ public:
             const std::string & var_name,
             size_t start = 0, size_t count = 0) const;
 
-    
+
     /**************************************************************************
      *                          Template Functions                            *
      **************************************************************************/
