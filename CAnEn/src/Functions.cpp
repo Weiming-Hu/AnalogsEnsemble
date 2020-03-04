@@ -57,6 +57,125 @@ struct time_arr_compare {
 };
 
 void
+Functions::createObsMap(unordered_map<string, size_t> & map,
+        const vector<size_t> & id, const Parameters & parameters) {
+    
+    // Clear the map
+    map.clear();
+    
+    // Insert pairs
+    for (auto i : id) map.insert(make_pair(parameters.getParameter(i).getName(), i));
+    
+    return;
+}
+
+void
+Functions::toValues(Array4D& analogs, size_t obs_id,
+        const Array4D& analogs_time_index,
+        const Observations& observations) {
+
+    /*
+     * Sanity check
+     */
+    if (obs_id >= observations.getParameters().size()) throw runtime_error("Observation ID exceeds the number of available observations");
+    if (analogs_time_index.num_elements() == 0) throw runtime_error("Analogs time index is empty");
+
+
+    /*
+     * Allocate memory
+     */
+    analogs.resize(analogs_time_index);
+
+
+    /*
+     * Query values
+     */
+    const size_t* dims = analogs.shape();
+    size_t num_stations = dims[0];
+    size_t num_times = dims[1];
+    size_t num_flts = dims[2];
+    size_t num_members = dims[3];
+
+    double time_index, value;
+
+    for (size_t station_i = 0; station_i < num_stations; station_i++) {
+        for (size_t time_i = 0; time_i < num_times; time_i++) {
+            for (size_t flt_i = 0; flt_i < num_flts; flt_i++) {
+                for (size_t member_i = 0; member_i < num_members; member_i++) {
+
+                    time_index = analogs_time_index.getValue(station_i, time_i, flt_i, member_i);
+
+                    if (std::isnan(time_index)) {
+                        // Skip if the time index is NAN
+                    } else {
+                        // Assign the value
+                        value = observations.getValue(obs_id, station_i, time_index);
+                        analogs.setValue(value, station_i, time_i, flt_i, member_i);
+                    }
+
+                }
+            }
+        }
+    }
+
+    return;
+}
+
+void
+Functions::toValues(Array4D& analogs, size_t obs_id,
+        const Array4D& analogs_time_index, const Array4D& analogs_station_index,
+        const Observations& observations) {
+
+    /*
+     * Sanity check
+     */
+    if (obs_id >= observations.getParameters().size()) throw runtime_error("Observation ID exceeds the number of available observations");
+    if (analogs_time_index.num_elements() == 0) throw runtime_error("Analogs time index is empty");
+    if (analogs_station_index.num_elements() != analogs_time_index.num_elements()) throw runtime_error("#analogs station index != #analogs time index");
+
+
+    /*
+     * Allocate memory
+     */
+    analogs.resize(analogs_time_index);
+
+
+    /*
+     * Query values
+     */
+    const size_t* dims = analogs.shape();
+    size_t num_stations = dims[0];
+    size_t num_times = dims[1];
+    size_t num_flts = dims[2];
+    size_t num_members = dims[3];
+
+    double time_index, station_index, value;
+
+    for (size_t station_i = 0; station_i < num_stations; station_i++) {
+        for (size_t time_i = 0; time_i < num_times; time_i++) {
+            for (size_t flt_i = 0; flt_i < num_flts; flt_i++) {
+                for (size_t member_i = 0; member_i < num_members; member_i++) {
+
+                    time_index = analogs_time_index.getValue(station_i, time_i, flt_i, member_i);
+                    station_index = analogs_station_index.getValue(station_i, time_i, flt_i, member_i);
+
+                    if (std::isnan(time_index) || std::isnan(station_index)) {
+                        // Skip if any of the index is NAN
+                    } else {
+                        // Assign the value
+                        value = observations.getValue(obs_id, station_index, time_index);
+                        analogs.setValue(value, station_i, time_i, flt_i, member_i);
+                    }
+
+                }
+            }
+        }
+    }
+
+    return;
+}
+
+void
 Functions::setSearchStations(const Stations & stations, Matrix & table, double distance) {
 
     // Determine the number of neighbors
@@ -423,7 +542,7 @@ Functions::levenshtein(const string & str1, const string & str2,
 long
 Functions::toSeconds(const string& datetime_str,
         const string& origin_str, bool iso_string) {
-    
+
 #ifdef _DISABLE_NON_HEADER_BOOST
     /*
      * Please note that if _DISABLE_NON_HEADER_BOOST is defined, this function

@@ -32,6 +32,8 @@ public:
     virtual double * getValuesPtr() override;
 
     virtual void resize(std::size_t, std::size_t, std::size_t, std::size_t) override;
+    virtual void resize(const Array4D&) override;
+
     virtual void initialize(double value) override;
 
     virtual double getValue(std::size_t, std::size_t, std::size_t, std::size_t) const override;

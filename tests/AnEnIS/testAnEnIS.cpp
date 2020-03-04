@@ -30,7 +30,8 @@ testAnEnIS::testAnEnIS() {
 testAnEnIS::~testAnEnIS() {
 }
 
-void testAnEnIS::setUp() {
+void
+testAnEnIS::setUp() {
 
     // Make sure member variables are empty so that they
     // will be further prepared in other setUp* functions.
@@ -43,7 +44,8 @@ void testAnEnIS::setUp() {
     return;
 }
 
-void testAnEnIS::tearDown() {
+void
+testAnEnIS::tearDown() {
     parameters_.clear();
     stations_.clear();
     fcst_times_.clear();
@@ -52,7 +54,8 @@ void testAnEnIS::tearDown() {
     return;
 }
 
-void testAnEnIS::setUpSds() {
+void
+testAnEnIS::setUpSds() {
 
     /*
      * This function sets up the following:
@@ -72,7 +75,7 @@ void testAnEnIS::setUpSds() {
             (2, Parameter("par_3", true)); // Circular parameter
 
     weights_ = {1, 0, 1};
-    
+
     // Manually create 2 stations
     assign::push_back(stations_.left)
             (0, Station(50, 20))
@@ -88,12 +91,14 @@ void testAnEnIS::setUpSds() {
     return;
 }
 
-void testAnEnIS::tearDownSds() {
+void
+testAnEnIS::tearDownSds() {
     tearDown();
     return;
 }
 
-void testAnEnIS::setUpCompute() {
+void
+testAnEnIS::setUpCompute() {
 
     /*
      * This function sets up the following dimensions:
@@ -111,7 +116,7 @@ void testAnEnIS::setUpCompute() {
             (0, Parameter("par_1")) // Linear parameter
             (1, Parameter("par_2")) // Parameter with 0 weight
             (2, Parameter("par_3", true)); // Circular parameter
-    
+
     weights_ = {1, 0, 1};
 
     // Manually create 2 stations
@@ -135,12 +140,14 @@ void testAnEnIS::setUpCompute() {
     return;
 }
 
-void testAnEnIS::tearDownCompute() {
+void
+testAnEnIS::tearDownCompute() {
     tearDown();
     return;
 }
 
-void testAnEnIS::testOpenMP_() {
+void
+testAnEnIS::testOpenMP_() {
 
     /*
      * Test whether OpenMP is supported and how many threads are created.
@@ -169,7 +176,60 @@ void testAnEnIS::testOpenMP_() {
 
 }
 
-void testAnEnIS::testFixedLengthSds_() {
+void
+testAnEnIS::testMultiAnEn_() {
+
+    setUpCompute();
+
+    ForecastsPointer fcsts(parameters_, stations_, fcst_times_, flts_);
+    ObservationsPointer obs(parameters_, stations_, obs_times_);
+
+    // Assign random forecast values
+    randomizeForecasts_(fcsts, 0.4);
+
+    // Assign random observation values
+    randomizeObservations_(obs, 0.2);
+
+    /*
+     * Carry out leave one out tests for 3 days
+     */
+    Config config;
+    config.num_analogs = 10;
+    config.operation = true;
+    config.obs_var_index = 1;
+    config.save_analogs_time_index = true;
+    config.max_par_nan = fcsts.getParameters().size();
+    config.max_flt_nan = fcsts.getFLTs().size();
+
+    // Define test indices
+    vector<size_t> fcsts_test_index = {17, 18, 19};
+    vector<size_t> fcsts_search_index(17);
+    iota(fcsts_search_index.begin(), fcsts_search_index.end(), 0);
+
+    // Compute analogs
+    AnEnIS anen(config);
+    anen.compute(fcsts, obs, fcsts_test_index, fcsts_search_index);
+
+    const auto & analogs = anen.analogs_value();
+
+    // Get values using Functions
+    Array4DPointer analogs_queried;
+    const auto & analogs_time_index = anen.analogs_time_index();
+    Functions::toValues(analogs_queried, config.obs_var_index, analogs_time_index, obs);
+
+    // Compare
+    CPPUNIT_ASSERT(analogs.shape()[0] == analogs_queried.shape()[0]);
+    CPPUNIT_ASSERT(analogs.shape()[1] == analogs_queried.shape()[1]);
+    CPPUNIT_ASSERT(analogs.shape()[2] == analogs_queried.shape()[2]);
+    CPPUNIT_ASSERT(analogs.shape()[3] == analogs_queried.shape()[3]);
+    for (size_t i = 0; i < analogs.num_elements(); ++i) {
+        CPPUNIT_ASSERT(analogs.getValuesPtr()[i] == analogs_queried.getValuesPtr()[i]);
+    }
+
+}
+
+void
+testAnEnIS::testFixedLengthSds_() {
 
     /*
      * This function compares the standard deviation calculation with R.
@@ -231,7 +291,8 @@ void testAnEnIS::testFixedLengthSds_() {
     tearDownSds();
 }
 
-void testAnEnIS::compareOperationalSds_() {
+void
+testAnEnIS::compareOperationalSds_() {
 
     /*
      * This function compares the results of standard deviation calculation
@@ -440,13 +501,13 @@ testAnEnIS::compareComputeLeaveOneOut_() {
 
 void
 testAnEnIS::compareComputeOperational_() {
-    
+
     /*
      * Test the operation mode
      */
-    
+
     setUpCompute();
-    
+
     ForecastsPointer fcsts(parameters_, stations_, fcst_times_, flts_);
     ObservationsPointer obs(parameters_, stations_, obs_times_);
 
@@ -455,11 +516,11 @@ testAnEnIS::compareComputeOperational_() {
 
     // Assign random observation values
     randomizeObservations_(obs, 0);
-    
+
     /*
      * Run the AnEnIS generation in operation
      */
-    
+
     // Create configuration
     Config config;
     config.quick_sort = false;
@@ -469,14 +530,14 @@ testAnEnIS::compareComputeOperational_() {
     config.save_analogs_time_index = true;
     config.save_sims = true;
     config.save_sims_time_index = true;
-    
+
     // Define test and search days
     vector<size_t> fcsts_test_index = {16, 17, 18, 19};
     vector<size_t> fcsts_search_index(16);
     iota(fcsts_search_index.begin(), fcsts_search_index.end(), 0);
     cout << "AnEnIS generation in operation for tests index: "
             << Functions::format(fcsts_test_index) << endl;
-    
+
     // Run AnEnIS generation
     AnEnIS anen(config);
     anen.compute(fcsts, obs, fcsts_test_index, fcsts_search_index);
@@ -492,15 +553,15 @@ testAnEnIS::compareComputeOperational_() {
     // of analogs.
     //
     CPPUNIT_ASSERT(my_analogs.shape()[3] == my_sims.shape()[3]);
-    
+
     /*
      * For each of the test day, run AnEnIS generation manually
      */
     config.operation = false;
-    
-    for (size_t test_index : {16, 17, 18, 19}) {
+
+    for (size_t test_index :{16, 17, 18, 19}) {
         cout << "Compare the operational AnEnIS with manual AnEnIS on test index " << test_index << endl;
-        
+
         // Define test and search days
         vector<size_t> fcsts_test_index_manual = {test_index};
         vector<size_t> fcsts_search_index_manual(test_index);
@@ -515,12 +576,12 @@ testAnEnIS::compareComputeOperational_() {
         Array4DPointer manual_analogs_index = anen.analogs_time_index();
         Array4DPointer manual_sims = anen.sims_metric();
         Array4DPointer manual_sims_index = anen.sims_time_index();
-        
+
         // Compare the results
         for (size_t station_i = 0; station_i < stations_.size(); ++station_i) {
             for (size_t flt_i = 0; flt_i < flts_.size(); ++flt_i) {
                 for (size_t member_i = 0; member_i < config.num_analogs; ++member_i) {
-                    
+
                     if (std::isnan(my_analogs.getValue(station_i, test_index - 16, flt_i, member_i))) {
                         CPPUNIT_ASSERT(manual_analogs.getValue(station_i, 0, flt_i, member_i));
                     } else {
@@ -548,14 +609,14 @@ testAnEnIS::compareComputeOperational_() {
                         CPPUNIT_ASSERT(my_sims_index.getValue(station_i, test_index - 16, flt_i, member_i) ==
                                 manual_sims_index.getValue(station_i, 0, flt_i, member_i));
                     }
-                    
+
                 }
             }
         }
     }
-    
+
     tearDownCompute();
-    
+
     return;
 }
 

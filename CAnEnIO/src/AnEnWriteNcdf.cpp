@@ -6,6 +6,7 @@
  */
 
 #include "Ncdf.h"
+#include "Functions.h"
 #include "AnEnWriteNcdf.h"
 
 #include "boost/filesystem.hpp"
@@ -23,6 +24,23 @@ const bool AnEnWriteNcdf::_unlimited_times = false;
 const bool AnEnWriteNcdf::_unlimited_flts = false;
 const bool AnEnWriteNcdf::_unlimited_members = false;
 
+const array<string, 4> _analogs_dim = {
+    Config::_DIM_STATIONS, Config::_DIM_TEST_TIMES,
+    Config::_DIM_FLTS, Config::_DIM_ANALOGS
+};
+
+const array<string, 4> _sims_dim = {
+    Config::_DIM_STATIONS, Config::_DIM_TEST_TIMES,
+    Config::_DIM_FLTS, Config::_DIM_SIMS
+};
+
+const array<bool, 4 > _unlimited = {
+    AnEnWriteNcdf::_unlimited_stations,
+    AnEnWriteNcdf::_unlimited_test_times,
+    AnEnWriteNcdf::_unlimited_flts,
+    AnEnWriteNcdf::_unlimited_members
+};
+
 AnEnWriteNcdf::AnEnWriteNcdf() {
     Config config;
     verbose_ = config.verbose;
@@ -39,7 +57,7 @@ AnEnWriteNcdf::~AnEnWriteNcdf() {
 }
 
 void
-AnEnWriteNcdf::writeAnEn(const std::string & file, const AnEnIS & anen,
+AnEnWriteNcdf::writeAnEn(const string & file, const AnEnIS & anen,
         const Times & test_times, const Times & search_times,
         const Times & forecast_flts, const Parameters & forecast_parameters,
         const Stations & forecast_stations, bool overwrite, bool append) const {
@@ -62,14 +80,10 @@ AnEnWriteNcdf::writeAnEn(const std::string & file, const AnEnIS & anen,
      */
 
     // Save array if they are generated
-    array<string, 4> analogs_dim = {Config::_DIM_STATIONS, Config::_DIM_TEST_TIMES, Config::_DIM_FLTS, Config::_DIM_ANALOGS};
-    array<string, 4> sims_dim = {Config::_DIM_STATIONS, Config::_DIM_TEST_TIMES, Config::_DIM_FLTS, Config::_DIM_SIMS};
-    array<bool, 4 > unlimited = {_unlimited_stations, _unlimited_test_times, _unlimited_flts, _unlimited_members};
-
-    if (anen.save_analogs()) Ncdf::writeArray4D(nc, anen.analogs_value(), Config::_ANALOGS, analogs_dim, unlimited);
-    if (anen.save_analogs_time_index()) Ncdf::writeArray4D(nc, anen.analogs_time_index(), Config::_ANALOGS_TIME_IND, analogs_dim, unlimited);
-    if (anen.save_sims()) Ncdf::writeArray4D(nc, anen.sims_metric(), Config::_SIMS, sims_dim, unlimited);
-    if (anen.save_sims_time_index()) Ncdf::writeArray4D(nc, anen.sims_time_index(), Config::_SIMS_TIME_IND, sims_dim, unlimited);
+    if (anen.save_analogs()) Ncdf::writeArray4D(nc, anen.analogs_value(), Config::_ANALOGS, _analogs_dim, _unlimited);
+    if (anen.save_analogs_time_index()) Ncdf::writeArray4D(nc, anen.analogs_time_index(), Config::_ANALOGS_TIME_IND, _analogs_dim, _unlimited);
+    if (anen.save_sims()) Ncdf::writeArray4D(nc, anen.sims_metric(), Config::_SIMS, _sims_dim, _unlimited);
+    if (anen.save_sims_time_index()) Ncdf::writeArray4D(nc, anen.sims_time_index(), Config::_SIMS_TIME_IND, _sims_dim, _unlimited);
 
     // Save configuration variables as global attributes
     Ncdf::writeAttribute(nc, Config::_NUM_ANALOGS, (int) anen.num_analogs(), NcType::nc_INT, overwrite);
@@ -104,7 +118,7 @@ AnEnWriteNcdf::writeAnEn(const std::string & file, const AnEnIS & anen,
     Ncdf::writeVector(nc, Config::_SEARCH_TIMES, Config::_DIM_SEARCH_TIMES, search_timestamps, NcType::nc_UINT64, _unlimited_search_times);
     Ncdf::writeVector(nc, Config::_FLTS, Config::_DIM_FLTS, flt_timestamps, NcType::nc_UINT64, _unlimited_flts);
     Ncdf::writeStringVector(nc, Config::_PAR_NAMES, Config::_DIM_PARS, parameter_names, _unlimited_parameters);
-    
+
     // Write meta information
     addMeta_(nc);
 
@@ -116,7 +130,7 @@ AnEnWriteNcdf::writeAnEn(const std::string & file, const AnEnIS & anen,
 }
 
 void
-AnEnWriteNcdf::writeAnEn(const std::string& file, const AnEnSSE& anen,
+AnEnWriteNcdf::writeAnEn(const string& file, const AnEnSSE& anen,
         const Times& test_times, const Times& search_times,
         const Times& forecast_flts, const Parameters& forecast_parameters,
         const Stations& forecast_stations, bool overwrite, bool append) const {
@@ -152,7 +166,108 @@ AnEnWriteNcdf::writeAnEn(const std::string& file, const AnEnSSE& anen,
 }
 
 void
-AnEnWriteNcdf::writeForecasts(const std::string& file,
+AnEnWriteNcdf::writeMultiAnEn(const string& file,
+        const unordered_map<string, size_t> & obs_map, const AnEnIS& anen,
+        const Times& test_times, const Times& search_times,
+        const Times& forecast_flts, const Parameters& parameters,
+        const Stations& stations, const Observations& observations,
+        bool overwrite, bool append) const {
+
+    /*
+     * Sanity check
+     */
+
+    // Analog values should not be saved. Multivariate analog values will
+    // be generated using the input observations ID.
+    //
+    if (anen.save_analogs()) throw runtime_error("Analogs value should not be saved internally when generating multivariate AnEn. Set config.save_analogs = false");
+
+    // Analogs time index must be saved
+    if (!anen.save_analogs_time_index()) throw runtime_error("Analogs time index should be saved when generating multivariate AnEn. Set config.save_analogs_time_index = true");
+
+
+    /*
+     * Write data
+     * 
+     * This is composed of two steps:
+     * - writing AnEnIS
+     * - appending multivariate analogs
+     */
+
+    // Write AnEn
+    writeAnEn(file, anen, test_times, search_times, forecast_flts, parameters, stations, overwrite, append);
+
+    // Append multivariate analogs
+    NcFile nc(file, NcFile::FileMode::write, NcFile::FileFormat::nc4);
+    const auto & analogs_time_index = anen.analogs_time_index();
+
+    for (const auto & pair : obs_map) {
+        Array4DPointer analogs;
+
+        // Generate analog values based on the time index
+        Functions::toValues(analogs, pair.second, analogs_time_index, observations);
+
+        // Append analog to the existing file
+        Ncdf::writeArray4D(nc, anen.analogs_value(), pair.first, _analogs_dim, _unlimited);
+    }
+
+    return;
+}
+
+void
+AnEnWriteNcdf::writeMultiAnEn(const string& file,
+        const unordered_map<string, size_t>& obs_map, const AnEnSSE& anen,
+        const Times& test_times, const Times& search_times,
+        const Times& forecast_flts, const Parameters& parameters,
+        const Stations& stations, const Observations& observations,
+        bool overwrite, bool append) const {
+
+    /*
+     * Sanity check
+     */
+
+    // Analog values should not be saved. Multivariate analog values will
+    // be generated using the input observations ID.
+    //
+    if (anen.save_analogs()) throw runtime_error("Analogs value should not be saved internally when generating multivariate AnEn. Set config.save_analogs = false");
+
+    // Analogs time index and similarity station index must be saved
+    if (!anen.save_analogs_time_index()) throw runtime_error("Analogs time index should be saved when generating multivariate AnEn. Set config.save_analogs_time_index = true");
+    if (!anen.save_sims_station_index()) throw runtime_error("Similarity station index should be saved when generating multivariate AnEn. Set config.save_analogs_time_index = true");
+    
+
+    /*
+     * Write data
+     * 
+     * This is composed of two steps:
+     * - writing AnEnSSE
+     * - appending multivariate analogs
+     */
+
+    // Write AnEn
+    writeAnEn(file, anen, test_times, search_times, forecast_flts, parameters, stations, overwrite, append);
+
+    // Append multivariate analogs
+    NcFile nc(file, NcFile::FileMode::write, NcFile::FileFormat::nc4);
+    const auto & analogs_time_index = anen.analogs_time_index();
+    const auto & sims_station_index = anen.sims_station_index();
+
+    for (const auto & pair : obs_map) {
+        Array4DPointer analogs;
+
+        // Generate analog values based on the time index
+        if (anen.extend_obs()) Functions::toValues(analogs, pair.second, analogs_time_index, sims_station_index, observations);
+        else Functions::toValues(analogs, pair.second, analogs_time_index, observations);
+
+        // Append analog to the existing file
+        Ncdf::writeArray4D(nc, anen.analogs_value(), pair.first, _analogs_dim, _unlimited);
+    }
+
+    return;
+}
+
+void
+AnEnWriteNcdf::writeForecasts(const string& file,
         const Forecasts & forecasts, bool overwrite, bool append) const {
 
     // Check file path availability
@@ -219,7 +334,7 @@ AnEnWriteNcdf::writeForecasts(const std::string& file,
 }
 
 void
-AnEnWriteNcdf::writeObservations(const std::string & file,
+AnEnWriteNcdf::writeObservations(const string & file,
         const Observations & observations, bool overwrite, bool append) const {
 
     // Check file path availability

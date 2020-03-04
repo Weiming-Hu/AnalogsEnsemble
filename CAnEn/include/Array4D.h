@@ -50,6 +50,7 @@ public:
      * @param Length of the fourth dimension
      */
     virtual void resize(std::size_t, std::size_t, std::size_t, std::size_t) = 0;
+    virtual void resize(const Array4D &) = 0;
 
     /**
      * Initialize the values

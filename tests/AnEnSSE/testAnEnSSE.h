@@ -14,6 +14,7 @@ class testAnEnSSE : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST_SUITE(testAnEnSSE);
 
     CPPUNIT_TEST(testCompute_);
+    CPPUNIT_TEST(testMultiAnEn_);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -23,6 +24,7 @@ public:
 
 private:
     void testCompute_();
+    void testMultiAnEn_();
 };
 
 #endif /* TESTANEN_H */

@@ -31,6 +31,7 @@ void runAnEnGrib(
         const string & regex_day_str,
         const string & regex_flt_str,
         const string & regex_cycle_str,
+        const vector<size_t> & obs_id,
         const vector<ParameterGrib> & grib_parameters,
         const vector<int> & stations_index,
         const string & test_start_str,
@@ -39,7 +40,7 @@ void runAnEnGrib(
         const string & search_end_str,
         const string & fileout,
         const string & algorithm,
-        const Config & config,
+        Config & config,
         size_t unit_in_seconds,
         bool delimited,
         bool overwrite,
@@ -127,6 +128,23 @@ void runAnEnGrib(
      **************************************************************************/
 
     /*
+     * Check for multivariate analog generation
+     */
+    if (obs_id.size() == 0) {
+        // Use the default observation ID in config, Nothing is changed.
+    } else if (obs_id.size() == 1) {
+        // Use this observation ID
+        config.obs_var_index = obs_id[0];
+    } else {
+        // We have multiple observations ID. We are generating multivariate analogs.
+        if (config.verbose >= Verbose::Progress) cout << "Configuring multivariate analogs ..." << endl;
+
+        config.save_analogs = false;
+        config.save_analogs_time_index = true;
+        config.save_sims_station_index = true;
+    }
+
+    /*
      * Generate analogs
      */
     AnEn* anen = nullptr;
@@ -157,18 +175,58 @@ void runAnEnGrib(
     const auto & forecast_parameters = forecasts.getParameters();
     const auto & forecast_stations = forecasts.getStations();
 
-    if (algorithm == "IS") {
-        AnEnIS* anen_is = dynamic_cast<AnEnIS *> (anen);
-        anen_write.writeAnEn(fileout, *anen_is, test_times, search_times,
-                forecast_flts, forecast_parameters, forecast_stations, overwrite);
-    } else if (algorithm == "SSE") {
-        AnEnSSE* anen_sse = dynamic_cast<AnEnSSE *> (anen);
-        anen_write.writeAnEn(fileout, *anen_sse, test_times, search_times,
-                forecast_flts, forecast_parameters, forecast_stations, overwrite);
+    if (obs_id.size() > 1) {
+        
+        /*
+         * If we are generating multivariate analogs
+         */
+        
+        unordered_map<string, size_t> obs_map;
+        Functions::createObsMap(obs_map, obs_id, observations.getParameters());
+
+        if (algorithm == "IS") {
+            
+            AnEnIS* anen_is = dynamic_cast<AnEnIS *> (anen);
+            anen_write.writeMultiAnEn(fileout, obs_map, *anen_is, test_times, search_times,
+                    forecast_flts, forecast_parameters, forecast_stations, observations, overwrite);
+            
+        } else if (algorithm == "SSE") {
+            
+            AnEnSSE* anen_sse = dynamic_cast<AnEnSSE *> (anen);
+            anen_write.writeMultiAnEn(fileout, obs_map, *anen_sse, test_times, search_times,
+                    forecast_flts, forecast_parameters, forecast_stations, observations, overwrite);
+            
+        } else {
+            throw runtime_error("The algorithm is not recognized");
+        }
+        
     } else {
-        throw runtime_error("The algorithm is not recognized");
+        
+        /*
+         * If we are generating univariate analogs
+         */
+
+        if (algorithm == "IS") {
+            
+            AnEnIS* anen_is = dynamic_cast<AnEnIS *> (anen);
+            anen_write.writeAnEn(fileout, *anen_is, test_times, search_times,
+                    forecast_flts, forecast_parameters, forecast_stations, overwrite);
+            
+        } else if (algorithm == "SSE") {
+            
+            AnEnSSE* anen_sse = dynamic_cast<AnEnSSE *> (anen);
+            anen_write.writeAnEn(fileout, *anen_sse, test_times, search_times,
+                    forecast_flts, forecast_parameters, forecast_stations, overwrite);
+            
+        } else {
+            throw runtime_error("The algorithm is not recognized");
+        }
     }
 
+
+    /*
+     * Save test observations and forecasts
+     */
     if (save_tests) {
 
         // Create test forecasts
@@ -193,7 +251,7 @@ void runAnEnGrib(
         // Create test observations times that should be saved
         size_t max_flt = max_element(forecast_flts.left.begin(), forecast_flts.left.end())->second.timestamp;
         Time obs_end_time(max_flt + test_end.timestamp);
-        
+
         Times test_obs_times;
         const Times & obs_times = observations.getTimes();
         obs_times(test_start, obs_end_time, test_obs_times);
@@ -243,6 +301,7 @@ int main(int argc, char** argv) {
     vector<bool> parameters_circular;
     vector<int> stations_index;
     vector<double> weights;
+    vector<size_t> obs_id;
 
     string forecast_folder, analysis_folder, regex_day_str, regex_flt_str;
     string regex_cycle_str, test_start, test_end, search_start, search_end;
@@ -284,7 +343,7 @@ int main(int argc, char** argv) {
             ("verbose,v", value<int>(&verbose)->default_value(2), "[Optional] Verbose level (0 - 4).")
             ("analogs", value<size_t>(&(config.num_analogs)), "[Optional] Number of analogs members.")
             ("sims", value<size_t>(&(config.num_sims)), "[Optional] Number of similarity members.")
-            ("obs-id", value<size_t>(&(config.obs_var_index)), "[Optional] Observation variable index.")
+            ("obs-id", value< vector<size_t> >(&obs_id)->multitoken(), "[Optional] Observation variable index. If multiple indices are provided, multivariate analogs will be generated.")
             ("max-par-nan", value<size_t>(&(config.max_par_nan)), "[Optional] Maximum allowed number of NA in parameters.")
             ("max-flt-nan", value<size_t>(&(config.max_flt_nan)), "[Optional] Maximum allowed number of NA in lead times.")
             ("flt-radius", value<size_t>(&(config.flt_radius)), "[Optional] The number of surrounding lead times to compare for trends.")
@@ -398,7 +457,7 @@ int main(int argc, char** argv) {
 
     runAnEnGrib(forecast_files, analysis_files,
             regex_day_str, regex_flt_str, regex_cycle_str,
-            grib_parameters, stations_index, test_start, test_end, search_start, search_end,
+            obs_id, grib_parameters, stations_index, test_start, test_end, search_start, search_end,
             fileout, algorithm, config, unit_in_seconds, delimited, overwrite, profile, save_tests,
             convert_wind, u_name, v_name, spd_name, dir_name);
 

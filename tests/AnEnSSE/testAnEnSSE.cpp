@@ -181,3 +181,114 @@ testAnEnSSE::testCompute_() {
 
     return;
 }
+
+void
+testAnEnSSE::testMultiAnEn_() {
+
+    /*
+     * Test the multi AnEn functionality
+     */
+
+    /**************************************************************************
+     *                           Create Datasets                              *
+     **************************************************************************/
+    Parameters parameters;
+    Stations stations;
+    Times fcst_times, flts, obs_times;
+
+    // Manually create 5 parameters
+    assign::push_back(parameters.left)
+            (0, Parameter("par_1")) // Linear parameter
+            (1, Parameter("par_2")) // Parameter that will be assigned with 0 weight
+            (2, Parameter("par_3", true)); // Circular parameter
+
+    // Manually create 9 stations
+    assign::push_back(stations.left)
+            (0, Station(0, 0))
+            (1, Station(0, 1))
+            (2, Station(0, 2))
+            (3, Station(1, 0))
+            (4, Station(1, 1))
+            (5, Station(1, 2))
+            (6, Station(2, 0))
+            (7, Station(2, 1))
+            (8, Station(2, 2));
+
+    // Manually create 20 forecast times
+    for (size_t i = 0; i < 20; ++i) {
+        fcst_times.push_back(i * 100);
+    }
+
+    // Manually create 3 FLTs
+    assign::push_back(flts.left)(0, Time(0))(1, Time(50))(0, Time(100));
+
+    // Manually create 50 observation times
+    for (size_t i = 0; i < 50; ++i) {
+        obs_times.push_back(Time(i * 50));
+    }
+
+    // Create forecasts and observations
+    ForecastsPointer fcsts(parameters, stations, fcst_times, flts);
+    ObservationsPointer obs(parameters, stations, obs_times);
+
+    // Randomize forecasts
+    for (size_t par_i = 0; par_i < fcsts.getParameters().size(); ++par_i) {
+        for (size_t time_i = 0; time_i < fcsts.getTimes().size(); ++time_i) {
+            for (size_t flt_i = 0; flt_i < fcsts.getFLTs().size(); ++flt_i) {
+                for (size_t sta_i = 0; sta_i < fcsts.getStations().size(); ++sta_i) {
+                    double value = (rand() % 10000) / 100.0;
+                    fcsts.setValue(value, par_i, sta_i, time_i, flt_i);
+                }
+            }
+        }
+    }
+
+    // Randomize observations
+    for (size_t par_i = 0; par_i < obs.getParameters().size(); ++par_i) {
+        for (size_t sta_i = 0; sta_i < obs.getStations().size(); ++sta_i) {
+            for (size_t time_i = 0; time_i < obs.getTimes().size(); ++time_i) {
+                obs.setValue((rand() % 10000) / 100.0, par_i, sta_i, time_i);
+            }
+        }
+    }
+
+    /**************************************************************************
+     *                             Run AnEnSSE                                *
+     **************************************************************************/
+    Config config;
+    config.extend_obs = true;
+    config.num_analogs = 10;
+    config.operation = true;
+    config.num_nearest = 9;
+    config.distance = 1;
+    config.save_sims_station_index = true;
+    config.save_analogs_time_index = true;
+
+    // Define test indices
+    vector<size_t> fcsts_test_index = {18, 19};
+    vector<size_t> fcsts_search_index(18);
+    iota(fcsts_search_index.begin(), fcsts_search_index.end(), 0);
+
+    // Run AnEnSSE
+    AnEnSSE anen(config);
+    anen.compute(fcsts, obs, fcsts_test_index, fcsts_search_index);
+
+    const auto & analogs = anen.analogs_value();
+    const auto & analogs_station_index = anen.sims_station_index();
+    const auto & analogs_time_index = anen.analogs_time_index();
+    
+    Array4DPointer analogs_queried;
+    
+    // Get values using Functions
+    Functions::toValues(analogs_queried, config.obs_var_index,
+            analogs_time_index, analogs_station_index, obs);
+
+    // Compare
+    CPPUNIT_ASSERT(analogs.shape()[0] == analogs_queried.shape()[0]);
+    CPPUNIT_ASSERT(analogs.shape()[1] == analogs_queried.shape()[1]);
+    CPPUNIT_ASSERT(analogs.shape()[2] == analogs_queried.shape()[2]);
+    CPPUNIT_ASSERT(analogs.shape()[3] == analogs_queried.shape()[3]);
+    for (size_t i = 0; i < analogs.num_elements(); ++i) {
+        CPPUNIT_ASSERT(analogs.getValuesPtr()[i] == analogs_queried.getValuesPtr()[i]);
+    }
+}
