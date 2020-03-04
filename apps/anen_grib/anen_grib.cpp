@@ -77,7 +77,7 @@ void runAnEnGrib(
                 << ", test_end: " << test_end_str << endl
                 << "search_start: " << search_start_str <<
                 ", search_end: " << search_end_str << endl << endl
-                << "A common mistake is using surrounding double quotes. You don't need them if you see them."
+                << "A common mistake is using surrounding double quotes. You don't need them if you are using them."
                 << endl << endl << "The messages below come from the original error message:"
                 << endl << e.what();
         throw runtime_error(msg.str());
@@ -94,14 +94,14 @@ void runAnEnGrib(
 
     if (convert_wind) forecasts.windTransform(u_name, v_name, spd_name, dir_name);
 
-    profiler.log_time_session("reading forecasts");
-
     // Convert string date times to Times objects
     const Times & forecast_times = forecasts.getTimes();
     Times test_times, search_times;
 
     forecast_times(test_start, test_end, test_times);
     forecast_times(search_start, search_end, search_times);
+
+    profiler.log_time_session("reading forecasts");
 
     /*
      * Read forecast analysis from files and convert them to observations

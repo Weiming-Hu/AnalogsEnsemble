@@ -139,6 +139,8 @@ void
 Ncdf::checkVarShape(const NcGroup & nc,
         const string & var_name, const vector<string> & dim_names) {
 
+    if (var_name.empty()) throw runtime_error("Empty variable name is not allowed");
+
     const auto & var = nc.getVar(var_name);
     auto dims = var.getDims();
 
@@ -165,11 +167,15 @@ Ncdf::checkVarShape(const NcGroup & nc,
 
 bool
 Ncdf::dimExists(const NcGroup & nc, const string & name) {
+    if (name.empty()) throw runtime_error("Empty dimension name is not allowed");
     return (!nc.getDim(name).isNull());
 }
 
 bool
 Ncdf::varExists(const NcGroup & nc, const string & name) {
+
+    if (name.empty()) throw runtime_error("Empty variable name is not allowed");
+
     return (!nc.getVar(name).isNull());
 }
 
@@ -179,6 +185,8 @@ Ncdf::readStringVector(
         vector<string> & results, size_t start, size_t count,
         const string & name_char) {
 
+    if (var_name.empty()) throw runtime_error("Empty variable name is not allowed");
+    
     // Check whether we are reading partial or the entire variable
     bool entire = (start == 0 || count == 0);
 
@@ -244,6 +252,8 @@ Ncdf::readStringVector(
 
 NcDim
 Ncdf::getDimension(NcGroup & nc, const string & name, bool unlimited, size_t len) {
+    
+    if (name.empty()) throw runtime_error("Empty dimension name is not allowed");
 
     NcDim dim = nc.getDim(name);
     if (dim.isNull()) {
@@ -275,6 +285,8 @@ Ncdf::writeStringVector(NcGroup & nc, const std::string & var_name,
 
     using namespace netCDF;
     using namespace std;
+    
+    if (var_name.empty()) throw runtime_error("Empty variable name is not allowed");
 
     // Check whether the variable exists
     if (!nc.getVar(var_name).isNull()) {
@@ -302,6 +314,8 @@ Ncdf::writeStringVector(NcGroup & nc, const std::string & var_name,
 void
 Ncdf::writeArray4D(NcGroup & nc, const Array4D & arr, const string & var_name,
         const array<string, 4> & dim_names, const array<bool, 4 > & unlimited) {
+
+    if (var_name.empty()) throw runtime_error("Empty variable name is not allowed");
 
     // Check whether array is column major
     if (arr.num_elements() >= 2) {

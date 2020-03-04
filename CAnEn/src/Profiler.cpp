@@ -63,10 +63,10 @@ Profiler::summary(std::ostream& os) const {
     if (session_names_.front() != _SESSION_START) throw runtime_error("You didn't start the profiler by calling start");
 
     // Define time variables
-    long full_pduration = (ptimes_.back() - ptimes_.front()) / CLOCKS_PER_SEC;
+    double full_pduration = (ptimes_.back() - ptimes_.front()) / CLOCKS_PER_SEC;
 
 #if defined(_OPENMP)
-    long full_wduration = wtimes_.back() - wtimes_.front();
+    double full_wduration = wtimes_.back() - wtimes_.front();
 #endif
 
     // Start printing

@@ -27,13 +27,16 @@ const bool AnEnWriteNcdf::_unlimited_members = false;
 AnEnWriteNcdf::AnEnWriteNcdf() {
     Config config;
     verbose_ = config.verbose;
+    setDimensions_();
 }
 
 AnEnWriteNcdf::AnEnWriteNcdf(const AnEnWriteNcdf& orig) {
     verbose_ = orig.verbose_;
+    setDimensions_();
 }
 
 AnEnWriteNcdf::AnEnWriteNcdf(Verbose verbose) : verbose_(verbose) {
+    setDimensions_();
 }
 
 AnEnWriteNcdf::~AnEnWriteNcdf() {
@@ -62,15 +65,11 @@ AnEnWriteNcdf::writeAnEn(const string & file, const AnEnIS & anen,
      * - 4D arrays that are controlled by save_* boolean variables
      */
 
-    array<string, 4> analogs_dim = {Config::_DIM_STATIONS, Config::_DIM_TEST_TIMES, Config::_DIM_FLTS, Config::_DIM_ANALOGS};
-    array<string, 4> sims_dim = {Config::_DIM_STATIONS, Config::_DIM_TEST_TIMES, Config::_DIM_FLTS, Config::_DIM_SIMS};
-    array<bool, 4 > unlimited = {_unlimited_stations, _unlimited_test_times, _unlimited_flts, _unlimited_members};
-
     // Save array if they are generated
-    if (anen.save_analogs()) Ncdf::writeArray4D(nc, anen.analogs_value(), Config::_ANALOGS, analogs_dim, unlimited);
-    if (anen.save_analogs_time_index()) Ncdf::writeArray4D(nc, anen.analogs_time_index(), Config::_ANALOGS_TIME_IND, analogs_dim, unlimited);
-    if (anen.save_sims()) Ncdf::writeArray4D(nc, anen.sims_metric(), Config::_SIMS, sims_dim, unlimited);
-    if (anen.save_sims_time_index()) Ncdf::writeArray4D(nc, anen.sims_time_index(), Config::_SIMS_TIME_IND, sims_dim, unlimited);
+    if (anen.save_analogs()) Ncdf::writeArray4D(nc, anen.analogs_value(), Config::_ANALOGS, analogs_dim_, unlimited_);
+    if (anen.save_analogs_time_index()) Ncdf::writeArray4D(nc, anen.analogs_time_index(), Config::_ANALOGS_TIME_IND, analogs_dim_, unlimited_);
+    if (anen.save_sims()) Ncdf::writeArray4D(nc, anen.sims_metric(), Config::_SIMS, sims_dim_, unlimited_);
+    if (anen.save_sims_time_index()) Ncdf::writeArray4D(nc, anen.sims_time_index(), Config::_SIMS_TIME_IND, sims_dim_, unlimited_);
 
     // Save configuration variables as global attributes
     Ncdf::writeAttribute(nc, Config::_NUM_ANALOGS, (int) anen.num_analogs(), NcType::nc_INT, overwrite);
@@ -135,9 +134,7 @@ AnEnWriteNcdf::writeAnEn(const string& file, const AnEnSSE& anen,
     NcFile nc(file, NcFile::FileMode::write, NcFile::FileFormat::nc4);
 
     // Save stations index
-    array<string, 4> sims_dim = {Config::_DIM_STATIONS, Config::_DIM_TEST_TIMES, Config::_DIM_FLTS, Config::_DIM_SIMS};
-    array<bool, 4 > unlimited = {_unlimited_stations, _unlimited_test_times, _unlimited_flts, _unlimited_members};
-    if (anen.save_sims_station_index()) Ncdf::writeArray4D(nc, anen.sims_station_index(), Config::_SIMS_STATION_IND, sims_dim, unlimited);
+    if (anen.save_sims_station_index()) Ncdf::writeArray4D(nc, anen.sims_station_index(), Config::_SIMS_STATION_IND, sims_dim_, unlimited_);
 
     // Save configuration variables as global attributes
     Ncdf::writeAttribute(nc, Config::_NUM_NEAREST, (int) anen.num_nearest(), NcType::nc_INT, overwrite);
@@ -181,9 +178,6 @@ AnEnWriteNcdf::writeMultiAnEn(const string& file,
      * - appending multivariate analogs
      */
 
-    array<string, 4> analogs_dim = {Config::_DIM_STATIONS, Config::_DIM_TEST_TIMES, Config::_DIM_FLTS, Config::_DIM_ANALOGS};
-    array<bool, 4 > unlimited = {_unlimited_stations, _unlimited_test_times, _unlimited_flts, _unlimited_members};
-
     // Write AnEn
     writeAnEn(file, anen, test_times, search_times, forecast_flts, parameters, stations, overwrite, append);
 
@@ -198,7 +192,7 @@ AnEnWriteNcdf::writeMultiAnEn(const string& file,
         Functions::toValues(analogs, pair.second, analogs_time_index, observations);
 
         // Append analog to the existing file
-        Ncdf::writeArray4D(nc, analogs, pair.first, analogs_dim, unlimited);
+        Ncdf::writeArray4D(nc, analogs, pair.first, analogs_dim_, unlimited_);
     }
 
     return;
@@ -234,9 +228,6 @@ AnEnWriteNcdf::writeMultiAnEn(const string& file,
      * - appending multivariate analogs
      */
 
-    array<string, 4> analogs_dim = {Config::_DIM_STATIONS, Config::_DIM_TEST_TIMES, Config::_DIM_FLTS, Config::_DIM_ANALOGS};
-    array<bool, 4 > unlimited = {_unlimited_stations, _unlimited_test_times, _unlimited_flts, _unlimited_members};
-
     // Write AnEn
     writeAnEn(file, anen, test_times, search_times, forecast_flts, parameters, stations, overwrite, append);
 
@@ -253,7 +244,7 @@ AnEnWriteNcdf::writeMultiAnEn(const string& file,
         else Functions::toValues(analogs, pair.second, analogs_time_index, observations);
 
         // Append analog to the existing file
-        Ncdf::writeArray4D(nc, analogs, pair.first, analogs_dim, unlimited);
+        Ncdf::writeArray4D(nc, analogs, pair.first, analogs_dim_, unlimited_);
     }
 
     return;
@@ -317,6 +308,7 @@ AnEnWriteNcdf::writeForecasts(const string& file,
     // Add Array4D
     array<string, 4> data_dim = {Config::_DIM_PARS, Config::_DIM_STATIONS, Config::_DIM_TIMES, Config::_DIM_FLTS};
     array<bool, 4 > unlimited = {_unlimited_parameters, _unlimited_stations, _unlimited_times, _unlimited_flts};
+    
     Ncdf::writeArray4D(nc_group, forecasts, Config::_DATA, data_dim, unlimited);
 
     // Add the protected member forecast lead times
@@ -400,7 +392,7 @@ AnEnWriteNcdf::writeObservations(const string & file,
      * can copy values from the column-major ordered pointer directly. The first
      * dimension in the initializer list is the slowest varying dimension
      */
-    auto var = nc_group.addVar(Config::_DATA, NC_DOUBLE,{dim2, dim1, dim0});
+    auto var = nc_group.addVar(Config::_DATA, NC_DOUBLE, {dim2, dim1, dim0});
 
     // Add observation data
     var.putVar(arr);
@@ -470,5 +462,20 @@ AnEnWriteNcdf::addMeta_(netCDF::NcGroup & nc) const {
     Ncdf::writeStringAttribute(nc, "Package Version", _APPVERSION, true);
     Ncdf::writeStringAttribute(nc, "Package Link", "https://weiming-hu.github.io/AnalogsEnsemble", true);
     Ncdf::writeStringAttribute(nc, "Report Issues", "https://github.com/Weiming-Hu/AnalogsEnsemble/issues", true);
+    return;
+}
+
+void
+AnEnWriteNcdf::setDimensions_() {
+    
+    // Analogs are four dimensions [stations][test times][forecast lead times][members]
+    analogs_dim_ = {Config::_DIM_STATIONS, Config::_DIM_TEST_TIMES, Config::_DIM_FLTS, Config::_DIM_ANALOGS};
+    
+    // Similarities are four dimensions [stations][test times][forecast lead times][members]
+    sims_dim_ = {Config::_DIM_STATIONS, Config::_DIM_TEST_TIMES, Config::_DIM_FLTS, Config::_DIM_SIMS};
+    
+    // Set whether the dimensions should be unlimited. Right now, only limited dimensions are implemented.
+    unlimited_ = {_unlimited_stations, _unlimited_test_times, _unlimited_flts, _unlimited_members};
+    
     return;
 }

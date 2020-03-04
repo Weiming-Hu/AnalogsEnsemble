@@ -114,10 +114,15 @@ public:
 
 protected:
     Verbose verbose_;
+    
+    std::array<std::string, 4> analogs_dim_;
+    std::array<std::string, 4> sims_dim_;
+    std::array<bool, 4 > unlimited_;
 
     void addBasicData_(netCDF::NcGroup &, const BasicData &) const;
     void addStations_(netCDF::NcGroup &, const Stations &, bool) const;
     void addMeta_(netCDF::NcGroup &) const;
+    void setDimensions_();
 };
 
 #endif /* ANENWRITENCDF_H */
