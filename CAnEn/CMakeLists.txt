@@ -88,14 +88,20 @@ if(NOT BUILD_BOOST)
     # yet, if boost was built, the libraries that depend on the built boost are not
     # installed.
     # 
-    install(TARGETS AnEn EXPORT AnEnTargets
+    install(TARGETS AnEn
+        EXPORT AnEnConfig
         LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib
         RUNTIME DESTINATION bin
         INCLUDES DESTINATION include)
 
-    install(EXPORT AnEnTargets
-        FILE AnEnTargets.cmake
+    #    install(EXPORT AnEnTargets
+    #        FILE AnEnTargets.cmake
+    #        NAMESPACE AnEn::
+    #        DESTINATION lib/cmake)
+
+    install(EXPORT AnEnConfig
+        FILE AnEnConfig.cmake
         NAMESPACE AnEn::
         DESTINATION lib/cmake)
 

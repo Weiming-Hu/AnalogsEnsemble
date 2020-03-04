@@ -76,14 +76,20 @@ if(NOT BUILD_BOOST)
     # yet, if boost was built, the libraries that depend on the built boost are not
     # installed.
     # 
-    install(TARGETS AnEnIO EXPORT AnEnIOTargets
+    install(TARGETS AnEnIO 
+        EXPORT AnEnIOConfig
         LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib
         RUNTIME DESTINATION bin
         INCLUDES DESTINATION include)
 
-    install(EXPORT AnEnIOTargets
-        FILE AnEnIOTargets.cmake
+    #    install(EXPORT AnEnIOTargets
+    #        FILE AnEnIOTargets.cmake
+    #        NAMESPACE AnEnIO::
+    #        DESTINATION lib/cmake)
+
+    install(EXPORT AnEnIOConfig
+        FILE AnEnIOConfig.cmake
         NAMESPACE AnEnIO::
         DESTINATION lib/cmake)
 
