@@ -272,7 +272,7 @@ Ncdf::getDimension(NcGroup & nc, const string & name, bool unlimited, size_t len
             return dim;
         } else {
             ostringstream msg;
-            msg << "Parameter " << name << " already exists with different settings";
+            msg << "Dimension " << name << " already exists with different settings";
             throw runtime_error(msg.str());
         }
     }
