@@ -7,31 +7,27 @@
 
 template <typename T>
 std::string
-Functions::format(const std::vector<T> & vec, const std::string & delim) {
-    
-    using namespace std;
-    
-    stringstream msg;
-    size_t len = vec.size();
-    for (size_t i = 0; i < len; ++i) {
-        msg << vec[i];
-        if (i != len - 1) msg << delim;
-    }
-    
-    return (msg.str());
+Functions::format(const std::vector<T> & vec, const std::string & delim, std::size_t preview) {
+    return (format(vec.data(), vec.size(), delim, preview));
 }
 
 template <typename T>
 std::string
-Functions::format(const T* ptr, size_t len, const std::string & delim) {
+Functions::format(const T* ptr, size_t len, const std::string & delim, std::size_t preview) {
     
     using namespace std;
     
+    size_t min_count;
+    if (len < preview) min_count = len;
+    else min_count = preview;
+    
     stringstream msg;
-    for (size_t i = 0; i < len; ++i) {
+    for (size_t i = 0; i < min_count; ++i) {
         msg << ptr[i];
         if (i != len - 1) msg << delim;
     }
+    
+    if (len > preview) msg << "... [total: " << len << "]";
     
     return (msg.str());
 }

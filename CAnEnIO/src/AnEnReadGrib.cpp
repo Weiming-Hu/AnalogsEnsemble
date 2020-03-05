@@ -270,9 +270,12 @@ AnEnReadGrib::readStations_(Stations & stations, const string & file,
     int counter = 0, station_index = 0;
 
     while (codes_grib_iterator_next(iter, &x, &y, &val)) {
-
+        
         if (stations_index.size() != 0) {
             // If we are reading a subset of the stations
+            
+            // No need to read more stations if all subset stations have been read
+            if (station_index == stations_index.size()) break;
 
             if (stations_index[station_index] != counter) {
                 // If the current station is not what we want to read
@@ -280,7 +283,7 @@ AnEnReadGrib::readStations_(Stations & stations, const string & file,
                 continue;
             }
         }
-
+        
         // The current station is what we want to read
         Station station(x, y);
         stations.push_back(station);

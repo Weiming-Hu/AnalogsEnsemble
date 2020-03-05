@@ -239,9 +239,11 @@ namespace Functions {
      * @return A formatted string
      */
     template <typename T>
-    std::string format(const std::vector<T> & vec, const std::string & delim = ",");
+    std::string format(const std::vector<T> & vec,
+            const std::string & delim = ",", std::size_t preview = 5);
     template <typename T>
-    std::string format(const T* ptr, std::size_t len, const std::string & delim = ",");
+    std::string format(const T* ptr, std::size_t len,
+            const std::string & delim = ",", std::size_t preview = 5);
 
     /**
      * Calculate the indices for each query object from the pool objects.

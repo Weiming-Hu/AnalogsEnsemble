@@ -30,8 +30,9 @@ using namespace std;
 namespace bg = boost::geometry;
 namespace bgi = boost::geometry::index;
 
-const double _DEG2RAD = M_PI / 180;
-const double _RAD2DEG = 180 / M_PI;
+static const double _DEG2RAD = M_PI / 180;
+static const double _RAD2DEG = 180 / M_PI;
+
 
 /*
  * This definition is used to record the mapping from observation times to
