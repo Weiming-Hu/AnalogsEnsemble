@@ -101,6 +101,7 @@ AnEnReadGrib::readForecasts(Forecasts & forecasts,
 
     // This variable counts the number of failures when reading files
     size_t failed_files = 0;
+    size_t read_files = 0;
 
     // These regular expressions can be reused
     boost::regex regex_day{regex_day_str};
@@ -135,15 +136,14 @@ AnEnReadGrib::readForecasts(Forecasts & forecasts,
 
         // Skip this file if the file is not recognized
         if (ret) {
-            if (verbose_ >= Verbose::Detail) cout << "Reading " << file << endl;
-        } else {
-            if (verbose_ >= Verbose::Detail) cout << "Skipped " << file << endl;
-            continue;
-        }
-        
-        if (verbose_ >= Verbose::Detail) {
-            cout << file << " --> Time: " << file_time.toString()
+            if (verbose_ >= Verbose::Detail) cout << file << " --> Time: " << file_time.toString()
                     << " Lead time: " << file_flt << " " << Time::_unit << endl;
+
+            read_files++;
+
+        } else {
+            if (verbose_ >= Verbose::Debug) cout << "Skipped " << file << endl;
+            continue;
         }
 
         // Get index
@@ -159,7 +159,8 @@ AnEnReadGrib::readForecasts(Forecasts & forecasts,
 
             if (err) {
                 ostringstream msg;
-                msg << "Failed when opening file " << file;
+                msg << "Failed when opening the file. " << endl
+                    << "The original message from Eccodes: " << codes_get_error_message(err);
                 throw runtime_error(msg.str());
             }
 
@@ -174,27 +175,41 @@ AnEnReadGrib::readForecasts(Forecasts & forecasts,
 
                 // Create a handle to the index
                 codes_handle* h = codes_handle_new_from_index(p_index, &err);
-                CODES_CHECK(err, 0);
+                if (err) {
+                    ostringstream msg;
+                    msg << "Failed to create handle (id: " << parameter.getId()
+                        << ", level: " << parameter.getLevel()
+                        << ", type of level: " << parameter.getLevelType() << ") from " << file << endl
+                        << "The original message from Eccodes: " << codes_get_error_message(err);
+                    throw runtime_error(msg.str());
+                }
 
                 // Read data from the GRIB file
                 if (stations_index.empty()) {
-                    CODES_CHECK(codes_get_size(
-                                h, ParameterGrib::_key_values.c_str(),
-                                &data_len), 0);
+                    if (codes_get_size(h, ParameterGrib::_key_values.c_str(), &data_len)) {
+                        ostringstream msg;
+                        msg << "Failed to read variable length for id: " << parameter.getId()
+                            << ", level: " << parameter.getLevel() << ", type of level: " << parameter.getLevelType() << endl
+                            << "The original message from Eccodes: " << codes_get_error_message(err);
+                        throw runtime_error(msg.str());
+                    }
 
                     p_data = new double [data_len];
 
-                    CODES_CHECK(codes_get_double_array(
-                                h, ParameterGrib::_key_values.c_str(),
-                                p_data, &data_len), 0);
+                    codes_get_double_array(h, ParameterGrib::_key_values.c_str(), p_data, &data_len);
+
                 } else {
                     data_len = stations_index.size();
 
                     p_data = new double [data_len];
 
-                    CODES_CHECK(codes_get_double_elements(
-                                h, ParameterGrib::_key_values.c_str(),
-                                stations_index.data(), data_len, p_data), 0);
+                    if (codes_get_double_elements(h, ParameterGrib::_key_values.c_str(), stations_index.data(), data_len, p_data)) {
+                        ostringstream msg;
+                        msg << "Failed to read variable for id: " << parameter.getId()
+                            << ", level: " << parameter.getLevel() << ", type of level: " << parameter.getLevelType() << endl
+                            << "The original message from Eccodes: " << codes_get_error_message(err);
+                        throw runtime_error(msg.str());
+                    }
                 }
 
                 if (num_stations != data_len) {
@@ -217,8 +232,8 @@ AnEnReadGrib::readForecasts(Forecasts & forecasts,
             // Clean up
             codes_index_delete(p_index);
 
-        } catch (...) {
-            cerr << "Errored when reading " << file << endl;
+        } catch (exception & e) {
+            cerr << "Errored when reading " << file << ": " << e.what() << endl;
             failed_files++;
         }
     }
@@ -227,7 +242,7 @@ AnEnReadGrib::readForecasts(Forecasts & forecasts,
 
     if (failed_files != 0)
         if (verbose_ >= Verbose::Warning)
-            cerr << failed_files << " out of " << files.size() << " files failed during the reading process" << endl;
+            cerr << failed_files << " out of " << read_files << " files failed during the reading process" << endl;
 
     return;
 }
