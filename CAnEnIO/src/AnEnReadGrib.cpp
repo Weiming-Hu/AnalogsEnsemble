@@ -218,7 +218,7 @@ AnEnReadGrib::readForecasts(Forecasts & forecasts,
             codes_index_delete(p_index);
 
         } catch (...) {
-            cerr << "Errorred when reading " << file << endl;
+            cerr << "Errored when reading " << file << endl;
             failed_files++;
         }
     }
