@@ -54,8 +54,7 @@ AnEnIS::~AnEnIS() {
 }
 
 void
-AnEnIS::compute(const Forecasts & forecasts,
-        const Observations & observations,
+AnEnIS::compute(const Forecasts & forecasts, const Observations & observations,
         const Times & test_times, const Times & search_times) {
 
     const auto & fcst_times = forecasts.getTimes();
@@ -685,6 +684,9 @@ void
 AnEnIS::checkIndexRange_(const Forecasts & forecasts,
         const vector<size_t> & fcsts_test_index,
         const vector<size_t> & fcsts_search_index) const {
+    
+    if (fcsts_test_index.size() == 0) throw runtime_error("No test indices provided. Do forecasts actually cover the test period?");
+    if (fcsts_search_index.size() == 0) throw runtime_error("No search indices provided. Do forecasts actually cover the search period?");
 
     size_t num_times = forecasts.getTimes().size();
 
