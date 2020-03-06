@@ -13,7 +13,7 @@ library(RAnEn)
 library(RAnEnExtra)
 library(maps)
 
-stopifnot(packageVersion('RAnEn')>="3.2.5")
+stopifnot(packageVersion('RAnEn')>="4.0.2")
 ```
 
 ## Introduction
@@ -45,63 +45,37 @@ rm(file.name)
 When generating forecasts with an operational search, `search_times_compare` is not necessary because for each test time in the `test_times_compare`, the search times will be automatically calculated and they include the historical times until the day before the test time.
 
 ```{r}
-# We use independent search configuration.
-config <- generateConfiguration('independentSearch')
-
-# Set up options
+# Set test and search times
 test.start <- 366
 test.end <- 372
 search.start <- 1
+search.end <- test.start - 1
 
-# Note that our search time covers the test times.
-# The operational mode will automatically determine
-# search times for each test time
-search.end <- test.end
+test.times <- forecasts$Times[test.start:test.end]
+search.times <- forecasts$Times[search.start:search.end]
 
-config$forecasts <- forecasts$Data
-config$forecast_times <- forecasts$Times
-config$flts <- forecasts$FLTs
+config <- new(Config)
+config$num_analogs <- 19
 
-config$search_observations <- observations$Data
-config$observation_times <- observations$Times
+# Setting them to large numbers to allow NA
+config$max_flt_nan <- 10000
+config$max_par_nan <- 10000
 
-config$num_members <- 19
+# Only save the similarity time indices
+config$save_similarity_time_index <- T
+config$save_analogs <- F
 
-# In this tutorial, I'm going to allow any number of NAN records
-# during similairty calculation.
-#
-config$max_flt_nan <- -1
-config$max_par_nan <- -1
-
-# Keep the similairty values
-config$preserve_similarity <- T
-
-# A negative similarity count means all of the similairty records.
-# This can be helpful if you do not have enough physical memory space
-# to store all similarity records.
-#
-config$max_num_sims <- -1
-
-# Set circular variable if there is any
-if ('ParameterCirculars' %in% names(forecasts)) {
-  config$circulars <- unlist(lapply(forecasts$ParameterCirculars, function(x) {
-    return(which(x == forecasts$ParameterNames))}))
-}
-
-# Set up test and search times
-config$test_times_compare <- forecasts$Times[test.start:test.end]
-
-# No need to set this anymore
-# config$search_times_compare <- forecasts$Times[search.start:search.end]
+# Save all similarity
+config$num_similarity <- length(search.start:search.end)
 
 # Don't forget to trigger the operational search
-config$operational <- T
+config$operation <- T
 ```
 
 We then generate analogs. This can take a while. On a Mac Air, it takes about 4 minutes.
 
 ```{r}
-AnEn.opr <- generateAnalogs(config)
+AnEn.opr <- generateAnalogs(forecasts, observations, test.times, search.times, config)
 ```
 
 ## Check Search Space for Operational Mode
@@ -109,16 +83,17 @@ AnEn.opr <- generateAnalogs(config)
 If we take a close look at the analog members of operational search. The search times of the operational search for test times are different, actually increasing. This is indeed the results from the operational search.
 
 ```{r}
-test.times <- as.POSIXct(config$test_times_compare, origin = '1970-01-01', tz = 'UTC')
+# Convert times to POSIX type so that it is easier to read
+test.times <- as.POSIXct(test.times, origin = '1970-01-01', tz = 'UTC')
 fcst.times <- as.POSIXct(forecasts$Times, origin = '1970-01-01', tz = 'UTC')
 
 i.test.day <- 1
 cat('The search time range for', format(test.times[i.test.day], format = '%Y/%m/%d'), ':', 
-    format(range(fcst.times[AnEn.opr$similarity[1, i.test.day, 1, , 3]], na.rm = T), format = '%Y/%m/%d'),
-    ' Total count:', length(which(!is.na(AnEn.opr$similarity[1, i.test.day, 1, , 3]))), '\n')
+    format(range(fcst.times[AnEn.opr$similarity_time_index[1, i.test.day, 1, ]], na.rm = T), format = '%Y/%m/%d'),
+    ' Total count:', length(which(!is.na(AnEn.opr$similarity_time_index[1, i.test.day, 1, ]))), '\n')
 
 i.test.day <- 2
 cat('The search time range for', format(test.times[i.test.day], format = '%Y/%m/%d'), ':', 
-    format(range(fcst.times[AnEn.opr$similarity[1, i.test.day, 1, , 3]], na.rm = T), format = '%Y/%m/%d'),
-    ' Total count:', length(which(!is.na(AnEn.opr$similarity[1, i.test.day, 1, , 3]))), '\n')
+    format(range(fcst.times[AnEn.opr$similarity_time_index[1, i.test.day, 1, ]], na.rm = T), format = '%Y/%m/%d'),
+    ' Total count:', length(which(!is.na(AnEn.opr$similarity_time_index[1, i.test.day, 1, ]))), '\n')
 ```

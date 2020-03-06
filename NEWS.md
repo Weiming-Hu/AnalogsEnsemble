@@ -1,7 +1,13 @@
+# PAnEn 4.0.2
+
+- Added test and search period checks to avoid calculating analogs over empty time periods
+- Changed the tutorial on generating operational analogs
+- Improve the performance of `AnEnReadGrib` by avoiding reading entire files
+
 # PAnEn 4.0.1
 
-- Add `RAnEn::generateSearchStations`
-- Update document links
+- Added `RAnEn::generateSearchStations`
+- Updated document links
 
 # PAnEn 4.0.0 Pandora
 
@@ -14,11 +20,11 @@
 
 # PAnEn 3.7.1
 
-- Introduced auto generation of HPC work flows using `RAnEn::generateHPCWorkflow`.
-- Fixed a bug during subseting observation times in `RAnEn::plotAnalogTimeSeries`.
+- Introduced auto generation of HPC work flows using `RAnEn::generateHPCWorkflow`
+- Fixed a bug during subseting observation times in `RAnEn::plotAnalogTimeSeries`
 - Added `operational` in `RAnEn::generateHPCWorkflow`
-- `search_times_compare` automatically changed when `operational` was used.
-- Changed `RAnEn::writeConfiguration` from `ifelse` to using the function `if`.
+- `search_times_compare` automatically changed when `operational` was used
+- Changed `RAnEn::writeConfiguration` from `ifelse` to using the function `if`
 
 # PAnEn 3.7.0
 
