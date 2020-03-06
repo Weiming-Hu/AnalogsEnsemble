@@ -18,19 +18,18 @@ layout: default
 
 * [Overview](#overview)
 * [Citation](#citation)
-* [Tutorials](#tutorials)
 * [Installation](#installation)
     * [RAnEn](#ranen)
     * [CAnEn](#canen)
+* [Tutorials](#tutorials)
 * [References](#references)
-* [Known Issues](#known-issues)
 * [Feedbacks](#feedbacks)
 
 <!-- vim-markdown-toc -->
 
 ## Overview
 
-Parallel Analog Ensemble (PAnEn) generates accurate forecast ensembles relying on a single deterministic model simulation and the historical observations. The technique was first introduced by Luca Delle Monache in the paper [Probabilistic Weather Prediction with an Analog Ensemble](https://journals.ametsoc.org/doi/full/10.1175/MWR-D-12-00281.1). Developed and maintained by [GEOlab](http://geolab.psu.edu) at Penn State, PAnEn aims to provide an efficient implementation for this technique and user-friendly interfaces in R and C++ for researchers who want to use this technique in their own research.
+Parallel Analog Ensemble (PAnEn) generates accurate forecast ensembles relying on a single deterministic model simulation and the historical observations. The technique was introduced by Luca Delle Monache et al. in the paper [Probabilistic Weather Prediction with an Analog Ensemble](https://journals.ametsoc.org/doi/full/10.1175/MWR-D-12-00281.1). Developed and maintained by [GEOlab](http://geolab.psu.edu) at Penn State, PAnEn aims to provide an efficient implementation for this technique and user-friendly interfaces in R and C++ for researchers who want to use this technique in their own research.
 
 The easiest way to use this package is to install the R package, 'RAnEn'. C++ libraries are also available but they are designed for intermediate users with requirement for performance. For installation guidance, please refer to the [installation section](#installation). 
 
@@ -40,16 +39,11 @@ To cite this package, you have several options:
 
 - Using `LaTex`: Please use [this file](https://github.com/Weiming-Hu/AnalogsEnsemble/blob/master/RAnalogs/RAnEn/inst/CITATION) for citation.
 - Using `R`: Simply type `citation('RAnEn')` and the citation message will be printed.
-- Using plain texts: Please use the following texts for citation:
+- Using plain text: Please use the following citation format:
 
 ```
 Weiming Hu, Guido Cervone, Laura Clemente-Harding, and Martina Calovi. (2019). Parallel Analog Ensemble. Zenodo. http://doi.org/10.5281/zenodo.3384321
 ```
-## Tutorials
-
-Please click [here](https://mybinder.org/v2/gh/Weiming-Hu/AnalogsEnsemble/master?urlpath=rstudio) to access our tutorials. The tutorials can be found under `RAnalogs/examples`.
-
-Here are also some tips and caveats in [this ticket](https://github.com/Weiming-Hu/AnalogsEnsemble/issues/81).
 
 ## Installation
 
@@ -61,10 +55,11 @@ _The command is the same for `RAnEn` installation and update._
 
 To install `RAnEn`, please install the following packages first:
 
-- [BH](https://cran.r-project.org/web/packages/BH/index.html): `install.packages('Rcpp')`
-- [Rcpp](https://cran.r-project.org/web/packages/Rcpp/index.html): `install.packages('BH')`
+- [BH](https://cran.r-project.org/web/packages/BH/index.html): `install.packages('BH')`
+- [Rcpp](https://cran.r-project.org/web/packages/Rcpp/index.html): `install.packages('Rcpp')`
+- If you are using `Windows`, please also install the latest version of [Rtools](https://cran.r-project.org/bin/windows/Rtools/).
 
-If your operating system is `Windows`, please also install the latest version of [Rtools](https://cran.r-project.org/bin/windows/Rtools/). And then, you can type
+The following R command install the latest `RAnEn`.
 
 ```
 install.packages("https://github.com/Weiming-Hu/AnalogsEnsemble/raw/master/RAnalogs/releases/RAnEn_latest.tar.gz", repos = NULL)
@@ -104,7 +99,7 @@ make -j 4
 make install
 ```
 
-You can change the default of the following parameters, for example, `cmake -DCMAKE_INSTALL_PREFIX=~/AnalogEnsemble ..`. Don't forget the extra letter `D` when specifying argument names.
+Below is a list of parameters you can change and customize.
 
 |      Parameter       |                                               Explanation                                                                                    |       Default      |
 |:--------------------:|:--------------------------------------------------------------------------------------------------------------------------------------------:|:------------------:|
@@ -118,6 +113,14 @@ You can change the default of the following parameters, for example, `cmake -DCM
 |     BUILD\_BOOST     |                                 Build `Boost` regardless of whether it exists in the system.                                                 |         OFF        |
 |     BOOST\_URL       |                        The URL for downloading Boost. This is only used when `BUILD_BOOST` is `ON`.                                          | [From SourceForge] |
 
+You can change the default of the parameters, for example, `cmake -DCMAKE_INSTALL_PREFIX=~/AnalogEnsemble ..`. Don't forget the extra letter `D` when specifying argument names.
+
+## Tutorials
+
+Tutorials can be accessed on [binder]() or found in [this directory](https://github.com/Weiming-Hu/AnalogsEnsemble/tree/master/RAnalogs/examples)
+
+Here are also some tips and caveats in [this ticket](https://github.com/Weiming-Hu/AnalogsEnsemble/issues/81).
+
 ## References
 
 - [Delle Monache, Luca, et al. "Probabilistic weather prediction with an analog ensemble." Monthly Weather Review 141.10 (2013): 3498-3516.](https://journals.ametsoc.org/doi/full/10.1175/MWR-D-12-00281.1)
@@ -125,10 +128,6 @@ You can change the default of the following parameters, for example, `cmake -DCM
 - [Cervone, Guido, et al. "Short-term photovoltaic power forecasting using Artificial Neural Networks and an Analog Ensemble." Renewable energy 108 (2017): 274-286.](https://www.sciencedirect.com/science/article/pii/S0960148117301386)
 - [Junk, Constantin, et al. "Predictor-weighting strategies for probabilistic wind power forecasting with an analog ensemble." Meteorol. Z 24.4 (2015): 361-379.](https://www.researchgate.net/profile/Constantin_Junk/publication/274951815_Predictor-weighting_strategies_for_probabilistic_wind_power_forecasting_with_an_analog_ensemble/links/552cd5710cf29b22c9c47260.pdf)
 - [Balasubramanian, Vivek, et al. "Harnessing the power of many: Extensible toolkit for scalable ensemble applications." 2018 IEEE International Parallel and Distributed Processing Symposium (IPDPS). IEEE, 2018.](https://ieeexplore.ieee.org/abstract/document/8425207)
-
-## Known Issues
-
-Please see known issues in [this post](https://weiming-hu.github.io/AnalogsEnsemble/2018/10/17/known-issues.html). If you could not find solutions to your issue, please submit an issue. Thank you.
 
 ## Feedbacks
 

@@ -69,39 +69,36 @@ $(function() {
 <ul>
 <li><a href="#overview">Overview</a></li>
 <li><a href="#citation">Citation</a></li>
-<li><a href="#tutorials">Tutorials</a></li>
 <li><a href="#installation">Installation</a><ul>
 <li><a href="#ranen">RAnEn</a></li>
 <li><a href="#canen">CAnEn</a></li>
 </ul>
 </li>
+<li><a href="#tutorials">Tutorials</a></li>
 <li><a href="#references">References</a></li>
-<li><a href="#known-issues">Known Issues</a></li>
 <li><a href="#feedbacks">Feedbacks</a></li>
 </ul>
 <h2>Overview</h2>
-<p>Parallel Analog Ensemble (PAnEn) generates accurate forecast ensembles relying on a single deterministic model simulation and the historical observations. The technique was first introduced by Luca Delle Monache in the paper <a href="https://journals.ametsoc.org/doi/full/10.1175/MWR-D-12-00281.1">Probabilistic Weather Prediction with an Analog Ensemble</a>. Developed and maintained by <a href="http://geolab.psu.edu">GEOlab</a> at Penn State, PAnEn aims to provide an efficient implementation for this technique and user-friendly interfaces in R and C++ for researchers who want to use this technique in their own research.</p>
+<p>Parallel Analog Ensemble (PAnEn) generates accurate forecast ensembles relying on a single deterministic model simulation and the historical observations. The technique was introduced by Luca Delle Monache et al. in the paper <a href="https://journals.ametsoc.org/doi/full/10.1175/MWR-D-12-00281.1">Probabilistic Weather Prediction with an Analog Ensemble</a>. Developed and maintained by <a href="http://geolab.psu.edu">GEOlab</a> at Penn State, PAnEn aims to provide an efficient implementation for this technique and user-friendly interfaces in R and C++ for researchers who want to use this technique in their own research.</p>
 <p>The easiest way to use this package is to install the R package, 'RAnEn'. C++ libraries are also available but they are designed for intermediate users with requirement for performance. For installation guidance, please refer to the <a href="#installation">installation section</a>.</p>
 <h2>Citation</h2>
 <p>To cite this package, you have several options:</p>
 <ul>
 <li>Using <code>LaTex</code>: Please use <a href="https://github.com/Weiming-Hu/AnalogsEnsemble/blob/master/RAnalogs/RAnEn/inst/CITATION">this file</a> for citation.</li>
 <li>Using <code>R</code>: Simply type `citation('RAnEn')` and the citation message will be printed.</li>
-<li>Using plain texts: Please use the following texts for citation:</li>
+<li>Using plain text: Please use the following citation format:</li>
 </ul>
-<div class="fragment"><div class="line">Weiming Hu, Guido Cervone, Laura Clemente-Harding, and Martina Calovi. (2019). Parallel Analog Ensemble. Zenodo. http://doi.org/10.5281/zenodo.3384321</div></div><!-- fragment --> <h2>Tutorials</h2>
-<p>Please click <a href="https://mybinder.org/v2/gh/Weiming-Hu/AnalogsEnsemble/master?urlpath=rstudio">here</a> to access our tutorials. The tutorials can be found under <code>RAnalogs/examples</code>.</p>
-<p>Here are also some tips and caveats in <a href="https://github.com/Weiming-Hu/AnalogsEnsemble/issues/81">this ticket</a>.</p>
-<h2>Installation</h2>
+<div class="fragment"><div class="line">Weiming Hu, Guido Cervone, Laura Clemente-Harding, and Martina Calovi. (2019). Parallel Analog Ensemble. Zenodo. http://doi.org/10.5281/zenodo.3384321</div></div><!-- fragment --><h2>Installation</h2>
 <p><code>RAnEn</code> is very easy to install if you are already using <a href="https://www.r-project.org/">R</a>. This is the recommended way to start.</p>
 <h3>RAnEn</h3>
 <p><em>The command is the same for <code>RAnEn</code> installation and update.</em></p>
 <p>To install <code>RAnEn</code>, please install the following packages first:</p>
 <ul>
-<li><a href="https://cran.r-project.org/web/packages/BH/index.html">BH</a>: `install.packages('Rcpp')<code></code></li>
-<li><code>[Rcpp](<a href="https://cran.r-project.org/web/packages/Rcpp/index.html">https://cran.r-project.org/web/packages/Rcpp/index.html</a>):</code>install.packages('BH')`</li>
+<li><a href="https://cran.r-project.org/web/packages/BH/index.html">BH</a>: `install.packages('BH')<code></code></li>
+<li><code>[Rcpp](<a href="https://cran.r-project.org/web/packages/Rcpp/index.html">https://cran.r-project.org/web/packages/Rcpp/index.html</a>):</code>install.packages('Rcpp')<code></code></li>
+<li><code>If you are using</code>Windows`, please also install the latest version of <a href="https://cran.r-project.org/bin/windows/Rtools/">Rtools</a>.</li>
 </ul>
-<p>If your operating system is <code>Windows</code>, please also install the latest version of <a href="https://cran.r-project.org/bin/windows/Rtools/">Rtools</a>. And then, you can type</p>
+<p>The following R command install the latest <code>RAnEn</code>.</p>
 <div class="fragment"><div class="line">install.packages(&quot;https://github.com/Weiming-Hu/AnalogsEnsemble/raw/master/RAnalogs/releases/RAnEn_latest.tar.gz&quot;, repos = NULL)</div></div><!-- fragment --><p>That's it. You are good to go. Please refer to <a href="#tutorials">tutorials</a> or the <a href="https://weiming-hu.github.io/AnalogsEnsemble/R/">R documentation</a> to learn more about using <code>RAnEn</code>.</p>
 <h3>CAnEn</h3>
 <p>To install the C++ libraries, please check the following dependencies:</p>
@@ -113,7 +110,7 @@ $(function() {
 <li><em>Optional</em> <code>CppUnit</code> provides test frameworks. If <code>CppUnit</code> is found in the system, test programs will be compiled.</li>
 </ul>
 <p>Please use the following scripts to install the libraries:</p>
-<div class="fragment"><div class="line"># Download the source files (~10 Mb)</div><div class="line">wget https://github.com/Weiming-Hu/AnalogsEnsemble/archive/master.zip</div><div class="line"></div><div class="line"># Unzip</div><div class="line">unzip master.zip</div><div class="line"></div><div class="line"># Create a separate folder to store all intermediate files during the installation process</div><div class="line">cd AnalogsEnsemble-master/</div><div class="line">mkdir build</div><div class="line">cd build</div><div class="line">cmake -DCMAKE_INSTALL_PREFIX=~/AnalogEnsemble ..</div><div class="line"></div><div class="line"># Compile</div><div class="line">make -j 4</div><div class="line"></div><div class="line"># Install</div><div class="line">make install</div></div><!-- fragment --><p>You can change the default of the following parameters, for example, <code>cmake -DCMAKE_INSTALL_PREFIX=~/AnalogEnsemble ..</code>. Don't forget the extra letter <code>D</code> when specifying argument names.</p>
+<div class="fragment"><div class="line"># Download the source files (~10 Mb)</div><div class="line">wget https://github.com/Weiming-Hu/AnalogsEnsemble/archive/master.zip</div><div class="line"></div><div class="line"># Unzip</div><div class="line">unzip master.zip</div><div class="line"></div><div class="line"># Create a separate folder to store all intermediate files during the installation process</div><div class="line">cd AnalogsEnsemble-master/</div><div class="line">mkdir build</div><div class="line">cd build</div><div class="line">cmake -DCMAKE_INSTALL_PREFIX=~/AnalogEnsemble ..</div><div class="line"></div><div class="line"># Compile</div><div class="line">make -j 4</div><div class="line"></div><div class="line"># Install</div><div class="line">make install</div></div><!-- fragment --><p>Below is a list of parameters you can change and customize.</p>
 <table class="doxtable">
 <tr>
 <th align="center"><a class="el" href="class_parameter.html" title="Parameter stores parameter information including name and circular. ">Parameter</a> </th><th align="center">Explanation </th><th align="center">Default  </th></tr>
@@ -136,6 +133,10 @@ $(function() {
 <tr>
 <td align="center">BOOST_URL </td><td align="center">The URL for downloading Boost. This is only used when <code>BUILD_BOOST</code> is <code>ON</code>. </td><td align="center">[From SourceForge] </td></tr>
 </table>
+<p>You can change the default of the parameters, for example, <code>cmake -DCMAKE_INSTALL_PREFIX=~/AnalogEnsemble ..</code>. Don't forget the extra letter <code>D</code> when specifying argument names.</p>
+<h2>Tutorials</h2>
+<p>Tutorials can be accessed on [binder]() or found in <a href="https://github.com/Weiming-Hu/AnalogsEnsemble/tree/master/RAnalogs/examples">this directory</a></p>
+<p>Here are also some tips and caveats in <a href="https://github.com/Weiming-Hu/AnalogsEnsemble/issues/81">this ticket</a>.</p>
 <h2>References</h2>
 <ul>
 <li><a href="https://journals.ametsoc.org/doi/full/10.1175/MWR-D-12-00281.1">Delle Monache, Luca, et al. "Probabilistic weather prediction with an analog ensemble." Monthly Weather Review 141.10 (2013): 3498-3516.</a></li>
@@ -144,8 +145,6 @@ $(function() {
 <li><a href="https://www.researchgate.net/profile/Constantin_Junk/publication/274951815_Predictor-weighting_strategies_for_probabilistic_wind_power_forecasting_with_an_analog_ensemble/links/552cd5710cf29b22c9c47260.pdf">Junk, Constantin, et al. "Predictor-weighting strategies for probabilistic wind power forecasting with an analog ensemble." Meteorol. Z 24.4 (2015): 361-379.</a></li>
 <li><a href="https://ieeexplore.ieee.org/abstract/document/8425207">Balasubramanian, Vivek, et al. "Harnessing the power of many: Extensible toolkit for scalable ensemble applications." 2018 IEEE International Parallel and Distributed Processing Symposium (IPDPS). IEEE, 2018.</a></li>
 </ul>
-<h2>Known Issues</h2>
-<p>Please see known issues in <a href="https://weiming-hu.github.io/AnalogsEnsemble/2018/10/17/known-issues.html">this post</a>. If you could not find solutions to your issue, please submit an issue. Thank you.</p>
 <h2>Feedbacks</h2>
 <p>We appreciate collaborations and feedbacks from users. Please contact the maintainer <a href="https://weiming-hu.github.io">Weiming Hu</a> through <a href="weiming@psu.edu">weiming@psu.edu</a> or submit tickets if you have any problems.</p>
 <p>Thank you!</p>

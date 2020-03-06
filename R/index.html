@@ -84,7 +84,6 @@ title: R Documentation
 <ul>
 <li><a href="#overview">Overview</a></li>
 <li><a href="#citation">Citation</a></li>
-<li><a href="#tutorials">Tutorials</a></li>
 <li>
 <a href="#installation">Installation</a>
 <ul>
@@ -92,14 +91,14 @@ title: R Documentation
 <li><a href="#canen">CAnEn</a></li>
 </ul>
 </li>
+<li><a href="#tutorials">Tutorials</a></li>
 <li><a href="#references">References</a></li>
-<li><a href="#known-issues">Known Issues</a></li>
 <li><a href="#feedbacks">Feedbacks</a></li>
 </ul>
 <!-- vim-markdown-toc --><div id="overview" class="section level2">
 <h2 class="hasAnchor">
 <a href="#overview" class="anchor"></a>Overview</h2>
-<p>Parallel Analog Ensemble (PAnEn) generates accurate forecast ensembles relying on a single deterministic model simulation and the historical observations. The technique was first introduced by Luca Delle Monache in the paper <a href="https://journals.ametsoc.org/doi/full/10.1175/MWR-D-12-00281.1">Probabilistic Weather Prediction with an Analog Ensemble</a>. Developed and maintained by <a href="http://geolab.psu.edu">GEOlab</a> at Penn State, PAnEn aims to provide an efficient implementation for this technique and user-friendly interfaces in R and C++ for researchers who want to use this technique in their own research.</p>
+<p>Parallel Analog Ensemble (PAnEn) generates accurate forecast ensembles relying on a single deterministic model simulation and the historical observations. The technique was introduced by Luca Delle Monache et al. in the paper <a href="https://journals.ametsoc.org/doi/full/10.1175/MWR-D-12-00281.1">Probabilistic Weather Prediction with an Analog Ensemble</a>. Developed and maintained by <a href="http://geolab.psu.edu">GEOlab</a> at Penn State, PAnEn aims to provide an efficient implementation for this technique and user-friendly interfaces in R and C++ for researchers who want to use this technique in their own research.</p>
 <p>The easiest way to use this package is to install the R package, ‘RAnEn’. C++ libraries are also available but they are designed for intermediate users with requirement for performance. For installation guidance, please refer to the <a href="#installation">installation section</a>.</p>
 </div>
 <div id="citation" class="section level2">
@@ -109,15 +108,9 @@ title: R Documentation
 <ul>
 <li>Using <code>LaTex</code>: Please use <a href="https://github.com/Weiming-Hu/AnalogsEnsemble/blob/master/RAnalogs/RAnEn/inst/CITATION">this file</a> for citation.</li>
 <li>Using <code>R</code>: Simply type <code><a href="https://rdrr.io/r/utils/citation.html">citation('RAnEn')</a></code> and the citation message will be printed.</li>
-<li>Using plain texts: Please use the following texts for citation:</li>
+<li>Using plain text: Please use the following citation format:</li>
 </ul>
 <pre><code>Weiming Hu, Guido Cervone, Laura Clemente-Harding, and Martina Calovi. (2019). Parallel Analog Ensemble. Zenodo. http://doi.org/10.5281/zenodo.3384321</code></pre>
-</div>
-<div id="tutorials" class="section level2">
-<h2 class="hasAnchor">
-<a href="#tutorials" class="anchor"></a>Tutorials</h2>
-<p>Please click <a href="https://mybinder.org/v2/gh/Weiming-Hu/AnalogsEnsemble/master?urlpath=rstudio">here</a> to access our tutorials. The tutorials can be found under <code>RAnalogs/examples</code>.</p>
-<p>Here are also some tips and caveats in <a href="https://github.com/Weiming-Hu/AnalogsEnsemble/issues/81">this ticket</a>.</p>
 </div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
@@ -130,13 +123,14 @@ title: R Documentation
 <p>To install <code>RAnEn</code>, please install the following packages first:</p>
 <ul>
 <li>
-<a href="https://cran.r-project.org/web/packages/BH/index.html">BH</a>: <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages('Rcpp')</a></code>
+<a href="https://cran.r-project.org/web/packages/BH/index.html">BH</a>: <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages('BH')</a></code>
 </li>
 <li>
-<a href="https://cran.r-project.org/web/packages/Rcpp/index.html">Rcpp</a>: <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages('BH')</a></code>
+<a href="https://cran.r-project.org/web/packages/Rcpp/index.html">Rcpp</a>: <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages('Rcpp')</a></code>
 </li>
+<li>If you are using <code>Windows</code>, please also install the latest version of <a href="https://cran.r-project.org/bin/windows/Rtools/">Rtools</a>.</li>
 </ul>
-<p>If your operating system is <code>Windows</code>, please also install the latest version of <a href="https://cran.r-project.org/bin/windows/Rtools/">Rtools</a>. And then, you can type</p>
+<p>The following R command install the latest <code>RAnEn</code>.</p>
 <pre><code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages("https://github.com/Weiming-Hu/AnalogsEnsemble/raw/master/RAnalogs/releases/RAnEn_latest.tar.gz", repos = NULL)</a></code></pre>
 <p>That’s it. You are good to go. Please refer to <a href="#tutorials">tutorials</a> or the <a href="https://weiming-hu.github.io/AnalogsEnsemble/R/">R documentation</a> to learn more about using <code>RAnEn</code>.</p>
 </div>
@@ -174,7 +168,7 @@ make -j 4
 
 # Install
 make install</code></pre>
-<p>You can change the default of the following parameters, for example, <code>cmake -DCMAKE_INSTALL_PREFIX=~/AnalogEnsemble ..</code>. Don’t forget the extra letter <code>D</code> when specifying argument names.</p>
+<p>Below is a list of parameters you can change and customize.</p>
 <table class="table">
 <colgroup>
 <col width="12%">
@@ -235,7 +229,14 @@ make install</code></pre>
 </tr>
 </tbody>
 </table>
+<p>You can change the default of the parameters, for example, <code>cmake -DCMAKE_INSTALL_PREFIX=~/AnalogEnsemble ..</code>. Don’t forget the extra letter <code>D</code> when specifying argument names.</p>
 </div>
+</div>
+<div id="tutorials" class="section level2">
+<h2 class="hasAnchor">
+<a href="#tutorials" class="anchor"></a>Tutorials</h2>
+<p>Tutorials can be accessed on <a href="">binder</a> or found in <a href="https://github.com/Weiming-Hu/AnalogsEnsemble/tree/master/RAnalogs/examples">this directory</a></p>
+<p>Here are also some tips and caveats in <a href="https://github.com/Weiming-Hu/AnalogsEnsemble/issues/81">this ticket</a>.</p>
 </div>
 <div id="references" class="section level2">
 <h2 class="hasAnchor">
@@ -247,11 +248,6 @@ make install</code></pre>
 <li><a href="https://www.researchgate.net/profile/Constantin_Junk/publication/274951815_Predictor-weighting_strategies_for_probabilistic_wind_power_forecasting_with_an_analog_ensemble/links/552cd5710cf29b22c9c47260.pdf">Junk, Constantin, et al. “Predictor-weighting strategies for probabilistic wind power forecasting with an analog ensemble.” Meteorol. Z 24.4 (2015): 361-379.</a></li>
 <li><a href="https://ieeexplore.ieee.org/abstract/document/8425207">Balasubramanian, Vivek, et al. “Harnessing the power of many: Extensible toolkit for scalable ensemble applications.” 2018 IEEE International Parallel and Distributed Processing Symposium (IPDPS). IEEE, 2018.</a></li>
 </ul>
-</div>
-<div id="known-issues" class="section level2">
-<h2 class="hasAnchor">
-<a href="#known-issues" class="anchor"></a>Known Issues</h2>
-<p>Please see known issues in <a href="https://weiming-hu.github.io/AnalogsEnsemble/2018/10/17/known-issues.html">this post</a>. If you could not find solutions to your issue, please submit an issue. Thank you.</p>
 </div>
 <div id="feedbacks" class="section level2">
 <h2 class="hasAnchor">
