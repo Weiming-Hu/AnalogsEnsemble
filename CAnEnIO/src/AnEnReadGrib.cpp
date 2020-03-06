@@ -142,7 +142,7 @@ AnEnReadGrib::readForecasts(Forecasts & forecasts,
             read_files++;
 
         } else {
-            if (verbose_ >= Verbose::Debug) cout << "Skipped " << file << endl;
+            if (verbose_ >= Verbose::Debug) cout << "Skip " << file << endl;
             continue;
         }
 
@@ -159,7 +159,7 @@ AnEnReadGrib::readForecasts(Forecasts & forecasts,
 
             if (err) {
                 ostringstream msg;
-                msg << "Failed when opening the file. " << endl
+                msg << "Failed when opening the file." << endl
                     << "The original message from Eccodes: " << codes_get_error_message(err);
                 throw runtime_error(msg.str());
             }
@@ -177,9 +177,9 @@ AnEnReadGrib::readForecasts(Forecasts & forecasts,
                 codes_handle* h = codes_handle_new_from_index(p_index, &err);
                 if (err) {
                     ostringstream msg;
-                    msg << "Failed to create handle (id: " << parameter.getId()
+                    msg << "Failed to create handle for id: " << parameter.getId()
                         << ", level: " << parameter.getLevel()
-                        << ", type of level: " << parameter.getLevelType() << ") from " << file << endl
+                        << ", type of level: " << parameter.getLevelType() << endl
                         << "The original message from Eccodes: " << codes_get_error_message(err);
                     throw runtime_error(msg.str());
                 }
@@ -238,11 +238,14 @@ AnEnReadGrib::readForecasts(Forecasts & forecasts,
         }
     }
 
-    if (verbose_ >= Verbose::Progress) cout << "Forecast reading complete" << endl;
+    if (failed_files != 0) {
+        if (verbose_ >= Verbose::Warning) {
+            cerr << failed_files << " out of " << read_files
+                << " files failed during the reading process" << endl;
+        }
 
-    if (failed_files != 0)
-        if (verbose_ >= Verbose::Warning)
-            cerr << failed_files << " out of " << read_files << " files failed during the reading process" << endl;
+        if (failed_files == read_files) throw runtime_error("All files failed to read");
+    }
 
     return;
 }

@@ -11,6 +11,9 @@
 
 #include "boost/filesystem.hpp"
 
+#include <algorithm>
+#include <functional>
+
 using namespace std;
 using namespace netCDF;
 
@@ -47,6 +50,8 @@ AnEnWriteNcdf::writeAnEn(const string & file, const AnEnIS & anen,
         const Times & test_times, const Times & search_times,
         const Times & forecast_flts, const Parameters & forecast_parameters,
         const Stations & forecast_stations, bool overwrite, bool append) const {
+
+    if (verbose_ >= Verbose::Progress) cout << "Writing AnEn ..." << endl;
 
     // Check file path availability
     Ncdf::checkExists(file, overwrite, append);
@@ -157,6 +162,8 @@ AnEnWriteNcdf::writeMultiAnEn(const string& file,
         const Stations& stations, const Observations& observations,
         bool overwrite, bool append) const {
 
+    if (verbose_ >= Verbose::Progress) cout << "Writing multivariate AnEn ..." << endl;
+
     /*
      * Sanity check
      */
@@ -206,6 +213,8 @@ AnEnWriteNcdf::writeMultiAnEn(const string& file,
         const Stations& stations, const Observations& observations,
         bool overwrite, bool append) const {
 
+    if (verbose_ >= Verbose::Progress) cout << "Writing multivariate AnEn ..." << endl;
+
     /*
      * Sanity check
      */
@@ -253,6 +262,8 @@ AnEnWriteNcdf::writeMultiAnEn(const string& file,
 void
 AnEnWriteNcdf::writeForecasts(const string& file,
         const Forecasts & forecasts, bool overwrite, bool append) const {
+
+    if (verbose_ >= Verbose::Progress) cout << "Writing forecasts ..." << endl;
 
     // Check file path availability
     bool file_exists = Ncdf::checkExists(file, overwrite, append);
@@ -321,6 +332,8 @@ AnEnWriteNcdf::writeForecasts(const string& file,
 void
 AnEnWriteNcdf::writeObservations(const string & file,
         const Observations & observations, bool overwrite, bool append) const {
+
+    if (verbose_ >= Verbose::Progress) cout << "Writing observations ..." << endl;
 
     // Check file path availability
     bool file_exists = Ncdf::checkExists(file, overwrite, append);
@@ -449,7 +462,16 @@ AnEnWriteNcdf::addStations_(netCDF::NcGroup& nc, const Stations & stations, bool
     // Add values to the NetCDF file as unlimited dimensions
     Ncdf::writeVector(nc, Config::_XS, Config::_DIM_STATIONS, xs, NcType::nc_DOUBLE, unlimited);
     Ncdf::writeVector(nc, Config::_YS, Config::_DIM_STATIONS, ys, NcType::nc_DOUBLE, unlimited);
-    Ncdf::writeStringVector(nc, Config::_STATION_NAMES, Config::_DIM_STATIONS, names, unlimited);
+
+    // Check whether all stations have default station names
+    bool no_names = all_of(names.begin(), names.end(), [](const string & name) {return name == Config::_NAME;});
+
+    if (no_names) {
+        // Skip writing station names
+    } else {
+        // Write station names
+        Ncdf::writeStringVector(nc, Config::_STATION_NAMES, Config::_DIM_STATIONS, names, unlimited);
+    }
 
     return;
 }

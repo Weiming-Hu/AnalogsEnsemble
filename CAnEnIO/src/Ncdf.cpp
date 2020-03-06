@@ -301,7 +301,7 @@ Ncdf::writeStringVector(NcGroup & nc, const std::string & var_name,
     NcVar var = nc.addVar(var_name, NcType::nc_STRING, dim);
 
     for (size_t string_i = 0; string_i < values.size(); ++string_i) {
-        /* For string vectors, there is not methods to add them directly.
+        /* For string vectors, there are no methods to add them directly.
          * But there is a method to add them one by one. So I'm using the
          * following method.
          */
