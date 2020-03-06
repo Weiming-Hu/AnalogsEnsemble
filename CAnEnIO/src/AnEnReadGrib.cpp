@@ -5,7 +5,9 @@
  * Created on February 7, 2020, 1:02 PM
  */
 
+#include <numeric>
 #include <sstream>
+#include <algorithm>
 #include <stdexcept>
 
 #include "eccodes.h"
@@ -95,9 +97,14 @@ AnEnReadGrib::readForecasts(Forecasts & forecasts,
     double* p_data = nullptr;
     Time file_time, file_flt;
 
-    size_t data_len;
-    size_t time_i, flt_i;
+    // Initialize variables in advance
+    size_t data_len, parameter_i, time_i, flt_i;
     size_t num_stations = stations.size();
+    long current_id, current_level;
+    char* current_level_type;
+    codes_handle *h = nullptr;
+    FILE* in = nullptr;
+    size_t str_len;
 
     // This variable counts the number of failures when reading files
     size_t failed_files = 0;
@@ -107,13 +114,6 @@ AnEnReadGrib::readForecasts(Forecasts & forecasts,
     boost::regex regex_day{regex_day_str};
     boost::regex regex_flt{regex_flt_str};
     boost::regex regex_cycle{regex_cycle_str};
-
-    // Prepare the keys to be filtered when reading a file
-    ostringstream index_keys_ss;
-    index_keys_ss << ParameterGrib::_key_id << ","
-            << ParameterGrib::_key_level << ","
-            << ParameterGrib::_key_level_type;
-    string index_keys = index_keys_ss.str();
 
     // This is the start time
     date start_day(from_string(Time::_origin));
@@ -150,188 +150,117 @@ AnEnReadGrib::readForecasts(Forecasts & forecasts,
         time_i = times.getIndex(file_time);
         flt_i = flts.getIndex(file_flt);
 
+        // Define the parameter indices to find. This variable is used to
+        // avoid searching for already found variables and to avoid excessive
+        // function calls to eccodes.
+        //
+        vector<size_t> parameters_i(grib_parameters.size());
+        iota(parameters_i.begin(), parameters_i.end(), 0);
+
         try {
 
-            // Prepare reading from this file
-            //            codes_index *p_index = codes_index_new_from_file(
-            //                    0, const_cast<char*> (file.c_str()),
-            //                    index_keys.c_str(), &err);
-            //
-            //            if (err) {
-            //                ostringstream msg;
-            //                msg << "Failed when opening the file." << endl
-            //                    << "The original message from Eccodes: " << codes_get_error_message(err);
-            //                throw runtime_error(msg.str());
-            //            }
-
-
-
-            FILE* in = fopen(file.c_str(), "r");
-            size_t parameter_i;
-            long current_id, current_level;
-            char* current_level_type;
-            size_t str_len;
-            codes_handle *h = NULL;
-            size_t message_found = 0;
+            in = fopen(file.c_str(), "r");
 
             while ((h = codes_handle_new_from_file(0, in, PRODUCT_GRIB, &err)) != NULL) {
-                CODES_CHECK(err, 0);
+                if (err) throw runtime_error(codes_get_error_message(err));
 
-                for (parameter_i = 0; parameter_i < grib_parameters.size(); ++parameter_i) {
+                for (auto it = parameters_i.begin(); it != parameters_i.end(); ++it) {
+                    
+                    parameter_i = *it;
 
-                    CODES_CHECK(codes_get_long(h, ParameterGrib::_key_id.c_str(), &current_id), 0);
-                    CODES_CHECK(codes_get_long(h, ParameterGrib::_key_level.c_str(), &current_level), 0);
-
-                    CODES_CHECK(codes_get_length(h, ParameterGrib::_key_level_type.c_str(), &str_len), 0);
-                    current_level_type = new char[str_len];
-                    CODES_CHECK(codes_get_string(h, ParameterGrib::_key_level_type.c_str(), current_level_type, &str_len), 0);
-
+                    // Create a reference to the current parameter to avoid copy
                     const auto & current_parameter = grib_parameters[parameter_i];
 
-                    if (current_id == current_parameter.getId() &&
-                            current_level == current_parameter.getLevel() &&
-                            current_level_type == current_parameter.getLevelType()) {
-                        // The message has been found
-                        message_found++;
+                    // Check whether we have found the correct parameter id
+                    err = codes_get_long(h, ParameterGrib::_key_id.c_str(), &current_id);
+                    if (err) throw runtime_error(codes_get_error_message(err));
+                    if (current_id != current_parameter.getId()) continue;
 
-                        // Read data from the GRIB file
-                        if (stations_index.empty()) {
-                            if (codes_get_size(h, ParameterGrib::_key_values.c_str(), &data_len)) {
-                                ostringstream msg;
-                                msg << "Failed to read variable length for id: " << current_parameter.getId()
-                                        << ", level: " << current_parameter.getLevel() << ", type of level: "
-                                        << current_parameter.getLevelType() << endl
-                                        << "The original message from Eccodes: " << codes_get_error_message(err);
-                                throw runtime_error(msg.str());
-                            }
+                    // Check whether we have found the correct level type
+                    err = codes_get_length(h, ParameterGrib::_key_level_type.c_str(), &str_len);
+                    if (err) throw runtime_error(codes_get_error_message(err));
+                    current_level_type = new char[str_len];
 
-                            p_data = new double [data_len];
+                    err = codes_get_string(h, ParameterGrib::_key_level_type.c_str(), current_level_type, &str_len);
+                    if (err) throw runtime_error(codes_get_error_message(err));
 
-                            codes_get_double_array(h, ParameterGrib::_key_values.c_str(), p_data, &data_len);
+                    if (current_level_type != current_parameter.getLevelType()) {
+                        delete [] current_level_type;
+                        continue;
+                    }
+                    
+                    delete [] current_level_type;
 
-                        } else {
-                            data_len = stations_index.size();
+                    // Check whether we have found the correct level
+                    err = codes_get_long(h, ParameterGrib::_key_level.c_str(), &current_level);
+                    if (err) throw runtime_error(codes_get_error_message(err));
+                    if (current_level != current_parameter.getLevel()) continue;
 
-                            p_data = new double [data_len];
-
-                            if (codes_get_double_elements(h, ParameterGrib::_key_values.c_str(), stations_index.data(), data_len, p_data)) {
-                                ostringstream msg;
-                                msg << "Failed to read variable for id: " << current_parameter.getId()
-                                        << ", level: " << current_parameter.getLevel() << ", type of level: " << current_parameter.getLevelType() << endl
-                                        << "The original message from Eccodes: " << codes_get_error_message(err);
-                                throw runtime_error(msg.str());
-                            }
-                        }
-
-                        if (num_stations != data_len) {
+                    // Read data from the GRIB file
+                    if (stations_index.empty()) {
+                        if (codes_get_size(h, ParameterGrib::_key_values.c_str(), &data_len)) {
                             ostringstream msg;
-                            msg << "The number of data values (" << data_len
-                                    << ") do not match the number of stations (" << num_stations
-                                    << "). Do you have duplicates in station coordinates?";
+                            msg << "Failed to read variable length for id: " << current_parameter.getId()
+                                    << ", level: " << current_parameter.getLevel() << ", type of level: "
+                                    << current_parameter.getLevelType() << endl
+                                    << "The original message from Eccodes: " << codes_get_error_message(err);
                             throw runtime_error(msg.str());
                         }
 
-                        // Set values into the forecasts
-                        for (size_t station_i = 0; station_i < data_len; ++station_i) {
-                            forecasts.setValue(p_data[station_i], parameter_i, station_i, time_i, flt_i);
+                        p_data = new double [data_len];
+
+                        codes_get_double_array(h, ParameterGrib::_key_values.c_str(), p_data, &data_len);
+
+                    } else {
+                        data_len = stations_index.size();
+
+                        p_data = new double [data_len];
+
+                        if (codes_get_double_elements(h, ParameterGrib::_key_values.c_str(), stations_index.data(), data_len, p_data)) {
+                            ostringstream msg;
+                            msg << "Failed to read variable for id: " << current_parameter.getId()
+                                    << ", level: " << current_parameter.getLevel() << ", type of level: " << current_parameter.getLevelType() << endl
+                                    << "The original message from Eccodes: " << codes_get_error_message(err);
+                            throw runtime_error(msg.str());
                         }
-
-                        delete [] p_data;
-
                     }
 
-                    delete [] current_level_type;
+                    if (num_stations != data_len) {
+                        ostringstream msg;
+                        msg << "The number of data values (" << data_len
+                                << ") do not match the number of stations (" << num_stations
+                                << "). Do you have duplicates in station coordinates?";
+                        throw runtime_error(msg.str());
+                    }
 
+                    // Set values into the forecasts
+                    for (size_t station_i = 0; station_i < data_len; ++station_i) {
+                        forecasts.setValue(p_data[station_i], parameter_i, station_i, time_i, flt_i);
+                    }
+
+                    delete [] p_data;
+                    
+                    // Remove the parameter index that has been found
+                    parameters_i.erase(it);
+                    
+                    // This handle has been processed. I can skip to the next handle.
+                    break;
                 }
 
                 codes_handle_delete(h);
-                if (message_found == grib_parameters.size()) break;
+
+                // If all parameters have been found for this file, skip the rest of the messages
+                if (parameters_i.size() == 0) break;
             }
 
-            if (message_found != grib_parameters.size()) {
+            if (parameters_i.size() != 0) {
                 stringstream msg;
-                msg << "Some variables are missing. Found " << message_found << " out of " << grib_parameters.size();
+                msg << parameters_i.size() << " out of " << grib_parameters.size() << " parameters are not found";
                 throw runtime_error(msg.str());
             }
 
-
-
-
-
-            //            for (size_t parameter_i = 0; parameter_i < parameters.size(); ++parameter_i) {
-            //                const ParameterGrib & parameter = grib_parameters[parameter_i];
-            //
-            //                // Make the query
-            //                codes_index_select_long(p_index, ParameterGrib::_key_id.c_str(), parameter.getId());
-            //                codes_index_select_long(p_index, ParameterGrib::_key_level.c_str(), parameter.getLevel());
-            //                codes_index_select_string(p_index, ParameterGrib::_key_level_type.c_str(),
-            //                        const_cast<char*> (parameter.getLevelType().c_str()));
-            //
-            //                // Create a handle to the index
-            //                codes_handle* h = codes_handle_new_from_index(p_index, &err);
-            //                if (err) {
-            //                    ostringstream msg;
-            //                    msg << "Failed to create handle for id: " << parameter.getId()
-            //                            << ", level: " << parameter.getLevel()
-            //                            << ", type of level: " << parameter.getLevelType() << endl
-            //                            << "The original message from Eccodes: " << codes_get_error_message(err);
-            //                    throw runtime_error(msg.str());
-            //                }
-            //
-            //                // Read data from the GRIB file
-            //                if (stations_index.empty()) {
-            //                    if (codes_get_size(h, ParameterGrib::_key_values.c_str(), &data_len)) {
-            //                        ostringstream msg;
-            //                        msg << "Failed to read variable length for id: " << parameter.getId()
-            //                                << ", level: " << parameter.getLevel() << ", type of level: " << parameter.getLevelType() << endl
-            //                                << "The original message from Eccodes: " << codes_get_error_message(err);
-            //                        throw runtime_error(msg.str());
-            //                    }
-            //
-            //                    p_data = new double [data_len];
-            //
-            //                    codes_get_double_array(h, ParameterGrib::_key_values.c_str(), p_data, &data_len);
-            //
-            //                } else {
-            //                    data_len = stations_index.size();
-            //
-            //                    p_data = new double [data_len];
-            //
-            //                    if (codes_get_double_elements(h, ParameterGrib::_key_values.c_str(), stations_index.data(), data_len, p_data)) {
-            //                        ostringstream msg;
-            //                        msg << "Failed to read variable for id: " << parameter.getId()
-            //                                << ", level: " << parameter.getLevel() << ", type of level: " << parameter.getLevelType() << endl
-            //                                << "The original message from Eccodes: " << codes_get_error_message(err);
-            //                        throw runtime_error(msg.str());
-            //                    }
-            //                }
-            //
-            //                if (num_stations != data_len) {
-            //                    ostringstream msg;
-            //                    msg << "The number of data values (" << data_len
-            //                            << ") do not match the number of stations (" << num_stations
-            //                            << "). Do you have duplicates in station coordinates?";
-            //                    throw runtime_error(msg.str());
-            //                }
-            //
-            //                // Set values into the forecasts
-            //                for (size_t station_i = 0; station_i < data_len; ++station_i) {
-            //                    forecasts.setValue(p_data[station_i], parameter_i, station_i, time_i, flt_i);
-            //                }
-            //
-            //                delete [] p_data;
-            //                codes_handle_delete(h);
-            //            }
-
             // Clean up
-
-
             fclose(in);
-
-
-
-
-            //            codes_index_delete(p_index);
 
         } catch (exception & e) {
             cerr << "Errored when reading " << file << ": " << e.what() << endl;
