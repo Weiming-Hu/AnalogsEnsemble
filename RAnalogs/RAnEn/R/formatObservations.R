@@ -138,10 +138,7 @@ formatObservations <- function(
     df[, col.time] >= time.series[1] &
       df[, col.time] <= time.series[length(time.series)]), ]
   
-  observations <- list(
-    ParameterNames = NULL,
-    Xs = NULL, Ys = NULL,
-    Times = NULL, Data = NULL)
+  observations <- generateObservationsTemplate()
   
   # Assign unique parameters
   observations$ParameterNames <- unique(df[[col.par]])
