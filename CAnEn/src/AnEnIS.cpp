@@ -421,7 +421,9 @@ AnEnIS::preprocess_(const Forecasts & forecasts,
 
     // Check for ascending order
     if (!is_sorted(fcsts_search_index.begin(), fcsts_search_index.end())) {
-        throw runtime_error("Test must be after search when operation is used");
+        if (operation_) cerr << "You are using the operational mode."
+            << " Please make sure search and test periods do not overlap." << endl;
+        throw runtime_error("Forecast search times should be sorted in ascending order");
     }
 
     /*
