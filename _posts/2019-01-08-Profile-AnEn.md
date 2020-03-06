@@ -1,8 +1,9 @@
 ---
 layout: post
-title: AnEn Profiling with gprof and TAU
+title: Profile AnEn
 tags:
   - tutorial
+  - profiling
 ---
 
 <!-- vim-markdown-toc GFM -->
@@ -10,14 +11,18 @@ tags:
 * [Introduction](#introduction)
 * [Result Preview](#result-preview)
 * [Preparation and Clarification](#preparation-and-clarification)
-* [Profiling with `GProf`](#profiling-with-gprof)
-    * [Build Programs for `GProf`](#build-programs-for-gprof)
-    * [Profiling AnEn](#profiling-anen)
-    * [Visualization](#visualization)
 * [Profiling with TAU](#profiling-with-tau)
-    * [Build Programs with TAU](#build-programs-with-tau)
-    * [Profiling AnEn](#profiling-anen-1)
+    * [Build with `TAU`](#build-with-tau)
+    * [Profiling](#profiling)
+    * [Visualization](#visualization)
+* [Profiling with `gprof`](#profiling-with-gprof)
+    * [Build with `gprof`](#build-with-gprof)
+    * [Profiling](#profiling-1)
     * [Visualization](#visualization-1)
+* [Profiling with `valgrind`](#profiling-with-valgrind)
+    * [Build](#build)
+    * [Profiling](#profiling-2)
+    * [Visualization](#visualization-2)
 * [Sequel on TAU Installation](#sequel-on-tau-installation)
 
 <!-- vim-markdown-toc -->
@@ -212,3 +217,4 @@ kcachegrind [callgrind.out.* profile data file]
 I found [TAU](https://www.cs.uoregon.edu/research/tau/home.php) profiler to be very powerful and convenient to use. It is a piece of software from the University of Oregon. The [video](http://www.paratools.com/tau) walks you through the installation and I followed it. There might be typos so be careful when reading and watching.
 
 For `TAU_OPTIONS`, you can find the references [here](https://www.alcf.anl.gov/user-guides/tuning-and-analysis-utilities-tau). At this point, I have successfully built `TAU` with the visualizer `paraprof`. 
+
