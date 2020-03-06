@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['read',['Read',['../namespace_ncdf.html#a6967c61bfe43b77aa00e1605a898f3e4a7a1a5f3e79fdc91edf2f5ead9d66abb4',1,'Ncdf::Read()'],['../namespace_txt.html#ae46a1b2e882957b3e249bd56fbc5a152a7a1a5f3e79fdc91edf2f5ead9d66abb4',1,'Txt::Read()']]]
+  ['progress',['Progress',['../_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9a46b5f8c58b679b4243cbdb5749642c86',1,'Config.h']]]
 ];

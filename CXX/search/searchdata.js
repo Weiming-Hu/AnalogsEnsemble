@@ -5,12 +5,12 @@ var indexSectionsWithContent =
   2: "fnt",
   3: "2abcdfgilnoprstu",
   4: "_abcdefgilmnopqrstuvw~",
-  5: "_acdefilmnopqstvwxy",
+  5: "_acdefilmnopqstuvwxy",
   6: "bmstv",
   7: "fmv",
-  8: "defoprw",
+  8: "adefoprw",
   9: "o",
-  10: "b",
+  10: "_b",
   11: "2acdginpr"
 };
 

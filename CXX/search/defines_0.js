@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['boost_5fno_5fauto_5fptr',['BOOST_NO_AUTO_PTR',['../_bm_dim_8h.html#a8f5c030105c10fbe6953ed183115511a',1,'BmDim.h']]]
+  ['_5funknown_5fos_5f',['_UNKNOWN_OS_',['../_profiler_8h.html#a6d4b76a3eb7c6d4cf998bd0b6719a52c',1,'Profiler.h']]]
 ];

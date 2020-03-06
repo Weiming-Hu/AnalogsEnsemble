@@ -1,12 +1,14 @@
 <map id="/home/graduate/wuh20/github/AnalogsEnsemble/CAnEn/src/ForecastsPointer.cpp" name="/home/graduate/wuh20/github/AnalogsEnsemble/CAnEn/src/ForecastsPointer.cpp">
-<area shape="rect" id="node2" href="$_forecasts_pointer_8h.html" title="ForecastsPointer.h" alt="" coords="520,109,652,136"/>
-<area shape="rect" id="node3" href="$_forecasts_8h.html" title="Forecasts.h" alt="" coords="475,184,566,211"/>
-<area shape="rect" id="node17" href="$_array4_d_pointer_8h.html" title="Array4DPointer.h" alt="" coords="590,184,713,211"/>
-<area shape="rect" id="node4" href="$_basic_data_8h.html" title="BasicData.h" alt="" coords="432,259,527,285"/>
-<area shape="rect" id="node16" href="$_array4_d_8h.html" title="Array4D.h" alt="" coords="611,259,692,285"/>
-<area shape="rect" id="node5" href="$_parameters_8h.html" title="Parameters.h" alt="" coords="508,333,608,360"/>
-<area shape="rect" id="node14" href="$_stations_8h.html" title="Stations.h" alt="" coords="403,333,484,360"/>
-<area shape="rect" id="node15" href="$_times_8h.html" title="Times.h" alt="" coords="298,333,367,360"/>
-<area shape="rect" id="node7" href="$_bm_dim_8h.html" title="BmDim.h" alt="" coords="289,408,366,435"/>
-<area shape="rect" id="node11" href="$_config_8h.html" title="Config.h" alt="" coords="492,408,563,435"/>
+<area shape="rect" id="node2" href="$_forecasts_pointer_8h.html" title="ForecastsPointer.h" alt="" coords="1159,109,1291,136"/>
+<area shape="rect" id="node18" href="$_functions_8h.html" title="Functions.h" alt="" coords="789,109,880,136"/>
+<area shape="rect" id="node3" href="$_forecasts_8h.html" title="Forecasts.h" alt="" coords="1180,191,1271,218"/>
+<area shape="rect" id="node17" href="$_array4_d_pointer_8h.html" title="Array4DPointer.h" alt="" coords="1295,191,1417,218"/>
+<area shape="rect" id="node4" href="$_basic_data_8h.html" title="BasicData.h" alt="" coords="787,273,882,300"/>
+<area shape="rect" id="node16" href="$_array4_d_8h.html" title="Array4D.h" alt="" coords="1189,273,1270,300"/>
+<area shape="rect" id="node5" href="$_parameters_8h.html" title="Parameters.h" alt="" coords="785,348,885,375"/>
+<area shape="rect" id="node14" href="$_stations_8h.html" title="Stations.h" alt="" coords="679,348,761,375"/>
+<area shape="rect" id="node15" href="$_times_8h.html" title="Times.h" alt="" coords="909,348,979,375"/>
+<area shape="rect" id="node7" href="$_bm_dim_8h.html" title="BmDim.h" alt="" coords="669,423,747,449"/>
+<area shape="rect" id="node11" href="$_config_8h.html" title="Config.h" alt="" coords="923,423,994,449"/>
+<area shape="rect" id="node22" href="$_observations_8h.html" title="Observations.h" alt="" coords="46,191,157,218"/>
 </map>

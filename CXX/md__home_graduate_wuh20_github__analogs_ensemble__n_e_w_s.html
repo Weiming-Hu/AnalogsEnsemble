@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>ParallelAnalogEnsemble: PAnEn 4.0.1</title>
+<title>ParallelAnalogEnsemble: PAnEn 4.0.2</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -59,12 +59,18 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">PAnEn 4.0.1 </div>  </div>
+<div class="title">PAnEn 4.0.2 </div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><ul>
-<li>Add <code>RAnEn::generateSearchStations</code></li>
-<li>Update document links</li>
+<li>Added test and search period checks to avoid calculating analogs over empty time periods</li>
+<li>Changed the tutorial on generating operational analogs</li>
+<li>Improve the performance of <code><a class="el" href="class_an_en_read_grib.html">AnEnReadGrib</a></code> by avoiding reading entire files</li>
+</ul>
+<h1>PAnEn 4.0.1</h1>
+<ul>
+<li>Added <code>RAnEn::generateSearchStations</code></li>
+<li>Updated document links</li>
 </ul>
 <h1>PAnEn 4.0.0 Pandora</h1>
 <ul>
@@ -77,11 +83,11 @@ $(function() {
 </ul>
 <h1>PAnEn 3.7.1</h1>
 <ul>
-<li>Introduced auto generation of HPC work flows using <code>RAnEn::generateHPCWorkflow</code>.</li>
-<li>Fixed a bug during subseting observation times in <code>RAnEn::plotAnalogTimeSeries</code>.</li>
+<li>Introduced auto generation of HPC work flows using <code>RAnEn::generateHPCWorkflow</code></li>
+<li>Fixed a bug during subseting observation times in <code>RAnEn::plotAnalogTimeSeries</code></li>
 <li>Added <code>operational</code> in <code>RAnEn::generateHPCWorkflow</code></li>
-<li><code>search_times_compare</code> automatically changed when <code>operational</code> was used.</li>
-<li>Changed <code>RAnEn::writeConfiguration</code> from <code>ifelse</code> to using the function <code>if</code>.</li>
+<li><code>search_times_compare</code> automatically changed when <code>operational</code> was used</li>
+<li>Changed <code>RAnEn::writeConfiguration</code> from <code>ifelse</code> to using the function <code>if</code></li>
 </ul>
 <h1>PAnEn 3.7.0</h1>
 <ul>

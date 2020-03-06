@@ -1,7 +1,7 @@
 var searchData=
 [
   ['values_5f',['values_',['../class_calculator.html#a2a15bb860e03249b4b99f295a3e55b1d',1,'Calculator']]],
-  ['varexists',['varExists',['../namespace_ncdf.html#a9bc168bb869c51dd322817550189e940',1,'Ncdf']]],
+  ['varexists',['varExists',['../namespace_ncdf.html#a7a80fed85c3544e742582327e3beca7f',1,'Ncdf']]],
   ['variance',['variance',['../class_calculator.html#abe53e1dcb74bd33a888c55eec495fe91',1,'Calculator::variance()'],['../namespace_functions.html#a792b17d917560feaa7ac79d7fed2c16f',1,'Functions::variance()']]],
   ['vector3',['vector3',['../_observations_pointer_8h.html#a9b2c17d57f33daffcb220fc4c30bba49',1,'ObservationsPointer.h']]],
   ['vector4',['vector4',['../_array4_d_pointer_8h.html#ad60e77770bb3358bd06961f74e5ca5a6',1,'Array4DPointer.h']]],

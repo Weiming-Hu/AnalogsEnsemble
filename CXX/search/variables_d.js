@@ -18,9 +18,10 @@ var searchData=
   ['sds_5ftime_5findex_5fmap_5f',['sds_time_index_map_',['../class_an_en_i_s.html#a785c675a87fa2ae3e88941fcd7929da9',1,'AnEnIS']]],
   ['search_5fstations_5findex_5f',['search_stations_index_',['../class_an_en_s_s_e.html#a92211b290d05222341118b4de8da9063',1,'AnEnSSE']]],
   ['session_5fnames_5f',['session_names_',['../class_profiler.html#aabef8e86015b16843ccc533121b70b9c',1,'Profiler']]],
+  ['sims_5fdim_5f',['sims_dim_',['../class_an_en_write_ncdf.html#aab3859c2c3f8f9a42ad81b6562afd667',1,'AnEnWriteNcdf']]],
   ['sims_5fmetric_5f',['sims_metric_',['../class_an_en_i_s.html#a9e6eaa8051d115c798e6a5a47fb72e61',1,'AnEnIS']]],
   ['sims_5fstation_5findex_5f',['sims_station_index_',['../class_an_en_s_s_e.html#ab1e8ddd780d7ca3fb3e57f00d625834d',1,'AnEnSSE']]],
   ['sims_5ftime_5findex_5f',['sims_time_index_',['../class_an_en_i_s.html#aef129fea6bca8debf6d91f503336f632',1,'AnEnIS']]],
-  ['source_5fextensions',['SOURCE_EXTENSIONS',['../_8ycm__extra__conf_8py.html#a47014996e1e517071cd0412a22adb123',1,'SOURCE_EXTENSIONS():&#160;.ycm_extra_conf.py'],['../out_2_8ycm__extra__conf_8py.html#a47014996e1e517071cd0412a22adb123',1,'SOURCE_EXTENSIONS():&#160;.ycm_extra_conf.py']]],
+  ['source_5fextensions',['SOURCE_EXTENSIONS',['../_8ycm__extra__conf_8py.html#a47014996e1e517071cd0412a22adb123',1,'.ycm_extra_conf.py']]],
   ['stations_5f',['stations_',['../class_basic_data.html#a72ee55e670083315d122d885cae4cc7f',1,'BasicData::stations_()'],['../classtest_an_en_i_s.html#a8b46ce5b3a92dfdaa9a7ad6cf89bd111',1,'testAnEnIS::stations_()']]]
 ];

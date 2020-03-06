@@ -67,6 +67,8 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a9bc197b0276ad65d1aa37634c991fd91"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions_i_o.html#a9bc197b0276ad65d1aa37634c991fd91">toParameterVector</a> (std::vector&lt; <a class="el" href="class_parameter_grib.html">ParameterGrib</a> &gt; &amp;, const std::vector&lt; std::string &gt; &amp;parameters_name, const std::vector&lt; long &gt; &amp;parameters_id, const std::vector&lt; long &gt; &amp;parameters_level, const std::vector&lt; std::string &gt; &amp;parameters_level_type, const std::vector&lt; bool &gt; &amp;parameters_circular={}, <a class="el" href="_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9">Verbose</a> verbose=<a class="el" href="_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9a0eaadb4fcb48a0a0ed7bc9868be9fbaa">Verbose::Warning</a>)</td></tr>
+<tr class="separator:a9bc197b0276ad65d1aa37634c991fd91"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0346a0bfd13656a5a2502d2aed41bf3f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions_i_o.html#a0346a0bfd13656a5a2502d2aed41bf3f">parseFilename</a> (<a class="el" href="class_time.html">Time</a> &amp;time, <a class="el" href="class_time.html">Time</a> &amp;flt, const std::string &amp;file, const boost::gregorian::date &amp;start_day, const boost::regex &amp;regex_day, const boost::regex &amp;regex_flt, const boost::regex &amp;regex_cycle, size_t unit_in_seconds, bool delimited)</td></tr>
 <tr class="separator:a0346a0bfd13656a5a2502d2aed41bf3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9d0802cd784f668ac68d91d3422a02a1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions_i_o.html#a9d0802cd784f668ac68d91d3422a02a1">parseFilename</a> (<a class="el" href="class_time.html">Time</a> &amp;time, <a class="el" href="class_time.html">Time</a> &amp;flt, const std::string &amp;file, const boost::gregorian::date &amp;start_day, const boost::regex &amp;regex_day, const boost::regex &amp;regex_flt, size_t unit_in_seconds, bool delimited)</td></tr>
@@ -298,6 +300,64 @@ Functions</h2></td></tr>
           <td></td>
           <td class="paramtype">bool&#160;</td>
           <td class="paramname"><em>delimited</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9bc197b0276ad65d1aa37634c991fd91"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9bc197b0276ad65d1aa37634c991fd91">&#9670;&nbsp;</a></span>toParameterVector()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void FunctionsIO::toParameterVector </td>
+          <td>(</td>
+          <td class="paramtype">std::vector&lt; <a class="el" href="class_parameter_grib.html">ParameterGrib</a> &gt; &amp;&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>parameters_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; long &gt; &amp;&#160;</td>
+          <td class="paramname"><em>parameters_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; long &gt; &amp;&#160;</td>
+          <td class="paramname"><em>parameters_level</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>parameters_level_type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; bool &gt; &amp;&#160;</td>
+          <td class="paramname"><em>parameters_circular</em> = <code>{}</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9">Verbose</a>&#160;</td>
+          <td class="paramname"><em>verbose</em> = <code><a class="el" href="_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9a0eaadb4fcb48a0a0ed7bc9868be9fbaa">Verbose::Warning</a></code>&#160;</td>
         </tr>
         <tr>
           <td></td>

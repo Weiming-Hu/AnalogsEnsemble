@@ -91,6 +91,7 @@ $(function() {
 </ul>
 <div class="fragment"><div class="line">Weiming Hu, Guido Cervone, Laura Clemente-Harding, and Martina Calovi. (2019). Parallel Analog Ensemble. Zenodo. http://doi.org/10.5281/zenodo.3384321</div></div><!-- fragment --> <h2>Tutorials</h2>
 <p>Please click <a href="https://mybinder.org/v2/gh/Weiming-Hu/AnalogsEnsemble/master?urlpath=rstudio">here</a> to access our tutorials. The tutorials can be found under <code>RAnalogs/examples</code>.</p>
+<p>Here are also some tips and caveats in <a href="https://github.com/Weiming-Hu/AnalogsEnsemble/issues/81">this ticket</a>.</p>
 <h2>Installation</h2>
 <p><code>RAnEn</code> is very easy to install if you are already using <a href="https://www.r-project.org/">R</a>. This is the recommended way to start.</p>
 <h3>RAnEn</h3>
@@ -125,11 +126,15 @@ $(function() {
 <tr>
 <td align="center">CMAKE_PREFIX_PATH </td><td align="center">Which folder(s) should cmake search for packages besides the default. Paths are surrounded by double quotes and separated with semicolons. </td><td align="center">[Empty] </td></tr>
 <tr>
+<td align="center">CMAKE_INSTALL_RPATH</td><td align="center">The run-time library path. Paths are surrounded by double quotes and separated with semicolons. </td><td align="center">[Empty] </td></tr>
+<tr>
 <td align="center">CMAKE_BUILD_TYPE </td><td align="center"><code>Release</code> for release mode; <code>Debug</code> for debug mode. </td><td align="center">Release </td></tr>
 <tr>
 <td align="center">INSTALL_RAnEn </td><td align="center">Build and install the <code>RAnEn</code> library. </td><td align="center">OFF </td></tr>
 <tr>
 <td align="center">BUILD_BOOST </td><td align="center">Build <code>Boost</code> regardless of whether it exists in the system. </td><td align="center">OFF </td></tr>
+<tr>
+<td align="center">BOOST_URL </td><td align="center">The URL for downloading Boost. This is only used when <code>BUILD_BOOST</code> is <code>ON</code>. </td><td align="center">[From SourceForge] </td></tr>
 </table>
 <h2>References</h2>
 <ul>

@@ -84,7 +84,8 @@ Collaboration diagram for AnEnReadNcdf:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
 <tr class="memitem:ac46a6614ed62aee709bb3431739ab652"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_read_ncdf.html#ac46a6614ed62aee709bb3431739ab652">FileType</a> { <a class="el" href="class_an_en_read_ncdf.html#ac46a6614ed62aee709bb3431739ab652a46e20c827e9bdba53b124cbee184a5e6">FileType::Forecasts</a>, 
-<a class="el" href="class_an_en_read_ncdf.html#ac46a6614ed62aee709bb3431739ab652a263df4303fc8e2f27499caefad0c6f25">FileType::Observations</a>
+<a class="el" href="class_an_en_read_ncdf.html#ac46a6614ed62aee709bb3431739ab652a263df4303fc8e2f27499caefad0c6f25">FileType::Observations</a>, 
+<a class="el" href="class_an_en_read_ncdf.html#ac46a6614ed62aee709bb3431739ab652a4cab9a759d70032437147e37bc4b20be">FileType::Analogs</a>
  }</td></tr>
 <tr class="separator:ac46a6614ed62aee709bb3431739ab652"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -106,20 +107,22 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a6f1a24f7c0d54714e7b76dbb76fb92f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a465c43a7738b1bcf0d9a6dfe437ead96"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_read_ncdf.html#a465c43a7738b1bcf0d9a6dfe437ead96">readObservations</a> (const std::string &amp;file_path, <a class="el" href="class_observations.html">Observations</a> &amp;observations, std::vector&lt; size_t &gt; start, std::vector&lt; size_t &gt; count) const</td></tr>
 <tr class="separator:a465c43a7738b1bcf0d9a6dfe437ead96"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a507a27f542a3c38c256acc50729d1269"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_read_ncdf.html#a507a27f542a3c38c256acc50729d1269">readAnalogs</a> (const std::string &amp;file_path, <a class="el" href="class_array4_d.html">Array4D</a> &amp;analogs, const std::string &amp;var_name=<a class="el" href="class_config.html#a09ade37419fb714d6bc0e11b0eb1d921">Config::_ANALOGS</a>, std::vector&lt; size_t &gt; start={}, std::vector&lt; size_t &gt; count={})</td></tr>
+<tr class="separator:a507a27f542a3c38c256acc50729d1269"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab0c64a42ae96199b2376de23a6df7240"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_read_ncdf.html#ab0c64a42ae96199b2376de23a6df7240">read</a> (const netCDF::NcGroup &amp;nc, <a class="el" href="class_parameters.html">Parameters</a> &amp;parameters, size_t start=0, size_t count=0) const</td></tr>
+<tr class="separator:ab0c64a42ae96199b2376de23a6df7240"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f38f0e2e91edfc6294d3247cb667815"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_read_ncdf.html#a6f38f0e2e91edfc6294d3247cb667815">read</a> (const netCDF::NcGroup &amp;nc, <a class="el" href="class_stations.html">Stations</a> &amp;stations, size_t start=0, size_t count=0, const std::string &amp;dim_name_prefix=&quot;&quot;, const std::string &amp;var_name_prefix=&quot;&quot;) const</td></tr>
+<tr class="separator:a6f38f0e2e91edfc6294d3247cb667815"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e16a1cd4c1d6ed5e4d0c660cbd7fcc9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_read_ncdf.html#a4e16a1cd4c1d6ed5e4d0c660cbd7fcc9">read</a> (const netCDF::NcGroup &amp;nc, <a class="el" href="class_times.html">Times</a> &amp;times, const std::string &amp;var_name, size_t start=0, size_t count=0) const</td></tr>
+<tr class="separator:a4e16a1cd4c1d6ed5e4d0c660cbd7fcc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec40aaa6dc282f6cdc642070655ba091"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:aec40aaa6dc282f6cdc642070655ba091"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_an_en_read_ncdf.html#aec40aaa6dc282f6cdc642070655ba091">read</a> (const netCDF::NcGroup &amp;nc, T *p_vals, const std::string &amp;var_name=<a class="el" href="class_config.html#a763aefe91d17ad20283efd75b89cda0a">Config::_DATA</a>, std::vector&lt; size_t &gt; start={}, std::vector&lt; size_t &gt; count={}) const</td></tr>
+<tr class="separator:aec40aaa6dc282f6cdc642070655ba091"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:ad6ee921e7ad161bfedfc516658a5a573"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_read_ncdf.html#ad6ee921e7ad161bfedfc516658a5a573">read_</a> (const netCDF::NcFile &amp;nc, <a class="el" href="class_parameters.html">Parameters</a> &amp;parameters, size_t start=0, size_t count=0) const</td></tr>
-<tr class="separator:ad6ee921e7ad161bfedfc516658a5a573"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a81198d2263e310045e1dfab904f086bd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_read_ncdf.html#a81198d2263e310045e1dfab904f086bd">read_</a> (const netCDF::NcFile &amp;nc, <a class="el" href="class_stations.html">Stations</a> &amp;stations, size_t start=0, size_t count=0, const std::string &amp;dim_name_prefix=&quot;&quot;, const std::string &amp;var_name_prefix=&quot;&quot;) const</td></tr>
-<tr class="separator:a81198d2263e310045e1dfab904f086bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac87246be7121624002fecb05c85c96ea"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_read_ncdf.html#ac87246be7121624002fecb05c85c96ea">read_</a> (const netCDF::NcFile &amp;nc, <a class="el" href="class_times.html">Times</a> &amp;times, const std::string &amp;var_name, size_t start=0, size_t count=0) const</td></tr>
-<tr class="separator:ac87246be7121624002fecb05c85c96ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a070b54008dfd6e67625d005784e6ceef"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_read_ncdf.html#a070b54008dfd6e67625d005784e6ceef">checkFileType_</a> (const netCDF::NcFile &amp;nc, <a class="el" href="class_an_en_read_ncdf.html#ac46a6614ed62aee709bb3431739ab652">FileType</a> file_type) const</td></tr>
 <tr class="separator:a070b54008dfd6e67625d005784e6ceef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4b50840857fee7531b4d3459ce0a1241"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a4b50840857fee7531b4d3459ce0a1241"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_an_en_read_ncdf.html#a4b50840857fee7531b4d3459ce0a1241">read_</a> (const netCDF::NcFile &amp;nc, T *p_vals, const std::string &amp;var_name=<a class="el" href="class_config.html#a763aefe91d17ad20283efd75b89cda0a">Config::_DATA</a>, std::vector&lt; size_t &gt; start={}, std::vector&lt; size_t &gt; count={}) const</td></tr>
-<tr class="separator:a4b50840857fee7531b4d3459ce0a1241"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -152,6 +155,7 @@ Protected Attributes</h2></td></tr>
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ac46a6614ed62aee709bb3431739ab652a46e20c827e9bdba53b124cbee184a5e6"></a>Forecasts&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="ac46a6614ed62aee709bb3431739ab652a263df4303fc8e2f27499caefad0c6f25"></a>Observations&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ac46a6614ed62aee709bb3431739ab652a4cab9a759d70032437147e37bc4b20be"></a>Analogs&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
 </div>
@@ -272,19 +276,16 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="ad6ee921e7ad161bfedfc516658a5a573"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad6ee921e7ad161bfedfc516658a5a573">&#9670;&nbsp;</a></span>read_() <span class="overload">[1/4]</span></h2>
+<a id="ab0c64a42ae96199b2376de23a6df7240"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab0c64a42ae96199b2376de23a6df7240">&#9670;&nbsp;</a></span>read() <span class="overload">[1/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void AnEnReadNcdf::read_ </td>
+          <td class="memname">void AnEnReadNcdf::read </td>
           <td>(</td>
-          <td class="paramtype">const netCDF::NcFile &amp;&#160;</td>
+          <td class="paramtype">const netCDF::NcGroup &amp;&#160;</td>
           <td class="paramname"><em>nc</em>, </td>
         </tr>
         <tr>
@@ -311,28 +312,32 @@ Protected Attributes</h2></td></tr>
           <td></td><td> const</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
+<p>Read different components from an NetCDF group object </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nc</td><td>NcGroup to read </td></tr>
+    <tr><td class="paramname">parameters</td><td><a class="el" href="class_parameters.html" title="Parameters class stores Parameter objects. It is a bidirectional map implemented from Boost so that i...">Parameters</a> to store results </td></tr>
+    <tr><td class="paramname">stations</td><td><a class="el" href="class_stations.html" title="Stations class stores Station objects. It is a bidirectional map implemented from Boost so that it pr...">Stations</a> to store results </td></tr>
+    <tr><td class="paramname">times</td><td><a class="el" href="class_times.html" title="Times class is used to store Time. It is a bidirectional map implemented from Boost so that it provid...">Times</a> to store results </td></tr>
+    <tr><td class="paramname">var_name</td><td>Variable names to read for times </td></tr>
+    <tr><td class="paramname">start</td><td>Index to start reading </td></tr>
+    <tr><td class="paramname">count</td><td>Total numbers to read </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
-<a id="a81198d2263e310045e1dfab904f086bd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a81198d2263e310045e1dfab904f086bd">&#9670;&nbsp;</a></span>read_() <span class="overload">[2/4]</span></h2>
+<a id="a6f38f0e2e91edfc6294d3247cb667815"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f38f0e2e91edfc6294d3247cb667815">&#9670;&nbsp;</a></span>read() <span class="overload">[2/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void AnEnReadNcdf::read_ </td>
+          <td class="memname">void AnEnReadNcdf::read </td>
           <td>(</td>
-          <td class="paramtype">const netCDF::NcFile &amp;&#160;</td>
+          <td class="paramtype">const netCDF::NcGroup &amp;&#160;</td>
           <td class="paramname"><em>nc</em>, </td>
         </tr>
         <tr>
@@ -371,28 +376,20 @@ Protected Attributes</h2></td></tr>
           <td></td><td> const</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="ac87246be7121624002fecb05c85c96ea"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac87246be7121624002fecb05c85c96ea">&#9670;&nbsp;</a></span>read_() <span class="overload">[3/4]</span></h2>
+<a id="a4e16a1cd4c1d6ed5e4d0c660cbd7fcc9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4e16a1cd4c1d6ed5e4d0c660cbd7fcc9">&#9670;&nbsp;</a></span>read() <span class="overload">[3/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void AnEnReadNcdf::read_ </td>
+          <td class="memname">void AnEnReadNcdf::read </td>
           <td>(</td>
-          <td class="paramtype">const netCDF::NcFile &amp;&#160;</td>
+          <td class="paramtype">const netCDF::NcGroup &amp;&#160;</td>
           <td class="paramname"><em>nc</em>, </td>
         </tr>
         <tr>
@@ -425,30 +422,22 @@ Protected Attributes</h2></td></tr>
           <td></td><td> const</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a4b50840857fee7531b4d3459ce0a1241"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4b50840857fee7531b4d3459ce0a1241">&#9670;&nbsp;</a></span>read_() <span class="overload">[4/4]</span></h2>
+<a id="aec40aaa6dc282f6cdc642070655ba091"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aec40aaa6dc282f6cdc642070655ba091">&#9670;&nbsp;</a></span>read() <span class="overload">[4/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename T &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void AnEnReadNcdf::read_ </td>
+          <td class="memname">void AnEnReadNcdf::read </td>
           <td>(</td>
-          <td class="paramtype">const netCDF::NcFile &amp;&#160;</td>
+          <td class="paramtype">const netCDF::NcGroup &amp;&#160;</td>
           <td class="paramname"><em>nc</em>, </td>
         </tr>
         <tr>
@@ -481,11 +470,52 @@ template&lt;typename T &gt; </div>
           <td></td><td> const</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a507a27f542a3c38c256acc50729d1269"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a507a27f542a3c38c256acc50729d1269">&#9670;&nbsp;</a></span>readAnalogs()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void AnEnReadNcdf::readAnalogs </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>file_path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_array4_d.html">Array4D</a> &amp;&#160;</td>
+          <td class="paramname"><em>analogs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>var_name</em> = <code><a class="el" href="class_config.html#a09ade37419fb714d6bc0e11b0eb1d921">Config::_ANALOGS</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; size_t &gt;&#160;</td>
+          <td class="paramname"><em>start</em> = <code>{}</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; size_t &gt;&#160;</td>
+          <td class="paramname"><em>count</em> = <code>{}</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
 </div><div class="memdoc">
 
 </div>

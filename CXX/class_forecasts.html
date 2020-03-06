@@ -77,8 +77,8 @@ Inheritance diagram for Forecasts:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_forecasts__inherit__graph.png" border="0" usemap="#_forecasts_inherit__map" alt="Inheritance graph"/></div>
 <map name="_forecasts_inherit__map" id="_forecasts_inherit__map">
-<area shape="rect" id="node4" href="class_forecasts_pointer.html" title="ForecastsPointer is an implementation of the abstract class Forecasts. It also inherits from Array4DP..." alt="" coords="65,623,222,817"/>
-<area shape="rect" id="node2" href="class_array4_d.html" title="Array4D is an abstract class for 4&#45;dimensional array. " alt="" coords="5,35,132,273"/>
+<area shape="rect" id="node4" href="class_forecasts_pointer.html" title="ForecastsPointer is an implementation of the abstract class Forecasts. It also inherits from Array4DP..." alt="" coords="65,652,222,876"/>
+<area shape="rect" id="node2" href="class_array4_d.html" title="Array4D is an abstract class for 4&#45;dimensional array. " alt="" coords="5,20,132,288"/>
 <area shape="rect" id="node3" href="class_basic_data.html" title="BasicData is an implementation of the data structure used by Analog Ensemble. It includes parameters..." alt="" coords="156,5,283,303"/>
 </map>
 </div>
@@ -87,11 +87,11 @@ Collaboration diagram for Forecasts:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_forecasts__coll__graph.png" border="0" usemap="#_forecasts_coll__map" alt="Collaboration graph"/></div>
 <map name="_forecasts_coll__map" id="_forecasts_coll__map">
-<area shape="rect" id="node2" href="class_array4_d.html" title="Array4D is an abstract class for 4&#45;dimensional array. " alt="" coords="5,433,132,672"/>
-<area shape="rect" id="node3" href="class_basic_data.html" title="BasicData is an implementation of the data structure used by Analog Ensemble. It includes parameters..." alt="" coords="251,419,377,687"/>
-<area shape="rect" id="node4" href="class_times.html" title="Times class is used to store Time. It is a bidirectional map implemented from Boost so that it provid..." alt="" coords="100,132,232,356"/>
-<area shape="rect" id="node6" href="class_stations.html" title="Stations class stores Station objects. It is a bidirectional map implemented from Boost so that it pr..." alt="" coords="257,154,387,334"/>
-<area shape="rect" id="node8" href="class_parameters.html" title="Parameters class stores Parameter objects. It is a bidirectional map implemented from Boost so that i..." alt="" coords="421,154,541,334"/>
+<area shape="rect" id="node2" href="class_array4_d.html" title="Array4D is an abstract class for 4&#45;dimensional array. " alt="" coords="5,433,132,701"/>
+<area shape="rect" id="node3" href="class_basic_data.html" title="BasicData is an implementation of the data structure used by Analog Ensemble. It includes parameters..." alt="" coords="251,433,377,701"/>
+<area shape="rect" id="node4" href="class_times.html" title="Times class is used to store Time. It is a bidirectional map implemented from Boost so that it provid..." alt="" coords="100,132,232,371"/>
+<area shape="rect" id="node6" href="class_stations.html" title="Stations class stores Station objects. It is a bidirectional map implemented from Boost so that it pr..." alt="" coords="257,154,387,349"/>
+<area shape="rect" id="node8" href="class_parameters.html" title="Parameters class stores Parameter objects. It is a bidirectional map implemented from Boost so that i..." alt="" coords="421,154,541,349"/>
 </map>
 </div>
 <table class="memberdecls">
@@ -107,6 +107,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a340fd19812d62efc334fe4d23ff8dcd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae7788b4eb07ca430e462aa68f75cf4e8"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_forecasts.html#ae7788b4eb07ca430e462aa68f75cf4e8">setDimensions</a> (const <a class="el" href="class_parameters.html">Parameters</a> &amp;parameters, const <a class="el" href="class_stations.html">Stations</a> &amp;stations, const <a class="el" href="class_times.html">Times</a> &amp;times, const <a class="el" href="class_times.html">Times</a> &amp;flts)=0</td></tr>
 <tr class="separator:ae7788b4eb07ca430e462aa68f75cf4e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a73259c4190431708d673121ed501f6c1"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_forecasts.html#a73259c4190431708d673121ed501f6c1">windTransform</a> (const std::string &amp;name_u, const std::string &amp;name_v, const std::string &amp;name_spd, const std::string &amp;name_dir)=0</td></tr>
+<tr class="separator:a73259c4190431708d673121ed501f6c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2817f0616190b42f164cf22495ef2f63"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_forecasts.html#a2817f0616190b42f164cf22495ef2f63">subset</a> (<a class="el" href="class_forecasts.html">Forecasts</a> &amp;forecasts_subset) const =0</td></tr>
+<tr class="separator:a2817f0616190b42f164cf22495ef2f63"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2d0958b9ea8bdd443a7c6ee86fd6e70e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_times.html">Times</a> const  &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_forecasts.html#a2d0958b9ea8bdd443a7c6ee86fd6e70e">getFLTs</a> () const</td></tr>
 <tr class="separator:a2d0958b9ea8bdd443a7c6ee86fd6e70e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae64ba9450332e8de204adeecbaf49fd6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_times.html">Times</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_forecasts.html#ae64ba9450332e8de204adeecbaf49fd6">getFLTs</a> ()</td></tr>
@@ -136,12 +140,16 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a7b1a1517e6312361635f6d6416a913da inherit pub_methods_class_array4_d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a202eb4769e149d7667dc9e0845d9e53c inherit pub_methods_class_array4_d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#a202eb4769e149d7667dc9e0845d9e53c">resize</a> (std::size_t, std::size_t, std::size_t, std::size_t)=0</td></tr>
 <tr class="separator:a202eb4769e149d7667dc9e0845d9e53c inherit pub_methods_class_array4_d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a64f081bad31c0d1693b2fb24afd5faff inherit pub_methods_class_array4_d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#a64f081bad31c0d1693b2fb24afd5faff">resize</a> (const <a class="el" href="class_array4_d.html">Array4D</a> &amp;)=0</td></tr>
+<tr class="separator:a64f081bad31c0d1693b2fb24afd5faff inherit pub_methods_class_array4_d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0c8c636de5d652a051820910efcf51ce inherit pub_methods_class_array4_d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#a0c8c636de5d652a051820910efcf51ce">initialize</a> (double)=0</td></tr>
 <tr class="separator:a0c8c636de5d652a051820910efcf51ce inherit pub_methods_class_array4_d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ace14d3ee0e335767689527bc15da9fad inherit pub_methods_class_array4_d"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#ace14d3ee0e335767689527bc15da9fad">getValue</a> (std::size_t, std::size_t, std::size_t, std::size_t) const =0</td></tr>
 <tr class="separator:ace14d3ee0e335767689527bc15da9fad inherit pub_methods_class_array4_d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7e89720108c37465bc68ee1529184eae inherit pub_methods_class_array4_d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#a7e89720108c37465bc68ee1529184eae">setValue</a> (double val, std::size_t, std::size_t, std::size_t, std::size_t)=0</td></tr>
 <tr class="separator:a7e89720108c37465bc68ee1529184eae inherit pub_methods_class_array4_d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab3418df299a6caffd02a46e176836b3f inherit pub_methods_class_array4_d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#ab3418df299a6caffd02a46e176836b3f">subset</a> (const std::vector&lt; std::size_t &gt; &amp;, const std::vector&lt; std::size_t &gt; &amp;, const std::vector&lt; std::size_t &gt; &amp;, const std::vector&lt; std::size_t &gt; &amp;, <a class="el" href="class_array4_d.html">Array4D</a> &amp;) const =0</td></tr>
+<tr class="separator:ab3418df299a6caffd02a46e176836b3f inherit pub_methods_class_array4_d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class_basic_data"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_basic_data')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_basic_data.html">BasicData</a></td></tr>
 <tr class="memitem:ace60c0431ec876c0163aee9a50c98f27 inherit pub_methods_class_basic_data"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_basic_data.html#ace60c0431ec876c0163aee9a50c98f27">BasicData</a> ()</td></tr>
 <tr class="separator:ace60c0431ec876c0163aee9a50c98f27 inherit pub_methods_class_basic_data"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -465,6 +473,95 @@ Friends</h2></td></tr>
 </dl>
 
 <p>Implemented in <a class="el" href="class_forecasts_pointer.html#a3cc0c8c33008913695e8814bd720b8a4">ForecastsPointer</a>.</p>
+
+</div>
+</div>
+<a id="a2817f0616190b42f164cf22495ef2f63"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2817f0616190b42f164cf22495ef2f63">&#9670;&nbsp;</a></span>subset()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void Forecasts::subset </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_forecasts.html">Forecasts</a> &amp;&#160;</td>
+          <td class="paramname"><em>forecasts_subset</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="class_forecasts_pointer.html#ad0905abb0741373aef5c72d4109db5f7">ForecastsPointer</a>.</p>
+
+</div>
+</div>
+<a id="a73259c4190431708d673121ed501f6c1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a73259c4190431708d673121ed501f6c1">&#9670;&nbsp;</a></span>windTransform()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void Forecasts::windTransform </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>name_u</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>name_v</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>name_spd</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>name_dir</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>In some forecast model output, wind components U and V are available, but not wind speed and direction. This function is used to calculate wind speed and direction from U and V components.</p>
+<p>Note that U will be replaced by wind speed and V will be replaced by wind direction.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name_u</td><td><a class="el" href="class_parameter.html" title="Parameter stores parameter information including name and circular. ">Parameter</a> name for U component of wind </td></tr>
+    <tr><td class="paramname">name_v</td><td><a class="el" href="class_parameter.html" title="Parameter stores parameter information including name and circular. ">Parameter</a> name for V component of wind </td></tr>
+    <tr><td class="paramname">name_spd</td><td><a class="el" href="class_parameter.html" title="Parameter stores parameter information including name and circular. ">Parameter</a> name for wind speed </td></tr>
+    <tr><td class="paramname">name_dir</td><td><a class="el" href="class_parameter.html" title="Parameter stores parameter information including name and circular. ">Parameter</a> name for wind direction </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Implemented in <a class="el" href="class_forecasts_pointer.html#af6af89af739aff4299c7e6cbeb4d9ab5">ForecastsPointer</a>.</p>
 
 </div>
 </div>

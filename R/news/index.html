@@ -67,7 +67,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAnEn</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">4.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">4.0.2</span>
       </span>
     </div>
 
@@ -110,13 +110,22 @@
       <small>Source: <a href='https://github.com/Weiming-Hu/AnalogsEnsemble/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="panen-4-0-2" class="section level1">
+<h1 class="page-header">
+<a href="#panen-4-0-2" class="anchor"></a>PAnEn 4.0.2</h1>
+<ul>
+<li>Added test and search period checks to avoid calculating analogs over empty time periods</li>
+<li>Changed the tutorial on generating operational analogs</li>
+<li>Improve the performance of <code>AnEnReadGrib</code> by avoiding reading entire files</li>
+</ul>
+</div>
     <div id="panen-4-0-1" class="section level1">
 <h1 class="page-header">
 <a href="#panen-4-0-1" class="anchor"></a>PAnEn 4.0.1</h1>
 <ul>
-<li>Add <code><a href="../reference/generateSearchStations.html">RAnEn::generateSearchStations</a></code>
+<li>Added <code><a href="../reference/generateSearchStations.html">RAnEn::generateSearchStations</a></code>
 </li>
-<li>Update document links</li>
+<li>Updated document links</li>
 </ul>
 </div>
     <div id="panen-4-0-0-pandora" class="section level1">
@@ -135,13 +144,16 @@
 <h1 class="page-header">
 <a href="#panen-3-7-1" class="anchor"></a>PAnEn 3.7.1</h1>
 <ul>
-<li>Introduced auto generation of HPC work flows using <code>RAnEn::generateHPCWorkflow</code>.</li>
-<li>Fixed a bug during subseting observation times in <code>RAnEn::plotAnalogTimeSeries</code>.</li>
+<li>Introduced auto generation of HPC work flows using <code>RAnEn::generateHPCWorkflow</code>
+</li>
+<li>Fixed a bug during subseting observation times in <code>RAnEn::plotAnalogTimeSeries</code>
+</li>
 <li>Added <code>operational</code> in <code>RAnEn::generateHPCWorkflow</code>
 </li>
 <li>
-<code>search_times_compare</code> automatically changed when <code>operational</code> was used.</li>
-<li>Changed <code><a href="../reference/writeConfiguration.html">RAnEn::writeConfiguration</a></code> from <code>ifelse</code> to using the function <code>if</code>.</li>
+<code>search_times_compare</code> automatically changed when <code>operational</code> was used</li>
+<li>Changed <code><a href="../reference/writeConfiguration.html">RAnEn::writeConfiguration</a></code> from <code>ifelse</code> to using the function <code>if</code>
+</li>
 </ul>
 </div>
     <div id="panen-3-7-0" class="section level1">
@@ -479,6 +491,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#panen-4-0-2">4.0.2</a></li>
         <li><a href="#panen-4-0-1">4.0.1</a></li>
         <li><a href="#panen-4-0-0-pandora">4.0.0</a></li>
         <li><a href="#panen-3-7-1">3.7.1</a></li>

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['y_5f',['y_',['../class_station.html#a3694cd2b189531999d094ee18f0672a2',1,'Station']]]
+  ['x_5f',['x_',['../class_station.html#a6d813a866845bcd608954664651e0731',1,'Station']]]
 ];

@@ -75,9 +75,9 @@ Inheritance diagram for Array4D:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_array4_d__inherit__graph.png" border="0" usemap="#_array4_d_inherit__map" alt="Inheritance graph"/></div>
 <map name="_array4_d_inherit__map" id="_array4_d_inherit__map">
-<area shape="rect" id="node2" href="class_array4_d_pointer.html" title="Array4DPointer is an implementation of the abstract class Array4D. " alt="" coords="5,292,159,633"/>
-<area shape="rect" id="node4" href="class_forecasts.html" title="Forecasts is an abstract class that extends BasicData and the abstract class Array4D. It defines the interface of how to interact with the underlying data storage through the abstract class Array4D. This interface is accepted by the Analog Ensemble algorithm. " alt="" coords="183,351,325,575"/>
-<area shape="rect" id="node3" href="class_forecasts_pointer.html" title="ForecastsPointer is an implementation of the abstract class Forecasts. It also inherits from Array4DP..." alt="" coords="89,681,246,876"/>
+<area shape="rect" id="node2" href="class_array4_d_pointer.html" title="Array4DPointer is an implementation of the abstract class Array4D. " alt="" coords="5,321,159,619"/>
+<area shape="rect" id="node4" href="class_forecasts.html" title="Forecasts is an abstract class that extends BasicData and the abstract class Array4D. It defines the interface of how to interact with the underlying data storage through the abstract class Array4D. This interface is accepted by the Analog Ensemble algorithm. " alt="" coords="183,343,325,597"/>
+<area shape="rect" id="node3" href="class_forecasts_pointer.html" title="ForecastsPointer is an implementation of the abstract class Forecasts. It also inherits from Array4DP..." alt="" coords="89,667,246,891"/>
 </map>
 </div>
 <div class="dynheader">
@@ -106,12 +106,16 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a7b1a1517e6312361635f6d6416a913da"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a202eb4769e149d7667dc9e0845d9e53c"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#a202eb4769e149d7667dc9e0845d9e53c">resize</a> (std::size_t, std::size_t, std::size_t, std::size_t)=0</td></tr>
 <tr class="separator:a202eb4769e149d7667dc9e0845d9e53c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a64f081bad31c0d1693b2fb24afd5faff"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#a64f081bad31c0d1693b2fb24afd5faff">resize</a> (const <a class="el" href="class_array4_d.html">Array4D</a> &amp;)=0</td></tr>
+<tr class="separator:a64f081bad31c0d1693b2fb24afd5faff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0c8c636de5d652a051820910efcf51ce"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#a0c8c636de5d652a051820910efcf51ce">initialize</a> (double)=0</td></tr>
 <tr class="separator:a0c8c636de5d652a051820910efcf51ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ace14d3ee0e335767689527bc15da9fad"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#ace14d3ee0e335767689527bc15da9fad">getValue</a> (std::size_t, std::size_t, std::size_t, std::size_t) const =0</td></tr>
 <tr class="separator:ace14d3ee0e335767689527bc15da9fad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7e89720108c37465bc68ee1529184eae"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#a7e89720108c37465bc68ee1529184eae">setValue</a> (double val, std::size_t, std::size_t, std::size_t, std::size_t)=0</td></tr>
 <tr class="separator:a7e89720108c37465bc68ee1529184eae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab3418df299a6caffd02a46e176836b3f"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#ab3418df299a6caffd02a46e176836b3f">subset</a> (const std::vector&lt; std::size_t &gt; &amp;, const std::vector&lt; std::size_t &gt; &amp;, const std::vector&lt; std::size_t &gt; &amp;, const std::vector&lt; std::size_t &gt; &amp;, <a class="el" href="class_array4_d.html">Array4D</a> &amp;) const =0</td></tr>
+<tr class="separator:ab3418df299a6caffd02a46e176836b3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ada3abf2e6d9c09eebbf7f2c1f3b0df40"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_array4_d.html#ada3abf2e6d9c09eebbf7f2c1f3b0df40">print</a> (std::ostream &amp;) const =0</td></tr>
 <tr class="separator:ada3abf2e6d9c09eebbf7f2c1f3b0df40"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -401,7 +405,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <a id="a202eb4769e149d7667dc9e0845d9e53c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a202eb4769e149d7667dc9e0845d9e53c">&#9670;&nbsp;</a></span>resize()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a202eb4769e149d7667dc9e0845d9e53c">&#9670;&nbsp;</a></span>resize() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -455,7 +459,35 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="class_array4_d_pointer.html#a128becb8688e5a216ed16a206714bc16">Array4DPointer</a>.</p>
+<p>Implemented in <a class="el" href="class_array4_d_pointer.html#afab343873a41925f97d640e6acc69dc8">Array4DPointer</a>.</p>
+
+</div>
+</div>
+<a id="a64f081bad31c0d1693b2fb24afd5faff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a64f081bad31c0d1693b2fb24afd5faff">&#9670;&nbsp;</a></span>resize() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void Array4D::resize </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_array4_d.html">Array4D</a> &amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="class_array4_d_pointer.html#a9089bf3b994bff3bd83c1d5b28482659">Array4DPointer</a>.</p>
 
 </div>
 </div>
@@ -539,6 +571,62 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Implemented in <a class="el" href="class_array4_d_pointer.html#a41fbb8cb37ce4f6894b8dd9a1c504fb2">Array4DPointer</a>.</p>
+
+</div>
+</div>
+<a id="ab3418df299a6caffd02a46e176836b3f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab3418df299a6caffd02a46e176836b3f">&#9670;&nbsp;</a></span>subset()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void Array4D::subset </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; std::size_t &gt; &amp;&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::size_t &gt; &amp;&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::size_t &gt; &amp;&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::size_t &gt; &amp;&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_array4_d.html">Array4D</a> &amp;&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="class_array4_d_pointer.html#ac11d5ba600a07121b3a8b78f0c392eb3">Array4DPointer</a>.</p>
 
 </div>
 </div>
