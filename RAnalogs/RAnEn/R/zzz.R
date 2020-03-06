@@ -44,6 +44,7 @@ The Pennsylvania State University")
 			message, "\n\n******************************************************\n",
 			"You haven't installed RAnEnExtra for AnEn verification and visualization\n",
 			"To install: devtools::install_github('Weiming-Hu/RAnEnExtra')\n",
+			"Be sure the library devtools is installed on your machine.\n",
 			"******************************************************", sep = '')
 	}
 	
