@@ -142,6 +142,8 @@ Ncdf::checkVarShape(const NcGroup & nc,
     if (var_name.empty()) throw runtime_error("Ncdf::checkVarShape -> Empty variable name is not allowed");
 
     const auto & var = nc.getVar(var_name);
+    if (var.isNull()) throw runtime_error("Ncdf::checkVarShape -> Variable does not exists");
+    
     auto dims = var.getDims();
 
     if (dims.size() != dim_names.size()) {
