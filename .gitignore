@@ -64,7 +64,6 @@ build*
 output
 dependency
 doxygen-output
-*release*
 
 RAnalogs/RAnEn/config.log
 RAnalogs/RAnEn/config.status
