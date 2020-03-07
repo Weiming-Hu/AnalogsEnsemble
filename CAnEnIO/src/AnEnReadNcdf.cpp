@@ -239,8 +239,8 @@ AnEnReadNcdf::readAnalogs(const string& file_path, Array4D& analogs,
     
     if (entire) {
         num_stations = nc.getDim(Config::_DIM_STATIONS).getSize();
-        num_test_times = nc.getDim(Config::_TEST_TIMES).getSize();
-        num_flts = nc.getDim(Config::_FLTS).getSize();
+        num_test_times = nc.getDim(Config::_DIM_TEST_TIMES).getSize();
+        num_flts = nc.getDim(Config::_DIM_FLTS).getSize();
         num_analogs = nc.getDim(Config::_DIM_ANALOGS).getSize();
     } else {
         num_stations = count[0];

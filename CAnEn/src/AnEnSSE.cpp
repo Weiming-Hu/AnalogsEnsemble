@@ -7,6 +7,8 @@
  */
 
 #include "AnEnSSE.h"
+
+#include <stdexcept>
 #include <algorithm>
 
 #if defined(_OPENMP)

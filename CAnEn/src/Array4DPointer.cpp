@@ -7,6 +7,8 @@
  */
 
 #include "Array4DPointer.h"
+
+#include <stdexcept>
 #include <cstring>
 #include <cmath>
 #include <algorithm>

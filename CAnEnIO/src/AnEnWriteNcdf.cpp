@@ -11,6 +11,7 @@
 
 #include "boost/filesystem.hpp"
 
+#include <stdexcept>
 #include <algorithm>
 #include <functional>
 

@@ -10,6 +10,7 @@
 #include "Calculator.h"
 
 #include <algorithm>
+#include <stdexcept>
 
 #if defined(_OPENMP)
 #include <omp.h>

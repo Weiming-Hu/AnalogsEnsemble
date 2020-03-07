@@ -7,6 +7,7 @@
  */
 
 #include "ObservationsPointer.h"
+#include <stdexcept>
 
 using namespace std;
 

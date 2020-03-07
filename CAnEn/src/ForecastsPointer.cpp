@@ -9,6 +9,7 @@
 #include "ForecastsPointer.h"
 #include "Functions.h"
 
+#include <stdexcept>
 #include <algorithm>
 
 using namespace std;
