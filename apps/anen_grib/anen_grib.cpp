@@ -28,9 +28,8 @@ using namespace boost::program_options;
 void runAnEnGrib(
         const vector<string> & forecast_files,
         const vector<string> & analysis_files,
-        const string & regex_day_str,
-        const string & regex_flt_str,
-        const string & regex_cycle_str,
+        const string & forecast_regex,
+        const string & analysis_regex,
         const vector<size_t> & obs_id,
         const vector<ParameterGrib> & grib_parameters,
         const vector<int> & stations_index,
@@ -88,8 +87,7 @@ void runAnEnGrib(
      */
     AnEnReadGrib anen_read(config.verbose);
     ForecastsPointer forecasts;
-    anen_read.readForecasts(forecasts, grib_parameters, forecast_files,
-            regex_day_str, regex_flt_str, regex_cycle_str,
+    anen_read.readForecasts(forecasts, grib_parameters, forecast_files, forecast_regex,
             unit_in_seconds, delimited, stations_index);
 
     if (convert_wind) forecasts.windTransform(u_name, v_name, spd_name, dir_name);
@@ -107,8 +105,7 @@ void runAnEnGrib(
      * Read forecast analysis from files and convert them to observations
      */
     ForecastsPointer analysis;
-    anen_read.readForecasts(analysis, grib_parameters, analysis_files,
-            regex_day_str, regex_flt_str, regex_cycle_str,
+    anen_read.readForecasts(analysis, grib_parameters, analysis_files, analysis_regex,
             unit_in_seconds, delimited, stations_index);
 
     if (convert_wind) analysis.windTransform(u_name, v_name, spd_name, dir_name);
@@ -305,9 +302,8 @@ int main(int argc, char** argv) {
     vector<double> weights;
     vector<size_t> obs_id;
 
-    string forecast_folder, analysis_folder, regex_day_str, regex_flt_str;
-    string regex_cycle_str, test_start, test_end, search_start, search_end;
-    string fileout, algorithm, ext, u_name, v_name, spd_name, dir_name;
+    string forecast_folder, analysis_folder, test_start, test_end, search_start, search_end;
+    string forecast_regex, analysis_regex, fileout, algorithm, ext, u_name, v_name, spd_name, dir_name;
     bool delimited, overwrite, profile, save_tests, convert_wind;
     size_t unit_in_seconds;
     int verbose;
@@ -322,9 +318,8 @@ int main(int argc, char** argv) {
             ("forecasts-folder", value<string>(&forecast_folder)->multitoken()->required(), "Folder for forecast GRIB files.")
             ("analysis-folder", value<string>(&analysis_folder)->multitoken()->required(), "Folder for analysis GRIB files.")
             ("ext", value<string>(&ext)->default_value(".grb2"), "[Optional] GRIB file extension")
-            ("regex-day", value<string>(&regex_day_str)->required(), "Regular expression for the date. Regular expressions are used on file names.")
-            ("regex-flt", value<string>(&regex_flt_str)->required(), "Regular expression for lead times.")
-            ("regex-cycle", value<string>(&regex_cycle_str), "[Optional] Regular expression for initialization cycle time.")
+            ("forecast-regex", value<string>(&forecast_regex)->required(), "Regular expression for forecast file names. The expression should have named groups for 'day', 'flt', and 'cycle'. An example is '.*nam_218_(?P<day>\\d{8})_(?P<cycle>\\d{2})\\d{2}_(?P<flt>\\d{3})\\.grb2$'")
+            ("analysis-regex", value<string>(&analysis_regex)->required(), "Regular expression for analysis file names with the same format as for forecasts.")
             ("pars-name", value< vector<string> >(&parameters_name)->multitoken()->required(), "Parameters name.")
             ("pars-circular", value < vector<bool> >(&parameters_circular)->multitoken(), "[Optional] 1 for circular parameters and 0 for linear circulars.")
             ("pars-id", value< vector<long> >(&parameters_id)->multitoken()->required(), "Parameters ID.")
@@ -384,7 +379,9 @@ int main(int argc, char** argv) {
         // If help messages are requested or there are
         // no extra arguments other than the command line itself
         //
-        cout << desc << endl;
+        cout << "Parallel Analogs Ensemble -- anen "
+                << _APPVERSION << endl << _COPYRIGHT_MSG << endl
+                << desc << endl;
         return 0;
     }
 
@@ -461,7 +458,7 @@ int main(int argc, char** argv) {
     }
 
     runAnEnGrib(forecast_files, analysis_files,
-            regex_day_str, regex_flt_str, regex_cycle_str,
+            forecast_regex, analysis_regex,
             obs_id, grib_parameters, stations_index, test_start, test_end, search_start, search_end,
             fileout, algorithm, config, unit_in_seconds, delimited, overwrite, profile, save_tests,
             convert_wind, u_name, v_name, spd_name, dir_name);

@@ -22,7 +22,7 @@ option(BUILD_BOOST "Build Boost" OFF)
 option(ENABLE_OPENMP "Use OpenMP" ON)
 
 # Set variables
-set(GRAND_VERSION "4.0.2")
+set(GRAND_VERSION "4.0.3")
 set(GRAND_VERSION_NICKNAME "Pandora")
 set(WE_ARE "GEOlab @ Penn State")
 set(SUBPROJECT_TARGETS "AnEn;AnEnIO")
