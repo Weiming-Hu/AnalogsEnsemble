@@ -17,10 +17,16 @@
 #include "AnEnIS.h"
 #include "AnEnSSE.h"
 #include "Profiler.h"
-#include "AnEnReadGrib.h"
 #include "AnEnWriteNcdf.h"
 #include "ForecastsPointer.h"
 #include "ObservationsPointer.h"
+
+#if defined(_USE_MPI_EXTENSION)
+#include "AnEnReadGribMPI.h"
+#else 
+#include "AnEnReadGrib.h"
+#endif
+
 
 using namespace std;
 using namespace boost::program_options;
@@ -85,7 +91,12 @@ void runAnEnGrib(
     /*
      * Read forecasts from files
      */
+#if defined(_USE_MPI_EXTENSION)
+    AnEnReadGribMPI anen_read(config.verbose);
+#else
     AnEnReadGrib anen_read(config.verbose);
+#endif
+
     ForecastsPointer forecasts;
     anen_read.readForecasts(forecasts, grib_parameters, forecast_files, forecast_regex,
             unit_in_seconds, delimited, stations_index);
@@ -379,9 +390,13 @@ int main(int argc, char** argv) {
         // If help messages are requested or there are
         // no extra arguments other than the command line itself
         //
-        cout << "Parallel Analogs Ensemble -- anen "
-                << _APPVERSION << endl << _COPYRIGHT_MSG << endl
-                << desc << endl;
+        cout
+#if defined(_USE_MPI_EXTENSION)
+            << "Parallel Analogs Ensemble -- anen_grib_mpi "
+#else
+            << "Parallel Analogs Ensemble -- anen_grib "
+#endif
+            << _APPVERSION << endl << _COPYRIGHT_MSG << endl << endl << desc << endl;
         return 0;
     }
 
@@ -427,8 +442,13 @@ int main(int argc, char** argv) {
     }
 
     if (config.verbose >= Verbose::Progress) {
-        cout << "Parallel Analogs Ensemble -- anen "
-                << _APPVERSION << endl << _COPYRIGHT_MSG << endl;
+        cout
+#if defined(_USE_MPI_EXTENSION)
+            << "Parallel Analogs Ensemble -- anen_grib_mpi "
+#else
+            << "Parallel Analogs Ensemble -- anen_grib "
+#endif
+            << _APPVERSION << endl << _COPYRIGHT_MSG << endl;
     }
 
 
@@ -457,11 +477,19 @@ int main(int argc, char** argv) {
                 << Functions::format(analysis_files, "\n") << endl;
     }
 
+#if defined(_USE_MPI_EXTENSION)
+    MPI_Init(&argc, &argv);
+#endif
+
     runAnEnGrib(forecast_files, analysis_files,
             forecast_regex, analysis_regex,
             obs_id, grib_parameters, stations_index, test_start, test_end, search_start, search_end,
             fileout, algorithm, config, unit_in_seconds, delimited, overwrite, profile, save_tests,
             convert_wind, u_name, v_name, spd_name, dir_name);
+
+#if defined(_USE_MPI_EXTENSION)
+    MPI_Finalize();
+#endif
 
     return 0;
 }
