@@ -24,9 +24,7 @@ using namespace boost::program_options;
 
 void runGribConvert(
         const vector<string> & forecast_files,
-        const string & regex_day_str,
-        const string & regex_flt_str,
-        const string & regex_cycle_str,
+        const string & regex_str,
         const vector<ParameterGrib> & grib_parameters,
         const vector<int> & stations_index,
         const string & fileout,
@@ -47,8 +45,7 @@ void runGribConvert(
     AnEnReadGrib anen_read(verbose);
     ForecastsPointer forecasts;
     anen_read.readForecasts(forecasts, grib_parameters, forecast_files,
-            regex_day_str, regex_flt_str, regex_cycle_str,
-            unit_in_seconds, delimited, stations_index);
+            regex_str, unit_in_seconds, delimited, stations_index);
 
     if (convert_wind) forecasts.windTransform(u_name, v_name, spd_name, dir_name);
 
@@ -85,7 +82,7 @@ int main(int argc, char** argv) {
     vector<bool> parameters_circular;
     vector<int> stations_index;
 
-    string forecast_folder, regex_day_str, regex_flt_str, regex_cycle_str;
+    string forecast_folder, regex_str;
     string fileout, time_start_str, time_end_str, ext, u_name, v_name, spd_name, dir_name; 
     bool delimited, overwrite, collapse_lead_times, convert_wind;
     size_t unit_in_seconds;
@@ -99,9 +96,7 @@ int main(int argc, char** argv) {
             ("config,c", value< vector<string> >(&config_files)->multitoken(), "Config files (.cfg). Command line options overwrite config files.")
             ("forecasts-folder", value<string>(&forecast_folder)->multitoken()->required(), "Folder for forecast GRIB files.")
             ("ext", value<string>(&ext)->default_value(".grb2"), "[Optional] GRIB file extension")
-            ("regex-day", value<string>(&regex_day_str)->required(), "Regular expression for the date. Regular expressions are used on file names.")
-            ("regex-flt", value<string>(&regex_flt_str)->required(), "Regular expression for lead times.")
-            ("regex-cycle", value<string>(&regex_cycle_str), "[Optional] Regular expression for initialization cycle time.")
+            ("regex", value<string>(&regex_str), "Regular expression for file names. The expression should have named groups for 'day', 'flt', and 'cycle'. An example is '.*nam_218_(?P<day>\\d{8})_(?P<cycle>\\d{2})\\d{2}_(?P<flt>\\d{3})\\.grb2$'")
             ("pars-name", value< vector<string> >(&parameters_name)->multitoken()->required(), "Parameters name.")
             ("pars-circular", value < vector<bool> >(&parameters_circular)->multitoken(), "[Optional] 1 for circular parameters and 0 for linear circulars.")
             ("pars-id", value< vector<long> >(&parameters_id)->multitoken()->required(), "Parameters ID.")
@@ -138,7 +133,9 @@ int main(int argc, char** argv) {
         // If help messages are requested or there are
         // no extra arguments other than the command line itself
         //
-        cout << desc << endl;
+        cout << "Parallel Analogs Ensemble -- grib_convert "
+                << _APPVERSION << endl << _COPYRIGHT_MSG << endl
+                << desc << endl;
         return 0;
     }
 
@@ -210,9 +207,9 @@ int main(int argc, char** argv) {
                 << Functions::format(analysis_files, "\n") << endl;
     }
 
-    runGribConvert(forecast_files, regex_day_str, regex_flt_str, regex_cycle_str,
-        grib_parameters, stations_index, fileout, unit_in_seconds, delimited, overwrite,
-        collapse_lead_times, verbose, convert_wind, u_name, v_name, spd_name, dir_name);
+    runGribConvert(forecast_files, regex_str, grib_parameters, stations_index, fileout,
+            unit_in_seconds, delimited, overwrite, collapse_lead_times, verbose,
+            convert_wind, u_name, v_name, spd_name, dir_name);
 
     return 0;
 }

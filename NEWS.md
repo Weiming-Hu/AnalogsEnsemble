@@ -1,3 +1,8 @@
+# PAnEn 4.0.3
+
+- Added the regular expressions for forecast and analysis filenames separately
+- Changed from `boost::regex` to `boost::xpressive`
+
 # PAnEn 4.0.2
 
 - Added test and search period checks to avoid calculating analogs over empty time periods

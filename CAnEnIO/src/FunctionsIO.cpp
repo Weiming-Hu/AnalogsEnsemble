@@ -19,6 +19,7 @@
 
 using namespace std;
 using namespace boost::gregorian;
+using namespace boost::xpressive;
 namespace fs = boost::filesystem;
 
 // These defines how to convert string-like times to double value times
@@ -69,59 +70,30 @@ FunctionsIO::toParameterVector(
 bool
 FunctionsIO::parseFilename(Time & time, Time & flt,
         const string & file, const date & start_day,
-        const boost::regex & regex_day,
-        const boost::regex & regex_flt,
+        const sregex & rex,
         size_t unit_in_seconds,
         bool delimited) {
 
     date current_day;
-    boost::smatch match_day, match_flt;
+    smatch what;
 
     // Apply the regular expression
-    bool has_day = regex_search(file.begin(), file.end(), match_day, regex_day);
-    if (!has_day) return false;
+    bool success = regex_match(file, what, rex);
+    if (!success) return false;
 
-    bool has_flt = regex_search(file.begin(), file.end(), match_flt, regex_flt);
-    if (!has_flt) return false;
-
-    // Determine the current time
-    if (delimited) current_day = from_string(string(match_day[1]));
-    else current_day = from_undelimited_string(string(match_day[1]));
+    // Determine the current date
+    if (delimited) current_day = from_string(string(what["day"]));
+    else current_day = from_undelimited_string(string(what["day"]));
 
     // Calculate the associated time stamp
     size_t timestamp = (current_day - start_day).days() * _SECONDS_IN_DAY;
-
     time.timestamp = timestamp;
-    flt.timestamp = stoi(match_flt[1]) * unit_in_seconds;
 
-    return true;
-}
-
-bool
-FunctionsIO::parseFilename(Time & time, Time & flt,
-        const string & file, const date & start_day,
-        const boost::regex & regex_day,
-        const boost::regex & regex_flt,
-        const boost::regex & regex_cycle,
-        size_t unit_in_seconds,
-        bool delimited) {
-
-    // Match only the day and the lead time parts
-    bool ret = parseFilename(time, flt, file,
-            start_day, regex_day, regex_flt,
-            unit_in_seconds, delimited);
-
-    // If the first step of matching has failed, return false
-    if (!ret) return false;
-
-    // If the first step of matching has gone through, match the cycle time
-    boost::smatch match_cycle;
-
-    if (regex_search(file.begin(), file.end(), match_cycle, regex_cycle)) {
-        time.timestamp += stoi(match_cycle[1]) * unit_in_seconds;
-    } else {
-        throw runtime_error("Cannot find cycle time using the regular expression");
-    }
+    // Calculate the date time offset by cycle time
+    time.timestamp += stoi(what["cycle"]) * unit_in_seconds;
+    
+    // Calculate the forecast lead time
+    flt.timestamp = stoi(what["flt"]) * unit_in_seconds;
 
     return true;
 }
@@ -129,9 +101,7 @@ FunctionsIO::parseFilename(Time & time, Time & flt,
 void
 FunctionsIO::parseFilenames(Times & times, Times & flts,
         const vector<string> & files,
-        const string & regex_day_str,
-        const string & regex_flt_str,
-        const string & regex_cycle_str,
+        const string & regex_str,
         size_t unit_in_seconds,
         bool delimited) {
     
@@ -141,9 +111,7 @@ FunctionsIO::parseFilenames(Times & times, Times & flts,
     if (!is_sorted(files.begin(), files.end())) throw runtime_error("Filenames should be odered in ascension order");
 
     // Convert regular expression string to a regular expression object
-    boost::regex regex_day{regex_day_str};
-    boost::regex regex_flt{regex_flt_str};
-    boost::regex regex_cycle{regex_cycle_str};
+    sregex rex = sregex::compile(regex_str);
 
     // Start with clean repositories
     times.clear();
@@ -160,12 +128,7 @@ FunctionsIO::parseFilenames(Times & times, Times & flts,
     for (auto it = files.begin(); it != it_end; ++it) {
 
         // Try to parse time information from the file name
-        if (regex_cycle_str.empty()) ret = parseFilename(
-                time, flt, *it, start_day, regex_day, regex_flt,
-                unit_in_seconds, delimited);
-        else ret = parseFilename(
-                time, flt, *it, start_day, regex_day, regex_flt,
-                regex_cycle, unit_in_seconds, delimited);
+        ret = parseFilename(time, flt, *it, start_day, rex, unit_in_seconds, delimited);
 
         // If information is successfully parsed, record the information;
         // otherwise, this file is removed from further process.

@@ -47,7 +47,7 @@ set(NETCDF_CXX "YES")
 find_package(AnEn REQUIRED)
 find_package(eccodes REQUIRED)
 find_package(NetCDF REQUIRED)
-find_package(Boost 1.58.0 REQUIRED COMPONENTS regex date_time filesystem)
+find_package(Boost 1.58.0 REQUIRED COMPONENTS date_time filesystem)
 
 # Create target by explicitly listing all source files
 add_library(AnEnIO ${AnEnIO_source_files})
@@ -57,7 +57,7 @@ add_library(AnEnIO::AnEnIO ALIAS AnEnIO)
 
 # Configure the properties of this target
 target_link_libraries(AnEnIO
-    PUBLIC AnEn::AnEn Boost::regex Boost::date_time ${NETCDF_LIBRARIES}
+    PUBLIC AnEn::AnEn Boost::date_time ${NETCDF_LIBRARIES}
     PRIVATE Boost::filesystem ${ECCODES_LIBRARIES})
 
 target_include_directories(AnEnIO SYSTEM PUBLIC 

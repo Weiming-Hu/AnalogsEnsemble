@@ -17,6 +17,7 @@
 
 using namespace std;
 using namespace boost::gregorian;
+using namespace boost::xpressive;
 
 AnEnReadGrib::AnEnReadGrib() {
     Config config;
@@ -37,9 +38,7 @@ void
 AnEnReadGrib::readForecasts(Forecasts & forecasts,
         const vector<ParameterGrib> & grib_parameters,
         const vector<string> & files,
-        const string & regex_day_str,
-        const string & regex_flt_str,
-        const string & regex_cycle_str,
+        const string & regex_str,
         size_t flt_unit_in_seconds, bool delimited,
         vector<int> stations_index) const {
 
@@ -48,9 +47,7 @@ AnEnReadGrib::readForecasts(Forecasts & forecasts,
      */
     if (verbose_ >= Verbose::Progress) cout << "Parsing files names for times and forecast lead times ..." << endl;
     Times times, flts;
-    FunctionsIO::parseFilenames(times, flts, files,
-            regex_day_str, regex_flt_str, regex_cycle_str,
-            flt_unit_in_seconds, delimited);
+    FunctionsIO::parseFilenames(times, flts, files, regex_str, flt_unit_in_seconds, delimited);
 
     if (times.size() == 0) throw runtime_error("No day information extracted. Check filenames and regular expressions");
     if (flts.size() == 0) throw runtime_error("No lead time information extracted. Check filenames and regular expressions");
@@ -111,9 +108,7 @@ AnEnReadGrib::readForecasts(Forecasts & forecasts,
     size_t read_files = 0;
 
     // These regular expressions can be reused
-    boost::regex regex_day{regex_day_str};
-    boost::regex regex_flt{regex_flt_str};
-    boost::regex regex_cycle{regex_cycle_str};
+    sregex rex = sregex::compile(regex_str);
 
     // This is the start time
     date start_day(from_string(Time::_origin));
@@ -127,12 +122,8 @@ AnEnReadGrib::readForecasts(Forecasts & forecasts,
     for (const auto & file : files) {
 
         // Determine the time and flt index for this file
-        if (regex_cycle_str.empty()) ret = FunctionsIO::parseFilename(
-                file_time, file_flt, file, start_day, regex_day, regex_flt,
-                flt_unit_in_seconds, delimited);
-        else ret = FunctionsIO::parseFilename(
-                file_time, file_flt, file, start_day, regex_day, regex_flt,
-                regex_cycle, flt_unit_in_seconds, delimited);
+        ret = FunctionsIO::parseFilename(file_time, file_flt, file, start_day,
+                rex, flt_unit_in_seconds, delimited);
 
         // Skip this file if the file is not recognized
         if (ret) {

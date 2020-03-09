@@ -8,7 +8,7 @@
 #ifndef FUNCTIONSIO_H
 #define FUNCTIONSIO_H
 
-#include <boost/regex.hpp>
+#include <boost/xpressive/xpressive.hpp>
 #include <boost/date_time/gregorian/gregorian.hpp>
 
 #include <vector>
@@ -31,25 +31,13 @@ namespace FunctionsIO {
     bool parseFilename(Time & time, Time & flt,
             const std::string & file,
             const boost::gregorian::date & start_day,
-            const boost::regex & regex_day,
-            const boost::regex & regex_flt,
-            const boost::regex & regex_cycle,
-            size_t unit_in_seconds,
-            bool delimited);
-
-    bool parseFilename(Time & time, Time & flt,
-            const std::string & file,
-            const boost::gregorian::date & start_day,
-            const boost::regex & regex_day,
-            const boost::regex & regex_flt,
+            const boost::xpressive::sregex & rex,
             size_t unit_in_seconds,
             bool delimited);
 
     void parseFilenames(Times&, Times&,
             const std::vector<std::string> & files,
-            const std::string & regex_day_str,
-            const std::string & regex_flt_str,
-            const std::string & regex_cycle_str,
+            const std::string & regex_str,
             size_t unit_in_seconds,
             bool delimited);
 
