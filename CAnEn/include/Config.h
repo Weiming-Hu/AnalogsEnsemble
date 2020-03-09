@@ -44,6 +44,9 @@ public:
     int getVerbose();
     void setVerbose(int);
 
+    int getWorkerVerbose();
+    void setWorkerVerbose(int);
+
     void reset();
 
     /*************************************************************************
@@ -76,6 +79,7 @@ public:
     bool quick_sort;
 
     Verbose verbose;
+    Verbose worker_verbose;
     
     /*************************************************************************
      *                    Predefined Static Parameters                       *

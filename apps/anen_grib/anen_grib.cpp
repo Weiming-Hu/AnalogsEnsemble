@@ -92,7 +92,7 @@ void runAnEnGrib(
      * Read forecasts from files
      */
 #if defined(_USE_MPI_EXTENSION)
-    AnEnReadGribMPI anen_read(config.verbose);
+    AnEnReadGribMPI anen_read(config.verbose, config.worker_verbose);
 #else
     AnEnReadGrib anen_read(config.verbose);
 #endif
@@ -317,7 +317,7 @@ int main(int argc, char** argv) {
     string forecast_regex, analysis_regex, fileout, algorithm, ext, u_name, v_name, spd_name, dir_name;
     bool delimited, overwrite, profile, save_tests, convert_wind;
     size_t unit_in_seconds;
-    int verbose;
+    int verbose, worker_verbose;
 
     Config config;
 
@@ -349,6 +349,9 @@ int main(int argc, char** argv) {
             ("profile", bool_switch(&profile)->default_value(false), "[Optional] Print profiler's report.")
             ("unit-in-seconds", value<size_t>(&unit_in_seconds)->default_value(3600), "[Optional] The number of seconds for the unit of lead times. Usually lead times have hours as unit, so it defaults to 3600.")
             ("verbose,v", value<int>(&verbose)->default_value(2), "[Optional] Verbose level (0 - 4).")
+#if defined(_USE_MPI_EXTENSION)
+            ("worker-verbose", value<int>(&worker_verbose)->default_value(2), "[Optional] Verbose level for worker processes (0 - 4).")
+#endif
             ("analogs", value<size_t>(&(config.num_analogs)), "[Optional] Number of analogs members.")
             ("sims", value<size_t>(&(config.num_sims)), "[Optional] Number of similarity members.")
             ("obs-id", value< vector<size_t> >(&obs_id)->multitoken(), "[Optional] Observation variable index. If multiple indices are provided, multivariate analogs will be generated.")
@@ -438,7 +441,11 @@ int main(int argc, char** argv) {
     notify(vm);
 
     if (vm.count("verbose")) {
-        config.setVerbose(vm["verbose"].as<int>());
+        config.setVerbose(verbose);
+    }
+
+    if (vm.count("worker-verbose")) {
+        config.setWorkerVerbose(worker_verbose);
     }
 
     if (config.verbose >= Verbose::Progress) {

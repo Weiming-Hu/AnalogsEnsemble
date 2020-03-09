@@ -123,6 +123,17 @@ Config::setVerbose(int i) {
     return;
 }
 
+int
+Config::getWorkerVerbose() {
+    return Functions::vtoi(worker_verbose);
+}
+
+void
+Config::setWorkerVerbose(int i) {
+    worker_verbose = Functions::itov(i);
+    return;
+}
+
 void
 Config::reset() {
 
@@ -151,6 +162,7 @@ Config::reset() {
     save_obs_time_index_table = false;
     save_search_stations_index = false;
     verbose = Verbose::Warning;
+    worker_verbose = Verbose::Warning;
 
     return;
 }
