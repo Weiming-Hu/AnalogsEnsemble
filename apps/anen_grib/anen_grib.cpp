@@ -92,6 +92,9 @@ void runAnEnGrib(
      * Read forecasts from files
      */
 #if defined(_USE_MPI_EXTENSION)
+    int world_rank;
+    MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
+
     AnEnReadGribMPI anen_read(config.verbose, config.worker_verbose);
 #else
     AnEnReadGrib anen_read(config.verbose);
@@ -100,15 +103,6 @@ void runAnEnGrib(
     ForecastsPointer forecasts;
     anen_read.readForecasts(forecasts, grib_parameters, forecast_files, forecast_regex,
             unit_in_seconds, delimited, stations_index);
-
-    if (convert_wind) forecasts.windTransform(u_name, v_name, spd_name, dir_name);
-
-    // Convert string date times to Times objects
-    const Times & forecast_times = forecasts.getTimes();
-    Times test_times, search_times;
-
-    forecast_times(test_start, test_end, test_times);
-    forecast_times(search_start, search_end, search_times);
 
     profiler.log_time_session("reading forecasts");
 
@@ -119,16 +113,35 @@ void runAnEnGrib(
     anen_read.readForecasts(analysis, grib_parameters, analysis_files, analysis_regex,
             unit_in_seconds, delimited, stations_index);
 
-    if (convert_wind) analysis.windTransform(u_name, v_name, spd_name, dir_name);
+#if defined(_USE_MPI_EXTENSION)
+    // Terminate the process if this is not a master process
+    if (world_rank != 0) {
+        MPI_Finalize();
+        exit(0);
+    }
+#endif
 
     profiler.log_time_session("reading analysis");
+
+    // Convert wind parameters if necessary
+    if (convert_wind) {
+        forecasts.windTransform(u_name, v_name, spd_name, dir_name);
+        analysis.windTransform(u_name, v_name, spd_name, dir_name);
+    }
 
     // Convert analysis to observations
     if (config.verbose >= Verbose::Progress) cout << "Collapsing forecast analysis ..." << endl;
     ObservationsPointer observations;
     Functions::collapseLeadTimes(observations, analysis);
 
-    profiler.log_time_session("converting analysis");
+    // Convert string date times to Times objects
+    const Times & forecast_times = forecasts.getTimes();
+    Times test_times, search_times;
+
+    forecast_times(test_start, test_end, test_times);
+    forecast_times(search_start, search_end, search_times);
+
+    profiler.log_time_session("preprocessing");
 
 
     /**************************************************************************
