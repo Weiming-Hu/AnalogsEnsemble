@@ -71,6 +71,12 @@ AnEnReadGribMPI::readForecasts(Forecasts & forecasts,
     MPI_Comm_size(MPI_COMM_WORLD, &num_children);
     num_workers = num_children - 1;
 
+    if (num_children == 1) {
+        cerr << "Error: This is an MPI program. You need to launch this program with an MPI launcher, e.g. mpirun." << endl;
+        MPI_Finalize();
+        exit(1);
+    }
+
     if (num_children == 2) {
         cerr << "Error: To take advantage of MPI, at least 3 processes (1 master + 2 workers) should be created. "
             << "It is, however, better to have more worker processes." << endl;

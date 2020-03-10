@@ -40,5 +40,5 @@ install(EXPORT AnEnIOMPIConfig
     NAMESPACE AnEnIOMPI::
     DESTINATION lib/cmake)
 
-install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/AnEnIOMPI.h" DESTINATION include)
+install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/AnEnReadGribMPI.h" DESTINATION include)
 

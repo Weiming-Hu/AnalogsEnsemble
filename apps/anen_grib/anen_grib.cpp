@@ -367,9 +367,9 @@ int main(int argc, char** argv) {
             ("overwrite", bool_switch(&overwrite)->default_value(false), "[Optional] Overwrite files and variables.")
             ("profile", bool_switch(&profile)->default_value(false), "[Optional] Print profiler's report.")
             ("unit-in-seconds", value<size_t>(&unit_in_seconds)->default_value(3600), "[Optional] The number of seconds for the unit of lead times. Usually lead times have hours as unit, so it defaults to 3600.")
-            ("verbose,v", value<int>(&verbose)->default_value(2), "[Optional] Verbose level (0 - 4).")
+            ("verbose,v", value<int>(&verbose), "[Optional] Verbose level (0 - 4).")
 #if defined(_USE_MPI_EXTENSION)
-            ("worker-verbose", value<int>(&worker_verbose)->default_value(2), "[Optional] Verbose level for worker processes (0 - 4).")
+            ("worker-verbose", value<int>(&worker_verbose), "[Optional] Verbose level for worker processes (0 - 4).")
 #endif
             ("analogs", value<size_t>(&(config.num_analogs)), "[Optional] Number of analogs members.")
             ("sims", value<size_t>(&(config.num_sims)), "[Optional] Number of similarity members.")
