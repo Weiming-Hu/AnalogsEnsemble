@@ -30,8 +30,8 @@ AnEnReadGribMPI::AnEnReadGribMPI(Verbose master_verbose) : AnEnReadGrib(master_v
     worker_verbose_ = config.worker_verbose;
 }
 
-AnEnReadGribMPI::AnEnReadGribMPI(Verbose master_verbose, Verbose worker_verbose) : AnEnReadGrib(master_verbose) {
-    worker_verbose_ = worker_verbose;
+AnEnReadGribMPI::AnEnReadGribMPI(Verbose master_verbose, Verbose worker_verbose) :
+AnEnReadGrib(master_verbose), worker_verbose_(worker_verbose) {
 }
 
 AnEnReadGribMPI::~AnEnReadGribMPI() {
@@ -129,9 +129,6 @@ AnEnReadGribMPI::readForecasts(Forecasts & forecasts,
         // This is the number of total forecast times
         size_t num_forecast_times = forecast_times.size();
 
-        // This is the number of times from each process
-        size_t num_proc_times;
-
         // The chunk length for data values read from each file.
         size_t offset = forecasts.getStations().size() * forecasts.getParameters().size();
 
@@ -154,8 +151,9 @@ AnEnReadGribMPI::readForecasts(Forecasts & forecasts,
             // Translate these filenames to times and flts that the process is responsible of reading
             FunctionsIO::parseFilenames(proc_times, proc_flts, files_subset, regex_str, flt_unit_in_seconds, delimited);
 
+            // This is the number of times from each process
             // This process has read this many of times. This is used to calculate pointer offset
-            num_proc_times = proc_times.size();
+            size_t num_proc_times = proc_times.size();
 
             // Get the number of data values from the particular process
             MPI_Recv(&num_process_elements, 1, MPI_UNSIGNED_LONG, process_i, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);

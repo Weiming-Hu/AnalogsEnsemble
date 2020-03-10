@@ -17,9 +17,11 @@ using namespace std;
 CPPUNIT_TEST_SUITE_REGISTRATION(testAnEnIOMPI);
 
 testAnEnIOMPI::testAnEnIOMPI() {
+    setUp();
 }
 
 testAnEnIOMPI::~testAnEnIOMPI() {
+    tearDown();
 }
 
 void
@@ -83,8 +85,6 @@ testAnEnIOMPI::testReadGrib_() {
      * This function test the reading results from the serial
      * library AnEnReadGrib and the MPI version AnEnReadGribMPI
      */
-
-    setUp();
 
     // Read files in parallel
     if (world_rank == 0) cout << "************** Read with MPI **************" << endl;
@@ -155,7 +155,6 @@ testAnEnIOMPI::testReadGrib_() {
         else CPPUNIT_ASSERT(p_value_serial[i] == p_value_mpi[i]);
     }
 
-    tearDown();
     return;
 }
 

@@ -332,7 +332,11 @@ int main(int argc, char** argv) {
     string forecast_regex, analysis_regex, fileout, algorithm, ext, u_name, v_name, spd_name, dir_name;
     bool delimited, overwrite, profile, save_tests, convert_wind;
     size_t unit_in_seconds;
-    int verbose, worker_verbose;
+    int verbose;
+
+#if defined(_USE_MPI_EXTENSION)
+    int worker_verbose;
+#endif
 
     Config config;
 
