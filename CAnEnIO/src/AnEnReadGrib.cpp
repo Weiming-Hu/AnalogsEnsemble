@@ -5,6 +5,7 @@
  * Created on February 7, 2020, 1:02 PM
  */
 
+#include <cmath>
 #include <numeric>
 #include <sstream>
 #include <algorithm>
@@ -286,6 +287,7 @@ AnEnReadGrib::readForecastsMeta_(Forecasts & forecasts,
 
     // Allocate memory for forecasts
     forecasts.setDimensions(parameters, stations, times, flts);
+    forecasts.initialize(NAN);
 
     return;
 }

@@ -89,6 +89,7 @@ AnEnReadNcdf::readForecasts(const string & file_path,
 
     if (verbose_ >= Verbose::Detail) cout << "Updating dimensions ..." << endl;
     forecasts.setDimensions(parameters, stations, times, flts);
+    forecasts.initialize(NAN);
 
     // Read data values
     //
@@ -173,6 +174,7 @@ AnEnReadNcdf::readObservations(const std::string & file_path,
     // Read data values
     if (verbose_ >= Verbose::Detail) cout << "Updating dimensions ..." << endl;
     observations.setDimensions(parameters, stations, times);
+    observations.initialize(NAN);
 
     if (nc.getVar(Config::_DATA).isNull()) {
 
