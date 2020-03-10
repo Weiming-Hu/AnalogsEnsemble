@@ -463,9 +463,11 @@ int main(int argc, char** argv) {
         config.setVerbose(verbose);
     }
 
+#if defined(_USE_MPI_EXTENSION)
     if (vm.count("worker-verbose")) {
         config.setWorkerVerbose(worker_verbose);
     }
+#endif
 
     if (config.verbose >= Verbose::Progress) {
         cout

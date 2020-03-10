@@ -2,6 +2,7 @@
 
 - Added the regular expressions for forecast and analysis filenames separately
 - Changed from `boost::regex` to `boost::xpressive`
+- Added MPI support
 
 # PAnEn 4.0.2
 
