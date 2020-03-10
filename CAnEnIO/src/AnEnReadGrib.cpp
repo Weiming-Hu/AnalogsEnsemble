@@ -82,7 +82,15 @@ AnEnReadGrib::readForecasts(Forecasts & forecasts,
     // Turn on support for multi fields messages
     codes_grib_multi_support_on(0);
 
+    // Count how many files have been read
+    size_t counter = 0;
+
+    // The number of total files to read
+    size_t num_files = files.size();
+
     for (const auto & file : files) {
+
+        ++counter;
 
         // Determine the time and flt index for this file
         ret = FunctionsIO::parseFilename(file_time, file_flt, file, start_day,
@@ -90,7 +98,8 @@ AnEnReadGrib::readForecasts(Forecasts & forecasts,
 
         // Skip this file if the file is not recognized
         if (ret) {
-            if (verbose_ >= Verbose::Detail) cout << file << " --> Time: " << file_time.toString()
+            if (verbose_ >= Verbose::Detail) cout << "(" << counter << "/"
+                << num_files << ") " << file << " --> Time: " << file_time.toString()
                 << " Lead time: " << file_flt << " " << Time::_unit << endl;
 
             read_files++;
