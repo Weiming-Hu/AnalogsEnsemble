@@ -44,5 +44,5 @@ if(ENABLE_MPI)
     install(TARGETS ${PROJECT_NAME}_mpi EXPORT
         ${PROJECT_NAME}_mpiTargets RUNTIME DESTINATION bin)
 
-endif(MPI_CXX_FOUND)
+endif(ENABLE_MPI)
 

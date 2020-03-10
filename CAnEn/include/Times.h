@@ -26,6 +26,7 @@ public:
     Time & operator=(const Time & rhs);
     Time & operator=(std::size_t rhs);
     Time operator+(const Time & rhs) const;
+    bool operator==(const Time & rhs) const;
     bool operator<(const Time &) const;
     bool operator>(const Time &) const;
     bool operator<=(const Time &) const;

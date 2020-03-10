@@ -95,6 +95,9 @@ using namespace std;
  * In this way, you can locate any variables by a combination of variable ID, level, and 
  * the type of the variable level.
  *
+ * If you want to find some quick test data files, you can access them here.
+ *
+ * https://github.com/Weiming-Hu/AnalogsEnsemble/tree/master/tests/Data
  */
 class ParameterGrib : public Parameter {
 public:

@@ -8,9 +8,9 @@
 
 #include "Array4DPointer.h"
 
-#include <stdexcept>
-#include <cstring>
 #include <cmath>
+#include <cstring>
+#include <stdexcept>
 #include <algorithm>
 
 using namespace std;

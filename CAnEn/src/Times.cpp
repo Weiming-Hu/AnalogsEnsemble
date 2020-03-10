@@ -73,6 +73,11 @@ Time::operator+(const Time & rhs) const {
 }
 
 bool
+Time::operator==(const Time & rhs) const {
+    return timestamp == rhs.timestamp;
+}
+
+bool
 Time::operator<(const Time & rhs) const {
     return (timestamp < rhs.timestamp);
 }
