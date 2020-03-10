@@ -18,7 +18,7 @@
 /**
  * \class AnEnReadNcdf
  * 
- * \brief AnEnRead provides the functionality to read the NetCDF format.
+ * \brief AnEnReadNcdf provides the functionality to read the NetCDF format.
  * The recognized NetCDF file structure is below
  * 
  * https://weiming-hu.github.io/AnalogsEnsemble/2019/01/16/NetCDF-File-Types.html

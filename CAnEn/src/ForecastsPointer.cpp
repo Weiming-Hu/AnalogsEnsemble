@@ -12,6 +12,10 @@
 #include <stdexcept>
 #include <algorithm>
 
+#if defined(_OPENMP)
+#include <omp.h>
+#endif
+
 using namespace std;
 
 const size_t ForecastsPointer::_DIM_PARAMETER = 0;
@@ -102,6 +106,10 @@ ForecastsPointer::windTransform(
     size_t num_times = times_.size();
     size_t num_flts = flts_.size();
 
+#if defined(_OPENMP)
+#pragma omp parallel for default(none) schedule(static) collapse(3) \
+shared(num_stations, num_times, num_flts, u_index, v_index)
+#endif
     for (size_t station_i = 0; station_i < num_stations; ++station_i) {
         for (size_t time_i = 0; time_i < num_times; ++time_i) {
             for (size_t flt_i = 0; flt_i < num_flts; ++flt_i) {

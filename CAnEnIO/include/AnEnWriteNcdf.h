@@ -17,6 +17,11 @@
 #include "Forecasts.h"
 #include "Observations.h"
 
+/**
+ * \class AnEnWriteNcdf
+ * 
+ * \brief AnEnWriteNcdf provides the functionality to write to NetCDF files.
+ */
 class AnEnWriteNcdf {
 public:
     AnEnWriteNcdf();

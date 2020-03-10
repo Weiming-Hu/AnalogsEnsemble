@@ -49,17 +49,17 @@ AnEnReadGribMPI::readForecasts(Forecasts & forecasts,
     /*
      * Read forecast files in parallel with MPI
      *
-     * MPI processes are created to read foreacst files simultaneously. So
-     * it is preferred to have many forecast files to be distributed.
+     * MPI processes are created to read foreacst files simultaneously.
+     * So it is preferred to have many forecast files to be distributed.
      *
      * The design is illustrated below:
      *
-     * For the master process:
+     * For the master process (process ID = 0):
      *
      *   - Allocate enough memory to hold the entire forecasts.
      *   - Wait and collect data values from worker processes.
      *
-     * For worker processes:
+     * For worker processes (process ID > 0):
      *
      *   - Read forecast files that are assigned to the current process
      *   - Send forecast data values back to the master processes.
@@ -90,34 +90,57 @@ AnEnReadGribMPI::readForecasts(Forecasts & forecasts,
         readForecastsMeta_(forecasts, grib_parameters, files, regex_str,
                 flt_unit_in_seconds, delimited, stations_index);
 
-        // All processes wait until the master finishes reading meta information
-        MPI_Barrier(MPI_COMM_WORLD);
-
         if (verbose_ >= Verbose::Progress) cout << "Reading forecast in parallel ..." << endl
                 << "There are " << files.size() << " files to read and " << num_children - 1
                 << " workers." << endl;
 
-        // Initialize variables to store values from worker processes
+
+        /*
+         * Initialize variables to store values from worker processes
+         */
+
+        // This is the number of data values to be received from each process
         unsigned long num_process_elements;
+
+        // This is the pointer to the data values to be received from each process
         double* p_value = nullptr;
+
+        // These variables locate which files are read by a particular process
         int file_start_index, total_files;
+
+        // These variables locate the indices of a file time in the entire forecasts
+        // and the subset forecasts from each process
+        //
         size_t proc_time_i, proc_flt_i, time_i, flt_i;
 
         Time proc_time, proc_flt;
         Times proc_times, proc_flts;
+
         const Times & forecast_times = forecasts.getTimes();
         const Times & forecast_flts = forecasts.getFLTs();
 
+        // These variables are created for parsing file names
         boost::gregorian::date start_day(boost::gregorian::from_string(Time::_origin));
         boost::xpressive::sregex rex = boost::xpressive::sregex::compile(regex_str);
 
+        // This is the pointer to the entire forecast data values
         double* p_forecasts = forecasts.getValuesPtr();
+
+        // This is the number of total forecast times
         size_t num_forecast_times = forecast_times.size();
 
-        // Each process will read the same number of parameters and stations
+        // The chunk length for data values read from each file.
         size_t offset = forecasts.getStations().size() * forecasts.getParameters().size();
 
-        // Collect data from each worker process
+        // The offsets of pointers in the master forecasts and
+        // the process forecasts until the data values to be read
+        //
+        size_t offset_proc, offset_master;
+
+
+        /*
+         * Collect data from each worker process
+         */
         for (int process_i = 1; process_i < num_children; ++process_i) {
 
             // Determine what are the files that this particular process is reading from
@@ -137,6 +160,10 @@ AnEnReadGribMPI::readForecasts(Forecasts & forecasts,
 
             // Copy values from the pointer to forecasts
             for (const auto & file : files_subset) {
+
+                /*
+                 * Determine the indices for this particular file
+                 */
                 FunctionsIO::parseFilename(proc_time, proc_flt, file, start_day, rex, flt_unit_in_seconds, delimited);
 
                 proc_time_i = proc_times.getIndex(proc_time);
@@ -144,9 +171,18 @@ AnEnReadGribMPI::readForecasts(Forecasts & forecasts,
                 time_i = forecast_times.getIndex(proc_time);
                 flt_i = forecast_flts.getIndex(proc_flt);
 
-                memcpy(p_forecasts + (flt_i * num_forecast_times + time_i) * offset,
-                        p_value + (proc_flt_i * num_forecast_times + proc_time_i) * offset,
-                        offset * sizeof(double));
+                /*
+                 * Calculate the pointer offsets in column-major
+                 */
+                offset_proc = (proc_flt_i * num_forecast_times + proc_time_i) * offset;
+                offset_master = (flt_i * num_forecast_times + time_i) * offset;
+
+                /*
+                 * Copy values
+                 */
+                memcpy(p_forecasts + offset_master,  // Destination address
+                        p_value + offset_proc,       // Source address
+                        offset * sizeof(double));    // Number of bytes
             }
 
             // Housekeeping
@@ -164,9 +200,6 @@ AnEnReadGribMPI::readForecasts(Forecasts & forecasts,
          * I'm a worker process
          */
         
-        // All processes wait until the master finishes reading meta information
-        MPI_Barrier(MPI_COMM_WORLD);
-
         // Determine what are the files assigned to the current worker process
         int file_start_index, total_files;
 

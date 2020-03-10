@@ -16,6 +16,11 @@
 #include "Observations.h"
 #include "ParameterGrib.h"
 
+/**
+ * \class AnEnReadGrib
+ * 
+ * \brief AnEnReadGrib provides the functionality to read the Grib2 format.
+ */
 class AnEnReadGrib {
 public:
     AnEnReadGrib();
