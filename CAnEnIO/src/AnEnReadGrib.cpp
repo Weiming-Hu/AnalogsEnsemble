@@ -5,6 +5,7 @@
  * Created on February 7, 2020, 1:02 PM
  */
 
+#include <cmath>
 #include <numeric>
 #include <sstream>
 #include <algorithm>
@@ -43,50 +44,13 @@ AnEnReadGrib::readForecasts(Forecasts & forecasts,
         vector<int> stations_index) const {
 
     /*
-     * Parse files for forecast times and forecast lead times
+     * Read meta information for forecasts
      */
-    if (verbose_ >= Verbose::Progress) cout << "Parsing files names for times and forecast lead times ..." << endl;
-    Times times, flts;
-    FunctionsIO::parseFilenames(times, flts, files, regex_str, flt_unit_in_seconds, delimited);
+    readForecastsMeta_(forecasts, grib_parameters, files, regex_str,
+            flt_unit_in_seconds, delimited, stations_index);
 
-    if (times.size() == 0) throw runtime_error("No day information extracted. Check filenames and regular expressions");
-    if (flts.size() == 0) throw runtime_error("No lead time information extracted. Check filenames and regular expressions");
-
-    // If stations index are not sorted, it will affect how I'm extracting coordinates.
-    if (!is_sorted(stations_index.begin(), stations_index.end())) throw runtime_error("Stations index should be sorted in ascension order");
-
-    /*
-     * Read the first message from the first file and retrieve station coordinates
-     */
-    if (verbose_ >= Verbose::Progress) cout << "Read stations from the first file ..." << endl;
-    Stations stations;
-    readStations_(stations, files[0], stations_index);
-
-    /*
-     * Set up parameters
-     */
-    if (verbose_ >= Verbose::Progress) cout << "Insert forecast parameters ..." << endl;
-    Parameters parameters;
-    for (auto it = grib_parameters.begin(); it != grib_parameters.end(); ++it) {
-        parameters.push_back(*it);
-    }
-
-    if (verbose_ >= Verbose::Debug) {
-        cout << "(readForecasts) " << parameters
-                << "(readForecasts)" << stations
-                << "(readForecasts)" << times
-                << "(readForecasts)" << flts;
-    }
-
-    if (parameters.size() != grib_parameters.size()) {
-        stringstream msg;
-        msg << grib_parameters.size() << " parameters specified but only "
-                << parameters.size() << " parameters inserted. Do you have duplicated names?";
-        throw runtime_error(msg.str());
-    }
-
-    /*
-     * Read forecasts
+   /*
+     * Read forecast data values
      */
     if (verbose_ >= Verbose::Progress) cout << "Reading forecast ..." << endl;
     bool ret;
@@ -96,12 +60,14 @@ AnEnReadGrib::readForecasts(Forecasts & forecasts,
 
     // Initialize variables in advance
     size_t data_len, parameter_i, time_i, flt_i;
-    size_t num_stations = stations.size();
+    size_t num_stations = forecasts.getStations().size();
     long current_id, current_level;
     char* current_level_type;
     codes_handle *h = nullptr;
     FILE* in = nullptr;
     size_t str_len;
+    const Times & times = forecasts.getTimes();
+    const Times & flts = forecasts.getFLTs();
 
     // This variable counts the number of failures when reading files
     size_t failed_files = 0;
@@ -112,9 +78,6 @@ AnEnReadGrib::readForecasts(Forecasts & forecasts,
 
     // This is the start time
     date start_day(from_string(Time::_origin));
-
-    // Allocate memory for forecasts
-    forecasts.setDimensions(parameters, stations, times, flts);
 
     // Turn on support for multi fields messages
     codes_grib_multi_support_on(0);
@@ -267,6 +230,64 @@ AnEnReadGrib::readForecasts(Forecasts & forecasts,
 
         if (failed_files == read_files) throw runtime_error("All files failed to read");
     }
+
+    return;
+}
+
+void
+AnEnReadGrib::readForecastsMeta_(Forecasts & forecasts,
+        const vector<ParameterGrib> & grib_parameters,
+        const vector<string> & files,
+        const string & regex_str,
+        size_t flt_unit_in_seconds, bool delimited,
+        vector<int> stations_index) const {
+
+    /*
+     * Parse files for forecast times and forecast lead times
+     */
+    if (verbose_ >= Verbose::Progress) cout << "Parsing files names for times and forecast lead times ..." << endl;
+    Times times, flts;
+    FunctionsIO::parseFilenames(times, flts, files, regex_str, flt_unit_in_seconds, delimited);
+
+    if (times.size() == 0) throw runtime_error("No day information extracted. Check filenames and regular expressions");
+    if (flts.size() == 0) throw runtime_error("No lead time information extracted. Check filenames and regular expressions");
+
+    // If stations index are not sorted, it will affect how I'm extracting coordinates.
+    if (!is_sorted(stations_index.begin(), stations_index.end())) throw runtime_error("Stations index should be sorted in ascension order");
+
+    /*
+     * Read the first message from the first file and retrieve station coordinates
+     */
+    if (verbose_ >= Verbose::Progress) cout << "Read stations from the first file ..." << endl;
+    Stations stations;
+    readStations_(stations, files[0], stations_index);
+
+    /*
+     * Set up parameters
+     */
+    if (verbose_ >= Verbose::Progress) cout << "Insert forecast parameters ..." << endl;
+    Parameters parameters;
+    for (auto it = grib_parameters.begin(); it != grib_parameters.end(); ++it) {
+        parameters.push_back(*it);
+    }
+
+    if (verbose_ >= Verbose::Debug) {
+        cout << "(readForecasts) " << parameters
+            << "(readForecasts)" << stations
+            << "(readForecasts)" << times
+            << "(readForecasts)" << flts;
+    }
+
+    if (parameters.size() != grib_parameters.size()) {
+        stringstream msg;
+        msg << grib_parameters.size() << " parameters specified but only "
+            << parameters.size() << " parameters inserted. Do you have duplicated names?";
+        throw runtime_error(msg.str());
+    }
+
+    // Allocate memory for forecasts
+    forecasts.setDimensions(parameters, stations, times, flts);
+    forecasts.initialize(NAN);
 
     return;
 }

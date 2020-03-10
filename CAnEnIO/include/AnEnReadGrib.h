@@ -16,6 +16,11 @@
 #include "Observations.h"
 #include "ParameterGrib.h"
 
+/**
+ * \class AnEnReadGrib
+ * 
+ * \brief AnEnReadGrib provides the functionality to read the Grib2 format.
+ */
 class AnEnReadGrib {
 public:
     AnEnReadGrib();
@@ -34,6 +39,13 @@ public:
 protected:
     Verbose verbose_;
     
+    void readForecastsMeta_(Forecasts & forecasts,
+            const std::vector<ParameterGrib> & grib_parameters,
+            const std::vector<std::string> & files,
+            const std::string & regex_str,
+            size_t unit_in_seconds, bool delimited,
+            std::vector<int> stations_index) const;
+
     void readStations_(Stations&, const std::string &,
             const std::vector<int> & stations_index = {}) const;
 };

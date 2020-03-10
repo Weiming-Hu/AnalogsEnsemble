@@ -618,6 +618,7 @@ Functions::collapseLeadTimes(
 
     // Set dimensions for observations
     observations.setDimensions(forecasts.getParameters(), forecasts.getStations(), obs_times);
+    observations.initialize(NAN);
 
     // Copy values from forecasts
     time_i = 0;

@@ -51,6 +51,8 @@ public:
     virtual void setDimensions(const Parameters & parameters,
             const Stations & stations, const Times & times) = 0;
 
+    virtual void initialize(double) = 0;
+
     /**
      * Gets or sets a value using the array indices.
      * @param parameter_index Parameter index.

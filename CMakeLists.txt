@@ -20,6 +20,7 @@ project(PAnEn LANGUAGES C CXX)
 option(INSTALL_RAnEn "Install RAnEn package" OFF)
 option(BUILD_BOOST "Build Boost" OFF)
 option(ENABLE_OPENMP "Use OpenMP" ON)
+option(ENABLE_MPI "Use MPI" OFF)
 
 # Set variables
 set(GRAND_VERSION "4.0.3")
@@ -85,6 +86,11 @@ endif(Boost_MAJOR_VERSION STREQUAL "1")
 # Add libraries as subprojects
 add_subdirectory(CAnEn)
 add_subdirectory(CAnEnIO)
+
+if(ENABLE_MPI)
+    list(APPEND SUBPROJECT_TARGETS "AnEnIOMPI")
+    add_subdirectory(CAnEnIOMPI)
+endif(ENABLE_MPI)
 
 # Add applications as subprojects
 add_subdirectory(apps/anen_grib)

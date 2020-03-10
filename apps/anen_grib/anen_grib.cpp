@@ -17,10 +17,16 @@
 #include "AnEnIS.h"
 #include "AnEnSSE.h"
 #include "Profiler.h"
-#include "AnEnReadGrib.h"
 #include "AnEnWriteNcdf.h"
 #include "ForecastsPointer.h"
 #include "ObservationsPointer.h"
+
+#if defined(_USE_MPI_EXTENSION)
+#include "AnEnReadGribMPI.h"
+#else 
+#include "AnEnReadGrib.h"
+#endif
+
 
 using namespace std;
 using namespace boost::program_options;
@@ -85,19 +91,18 @@ void runAnEnGrib(
     /*
      * Read forecasts from files
      */
+#if defined(_USE_MPI_EXTENSION)
+    int world_rank;
+    MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
+
+    AnEnReadGribMPI anen_read(config.verbose, config.worker_verbose);
+#else
     AnEnReadGrib anen_read(config.verbose);
+#endif
+
     ForecastsPointer forecasts;
     anen_read.readForecasts(forecasts, grib_parameters, forecast_files, forecast_regex,
             unit_in_seconds, delimited, stations_index);
-
-    if (convert_wind) forecasts.windTransform(u_name, v_name, spd_name, dir_name);
-
-    // Convert string date times to Times objects
-    const Times & forecast_times = forecasts.getTimes();
-    Times test_times, search_times;
-
-    forecast_times(test_start, test_end, test_times);
-    forecast_times(search_start, search_end, search_times);
 
     profiler.log_time_session("reading forecasts");
 
@@ -108,16 +113,37 @@ void runAnEnGrib(
     anen_read.readForecasts(analysis, grib_parameters, analysis_files, analysis_regex,
             unit_in_seconds, delimited, stations_index);
 
-    if (convert_wind) analysis.windTransform(u_name, v_name, spd_name, dir_name);
+#if defined(_USE_MPI_EXTENSION)
+    // Terminate the process if this is not a master process.
+    // Subsequent parallelization is done with multi-threading.
+    //
+    if (world_rank != 0) {
+        MPI_Finalize();
+        exit(0);
+    }
+#endif
 
     profiler.log_time_session("reading analysis");
+
+    // Convert wind parameters if necessary
+    if (convert_wind) {
+        forecasts.windTransform(u_name, v_name, spd_name, dir_name);
+        analysis.windTransform(u_name, v_name, spd_name, dir_name);
+    }
 
     // Convert analysis to observations
     if (config.verbose >= Verbose::Progress) cout << "Collapsing forecast analysis ..." << endl;
     ObservationsPointer observations;
     Functions::collapseLeadTimes(observations, analysis);
 
-    profiler.log_time_session("converting analysis");
+    // Convert string date times to Times objects
+    const Times & forecast_times = forecasts.getTimes();
+    Times test_times, search_times;
+
+    forecast_times(test_start, test_end, test_times);
+    forecast_times(search_start, search_end, search_times);
+
+    profiler.log_time_session("preprocessing");
 
 
     /**************************************************************************
@@ -308,6 +334,10 @@ int main(int argc, char** argv) {
     size_t unit_in_seconds;
     int verbose;
 
+#if defined(_USE_MPI_EXTENSION)
+    int worker_verbose;
+#endif
+
     Config config;
 
     // Define available command line parameters
@@ -337,7 +367,10 @@ int main(int argc, char** argv) {
             ("overwrite", bool_switch(&overwrite)->default_value(false), "[Optional] Overwrite files and variables.")
             ("profile", bool_switch(&profile)->default_value(false), "[Optional] Print profiler's report.")
             ("unit-in-seconds", value<size_t>(&unit_in_seconds)->default_value(3600), "[Optional] The number of seconds for the unit of lead times. Usually lead times have hours as unit, so it defaults to 3600.")
-            ("verbose,v", value<int>(&verbose)->default_value(2), "[Optional] Verbose level (0 - 4).")
+            ("verbose,v", value<int>(&verbose), "[Optional] Verbose level (0 - 4).")
+#if defined(_USE_MPI_EXTENSION)
+            ("worker-verbose", value<int>(&worker_verbose), "[Optional] Verbose level for worker processes (0 - 4).")
+#endif
             ("analogs", value<size_t>(&(config.num_analogs)), "[Optional] Number of analogs members.")
             ("sims", value<size_t>(&(config.num_sims)), "[Optional] Number of similarity members.")
             ("obs-id", value< vector<size_t> >(&obs_id)->multitoken(), "[Optional] Observation variable index. If multiple indices are provided, multivariate analogs will be generated.")
@@ -379,9 +412,13 @@ int main(int argc, char** argv) {
         // If help messages are requested or there are
         // no extra arguments other than the command line itself
         //
-        cout << "Parallel Analogs Ensemble -- anen "
-                << _APPVERSION << endl << _COPYRIGHT_MSG << endl
-                << desc << endl;
+        cout
+#if defined(_USE_MPI_EXTENSION)
+            << "Parallel Analogs Ensemble -- anen_grib_mpi "
+#else
+            << "Parallel Analogs Ensemble -- anen_grib "
+#endif
+            << _APPVERSION << endl << _COPYRIGHT_MSG << endl << endl << desc << endl;
         return 0;
     }
 
@@ -423,12 +460,23 @@ int main(int argc, char** argv) {
     notify(vm);
 
     if (vm.count("verbose")) {
-        config.setVerbose(vm["verbose"].as<int>());
+        config.setVerbose(verbose);
     }
 
+#if defined(_USE_MPI_EXTENSION)
+    if (vm.count("worker-verbose")) {
+        config.setWorkerVerbose(worker_verbose);
+    }
+#endif
+
     if (config.verbose >= Verbose::Progress) {
-        cout << "Parallel Analogs Ensemble -- anen "
-                << _APPVERSION << endl << _COPYRIGHT_MSG << endl;
+        cout
+#if defined(_USE_MPI_EXTENSION)
+            << "Parallel Analogs Ensemble -- anen_grib_mpi "
+#else
+            << "Parallel Analogs Ensemble -- anen_grib "
+#endif
+            << _APPVERSION << endl << _COPYRIGHT_MSG << endl;
     }
 
 
@@ -457,11 +505,19 @@ int main(int argc, char** argv) {
                 << Functions::format(analysis_files, "\n") << endl;
     }
 
+#if defined(_USE_MPI_EXTENSION)
+    MPI_Init(&argc, &argv);
+#endif
+
     runAnEnGrib(forecast_files, analysis_files,
             forecast_regex, analysis_regex,
             obs_id, grib_parameters, stations_index, test_start, test_end, search_start, search_end,
             fileout, algorithm, config, unit_in_seconds, delimited, overwrite, profile, save_tests,
             convert_wind, u_name, v_name, spd_name, dir_name);
+
+#if defined(_USE_MPI_EXTENSION)
+    MPI_Finalize();
+#endif
 
     return 0;
 }

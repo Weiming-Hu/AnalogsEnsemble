@@ -17,22 +17,49 @@ matrix:
             os: linux
             language: cpp
             addons: {apt: {sources: [ubuntu-toolchain-r-test], packages: [g++-5, libnetcdf-dev, libnetcdf-c++4-dev, libcppunit-dev]}}
-            env: ['MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"', 'ENVIRONMENT_LANGUAGE="c++"', 'RUN_INSTALL_SCRIPTS="YES"', 'BUILD_BOOST="ON"']
+            env: ['MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"', 'ENVIRONMENT_LANGUAGE="c++"', 'RUN_INSTALL_SCRIPTS="YES"', 'BUILD_BOOST="ON"', 'ENABLE_MPI="OFF"']
         -
             os: linux
             language: cpp
             addons: {apt: {sources: [ubuntu-toolchain-r-test], packages: [g++-6, libnetcdf-dev, libnetcdf-c++4-dev, libcppunit-dev]}}
-            env: ['MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"', 'ENVIRONMENT_LANGUAGE="c++"', 'RUN_INSTALL_SCRIPTS="YES"', 'BUILD_BOOST="ON"']
+            env: ['MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"', 'ENVIRONMENT_LANGUAGE="c++"', 'RUN_INSTALL_SCRIPTS="YES"', 'BUILD_BOOST="ON"', 'ENABLE_MPI="OFF"']
         -
             os: linux
             language: cpp
             addons: {apt: {sources: [ubuntu-toolchain-r-test], packages: [g++-7, libnetcdf-dev, libnetcdf-c++4-dev, libcppunit-dev]}}
-            env: ['MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"', 'ENVIRONMENT_LANGUAGE="c++"', 'RUN_INSTALL_SCRIPTS="YES"', 'BUILD_BOOST="ON"']
+            env: ['MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"', 'ENVIRONMENT_LANGUAGE="c++"', 'RUN_INSTALL_SCRIPTS="YES"', 'BUILD_BOOST="ON"', 'ENABLE_MPI="OFF"']
         -
             os: linux
             language: cpp
             addons: {apt: {sources: [ubuntu-toolchain-r-test], packages: [g++-8, libnetcdf-dev, libnetcdf-c++4-dev, libcppunit-dev]}}
-            env: ['MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"', 'ENVIRONMENT_LANGUAGE="c++"', 'RUN_INSTALL_SCRIPTS="YES"', 'BUILD_BOOST="ON"']
+            env: ['MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"', 'ENVIRONMENT_LANGUAGE="c++"', 'RUN_INSTALL_SCRIPTS="YES"', 'BUILD_BOOST="ON"', 'ENABLE_MPI="OFF"']
+
+        #
+        # Test PAnEn installation with MPI
+        #
+        # Boost is installed using system package manager
+        #
+        -
+            os: linux
+            language: cpp
+            addons: {apt: {sources: [ubuntu-toolchain-r-test], packages: [g++-5, libnetcdf-dev, libnetcdf-c++4-dev, libcppunit-dev, libboost-all-dev, libopenmpi-dev]}}
+            env: ['MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"', 'ENVIRONMENT_LANGUAGE="c++"', 'RUN_INSTALL_SCRIPTS="YES"', 'BUILD_BOOST="OFF"', 'ENABLE_MPI="ON"']
+        -
+            os: linux
+            language: cpp
+            addons: {apt: {sources: [ubuntu-toolchain-r-test], packages: [g++-6, libnetcdf-dev, libnetcdf-c++4-dev, libcppunit-dev, libboost-all-dev, libopenmpi-dev]}}
+            env: ['MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"', 'ENVIRONMENT_LANGUAGE="c++"', 'RUN_INSTALL_SCRIPTS="YES"', 'BUILD_BOOST="OFF"', 'ENABLE_MPI="ON"']
+        -
+            os: linux
+            language: cpp
+            addons: {apt: {sources: [ubuntu-toolchain-r-test], packages: [g++-7, libnetcdf-dev, libnetcdf-c++4-dev, libcppunit-dev, libboost-all-dev, libopenmpi-dev]}}
+            env: ['MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"', 'ENVIRONMENT_LANGUAGE="c++"', 'RUN_INSTALL_SCRIPTS="YES"', 'BUILD_BOOST="OFF"', 'ENABLE_MPI="ON"']
+        -
+            os: linux
+            language: cpp
+            addons: {apt: {sources: [ubuntu-toolchain-r-test], packages: [g++-8, libnetcdf-dev, libnetcdf-c++4-dev, libcppunit-dev, libboost-all-dev, libopenmpi-dev]}}
+            env: ['MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"', 'ENVIRONMENT_LANGUAGE="c++"', 'RUN_INSTALL_SCRIPTS="YES"', 'BUILD_BOOST="OFF"', 'ENABLE_MPI="ON"']
+
 
         #
         # Test PAnEn installation
@@ -43,22 +70,22 @@ matrix:
             os: linux
             language: cpp
             addons: {apt: {sources: [ubuntu-toolchain-r-test], packages: [g++-5, libnetcdf-dev, libnetcdf-c++4-dev, libcppunit-dev, libboost-all-dev]}}
-            env: ['MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"', 'ENVIRONMENT_LANGUAGE="c++"', 'RUN_INSTALL_SCRIPTS="YES"', 'BUILD_BOOST="OFF"']
+            env: ['MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"', 'ENVIRONMENT_LANGUAGE="c++"', 'RUN_INSTALL_SCRIPTS="YES"', 'BUILD_BOOST="OFF"', 'ENABLE_MPI="OFF"']
         -
             os: linux
             language: cpp
             addons: {apt: {sources: [ubuntu-toolchain-r-test], packages: [g++-6, libnetcdf-dev, libnetcdf-c++4-dev, libcppunit-dev, libboost-all-dev]}}
-            env: ['MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"', 'ENVIRONMENT_LANGUAGE="c++"', 'RUN_INSTALL_SCRIPTS="YES"', 'BUILD_BOOST="OFF"']
+            env: ['MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"', 'ENVIRONMENT_LANGUAGE="c++"', 'RUN_INSTALL_SCRIPTS="YES"', 'BUILD_BOOST="OFF"', 'ENABLE_MPI="OFF"']
         -
             os: linux
             language: cpp
             addons: {apt: {sources: [ubuntu-toolchain-r-test], packages: [g++-7, libnetcdf-dev, libnetcdf-c++4-dev, libcppunit-dev, libboost-all-dev]}}
-            env: ['MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"', 'ENVIRONMENT_LANGUAGE="c++"', 'RUN_INSTALL_SCRIPTS="YES"', 'BUILD_BOOST="OFF"']
+            env: ['MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"', 'ENVIRONMENT_LANGUAGE="c++"', 'RUN_INSTALL_SCRIPTS="YES"', 'BUILD_BOOST="OFF"', 'ENABLE_MPI="OFF"']
         -
             os: linux
             language: cpp
             addons: {apt: {sources: [ubuntu-toolchain-r-test], packages: [g++-8, libnetcdf-dev, libnetcdf-c++4-dev, libcppunit-dev, libboost-all-dev]}}
-            env: ['MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"', 'ENVIRONMENT_LANGUAGE="c++"', 'RUN_INSTALL_SCRIPTS="YES"', 'BUILD_BOOST="OFF"']
+            env: ['MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"', 'ENVIRONMENT_LANGUAGE="c++"', 'RUN_INSTALL_SCRIPTS="YES"', 'BUILD_BOOST="OFF"', 'ENABLE_MPI="OFF"']
 
         #
         # Test RAnEn installation
@@ -85,7 +112,18 @@ matrix:
         -
             os: osx
             language: cpp
-            env: ['MATRIX_EVAL="brew install eccodes cppunit"', 'ENVIRONMENT_LANGUAGE="c++"', 'BUILD_BOOST="OFF"']
+            env: ['MATRIX_EVAL="brew install eccodes cppunit"', 'ENVIRONMENT_LANGUAGE="c++"', 'BUILD_BOOST="OFF"', 'ENABLE_MPI="OFF"']
+
+        #
+        # Test PAnEn installation with MPI
+        #
+        # Boost is compiled within the CMake process
+        #
+        -
+            os: osx
+            language: cpp
+            env: ['MATRIX_EVAL="brew install eccodes cppunit open-mpi"', 'ENVIRONMENT_LANGUAGE="c++"', 'BUILD_BOOST="ON"', 'ENABLE_MPI="ON"']
+
 
         #
         # Test PAnEn installation
@@ -95,7 +133,7 @@ matrix:
         -
             os: osx
             language: cpp
-            env: ['MATRIX_EVAL="brew install eccodes cppunit"', 'ENVIRONMENT_LANGUAGE="c++"', 'BUILD_BOOST="ON"']
+            env: ['MATRIX_EVAL="brew install eccodes cppunit"', 'ENVIRONMENT_LANGUAGE="c++"', 'BUILD_BOOST="ON"', 'ENABLE_MPI="OFF"']
 
         #
         # Test RAnEn installation
@@ -118,9 +156,9 @@ before_install:
 install:
     - if [[ "$ENVIRONMENT_LANGUAGE" == "r" ]]; then R CMD INSTALL RAnalogs/releases/RAnEn_latest.tar.gz; fi
 script:
-    - if [[ "$ENVIRONMENT_LANGUAGE" == "c++" ]]; then mkdir build; cd build; CC=$CC CXX=$CXX cmake -DBUILD_BOOST=$BUILD_BOOST -DCMAKE_CXX_FLAGS="-coverage" -DCMAKE_PREFIX_PATH=~/eccodes ..; make -j16; fi
+    - if [[ "$ENVIRONMENT_LANGUAGE" == "c++" ]]; then mkdir build; cd build; CC=$CC CXX=$CXX cmake -DENABLE_MPI=$ENABLE_MPI -DBUILD_BOOST=$BUILD_BOOST -DCMAKE_CXX_FLAGS="-coverage" -DCMAKE_PREFIX_PATH=~/eccodes ..; make -j16; fi
 after_success:
-    - if [[ "$ENVIRONMENT_LANGUAGE" == "c++" ]]; then make test; fi
+    - if [[ "$ENVIRONMENT_LANGUAGE" == "c++" ]]; then if [[ "$ENABLE_MPI" == "ON" ]]; then mpirun -np 3 ctest; else make test; fi; fi
     - if [[ "$ENVIRONMENT_LANGUAGE" == "r" ]]; then cd RAnalogs/tests; Rscript test_R-API-v4.R; fi
     - if [[ "$ENVIRONMENT_LANGUAGE" == "c++" ]]; then if [[ "CC" == "gcc-8" ]]; then bash <(curl -s https://codecov.io/bash); fi; fi
 

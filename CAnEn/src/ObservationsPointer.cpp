@@ -49,6 +49,11 @@ ObservationsPointer::num_elements() const {
     return dims_[_DIM_PARAMETER] * dims_[_DIM_STATION] * dims_[_DIM_TIME];
 }
 
+void
+ObservationsPointer::initialize(double value) {
+    if (data_ != nullptr) fill_n(data_, num_elements(), value);
+}
+
 const double*
 ObservationsPointer::getValuesPtr() const {
     return data_;

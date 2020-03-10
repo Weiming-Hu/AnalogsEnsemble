@@ -35,6 +35,8 @@ public:
     virtual void setDimensions(const Parameters & parameters,
             const Stations & stations, const Times & times) override;
 
+    virtual void initialize(double) override;
+
     virtual double getValue(std::size_t parameter_index,
             std::size_t station_index, std::size_t time_index) const override;
     virtual void setValue(double val, std::size_t parameter_index,
