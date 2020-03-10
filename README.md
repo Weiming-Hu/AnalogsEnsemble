@@ -107,6 +107,7 @@ Below is a list of parameters you can change and customize.
 |     INSTALL\_RAnEn   |                                 Build and install the `RAnEn` library.                                                                       |         OFF        |
 |     BUILD\_BOOST     |                                 Build `Boost` regardless of whether it exists in the system.                                                 |         OFF        |
 |     BOOST\_URL       |                        The URL for downloading Boost. This is only used when `BUILD_BOOST` is `ON`.                                          | [From SourceForge] |
+|     ENABLE\_MPI      |                        Build the MPI supported libraries and executables. This requires the MPI dependency.                                  |         OFF        |
 
 You can change the default of the parameters, for example, `cmake -DCMAKE_INSTALL_PREFIX=~/AnalogEnsemble ..`. Don't forget the extra letter `D` when specifying argument names.
 
