@@ -90,7 +90,7 @@ testAnEnIOMPI::testReadGrib_() {
     if (world_rank == 0) cout << "************** Read with MPI **************" << endl;
 
     ForecastsPointer forecasts_mpi;
-    AnEnReadGribMPI anen_read_mpi(Verbose::Progress, Verbose::Progress);
+    AnEnReadGribMPI anen_read_mpi(Verbose::Debug, Verbose::Debug);
     anen_read_mpi.readForecasts(forecasts_mpi, grib_parameters,
             data_files, regex_str, unit_in_seconds, delimited, stations_index);
 
@@ -136,6 +136,9 @@ testAnEnIOMPI::testReadGrib_() {
     num_values_mpi = forecasts_mpi.num_elements();
     p_value_serial = forecasts_serial.getValuesPtr();
     p_value_mpi = forecasts_mpi.getValuesPtr();
+
+    cout << "Serial forecasts: " << forecasts_serial << endl
+        << "MPI forecasts: " << forecasts_mpi << endl;
 
 
     // Compare results

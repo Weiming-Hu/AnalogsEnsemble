@@ -129,6 +129,9 @@ AnEnReadGribMPI::readForecasts(Forecasts & forecasts,
         // This is the number of total forecast times
         size_t num_forecast_times = forecast_times.size();
 
+        // This is the number of times from each process
+        size_t num_proc_times;
+
         // The chunk length for data values read from each file.
         size_t offset = forecasts.getStations().size() * forecasts.getParameters().size();
 
@@ -147,7 +150,12 @@ AnEnReadGribMPI::readForecasts(Forecasts & forecasts,
             MPI_Recv(&file_start_index, 1, MPI_INT, process_i, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
             MPI_Recv(&total_files, 1, MPI_INT, process_i, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
             vector<string> files_subset(files.begin() + file_start_index, files.begin() + file_start_index + total_files);
+
+            // Translate these filenames to times and flts that the process is responsible of reading
             FunctionsIO::parseFilenames(proc_times, proc_flts, files_subset, regex_str, flt_unit_in_seconds, delimited);
+
+            // This process has read this many of times. This is used to calculate pointer offset
+            num_proc_times = proc_times.size();
 
             // Get the number of data values from the particular process
             MPI_Recv(&num_process_elements, 1, MPI_UNSIGNED_LONG, process_i, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
@@ -157,6 +165,9 @@ AnEnReadGribMPI::readForecasts(Forecasts & forecasts,
 
             // Get the data values from the particular process
             MPI_Recv(p_value, num_process_elements, MPI_DOUBLE, process_i, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+
+            if (verbose_ >= Verbose::Debug) cout << "From process #" << process_i 
+                << " total values: " << Functions::format(p_value, num_process_elements, ",", num_process_elements) << endl;
 
             // Copy values from the pointer to forecasts
             for (const auto & file : files_subset) {
@@ -174,12 +185,15 @@ AnEnReadGribMPI::readForecasts(Forecasts & forecasts,
                 /*
                  * Calculate the pointer offsets in column-major
                  */
-                offset_proc = (proc_flt_i * num_forecast_times + proc_time_i) * offset;
+                offset_proc = (proc_flt_i * num_proc_times + proc_time_i) * offset;
                 offset_master = (flt_i * num_forecast_times + time_i) * offset;
 
                 /*
                  * Copy values
                  */
+                if (verbose_ >= Verbose::Debug) cout << "From process #" << process_i << " file " << file
+                    << " values: " << Functions::format(p_value + offset_proc, offset, ",") << endl;
+
                 memcpy(p_forecasts + offset_master,  // Destination address
                         p_value + offset_proc,       // Source address
                         offset * sizeof(double));    // Number of bytes
@@ -216,6 +230,7 @@ AnEnReadGribMPI::readForecasts(Forecasts & forecasts,
         anen_read.readForecasts(forecasts_subset, grib_parameters, files_subset,
                 regex_str, flt_unit_in_seconds, delimited, stations_index);
 
+        if (worker_verbose_ >= Verbose::Debug) cout << "From process #" << world_rank << " forecasts:" << forecasts_subset << endl;
 
         // Send the start and count for file names
         MPI_Send(&file_start_index, 1, MPI_INT, 0, 0, MPI_COMM_WORLD);
