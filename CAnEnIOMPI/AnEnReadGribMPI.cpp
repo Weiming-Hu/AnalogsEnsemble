@@ -181,10 +181,24 @@ AnEnReadGribMPI::readForecasts(Forecasts & forecasts,
                  */
                 FunctionsIO::parseFilename(proc_time, proc_flt, file, start_day, rex, flt_unit_in_seconds, delimited);
 
-                proc_time_i = proc_times.getIndex(proc_time);
-                proc_flt_i = proc_flts.getIndex(proc_flt);
-                time_i = forecast_times.getIndex(proc_time);
-                flt_i = forecast_flts.getIndex(proc_flt);
+                try {
+                    proc_time_i = proc_times.getIndex(proc_time);
+                    proc_flt_i = proc_flts.getIndex(proc_flt);
+                    time_i = forecast_times.getIndex(proc_time);
+                    flt_i = forecast_flts.getIndex(proc_flt);
+                } catch (exception & e) {
+                    stringstream msg;
+                    msg << "Failed during queryingindices for time (" << proc_time.toString() <<
+                        ") and flt (" << proc_flt << ")" << endl << "The original error : "
+                        << e.what() << endl << endl;
+
+                    if (verbose_ >= Verbose::Detail) msg << "******** Detailed information ********"
+                            << endl << "Process times: " << proc_times
+                            << "Process flts: " << proc_flts << "Forecast times: " << forecast_times
+                            << "Forecast lead times: " << forecast_flts;
+
+                    throw runtime_error(msg.str());
+                }
 
                 /*
                  * Calculate the pointer offsets in column-major
