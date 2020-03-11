@@ -3,6 +3,7 @@
 - Added the regular expressions for forecast and analysis filenames separately
 - Changed from `boost::regex` to `boost::xpressive`
 - Added MPI support
+- Fixed a bug when reading lat/lon from grib files
 
 # PAnEn 4.0.2
 
