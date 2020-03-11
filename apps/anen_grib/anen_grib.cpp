@@ -88,6 +88,12 @@ void runAnEnGrib(
         throw runtime_error(msg.str());
     }
 
+    // Sanity checks for input times
+    if (config.operation && test_start <= search_end) throw runtime_error("Search end must be prior to test start in operation");
+    if (test_start > test_end) throw runtime_error("Test start cannot be later than test end");
+    if (search_start > search_end) throw runtime_error("Search start cannot be later than search end");
+
+
     /*
      * Read forecasts from files
      */
