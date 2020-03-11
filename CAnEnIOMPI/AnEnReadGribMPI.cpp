@@ -235,7 +235,7 @@ AnEnReadGribMPI::readForecasts(Forecasts & forecasts,
         // Determine what are the files assigned to the current worker process
         int file_start_index, total_files;
 
-        total_files = files.size() / num_workers;
+        total_files = ceil(files.size() / (float) num_workers);
         file_start_index = (world_rank - 1) * total_files;
 
         if (world_rank == num_children - 1) total_files = files.size() - file_start_index;
