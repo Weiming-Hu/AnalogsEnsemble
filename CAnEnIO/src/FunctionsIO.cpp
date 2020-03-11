@@ -15,7 +15,10 @@
 #include <algorithm>
 
 #include "FunctionsIO.h"
+
 #include "boost/filesystem.hpp"
+#include "boost/filesystem/path.hpp"
+#include "boost/filesystem/operations.hpp"
 
 using namespace std;
 using namespace boost::gregorian;
@@ -143,30 +146,70 @@ FunctionsIO::parseFilenames(Times & times, Times & flts,
 }
 
 void
-FunctionsIO::listFiles(vector<string> & files, string& folder,
-        const string& ext) {
+FunctionsIO::listFiles(vector<string> & files,
+        const string & folder, const string & regex_str) {
 
-    if (folder.empty()) throw runtime_error("Specify folder");
+    // Get the total number of files in this folder
+    size_t total_files = totalFiles(folder);
 
-    files.clear();
+    // Allocate memory
+    files.resize(total_files);
 
-    // Append a trailing slash if there is none
-    if (folder.back() != '/') folder += '/';
+    // Compile the regular expression to make sure it is valid
+    sregex rex = sregex::compile(regex_str);
 
-    // List all files in a folder
+    // Convert string to boost filesystem path
+    fs::path folder_path(fs::system_complete(fs::path(folder.c_str())));
+
+    // Extract filenames that matches the regular expression
     fs::directory_iterator it(folder), endit;
+
+    size_t pos = 0;
+    fs::path filepath;
+
     while (it != endit) {
 
-        // Check file extension
-        if (fs::is_regular_file(*it) && it->path().extension() == ext) {
-            files.push_back(folder + it->path().filename().string());
+        // If this is a regular file
+        if (fs::is_regular_file(it->status())) {
+            filepath = it->path().filename();
+
+            // Check regular expression
+            if (regex_match(filepath.string(), rex)) {
+                files[pos] = (folder_path/filepath).string();
+                pos++;
+            }
         }
 
         it++;
     }
 
+    // Erase the empty slots if not all files are included
+    if (pos != total_files) files.erase(files.begin() + pos, files.end());
+
     // Sort file names
     sort(files.begin(), files.end());
 
     return;
+}
+
+size_t
+FunctionsIO::totalFiles(const string & folder) {
+
+    // Expand the input path using the system rules
+    if (folder.empty()) throw runtime_error("Specify folder");
+    fs::path full_path(fs::system_complete(fs::path(folder.c_str())));
+
+    // Sanity checks
+    if (!fs::exists(full_path)) throw runtime_error("Input path does not exists");
+    if (!fs::is_directory(full_path)) throw runtime_error("Input path is not a directory");
+
+    size_t total_files = 0;
+    fs::directory_iterator it(full_path);
+    fs::directory_iterator end_iter;
+
+    for (; it != end_iter; ++it) {
+        if (fs::is_regular_file(it->status())) total_files++;
+    }
+
+    return total_files;
 }

@@ -21,12 +21,12 @@
 namespace FunctionsIO {
 
     void toParameterVector(std::vector<ParameterGrib> &,
-        const std::vector<std::string> & parameters_name,
-        const std::vector<long> & parameters_id,
-        const std::vector<long> & parameters_level,
-        const std::vector<std::string> & parameters_level_type,
-        const std::vector<bool> & parameters_circular = {},
-        Verbose verbose = Verbose::Warning);
+            const std::vector<std::string> & parameters_name,
+            const std::vector<long> & parameters_id,
+            const std::vector<long> & parameters_level,
+            const std::vector<std::string> & parameters_level_type,
+            const std::vector<bool> & parameters_circular = {},
+            Verbose verbose = Verbose::Warning);
 
     bool parseFilename(Time & time, Time & flt,
             const std::string & file,
@@ -42,9 +42,11 @@ namespace FunctionsIO {
             bool delimited);
 
     void listFiles(std::vector<std::string> & files,
-            std::string & folder,
-            const std::string & ext = ".grb2");
-};
+            const std::string & folder,
+            const std::string & regex_str);
+
+    size_t totalFiles(const std::string & folder);
+}
 
 #endif /* FUNCTIONSIO_H */
 

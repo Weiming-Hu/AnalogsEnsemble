@@ -29,10 +29,10 @@ testAnEnIOMPI::setUp() {
 
     // Set up data files
     data_folder = _TEST_DATA_FOLDER;
-    FunctionsIO::listFiles(data_files, data_folder, ".grb2");
+    FunctionsIO::listFiles(data_files, data_folder, ".*nam_218_\\d{8}_\\d{4}_\\d{3}\\.grb2$");
 
     if (data_files.size() != 5) {
-        cerr << "Wrong number of data files" << endl;
+        cerr << "Wrong number of data files when testing AnEnIOMPI. This probably caused by FunctionsIO::listFiles" << endl;
         exit(1);
     }
 

@@ -110,7 +110,7 @@ int main(int argc, char** argv) {
     vector<int> stations_index;
 
     string forecast_folder, regex_str;
-    string fileout, time_start_str, time_end_str, ext, u_name, v_name, spd_name, dir_name; 
+    string fileout, time_start_str, time_end_str, u_name, v_name, spd_name, dir_name; 
     bool delimited, overwrite, collapse_lead_times, convert_wind;
     size_t unit_in_seconds;
     Verbose verbose;
@@ -125,7 +125,6 @@ int main(int argc, char** argv) {
             ("help,h", "Print help information for options.")
             ("config,c", value< vector<string> >(&config_files)->multitoken(), "Config files (.cfg). Command line options overwrite config files.")
             ("forecasts-folder", value<string>(&forecast_folder)->multitoken()->required(), "Folder for forecast GRIB files.")
-            ("ext", value<string>(&ext)->default_value(".grb2"), "[Optional] GRIB file extension")
             ("regex", value<string>(&regex_str), "Regular expression for file names. The expression should have named groups for 'day', 'flt', and 'cycle'. An example is '.*nam_218_(?P<day>\\d{8})_(?P<cycle>\\d{2})\\d{2}_(?P<flt>\\d{3})\\.grb2$'")
             ("pars-name", value< vector<string> >(&parameters_name)->multitoken()->required(), "Parameters name.")
             ("pars-circular", value < vector<bool> >(&parameters_circular)->multitoken(), "[Optional] 1 for circular parameters and 0 for linear circulars.")
@@ -247,7 +246,11 @@ int main(int argc, char** argv) {
 
     // List files from folders
     vector<string> forecast_files, analysis_files;
-    FunctionsIO::listFiles(forecast_files, forecast_folder, ext);
+    FunctionsIO::listFiles(forecast_files, forecast_folder, regex_str);
+
+    if (forecast_files.size() == 0) throw runtime_error("No forecast files detected. Check --forecasts-folder and --regex.");
+    if (verbose >= Verbose::Detail) cout << forecast_files.size()
+            << " forecasts files extracted based on the regular expression." << endl;
 
 #if defined(_USE_MPI_EXTENSION)
     MPI_Init(&argc, &argv);
