@@ -497,13 +497,6 @@ int main(int argc, char** argv) {
     
     if (forecast_files.size() == 0) throw runtime_error("No forecast files detected");
     if (analysis_files.size() == 0) throw runtime_error("No analysis files detected");
-    
-    if (config.verbose >= Verbose::Debug) {
-        cout << "Forecast files:" << endl
-                << Functions::format(forecast_files, "\n") << endl
-                << "Analysis files:" << endl
-                << Functions::format(analysis_files, "\n") << endl;
-    }
 
 #if defined(_USE_MPI_EXTENSION)
     MPI_Init(&argc, &argv);

@@ -14,10 +14,16 @@
 #include "boost/filesystem.hpp"
 
 #include "Config.h"
-#include "AnEnReadGrib.h"
 #include "AnEnWriteNcdf.h"
 #include "ForecastsPointer.h"
 #include "ObservationsPointer.h"
+
+#if defined(_USE_MPI_EXTENSION)
+#include "AnEnReadGribMPI.h"
+#else 
+#include "AnEnReadGrib.h"
+#endif
+
 
 using namespace std;
 using namespace boost::program_options;
@@ -33,6 +39,9 @@ void runGribConvert(
         bool overwrite,
         bool collapse_lead_times,
         Verbose verbose,
+#if defined(_USE_MPI_EXTENSION)
+        Verbose worker_verbose,
+#endif
         bool convert_wind,
         const string & u_name,
         const string & v_name,
@@ -42,10 +51,28 @@ void runGribConvert(
     /*
      * Read files
      */
+#if defined(_USE_MPI_EXTENSION)
+    int world_rank;
+    MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
+
+    AnEnReadGribMPI anen_read(verbose, worker_verbose);
+#else
     AnEnReadGrib anen_read(verbose);
+#endif
+
     ForecastsPointer forecasts;
     anen_read.readForecasts(forecasts, grib_parameters, forecast_files,
             regex_str, unit_in_seconds, delimited, stations_index);
+
+#if defined(_USE_MPI_EXTENSION)
+    // Terminate the process if this is not a master process.
+    // Subsequent parallelization is done with multi-threading.
+    //
+    if (world_rank != 0) {
+        MPI_Finalize();
+        exit(0);
+    }
+#endif
 
     if (convert_wind) forecasts.windTransform(u_name, v_name, spd_name, dir_name);
 
@@ -87,7 +114,10 @@ int main(int argc, char** argv) {
     bool delimited, overwrite, collapse_lead_times, convert_wind;
     size_t unit_in_seconds;
     Verbose verbose;
-    int verbose_int;
+
+#if defined(_USE_MPI_EXTENSION)
+    Verbose worker_verbose;
+#endif
 
     // Define available command line parameters
     options_description desc("Available options");
@@ -110,7 +140,10 @@ int main(int argc, char** argv) {
             ("overwrite", bool_switch(&overwrite)->default_value(false), "[Optional] Overwrite files and variables.")
             ("collapse-lead-times", bool_switch(&collapse_lead_times)->default_value(false), "[Optional] Collapse forecast lead times. This is helpful when you are reading and converting model analysis files to observation NetCDF files.")
             ("unit-in-seconds", value<size_t>(&unit_in_seconds)->default_value(3600), "[Optional] The number of seconds for the unit of lead times. Usually lead times have hours as unit, so it defaults to 3600.")
-            ("verbose,v", value<int>(&verbose_int)->default_value(2), "[Optional] Verbose level (0 - 4).")
+            ("verbose,v", value<int>()->default_value(1), "[Optional] Verbose level (0 - 4).")
+#if defined(_USE_MPI_EXTENSION)
+            ("worker-verbose", value<int>()->default_value(1), "[Optional] Verbose level for worker processes (0 - 4).")
+#endif
             ("convert-wind", bool_switch(&(convert_wind))->default_value(false), "[Optional] Use this option if your forecasts have only wind U and V components and you need to convert them to wind speed and direction. Please also specify --name-u --name-v --name-spd --name-dir. Wind speed and direction values will be calculated internally and replacing U and V components respectively.")
             ("name-u", value<string>(&u_name)->default_value("U"), "[Optional] Parameter name for U component of wind")
             ("name-v", value<string>(&v_name)->default_value("V"), "[Optional] Parameter name for V component of wind")
@@ -133,9 +166,14 @@ int main(int argc, char** argv) {
         // If help messages are requested or there are
         // no extra arguments other than the command line itself
         //
-        cout << "Parallel Analogs Ensemble -- grib_convert "
-                << _APPVERSION << endl << _COPYRIGHT_MSG << endl
-                << desc << endl;
+        cout 
+#if defined(_USE_MPI_EXTENSION)
+            << "Parallel Analogs Ensemble -- grib_convert_mpi "
+#else
+            << "Parallel Analogs Ensemble -- grib_convert "
+#endif
+            << _APPVERSION << endl << _COPYRIGHT_MSG << endl << endl
+            << desc << endl;
         return 0;
     }
 
@@ -180,9 +218,20 @@ int main(int argc, char** argv) {
         verbose = Functions::itov(vm["verbose"].as<int>());
     }
 
+#if defined(_USE_MPI_EXTENSION)
+    if (vm.count("worker-verbose")) {
+        worker_verbose = Functions::itov(vm["worker-verbose"].as<int>());
+    }
+#endif
+
     if (verbose >= Verbose::Progress) {
-        cout << "Parallel Analogs Ensemble -- grib_convert "
-                << _APPVERSION << endl << _COPYRIGHT_MSG << endl;
+        cout
+#if defined(_USE_MPI_EXTENSION)
+            << "Parallel Analogs Ensemble -- grib_convert_mpi "
+#else
+            << "Parallel Analogs Ensemble -- grib_convert "
+#endif
+            << _APPVERSION << endl << _COPYRIGHT_MSG << endl;
     }
 
 
@@ -200,16 +249,20 @@ int main(int argc, char** argv) {
     vector<string> forecast_files, analysis_files;
     FunctionsIO::listFiles(forecast_files, forecast_folder, ext);
 
-    if (verbose >= Verbose::Debug) {
-        cout << "Forecast files:" << endl
-                << Functions::format(forecast_files, "\n") << endl
-                << "Analysis files:" << endl
-                << Functions::format(analysis_files, "\n") << endl;
-    }
+#if defined(_USE_MPI_EXTENSION)
+    MPI_Init(&argc, &argv);
+#endif
 
     runGribConvert(forecast_files, regex_str, grib_parameters, stations_index, fileout,
             unit_in_seconds, delimited, overwrite, collapse_lead_times, verbose,
+#if defined(_USE_MPI_EXTENSION)
+            worker_verbose,
+#endif
             convert_wind, u_name, v_name, spd_name, dir_name);
 
+#if defined(_USE_MPI_EXTENSION)
+    MPI_Finalize();
+#endif
     return 0;
 }
+

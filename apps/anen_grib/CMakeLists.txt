@@ -31,7 +31,7 @@ install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}Targets RUNTIME DESTINATIO
 ############################################################################################
 
 if(ENABLE_MPI)
-    message(STATUS "Build the class the executable ${PROJECT_NAME}_mpi")
+    message(STATUS "Build the executable ${PROJECT_NAME}_mpi")
     find_package(AnEnIOMPI)
 
     # Add executable
