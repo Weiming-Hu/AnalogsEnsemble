@@ -9,6 +9,7 @@
 #include "ForecastsPointer.h"
 #include "Functions.h"
 
+#include <cmath>
 #include <stdexcept>
 #include <exception>
 
