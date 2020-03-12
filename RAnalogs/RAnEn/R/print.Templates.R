@@ -93,6 +93,6 @@ printTemplates <- function(x) {
   
   if (length(extra.names) != 0) {
     cat("\nExtra members:\n")
-    printExtra(x, existed.names)
+    printExtra(x, extra.names)
   }
 }
