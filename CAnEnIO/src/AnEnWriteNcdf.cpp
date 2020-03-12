@@ -397,9 +397,9 @@ AnEnWriteNcdf::writeObservations(const string & file,
 
     // Create dimensions
     NcDim dim0, dim1, dim2;
-    dim0 = Ncdf::getDimension(nc, Config::_DIM_PARS, _unlimited_parameters, observations.getParameters().size());
-    dim1 = Ncdf::getDimension(nc, Config::_DIM_STATIONS, _unlimited_stations, observations.getStations().size());
-    dim2 = Ncdf::getDimension(nc, Config::_DIM_TIMES, _unlimited_times, observations.getTimes().size());
+    dim0 = Ncdf::getDimension(nc_group, Config::_DIM_PARS, _unlimited_parameters, observations.getParameters().size());
+    dim1 = Ncdf::getDimension(nc_group, Config::_DIM_STATIONS, _unlimited_stations, observations.getStations().size());
+    dim2 = Ncdf::getDimension(nc_group, Config::_DIM_TIMES, _unlimited_times, observations.getTimes().size());
 
     /*
      * Create an NetCDF variable. Note the reversed dimension order so that we
