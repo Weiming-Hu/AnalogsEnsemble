@@ -36,23 +36,37 @@ readForecasts <- function(file, origin = '1970-01-01', tz = 'UTC') {
   
   forecasts <- generateForecastsTemplate()
   
+  # Open an NetCDF file
   nc <- ncdf4::nc_open(file)
-  forecasts[[pairs$`_DATA`]] <- ncdf4::ncvar_get(nc, pairs$`_DATA`, collapse_degen = F)
-  forecasts[[pairs$`_TIMES`]] <- as.POSIXct(ncdf4::ncvar_get(nc, pairs$`_TIMES`), origin = origin, tz = tz)
-  forecasts[[pairs$`_FLTS`]] <- ncdf4::ncvar_get(nc, pairs$`_FLTS`)
   
-  for (name in c(pairs$`_PAR_NAMES`, pairs$`_CIRCULARS`,
-                 pairs$`_STATION_NAMES`, pairs$`_XS`, pairs$`_YS`)) {
-    
-    if (name %in% names(nc$var)) {
-      forecasts[[name]] <- as.vector(ncdf4::ncvar_get(nc, name))
-      
-      if (name == pairs$`_CIRCULARS`) {
-        # Remove empty element
-        forecasts[[name]] <- forecasts[[name]][forecasts[[name]] != '']
-      }
-    }
+  # Check if Forecasts is the root group
+  # If it is the root group, no variable prefix is needed
+  # If it is not the root group, the variable prefix should be "Forecasts/"
+  # 
+  var_prefix <- ''
+  if (any(grepl("^Forecasts/", names(nc$var)))) {
+    var_prefix <- 'Forecasts/'
   }
+  
+  # Take care reading the required variables
+  var_data <- paste0(var_prefix, pairs$`_DATA`)
+  var_times <- paste0(var_prefix, pairs$`_TIMES`)
+  var_flts <- paste0(var_prefix, pairs$`_FLTS`)
+  
+  # Check required variable names
+  for (name in c(var_data, var_times, var_flts)) {
+    stopifnot(name %in% names(nc$var))
+  }
+  
+  # Take care of reading the required variables
+  forecasts[[pairs$`_DATA`]] <- ncdf4::ncvar_get(nc, var_data, collapse_degen = F)
+  forecasts[[pairs$`_TIMES`]] <- as.POSIXct(ncdf4::ncvar_get(nc, var_times), origin = origin, tz = tz)
+  forecasts[[pairs$`_FLTS`]] <- ncdf4::ncvar_get(nc, var_flts)
+  
+  # Read optional variables
+  optional_names <- c(pairs$`_PAR_NAMES`, pairs$`_CIRCULARS`,
+                      pairs$`_STATION_NAMES`, pairs$`_XS`, pairs$`_YS`)
+  forecasts <- readOptional(forecasts, optional_names, nc, var_prefix)
   
   ncdf4::nc_close(nc)
   

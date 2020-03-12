@@ -27,7 +27,7 @@
 #' @md
 #' @export
 readObservations <- function(file, origin = '1970-01-01', tz = 'UTC') {
-  check.package('ncdf4')
+  # check.package('ncdf4')
   stopifnot(file.exists(file))
   
   config <- new(Config)
@@ -37,22 +37,31 @@ readObservations <- function(file, origin = '1970-01-01', tz = 'UTC') {
   
   nc <- ncdf4::nc_open(file)
   
-  # Required names
-  observations[[pairs$`_DATA`]] <- ncdf4::ncvar_get(nc, pairs$`_DATA`, collapse_degen = F)
-  observations[[pairs$`_TIMES`]] <- as.POSIXct(ncdf4::ncvar_get(nc, pairs$`_TIMES`), origin = origin, tz = tz)
-  
-  # Optional names
-  for (name in c(pairs$`_PAR_NAMES`, pairs$`_CIRCULARS`,
-                 pairs$`_STATION_NAMES`, pairs$`_XS`, pairs$`_YS`)) {
-    if (name %in% names(nc$var)) {
-      observations[[name]] <- as.vector(ncdf4::ncvar_get(nc, name))
-      
-      if (name == pairs$`_CIRCULARS`) {
-        # Remove empty element
-        observations[[name]] <- observations[[name]][observations[[name]] != '']
-      }
-    }
+  # Check if Observations is the root group
+  # If it is the root group, no variable prefix is needed
+  # If it is not the root group, the variable prefix should be "Observations/"
+  # 
+  var_prefix <- ''
+  if (any(grepl("^Observations/", names(nc$var)))) {
+    var_prefix <- 'Observations/'
   }
+  
+  # Take care reading the required variables
+  var_data <- paste0(var_prefix, pairs$`_DATA`)
+  var_times <- paste0(var_prefix, pairs$`_TIMES`)
+  
+  # Check required variable names
+  stopifnot(var_data %in% names(nc$var))
+  stopifnot(var_times %in% names(nc$var))
+  
+  # Read required variables
+  observations[[pairs$`_DATA`]] <- ncdf4::ncvar_get(nc, var_data, collapse_degen = F)
+  observations[[pairs$`_TIMES`]] <- as.POSIXct(ncdf4::ncvar_get(nc, var_times), origin = origin, tz = tz)
+  
+  # Read optional variables
+  optional_names <- c(pairs$`_PAR_NAMES`, pairs$`_CIRCULARS`,
+                      pairs$`_STATION_NAMES`, pairs$`_XS`, pairs$`_YS`)
+  observations <- readOptional(observations, optional_names, nc, var_prefix)
   
   ncdf4::nc_close(nc)
   

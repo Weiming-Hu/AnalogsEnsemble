@@ -4,6 +4,8 @@
 - Changed from `boost::regex` to `boost::xpressive`
 - Added MPI support
 - Fixed a bug when reading lat/lon from grib files
+- Improved the file I/O functions in `RAnEn`
+- Improved the printing functions for `Forecasts` and `Observations`
 
 # PAnEn 4.0.2
 

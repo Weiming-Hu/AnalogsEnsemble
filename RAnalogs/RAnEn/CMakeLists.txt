@@ -89,7 +89,11 @@ set_property(TARGET RAnEn PROPERTY SUFFIX ".so")
 # Include and link libraries
 set_property(TARGET RAnEn APPEND PROPERTY COMPILE_FLAGS ${RCPP_CXXFLAGS})
 include_directories (SYSTEM "${CMAKE_CURRENT_SOURCE_DIR}/src" ${R_INCLUDE_DIR})
-target_link_libraries(RAnEn PUBLIC OpenMP::OpenMP_CXX ${R_LIBRARY_BASE})
+target_link_libraries(RAnEn PUBLIC ${R_LIBRARY_BASE})
+
+if(OpenMP_CXX_FOUND)
+    target_link_libraries(RAnEn PUBLIC OpenMP::OpenMP_CXX)
+endif(OpenMP_CXX_FOUND)
 
 if (R_BH_INCLUDE_DIR)
     include_directories (SYSTEM ${R_BH_INCLUDE_DIR})
