@@ -82,23 +82,15 @@ if(ENABLE_OPENMP)
 
 endif(ENABLE_OPENMP)
 
-if(NOT BUILD_BOOST)
+install(TARGETS AnEn
+    EXPORT AnEnConfig
+    LIBRARY DESTINATION lib
+    ARCHIVE DESTINATION lib
+    RUNTIME DESTINATION bin
+    INCLUDES DESTINATION include)
 
-    # Since this project dependends on boost-cmake which does not support installation
-    # yet, if boost was built, the libraries that depend on the built boost are not
-    # installed.
-    # 
-    install(TARGETS AnEn
-        EXPORT AnEnConfig
-        LIBRARY DESTINATION lib
-        ARCHIVE DESTINATION lib
-        RUNTIME DESTINATION bin
-        INCLUDES DESTINATION include)
+install(EXPORT AnEnConfig
+    NAMESPACE AnEn::
+    DESTINATION lib/cmake)
 
-    install(EXPORT AnEnConfig
-        NAMESPACE AnEn::
-        DESTINATION lib/cmake)
-
-    install(FILES ${AnEn_headers} DESTINATION include)
-
-endif(NOT BUILD_BOOST)
+install(FILES ${AnEn_headers} DESTINATION include)

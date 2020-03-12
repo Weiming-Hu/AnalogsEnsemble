@@ -62,9 +62,20 @@ endif(INSTALL_RAnEn)
 # be built.
 #
 if(BUILD_BOOST)
+    # This is to include Boost as a subproject
     list(APPEND SUBPROJECT_TARGETS "Boost")
+
+    # Boost-cmake currently does not support install rules
+    set(CMAKE_SKIP_INSTALL_RULES TRUE)
+    message(STATUS "Installation rules will be disabled because boost-cmake does not support install rules")
+    message(STATUS "More information please refer to https://github.com/Orphis/boost-cmake/pull/45")
+
+    # Check source downloading
     check_boost_cmake_download()
+
+    # Include the directory as a subproject
     add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/boost-cmake)
+
 endif(BUILD_BOOST)
 
 # I'm not using Boost directly in this direct file, rather I'm just checking the
