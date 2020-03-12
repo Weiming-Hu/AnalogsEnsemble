@@ -82,26 +82,7 @@ print.AnEn <- function (x) {
   if (length(existed.names) != 0) {
     empty <- F
     cat("\nExtra members:\n")
-    
-    for (name in existed.names) {
-      cat("$", name, ":\t", sep = '')
-      
-      if (length(x[[name]]) == 1) {
-        # Print the value
-        cat('value:', paste(x[[name]]))
-        
-      } else if (!is.null(dim(x[[name]]))) {
-        # Print the dimensions
-        cat("dimensions: [", paste0(dim(x[[name]]), collapse = ','), ']', sep = '')
-        
-      } else {
-        # Print the length
-        cat("length: [", length(x[[name]]), ']', sep = '')
-      }
-      
-      cat("\n")
-    }
-    
+    printExtra(x, existed.names)
   }
   
   if (empty) {

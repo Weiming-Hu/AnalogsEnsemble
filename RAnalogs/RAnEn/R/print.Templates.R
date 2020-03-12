@@ -59,7 +59,7 @@ printTemplates <- function(x) {
   
   cat(type, ":\n")
   
-  for (name in c(expected.names)) {
+  for (name in expected.names) {
     
     member <- x[[name]]
     
@@ -92,6 +92,7 @@ printTemplates <- function(x) {
   extra.names <- setdiff(all.names, expected.names)
   
   if (length(extra.names) != 0) {
-    cat("\nExtra members found:", paste(extra.names, collapse = ', '), '\n')
+    cat("\nExtra members:\n")
+    printExtra(x, existed.names)
   }
 }

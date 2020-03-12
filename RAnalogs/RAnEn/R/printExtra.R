@@ -1,0 +1,49 @@
+# "`-''-/").___..--''"`-._
+#  (`6_ 6  )   `-.  (     ).`-.__.`)   WE ARE ...
+#  (_Y_.)'  ._   )  `._ `. ``-..-'    PENN STATE!
+#    _ ..`--'_..-_/  /--'_.' ,'
+#  (il),-''  (li),'  ((!.-'
+# 
+# Author: Weiming Hu <weiming@psu.edu>
+#         Geoinformatics and Earth Observation Laboratory (http://geolab.psu.edu)
+#         Department of Geography and Institute for CyberScience
+#         The Pennsylvania State University
+#
+
+#' RAnEn::printExtra
+#' 
+#' RAnEn::printExtra print input variables as extra variables
+#' 
+#' @author Weiming Hu \email{weiming@@psu.edu}
+#' 
+#' @param x The object to print
+#' @param names The names to print
+#' 
+#' @md
+#' @keywords internal
+printExtra <- function(x, names) {
+  
+  for (name in names) {
+    
+    if (!(name %in% names(x))) {
+      stop(paste(name, "does not exists (Internal from RAnEn::printExtra)"))
+    }
+    
+    cat("$", name, ":\t", sep = '')
+    
+    if (length(x[[name]]) == 1) {
+      # Print the value
+      cat('value:', paste(x[[name]]))
+      
+    } else if (!is.null(dim(x[[name]]))) {
+      # Print the dimensions
+      cat("dimensions: [", paste0(dim(x[[name]]), collapse = ','), ']', sep = '')
+      
+    } else {
+      # Print the length
+      cat("length: [", length(x[[name]]), ']', sep = '')
+    }
+    
+    cat("\n")
+  }
+}
