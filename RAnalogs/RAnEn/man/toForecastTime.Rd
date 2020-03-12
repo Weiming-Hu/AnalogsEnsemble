@@ -20,7 +20,7 @@ RAnEn::toForecastTime converts the observation time index to forecast time index
 \details{
 This function does the following conversion.
 
-\verb{Observation time index [ + Forecast lead time index ] ----> Forecast time index}
+\code{Observation time index [ + Forecast lead time index ] ----> Forecast time index}
 
 To pin down the exact time of a forecast, two things are needed: forecast time and the lead time; to pin down
 the exact time of an observation, only the observation time is needed. Therefore, this function is devoted to

@@ -37,7 +37,7 @@ generateForecastsTemplate <- function() {
   forecasts <- vector("list", length(forecast.names))
   names(forecasts) <- forecast.names
   
-  class(forecasts) <- 'Forecasts'
+  class(forecasts) <- c('Forecasts', class(forecasts))
   return(forecasts)
 }
 
@@ -67,7 +67,7 @@ generateObservationsTemplate <- function() {
   observations <- vector("list", length(obs.names))
   names(observations) <- obs.names
   
-  class(observations) <- 'Observations'
+  class(observations) <- c('Observations', class(observations))
   return(observations)
 }
 

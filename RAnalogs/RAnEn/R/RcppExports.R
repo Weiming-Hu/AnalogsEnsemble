@@ -37,7 +37,7 @@ NULL
 #' 
 #' @md
 #' @export
-generateAnalogs.default <- function(sx_forecasts, sx_observations, sx_test_times, sx_search_times, sx_config = NULL, sx_algorithm = NULL) {
+generateAnalogs.Forecasts <- function(sx_forecasts, sx_observations, sx_test_times, sx_search_times, sx_config = NULL, sx_algorithm = NULL) {
     .Call(`_RAnEn_generateAnalogs`, sx_forecasts, sx_observations, sx_test_times, sx_search_times, sx_config, sx_algorithm)
 }
 

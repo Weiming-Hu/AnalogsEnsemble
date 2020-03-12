@@ -35,7 +35,7 @@ printTemplates <- function(x) {
   
   # Determine the type
   type <- ifelse(
-    class(x) == 'Forecasts',
+    inherits(x, 'Forecasts'),
     yes = 'Forecasts',
     no = 'Observations')
   

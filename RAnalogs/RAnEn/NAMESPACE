@@ -2,6 +2,7 @@
 S3method(print, AnEn)
 S3method(print, Forecasts)
 S3method(print, Observations)
+S3method(print, list)
 
 # Classes
 export(Config)
@@ -26,14 +27,15 @@ export(checkOpenMP)
 
 # Generation functions
 export(generateAnalogs)
-export(generateSearchStations)
-export(generateAnalogs.default)
+export(generateAnalogs.Forecasts)
 export(generateTimeMapping)
+export(generateSearchStations)
 export(generateForecastsTemplate)
 export(generateObservationsTemplate)
 export(schaakeShuffle)
 
 # I/O functions
+export(readNc)
 export(readConfig)
 export(readForecasts)
 export(readObservations)

@@ -24,7 +24,7 @@ This will generate both the MAN documents and the NAMESPACE file.
 ### All Together
 
 ```
-# set working directory at 'RAnalogs/'
+# set working directory at 'RAnEn/'
 Rcpp::compileAttributes()
 devtools::load_all()
 devtools::document()

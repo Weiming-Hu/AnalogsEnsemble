@@ -15,7 +15,7 @@ library(RAnEn)
 
 functions.to.test <- c(
   'readForecasts', 'readObservations', 'readConfiguration',
-  'writeNetCDF', 'writeConfig')
+  'writeNetCDF', 'writeConfig', 'readNc')
 
 # Check whether there are any functions that I have not included
 # here in the list. If any, I need to update this test script to

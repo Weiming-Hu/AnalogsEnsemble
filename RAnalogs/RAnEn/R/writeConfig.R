@@ -27,7 +27,7 @@
 writeConfig <- function(config, file, overwrite = F) {
   
   # Sanity checks
-  stopifnot(class(config) == 'Rcpp_Config')
+  stopifnot(inherits(config, 'Rcpp_Config'))
   
   if (file.exists(file)) {
     if (overwrite) {

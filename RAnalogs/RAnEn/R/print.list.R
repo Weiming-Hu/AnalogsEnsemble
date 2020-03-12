@@ -10,23 +10,27 @@
 #         The Pennsylvania State University
 #
 
-#' RAnEn::printExtra
+#' RAnEn::print.list
 #' 
-#' RAnEn::printExtra print input variables as extra variables
+#' RAnEn::print.list prints a list in pretty format
 #' 
 #' @author Weiming Hu \email{weiming@@psu.edu}
 #' 
 #' @param x The object to print
-#' @param names The names to print
+#' @param names_to_print The names to print. Default to all names.
 #' 
 #' @md
-#' @keywords internal
-printExtra <- function(x, names) {
+#' @export
+print.list <- function(x) {
+  printExtra(x, names(x))
+}
+
+printExtra <- function(x, names_to_print) {
   
-  for (name in names) {
+  for (name in names_to_print) {
     
     if (!(name %in% names(x))) {
-      stop(paste(name, "does not exists (Internal from RAnEn::printExtra)"))
+      stop(paste(name, "does not exists (Internal from RAnEn::print.list)"))
     }
     
     cat("$", name, ":\t", sep = '')

@@ -44,7 +44,7 @@ RCPP_EXPOSED_CLASS(Config)
 //' 
 //' @md
 //' @export
-// [[Rcpp::export(generateAnalogs.default)]]
+// [[Rcpp::export(generateAnalogs.Forecasts)]]
 
 List generateAnalogs(SEXP sx_forecasts, SEXP sx_observations,
         SEXP sx_test_times, SEXP sx_search_times,

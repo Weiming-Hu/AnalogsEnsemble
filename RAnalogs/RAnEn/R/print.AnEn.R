@@ -19,7 +19,7 @@
 #' 
 #' @examples 
 #' AnEn <- list()
-#' class(AnEn) <- 'AnEn'
+#' class(AnEn) <- c('AnEn', class(AnEn))
 #' print(AnEn)
 #' 
 #' @export

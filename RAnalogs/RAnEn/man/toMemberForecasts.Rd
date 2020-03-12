@@ -4,17 +4,9 @@
 \alias{toMemberForecasts}
 \title{RAnEn::toMemberForecasts}
 \usage{
-toMemberForecasts(
-  forecasts,
-  sims.time.index,
-  sims.stations.index = NULL,
-  stations.index = 1,
-  test.times.index = 1,
-  flts.index = 1,
-  members.index = NULL,
-  parameters.index = NULL,
-  verbose = T
-)
+toMemberForecasts(forecasts, sims.time.index, sims.stations.index = NULL,
+  stations.index = 1, test.times.index = 1, flts.index = 1,
+  members.index = NULL, parameters.index = NULL, verbose = T)
 }
 \arguments{
 \item{forecasts}{The Data from Forecasts. Usually it is a 4D array.}
@@ -36,7 +28,7 @@ toMemberForecasts(
 \item{verbose}{Whether to show progress and summary information}
 }
 \value{
-A 5 dimensional array with the shape \verb{[parameters][stations][times][flts][members]}.
+A 5 dimensional array with the shape \code{[parameters][stations][times][flts][members]}.
 }
 \description{
 RAnEn::toMemberForecasts finds the most similar historical forecasts
