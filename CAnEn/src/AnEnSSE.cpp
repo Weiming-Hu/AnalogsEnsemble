@@ -107,7 +107,7 @@ firstprivate(sims_arr)
 
                     for (size_t search_station_i = 0; search_station_i < num_nearest_; ++search_station_i) {
                         double current_search_station_index = search_stations_index_(station_i, search_station_i);
-                        if (isnan(current_search_station_index)) continue;
+                        if (std::isnan(current_search_station_index)) continue;
 
                         size_t current_obs_station_index;
                         if (extend_obs_) current_obs_station_index = current_search_station_index;
@@ -129,12 +129,12 @@ firstprivate(sims_arr)
 
                         // Check whether this search time is found in observations
                         double obs_time_index = obs_time_index_table_(search_time_i, flt_i);
-                        if (isnan(obs_time_index)) continue;
+                        if (std::isnan(obs_time_index)) continue;
 
                         // Check whether the associated observation is NA
                         double obs = observations.getValue(obs_var_index_,
                                 current_obs_station_index, obs_time_index);
-                        if (isnan(obs)) continue;
+                        if (std::isnan(obs)) continue;
 
                         /***********************************************************
                          *                                                         *
@@ -318,8 +318,8 @@ AnEnSSE::allocate_memory_(const Forecasts & forecasts,
 bool
 AnEnSSE::_simsSort_(const array<double, 4> & lhs,
         const array<double, 4> & rhs) {
-    if (isnan(lhs[_SIM_VALUE_INDEX])) return false;
-    if (isnan(rhs[_SIM_VALUE_INDEX])) return true;
+    if (std::isnan(lhs[_SIM_VALUE_INDEX])) return false;
+    if (std::isnan(rhs[_SIM_VALUE_INDEX])) return true;
     return (lhs[_SIM_VALUE_INDEX] < rhs[_SIM_VALUE_INDEX]);
 }
 

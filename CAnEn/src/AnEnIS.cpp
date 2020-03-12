@@ -163,11 +163,11 @@ firstprivate(sims_arr)
 
                     // Check whether this search time is found in observations
                     double obs_time_index = obs_time_index_table_(search_time_i, flt_i);
-                    if (isnan(obs_time_index)) continue;
+                    if (std::isnan(obs_time_index)) continue;
 
                     // Check whether the associated observation is NA
                     double obs = observations.getValue(obs_var_index_, station_i, obs_time_index);
-                    if (isnan(obs)) continue;
+                    if (std::isnan(obs)) continue;
 
                     /***********************************************************
                      *                                                         *
@@ -490,8 +490,8 @@ AnEnIS::allocate_memory_(const Forecasts & forecasts,
 bool
 AnEnIS::_simsSort_(const array<double, 3> & lhs,
         const array<double, 3> & rhs) {
-    if (isnan(lhs[_SIM_VALUE_INDEX])) return false;
-    if (isnan(rhs[_SIM_VALUE_INDEX])) return true;
+    if (std::isnan(lhs[_SIM_VALUE_INDEX])) return false;
+    if (std::isnan(rhs[_SIM_VALUE_INDEX])) return true;
     return (lhs[_SIM_VALUE_INDEX] < rhs[_SIM_VALUE_INDEX]);
 }
 
@@ -577,7 +577,7 @@ AnEnIS::computeSimMetric_(const Forecasts & forecasts,
             double value_search = forecasts.getValue(parameter_i, sta_search_i, time_search_i, window_i);
             double value_test = forecasts.getValue(parameter_i, sta_test_i, time_test_i, window_i);
 
-            if (isnan(value_search) || isnan(value_test)) {
+            if (std::isnan(value_search) || std::isnan(value_test)) {
                 window[pos] = NAN;
             } else {
                 if (circulars[parameter_i]) {
@@ -590,7 +590,7 @@ AnEnIS::computeSimMetric_(const Forecasts & forecasts,
 
         double average = Functions::sum(window, max_flt_nan_);
 
-        if (isnan(average)) {
+        if (std::isnan(average)) {
             ++count_par_nan;
             if (count_par_nan > max_par_nan_) return NAN;
         } else {
@@ -651,7 +651,7 @@ times_accum_index, circulars, num_times, calculator_capacity)
                     value = forecasts.getValue(par_i, sta_i, times_fixed_index[i], flt_i);
 
                     // Remove NAN value
-                    if (!isnan(value)) calc.pushValue(value);
+                    if (!std::isnan(value)) calc.pushValue(value);
                 }
 
                 // Calculate standard deviation
@@ -663,7 +663,7 @@ times_accum_index, circulars, num_times, calculator_capacity)
                         // Get the forecast value
                         value = forecasts.getValue(par_i, sta_i, times_accum_index[time_i - 1], flt_i);
 
-                        if (isnan(value)) {
+                        if (std::isnan(value)) {
                             // Copy the value from previous iteration if the value is NAN
                             sds_.setValue(
                                     sds_.getValue(par_i, sta_i, flt_i, time_i - 1),
