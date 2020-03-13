@@ -20,6 +20,7 @@
 
 #include <stdexcept>
 #include <sstream>
+#include <algorithm>
 
 #if defined(_OPENMP)
 #include <omp.h>
@@ -110,8 +111,36 @@ operator<<(ostream& os, Station const & obj) {
  *                            Stations                                    *
  **************************************************************************/
 
-void Stations::push_back(const Station & station) {
+void
+Stations::push_back(const Station & station) {
     BmType<Station>::push_back(value_type(size(), station));
+    return;
+}
+
+void
+Stations::shiftLongitudes() {
+
+    // Get coordinates and names
+    vector<string> names;
+    vector<double> lon, lat;
+
+    getNames(names);
+    getCoordinates(lon, lat);
+
+    // Shift longitudes
+    // If longitudes are bigger than 180, minus 360
+    for_each(lon.begin(), lon.end(), [](double &x) {
+            if (x > 360 || x < 0) throw runtime_error("Longitudes exceed limit [0, 360] during shifting");
+            if (x > 180) x -= 360;
+            return;});
+
+    // Create new Stations
+    resize(0);
+    for (size_t i = 0; i < names.size(); ++i) {
+        Station station(lon[i], lat[i], names[i]);
+        push_back(station);
+    }
+
     return;
 }
 

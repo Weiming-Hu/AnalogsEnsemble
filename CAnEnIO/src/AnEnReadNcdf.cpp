@@ -506,6 +506,8 @@ AnEnReadNcdf::checkFileType_(const NcFile & nc, FileType file_type) const {
             var_name = Config::_DATA;
             dim_names = {Config::_DIM_PARS, Config::_DIM_STATIONS, Config::_DIM_TIMES};
             break;
+        case FileType::Analogs:
+            break;
     }
 
     if (!var_name.empty()) checkVarShape(nc, var_name, dim_names);

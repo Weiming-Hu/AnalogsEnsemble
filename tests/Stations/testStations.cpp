@@ -7,6 +7,7 @@
 
 #include <cppunit/TestAssert.h>
 #include <iostream>
+#include <stdexcept>
 #include <algorithm>
 
 #include "testStations.h"
@@ -25,6 +26,36 @@ testStations::testStations() {
 }
 
 testStations::~testStations() {
+}
+
+void
+testStations::testShift_() {
+    
+    /*
+     * Test shifting station longitudes
+     */
+
+    Stations stations1;
+    stations1.push_back(Station(100, 40));
+    stations1.push_back(Station(361, 40));
+    CPPUNIT_ASSERT_THROW(stations1.shiftLongitudes(), runtime_error);
+
+    Stations stations2;
+    stations2.push_back(Station(100, 40));
+    stations2.push_back(Station(-30, 40));
+    CPPUNIT_ASSERT_THROW(stations2.shiftLongitudes(), runtime_error);
+
+    Stations stations3;
+    stations3.push_back(Station(100, 40));
+    stations3.push_back(Station(181, 40));
+    stations3.push_back(Station(350, 40));
+    stations3.shiftLongitudes();
+
+    CPPUNIT_ASSERT(stations3.size() == 3);
+    CPPUNIT_ASSERT(stations3.getStation(0).getX() == 100);
+    CPPUNIT_ASSERT(stations3.getStation(1).getX() == -179);
+    CPPUNIT_ASSERT(stations3.getStation(2).getX() == -10);
+    cout << stations3 << endl;
 }
 
 void

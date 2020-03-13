@@ -13,6 +13,7 @@
 class testStations : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST_SUITE(testStations);
 
+    CPPUNIT_TEST(testShift_);
     CPPUNIT_TEST(testUnique_);
     CPPUNIT_TEST(testSubset_);
 
@@ -23,6 +24,7 @@ public:
     virtual ~testStations();
 
 private:
+    void testShift_();
     void testUnique_();
     void testSubset_();
 };

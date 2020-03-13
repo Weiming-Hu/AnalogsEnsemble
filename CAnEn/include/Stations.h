@@ -68,11 +68,14 @@ public:
 
     void push_back(const Station &);
 
+    /**
+     * Shift station longitudes from (0 ~ -360) to (-180 ~ 180)
+     */
+    void shiftLongitudes();
+
     std::size_t getIndex(const Station &) const;
     void getIndices(const Stations &, std::vector<std::size_t> &) const;
-    
     const Station & getStation(size_t index) const;
-    
     void getCoordinates(std::vector<double> &, std::vector<double> &) const;
     void getNames(std::vector<std::string> &) const;
     
