@@ -279,7 +279,10 @@ AnEnReadGrib::readForecastsMeta_(Forecasts & forecasts,
         try {
             readStations_(stations, files[trial_i], stations_index);
         } catch (exception & e) {
-            cerr << "Skip this file for stations. Trying the next file. Reason: " << e.what() << endl;
+            cerr << "File skipped when reading stations. Trying the next file. Reason: " << e.what() << endl;
+
+            // Try the next file
+            continue;
         }
 
         // Stations are read without problems, stop the iteration
@@ -322,8 +325,13 @@ AnEnReadGrib::readStations_(Stations & stations, const string & file,
 
     int err;
     FILE *in = fopen(file.c_str(), "r");
-    codes_handle *h = codes_handle_new_from_file(0, in, PRODUCT_GRIB, &err);
-    if (err) throw runtime_error(string("Failed to create handle from ") + file);
+    codes_handle *h = NULL;
+    
+    if ((h = codes_handle_new_from_file(0, in, PRODUCT_GRIB, &err)) == NULL) {
+        throw runtime_error(string("Failed to create handle from ") + file);
+    } else {
+        if (err) throw runtime_error(string("Failed to create handle from ") + file);
+    }
 
     // Set a missing value
     err = codes_set_double(h, "missingValue", NAN);
