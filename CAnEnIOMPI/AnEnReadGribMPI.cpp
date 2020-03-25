@@ -67,18 +67,20 @@ AnEnReadGribMPI::readForecasts(Forecasts & forecasts,
      */
 
     // Get the process ID and the number of worker processes
-    int world_rank, num_children, num_workers;
+    int world_rank, num_procs, num_workers;
     MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
-    MPI_Comm_size(MPI_COMM_WORLD, &num_children);
-    num_workers = num_children - 1;
+    MPI_Comm_size(MPI_COMM_WORLD, &num_procs);
 
-    if (num_children == 1) {
+    // The number of workers is the number of processes minus 1 because process #0 is the master
+    num_workers = num_procs - 1;
+
+    if (num_procs == 1) {
         cerr << "Error: This is an MPI program. You need to launch this program with an MPI launcher, e.g. mpirun." << endl;
         MPI_Finalize();
         exit(1);
     }
 
-    if (num_children == 2) {
+    if (num_workers == 1) {
         cerr << "Error: To take advantage of MPI, at least 3 processes (1 master + 2 workers) should be created. "
             << "It is, however, better to have more worker processes." << endl;
         MPI_Finalize();
@@ -98,7 +100,7 @@ AnEnReadGribMPI::readForecasts(Forecasts & forecasts,
                 flt_unit_in_seconds, delimited, stations_index);
 
         if (verbose_ >= Verbose::Progress) cout << "Reading forecast in parallel ..." << endl
-                << "There are " << files.size() << " files to read and " << num_children - 1
+                << "There are " << files.size() << " files to read and " << num_workers
                 << " workers." << endl;
 
 
@@ -148,7 +150,7 @@ AnEnReadGribMPI::readForecasts(Forecasts & forecasts,
         /*
          * Collect data from each worker process
          */
-        for (int process_i = 1; process_i < num_children; ++process_i) {
+        for (int process_i = 1; process_i < num_procs; ++process_i) {
 
             // Determine what are the files that this particular process is reading from
             MPI_Recv(&file_start_index, 1, MPI_INT, process_i, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
@@ -234,12 +236,10 @@ AnEnReadGribMPI::readForecasts(Forecasts & forecasts,
          */
         
         // Determine what are the files assigned to the current worker process
-        int file_start_index, total_files;
+        int total_files = files.size() / num_workers;
+        int file_start_index = (world_rank - 1) * total_files;
 
-        total_files = ceil(files.size() / (float) num_workers);
-        file_start_index = (world_rank - 1) * total_files;
-
-        if (world_rank == num_children - 1) total_files = files.size() - file_start_index;
+        if (world_rank == num_workers) total_files = files.size() - file_start_index;
         if (worker_verbose_ >= Verbose::Detail) cout << "Worker process #" << world_rank << " initiated to read " << total_files << " files" << endl;
         vector<string> files_subset(files.begin() + file_start_index, files.begin() + file_start_index + total_files);
 
