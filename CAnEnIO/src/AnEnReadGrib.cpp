@@ -265,11 +265,26 @@ AnEnReadGrib::readForecastsMeta_(Forecasts & forecasts,
     if (!is_sorted(stations_index.begin(), stations_index.end())) throw runtime_error("Stations index should be sorted in ascension order");
 
     /*
-     * Read the first message from the first file and retrieve station coordinates
+     * Read the first message from the first several files and retrieve station coordinates
+     *
+     * Sometimes, a grib file might have problems due to error during its creation and that file happens
+     * to be the first file in the list. Therefore, I'm trying to read several of such files until
+     * the correct files are successfully read.
      */
     if (verbose_ >= Verbose::Progress) cout << "Read stations from the first file ..." << endl;
     Stations stations;
-    readStations_(stations, files[0], stations_index);
+
+    for (size_t trial_i = 0; trial_i < files.size(); ++trial_i) {
+
+        try {
+            readStations_(stations, files[trial_i], stations_index);
+        } catch (exception & e) {
+            cerr << "Skip this file for stations. Trying the next file. Reason: " << e.what() << endl;
+        }
+
+        // Stations are read without problems, stop the iteration
+        break;
+    }
 
     /*
      * Set up parameters
@@ -308,14 +323,15 @@ AnEnReadGrib::readStations_(Stations & stations, const string & file,
     int err;
     FILE *in = fopen(file.c_str(), "r");
     codes_handle *h = codes_handle_new_from_file(0, in, PRODUCT_GRIB, &err);
-    CODES_CHECK(err, 0);
+    if (err) throw runtime_error(string("Failed to create handle from ") + file);
 
     // Set a missing value
-    CODES_CHECK(codes_set_double(h, "missingValue", NAN), 0);
+    err = codes_set_double(h, "missingValue", NAN);
+    if (err) throw runtime_error(string("Failed to set missing value in ") + file);
 
     // Create an iterator to loop through all coordinates
     codes_iterator *iter = codes_grib_iterator_new(h, 0, &err);
-    CODES_CHECK(err, 0);
+    if (err) throw runtime_error(string("Failed to create an iterator from ") + file);
 
     // Start with a clean repository
     stations.clear();
