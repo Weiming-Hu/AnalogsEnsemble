@@ -1,3 +1,9 @@
+# PAnEn 4.0.4
+
+- Changed `MPI_Init` to `MPI_Init_thread` for OpenMP programs
+- Add progress information to AnEn computation
+- Improved the distribution of files across nodes
+
 # PAnEn 4.0.3
 
 - Added the regular expressions for forecast and analysis filenames separately

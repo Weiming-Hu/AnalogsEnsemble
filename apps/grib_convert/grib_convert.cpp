@@ -261,7 +261,9 @@ int main(int argc, char** argv) {
             << " forecasts files extracted based on the regular expression." << endl;
 
 #if defined(_USE_MPI_EXTENSION)
-    MPI_Init(&argc, &argv);
+    int provided;
+    MPI_Init_thread(&argc, &argv, MPI_THREAD_FUNNELED, &provided);
+    if (provided != MPI_THREAD_FUNNELED) throw runtime_error("The MPI implementation does not provide MPI_THREAD_FUNNELED");
 #endif
 
     runGribConvert(forecast_files, regex_str, grib_parameters, stations_index, fileout,
