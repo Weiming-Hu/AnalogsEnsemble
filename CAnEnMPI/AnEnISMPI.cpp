@@ -53,11 +53,11 @@ AnEnISMPI::compute(const Forecasts & forecasts, const Observations & observation
 
     // Scatter forecasts by stations
     ForecastsPointer proc_forecasts;
-    scatterForecasts(forecasts, proc_forecasts, world_rank);
+    scatterForecasts(forecasts, proc_forecasts, num_procs, world_rank);
 
     // Scatter observations by stations
     ObservationsPointer proc_observations;
-    scatterObservations(observations, proc_observations, world_rank);
+    scatterObservations(observations, proc_observations, num_procs, world_rank);
 
     // Broadcast test and search
     vector<size_t> proc_test_index, proc_search_index;
@@ -78,7 +78,7 @@ AnEnISMPI::compute(const Forecasts & forecasts, const Observations & observation
     }
 
     // Collect members in AnEnIS
-    collectAnEn(world_rank);
+    collectAnEn(num_procs, world_rank);
 
     return;
 }

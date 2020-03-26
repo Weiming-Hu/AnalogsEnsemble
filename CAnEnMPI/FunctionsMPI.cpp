@@ -7,20 +7,22 @@
 
 #include "FunctionsMPI.h"
 
+#include <cmath>
+
 using namespace std;
 
 void
-FunctionsMPI::collectAnEn(int rank) {
+FunctionsMPI::collectAnEn(int num_procs, int rank) {
     return;
 }
 
 void
-FunctionsMPI::scatterObservations(const Observations & send, Observations & recv, int rank) {
+FunctionsMPI::scatterObservations(const Observations & send, Observations & recv, int num_procs, int rank) {
     return;
 }
 
 void
-FunctionsMPI::scatterBasicData(const BasicData & send, BasicData & recv, int rank) {
+FunctionsMPI::scatterBasicData(const BasicData & send, BasicData & recv, int num_procs, int rank) {
     unsigned long num_stations;
     vector<bool> master_circulars, worker_circulars;
     vector<size_t> master_times, worker_times;
@@ -48,7 +50,7 @@ FunctionsMPI::scatterBasicData(const BasicData & send, BasicData & recv, int ran
 
         // Create stations
         Stations stations;
-        int sub_total = getSubTotal(num_stations, rank);
+        int sub_total = getSubTotal(num_stations, num_procs, rank);
         for (int i = 0; i < sub_total; ++i) stations.push_back(Station(i, i));
 
         // Create times
@@ -63,9 +65,9 @@ FunctionsMPI::scatterBasicData(const BasicData & send, BasicData & recv, int ran
 }
 
 void
-FunctionsMPI::scatterForecasts(const Forecasts & send, Forecasts & recv, int rank) {
+FunctionsMPI::scatterForecasts(const Forecasts & send, Forecasts & recv, int num_procs, int rank) {
 
-    scatterBasicData(send, recv, rank);
+    scatterBasicData(send, recv, num_procs, rank);
 
     vector<size_t> master_flts, worker_flts;
 
@@ -91,24 +93,27 @@ FunctionsMPI::scatterForecasts(const Forecasts & send, Forecasts & recv, int ran
     }
 
     // Scatter array
-    scatterArray(send, recv, rank);
+    scatterArray(send, recv, num_procs, rank);
 
     return;
 }
 
 int
-FunctionsMPI::getStartIndex(int total, int rank) {
-    return 0;
+FunctionsMPI::getStartIndex(int total, int num_procs, int rank) {
+    // Rank 0 is the master. Start with rank 1.
+    return (int) ceil((rank - 1) * total / (float) (num_procs - 1));
 }
 
 int
-FunctionsMPI::getEndIndex(int total, int rank) {
-    return 0;
+FunctionsMPI::getEndIndex(int total, int num_procs, int rank) {
+    // Rank 0 is the master. Start with rank 1.
+    if (rank == num_procs - 1) return total;
+    return (int) ceil(rank * total / (float) (num_procs - 1));
 }
 
 int
-FunctionsMPI::getSubTotal(int total, int rank) {
-    return 0;
+FunctionsMPI::getSubTotal(int total, int num_procs, int rank) {
+    return getEndIndex(total, num_procs, rank) - getStartIndex(total, num_procs, rank);
 }
 
 void
