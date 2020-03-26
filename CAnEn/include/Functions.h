@@ -59,6 +59,11 @@ namespace Functions {
      */
     using Matrix = boost::numeric::ublas::matrix<
             double, boost::numeric::ublas::column_major, std::vector<double> >;
+
+    /**
+     * Get the number of threads that will be spawned
+     */
+    int getAvailableThreads();
     
     /**
      * Create an unordered map with parameter names as keys and the id as values

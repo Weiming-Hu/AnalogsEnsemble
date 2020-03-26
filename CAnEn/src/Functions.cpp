@@ -46,6 +46,7 @@ static const size_t _VALUE_INDEX = 0;
 static const size_t _TIME_INDEX = 1;
 static const size_t _FLT_INDEX = 2;
 
+
 /*
  * This defines an operator for comparing observation time entry which is based
  * on the first position, time stamp value.
@@ -56,6 +57,21 @@ struct time_arr_compare {
         return lhs[_VALUE_INDEX] < rhs[_VALUE_INDEX];
     }
 };
+
+int
+Functions::getAvailableThreads() {
+
+    int num_threads = 1;
+
+#if defined(_OPENMP)
+#pragma omp parallel 
+    {
+        if (omp_get_thread_num() == 0) num_threads = omp_get_num_threads();
+    }
+#endif
+
+    return num_threads;
+}
 
 void
 Functions::createObsMap(unordered_map<string, size_t> & map,
@@ -152,21 +168,24 @@ Functions::toValues(Array4D& analogs, size_t obs_id,
     size_t num_flts = dims[2];
     size_t num_members = dims[3];
 
-    double time_index, station_index, value;
-
+#if defined(_OPENMP)
+#pragma omp parallel for default(none) schedule(static) collapse(4) \
+shared(num_stations, num_times, num_flts, num_members, analogs_time_index, \
+obs_id, analogs, observations, analogs_station_index)
+#endif
     for (size_t station_i = 0; station_i < num_stations; station_i++) {
         for (size_t time_i = 0; time_i < num_times; time_i++) {
             for (size_t flt_i = 0; flt_i < num_flts; flt_i++) {
                 for (size_t member_i = 0; member_i < num_members; member_i++) {
 
-                    time_index = analogs_time_index.getValue(station_i, time_i, flt_i, member_i);
-                    station_index = analogs_station_index.getValue(station_i, time_i, flt_i, member_i);
+                    double time_index = analogs_time_index.getValue(station_i, time_i, flt_i, member_i);
+                    double station_index = analogs_station_index.getValue(station_i, time_i, flt_i, member_i);
 
                     if (std::isnan(time_index) || std::isnan(station_index)) {
                         // Skip if any of the index is NAN
                     } else {
                         // Assign the value
-                        value = observations.getValue(obs_id, station_index, time_index);
+                        double value = observations.getValue(obs_id, station_index, time_index);
                         analogs.setValue(value, station_i, time_i, flt_i, member_i);
                     }
 

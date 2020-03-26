@@ -14,6 +14,7 @@
 class testFunctions : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST_SUITE(testFunctions);
 
+    CPPUNIT_TEST(showNumThreads_);
     CPPUNIT_TEST(testSearchStations_);
     CPPUNIT_TEST(testComputeObservationTimeIndices1_);
     CPPUNIT_TEST(testComputeObservationTimeIndices2_);
@@ -36,6 +37,7 @@ public:
 
 private:
 
+    void showNumThreads_();
     void testSearchStations_();
     void testComputeObservationTimeIndices1_();
     void testComputeObservationTimeIndices2_();

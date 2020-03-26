@@ -42,6 +42,12 @@ testFunctions::tearDown() {
 }
 
 void
+testFunctions::showNumThreads_() {
+    cout << Functions::getAvailableThreads() << endl;
+    return;
+}
+
+void
 testFunctions::testSearchStations_() {
 
     /**
