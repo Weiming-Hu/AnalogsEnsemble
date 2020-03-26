@@ -6,6 +6,7 @@
  */
 
 #include "AnEnISMPI.h"
+#include "FunctionsMPI.h"
 #include "ForecastsPointer.h"
 #include "ObservationsPointer.h"
 
@@ -26,6 +27,8 @@ AnEnISMPI::~AnEnISMPI() {
 void
 AnEnISMPI::compute(const Forecasts & forecasts, const Observations & observations,
             vector<size_t> & fcsts_test_index, vector<size_t> & fcsts_search_index) {
+
+    using namespace FunctionsMPI;
 
     // Get the process ID and the number of worker processes
     int world_rank, num_procs, num_workers;
@@ -48,147 +51,35 @@ AnEnISMPI::compute(const Forecasts & forecasts, const Observations & observation
         exit(1);
     }
 
-    // Broadcast forecasts
+    // Scatter forecasts by stations
     ForecastsPointer proc_forecasts;
-    broadcastForecasts_(forecasts, proc_forecasts, world_rank);
+    scatterForecasts(forecasts, proc_forecasts, world_rank);
+
+    // Scatter observations by stations
+    ObservationsPointer proc_observations;
+    scatterObservations(observations, proc_observations, world_rank);
+
+    // Broadcast test and search
+    vector<size_t> proc_test_index, proc_search_index;
+    broadcastVector(fcsts_test_index, proc_test_index, world_rank);
+    broadcastVector(fcsts_search_index, proc_search_index, world_rank);
 
     if (world_rank == 0) {
-
-        // Broadcast
-        // - forecasts
-        // - observations
-        // - test indices (entire copy)
-        // - search indices (entire copy)
-        //
-
-
-        // Wait until all processes are done
+        // This is a master
         
-        // Collect results
-        // - sds_
-        // - sims_metric_
-        // - sims_time_index
-        // - analogs_value_
-        // - analogs_time_index_
-        //
-        collectByStations_();
+        // Preprocess to allocate memory
+        preprocess_(forecasts, observations, fcsts_test_index, fcsts_search_index);
         
     } else {
-        
-        // Broadcast
-        // - forecasts (parameters, stations, times, flts, data)
-        // - observations (parameters, stations, times, data)
-        // - test indices (entire copy)
-        // - search indices (entire copy)
-        //
-        ForecastsPointer forecasts_proc;
-        double *recv_forecast_values = forecasts_proc.getValuesPtr();
-        broadcastByStations_(nullptr, recv_forecast_values, world_rank);
+        // This is a worker
 
         // Compute analogs
-        AnEnIS::compute(forecasts, observations, fcsts_test_index, fcsts_search_index);
-        
-        // Collect results
-        // - sds_
-        // - sims_metric_
-        // - sims_time_index
-        // - analogs_value_
-        // - analogs_time_index_
-        //
-        collectByStations_();
+        AnEnIS::compute(proc_forecasts, proc_observations, fcsts_test_index, fcsts_search_index);
     }
 
-    return;
-}
-
-void
-AnEnISMPI::broadcastForecasts_(const Forecasts & send, Forecasts & recv, int rank) const {
-
-    unsigned long num_stations;
-
-    if (rank == 0) {
-        // I'm the master
-        
-        // Broadcast parameter circular field
-        vector<double> master_send, placeholder;
-        send.getParameters().getCirculars(master_send);
-        broadcastVector_(master_send, placeholder);
-
-        // Broadcast the total number of stations
-        num_stations = send.getStations().size();
-        MPI_Bcast(&num_stations, 1, MPI_UNSIGNED_LONG, rank, MPI_COMM_WORLD);
-
-        // Broadcast times
-        send.getTimes().getTimestamps(master_send);
-        broadcastVector_(master_send, placeholder);
-
-        // Broadcast flts
-        send.getFLTs().getTimestamps(master_send);
-        broadcastVector_(master_send, placeholder);
-
-        // Broadcast forecast values
-        broadcastByStations_(send.getValuesPtr(), nullptr, rank);
-
-    } else {
-
-        // I'm the worker
-
-        // Receive parameter circular field
-        vector<double> proc_recv, placeholder;
-        broadcastVector_(placeholder, proc_recv);
-        Parameters parameters;
-        for (const auto & e : proc_recv) parameters.push_back(Parameter(Config::_NAME, e));
-
-        // Receive the total number of stations
-        MPI_Bcast(&num_stations, 1, MPI_UNSIGNED_LONG, rank, MPI_COMM_WORLD);
-        Stations stations;
-        for (unsigned long i = 0; i < num_stations; ++i) stations.push_back(Station(i, i));
-
-        // Receive times
-        broadcastVector_(placeholder, proc_recv);
-        Times times;
-        for (const auto & e : proc_recv) times.push_back(e);
-        
-        // Receive flts
-        broadcastVector_(placeholder, proc_recv);
-        Times flts;
-        for (const auto & e : proc_recv) flts.push_back(e);
-
-        // Receive forecasts
-        recv.setDimensions(parameters, stations, times, flts);
-        double *proc_forecast_values = recv.getValuesPtr();
-        broadcastByStations_(nullptr, proc_forecast_values, rank);
-    }
+    // Collect members in AnEnIS
+    collectAnEn(world_rank);
 
     return;
 }
 
-int
-AnEnISMPI::getStartIndex_(int total, int rank) const {
-    return 0;
-}
-
-int
-AnEnISMPI::getEndIndex_(int total, int rank) const {
-    return 0;
-}
-
-int
-AnEnISMPI::getSubTotal(int total, int rank) const {
-    return 0;
-}
-
-void
-AnEnISMPI::broadcastVector_(const vector<double> & send, vector<double> & recv) const {
-    return;
-}
-
-void
-AnEnISMPI::broadcastByStations_(const double *send, double *recv, int rank) const {
-    return;
-}
-
-void
-AnEnISMPI::collectByStations_(const double *send, double *recv, int rank) const {
-    return;
-}

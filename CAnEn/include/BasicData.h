@@ -25,6 +25,8 @@ public:
     BasicData(const BasicData& orig);
     virtual ~BasicData();
 
+    void setMembers(const Parameters &, const Stations &, const Times &);
+
     const Parameters & getParameters() const;
     const Stations & getStations() const;
     const Times & getTimes() const;

@@ -46,9 +46,7 @@ ForecastsPointer::setDimensions(
         const Times & times, const Times & flts) {
 
     // Set members in the parent class
-    parameters_ = parameters;
-    stations_ = stations;
-    times_ = times;
+    setMembers(parameters, stations, times);
     flts_ = flts;
 
     // Allocate data

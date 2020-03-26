@@ -71,9 +71,7 @@ ObservationsPointer::setDimensions(
         const Times& times) {
 
     // Set members in the parent class
-    parameters_ = parameters;
-    stations_ = stations;
-    times_ = times;
+    setMembers(parameters, stations, times);
 
     // Allocate memory
     allocateMemory_();

@@ -17,7 +17,8 @@ find_package(MPI REQUIRED)
 find_package(AnEn REQUIRED)
 find_package(Boost 1.58.0 REQUIRED COMPONENTS program_options)
 
-add_library(AnEnMPI ${CMAKE_CURRENT_SOURCE_DIR}/AnEnISMPI.cpp)
+add_library(AnEnMPI ${CMAKE_CURRENT_SOURCE_DIR}/AnEnISMPI.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/FunctionsMPI.cpp)
 
 add_library(AnEnMPI::AnEnMPI ALIAS AnEnMPI)
 

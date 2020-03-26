@@ -22,14 +22,19 @@ BasicData::BasicData(const BasicData& orig) {
     }
 }
 
-BasicData::BasicData(const Parameters & parameters, const Stations & stations,
-        const Times & times) {
-    parameters_ = parameters;
-    stations_ = stations;
-    times_ = times;
+BasicData::BasicData(const Parameters & parameters, const Stations & stations, const Times & times) {
+    setMembers(parameters, stations, times);
 }
 
 BasicData::~BasicData() {
+}
+
+void
+BasicData::setMembers(const Parameters & parameters, const Stations & stations, const Times & times) {
+    parameters_ = parameters;
+    stations_ = stations;
+    times_ = times;
+    return;
 }
 
 const Parameters &
