@@ -29,6 +29,6 @@ if(ENABLE_MPI)
     PAnEn_test_this("AnEnIOMPI")
 
     # Link to extra libraries
-    target_link_libraries(testAnEnIOMPI PRIVATE AnEnIOMPI::AnEnIOMPI)
+    target_link_libraries(testAnEnIOMPI PUBLIC AnEnIOMPI::AnEnIOMPI)
 endif(ENABLE_MPI)
 

@@ -6,8 +6,8 @@
  */
 
 
-#ifndef ANENTREADGRIBMPI_H
-#define ANENTREADGRIBMPI_H
+#ifndef AnEnREADGRIBMPI_H
+#define AnEnREADGRIBMPI_H
 
 #include <mpi.h>
 #include "AnEnReadGrib.h"
@@ -57,4 +57,5 @@ private:
     Verbose worker_verbose_;
 };
 
-#endif /* ANENTREADGRIBMPI_H */
+#endif /* AnEnREADGRIBMPI_H */
+
