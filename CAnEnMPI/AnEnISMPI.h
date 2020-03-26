@@ -30,6 +30,10 @@ public:
             const Observations & observations,
             std::vector<std::size_t> & fcsts_test_index,
             std::vector<std::size_t> & fcsts_search_index) override;
+
+private:
+    void broadcastByStations_() const;
+    void collectByStations_() const;
 };
 
 #endif /* AnEnISMPI_H */

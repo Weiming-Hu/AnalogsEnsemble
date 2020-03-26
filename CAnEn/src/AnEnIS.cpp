@@ -118,7 +118,12 @@ AnEnIS::compute(const Forecasts & forecasts,
     /*
      * Progress messages output
      */
-    if (verbose_ >= Verbose::Detail) print(cout);
+    if (verbose_ >= Verbose::Detail) {
+        print(cout);
+        cout << "Number of test times: " << fcsts_test_index.size() << endl
+            << "Number of search times: " << fcsts_search_index.size() << endl;
+    }
+
     if (verbose_ >= Verbose::Progress) cout << "Computing analogs ..." << endl;
 
 #if defined(_OPENMP)
