@@ -6,6 +6,8 @@
  */
 
 #include "AnEnISMPI.h"
+#include "ForecastsPointer.h"
+#include "ObservationsPointer.h"
 
 using namespace std;
 
@@ -46,6 +48,10 @@ AnEnISMPI::compute(const Forecasts & forecasts, const Observations & observation
         exit(1);
     }
 
+    // Broadcast forecasts
+    ForecastsPointer proc_forecasts;
+    broadcastForecasts_(forecasts, proc_forecasts, world_rank);
+
     if (world_rank == 0) {
 
         // Broadcast
@@ -54,7 +60,7 @@ AnEnISMPI::compute(const Forecasts & forecasts, const Observations & observation
         // - test indices (entire copy)
         // - search indices (entire copy)
         //
-        broadcastByStations_();
+
 
         // Wait until all processes are done
         
@@ -70,12 +76,14 @@ AnEnISMPI::compute(const Forecasts & forecasts, const Observations & observation
     } else {
         
         // Broadcast
-        // - forecasts
-        // - observations
+        // - forecasts (parameters, stations, times, flts, data)
+        // - observations (parameters, stations, times, data)
         // - test indices (entire copy)
         // - search indices (entire copy)
         //
-        broadcastByStations_();
+        ForecastsPointer forecasts_proc;
+        double *recv_forecast_values = forecasts_proc.getValuesPtr();
+        broadcastByStations_(nullptr, recv_forecast_values, world_rank);
 
         // Compute analogs
         AnEnIS::compute(forecasts, observations, fcsts_test_index, fcsts_search_index);
@@ -94,11 +102,93 @@ AnEnISMPI::compute(const Forecasts & forecasts, const Observations & observation
 }
 
 void
-AnEnISMPI::broadcastByStations_() const {
+AnEnISMPI::broadcastForecasts_(const Forecasts & send, Forecasts & recv, int rank) const {
+
+    unsigned long num_stations;
+
+    if (rank == 0) {
+        // I'm the master
+        
+        // Broadcast parameter circular field
+        vector<double> master_send, placeholder;
+        send.getParameters().getCirculars(master_send);
+        broadcastVector_(master_send, placeholder);
+
+        // Broadcast the total number of stations
+        num_stations = send.getStations().size();
+        MPI_Bcast(&num_stations, 1, MPI_UNSIGNED_LONG, rank, MPI_COMM_WORLD);
+
+        // Broadcast times
+        send.getTimes().getTimestamps(master_send);
+        broadcastVector_(master_send, placeholder);
+
+        // Broadcast flts
+        send.getFLTs().getTimestamps(master_send);
+        broadcastVector_(master_send, placeholder);
+
+        // Broadcast forecast values
+        broadcastByStations_(send.getValuesPtr(), nullptr, rank);
+
+    } else {
+
+        // I'm the worker
+
+        // Receive parameter circular field
+        vector<double> proc_recv, placeholder;
+        broadcastVector_(placeholder, proc_recv);
+        Parameters parameters;
+        for (const auto & e : proc_recv) parameters.push_back(Parameter(Config::_NAME, e));
+
+        // Receive the total number of stations
+        MPI_Bcast(&num_stations, 1, MPI_UNSIGNED_LONG, rank, MPI_COMM_WORLD);
+        Stations stations;
+        for (unsigned long i = 0; i < num_stations; ++i) stations.push_back(Station(i, i));
+
+        // Receive times
+        broadcastVector_(placeholder, proc_recv);
+        Times times;
+        for (const auto & e : proc_recv) times.push_back(e);
+        
+        // Receive flts
+        broadcastVector_(placeholder, proc_recv);
+        Times flts;
+        for (const auto & e : proc_recv) flts.push_back(e);
+
+        // Receive forecasts
+        recv.setDimensions(parameters, stations, times, flts);
+        double *proc_forecast_values = recv.getValuesPtr();
+        broadcastByStations_(nullptr, proc_forecast_values, rank);
+    }
+
+    return;
+}
+
+int
+AnEnISMPI::getStartIndex_(int total, int rank) const {
+    return 0;
+}
+
+int
+AnEnISMPI::getEndIndex_(int total, int rank) const {
+    return 0;
+}
+
+int
+AnEnISMPI::getSubTotal(int total, int rank) const {
+    return 0;
+}
+
+void
+AnEnISMPI::broadcastVector_(const vector<double> & send, vector<double> & recv) const {
     return;
 }
 
 void
-AnEnISMPI::collectByStations_() const {
+AnEnISMPI::broadcastByStations_(const double *send, double *recv, int rank) const {
+    return;
+}
+
+void
+AnEnISMPI::collectByStations_(const double *send, double *recv, int rank) const {
     return;
 }

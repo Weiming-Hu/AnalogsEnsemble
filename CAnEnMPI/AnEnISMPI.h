@@ -32,8 +32,13 @@ public:
             std::vector<std::size_t> & fcsts_search_index) override;
 
 private:
-    void broadcastByStations_() const;
-    void collectByStations_() const;
+    int getStartIndex_(int total, int rank) const;
+    int getEndIndex_(int total, int rank) const;
+    int getSubTotal(int total, int rank) const;
+    void broadcastForecasts_(const Forecasts & send, Forecasts & recv, int rank) const;
+    void broadcastVector_(const std::vector<double> & send, std::vector<double> & recv) const;
+    void broadcastByStations_(const double *send, double *recv, int rank) const;
+    void collectByStations_(const double *send, double *recv, int rank) const;
 };
 
 #endif /* AnEnISMPI_H */
