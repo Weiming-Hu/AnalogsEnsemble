@@ -119,17 +119,28 @@ AnEnIS::compute(const Forecasts & forecasts,
      * Progress messages output
      */
     if (verbose_ >= Verbose::Detail) {
+        cout << "************** AnEn Configuration Summary **************" << endl;
         print(cout);
-        cout << "Number of test times: " << fcsts_test_index.size() << endl
-            << "Number of search times: " << fcsts_search_index.size() << endl;
+        cout << "*********** End of AnEn Configuration Summary **********" << endl
+            << "************** AnEn Computation Summary **************" << endl
+            << "Number of stations: " << num_stations << endl
+            << "Number of test times: " << num_test_times_index << endl
+            << "Number of lead times: " << num_flts << endl
+            << "Number of search times: " << fcsts_search_index.size() << endl
+            << "*********** End of AnEn Computation Summary **********" << endl;
     }
 
     if (verbose_ >= Verbose::Progress) cout << "Computing analogs ..." << endl;
 
+    // Prepare variables for progress bar
+    size_t total_count = num_stations * num_flts * num_test_times_index;
+    size_t counter = 0, current_percent = 0;
+
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(dynamic) collapse(3) \
 shared(num_stations, num_flts, num_test_times_index, num_search_times_index, \
-fcsts_test_index, fcsts_search_index, forecasts, observations, circulars) \
+fcsts_test_index, fcsts_search_index, forecasts, observations, circulars, \
+total_count, counter, current_percent, std::cout) \
 firstprivate(sims_arr)
 #endif
     for (size_t station_i = 0; station_i < num_stations; ++station_i) {
@@ -211,10 +222,36 @@ firstprivate(sims_arr)
                 if (save_analogs_time_index_) saveAnalogsTimeIndex_(sims_arr, station_i, test_time_i, flt_i);
                 if (save_sims_) saveSims_(sims_arr, station_i, test_time_i, flt_i);
                 if (save_sims_time_index_) saveSimsTimeIndex_(sims_arr, station_i, test_time_i, flt_i);
-            }
-        }
-    }
 
+
+                /*
+                 * Print progress information
+                 */
+                if (verbose_ >= Verbose::Detail) {
+#if defined(_OPENMP)
+#pragma omp atomic
+#endif
+                    counter++;
+
+#if defined(_OPENMP)
+                    if (omp_get_thread_num() == 0) {
+#endif
+                        if (counter > 400000) {
+                            current_percent += counter / (float) total_count * 100;
+                            cout << '\r' << "Progress: " << current_percent << "%";
+                            cout.flush();
+                            counter = 0;
+                        }
+#if defined(_OPENMP)
+                    }
+#endif
+                }
+
+            } // End loop of test times
+        } // End loop of lead times
+    } // End loop of stations
+
+    if (verbose_ >= Verbose::Detail) cout << '\r' << "Progress: 100%" << endl;
     if (verbose_ >= Verbose::Progress) cout << "AnEnIS generation done!" << endl;
 
     return;

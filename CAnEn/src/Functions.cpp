@@ -643,14 +643,20 @@ Functions::collapseLeadTimes(
 
     // Copy values from forecasts
     time_i = 0;
-    double value;
     size_t num_parameters = observations.getParameters().size();
     size_t num_stations = observations.getStations().size();
 
+#if defined(_OPENMP)
+#pragma omp parallel default(none) shared(unique_times, unique_times_end, \
+num_parameters, num_stations, forecasts, observations) firstprivate(time_i)
+#endif
     for (auto it = unique_times.begin(); it != unique_times_end; ++it, ++time_i) {
+#if defined(_OPENMP)
+#pragma omp for schedule(static) collapse(2)
+#endif
         for (size_t parameter_i = 0; parameter_i < num_parameters; ++parameter_i) {
             for (size_t station_i = 0; station_i < num_stations; ++station_i) {
-                value = forecasts.getValue(parameter_i, station_i, (*it)[_TIME_INDEX], (*it)[_FLT_INDEX]);
+                double value = forecasts.getValue(parameter_i, station_i, (*it)[_TIME_INDEX], (*it)[_FLT_INDEX]);
                 observations.setValue(value, parameter_i, station_i, time_i);
             }
         }
