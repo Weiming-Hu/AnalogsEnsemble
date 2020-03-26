@@ -97,20 +97,22 @@ Functions::toValues(Array4D& analogs, size_t obs_id,
     size_t num_flts = dims[2];
     size_t num_members = dims[3];
 
-    double time_index, value;
-
+#if defined(_OPENMP)
+#pragma omp parallel for default(none) schedule(static) collapse(4) \
+shared(num_stations, num_times, num_flts, num_members, analogs_time_index, obs_id, analogs, observations)
+#endif
     for (size_t station_i = 0; station_i < num_stations; station_i++) {
         for (size_t time_i = 0; time_i < num_times; time_i++) {
             for (size_t flt_i = 0; flt_i < num_flts; flt_i++) {
                 for (size_t member_i = 0; member_i < num_members; member_i++) {
 
-                    time_index = analogs_time_index.getValue(station_i, time_i, flt_i, member_i);
+                    double time_index = analogs_time_index.getValue(station_i, time_i, flt_i, member_i);
 
                     if (std::isnan(time_index)) {
                         // Skip if the time index is NAN
                     } else {
                         // Assign the value
-                        value = observations.getValue(obs_id, station_i, time_index);
+                        double value = observations.getValue(obs_id, station_i, time_index);
                         analogs.setValue(value, station_i, time_i, flt_i, member_i);
                     }
 
