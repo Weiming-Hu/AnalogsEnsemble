@@ -99,9 +99,8 @@ add_subdirectory(CAnEn)
 add_subdirectory(CAnEnIO)
 
 if(ENABLE_MPI)
-    list(APPEND SUBPROJECT_TARGETS "AnEnIOMPI" "AnEnMPI")
+    list(APPEND SUBPROJECT_TARGETS "AnEnIOMPI")
     add_subdirectory(CAnEnIOMPI)
-    add_subdirectory(CAnEnMPI)
 endif(ENABLE_MPI)
 
 # Add applications as subprojects
