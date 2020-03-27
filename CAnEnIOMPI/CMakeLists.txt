@@ -23,7 +23,7 @@ Please check with your individual HPC platform to ensure
 the correct configuration to launch a hybrid MPI+OpenMP program.
 
 Please refer to the README to see details of the design.
-https://weiming-hu.github.io/AnalogsEnsemble/doc#mpi-openmp
+https://weiming-hu.github.io/AnalogsEnsemble/doc#mpi-and-openmp
 
 ***************************************************************
 ")
