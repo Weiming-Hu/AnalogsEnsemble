@@ -77,10 +77,10 @@ Inheritance diagram for BasicData:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_basic_data__inherit__graph.png" border="0" usemap="#_basic_data_inherit__map" alt="Inheritance graph"/></div>
 <map name="_basic_data_inherit__map" id="_basic_data_inherit__map">
-<area shape="rect" id="node2" href="class_forecasts.html" title="Forecasts is an abstract class that extends BasicData and the abstract class Array4D. It defines the interface of how to interact with the underlying data storage through the abstract class Array4D. This interface is accepted by the Analog Ensemble algorithm. " alt="" coords="19,351,162,604"/>
-<area shape="rect" id="node4" href="class_observations.html" title="Observations is an abstract class that extends BasicData. It defines the interface of how to interact..." alt="" coords="199,358,329,597"/>
-<area shape="rect" id="node3" href="class_forecasts_pointer.html" title="ForecastsPointer is an implementation of the abstract class Forecasts. It also inherits from Array4DP..." alt="" coords="5,718,163,942"/>
-<area shape="rect" id="node5" href="class_observations_pointer.html" title="ObservationsPointer is an implementation of the abstract class Observations. The underlying storage u..." alt="" coords="187,652,355,1008"/>
+<area shape="rect" id="node2" href="class_forecasts.html" title="Forecasts is an abstract class that extends BasicData and the abstract class Array4D. It defines the interface of how to interact with the underlying data storage through the abstract class Array4D. This interface is accepted by the Analog Ensemble algorithm. " alt="" coords="19,365,162,619"/>
+<area shape="rect" id="node4" href="class_observations.html" title="Observations is an abstract class that extends BasicData. It defines the interface of how to interact..." alt="" coords="199,365,329,619"/>
+<area shape="rect" id="node3" href="class_forecasts_pointer.html" title="ForecastsPointer is an implementation of the abstract class Forecasts. It also inherits from Array4DP..." alt="" coords="5,740,163,964"/>
+<area shape="rect" id="node5" href="class_observations_pointer.html" title="ObservationsPointer is an implementation of the abstract class Observations. The underlying storage u..." alt="" coords="187,667,355,1037"/>
 </map>
 </div>
 <div class="dynheader">
@@ -89,7 +89,7 @@ Collaboration diagram for BasicData:</div>
 <div class="center"><img src="class_basic_data__coll__graph.png" border="0" usemap="#_basic_data_coll__map" alt="Collaboration graph"/></div>
 <map name="_basic_data_coll__map" id="_basic_data_coll__map">
 <area shape="rect" id="node2" href="class_times.html" title="Times class is used to store Time. It is a bidirectional map implemented from Boost so that it provid..." alt="" coords="5,132,137,371"/>
-<area shape="rect" id="node4" href="class_stations.html" title="Stations class stores Station objects. It is a bidirectional map implemented from Boost so that it pr..." alt="" coords="162,154,293,349"/>
+<area shape="rect" id="node4" href="class_stations.html" title="Stations class stores Station objects. It is a bidirectional map implemented from Boost so that it pr..." alt="" coords="162,147,293,356"/>
 <area shape="rect" id="node6" href="class_parameters.html" title="Parameters class stores Parameter objects. It is a bidirectional map implemented from Boost so that i..." alt="" coords="326,154,446,349"/>
 </map>
 </div>
@@ -104,6 +104,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a503d998763e0b3f5080f48ce795997d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae228e60c133f553beeaf91fa00b9db75"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_basic_data.html#ae228e60c133f553beeaf91fa00b9db75">~BasicData</a> ()</td></tr>
 <tr class="separator:ae228e60c133f553beeaf91fa00b9db75"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae8e7e63e4a910f487daf2f18835f8d55"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_basic_data.html#ae8e7e63e4a910f487daf2f18835f8d55">setMembers</a> (const <a class="el" href="class_parameters.html">Parameters</a> &amp;, const <a class="el" href="class_stations.html">Stations</a> &amp;, const <a class="el" href="class_times.html">Times</a> &amp;)</td></tr>
+<tr class="separator:ae8e7e63e4a910f487daf2f18835f8d55"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad3079290b5f775cfef1b942ef64169f5"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="class_parameters.html">Parameters</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_basic_data.html#ad3079290b5f775cfef1b942ef64169f5">getParameters</a> () const</td></tr>
 <tr class="separator:ad3079290b5f775cfef1b942ef64169f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a70beb929324c0cd04eb014aa3f6c68f6"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="class_stations.html">Stations</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_basic_data.html#a70beb929324c0cd04eb014aa3f6c68f6">getStations</a> () const</td></tr>
@@ -418,6 +420,40 @@ Friends</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Reimplemented in <a class="el" href="class_forecasts.html#addb1f75f0dc6833c466453c51256812c">Forecasts</a>, <a class="el" href="class_observations.html#a523647c5ae644959f0ed583cd7b11aba">Observations</a>, <a class="el" href="class_observations_pointer.html#a51bf0648dbbfa35a68f0c8201c883d0f">ObservationsPointer</a>, and <a class="el" href="class_forecasts_pointer.html#ac092e5728c909482ab367a9f3e56ca12">ForecastsPointer</a>.</p>
+
+</div>
+</div>
+<a id="ae8e7e63e4a910f487daf2f18835f8d55"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae8e7e63e4a910f487daf2f18835f8d55">&#9670;&nbsp;</a></span>setMembers()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void BasicData::setMembers </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_parameters.html">Parameters</a> &amp;&#160;</td>
+          <td class="paramname"><em>parameters</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="class_stations.html">Stations</a> &amp;&#160;</td>
+          <td class="paramname"><em>stations</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="class_times.html">Times</a> &amp;&#160;</td>
+          <td class="paramname"><em>times</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>

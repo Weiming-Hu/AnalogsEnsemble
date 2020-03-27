@@ -69,6 +69,9 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p><a class="el" href="class_parameter_grib.html" title="ParameterGrib stores parameter information including the extra information, e.g. ID, variable level, and the type of variable level. These information is very helpful when locating a specific variable in a Grib2 format file. ">ParameterGrib</a> stores parameter information including the extra information, e.g. ID, variable level, and the type of variable level. These information is very helpful when locating a specific variable in a Grib2 format file.  
+ <a href="class_parameter_grib.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="_parameter_grib_8h_source.html">ParameterGrib.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for ParameterGrib:</div>
@@ -160,7 +163,19 @@ Friends</h2></td></tr>
 <tr class="memitem:afeb697701033ec1ef7a7db1e82db0739"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_parameter_grib.html#afeb697701033ec1ef7a7db1e82db0739">operator&lt;&lt;</a> (std::ostream &amp;, <a class="el" href="class_parameter_grib.html">ParameterGrib</a> const &amp;)</td></tr>
 <tr class="separator:afeb697701033ec1ef7a7db1e82db0739"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p><a class="el" href="class_parameter_grib.html" title="ParameterGrib stores parameter information including the extra information, e.g. ID, variable level, and the type of variable level. These information is very helpful when locating a specific variable in a Grib2 format file. ">ParameterGrib</a> stores parameter information including the extra information, e.g. ID, variable level, and the type of variable level. These information is very helpful when locating a specific variable in a Grib2 format file. </p>
+<p>To find any supported variables, please use the database provided by ECMWF Eccodes:</p>
+<p><a href="https://apps.ecmwf.int/codes/grib/param-db/">https://apps.ecmwf.int/codes/grib/param-db/</a></p>
+<p>To find the associated arguments for a variable, first identify the variable ID from the database, and then use the following eccodes commandline tool to find out what the level and the type of level are. For example, for the following variable,</p>
+<p><a href="https://apps.ecmwf.int/codes/grib/param-db/?id=132">https://apps.ecmwf.int/codes/grib/param-db/?id=132</a></p>
+<p>the variable ID is 132. To show all the levels and types of levels contained in a specific file, you can use the command line tool:</p>
+<p>$ grib_ls -w paramId=132 -p paramId,level,typeOfLevel,shortName,name nam_218_20160101_0000_000.grb2 nam_218_20160101_0000_000.grb2 paramId level typeOfLevel shortName name 132 50 isobaricInhPa v V component of wind 132 75 isobaricInhPa v V component of wind 132 100 isobaricInhPa v V component of wind 132 125 isobaricInhPa v V component of wind 132 150 isobaricInhPa v V component of wind 132 175 isobaricInhPa v V component of wind 132 200 isobaricInhPa v V component of wind 132 225 isobaricInhPa v V component of wind 132 250 isobaricInhPa v V component of wind 132 275 isobaricInhPa v V component of wind 132 300 isobaricInhPa v V component of wind 132 325 isobaricInhPa v V component of wind 132 350 isobaricInhPa v V component of wind 132 375 isobaricInhPa v V component of wind 132 400 isobaricInhPa v V component of wind 132 425 isobaricInhPa v V component of wind 132 450 isobaricInhPa v V component of wind 132 475 isobaricInhPa v V component of wind 132 500 isobaricInhPa v V component of wind 132 525 isobaricInhPa v V component of wind 132 550 isobaricInhPa v V component of wind 132 575 isobaricInhPa v V component of wind 132 600 isobaricInhPa v V component of wind 132 625 isobaricInhPa v V component of wind 132 650 isobaricInhPa v V component of wind 132 675 isobaricInhPa v V component of wind 132 700 isobaricInhPa v V component of wind 132 725 isobaricInhPa v V component of wind 132 750 isobaricInhPa v V component of wind 132 775 isobaricInhPa v V component of wind 132 800 isobaricInhPa v V component of wind 132 825 isobaricInhPa v V component of wind 132 850 isobaricInhPa v V component of wind 132 875 isobaricInhPa v V component of wind 132 900 isobaricInhPa v V component of wind 132 925 isobaricInhPa v V component of wind 132 950 isobaricInhPa v V component of wind 132 975 isobaricInhPa v V component of wind 132 1000 isobaricInhPa v V component of wind 132 3000 pressureFromGroundLayer v V component of wind 132 6000 pressureFromGroundLayer v V component of wind 132 9000 pressureFromGroundLayer v V component of wind 132 12000 pressureFromGroundLayer v V component of wind 132 15000 pressureFromGroundLayer v V component of wind 132 18000 pressureFromGroundLayer v V component of wind 132 0 tropopause v V component of wind 132 0 maxWind v V component of wind 132 0 unknown v V component of wind 132 80 heightAboveGround v V component of wind 49 of 445 messages in nam_218_20160101_0000_000.grb2</p>
+<p>49 of 445 total messages in 1 files</p>
+<p>In this way, you can locate any variables by a combination of variable ID, level, and the type of the variable level.</p>
+<p>If you want to find some quick test data files, you can access them here.</p>
+<p><a href="https://github.com/Weiming-Hu/AnalogsEnsemble/tree/master/tests/Data">https://github.com/Weiming-Hu/AnalogsEnsemble/tree/master/tests/Data</a> </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a3f2626427663005eb20b291a4e9c49df"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3f2626427663005eb20b291a4e9c49df">&#9670;&nbsp;</a></span>ParameterGrib() <span class="overload">[1/3]</span></h2>
 

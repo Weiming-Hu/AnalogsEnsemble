@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>RAnEn::writeConfiguration — writeConfiguration • RAnEn</title>
+<title>RAnEn::print.list — print.list • RAnEn</title>
 
 
 <!-- jquery -->
@@ -35,11 +35,8 @@
 
 
 
-<meta property="og:title" content="RAnEn::writeConfiguration — writeConfiguration" />
-<meta property="og:description" content="RAnEn::writeConfiguration writes a Configuration class to multiple files, usually
-observations and forecasts into NetCDF files and the rest configuration parameters
-into a configuration file. The Configuration input should already be successfully
-configured." />
+<meta property="og:title" content="RAnEn::print.list — print.list" />
+<meta property="og:description" content="RAnEn::print.list prints a list in pretty format" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -72,7 +69,7 @@ configured." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAnEn</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">4.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">4.0.3</span>
       </span>
     </div>
 
@@ -111,63 +108,28 @@ configured." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>RAnEn::writeConfiguration</h1>
-    <small class="dont-index">Source: <a href='https://github.com/Weiming-Hu/AnalogsEnsemble/blob/master/R/writeConfiguration.R'><code>R/writeConfiguration.R</code></a></small>
-    <div class="hidden name"><code>writeConfiguration.Rd</code></div>
+    <h1>RAnEn::print.list</h1>
+    <small class="dont-index">Source: <a href='https://github.com/Weiming-Hu/AnalogsEnsemble/blob/master/R/print.list.R'><code>R/print.list.R</code></a></small>
+    <div class="hidden name"><code>print.list.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>RAnEn::writeConfiguration writes a Configuration class to multiple files, usually
-observations and forecasts into NetCDF files and the rest configuration parameters
-into a configuration file. The Configuration input should already be successfully
-configured.</p>
+    <p>RAnEn::print.list prints a list in pretty format</p>
     </div>
 
-    <pre class="usage"><span class='fu'>writeConfiguration</span>(
-  <span class='no'>config</span>,
-  <span class='no'>obs.par.names</span>,
-  <span class='no'>fcsts.par.names</span>,
-  <span class='no'>xs</span>,
-  <span class='no'>ys</span>,
-  <span class='kw'>file.prefix</span> <span class='kw'>=</span> <span class='st'>""</span>,
-  <span class='kw'>folder</span> <span class='kw'>=</span> <span class='st'>"./"</span>,
-  <span class='kw'>silent</span> <span class='kw'>=</span> <span class='no'>F</span>
-)</pre>
+    <pre class="usage"><span class='co'># S3 method for list</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>x</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>config</th>
-      <td><p>The successfully configured Configuration object.</p></td>
+      <th>x</th>
+      <td><p>The object to print</p></td>
     </tr>
     <tr>
-      <th>obs.par.names</th>
-      <td><p>The names of observation variables.</p></td>
-    </tr>
-    <tr>
-      <th>fcsts.par.names</th>
-      <td><p>The names of forecast variables.</p></td>
-    </tr>
-    <tr>
-      <th>xs</th>
-      <td><p>Xs of stations.</p></td>
-    </tr>
-    <tr>
-      <th>ys</th>
-      <td><p>Ys of stations.</p></td>
-    </tr>
-    <tr>
-      <th>file.prefix</th>
-      <td><p>File prefix for output files.</p></td>
-    </tr>
-    <tr>
-      <th>folder</th>
-      <td><p>Output folder.</p></td>
-    </tr>
-    <tr>
-      <th>silent</th>
-      <td><p>Whether to be silent.</p></td>
+      <th>names_to_print</th>
+      <td><p>The names to print. Default to all names.</p></td>
     </tr>
     </table>
 

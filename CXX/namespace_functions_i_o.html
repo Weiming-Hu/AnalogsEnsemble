@@ -69,18 +69,18 @@ $(function() {
 Functions</h2></td></tr>
 <tr class="memitem:a9bc197b0276ad65d1aa37634c991fd91"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions_i_o.html#a9bc197b0276ad65d1aa37634c991fd91">toParameterVector</a> (std::vector&lt; <a class="el" href="class_parameter_grib.html">ParameterGrib</a> &gt; &amp;, const std::vector&lt; std::string &gt; &amp;parameters_name, const std::vector&lt; long &gt; &amp;parameters_id, const std::vector&lt; long &gt; &amp;parameters_level, const std::vector&lt; std::string &gt; &amp;parameters_level_type, const std::vector&lt; bool &gt; &amp;parameters_circular={}, <a class="el" href="_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9">Verbose</a> verbose=<a class="el" href="_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9a0eaadb4fcb48a0a0ed7bc9868be9fbaa">Verbose::Warning</a>)</td></tr>
 <tr class="separator:a9bc197b0276ad65d1aa37634c991fd91"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0346a0bfd13656a5a2502d2aed41bf3f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions_i_o.html#a0346a0bfd13656a5a2502d2aed41bf3f">parseFilename</a> (<a class="el" href="class_time.html">Time</a> &amp;time, <a class="el" href="class_time.html">Time</a> &amp;flt, const std::string &amp;file, const boost::gregorian::date &amp;start_day, const boost::regex &amp;regex_day, const boost::regex &amp;regex_flt, const boost::regex &amp;regex_cycle, size_t unit_in_seconds, bool delimited)</td></tr>
-<tr class="separator:a0346a0bfd13656a5a2502d2aed41bf3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9d0802cd784f668ac68d91d3422a02a1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions_i_o.html#a9d0802cd784f668ac68d91d3422a02a1">parseFilename</a> (<a class="el" href="class_time.html">Time</a> &amp;time, <a class="el" href="class_time.html">Time</a> &amp;flt, const std::string &amp;file, const boost::gregorian::date &amp;start_day, const boost::regex &amp;regex_day, const boost::regex &amp;regex_flt, size_t unit_in_seconds, bool delimited)</td></tr>
-<tr class="separator:a9d0802cd784f668ac68d91d3422a02a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a90f26cbf32ba34de02912fd0f39ca380"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions_i_o.html#a90f26cbf32ba34de02912fd0f39ca380">parseFilenames</a> (<a class="el" href="class_times.html">Times</a> &amp;, <a class="el" href="class_times.html">Times</a> &amp;, const std::vector&lt; std::string &gt; &amp;files, const std::string &amp;regex_day_str, const std::string &amp;regex_flt_str, const std::string &amp;regex_cycle_str, size_t unit_in_seconds, bool delimited)</td></tr>
-<tr class="separator:a90f26cbf32ba34de02912fd0f39ca380"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afef7fdcf466bfef18a2ef2926a4e5b04"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions_i_o.html#afef7fdcf466bfef18a2ef2926a4e5b04">listFiles</a> (std::vector&lt; std::string &gt; &amp;files, std::string &amp;folder, const std::string &amp;ext=&quot;.grb2&quot;)</td></tr>
-<tr class="separator:afef7fdcf466bfef18a2ef2926a4e5b04"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6024a51c786592e14234754fa74a09dc"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions_i_o.html#a6024a51c786592e14234754fa74a09dc">parseFilename</a> (<a class="el" href="class_time.html">Time</a> &amp;time, <a class="el" href="class_time.html">Time</a> &amp;flt, const std::string &amp;file, const boost::gregorian::date &amp;start_day, const boost::xpressive::sregex &amp;rex, size_t unit_in_seconds, bool delimited)</td></tr>
+<tr class="separator:a6024a51c786592e14234754fa74a09dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a27e5e5d33b85b14b1302e86dd064a3b3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions_i_o.html#a27e5e5d33b85b14b1302e86dd064a3b3">parseFilenames</a> (<a class="el" href="class_times.html">Times</a> &amp;, <a class="el" href="class_times.html">Times</a> &amp;, const std::vector&lt; std::string &gt; &amp;files, const std::string &amp;regex_str, size_t unit_in_seconds, bool delimited)</td></tr>
+<tr class="separator:a27e5e5d33b85b14b1302e86dd064a3b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaafbb3a1597e0dd129a3b82924542a32"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions_i_o.html#aaafbb3a1597e0dd129a3b82924542a32">listFiles</a> (std::vector&lt; std::string &gt; &amp;files, const std::string &amp;folder, const std::string &amp;regex_str)</td></tr>
+<tr class="separator:aaafbb3a1597e0dd129a3b82924542a32"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a14183471a94f9acf34e35bbf2ed552c7"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions_i_o.html#a14183471a94f9acf34e35bbf2ed552c7">totalFiles</a> (const std::string &amp;folder)</td></tr>
+<tr class="separator:a14183471a94f9acf34e35bbf2ed552c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="afef7fdcf466bfef18a2ef2926a4e5b04"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afef7fdcf466bfef18a2ef2926a4e5b04">&#9670;&nbsp;</a></span>listFiles()</h2>
+<a id="aaafbb3a1597e0dd129a3b82924542a32"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaafbb3a1597e0dd129a3b82924542a32">&#9670;&nbsp;</a></span>listFiles()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -94,14 +94,14 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::string &amp;&#160;</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>folder</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>ext</em> = <code>&quot;.grb2&quot;</code>&#160;</td>
+          <td class="paramname"><em>regex_str</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -113,8 +113,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a0346a0bfd13656a5a2502d2aed41bf3f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0346a0bfd13656a5a2502d2aed41bf3f">&#9670;&nbsp;</a></span>parseFilename() <span class="overload">[1/2]</span></h2>
+<a id="a6024a51c786592e14234754fa74a09dc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6024a51c786592e14234754fa74a09dc">&#9670;&nbsp;</a></span>parseFilename()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -146,20 +146,8 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const boost::regex &amp;&#160;</td>
-          <td class="paramname"><em>regex_day</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const boost::regex &amp;&#160;</td>
-          <td class="paramname"><em>regex_flt</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const boost::regex &amp;&#160;</td>
-          <td class="paramname"><em>regex_cycle</em>, </td>
+          <td class="paramtype">const boost::xpressive::sregex &amp;&#160;</td>
+          <td class="paramname"><em>rex</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -183,72 +171,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a9d0802cd784f668ac68d91d3422a02a1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9d0802cd784f668ac68d91d3422a02a1">&#9670;&nbsp;</a></span>parseFilename() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool FunctionsIO::parseFilename </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_time.html">Time</a> &amp;&#160;</td>
-          <td class="paramname"><em>time</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="class_time.html">Time</a> &amp;&#160;</td>
-          <td class="paramname"><em>flt</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>file</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const boost::gregorian::date &amp;&#160;</td>
-          <td class="paramname"><em>start_day</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const boost::regex &amp;&#160;</td>
-          <td class="paramname"><em>regex_day</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const boost::regex &amp;&#160;</td>
-          <td class="paramname"><em>regex_flt</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>unit_in_seconds</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>delimited</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a90f26cbf32ba34de02912fd0f39ca380"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a90f26cbf32ba34de02912fd0f39ca380">&#9670;&nbsp;</a></span>parseFilenames()</h2>
+<a id="a27e5e5d33b85b14b1302e86dd064a3b3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a27e5e5d33b85b14b1302e86dd064a3b3">&#9670;&nbsp;</a></span>parseFilenames()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -275,19 +199,7 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>regex_day_str</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>regex_flt_str</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>regex_cycle_str</em>, </td>
+          <td class="paramname"><em>regex_str</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -363,6 +275,24 @@ Functions</h2></td></tr>
           <td></td>
           <td>)</td>
           <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a14183471a94f9acf34e35bbf2ed552c7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a14183471a94f9acf34e35bbf2ed552c7">&#9670;&nbsp;</a></span>totalFiles()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t FunctionsIO::totalFiles </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>folder</em></td><td>)</td>
+          <td></td>
         </tr>
       </table>
 </div><div class="memdoc">

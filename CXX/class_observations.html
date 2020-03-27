@@ -76,8 +76,8 @@ Inheritance diagram for Observations:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_observations__inherit__graph.png" border="0" usemap="#_observations_inherit__map" alt="Inheritance graph"/></div>
 <map name="_observations_inherit__map" id="_observations_inherit__map">
-<area shape="rect" id="node3" href="class_observations_pointer.html" title="ObservationsPointer is an implementation of the abstract class Observations. The underlying storage u..." alt="" coords="5,637,173,993"/>
-<area shape="rect" id="node2" href="class_basic_data.html" title="BasicData is an implementation of the data structure used by Analog Ensemble. It includes parameters..." alt="" coords="26,5,153,303"/>
+<area shape="rect" id="node3" href="class_observations_pointer.html" title="ObservationsPointer is an implementation of the abstract class Observations. The underlying storage u..." alt="" coords="5,667,173,1037"/>
+<area shape="rect" id="node2" href="class_basic_data.html" title="BasicData is an implementation of the data structure used by Analog Ensemble. It includes parameters..." alt="" coords="26,5,153,317"/>
 </map>
 </div>
 <div class="dynheader">
@@ -85,9 +85,9 @@ Collaboration diagram for Observations:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_observations__coll__graph.png" border="0" usemap="#_observations_coll__map" alt="Collaboration graph"/></div>
 <map name="_observations_coll__map" id="_observations_coll__map">
-<area shape="rect" id="node2" href="class_basic_data.html" title="BasicData is an implementation of the data structure used by Analog Ensemble. It includes parameters..." alt="" coords="164,433,291,701"/>
+<area shape="rect" id="node2" href="class_basic_data.html" title="BasicData is an implementation of the data structure used by Analog Ensemble. It includes parameters..." alt="" coords="164,433,291,716"/>
 <area shape="rect" id="node3" href="class_times.html" title="Times class is used to store Time. It is a bidirectional map implemented from Boost so that it provid..." alt="" coords="5,132,137,371"/>
-<area shape="rect" id="node5" href="class_stations.html" title="Stations class stores Station objects. It is a bidirectional map implemented from Boost so that it pr..." alt="" coords="162,154,293,349"/>
+<area shape="rect" id="node5" href="class_stations.html" title="Stations class stores Station objects. It is a bidirectional map implemented from Boost so that it pr..." alt="" coords="162,147,293,356"/>
 <area shape="rect" id="node7" href="class_parameters.html" title="Parameters class stores Parameter objects. It is a bidirectional map implemented from Boost so that i..." alt="" coords="326,154,446,349"/>
 </map>
 </div>
@@ -110,6 +110,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a1e43f3af319d0572308341c3a29393a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac8291a64d9b2ce948dd400d18cbe5a0c"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#ac8291a64d9b2ce948dd400d18cbe5a0c">setDimensions</a> (const <a class="el" href="class_parameters.html">Parameters</a> &amp;parameters, const <a class="el" href="class_stations.html">Stations</a> &amp;stations, const <a class="el" href="class_times.html">Times</a> &amp;times)=0</td></tr>
 <tr class="separator:ac8291a64d9b2ce948dd400d18cbe5a0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a051604b4a02a837716237e5f14854c57"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#a051604b4a02a837716237e5f14854c57">initialize</a> (double)=0</td></tr>
+<tr class="separator:a051604b4a02a837716237e5f14854c57"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad7b52b880869698f4d191f47bae766e2"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#ad7b52b880869698f4d191f47bae766e2">getValue</a> (std::size_t parameter_index, std::size_t station_index, std::size_t time_index) const =0</td></tr>
 <tr class="separator:ad7b52b880869698f4d191f47bae766e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6f00b4a2277ce9e77cd0d5975f4066f8"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#a6f00b4a2277ce9e77cd0d5975f4066f8">setValue</a> (double val, std::size_t parameter_index, std::size_t station_index, std::size_t time_index)=0</td></tr>
@@ -127,6 +129,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a503d998763e0b3f5080f48ce795997d8 inherit pub_methods_class_basic_data"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae228e60c133f553beeaf91fa00b9db75 inherit pub_methods_class_basic_data"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_basic_data.html#ae228e60c133f553beeaf91fa00b9db75">~BasicData</a> ()</td></tr>
 <tr class="separator:ae228e60c133f553beeaf91fa00b9db75 inherit pub_methods_class_basic_data"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae8e7e63e4a910f487daf2f18835f8d55 inherit pub_methods_class_basic_data"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_basic_data.html#ae8e7e63e4a910f487daf2f18835f8d55">setMembers</a> (const <a class="el" href="class_parameters.html">Parameters</a> &amp;, const <a class="el" href="class_stations.html">Stations</a> &amp;, const <a class="el" href="class_times.html">Times</a> &amp;)</td></tr>
+<tr class="separator:ae8e7e63e4a910f487daf2f18835f8d55 inherit pub_methods_class_basic_data"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad3079290b5f775cfef1b942ef64169f5 inherit pub_methods_class_basic_data"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="class_parameters.html">Parameters</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_basic_data.html#ad3079290b5f775cfef1b942ef64169f5">getParameters</a> () const</td></tr>
 <tr class="separator:ad3079290b5f775cfef1b942ef64169f5 inherit pub_methods_class_basic_data"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a70beb929324c0cd04eb014aa3f6c68f6 inherit pub_methods_class_basic_data"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="class_stations.html">Stations</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_basic_data.html#a70beb929324c0cd04eb014aa3f6c68f6">getStations</a> () const</td></tr>
@@ -364,6 +368,34 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Implemented in <a class="el" href="class_observations_pointer.html#aeb677c27395e9d391002a6eefc2451e6">ObservationsPointer</a>.</p>
+
+</div>
+</div>
+<a id="a051604b4a02a837716237e5f14854c57"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a051604b4a02a837716237e5f14854c57">&#9670;&nbsp;</a></span>initialize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void Observations::initialize </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="class_observations_pointer.html#a3e466dc9856ff769894ed9442e15ad62">ObservationsPointer</a>.</p>
 
 </div>
 </div>

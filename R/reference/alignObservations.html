@@ -70,7 +70,7 @@ format of a forecast for convenience of statistical analysis." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAnEn</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">4.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">4.0.3</span>
       </span>
     </div>
 
@@ -119,15 +119,8 @@ format of a forecast for convenience of statistical analysis." />
 format of a forecast for convenience of statistical analysis.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>alignObservations</span>(
-  <span class='no'>observations</span>,
-  <span class='no'>observation.times</span>,
-  <span class='no'>forecast.times</span>,
-  <span class='no'>flts</span>,
-  <span class='kw'>return.na.index</span> <span class='kw'>=</span> <span class='no'>F</span>,
-  <span class='kw'>show.progress</span> <span class='kw'>=</span> <span class='no'>F</span>,
-  <span class='kw'>silent</span> <span class='kw'>=</span> <span class='no'>F</span>
-)</pre>
+    <pre class="usage"><span class='fu'>alignObservations</span>(<span class='no'>observations</span>, <span class='no'>observation.times</span>, <span class='no'>forecast.times</span>, <span class='no'>flts</span>,
+  <span class='kw'>return.na.index</span> <span class='kw'>=</span> <span class='no'>F</span>, <span class='kw'>show.progress</span> <span class='kw'>=</span> <span class='no'>F</span>, <span class='kw'>silent</span> <span class='kw'>=</span> <span class='no'>F</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -177,14 +170,12 @@ pair of forecast time/FLT could not be found in observation times provided.</p>
 This function converts the dimensions of observations to forecasts and
 artificially add the FLTs dimension to observations by replicating
 values in observations.</p>
-<p>Imagine the following sequence of observation times</p><pre>00h 06h 12h 18h 24h 30h 36h 42h 48h 54h
-</pre>
-
+<p>Imagine the following sequence of observation times</p>
+<p>00h 06h 12h 18h 24h 30h 36h 42h 48h 54h</p>
 <p>After the alignment with the daily forecasts with 6 FLTs, the aligned observations
-will be</p><pre>00h 06h 12h 18h 24h 30h
-24h 30h 36h 42h 48h 54h
-</pre>
-
+will be</p>
+<p>00h 06h 12h 18h 24h 30h
+24h 30h 36h 42h 48h 54h</p>
 <p>You note that there will be duplicates in observations which cannot
 be avoided in this format.</p>
 

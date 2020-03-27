@@ -5,6 +5,21 @@ sidebar_link: true
 ---
 
 
+# PAnEn 4.0.4
+
+- Changed `MPI_Init` to `MPI_Init_thread` for OpenMP programs
+- Add progress information to AnEn computation
+- Improved the distribution of files across nodes
+
+# PAnEn 4.0.3
+
+- Added the regular expressions for forecast and analysis filenames separately
+- Changed from `boost::regex` to `boost::xpressive`
+- Added MPI support
+- Fixed a bug when reading lat/lon from grib files
+- Improved the file I/O functions in `RAnEn`
+- Improved the printing functions for `Forecasts` and `Observations`
+
 # PAnEn 4.0.2
 
 - Added test and search period checks to avoid calculating analogs over empty time periods

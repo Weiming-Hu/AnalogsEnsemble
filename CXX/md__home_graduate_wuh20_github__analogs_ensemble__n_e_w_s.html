@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>ParallelAnalogEnsemble: PAnEn 4.0.2</title>
+<title>ParallelAnalogEnsemble: PAnEn 4.0.4</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -59,13 +59,28 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">PAnEn 4.0.2 </div>  </div>
+<div class="title">PAnEn 4.0.4 </div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><ul>
+<li>Changed <code>MPI_Init</code> to <code>MPI_Init_thread</code> for OpenMP programs</li>
+<li>Add progress information to <a class="el" href="class_an_en.html" title="AnEn is an abstract class that defines the interface for implement analog ensemble generation...">AnEn</a> computation</li>
+<li>Improved the distribution of files across nodes</li>
+</ul>
+<h1>PAnEn 4.0.3</h1>
+<ul>
+<li>Added the regular expressions for forecast and analysis filenames separately</li>
+<li>Changed from <code>boost::regex</code> to <code>boost::xpressive</code></li>
+<li>Added MPI support</li>
+<li>Fixed a bug when reading lat/lon from grib files</li>
+<li>Improved the file I/O functions in <code>RAnEn</code></li>
+<li>Improved the printing functions for <code><a class="el" href="class_forecasts.html" title="Forecasts is an abstract class that extends BasicData and the abstract class Array4D. It defines the interface of how to interact with the underlying data storage through the abstract class Array4D. This interface is accepted by the Analog Ensemble algorithm. ">Forecasts</a></code> and <code><a class="el" href="class_observations.html" title="Observations is an abstract class that extends BasicData. It defines the interface of how to interact...">Observations</a></code></li>
+</ul>
+<h1>PAnEn 4.0.2</h1>
+<ul>
 <li>Added test and search period checks to avoid calculating analogs over empty time periods</li>
 <li>Changed the tutorial on generating operational analogs</li>
-<li>Improve the performance of <code><a class="el" href="class_an_en_read_grib.html">AnEnReadGrib</a></code> by avoiding reading entire files</li>
+<li>Improve the performance of <code><a class="el" href="class_an_en_read_grib.html" title="AnEnReadGrib provides the functionality to read the Grib2 format. ">AnEnReadGrib</a></code> by avoiding reading entire files</li>
 </ul>
 <h1>PAnEn 4.0.1</h1>
 <ul>
