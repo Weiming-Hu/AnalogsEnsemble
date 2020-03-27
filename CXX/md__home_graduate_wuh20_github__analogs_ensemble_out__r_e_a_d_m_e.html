@@ -71,7 +71,7 @@ $(function() {
 <li><a href="#canen">CAnEn</a></li>
 <li><a href="#cmake-parameters">CMake Parameters</a></li>
 <li><a href="#high-performance-computing-and-supercomputers">High-Performance Computing and Supercomputers</a></li>
-<li><a href="#mpi-openmp">MPI + OpenMP</a></li>
+<li><a href="#mpi-and-openmp">MPI and OpenMP</a></li>
 </ul>
 </li>
 <li><a href="#tutorials">Tutorials</a></li>
@@ -139,7 +139,7 @@ $(function() {
 <p>You can change the default of the parameters, for example, <code>cmake -DCMAKE_INSTALL_PREFIX=~/AnalogEnsemble ..</code>. Don't forget the extra letter <code>D</code> when specifying argument names.</p>
 <h3>High-Performance Computing and Supercomputers</h3>
 <p><a href="https://github.com/Weiming-Hu/AnalogsEnsemble/issues/86">Here</a> is a list of instructions to build and install <code><a class="el" href="class_an_en.html" title="AnEn is an abstract class that defines the interface for implement analog ensemble generation...">AnEn</a></code> on supercomputers.</p>
-<h3>MPI + OpenMP</h3>
+<h3>MPI and OpenMP</h3>
 <p>When <code>ENABLE_MPI</code> is turned on, MPI programs will be built and available. These MPI programs are hybrid programs that use both MPI and OpenMP. Please check with your individual supercomputer platform to find out <b>what the proper configuration for launching an MPI + OpenMP hybrid program is</b>.</p>
 <p>For example, on <a href="https://www2.cisl.ucar.edu/resources/computational-systems/cheyenne">NCAR Cheyenne</a>, the proper way to launch a hybrid program can be found <a href="https://www2.cisl.ucar.edu/resources/computational-systems/cheyenne/running-jobs/pbs-pro-job-script-examples">here</a>. If you use <code>mpirun</code>, instead of <code>mpiexec_mpt</code>, you will loose the multi-threading performance improvement.</p>
 <p>To dive deeper into the hybrid parallelization design, MPI is used during the file I/O process and OpenMP is used during the analog computing process.</p>

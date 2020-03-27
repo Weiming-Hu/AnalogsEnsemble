@@ -23,7 +23,7 @@ layout: default
     * [CAnEn](#canen)
     * [CMake Parameters](#cmake-parameters)
     * [High-Performance Computing and Supercomputers](#high-performance-computing-and-supercomputers)
-    * [MPI + OpenMP](#mpi-openmp)
+    * [MPI and OpenMP](#mpi-and-openmp)
 * [Tutorials](#tutorials)
 * [References](#references)
 * [Feedbacks](#feedbacks)
@@ -125,7 +125,7 @@ You can change the default of the parameters, for example, `cmake -DCMAKE_INSTAL
 
 [Here](https://github.com/Weiming-Hu/AnalogsEnsemble/issues/86) is a list of instructions to build and install `AnEn` on supercomputers. 
 
-### MPI + OpenMP 
+### MPI and OpenMP 
 
 When `ENABLE_MPI` is turned on, MPI programs will be built and available. These MPI programs are hybrid programs that use both MPI and OpenMP. Please check with your individual supercomputer platform to find out **what the proper configuration for launching an MPI + OpenMP hybrid program is**.
 
