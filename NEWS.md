@@ -1,3 +1,7 @@
+# PAnEn 4.0.5
+
+- Added `AnEnMPI`. Multi-threading disabled when MPI is used.
+
 # PAnEn 4.0.4
 
 - Changed `MPI_Init` to `MPI_Init_thread` for OpenMP programs

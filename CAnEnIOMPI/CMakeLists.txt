@@ -12,22 +12,6 @@ cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
 project(AnEnIOMPI VERSION ${GRAND_VERSION} LANGUAGES CXX)
 message(STATUS "Configuring the class ${PROJECT_NAME}")
 
-message(STATUS "
-***************************************************************
-
-You enabling the MPI extension for AnEn, and mpi programs
-will be built. Please be aware that this makes the AnEn
-programs hybrid of MPI (multi-node) and OpenMP (multi-thread).
-
-Please check with your individual HPC platform to ensure
-the correct configuration to launch a hybrid MPI+OpenMP program.
-
-Please refer to the README to see details of the design.
-https://weiming-hu.github.io/AnalogsEnsemble/doc#mpi-and-openmp
-
-***************************************************************
-")
-
 # Find the dependent libraries
 find_package(MPI REQUIRED)
 find_package(AnEnIO REQUIRED)

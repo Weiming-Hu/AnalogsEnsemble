@@ -31,7 +31,7 @@ if(ENABLE_MPI)
 endif(ENABLE_MPI)
 
 # Set variables
-set(GRAND_VERSION "4.0.4")
+set(GRAND_VERSION "4.0.5")
 set(GRAND_VERSION_NICKNAME "Pandora")
 set(WE_ARE "GEOlab @ Penn State")
 set(SUBPROJECT_TARGETS "AnEn;AnEnIO")

@@ -17,7 +17,8 @@ find_package(MPI REQUIRED)
 find_package(AnEn REQUIRED)
 find_package(Boost 1.58.0 REQUIRED COMPONENTS program_options)
 
-add_library(AnEnMPI ${CMAKE_CURRENT_SOURCE_DIR}/AnEnISMPI.cpp)
+add_library(AnEnMPI ${CMAKE_CURRENT_SOURCE_DIR}/AnEnISMPI.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/FunctionsMPI.cpp)
 
 add_library(AnEnMPI::AnEnMPI ALIAS AnEnMPI)
 
@@ -26,7 +27,7 @@ target_include_directories(AnEnMPI BEFORE PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
     $<INSTALL_INTERFACE:include>)
 
-target_link_libraries(AnEnMPI PUBLIC AnEn::AnEn ${MPI_CXX_LIBRARIES})
+target_link_libraries(AnEnMPI PUBLIC ${MPI_CXX_LIBRARIES} AnEn::AnEn)
 
 install(TARGETS AnEnMPI 
     EXPORT AnEnMPIConfig
@@ -39,6 +40,8 @@ install(EXPORT AnEnMPIConfig
     NAMESPACE AnEnMPI::
     DESTINATION lib/cmake)
 
-install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/AnEnISMPI.h" DESTINATION include)
+install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/AnEnISMPI.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/FunctionsMPI.h"
+    DESTINATION include)
 
 

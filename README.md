@@ -18,7 +18,6 @@
     * [CAnEn](#canen)
     * [CMake Parameters](#cmake-parameters)
     * [High-Performance Computing and Supercomputers](#high-performance-computing-and-supercomputers)
-    * [MPI and OpenMP](#mpi-and-openmp)
 * [Tutorials](#tutorials)
 * [References](#references)
 * [Feedbacks](#feedbacks)
@@ -119,18 +118,6 @@ You can change the default of the parameters, for example, `cmake -DCMAKE_INSTAL
 ### High-Performance Computing and Supercomputers
 
 [Here](https://github.com/Weiming-Hu/AnalogsEnsemble/issues/86) is a list of instructions to build and install `AnEn` on supercomputers. 
-
-### MPI and OpenMP 
-
-When `ENABLE_MPI` is turned on, MPI programs will be built and available. These MPI programs are hybrid programs that use both MPI and OpenMP. Please check with your individual supercomputer platform to find out **what the proper configuration for launching an MPI + OpenMP hybrid program is**.
-
-For example, on [NCAR Cheyenne](https://www2.cisl.ucar.edu/resources/computational-systems/cheyenne), the proper way to launch a hybrid program can be found [here](https://www2.cisl.ucar.edu/resources/computational-systems/cheyenne/running-jobs/pbs-pro-job-script-examples). If you use `mpirun`, instead of `mpiexec_mpt`, you will loose the multi-threading performance improvement.
-
-To dive deeper into the hybrid parallelization design, MPI is used during the file I/O process and OpenMP is used during the analog computing process. 
-
-When analogs with a long search and test periods are desired, MPI is used to distribute forecast files across processes. Each process reads a subset of the forecast files. This solves the problem where serial I/O can be very slow.
-
-After the file I/O, all other processes are terminated except for the master process, which will then enter the multi-threading parallelization scope. It is important to keep in mind that only the master process will be alive after the file I/O process and that only the master process enters multi-threading parallelization. MPI processes will NOT spawn multiple threads.
 
 ## Tutorials
 
