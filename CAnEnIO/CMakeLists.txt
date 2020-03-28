@@ -12,7 +12,7 @@
 # as the AnEn library.
 #
 
-cmake_minimum_required(VERSION 3.12 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.10 FATAL_ERROR)
 project (AnEnIO VERSION ${GRAND_VERSION} LANGUAGES C CXX)
 message(STATUS "Configuring the library AnEnIO")
 

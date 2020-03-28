@@ -6,14 +6,15 @@ COPY . /PAnEn_source
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
-    gcc g++ cmake libnetcdf-dev git make r-base && rm -rf /var/lib/apt/lists/*
+    gcc g++ cmake libnetcdf-c++4-dev libnetcdf-dev libeccodes-dev openmpi-bin libopenmpi-dev git \
+    libboost-all-dev make r-base && rm -rf /var/lib/apt/lists/*
 RUN DEBIAN_FRONTEND=noninteractive && apt-get autoremove && apt-get autoclean
 
 ENV LD_LIBRARY_PATH=/libs
 ENV CPLUS_INCLUDE_PATH=/libs/include
 
 WORKDIR /PAnEn_source/buildC
-RUN CC=gcc CXX=g++ cmake -DCMAKE_BUILD_TESTS=ON ..
+RUN CC=gcc CXX=g++ cmake -DENABLE_MPI=ON ..
 RUN make install
 
 WORKDIR /PAnEn_source/buildR

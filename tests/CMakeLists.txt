@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.10)
 project(testPAnEn VERSION ${GRAND_VERSION} LANGUAGES C CXX)
 
 add_custom_target(test_all ${CMAKE_CTEST_COMMAND} -V)

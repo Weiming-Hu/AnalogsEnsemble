@@ -14,7 +14,7 @@
 # - RAnEn
 #
 
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.10)
 project(PAnEn LANGUAGES C CXX)
 
 option(INSTALL_RAnEn "Install RAnEn package" OFF)
