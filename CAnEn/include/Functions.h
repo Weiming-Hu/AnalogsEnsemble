@@ -230,6 +230,15 @@ namespace Functions {
      */
     void collapseLeadTimes(Observations &, const Forecasts &);
 
+    /**
+     * Functions to calculate indices to split a consecutive vector.
+     * These are designed for MPI tasks. The rank 0 is considered as the master process.
+     * So there will be num_procs - 1 chunks to be distributed.
+     */
+    int getStartIndex(int total, int num_procs, int rank);
+    int getEndIndex(int total, int num_procs, int rank);
+    int getSubTotal(int grand_total, int num_procs, int rank);
+
     /**************************************************************************
      *                          Template Functions                            *
      **************************************************************************/

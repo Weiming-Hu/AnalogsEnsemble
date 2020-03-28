@@ -20,7 +20,15 @@ project(PAnEn LANGUAGES C CXX)
 option(INSTALL_RAnEn "Install RAnEn package" OFF)
 option(BUILD_BOOST "Build Boost" OFF)
 option(ENABLE_OPENMP "Use OpenMP" ON)
+
 option(ENABLE_MPI "Use MPI" OFF)
+
+if(ENABLE_MPI)
+    if(ENABLE_OPENMP)
+        message(STATUS "OpenMP is disabled when MPI is used.")
+        set(ENABLE_OPENMP OFF)
+    endif(ENABLE_OPENMP)
+endif(ENABLE_MPI)
 
 # Set variables
 set(GRAND_VERSION "4.0.4")
@@ -99,8 +107,9 @@ add_subdirectory(CAnEn)
 add_subdirectory(CAnEnIO)
 
 if(ENABLE_MPI)
-    list(APPEND SUBPROJECT_TARGETS "AnEnIOMPI")
+    list(APPEND SUBPROJECT_TARGETS "AnEnIOMPI" "AnEnMPI")
     add_subdirectory(CAnEnIOMPI)
+    add_subdirectory(CAnEnMPI)
 endif(ENABLE_MPI)
 
 # Add applications as subprojects
