@@ -93,6 +93,14 @@ AnEnISMPI::compute(const Forecasts & forecasts, const Observations & observation
         // This is a worker
 
 #if defined(_OPENMP)
+        /*
+         * Note that each worker should only use one thread. I'm explicitly setting the number of threads
+         * to spwan by each worker process to 1. Because the maximum number processes should have been
+         * created and it leaves no additional computation gain when multi-threading is used
+         */
+        int max_threads = omp_get_max_threads();
+        int max_dynamic = omp_get_dynamic();
+
         // Explicitly disable dynamic teams
         omp_set_dynamic(0);
 
@@ -104,6 +112,12 @@ AnEnISMPI::compute(const Forecasts & forecasts, const Observations & observation
         // Now the computation is serial because it is assumed that there are as many processes as possible.
         //
         AnEnIS::compute(proc_forecasts, proc_observations, proc_test_index, proc_search_index);
+
+#if defined(_OPENMP)
+        // We need to revert to the old setting for multi-threading so it does not affect the rest of the program execution
+        omp_set_dynamic(max_dynamic);
+        omp_set_num_threads(max_threads);
+#endif
     }
 
     // Collect members in AnEnIS
