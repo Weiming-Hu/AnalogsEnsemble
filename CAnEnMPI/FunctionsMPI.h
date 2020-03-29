@@ -9,9 +9,9 @@
 #ifndef FUNCTIONSMPI_H
 #define FUNCTIONSMPI_H
 
-#include <mpi.h>
 #include <vector>
 
+#include "AnEnIS.h"
 #include "Forecasts.h"
 #include "Observations.h"
 
@@ -24,9 +24,8 @@ namespace FunctionsMPI {
 
     void broadcastVector(const std::vector<std::size_t> & send, std::vector<std::size_t> & recv, int rank);
     void broadcastVector(const std::vector<bool> & send, std::vector<bool> & recv, int rank);
-    void broadcastSize(unsigned long & size);
 
-    void collectAnEn(int num_procs, int rank);
+    void gatherArray(Array4D & arr, int num_procs, int rank);
 };
 
 #endif /* FUNCTIONSMPI_H */

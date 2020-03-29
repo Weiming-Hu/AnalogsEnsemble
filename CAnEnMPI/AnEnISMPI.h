@@ -30,6 +30,9 @@ public:
             const Observations & observations,
             std::vector<std::size_t> & fcsts_test_index,
             std::vector<std::size_t> & fcsts_search_index) override;
+
+private:
+    void gather_(int num_procs, int rank);
 };
 
 #endif /* AnEnISMPI_H */

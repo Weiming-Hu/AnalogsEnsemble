@@ -78,7 +78,20 @@ AnEnISMPI::compute(const Forecasts & forecasts, const Observations & observation
     }
 
     // Collect members in AnEnIS
-    FunctionsMPI::collectAnEn(num_procs, world_rank);
+    gather_(num_procs, world_rank);
 
     return;
 }
+
+void
+AnEnISMPI::gather_(int num_procs, int rank) {
+
+    FunctionsMPI::gatherArray(sds_, num_procs, rank);
+    if (save_analogs_) FunctionsMPI::gatherArray(analogs_value_, num_procs, rank);
+    if (save_analogs_time_index_) FunctionsMPI::gatherArray(analogs_time_index_, num_procs, rank);
+    if (save_sims_) FunctionsMPI::gatherArray(sims_metric_, num_procs, rank);
+    if (save_sims_time_index_) FunctionsMPI::gatherArray(sims_time_index_, num_procs, rank);
+
+    return;
+}
+

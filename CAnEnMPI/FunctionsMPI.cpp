@@ -5,16 +5,57 @@
  * Created on March, 2020, 11:10 AM
  */
 
+#include "ObservationsPointer.h"
+#include "Array4DPointer.h"
 #include "FunctionsMPI.h"
 #include "Functions.h"
 
 #include <cmath>
+#include <numeric>
 #include <string>
+#include <mpi.h>
+#include <boost/numeric/conversion/cast.hpp>
 
 using namespace std;
 
 void
 FunctionsMPI::scatterObservations(const Observations & send, Observations & recv, int num_procs, int rank) {
+
+    scatterBasicData(send, recv, num_procs, rank);
+
+    // Scatter array
+    if (rank == 0) {
+
+        ObservationsPointer obs_sub;
+
+        size_t num_total_stations = send.getStations().size();
+
+        for (int worker_rank = 1; worker_rank < num_procs; ++worker_rank) {
+
+            // Determine which stations to send to this worker process
+            int worker_station_start = Functions::getStartIndex(num_total_stations, num_procs, worker_rank);
+            int worker_stations_count = Functions::getSubTotal(num_total_stations, num_procs, worker_rank);
+
+            Stations stations_subset;
+            const Stations & stations_all = send.getStations();
+            for (int station_i = worker_station_start; station_i < worker_stations_count; ++station_i) {
+                stations_subset.push_back(stations_all.getStation(station_i));
+            }
+
+            // Subset
+            obs_sub.setDimensions(send.getParameters(), stations_subset, send.getTimes());
+
+            // Send data
+            MPI_Send(obs_sub.getValuesPtr(), obs_sub.num_elements(), MPI_DOUBLE, worker_rank, MPI_ANY_TAG, MPI_COMM_WORLD);
+        }
+    } else {
+        int count = boost::numeric_cast<int>(recv.num_elements());
+        if (count == 0) throw runtime_error("(FunctionsMPI::scatterObservations) A worker process is receiving array data without allocating memory");
+
+        double *data_ptr = recv.getValuesPtr();
+        MPI_Recv(data_ptr, count, MPI_DOUBLE, 0, MPI_ANY_TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+    }
+
     return;
 }
 
@@ -97,6 +138,46 @@ FunctionsMPI::scatterBasicData(const BasicData & send, BasicData & recv, int num
 
 void
 FunctionsMPI::scatterArray(const Array4D & send, Array4D & recv, int num_procs, int rank) {
+
+    if (rank == 0) {
+        Array4DPointer array_subset;
+
+        size_t num_total_stations = send.shape()[1];
+
+        vector<size_t> all_parameters(send.shape()[0]);
+        vector<size_t> subset_stations;
+        vector<size_t> all_times(send.shape()[2]);
+        vector<size_t> all_flts(send.shape()[3]);
+
+        // The master rank will broadcast all dimensions except for the station dimension
+        iota(all_parameters.begin(), all_parameters.end(), 0);
+        iota(all_times.begin(), all_times.end(), 0);
+        iota(all_flts.begin(), all_flts.end(), 0);
+        
+        for (int worker_rank = 1; worker_rank < num_procs; ++worker_rank) {
+
+            // Determine which stations to send to this worker process
+            int worker_station_start = Functions::getStartIndex(num_total_stations, num_procs, worker_rank);
+            int worker_stations_count = Functions::getSubTotal(num_total_stations, num_procs, worker_rank);
+
+            subset_stations.resize(worker_stations_count);
+            iota(subset_stations.begin(), subset_stations.end(), worker_station_start);
+
+            // Subset array for this woker process
+            send.subset(all_parameters, subset_stations, all_times, all_flts, array_subset);
+
+            // Send data
+            MPI_Send(array_subset.getValuesPtr(), array_subset.num_elements(), MPI_DOUBLE, worker_rank, MPI_ANY_TAG, MPI_COMM_WORLD);
+        }
+    } else {
+
+        int count = boost::numeric_cast<int>(recv.num_elements());
+        if (count == 0) throw runtime_error("(FunctionsMPI::scatterArray) A worker process is receiving array data without allocating memory");
+
+        double *data_ptr = recv.getValuesPtr();
+        MPI_Recv(data_ptr, count, MPI_DOUBLE, 0, MPI_ANY_TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+    }
+
     return;
 }
 
@@ -149,7 +230,44 @@ FunctionsMPI::broadcastVector(const vector<bool> & send, vector<bool> & recv, in
 }
 
 void
-FunctionsMPI::collectAnEn(int num_procs, int rank) {
+FunctionsMPI::gatherArray(Array4D & arr, int num_procs, int rank) {
+
+    if (rank == 0) {
+
+        size_t dim1 = arr.shape()[1];
+        size_t dim2 = arr.shape()[2];
+        size_t dim3 = arr.shape()[3];
+        int num_total_stations = arr.shape()[0];
+
+        if (dim1 == 0 || dim1 == 0 || dim3 == 0 || num_total_stations == 0) throw runtime_error("(FunctionsMPI::gatherArray) Master process is trying to receive array without allocating memory");
+
+        // I'm the master process. I receive data from workers.
+        for (int worker_rank = 1; worker_rank < num_procs; ++worker_rank) {
+
+            // Determine which stations to send to this worker process
+            int worker_station_start = Functions::getStartIndex(num_total_stations, num_procs, worker_rank);
+            int worker_stations_count = Functions::getSubTotal(num_total_stations, num_procs, worker_rank);
+            int subset_values_count = dim1 * dim2 * dim3 * worker_stations_count;
+
+            double *data_ptr = new double[subset_values_count];
+            int ptr_i = 0;
+
+            for (size_t dim3_i = 0; dim3_i < dim3; ++dim3)
+                for (size_t dim2_i = 0; dim2_i < dim2; ++dim2)
+                    for (size_t dim1_i = 0; dim1_i < dim1; ++dim1)
+                        for (int station_i = worker_station_start; station_i < worker_stations_count; ++station_i, ++ptr_i)
+                            arr.setValue(data_ptr[ptr_i], station_i, dim1_i, dim2_i, dim3_i);
+
+            delete [] data_ptr;
+        }
+
+    } else {
+
+        // I'm the worker process. I send data to the master.
+        double * data_ptr = arr.getValuesPtr();
+        int count = boost::numeric_cast<int>(arr.num_elements());
+        MPI_Send(data_ptr, count, MPI_DOUBLE, 0, MPI_ANY_TAG, MPI_COMM_WORLD);
+    }
+
     return;
 }
-
