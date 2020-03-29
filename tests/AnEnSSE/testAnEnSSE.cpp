@@ -119,10 +119,11 @@ testAnEnSSE::testCompute_() {
     vector<size_t> fcsts_test_index = {19};
     vector<size_t> fcsts_search_index(19);
     iota(fcsts_search_index.begin(), fcsts_search_index.end(), 0);
-    
+
     // Run AnEnSSE
     AnEnSSE anen(config);
     anen.compute(fcsts, obs, fcsts_test_index, fcsts_search_index);
+
     const Array4DPointer & sims = anen.sims_metric();
     const Array4DPointer & sims_time_index = anen.sims_time_index();
     const Array4DPointer & sims_station_index = anen.sims_station_index();

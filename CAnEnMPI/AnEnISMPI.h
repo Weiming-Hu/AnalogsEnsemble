@@ -17,7 +17,7 @@
  * 
  * \brief AnEnISMPI provides the functionality to perform AnEnIS with MPI
  */
-class AnEnISMPI: public AnEnIS {
+class AnEnISMPI : public AnEnIS {
 
 public:
     AnEnISMPI();

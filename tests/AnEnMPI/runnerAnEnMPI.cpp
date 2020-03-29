@@ -1,5 +1,5 @@
 /* 
- * File:   runnerAnEnIOMPI.cpp
+ * File:   runnerAnEnMPI.cpp
  * Author: wuh20
  * 
  * Created on Mar 4, 2020, 4:09:20 PM
@@ -18,7 +18,7 @@
 #include <cppunit/TestFailure.h>
 #include <cppunit/portability/Stream.h>
 
-#include "testAnEnIOMPI.h"
+#include "testAnEnMPI.h"
 #include <mpi.h>
 
 class ProgressListener : public CPPUNIT_NS::TestListener {
@@ -78,7 +78,7 @@ int main() {
 
     // Add the top suite to the test runner
     CPPUNIT_NS::TestRunner runner;
-    runner.addTest(testAnEnIOMPI::suite());
+    runner.addTest(testAnEnMPI::suite());
     runner.run(controller);
 
     // Print test in a compiler compatible format.

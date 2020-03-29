@@ -46,6 +46,7 @@ public:
     friend std::ostream & operator<<(std::ostream &, const Array4DPointer &);
 
     Array4DPointer & operator=(const Array4DPointer &);
+    bool operator==(const Array4DPointer &) const;
 
     static const double _DEFAULT_VALUE;
 
