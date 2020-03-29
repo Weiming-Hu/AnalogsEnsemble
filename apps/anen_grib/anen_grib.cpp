@@ -23,6 +23,7 @@
 
 #if defined(_USE_MPI_EXTENSION)
 #include "AnEnReadGribMPI.h"
+#include "AnEnISMPI.h"
 #else 
 #include "AnEnReadGrib.h"
 #endif
@@ -127,37 +128,34 @@ void runAnEnGrib(
     anen_read.readForecasts(analysis, grib_parameters, analysis_files, analysis_regex,
             unit_in_seconds, delimited, stations_index);
 
-#if defined(_USE_MPI_EXTENSION)
-    // Terminate the process if this is not a master process.
-    // Subsequent parallelization is done with multi-threading.
-    //
-    if (world_rank != 0) {
-        if (config.verbose >= Verbose::Detail) cout << "Worker #" << world_rank << "exiting ..." << endl;
-        MPI_Finalize();
-        exit(0);
-    }
-#endif
-
     profiler.log_time_session("reading analysis");
 
-    // Convert wind parameters if necessary
-    if (convert_wind) {
-        forecasts.windTransform(u_name, v_name, spd_name, dir_name);
-        analysis.windTransform(u_name, v_name, spd_name, dir_name);
-    }
-
-    // Convert analysis to observations
-    if (config.verbose >= Verbose::Progress) cout << "Collapsing forecast analysis ..." << endl;
     ObservationsPointer observations;
-    Functions::collapseLeadTimes(observations, analysis);
-
-    // Convert string date times to Times objects
-    const Times & forecast_times = forecasts.getTimes();
     Times test_times, search_times;
 
-    forecast_times(test_start, test_end, test_times);
-    forecast_times(search_start, search_end, search_times);
+#if defined(_USE_MPI_EXTENSION)
+    if (world_rank == 0) {
+#endif
 
+        // Convert wind parameters if necessary
+        if (convert_wind) {
+            forecasts.windTransform(u_name, v_name, spd_name, dir_name);
+            analysis.windTransform(u_name, v_name, spd_name, dir_name);
+        }
+
+        // Convert analysis to observations
+        if (config.verbose >= Verbose::Progress) cout << "Collapsing forecast analysis ..." << endl;
+        Functions::collapseLeadTimes(observations, analysis);
+
+        // Convert string date times to Times objects
+        const Times & forecast_times = forecasts.getTimes();
+
+        forecast_times(test_start, test_end, test_times);
+        forecast_times(search_start, search_end, search_times);
+
+#if defined(_USE_MPI_EXTENSION)
+    }
+#endif
     profiler.log_time_session("preprocessing");
 
 
@@ -188,14 +186,34 @@ void runAnEnGrib(
     AnEn* anen = nullptr;
 
     if (algorithm == "IS") {
+#if defined(_USE_MPI_EXTENSION)
+        if (world_rank != 0) config.worker_verbose = config.verbose;
+        anen = new AnEnISMPI(config);
+#else
         anen = new AnEnIS(config);
+#endif
     } else if (algorithm == "SSE") {
+#if defined(_USE_MPI_EXTENSION)
+        if (config.verbose >= Verbose::Warning) cerr << "Warning: AnEnSSE is only multi-threading, no MPI supported" << endl;
+#endif
         anen = new AnEnSSE(config);
     } else {
         throw runtime_error("The algorithm is not recognized");
     }
 
     anen->compute(forecasts, observations, test_times, search_times);
+
+#if defined(_USE_MPI_EXTENSION)
+    // Terminate the process if this is not a master process.
+    // Subsequent parallelization is done with multi-threading.
+    //
+    if (world_rank != 0) {
+        if (config.verbose >= Verbose::Detail) cout << "Worker #" << world_rank << "exiting ..." << endl;
+        MPI_Finalize();
+        exit(0);
+    }
+#endif
+
 
     profiler.log_time_session("generating analogs");
 

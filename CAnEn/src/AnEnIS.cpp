@@ -138,12 +138,13 @@ AnEnIS::compute(const Forecasts & forecasts,
     // Prepare variables for progress bar
     size_t total_count = num_stations * num_flts * num_test_times_index;
     size_t counter = 0, current_percent = 0;
+    size_t pbar_threshold = total_count * 0.01;
 
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(dynamic) collapse(3) \
 shared(num_stations, num_flts, num_test_times_index, num_search_times_index, \
 fcsts_test_index, fcsts_search_index, forecasts, observations, circulars, \
-total_count, counter, current_percent, std::cout) firstprivate(sims_arr)
+total_count, counter, current_percent, pbar_threshold, std::cout) firstprivate(sims_arr)
 #endif
     for (size_t station_i = 0; station_i < num_stations; ++station_i) {
         for (size_t flt_i = 0; flt_i < num_flts; ++flt_i) {
@@ -238,7 +239,7 @@ total_count, counter, current_percent, std::cout) firstprivate(sims_arr)
 #if defined(_OPENMP)
                     if (omp_get_thread_num() == 0) {
 #endif
-                        if (counter > 400000) {
+                        if (counter > pbar_threshold) {
                             current_percent += counter / (float) total_count * 100;
                             cout << '\r' << "Progress: " << current_percent << "%";
                             cout.flush();
