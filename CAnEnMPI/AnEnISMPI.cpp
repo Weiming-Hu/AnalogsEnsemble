@@ -131,7 +131,10 @@ AnEnISMPI::compute(const Forecasts & forecasts, const Observations & observation
 void
 AnEnISMPI::gather_(int num_procs, int rank) {
 
+    // The number 1 is because the station dimension is the second dimension
     FunctionsMPI::gatherArray(sds_, 1, num_procs, rank, verbose_);
+
+    // The number 0 is because the station dimension is the first dimension
     if (save_analogs_) FunctionsMPI::gatherArray(analogs_value_, 0, num_procs, rank, verbose_);
     if (save_analogs_time_index_) FunctionsMPI::gatherArray(analogs_time_index_, 0, num_procs, rank, verbose_);
     if (save_sims_) FunctionsMPI::gatherArray(sims_metric_, 0, num_procs, rank, verbose_);

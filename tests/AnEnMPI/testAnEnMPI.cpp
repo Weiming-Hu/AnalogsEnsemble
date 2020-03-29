@@ -68,7 +68,7 @@ testAnEnMPI::testCompute_() {
         parameters.push_back(Parameter("temp", false));
 
         // Don't worry about the numbers. They are just random.
-        for (int i = 0; i < 3875; ++i) stations.push_back(Station(i, i));
+        for (int i = 0; i < 375; ++i) stations.push_back(Station(i, i));
         for (int i = 0; i < 100; ++i) forecast_times.push_back(i * 10);
         for (int i = 0; i < 1010; ++i) observation_times.push_back(i);
         for (int i = 0; i < 21; ++i) flts.push_back(i);

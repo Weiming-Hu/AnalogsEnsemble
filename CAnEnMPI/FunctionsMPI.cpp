@@ -21,8 +21,8 @@ using namespace std;
 void
 FunctionsMPI::scatterObservations(const Observations & send, Observations & recv, int num_procs, int rank, Verbose verbose) {
 
+    // Scatter the base class
     scatterBasicData(send, recv, num_procs, rank, verbose);
-
 
     // Scatter array
     if (rank == 0) {
@@ -62,13 +62,16 @@ FunctionsMPI::scatterObservations(const Observations & send, Observations & recv
 
         recv.setDimensions(recv.getParameters(), recv.getStations(), recv.getTimes());
 
-        size_t num_parameters = recv.getParameters().size();
-        size_t num_stations = recv.getStations().size();
-        size_t num_times = recv.getTimes().size();
+        if (verbose >= Verbose::Debug) {
+            size_t num_parameters = recv.getParameters().size();
+            size_t num_stations = recv.getStations().size();
+            size_t num_times = recv.getTimes().size();
 
-        if (verbose >= Verbose::Debug) cout << "Worker #" << rank << " is allocating memory for observations ["
+            cout << "Worker #" << rank << " is allocating memory for observations ["
                 << num_parameters << " parameters, " << num_stations << " stations, " << num_times << " times]" << "..." << endl;
+        }
 
+        // I need to make sure no numeric overflow when narrowing a size_t to an int
         int count = boost::numeric_cast<int>(recv.num_elements());
         if (count == 0) throw runtime_error("(FunctionsMPI::scatterObservations) A worker process is receiving array data without allocating memory");
 
@@ -82,8 +85,10 @@ FunctionsMPI::scatterObservations(const Observations & send, Observations & recv
 void
 FunctionsMPI::scatterForecasts(const Forecasts & send, Forecasts & recv, int num_procs, int rank, Verbose verbose) {
 
+    // Scatter the base class
     scatterBasicData(send, recv, num_procs, rank, verbose);
 
+    // Scatter the private member of Forecasts: flts
     vector<size_t> master_flts, worker_flts;
 
     if (rank == 0) {
@@ -124,6 +129,22 @@ FunctionsMPI::scatterForecasts(const Forecasts & send, Forecasts & recv, int num
 
 void
 FunctionsMPI::scatterBasicData(const BasicData & send, BasicData & recv, int num_procs, int rank, Verbose verbose) {
+
+    /*
+    * For BasicData, I need to scatter the following members.
+    *
+    * My design goes as follows:
+    *
+    * - For stations, I'm just going to broadcast the total number of stations to all process, and then each processes
+    * will determine how many stations to create for itself. I'm not sending any location/name information because
+    * they are not used in AnEnIS algorithm;
+    *
+    * - For parameters, I'm just broadcasting the circular information and omitting the name information, because
+    * they are not used in AnEnIS algorithm;
+    *
+    * - For times, I'm broadcasting a vector of all size_t value times.
+    */
+    
     unsigned long num_stations;
     vector<bool> master_circulars, worker_circulars;
     vector<size_t> master_times, worker_times;
@@ -139,9 +160,13 @@ FunctionsMPI::scatterBasicData(const BasicData & send, BasicData & recv, int num
         if (verbose >= Verbose::Debug) cout << "Master broadcasting BasicData (parameters, stations, and times) ..." << endl;
     }
 
-    // Broadcast information (stations, parameters, times)
+    // Broadcast only the total number stations
     MPI_Bcast(&num_stations, 1, MPI_UNSIGNED_LONG, 0, MPI_COMM_WORLD);
+
+    // Broadcast only the circular information
     broadcastVector(master_circulars, worker_circulars, rank, verbose);
+
+    // Broadcast all times
     broadcastVector(master_times, worker_times, rank, verbose);
 
     if (rank != 0) {
@@ -175,6 +200,10 @@ FunctionsMPI::scatterBasicData(const BasicData & send, BasicData & recv, int num
 
 void
 FunctionsMPI::scatterArray(const Array4D & send, Array4D & recv, int num_procs, int rank, Verbose verbose) {
+
+    /*
+     * Arrays will be scattered along the station dimension
+     */
 
     if (rank == 0) {
         Array4DPointer array_subset;
@@ -213,6 +242,7 @@ FunctionsMPI::scatterArray(const Array4D & send, Array4D & recv, int num_procs, 
         }
     } else {
 
+        // I need to make sure no numeric overflow when narrowing a size_t to an int
         int count = boost::numeric_cast<int>(recv.num_elements());
         if (count == 0) throw runtime_error("(FunctionsMPI::scatterArray) A worker process is receiving array data without allocating memory");
 
@@ -327,7 +357,10 @@ FunctionsMPI::gatherArray(Array4D & arr, int station_dim_index, int num_procs, i
 
         // I'm the worker process. I send data to the master.
         double * data_ptr = arr.getValuesPtr();
+
+        // I need to make sure no numeric overflow when narrowing a size_t to an int
         int count = boost::numeric_cast<int>(arr.num_elements());
+
         if (verbose >= Verbose::Debug) cout << "Worker #" << rank << " sending " << count << " array values to master ..." << endl;
         MPI_Send(data_ptr, count, MPI_DOUBLE, 0, 0, MPI_COMM_WORLD);
     }

@@ -1,6 +1,8 @@
 # PAnEn 4.0.5
 
-- Added `AnEnMPI`. Multi-threading disabled when MPI is used.
+- Added `AnEnMPI`
+- Progress information will be displayed every 1%
+- Improved documentation
 
 # PAnEn 4.0.4
 
