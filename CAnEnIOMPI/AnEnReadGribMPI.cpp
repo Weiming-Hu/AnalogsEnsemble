@@ -75,7 +75,7 @@ AnEnReadGribMPI::readForecasts(Forecasts & forecasts,
     num_workers = num_procs - 1;
 
     if (num_procs == 1) {
-        cerr << "Error: This is an MPI program. You need to launch this program with an MPI launcher, e.g. mpirun." << endl;
+        cerr << "Error: This is an MPI program. You need to launch this program with an MPI launcher, e.g. mpirun or mpiexec." << endl;
         MPI_Finalize();
         exit(1);
     }

@@ -101,17 +101,20 @@ ObservationsPointer::subset(Observations & observations_subset) const {
     const Stations & stations_subset = observations_subset.getStations();
     const Times & times_subset = observations_subset.getTimes();
 
-    // Get the indices for dimensions to subset
-    vector<size_t> parameters_index, stations_index, times_index;
-
-    parameters_.getIndices(parameters_subset, parameters_index);
-    stations_.getIndices(stations_subset, stations_index);
-    times_.getIndices(times_subset, times_index);
-
     // Copy values
-    subset_data_(parameters_index, stations_index, times_index,
-            observations_subset.getValuesPtr());
+    subset_data_(parameters_subset, stations_subset, times_subset, observations_subset);
 
+    return;
+}
+
+void
+ObservationsPointer::subset(const Parameters & parameters, const Stations & stations, const Times & times,
+        Observations & observations_subset) const {
+
+    // Alocate memory and set dimensions
+    observations_subset.setDimensions(parameters, stations, times);
+
+    subset_data_(parameters, stations, times, observations_subset);
     return;
 }
 
@@ -168,6 +171,28 @@ ObservationsPointer::allocateMemory_() {
     data_ = new double [num_elements()];
 
     allocated_ = true;
+    return;
+}
+
+void
+ObservationsPointer::subset_data_(const Parameters & parameters, const Stations & stations, const Times & times,
+        Observations & observations_subset) const {
+
+    // Get the indices for dimensions to subset
+    vector<size_t> parameters_index, stations_index, times_index;
+
+    parameters_.getIndices(parameters, parameters_index);
+    stations_.getIndices(stations, stations_index);
+    times_.getIndices(times, times_index);
+
+    parameters_.getIndices(parameters, parameters_index);
+    stations_.getIndices(stations, stations_index);
+    times_.getIndices(times, times_index);
+
+    // Copy values
+    double * values_ptr = observations_subset.getValuesPtr();
+    subset_data_(parameters_index, stations_index, times_index, values_ptr);
+
     return;
 }
 

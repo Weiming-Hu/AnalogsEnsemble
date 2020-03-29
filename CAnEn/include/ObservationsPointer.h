@@ -43,6 +43,7 @@ public:
             std::size_t station_index, std::size_t time_index) override;
 
     virtual void subset(Observations&) const override;
+    virtual void subset(const Parameters &, const Stations &, const Times &, Observations &) const override;
 
 
     virtual void print(std::ostream &) const override;
@@ -66,6 +67,8 @@ protected:
     size_t toIndex_(size_t dim0, size_t dim1, size_t dim2) const;
 
     void allocateMemory_();
+
+    void subset_data_(const Parameters &, const Stations &, const Times &, Observations &) const;
     void subset_data_(const std::vector<std::size_t>&,
             const std::vector<std::size_t>&,
             const std::vector<std::size_t>&, double*) const;

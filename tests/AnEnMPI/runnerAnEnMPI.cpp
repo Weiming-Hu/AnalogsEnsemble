@@ -20,6 +20,7 @@
 
 #include "testAnEnMPI.h"
 #include <mpi.h>
+#include <iostream>
 
 class ProgressListener : public CPPUNIT_NS::TestListener {
 public:
@@ -64,6 +65,17 @@ private:
 int main() {
 
     MPI_Init(NULL, NULL);
+
+    int world_rank, num_proc;
+    MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
+    MPI_Comm_size(MPI_COMM_WORLD, &num_proc);
+
+    if (num_proc < 3) {
+        MPI_Finalize();
+        std::cerr << "Error: Please launch test with MPI launcher program, e.g. mpirun or mpiexec, with at least 3 processes" << std::endl;
+        exit(1);
+    }
+    
 
     // Create the event manager and test controller
     CPPUNIT_NS::TestResult controller;

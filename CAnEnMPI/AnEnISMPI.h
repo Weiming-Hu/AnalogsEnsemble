@@ -26,6 +26,12 @@ public:
 
     virtual ~AnEnISMPI();
 
+    // Using AnEnIS wrapper function compute
+    using AnEnIS::compute;
+
+    /**
+     * Overloads AnEnIS::compute with test and search indices
+     */
     virtual void compute(const Forecasts & forecasts,
             const Observations & observations,
             std::vector<std::size_t> & fcsts_test_index,

@@ -28,6 +28,9 @@ FunctionsMPI::scatterObservations(const Observations & send, Observations & recv
 
         ObservationsPointer obs_sub;
 
+        const Parameters & all_parameters = send.getParameters();
+        const Times & all_times = send.getTimes();
+
         size_t num_total_stations = send.getStations().size();
 
         for (int worker_rank = 1; worker_rank < num_procs; ++worker_rank) {
@@ -43,7 +46,7 @@ FunctionsMPI::scatterObservations(const Observations & send, Observations & recv
             }
 
             // Subset
-            obs_sub.setDimensions(send.getParameters(), stations_subset, send.getTimes());
+            send.subset(all_parameters, stations_subset, all_times, obs_sub);
 
             // Send data
             MPI_Send(obs_sub.getValuesPtr(), obs_sub.num_elements(), MPI_DOUBLE, worker_rank, MPI_ANY_TAG, MPI_COMM_WORLD);

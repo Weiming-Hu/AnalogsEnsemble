@@ -35,6 +35,7 @@ public:
             const std::string & name_spd, const std::string & name_dir) override;
     
     virtual void subset(Forecasts& forecasts_subset) const override;
+    virtual void subset(const Parameters &, const Stations &, const Times&, const Times&, Forecasts &) const override;
 
     virtual void print(std::ostream &) const override;
     friend std::ostream & operator<<(std::ostream &, const ForecastsPointer &);
@@ -43,6 +44,9 @@ public:
     static const size_t _DIM_STATION;
     static const size_t _DIM_TIME;
     static const size_t _DIM_FLT;
+
+private:
+    void subset_data_(const Parameters &, const Stations &, const Times &, const Times &, Forecasts &) const;
 };
 
 #endif /* FORECASTSPOINTER_H */

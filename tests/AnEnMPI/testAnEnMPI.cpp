@@ -74,7 +74,7 @@ testAnEnMPI::testCompute_() {
 
     // Compute AnEn with MPI library
     AnEnISMPI anen_mpi(config);
-    anen_mpi.compute();
+    anen_mpi.compute(forecasts, observations, test_times, search_times);
 
     // Compare results
     CPPUNIT_ASSERT(anen_serial.num_analogs() == anen_mpi.num_analogs());
