@@ -17,6 +17,7 @@ using namespace std;
 CPPUNIT_TEST_SUITE_REGISTRATION(testAnEnMPI);
 
 testAnEnMPI::testAnEnMPI() {
+    getProcInfo();
 }
 
 testAnEnMPI::~testAnEnMPI() {
@@ -35,7 +36,6 @@ testAnEnMPI::testCompute_() {
     /*
      * Compare the results from serial and MPI AnEn
      */
-    getProcInfo();
 
     // These information are both available on the master and wokers
     Config config;
