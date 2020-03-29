@@ -17,7 +17,6 @@ using namespace std;
 
 AnEnReadGribMPI::AnEnReadGribMPI() {
     Config config;
-    verbose_ = config.verbose;
     worker_verbose_ = config.worker_verbose;
 }
 

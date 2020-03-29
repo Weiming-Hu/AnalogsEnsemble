@@ -11,6 +11,10 @@
 #include "ForecastsPointer.h"
 #include "ObservationsPointer.h"
 
+#if defined(_OPENMP)
+#include <omp.h>
+#endif
+
 using namespace std;
 
 
@@ -51,18 +55,24 @@ AnEnISMPI::compute(const Forecasts & forecasts, const Observations & observation
         exit(1);
     }
 
+    if (world_rank == 0 && verbose_ >= Verbose::Progress) cout << "Start AnEnIS generation with MPI ..." << endl;
+
     // Scatter forecasts by stations
+    if (world_rank == 0 && verbose_ >= Verbose::Detail) cout << "Master process is scattering forecasts to workers ..." << endl;
     ForecastsPointer proc_forecasts;
-    FunctionsMPI::scatterForecasts(forecasts, proc_forecasts, num_procs, world_rank);
+    FunctionsMPI::scatterForecasts(forecasts, proc_forecasts, num_procs, world_rank, verbose_);
+    if (world_rank == 0 && verbose_ >= Verbose::Detail) cout << "Forecasts have been scattered to workers." << endl;
 
     // Scatter observations by stations
+    if (world_rank == 0 && verbose_ >= Verbose::Detail) cout << "Master process is scattering observations to workers ..." << endl;
     ObservationsPointer proc_observations;
-    FunctionsMPI::scatterObservations(observations, proc_observations, num_procs, world_rank);
+    FunctionsMPI::scatterObservations(observations, proc_observations, num_procs, world_rank, verbose_);
+    if (world_rank == 0 && verbose_ >= Verbose::Detail) cout << "Observations have been scattered to workers." << endl;
 
     // Broadcast test and search
     vector<size_t> proc_test_index, proc_search_index;
-    FunctionsMPI::broadcastVector(fcsts_test_index, proc_test_index, world_rank);
-    FunctionsMPI::broadcastVector(fcsts_search_index, proc_search_index, world_rank);
+    FunctionsMPI::broadcastVector(fcsts_test_index, proc_test_index, world_rank, verbose_);
+    FunctionsMPI::broadcastVector(fcsts_search_index, proc_search_index, world_rank, verbose_);
 
     if (world_rank == 0) {
         // This is a master
@@ -70,15 +80,36 @@ AnEnISMPI::compute(const Forecasts & forecasts, const Observations & observation
         // Preprocess to allocate memory
         preprocess_(forecasts, observations, fcsts_test_index, fcsts_search_index);
 
+        /*
+         * Progress messages output
+         */
+        if (verbose_ >= Verbose::Detail) {
+            cout << "********** AnEn Configuration Summary (Master) **********" << endl;
+            print(cout);
+            cout << "*********** End of AnEn Configuration Summary **********" << endl;
+        }
+
     } else {
         // This is a worker
 
+#if defined(_OPENMP)
+        // Explicitly disable dynamic teams
+        omp_set_dynamic(0);
+
+        // Use 4 threads for all consecutive parallel regions
+        omp_set_num_threads(1);
+#endif
         // Compute analogs
-        AnEnIS::compute(proc_forecasts, proc_observations, fcsts_test_index, fcsts_search_index);
+        //
+        // Now the computation is serial because it is assumed that there are as many processes as possible.
+        //
+        AnEnIS::compute(proc_forecasts, proc_observations, proc_test_index, proc_search_index);
     }
 
     // Collect members in AnEnIS
+    if (world_rank == 0 && verbose_ >= Verbose::Detail) cout << "Master process is receiving analog results from workers ..." << endl;
     gather_(num_procs, world_rank);
+    if (world_rank == 0 && verbose_ >= Verbose::Detail) cout << "Analog results have been collected at master." << endl;
 
     return;
 }
@@ -86,11 +117,11 @@ AnEnISMPI::compute(const Forecasts & forecasts, const Observations & observation
 void
 AnEnISMPI::gather_(int num_procs, int rank) {
 
-    FunctionsMPI::gatherArray(sds_, num_procs, rank);
-    if (save_analogs_) FunctionsMPI::gatherArray(analogs_value_, num_procs, rank);
-    if (save_analogs_time_index_) FunctionsMPI::gatherArray(analogs_time_index_, num_procs, rank);
-    if (save_sims_) FunctionsMPI::gatherArray(sims_metric_, num_procs, rank);
-    if (save_sims_time_index_) FunctionsMPI::gatherArray(sims_time_index_, num_procs, rank);
+    FunctionsMPI::gatherArray(sds_, 1, num_procs, rank, verbose_);
+    if (save_analogs_) FunctionsMPI::gatherArray(analogs_value_, 0, num_procs, rank, verbose_);
+    if (save_analogs_time_index_) FunctionsMPI::gatherArray(analogs_time_index_, 0, num_procs, rank, verbose_);
+    if (save_sims_) FunctionsMPI::gatherArray(sims_metric_, 0, num_procs, rank, verbose_);
+    if (save_sims_time_index_) FunctionsMPI::gatherArray(sims_time_index_, 0, num_procs, rank, verbose_);
 
     return;
 }

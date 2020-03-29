@@ -19,9 +19,10 @@
 using namespace std;
 
 void
-FunctionsMPI::scatterObservations(const Observations & send, Observations & recv, int num_procs, int rank) {
+FunctionsMPI::scatterObservations(const Observations & send, Observations & recv, int num_procs, int rank, Verbose verbose) {
 
-    scatterBasicData(send, recv, num_procs, rank);
+    scatterBasicData(send, recv, num_procs, rank, verbose);
+
 
     // Scatter array
     if (rank == 0) {
@@ -37,35 +38,51 @@ FunctionsMPI::scatterObservations(const Observations & send, Observations & recv
 
             // Determine which stations to send to this worker process
             int worker_station_start = Functions::getStartIndex(num_total_stations, num_procs, worker_rank);
-            int worker_stations_count = Functions::getSubTotal(num_total_stations, num_procs, worker_rank);
+            int worker_station_end = Functions::getEndIndex(num_total_stations, num_procs, worker_rank);
+            int worker_stations_count = worker_station_end - worker_station_start;
 
             Stations stations_subset;
             const Stations & stations_all = send.getStations();
-            for (int station_i = worker_station_start; station_i < worker_stations_count; ++station_i) {
+            for (int station_i = worker_station_start; station_i < worker_station_end; ++station_i) {
                 stations_subset.push_back(stations_all.getStation(station_i));
             }
 
             // Subset
+            if (verbose >= Verbose::Debug) cout << "Master subseting observations along the station dimension for worker #" << worker_rank << "..." << endl;
             send.subset(all_parameters, stations_subset, all_times, obs_sub);
 
             // Send data
-            MPI_Send(obs_sub.getValuesPtr(), obs_sub.num_elements(), MPI_DOUBLE, worker_rank, MPI_ANY_TAG, MPI_COMM_WORLD);
+            if (verbose >= Verbose::Detail) cout << "Master sending a subset of observations [stations start: "
+                << worker_station_start << " count: " << worker_stations_count <<"] to worker #" << worker_rank << "..." << endl;
+
+            double * data_ptr = obs_sub.getValuesPtr();
+            MPI_Send(data_ptr, obs_sub.num_elements(), MPI_DOUBLE, worker_rank, 0, MPI_COMM_WORLD);
         }
     } else {
+
+        recv.setDimensions(recv.getParameters(), recv.getStations(), recv.getTimes());
+
+        size_t num_parameters = recv.getParameters().size();
+        size_t num_stations = recv.getStations().size();
+        size_t num_times = recv.getTimes().size();
+
+        if (verbose >= Verbose::Debug) cout << "Worker #" << rank << " is allocating memory for observations ["
+                << num_parameters << " parameters, " << num_stations << " stations, " << num_times << " times]" << "..." << endl;
+
         int count = boost::numeric_cast<int>(recv.num_elements());
         if (count == 0) throw runtime_error("(FunctionsMPI::scatterObservations) A worker process is receiving array data without allocating memory");
 
         double *data_ptr = recv.getValuesPtr();
-        MPI_Recv(data_ptr, count, MPI_DOUBLE, 0, MPI_ANY_TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+        MPI_Recv(data_ptr, count, MPI_DOUBLE, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
     }
 
     return;
 }
 
 void
-FunctionsMPI::scatterForecasts(const Forecasts & send, Forecasts & recv, int num_procs, int rank) {
+FunctionsMPI::scatterForecasts(const Forecasts & send, Forecasts & recv, int num_procs, int rank, Verbose verbose) {
 
-    scatterBasicData(send, recv, num_procs, rank);
+    scatterBasicData(send, recv, num_procs, rank, verbose);
 
     vector<size_t> master_flts, worker_flts;
 
@@ -77,7 +94,7 @@ FunctionsMPI::scatterForecasts(const Forecasts & send, Forecasts & recv, int num
     }
 
     // Broadcast information (flts)
-    broadcastVector(master_flts, worker_flts, rank);
+    broadcastVector(master_flts, worker_flts, rank, verbose);
 
     if (rank != 0) {
         // I'm the worker
@@ -88,16 +105,25 @@ FunctionsMPI::scatterForecasts(const Forecasts & send, Forecasts & recv, int num
 
         // Resize worker forecasts
         recv.setDimensions(recv.getParameters(), recv.getStations(), recv.getTimes(), flts);
+
+        size_t num_parameters = recv.getParameters().size();
+        size_t num_stations = recv.getStations().size();
+        size_t num_times = recv.getTimes().size();
+        size_t num_flts = recv.getFLTs().size();
+
+        if (verbose >= Verbose::Debug) cout << "Worker #" << rank << " is allocating memory for forecasts ["
+                << num_parameters << " parameters, " << num_stations << " stations, "
+                << num_times << " times, " << num_flts << " lead times]" << "..." << endl;
     }
 
     // Scatter array
-    scatterArray(send, recv, num_procs, rank);
+    scatterArray(send, recv, num_procs, rank, verbose);
 
     return;
 }
 
 void
-FunctionsMPI::scatterBasicData(const BasicData & send, BasicData & recv, int num_procs, int rank) {
+FunctionsMPI::scatterBasicData(const BasicData & send, BasicData & recv, int num_procs, int rank, Verbose verbose) {
     unsigned long num_stations;
     vector<bool> master_circulars, worker_circulars;
     vector<size_t> master_times, worker_times;
@@ -109,19 +135,24 @@ FunctionsMPI::scatterBasicData(const BasicData & send, BasicData & recv, int num
         num_stations = send.getStations().size();
         send.getParameters().getCirculars(master_circulars);
         send.getTimes().getTimestamps(master_times);
+
+        if (verbose >= Verbose::Debug) cout << "Master broadcasting BasicData (parameters, stations, and times) ..." << endl;
     }
 
     // Broadcast information (stations, parameters, times)
-    MPI_Bcast(&num_stations, 1, MPI_UNSIGNED_LONG, rank, MPI_COMM_WORLD);
-    broadcastVector(master_circulars, worker_circulars, rank);
-    broadcastVector(master_times, worker_times, rank);
+    MPI_Bcast(&num_stations, 1, MPI_UNSIGNED_LONG, 0, MPI_COMM_WORLD);
+    broadcastVector(master_circulars, worker_circulars, rank, verbose);
+    broadcastVector(master_times, worker_times, rank, verbose);
 
     if (rank != 0) {
         // I'm the worker
 
         // Create parameters
         Parameters parameters;
-        for (const auto & e : worker_circulars) parameters.push_back(Parameter(Config::_NAME, e));
+        for (size_t i = 0; i < worker_circulars.size(); ++i) {
+            Parameter parameter(string("Placeholder_") + to_string(i), worker_circulars[i]);
+            parameters.push_back(parameter);
+        }
 
         // Create stations
         Stations stations;
@@ -134,13 +165,16 @@ FunctionsMPI::scatterBasicData(const BasicData & send, BasicData & recv, int num
 
         // Resize worker forecasts
         recv.setMembers(parameters, stations, times);
+        if (verbose >= Verbose::Debug) cout << "Worker #" << rank << " set BasicData members with "
+                << recv.getParameters().size() << " parameters, " << recv.getStations().size() << " stations, and "
+                << recv.getTimes().size() << " times" << endl;
     }
 
     return;
 }
 
 void
-FunctionsMPI::scatterArray(const Array4D & send, Array4D & recv, int num_procs, int rank) {
+FunctionsMPI::scatterArray(const Array4D & send, Array4D & recv, int num_procs, int rank, Verbose verbose) {
 
     if (rank == 0) {
         Array4DPointer array_subset;
@@ -167,10 +201,15 @@ FunctionsMPI::scatterArray(const Array4D & send, Array4D & recv, int num_procs, 
             iota(subset_stations.begin(), subset_stations.end(), worker_station_start);
 
             // Subset array for this woker process
+            if (verbose >= Verbose::Debug) cout << "Master subseting array along the station dimension for worker #" << worker_rank << "..." << endl;
             send.subset(all_parameters, subset_stations, all_times, all_flts, array_subset);
 
             // Send data
-            MPI_Send(array_subset.getValuesPtr(), array_subset.num_elements(), MPI_DOUBLE, worker_rank, MPI_ANY_TAG, MPI_COMM_WORLD);
+            if (verbose >= Verbose::Detail) cout << "Master sending a subset of array [station start: "
+                << worker_station_start << " count: " << worker_stations_count << "] to worker #" << worker_rank << "..." << endl;
+
+            double *data_ptr = array_subset.getValuesPtr();
+            MPI_Send(data_ptr, array_subset.num_elements(), MPI_DOUBLE, worker_rank, 0, MPI_COMM_WORLD);
         }
     } else {
 
@@ -178,14 +217,17 @@ FunctionsMPI::scatterArray(const Array4D & send, Array4D & recv, int num_procs, 
         if (count == 0) throw runtime_error("(FunctionsMPI::scatterArray) A worker process is receiving array data without allocating memory");
 
         double *data_ptr = recv.getValuesPtr();
-        MPI_Recv(data_ptr, count, MPI_DOUBLE, 0, MPI_ANY_TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+        if (verbose >= Verbose::Debug) cout << "Worker #" << rank << " waiting for array data from master ..." << endl;
+        MPI_Recv(data_ptr, count, MPI_DOUBLE, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+        if (verbose >= Verbose::Debug) cout << "Worker #" << rank << " received array data from master: " << Functions::format(data_ptr, count) << endl;
     }
 
     return;
 }
 
 void
-FunctionsMPI::broadcastVector(const vector<size_t> & send, vector<size_t> & recv, int rank) {
+FunctionsMPI::broadcastVector(const vector<size_t> & send, vector<size_t> & recv, int rank, Verbose verbose) {
+    if (rank == 0 && verbose >= Verbose::Debug) cout << "Master broadcasting a size_t vector ..." << endl;
     
     // Broadcast the length of a vector
     unsigned long size;
@@ -205,11 +247,13 @@ FunctionsMPI::broadcastVector(const vector<size_t> & send, vector<size_t> & recv
     }
 
     delete [] values;
+    if (rank != 0 && verbose >= Verbose::Debug) cout << "Worker #" << rank << " received a size_t vector of length " << recv.size() << endl;
     return;
 }
 
 void
-FunctionsMPI::broadcastVector(const vector<bool> & send, vector<bool> & recv, int rank) {
+FunctionsMPI::broadcastVector(const vector<bool> & send, vector<bool> & recv, int rank, Verbose verbose) {
+    if (rank == 0 && verbose >= Verbose::Debug) cout << "Master broadcasting a bool vector ..." << endl;
 
     // Broadcast the length of a vector
     unsigned long size;
@@ -229,37 +273,52 @@ FunctionsMPI::broadcastVector(const vector<bool> & send, vector<bool> & recv, in
     }
 
     delete [] values;
+    if (rank != 0 && verbose >= Verbose::Debug) cout << "Worker #" << rank << " received a bool vector of length " << recv.size() << endl;
     return;
 }
 
 void
-FunctionsMPI::gatherArray(Array4D & arr, int num_procs, int rank) {
+FunctionsMPI::gatherArray(Array4D & arr, int station_dim_index, int num_procs, int rank, Verbose verbose) {
 
     if (rank == 0) {
 
-        size_t dim1 = arr.shape()[1];
-        size_t dim2 = arr.shape()[2];
-        size_t dim3 = arr.shape()[3];
-        int num_total_stations = arr.shape()[0];
+        vector<size_t> subset_dim(arr.shape(), arr.shape() + 4);
+        vector<size_t> subset_dim_end(subset_dim);
+        vector<size_t> subset_dim_start(4, 0);
 
-        if (dim1 == 0 || dim1 == 0 || dim3 == 0 || num_total_stations == 0) throw runtime_error("(FunctionsMPI::gatherArray) Master process is trying to receive array without allocating memory");
+        int num_total_stations = arr.shape()[station_dim_index];
+
+        if (arr.num_elements() == 0) throw runtime_error("(FunctionsMPI::gatherArray) Master process is trying to receive array without allocating memory");
 
         // I'm the master process. I receive data from workers.
         for (int worker_rank = 1; worker_rank < num_procs; ++worker_rank) {
+            if (verbose >= Verbose::Detail) cout << "Master receiving a subset of array from worker #" << worker_rank << " ..." << endl;
 
             // Determine which stations to send to this worker process
             int worker_station_start = Functions::getStartIndex(num_total_stations, num_procs, worker_rank);
             int worker_stations_count = Functions::getSubTotal(num_total_stations, num_procs, worker_rank);
-            int subset_values_count = dim1 * dim2 * dim3 * worker_stations_count;
 
+            // Determine the start of station index
+            subset_dim[station_dim_index] = worker_stations_count;
+            subset_dim_start[station_dim_index] = worker_station_start;
+            subset_dim_end[station_dim_index] = worker_station_start + worker_stations_count;
+
+            // Calculate how many values to be expected
+            int subset_values_count = subset_dim[0] * subset_dim[1] * subset_dim[2] * subset_dim[3];
+
+            // Receive data from worker process
             double *data_ptr = new double[subset_values_count];
+            MPI_Recv(data_ptr, subset_values_count, MPI_DOUBLE, worker_rank, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            if (verbose >= Verbose::Debug) cout << "Master received (" << Functions::format(subset_dim)
+                << ") array values from worker #" << worker_rank << " starting from station " << worker_station_start << ": "
+                    << Functions::format(data_ptr, subset_values_count) << endl;
             int ptr_i = 0;
 
-            for (size_t dim3_i = 0; dim3_i < dim3; ++dim3)
-                for (size_t dim2_i = 0; dim2_i < dim2; ++dim2)
-                    for (size_t dim1_i = 0; dim1_i < dim1; ++dim1)
-                        for (int station_i = worker_station_start; station_i < worker_stations_count; ++station_i, ++ptr_i)
-                            arr.setValue(data_ptr[ptr_i], station_i, dim1_i, dim2_i, dim3_i);
+            for (size_t dim3_i = subset_dim_start[3]; dim3_i < subset_dim_end[3]; ++dim3_i)
+                for (size_t dim2_i = subset_dim_start[2]; dim2_i < subset_dim_end[2]; ++dim2_i)
+                    for (size_t dim1_i = subset_dim_start[1]; dim1_i < subset_dim_end[1]; ++dim1_i)
+                        for (size_t dim0_i = subset_dim_start[0]; dim0_i < subset_dim_end[0]; ++dim0_i, ++ptr_i)
+                            arr.setValue(data_ptr[ptr_i], dim0_i, dim1_i, dim2_i, dim3_i);
 
             delete [] data_ptr;
         }
@@ -269,7 +328,8 @@ FunctionsMPI::gatherArray(Array4D & arr, int num_procs, int rank) {
         // I'm the worker process. I send data to the master.
         double * data_ptr = arr.getValuesPtr();
         int count = boost::numeric_cast<int>(arr.num_elements());
-        MPI_Send(data_ptr, count, MPI_DOUBLE, 0, MPI_ANY_TAG, MPI_COMM_WORLD);
+        if (verbose >= Verbose::Debug) cout << "Worker #" << rank << " sending " << count << " array values to master ..." << endl;
+        MPI_Send(data_ptr, count, MPI_DOUBLE, 0, 0, MPI_COMM_WORLD);
     }
 
     return;

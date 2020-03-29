@@ -668,12 +668,14 @@ num_parameters, num_stations, forecasts, observations) firstprivate(time_i)
 int
 Functions::getStartIndex(int total, int num_procs, int rank) {
     // Rank 0 is the master. Start with rank 1.
+    if (total < num_procs - 1) throw runtime_error("You are probably wasting computing resources. You requested too many processes.");
     return (int) ceil((rank - 1) * total / (float) (num_procs - 1));
 }
 
 int
 Functions::getEndIndex(int total, int num_procs, int rank) {
     // Rank 0 is the master. Start with rank 1.
+    if (total < num_procs - 1) throw runtime_error("You are probably wasting computing resources. You requested too many processes.");
     if (rank == num_procs - 1) return total;
     return (int) ceil(rank * total / (float) (num_procs - 1));
 }

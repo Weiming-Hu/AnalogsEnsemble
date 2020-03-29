@@ -127,6 +127,9 @@ AnEnIS::compute(const Forecasts & forecasts,
             << "Number of test times: " << num_test_times_index << endl
             << "Number of lead times: " << num_flts << endl
             << "Number of search times: " << fcsts_search_index.size() << endl
+#if defined(_OPENMP)
+            << "Number of threads to be created: " << omp_get_max_threads() << endl
+#endif
             << "*********** End of AnEn Computation Summary **********" << endl;
     }
 
@@ -140,8 +143,7 @@ AnEnIS::compute(const Forecasts & forecasts,
 #pragma omp parallel for default(none) schedule(dynamic) collapse(3) \
 shared(num_stations, num_flts, num_test_times_index, num_search_times_index, \
 fcsts_test_index, fcsts_search_index, forecasts, observations, circulars, \
-total_count, counter, current_percent, std::cout) \
-firstprivate(sims_arr)
+total_count, counter, current_percent, std::cout) firstprivate(sims_arr)
 #endif
     for (size_t station_i = 0; station_i < num_stations; ++station_i) {
         for (size_t flt_i = 0; flt_i < num_flts; ++flt_i) {

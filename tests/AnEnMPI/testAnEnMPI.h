@@ -21,6 +21,11 @@ public:
     testAnEnMPI();
     virtual ~testAnEnMPI();
 
+    void getProcInfo();
+
+    int rank;
+    int num_procs;
+
 private:
     void testCompute_();
 
