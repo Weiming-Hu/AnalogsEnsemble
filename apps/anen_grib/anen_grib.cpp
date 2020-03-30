@@ -208,7 +208,7 @@ void runAnEnGrib(
     // Subsequent parallelization is done with multi-threading.
     //
     if (world_rank != 0) {
-        if (config.verbose >= Verbose::Detail) cout << "Worker #" << world_rank << "exiting ..." << endl;
+        if (config.verbose >= Verbose::Detail) cout << "Worker #" << world_rank << " exiting ..." << endl;
         MPI_Finalize();
         exit(0);
     }
