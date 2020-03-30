@@ -57,9 +57,9 @@ testAnEnIOMPI::setUp() {
     MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
     MPI_Comm_size(MPI_COMM_WORLD, &num_proc);
 
-    if (num_proc <= 2) {
+    if (num_proc < 3) {
         MPI_Finalize();
-        cerr << "Error: Please launch test with MPI launcher program, e.g. mpirun, with at least 3 processes" << endl;
+        cerr << "Error: Please launch test with MPI launcher program, e.g. mpirun or mpiexec, with at least 3 processes" << endl;
         exit(1);
     }
     

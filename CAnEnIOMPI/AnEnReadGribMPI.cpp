@@ -7,7 +7,6 @@
 
 #include "AnEnReadGribMPI.h"
 #include "ForecastsPointer.h"
-#include "FunctionsMPI.h"
 #include "Functions.h"
 
 #include <cmath>
@@ -18,7 +17,6 @@ using namespace std;
 
 AnEnReadGribMPI::AnEnReadGribMPI() {
     Config config;
-    verbose_ = config.verbose;
     worker_verbose_ = config.worker_verbose;
 }
 
@@ -76,7 +74,7 @@ AnEnReadGribMPI::readForecasts(Forecasts & forecasts,
     num_workers = num_procs - 1;
 
     if (num_procs == 1) {
-        cerr << "Error: This is an MPI program. You need to launch this program with an MPI launcher, e.g. mpirun." << endl;
+        cerr << "Error: This is an MPI program. You need to launch this program with an MPI launcher, e.g. mpirun or mpiexec." << endl;
         MPI_Finalize();
         exit(1);
     }
@@ -237,8 +235,8 @@ AnEnReadGribMPI::readForecasts(Forecasts & forecasts,
          */
         
         // Determine what are the files assigned to the current worker process
-        int total_files = FunctionsMPI::getSubTotal(files.size(), num_procs, world_rank);
-        int file_start_index = FunctionsMPI::getStartIndex(files.size(), num_procs, world_rank);
+        int total_files = Functions::getSubTotal(files.size(), num_procs, world_rank);
+        int file_start_index = Functions::getStartIndex(files.size(), num_procs, world_rank);
 
         if (worker_verbose_ >= Verbose::Detail) cout << "Worker process #" << world_rank << " initiated to read " << total_files << " files" << endl;
         vector<string> files_subset(files.begin() + file_start_index, files.begin() + file_start_index + total_files);

@@ -135,19 +135,18 @@ ForecastsPointer::subset(Forecasts& forecasts_subset) const {
     const Times & times_subset = forecasts_subset.getTimes();
     const Times & flts_subset = forecasts_subset.getFLTs();
 
-    // Get the indices for dimensions to subset
-    vector<size_t> parameters_index, stations_index, times_index, flts_index;
+    subset_data_(parameters_subset, stations_subset, times_subset, flts_subset, forecasts_subset);
+    return;
+}
 
-    parameters_.getIndices(parameters_subset, parameters_index);
-    stations_.getIndices(stations_subset, stations_index);
-    times_.getIndices(times_subset, times_index);
-    flts_.getIndices(flts_subset, flts_index);
+void
+ForecastsPointer::subset(const Parameters & parameters, const Stations & stations, const Times& times, const Times& flts,
+        Forecasts & forecasts_subset) const {
 
-    // Copy values
-    Array4DPointer::subset(
-            parameters_index, stations_index,
-            times_index, flts_index, forecasts_subset);
-    
+    // Allocate memory
+    forecasts_subset.setDimensions(parameters, stations, times, flts);
+
+    subset_data_(parameters, stations, times, flts, forecasts_subset);
     return;
 }
 
@@ -187,4 +186,24 @@ ostream &
 operator<<(ostream & os, const ForecastsPointer & obj) {
     obj.print(os);
     return os;
+}
+
+void
+ForecastsPointer::subset_data_(const Parameters & parameters, const Stations & stations, const Times & times, const Times & flts,
+        Forecasts & forecasts_subset) const {
+
+    // Get the indices for dimensions to subset
+    vector<size_t> parameters_index, stations_index, times_index, flts_index;
+
+    parameters_.getIndices(parameters, parameters_index);
+    stations_.getIndices(stations, stations_index);
+    times_.getIndices(times, times_index);
+    flts_.getIndices(flts, flts_index);
+
+    // Copy values
+    Array4DPointer::subset(
+            parameters_index, stations_index,
+            times_index, flts_index, forecasts_subset);
+
+    return;
 }

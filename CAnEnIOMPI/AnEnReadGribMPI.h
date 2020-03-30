@@ -32,7 +32,7 @@ public:
      * AnEnReadGrib::readForecasts.
      *
      * Please note that, it is assumed that the executable is launched with
-     * MPI launcher program, e.g. mpirun, with multiple processes. This function
+     * MPI launcher program, e.g. mpirun or mpiexec, with multiple processes. This function
      * assign different tasks to different processes based on the process ID,
      * but this function DOES NOT terminate any process. The developer is 
      * responsible to terminate any processes in the main function.

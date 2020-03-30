@@ -61,7 +61,19 @@ public:
             const std::string & name_u, const std::string & name_v,
             const std::string & name_spd, const std::string & name_dir) = 0;
     
+    /*
+     * Subset Forecasts. Dimensions to be extracted are determined from the function input Forecasts.
+     * The input Forecasts should have already allocated enough memory by calling setDimensions prior
+     * to this function cal.
+     */
     virtual void subset(Forecasts & forecasts_subset) const = 0;
+
+    /*
+     * Subset Forecasts. Dimensions are specified by the input arguments. The input Forecasts
+     * shoudl be an empty Forecasts that will hold all subset information and values at the end of
+     * this function call.
+     */
+    virtual void subset(const Parameters &, const Stations &, const Times&, const Times&, Forecasts &) const = 0;
 
     /**************************************************************************
      *                           Member Functions                             *

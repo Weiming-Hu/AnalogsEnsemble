@@ -33,13 +33,14 @@ install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}Targets RUNTIME DESTINATIO
 if(ENABLE_MPI)
     message(STATUS "Build the executable ${PROJECT_NAME}_mpi")
     find_package(AnEnIOMPI)
+    find_package(AnEnMPI)
 
     # Add executable
     add_executable(${PROJECT_NAME}_mpi ${CMAKE_CURRENT_SOURCE_DIR}/anen_grib.cpp)
     target_compile_definitions(${PROJECT_NAME}_mpi PRIVATE -D_USE_MPI_EXTENSION)
 
     target_link_libraries(${PROJECT_NAME}_mpi PRIVATE
-        AnEnIOMPI::AnEnIOMPI Boost::program_options)
+        AnEnMPI::AnEnMPI AnEnIOMPI::AnEnIOMPI Boost::program_options)
 
     install(TARGETS ${PROJECT_NAME}_mpi EXPORT
         ${PROJECT_NAME}_mpiTargets RUNTIME DESTINATION bin)

@@ -78,6 +78,8 @@ if(ENABLE_OPENMP)
 
     if(OpenMP_CXX_FOUND)
         target_link_libraries(AnEn PUBLIC OpenMP::OpenMP_CXX)
+    else(OpenMP_CXX_FOUND)
+        message(WARNING "OpenMP (multi-threading) is not found")
     endif(OpenMP_CXX_FOUND)
 
 endif(ENABLE_OPENMP)

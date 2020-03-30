@@ -23,7 +23,7 @@ option(ENABLE_OPENMP "Use OpenMP" ON)
 option(ENABLE_MPI "Use MPI" OFF)
 
 # Set variables
-set(GRAND_VERSION "4.0.4")
+set(GRAND_VERSION "4.0.5")
 set(GRAND_VERSION_NICKNAME "Pandora")
 set(WE_ARE "GEOlab @ Penn State")
 set(SUBPROJECT_TARGETS "AnEn;AnEnIO")
@@ -99,8 +99,26 @@ add_subdirectory(CAnEn)
 add_subdirectory(CAnEnIO)
 
 if(ENABLE_MPI)
-    list(APPEND SUBPROJECT_TARGETS "AnEnIOMPI")
+    message(STATUS "
+***************************************************************
+
+You enabling the MPI extension for AnEn and AnEnIO,
+and mpi programs will be built.
+
+Please be aware that this makes the AnEn programs
+hybrid of MPI (multi-node) and OpenMP (multi-thread).
+
+Please check with your individual HPC platform to ensure
+the correct configuration to launch a hybrid MPI+OpenMP program.
+
+Please refer to the README for suggestions and more information.
+https://weiming-hu.github.io/AnalogsEnsemble/doc#mpi-openmp
+
+***************************************************************
+")
+    list(APPEND SUBPROJECT_TARGETS "AnEnIOMPI" "AnEnMPI")
     add_subdirectory(CAnEnIOMPI)
+    add_subdirectory(CAnEnMPI)
 endif(ENABLE_MPI)
 
 # Add applications as subprojects

@@ -205,7 +205,7 @@ operator<<(ostream & os, const Array4DPointer & obj) {
 }
 
 Array4DPointer &
-        Array4DPointer::operator=(const Array4DPointer & rhs) {
+Array4DPointer::operator=(const Array4DPointer & rhs) {
 
     if (this != &rhs) {
 
@@ -221,3 +221,33 @@ Array4DPointer &
 
     return *this;
 }
+
+bool
+Array4DPointer::operator==(const Array4DPointer & rhs) const {
+
+    // Check dimensions
+    if (dims_[0] == rhs.shape()[0] && dims_[1] == rhs.shape()[1] &&
+            dims_[2] == rhs.shape()[2] && dims_[3] == rhs.shape()[3]) {
+        // All dimensions are the same
+    } else {
+        return false;
+    }
+
+    // Check values
+    const double * rhs_data = rhs.getValuesPtr();
+    size_t my_len = num_elements();
+    for (size_t i = 0; i < my_len; ++i) {
+
+        if (std::isnan(data_[i])) {
+            // Make sure both values are NA
+            if (!std::isnan(rhs_data[i])) return false;
+
+        } else {
+            // Value comparison
+            if (data_[i] != rhs_data[i]) return false;
+        }
+    }
+
+    return true;
+}
+

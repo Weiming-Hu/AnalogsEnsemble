@@ -26,9 +26,13 @@ PAnEn_test_this("AnEnSSE")
 
 if(ENABLE_MPI)
     find_package(AnEnIOMPI)
+    find_package(AnEnMPI)
+
     PAnEn_test_this("AnEnIOMPI")
+    PAnEn_test_this("AnEnMPI")
 
     # Link to extra libraries
     target_link_libraries(testAnEnIOMPI PUBLIC AnEnIOMPI::AnEnIOMPI)
+    target_link_libraries(testAnEnMPI PUBLIC AnEnMPI::AnEnMPI)
 endif(ENABLE_MPI)
 

@@ -65,7 +65,19 @@ public:
     virtual void setValue(double val, std::size_t parameter_index,
             std::size_t station_index, std::size_t time_index) = 0;
     
+    /**
+     * Subset Observations. Dimensions to be extracted are determined from the function input Observations.
+     * The input Observations should have already allocated enough memory by calling setDimensions prior
+     * to this function call.
+     */
     virtual void subset(Observations &) const = 0;
+
+    /**
+     * Subset Observations. Dimensions are specified by the input arguments. The input Observations
+     * should be an empty Observations that will hold all subset information and values at the end of this 
+     * function call.
+     */
+    virtual void subset(const Parameters &, const Stations &, const Times &, Observations &) const = 0;
 
     /**************************************************************************
      *                           Member Functions                             *

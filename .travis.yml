@@ -158,7 +158,7 @@ install:
 script:
     - if [[ "$ENVIRONMENT_LANGUAGE" == "c++" ]]; then mkdir build; cd build; CC=$CC CXX=$CXX cmake -DENABLE_MPI=$ENABLE_MPI -DBUILD_BOOST=$BUILD_BOOST -DCMAKE_CXX_FLAGS="-coverage" -DCMAKE_PREFIX_PATH=~/eccodes ..; make -j16; fi
 after_success:
-    - if [[ "$ENVIRONMENT_LANGUAGE" == "c++" ]]; then if [[ "$ENABLE_MPI" == "ON" ]]; then mpirun -np 3 ctest; else make test; fi; fi
+    - if [[ "$ENVIRONMENT_LANGUAGE" == "c++" ]]; then if [[ "$ENABLE_MPI" == "ON" ]]; then echo MPI tests are not executed; else make test; fi; fi
     - if [[ "$ENVIRONMENT_LANGUAGE" == "r" ]]; then cd RAnalogs/tests; Rscript test_R-API-v4.R; fi
     - if [[ "$ENVIRONMENT_LANGUAGE" == "c++" ]]; then if [[ "CC" == "gcc-8" ]]; then bash <(curl -s https://codecov.io/bash); fi; fi
 

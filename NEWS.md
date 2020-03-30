@@ -1,3 +1,9 @@
+# PAnEn 4.0.5
+
+- Added `AnEnMPI`
+- Progress information will be displayed every 1%
+- Improved documentation
+
 # PAnEn 4.0.4
 
 - Changed `MPI_Init` to `MPI_Init_thread` for OpenMP programs

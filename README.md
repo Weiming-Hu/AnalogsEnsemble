@@ -120,17 +120,26 @@ You can change the default of the parameters, for example, `cmake -DCMAKE_INSTAL
 
 [Here](https://github.com/Weiming-Hu/AnalogsEnsemble/issues/86) is a list of instructions to build and install `AnEn` on supercomputers. 
 
+
 ### MPI and OpenMP 
 
-When `ENABLE_MPI` is turned on, MPI programs will be built and available. These MPI programs are hybrid programs that use both MPI and OpenMP. Please check with your individual supercomputer platform to find out **what the proper configuration for launching an MPI + OpenMP hybrid program is**.
+```
+TL;DR
 
-For example, on [NCAR Cheyenne](https://www2.cisl.ucar.edu/resources/computational-systems/cheyenne), the proper way to launch a hybrid program can be found [here](https://www2.cisl.ucar.edu/resources/computational-systems/cheyenne/running-jobs/pbs-pro-job-script-examples). If you use `mpirun`, instead of `mpiexec_mpt`, you will loose the multi-threading performance improvement.
+Launch the program with as many processes and threads as you can because only master will spawn multiple threads during bottleneck. MPI portion is automatically single-threaded.
+```
 
-To dive deeper into the hybrid parallelization design, MPI is used during the file I/O process and OpenMP is used during the analog computing process. 
+When `ENABLE_MPI` is turned on, MPI programs will be built. These MPI programs are hybrid programs that use both MPI and OpenMP. Please check with your individual supercomputer platform to find out **what the proper configuration for launching an MPI + OpenMP hybrid program is**. However, do keep in mind that, the MPI-paralleled scope does not overlap with OpenMP-paralleled scope. In other words, worker processes are single-threaded and do not spawn additional threads. So users should request as many process and threads at the same time when launching the program.
+
+For example, on [NCAR Cheyenne](https://www2.cisl.ucar.edu/resources/computational-systems/cheyenne), the proper way to launch a hybrid program can be found [here](https://www2.cisl.ucar.edu/resources/computational-systems/cheyenne/running-jobs/pbs-pro-job-script-examples). If you use `mpirun`, instead of `mpiexec_mpt`, you will loose the multi-threading performance improvement. Nodes on Cheyenne have 36 cores. If you requested 10 nodes, you should create 360 process and 36 threads for full performance. Because the MPI will be able to use all 10 * 36 cores and, during the bottleneck of the program which is parallelized with OpenMP, the master thread will spawn 36 threads and the other process are waiting.
+
+To dive deeper into the hybrid parallelization design, MPI is used for computationally expensive portions of the code, e.g. file I/O and analog generation while OpenMP is used by the master process during bottleneck portion of the code, e.g. data reshaping and information queries.
 
 When analogs with a long search and test periods are desired, MPI is used to distribute forecast files across processes. Each process reads a subset of the forecast files. This solves the problem where serial I/O can be very slow.
 
-After the file I/O, all other processes are terminated except for the master process, which will then enter the multi-threading parallelization scope. It is important to keep in mind that only the master process will be alive after the file I/O process and that only the master process enters multi-threading parallelization. MPI processes will NOT spawn multiple threads.
+When a large number of stations/grids present, MPI is used to distribute analog generation for different stations across processes. Each process takes charge of generating analogs for a subset of stations.
+
+Sitting between the file I/O and the analog generation is the bottleneck which is hard to parallelize with MPI, e.g. reshaping the data and querying test/search times. Therefore, they are parallelized with OpenMP on master process only.
 
 ## Tutorials
 
