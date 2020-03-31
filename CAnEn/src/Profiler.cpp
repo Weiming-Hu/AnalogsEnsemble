@@ -7,6 +7,7 @@
 
 #include <iomanip>
 #include <stdexcept>
+#include <iomanip>
 
 #include "Profiler.h"
 #include "boost/date_time.hpp"
@@ -61,6 +62,7 @@ Profiler::summary(std::ostream& os) const {
     size_t num_sessions = session_names_.size();
     if (num_sessions <= 1) throw runtime_error("No sessions to report. Did you call start/log_time_session/end?");
     if (session_names_.front() != _SESSION_START) throw runtime_error("You didn't start the profiler by calling start");
+    int max_width = max_name_width_();
 
     // Define time variables
     long full_pduration = (ptimes_.back() - ptimes_.front()) / CLOCKS_PER_SEC;
@@ -79,9 +81,9 @@ Profiler::summary(std::ostream& os) const {
     time_duration wtime_duration = seconds(full_wduration);
 #endif
 
-    os << "Session total:\t processor time (" << to_simple_string(ptime_duration) << ", 100%)"
+    os << setw(max_width) << "Total" << ": processor time (" << to_simple_string(ptime_duration) << ", " << setw(6) << "100" << "%)"
 #if defined(_OPENMP)
-            << "\t wall time (" << to_simple_string(wtime_duration) << ", 100%)"
+            << "\t wall time (" << to_simple_string(wtime_duration) << ", " << setw(6) << "100" << "%)"
 #endif
             << endl;
 
@@ -97,12 +99,12 @@ Profiler::summary(std::ostream& os) const {
         wtime_duration = seconds(wtime);
 #endif
 
-        os << "Session " << session_names_[session_i] <<
-                ":\t processor time (" << to_simple_string(ptime_duration)
-                << ", " << ptime / (double) full_pduration * 100 << "%)"
+        os << setw(max_width) << session_names_[session_i] <<
+                ": processor time (" << to_simple_string(ptime_duration)
+                << ", " << setw(6) << ptime / (double) full_pduration * 100 << "%)"
 #if defined(_OPENMP)
                 << "\t wall time (" << to_simple_string(wtime_duration)
-                << ", " << wtime / (double) full_wduration * 100 << "%)"
+                << ", " << setw(6) << wtime / (double) full_wduration * 100 << "%)"
 #endif
 
 #ifndef _UNKNOWN_OS_
@@ -192,3 +194,16 @@ std::size_t Profiler::getPeakRSS_() {
 }
 
 #endif
+
+int
+Profiler::max_name_width_() const {
+    if (session_names_.size() == 0) throw runtime_error("No session names added. Please add session names with log_time_session");
+
+    // Initialize the width to the size of "Total"
+    int max_name_width = 5;
+    for (const auto & name : session_names_) {
+        if (name.size() > max_name_width) max_name_width = name.size();
+    }
+
+    return max_name_width;
+}
