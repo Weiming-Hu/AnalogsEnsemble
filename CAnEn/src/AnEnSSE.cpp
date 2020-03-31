@@ -46,6 +46,7 @@ AnEnSSE::compute(const Forecasts & forecasts,
     if (verbose_ >= Verbose::Progress) cout << "Start AnEnSSE generation ..." << endl;
 
     preprocess_(forecasts, observations, fcsts_test_index, fcsts_search_index);
+    profiler_.log_time_session("Preprocessing (AnEnSSE)");
 
     /*
      * Read circular flags from forecast parameters into vectors
@@ -190,6 +191,7 @@ firstprivate(sims_arr)
     } // End of loop for stations
 
     if (verbose_ >= Verbose::Progress) cout << "AnEnSSE generation done!" << endl;
+    profiler_.log_time_session("Genrating analogs (AnEnSSE)");
 
     return;
 }

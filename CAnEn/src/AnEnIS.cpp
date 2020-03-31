@@ -93,6 +93,7 @@ AnEnIS::compute(const Forecasts & forecasts,
     if (verbose_ >= Verbose::Progress) cout << "Start AnEnIS generation ..." << endl;
 
     preprocess_(forecasts, observations, fcsts_test_index, fcsts_search_index);
+    profiler_.log_time_session("Preprocessing (AnEnIS)");
 
     /*
      * Read circular flags from forecast parameters into vectors
@@ -256,6 +257,7 @@ total_count, counter, current_percent, pbar_threshold, std::cout) firstprivate(s
 
     if (verbose_ >= Verbose::Detail) cout << '\r' << "Progress: 100%" << endl;
     if (verbose_ >= Verbose::Progress) cout << "AnEnIS generation done!" << endl;
+    profiler_.log_time_session("Generating analogs (AnEnIS)");
 
     return;
 }
@@ -310,7 +312,7 @@ operator<<(ostream & os, const AnEnIS & obj) {
 }
 
 AnEnIS &
-        AnEnIS::operator=(const AnEnIS& rhs) {
+AnEnIS::operator=(const AnEnIS& rhs) {
 
     if (this != &rhs) {
         num_analogs_ = rhs.num_analogs_;

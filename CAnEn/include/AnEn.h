@@ -9,8 +9,9 @@
 #ifndef ANEN_H
 #define ANEN_H
 
-#include "Forecasts.h"
 #include "Observations.h"
+#include "Forecasts.h"
+#include "Profiler.h"
 #include "Config.h"
 
 /**
@@ -48,6 +49,12 @@ public:
             std::vector<std::size_t> & fcsts_test_index,
             std::vector<std::size_t> & fcsts_search_index) = 0;
     
+    /**
+     * Get the profiling information. The profiler is usually used to
+     * time different components of the compute function.
+     */
+    virtual const Profiler & getProfile() const;
+
     virtual void print(std::ostream &) const;
     friend std::ostream& operator<<(std::ostream&, const AnEn &);
     
@@ -55,6 +62,8 @@ public:
 
 protected:
     Verbose verbose_;
+    Profiler profiler_;
+
 
     virtual void setMembers_(const Config &);
 };

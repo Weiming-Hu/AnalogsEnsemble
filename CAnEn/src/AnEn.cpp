@@ -14,17 +14,25 @@ using namespace std;
 AnEn::AnEn() {
     Config config;
     setMembers_(config);
+    profiler_.start();
 }
 
 AnEn::AnEn(const AnEn& orig) {
     *this = orig;
+    profiler_.start();
 }
 
 AnEn::AnEn(const Config & config) {
     setMembers_(config);
+    profiler_.start();
 }
 
 AnEn::~AnEn() {
+}
+
+const Profiler &
+AnEn::getProfile() const {
+    return profiler_;
 }
 
 void AnEn::print(ostream & os) const {

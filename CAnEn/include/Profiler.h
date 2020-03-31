@@ -54,6 +54,8 @@ public:
     
     void start();
     void log_time_session(const std::string & session_name);
+    void append_sessions(const Profiler &);
+    void operator+=(const Profiler &);
     
     void summary(std::ostream &) const;
     

@@ -14,6 +14,7 @@
 #include <stdexcept>
 #include <algorithm>
 #include <functional>
+#include <assert.h>
 
 using namespace std;
 using namespace netCDF;
@@ -156,6 +157,35 @@ AnEnWriteNcdf::writeAnEn(const string& file, const AnEnSSE& anen,
 }
 
 void
+AnEnWriteNcdf::writeAnEn(const string& file, const AnEn* anen, const string & algorithm,
+        const Times& test_times, const Times& search_times,
+        const Times& forecast_flts, const Parameters& forecast_parameters,
+        const Stations& forecast_stations, bool overwrite, bool append) const {
+
+    if (algorithm == "IS") {
+
+        if (const AnEnIS* anen_is = dynamic_cast<const AnEnIS*> (anen)) {
+            writeAnEn(file, *anen_is, test_times, search_times, forecast_flts, forecast_parameters, forecast_stations, overwrite, append);
+        } else {
+            throw overflow_error("Fatal failure when dynamically casting a pointer of AnEn to AnEnIS. AnEn pointer might be NULL");
+        }
+
+    } else if (algorithm == "SSE") {
+
+        if (const AnEnSSE* anen_sse = dynamic_cast<const AnEnSSE*> (anen)) {
+            writeAnEn(file, *anen_sse, test_times, search_times, forecast_flts, forecast_parameters, forecast_stations, overwrite, append);
+        } else {
+            throw overflow_error("Fatal failure when dynamically casting a pointer of AnEn to AnEnSSE. AnEn pointer might be NULL");
+        }
+
+    } else {
+        throw runtime_error("The algorithm is not recognized");
+    }
+
+    return;
+}
+
+void
 AnEnWriteNcdf::writeMultiAnEn(const string& file,
         const unordered_map<string, size_t> & obs_map, const AnEnIS& anen,
         const Times& test_times, const Times& search_times,
@@ -255,6 +285,38 @@ AnEnWriteNcdf::writeMultiAnEn(const string& file,
 
         // Append analog to the existing file
         Ncdf::writeArray4D(nc, analogs, pair.first, analogs_dim_, unlimited_);
+    }
+
+    return;
+}
+
+void
+AnEnWriteNcdf::writeMultiAnEn(const string& file,
+        const unordered_map<string, size_t>& obs_map,
+        const AnEn* anen, const string & algorithm,
+        const Times& test_times, const Times& search_times,
+        const Times& forecast_flts, const Parameters& parameters,
+        const Stations& stations, const Observations& observations,
+        bool overwrite, bool append) const {
+
+    if (algorithm == "IS") {
+
+        if (const AnEnIS* anen_is = dynamic_cast<const AnEnIS*> (anen)) {
+            writeMultiAnEn(file, obs_map, *anen_is, test_times, search_times, forecast_flts, parameters, stations, observations, overwrite);
+        } else {
+            throw overflow_error("Fatal failure when dynamically casting a pointer of AnEn to AnEnIS. AnEn pointer might be NULL");
+        }
+
+    } else if (algorithm == "SSE") {
+
+        if (const AnEnSSE* anen_sse = dynamic_cast<const AnEnSSE*> (anen)) {
+            writeMultiAnEn(file, obs_map, *anen_sse, test_times, search_times, forecast_flts, parameters, stations, observations, overwrite);
+        } else {
+            throw overflow_error("Fatal failure when dynamically casting a pointer of AnEn to AnEnSSE. AnEn pointer might be NULL");
+        }
+
+    } else {
+        throw runtime_error("The algorithm is not recognized");
     }
 
     return;

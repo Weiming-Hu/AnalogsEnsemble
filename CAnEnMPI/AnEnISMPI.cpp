@@ -61,18 +61,25 @@ AnEnISMPI::compute(const Forecasts & forecasts, const Observations & observation
     if (world_rank == 0 && verbose_ >= Verbose::Detail) cout << "Master process is scattering forecasts to workers ..." << endl;
     ForecastsPointer proc_forecasts;
     FunctionsMPI::scatterForecasts(forecasts, proc_forecasts, num_procs, world_rank, verbose_);
-    if (world_rank == 0 && verbose_ >= Verbose::Detail) cout << "Forecasts have been scattered to workers." << endl;
+    if (world_rank == 0 && verbose_ >= Verbose::Detail) {
+        cout << "Forecasts have been scattered to workers." << endl;
+        profiler_.log_time_session("Master scattering forecasts (AnEnISMPI)");
+    }
 
     // Scatter observations by stations
     if (world_rank == 0 && verbose_ >= Verbose::Detail) cout << "Master process is scattering observations to workers ..." << endl;
     ObservationsPointer proc_observations;
     FunctionsMPI::scatterObservations(observations, proc_observations, num_procs, world_rank, verbose_);
-    if (world_rank == 0 && verbose_ >= Verbose::Detail) cout << "Observations have been scattered to workers." << endl;
+    if (world_rank == 0 && verbose_ >= Verbose::Detail) {
+        cout << "Observations have been scattered to workers." << endl;
+        profiler_.log_time_session("Master scattering observations (AnEnISMPI)");
+    }
 
     // Broadcast test and search
     vector<size_t> proc_test_index, proc_search_index;
     FunctionsMPI::broadcastVector(fcsts_test_index, proc_test_index, world_rank, verbose_);
     FunctionsMPI::broadcastVector(fcsts_search_index, proc_search_index, world_rank, verbose_);
+    if (world_rank == 0) profiler_.log_time_session("Master scattering observations (AnEnISMPI)");
 
     if (world_rank == 0) {
         // This is a master
@@ -88,6 +95,8 @@ AnEnISMPI::compute(const Forecasts & forecasts, const Observations & observation
             print(cout);
             cout << "*********** End of AnEn Configuration Summary **********" << endl;
         }
+
+        profiler_.log_time_session("Master preprocessing (AnEnISMPI)");
 
     } else {
         // This is a worker
@@ -121,9 +130,15 @@ AnEnISMPI::compute(const Forecasts & forecasts, const Observations & observation
     }
 
     // Collect members in AnEnIS
-    if (world_rank == 0 && verbose_ >= Verbose::Detail) cout << "Master process is receiving analog results from workers ..." << endl;
+    if (world_rank == 0 && verbose_ >= Verbose::Detail) {
+        profiler_.log_time_session("Master waiting for analog computation (AnEnISMPI)");
+        cout << "Master process is receiving analog results from workers ..." << endl;
+    }
     gather_(num_procs, world_rank);
-    if (world_rank == 0 && verbose_ >= Verbose::Detail) cout << "Analog results have been collected at master." << endl;
+    if (world_rank == 0 && verbose_ >= Verbose::Detail) {
+        cout << "Analog results have been collected at master." << endl;
+        profiler_.log_time_session("Master receiving analogs (AnEnISMPI)");
+    }
 
     return;
 }

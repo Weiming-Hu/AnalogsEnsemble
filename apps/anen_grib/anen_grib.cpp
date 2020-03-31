@@ -156,7 +156,7 @@ void runAnEnGrib(
 #if defined(_USE_MPI_EXTENSION)
     }
 #endif
-    profiler.log_time_session("preprocessing");
+    profiler.log_time_session("preprocessing forecasts and observations");
 
 
     /**************************************************************************
@@ -187,7 +187,7 @@ void runAnEnGrib(
 
     if (algorithm == "IS") {
 #if defined(_USE_MPI_EXTENSION)
-        if (world_rank != 0) config.worker_verbose = config.verbose;
+        if (world_rank != 0) config.verbose = config.worker_verbose;
         anen = new AnEnISMPI(config);
 #else
         anen = new AnEnIS(config);
@@ -214,9 +214,7 @@ void runAnEnGrib(
     }
 #endif
 
-
-    profiler.log_time_session("generating analogs");
-
+    profiler += anen->getProfile();
 
     /**************************************************************************
      *                             Write Results                              *
@@ -240,22 +238,9 @@ void runAnEnGrib(
         unordered_map<string, size_t> obs_map;
         Functions::createObsMap(obs_map, obs_id, observations.getParameters());
 
-        if (algorithm == "IS") {
-            
-            AnEnIS* anen_is = dynamic_cast<AnEnIS *> (anen);
-            anen_write.writeMultiAnEn(fileout, obs_map, *anen_is, test_times, search_times,
-                    forecast_flts, forecast_parameters, forecast_stations, observations, overwrite);
-            
-        } else if (algorithm == "SSE") {
-            
-            AnEnSSE* anen_sse = dynamic_cast<AnEnSSE *> (anen);
-            anen_write.writeMultiAnEn(fileout, obs_map, *anen_sse, test_times, search_times,
-                    forecast_flts, forecast_parameters, forecast_stations, observations, overwrite);
-            
-        } else {
-            throw runtime_error("The algorithm is not recognized");
-        }
-        
+        anen_write.writeMultiAnEn(fileout, obs_map, anen, algorithm, test_times, search_times,
+                forecast_flts, forecast_parameters, forecast_stations, observations, overwrite);
+
         profiler.log_time_session("writing multivariate analogs");
         
     } else {
@@ -264,21 +249,10 @@ void runAnEnGrib(
          * If we are generating univariate analogs
          */
 
-        if (algorithm == "IS") {
-            
-            AnEnIS* anen_is = dynamic_cast<AnEnIS *> (anen);
-            anen_write.writeAnEn(fileout, *anen_is, test_times, search_times,
-                    forecast_flts, forecast_parameters, forecast_stations, overwrite);
-            
-        } else if (algorithm == "SSE") {
-            
-            AnEnSSE* anen_sse = dynamic_cast<AnEnSSE *> (anen);
-            anen_write.writeAnEn(fileout, *anen_sse, test_times, search_times,
-                    forecast_flts, forecast_parameters, forecast_stations, overwrite);
-            
-        } else {
-            throw runtime_error("The algorithm is not recognized");
-        }
+        anen_write.writeAnEn(fileout, anen, algorithm, test_times, search_times,
+                forecast_flts, forecast_parameters, forecast_stations, overwrite);
+
+        profiler.log_time_session("writing univariate analogs");
     }
 
 
@@ -288,9 +262,7 @@ void runAnEnGrib(
     if (save_tests) {
 
         // Create test forecasts
-        ForecastsPointer test_forecasts(
-                forecasts.getParameters(), forecasts.getStations(),
-                test_times, forecasts.getFLTs());
+        ForecastsPointer test_forecasts(forecasts.getParameters(), forecasts.getStations(), test_times, forecasts.getFLTs());
 
         // Copy subset values from original forecasts
         forecasts.subset(test_forecasts);
@@ -323,10 +295,7 @@ void runAnEnGrib(
         } else {
 
             // Create test observations
-            ObservationsPointer test_observations(
-                    observations.getParameters(),
-                    observations.getStations(),
-                    test_obs_times);
+            ObservationsPointer test_observations(observations.getParameters(), observations.getStations(), test_obs_times);
 
             // Copy subset values from original observations
             observations.subset(test_observations);
@@ -334,6 +303,8 @@ void runAnEnGrib(
             // Save subset observations
             anen_write.writeObservations(fileout, test_observations, false, true);
         }
+
+        profiler.log_time_session("writing forecasts and observations");
     }
 
     /*
@@ -341,7 +312,6 @@ void runAnEnGrib(
      */
     delete anen;
 
-    profiler.log_time_session("writing results");
     if (profile) profiler.summary(cout);
 
     return;

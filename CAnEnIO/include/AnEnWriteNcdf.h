@@ -33,7 +33,8 @@ public:
      * Write AnEn into to an NetCDF file
      * 
      * @param file The output file name
-     * @param anen The AnEn object to write
+     * @param anen The AnEn object to write. Or it can be a pointer to AnEn.
+     * @param algorithm The type to convert the pointer of AnEn to, either IS or SSE.
      * @param test_times The test times used to generate AnEn
      * @param search_times The search times used to generate AnEn
      * @param forecast_flts The lead times of AnEn forecasts
@@ -50,6 +51,10 @@ public:
             const Times & test_times, const Times & search_times,
             const Times & forecast_flts, const Parameters &, const Stations &,
             bool overwrite = false, bool append = false) const;
+    void writeAnEn(const std::string & file, const AnEn*, const std::string &,
+            const Times & test_times, const Times & search_times,
+            const Times & forecast_flts, const Parameters &, const Stations &,
+            bool overwrite = false, bool append = false) const;
 
     /**
      * Write AnEn into an NetCDF file. Multivariate analogs are generated
@@ -58,7 +63,8 @@ public:
      * @param obs_map An unordered map with variable names as the keys and the
      * corresponding observations ID as values. Variables names will be used 
      * in the output NetCDF file.
-     * @param anen The AnEn object to write
+     * @param anen The AnEn object to write. Or it can be a pointer to AnEn.
+     * @param algorithm The type to convert the pointer of AnEn to, either IS or SSE.
      * @param test_times The test times used to generate AnEn
      * @param search_times The search times used to generate AnEn
      * @param forecast_flts The lead times of AnEn forecasts
@@ -75,6 +81,12 @@ public:
             const Observations&, bool overwrite = false, bool append = false) const;
     void writeMultiAnEn(const std::string & file,
             const std::unordered_map<std::string, std::size_t> &, const AnEnSSE &,
+            const Times & test_times, const Times & search_times,
+            const Times & forecast_flts, const Parameters &, const Stations &,
+            const Observations&, bool overwrite = false, bool append = false) const;
+    void writeMultiAnEn(const std::string & file,
+            const std::unordered_map<std::string, std::size_t> &,
+            const AnEn*, const std::string & algorithm,
             const Times & test_times, const Times & search_times,
             const Times & forecast_flts, const Parameters &, const Stations &,
             const Observations&, bool overwrite = false, bool append = false) const;

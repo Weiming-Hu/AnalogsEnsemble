@@ -56,6 +56,38 @@ Profiler::log_time_session(const std::string& session_name) {
 }
 
 void
+Profiler::append_sessions(const Profiler & new_sessions) {
+    size_t num_sub_sessions = new_sessions.session_names_.size();
+
+    // If the input profiler does not log any sessions. By default, there is
+    // a start session in the profiler, so the minimum should be 2.
+    //
+    if (num_sub_sessions < 2) return;
+
+    for (size_t i = 1; i < num_sub_sessions; ++i) {
+        session_names_.push_back(string("  -- ") + new_sessions.session_names_[i]);
+        ptimes_.push_back(new_sessions.ptimes_[i]);
+        
+#if defined(_OPENMP)
+        wtimes_.push_back(new_sessions.wtimes_[i]);
+#endif
+
+#ifndef _UNKNOWN_OS_
+        peak_memory_.push_back(new_sessions.peak_memory_[i]);
+        current_memory_.push_back(new_sessions.current_memory_[i]);
+#endif
+    }
+
+    return;
+}
+
+void
+Profiler::operator+=(const Profiler & rhs) {
+    append_sessions(rhs);
+    return;
+}
+
+void
 Profiler::summary(std::ostream& os) const {
 
     // Sanity check
