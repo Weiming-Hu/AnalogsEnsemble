@@ -1,6 +1,7 @@
 # PAnEn 4.0.5
 
 - Added `AnEnMPI`
+- Improved `Profiler` and added more profiling information
 - Progress information will be displayed every 1%
 - Improved documentation
 

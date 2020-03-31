@@ -65,7 +65,7 @@ Profiler::append_sessions(const Profiler & new_sessions) {
     if (num_sub_sessions < 2) return;
 
     for (size_t i = 1; i < num_sub_sessions; ++i) {
-        session_names_.push_back(string("  -- ") + new_sessions.session_names_[i]);
+        session_names_.push_back(new_sessions.session_names_[i]);
         ptimes_.push_back(new_sessions.ptimes_[i]);
         
 #if defined(_OPENMP)
