@@ -30,6 +30,9 @@ FunctionsMPI::scatterObservations(const Observations & send, Observations & recv
     // Scatter array
     if (rank == 0) {
 
+        char err_buffer[MPI_MAX_ERROR_STRING];
+        int err_len;
+
         ObservationsPointer obs_sub;
 
         const Parameters & all_parameters = send.getParameters();
@@ -59,7 +62,12 @@ FunctionsMPI::scatterObservations(const Observations & send, Observations & recv
                 << worker_station_start << " count: " << worker_stations_count <<"] to worker #" << worker_rank << "..." << endl;
 
             double * data_ptr = obs_sub.getValuesPtr();
-            MPI_Send(data_ptr, obs_sub.num_elements(), MPI_DOUBLE, worker_rank, MPI_TAG_OBS, MPI_COMM_WORLD);
+            int err = MPI_Send(data_ptr, obs_sub.num_elements(), MPI_DOUBLE, worker_rank, MPI_TAG_OBS, MPI_COMM_WORLD);
+
+            if (err != MPI_SUCCESS) {
+                MPI_Error_string(err, err_buffer, &err_len);
+                throw runtime_error(string("Master failed to send observation data to worker #") + to_string(worker_rank) + string(". MPI error: ") + string(err_buffer));
+            }
         }
     } else {
 
@@ -79,10 +87,7 @@ FunctionsMPI::scatterObservations(const Observations & send, Observations & recv
         if (count == 0) throw runtime_error("(FunctionsMPI::scatterObservations) A worker process is receiving array data without allocating memory");
 
         double *data_ptr = recv.getValuesPtr();
-        MPI_Status status;
-
-        MPI_Recv(data_ptr, count, MPI_DOUBLE, 0, MPI_TAG_OBS, MPI_COMM_WORLD, &status);
-        if (status.MPI_ERROR != MPI_SUCCESS) throw runtime_error("Failed to receive some observation data from the master");
+        MPI_Recv(data_ptr, count, MPI_DOUBLE, 0, MPI_TAG_OBS, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
     }
 
     return;
@@ -214,6 +219,9 @@ FunctionsMPI::scatterArray(const Array4D & send, Array4D & recv, int num_procs, 
     if (rank == 0) {
         Array4DPointer array_subset;
 
+        char err_buffer[MPI_MAX_ERROR_STRING];
+        int err_len;
+
         size_t num_total_stations = send.shape()[1];
 
         vector<size_t> all_parameters(send.shape()[0]);
@@ -244,7 +252,12 @@ FunctionsMPI::scatterArray(const Array4D & send, Array4D & recv, int num_procs, 
                 << worker_station_start << " count: " << worker_stations_count << "] to worker #" << worker_rank << "..." << endl;
 
             double *data_ptr = array_subset.getValuesPtr();
-            MPI_Send(data_ptr, array_subset.num_elements(), MPI_DOUBLE, worker_rank, MPI_TAG_ARR, MPI_COMM_WORLD);
+            int err = MPI_Send(data_ptr, array_subset.num_elements(), MPI_DOUBLE, worker_rank, MPI_TAG_ARR, MPI_COMM_WORLD);
+
+            if (err != MPI_SUCCESS) {
+                MPI_Error_string(err, err_buffer, &err_len);
+                throw runtime_error(string("Master failed to send array data to worker #") + to_string(worker_rank) + string(". MPI error: ") + string(err_buffer));
+            }
         }
     } else {
 
@@ -253,12 +266,8 @@ FunctionsMPI::scatterArray(const Array4D & send, Array4D & recv, int num_procs, 
         if (count == 0) throw runtime_error("(FunctionsMPI::scatterArray) A worker process is receiving array data without allocating memory");
 
         double *data_ptr = recv.getValuesPtr();
-        MPI_Status status;
-
         if (verbose >= Verbose::Debug) cout << "Worker #" << rank << " waiting for array data from master ..." << endl;
-        MPI_Recv(data_ptr, count, MPI_DOUBLE, 0, MPI_TAG_ARR, MPI_COMM_WORLD, &status);
-
-        if (status.MPI_ERROR != MPI_SUCCESS) throw runtime_error("Failed to receive some array data from the master");
+        MPI_Recv(data_ptr, count, MPI_DOUBLE, 0, MPI_TAG_ARR, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
         if (verbose >= Verbose::Debug) cout << "Worker #" << rank << " received array data from master: " << Functions::format(data_ptr, count) << endl;
     }
 
@@ -348,11 +357,7 @@ FunctionsMPI::gatherArray(Array4D & arr, int station_dim_index, int num_procs, i
 
             // Receive data from worker process
             double *data_ptr = new double[subset_values_count];
-            MPI_Status status;
-
-            MPI_Recv(data_ptr, subset_values_count, MPI_DOUBLE, worker_rank, MPI_TAG_ARR, MPI_COMM_WORLD, &status);
-            if (status.MPI_ERROR != MPI_SUCCESS) throw runtime_error("Failed to receive some array data from workers");
-
+            MPI_Recv(data_ptr, subset_values_count, MPI_DOUBLE, worker_rank, MPI_TAG_ARR, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
             if (verbose >= Verbose::Debug) cout << "Master received (" << Functions::format(subset_dim)
                 << ") array values from worker #" << worker_rank << " starting from station " << worker_station_start << ": "
                     << Functions::format(data_ptr, subset_values_count) << endl;
@@ -370,13 +375,21 @@ FunctionsMPI::gatherArray(Array4D & arr, int station_dim_index, int num_procs, i
     } else {
 
         // I'm the worker process. I send data to the master.
+        char err_buffer[MPI_MAX_ERROR_STRING];
+        int err_len;
+
         double * data_ptr = arr.getValuesPtr();
 
         // I need to make sure no numeric overflow when narrowing a size_t to an int
         int count = boost::numeric_cast<int>(arr.num_elements());
 
         if (verbose >= Verbose::Debug) cout << "Worker #" << rank << " sending " << count << " array values to master ..." << endl;
-        MPI_Send(data_ptr, count, MPI_DOUBLE, 0, MPI_TAG_ARR, MPI_COMM_WORLD);
+        int err = MPI_Send(data_ptr, count, MPI_DOUBLE, 0, MPI_TAG_ARR, MPI_COMM_WORLD);
+
+        if (err != MPI_SUCCESS) {
+            MPI_Error_string(err, err_buffer, &err_len);
+            throw runtime_error(string("Failed to send data to master from worker #") + to_string(rank) + string(". MPI error: ") + string(err_buffer));
+        }
     }
 
     return;
