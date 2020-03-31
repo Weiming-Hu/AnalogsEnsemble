@@ -73,13 +73,7 @@ void runGribConvert(
             regex_str, unit_in_seconds, delimited, stations_index);
 
 #if defined(_USE_MPI_EXTENSION)
-    // Terminate the process if this is not a master process.
-    // Subsequent parallelization is done with multi-threading.
-    //
-    if (world_rank != 0) {
-        MPI_Finalize();
-        exit(0);
-    }
+    if (world_rank != 0) return;
 #endif
 
     if (convert_wind) forecasts.windTransform(u_name, v_name, spd_name, dir_name);

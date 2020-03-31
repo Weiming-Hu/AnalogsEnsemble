@@ -129,9 +129,11 @@ AnEnISMPI::compute(const Forecasts & forecasts, const Observations & observation
 #endif
     }
 
+    MPI_Barrier(MPI_COMM_WORLD);
+    profiler_.log_time_session("Master waiting for analog computation (AnEnISMPI)");
+
     // Collect members in AnEnIS
     if (world_rank == 0 && verbose_ >= Verbose::Detail) {
-        profiler_.log_time_session("Master waiting for analog computation (AnEnISMPI)");
         cout << "Master process is receiving analog results from workers ..." << endl;
     }
     gather_(num_procs, world_rank);

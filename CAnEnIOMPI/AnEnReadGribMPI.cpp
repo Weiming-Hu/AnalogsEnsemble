@@ -15,6 +15,11 @@
 
 using namespace std;
 
+static const int MPI_TAG_START = 0;
+static const int MPI_TAG_TOTAL = 1;
+static const int MPI_TAG_ELEMENTS = 2;
+static const int MPI_TAG_FCSTS = 3;
+
 AnEnReadGribMPI::AnEnReadGribMPI() {
     Config config;
     worker_verbose_ = config.worker_verbose;
@@ -152,8 +157,14 @@ AnEnReadGribMPI::readForecasts(Forecasts & forecasts,
         for (int process_i = 1; process_i < num_procs; ++process_i) {
 
             // Determine what are the files that this particular process is reading from
-            MPI_Recv(&file_start_index, 1, MPI_INT, process_i, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-            MPI_Recv(&total_files, 1, MPI_INT, process_i, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Status status;
+
+            MPI_Recv(&file_start_index, 1, MPI_INT, process_i, MPI_TAG_START, MPI_COMM_WORLD, &status);
+            if (status.MPI_ERROR != MPI_SUCCESS) throw runtime_error("The master failed to receive file_start_index");
+
+            MPI_Recv(&total_files, 1, MPI_INT, process_i, MPI_TAG_TOTAL, MPI_COMM_WORLD, &status);
+            if (status.MPI_ERROR != MPI_SUCCESS) throw runtime_error("The master failed to receive total_files");
+
             vector<string> files_subset(files.begin() + file_start_index, files.begin() + file_start_index + total_files);
 
             // Translate these filenames to times and flts that the process is responsible of reading
@@ -164,13 +175,15 @@ AnEnReadGribMPI::readForecasts(Forecasts & forecasts,
             size_t num_proc_times = proc_times.size();
 
             // Get the number of data values from the particular process
-            MPI_Recv(&num_process_elements, 1, MPI_UNSIGNED_LONG, process_i, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(&num_process_elements, 1, MPI_UNSIGNED_LONG, process_i, MPI_TAG_ELEMENTS, MPI_COMM_WORLD, &status);
+            if (status.MPI_ERROR != MPI_SUCCESS) throw runtime_error("The master failed to receive num_process_elements");
 
             // Allocate memory
             p_value = new double[num_process_elements];
 
             // Get the data values from the particular process
-            MPI_Recv(p_value, num_process_elements, MPI_DOUBLE, process_i, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(p_value, num_process_elements, MPI_DOUBLE, process_i, MPI_TAG_FCSTS, MPI_COMM_WORLD, &status);
+            if (status.MPI_ERROR != MPI_SUCCESS) throw runtime_error("The master failed to receive forecast values");
 
             if (verbose_ >= Verbose::Debug) cout << "From process #" << process_i 
                 << " total values: " << Functions::format(p_value, num_process_elements, ",", num_process_elements) << endl;
@@ -222,8 +235,7 @@ AnEnReadGribMPI::readForecasts(Forecasts & forecasts,
             // Housekeeping
             delete [] p_value;
 
-            if (verbose_ >= Verbose::Detail) cout << "Collected data from the worker process #"
-                    << process_i << "/" << num_workers << " ..." << endl;
+            if (verbose_ >= Verbose::Detail) cout << "Collected data from the worker process #" << process_i << "/" << num_workers << " ..." << endl;
         }
 
         if (verbose_ >= Verbose::Detail) cout << "Forecasts have been received from all worker processes." << endl;
@@ -250,17 +262,17 @@ AnEnReadGribMPI::readForecasts(Forecasts & forecasts,
         if (worker_verbose_ >= Verbose::Debug) cout << "From process #" << world_rank << " forecasts:" << forecasts_subset << endl;
 
         // Send the start and count for file names
-        MPI_Send(&file_start_index, 1, MPI_INT, 0, 0, MPI_COMM_WORLD);
-        MPI_Send(&total_files, 1, MPI_INT, 0, 0, MPI_COMM_WORLD);
+        MPI_Send(&file_start_index, 1, MPI_INT, 0, MPI_TAG_START, MPI_COMM_WORLD);
+        MPI_Send(&total_files, 1, MPI_INT, 0, MPI_TAG_TOTAL, MPI_COMM_WORLD);
 
         // Send the number of elements
         unsigned long num_elements = forecasts_subset.num_elements();
-        MPI_Send(&num_elements, 1, MPI_UNSIGNED_LONG, 0, 0, MPI_COMM_WORLD);
+        MPI_Send(&num_elements, 1, MPI_UNSIGNED_LONG, 0, MPI_TAG_ELEMENTS, MPI_COMM_WORLD);
 
         // Send the forecast values
-        MPI_Send(forecasts_subset.getValuesPtr(), forecasts_subset.num_elements(), MPI_DOUBLE, 0, 0, MPI_COMM_WORLD);
+        MPI_Send(forecasts_subset.getValuesPtr(), forecasts_subset.num_elements(), MPI_DOUBLE, 0, MPI_TAG_FCSTS, MPI_COMM_WORLD);
 
-        if (worker_verbose_ >= Verbose::Detail) cout << "Worker process #" << world_rank << " completed" << endl;
+        if (worker_verbose_ >= Verbose::Detail) cout << "Worker process #" << world_rank << " finished all reading." << endl;
     }
 
     return;
