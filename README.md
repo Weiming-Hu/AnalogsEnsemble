@@ -156,6 +156,7 @@ Here are also some tips and caveats in [this ticket](https://github.com/Weiming-
 - [Cervone, Guido, et al. "Short-term photovoltaic power forecasting using Artificial Neural Networks and an Analog Ensemble." Renewable energy 108 (2017): 274-286.](https://www.sciencedirect.com/science/article/pii/S0960148117301386)
 - [Junk, Constantin, et al. "Predictor-weighting strategies for probabilistic wind power forecasting with an analog ensemble." Meteorol. Z 24.4 (2015): 361-379.](https://www.researchgate.net/profile/Constantin_Junk/publication/274951815_Predictor-weighting_strategies_for_probabilistic_wind_power_forecasting_with_an_analog_ensemble/links/552cd5710cf29b22c9c47260.pdf)
 - [Balasubramanian, Vivek, et al. "Harnessing the power of many: Extensible toolkit for scalable ensemble applications." 2018 IEEE International Parallel and Distributed Processing Symposium (IPDPS). IEEE, 2018.](https://ieeexplore.ieee.org/abstract/document/8425207)
+- [Hu, Weiming, and Guido Cervone. "Dynamically Optimized Unstructured Grid (DOUG) for Analog Ensemble of numerical weather predictions using evolutionary algorithms." Computers & Geosciences 133 (2019): 104299.](https://www.sciencedirect.com/science/article/pii/S0098300418306678)
 
 ## Feedbacks
 
