@@ -99,11 +99,11 @@ add_subdirectory(CAnEn)
 add_subdirectory(CAnEnIO)
 
 if(ENABLE_MPI)
-    message(STATUS "
+    if(ENABLE_OPENMP)
+        message(STATUS "
 ***************************************************************
 
-You enabling the MPI extension for AnEn and AnEnIO,
-and mpi programs will be built.
+You have both ENABLE_MPI and ENABLE_OPENMP ON.
 
 Please be aware that this makes the AnEn programs
 hybrid of MPI (multi-node) and OpenMP (multi-thread).
@@ -111,14 +111,20 @@ hybrid of MPI (multi-node) and OpenMP (multi-thread).
 Please check with your individual HPC platform to ensure
 the correct configuration to launch a hybrid MPI+OpenMP program.
 
+Programs MIGHT HANG when you are not launching the program properly
+or if you are overtasking the machine.
+
 Please refer to the README for suggestions and more information.
 https://weiming-hu.github.io/AnalogsEnsemble/doc#mpi-openmp
 
 ***************************************************************
-")
+        ")
+    endif(ENABLE_OPENMP)
+
     list(APPEND SUBPROJECT_TARGETS "AnEnIOMPI" "AnEnMPI")
     add_subdirectory(CAnEnIOMPI)
     add_subdirectory(CAnEnMPI)
+
 endif(ENABLE_MPI)
 
 # Add applications as subprojects

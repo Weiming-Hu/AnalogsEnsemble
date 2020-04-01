@@ -55,14 +55,6 @@ void runGribConvert(
     int world_rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
 
-    if (world_rank == 0) {
-#endif
-        if (verbose >= Verbose::Detail) {
-            cout << "The master process will create " << Functions::getAvailableThreads() << " threads during multi-thread parallelization" << endl;
-        }
-#if defined(_USE_MPI_EXTENSION)
-    }
-
     AnEnReadGribMPI anen_read(verbose, worker_verbose);
 #else
     AnEnReadGrib anen_read(verbose);
