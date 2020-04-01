@@ -39,6 +39,14 @@ public:
 
 private:
     void gather_(int num_procs, int rank);
+
+    /**
+     * Overloads AnEnIS::computeSds_ so that master process does not compute
+     * any standard deviation. Only worker processes compute standard deviation.
+     */
+    virtual void computeSds_(const Forecasts & forecasts,
+            const std::vector<std::size_t> & times_fixed_index,
+            const std::vector<std::size_t> & times_accum_index = {}) override;
 };
 
 #endif /* AnEnISMPI_H */

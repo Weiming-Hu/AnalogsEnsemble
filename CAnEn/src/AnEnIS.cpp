@@ -492,13 +492,13 @@ AnEnIS::preprocess_(const Forecasts & forecasts,
     /*
      * Pre-allocate memory for analog computation
      */
-    allocate_memory_(forecasts, fcsts_test_index, fcsts_search_index);
+    allocateMemory_(forecasts, fcsts_test_index, fcsts_search_index);
 
     return;
 }
 
 void
-AnEnIS::allocate_memory_(const Forecasts & forecasts,
+AnEnIS::allocateMemory_(const Forecasts & forecasts,
         const vector<size_t> & fcsts_test_index, const vector<size_t> & fcsts_search_index) {
 
     if (verbose_ >= Verbose::Progress) cout << "Allocating memory ..." << endl;
@@ -651,6 +651,23 @@ AnEnIS::computeSimMetric_(const Forecasts & forecasts,
 }
 
 void
+AnEnIS::allocateSds_(const Forecasts & forecasts,
+        const vector<size_t> & times_fixed_index,
+        const vector<size_t> & times_accum_index) {
+
+    size_t num_times = (operation_ ? times_accum_index.size() : _SINGLE_LEN);
+    size_t num_parameters = forecasts.getParameters().size();
+    size_t num_stations = forecasts.getStations().size();
+    size_t num_flts = forecasts.getFLTs().size();
+
+    // Pre-allocate memory for calculation
+    sds_.resize(num_parameters, num_stations, num_flts, num_times);
+    sds_.initialize(NAN);
+
+    return;
+}
+
+void
 AnEnIS::computeSds_(const Forecasts & forecasts,
         const vector<size_t> & times_fixed_index,
         const vector<size_t> & times_accum_index) {
@@ -659,10 +676,13 @@ AnEnIS::computeSds_(const Forecasts & forecasts,
         cout << "Computing standard deviation ..." << endl;
     }
 
-    size_t num_times = (operation_ ? times_accum_index.size() : _SINGLE_LEN);
-    size_t num_parameters = forecasts.getParameters().size();
-    size_t num_stations = forecasts.getStations().size();
-    size_t num_flts = forecasts.getFLTs().size();
+    allocateSds_(forecasts, times_fixed_index, times_accum_index);
+
+    size_t num_parameters = sds_.shape()[0];
+    size_t num_stations = sds_.shape()[1];
+    size_t num_flts = sds_.shape()[2];
+    size_t num_times = sds_.shape()[3];
+
     size_t calculator_capacity = times_fixed_index.size();
 
     if (operation_) {
@@ -672,10 +692,6 @@ AnEnIS::computeSds_(const Forecasts & forecasts,
 
     vector<bool> circulars;
     forecasts.getParameters().getCirculars(circulars);
-
-    // Pre-allocate memory for calculation
-    sds_.resize(num_parameters, num_stations, num_flts, num_times);
-    sds_.initialize(NAN);
 
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(dynamic) collapse(3) \

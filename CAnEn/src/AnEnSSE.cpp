@@ -300,11 +300,11 @@ AnEnSSE::preprocess_(const Forecasts & forecasts,
 }
 
 void
-AnEnSSE::allocate_memory_(const Forecasts & forecasts,
+AnEnSSE::allocateMemory_(const Forecasts & forecasts,
         const vector<size_t> & fcsts_test_index, const vector<size_t> & fcsts_search_index) {
 
     // Do everything that the parent class should be doing
-    AnEnIS::allocate_memory_(forecasts, fcsts_test_index, fcsts_search_index);
+    AnEnIS::allocateMemory_(forecasts, fcsts_test_index, fcsts_search_index);
 
     // Allocate memory for AnEnSSE
     if (save_sims_station_index_) {

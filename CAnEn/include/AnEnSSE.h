@@ -103,7 +103,7 @@ protected:
             std::vector<std::size_t> & fcsts_test_index,
             std::vector<std::size_t> & fcsts_search_index) override;
     
-    virtual void allocate_memory_(const Forecasts & forecasts,
+    virtual void allocateMemory_(const Forecasts & forecasts,
             const std::vector<std::size_t> & fcsts_test_index,
             const std::vector<std::size_t> & fcsts_search_index) override;
 

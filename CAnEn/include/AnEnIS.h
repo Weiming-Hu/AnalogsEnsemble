@@ -147,7 +147,7 @@ protected:
             std::vector<std::size_t> & fcsts_test_index,
             std::vector<std::size_t> & fcsts_search_index);
     
-    virtual void allocate_memory_(const Forecasts & forecasts,
+    virtual void allocateMemory_(const Forecasts & forecasts,
             const std::vector<std::size_t> & fcsts_test_index,
             const std::vector<std::size_t> & fcsts_search_index);
 
@@ -168,6 +168,9 @@ protected:
             std::size_t flt_i, std::size_t time_test_i, std::size_t time_search_i,
             const std::vector<bool> & circulars);
 
+    virtual void allocateSds_(const Forecasts & forecasts,
+            const std::vector<std::size_t> & times_fixed_index,
+            const std::vector<std::size_t> & times_accum_index = {});
     virtual void computeSds_(const Forecasts & forecasts,
             const std::vector<std::size_t> & times_fixed_index,
             const std::vector<std::size_t> & times_accum_index = {});

@@ -160,3 +160,20 @@ AnEnISMPI::gather_(int num_procs, int rank) {
     return;
 }
 
+void
+AnEnISMPI::computeSds_(const Forecasts & forecasts, const vector<size_t> & times_fixed_index, const vector<size_t> & times_accum_index) {
+
+    // Get the process ID and the number of worker processes
+    int world_rank;
+    MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
+
+    if (world_rank == 0) {
+        if (verbose_ >= Verbose::Detail) cout << "Master process only allocate memory for standard deviation ..." << endl;
+        AnEnIS::allocateSds_(forecasts, times_fixed_index, times_accum_index);
+    } else {
+        AnEnIS::computeSds_(forecasts, times_fixed_index, times_accum_index);
+    }
+
+    return;
+}
+
