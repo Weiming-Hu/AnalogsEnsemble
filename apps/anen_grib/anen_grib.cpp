@@ -102,14 +102,6 @@ void runAnEnGrib(
     int world_rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
 
-    if (world_rank == 0) {
-#endif
-        if (config.verbose >= Verbose::Detail) {
-            cout << "The master process will create " << Functions::getAvailableThreads() << " threads during multi-thread parallelization" << endl;
-        }
-#if defined(_USE_MPI_EXTENSION)
-    }
-
     AnEnReadGribMPI anen_read(config.verbose, config.worker_verbose);
 #else
     AnEnReadGrib anen_read(config.verbose);
@@ -139,13 +131,19 @@ void runAnEnGrib(
 
         // Convert wind parameters if necessary
         if (convert_wind) {
+            if (config.verbose >= Verbose::Progress) cout << "Converting wind U/V to wind speed/direction ..." << endl;
+
             forecasts.windTransform(u_name, v_name, spd_name, dir_name);
             analysis.windTransform(u_name, v_name, spd_name, dir_name);
+
+            profiler.log_time_session("calculating wind speed/direction");
         }
 
         // Convert analysis to observations
-        if (config.verbose >= Verbose::Progress) cout << "Collapsing forecast analysis ..." << endl;
+        if (config.verbose >= Verbose::Progress) cout << "Collapsing analysis forecast times and lead times ..." << endl;
         Functions::collapseLeadTimes(observations, analysis);
+
+        profiler.log_time_session("reformatting analysis");
 
         // Convert string date times to Times objects
         const Times & forecast_times = forecasts.getTimes();
@@ -153,10 +151,11 @@ void runAnEnGrib(
         forecast_times(test_start, test_end, test_times);
         forecast_times(search_start, search_end, search_times);
 
+        profiler.log_time_session("extracting test/search times");
+
 #if defined(_USE_MPI_EXTENSION)
     }
 #endif
-    profiler.log_time_session("preprocessing forecasts and observations");
 
 
     /**************************************************************************
@@ -173,7 +172,7 @@ void runAnEnGrib(
         config.obs_var_index = obs_id[0];
     } else {
         // We have multiple observations ID. We are generating multivariate analogs.
-        if (config.verbose >= Verbose::Progress) cout << "Configuring multivariate analogs ..." << endl;
+        if (config.verbose >= Verbose::Progress) cout << "Multi-analogs functionality ON" << endl;
 
         config.save_analogs = false;
         config.save_analogs_time_index = true;
