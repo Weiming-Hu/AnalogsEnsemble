@@ -58,21 +58,6 @@ struct time_arr_compare {
     }
 };
 
-int
-Functions::getAvailableThreads() {
-
-    int num_threads = 1;
-
-#if defined(_OPENMP)
-#pragma omp parallel 
-    {
-        if (omp_get_thread_num() == 0) num_threads = omp_get_num_threads();
-    }
-#endif
-
-    return num_threads;
-}
-
 void
 Functions::createObsMap(unordered_map<string, size_t> & map,
         const vector<size_t> & id, const Parameters & parameters) {
