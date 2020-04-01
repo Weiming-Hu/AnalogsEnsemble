@@ -76,7 +76,7 @@ Inheritance diagram for Observations:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_observations__inherit__graph.png" border="0" usemap="#_observations_inherit__map" alt="Inheritance graph"/></div>
 <map name="_observations_inherit__map" id="_observations_inherit__map">
-<area shape="rect" id="node3" href="class_observations_pointer.html" title="ObservationsPointer is an implementation of the abstract class Observations. The underlying storage u..." alt="" coords="5,667,173,1037"/>
+<area shape="rect" id="node3" href="class_observations_pointer.html" title="ObservationsPointer is an implementation of the abstract class Observations. The underlying storage u..." alt="" coords="5,681,173,1081"/>
 <area shape="rect" id="node2" href="class_basic_data.html" title="BasicData is an implementation of the data structure used by Analog Ensemble. It includes parameters..." alt="" coords="26,5,153,317"/>
 </map>
 </div>
@@ -118,6 +118,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a6f00b4a2277ce9e77cd0d5975f4066f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a64d2cd796350685bf28739d4fca990d2"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#a64d2cd796350685bf28739d4fca990d2">subset</a> (<a class="el" href="class_observations.html">Observations</a> &amp;) const =0</td></tr>
 <tr class="separator:a64d2cd796350685bf28739d4fca990d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a51b57fde9d74a4bc65269e75c27879b7"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#a51b57fde9d74a4bc65269e75c27879b7">subset</a> (const <a class="el" href="class_parameters.html">Parameters</a> &amp;, const <a class="el" href="class_stations.html">Stations</a> &amp;, const <a class="el" href="class_times.html">Times</a> &amp;, <a class="el" href="class_observations.html">Observations</a> &amp;) const =0</td></tr>
+<tr class="separator:a51b57fde9d74a4bc65269e75c27879b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a523647c5ae644959f0ed583cd7b11aba"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_observations.html#a523647c5ae644959f0ed583cd7b11aba">print</a> (std::ostream &amp;) const</td></tr>
 <tr class="separator:a523647c5ae644959f0ed583cd7b11aba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class_basic_data"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_basic_data')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_basic_data.html">BasicData</a></td></tr>
@@ -560,7 +562,7 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <a id="a64d2cd796350685bf28739d4fca990d2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a64d2cd796350685bf28739d4fca990d2">&#9670;&nbsp;</a></span>subset()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a64d2cd796350685bf28739d4fca990d2">&#9670;&nbsp;</a></span>subset() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -582,8 +584,60 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Subset <a class="el" href="class_observations.html" title="Observations is an abstract class that extends BasicData. It defines the interface of how to interact...">Observations</a>. Dimensions to be extracted are determined from the function input <a class="el" href="class_observations.html" title="Observations is an abstract class that extends BasicData. It defines the interface of how to interact...">Observations</a>. The input <a class="el" href="class_observations.html" title="Observations is an abstract class that extends BasicData. It defines the interface of how to interact...">Observations</a> should have already allocated enough memory by calling setDimensions prior to this function call. </p>
 
 <p>Implemented in <a class="el" href="class_observations_pointer.html#a4ccfcf016b9ddeb7a03da194ad7f4977">ObservationsPointer</a>.</p>
+
+</div>
+</div>
+<a id="a51b57fde9d74a4bc65269e75c27879b7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a51b57fde9d74a4bc65269e75c27879b7">&#9670;&nbsp;</a></span>subset() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void Observations::subset </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_parameters.html">Parameters</a> &amp;&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="class_stations.html">Stations</a> &amp;&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="class_times.html">Times</a> &amp;&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_observations.html">Observations</a> &amp;&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Subset <a class="el" href="class_observations.html" title="Observations is an abstract class that extends BasicData. It defines the interface of how to interact...">Observations</a>. Dimensions are specified by the input arguments. The input <a class="el" href="class_observations.html" title="Observations is an abstract class that extends BasicData. It defines the interface of how to interact...">Observations</a> should be an empty <a class="el" href="class_observations.html" title="Observations is an abstract class that extends BasicData. It defines the interface of how to interact...">Observations</a> that will hold all subset information and values at the end of this function call. </p>
+
+<p>Implemented in <a class="el" href="class_observations_pointer.html#ae5dc3c1f1840a053e804063bae87fcc8">ObservationsPointer</a>.</p>
 
 </div>
 </div>

@@ -6,6 +6,7 @@ var searchData=
   ['num_5fnearest',['num_nearest',['../class_config.html#ab289958fb6ca3c773ec01b0fc31b92a5',1,'Config']]],
   ['num_5fnearest_5f',['num_nearest_',['../class_an_en_s_s_e.html#a49f004e052a2d016c189a72f3a672cc9',1,'AnEnSSE']]],
   ['num_5fproc',['num_proc',['../classtest_an_en_i_o_m_p_i.html#a5bdc7c08ae4b303af04fad2482525188',1,'testAnEnIOMPI']]],
+  ['num_5fprocs',['num_procs',['../classtest_an_en_m_p_i.html#a7873ac6f48a1b799a5f189d3cdef56c4',1,'testAnEnMPI']]],
   ['num_5fsims',['num_sims',['../class_config.html#a65db5f698a193c22aba120accbc65bd3',1,'Config']]],
   ['num_5fsims_5f',['num_sims_',['../class_an_en_i_s.html#a92924fb893ef652b66758e7ef456998c',1,'AnEnIS']]]
 ];

@@ -77,7 +77,7 @@ Inheritance diagram for Forecasts:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_forecasts__inherit__graph.png" border="0" usemap="#_forecasts_inherit__map" alt="Inheritance graph"/></div>
 <map name="_forecasts_inherit__map" id="_forecasts_inherit__map">
-<area shape="rect" id="node4" href="class_forecasts_pointer.html" title="ForecastsPointer is an implementation of the abstract class Forecasts. It also inherits from Array4DP..." alt="" coords="65,667,222,891"/>
+<area shape="rect" id="node4" href="class_forecasts_pointer.html" title="ForecastsPointer is an implementation of the abstract class Forecasts. It also inherits from Array4DP..." alt="" coords="65,681,222,935"/>
 <area shape="rect" id="node2" href="class_array4_d.html" title="Array4D is an abstract class for 4&#45;dimensional array. " alt="" coords="5,27,132,295"/>
 <area shape="rect" id="node3" href="class_basic_data.html" title="BasicData is an implementation of the data structure used by Analog Ensemble. It includes parameters..." alt="" coords="156,5,283,317"/>
 </map>
@@ -111,6 +111,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a73259c4190431708d673121ed501f6c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2817f0616190b42f164cf22495ef2f63"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_forecasts.html#a2817f0616190b42f164cf22495ef2f63">subset</a> (<a class="el" href="class_forecasts.html">Forecasts</a> &amp;forecasts_subset) const =0</td></tr>
 <tr class="separator:a2817f0616190b42f164cf22495ef2f63"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad1607067085399b4ac7c7b9da4929615"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_forecasts.html#ad1607067085399b4ac7c7b9da4929615">subset</a> (const <a class="el" href="class_parameters.html">Parameters</a> &amp;, const <a class="el" href="class_stations.html">Stations</a> &amp;, const <a class="el" href="class_times.html">Times</a> &amp;, const <a class="el" href="class_times.html">Times</a> &amp;, <a class="el" href="class_forecasts.html">Forecasts</a> &amp;) const =0</td></tr>
+<tr class="separator:ad1607067085399b4ac7c7b9da4929615"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2d0958b9ea8bdd443a7c6ee86fd6e70e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_times.html">Times</a> const  &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_forecasts.html#a2d0958b9ea8bdd443a7c6ee86fd6e70e">getFLTs</a> () const</td></tr>
 <tr class="separator:a2d0958b9ea8bdd443a7c6ee86fd6e70e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae64ba9450332e8de204adeecbaf49fd6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_times.html">Times</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_forecasts.html#ae64ba9450332e8de204adeecbaf49fd6">getFLTs</a> ()</td></tr>
@@ -479,7 +481,7 @@ Friends</h2></td></tr>
 </div>
 </div>
 <a id="a2817f0616190b42f164cf22495ef2f63"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2817f0616190b42f164cf22495ef2f63">&#9670;&nbsp;</a></span>subset()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a2817f0616190b42f164cf22495ef2f63">&#9670;&nbsp;</a></span>subset() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -503,6 +505,62 @@ Friends</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Implemented in <a class="el" href="class_forecasts_pointer.html#ad0905abb0741373aef5c72d4109db5f7">ForecastsPointer</a>.</p>
+
+</div>
+</div>
+<a id="ad1607067085399b4ac7c7b9da4929615"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad1607067085399b4ac7c7b9da4929615">&#9670;&nbsp;</a></span>subset() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void Forecasts::subset </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_parameters.html">Parameters</a> &amp;&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="class_stations.html">Stations</a> &amp;&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="class_times.html">Times</a> &amp;&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="class_times.html">Times</a> &amp;&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_forecasts.html">Forecasts</a> &amp;&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="class_forecasts_pointer.html#ae14e305de344be9756c0af2b44c6b88a">ForecastsPointer</a>.</p>
 
 </div>
 </div>

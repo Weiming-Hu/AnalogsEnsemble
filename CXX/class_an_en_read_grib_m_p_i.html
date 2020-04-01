@@ -296,7 +296,7 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Read grib files in parallel. This function has the same signature as <a class="el" href="class_an_en_read_grib.html#ac0e0dfefed3d60fa4b4e33cc6a0c204b">AnEnReadGrib::readForecasts</a>.</p>
-<p>Please note that, it is assumed that the executable is launched with MPI launcher program, e.g. mpirun, with multiple processes. This function assign different tasks to different processes based on the process ID, but this function DOES NOT terminate any process. The developer is responsible to terminate any processes in the main function.</p>
+<p>Please note that, it is assumed that the executable is launched with MPI launcher program, e.g. mpirun or mpiexec, with multiple processes. This function assign different tasks to different processes based on the process ID, but this function DOES NOT terminate any process. The developer is responsible to terminate any processes in the main function.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">forecasts</td><td><a class="el" href="class_forecasts.html" title="Forecasts is an abstract class that extends BasicData and the abstract class Array4D. It defines the interface of how to interact with the underlying data storage through the abstract class Array4D. This interface is accepted by the Analog Ensemble algorithm. ">Forecasts</a> </td></tr>

@@ -120,17 +120,28 @@ You can change the default of the parameters, for example, `cmake -DCMAKE_INSTAL
 
 [Here](https://github.com/Weiming-Hu/AnalogsEnsemble/issues/86) is a list of instructions to build and install `AnEn` on supercomputers. 
 
+
 ### MPI and OpenMP 
 
-When `ENABLE_MPI` is turned on, MPI programs will be built and available. These MPI programs are hybrid programs that use both MPI and OpenMP. Please check with your individual supercomputer platform to find out **what the proper configuration for launching an MPI + OpenMP hybrid program is**.
+```
+TL;DR
 
-For example, on [NCAR Cheyenne](https://www2.cisl.ucar.edu/resources/computational-systems/cheyenne), the proper way to launch a hybrid program can be found [here](https://www2.cisl.ucar.edu/resources/computational-systems/cheyenne/running-jobs/pbs-pro-job-script-examples). If you use `mpirun`, instead of `mpiexec_mpt`, you will loose the multi-threading performance improvement.
+Lauching an MPI-OpenMP hybrid program can be tricky. If the performance with only single-threaded MPI is acceptable, disable OpenMP (`cmake -DENABLE_OPENMP=OFF ..`). If the hybrid solution is desired, make sure you have the proper setup.
+```
 
-To dive deeper into the hybrid parallelization design, MPI is used during the file I/O process and OpenMP is used during the analog computing process. 
+When `ENABLE_MPI` is turned on, MPI programs will be built. These MPI programs are hybrid programs (unless you set `-DENABLE_OPENMP=OFF` for `cmake`) that use both MPI and OpenMP. Please check with your individual supercomputer platform to find out **what the proper configuration for launching an MPI + OpenMP hybrid program is**. Users are responsible not to launch too many process and threads at the same time which would overtask the machine and might lead to hanging problems (as what I have seen on [XSEDE Stampede2](https://portal.tacc.utexas.edu/user-guides/stampede2)).
+
+On [NCAR Cheyenne](https://www2.cisl.ucar.edu/resources/computational-systems/cheyenne), the proper way to launch a hybrid program can be found [here](https://www2.cisl.ucar.edu/resources/computational-systems/cheyenne/running-jobs/pbs-pro-job-script-examples). If you use `mpirun`, instead of `mpiexec_mpt`, you will loose the multi-threading performance improvement.
+
+To dive deeper into the hybrid parallelization design, MPI is used for computationally expensive portions of the code, e.g. file I/O and analog generation while OpenMP is used by the master process during bottleneck portion of the code, e.g. data reshaping and information queries.
 
 When analogs with a long search and test periods are desired, MPI is used to distribute forecast files across processes. Each process reads a subset of the forecast files. This solves the problem where serial I/O can be very slow.
 
-After the file I/O, all other processes are terminated except for the master process, which will then enter the multi-threading parallelization scope. It is important to keep in mind that only the master process will be alive after the file I/O process and that only the master process enters multi-threading parallelization. MPI processes will NOT spawn multiple threads.
+When a large number of stations/grids present, MPI is used to distribute analog generation for different stations across processes. Each process takes charge of generating analogs for a subset of stations.
+
+Sitting between the file I/O and the analog generation is the bottleneck which is hard to parallelize with MPI, e.g. reshaping the data and querying test/search times. Therefore, they are parallelized with OpenMP on master process only.
+
+So if the platform support heterogeneous task layout, users can theoretically allocate one core per worker process and more cores for the master process to facilitate its multi-threading scope. But again, only do this when you find the bottleneck is taking much longer time than file I/O and analog generation. Use `--profile` to have profiling information in standard message output.
 
 ## Tutorials
 
@@ -145,6 +156,7 @@ Here are also some tips and caveats in [this ticket](https://github.com/Weiming-
 - [Cervone, Guido, et al. "Short-term photovoltaic power forecasting using Artificial Neural Networks and an Analog Ensemble." Renewable energy 108 (2017): 274-286.](https://www.sciencedirect.com/science/article/pii/S0960148117301386)
 - [Junk, Constantin, et al. "Predictor-weighting strategies for probabilistic wind power forecasting with an analog ensemble." Meteorol. Z 24.4 (2015): 361-379.](https://www.researchgate.net/profile/Constantin_Junk/publication/274951815_Predictor-weighting_strategies_for_probabilistic_wind_power_forecasting_with_an_analog_ensemble/links/552cd5710cf29b22c9c47260.pdf)
 - [Balasubramanian, Vivek, et al. "Harnessing the power of many: Extensible toolkit for scalable ensemble applications." 2018 IEEE International Parallel and Distributed Processing Symposium (IPDPS). IEEE, 2018.](https://ieeexplore.ieee.org/abstract/document/8425207)
+- [Hu, Weiming, and Guido Cervone. "Dynamically Optimized Unstructured Grid (DOUG) for Analog Ensemble of numerical weather predictions using evolutionary algorithms." Computers & Geosciences 133 (2019): 104299.](https://www.sciencedirect.com/science/article/pii/S0098300418306678)
 
 ## Feedbacks
 

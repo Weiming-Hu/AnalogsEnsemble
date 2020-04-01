@@ -67,37 +67,51 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ae3ea6508a7ccfd7deb36686f21b32045"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions_m_p_i.html#ae3ea6508a7ccfd7deb36686f21b32045">getStartIndex</a> (int total, int num_procs, int rank)</td></tr>
-<tr class="separator:ae3ea6508a7ccfd7deb36686f21b32045"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7843f55464095f57ce65291751ddfc8a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions_m_p_i.html#a7843f55464095f57ce65291751ddfc8a">getEndIndex</a> (int total, int num_procs, int rank)</td></tr>
-<tr class="separator:a7843f55464095f57ce65291751ddfc8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a30e8a047ab56961cd584b5eb75874a1b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions_m_p_i.html#a30e8a047ab56961cd584b5eb75874a1b">getSubTotal</a> (int grand_total, int num_procs, int rank)</td></tr>
-<tr class="separator:a30e8a047ab56961cd584b5eb75874a1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a230b0172ba9685ad17eb0c8ac39c75ad"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions_m_p_i.html#a230b0172ba9685ad17eb0c8ac39c75ad">scatterObservations</a> (const <a class="el" href="class_observations.html">Observations</a> &amp;send, <a class="el" href="class_observations.html">Observations</a> &amp;recv, int num_procs, int rank, <a class="el" href="_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9">Verbose</a> verbose)</td></tr>
+<tr class="separator:a230b0172ba9685ad17eb0c8ac39c75ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a35c55cb547f05832f52939f0f9fa6fcf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions_m_p_i.html#a35c55cb547f05832f52939f0f9fa6fcf">scatterForecasts</a> (const <a class="el" href="class_forecasts.html">Forecasts</a> &amp;send, <a class="el" href="class_forecasts.html">Forecasts</a> &amp;recv, int num_procs, int rank, <a class="el" href="_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9">Verbose</a> verbose)</td></tr>
+<tr class="separator:a35c55cb547f05832f52939f0f9fa6fcf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af930656a8e533b0a538be8cd6b4bb8b3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions_m_p_i.html#af930656a8e533b0a538be8cd6b4bb8b3">scatterBasicData</a> (const <a class="el" href="class_basic_data.html">BasicData</a> &amp;send, <a class="el" href="class_basic_data.html">BasicData</a> &amp;recv, int num_procs, int rank, <a class="el" href="_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9">Verbose</a> verbose)</td></tr>
+<tr class="separator:af930656a8e533b0a538be8cd6b4bb8b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a827e30dcbe01f89f00107b89588c8919"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions_m_p_i.html#a827e30dcbe01f89f00107b89588c8919">scatterArray</a> (const <a class="el" href="class_array4_d.html">Array4D</a> &amp;send, <a class="el" href="class_array4_d.html">Array4D</a> &amp;recv, int num_procs, int rank, <a class="el" href="_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9">Verbose</a> verbose)</td></tr>
+<tr class="separator:a827e30dcbe01f89f00107b89588c8919"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a382eb9ef845a391e416a56d077fde9fb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions_m_p_i.html#a382eb9ef845a391e416a56d077fde9fb">broadcastVector</a> (const std::vector&lt; std::size_t &gt; &amp;send, std::vector&lt; std::size_t &gt; &amp;recv, int rank, <a class="el" href="_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9">Verbose</a> verbose)</td></tr>
+<tr class="separator:a382eb9ef845a391e416a56d077fde9fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf82e29c245edd4ee0325ea8c55c5007"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions_m_p_i.html#adf82e29c245edd4ee0325ea8c55c5007">broadcastVector</a> (const std::vector&lt; bool &gt; &amp;send, std::vector&lt; bool &gt; &amp;recv, int rank, <a class="el" href="_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9">Verbose</a> verbose)</td></tr>
+<tr class="separator:adf82e29c245edd4ee0325ea8c55c5007"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e45350600539dfcf53b521d56644db1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions_m_p_i.html#a3e45350600539dfcf53b521d56644db1">gatherArray</a> (<a class="el" href="class_array4_d.html">Array4D</a> &amp;arr, int station_dim_index, int num_procs, int rank, <a class="el" href="_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9">Verbose</a> verbose)</td></tr>
+<tr class="separator:a3e45350600539dfcf53b521d56644db1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a7843f55464095f57ce65291751ddfc8a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7843f55464095f57ce65291751ddfc8a">&#9670;&nbsp;</a></span>getEndIndex()</h2>
+<a id="a382eb9ef845a391e416a56d077fde9fb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a382eb9ef845a391e416a56d077fde9fb">&#9670;&nbsp;</a></span>broadcastVector() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int FunctionsMPI::getEndIndex </td>
+          <td class="memname">void FunctionsMPI::broadcastVector </td>
           <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>total</em>, </td>
+          <td class="paramtype">const std::vector&lt; std::size_t &gt; &amp;&#160;</td>
+          <td class="paramname"><em>send</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; std::size_t &gt; &amp;&#160;</td>
+          <td class="paramname"><em>recv</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>num_procs</em>, </td>
+          <td class="paramname"><em>rank</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>rank</em>&#160;</td>
+          <td class="paramtype"><a class="el" href="_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9">Verbose</a>&#160;</td>
+          <td class="paramname"><em>verbose</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -109,29 +123,35 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ae3ea6508a7ccfd7deb36686f21b32045"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae3ea6508a7ccfd7deb36686f21b32045">&#9670;&nbsp;</a></span>getStartIndex()</h2>
+<a id="adf82e29c245edd4ee0325ea8c55c5007"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adf82e29c245edd4ee0325ea8c55c5007">&#9670;&nbsp;</a></span>broadcastVector() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int FunctionsMPI::getStartIndex </td>
+          <td class="memname">void FunctionsMPI::broadcastVector </td>
           <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>total</em>, </td>
+          <td class="paramtype">const std::vector&lt; bool &gt; &amp;&#160;</td>
+          <td class="paramname"><em>send</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; bool &gt; &amp;&#160;</td>
+          <td class="paramname"><em>recv</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>num_procs</em>, </td>
+          <td class="paramname"><em>rank</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>rank</em>&#160;</td>
+          <td class="paramtype"><a class="el" href="_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9">Verbose</a>&#160;</td>
+          <td class="paramname"><em>verbose</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -143,17 +163,23 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a30e8a047ab56961cd584b5eb75874a1b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a30e8a047ab56961cd584b5eb75874a1b">&#9670;&nbsp;</a></span>getSubTotal()</h2>
+<a id="a3e45350600539dfcf53b521d56644db1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3e45350600539dfcf53b521d56644db1">&#9670;&nbsp;</a></span>gatherArray()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int FunctionsMPI::getSubTotal </td>
+          <td class="memname">void FunctionsMPI::gatherArray </td>
           <td>(</td>
+          <td class="paramtype"><a class="el" href="class_array4_d.html">Array4D</a> &amp;&#160;</td>
+          <td class="paramname"><em>arr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>grand_total</em>, </td>
+          <td class="paramname"><em>station_dim_index</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -165,7 +191,197 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>rank</em>&#160;</td>
+          <td class="paramname"><em>rank</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9">Verbose</a>&#160;</td>
+          <td class="paramname"><em>verbose</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a827e30dcbe01f89f00107b89588c8919"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a827e30dcbe01f89f00107b89588c8919">&#9670;&nbsp;</a></span>scatterArray()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void FunctionsMPI::scatterArray </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_array4_d.html">Array4D</a> &amp;&#160;</td>
+          <td class="paramname"><em>send</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_array4_d.html">Array4D</a> &amp;&#160;</td>
+          <td class="paramname"><em>recv</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>num_procs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>rank</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9">Verbose</a>&#160;</td>
+          <td class="paramname"><em>verbose</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af930656a8e533b0a538be8cd6b4bb8b3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af930656a8e533b0a538be8cd6b4bb8b3">&#9670;&nbsp;</a></span>scatterBasicData()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void FunctionsMPI::scatterBasicData </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_basic_data.html">BasicData</a> &amp;&#160;</td>
+          <td class="paramname"><em>send</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_basic_data.html">BasicData</a> &amp;&#160;</td>
+          <td class="paramname"><em>recv</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>num_procs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>rank</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9">Verbose</a>&#160;</td>
+          <td class="paramname"><em>verbose</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a35c55cb547f05832f52939f0f9fa6fcf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a35c55cb547f05832f52939f0f9fa6fcf">&#9670;&nbsp;</a></span>scatterForecasts()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void FunctionsMPI::scatterForecasts </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_forecasts.html">Forecasts</a> &amp;&#160;</td>
+          <td class="paramname"><em>send</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_forecasts.html">Forecasts</a> &amp;&#160;</td>
+          <td class="paramname"><em>recv</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>num_procs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>rank</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9">Verbose</a>&#160;</td>
+          <td class="paramname"><em>verbose</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a230b0172ba9685ad17eb0c8ac39c75ad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a230b0172ba9685ad17eb0c8ac39c75ad">&#9670;&nbsp;</a></span>scatterObservations()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void FunctionsMPI::scatterObservations </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_observations.html">Observations</a> &amp;&#160;</td>
+          <td class="paramname"><em>send</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_observations.html">Observations</a> &amp;&#160;</td>
+          <td class="paramname"><em>recv</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>num_procs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>rank</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9">Verbose</a>&#160;</td>
+          <td class="paramname"><em>verbose</em>&#160;</td>
         </tr>
         <tr>
           <td></td>

@@ -78,9 +78,10 @@ Inheritance diagram for AnEn:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_an_en__inherit__graph.png" border="0" usemap="#_an_en_inherit__map" alt="Inheritance graph"/></div>
 <map name="_an_en_inherit__map" id="_an_en_inherit__map">
-<area shape="rect" id="node2" href="class_an_en_i_s.html" title="AnEnIS is an implementation of the class AnEn for the independent search algorithm. " alt="" coords="123,248,320,897"/>
-<area shape="rect" id="node3" href="class_an_en_s_s_e.html" title="AnEnSSE is an implementation of the abstrct class AnEn for the search space extension algorithm..." alt="" coords="5,945,203,1419"/>
-<area shape="rect" id="node4" href="classtest_an_en_i_s.html" title="{testAnEnIS\n|&#45; parameters_\l&#45; stations_\l&#45; fcst_times_\l&#45; obs_times_\l&#45; flts_\l|+ testAnEnIS()\l+ ~testAnEnIS()\l+ setUp()\l+ tearDown()\l+ setUpSds()\l+ tearDownSds()\l+ setUpCompute()\l+ tearDownCompute()\l&#45; CPPUNIT_TEST_SUITE()\l&#45; CPPUNIT_TEST()\l&#45; CPPUNIT_TEST()\l&#45; CPPUNIT_TEST()\l&#45; CPPUNIT_TEST()\l&#45; CPPUNIT_TEST()\l&#45; CPPUNIT_TEST()\l&#45; CPPUNIT_TEST_SUITE_END()\l&#45; testOpenMP_()\l&#45; testMultiAnEn_()\land 6 more...\l}" alt="" coords="227,982,450,1382"/>
+<area shape="rect" id="node2" href="class_an_en_i_s.html" title="AnEnIS is an implementation of the class AnEn for the independent search algorithm. " alt="" coords="149,277,346,927"/>
+<area shape="rect" id="node3" href="class_an_en_i_s_m_p_i.html" title="AnEnISMPI provides the functionality to perform AnEnIS with MPI. " alt="" coords="5,1136,124,1287"/>
+<area shape="rect" id="node4" href="class_an_en_s_s_e.html" title="AnEnSSE is an implementation of the abstrct class AnEn for the search space extension algorithm..." alt="" coords="149,975,346,1448"/>
+<area shape="rect" id="node5" href="classtest_an_en_i_s.html" title="{testAnEnIS\n|&#45; parameters_\l&#45; stations_\l&#45; fcst_times_\l&#45; obs_times_\l&#45; flts_\l|+ testAnEnIS()\l+ ~testAnEnIS()\l+ setUp()\l+ tearDown()\l+ setUpSds()\l+ tearDownSds()\l+ setUpCompute()\l+ tearDownCompute()\l&#45; CPPUNIT_TEST_SUITE()\l&#45; CPPUNIT_TEST()\l&#45; CPPUNIT_TEST()\l&#45; CPPUNIT_TEST()\l&#45; CPPUNIT_TEST()\l&#45; CPPUNIT_TEST()\l&#45; CPPUNIT_TEST()\l&#45; CPPUNIT_TEST_SUITE_END()\l&#45; testOpenMP_()\l&#45; testMultiAnEn_()\land 6 more...\l}" alt="" coords="371,1011,593,1411"/>
 </map>
 </div>
 <div class="dynheader">
@@ -88,6 +89,7 @@ Collaboration diagram for AnEn:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_an_en__coll__graph.png" border="0" usemap="#_an_en_coll__map" alt="Collaboration graph"/></div>
 <map name="_an_en_coll__map" id="_an_en_coll__map">
+<area shape="rect" id="node2" href="class_profiler.html" title="{Profiler\n|&#45; session_names_\l&#45; ptimes_\l|+ Profiler()\l+ ~Profiler()\l+ start()\l+ log_time_session()\l+ append_sessions()\l+ operator+=()\l+ summary()\l}" alt="" coords="5,5,148,185"/>
 </map>
 </div>
 <table class="memberdecls">
@@ -105,6 +107,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aeb2293ca74029f9312ff31ff7aac1d43"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aed2e8e8914b236c07acab02dbecba37a"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en.html#aed2e8e8914b236c07acab02dbecba37a">compute</a> (const <a class="el" href="class_forecasts.html">Forecasts</a> &amp;forecasts, const <a class="el" href="class_observations.html">Observations</a> &amp;observations, std::vector&lt; std::size_t &gt; &amp;fcsts_test_index, std::vector&lt; std::size_t &gt; &amp;fcsts_search_index)=0</td></tr>
 <tr class="separator:aed2e8e8914b236c07acab02dbecba37a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac2c3d074c1ef76c7843a2aa984b60d3f"><td class="memItemLeft" align="right" valign="top">virtual const <a class="el" href="class_profiler.html">Profiler</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en.html#ac2c3d074c1ef76c7843a2aa984b60d3f">getProfile</a> () const</td></tr>
+<tr class="separator:ac2c3d074c1ef76c7843a2aa984b60d3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a17b9a36cd5002cda3c934fe3e1002aa5"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en.html#a17b9a36cd5002cda3c934fe3e1002aa5">print</a> (std::ostream &amp;) const</td></tr>
 <tr class="separator:a17b9a36cd5002cda3c934fe3e1002aa5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3160cbcd29b717db0e15b90d77ee73fa"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_an_en.html">AnEn</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en.html#a3160cbcd29b717db0e15b90d77ee73fa">operator=</a> (const <a class="el" href="class_an_en.html">AnEn</a> &amp;rhs)</td></tr>
@@ -119,6 +123,8 @@ Protected Member Functions</h2></td></tr>
 Protected Attributes</h2></td></tr>
 <tr class="memitem:a45bd574992e14d033373fdd338360e60"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9">Verbose</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en.html#a45bd574992e14d033373fdd338360e60">verbose_</a></td></tr>
 <tr class="separator:a45bd574992e14d033373fdd338360e60"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac4ca24df994c435991b5a21730beb369"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_profiler.html">Profiler</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en.html#ac4ca24df994c435991b5a21730beb369">profiler_</a></td></tr>
+<tr class="separator:ac4ca24df994c435991b5a21730beb369"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
@@ -319,7 +325,33 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="class_an_en_i_s.html#a53f9bc4570b3a021bbce495ea4836d7f">AnEnIS</a>, and <a class="el" href="class_an_en_s_s_e.html#ac38e803582ace56ce786ac138ee808a8">AnEnSSE</a>.</p>
+<p>Implemented in <a class="el" href="class_an_en_i_s.html#a53f9bc4570b3a021bbce495ea4836d7f">AnEnIS</a>, <a class="el" href="class_an_en_s_s_e.html#ac38e803582ace56ce786ac138ee808a8">AnEnSSE</a>, and <a class="el" href="class_an_en_i_s_m_p_i.html#aaaea2ed50c2ab0330825f45b178eabdd">AnEnISMPI</a>.</p>
+
+</div>
+</div>
+<a id="ac2c3d074c1ef76c7843a2aa984b60d3f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac2c3d074c1ef76c7843a2aa984b60d3f">&#9670;&nbsp;</a></span>getProfile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="class_profiler.html">Profiler</a> &amp; AnEn::getProfile </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Get the profiling information. The profiler is usually used to time different components of the compute function. </p>
 
 </div>
 </div>
@@ -435,6 +467,28 @@ Friends</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
+<a id="ac4ca24df994c435991b5a21730beb369"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac4ca24df994c435991b5a21730beb369">&#9670;&nbsp;</a></span>profiler_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_profiler.html">Profiler</a> AnEn::profiler_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a45bd574992e14d033373fdd338360e60"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a45bd574992e14d033373fdd338360e60">&#9670;&nbsp;</a></span>verbose_</h2>
 
