@@ -113,6 +113,7 @@ Below is a list of parameters you can change and customize.
 |     BUILD\_BOOST     |                                 Build `Boost` regardless of whether it exists in the system.                                                 |         OFF        |
 |     BOOST\_URL       |                        The URL for downloading Boost. This is only used when `BUILD_BOOST` is `ON`.                                          | [From SourceForge] |
 |     ENABLE\_MPI      |                        Build the MPI supported libraries and executables. This requires the MPI dependency.                                  |         OFF        |
+|    ENABLE\_OPENMP    |                                       Enable multi-threading with OpenMP                                                                     |         ON         |
 
 You can change the default of the parameters, for example, `cmake -DCMAKE_INSTALL_PREFIX=~/AnalogEnsemble ..`. Don't forget the extra letter `D` when specifying argument names.
 
@@ -126,7 +127,13 @@ You can change the default of the parameters, for example, `cmake -DCMAKE_INSTAL
 ```
 TL;DR
 
-Lauching an MPI-OpenMP hybrid program can be tricky. If the performance with only single-threaded MPI is acceptable, disable OpenMP (`cmake -DENABLE_OPENMP=OFF ..`). If the hybrid solution is desired, make sure you have the proper setup.
+Launching an MPI-OpenMP hybrid program can be tricky.
+
+If the performance with MPI is acceptable,
+disable OpenMP (`cmake -DENABLE_OPENMP=OFF ..`).
+
+If the hybrid solution is desired,
+make sure you have the proper setup.
 ```
 
 When `ENABLE_MPI` is turned on, MPI programs will be built. These MPI programs are hybrid programs (unless you set `-DENABLE_OPENMP=OFF` for `cmake`) that use both MPI and OpenMP. Please check with your individual supercomputer platform to find out **what the proper configuration for launching an MPI + OpenMP hybrid program is**. Users are responsible not to launch too many process and threads at the same time which would overtask the machine and might lead to hanging problems (as what I have seen on [XSEDE Stampede2](https://portal.tacc.utexas.edu/user-guides/stampede2)).
