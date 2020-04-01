@@ -506,8 +506,6 @@ int main(int argc, char** argv) {
     int provided;
     MPI_Init_thread(&argc, &argv, MPI_THREAD_FUNNELED, &provided);
     if (provided != MPI_THREAD_FUNNELED) throw runtime_error("The MPI implementation does not provide MPI_THREAD_FUNNELED");
-
-    MPI_Errhandler_set(MPI_COMM_WORLD,MPI_ERRORS_RETURN);
 #endif
 
     runAnEnGrib(forecast_files, analysis_files,
