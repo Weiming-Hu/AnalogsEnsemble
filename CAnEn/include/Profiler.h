@@ -73,10 +73,9 @@ private:
     
     std::size_t getPeakRSS_();
     std::size_t getCurrentRSS_();
+#endif
 
     int max_name_width_() const;
-#endif
-    
 };
 
 #endif /* PROFILER_H */
