@@ -1,3 +1,7 @@
+# PAnEn 4.0.6
+
+- Bug fixed. Analog values should not be saved when the similarity value is NAN. All other information (time and station index) will still be saved
+
 # PAnEn 4.0.5
 
 - Added `AnEnMPI`
