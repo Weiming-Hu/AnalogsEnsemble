@@ -6,6 +6,7 @@ var searchData=
   ['matrix',['Matrix',['../namespace_functions.html#a1a53efc30f777b3253fe8f0e7a54f30f',1,'Functions']]],
   ['max_5fflt_5fnan',['max_flt_nan',['../class_config.html#a5439ac53f69e9b3741cb5204031c3a61',1,'Config::max_flt_nan()'],['../class_an_en_i_s.html#afa272987b894743e768ee9fa887e3af5',1,'AnEnIS::max_flt_nan()']]],
   ['max_5fflt_5fnan_5f',['max_flt_nan_',['../class_an_en_i_s.html#a8a21d21385dd5fb6ba4847e4e3c9bdff',1,'AnEnIS']]],
+  ['max_5fname_5fwidth_5f',['max_name_width_',['../class_profiler.html#af2da6e44159595906c6e86fa2d021fb4',1,'Profiler']]],
   ['max_5fpar_5fnan',['max_par_nan',['../class_config.html#a9abbee3183140d97b4b535c79ae96a55',1,'Config::max_par_nan()'],['../class_an_en_i_s.html#aaa0f5aa777aded927f63e63a8dc7e097',1,'AnEnIS::max_par_nan()']]],
   ['max_5fpar_5fnan_5f',['max_par_nan_',['../class_an_en_i_s.html#a77fe9976f5c7677863590e09f9f70194',1,'AnEnIS']]],
   ['mean',['mean',['../class_calculator.html#a2c092e8838b0defed39098d84ddb5db0',1,'Calculator::mean()'],['../namespace_functions.html#af9d106550db1089db89f6596738a4bea',1,'Functions::mean()']]],

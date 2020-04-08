@@ -76,7 +76,7 @@ Inheritance diagram for AnEnISMPI:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_an_en_i_s_m_p_i__inherit__graph.png" border="0" usemap="#_an_en_i_s_m_p_i_inherit__map" alt="Inheritance graph"/></div>
 <map name="_an_en_i_s_m_p_i_inherit__map" id="_an_en_i_s_m_p_i_inherit__map">
-<area shape="rect" id="node2" href="class_an_en_i_s.html" title="AnEnIS is an implementation of the class AnEn for the independent search algorithm. " alt="" coords="5,277,203,927"/>
+<area shape="rect" id="node2" href="class_an_en_i_s.html" title="AnEnIS is an implementation of the class AnEn for the independent search algorithm. " alt="" coords="5,277,203,941"/>
 <area shape="rect" id="node3" href="class_an_en.html" title="AnEn is an abstract class that defines the interface for implement analog ensemble generation..." alt="" coords="44,5,164,229"/>
 </map>
 </div>
@@ -85,11 +85,11 @@ Collaboration diagram for AnEnISMPI:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_an_en_i_s_m_p_i__coll__graph.png" border="0" usemap="#_an_en_i_s_m_p_i_coll__map" alt="Collaboration graph"/></div>
 <map name="_an_en_i_s_m_p_i_coll__map" id="_an_en_i_s_m_p_i_coll__map">
-<area shape="rect" id="node2" href="class_an_en_i_s.html" title="AnEnIS is an implementation of the class AnEn for the independent search algorithm. " alt="" coords="58,799,255,1448"/>
-<area shape="rect" id="node3" href="class_an_en.html" title="AnEn is an abstract class that defines the interface for implement analog ensemble generation..." alt="" coords="17,380,137,589"/>
-<area shape="rect" id="node4" href="class_profiler.html" title="{Profiler\n|&#45; session_names_\l&#45; ptimes_\l|+ Profiler()\l+ ~Profiler()\l+ start()\l+ log_time_session()\l+ append_sessions()\l+ operator+=()\l+ summary()\l}" alt="" coords="5,49,148,229"/>
-<area shape="rect" id="node5" href="class_array4_d_pointer.html" title="Array4DPointer is an implementation of the abstract class Array4D. " alt="" coords="161,336,315,633"/>
-<area shape="rect" id="node6" href="class_array4_d.html" title="Array4D is an abstract class for 4&#45;dimensional array. " alt="" coords="175,5,301,273"/>
+<area shape="rect" id="node2" href="class_an_en_i_s.html" title="AnEnIS is an implementation of the class AnEn for the independent search algorithm. " alt="" coords="60,799,257,1463"/>
+<area shape="rect" id="node3" href="class_an_en.html" title="AnEn is an abstract class that defines the interface for implement analog ensemble generation..." alt="" coords="19,380,139,589"/>
+<area shape="rect" id="node4" href="class_profiler.html" title="{Profiler\n|&#45; session_names_\l&#45; ptimes_\l|+ Profiler()\l+ ~Profiler()\l+ start()\l+ log_time_session()\l+ append_sessions()\l+ operator+=()\l+ summary()\l&#45; max_name_width_()\l}" alt="" coords="5,42,152,237"/>
+<area shape="rect" id="node5" href="class_array4_d_pointer.html" title="Array4DPointer is an implementation of the abstract class Array4D. " alt="" coords="163,336,317,633"/>
+<area shape="rect" id="node6" href="class_array4_d.html" title="Array4D is an abstract class for 4&#45;dimensional array. " alt="" coords="177,5,303,273"/>
 </map>
 </div>
 <table class="memberdecls">
@@ -178,6 +178,8 @@ Public Member Functions</h2></td></tr>
 Private Member Functions</h2></td></tr>
 <tr class="memitem:a94352a0b115c245397edba0f35c2c2de"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_s_m_p_i.html#a94352a0b115c245397edba0f35c2c2de">gather_</a> (int num_procs, int rank)</td></tr>
 <tr class="separator:a94352a0b115c245397edba0f35c2c2de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a402827159d0c4e215e3c811ed742d912"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_s_m_p_i.html#a402827159d0c4e215e3c811ed742d912">computeSds_</a> (const <a class="el" href="class_forecasts.html">Forecasts</a> &amp;forecasts, const std::vector&lt; std::size_t &gt; &amp;times_fixed_index, const std::vector&lt; std::size_t &gt; &amp;times_accum_index={}) override</td></tr>
+<tr class="separator:a402827159d0c4e215e3c811ed742d912"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
@@ -193,16 +195,16 @@ Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header pro_methods_class_an_en_i_s"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_class_an_en_i_s')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="class_an_en_i_s.html">AnEnIS</a></td></tr>
 <tr class="memitem:abe691c62d3370ded191c12ce2e08315f inherit pro_methods_class_an_en_i_s"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_s.html#abe691c62d3370ded191c12ce2e08315f">preprocess_</a> (const <a class="el" href="class_forecasts.html">Forecasts</a> &amp;forecasts, const <a class="el" href="class_observations.html">Observations</a> &amp;observations, std::vector&lt; std::size_t &gt; &amp;fcsts_test_index, std::vector&lt; std::size_t &gt; &amp;fcsts_search_index)</td></tr>
 <tr class="separator:abe691c62d3370ded191c12ce2e08315f inherit pro_methods_class_an_en_i_s"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2fd451275dc585c4905fae4bab13c9e9 inherit pro_methods_class_an_en_i_s"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_s.html#a2fd451275dc585c4905fae4bab13c9e9">allocate_memory_</a> (const <a class="el" href="class_forecasts.html">Forecasts</a> &amp;forecasts, const std::vector&lt; std::size_t &gt; &amp;fcsts_test_index, const std::vector&lt; std::size_t &gt; &amp;fcsts_search_index)</td></tr>
-<tr class="separator:a2fd451275dc585c4905fae4bab13c9e9 inherit pro_methods_class_an_en_i_s"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a42aed485d32edfd234562ec36ff8d643 inherit pro_methods_class_an_en_i_s"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_s.html#a42aed485d32edfd234562ec36ff8d643">allocateMemory_</a> (const <a class="el" href="class_forecasts.html">Forecasts</a> &amp;forecasts, const std::vector&lt; std::size_t &gt; &amp;fcsts_test_index, const std::vector&lt; std::size_t &gt; &amp;fcsts_search_index)</td></tr>
+<tr class="separator:a42aed485d32edfd234562ec36ff8d643 inherit pro_methods_class_an_en_i_s"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a501f557147e360a1fa728fc5ff3e3967 inherit pro_methods_class_an_en_i_s"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_s.html#a501f557147e360a1fa728fc5ff3e3967">setMembers_</a> (const <a class="el" href="class_config.html">Config</a> &amp;) override</td></tr>
 <tr class="separator:a501f557147e360a1fa728fc5ff3e3967 inherit pro_methods_class_an_en_i_s"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aec9dc64bd586a6893d9931c802145645 inherit pro_methods_class_an_en_i_s"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_s.html#aec9dc64bd586a6893d9931c802145645">setSdsTimeMap_</a> (const std::vector&lt; std::size_t &gt; &amp;times_accum_index)</td></tr>
 <tr class="separator:aec9dc64bd586a6893d9931c802145645 inherit pro_methods_class_an_en_i_s"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab0be79a81c62522e3fd7e9e829c80327 inherit pro_methods_class_an_en_i_s"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_s.html#ab0be79a81c62522e3fd7e9e829c80327">computeSimMetric_</a> (const <a class="el" href="class_forecasts.html">Forecasts</a> &amp;forecasts, std::size_t sta_search_i, std::size_t sta_test_i, std::size_t flt_i, std::size_t time_test_i, std::size_t time_search_i, const std::vector&lt; bool &gt; &amp;circulars)</td></tr>
 <tr class="separator:ab0be79a81c62522e3fd7e9e829c80327 inherit pro_methods_class_an_en_i_s"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0012024ce527817824cb4de1c93d85e5 inherit pro_methods_class_an_en_i_s"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_s.html#a0012024ce527817824cb4de1c93d85e5">computeSds_</a> (const <a class="el" href="class_forecasts.html">Forecasts</a> &amp;forecasts, const std::vector&lt; std::size_t &gt; &amp;times_fixed_index, const std::vector&lt; std::size_t &gt; &amp;times_accum_index={})</td></tr>
-<tr class="separator:a0012024ce527817824cb4de1c93d85e5 inherit pro_methods_class_an_en_i_s"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7fa2766462064548cccb97703362fe43 inherit pro_methods_class_an_en_i_s"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_s.html#a7fa2766462064548cccb97703362fe43">allocateSds_</a> (const <a class="el" href="class_forecasts.html">Forecasts</a> &amp;forecasts, const std::vector&lt; std::size_t &gt; &amp;times_fixed_index, const std::vector&lt; std::size_t &gt; &amp;times_accum_index={})</td></tr>
+<tr class="separator:a7fa2766462064548cccb97703362fe43 inherit pro_methods_class_an_en_i_s"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acec387d96dc8864f0665d1fbad7fdeeb inherit pro_methods_class_an_en_i_s"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_s.html#acec387d96dc8864f0665d1fbad7fdeeb">checkIndexRange_</a> (const <a class="el" href="class_forecasts.html">Forecasts</a> &amp;forecasts, const std::vector&lt; std::size_t &gt; &amp;fcsts_test_index, const std::vector&lt; std::size_t &gt; &amp;fcsts_search_index) const</td></tr>
 <tr class="separator:acec387d96dc8864f0665d1fbad7fdeeb inherit pro_methods_class_an_en_i_s"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:addc63b1e5e0d3a77b3027612e187e44e inherit pro_methods_class_an_en_i_s"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_i_s.html#addc63b1e5e0d3a77b3027612e187e44e">checkConsistency_</a> (const <a class="el" href="class_forecasts.html">Forecasts</a> &amp;forecasts, const <a class="el" href="class_observations.html">Observations</a> &amp;observations) const</td></tr>
@@ -408,6 +410,51 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
+<a id="a402827159d0c4e215e3c811ed742d912"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a402827159d0c4e215e3c811ed742d912">&#9670;&nbsp;</a></span>computeSds_()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void AnEnISMPI::computeSds_ </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_forecasts.html">Forecasts</a> &amp;&#160;</td>
+          <td class="paramname"><em>forecasts</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::size_t &gt; &amp;&#160;</td>
+          <td class="paramname"><em>times_fixed_index</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::size_t &gt; &amp;&#160;</td>
+          <td class="paramname"><em>times_accum_index</em> = <code>{}</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">private</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Overloads <a class="el" href="class_an_en_i_s.html#a0012024ce527817824cb4de1c93d85e5">AnEnIS::computeSds_</a> so that master process does not compute any standard deviation. Only worker processes compute standard deviation. </p>
+
+<p>Reimplemented from <a class="el" href="class_an_en_i_s.html#a0012024ce527817824cb4de1c93d85e5">AnEnIS</a>.</p>
+
+</div>
+</div>
 <a id="a94352a0b115c245397edba0f35c2c2de"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a94352a0b115c245397edba0f35c2c2de">&#9670;&nbsp;</a></span>gather_()</h2>
 
@@ -445,8 +492,8 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>/home/graduate/wuh20/github/AnalogsEnsemble/CAnEnMPI/<a class="el" href="_an_en_i_s_m_p_i_8h_source.html">AnEnISMPI.h</a></li>
-<li>/home/graduate/wuh20/github/AnalogsEnsemble/CAnEnMPI/<a class="el" href="_an_en_i_s_m_p_i_8cpp.html">AnEnISMPI.cpp</a></li>
+<li>/sapphire/s0/wuh20/github/AnalogsEnsemble/CAnEnMPI/<a class="el" href="_an_en_i_s_m_p_i_8h_source.html">AnEnISMPI.h</a></li>
+<li>/sapphire/s0/wuh20/github/AnalogsEnsemble/CAnEnMPI/<a class="el" href="_an_en_i_s_m_p_i_8cpp.html">AnEnISMPI.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

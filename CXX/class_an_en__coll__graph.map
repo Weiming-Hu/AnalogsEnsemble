@@ -1,3 +1,3 @@
 <map id="AnEn" name="AnEn">
-<area shape="rect" id="node2" href="$class_profiler.html" title="{Profiler\n|&#45; session_names_\l&#45; ptimes_\l|+ Profiler()\l+ ~Profiler()\l+ start()\l+ log_time_session()\l+ append_sessions()\l+ operator+=()\l+ summary()\l}" alt="" coords="5,5,148,185"/>
+<area shape="rect" id="node2" href="$class_profiler.html" title="{Profiler\n|&#45; session_names_\l&#45; ptimes_\l|+ Profiler()\l+ ~Profiler()\l+ start()\l+ log_time_session()\l+ append_sessions()\l+ operator+=()\l+ summary()\l&#45; max_name_width_()\l}" alt="" coords="5,5,152,200"/>
 </map>
