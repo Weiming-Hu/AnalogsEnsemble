@@ -5,6 +5,10 @@ sidebar_link: true
 ---
 
 
+# PAnEn 4.0.7
+
+- Add sorting capability to `RAnEn::formatObservations`
+
 # PAnEn 4.0.6
 
 - Bug fixed. Analog values should not be saved when the similarity value is NAN. All other information (time and station index) will still be saved

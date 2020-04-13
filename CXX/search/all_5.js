@@ -14,5 +14,5 @@ var searchData=
   ['distance',['distance',['../class_config.html#a1689b8b5b75dd13334f8a45527fff690',1,'Config::distance()'],['../class_an_en_s_s_e.html#a4d920300bc357963fc62ad63f08e3a6f',1,'AnEnSSE::distance()']]],
   ['distance_5f',['distance_',['../class_an_en_s_s_e.html#a05849b3021c77e0ae9e684d92d0d8f53',1,'AnEnSSE']]],
   ['doc_2emd',['doc.md',['../doc_8md.html',1,'']]],
-  ['doc',['doc',['../md__sapphire_s0_wuh20_github__analogs_ensemble_out_doc.html',1,'']]]
+  ['doc',['doc',['../md__home_graduate_wuh20_github__analogs_ensemble_out_doc.html',1,'']]]
 ];

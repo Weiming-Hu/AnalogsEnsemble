@@ -119,9 +119,22 @@ by analog computation." />
 by analog computation.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>formatObservations</span>(<span class='no'>df</span>, <span class='no'>col.par</span>, <span class='no'>col.x</span>, <span class='no'>col.y</span>, <span class='no'>col.time</span>, <span class='no'>time.series</span>,
-  <span class='no'>col.value</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='kw'>preview</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>remove.duplicates</span> <span class='kw'>=</span> <span class='no'>T</span>,
-  <span class='kw'>circular.pars</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>col.station.name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>show.progress</span> <span class='kw'>=</span> <span class='no'>F</span>)</pre>
+    <pre class="usage"><span class='fu'>formatObservations</span>(
+  <span class='no'>df</span>,
+  <span class='no'>col.par</span>,
+  <span class='no'>col.x</span>,
+  <span class='no'>col.y</span>,
+  <span class='no'>col.time</span>,
+  <span class='no'>time.series</span>,
+  <span class='no'>col.value</span>,
+  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='no'>T</span>,
+  <span class='kw'>preview</span> <span class='kw'>=</span> <span class='fl'>2</span>,
+  <span class='kw'>remove.duplicates</span> <span class='kw'>=</span> <span class='no'>T</span>,
+  <span class='kw'>circular.pars</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>col.station.name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>show.progress</span> <span class='kw'>=</span> <span class='no'>F</span>,
+  <span class='kw'>sort.stations</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -182,6 +195,10 @@ the rest.</p></td>
     <tr>
       <th>show.progress</th>
       <td><p>Whether to show a progress bar.</p></td>
+    </tr>
+    <tr>
+      <th>sort.stations</th>
+      <td><p>Sort station. It can be <code>Xs</code>, <code>Ys</code>, or <code>StationNames</code> if it is set.</p></td>
     </tr>
     </table>
 
