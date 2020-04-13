@@ -4,9 +4,22 @@
 \alias{formatObservations}
 \title{RAnEn::formatObservations}
 \usage{
-formatObservations(df, col.par, col.x, col.y, col.time, time.series,
-  col.value, verbose = T, preview = 2, remove.duplicates = T,
-  circular.pars = NULL, col.station.name = NULL, show.progress = F)
+formatObservations(
+  df,
+  col.par,
+  col.x,
+  col.y,
+  col.time,
+  time.series,
+  col.value,
+  verbose = T,
+  preview = 2,
+  remove.duplicates = T,
+  circular.pars = NULL,
+  col.station.name = NULL,
+  show.progress = F,
+  sort.stations = NULL
+)
 }
 \arguments{
 \item{df}{A data frame to be converted to an R list.}
@@ -39,6 +52,8 @@ the rest.}
 \item{col.station.name}{The column name for station names.}
 
 \item{show.progress}{Whether to show a progress bar.}
+
+\item{sort.stations}{Sort station. It can be \code{Xs}, \code{Ys}, or \code{StationNames} if it is set.}
 }
 \value{
 An R list for observation data.
