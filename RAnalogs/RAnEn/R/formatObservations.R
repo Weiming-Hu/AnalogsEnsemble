@@ -291,13 +291,15 @@ formatObservations <- function(
   		
   		if (is.null(observations$StationNames)) {
   			warning("Station names are missing. Observations are not sorted.")
-  		}
-  		
-  		if (verbose) {
-  			cat("Sort observations by station names ...\n")
-  		}
-  		
-  		index <- order(observations$StationNames)
+            index <- NULL
+
+        } else {
+            if (verbose) {
+                cat("Sort observations by station names ...\n")
+            }
+
+            index <- order(observations$StationNames)
+        }
   		
   	} else {
   		warning("Sorting tag unsupported. Observations are not sorted.")
