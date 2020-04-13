@@ -40,6 +40,7 @@
 #' @param circular.pars A character vector for the circular parameter names.
 #' @param col.station.name The column name for station names.
 #' @param show.progress Whether to show a progress bar.
+#' @param sort.stations Sort station. It can be `Xs`, `Ys`, or `StationNames` if it is set.
 #' 
 #' @return An R list for observation data.
 #' 
@@ -101,7 +102,7 @@ formatObservations <- function(
   df, col.par, col.x, col.y, col.time, time.series, col.value,
   verbose = T, preview = 2, remove.duplicates = T,
   circular.pars = NULL, col.station.name = NULL,
-  show.progress = F) {
+  show.progress = F, sort.stations = NULL) {
   
   check.package('dplyr')
   
@@ -166,7 +167,7 @@ formatObservations <- function(
   # Create unique id for stations based on coordinates
   df$Station.ID <-  dplyr::group_indices(
     dplyr::group_by_at(
-      df, .vars = vars(col.x, col.x)))
+      df, .vars = dplyr::vars(col.x, col.x)))
   
   # Extract the unique points
   cols <- c(col.x, col.y, 'Station.ID')
@@ -261,6 +262,55 @@ formatObservations <- function(
   
   if (show.progress) {
     close(pb)
+  }
+  
+  # Sort observations if needed
+  if (identical(sort.stations, NULL)) {
+  	if (verbose) {
+  		cat("Observation stations are not sorted. Use sort.stations to sort them.\n")
+  		cat("Make sure station orders are consistent between forecasts and observations.\n")
+  	}
+  	
+  } else {
+  	
+  	if (identical(sort.stations, 'Xs')) {
+  		if (verbose) {
+  			cat("Sort observations by Xs ...\n")
+  		}
+  		
+  		index <- order(observations$Xs)
+  		
+  	} else if (identical(sort.stations, 'Ys')) {
+  		if (verbose) {
+  			cat("Sort observations by Ys ...\n")
+  		}
+  		
+  		index <- order(observations$Ys)
+  		
+  	} else if (identical(sort.stations, 'StationNames')) {
+  		
+  		if (is.null(observations$StationNames)) {
+  			warning("Station names are missing. Observations are not sorted.")
+  		}
+  		
+  		if (verbose) {
+  			cat("Sort observations by station names ...\n")
+  		}
+  		
+  		index <- order(observations$StationNames)
+  		
+  	} else {
+  		warning("Sorting tag unsupported. Observations are not sorted.")
+  		index <- NULL
+  	}
+  	
+  	if (!identical(index, NULL)) {
+  		observations$Xs <- observations$Xs[index]
+  		observations$Ys <- observations$Ys[index]
+  		observations$StationNames <- observations$StationNames[index]
+  		observations$Data <- observations$Data[, index, , drop = F]
+  	}
+  	
   }
   
   if (verbose) {
