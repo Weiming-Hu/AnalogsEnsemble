@@ -1,6 +1,7 @@
 # PAnEn 4.0.7
 
-- Add sorting capability to `RAnEn::formatObservations`
+- Removed profiling current memory
+- Added sorting capability to `RAnEn::formatObservations`
 
 # PAnEn 4.0.6
 

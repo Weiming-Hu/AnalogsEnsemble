@@ -69,10 +69,8 @@ private:
     
 #ifndef _UNKNOWN_OS_
     std::vector<std::size_t> peak_memory_;
-    std::vector<std::size_t> current_memory_;
     
     std::size_t getPeakRSS_();
-    std::size_t getCurrentRSS_();
 #endif
 
     int max_name_width_() const;

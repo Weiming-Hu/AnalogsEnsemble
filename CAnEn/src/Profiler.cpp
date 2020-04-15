@@ -27,7 +27,6 @@ Profiler::Profiler(size_t num_sessions) {
 
 #ifndef _UNKNOWN_OS_
     peak_memory_.reserve(num_sessions);
-    current_memory_.reserve(num_sessions);
 #endif
 }
 
@@ -41,7 +40,7 @@ Profiler::start() {
 }
 
 void
-Profiler::log_time_session(const std::string& session_name) {
+Profiler::log_time_session(const string& session_name) {
     session_names_.push_back(session_name);
     ptimes_.push_back(clock());
 
@@ -51,7 +50,6 @@ Profiler::log_time_session(const std::string& session_name) {
 
 #ifndef _UNKNOWN_OS_
     peak_memory_.push_back(getPeakRSS_());
-    current_memory_.push_back(getCurrentRSS_());
 #endif
 }
 
@@ -74,7 +72,6 @@ Profiler::append_sessions(const Profiler & new_sessions) {
 
 #ifndef _UNKNOWN_OS_
         peak_memory_.push_back(new_sessions.peak_memory_[i]);
-        current_memory_.push_back(new_sessions.current_memory_[i]);
 #endif
     }
 
@@ -88,7 +85,7 @@ Profiler::operator+=(const Profiler & rhs) {
 }
 
 void
-Profiler::summary(std::ostream& os) const {
+Profiler::summary(ostream& os) const {
 
     // Sanity check
     size_t num_sessions = session_names_.size();
@@ -140,8 +137,7 @@ Profiler::summary(std::ostream& os) const {
 #endif
 
 #ifndef _UNKNOWN_OS_
-                << "\t current memory (" << current_memory_[session_i] 
-                << " bytes)\t peak memory (" << peak_memory_[session_i]
+                << "\t peak memory (" << peak_memory_[session_i]
                 << " bytes)"
 #endif
                 << endl;
@@ -154,42 +150,8 @@ Profiler::summary(std::ostream& os) const {
 
 #ifndef _UNKNOWN_OS_
 
-std::size_t Profiler::getCurrentRSS_() {
-
-#if defined(__APPLE__) && defined(__MACH__)
-    // OSX
-    struct mach_task_basic_info info;
-
-    mach_msg_type_number_t infoCount = MACH_TASK_BASIC_INFO_COUNT;
-
-    if (task_info(mach_task_self(), MACH_TASK_BASIC_INFO,
-            (task_info_t) & info, &infoCount) != KERN_SUCCESS)
-        return (size_t) 0L; /* Can't access? */
-
-    return (size_t) info.resident_size;
-
-#elif defined(__linux__) || defined(__linux) || defined(linux) || defined(__gnu_linux__)
-    // Linux
-    long rss = 0L;
-    FILE* fp = NULL;
-
-    if ((fp = fopen("/proc/self/statm", "r")) == NULL) return (size_t) 0L; /* Can't open? */
-
-    if (fscanf(fp, "%*s%ld", &rss) != 1) {
-        fclose(fp);
-        return (size_t) 0L; /* Can't read? */
-    }
-
-    fclose(fp);
-
-    return (size_t) rss * (size_t) sysconf(_SC_PAGESIZE);
-
-#else
-    return (size_t) 0L; /* Unsupported. */
-#endif
-}
-
-std::size_t Profiler::getPeakRSS_() {
+size_t
+Profiler::getPeakRSS_() {
 
 #if (defined(_AIX) || defined(__TOS__AIX__)) || (defined(__sun__) || defined(__sun) || defined(sun) && (defined(__SVR4) || defined(__svr4__)))
     // AIX and Solaris
