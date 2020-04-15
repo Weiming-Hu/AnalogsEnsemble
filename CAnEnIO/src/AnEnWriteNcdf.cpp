@@ -193,7 +193,7 @@ AnEnWriteNcdf::writeMultiAnEn(const string& file,
         const Stations& stations, const Observations& observations,
         bool overwrite, bool append) const {
 
-    if (verbose_ >= Verbose::Progress) cout << "Writing multivariate AnEn ..." << endl;
+    if (verbose_ >= Verbose::Progress) cout << "Writing multivariate AnEnIS ..." << endl;
 
     /*
      * Sanity check
@@ -227,9 +227,11 @@ AnEnWriteNcdf::writeMultiAnEn(const string& file,
         Array4DPointer analogs;
 
         // Generate analog values based on the time index
+        if (verbose_ >= Verbose::Progress) cout << "Translating analogs index to " << pair.first << " values ..." << endl;
         Functions::toValues(analogs, pair.second, analogs_time_index, observations);
 
         // Append analog to the existing file
+        if (verbose_ >= Verbose::Progress) cout << "Writing " << pair.first << " values to the output file ..." << endl;
         Ncdf::writeArray4D(nc, analogs, pair.first, analogs_dim_, unlimited_);
     }
 
@@ -244,7 +246,7 @@ AnEnWriteNcdf::writeMultiAnEn(const string& file,
         const Stations& stations, const Observations& observations,
         bool overwrite, bool append) const {
 
-    if (verbose_ >= Verbose::Progress) cout << "Writing multivariate AnEn ..." << endl;
+    if (verbose_ >= Verbose::Progress) cout << "Writing multivariate AnEnSSE ..." << endl;
 
     /*
      * Sanity check
@@ -280,10 +282,12 @@ AnEnWriteNcdf::writeMultiAnEn(const string& file,
         Array4DPointer analogs;
 
         // Generate analog values based on the time index
+        if (verbose_ >= Verbose::Progress) cout << "Translating analogs index to " << pair.first << " values ..." << endl;
         if (anen.extend_obs()) Functions::toValues(analogs, pair.second, analogs_time_index, sims_station_index, observations);
         else Functions::toValues(analogs, pair.second, analogs_time_index, observations);
 
         // Append analog to the existing file
+        if (verbose_ >= Verbose::Progress) cout << "Writing " << pair.first << " values to the output file ..." << endl;
         Ncdf::writeArray4D(nc, analogs, pair.first, analogs_dim_, unlimited_);
     }
 
