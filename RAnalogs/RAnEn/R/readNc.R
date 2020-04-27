@@ -20,10 +20,16 @@
 #' @param origin The origin of time to be used in as.POSIXct
 #' @param tz The time zone of time to be used in as.POSIXct
 #' @param root_group_only Whether to read only root group variables
+#' @param var_names By default, `var_names` are set to `NULL` and this function
+#' reads all variables from the file. Set this argument if you only want to
+#' read a subset of variables from the NetCDF file. To read variables from a
+#' sub group, you need to also include the group name as if it was a folder,
+#' for exmple, `group_name/variable_name`.
 #' 
 #' @md
 #' @export
-readNc <- function(file, origin = "1970-01-01", tz = "UTC", root_group_only = T) {
+readNc <- function(file, origin = "1970-01-01", tz = "UTC",
+									 root_group_only = T, var_names = NULL) {
   
   check.package('ncdf4')
   stopifnot(file.exists(file))
@@ -34,17 +40,19 @@ readNc <- function(file, origin = "1970-01-01", tz = "UTC", root_group_only = T)
   # Open the NetCDF file
   nc <- ncdf4::nc_open(file)
   
-  # Get variable names
-  var_names <- names(nc$var)
-  
-  # Check whether to read sub group variables
-  if (root_group_only) {
-    # Remove variable names with slash to only read the root group variables
-    var_names <- var_names[!grepl('/', var_names)]
+  if (identical(NULL, var_names)) {
+  	# Get variable names
+  	var_names <- names(nc$var)
+  	
+  	# Check whether to read sub group variables
+  	if (root_group_only) {
+  		# Remove variable names with slash to only read the root group variables
+  		var_names <- var_names[!grepl('/', var_names)]
+  	}
   }
   
   # Read variable
-  l <- readOptional(l, var_names, nc, group_prefix = '')
+  l <- readOptional(l, var_names, nc, group_prefix = '')	
   
   # Close the file
   ncdf4::nc_close(nc)

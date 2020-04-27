@@ -50,7 +50,7 @@ readOptional <- function(obj, names, nc, group_prefix) {
     }
     
     # Read the variable from the NetCDF file
-    var <- ncdf4::ncvar_get(nc, var_name)
+    var <- ncdf4::ncvar_get(nc, var_name, collapse_degen = F)
     
     # If this variable is an array with only one dimension, I convert it to a vector
     if (!is.null(dim(var))) {
