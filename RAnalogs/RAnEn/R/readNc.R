@@ -17,20 +17,21 @@
 #' @author Weiming Hu \email{weiming@@psu.edu}
 #' 
 #' @param file The file to read
-#' @param origin The origin of time to be used in as.POSIXct
-#' @param tz The time zone of time to be used in as.POSIXct
 #' @param root_group_only Whether to read only root group variables
 #' @param var_names By default, `var_names` are set to `NULL` and this function
 #' reads all variables from the file. Set this argument if you only want to
 #' read a subset of variables from the NetCDF file. If this argument is set,
 #' `root_group_only` will be ignored. To read variables from a sub group,
 #' you need to also include the group name as if it was a folder,
-#' for exmple, `group_name/variable_name`.
+#' for exmple, `group_name/variable_name`. If `var_names` is a named vector,
+#' the names will be used in the list.
+#' @param return_class Setting this argument to simply change the class
+#' of the returned list to support formatted output, e.g. `AnEn`.
 #' 
 #' @md
 #' @export
-readNc <- function(file, origin = "1970-01-01", tz = "UTC",
-									 root_group_only = T, var_names = NULL) {
+readNc <- function(file, root_group_only = T,
+									 var_names = NULL, return_class = NULL) {
   
   check.package('ncdf4')
   stopifnot(file.exists(file))
@@ -41,6 +42,9 @@ readNc <- function(file, origin = "1970-01-01", tz = "UTC",
   # Open the NetCDF file
   nc <- ncdf4::nc_open(file)
   
+  # Whether I need to rename list element
+  rename_list <- F
+  
   if (identical(NULL, var_names)) {
   	# Get variable names
   	var_names <- names(nc$var)
@@ -50,13 +54,30 @@ readNc <- function(file, origin = "1970-01-01", tz = "UTC",
   		# Remove variable names with slash to only read the root group variables
   		var_names <- var_names[!grepl('/', var_names)]
   	}
+  	
+  } else {
+  	if (!identical(NULL, names(var_names))) {
+  		# If var_names are set with names, I need to rename list elements
+  		rename_list <- T
+  	}
   }
   
   # Read variable
-  l <- readOptional(l, var_names, nc, group_prefix = '')	
+  l <- readOptional(l, var_names, nc, group_prefix = '')
+  
+  if (rename_list) {
+  	names_index <- which(nchar(names(var_names)) != 0)
+  	for (name_index in names_index) {
+  		names(l)[name_index] <- names(var_names)[name_index]
+  	}
+  }
   
   # Close the file
   ncdf4::nc_close(nc)
+  
+  if (!identical(NULL, return_class)) {
+  	class(l) <- return_class
+  }
   
   return(l)
 }
