@@ -4,16 +4,23 @@
 \alias{readNc}
 \title{RAnEn::readNc}
 \usage{
-readNc(file, origin = "1970-01-01", tz = "UTC", root_group_only = T)
+readNc(file, root_group_only = T, var_names = NULL, return_class = NULL)
 }
 \arguments{
 \item{file}{The file to read}
 
-\item{origin}{The origin of time to be used in as.POSIXct}
-
-\item{tz}{The time zone of time to be used in as.POSIXct}
-
 \item{root_group_only}{Whether to read only root group variables}
+
+\item{var_names}{By default, \code{var_names} are set to \code{NULL} and this function
+reads all variables from the file. Set this argument if you only want to
+read a subset of variables from the NetCDF file. If this argument is set,
+\code{root_group_only} will be ignored. To read variables from a sub group,
+you need to also include the group name as if it was a folder,
+for exmple, \code{group_name/variable_name}. If \code{var_names} is a named vector,
+the names will be used in the list.}
+
+\item{return_class}{Setting this argument to simply change the class
+of the returned list to support formatted output, e.g. \code{AnEn}.}
 }
 \description{
 RAnEn::readNc reads an NetCDF file as a list
