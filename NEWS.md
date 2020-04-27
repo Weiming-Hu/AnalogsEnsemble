@@ -2,6 +2,7 @@
 
 - Removed profiling current memory
 - Added sorting capability to `RAnEn::formatObservations`
+- Added argument to read a subset of variables to `RAnEn::readNc`
 
 # PAnEn 4.0.6
 

@@ -22,8 +22,9 @@
 #' @param root_group_only Whether to read only root group variables
 #' @param var_names By default, `var_names` are set to `NULL` and this function
 #' reads all variables from the file. Set this argument if you only want to
-#' read a subset of variables from the NetCDF file. To read variables from a
-#' sub group, you need to also include the group name as if it was a folder,
+#' read a subset of variables from the NetCDF file. If this argument is set,
+#' `root_group_only` will be ignored. To read variables from a sub group,
+#' you need to also include the group name as if it was a folder,
 #' for exmple, `group_name/variable_name`.
 #' 
 #' @md
