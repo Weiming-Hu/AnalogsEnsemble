@@ -111,7 +111,7 @@ void runAnEnGrib(
     anen_read.readForecasts(forecasts, grib_parameters, forecast_files, forecast_regex,
             unit_in_seconds, delimited, stations_index);
 
-    profiler.log_time_session("reading forecasts");
+    profiler.log_time_session("Reading forecasts");
 
     /*
      * Read forecast analysis from files and convert them to observations
@@ -120,7 +120,7 @@ void runAnEnGrib(
     anen_read.readForecasts(analysis, grib_parameters, analysis_files, analysis_regex,
             unit_in_seconds, delimited, stations_index);
 
-    profiler.log_time_session("reading analysis");
+    profiler.log_time_session("Reading analysis");
 
     ObservationsPointer observations;
     Times test_times, search_times;
@@ -136,14 +136,14 @@ void runAnEnGrib(
             forecasts.windTransform(u_name, v_name, spd_name, dir_name);
             analysis.windTransform(u_name, v_name, spd_name, dir_name);
 
-            profiler.log_time_session("calculating wind speed/direction");
+            profiler.log_time_session("Calculating wind speed/direction");
         }
 
         // Convert analysis to observations
         if (config.verbose >= Verbose::Progress) cout << "Collapsing analysis forecast times and lead times ..." << endl;
         Functions::collapseLeadTimes(observations, analysis);
 
-        profiler.log_time_session("reformatting analysis");
+        profiler.log_time_session("Reformatting analysis");
 
         // Convert string date times to Times objects
         const Times & forecast_times = forecasts.getTimes();
@@ -151,7 +151,7 @@ void runAnEnGrib(
         forecast_times(test_start, test_end, test_times);
         forecast_times(search_start, search_end, search_times);
 
-        profiler.log_time_session("extracting test/search times");
+        profiler.log_time_session("Extracting test/search times");
 
 #if defined(_USE_MPI_EXTENSION)
     }
@@ -239,7 +239,7 @@ void runAnEnGrib(
         anen_write.writeMultiAnEn(fileout, obs_map, anen, algorithm, test_times, search_times,
                 forecast_flts, forecast_parameters, forecast_stations, observations, overwrite);
 
-        profiler.log_time_session("writing multivariate analogs");
+        profiler.log_time_session("Writing multivariate analogs");
         
     } else {
         
@@ -250,7 +250,7 @@ void runAnEnGrib(
         anen_write.writeAnEn(fileout, anen, algorithm, test_times, search_times,
                 forecast_flts, forecast_parameters, forecast_stations, overwrite);
 
-        profiler.log_time_session("writing univariate analogs");
+        profiler.log_time_session("Writing univariate analogs");
     }
 
 
@@ -302,7 +302,7 @@ void runAnEnGrib(
             anen_write.writeObservations(fileout, test_observations, false, true);
         }
 
-        profiler.log_time_session("writing forecasts and observations");
+        profiler.log_time_session("Writing forecasts and observations");
     }
 
     /*
