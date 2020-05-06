@@ -79,7 +79,7 @@ AnEnISMPI::compute(const Forecasts & forecasts, const Observations & observation
     vector<size_t> proc_test_index, proc_search_index;
     FunctionsMPI::broadcastVector(fcsts_test_index, proc_test_index, world_rank, verbose_);
     FunctionsMPI::broadcastVector(fcsts_search_index, proc_search_index, world_rank, verbose_);
-    if (world_rank == 0) profiler_.log_time_session("Master scattering observations (AnEnISMPI)");
+    if (world_rank == 0) profiler_.log_time_session("Master broadcasting configuration (AnEnISMPI)");
 
     if (world_rank == 0) {
         // This is a master
