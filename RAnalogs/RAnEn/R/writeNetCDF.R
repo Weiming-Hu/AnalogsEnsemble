@@ -45,7 +45,7 @@
 writeNetCDF <- function(
   file.type, obj, file.out, global.attrs = list(
     author = paste("RAnEn", packageVersion('RAnEn'), "from GEOlab, Penn State"),
-    Time = Sys.time()), nchars.max = 50) {
+    Time = format(Sys.time())), nchars.max = 50) {
   
   check.package('ncdf4')
 
@@ -118,11 +118,13 @@ writeNetCDF <- function(
   
   # Prepare StationNames
   if (pairs$`_STATION_NAMES` %in% names(obj)) {
-    if (length(obj[[pairs$`_STATION_NAMES`]]) != length(obj[[pairs$`_XS`]])) {
-      stop('The number of station names does not match the number of coordinates.')
+    if (!is.null(observations[[pairs$`_STATION_NAMES`]])) {
+      if (length(obj[[pairs$`_STATION_NAMES`]]) != length(obj[[pairs$`_XS`]])) {
+        stop('The number of station names does not match the number of coordinates.')
+      }
+      nc.var.station.names <- ncdf4::ncvar_def(pairs$`_STATION_NAMES`, "", list(nc.dim.chars, nc.dim.stations), prec = "char")
+      vars.list <- c(vars.list, list(StationNames = nc.var.station.names))
     }
-    nc.var.station.names <- ncdf4::ncvar_def(pairs$`_STATION_NAMES`, "", list(nc.dim.chars, nc.dim.stations), prec = "char")
-    vars.list <- c(vars.list, list(StationNames = nc.var.station.names))
   }
   
   # Prepare Times

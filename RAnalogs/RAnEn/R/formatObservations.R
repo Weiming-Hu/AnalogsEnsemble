@@ -188,8 +188,8 @@ formatObservations <- function(
     observations$StationNames <- unique.pts[, col.station.name]
   }
   
-  observations$Xs <- unique.pts$Longitude
-  observations$Ys <- unique.pts$Latitude
+  observations$Xs <- unique.pts[[col.x]]
+  observations$Ys <- unique.pts[[col.y]]
   num.stations <- nrow(unique.pts)
   
   if (verbose) {
