@@ -7,7 +7,11 @@ sidebar_link: true
 
 # PAnEn 4.0.7
 
-- Add sorting capability to `RAnEn::formatObservations`
+- Removed profiling current memory
+- Added sorting capability to `RAnEn::formatObservations`
+- Added argument to read a subset of variables to `RAnEn::readNc`
+- Bug fixed in `RAnEn::formatObservations` when X and Y column names are used
+- Bug fixed in `RAnEn::writeNetCDF` when `StationNames` is empty
 
 # PAnEn 4.0.6
 

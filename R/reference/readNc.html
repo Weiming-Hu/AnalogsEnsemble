@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAnEn</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">4.0.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">4.0.7</span>
       </span>
     </div>
 
@@ -117,7 +117,7 @@
     <p>RAnEn::readNc reads an NetCDF file as a list</p>
     </div>
 
-    <pre class="usage"><span class='fu'>readNc</span>(<span class='no'>file</span>, <span class='kw'>origin</span> <span class='kw'>=</span> <span class='st'>"1970-01-01"</span>, <span class='kw'>tz</span> <span class='kw'>=</span> <span class='st'>"UTC"</span>, <span class='kw'>root_group_only</span> <span class='kw'>=</span> <span class='no'>T</span>)</pre>
+    <pre class="usage"><span class='fu'>readNc</span>(<span class='no'>file</span>, <span class='kw'>root_group_only</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='kw'>var_names</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>return_class</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -127,16 +127,23 @@
       <td><p>The file to read</p></td>
     </tr>
     <tr>
-      <th>origin</th>
-      <td><p>The origin of time to be used in as.POSIXct</p></td>
-    </tr>
-    <tr>
-      <th>tz</th>
-      <td><p>The time zone of time to be used in as.POSIXct</p></td>
-    </tr>
-    <tr>
       <th>root_group_only</th>
       <td><p>Whether to read only root group variables</p></td>
+    </tr>
+    <tr>
+      <th>var_names</th>
+      <td><p>By default, <code>var_names</code> are set to <code>NULL</code> and this function
+reads all variables from the file. Set this argument if you only want to
+read a subset of variables from the NetCDF file. If this argument is set,
+<code>root_group_only</code> will be ignored. To read variables from a sub group,
+you need to also include the group name as if it was a folder,
+for exmple, <code>group_name/variable_name</code>. If <code>var_names</code> is a named vector,
+the names will be used in the list.</p></td>
+    </tr>
+    <tr>
+      <th>return_class</th>
+      <td><p>Setting this argument to simply change the class
+of the returned list to support formatted output, e.g. <code>AnEn</code>.</p></td>
     </tr>
     </table>
 
