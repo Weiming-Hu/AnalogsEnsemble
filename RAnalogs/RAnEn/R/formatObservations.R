@@ -108,6 +108,7 @@ formatObservations <- function(
   
   # Sanity check
   stopifnot(is.data.frame(df))
+  
   for (name in c(col.par, col.x, col.y, col.time, col.value)) {
     if (! name %in% names(df)) {
       stop(paste(name, 'is not a variable in the input data frame.'))
@@ -124,6 +125,16 @@ formatObservations <- function(
   
   if (any(duplicated(time.series))) {
     stop('time.seires does not allow duplicates.')
+  }
+  
+  if (inherits(df, 'data.table')) {
+    is.data.table <- T
+  } else {
+    is.data.table <- F
+    
+    if (verbose) {
+      cat('You can speed up the process by using df a data.table\n')
+    }
   }
   
   # Initialize observation list
@@ -225,23 +236,41 @@ formatObservations <- function(
   }
   
   for (i.par in 1:num.pars) {
+    
+    if (is.data.table) {
+      df.par <- df[observations$ParameterNames[i.par], on = col.par]
+      
+    } else {
+      selected.rows <- df[[col.par]] == observations$ParameterNames[i.par]
+      df.par <- df[selected.rows, ]
+    }
+    
     for (station.id in unique.pts$Station.ID) {
       
       # Which position to write the data
       i.station <- which(unique.pts$Station.ID == station.id)
       
       # Subset the observations to the selected station ID
-      df.sub <- df[which(df[[col.par]] == observations$ParameterNames[i.par]), ]
-      df.sub <- df.sub[which(df.sub$Station.ID == station.id),
-                       c(col.time, col.value)]
-      df.sub <- merge(x = df.template, y = df.sub,
-                      by.x = 'target', by.y = col.time,
-                      sort = T, all.x = T)
+      if (is.data.table) {
+        df.sub <- dplyr::select(df.par[Station.ID == station.id], c(col.time, col.value))
+        
+      } else {
+        selected.rows <- df.par$Station.ID == station.id
+        df.sub <- dplyr::select(df.par[selected.rows, ], c(col.time, col.value))
+      }
+      
+      df.sub <- merge(
+        x = df.template, y = df.sub,
+        by.x = 'target', by.y = col.time,
+        sort = T, all.x = T, all.y = F)
       
       if (nrow(df.sub) > nrow(df.template)) {
+        # Found duplicated times
+        
         if (remove.duplicates) {
           df.sub <- df.sub[!duplicated(df.sub$target), ]
           stopifnot(nrow(df.sub) == nrow(df.template))
+          
         } else {
           msg <- paste0(
             'Each time should only have one measurement ',
@@ -267,53 +296,53 @@ formatObservations <- function(
   
   # Sort observations if needed
   if (identical(sort.stations, NULL)) {
-  	if (verbose) {
-  		cat("Observation stations are not sorted. Use sort.stations to sort them.\n")
-  		cat("Make sure station orders are consistent between forecasts and observations.\n")
-  	}
-  	
+    if (verbose) {
+      cat("Observation stations are not sorted. Use sort.stations to sort them.\n")
+      cat("Make sure station orders are consistent between forecasts and observations.\n")
+    }
+    
   } else {
-  	
-  	if (identical(sort.stations, 'Xs')) {
-  		if (verbose) {
-  			cat("Sort observations by Xs ...\n")
-  		}
-  		
-  		index <- order(observations$Xs)
-  		
-  	} else if (identical(sort.stations, 'Ys')) {
-  		if (verbose) {
-  			cat("Sort observations by Ys ...\n")
-  		}
-  		
-  		index <- order(observations$Ys)
-  		
-  	} else if (identical(sort.stations, 'StationNames')) {
-  		
-  		if (is.null(observations$StationNames)) {
-  			warning("Station names are missing. Observations are not sorted.")
-            index <- NULL
-
-        } else {
-            if (verbose) {
-                cat("Sort observations by station names ...\n")
-            }
-
-            index <- order(observations$StationNames)
+    
+    if (identical(sort.stations, 'Xs')) {
+      if (verbose) {
+        cat("Sort observations by Xs ...\n")
+      }
+      
+      index <- order(observations$Xs)
+      
+    } else if (identical(sort.stations, 'Ys')) {
+      if (verbose) {
+        cat("Sort observations by Ys ...\n")
+      }
+      
+      index <- order(observations$Ys)
+      
+    } else if (identical(sort.stations, 'StationNames')) {
+      
+      if (is.null(observations$StationNames)) {
+        warning("Station names are missing. Observations are not sorted.")
+        index <- NULL
+        
+      } else {
+        if (verbose) {
+          cat("Sort observations by station names ...\n")
         }
-  		
-  	} else {
-  		warning("Sorting tag unsupported. Observations are not sorted.")
-  		index <- NULL
-  	}
-  	
-  	if (!identical(index, NULL)) {
-  		observations$Xs <- observations$Xs[index]
-  		observations$Ys <- observations$Ys[index]
-  		observations$StationNames <- observations$StationNames[index]
-  		observations$Data <- observations$Data[, index, , drop = F]
-  	}
-  	
+        
+        index <- order(observations$StationNames)
+      }
+      
+    } else {
+      warning("Sorting tag unsupported. Observations are not sorted.")
+      index <- NULL
+    }
+    
+    if (!identical(index, NULL)) {
+      observations$Xs <- observations$Xs[index]
+      observations$Ys <- observations$Ys[index]
+      observations$StationNames <- observations$StationNames[index]
+      observations$Data <- observations$Data[, index, , drop = F]
+    }
+    
   }
   
   if (verbose) {
