@@ -129,6 +129,8 @@ formatObservations <- function(
   
   if (inherits(df, 'data.table')) {
     is.data.table <- T
+    require(data.table)
+    
   } else {
     is.data.table <- F
     
