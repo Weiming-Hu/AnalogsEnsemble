@@ -191,8 +191,8 @@ formatObservations <- function(
     cols <- c(cols, col.station.name)
   }
   
-  unique.pts <- dplyr::distinct(
-    dplyr::select(df, cols), {{station.id.col}}, .keep_all = T)
+  unique.pts <- dplyr::distinct_(
+    dplyr::select(df, cols), station.id.col, .keep_all = T)
   
   # Assign unique stations
   if (!is.null(col.station.name)) {
