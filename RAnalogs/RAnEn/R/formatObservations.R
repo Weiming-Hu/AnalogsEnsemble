@@ -41,6 +41,8 @@
 #' @param col.station.name The column name for station names.
 #' @param show.progress Whether to show a progress bar.
 #' @param sort.stations Sort station. It can be `Xs`, `Ys`, or `StationNames` if it is set.
+#' @param station.id.col Internally created column for station ID. This should not be conflict
+#' with any of the existing columns in the input data frame.
 #' 
 #' @return An R list for observation data.
 #' 
@@ -102,7 +104,8 @@ formatObservations <- function(
   df, col.par, col.x, col.y, col.time, time.series, col.value,
   verbose = T, preview = 2, remove.duplicates = T,
   circular.pars = NULL, col.station.name = NULL,
-  show.progress = F, sort.stations = NULL) {
+  show.progress = F, sort.stations = NULL,
+  station.id.col = '__StationID') {
   
   check.package('dplyr')
   
@@ -129,7 +132,6 @@ formatObservations <- function(
   
   if (inherits(df, 'data.table')) {
     is.data.table <- T
-    require(data.table)
     
   } else {
     is.data.table <- F
@@ -178,19 +180,19 @@ formatObservations <- function(
   }
   
   # Create unique id for stations based on coordinates
-  df$Station.ID <-  dplyr::group_indices(
+  df[[station.id.col]] <-  dplyr::group_indices(
     dplyr::group_by_at(
       df, .vars = dplyr::vars(col.x, col.y)))
   
   # Extract the unique points
-  cols <- c(col.x, col.y, 'Station.ID')
+  cols <- c(col.x, col.y, station.id.col)
   if (!is.null(col.station.name)) {
     stopifnot(col.station.name %in% names(df))
     cols <- c(cols, col.station.name)
   }
   
   unique.pts <- dplyr::distinct(
-    dplyr::select(df, cols), Station.ID, .keep_all = T)
+    dplyr::select(df, cols), {{station.id.col}}, .keep_all = T)
   
   # Assign unique stations
   if (!is.null(col.station.name)) {
@@ -247,17 +249,17 @@ formatObservations <- function(
       df.par <- df[selected.rows, ]
     }
     
-    for (station.id in unique.pts$Station.ID) {
+    for (station.id in unique.pts[[station.id.col]]) {
       
       # Which position to write the data
-      i.station <- which(unique.pts$Station.ID == station.id)
+      i.station <- which(unique.pts[[station.id.col]] == station.id)
       
       # Subset the observations to the selected station ID
       if (is.data.table) {
-        df.sub <- dplyr::select(df.par[Station.ID == station.id], c(col.time, col.value))
+        df.sub <- dplyr::select(df.par[station.id.col == station.id], c(col.time, col.value))
         
       } else {
-        selected.rows <- df.par$Station.ID == station.id
+        selected.rows <- df.par[[station.id.col]] == station.id
         df.sub <- dplyr::select(df.par[selected.rows, ], c(col.time, col.value))
       }
       
