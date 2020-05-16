@@ -118,7 +118,7 @@ formatObservations <- function(
     stop('time.series should be POSIXct')
   }
   
-  if (!inherits(df[, col.time], 'POSIXct')) {
+  if (!inherits(df[[col.time]], 'POSIXct')) {
     stop(paste(col.time, 'should be POSIXct'))
   }
   
@@ -136,8 +136,8 @@ formatObservations <- function(
   # 
   time.series <- sort(time.series)
   df <- df[which(
-    df[, col.time] >= time.series[1] &
-      df[, col.time] <= time.series[length(time.series)]), ]
+    df[[col.time]] >= time.series[1] &
+      df[[col.time]] <= time.series[length(time.series)]), ]
   
   observations <- generateObservationsTemplate()
   
@@ -167,7 +167,7 @@ formatObservations <- function(
   # Create unique id for stations based on coordinates
   df$Station.ID <-  dplyr::group_indices(
     dplyr::group_by_at(
-      df, .vars = dplyr::vars(col.x, col.x)))
+      df, .vars = dplyr::vars(col.x, col.y)))
   
   # Extract the unique points
   cols <- c(col.x, col.y, 'Station.ID')
@@ -176,7 +176,9 @@ formatObservations <- function(
     cols <- c(cols, col.station.name)
   }
   
-  unique.pts <- dplyr::distinct(df[, cols], Station.ID, .keep_all = T)
+  unique.pts <- df %>%
+    dplyr::select(cols) %>%
+    dplyr::distinct(Station.ID, .keep_all = T)
   
   # Assign unique stations
   if (!is.null(col.station.name)) {
