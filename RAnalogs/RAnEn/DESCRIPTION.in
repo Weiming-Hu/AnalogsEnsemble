@@ -22,6 +22,7 @@ Depends:
 Imports:
     Rcpp (>= 0.12.9),
     BH (>= 1.62.0-1),
+    data.table,
 LinkingTo:
     Rcpp,
     BH,

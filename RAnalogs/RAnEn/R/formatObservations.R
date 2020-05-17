@@ -22,6 +22,10 @@
 #' RAnEn::formatObservations make it easier to convert a data frame into
 #' a such list data structure.
 #' 
+#' I read [this tutorial](https://cran.r-project.org/web/packages/dplyr/vignettes/programming.html)
+#' when developing functions with `dplyr`. It is very informative of using variables
+#' with `dplyr` functions.
+#' 
 #' @param df A data frame to be converted to an R list.
 #' @param col.par The column name for parameter names.
 #' @param col.x The column name for station x coordinates.
@@ -41,8 +45,6 @@
 #' @param col.station.name The column name for station names.
 #' @param show.progress Whether to show a progress bar.
 #' @param sort.stations Sort station. It can be `Xs`, `Ys`, or `StationNames` if it is set.
-#' @param station.id.col Internally created column for station ID. This should not be conflict
-#' with any of the existing columns in the input data frame.
 #' 
 #' @return An R list for observation data.
 #' 
@@ -99,17 +101,30 @@
 #' }
 #' 
 #' @md
+
+# By specifying this variable, I'm aware when I will be tapping into
+# the data.table structure.
+#
+# Reference:
+# https://cran.r-project.org/web/packages/data.table/vignettes/datatable-importing.html
+#
+.datatable.aware = TRUE
+
 #' @export
 formatObservations <- function(
   df, col.par, col.x, col.y, col.time, time.series, col.value,
   verbose = T, preview = 2, remove.duplicates = T,
   circular.pars = NULL, col.station.name = NULL,
-  show.progress = F, sort.stations = NULL,
-  station.id.col = '__StationID') {
+  show.progress = F, sort.stations = NULL) {
   
   check.package('dplyr')
+  check.package('rlang')
+
   
-  # Sanity check
+  ####################################################################
+  #                           Sanity check                           #
+  ####################################################################
+  
   stopifnot(is.data.frame(df))
   
   for (name in c(col.par, col.x, col.y, col.time, col.value)) {
@@ -132,29 +147,33 @@ formatObservations <- function(
   
   if (inherits(df, 'data.table')) {
     is.data.table <- T
+    check.package('data.table')
     
   } else {
     is.data.table <- F
-    
     if (verbose) {
-      cat('You can speed up the process by using df a data.table\n')
+      cat('You can speed up the process by making df a data.table\n')
     }
   }
   
+  
+  ###################################################################
+  #                       Preprocessing                             #
+  ###################################################################
+  
   # Initialize observation list
   if (verbose) {
-    cat('Start formatting the observation list ...\n')
+    cat('Preprocessing the data frame input ...\n')
   }
   
-  # Remove extra measurements that are outside
-  # of the specified time series.
-  # 
+  # Remove extra rows that are outside of the specified time period.
   time.series <- sort(time.series)
   df <- df[which(
     df[[col.time]] >= time.series[1] &
       df[[col.time]] <= time.series[length(time.series)]), ]
   
-  observations <- generateObservationsTemplate()
+  # Initialize an empty Observations object
+  observations <- RAnEn::generateObservationsTemplate()
   
   # Assign unique parameters
   observations$ParameterNames <- unique(df[[col.par]])
@@ -180,28 +199,31 @@ formatObservations <- function(
   }
   
   # Create unique id for stations based on coordinates
-  df[[station.id.col]] <-  dplyr::group_indices(
-    dplyr::group_by_at(
-      df, .vars = dplyr::vars(col.x, col.y)))
+  df$..Station.ID.. <-  dplyr::group_indices(
+    dplyr::group_by_at(df, .vars = dplyr::vars(col.x, col.y)))
   
-  # Extract the unique points
-  cols <- c(col.x, col.y, station.id.col)
+  # These are the columns to keep in the unique station data frame
+  station.cols <- c(col.x, col.y, "..Station.ID..")
+  
+  # Add the station name column is it is present
   if (!is.null(col.station.name)) {
     stopifnot(col.station.name %in% names(df))
-    cols <- c(cols, col.station.name)
+    station.cols <- c(station.cols, col.station.name)
   }
   
-  unique.pts <- dplyr::distinct_(
-    dplyr::select(df, cols), station.id.col, .keep_all = T)
+  # Create a data frame with unique station ID
+  unique.pts <- dplyr::distinct(
+    dplyr::select(df, !!! rlang::syms(station.cols)),
+    ..Station.ID.., .keep_all = T)
   
-  # Assign unique stations
+  # Assign station information to Observations object
   if (!is.null(col.station.name)) {
-    if (nrow(unique.pts) != length(unique(unique.pts[, col.station.name]))) {
+    if (nrow(unique.pts) != length(unique(unique.pts[[col.station.name]]))) {
       stop(paste('Some entries in', col.station.name,
                  'correspond to multiple coordinates.',
                  'You might want to change the variable.'))
     } 
-    observations$StationNames <- unique.pts[, col.station.name]
+    observations$StationNames <- unique.pts[[col.station.name]]
   }
   
   observations$Xs <- unique.pts[[col.x]]
@@ -223,16 +245,30 @@ formatObservations <- function(
   }
   
   # Preallocate array data
-  observations$Data <- array(
-    NA, dim = c(num.pars, num.stations, num.times))
-  
+  obs.dims <- c(num.pars, num.stations, num.times)
   if (verbose) {
-    cat('Observation data array created [',
-        paste(dim(observations$Data), collapse = ','),
-        ']\nAssigning data values ...\n')
+    cat('Creating the observation data array [',
+        paste(obs.dims, collapse = ','), '] ...\n')
   }
   
+  observations$Data <- array(NA, dim = obs.dims)
+  
+  # Pre define some variables to reuse during the for loop
   df.template <- data.frame(target = time.series)
+  time.val.cols <- c(col.time, col.value)
+  
+  # Set keys for fast row subset
+  if (is.data.table) {
+    if (verbose) {
+      cat("Setting data table subset keys for fast row subset ...\n")
+    }
+    
+    data.table::setkeyv(df, c(col.par, '..Station.ID..'))
+  }
+  
+  if (verbose) {
+    cat("Converting data frame to array ...\n")
+  }
   
   if (show.progress) {
     pb <- txtProgressBar(max = num.pars * num.stations, style = 3)
@@ -242,25 +278,27 @@ formatObservations <- function(
   for (i.par in 1:num.pars) {
     
     if (is.data.table) {
-      df.par <- df[observations$ParameterNames[i.par], on = col.par]
-      
+      df.par <- df[.(observations$ParameterNames[i.par])]
     } else {
       selected.rows <- df[[col.par]] == observations$ParameterNames[i.par]
       df.par <- df[selected.rows, ]
     }
     
-    for (station.id in unique.pts[[station.id.col]]) {
+    for (station.id in unique.pts$..Station.ID..) {
       
       # Which position to write the data
-      i.station <- which(unique.pts[[station.id.col]] == station.id)
+      i.station <- which(unique.pts$..Station.ID.. == station.id)
       
       # Subset the observations to the selected station ID
       if (is.data.table) {
-        df.sub <- dplyr::select(df.par[station.id.col == station.id], c(col.time, col.value))
+        df.sub <- dplyr::select(
+          df.par[.(observations$ParameterNames[i.par], station.id)],
+                 !!! rlang::syms(time.val.cols))
         
       } else {
-        selected.rows <- df.par[[station.id.col]] == station.id
-        df.sub <- dplyr::select(df.par[selected.rows, ], c(col.time, col.value))
+        selected.rows <- df.par$..Station.ID.. == station.id
+        df.sub <- dplyr::select(df.par[selected.rows, ],
+                                !!! rlang::syms(time.val.cols))
       }
       
       df.sub <- merge(

@@ -9,7 +9,7 @@ writeNetCDF(
   obj,
   file.out,
   global.attrs = list(author = paste("RAnEn", packageVersion("RAnEn"),
-    "from GEOlab, Penn State"), Time = Sys.time()),
+    "from GEOlab, Penn State"), Time = format(Sys.time())),
   nchars.max = 50
 )
 }
