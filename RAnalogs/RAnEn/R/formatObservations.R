@@ -218,11 +218,6 @@ formatObservations <- function(
   
   # Assign station information to Observations object
   if (!is.null(col.station.name)) {
-    if (nrow(unique.pts) != length(unique(unique.pts[[col.station.name]]))) {
-      stop(paste('Some entries in', col.station.name,
-                 'correspond to multiple coordinates.',
-                 'You might want to change the variable.'))
-    } 
     observations$StationNames <- unique.pts[[col.station.name]]
   }
   
