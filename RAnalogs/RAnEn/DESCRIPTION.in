@@ -22,7 +22,6 @@ Depends:
 Imports:
     Rcpp (>= 0.12.9),
     BH (>= 1.62.0-1),
-    data.table,
 LinkingTo:
     Rcpp,
     BH,
@@ -30,5 +29,6 @@ Suggests:
     ncdf4,
     abind,
     dplyr,
+    data.table,
 RoxygenNote: 6.1.0
 Encoding: UTF-8
