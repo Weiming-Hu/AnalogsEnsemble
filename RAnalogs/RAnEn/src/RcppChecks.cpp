@@ -45,7 +45,7 @@ int getNumThreads() {
     Rcpp::Rcout << "Only using a single thread because OpenMP is not supported." << std::endl;
     return 1;
 #else
-    return omp_get_num_procs();
+    return omp_get_max_threads();
 #endif
 }
 
