@@ -31,9 +31,9 @@ bool checkOpenMP() {
 // [[Rcpp::export]]
 void setNumThreads(int threads) {
 #ifndef _OPENMP
-  omp_set_num_threads(threads);
+    Rcpp::Rcout << "Nothing happened because OpenMP is not supported." << std::endl;
 #else
-  Rcpp::Rcout << "Nothing happened because OpenMP is not supported." << std::endl;
+    omp_set_num_threads(threads);
 #endif
   return;
 }
@@ -42,10 +42,10 @@ void setNumThreads(int threads) {
 // [[Rcpp::export]]
 int getNumThreads() {
 #ifndef _OPENMP
-  return omp_get_num_procs();
+    Rcpp::Rcout << "Only using a single thread because OpenMP is not supported." << std::endl;
+    return 1;
 #else
-  Rcpp::Rcout << "Only using a single thread because OpenMP is not supported." << std::endl;
-  return 1;
+    return omp_get_num_procs();
 #endif
 }
 
