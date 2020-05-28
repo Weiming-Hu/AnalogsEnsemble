@@ -15,6 +15,26 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// setNumThreads
+void setNumThreads(int threads);
+RcppExport SEXP _RAnEn_setNumThreads(SEXP threadsSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< int >::type threads(threadsSEXP);
+    setNumThreads(threads);
+    return R_NilValue;
+END_RCPP
+}
+// getNumThreads
+int getNumThreads();
+RcppExport SEXP _RAnEn_getNumThreads() {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    rcpp_result_gen = Rcpp::wrap(getNumThreads());
+    return rcpp_result_gen;
+END_RCPP
+}
 // generateAnalogs
 List generateAnalogs(SEXP sx_forecasts, SEXP sx_observations, SEXP sx_test_times, SEXP sx_search_times, SEXP sx_config, SEXP sx_algorithm);
 RcppExport SEXP _RAnEn_generateAnalogs(SEXP sx_forecastsSEXP, SEXP sx_observationsSEXP, SEXP sx_test_timesSEXP, SEXP sx_search_timesSEXP, SEXP sx_configSEXP, SEXP sx_algorithmSEXP) {
@@ -63,6 +83,8 @@ RcppExport SEXP _rcpp_module_boot_Config();
 
 static const R_CallMethodDef CallEntries[] = {
     {"_RAnEn_checkOpenMP", (DL_FUNC) &_RAnEn_checkOpenMP, 0},
+    {"_RAnEn_setNumThreads", (DL_FUNC) &_RAnEn_setNumThreads, 1},
+    {"_RAnEn_getNumThreads", (DL_FUNC) &_RAnEn_getNumThreads, 0},
     {"_RAnEn_generateAnalogs", (DL_FUNC) &_RAnEn_generateAnalogs, 6},
     {"_RAnEn_generateSearchStations", (DL_FUNC) &_RAnEn_generateSearchStations, 4},
     {"_RAnEn_generateTimeMapping", (DL_FUNC) &_RAnEn_generateTimeMapping, 3},

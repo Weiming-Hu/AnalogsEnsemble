@@ -34,3 +34,5 @@ reference:
           - toMemberForecasts
           - toForecastTime
           - checkOpenMP
+          - setNumThreads
+          - getNumThreads

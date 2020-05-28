@@ -24,6 +24,8 @@ export(toMemberForecasts)
 export(toForecastTime)
 export(check.package)
 export(checkOpenMP)
+export(getNumThreads)
+export(setNumThreads)
 
 # Generation functions
 export(generateAnalogs)

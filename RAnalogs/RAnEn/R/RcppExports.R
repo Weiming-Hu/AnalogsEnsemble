@@ -6,6 +6,16 @@ checkOpenMP <- function() {
     .Call(`_RAnEn_checkOpenMP`)
 }
 
+#' @export
+setNumThreads <- function(threads) {
+    invisible(.Call(`_RAnEn_setNumThreads`, threads))
+}
+
+#' @export
+getNumThreads <- function() {
+    .Call(`_RAnEn_getNumThreads`)
+}
+
 #' @name Config
 #' @title Exposed C++ Class Config
 #' @description Analog generation can be fine-tuned with configuration. This
