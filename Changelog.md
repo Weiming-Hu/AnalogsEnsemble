@@ -5,6 +5,10 @@ sidebar_link: true
 ---
 
 
+# PAnEn 4.0.8
+
+- Added thread control
+
 # PAnEn 4.0.7
 
 - Removed profiling current memory
