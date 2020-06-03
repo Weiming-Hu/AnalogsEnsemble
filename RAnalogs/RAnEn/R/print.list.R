@@ -35,7 +35,7 @@ printExtra <- function(x, names_to_print) {
     
     cat("$", name, ":\t", sep = '')
     
-    if (length(x[[name]]) == 1) {
+    if (length(x[[name]]) == 1 & !is.list(x[[name]])) {
       # Print the value
       cat('value:', paste(x[[name]]))
       
