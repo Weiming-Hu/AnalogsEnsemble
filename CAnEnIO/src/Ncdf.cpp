@@ -204,7 +204,7 @@ Ncdf::readStringVector(
     if (var_name.empty()) throw runtime_error("Ncdf::readStringVector -> Empty variable name is not allowed");
     
     // Check whether we are reading partial or the entire variable
-    bool entire = (start == 0 || count == 0);
+    bool entire = (count == 0);
 
     NcVar var = nc.getVar(var_name);
     auto var_dims = var.getDims();
