@@ -424,8 +424,8 @@ int main(int argc, char** argv) {
      *                     Run analog generation with NC files                *
      **************************************************************************/
     // Expand file paths
-    forecast_file = fs::system_complete(fs::path(forecast_file.c_str())).string();
-    observation_file = fs::system_complete(fs::path(observation_file.c_str())).string();
+    forecast_file = fs::absolute(fs::path(forecast_file.c_str())).string();
+    observation_file = fs::absolute(fs::path(observation_file.c_str())).string();
 
 #if defined(_USE_MPI_EXTENSION)
     int provided;
