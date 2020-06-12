@@ -12,7 +12,7 @@
 #include <sstream>
 #include <iomanip>
 
-#include <boost/filesystem/convenience.hpp>
+#include "boost/filesystem/convenience.hpp"
 #include "boost/program_options.hpp"
 #include "boost/filesystem.hpp"
 
@@ -35,6 +35,7 @@
 
 using namespace std;
 using namespace boost::program_options;
+namespace fs = boost::filesystem;
 
 void runAnEnNcdf(
         const string & forecast_file,
@@ -422,6 +423,9 @@ int main(int argc, char** argv) {
     /**************************************************************************
      *                     Run analog generation with NC files                *
      **************************************************************************/
+    // Expand file paths
+    forecast_file = fs::system_complete(fs::path(forecast_file.c_str())).string();
+    observation_file = fs::system_complete(fs::path(observation_file.c_str())).string();
 
 #if defined(_USE_MPI_EXTENSION)
     int provided;
