@@ -438,7 +438,11 @@ int main(int argc, char** argv) {
         station_count = Ncdf::readDimLength(forecast_file, Config::_DIM_STATIONS);
     }
 
-    // Determine what stations to process for this rank
+    // Determine what stations to process for this rank. In this case, our master can
+    // also do work. So we need to add 1 to the world size when using the functions from
+    // Functions to take into consideration the fact that These functions assume that master 
+    // process does not do any work.
+    //
     station_start += Functions::getStartIndex(station_count, world_size + 1, world_rank + 1);
     station_count = Functions::getSubTotal(station_count, world_size + 1, world_rank + 1);
 
