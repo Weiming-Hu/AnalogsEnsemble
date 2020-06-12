@@ -1,3 +1,7 @@
+# PAnEn 4.0.10
+
+- Fixed missing variable in `RAnEn::writeNetCDF`
+
 # PAnEn 4.0.9
 
 - Avoid printing too much information for length-of-1 list in `RAnEn::AnEn`.

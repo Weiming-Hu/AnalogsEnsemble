@@ -101,15 +101,6 @@
 #' }
 #' 
 #' @md
-
-# By specifying this variable, I'm aware when I will be tapping into
-# the data.table structure.
-#
-# Reference:
-# https://cran.r-project.org/web/packages/data.table/vignettes/datatable-importing.html
-#
-.datatable.aware = TRUE
-
 #' @export
 formatObservations <- function(
   df, col.par, col.x, col.y, col.time, time.series, col.value,
@@ -387,3 +378,12 @@ formatObservations <- function(
   }
   return(observations)
 }
+
+# By specifying this variable, I'm aware when I will be tapping into
+# the data.table structure.
+#
+# Reference:
+# https://cran.r-project.org/web/packages/data.table/vignettes/datatable-importing.html
+#
+.datatable.aware = TRUE
+
