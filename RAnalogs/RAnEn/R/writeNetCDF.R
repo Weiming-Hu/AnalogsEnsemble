@@ -118,7 +118,7 @@ writeNetCDF <- function(
   
   # Prepare StationNames
   if (pairs$`_STATION_NAMES` %in% names(obj)) {
-    if (!is.null(observations[[pairs$`_STATION_NAMES`]])) {
+    if (!is.null(obj[[pairs$`_STATION_NAMES`]])) {
       if (length(obj[[pairs$`_STATION_NAMES`]]) != length(obj[[pairs$`_XS`]])) {
         stop('The number of station names does not match the number of coordinates.')
       }
