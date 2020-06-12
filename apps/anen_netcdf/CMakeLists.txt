@@ -25,3 +25,23 @@ target_link_libraries(${PROJECT_NAME} PRIVATE AnEnIO::AnEnIO Boost::program_opti
 # Export the executable
 install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}Targets RUNTIME DESTINATION bin)
 
+############################################################################################
+#                                 Add executable anen_grib_mpi                             #
+############################################################################################
+
+if(ENABLE_MPI)
+    message(STATUS "Build the executable ${PROJECT_NAME}_mpi")
+    find_package(AnEnIOMPI)
+    find_package(AnEnMPI)
+
+    # Add executable
+    add_executable(${PROJECT_NAME}_mpi ${CMAKE_CURRENT_SOURCE_DIR}/anen_netcdf.cpp)
+    target_compile_definitions(${PROJECT_NAME}_mpi PRIVATE -D_USE_MPI_EXTENSION)
+
+    target_link_libraries(${PROJECT_NAME}_mpi PRIVATE
+        AnEnMPI::AnEnMPI AnEnIOMPI::AnEnIOMPI Boost::program_options)
+
+    install(TARGETS ${PROJECT_NAME}_mpi EXPORT
+        ${PROJECT_NAME}_mpiTargets RUNTIME DESTINATION bin)
+
+endif(ENABLE_MPI)

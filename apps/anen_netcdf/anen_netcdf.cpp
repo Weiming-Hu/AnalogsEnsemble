@@ -9,7 +9,10 @@
 
 // Needed for ifstream
 #include <fstream>
+#include <sstream>
+#include <iomanip>
 
+#include <boost/filesystem/convenience.hpp>
 #include "boost/program_options.hpp"
 #include "boost/filesystem.hpp"
 
@@ -21,6 +24,13 @@
 #include "AnEnWriteNcdf.h"
 #include "ForecastsPointer.h"
 #include "ObservationsPointer.h"
+
+#if defined(_USE_MPI_EXTENSION)
+#include <mpi.h>
+
+// Ncdf is needed when MPI is used. Ncdf is used to read the length of dimensions
+#include "Ncdf.h"
+#endif
 
 
 using namespace std;
@@ -413,10 +423,43 @@ int main(int argc, char** argv) {
      *                     Run analog generation with NC files                *
      **************************************************************************/
 
+#if defined(_USE_MPI_EXTENSION)
+    int provided;
+    MPI_Init_thread(&argc, &argv, MPI_THREAD_FUNNELED, &provided);
+    if (provided != MPI_THREAD_FUNNELED) throw runtime_error("The MPI implementation does not provide MPI_THREAD_FUNNELED");
+
+
+    int world_rank, world_size;
+    MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
+    MPI_Comm_size(MPI_COMM_WORLD, &world_size);
+
+    if (station_count == -1) {
+        station_start = 0;
+        station_count = Ncdf::readDimLength(forecast_file, Config::_DIM_STATIONS);
+    }
+
+    // Determine what stations to process for this rank
+    station_start += Functions::getStartIndex(station_count, world_size + 1, world_rank + 1);
+    station_count = Functions::getSubTotal(station_count, world_size + 1, world_rank + 1);
+
+    // Determine the new output file name
+    stringstream padded_rank;
+    padded_rank << "_Rank" << std::setw(to_string(world_size).length()) << std::setfill('0') << world_rank;
+    fileout = boost::filesystem::change_extension(fileout, "").string() + padded_rank.str() + string(".nc");
+
+    if (config.verbose >= Verbose::Detail) cout << "Rank " << world_rank << "/" << world_size <<
+            " processes " << station_count << " stations from #" << station_start << " writing into " << fileout << endl;
+#endif
+
     runAnEnNcdf(forecast_file, observation_file, station_start, station_count,
             obs_id, test_start, test_end, search_start, search_end, fileout, 
             algorithm, config, overwrite, profile, save_tests, convert_wind,
             u_name, v_name, spd_name, dir_name);
 
+#if defined(_USE_MPI_EXTENSION)
+    MPI_Finalize();
+#endif
+
     return 0;
 }
+
