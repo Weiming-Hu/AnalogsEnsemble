@@ -40,6 +40,48 @@ AnEnReadNcdf::readForecasts(const string & file_path,
     return;
 }
 
+
+
+
+
+
+void
+AnEnReadNcdf::readForecasts(const string & file_path,
+        Forecasts & forecasts,
+        int station_start, int station_count) const {
+
+    // If indices are invalid, read all of them
+    if (station_start < 0 || station_count <= 0) {
+
+        if (verbose_ >= Verbose::Warning) cerr
+            << "Station start (" << station_start << ") and count (" << station_count
+                << ") are provided. But they are invalid. Disregard them and read all data." << endl;
+
+        readForecasts(file_path, forecasts);
+
+        return;
+    }
+
+    // Read meta information
+    auto num_parameters = Ncdf::readDimLength(file_path, Config::_DIM_PARS);
+    auto num_stations = Ncdf::readDimLength(file_path, Config::_DIM_STATIONS);
+    auto num_times = Ncdf::readDimLength(file_path, Config::_DIM_TIMES);
+    auto num_flts = Ncdf::readDimLength(file_path, Config::_DIM_FLTS);
+
+    if (station_start + station_count >= num_stations) {
+        ostringstream msg;
+        msg << "I need to read " << station_count << " stations from #" << station_start
+            << " but there are only " << num_stations << " stations available in total";
+        throw runtime_error(msg.str());
+    }
+
+    readForecasts(file_path, forecasts,
+            {0, (size_t) station_start, 0, 0},
+            {num_parameters, num_stations, num_times, num_flts});
+
+    return;
+}
+
 void
 AnEnReadNcdf::readForecasts(const string & file_path,
         Forecasts & forecasts, vector<size_t> start,
@@ -124,6 +166,42 @@ void
 AnEnReadNcdf::readObservations(const string & file_path,
         Observations & observations) const {
     readObservations(file_path, observations, {}, {});
+    return;
+}
+
+void
+AnEnReadNcdf::readObservations(const string & file_path,
+        Observations & observations,
+        int station_start, int station_count) const {
+
+    // If indices are invalid, read all of them
+    if (station_start < 0 || station_count <= 0) {
+
+        if (verbose_ >= Verbose::Warning) cerr
+            << "Station start (" << station_start << ") and count (" << station_count
+                << ") are provided. But they are invalid. Disregard them and read all data." << endl;
+
+        readObservations(file_path, observations);
+
+        return;
+    }
+
+    // Read meta information
+    auto num_parameters = Ncdf::readDimLength(file_path, Config::_DIM_PARS);
+    auto num_stations = Ncdf::readDimLength(file_path, Config::_DIM_STATIONS);
+    auto num_times = Ncdf::readDimLength(file_path, Config::_DIM_TIMES);
+
+    if (station_start + station_count >= num_stations) {
+        ostringstream msg;
+        msg << "I need to read " << station_count << " stations from #" << station_start
+            << " but there are only " << num_stations << " stations available in total";
+        throw runtime_error(msg.str());
+    }
+
+    readObservations(file_path, observations,
+            {0, (size_t) station_start, 0},
+            {num_parameters, num_stations, num_times});
+
     return;
 }
 

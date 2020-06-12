@@ -14,6 +14,20 @@ namespace filesys = boost::filesystem;
 using namespace netCDF;
 using namespace std;
 
+size_t
+Ncdf::readDimLength(const string & file_path, const string dim_name) {
+
+    NcFile nc(file_path, NcFile::FileMode::read);
+
+    if (!dimExists(nc, dim_name)) {
+        ostringstream msg;
+        msg << "Dimension (" << dim_name << ") could not be found";
+        throw invalid_argument(msg.str());
+    }
+
+    return nc.getDim(dim_name).getSize();
+}
+
 void
 Ncdf::checkExists(const string & file_path) {
 

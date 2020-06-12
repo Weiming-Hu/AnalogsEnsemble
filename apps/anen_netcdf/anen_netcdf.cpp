@@ -1,8 +1,8 @@
 /* 
- * File:   anen_grib.cpp
+ * File:   anen_netcdf.cpp
  * Author: Weiming Hu <weiming@psu.edu>
  *
- * Created on February, 2020, 11:10 AM
+ * Created on June 12, 2020, 10:12 AM
  */
 
 /** @file */
@@ -17,29 +17,21 @@
 #include "AnEnIS.h"
 #include "AnEnSSE.h"
 #include "Profiler.h"
+#include "AnEnReadNcdf.h"
 #include "AnEnWriteNcdf.h"
 #include "ForecastsPointer.h"
 #include "ObservationsPointer.h"
-
-#if defined(_USE_MPI_EXTENSION)
-#include "AnEnReadGribMPI.h"
-#include "AnEnISMPI.h"
-#else 
-#include "AnEnReadGrib.h"
-#endif
 
 
 using namespace std;
 using namespace boost::program_options;
 
-void runAnEnGrib(
-        const vector<string> & forecast_files,
-        const vector<string> & analysis_files,
-        const string & forecast_regex,
-        const string & analysis_regex,
+void runAnEnNcdf(
+        const string & forecast_file,
+        const string & observation_file,
+        int station_start,
+        int station_count,
         const vector<size_t> & obs_id,
-        const vector<ParameterGrib> & grib_parameters,
-        const vector<int> & stations_index,
         const string & test_start_str,
         const string & test_end_str,
         const string & search_start_str,
@@ -47,8 +39,6 @@ void runAnEnGrib(
         const string & fileout,
         const string & algorithm,
         Config & config,
-        size_t unit_in_seconds,
-        bool delimited,
         bool overwrite,
         bool profile,
         bool save_tests,
@@ -96,71 +86,51 @@ void runAnEnGrib(
 
 
     /*
-     * Read forecasts from files
+     * Read input data
      */
-#if defined(_USE_MPI_EXTENSION)
-    int world_rank;
-    MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
 
-    AnEnReadGribMPI anen_read(config.verbose, config.worker_verbose);
-#else
-    AnEnReadGrib anen_read(config.verbose);
-#endif
+    // Initialize a reader
+    AnEnReadNcdf anen_read(config.verbose);
 
+    // Read forecasts
     ForecastsPointer forecasts;
-    anen_read.readForecasts(forecasts, grib_parameters, forecast_files, forecast_regex,
-            unit_in_seconds, delimited, stations_index);
+    anen_read.readForecasts(forecast_file, forecasts, station_start, station_count);
 
     profiler.log_time_session("Reading forecasts");
 
-    /*
-     * Read forecast analysis from files and convert them to observations
-     */
-    ForecastsPointer analysis;
-    anen_read.readForecasts(analysis, grib_parameters, analysis_files, analysis_regex,
-            unit_in_seconds, delimited, stations_index);
-
-    profiler.log_time_session("Reading analysis");
-
+    // Read observations
     ObservationsPointer observations;
+    anen_read.readObservations(observation_file, observations, station_start, station_count);
+
+    profiler.log_time_session("Reading observations");
+
+
+    /*
+     * Extract test and search times
+     */
     Times test_times, search_times;
+    const Times & forecast_times = forecasts.getTimes();
 
-#if defined(_USE_MPI_EXTENSION)
-    if (world_rank == 0) {
-#endif
+    forecast_times(test_start, test_end, test_times);
+    forecast_times(search_start, search_end, search_times);
 
-        // Convert wind parameters if necessary
-        if (convert_wind) {
-            if (config.verbose >= Verbose::Progress) cout << "Converting wind U/V to wind speed/direction ..." << endl;
+    profiler.log_time_session("Extracting test/search times");
 
-            forecasts.windTransform(u_name, v_name, spd_name, dir_name);
-            analysis.windTransform(u_name, v_name, spd_name, dir_name);
 
-            profiler.log_time_session("Calculating wind speed/direction");
-        }
-
-        // Convert analysis to observations
-        if (config.verbose >= Verbose::Progress) cout << "Collapsing analysis forecast times and lead times ..." << endl;
-        Functions::collapseLeadTimes(observations, analysis);
-
-        profiler.log_time_session("Reformatting analysis");
-
-        // Convert string date times to Times objects
-        const Times & forecast_times = forecasts.getTimes();
-
-        forecast_times(test_start, test_end, test_times);
-        forecast_times(search_start, search_end, search_times);
-
-        profiler.log_time_session("Extracting test/search times");
-
-#if defined(_USE_MPI_EXTENSION)
+    /*
+     * Convert wind parameters if specified
+     */
+    if (convert_wind) {
+        if (config.verbose >= Verbose::Progress) cout << "Converting wind U/V to wind speed/direction ..." << endl;
+        forecasts.windTransform(u_name, v_name, spd_name, dir_name);
+        profiler.log_time_session("Calculating wind speed/direction");
     }
-#endif
 
 
     /**************************************************************************
      *                       Generate Analogs Ensemble                        *
      **************************************************************************/
+
 
     /*
      * Check for multivariate analog generation
@@ -186,32 +156,14 @@ void runAnEnGrib(
     AnEn* anen = nullptr;
 
     if (algorithm == "IS") {
-#if defined(_USE_MPI_EXTENSION)
-        if (world_rank != 0) config.verbose = config.worker_verbose;
-        anen = new AnEnISMPI(config);
-#else
         anen = new AnEnIS(config);
-#endif
     } else if (algorithm == "SSE") {
-#if defined(_USE_MPI_EXTENSION)
-        if (config.verbose >= Verbose::Warning) cerr << "Warning: AnEnSSE is only multi-threading, no MPI supported" << endl;
-#endif
         anen = new AnEnSSE(config);
     } else {
         throw runtime_error("The algorithm is not recognized");
     }
 
     anen->compute(forecasts, observations, test_times, search_times);
-
-#if defined(_USE_MPI_EXTENSION)
-    // Terminate the process if this is not a master process.
-    // Subsequent parallelization is done with multi-threading.
-    //
-    if (world_rank != 0) {
-        if (config.verbose >= Verbose::Detail) cout << "Worker #" << world_rank << " finished all work ..." << endl;
-        return;
-    }
-#endif
 
     profiler += anen->getProfile();
 
@@ -319,26 +271,27 @@ void runAnEnGrib(
 
 int main(int argc, char** argv) {
 
+
     /**************************************************************************
      *                               Parse arguments                          *
      **************************************************************************/
 
     // Define variables to be parsed and extracted
-    vector<string> config_files, parameters_level_type, parameters_name;
-    vector<long> parameters_id, parameters_level;
-    vector<bool> parameters_circular;
-    vector<int> stations_index;
-    vector<size_t> obs_id;
+    //
+    // Required variables
+    //
+    string fileout;
+    string forecast_file, observation_file;
+    string test_start, test_end, search_start, search_end;
 
-    string forecast_folder, analysis_folder, test_start, test_end, search_start, search_end;
-    string forecast_regex, analysis_regex, fileout, algorithm, u_name, v_name, spd_name, dir_name;
-    bool delimited, overwrite, profile, save_tests, convert_wind;
-    size_t unit_in_seconds;
+    // Optional variables
     int verbose;
-
-#if defined(_USE_MPI_EXTENSION)
-    int worker_verbose;
-#endif
+    string algorithm;
+    vector<size_t> obs_id;
+    vector<string> config_files;
+    int station_start, station_count;
+    bool overwrite, profile, save_tests, convert_wind;
+    string u_name, v_name, spd_name, dir_name;
 
     Config config;
 
@@ -347,34 +300,27 @@ int main(int argc, char** argv) {
     desc.add_options()
             ("help,h", "Print help information for options.")
             ("config,c", value< vector<string> >(&config_files)->multitoken(), "Config files (.cfg). Command line options overwrite config files.")
-            ("forecasts-folder", value<string>(&forecast_folder)->multitoken()->required(), "Folder for forecast GRIB files.")
-            ("analysis-folder", value<string>(&analysis_folder)->multitoken()->required(), "Folder for analysis GRIB files.")
-            ("forecast-regex", value<string>(&forecast_regex)->required(), "Regular expression for forecast file names. The expression should have named groups for 'day', 'flt', and 'cycle'. An example is '.*nam_218_(?P<day>\\d{8})_(?P<cycle>\\d{2})\\d{2}_(?P<flt>\\d{3})\\.grb2$'")
-            ("analysis-regex", value<string>(&analysis_regex)->required(), "Regular expression for analysis file names with the same format as for forecasts.")
-            ("pars-name", value< vector<string> >(&parameters_name)->multitoken()->required(), "Parameters name.")
-            ("pars-circular", value < vector<bool> >(&parameters_circular)->multitoken(), "[Optional] 1 for circular parameters and 0 for linear circulars.")
-            ("pars-id", value< vector<long> >(&parameters_id)->multitoken()->required(), "Parameters ID.")
-            ("levels", value< vector<long> >(&parameters_level)->multitoken()->required(), "Vertical level for each parameter ID.")
-            ("level-types", value< vector<string> >(&parameters_level_type)->multitoken()->required(), "Level type for parameter ID.")
-            ("weights", value< vector<double> >(&(config.weights))->multitoken(), "[Optional] Weight for each parameter ID.")
-            ("stations-index", value< vector<int> >(&stations_index)->multitoken(), "[Optional] Stations index to be read from files.")
+
+            // Required arguments
+            ("forecast-file", value<string>(&forecast_file)->required(), "An NetCDF file for forecasts")
+            ("observation-file", value<string>(&observation_file)->required(), "An NetCDF file for observations")
+            ("out", value<string>(&fileout)->required(), "Output file path.")
             ("test-start", value<string>(&test_start)->required(), "Start date time for test with the format YYYY-mm-dd HH:MM:SS")
             ("test-end", value<string>(&test_end)->required(), "End date time for test.")
             ("search-start", value<string>(&search_start)->required(), "Start date time for search.")
             ("search-end", value<string>(&search_end)->required(), "End date time for search.")
-            ("out", value<string>(&fileout)->required(), "Output file path.")
+
+            // Optional arguments
+            ("verbose,v", value<int>(&verbose), "[Optional] Verbose level (0 - 4).")
+            ("station-start", value<int>(&station_start)->default_value(-1), "[Optional] Start index of stations to process")
+            ("station-count", value<int>(&station_count)->default_value(-1), "[Optional] The number of stations to process from the start")
             ("algorithm", value<string>(&algorithm)->default_value("IS"), "[Optional] IS for Independent Search or SSE for Search Space Extension")
-            ("delimited", bool_switch(&delimited)->default_value(false), "[Optional] Date strings in forecasts and analysis have separators.")
+            ("obs-id", value< vector<size_t> >(&obs_id)->multitoken(), "[Optional] Observation variable index. If multiple indices are provided, multivariate analogs will be generated.")
             ("overwrite", bool_switch(&overwrite)->default_value(false), "[Optional] Overwrite files and variables.")
             ("profile", bool_switch(&profile)->default_value(false), "[Optional] Print profiler's report.")
-            ("unit-in-seconds", value<size_t>(&unit_in_seconds)->default_value(3600), "[Optional] The number of seconds for the unit of lead times. Usually lead times have hours as unit, so it defaults to 3600.")
-            ("verbose,v", value<int>(&verbose), "[Optional] Verbose level (0 - 4).")
-#if defined(_USE_MPI_EXTENSION)
-            ("worker-verbose", value<int>(&worker_verbose), "[Optional] Verbose level for worker processes (0 - 4).")
-#endif
+            ("weights", value< vector<double> >(&(config.weights))->multitoken(), "[Optional] Weight for each parameter ID.")
             ("analogs", value<size_t>(&(config.num_analogs)), "[Optional] Number of analogs members.")
             ("sims", value<size_t>(&(config.num_sims)), "[Optional] Number of similarity members.")
-            ("obs-id", value< vector<size_t> >(&obs_id)->multitoken(), "[Optional] Observation variable index. If multiple indices are provided, multivariate analogs will be generated.")
             ("max-par-nan", value<size_t>(&(config.max_par_nan)), "[Optional] Maximum allowed number of NA in parameters.")
             ("max-flt-nan", value<size_t>(&(config.max_flt_nan)), "[Optional] Maximum allowed number of NA in lead times.")
             ("flt-radius", value<size_t>(&(config.flt_radius)), "[Optional] The number of surrounding lead times to compare for trends.")
@@ -396,7 +342,6 @@ int main(int argc, char** argv) {
             ("name-spd", value<string>(&spd_name)->default_value("windSpeed"), "[Optional] Parameter name for wind speed")
             ("name-dir", value<string>(&dir_name)->default_value("windDirection"), "[Optional] Parameter name for wind direction");
 
-
     // Get all the available options
     vector<string> available_options;
     auto lambda = [&available_options](const boost::shared_ptr<boost::program_options::option_description> option) {
@@ -414,11 +359,7 @@ int main(int argc, char** argv) {
         // no extra arguments other than the command line itself
         //
         cout
-#if defined(_USE_MPI_EXTENSION)
-            << "Parallel Analogs Ensemble -- anen_grib_mpi "
-#else
-            << "Parallel Analogs Ensemble -- anen_grib "
-#endif
+            << "Parallel Analogs Ensemble -- anen_netcdf "
             << _APPVERSION << endl << _COPYRIGHT_MSG << endl << endl << desc << endl;
         return 0;
     }
@@ -464,60 +405,18 @@ int main(int argc, char** argv) {
         config.setVerbose(verbose);
     }
 
-#if defined(_USE_MPI_EXTENSION)
-    if (vm.count("worker-verbose")) {
-        config.setWorkerVerbose(worker_verbose);
-    }
-#endif
-
-    if (config.verbose >= Verbose::Progress) {
-        cout
-#if defined(_USE_MPI_EXTENSION)
-            << "Parallel Analogs Ensemble -- anen_grib_mpi "
-#else
-            << "Parallel Analogs Ensemble -- anen_grib "
-#endif
-            << _APPVERSION << endl << _COPYRIGHT_MSG << endl;
-    }
+    if (config.verbose >= Verbose::Progress) cout
+        << "Parallel Analogs Ensemble -- anen_netcdf " << _APPVERSION << endl << _COPYRIGHT_MSG << endl;
 
 
     /**************************************************************************
-     *                   Run analog generation with grib files                *
+     *                     Run analog generation with NC files                *
      **************************************************************************/
 
-    // Convert parameters
-    vector<ParameterGrib> grib_parameters;
-    FunctionsIO::toParameterVector(grib_parameters,
-            parameters_name, parameters_id, parameters_level,
-            parameters_level_type, parameters_circular, config.verbose);
-
-    // List files from folders
-    vector<string> forecast_files, analysis_files;
-    FunctionsIO::listFiles(forecast_files, forecast_folder, forecast_regex);
-    FunctionsIO::listFiles(analysis_files, analysis_folder, analysis_regex);
-    
-    if (forecast_files.size() == 0) throw runtime_error("No forecast files detected. Check --forecasts-folder and --forecast-regex.");
-    if (analysis_files.size() == 0) throw runtime_error("No analysis files detected. Check --analysis-folder and --analysis-regex.");
-
-    if (config.verbose >= Verbose::Detail) cout << forecast_files.size()
-            << " forecasts files and " << analysis_files.size()
-            << " analysis files extracted based on the regular expression." << endl;
-
-#if defined(_USE_MPI_EXTENSION)
-    int provided;
-    MPI_Init_thread(&argc, &argv, MPI_THREAD_FUNNELED, &provided);
-    if (provided != MPI_THREAD_FUNNELED) throw runtime_error("The MPI implementation does not provide MPI_THREAD_FUNNELED");
-#endif
-
-    runAnEnGrib(forecast_files, analysis_files,
-            forecast_regex, analysis_regex,
-            obs_id, grib_parameters, stations_index, test_start, test_end, search_start, search_end,
-            fileout, algorithm, config, unit_in_seconds, delimited, overwrite, profile, save_tests,
-            convert_wind, u_name, v_name, spd_name, dir_name);
-
-#if defined(_USE_MPI_EXTENSION)
-    MPI_Finalize();
-#endif
+    runAnEnNcdf(forecast_file, observation_file, station_start, station_count,
+            obs_id, test_start, test_end, search_start, search_end, fileout, 
+            algorithm, config, overwrite, profile, save_tests, convert_wind,
+            u_name, v_name, spd_name, dir_name);
 
     return 0;
 }
