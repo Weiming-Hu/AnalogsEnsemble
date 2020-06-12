@@ -326,7 +326,6 @@ int main(int argc, char** argv) {
     vector<long> parameters_id, parameters_level;
     vector<bool> parameters_circular;
     vector<int> stations_index;
-    vector<double> weights;
     vector<size_t> obs_id;
 
     string forecast_folder, analysis_folder, test_start, test_end, search_start, search_end;
@@ -355,7 +354,7 @@ int main(int argc, char** argv) {
             ("pars-id", value< vector<long> >(&parameters_id)->multitoken()->required(), "Parameters ID.")
             ("levels", value< vector<long> >(&parameters_level)->multitoken()->required(), "Vertical level for each parameter ID.")
             ("level-types", value< vector<string> >(&parameters_level_type)->multitoken()->required(), "Level type for parameter ID.")
-            ("weights", value< vector<double> >(&weights)->multitoken(), "[Optional] Weight for each parameter ID.")
+            ("weights", value< vector<double> >(&(config.weights))->multitoken(), "[Optional] Weight for each parameter ID.")
             ("stations-index", value< vector<int> >(&stations_index)->multitoken(), "[Optional] Stations index to be read from files.")
             ("test-start", value<string>(&test_start)->required(), "Start date time for test with the format YYYY-mm-dd HH:MM:SS")
             ("test-end", value<string>(&test_end)->required(), "End date time for test.")
