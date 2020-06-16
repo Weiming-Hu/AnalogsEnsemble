@@ -26,7 +26,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE AnEnIO::AnEnIO Boost::program_opti
 install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}Targets RUNTIME DESTINATION bin)
 
 ############################################################################################
-#                                 Add executable anen_grib_mpi                             #
+#                                 Add executable anen_netcdf_mpi                             #
 ############################################################################################
 
 if(ENABLE_MPI)
