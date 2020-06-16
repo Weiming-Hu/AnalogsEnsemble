@@ -25,10 +25,14 @@
  */
 namespace Ncdf {
 
+    std::size_t readDimLength(const std::string & file_path, const std::string dim_name);
+
     void checkExists(const std::string & file_path);
     bool checkExists(const std::string& file_path, bool overwrite, bool append);
     void checkExtension(const std::string&, const std::string & ext = ".nc");
+
     void checkIndex(size_t start, size_t count, size_t len);
+
     void checkDims(const netCDF::NcGroup & nc,
             const std::vector<std::string> & names);
     void checkVars(const netCDF::NcGroup & nc,

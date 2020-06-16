@@ -6,6 +6,7 @@
  */
 
 #include "Ncdf.h"
+#include "Functions.h"
 #include "AnEnReadNcdf.h"
 
 using namespace std;
@@ -36,7 +37,39 @@ void
 AnEnReadNcdf::readForecasts(const string & file_path,
         Forecasts & forecasts) const {
     // Call the handling function
-    readForecasts(file_path, forecasts, {}, {});
+    vector<size_t> start, count;
+    readForecasts(file_path, forecasts, start, count);
+    return;
+}
+
+void
+AnEnReadNcdf::readForecasts(const string & file_path,
+        Forecasts & forecasts,
+        int station_start, int station_count) const {
+
+    // If indices are invalid, read all of them
+    if (station_start < 0 || station_count <= 0) {
+        readForecasts(file_path, forecasts);
+        return;
+    }
+
+    // Read meta information
+    auto num_parameters = Ncdf::readDimLength(file_path, Config::_DIM_PARS);
+    auto num_stations = Ncdf::readDimLength(file_path, Config::_DIM_STATIONS);
+    auto num_times = Ncdf::readDimLength(file_path, Config::_DIM_TIMES);
+    auto num_flts = Ncdf::readDimLength(file_path, Config::_DIM_FLTS);
+
+    if (station_start + station_count >= num_stations) {
+        ostringstream msg;
+        msg << "I need to read " << station_count << " stations from #" << station_start
+            << " but there are only " << num_stations << " stations available in total";
+        throw runtime_error(msg.str());
+    }
+
+    readForecasts(file_path, forecasts,
+            {0, (size_t) station_start, 0, 0},
+            {num_parameters, (size_t) station_count, num_times, num_flts});
+
     return;
 }
 
@@ -51,6 +84,9 @@ AnEnReadNcdf::readForecasts(const string & file_path,
 
     // Check whether we are reading partial or the entire variable
     bool entire = (start.size() == 0 || count.size() == 0);
+    if (verbose_ >= Verbose::Debug) cout << "entire: " << entire << endl
+        << "start: " << Functions::format(start, ",", start.size()) << endl
+            << "count: " << Functions::format(count, ",", count.size()) << endl;
 
     if (!entire) {
         if (start.size() != _FORECASTS_DIMENSIONS ||
@@ -87,7 +123,11 @@ AnEnReadNcdf::readForecasts(const string & file_path,
         read(nc, flts, Config::_FLTS, start[3], count[3]);
     }
 
-    if (verbose_ >= Verbose::Detail) cout << "Updating dimensions ..." << endl;
+    if (verbose_ >= Verbose::Detail) cout
+        << "Updating dimensions for " << parameters.size()
+            <<" parameters, " << stations.size() << " stations, " << times.size()
+            << " times, and " << flts.size() << " lead times ..." << endl;
+
     forecasts.setDimensions(parameters, stations, times, flts);
     forecasts.initialize(NAN);
 
@@ -123,7 +163,38 @@ AnEnReadNcdf::readForecasts(const string & file_path,
 void
 AnEnReadNcdf::readObservations(const string & file_path,
         Observations & observations) const {
-    readObservations(file_path, observations, {}, {});
+    vector<size_t> start, count;
+    readObservations(file_path, observations, start, count);
+    return;
+}
+
+void
+AnEnReadNcdf::readObservations(const string & file_path,
+        Observations & observations,
+        int station_start, int station_count) const {
+
+    // If indices are invalid, read all of them
+    if (station_start < 0 || station_count <= 0) {
+        readObservations(file_path, observations);
+        return;
+    }
+
+    // Read meta information
+    auto num_parameters = Ncdf::readDimLength(file_path, Config::_DIM_PARS);
+    auto num_stations = Ncdf::readDimLength(file_path, Config::_DIM_STATIONS);
+    auto num_times = Ncdf::readDimLength(file_path, Config::_DIM_TIMES);
+
+    if (station_start + station_count >= num_stations) {
+        ostringstream msg;
+        msg << "I need to read " << station_count << " stations from #" << station_start
+            << " but there are only " << num_stations << " stations available in total";
+        throw runtime_error(msg.str());
+    }
+
+    readObservations(file_path, observations,
+            {0, (size_t) station_start, 0},
+            {num_parameters, (size_t) station_count, num_times});
+
     return;
 }
 
@@ -138,6 +209,9 @@ AnEnReadNcdf::readObservations(const std::string & file_path,
 
     // Check whether we are reading partial or the entire variable
     bool entire = (start.size() == 0 || count.size() == 0);
+    if (verbose_ >= Verbose::Debug) cout << "entire: " << entire << endl
+        << "start: " << Functions::format(start, ",", start.size()) << endl
+            << "count: " << Functions::format(count, ",", count.size()) << endl;
 
     if (!entire) {
         if (start.size() != _OBSERVATIONS_DIMENSIONS ||
@@ -277,7 +351,7 @@ AnEnReadNcdf::read(const NcGroup & nc, Parameters & parameters,
     }
 
     // Check whether we are reading partial or the entire variable
-    bool entire = (start == 0 || count == 0);
+    bool entire = (count == 0);
 
     size_t dim_len = nc.getDim(Config::_DIM_PARS).getSize();
     vector<string> names, circulars;
@@ -340,7 +414,7 @@ AnEnReadNcdf::read(const NcGroup & nc, Stations & stations,
     vector<string> names;
     vector<double> xs, ys;
 
-    if (start == 0 || count == 0) {
+    if (count == 0) {
         readVector(nc, var_name_prefix + Config::_XS, xs);
         readVector(nc, var_name_prefix + Config::_YS, ys);
     } else {
@@ -408,7 +482,7 @@ AnEnReadNcdf::read(const NcGroup & nc, Times & times,
     // Read the NetCDF variable as a vector
     vector<unsigned int> vec;
 
-    if (start == 0 || count == 0) {
+    if (count == 0) {
         readVector(nc, var_name, vec);
     } else {
         // If it is partial reading, check the indices

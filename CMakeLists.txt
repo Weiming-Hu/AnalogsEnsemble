@@ -23,7 +23,7 @@ option(ENABLE_OPENMP "Use OpenMP" ON)
 option(ENABLE_MPI "Use MPI" OFF)
 
 # Set variables
-set(GRAND_VERSION "4.0.10")
+set(GRAND_VERSION "4.1.0")
 set(GRAND_VERSION_NICKNAME "Pandora")
 set(WE_ARE "GEOlab @ Penn State")
 set(SUBPROJECT_TARGETS "AnEn;AnEnIO")
@@ -129,6 +129,7 @@ endif(ENABLE_MPI)
 
 # Add applications as subprojects
 add_subdirectory(apps/anen_grib)
+add_subdirectory(apps/anen_netcdf)
 add_subdirectory(apps/grib_convert)
 
 find_package(CppUnit)

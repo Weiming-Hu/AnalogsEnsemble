@@ -1,3 +1,8 @@
+# PAnEn 4.1.0
+
+- Add `anen_netcdf`
+- Fix missing weight problem in `anen_grib`
+
 # PAnEn 4.0.10
 
 - Fixed missing variable in `RAnEn::writeNetCDF`

@@ -35,14 +35,24 @@ public:
     AnEnReadNcdf(const AnEnReadNcdf& orig);
     virtual ~AnEnReadNcdf();
 
-    void readForecasts(const std::string & file_path,
+    void readForecasts(
+            const std::string & file_path,
             Forecasts & forecasts) const;
+    void readForecasts(
+            const std::string & file_path,
+            Forecasts & forecasts,
+            int station_start, int station_count) const;
     void readForecasts(
             const std::string & file_path, Forecasts & forecasts,
             std::vector<size_t> start, std::vector<size_t> count) const;
 
-    void readObservations(const std::string & file_path,
+    void readObservations(
+            const std::string & file_path,
             Observations & observations) const;
+    void readObservations(
+            const std::string & file_path,
+            Observations & observations,
+            int station_start, int station_count) const;
     void readObservations(
             const std::string & file_path, Observations & observations,
             std::vector<size_t> start, std::vector<size_t> count) const;
