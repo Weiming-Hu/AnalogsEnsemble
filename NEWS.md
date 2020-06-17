@@ -1,3 +1,8 @@
+# PAnEn 4.1.1
+
+- Fixed partial reading check for station start and count
+- Improve column-wise check
+
 # PAnEn 4.1.0
 
 - Add `anen_netcdf`

@@ -335,8 +335,24 @@ Ncdf::writeArray4D(NcGroup & nc, const Array4D & arr, const string & var_name,
 
     // Check whether array is column major
     if (arr.num_elements() >= 2) {
-        if (arr.getValue(1, 0, 0, 0) != arr.getValuesPtr()[1]) {
-            throw runtime_error("The input array is not column major");
+        double value_array_form = arr.getValue(1, 0, 0, 0);
+        double value_pointer_form = arr.getValuesPtr()[1];
+
+        if (std::isnan(value_array_form) || std::isnan(value_pointer_form)) {
+            
+            // If any of the values is NAN, both of them must be NAN
+            if (std::isnan(value_array_form) && std::isnan(value_pointer_form)) {
+                // Expected
+            } else {
+                throw runtime_error("The input array is not column major")
+            }
+
+        } else {
+
+            // If both values are valid, compare the values
+            if (value_array_form != value_pointer_form) {
+                throw runtime_error("The input array is not column major");
+            }
         }
     }
 
