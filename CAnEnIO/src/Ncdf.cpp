@@ -344,7 +344,7 @@ Ncdf::writeArray4D(NcGroup & nc, const Array4D & arr, const string & var_name,
             if (std::isnan(value_array_form) && std::isnan(value_pointer_form)) {
                 // Expected
             } else {
-                throw runtime_error("The input array is not column major")
+                throw runtime_error("The input array is not column major");
             }
 
         } else {
