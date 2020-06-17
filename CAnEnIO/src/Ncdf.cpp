@@ -5,6 +5,8 @@
  * Created on December 30, 2019, 7:55 PM
  */
 
+#include <cmath>
+
 #include "boost/filesystem.hpp"
 
 #include "Ncdf.h"
