@@ -63,7 +63,7 @@ The following R command install the latest `RAnEn`.
 install.packages("https://github.com/Weiming-Hu/AnalogsEnsemble/raw/master/RAnalogs/releases/RAnEn_latest.tar.gz", repos = NULL)
 ```
 
-That's it. You are good to go. Please refer to [tutorials](#tutorials) or the [R documentation](https://weiming-hu.github.io/AnalogsEnsemble/R/) to learn more about using `RAnEn`.
+That's it. You are good to go. Please refer to [tutorials](#tutorials) or the [R documentation](https://weiming-hu.github.io/AnalogsEnsemble/R/) to learn more about using `RAnEn`. You might also want to install [RAnEnExtra](https://github.com/Weiming-Hu/RAnEnExtra) package with functions for visualization and verification. After `RAnEn` installation, you can simply run `devtools::install_github("Weiming-Hu/RAnEnExtra")`.
 
 **Mac users**: if the package shows that `OpenMP` is not supported. You can do one of the followings: 
 

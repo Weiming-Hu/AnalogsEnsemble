@@ -59,9 +59,9 @@ AnEnReadNcdf::readForecasts(const string & file_path,
     auto num_times = Ncdf::readDimLength(file_path, Config::_DIM_TIMES);
     auto num_flts = Ncdf::readDimLength(file_path, Config::_DIM_FLTS);
 
-    if (station_start + station_count >= num_stations) {
+    if (station_start + station_count > num_stations) {
         ostringstream msg;
-        msg << "I need to read " << station_count << " stations from #" << station_start
+        msg << "I need to read " << station_count << " forecast stations from #" << station_start
             << " but there are only " << num_stations << " stations available in total";
         throw runtime_error(msg.str());
     }
@@ -184,9 +184,9 @@ AnEnReadNcdf::readObservations(const string & file_path,
     auto num_stations = Ncdf::readDimLength(file_path, Config::_DIM_STATIONS);
     auto num_times = Ncdf::readDimLength(file_path, Config::_DIM_TIMES);
 
-    if (station_start + station_count >= num_stations) {
+    if (station_start + station_count > num_stations) {
         ostringstream msg;
-        msg << "I need to read " << station_count << " stations from #" << station_start
+        msg << "I need to read " << station_count << " observation stations from #" << station_start
             << " but there are only " << num_stations << " stations available in total";
         throw runtime_error(msg.str());
     }
