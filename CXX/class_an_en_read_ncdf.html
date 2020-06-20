@@ -101,10 +101,14 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ad24a6d2197e263ed924940f987b11898"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a21d81e299acb602fcda6e1bf588d3f5d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_read_ncdf.html#a21d81e299acb602fcda6e1bf588d3f5d">readForecasts</a> (const std::string &amp;file_path, <a class="el" href="class_forecasts.html">Forecasts</a> &amp;forecasts) const</td></tr>
 <tr class="separator:a21d81e299acb602fcda6e1bf588d3f5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a68919785373231b51e6377e11c61326c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_read_ncdf.html#a68919785373231b51e6377e11c61326c">readForecasts</a> (const std::string &amp;file_path, <a class="el" href="class_forecasts.html">Forecasts</a> &amp;forecasts, int station_start, int station_count) const</td></tr>
+<tr class="separator:a68919785373231b51e6377e11c61326c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a63ff5ff0a289cedf80cc2d6c17f24586"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_read_ncdf.html#a63ff5ff0a289cedf80cc2d6c17f24586">readForecasts</a> (const std::string &amp;file_path, <a class="el" href="class_forecasts.html">Forecasts</a> &amp;forecasts, std::vector&lt; size_t &gt; start, std::vector&lt; size_t &gt; count) const</td></tr>
 <tr class="separator:a63ff5ff0a289cedf80cc2d6c17f24586"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6f1a24f7c0d54714e7b76dbb76fb92f2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_read_ncdf.html#a6f1a24f7c0d54714e7b76dbb76fb92f2">readObservations</a> (const std::string &amp;file_path, <a class="el" href="class_observations.html">Observations</a> &amp;observations) const</td></tr>
 <tr class="separator:a6f1a24f7c0d54714e7b76dbb76fb92f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae0014a9de378a75739dc6048e635ef11"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_read_ncdf.html#ae0014a9de378a75739dc6048e635ef11">readObservations</a> (const std::string &amp;file_path, <a class="el" href="class_observations.html">Observations</a> &amp;observations, int station_start, int station_count) const</td></tr>
+<tr class="separator:ae0014a9de378a75739dc6048e635ef11"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a465c43a7738b1bcf0d9a6dfe437ead96"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_read_ncdf.html#a465c43a7738b1bcf0d9a6dfe437ead96">readObservations</a> (const std::string &amp;file_path, <a class="el" href="class_observations.html">Observations</a> &amp;observations, std::vector&lt; size_t &gt; start, std::vector&lt; size_t &gt; count) const</td></tr>
 <tr class="separator:a465c43a7738b1bcf0d9a6dfe437ead96"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a507a27f542a3c38c256acc50729d1269"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_read_ncdf.html#a507a27f542a3c38c256acc50729d1269">readAnalogs</a> (const std::string &amp;file_path, <a class="el" href="class_array4_d.html">Array4D</a> &amp;analogs, const std::string &amp;var_name=<a class="el" href="class_config.html#a09ade37419fb714d6bc0e11b0eb1d921">Config::_ANALOGS</a>, std::vector&lt; size_t &gt; start={}, std::vector&lt; size_t &gt; count={})</td></tr>
@@ -521,7 +525,7 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <a id="a21d81e299acb602fcda6e1bf588d3f5d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a21d81e299acb602fcda6e1bf588d3f5d">&#9670;&nbsp;</a></span>readForecasts() <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a21d81e299acb602fcda6e1bf588d3f5d">&#9670;&nbsp;</a></span>readForecasts() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -548,8 +552,48 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
+<a id="a68919785373231b51e6377e11c61326c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a68919785373231b51e6377e11c61326c">&#9670;&nbsp;</a></span>readForecasts() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void AnEnReadNcdf::readForecasts </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>file_path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_forecasts.html">Forecasts</a> &amp;&#160;</td>
+          <td class="paramname"><em>forecasts</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>station_start</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>station_count</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a63ff5ff0a289cedf80cc2d6c17f24586"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a63ff5ff0a289cedf80cc2d6c17f24586">&#9670;&nbsp;</a></span>readForecasts() <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a63ff5ff0a289cedf80cc2d6c17f24586">&#9670;&nbsp;</a></span>readForecasts() <span class="overload">[3/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -589,7 +633,7 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <a id="a6f1a24f7c0d54714e7b76dbb76fb92f2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6f1a24f7c0d54714e7b76dbb76fb92f2">&#9670;&nbsp;</a></span>readObservations() <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f1a24f7c0d54714e7b76dbb76fb92f2">&#9670;&nbsp;</a></span>readObservations() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -616,8 +660,48 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
+<a id="ae0014a9de378a75739dc6048e635ef11"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae0014a9de378a75739dc6048e635ef11">&#9670;&nbsp;</a></span>readObservations() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void AnEnReadNcdf::readObservations </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>file_path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_observations.html">Observations</a> &amp;&#160;</td>
+          <td class="paramname"><em>observations</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>station_start</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>station_count</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a465c43a7738b1bcf0d9a6dfe437ead96"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a465c43a7738b1bcf0d9a6dfe437ead96">&#9670;&nbsp;</a></span>readObservations() <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a465c43a7738b1bcf0d9a6dfe437ead96">&#9670;&nbsp;</a></span>readObservations() <span class="overload">[3/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">

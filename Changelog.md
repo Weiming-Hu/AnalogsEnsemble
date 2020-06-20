@@ -5,6 +5,17 @@ sidebar_link: true
 ---
 
 
+# PAnEn 4.1.1
+
+- Added `RAnEn::writeNcVar`
+- Fixed partial reading check for station start and count
+- Improve column-wise check
+
+# PAnEn 4.1.0
+
+- Added `anen_netcdf`
+- Fixed missing weight problem in `anen_grib`
+
 # PAnEn 4.0.10
 
 - Fixed missing variable in `RAnEn::writeNetCDF`

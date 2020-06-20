@@ -68,7 +68,22 @@ The following R command install the latest `RAnEn`.
 install.packages("https://github.com/Weiming-Hu/AnalogsEnsemble/raw/master/RAnalogs/releases/RAnEn_latest.tar.gz", repos = NULL)
 ```
 
-That's it. You are good to go. Please refer to [tutorials](#tutorials) or the [R documentation](https://weiming-hu.github.io/AnalogsEnsemble/R/) to learn more about using `RAnEn`.
+That's it. You are good to go. Please refer to [tutorials](#tutorials) or the [R documentation](https://weiming-hu.github.io/AnalogsEnsemble/R/) to learn more about using `RAnEn`. You might also want to install [RAnEnExtra](https://github.com/Weiming-Hu/RAnEnExtra) package with functions for visualization and verification. After `RAnEn` installation, you can simply run `devtools::install_github("Weiming-Hu/RAnEnExtra")`.
+
+**Mac users**: if the package shows that `OpenMP` is not supported. You can do one of the followings: 
+
+1. Avoid using Clang compilers and convert to GNU compilers. To change the compilers used by R, create a file `~/.R/Makevars` if you do not have it already and add the following content to it. Of course, change the compilers to what you have. If you do not have any alternative compilers other than Clang, [HomeBrew](https://brew.sh/) is your friend.
+
+```
+CC=gcc-8
+CXX=g++-8
+CXX1X=g++-8
+CXX11=g++-8
+```
+
+2. You can also follow the instructions [here](https://github.com/Rdatatable/data.table/wiki/Installation#openmp-enabled-compiler-for-mac) provided by `data.table`. They provide similar solutions but stick with Clang compilers.
+
+After the installation, you can always revert back to your original setup and `RAnEn` will stay supported by `OpenMP`.
 
 ### CAnEn
 

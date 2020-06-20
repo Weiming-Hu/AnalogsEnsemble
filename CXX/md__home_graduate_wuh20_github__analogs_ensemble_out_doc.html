@@ -102,7 +102,15 @@ $(function() {
 <li><code>If you are using</code>Windows`, please also install the latest version of <a href="https://cran.r-project.org/bin/windows/Rtools/">Rtools</a>.</li>
 </ul>
 <p>The following R command install the latest <code>RAnEn</code>.</p>
-<div class="fragment"><div class="line">install.packages(&quot;https://github.com/Weiming-Hu/AnalogsEnsemble/raw/master/RAnalogs/releases/RAnEn_latest.tar.gz&quot;, repos = NULL)</div></div><!-- fragment --><p>That's it. You are good to go. Please refer to <a href="#tutorials">tutorials</a> or the <a href="https://weiming-hu.github.io/AnalogsEnsemble/R/">R documentation</a> to learn more about using <code>RAnEn</code>.</p>
+<div class="fragment"><div class="line">install.packages(&quot;https://github.com/Weiming-Hu/AnalogsEnsemble/raw/master/RAnalogs/releases/RAnEn_latest.tar.gz&quot;, repos = NULL)</div></div><!-- fragment --><p>That's it. You are good to go. Please refer to <a href="#tutorials">tutorials</a> or the <a href="https://weiming-hu.github.io/AnalogsEnsemble/R/">R documentation</a> to learn more about using <code>RAnEn</code>. You might also want to install <a href="https://github.com/Weiming-Hu/RAnEnExtra">RAnEnExtra</a> package with functions for visualization and verification. After <code>RAnEn</code> installation, you can simply run <code>devtools::install_github("Weiming-Hu/RAnEnExtra")</code>.</p>
+<p><b>Mac users</b>: if the package shows that <code>OpenMP</code> is not supported. You can do one of the followings:</p>
+<ol type="1">
+<li>Avoid using Clang compilers and convert to GNU compilers. To change the compilers used by R, create a file <code>~/.R/Makevars</code> if you do not have it already and add the following content to it. Of course, change the compilers to what you have. If you do not have any alternative compilers other than Clang, <a href="https://brew.sh/">HomeBrew</a> is your friend.</li>
+</ol>
+<div class="fragment"><div class="line">CC=gcc-8</div><div class="line">CXX=g++-8</div><div class="line">CXX1X=g++-8</div><div class="line">CXX11=g++-8</div></div><!-- fragment --><ol type="1">
+<li>You can also follow the instructions <a href="https://github.com/Rdatatable/data.table/wiki/Installation#openmp-enabled-compiler-for-mac">here</a> provided by <code>data.table</code>. They provide similar solutions but stick with Clang compilers.</li>
+</ol>
+<p>After the installation, you can always revert back to your original setup and <code>RAnEn</code> will stay supported by <code>OpenMP</code>.</p>
 <h3>CAnEn</h3>
 <p>To install the C++ libraries, please check the following dependencies:</p>
 <ul>
