@@ -42,6 +42,7 @@ export(readConfig)
 export(readForecasts)
 export(readObservations)
 export(writeConfig)
+export(writeNcVar)
 export(writeNetCDF)
 
 import(BH)
