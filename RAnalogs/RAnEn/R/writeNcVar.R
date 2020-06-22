@@ -100,10 +100,10 @@ writeNcVar <- function(variable_name, variable_data, dim_names, nc_file, verbose
                            verbose = verbose)
   }
   
-  ncvar_put(nc, varid = nc_var, vals = variable_data, verbose = verbose)
+  ncdf4::ncvar_put(nc, varid = nc_var, vals = variable_data, verbose = verbose)
   
   # Close the file
-  nc_close(nc)
+  ncdf4::nc_close(nc)
   
   if (verbose) {
     cat(variable_name, 'has been successfully written to', nc_file, '!\n')
