@@ -1,3 +1,7 @@
+# PAnEn 4.1.2
+
+- Minor fix. When similarity value is NAN, do not copy any results to output.
+
 # PAnEn 4.1.1
 
 - Added `RAnEn::writeNcVar`

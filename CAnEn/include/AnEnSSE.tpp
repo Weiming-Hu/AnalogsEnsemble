@@ -12,6 +12,10 @@ AnEnSSE::saveAnalogs_(const SimsVec<len> & sims_arr, const Observations & observ
         std::size_t station_i, std::size_t test_time_i, std::size_t flt_i) {
 
     for (std::size_t analog_i = 0; analog_i < num_analogs_; ++analog_i) {
+
+        // Skip assigning values if the similarity metric is NAN
+        if (std::isnan(sims_arr[analog_i][_SIM_VALUE_INDEX])) continue;
+
         double obs_time_index = sims_arr[analog_i][_SIM_OBS_TIME_INDEX];
         if (std::isnan(obs_time_index)) continue;
 
@@ -37,6 +41,10 @@ AnEnSSE::saveSimsStationIndex_(const SimsVec<len> & sims_arr,
         std::size_t station_i, std::size_t test_time_i, std::size_t flt_i) {
 
     for (std::size_t sim_i = 0; sim_i < num_sims_; ++sim_i) {
+
+        // Skip assigning values if the similarity metric is NAN
+        if (std::isnan(sims_arr[sim_i][_SIM_VALUE_INDEX])) continue;
+
         sims_station_index_.setValue(sims_arr[sim_i][_SIM_STATION_INDEX],
                 station_i, test_time_i, flt_i, sim_i);
     }
