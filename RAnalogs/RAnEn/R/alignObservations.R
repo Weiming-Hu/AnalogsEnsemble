@@ -53,7 +53,7 @@
 #' @md
 #' @export
 alignObservations <- function(observations, observation.times, forecast.times,
-                              flts, return.na.index = F, show.progress = F, silent = F) {
+                              flts, return.na.index = F, show.progress = F, silent = T) {
   
   stopifnot(length(dim(observations)) == 3)
   stopifnot(dim(observations)[3] == length(observation.times))
