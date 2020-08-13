@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['notes_20for_20generating_20docker_20image',['Notes for Generating Docker Image',['../md__sapphire_s0_wuh20_github__analogs_ensemble_notes_generate_docker_image.html',1,'']]],
-  ['notes_20for_20using_20jupyter_20notebook',['Notes for Using Jupyter Notebook',['../md__sapphire_s0_wuh20_github__analogs_ensemble_notes_use_jupyter_notebook.html',1,'']]],
+  ['notes_20for_20generating_20docker_20image',['Notes for Generating Docker Image',['../md__home_graduate_wuh20_github__analogs_ensemble_notes_generate_docker_image.html',1,'']]],
+  ['notes_20for_20using_20jupyter_20notebook',['Notes for Using Jupyter Notebook',['../md__home_graduate_wuh20_github__analogs_ensemble_notes_use_jupyter_notebook.html',1,'']]],
   ['name_5f',['name_',['../class_parameter.html#af00400066ac43c6b90bb86a814771b06',1,'Parameter::name_()'],['../class_station.html#a63f10bbe0cdee5b0fd0f533cf5441ed9',1,'Station::name_()']]],
   ['ncdf',['Ncdf',['../namespace_ncdf.html',1,'']]],
   ['ncdf_2ecpp',['Ncdf.cpp',['../_ncdf_8cpp.html',1,'']]],

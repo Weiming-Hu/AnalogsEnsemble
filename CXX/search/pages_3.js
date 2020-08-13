@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['doc',['doc',['../md__sapphire_s0_wuh20_github__analogs_ensemble_out_doc.html',1,'']]]
+  ['doc',['doc',['../md__home_graduate_wuh20_github__analogs_ensemble_out_doc.html',1,'']]]
 ];
