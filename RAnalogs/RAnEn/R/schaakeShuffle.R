@@ -11,8 +11,6 @@
 
 #' RAnEn::schaakeShuffle
 #' 
-#' **This function has not been tested.**
-#' 
 #' RAnEn::schaakeShuffle is a method to improve autocorrelation within ensemble
 #' members in the spatial and temporal constructions by reordering the memebers.
 #'
@@ -56,8 +54,6 @@
 #' @export
 schaakeShuffle <- function(anen, obs.search, show.progress = F) {
   
-  warning('RAnEn::schaakeShuffle has not been tested. Use with care.')
-  
   # Sanity checks
   if (length(dim(obs.search)) != 4) {
     cat("Error: Did you forget to align the search observations (RAnEn::alignObservations)?\n",
@@ -95,22 +91,33 @@ schaakeShuffle <- function(anen, obs.search, show.progress = F) {
     # Randomly choose N search days
     selected <- sample(1:nsearch.days, size = nmembers)
     
-    # Don't be afraid of this nested loop. I'm just trying to find
-    # a combination of station and flt index from the observations
-    # that does not contain NA values.
+    # Fnd a combination of station and flt index from the observations
+    # that does not contain any NA values.
     #
+    exit_loops <- FALSE
+
     for (i.selected.station in sample.int(nstations, nstations)) {
+      
+      if (exit_loops) {
+        break
+      }
+
       for (i.selected.flt in sample.int(nflts, nflts)) {
-        selected.values <- obs.search[1, sample.int(nstations, 1),
-                                      selected, sample.int(nflts, 1)] 
+        selected.values <- obs.search[1, i.selected.station, selected, i.selected.flt] 
+
         if (!any(is.na(selected.values))) {
+          exit_loops <- TRUE
           break
         }
       }
     }
     
     if (any(is.na(selected.values))) {
-      stop('You have too many NA values in observations.')
+      msg <- paste(selected, collapse = ',')
+      msg <- paste("I randomly selected several days (", msg,
+                   ") but I can't find a station index and a",
+                   "lead time index that contains no NA values!")
+      stop(msg)
     }
     
     # Establish the linking function
