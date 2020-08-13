@@ -1,3 +1,8 @@
+# PAnEn 4.1.3
+
+- 'RAnEn::alignObservations' has been changed to be silent by default.
+- 'RAnEn::schaakeShuffle' can find proper index for shuffling and added parameters.
+
 # PAnEn 4.1.2
 
 - Minor fix. When similarity value is NAN, do not copy any results to output.

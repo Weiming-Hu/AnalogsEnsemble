@@ -44,6 +44,13 @@
 #' @param obs.search The aligned observations with 4 dimensions (parameters, stations,
 #' search times, FLTs). However, please make sure there is only 1 parameter. Observations
 #' can be created from \code{\link{alignObservations}}.
+#' @param allow.na Whether to allow NA values to exist in selected days. Since the the N
+#' search days are randomly chosen and there might be NA in the values. Typically, this
+#' function will try to find a station index and a lead time index that does not have NA
+#' values. But if it fails to do so, you have to consider what you need to do next: 1) 
+#' You can check why you have so many NA values in the observations, or 2) you can simply
+#' allow sorting with NA, and then all the NA values be placed to the end.
+#' @param seed A random seed for reproducibility.
 #' 
 #' @references 
 #' Sperati, Simone, Stefano Alessandrini, and Luca Delle Monache.
@@ -52,7 +59,9 @@
 #' 
 #' @md
 #' @export
-schaakeShuffle <- function(anen, obs.search, show.progress = F) {
+schaakeShuffle <- function(anen, obs.search, show.progress = F, allow.na = F, seed = 42) {
+  
+  set.seed(42)
   
   # Sanity checks
   if (length(dim(obs.search)) != 4) {
@@ -105,18 +114,20 @@ schaakeShuffle <- function(anen, obs.search, show.progress = F) {
       for (i.selected.flt in sample.int(nflts, nflts)) {
         selected.values <- obs.search[1, i.selected.station, selected, i.selected.flt] 
 
-        if (!any(is.na(selected.values))) {
+        if (allow.na | !any(is.na(selected.values))) {
           exit_loops <- TRUE
           break
         }
       }
     }
     
-    if (any(is.na(selected.values))) {
+    if (!allow.na & any(is.na(selected.values))) {
       msg <- paste(selected, collapse = ',')
-      msg <- paste("I randomly selected several days (", msg,
-                   ") but I can't find a station index and a",
-                   "lead time index that contains no NA values!")
+      msg <- paste0("\n\nI randomly selected several days (", msg,
+                    ") but I can't find a station index and a",
+                    "lead time index that contains no NA values!\n\n",
+                    "Maybe you want to use allow.na = T to sort",
+                    " all NA values to the end. Read more in `?schaakeShuffle`.")
       stop(msg)
     }
     

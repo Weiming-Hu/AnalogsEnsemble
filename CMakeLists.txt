@@ -23,7 +23,7 @@ option(ENABLE_OPENMP "Use OpenMP" ON)
 option(ENABLE_MPI "Use MPI" OFF)
 
 # Set variables
-set(GRAND_VERSION "4.1.2")
+set(GRAND_VERSION "4.1.3")
 set(GRAND_VERSION_NICKNAME "Pandora")
 set(WE_ARE "GEOlab @ Penn State")
 set(SUBPROJECT_TARGETS "AnEn;AnEnIO")
