@@ -85,6 +85,10 @@ public:
     std::size_t getFltTimeStamp(std::size_t index) const;
     std::size_t getFltTimeIndex(std::size_t timestamp) const;
     std::size_t getFltTimeIndex(const Time &) const;
+
+#if defined(_ENABLE_AI)
+    virtual void featureTransform(const std::string & embedding_model_path);
+#endif
     
     virtual void print(std::ostream &) const;
     friend std::ostream& operator<<(std::ostream&, Forecasts const &);
