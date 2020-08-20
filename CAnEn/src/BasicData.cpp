@@ -82,6 +82,17 @@ BasicData::getTimeIndex(Time const & time) const {
     return times_.getIndex(time);
 }
 
+BasicData &
+BasicData::operator=(const BasicData & rhs) {
+    if (this != &rhs) {
+        parameters_ = rhs.parameters_;
+        stations_ = rhs.stations_;
+        times_ = rhs.times_;
+    }
+
+    return *this;
+}
+
 void
 BasicData::print(ostream &os) const {
     os << parameters_;

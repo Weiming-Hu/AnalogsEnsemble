@@ -90,6 +90,8 @@ public:
 #if defined(_ENABLE_AI)
     virtual void featureTransform(const std::string & embedding_model_path, Verbose verbose = Verbose::Warning);
 #endif
+
+    Forecasts & operator=(const Forecasts &);
     
     virtual void print(std::ostream &) const;
     friend std::ostream& operator<<(std::ostream&, Forecasts const &);

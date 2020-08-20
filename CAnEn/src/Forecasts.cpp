@@ -187,6 +187,17 @@ Forecasts::featureTransform(const string & embedding_model_path, Verbose verbose
 }
 #endif
 
+Forecasts &
+Forecasts::operator=(const Forecasts & rhs) {
+
+    if (this != &rhs) {
+        BasicData::operator=(rhs);
+        flts_ = rhs.flts_;
+    }
+
+    return *this;
+}
+
 void
 Forecasts::print(ostream &os) const {
     os << "[Forecasts] size: [" <<
