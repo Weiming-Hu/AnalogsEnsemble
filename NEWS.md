@@ -1,3 +1,8 @@
+# PAnEn 4.2.0
+
+- Added AI functionality to C++ utilities
+- Add copy operators to classes
+
 # PAnEn 4.1.3
 
 - 'RAnEn::alignObservations' has been changed to be silent by default.

@@ -24,7 +24,7 @@ option(ENABLE_MPI "Use MPI" OFF)
 option(ENABLE_AI "Use AI for analog search" OFF)
 
 # Set variables
-set(GRAND_VERSION "4.1.3")
+set(GRAND_VERSION "4.2.0")
 set(GRAND_VERSION_NICKNAME "Pandora")
 set(WE_ARE "GEOlab @ Penn State")
 set(SUBPROJECT_TARGETS "AnEn;AnEnIO")
@@ -61,10 +61,10 @@ if(ENABLE_AI)
         message(FATAL_ERROR  "\n"
             "I couldn't find LibTorch."
             "You need to:\n"
-            "-- download LibTorch for C++/Java with cxx11 ABI from https://pytorch.org/"
-            "-- unzip it"
+            "-- download LibTorch for C++/Java with cxx11 ABI from https://pytorch.org/\n"
+            "-- unzip it\n"
             "-- include the directory of the folder in CMAKE_PREFIX_PATH.\n"
-            "If you still have problems, please open a ticket or check https://github.com/Weiming-Hu/AnalogsEnsemble/issues/110"
+            "If you still have problems, please open a ticket or check https://github.com/Weiming-Hu/AnalogsEnsemble/issues/110."
             "If you have multiple paths in CMAKE_PREFIX_PATH, use double quotes and ; as the separator.")
     endif(Torch_FOUND)
 
