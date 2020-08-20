@@ -355,12 +355,12 @@ int main(int argc, char** argv) {
             ("search-start", value<string>(&search_start)->required(), "Start date time for search.")
             ("search-end", value<string>(&search_end)->required(), "End date time for search.")
 
-#if defined(_ENABLE_AI)
-            ("torch-model", value<string>(&torch_model)->required(), "The pretrained model serialized from PyTorch. This is usually a *.pt file.")
-#endif
-
             // Optional arguments
             ("verbose,v", value<int>(&verbose), "[Optional] Verbose level (0 - 4).")
+
+#if defined(_ENABLE_AI)
+            ("torch-model", value<string>(&torch_model)->default_value(""), "[Optional] The pretrained model serialized from PyTorch. This is usually a *.pt file.")
+#endif
             ("station-start", value<int>(&station_start)->default_value(-1), "[Optional] Start index of stations to process")
             ("station-count", value<int>(&station_count)->default_value(-1), "[Optional] The number of stations to process from the start")
             ("algorithm", value<string>(&algorithm)->default_value("IS"), "[Optional] IS for Independent Search or SSE for Search Space Extension")

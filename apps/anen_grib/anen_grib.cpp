@@ -396,11 +396,6 @@ int main(int argc, char** argv) {
             ("test-end", value<string>(&test_end)->required(), "End date time for test.")
             ("search-start", value<string>(&search_start)->required(), "Start date time for search.")
             ("search-end", value<string>(&search_end)->required(), "End date time for search.")
-
-#if defined(_ENABLE_AI)
-            ("torch-model", value<string>(&torch_model)->required(), "The pretrained model serialized from PyTorch. This is usually a *.pt file.")
-#endif
-
             ("out", value<string>(&fileout)->required(), "Output file path.")
             ("algorithm", value<string>(&algorithm)->default_value("IS"), "[Optional] IS for Independent Search or SSE for Search Space Extension")
             ("delimited", bool_switch(&delimited)->default_value(false), "[Optional] Date strings in forecasts and analysis have separators.")
@@ -412,6 +407,11 @@ int main(int argc, char** argv) {
 #if defined(_USE_MPI_EXTENSION)
             ("worker-verbose", value<int>(&worker_verbose), "[Optional] Verbose level for worker processes (0 - 4).")
 #endif
+
+#if defined(_ENABLE_AI)
+            ("torch-model", value<string>(&torch_model)->default_value(""), "[Optional] The pretrained model serialized from PyTorch. This is usually a *.pt file.")
+#endif
+
             ("analogs", value<size_t>(&(config.num_analogs)), "[Optional] Number of analogs members.")
             ("sims", value<size_t>(&(config.num_sims)), "[Optional] Number of similarity members.")
             ("obs-id", value< vector<size_t> >(&obs_id)->multitoken(), "[Optional] Observation variable index. If multiple indices are provided, multivariate analogs will be generated.")
