@@ -57,7 +57,8 @@ void runAnEnNcdf(
         const string & u_name,
         const string & v_name,
         const string & spd_name,
-        const string & dir_name) {
+        const string & dir_name,
+        const string & torch_model) {
 
 
     /**************************************************************************
@@ -104,7 +105,7 @@ void runAnEnNcdf(
     AnEnReadNcdf anen_read(config.verbose);
 
     // Read forecasts
-    ForecastsPointer forecasts;
+    ForecastsPointer forecasts, forecasts_backup;
     anen_read.readForecasts(forecast_file, forecasts, station_start, station_count);
 
     profiler.log_time_session("Reading forecasts");
@@ -128,16 +129,38 @@ void runAnEnNcdf(
     profiler.log_time_session("Extracting test/search times");
 
 
+#if defined(_ENABLE_AI)
+    /*
+     * Convert forecast variables with AI
+     */
+    if (!torch_model.empty()) {
+        if (save_tests) forecasts_backup = forecasts;
+        profiler.log_time_session("Backing up original forecasts");
+
+        if (config.verbose >= Verbose::Progress) cout << "Transforming forecasts variables to latent features with AI ..." << endl;
+        forecasts.featureTransform(torch_model, config.verbose);
+
+        if (config.verbose >= Verbose::Progress) cout << "Initialize weights to all 1s because weights in latent space do not matter!" << endl;
+        config.weights = vector<double>(1, forecasts.getParameters().size());
+
+        profiler.log_time_session("Transforming features");
+    }
+
+#endif    
+
+
     /*
      * Convert wind parameters if specified
      */
     if (convert_wind) {
+        if (!torch_model.empty()) throw runtime_error("AI transformation and wind transformation cannot be used together!");
+
         if (config.verbose >= Verbose::Progress) cout << "Converting wind U/V to wind speed/direction ..." << endl;
         forecasts.windTransform(u_name, v_name, spd_name, dir_name);
         profiler.log_time_session("Calculating wind speed/direction");
     }
 
-
+    
     /**************************************************************************
      *                       Generate Analogs Ensemble                        *
      **************************************************************************/
@@ -241,6 +264,17 @@ void runAnEnNcdf(
          */
         anen_write.writeForecasts(fileout, test_forecasts, false, true);
 
+#if defined(_ENABLE_AI)
+        // Create test forecasts with the original values if AI transformation is applied
+        if (!torch_model.empty()) {
+            ForecastsPointer test_original_forecasts(
+                    forecasts_backup.getParameters(), forecasts_backup.getStations(),
+                    test_times, forecasts_backup.getFLTs());
+            forecasts.subset(test_original_forecasts);
+            anen_write.writeForecasts(fileout, test_forecasts, false, true, "OriginalForecasts");
+        }
+#endif
+
         // Create test observations times that should be saved
         size_t max_flt = max_element(forecast_flts.left.begin(), forecast_flts.left.end())->second.timestamp;
         Time obs_end_time(max_flt + test_end.timestamp);
@@ -291,7 +325,7 @@ int main(int argc, char** argv) {
     //
     // Required variables
     //
-    string fileout;
+    string fileout, torch_model;
     string forecast_file, observation_file;
     string test_start, test_end, search_start, search_end;
 
@@ -320,6 +354,10 @@ int main(int argc, char** argv) {
             ("test-end", value<string>(&test_end)->required(), "End date time for test.")
             ("search-start", value<string>(&search_start)->required(), "Start date time for search.")
             ("search-end", value<string>(&search_end)->required(), "End date time for search.")
+
+#if defined(_ENABLE_AI)
+            ("torch-model", value<string>(&torch_model)->required(), "The pretrained model serialized from PyTorch. This is usually a *.pt file.")
+#endif
 
             // Optional arguments
             ("verbose,v", value<int>(&verbose), "[Optional] Verbose level (0 - 4).")
@@ -370,7 +408,14 @@ int main(int argc, char** argv) {
         // no extra arguments other than the command line itself
         //
         cout
+#if defined(_USE_MPI_EXTENSION)
+            << "Parallel Analogs Ensemble -- anen_netcdf_mpi "
+#else
             << "Parallel Analogs Ensemble -- anen_netcdf "
+#endif
+#if defined(_ENABLE_AI)
+            << "with AI support "
+#endif
             << _APPVERSION << endl << _COPYRIGHT_MSG << endl << endl << desc << endl;
         return 0;
     }
@@ -462,7 +507,7 @@ int main(int argc, char** argv) {
     runAnEnNcdf(forecast_file, observation_file, station_start, station_count,
             obs_id, test_start, test_end, search_start, search_end, fileout, 
             algorithm, config, overwrite, profile, save_tests, convert_wind,
-            u_name, v_name, spd_name, dir_name);
+            u_name, v_name, spd_name, dir_name, torch_model);
 
 #if defined(_USE_MPI_EXTENSION)
     MPI_Finalize();

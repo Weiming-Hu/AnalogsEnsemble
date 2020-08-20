@@ -56,7 +56,8 @@ void runAnEnGrib(
         const string & u_name,
         const string & v_name,
         const string & spd_name,
-        const string & dir_name) {
+        const string & dir_name,
+        const string & torch_model) {
 
 
     /**************************************************************************
@@ -107,7 +108,9 @@ void runAnEnGrib(
     AnEnReadGrib anen_read(config.verbose);
 #endif
 
-    ForecastsPointer forecasts;
+    // Note that the backup forecasts are only used when forecasts are transformed by AI and save_test is true
+    ForecastsPointer forecasts, forecasts_backup;
+
     anen_read.readForecasts(forecasts, grib_parameters, forecast_files, forecast_regex,
             unit_in_seconds, delimited, stations_index);
 
@@ -129,29 +132,49 @@ void runAnEnGrib(
     if (world_rank == 0) {
 #endif
 
-        // Convert wind parameters if necessary
-        if (convert_wind) {
-            if (config.verbose >= Verbose::Progress) cout << "Converting wind U/V to wind speed/direction ..." << endl;
+#if defined(_ENABLE_AI)
+    /*
+     * Convert forecast variables with AI
+     */
+    if (!torch_model.empty()) {
+        if (save_tests) forecasts_backup = forecasts;
+        profiler.log_time_session("Backing up original forecasts");
 
-            forecasts.windTransform(u_name, v_name, spd_name, dir_name);
-            analysis.windTransform(u_name, v_name, spd_name, dir_name);
+        if (config.verbose >= Verbose::Progress) cout << "Transforming forecasts variables to latent features with AI ..." << endl;
+        forecasts.featureTransform(torch_model, config.verbose);
 
-            profiler.log_time_session("Calculating wind speed/direction");
-        }
+        if (config.verbose >= Verbose::Progress) cout << "Initialize weights to all 1s because weights in latent space do not matter!" << endl;
+        config.weights = vector<double>(1, forecasts.getParameters().size());
 
-        // Convert analysis to observations
-        if (config.verbose >= Verbose::Progress) cout << "Collapsing analysis forecast times and lead times ..." << endl;
-        Functions::collapseLeadTimes(observations, analysis);
+        profiler.log_time_session("Transforming features");
+    }
+#endif    
 
-        profiler.log_time_session("Reformatting analysis");
+     // Convert wind parameters if necessary
+    if (convert_wind) {
+        if (!torch_model.empty()) throw runtime_error("AI transformation and wind transformation cannot be used together!");
 
-        // Convert string date times to Times objects
-        const Times & forecast_times = forecasts.getTimes();
+        if (config.verbose >= Verbose::Progress) cout << "Converting wind U/V to wind speed/direction ..." << endl;
 
-        forecast_times(test_start, test_end, test_times);
-        forecast_times(search_start, search_end, search_times);
+        forecasts.windTransform(u_name, v_name, spd_name, dir_name);
+        analysis.windTransform(u_name, v_name, spd_name, dir_name);
 
-        profiler.log_time_session("Extracting test/search times");
+        profiler.log_time_session("Calculating wind speed/direction");
+    }
+
+    // Convert analysis to observations
+    if (config.verbose >= Verbose::Progress) cout << "Collapsing analysis forecast times and lead times ..." << endl;
+    Functions::collapseLeadTimes(observations, analysis);
+
+    profiler.log_time_session("Reformatting analysis");
+
+    // Convert string date times to Times objects
+    const Times & forecast_times = forecasts.getTimes();
+
+    forecast_times(test_start, test_end, test_times);
+    forecast_times(search_start, search_end, search_times);
+
+    profiler.log_time_session("Extracting test/search times");
 
 #if defined(_USE_MPI_EXTENSION)
     }
@@ -278,6 +301,17 @@ void runAnEnGrib(
          */
         anen_write.writeForecasts(fileout, test_forecasts, false, true);
 
+#if defined(_ENABLE_AI)
+        // Create test forecasts with the original values if AI transformation is applied
+        if (!torch_model.empty()) {
+            ForecastsPointer test_original_forecasts(
+                    forecasts_backup.getParameters(), forecasts_backup.getStations(),
+                    test_times, forecasts_backup.getFLTs());
+            forecasts.subset(test_original_forecasts);
+            anen_write.writeForecasts(fileout, test_forecasts, false, true, "OriginalForecasts");
+        }
+#endif
+
         // Create test observations times that should be saved
         size_t max_flt = max_element(forecast_flts.left.begin(), forecast_flts.left.end())->second.timestamp;
         Time obs_end_time(max_flt + test_end.timestamp);
@@ -330,7 +364,7 @@ int main(int argc, char** argv) {
     vector<int> stations_index;
     vector<size_t> obs_id;
 
-    string forecast_folder, analysis_folder, test_start, test_end, search_start, search_end;
+    string forecast_folder, analysis_folder, test_start, test_end, search_start, search_end, torch_model;
     string forecast_regex, analysis_regex, fileout, algorithm, u_name, v_name, spd_name, dir_name;
     bool delimited, overwrite, profile, save_tests, convert_wind;
     size_t unit_in_seconds;
@@ -362,6 +396,11 @@ int main(int argc, char** argv) {
             ("test-end", value<string>(&test_end)->required(), "End date time for test.")
             ("search-start", value<string>(&search_start)->required(), "Start date time for search.")
             ("search-end", value<string>(&search_end)->required(), "End date time for search.")
+
+#if defined(_ENABLE_AI)
+            ("torch-model", value<string>(&torch_model)->required(), "The pretrained model serialized from PyTorch. This is usually a *.pt file.")
+#endif
+
             ("out", value<string>(&fileout)->required(), "Output file path.")
             ("algorithm", value<string>(&algorithm)->default_value("IS"), "[Optional] IS for Independent Search or SSE for Search Space Extension")
             ("delimited", bool_switch(&delimited)->default_value(false), "[Optional] Date strings in forecasts and analysis have separators.")
@@ -369,6 +408,7 @@ int main(int argc, char** argv) {
             ("profile", bool_switch(&profile)->default_value(false), "[Optional] Print profiler's report.")
             ("unit-in-seconds", value<size_t>(&unit_in_seconds)->default_value(3600), "[Optional] The number of seconds for the unit of lead times. Usually lead times have hours as unit, so it defaults to 3600.")
             ("verbose,v", value<int>(&verbose), "[Optional] Verbose level (0 - 4).")
+
 #if defined(_USE_MPI_EXTENSION)
             ("worker-verbose", value<int>(&worker_verbose), "[Optional] Verbose level for worker processes (0 - 4).")
 #endif
@@ -418,6 +458,9 @@ int main(int argc, char** argv) {
             << "Parallel Analogs Ensemble -- anen_grib_mpi "
 #else
             << "Parallel Analogs Ensemble -- anen_grib "
+#endif
+#if defined(_ENABLE_AI)
+            << "with AI support "
 #endif
             << _APPVERSION << endl << _COPYRIGHT_MSG << endl << endl << desc << endl;
         return 0;
@@ -513,7 +556,7 @@ int main(int argc, char** argv) {
             forecast_regex, analysis_regex,
             obs_id, grib_parameters, stations_index, test_start, test_end, search_start, search_end,
             fileout, algorithm, config, unit_in_seconds, delimited, overwrite, profile, save_tests,
-            convert_wind, u_name, v_name, spd_name, dir_name);
+            convert_wind, u_name, v_name, spd_name, dir_name, torch_model);
 
 #if defined(_USE_MPI_EXTENSION)
     MPI_Finalize();
