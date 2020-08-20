@@ -17,6 +17,7 @@
  */
 
 #include "Forecasts.h"
+
 #include <stdexcept>
 
 #if defined(_ENABLE_AI)
@@ -70,14 +71,15 @@ Forecasts::getFltTimeIndex(Time const & time) const {
 
 #if defined(_ENABLE_AI)
 void
-Forecasts::featureTransform(const string & embedding_model_path) {
+Forecasts::featureTransform(const string & embedding_model_path, Verbose verbose) {
 
     // Read PyTorch model
-    cout << "Reading the torch model ..." << endl;
+    if (verbose >= Verbose::Progress) cout << "Reading the torch model ..." << endl;
     torch::jit::script::Module module;
 
     try {
         module = torch::jit::load(embedding_model_path);
+        module.eval();
 
     } catch (const c10::Error& e) {
         string msg = string("Failed to read the embedding model ") + embedding_model_path;
@@ -85,8 +87,7 @@ Forecasts::featureTransform(const string & embedding_model_path) {
         throw runtime_error(msg);
     }
 
-
-    // Loop through all stations/forecast times/lead times to convert original parameters to latent features
+    // Define the dimensions of the problem
     long int num_parameters = getParameters().size();
     long int num_stations = getStations().size();
     long int num_times = getTimes().size();
@@ -101,25 +102,31 @@ Forecasts::featureTransform(const string & embedding_model_path) {
     long int num_samples = num_stations * num_times * num_lead_times;
     
     // Initialize an empty tensor
-    auto x = at::full({num_samples, num_parameters, num_allowed_stations, num_allowed_lead_times}, NAN);
+    std::vector<torch::jit::IValue> inputs;
+
+    auto x = at::full({num_samples, num_parameters, num_allowed_stations, num_allowed_lead_times}, NAN, at::kFloat);
+    auto normalization_flag = at::full({1}, true, at::kBool);
 
     // Populate this tensor with the original features from forecasts
-    cout << "Populating the tensor ..." << endl;
+    if (verbose >= Verbose::Progress) cout << "Populating the tensor ..." << endl;
     long int sample_i = 0;
 
     for (long int station_i = 0; station_i < num_stations; ++station_i) {
         for (long int time_i = 0; time_i < num_times; ++time_i) {
             for (long int lead_time_i = 0; lead_time_i < num_lead_times; ++lead_time_i, ++sample_i) {
                 for (long int parameter_i = 0; parameter_i < num_parameters; ++parameter_i) {
-                    x[sample_i, parameter_i, 0, 0] = getValue(parameter_i, station_i, time_i, lead_time_i);
+                    x[sample_i][parameter_i][0][0] = getValue(parameter_i, station_i, time_i, lead_time_i);
                 }
             }
         }
     }
 
     // Execute the model and turn its output into a tensor.
-    cout << "Converting features ..." << endl;
-    at::Tensor output = module.normalize_and_forward({x}).toTensor();
+    if (verbose >= Verbose::Progress) cout << "Converting features ..." << endl;
+    inputs.push_back(x);
+    inputs.push_back(normalization_flag);
+
+    at::Tensor output = module.forward(inputs).toTensor();
 
     // Sanity check
     if (output.size(0) != num_samples) {
@@ -135,7 +142,7 @@ Forecasts::featureTransform(const string & embedding_model_path) {
     // - Parameters
     // - Data
     //
-    cout << "Saving latent features ..." << endl;
+    if (verbose >= Verbose::Progress) cout << "Saving latent features ..." << endl;
     Parameters latent_features;
 
     for (long int feature_i = 0; feature_i < num_latent_features; ++feature_i) {
@@ -153,24 +160,29 @@ Forecasts::featureTransform(const string & embedding_model_path) {
     swap(parameters_, latent_features);
 
     // Change Data
-    cout << "Copying latent feature values ..." << endl;
+    if (verbose >= Verbose::Progress) cout << "Copying latent feature values ..." << endl;
 
+    // There might be a different number of latent features compared to the original number of variables.
+    // Therefore, I need to reallocate memory for forecasts.
+    //
     resize(num_latent_features, num_stations, num_times, num_lead_times);
     initialize(NAN);
 
     sample_i = 0;
+    double value = 0.0;
 
     for (long int station_i = 0; station_i < num_stations; ++station_i) {
         for (long int time_i = 0; time_i < num_times; ++time_i) {
             for (long int lead_time_i = 0; lead_time_i < num_lead_times; ++lead_time_i, ++sample_i) {
                 for (long int feature_i = 0; feature_i < num_latent_features; ++feature_i) {
-                    setValue(output[sample_i][feature_i].item<double>(), feature_i, station_i, time_i, lead_time_i);
+                    value = output[sample_i][feature_i].item<double>();
+                    setValue(value, feature_i, station_i, time_i, lead_time_i);
                 }
             }
         }
     }
 
-    cout << "Done!" << endl;
+    if (verbose >= Verbose::Progress) cout << "Forecast variables have been transformed to latent features!" << endl;
     return;
 }
 #endif

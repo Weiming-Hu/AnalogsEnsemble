@@ -9,6 +9,7 @@
 #ifndef FORECASTS_H
 #define FORECASTS_H
 
+#include "Config.h"
 #include "BasicData.h"
 #include "Array4D.h"
 
@@ -87,7 +88,7 @@ public:
     std::size_t getFltTimeIndex(const Time &) const;
 
 #if defined(_ENABLE_AI)
-    virtual void featureTransform(const std::string & embedding_model_path);
+    virtual void featureTransform(const std::string & embedding_model_path, Verbose verbose = Verbose::Warning);
 #endif
     
     virtual void print(std::ostream &) const;
