@@ -141,7 +141,7 @@ void runAnEnNcdf(
         forecasts.featureTransform(torch_model, config.verbose);
 
         if (config.verbose >= Verbose::Progress) cout << "Initialize weights to all 1s because weights in latent space do not matter!" << endl;
-        config.weights = vector<double>(1, forecasts.getParameters().size());
+        config.weights = vector<double>(forecasts.getParameters().size(), 1);
 
         profiler.log_time_session("Transforming features");
     }
@@ -268,10 +268,9 @@ void runAnEnNcdf(
         // Create test forecasts with the original values if AI transformation is applied
         if (!torch_model.empty()) {
             ForecastsPointer test_original_forecasts(
-                    forecasts_backup.getParameters(), forecasts_backup.getStations(),
-                    test_times, forecasts_backup.getFLTs());
-            forecasts.subset(test_original_forecasts);
-            anen_write.writeForecasts(fileout, test_forecasts, false, true, "OriginalForecasts");
+                    forecasts_backup.getParameters(), forecasts_backup.getStations(), test_times, forecasts_backup.getFLTs());
+            forecasts_backup.subset(test_original_forecasts);
+            anen_write.writeForecasts(fileout, test_original_forecasts, false, true, "OriginalForecasts");
         }
 #endif
 
