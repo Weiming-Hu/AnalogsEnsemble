@@ -328,7 +328,7 @@ AnEnWriteNcdf::writeMultiAnEn(const string& file,
 
 void
 AnEnWriteNcdf::writeForecasts(const string& file,
-        const Forecasts & forecasts, bool overwrite, bool append) const {
+        const Forecasts & forecasts, bool overwrite, bool append, const string & group_name) const {
 
     if (verbose_ >= Verbose::Progress) cout << "Writing forecasts ..." << endl;
 
@@ -361,8 +361,8 @@ AnEnWriteNcdf::writeForecasts(const string& file,
     //
     NcGroup nc_group;
     if (file_exists) {
-        nc.addGroup("Forecasts");
-        nc_group = nc.getGroup("Forecasts");
+        nc.addGroup(group_name);
+        nc_group = nc.getGroup(group_name);
     } else {
         nc_group = nc;
     }
