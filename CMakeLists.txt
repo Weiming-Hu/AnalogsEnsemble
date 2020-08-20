@@ -52,20 +52,23 @@ if(ENABLE_AI)
     find_package(Torch)
 
     if(Torch_FOUND)
-        message(STATUS "\n\n"
-            "*************************************\n"
+        message(STATUS "\n"
+            "*************************************\n\n"
             "You have enabled the AI component!\n"
-            "Enjoy the power of AI!\n"
-            "*************************************\n")
+            "Enjoy the power of AI!\n\n"
+            "*************************************")
     else(Torch_FOUND)
         message(FATAL_ERROR  "\n"
-            "I couldn't find LibTorch.\n"
-            "See https://pytorch.org/cppdocs/installing.html for downloading and unzipping.\n"
-            "Include the directory of the folder in CMAKE_PREFIX_PATH.\n"
+            "I couldn't find LibTorch."
+            "You need to:\n"
+            "-- download LibTorch for C++/Java with cxx11 ABI from https://pytorch.org/"
+            "-- unzip it"
+            "-- include the directory of the folder in CMAKE_PREFIX_PATH.\n"
+            "If you still have problems, please open a ticket or check https://github.com/Weiming-Hu/AnalogsEnsemble/issues/110"
             "If you have multiple paths in CMAKE_PREFIX_PATH, use double quotes and ; as the separator.")
     endif(Torch_FOUND)
 
-    add_definitions(-DENABLE_AI)
+    add_definitions(-D_ENABLE_AI)
 endif(ENABLE_AI)
 
 # Build Boost if requested
