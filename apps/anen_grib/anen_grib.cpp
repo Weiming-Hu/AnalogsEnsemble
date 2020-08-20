@@ -513,16 +513,6 @@ int main(int argc, char** argv) {
     }
 #endif
 
-    if (config.verbose >= Verbose::Progress) {
-        cout
-#if defined(_USE_MPI_EXTENSION)
-            << "Parallel Analogs Ensemble -- anen_grib_mpi "
-#else
-            << "Parallel Analogs Ensemble -- anen_grib "
-#endif
-            << _APPVERSION << endl << _COPYRIGHT_MSG << endl;
-    }
-
 
     /**************************************************************************
      *                   Run analog generation with grib files                *

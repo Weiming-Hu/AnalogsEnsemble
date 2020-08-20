@@ -461,9 +461,6 @@ int main(int argc, char** argv) {
         config.setVerbose(verbose);
     }
 
-    if (config.verbose >= Verbose::Progress) cout
-        << "Parallel Analogs Ensemble -- anen_netcdf " << _APPVERSION << endl << _COPYRIGHT_MSG << endl;
-
 
     /**************************************************************************
      *                     Run analog generation with NC files                *
