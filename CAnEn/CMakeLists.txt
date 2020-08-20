@@ -70,8 +70,11 @@ target_include_directories(AnEn PUBLIC
     $<INSTALL_INTERFACE:include>)
 
 target_compile_features(AnEn PUBLIC cxx_std_11)
-
 target_link_libraries(AnEn PUBLIC Boost::boost Boost::serialization Boost::date_time)
+
+if(ENABLE_AI)
+    target_link_libraries(AnEn PRIVATE torch)
+endif(ENABLE_AI)
 
 if(ENABLE_OPENMP)
     find_package(OpenMP)
