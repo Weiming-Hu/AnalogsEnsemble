@@ -23,6 +23,11 @@
 #if defined(_ENABLE_AI)
 #include <torch/script.h>
 #include <ATen/ATen.h>
+
+#if defined(_OPENMP)
+#include <omp.h>
+#endif
+
 #endif
 
 using namespace std;
@@ -111,6 +116,10 @@ Forecasts::featureTransform(const string & embedding_model_path, Verbose verbose
     if (verbose >= Verbose::Progress) cout << "Populating the tensor ..." << endl;
     long int sample_i = 0;
 
+#if defined(_OPENMP)
+#pragma omp parallel for default(none) schedule(static) collapse(4) \
+shared(num_stations, num_times, num_lead_times, num_parameters, x)
+#endif
     for (long int station_i = 0; station_i < num_stations; ++station_i) {
         for (long int time_i = 0; time_i < num_times; ++time_i) {
             for (long int lead_time_i = 0; lead_time_i < num_lead_times; ++lead_time_i, ++sample_i) {
