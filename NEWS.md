@@ -1,6 +1,7 @@
 # PAnEn 4.2.1
 
 - Separated AI models into an embedding model and a similarity model.
+- Added OpenMP parallelization to embeddings
 
 # PAnEn 4.2.0
 

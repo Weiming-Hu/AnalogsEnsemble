@@ -298,7 +298,7 @@ AnEnIS::print(ostream & os) const {
             << Config::_QUICK << ": " << quick_sort_ << endl
             << Config::_PREVENT_SEARCH_FUTURE << ": " << prevent_search_future_ << endl
 #if defined(_ENABLE_AI)
-            << "Use AI: " << use_AI_ << endl
+            << "Use AI similarity: " << use_AI_ << endl
 #endif
             << Config::_WEIGHTS << ": " << Functions::format(weights_) << endl;
 
@@ -607,7 +607,7 @@ AnEnIS::setSdsTimeMap_(const vector<size_t> & times_accum_index) {
 
 double
 AnEnIS::computeSimMetric_(const Forecasts & forecasts,
-        size_t sta_search_i, size_t sta_test_i,
+        size_t sta_test_i, size_t sta_search_i,
         size_t flt_i, size_t time_test_i, size_t time_search_i,
         const vector<bool> & circulars) {
 
@@ -642,8 +642,8 @@ AnEnIS::computeSimMetric_(const Forecasts & forecasts,
 
         for (size_t pos = 0, window_i = flt_i_start; window_i <= flt_i_end; ++window_i, ++pos) {
 
-            double value_search = forecasts.getValue(parameter_i, sta_search_i, time_search_i, window_i);
             double value_test = forecasts.getValue(parameter_i, sta_test_i, time_test_i, window_i);
+            double value_search = forecasts.getValue(parameter_i, sta_search_i, time_search_i, window_i);
 
             if (std::isnan(value_search) || std::isnan(value_test)) {
                 window[pos] = NAN;
@@ -881,7 +881,7 @@ AnEnIS::load_similarity_model(const std::string & similarity_model_path) {
 
 double
 AnEnIS::computeSimMetricAI_(const Forecasts & forecasts,
-        size_t sta_search_i, size_t sta_test_i,
+        size_t sta_test_i, size_t sta_search_i,
         size_t flt_i, size_t time_test_i, size_t time_search_i) {
 
     long int num_features = forecasts.getParameters().size();
@@ -896,7 +896,7 @@ AnEnIS::computeSimMetricAI_(const Forecasts & forecasts,
     std::vector<torch::jit::IValue> inputs = {x1, x2};
     at::Tensor output = similarity_model_.forward(inputs).toTensor();
 
-    return output[0][0].item<double>();
+    return output[0].item<double>();
 }
 #endif
 

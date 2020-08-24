@@ -175,7 +175,7 @@ protected:
     virtual void setSdsTimeMap_(const std::vector<std::size_t> & times_accum_index);
 
     virtual double computeSimMetric_(const Forecasts & forecasts,
-            std::size_t sta_search_i, std::size_t sta_test_i,
+            std::size_t sta_test_i, std::size_t sta_search_i,
             std::size_t flt_i, std::size_t time_test_i, std::size_t time_search_i,
             const std::vector<bool> & circulars);
 
@@ -223,7 +223,7 @@ protected:
     torch::jit::script::Module similarity_model_;
 
     virtual double computeSimMetricAI_(const Forecasts & forecasts,
-            std::size_t sta_search_i, std::size_t sta_test_i,
+            std::size_t sta_test_i, std::size_t sta_search_i,
             std::size_t flt_i, std::size_t time_test_i, std::size_t time_search_i);
 #endif
     

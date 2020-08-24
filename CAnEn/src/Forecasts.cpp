@@ -21,13 +21,13 @@
 #include <stdexcept>
 
 #if defined(_ENABLE_AI)
-#include <torch/script.h>
-#include <ATen/ATen.h>
 
 #if defined(_OPENMP)
 #include <omp.h>
 #endif
 
+#include <torch/script.h>
+#include <ATen/ATen.h>
 #endif
 
 using namespace std;
@@ -98,6 +98,10 @@ Forecasts::featureTransform(const string & embedding_model_path, Verbose verbose
     long int num_times = getTimes().size();
     long int num_lead_times = getFLTs().size();
 
+    // These are the multiplier for indices
+    long int multiplier_1 = num_times * num_lead_times;
+    long int multiplier_2 = num_lead_times;
+
     // As for now, the model only accpets features at a single station and a single lead time
     // This is dictated by the structure of the model.
     //
@@ -114,24 +118,22 @@ Forecasts::featureTransform(const string & embedding_model_path, Verbose verbose
 
     // Populate this tensor with the original features from forecasts
     if (verbose >= Verbose::Progress) cout << "Populating the tensor ..." << endl;
-    long int sample_i = 0;
 
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(static) collapse(3) \
-shared(num_stations, num_times, num_lead_times, num_parameters, x, sample_i)
+shared(num_stations, num_times, num_lead_times, num_parameters, x, multiplier_1, multiplier_2)
 #endif
     for (long int station_i = 0; station_i < num_stations; ++station_i) {
         for (long int time_i = 0; time_i < num_times; ++time_i) {
             for (long int lead_time_i = 0; lead_time_i < num_lead_times; ++lead_time_i) {
 
+                // Calculate the sample index
+                long int sample_i = station_i * multiplier_1 + time_i * multiplier_2 + lead_time_i;
+
                 for (long int parameter_i = 0; parameter_i < num_parameters; ++parameter_i) {
                     x[sample_i][parameter_i][0][0] = getValue(parameter_i, station_i, time_i, lead_time_i);
                 }
 
-#if defined(_OPENMP)
-#pragma omp atomic
-#endif
-                ++sample_i;
             }
         }
     }
@@ -183,25 +185,21 @@ shared(num_stations, num_times, num_lead_times, num_parameters, x, sample_i)
     resize(num_latent_features, num_stations, num_times, num_lead_times);
     initialize(NAN);
 
-    sample_i = 0;
-
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(static) collapse(3) \
-shared(num_stations, num_times, num_lead_times, num_latent_features, sample_i, output)
+shared(num_stations, num_times, num_lead_times, num_latent_features, output, multiplier_1, multiplier_2)
 #endif
     for (long int station_i = 0; station_i < num_stations; ++station_i) {
         for (long int time_i = 0; time_i < num_times; ++time_i) {
             for (long int lead_time_i = 0; lead_time_i < num_lead_times; ++lead_time_i) {
+
+                long int sample_i = station_i * multiplier_1 + time_i * multiplier_2 + lead_time_i;
 
                 for (long int feature_i = 0; feature_i < num_latent_features; ++feature_i) {
                     double value = output[sample_i][feature_i].item<double>();
                     setValue(value, feature_i, station_i, time_i, lead_time_i);
                 }
 
-#if defined(_OPENMP)
-#pragma omp atomic
-#endif
-                ++sample_i;
             }
         }
     }
