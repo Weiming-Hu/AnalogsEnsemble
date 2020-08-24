@@ -15,6 +15,10 @@
 
 #include <unordered_map>
 
+#if defined(_ENABLE_AI)
+#include <torch/script.h>
+#endif
+
 /**
  * SimsVec is a vector of arrays. SimsVec is used to store all similarity
  * metrics and their corresponding indices for one particular test forecast
@@ -92,6 +96,13 @@ public:
      * This is the default value for similarity array
      */
     static const std::array<double, 3> _INIT_ARR_VALUE;
+
+#if defined(_ENABLE_AI)
+    /**
+     * Load a similarity model for AI inference.
+     */
+    virtual void load_similarity_model(const std::string &);
+#endif
 
 protected:
     std::size_t num_analogs_;
@@ -202,6 +213,19 @@ protected:
     template <std::size_t len>
     void saveSimsTimeIndex_(const SimsVec<len> & sims_arr,
             std::size_t station_i, std::size_t test_time_i, std::size_t flt_i);
+
+    /**************************************************************************
+     *                           AI Integrations                              *
+     **************************************************************************/
+    bool use_AI_;
+
+#if defined(_ENABLE_AI)
+    torch::jit::script::Module similarity_model_;
+
+    virtual double computeSimMetricAI_(const Forecasts & forecasts,
+            std::size_t sta_search_i, std::size_t sta_test_i,
+            std::size_t flt_i, std::size_t time_test_i, std::size_t time_search_i);
+#endif
     
 };
 

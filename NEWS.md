@@ -1,3 +1,7 @@
+# PAnEn 4.2.1
+
+- Separated AI models into an embedding model and a similarity model.
+
 # PAnEn 4.2.0
 
 - Added AI functionality to C++ utilities

@@ -73,7 +73,7 @@ target_link_libraries(AnEn PUBLIC Boost::boost Boost::serialization Boost::date_
 
 if(ENABLE_AI)
     target_compile_features(AnEn PUBLIC cxx_std_14)
-    target_link_libraries(AnEn PRIVATE torch)
+    target_link_libraries(AnEn PUBLIC torch)
 else(ENABLE_AI)
     target_compile_features(AnEn PUBLIC cxx_std_11)
 endif(ENABLE_AI)

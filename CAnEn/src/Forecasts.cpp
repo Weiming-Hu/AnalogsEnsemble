@@ -79,7 +79,7 @@ void
 Forecasts::featureTransform(const string & embedding_model_path, Verbose verbose) {
 
     // Read PyTorch model
-    if (verbose >= Verbose::Progress) cout << "Reading the torch model ..." << endl;
+    if (verbose >= Verbose::Progress) cout << "Reading the embedding model ..." << endl;
     torch::jit::script::Module module;
 
     try {
@@ -117,15 +117,21 @@ Forecasts::featureTransform(const string & embedding_model_path, Verbose verbose
     long int sample_i = 0;
 
 #if defined(_OPENMP)
-#pragma omp parallel for default(none) schedule(static) collapse(4) \
-shared(num_stations, num_times, num_lead_times, num_parameters, x)
+#pragma omp parallel for default(none) schedule(static) collapse(3) \
+shared(num_stations, num_times, num_lead_times, num_parameters, x, sample_i)
 #endif
     for (long int station_i = 0; station_i < num_stations; ++station_i) {
         for (long int time_i = 0; time_i < num_times; ++time_i) {
-            for (long int lead_time_i = 0; lead_time_i < num_lead_times; ++lead_time_i, ++sample_i) {
+            for (long int lead_time_i = 0; lead_time_i < num_lead_times; ++lead_time_i) {
+
                 for (long int parameter_i = 0; parameter_i < num_parameters; ++parameter_i) {
                     x[sample_i][parameter_i][0][0] = getValue(parameter_i, station_i, time_i, lead_time_i);
                 }
+
+#if defined(_OPENMP)
+#pragma omp atomic
+#endif
+                ++sample_i;
             }
         }
     }
@@ -178,15 +184,24 @@ shared(num_stations, num_times, num_lead_times, num_parameters, x)
     initialize(NAN);
 
     sample_i = 0;
-    double value = 0.0;
 
+#if defined(_OPENMP)
+#pragma omp parallel for default(none) schedule(static) collapse(3) \
+shared(num_stations, num_times, num_lead_times, num_latent_features, sample_i, output)
+#endif
     for (long int station_i = 0; station_i < num_stations; ++station_i) {
         for (long int time_i = 0; time_i < num_times; ++time_i) {
-            for (long int lead_time_i = 0; lead_time_i < num_lead_times; ++lead_time_i, ++sample_i) {
+            for (long int lead_time_i = 0; lead_time_i < num_lead_times; ++lead_time_i) {
+
                 for (long int feature_i = 0; feature_i < num_latent_features; ++feature_i) {
-                    value = output[sample_i][feature_i].item<double>();
+                    double value = output[sample_i][feature_i].item<double>();
                     setValue(value, feature_i, station_i, time_i, lead_time_i);
                 }
+
+#if defined(_OPENMP)
+#pragma omp atomic
+#endif
+                ++sample_i;
             }
         }
     }

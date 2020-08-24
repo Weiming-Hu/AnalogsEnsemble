@@ -58,7 +58,8 @@ void runAnEnNcdf(
         const string & v_name,
         const string & spd_name,
         const string & dir_name,
-        const string & torch_model) {
+        const string & embedding_model,
+        const string & similarity_model) {
 
 
     /**************************************************************************
@@ -133,12 +134,12 @@ void runAnEnNcdf(
     /*
      * Convert forecast variables with AI
      */
-    if (!torch_model.empty()) {
+    if (!embedding_model.empty()) {
         if (save_tests) forecasts_backup = forecasts;
         profiler.log_time_session("Backing up original forecasts");
 
         if (config.verbose >= Verbose::Progress) cout << "Transforming forecasts variables to latent features with AI ..." << endl;
-        forecasts.featureTransform(torch_model, config.verbose);
+        forecasts.featureTransform(embedding_model, config.verbose);
 
         if (config.verbose >= Verbose::Progress) cout << "Initialize weights to all 1s because weights in latent space do not matter!" << endl;
         config.weights = vector<double>(forecasts.getParameters().size(), 1);
@@ -153,7 +154,7 @@ void runAnEnNcdf(
      * Convert wind parameters if specified
      */
     if (convert_wind) {
-        if (!torch_model.empty()) throw runtime_error("AI transformation and wind transformation cannot be used together!");
+        if (!embedding_model.empty()) throw runtime_error("AI transformation and wind transformation cannot be used together!");
 
         if (config.verbose >= Verbose::Progress) cout << "Converting wind U/V to wind speed/direction ..." << endl;
         forecasts.windTransform(u_name, v_name, spd_name, dir_name);
@@ -196,6 +197,10 @@ void runAnEnNcdf(
     } else {
         throw runtime_error("The algorithm is not recognized");
     }
+
+#if defined(_ENABLE_AI)
+    if (!similarity_model.empty()) anen->load_similarity_model(similarity_model);
+#endif
 
     anen->compute(forecasts, observations, test_times, search_times);
 
@@ -266,7 +271,7 @@ void runAnEnNcdf(
 
 #if defined(_ENABLE_AI)
         // Create test forecasts with the original values if AI transformation is applied
-        if (!torch_model.empty()) {
+        if (!embedding_model.empty()) {
             ForecastsPointer test_original_forecasts(
                     forecasts_backup.getParameters(), forecasts_backup.getStations(), test_times, forecasts_backup.getFLTs());
             forecasts_backup.subset(test_original_forecasts);
@@ -324,7 +329,7 @@ int main(int argc, char** argv) {
     //
     // Required variables
     //
-    string fileout, torch_model;
+    string fileout, embedding_model, similarity_model;
     string forecast_file, observation_file;
     string test_start, test_end, search_start, search_end;
 
@@ -358,7 +363,8 @@ int main(int argc, char** argv) {
             ("verbose,v", value<int>(&verbose), "[Optional] Verbose level (0 - 4).")
 
 #if defined(_ENABLE_AI)
-            ("torch-model", value<string>(&torch_model)->default_value(""), "[Optional] The pretrained model serialized from PyTorch. This is usually a *.pt file.")
+            ("ai-embedding", value<string>(&embedding_model)->default_value(""), "[Optional] The pretrained model serialized from PyTorch for embeddings. This is usually a *.pt file.")
+            ("ai-similarity", value<string>(&similarity_model)->default_value(""), "[Optional] The pretrained model serialized from PyTorch for similarity. This is usually a *.pt file.")
 #endif
             ("station-start", value<int>(&station_start)->default_value(-1), "[Optional] Start index of stations to process")
             ("station-count", value<int>(&station_count)->default_value(-1), "[Optional] The number of stations to process from the start")
@@ -503,7 +509,7 @@ int main(int argc, char** argv) {
     runAnEnNcdf(forecast_file, observation_file, station_start, station_count,
             obs_id, test_start, test_end, search_start, search_end, fileout, 
             algorithm, config, overwrite, profile, save_tests, convert_wind,
-            u_name, v_name, spd_name, dir_name, torch_model);
+            u_name, v_name, spd_name, dir_name, embedding_model, similarity_model);
 
 #if defined(_USE_MPI_EXTENSION)
     MPI_Finalize();

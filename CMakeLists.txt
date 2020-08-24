@@ -24,7 +24,7 @@ option(ENABLE_MPI "Use MPI" OFF)
 option(ENABLE_AI "Use AI for analog search" OFF)
 
 # Set variables
-set(GRAND_VERSION "4.2.0")
+set(GRAND_VERSION "4.2.1")
 set(GRAND_VERSION_NICKNAME "Pandora")
 set(WE_ARE "GEOlab @ Penn State")
 set(SUBPROJECT_TARGETS "AnEn;AnEnIO")

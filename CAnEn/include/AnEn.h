@@ -60,6 +60,14 @@ public:
     
     AnEn & operator=(const AnEn & rhs);
 
+#if defined(_ENABLE_AI)
+    /**
+     * Load a pretrained model for similarity definition and turn on
+     * similarity calculation with the loaded model.
+     */
+    virtual void load_similarity_model(const std::string &) = 0;
+#endif
+
 protected:
     Verbose verbose_;
     Profiler profiler_;
