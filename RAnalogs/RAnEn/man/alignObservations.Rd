@@ -11,7 +11,7 @@ alignObservations(
   flts,
   return.na.index = F,
   show.progress = F,
-  silent = F
+  silent = T
 )
 }
 \arguments{

@@ -4,7 +4,7 @@
 \alias{schaakeShuffle}
 \title{RAnEn::schaakeShuffle}
 \usage{
-schaakeShuffle(anen, obs.search, show.progress = F)
+schaakeShuffle(anen, obs.search, show.progress = F, allow.na = F, seed = 42)
 }
 \arguments{
 \item{anen}{Analogs from \code{\link{generateAnalogs.default}}.
@@ -13,14 +13,21 @@ The dimensions should be (stations, test times, FLTs, members).}
 \item{obs.search}{The aligned observations with 4 dimensions (parameters, stations,
 search times, FLTs). However, please make sure there is only 1 parameter. Observations
 can be created from \code{\link{alignObservations}}.}
+
+\item{allow.na}{Whether to allow NA values to exist in selected days. Since the the N
+search days are randomly chosen and there might be NA in the values. Typically, this
+function will try to find a station index and a lead time index that does not have NA
+values. But if it fails to do so, you have to consider what you need to do next: 1)
+You can check why you have so many NA values in the observations, or 2) you can simply
+allow sorting with NA, and then all the NA values be placed to the end.}
+
+\item{seed}{A random seed for reproducibility.}
 }
 \description{
-\strong{This function has not been tested.}
-}
-\details{
 RAnEn::schaakeShuffle is a method to improve autocorrelation within ensemble
 members in the spatial and temporal constructions by reordering the memebers.
-
+}
+\details{
 Although the absolute verification statistics of a particular ensemble (e.g.
 RMSE, bias, and etc.) are not affected by reordering the members, the reordered
 ensemble members preserve a better autocorrelation structure when inspected

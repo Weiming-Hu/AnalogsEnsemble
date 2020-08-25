@@ -2,6 +2,7 @@
 
 - Separated AI models into an embedding model and a similarity model.
 - Added OpenMP parallelization to embeddings
+- `RAnEn::readConfig` now reads any `*.cfg` file into a list.
 
 # PAnEn 4.2.0
 

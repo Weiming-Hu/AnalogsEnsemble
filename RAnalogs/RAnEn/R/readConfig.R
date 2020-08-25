@@ -16,40 +16,49 @@
 #' 
 #' @author Weiming Hu \email{weiming@@psu.edu}
 #' @param config.file The full path to the configuration file (.cfg)
-#' @return A config
+#' @param replace.dash A single character to replace the dash in configuration names for. This can be set to `NULL`
+#' if no replacement is desired.
+#' @return A list
+#' @md
 #' @export
-readConfig <- function(config.file) {
+readConfig <- function (config.file, replace.dash = '_') {
+  
+  check.package('stringr')
   stopifnot(file.exists(config.file))
   
-  # Read file content as lines
-  con <- file(config.file, 'r')
+  # Read all lines from the file
+  con <- file(config.file, "r")
   lines <- readLines(con = con)
   close(con)
   
-  # Remove comment lines and empty lines
-  to.be.removed <- grep('(^#.*)|(^$)', lines)
+  # Remove commented lines
+  to.be.removed <- grep("(^#.*)|(^$)", lines)
   if (length(to.be.removed) != 0) {
     lines <- lines[-to.be.removed]
   }
   
-  config <- new(Config)
-  pairs <- config$getNames()
+  config <- list()
   
+  # Parse lines
   for (line in lines) {
-    parts <- strsplit(line, ' ')[[1]]
     
-    key <- parts[1]
-    value <- as.numeric(parts[3])
+    # Split a line with space
+    parts <- strsplit(line, "=")[[1]]
     
-    if (key == pairs$`_WEIGHTS`) {
-      config[[key]] <- c(config[[key]], value)
-    } else if (key == pairs$`_OBS_ID`) {
-      config[[key]] <- value + 1
-    } else if (key == pairs$`_DISTANCE`) {
-      if (value == -1) config[[key]] <- NaN
-    } else {
-      config[[key]] <- value
+    if (length(parts) != 2) {
+      stop('Some lines have multiple equal signs which is not allowed!')
     }
+    
+    # Remove spaces
+    left <- stringr::str_replace(parts[1], ' +', '')
+    right <- stringr::str_replace(parts[2], '^ +', '')
+    
+    # Replace dashes in the left
+    if (!is.null(replace.dash)) {
+      left <- stringr::str_replace_all(left, '-', replace.dash)
+    }
+    
+    config[[left]] <- right
   }
   
   return(config)
