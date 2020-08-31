@@ -1,3 +1,7 @@
+# PAnEn 4.2.2
+
+- Add debug printing when parameters are missing
+
 # PAnEn 4.2.1
 
 - Separated AI models into an embedding model and a similarity model.
