@@ -12,6 +12,9 @@
 #include "Ncdf.h"
 #include "Config.h"
 
+// This is maximum count of characters allowed in a single name
+static int _MAX_LENGTH = 100;
+
 namespace filesys = boost::filesystem;
 using namespace netCDF;
 using namespace std;
@@ -212,59 +215,111 @@ Ncdf::readStringVector(
     auto var_dims = var.getDims();
     char *p_vals = nullptr;
 
-    // Check the dimensions
-    if (var.getDims().size() != 2) {
-        ostringstream msg;
-        msg << "Variable (" << var_name << ") is not 2-dimensional";
-        throw runtime_error(msg.str());
-    }
+    /*
+     * There are two possible cases:
+     *
+     * 1. The name dimension is a vector of strings. In this case, the variable only has 1 dimension.
+     * 2. The name dimension is a matrix of characters. In this case, the variable has 2 dimensions.
+     */
 
-    // Check the variable type
-    if (var.getType() != NcType::nc_CHAR) {
-        ostringstream msg;
-        msg << "Variable (" << var_name << ") is not nc_CHAR type!";
-        throw runtime_error(msg.str());
-    }
+    auto num_dimensions = var_dims.size();
 
-    // Determine the length of the strings to read
-    size_t len, num_strs = var_dims[0].getSize(),
-            num_chars = var_dims[1].getSize();
+    if (num_dimensions == 1) {
+        // Check the variable type
+        if (var.getType() != NcType::nc_STRING) {
+            ostringstream msg;
+            msg << "Variable (" << var_name << ") is not nc_STRING type!";
+            throw runtime_error(msg.str());
+        }
 
-    if (nc.getDim(name_char).getSize() != num_chars) {
-        throw runtime_error("Can not read strings as vectors!");
-    }
-
-    if (entire) len = num_chars * num_strs;
-    else len = num_chars * count;
-
-    // Allocate memory for reading
-    try {
-        p_vals = new char[len];
-    } catch (bad_alloc & e) {
-        ostringstream msg;
-        msg << "Insufficient memory reading " << var_name;
-        throw runtime_error(msg.str());
-    }
-
-    // Convert the pointer to a vector of strings
-    if (entire) {
-        var.getVar(p_vals);
-        results.resize(num_strs);
-    } else {
-        vector<size_t> vec_start{start, 0}, vec_count{count, num_chars};
-        var.getVar(vec_start, vec_count, p_vals);
+        // Determine the length of strings to read
+        if (count == 0) count = var_dims[0].getSize();
         results.resize(count);
+
+        char* p_str[_MAX_LENGTH];
+
+        for (size_t i = 0; i < count; ++i) {
+            var.getVar({i}, &p_str);
+
+            // Make sure the ending is found
+            bool found = false;
+            for (int j = 0; j < _MAX_LENGTH; ++j) {
+                if ((*p_str)[j] == '\0') found = true;
+            }
+
+            if (!found) {
+                ostringstream msg;
+                msg << "The maximum count of characters in a single name is "
+                    << _MAX_LENGTH << ". Check parameter #" << i;
+                throw runtime_error(msg.str());
+            }
+
+            // Create a string from the buffer
+            string str(*p_str);
+            purge(str);
+            results[i] = str;
+        }
+
+    } else if (num_dimensions == 2) {
+        if (!dimExists(nc, name_char)) {
+            ostringstream msg;
+            msg << "Variable (" << var_name << ") has 2 dimensions but the dimension "
+                << name_char << " is not found!";
+            throw runtime_error(msg.str());
+        }
+
+        // Check the variable type
+        if (var.getType() != NcType::nc_CHAR) {
+            ostringstream msg;
+            msg << "Variable (" << var_name << ") is not nc_CHAR type!";
+            throw runtime_error(msg.str());
+        }
+
+        // Determine the length of the strings to read
+        size_t len, num_strs = var_dims[0].getSize(),
+               num_chars = var_dims[1].getSize();
+
+        if (nc.getDim(name_char).getSize() != num_chars) {
+            throw runtime_error("Can not read strings as vectors!");
+        }
+
+        if (entire) len = num_chars * num_strs;
+        else len = num_chars * count;
+
+        // Allocate memory for reading
+        try {
+            p_vals = new char[len];
+        } catch (bad_alloc & e) {
+            ostringstream msg;
+            msg << "Insufficient memory reading " << var_name;
+            throw runtime_error(msg.str());
+        }
+
+        // Convert the pointer to a vector of strings
+        if (entire) {
+            var.getVar(p_vals);
+            results.resize(num_strs);
+        } else {
+            vector<size_t> vec_start{start, 0}, vec_count{count, num_chars};
+            var.getVar(vec_start, vec_count, p_vals);
+            results.resize(count);
+        }
+
+        for (size_t i = 0; i < results.size(); i++) {
+            string str(p_vals + i*num_chars, p_vals + (i + 1) * num_chars);
+            purge(str);
+            results.at(i) = str;
+        }
+
+        // Deallocation
+        delete [] p_vals;
+
+    } else {
+        ostringstream msg;
+        msg << "Variable (" << var_name << ") must have either 1 or 2 dimensions";
+        throw runtime_error(msg.str());
     }
-
-    for (size_t i = 0; i < results.size(); i++) {
-        string str(p_vals + i*num_chars, p_vals + (i + 1) * num_chars);
-        purge(str);
-        results.at(i) = str;
-    }
-
-    // Deallocation
-    delete [] p_vals;
-
+    
     return;
 }
 
@@ -301,9 +356,6 @@ Ncdf::writeStringVector(NcGroup & nc, const std::string & var_name,
         const std::string & dim_name, const std::vector<std::string> & values,
         bool unlimited) {
 
-    using namespace netCDF;
-    using namespace std;
-    
     if (var_name.empty()) throw runtime_error("Ncdf::writeStringVector -> Empty variable name is not allowed");
 
     // Check whether the variable exists
