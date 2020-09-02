@@ -27,7 +27,6 @@
 #endif
 
 #include <torch/script.h>
-#include <ATen/ATen.h>
 #endif
 
 using namespace std;
@@ -98,68 +97,32 @@ Forecasts::featureTransform(const string & embedding_model_path, Verbose verbose
     long int num_times = getTimes().size();
     long int num_lead_times = getFLTs().size();
 
-    // These are the multiplier for indices
-    long int multiplier_1 = num_times * num_lead_times;
-    long int multiplier_2 = num_lead_times;
+    // These are the multiplier for indices during nested for loops.
+    // Make sure the nest for loops are in the order of
+    //
+    // [lead times] -> [stations] -> [forecast times]
+    //
+    // This is because these dimensions will be flattened into a single dimension [sample] and
+    // later on reconstructed. I need to absolutely make sure that I do confuse the indices.
+    //
+    long int multiplier_1 = num_stations * num_times;
+    long int multiplier_2 = num_times;
+
+    // Initialize a variable for the transformed output
+    at::Tensor output;
 
     // Determine the embedding type
     if (module._embedding_type == 0) {
+        featureTransform_1D_(output, num_parameters, num_stations, num_times, num_lead_times, multiplier_1, multiplier_2);
 
     } else if  (module._embedding_type == 1) {
+        featureTransform_2D_(output, num_parameters, num_stations, num_times, num_lead_times, multiplier_1, multiplier_2);
 
     } else {
         throw runtime_error("Unknown embedding type from the embedding model (member name: _embedding_type)");
     }
 
-    // For embedding 0, 1-dimensional embedding with parameters only, the model only accpets features at a 
-    // single station and a single lead time. This is dictated by the structure of the model.
-    //
-    const long int num_allowed_stations = 1;
-    const long int num_allowed_lead_times = 1;
-
-    long int num_samples = num_stations * num_times * num_lead_times;
-    
-    // Initialize an empty tensor
-    std::vector<torch::jit::IValue> inputs;
-
-    auto x = at::full({num_samples, num_parameters, num_allowed_stations, num_allowed_lead_times}, NAN, at::kFloat);
-    auto normalization_flag = at::full({1}, true, at::kBool);
-
-    // Populate this tensor with the original features from forecasts
-    if (verbose >= Verbose::Progress) cout << "Populating the tensor ..." << endl;
-
-#if defined(_OPENMP)
-#pragma omp parallel for default(none) schedule(static) collapse(3) \
-shared(num_stations, num_times, num_lead_times, num_parameters, x, multiplier_1, multiplier_2)
-#endif
-    for (long int station_i = 0; station_i < num_stations; ++station_i) {
-        for (long int time_i = 0; time_i < num_times; ++time_i) {
-            for (long int lead_time_i = 0; lead_time_i < num_lead_times; ++lead_time_i) {
-
-                // Calculate the sample index
-                long int sample_i = station_i * multiplier_1 + time_i * multiplier_2 + lead_time_i;
-
-                for (long int parameter_i = 0; parameter_i < num_parameters; ++parameter_i) {
-                    x[sample_i][parameter_i][0][0] = getValue(parameter_i, station_i, time_i, lead_time_i);
-                }
-
-            }
-        }
-    }
-
-    // Execute the model and turn its output into a tensor.
-    if (verbose >= Verbose::Progress) cout << "Converting features ..." << endl;
-    inputs.push_back(x);
-    inputs.push_back(normalization_flag);
-
-    at::Tensor output = module.forward(inputs).toTensor();
-
-    // Sanity check
-    if (output.size(0) != num_samples) {
-        throw runtime_error("The number of samples (the first dimension length) have changed after feature transformation. This is fatal!");
-    }
-
-    // This is the number of latent features)bbbb
+    // This is the number of latent features
     long int num_latent_features = output.size(1);
     long int maximum_width = to_string(num_latent_features).length();
 
@@ -198,11 +161,11 @@ shared(num_stations, num_times, num_lead_times, num_parameters, x, multiplier_1,
 #pragma omp parallel for default(none) schedule(static) collapse(3) \
 shared(num_stations, num_times, num_lead_times, num_latent_features, output, multiplier_1, multiplier_2)
 #endif
-    for (long int station_i = 0; station_i < num_stations; ++station_i) {
-        for (long int time_i = 0; time_i < num_times; ++time_i) {
-            for (long int lead_time_i = 0; lead_time_i < num_lead_times; ++lead_time_i) {
+    for (long int lead_time_i = 0; lead_time_i < num_lead_times; ++lead_time_i) {
+        for (long int station_i = 0; station_i < num_stations; ++station_i) {
+            for (long int time_i = 0; time_i < num_times; ++time_i) {
 
-                long int sample_i = station_i * multiplier_1 + time_i * multiplier_2 + lead_time_i;
+                long int sample_i = lead_time_i * multiplier_1 + station_i* multiplier_2 + time_i;
 
                 for (long int feature_i = 0; feature_i < num_latent_features; ++feature_i) {
                     double value = output[sample_i][feature_i].item<double>();
@@ -218,8 +181,119 @@ shared(num_stations, num_times, num_lead_times, num_latent_features, output, mul
 }
 
 Forecasts &
-Forecasts::featureTransform_2D() {
+Forecasts::featureTransform_1D_(at::Tensor & output,
+        long int num_parameters, long int num_stations, long int num_times, long int num_lead_times,
+        long int multiplier_1, long int multiplier_2) {
 
+    // For embedding 0, 1-dimensional embedding with parameters only, the model only accpets features at a 
+    // single station and a single lead time. This is dictated by the structure of the Torch model.
+    //
+    const long int num_allowed_stations = 1;
+    const long int num_allowed_lead_times = 1;
+
+    long int num_samples = num_stations * num_times * num_lead_times;
+    
+    // Initialize an empty tensor
+    std::vector<torch::jit::IValue> inputs;
+
+    auto x = at::full({num_samples, num_parameters, num_allowed_stations, num_allowed_lead_times}, NAN, at::kFloat);
+    auto normalization_flag = at::full({1}, true, at::kBool);
+
+    // Populate this tensor with the original features from forecasts
+    if (verbose >= Verbose::Progress) cout << "Populating the tensor with 1-dimensional embeddings (parameters only) ..." << endl;
+
+#if defined(_OPENMP)
+#pragma omp parallel for default(none) schedule(static) collapse(3) \
+shared(num_stations, num_times, num_lead_times, num_parameters, x, multiplier_1, multiplier_2)
+#endif
+    for (long int lead_time_i = 0; lead_time_i < num_lead_times; ++lead_time_i) {
+        for (long int station_i = 0; station_i < num_stations; ++station_i) {
+            for (long int time_i = 0; time_i < num_times; ++time_i) {
+
+                // Calculate the sample index
+                long int sample_i = lead_time_i * multiplier_1 + station_i* multiplier_2 + time_i;
+
+                for (long int parameter_i = 0; parameter_i < num_parameters; ++parameter_i) {
+                    x[sample_i][parameter_i][0][0] = getValue(parameter_i, station_i, time_i, lead_time_i);
+                }
+
+            }
+        }
+    }
+
+    // Execute the model
+    if (verbose >= Verbose::Progress) cout << "Converting features ..." << endl;
+    inputs.push_back(x);
+    inputs.push_back(normalization_flag);
+
+    output = module.forward(inputs).toTensor();
+    return;
+}
+
+Forecasts &
+Forecasts::featureTransform_2D_(at::Tensor & output,
+        long int num_parameters, long int num_stations, long int num_times, long int num_lead_times,
+        long int multiplier_1, long int multiplier_2) {
+
+    // For embedding 1, 2-dimensional embedding with parameters and lead times, the model accepts features 
+    // at a single station but continuous lead times. This is dictated by the structure of the Torch model.
+    //
+    const long int num_allowed_stations = 1;
+
+    // Populate this tensor with the original features from forecasts
+    if (verbose >= Verbose::Progress) cout << "Populating the tensor with 2-dimensional embeddings (parameters with lead times) ..." << endl;
+
+    at::TensorList tensor_outputs;
+
+    for (long int lead_time_i = 0; lead_time_i < num_lead_times; ++lead_time_i) {
+
+        long int num_samples = num_stations * num_times;
+
+        // Calculate the window size
+        long int flt_left = lead_time_i - model.flt_radius;
+        long int flt_right = lead_time_i + model.flt_radius + 1;
+
+        if (flt_left < 0) flt_left = 0;
+        if (flt_right >= num_lead_times) flt_right = 0;
+
+        long int window_size = flt_right - flt_right;
+
+        auto x = at::full({num_samples, num_parameters, num_allowed_stations, window_size}, NAN, at::kFloat);
+        auto normalization_flag = at::full({1}, true, at::kBool);
+
+#if defined(_OPENMP)
+#pragma omp parallel for default(none) schedule(static) collapse(2) \
+shared(num_stations, num_times, window_size, num_parameters, x, multiplier_1, multiplier_2)
+#endif
+        for (long int station_i = 0; station_i < num_stations; ++station_i) {
+            for (long int time_i = 0; time_i < num_times; ++time_i) {
+
+                // Calculate the sample index
+                long int sample_i = station_i * multiplier_2 + time_i;
+
+                for (long int window_i = 0; window_i < window_size; ++window_i) {
+                    for (long int parameter_i = 0; parameter_i < num_parameters; ++parameter_i) {
+                        x[sample_i][parameter_i][0][window_i] = getValue(parameter_i, station_i, time_i, flt_left + window_i);
+                    }
+                }
+            }
+        }
+
+        // Execute the model
+        if (verbose >= Verbose::Detail) cout << "Converting features for lead time " <<
+            lead_time_i + 1 << "/" << num_lead_times << " ..." << endl;
+
+        // Initialize an empty tensor
+        std::vector<torch::jit::IValue> inputs;
+
+        inputs.push_back(x);
+        inputs.push_back(normalization_flag);
+
+        tensor_outputs.push_back(module.forward(inputs).toTensor());
+    }
+
+    output = at::stack(tensor_outputs, 0);
+    return;
 }
 #endif
 

@@ -96,7 +96,7 @@ matrix:
             os: linux
             language: r
             cache: Rcpp
-            addons: {apt: {sources: [ubuntu-toolchain-r-test], packages: [g++-5, r-base-core]}}
+            addons: {apt: {sources: [ubuntu-toolchain-r-test], packages: [g++-5]}}
             env: ['ENVIRONMENT_LANGUAGE="r"']
 
 
