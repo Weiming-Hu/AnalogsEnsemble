@@ -102,8 +102,17 @@ Forecasts::featureTransform(const string & embedding_model_path, Verbose verbose
     long int multiplier_1 = num_times * num_lead_times;
     long int multiplier_2 = num_lead_times;
 
-    // As for now, the model only accpets features at a single station and a single lead time
-    // This is dictated by the structure of the model.
+    // Determine the embedding type
+    if (module._embedding_type == 0) {
+
+    } else if  (module._embedding_type == 1) {
+
+    } else {
+        throw runtime_error("Unknown embedding type from the embedding model (member name: _embedding_type)");
+    }
+
+    // For embedding 0, 1-dimensional embedding with parameters only, the model only accpets features at a 
+    // single station and a single lead time. This is dictated by the structure of the model.
     //
     const long int num_allowed_stations = 1;
     const long int num_allowed_lead_times = 1;
@@ -206,6 +215,11 @@ shared(num_stations, num_times, num_lead_times, num_latent_features, output, mul
 
     if (verbose >= Verbose::Progress) cout << "Forecast variables have been transformed to latent features!" << endl;
     return;
+}
+
+Forecasts &
+Forecasts::featureTransform_2D() {
+
 }
 #endif
 
