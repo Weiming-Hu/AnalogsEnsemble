@@ -116,18 +116,27 @@ Forecasts::featureTransform(const string & embedding_model_path, Verbose verbose
 
     // Extract embedding type from the embedding model
     auto attr_list = module.named_attributes();
-    const auto list_begin = attr_list.begin();
-    const auto list_end = attr_list.end();
-    int embedding_type = -999;
+    auto list_begin = attr_list.begin();
+    auto it = attr_list.begin();
+    auto list_end = attr_list.end();
+    int embedding_type = 0;
 
-    for (auto it = list_begin; it != list_end; ++it) {
+    for (it = list_begin; it != list_end; ++it) {
         if ((*it).name == "embedding_type") {
             embedding_type = (*it).value.toInt();
             break;
         }
     }
 
-    if (embedding_type == -999) throw runtime_error("Couldn't find the embedding type from the embedding type (embedding_type)!");
+    // Only the not-equal operator is implemented, but not the equal operator, for torch::jit::slot_iterator_impl comparison.
+    // So I have to compare two iterators in such a way.
+    //
+    if (it != list_end) {
+        // Good! The embedding type is found.
+    } else {
+        if (verbose >= Verbose::Warning) cerr << "Can't find the embedding type from the module. Default to " << embedding_type << endl;
+    }
+
     if (embedding_type < 0 | embedding_type > _EMBEDDING_TYPE_DESC.size() - 1) throw runtime_error("Invalid embedding type");
 
     if (verbose >= Verbose::Detail) cout << "Embedding type is " << embedding_type << ": " << _EMBEDDING_TYPE_DESC[embedding_type] << endl;
