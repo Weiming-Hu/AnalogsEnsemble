@@ -2,6 +2,7 @@
 
 - Add debug printing when parameters are missing
 - Add functionality to read `nc_STRING`
+- Add embedding support for 2-dimensional embedding (parameters, lead times)
 
 # PAnEn 4.2.1
 
