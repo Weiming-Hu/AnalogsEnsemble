@@ -21,15 +21,18 @@
 #include <stdexcept>
 
 #if defined(_ENABLE_AI)
-
 #if defined(_OPENMP)
 #include <omp.h>
 #endif
-
-#include <torch/script.h>
+#include <torch/torch.h>
 #endif
 
 using namespace std;
+
+static const vector<string> _EMBEDDING_TYPE_DESC = {
+    "1-dimensional embedding [parameters]",
+    "2-dimensional embedding [parameters, lead times]"
+};
 
 Forecasts::Forecasts() : Array4D(), BasicData() {
 }
@@ -75,7 +78,7 @@ Forecasts::getFltTimeIndex(Time const & time) const {
 
 #if defined(_ENABLE_AI)
 void
-Forecasts::featureTransform(const string & embedding_model_path, Verbose verbose) {
+Forecasts::featureTransform(const string & embedding_model_path, Verbose verbose, long int flt_radius) {
 
     // Read PyTorch model
     if (verbose >= Verbose::Progress) cout << "Reading the embedding model ..." << endl;
@@ -111,15 +114,37 @@ Forecasts::featureTransform(const string & embedding_model_path, Verbose verbose
     // Initialize a variable for the transformed output
     at::Tensor output;
 
-    // Determine the embedding type
-    if (module._embedding_type == 0) {
-        featureTransform_1D_(output, num_parameters, num_stations, num_times, num_lead_times, multiplier_1, multiplier_2);
+    // Extract embedding type from the embedding model
+    auto attr_list = module.named_attributes();
+    const auto list_begin = attr_list.begin();
+    const auto list_end = attr_list.end();
+    int embedding_type = -999;
 
-    } else if  (module._embedding_type == 1) {
-        featureTransform_2D_(output, num_parameters, num_stations, num_times, num_lead_times, multiplier_1, multiplier_2);
+    for (auto it = list_begin; it != list_end; ++it) {
+        if ((*it).name == "embedding_type") {
+            embedding_type = (*it).value.toInt();
+            break;
+        }
+    }
+
+    if (embedding_type == -999) throw runtime_error("Couldn't find the embedding type from the embedding type (embedding_type)!");
+    if (embedding_type < 0 | embedding_type > _EMBEDDING_TYPE_DESC.size() - 1) throw runtime_error("Invalid embedding type");
+
+    if (verbose >= Verbose::Detail) cout << "Embedding type is " << embedding_type << ": " << _EMBEDDING_TYPE_DESC[embedding_type] << endl;
+
+    // Determine the embedding type
+    if (embedding_type == 0) {
+        featureTransform_1D_(output, module, num_parameters, num_stations, num_times, num_lead_times, multiplier_1, multiplier_2, verbose);
+
+    } else if  (embedding_type == 1) {
+
+        if (flt_radius <= 0) throw runtime_error("Embedding lead time radius must be positive");
+        if (verbose >= Verbose::Detail) cout << "Lead time radius for embedding: " << flt_radius << endl;
+
+        featureTransform_2D_(output, module, flt_radius, num_parameters, num_stations, num_times, num_lead_times, multiplier_1, multiplier_2, verbose);
 
     } else {
-        throw runtime_error("Unknown embedding type from the embedding model (member name: _embedding_type)");
+        throw runtime_error("Unknown embedding type from the embedding model (expected attribute name: _embedding_type)");
     }
 
     // This is the number of latent features
@@ -180,10 +205,10 @@ shared(num_stations, num_times, num_lead_times, num_latent_features, output, mul
     return;
 }
 
-Forecasts &
-Forecasts::featureTransform_1D_(at::Tensor & output,
+void
+Forecasts::featureTransform_1D_(at::Tensor & output, torch::jit::script::Module & module,
         long int num_parameters, long int num_stations, long int num_times, long int num_lead_times,
-        long int multiplier_1, long int multiplier_2) {
+        long int multiplier_1, long int multiplier_2, Verbose verbose) {
 
     // For embedding 0, 1-dimensional embedding with parameters only, the model only accpets features at a 
     // single station and a single lead time. This is dictated by the structure of the Torch model.
@@ -226,14 +251,16 @@ shared(num_stations, num_times, num_lead_times, num_parameters, x, multiplier_1,
     inputs.push_back(x);
     inputs.push_back(normalization_flag);
 
+        // Disabling gradient calculation for the current thread
+    torch::NoGradGuard no_grad;
     output = module.forward(inputs).toTensor();
     return;
 }
 
-Forecasts &
-Forecasts::featureTransform_2D_(at::Tensor & output,
+void
+Forecasts::featureTransform_2D_(at::Tensor & output, torch::jit::script::Module & module, long int flt_radius,
         long int num_parameters, long int num_stations, long int num_times, long int num_lead_times,
-        long int multiplier_1, long int multiplier_2) {
+        long int multiplier_1, long int multiplier_2, Verbose verbose) {
 
     // For embedding 1, 2-dimensional embedding with parameters and lead times, the model accepts features 
     // at a single station but continuous lead times. This is dictated by the structure of the Torch model.
@@ -243,27 +270,27 @@ Forecasts::featureTransform_2D_(at::Tensor & output,
     // Populate this tensor with the original features from forecasts
     if (verbose >= Verbose::Progress) cout << "Populating the tensor with 2-dimensional embeddings (parameters with lead times) ..." << endl;
 
-    at::TensorList tensor_outputs;
+    vector<at::Tensor> tensor_outputs(num_lead_times);
 
     for (long int lead_time_i = 0; lead_time_i < num_lead_times; ++lead_time_i) {
 
         long int num_samples = num_stations * num_times;
 
         // Calculate the window size
-        long int flt_left = lead_time_i - model.flt_radius;
-        long int flt_right = lead_time_i + model.flt_radius + 1;
+        long int flt_left = lead_time_i - flt_radius;
+        long int flt_right = lead_time_i + flt_radius + 1;
 
         if (flt_left < 0) flt_left = 0;
-        if (flt_right >= num_lead_times) flt_right = 0;
+        if (flt_right >= num_lead_times) flt_right = num_lead_times;
 
-        long int window_size = flt_right - flt_right;
+        long int window_size = flt_right - flt_left;
 
         auto x = at::full({num_samples, num_parameters, num_allowed_stations, window_size}, NAN, at::kFloat);
         auto normalization_flag = at::full({1}, true, at::kBool);
 
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(static) collapse(2) \
-shared(num_stations, num_times, window_size, num_parameters, x, multiplier_1, multiplier_2)
+shared(num_stations, num_times, window_size, num_parameters, x, multiplier_1, multiplier_2, flt_left)
 #endif
         for (long int station_i = 0; station_i < num_stations; ++station_i) {
             for (long int time_i = 0; time_i < num_times; ++time_i) {
@@ -280,19 +307,20 @@ shared(num_stations, num_times, window_size, num_parameters, x, multiplier_1, mu
         }
 
         // Execute the model
-        if (verbose >= Verbose::Detail) cout << "Converting features for lead time " <<
-            lead_time_i + 1 << "/" << num_lead_times << " ..." << endl;
+        if (verbose >= Verbose::Detail) cout << "Converting features for lead time " << lead_time_i + 1 << "/" << num_lead_times << " ..." << endl;
 
-        // Initialize an empty tensor
+        // Initialize an empty vector
         std::vector<torch::jit::IValue> inputs;
 
         inputs.push_back(x);
         inputs.push_back(normalization_flag);
 
-        tensor_outputs.push_back(module.forward(inputs).toTensor());
+        // Disabling gradient calculation for the current thread
+        torch::NoGradGuard no_grad;
+        tensor_outputs[lead_time_i] = module.forward(inputs).toTensor();
     }
 
-    output = at::stack(tensor_outputs, 0);
+    output = at::cat(tensor_outputs, 0);
     return;
 }
 #endif

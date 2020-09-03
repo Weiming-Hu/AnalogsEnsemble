@@ -58,7 +58,8 @@ void runAnEnGrib(
         const string & spd_name,
         const string & dir_name,
         const string & embedding_model,
-        const string & similarity_model) {
+        const string & similarity_model,
+        long int ai_flt_radius) {
 
 
     /**************************************************************************
@@ -142,7 +143,7 @@ void runAnEnGrib(
         profiler.log_time_session("Backing up original forecasts");
 
         if (config.verbose >= Verbose::Progress) cout << "Transforming forecasts variables to latent features with AI ..." << endl;
-        forecasts.featureTransform(embedding_model, config.verbose);
+        forecasts.featureTransform(embedding_model, config.verbose, ai_flt_radius);
 
         if (config.verbose >= Verbose::Progress) cout << "Initialize weights to all 1s because weights in latent space do not matter!" << endl;
         config.weights = vector<double>(forecasts.getParameters().size(), 1);
@@ -373,6 +374,7 @@ int main(int argc, char** argv) {
     bool delimited, overwrite, profile, save_tests, convert_wind;
     size_t unit_in_seconds;
     int verbose;
+    long int ai_flt_radius;
 
 #if defined(_USE_MPI_EXTENSION)
     int worker_verbose;
@@ -413,8 +415,9 @@ int main(int argc, char** argv) {
 #endif
 
 #if defined(_ENABLE_AI)
-            ("ai-embedding", value<string>(&embedding_model)->default_value(""), "[Optional] The pretrained model serialized from PyTorch for embeddings. This is usually a *.pt file.")
-            ("ai-similarity", value<string>(&similarity_model)->default_value(""), "[Optional] The pretrained model serialized from PyTorch for similarity. This is usually a *.pt file.")
+            ("ai-embedding", value<string>(&embedding_model)->default_value(""), "[Optional] The pretrained AI model serialized from PyTorch for embeddings. This is usually a *.pt file.")
+            ("ai-similarity", value<string>(&similarity_model)->default_value(""), "[Optional] The pretrained AI model serialized from PyTorch for similarity. This is usually a *.pt file.")
+            ("ai-flt-radius", value<long int>(&ai_flt_radius)->default_value(1), "[Optional] The number of surrounding lead times used for embedding.")
 #endif
 
             ("analogs", value<size_t>(&(config.num_analogs)), "[Optional] Number of analogs members.")
@@ -551,7 +554,7 @@ int main(int argc, char** argv) {
             forecast_regex, analysis_regex,
             obs_id, grib_parameters, stations_index, test_start, test_end, search_start, search_end,
             fileout, algorithm, config, unit_in_seconds, delimited, overwrite, profile, save_tests,
-            convert_wind, u_name, v_name, spd_name, dir_name, embedding_model, similarity_model);
+            convert_wind, u_name, v_name, spd_name, dir_name, embedding_model, similarity_model, ai_flt_radius);
 
 #if defined(_USE_MPI_EXTENSION)
     MPI_Finalize();

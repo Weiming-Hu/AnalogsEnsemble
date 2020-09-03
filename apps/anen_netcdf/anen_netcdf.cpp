@@ -59,7 +59,8 @@ void runAnEnNcdf(
         const string & spd_name,
         const string & dir_name,
         const string & embedding_model,
-        const string & similarity_model) {
+        const string & similarity_model,
+        long int ai_flt_radius) {
 
 
     /**************************************************************************
@@ -139,7 +140,7 @@ void runAnEnNcdf(
         profiler.log_time_session("Backing up original forecasts");
 
         if (config.verbose >= Verbose::Progress) cout << "Transforming forecasts variables to latent features with AI ..." << endl;
-        forecasts.featureTransform(embedding_model, config.verbose);
+        forecasts.featureTransform(embedding_model, config.verbose, ai_flt_radius);
 
         if (config.verbose >= Verbose::Progress) cout << "Initialize weights to all 1s because weights in latent space do not matter!" << endl;
         config.weights = vector<double>(forecasts.getParameters().size(), 1);
@@ -341,6 +342,7 @@ int main(int argc, char** argv) {
     int station_start, station_count;
     bool overwrite, profile, save_tests, convert_wind;
     string u_name, v_name, spd_name, dir_name;
+    long int ai_flt_radius;
 
     Config config;
 
@@ -363,8 +365,9 @@ int main(int argc, char** argv) {
             ("verbose,v", value<int>(&verbose), "[Optional] Verbose level (0 - 4).")
 
 #if defined(_ENABLE_AI)
-            ("ai-embedding", value<string>(&embedding_model)->default_value(""), "[Optional] The pretrained model serialized from PyTorch for embeddings. This is usually a *.pt file.")
-            ("ai-similarity", value<string>(&similarity_model)->default_value(""), "[Optional] The pretrained model serialized from PyTorch for similarity. This is usually a *.pt file.")
+            ("ai-embedding", value<string>(&embedding_model)->default_value(""), "[Optional] The pretrained AI model serialized from PyTorch for embeddings. This is usually a *.pt file.")
+            ("ai-similarity", value<string>(&similarity_model)->default_value(""), "[Optional] The pretrained AI model serialized from PyTorch for similarity. This is usually a *.pt file.")
+            ("ai-flt-radius", value<long int>(&ai_flt_radius)->default_value(1), "[Optional] The number of surrounding lead times used for AI embedding.")
 #endif
             ("station-start", value<int>(&station_start)->default_value(-1), "[Optional] Start index of stations to process")
             ("station-count", value<int>(&station_count)->default_value(-1), "[Optional] The number of stations to process from the start")
@@ -509,7 +512,7 @@ int main(int argc, char** argv) {
     runAnEnNcdf(forecast_file, observation_file, station_start, station_count,
             obs_id, test_start, test_end, search_start, search_end, fileout, 
             algorithm, config, overwrite, profile, save_tests, convert_wind,
-            u_name, v_name, spd_name, dir_name, embedding_model, similarity_model);
+            u_name, v_name, spd_name, dir_name, embedding_model, similarity_model, ai_flt_radius);
 
 #if defined(_USE_MPI_EXTENSION)
     MPI_Finalize();

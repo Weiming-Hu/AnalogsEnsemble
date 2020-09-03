@@ -12,7 +12,11 @@
 #include "Config.h"
 #include "BasicData.h"
 #include "Array4D.h"
+
+#if defined(_ENABLE_AI)
 #include <ATen/ATen.h>
+#include <torch/script.h>
+#endif
 
 /**
  * \class Forecasts
@@ -89,7 +93,7 @@ public:
     std::size_t getFltTimeIndex(const Time &) const;
 
 #if defined(_ENABLE_AI)
-    virtual void featureTransform(const std::string & embedding_model_path, Verbose verbose = Verbose::Warning);
+    virtual void featureTransform(const std::string & embedding_model_path, Verbose verbose = Verbose::Warning, long int lead_time_radius = 1);
 #endif
 
     Forecasts & operator=(const Forecasts &);
@@ -101,12 +105,12 @@ protected:
     Times flts_;
 
 #if defined(_ENABLE_AI)
-    virtual void featureTransform_1D_(at::Tensor & output,
+    virtual void featureTransform_1D_(at::Tensor & output, torch::jit::script::Module & module,
             long int num_parameters, long int num_stations, long int num_times, long int num_lead_times,
-            long int multiplier_1, long int multiplier_2);
-    virtual void featureTransform_2D_(at::Tensor & output,
+            long int multiplier_1, long int multiplier_2, Verbose verbose);
+    virtual void featureTransform_2D_(at::Tensor & output, torch::jit::script::Module & module, long int flt_radius,
             long int num_parameters, long int num_stations, long int num_times, long int num_lead_times,
-            long int multiplier_1, long int multiplier_2);
+            long int multiplier_1, long int multiplier_2, Verbose verbose);
 #endif
 
 };
