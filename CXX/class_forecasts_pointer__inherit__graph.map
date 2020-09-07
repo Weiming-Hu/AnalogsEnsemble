@@ -1,6 +1,6 @@
 <map id="ForecastsPointer" name="ForecastsPointer">
-<area shape="rect" id="node2" href="$class_forecasts.html" title="Forecasts is an abstract class that extends BasicData and the abstract class Array4D. It defines the interface of how to interact with the underlying data storage through the abstract class Array4D. This interface is accepted by the Analog Ensemble algorithm. " alt="" coords="5,380,148,648"/>
-<area shape="rect" id="node3" href="$class_array4_d.html" title="Array4D is an abstract class for 4&#45;dimensional array. " alt="" coords="175,27,301,295"/>
-<area shape="rect" id="node5" href="$class_array4_d_pointer.html" title="Array4DPointer is an implementation of the abstract class Array4D. " alt="" coords="172,365,325,663"/>
-<area shape="rect" id="node4" href="$class_basic_data.html" title="BasicData is an implementation of the data structure used by Analog Ensemble. It includes parameters..." alt="" coords="13,5,140,317"/>
+<area shape="rect" id="node2" href="$class_forecasts.html" title="Forecasts is an abstract class that extends BasicData and the abstract class Array4D. It defines the interface of how to interact with the underlying data storage through the abstract class Array4D. This interface is accepted by the Analog Ensemble algorithm. " alt="" coords="5,329,148,611"/>
+<area shape="rect" id="node3" href="$class_array4_d.html" title="Array4D is an abstract class for 4&#45;dimensional array. " alt="" coords="175,5,301,273"/>
+<area shape="rect" id="node5" href="$class_array4_d_pointer.html" title="Array4DPointer is an implementation of the abstract class Array4D. " alt="" coords="172,321,325,619"/>
+<area shape="rect" id="node4" href="$class_basic_data.html" title="BasicData is an implementation of the data structure used by Analog Ensemble. It includes parameters..." alt="" coords="13,13,140,266"/>
 </map>

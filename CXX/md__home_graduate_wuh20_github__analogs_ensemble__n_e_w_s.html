@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>ParallelAnalogEnsemble: PAnEn 4.1.3</title>
+<title>ParallelAnalogEnsemble: PAnEn 4.2.2</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -59,10 +59,30 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">PAnEn 4.1.3 </div>  </div>
+<div class="title">PAnEn 4.2.2 </div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><ul>
+<li>Added debug printing when parameters are missing</li>
+<li>Added functionality to read <code>nc_STRING</code></li>
+<li>Added embedding support for 2-dimensional embedding (parameters, lead times)</li>
+<li>Added default embedding type</li>
+<li>Added complete messages</li>
+<li>Fixed a bug when reading configuration arguments with multiple tokens</li>
+</ul>
+<h1>PAnEn 4.2.1</h1>
+<ul>
+<li>Separated AI models into an embedding model and a similarity model.</li>
+<li>Added OpenMP parallelization to embeddings</li>
+<li><code>RAnEn::readConfig</code> now reads any <code>*.cfg</code> file into a list.</li>
+</ul>
+<h1>PAnEn 4.2.0</h1>
+<ul>
+<li>Added AI functionality to C++ utilities</li>
+<li>Add copy operators to classes</li>
+</ul>
+<h1>PAnEn 4.1.3</h1>
+<ul>
 <li>'RAnEn::alignObservations' has been changed to be silent by default.</li>
 <li>'RAnEn::schaakeShuffle' can find proper index for shuffling and added parameters.</li>
 </ul>

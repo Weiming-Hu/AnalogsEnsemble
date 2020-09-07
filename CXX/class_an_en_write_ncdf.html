@@ -103,8 +103,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aba65b33d40deb30635e8f8018b664dc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a45b6fd5ff1ccd5abfb6cfeb978b88136"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_write_ncdf.html#a45b6fd5ff1ccd5abfb6cfeb978b88136">writeMultiAnEn</a> (const std::string &amp;file, const std::unordered_map&lt; std::string, std::size_t &gt; &amp;, const <a class="el" href="class_an_en.html">AnEn</a> *, const std::string &amp;algorithm, const <a class="el" href="class_times.html">Times</a> &amp;test_times, const <a class="el" href="class_times.html">Times</a> &amp;search_times, const <a class="el" href="class_times.html">Times</a> &amp;forecast_flts, const <a class="el" href="class_parameters.html">Parameters</a> &amp;, const <a class="el" href="class_stations.html">Stations</a> &amp;, const <a class="el" href="class_observations.html">Observations</a> &amp;, bool overwrite=false, bool append=false) const</td></tr>
 <tr class="separator:a45b6fd5ff1ccd5abfb6cfeb978b88136"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1aa72d6cc4a6b122f371116fe73c9390"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_write_ncdf.html#a1aa72d6cc4a6b122f371116fe73c9390">writeForecasts</a> (const std::string &amp;file, const <a class="el" href="class_forecasts.html">Forecasts</a> &amp;, bool overwrite=false, bool append=false) const</td></tr>
-<tr class="separator:a1aa72d6cc4a6b122f371116fe73c9390"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e7831281bd6d1ca6368f9684adfb9af"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_write_ncdf.html#a7e7831281bd6d1ca6368f9684adfb9af">writeForecasts</a> (const std::string &amp;file, const <a class="el" href="class_forecasts.html">Forecasts</a> &amp;, bool overwrite=false, bool append=false, const std::string &amp;group_name=&quot;Forecasts&quot;) const</td></tr>
+<tr class="separator:a7e7831281bd6d1ca6368f9684adfb9af"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8cb396f7395b055f18cec3caab247afb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_an_en_write_ncdf.html#a8cb396f7395b055f18cec3caab247afb">writeObservations</a> (const std::string &amp;file, const <a class="el" href="class_observations.html">Observations</a> &amp;, bool overwrite=false, bool append=false) const</td></tr>
 <tr class="separator:a8cb396f7395b055f18cec3caab247afb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -590,8 +590,8 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a1aa72d6cc4a6b122f371116fe73c9390"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1aa72d6cc4a6b122f371116fe73c9390">&#9670;&nbsp;</a></span>writeForecasts()</h2>
+<a id="a7e7831281bd6d1ca6368f9684adfb9af"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7e7831281bd6d1ca6368f9684adfb9af">&#9670;&nbsp;</a></span>writeForecasts()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -618,7 +618,13 @@ Protected Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>append</em> = <code>false</code>&#160;</td>
+          <td class="paramname"><em>append</em> = <code>false</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>group_name</em> = <code>&quot;Forecasts&quot;</code>&#160;</td>
         </tr>
         <tr>
           <td></td>

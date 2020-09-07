@@ -5,6 +5,26 @@ sidebar_link: true
 ---
 
 
+# PAnEn 4.2.2
+
+- Added debug printing when parameters are missing
+- Added functionality to read `nc_STRING`
+- Added embedding support for 2-dimensional embedding (parameters, lead times)
+- Added default embedding type
+- Added complete messages
+- Fixed a bug when reading configuration arguments with multiple tokens
+
+# PAnEn 4.2.1
+
+- Separated AI models into an embedding model and a similarity model.
+- Added OpenMP parallelization to embeddings
+- `RAnEn::readConfig` now reads any `*.cfg` file into a list.
+
+# PAnEn 4.2.0
+
+- Added AI functionality to C++ utilities
+- Add copy operators to classes
+
 # PAnEn 4.1.3
 
 - 'RAnEn::alignObservations' has been changed to be silent by default.
