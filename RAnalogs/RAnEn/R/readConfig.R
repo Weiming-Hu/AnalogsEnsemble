@@ -23,7 +23,7 @@
 #' @export
 readConfig <- function (config.file, replace.dash = '_') {
   
-  check.package('stringr')
+  # check.package('stringr')
   stopifnot(file.exists(config.file))
   
   # Read all lines from the file
@@ -58,7 +58,11 @@ readConfig <- function (config.file, replace.dash = '_') {
       left <- stringr::str_replace_all(left, '-', replace.dash)
     }
     
-    config[[left]] <- right
+    if (left %in% names(config)) {
+      config[[left]] <- c(config[[left]], right)
+    } else {
+      config[[left]] <- right
+    }
   }
   
   return(config)

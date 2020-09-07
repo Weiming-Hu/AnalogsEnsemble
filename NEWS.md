@@ -5,6 +5,7 @@
 - Added embedding support for 2-dimensional embedding (parameters, lead times)
 - Added default embedding type
 - Added complete messages
+- Fixed a bug when reading configuration arguments with multiple tokens
 
 # PAnEn 4.2.1
 
