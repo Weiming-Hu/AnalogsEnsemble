@@ -38,6 +38,8 @@ public:
     std::size_t getTimeStamp(std::size_t index) const;
     std::size_t getTimeIndex(std::size_t timestamp) const;
     std::size_t getTimeIndex(const Time &) const;
+
+    BasicData & operator=(const BasicData &);
     
     virtual void print(std::ostream &) const;
     friend std::ostream& operator<<(std::ostream&, BasicData const &);

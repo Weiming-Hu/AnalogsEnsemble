@@ -21,9 +21,10 @@ option(INSTALL_RAnEn "Install RAnEn package" OFF)
 option(BUILD_BOOST "Build Boost" OFF)
 option(ENABLE_OPENMP "Use OpenMP" ON)
 option(ENABLE_MPI "Use MPI" OFF)
+option(ENABLE_AI "Use AI for analog search" OFF)
 
 # Set variables
-set(GRAND_VERSION "4.1.3")
+set(GRAND_VERSION "4.2.2")
 set(GRAND_VERSION_NICKNAME "Pandora")
 set(WE_ARE "GEOlab @ Penn State")
 set(SUBPROJECT_TARGETS "AnEn;AnEnIO")
@@ -47,6 +48,28 @@ if(INSTALL_RAnEn)
     return()
 endif(INSTALL_RAnEn)
 
+if(ENABLE_AI)
+    find_package(Torch)
+
+    if(Torch_FOUND)
+        message(STATUS "\n"
+            "*************************************\n\n"
+            "You have enabled the AI component!\n"
+            "Enjoy the power of AI!\n\n"
+            "*************************************")
+    else(Torch_FOUND)
+        message(FATAL_ERROR  "\n"
+            "I couldn't find LibTorch."
+            "You need to:\n"
+            "-- download LibTorch for C++/Java with cxx11 ABI from https://pytorch.org/\n"
+            "-- unzip it\n"
+            "-- include the directory of the folder in CMAKE_PREFIX_PATH.\n"
+            "If you still have problems, please open a ticket or check https://github.com/Weiming-Hu/AnalogsEnsemble/issues/110."
+            "If you have multiple paths in CMAKE_PREFIX_PATH, use double quotes and ; as the separator.")
+    endif(Torch_FOUND)
+
+    add_definitions(-D_ENABLE_AI)
+endif(ENABLE_AI)
 
 # Build Boost if requested
 # 

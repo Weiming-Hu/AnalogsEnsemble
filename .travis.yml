@@ -151,6 +151,7 @@ matrix:
 before_install:
     - cmake --version
     - eval "${MATRIX_EVAL}"
+    - if [[ "$ENVIRONMENT_LANGUAGE" == "r" ]]; then export PATH=/opt/R/*/bin:$PATH;fi
     - if [[ "$ENVIRONMENT_LANGUAGE" == "r" ]]; then R -e "install.packages(c('abind', 'Rcpp', 'BH'))";fi
     - if [[ "$RUN_INSTALL_SCRIPTS" == "YES" ]]; then ./CAnEnIO/cmake/install_eccodes.sh; fi
 install:

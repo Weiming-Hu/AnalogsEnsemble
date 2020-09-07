@@ -56,7 +56,10 @@ void runAnEnGrib(
         const string & u_name,
         const string & v_name,
         const string & spd_name,
-        const string & dir_name) {
+        const string & dir_name,
+        const string & embedding_model,
+        const string & similarity_model,
+        long int ai_flt_radius) {
 
 
     /**************************************************************************
@@ -107,7 +110,9 @@ void runAnEnGrib(
     AnEnReadGrib anen_read(config.verbose);
 #endif
 
-    ForecastsPointer forecasts;
+    // Note that the backup forecasts are only used when forecasts are transformed by AI and save_test is true
+    ForecastsPointer forecasts, forecasts_backup;
+
     anen_read.readForecasts(forecasts, grib_parameters, forecast_files, forecast_regex,
             unit_in_seconds, delimited, stations_index);
 
@@ -129,29 +134,49 @@ void runAnEnGrib(
     if (world_rank == 0) {
 #endif
 
-        // Convert wind parameters if necessary
-        if (convert_wind) {
-            if (config.verbose >= Verbose::Progress) cout << "Converting wind U/V to wind speed/direction ..." << endl;
+#if defined(_ENABLE_AI)
+    /*
+     * Convert forecast variables with AI
+     */
+    if (!embedding_model.empty()) {
+        if (save_tests) forecasts_backup = forecasts;
+        profiler.log_time_session("Backing up original forecasts");
 
-            forecasts.windTransform(u_name, v_name, spd_name, dir_name);
-            analysis.windTransform(u_name, v_name, spd_name, dir_name);
+        if (config.verbose >= Verbose::Progress) cout << "Transforming forecasts variables to latent features with AI ..." << endl;
+        forecasts.featureTransform(embedding_model, config.verbose, ai_flt_radius);
 
-            profiler.log_time_session("Calculating wind speed/direction");
-        }
+        if (config.verbose >= Verbose::Progress) cout << "Initialize weights to all 1s because weights in latent space do not matter!" << endl;
+        config.weights = vector<double>(forecasts.getParameters().size(), 1);
 
-        // Convert analysis to observations
-        if (config.verbose >= Verbose::Progress) cout << "Collapsing analysis forecast times and lead times ..." << endl;
-        Functions::collapseLeadTimes(observations, analysis);
+        profiler.log_time_session("Transforming features");
+    }
+#endif    
 
-        profiler.log_time_session("Reformatting analysis");
+     // Convert wind parameters if necessary
+    if (convert_wind) {
+        if (!embedding_model.empty()) throw runtime_error("AI transformation and wind transformation cannot be used together!");
 
-        // Convert string date times to Times objects
-        const Times & forecast_times = forecasts.getTimes();
+        if (config.verbose >= Verbose::Progress) cout << "Converting wind U/V to wind speed/direction ..." << endl;
 
-        forecast_times(test_start, test_end, test_times);
-        forecast_times(search_start, search_end, search_times);
+        forecasts.windTransform(u_name, v_name, spd_name, dir_name);
+        analysis.windTransform(u_name, v_name, spd_name, dir_name);
 
-        profiler.log_time_session("Extracting test/search times");
+        profiler.log_time_session("Calculating wind speed/direction");
+    }
+
+    // Convert analysis to observations
+    if (config.verbose >= Verbose::Progress) cout << "Collapsing analysis forecast times and lead times ..." << endl;
+    Functions::collapseLeadTimes(observations, analysis);
+
+    profiler.log_time_session("Reformatting analysis");
+
+    // Convert string date times to Times objects
+    const Times & forecast_times = forecasts.getTimes();
+
+    forecast_times(test_start, test_end, test_times);
+    forecast_times(search_start, search_end, search_times);
+
+    profiler.log_time_session("Extracting test/search times");
 
 #if defined(_USE_MPI_EXTENSION)
     }
@@ -200,6 +225,10 @@ void runAnEnGrib(
     } else {
         throw runtime_error("The algorithm is not recognized");
     }
+
+#if defined(_ENABLE_AI)
+    if (!similarity_model.empty()) anen->load_similarity_model(similarity_model);
+#endif
 
     anen->compute(forecasts, observations, test_times, search_times);
 
@@ -278,6 +307,16 @@ void runAnEnGrib(
          */
         anen_write.writeForecasts(fileout, test_forecasts, false, true);
 
+#if defined(_ENABLE_AI)
+        // Create test forecasts with the original values if AI transformation is applied
+        if (!embedding_model.empty()) {
+            ForecastsPointer test_original_forecasts(
+                    forecasts_backup.getParameters(), forecasts_backup.getStations(), test_times, forecasts_backup.getFLTs());
+            forecasts_backup.subset(test_original_forecasts);
+            anen_write.writeForecasts(fileout, test_original_forecasts, false, true, "OriginalForecasts");
+        }
+#endif
+
         // Create test observations times that should be saved
         size_t max_flt = max_element(forecast_flts.left.begin(), forecast_flts.left.end())->second.timestamp;
         Time obs_end_time(max_flt + test_end.timestamp);
@@ -312,6 +351,7 @@ void runAnEnGrib(
      */
     delete anen;
 
+    if (config.verbose >= Verbose::Progress) cout << "anen_grib complete!" << endl;
     if (profile) profiler.summary(cout);
 
     return;
@@ -330,11 +370,12 @@ int main(int argc, char** argv) {
     vector<int> stations_index;
     vector<size_t> obs_id;
 
-    string forecast_folder, analysis_folder, test_start, test_end, search_start, search_end;
+    string forecast_folder, analysis_folder, test_start, test_end, search_start, search_end, embedding_model, similarity_model;
     string forecast_regex, analysis_regex, fileout, algorithm, u_name, v_name, spd_name, dir_name;
     bool delimited, overwrite, profile, save_tests, convert_wind;
     size_t unit_in_seconds;
     int verbose;
+    long int ai_flt_radius;
 
 #if defined(_USE_MPI_EXTENSION)
     int worker_verbose;
@@ -369,9 +410,17 @@ int main(int argc, char** argv) {
             ("profile", bool_switch(&profile)->default_value(false), "[Optional] Print profiler's report.")
             ("unit-in-seconds", value<size_t>(&unit_in_seconds)->default_value(3600), "[Optional] The number of seconds for the unit of lead times. Usually lead times have hours as unit, so it defaults to 3600.")
             ("verbose,v", value<int>(&verbose), "[Optional] Verbose level (0 - 4).")
+
 #if defined(_USE_MPI_EXTENSION)
             ("worker-verbose", value<int>(&worker_verbose), "[Optional] Verbose level for worker processes (0 - 4).")
 #endif
+
+#if defined(_ENABLE_AI)
+            ("ai-embedding", value<string>(&embedding_model)->default_value(""), "[Optional] The pretrained AI model serialized from PyTorch for embeddings. This is usually a *.pt file.")
+            ("ai-similarity", value<string>(&similarity_model)->default_value(""), "[Optional] The pretrained AI model serialized from PyTorch for similarity. This is usually a *.pt file.")
+            ("ai-flt-radius", value<long int>(&ai_flt_radius)->default_value(1), "[Optional] The number of surrounding lead times used for embedding.")
+#endif
+
             ("analogs", value<size_t>(&(config.num_analogs)), "[Optional] Number of analogs members.")
             ("sims", value<size_t>(&(config.num_sims)), "[Optional] Number of similarity members.")
             ("obs-id", value< vector<size_t> >(&obs_id)->multitoken(), "[Optional] Observation variable index. If multiple indices are provided, multivariate analogs will be generated.")
@@ -380,16 +429,16 @@ int main(int argc, char** argv) {
             ("flt-radius", value<size_t>(&(config.flt_radius)), "[Optional] The number of surrounding lead times to compare for trends.")
             ("num-nearest", value<size_t>(&(config.num_nearest)), "[Optional] Number of neighbor stations to search.")
             ("distance", value<double>(&(config.distance)), "[Optional] Distance threshold when searching for neighbors.")
-            ("extend-obs", bool_switch(&(config.extend_obs))->default_value(config.extend_obs), "[Optional] Use observations from search stations.")
+            ("extend-obs", bool_switch(&(config.extend_obs))->default_value(config.extend_obs), "[Optional] Use observations from search stations. Change this in *.cfg")
             ("operation", bool_switch(&(config.operation))->default_value(config.operation), "[Optional] Use operational mode.")
-            ("prevent-search-future", bool_switch(&(config.prevent_search_future))->default_value(config.prevent_search_future), "[Optional] Prevent using observations that are later than the current test forecast.")
-            ("save-analogs", bool_switch(&(config.save_analogs))->default_value(config.save_analogs), "[Optional] Save analogs.")
+            ("prevent-search-future", bool_switch(&(config.prevent_search_future))->default_value(config.prevent_search_future), "[Optional] Prevent using observations that are later than the current test forecast. Change this in *.cfg")
+            ("save-analogs", bool_switch(&(config.save_analogs))->default_value(config.save_analogs), "[Optional] Save analogs. Change this in *.cfg")
             ("save-analogs-time-index", bool_switch(&(config.save_analogs_time_index))->default_value(config.save_analogs_time_index), "[Optional] Save time indices of analogs.")
             ("save-sims", bool_switch(&(config.save_sims))->default_value(config.save_sims), "[Optional] Save similarity.")
             ("save-sims-time-index", bool_switch(&(config.save_sims_time_index))->default_value(config.save_sims_time_index), "[Optional] Save time indices of similarity.")
             ("save-sims-station-index", bool_switch(&(config.save_sims_station_index))->default_value(config.save_sims_station_index), "[Optional] Save station indices of similarity.")
             ("save-tests", bool_switch(&save_tests)->default_value(false), "[Optional] Save test forecasts and observations if available")
-            ("no-quick", bool_switch(&(config.quick_sort))->default_value(config.quick_sort), "[Optional] Disable nth_element sort, use partial sort.")
+            ("quick-sort", bool_switch(&(config.quick_sort))->default_value(config.quick_sort), "[Optional] Use nth_element sort. Change this in *.cfg")
             ("convert-wind", bool_switch(&(convert_wind))->default_value(false), "[Optional] Use this option if your forecasts have only wind U and V components and you need to convert them to wind speed and direction. Please also specify --name-u --name-v --name-spd --name-dir. Wind speed and direction values will be calculated internally and replacing U and V components respectively.")
             ("name-u", value<string>(&u_name)->default_value("U"), "[Optional] Parameter name for U component of wind")
             ("name-v", value<string>(&v_name)->default_value("V"), "[Optional] Parameter name for V component of wind")
@@ -418,6 +467,9 @@ int main(int argc, char** argv) {
             << "Parallel Analogs Ensemble -- anen_grib_mpi "
 #else
             << "Parallel Analogs Ensemble -- anen_grib "
+#endif
+#if defined(_ENABLE_AI)
+            << "with AI support "
 #endif
             << _APPVERSION << endl << _COPYRIGHT_MSG << endl << endl << desc << endl;
         return 0;
@@ -470,16 +522,6 @@ int main(int argc, char** argv) {
     }
 #endif
 
-    if (config.verbose >= Verbose::Progress) {
-        cout
-#if defined(_USE_MPI_EXTENSION)
-            << "Parallel Analogs Ensemble -- anen_grib_mpi "
-#else
-            << "Parallel Analogs Ensemble -- anen_grib "
-#endif
-            << _APPVERSION << endl << _COPYRIGHT_MSG << endl;
-    }
-
 
     /**************************************************************************
      *                   Run analog generation with grib files                *
@@ -513,7 +555,7 @@ int main(int argc, char** argv) {
             forecast_regex, analysis_regex,
             obs_id, grib_parameters, stations_index, test_start, test_end, search_start, search_end,
             fileout, algorithm, config, unit_in_seconds, delimited, overwrite, profile, save_tests,
-            convert_wind, u_name, v_name, spd_name, dir_name);
+            convert_wind, u_name, v_name, spd_name, dir_name, embedding_model, similarity_model, ai_flt_radius);
 
 #if defined(_USE_MPI_EXTENSION)
     MPI_Finalize();

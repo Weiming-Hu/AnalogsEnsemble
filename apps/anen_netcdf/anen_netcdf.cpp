@@ -57,7 +57,10 @@ void runAnEnNcdf(
         const string & u_name,
         const string & v_name,
         const string & spd_name,
-        const string & dir_name) {
+        const string & dir_name,
+        const string & embedding_model,
+        const string & similarity_model,
+        long int ai_flt_radius) {
 
 
     /**************************************************************************
@@ -104,7 +107,7 @@ void runAnEnNcdf(
     AnEnReadNcdf anen_read(config.verbose);
 
     // Read forecasts
-    ForecastsPointer forecasts;
+    ForecastsPointer forecasts, forecasts_backup;
     anen_read.readForecasts(forecast_file, forecasts, station_start, station_count);
 
     profiler.log_time_session("Reading forecasts");
@@ -128,16 +131,38 @@ void runAnEnNcdf(
     profiler.log_time_session("Extracting test/search times");
 
 
+#if defined(_ENABLE_AI)
+    /*
+     * Convert forecast variables with AI
+     */
+    if (!embedding_model.empty()) {
+        if (save_tests) forecasts_backup = forecasts;
+        profiler.log_time_session("Backing up original forecasts");
+
+        if (config.verbose >= Verbose::Progress) cout << "Transforming forecasts variables to latent features with AI ..." << endl;
+        forecasts.featureTransform(embedding_model, config.verbose, ai_flt_radius);
+
+        if (config.verbose >= Verbose::Progress) cout << "Initialize weights to all 1s because weights in latent space do not matter!" << endl;
+        config.weights = vector<double>(forecasts.getParameters().size(), 1);
+
+        profiler.log_time_session("Transforming features");
+    }
+
+#endif    
+
+
     /*
      * Convert wind parameters if specified
      */
     if (convert_wind) {
+        if (!embedding_model.empty()) throw runtime_error("AI transformation and wind transformation cannot be used together!");
+
         if (config.verbose >= Verbose::Progress) cout << "Converting wind U/V to wind speed/direction ..." << endl;
         forecasts.windTransform(u_name, v_name, spd_name, dir_name);
         profiler.log_time_session("Calculating wind speed/direction");
     }
 
-
+    
     /**************************************************************************
      *                       Generate Analogs Ensemble                        *
      **************************************************************************/
@@ -173,6 +198,10 @@ void runAnEnNcdf(
     } else {
         throw runtime_error("The algorithm is not recognized");
     }
+
+#if defined(_ENABLE_AI)
+    if (!similarity_model.empty()) anen->load_similarity_model(similarity_model);
+#endif
 
     anen->compute(forecasts, observations, test_times, search_times);
 
@@ -241,6 +270,16 @@ void runAnEnNcdf(
          */
         anen_write.writeForecasts(fileout, test_forecasts, false, true);
 
+#if defined(_ENABLE_AI)
+        // Create test forecasts with the original values if AI transformation is applied
+        if (!embedding_model.empty()) {
+            ForecastsPointer test_original_forecasts(
+                    forecasts_backup.getParameters(), forecasts_backup.getStations(), test_times, forecasts_backup.getFLTs());
+            forecasts_backup.subset(test_original_forecasts);
+            anen_write.writeForecasts(fileout, test_original_forecasts, false, true, "OriginalForecasts");
+        }
+#endif
+
         // Create test observations times that should be saved
         size_t max_flt = max_element(forecast_flts.left.begin(), forecast_flts.left.end())->second.timestamp;
         Time obs_end_time(max_flt + test_end.timestamp);
@@ -275,6 +314,7 @@ void runAnEnNcdf(
      */
     delete anen;
 
+    if (config.verbose >= Verbose::Progress) cout << "anen_netcdf complete!" << endl;
     if (profile) profiler.summary(cout);
 
     return;
@@ -291,7 +331,7 @@ int main(int argc, char** argv) {
     //
     // Required variables
     //
-    string fileout;
+    string fileout, embedding_model, similarity_model;
     string forecast_file, observation_file;
     string test_start, test_end, search_start, search_end;
 
@@ -303,6 +343,7 @@ int main(int argc, char** argv) {
     int station_start, station_count;
     bool overwrite, profile, save_tests, convert_wind;
     string u_name, v_name, spd_name, dir_name;
+    long int ai_flt_radius;
 
     Config config;
 
@@ -323,6 +364,12 @@ int main(int argc, char** argv) {
 
             // Optional arguments
             ("verbose,v", value<int>(&verbose), "[Optional] Verbose level (0 - 4).")
+
+#if defined(_ENABLE_AI)
+            ("ai-embedding", value<string>(&embedding_model)->default_value(""), "[Optional] The pretrained AI model serialized from PyTorch for embeddings. This is usually a *.pt file.")
+            ("ai-similarity", value<string>(&similarity_model)->default_value(""), "[Optional] The pretrained AI model serialized from PyTorch for similarity. This is usually a *.pt file.")
+            ("ai-flt-radius", value<long int>(&ai_flt_radius)->default_value(1), "[Optional] The number of surrounding lead times used for AI embedding.")
+#endif
             ("station-start", value<int>(&station_start)->default_value(-1), "[Optional] Start index of stations to process")
             ("station-count", value<int>(&station_count)->default_value(-1), "[Optional] The number of stations to process from the start")
             ("algorithm", value<string>(&algorithm)->default_value("IS"), "[Optional] IS for Independent Search or SSE for Search Space Extension")
@@ -337,16 +384,16 @@ int main(int argc, char** argv) {
             ("flt-radius", value<size_t>(&(config.flt_radius)), "[Optional] The number of surrounding lead times to compare for trends.")
             ("num-nearest", value<size_t>(&(config.num_nearest)), "[Optional] Number of neighbor stations to search.")
             ("distance", value<double>(&(config.distance)), "[Optional] Distance threshold when searching for neighbors.")
-            ("extend-obs", bool_switch(&(config.extend_obs))->default_value(config.extend_obs), "[Optional] Use observations from search stations.")
+            ("extend-obs", bool_switch(&(config.extend_obs))->default_value(config.extend_obs), "[Optional] Use observations from search stations. Change this in *.cfg")
             ("operation", bool_switch(&(config.operation))->default_value(config.operation), "[Optional] Use operational mode.")
-            ("prevent-search-future", bool_switch(&(config.prevent_search_future))->default_value(config.prevent_search_future), "[Optional] Prevent using observations that are later than the current test forecast.")
-            ("save-analogs", bool_switch(&(config.save_analogs))->default_value(config.save_analogs), "[Optional] Save analogs.")
+            ("prevent-search-future", bool_switch(&(config.prevent_search_future))->default_value(config.prevent_search_future), "[Optional] Prevent using observations that are later than the current test forecast. Change this in *.cfg")
+            ("save-analogs", bool_switch(&(config.save_analogs))->default_value(config.save_analogs), "[Optional] Save analogs. Change this in *.cfg")
             ("save-analogs-time-index", bool_switch(&(config.save_analogs_time_index))->default_value(config.save_analogs_time_index), "[Optional] Save time indices of analogs.")
             ("save-sims", bool_switch(&(config.save_sims))->default_value(config.save_sims), "[Optional] Save similarity.")
             ("save-sims-time-index", bool_switch(&(config.save_sims_time_index))->default_value(config.save_sims_time_index), "[Optional] Save time indices of similarity.")
             ("save-sims-station-index", bool_switch(&(config.save_sims_station_index))->default_value(config.save_sims_station_index), "[Optional] Save station indices of similarity.")
             ("save-tests", bool_switch(&save_tests)->default_value(false), "[Optional] Save test forecasts and observations if available")
-            ("no-quick", bool_switch(&(config.quick_sort))->default_value(config.quick_sort), "[Optional] Disable nth_element sort, use partial sort.")
+            ("quick-sort", bool_switch(&(config.quick_sort))->default_value(config.quick_sort), "[Optional] Use nth_element sort. Change this in *.cfg ")
             ("convert-wind", bool_switch(&(convert_wind))->default_value(false), "[Optional] Use this option if your forecasts have only wind U and V components and you need to convert them to wind speed and direction. Please also specify --name-u --name-v --name-spd --name-dir. Wind speed and direction values will be calculated internally and replacing U and V components respectively.")
             ("name-u", value<string>(&u_name)->default_value("U"), "[Optional] Parameter name for U component of wind")
             ("name-v", value<string>(&v_name)->default_value("V"), "[Optional] Parameter name for V component of wind")
@@ -370,7 +417,14 @@ int main(int argc, char** argv) {
         // no extra arguments other than the command line itself
         //
         cout
+#if defined(_USE_MPI_EXTENSION)
+            << "Parallel Analogs Ensemble -- anen_netcdf_mpi "
+#else
             << "Parallel Analogs Ensemble -- anen_netcdf "
+#endif
+#if defined(_ENABLE_AI)
+            << "with AI support "
+#endif
             << _APPVERSION << endl << _COPYRIGHT_MSG << endl << endl << desc << endl;
         return 0;
     }
@@ -416,9 +470,6 @@ int main(int argc, char** argv) {
         config.setVerbose(verbose);
     }
 
-    if (config.verbose >= Verbose::Progress) cout
-        << "Parallel Analogs Ensemble -- anen_netcdf " << _APPVERSION << endl << _COPYRIGHT_MSG << endl;
-
 
     /**************************************************************************
      *                     Run analog generation with NC files                *
@@ -462,7 +513,7 @@ int main(int argc, char** argv) {
     runAnEnNcdf(forecast_file, observation_file, station_start, station_count,
             obs_id, test_start, test_end, search_start, search_end, fileout, 
             algorithm, config, overwrite, profile, save_tests, convert_wind,
-            u_name, v_name, spd_name, dir_name);
+            u_name, v_name, spd_name, dir_name, embedding_model, similarity_model, ai_flt_radius);
 
 #if defined(_USE_MPI_EXTENSION)
     MPI_Finalize();

@@ -16,6 +16,10 @@
 #include <omp.h>
 #endif
 
+#if defined(_ENABLE_AI)
+#include <ATen/ATen.h>
+#endif
+
 using namespace std;
 
 // When operational mode is OFF, standard deviation is computed across all
@@ -201,9 +205,22 @@ total_count, counter, current_percent, pbar_threshold, std::cout) firstprivate(s
                     // forecasts. But for better performance, circulars
                     // are pre-computed and passed.
                     //
-                    double metric = computeSimMetric_(
-                            forecasts, station_i, station_i, flt_i, current_test_index,
-                            current_search_index, circulars);
+                    double metric;
+
+#if defined(_ENABLE_AI)
+                    if (use_AI_) {
+                        metric = computeSimMetricAI_(
+                                forecasts, station_i, station_i, flt_i,
+                                current_test_index, current_search_index);
+
+                    } else {
+#endif
+                        metric = computeSimMetric_(
+                                forecasts, station_i, station_i, flt_i, current_test_index,
+                                current_search_index, circulars);
+#if defined(_ENABLE_AI)
+                    }
+#endif
 
                     // Save the similarity metric with corresponding indices
                     sims_arr[search_time_i][_SIM_VALUE_INDEX] = metric;
@@ -280,6 +297,9 @@ AnEnIS::print(ostream & os) const {
             << Config::_OPERATION << ": " << operation_ << endl
             << Config::_QUICK << ": " << quick_sort_ << endl
             << Config::_PREVENT_SEARCH_FUTURE << ": " << prevent_search_future_ << endl
+#if defined(_ENABLE_AI)
+            << "Use AI similarity: " << use_AI_ << endl
+#endif
             << Config::_WEIGHTS << ": " << Functions::format(weights_) << endl;
 
     if (verbose_ >= Verbose::Debug) {
@@ -560,6 +580,7 @@ AnEnIS::setMembers_(const Config & config) {
     prevent_search_future_ = config.prevent_search_future;
     weights_ = config.weights;
 
+    use_AI_ = false;
     return;
 }
 
@@ -586,7 +607,7 @@ AnEnIS::setSdsTimeMap_(const vector<size_t> & times_accum_index) {
 
 double
 AnEnIS::computeSimMetric_(const Forecasts & forecasts,
-        size_t sta_search_i, size_t sta_test_i,
+        size_t sta_test_i, size_t sta_search_i,
         size_t flt_i, size_t time_test_i, size_t time_search_i,
         const vector<bool> & circulars) {
 
@@ -621,8 +642,8 @@ AnEnIS::computeSimMetric_(const Forecasts & forecasts,
 
         for (size_t pos = 0, window_i = flt_i_start; window_i <= flt_i_end; ++window_i, ++pos) {
 
-            double value_search = forecasts.getValue(parameter_i, sta_search_i, time_search_i, window_i);
             double value_test = forecasts.getValue(parameter_i, sta_test_i, time_test_i, window_i);
+            double value_search = forecasts.getValue(parameter_i, sta_search_i, time_search_i, window_i);
 
             if (std::isnan(value_search) || std::isnan(value_test)) {
                 window[pos] = NAN;
@@ -836,3 +857,46 @@ AnEnIS::checkNumberOfMembers_(size_t num_search_times_index) {
 
     return;
 }
+
+#if defined(_ENABLE_AI)
+void 
+AnEnIS::load_similarity_model(const std::string & similarity_model_path) {
+    
+    if (verbose_ >= Verbose::Progress) cout << "Reading the similarity model ..." << endl;
+
+    try {
+        similarity_model_ = torch::jit::load(similarity_model_path);
+        similarity_model_.eval();
+
+    } catch (const c10::Error& e) {
+        string msg = string("Failed to read the similarity model ") + similarity_model_path;
+        msg += string("\n\n Original error message: ") + e.what();
+        throw runtime_error(msg);
+    }
+
+    use_AI_ = true;
+
+    return;
+}
+
+double
+AnEnIS::computeSimMetricAI_(const Forecasts & forecasts,
+        size_t sta_test_i, size_t sta_search_i,
+        size_t flt_i, size_t time_test_i, size_t time_search_i) {
+
+    long int num_features = forecasts.getParameters().size();
+    auto x1 = at::full({1, num_features}, NAN, at::kFloat);
+    auto x2 = at::full({1, num_features}, NAN, at::kFloat);
+
+    for (long int feature_i = 0; feature_i < num_features; ++feature_i) {
+        x1[0][feature_i] = forecasts.getValue(feature_i, sta_test_i, time_test_i, flt_i);
+        x2[0][feature_i] = forecasts.getValue(feature_i, sta_search_i, time_search_i, flt_i);
+    }
+
+    std::vector<torch::jit::IValue> inputs = {x1, x2};
+    at::Tensor output = similarity_model_.forward(inputs).toTensor();
+
+    return output[0].item<double>();
+}
+#endif
+

@@ -99,7 +99,8 @@ public:
      * @param append Whether to append to files
      */
     void writeForecasts(const std::string & file, const Forecasts &,
-            bool overwrite = false, bool append = false) const;
+            bool overwrite = false, bool append = false,
+            const std::string & group_name = "Forecasts") const;
 
     /**
      * Write observations.

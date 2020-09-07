@@ -537,7 +537,7 @@ AnEnReadNcdf::checkFileType_(const NcFile & nc, FileType file_type) const {
         case FileType::Forecasts:
             dim_names = {
                 Config::_DIM_PARS, Config::_DIM_STATIONS,
-                Config::_DIM_TIMES, Config::_DIM_FLTS, Config::_DIM_CHARS
+                Config::_DIM_TIMES, Config::_DIM_FLTS
             };
             var_names = {
                 Config::_DATA, Config::_FLTS, Config::_TIMES,
@@ -547,7 +547,7 @@ AnEnReadNcdf::checkFileType_(const NcFile & nc, FileType file_type) const {
         case FileType::Observations:
             dim_names = {
                 Config::_DIM_PARS, Config::_DIM_STATIONS,
-                Config::_DIM_TIMES, Config::_DIM_CHARS
+                Config::_DIM_TIMES
             };
             var_names = {
                 Config::_DATA, Config::_TIMES, Config::_PAR_NAMES,

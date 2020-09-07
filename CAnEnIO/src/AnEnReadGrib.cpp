@@ -219,6 +219,11 @@ AnEnReadGrib::readForecasts(Forecasts & forecasts,
             if (parameters_i.size() != 0) {
                 stringstream msg;
                 msg << parameters_i.size() << " out of " << grib_parameters.size() << " parameters are not found";
+
+                if (verbose_ >= Verbose::Debug) {
+                    msg << " (ID: " << Functions::format(parameters_i, ",", parameters_i.size()) << ")";
+                }
+
                 throw runtime_error(msg.str());
             }
 

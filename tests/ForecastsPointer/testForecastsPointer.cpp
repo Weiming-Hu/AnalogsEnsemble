@@ -10,6 +10,7 @@
 
 #include <numeric>
 #include <cstdlib>
+#include <algorithm>
 #include <boost/assign/list_of.hpp>
 #include <boost/assign/list_inserter.hpp>
 
@@ -23,6 +24,55 @@ testForecastsPointer::testForecastsPointer() {
 }
 
 testForecastsPointer::~testForecastsPointer() {
+}
+
+void testForecastsPointer::testCopy_() {
+    /**
+     * Test the copy assignment of forecasts
+     */
+
+    Station s1, s2(10, 20, "Hunan"), s3, s4(30, 40, "Guangdong"),
+            s5(15, 23), s6(30, 30, "Beijing");
+    Stations stations;
+    assign::push_back(stations.left)(0, s1)(1, s2)(2, s3)(3, s4)(4, s5)(5, s6);
+
+    Parameter p1, p2("temperature"), p3("humidity"),
+            p4("wind direction", true);
+
+    Parameters parameters;
+    assign::push_back(parameters.left)(0, p1)(1, p2)(2, p3)(3, p4);
+
+    Times times;
+    for (size_t i = 0; i < 10; ++i) {
+        times.push_back(Time(i + 1));
+    }
+
+    Times flts;
+    assign::push_back(flts.left)
+            (0, Time(100))(1, Time(200))(2, Time(300))(3, Time(400));
+
+    vector<double> values(parameters.size() * stations.size() * times.size() * flts.size());
+    generate(values.begin(), values.end(), rand);
+
+    ForecastsPointer forecasts(parameters, stations, times, flts);
+    double *ptr = forecasts.getValuesPtr();
+    memcpy(ptr, values.data(), values.size() * sizeof (double));
+
+    // Copy assignment
+    ForecastsPointer forecasts_copy;
+    forecasts_copy = forecasts;
+
+    CPPUNIT_ASSERT(forecasts.getParameters() == forecasts_copy.getParameters());
+    CPPUNIT_ASSERT(forecasts.getStations() == forecasts_copy.getStations());
+    CPPUNIT_ASSERT(forecasts.getTimes() == forecasts_copy.getTimes());
+    CPPUNIT_ASSERT(forecasts.getFLTs() == forecasts_copy.getFLTs());
+    CPPUNIT_ASSERT(forecasts.num_elements() == forecasts_copy.num_elements());
+
+    for (size_t i = 0; i < forecasts_copy.shape()[0]; ++i) 
+        for (size_t j = 0; j < forecasts_copy.shape()[1]; ++j) 
+            for (size_t k = 0; k < forecasts_copy.shape()[2]; ++k) 
+                for (size_t m = 0; m < forecasts_copy.shape()[3]; ++m) 
+                    CPPUNIT_ASSERT(forecasts.getValue(i, j, k, m) == forecasts_copy.getValue(i, j, k, m));
 }
 
 void testForecastsPointer::testForecastSetVectorValues_() {
