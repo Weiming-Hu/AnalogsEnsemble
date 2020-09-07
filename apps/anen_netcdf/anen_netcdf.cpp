@@ -314,6 +314,7 @@ void runAnEnNcdf(
      */
     delete anen;
 
+    if (config.verbose >= Verbose::Progress) cout << "anen_netcdf complete!" << endl;
     if (profile) profiler.summary(cout);
 
     return;

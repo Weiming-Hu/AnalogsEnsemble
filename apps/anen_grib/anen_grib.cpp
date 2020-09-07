@@ -351,6 +351,7 @@ void runAnEnGrib(
      */
     delete anen;
 
+    if (config.verbose >= Verbose::Progress) cout << "anen_grib complete!" << endl;
     if (profile) profiler.summary(cout);
 
     return;

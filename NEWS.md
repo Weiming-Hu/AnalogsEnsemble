@@ -4,6 +4,7 @@
 - Added functionality to read `nc_STRING`
 - Added embedding support for 2-dimensional embedding (parameters, lead times)
 - Added default embedding type
+- Added complete messages
 
 # PAnEn 4.2.1
 

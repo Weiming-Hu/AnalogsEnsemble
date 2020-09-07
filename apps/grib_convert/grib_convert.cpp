@@ -88,6 +88,8 @@ void runGribConvert(
     if (collapse_lead_times) anen_write.writeObservations(fileout, observations, overwrite);
     else anen_write.writeForecasts(fileout, forecasts, overwrite);
 
+    if (verbose >= Verbose::Progress) cout << "grib_convert complete!" << endl;
+
     return;
 }
 
