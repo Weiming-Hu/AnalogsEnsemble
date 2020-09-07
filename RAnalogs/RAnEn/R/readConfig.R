@@ -23,7 +23,7 @@
 #' @export
 readConfig <- function (config.file, replace.dash = '_') {
   
-  # check.package('stringr')
+  check.package('stringr')
   stopifnot(file.exists(config.file))
   
   # Read all lines from the file
