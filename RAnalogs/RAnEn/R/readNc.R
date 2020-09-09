@@ -25,13 +25,16 @@
 #' you need to also include the group name as if it was a folder,
 #' for exmple, `group_name/variable_name`. If `var_names` is a named vector,
 #' the names will be used in the list.
+#' @param include_root_attrs Whether to read the root group attributes.
 #' @param return_class Setting this argument to simply change the class
 #' of the returned list to support formatted output, e.g. `AnEn`.
 #' 
 #' @md
 #' @export
 readNc <- function(file, root_group_only = T,
-									 var_names = NULL, return_class = NULL) {
+									 var_names = NULL,
+									 include_root_attrs = F,
+									 return_class = NULL) {
   
   check.package('ncdf4')
   stopifnot(file.exists(file))
@@ -70,6 +73,10 @@ readNc <- function(file, root_group_only = T,
   	for (name_index in names_index) {
   		names(l)[name_index] <- names(var_names)[name_index]
   	}
+  }
+  
+  if (include_root_attrs) {
+    l$attributes <- ncdf4::ncatt_get(nc, 0)
   }
   
   # Close the file

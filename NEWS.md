@@ -1,3 +1,7 @@
+# PAnEn 4.2.3
+
+- Added reading root attributes to `RAnEn::readNc`
+
 # PAnEn 4.2.2
 
 - Added debug printing when parameters are missing

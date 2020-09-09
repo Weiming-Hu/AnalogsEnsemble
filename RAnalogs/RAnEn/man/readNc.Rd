@@ -4,7 +4,13 @@
 \alias{readNc}
 \title{RAnEn::readNc}
 \usage{
-readNc(file, root_group_only = T, var_names = NULL, return_class = NULL)
+readNc(
+  file,
+  root_group_only = T,
+  var_names = NULL,
+  include_root_attrs = F,
+  return_class = NULL
+)
 }
 \arguments{
 \item{file}{The file to read}
@@ -18,6 +24,8 @@ read a subset of variables from the NetCDF file. If this argument is set,
 you need to also include the group name as if it was a folder,
 for exmple, \code{group_name/variable_name}. If \code{var_names} is a named vector,
 the names will be used in the list.}
+
+\item{include_root_attrs}{Whether to read the root group attributes.}
 
 \item{return_class}{Setting this argument to simply change the class
 of the returned list to support formatted output, e.g. \code{AnEn}.}
