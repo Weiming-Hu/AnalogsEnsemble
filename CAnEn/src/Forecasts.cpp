@@ -31,7 +31,9 @@ using namespace std;
 
 static const vector<string> _EMBEDDING_TYPE_DESC = {
     "1-dimensional embedding [parameters]",
-    "2-dimensional embedding [parameters, lead times]"
+    "2-dimensional embedding [parameters, lead times]",
+    "2.5-dimensional embedding [general/vertical parameters, lead times]"
+
 };
 
 Forecasts::Forecasts() : Array4D(), BasicData() {
@@ -145,7 +147,7 @@ Forecasts::featureTransform(const string & embedding_model_path, Verbose verbose
     if (embedding_type == 0) {
         featureTransform_1D_(output, module, num_parameters, num_stations, num_times, num_lead_times, multiplier_1, multiplier_2, verbose);
 
-    } else if  (embedding_type == 1) {
+    } else if  (embedding_type == 1 || embedding_type == 2) {
 
         if (flt_radius <= 0) throw runtime_error("Embedding lead time radius must be positive");
         if (verbose >= Verbose::Detail) cout << "Lead time radius for embedding: " << flt_radius << endl;
@@ -153,7 +155,7 @@ Forecasts::featureTransform(const string & embedding_model_path, Verbose verbose
         featureTransform_2D_(output, module, flt_radius, num_parameters, num_stations, num_times, num_lead_times, multiplier_1, multiplier_2, verbose);
 
     } else {
-        throw runtime_error("Unknown embedding type from the embedding model (expected attribute name: _embedding_type)");
+        throw runtime_error("Unknown embedding type from the embedding model (check attribute : embedding_type)");
     }
 
     // This is the number of latent features
