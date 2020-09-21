@@ -283,6 +283,9 @@ Forecasts::featureTransform_2D_(at::Tensor & output, torch::jit::script::Module 
 
     vector<at::Tensor> tensor_outputs(num_lead_times);
 
+#if defined(_OPENMP)
+#pragma omp parallel for schedule(static)
+#endif
     for (long int lead_time_i = 0; lead_time_i < num_lead_times; ++lead_time_i) {
 
         long int num_samples = num_stations * num_times;
@@ -299,10 +302,6 @@ Forecasts::featureTransform_2D_(at::Tensor & output, torch::jit::script::Module 
         auto x = at::full({num_samples, num_parameters, num_allowed_stations, window_size}, NAN, at::kFloat);
         auto normalization_flag = at::full({1}, true, at::kBool);
 
-#if defined(_OPENMP)
-#pragma omp parallel for default(none) schedule(static) collapse(2) \
-shared(num_stations, num_times, window_size, num_parameters, x, multiplier_1, multiplier_2, flt_left)
-#endif
         for (long int station_i = 0; station_i < num_stations; ++station_i) {
             for (long int time_i = 0; time_i < num_times; ++time_i) {
 
@@ -317,9 +316,6 @@ shared(num_stations, num_times, window_size, num_parameters, x, multiplier_1, mu
             }
         }
 
-        // Execute the model
-        if (verbose >= Verbose::Detail) cout << "Converting features for lead time " << lead_time_i + 1 << "/" << num_lead_times << " ..." << endl;
-
         // Initialize an empty vector
         std::vector<torch::jit::IValue> inputs;
 
@@ -328,7 +324,12 @@ shared(num_stations, num_times, window_size, num_parameters, x, multiplier_1, mu
 
         // Disabling gradient calculation for the current thread
         torch::NoGradGuard no_grad;
+
+        // Execute the model
         tensor_outputs[lead_time_i] = module.forward(inputs).toTensor();
+
+#pragma omp critical
+        if (verbose >= Verbose::Detail) cout << "Features transformed for lead time " << lead_time_i + 1 << "/" << num_lead_times << endl;
     }
 
     output = at::cat(tensor_outputs, 0);
