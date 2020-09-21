@@ -64,8 +64,9 @@ if(ENABLE_AI)
             "-- download LibTorch for C++/Java with cxx11 ABI from https://pytorch.org/\n"
             "-- unzip it\n"
             "-- include the directory of the folder in CMAKE_PREFIX_PATH.\n"
-            "If you still have problems, please open a ticket or check https://github.com/Weiming-Hu/AnalogsEnsemble/issues/110."
-            "If you have multiple paths in CMAKE_PREFIX_PATH, use double quotes and ; as the separator.")
+            "If you still have problems, please open a ticket or check https://github.com/Weiming-Hu/AnalogsEnsemble/issues/110.\n"
+            "If you have multiple paths in CMAKE_PREFIX_PATH, use double quotes and ; as the separator.\n"
+            "An example for cmake would be: cmake -DENABLE_AI=ON -DCMAKE_INSTALL_RPATH=[lib folder] -DCMAKE_PREFIX_PATH=[libtorch root] -DCMAKE_INSTALL_PREFIX=[install path] ..")
     endif(Torch_FOUND)
 
     add_definitions(-D_ENABLE_AI)
