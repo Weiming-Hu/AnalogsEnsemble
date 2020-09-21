@@ -282,6 +282,7 @@ Forecasts::featureTransform_2D_(at::Tensor & output, torch::jit::script::Module 
     if (verbose >= Verbose::Progress) cout << "Populating the tensor with 2-dimensional embeddings (parameters with lead times) ..." << endl;
 
     vector<at::Tensor> tensor_outputs(num_lead_times);
+    size_t counter = 0;
 
 #if defined(_OPENMP)
 #pragma omp parallel for schedule(static)
@@ -329,8 +330,14 @@ Forecasts::featureTransform_2D_(at::Tensor & output, torch::jit::script::Module 
         tensor_outputs[lead_time_i] = module.forward(inputs).toTensor();
 
 #pragma omp critical
-        if (verbose >= Verbose::Detail) cout << "Features transformed for lead time " << lead_time_i + 1 << "/" << num_lead_times << endl;
+        if (verbose >= Verbose::Detail) {
+            counter++;
+            cout << '\r' << "Features transformed for " << counter << "/" << num_lead_times << " lead times";
+            cout.flush();
+        }
     }
+
+    if (verbose >= Verbose::Detail) cout << '\r' << "Features transformed for all " << num_lead_times << " lead times"<< endl;
 
     output = at::cat(tensor_outputs, 0);
     return;
