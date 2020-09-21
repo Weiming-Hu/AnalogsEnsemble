@@ -233,7 +233,7 @@ Forecasts::featureTransform_1D_(at::Tensor & output, torch::jit::script::Module 
     std::vector<torch::jit::IValue> inputs;
 
     auto x = at::full({num_samples, num_parameters, num_allowed_stations, num_allowed_lead_times}, NAN, at::kFloat);
-    auto normalization_flag = at::full({1}, true, at::kBool);
+    auto add_cpp_routines = at::full({1}, true, at::kBool);
 
     // Populate this tensor with the original features from forecasts
     if (verbose >= Verbose::Progress) cout << "Populating the tensor with 1-dimensional embeddings (parameters only) ..." << endl;
@@ -260,7 +260,7 @@ shared(num_stations, num_times, num_lead_times, num_parameters, x, multiplier_1,
     // Execute the model
     if (verbose >= Verbose::Progress) cout << "Converting features ..." << endl;
     inputs.push_back(x);
-    inputs.push_back(normalization_flag);
+    inputs.push_back(add_cpp_routines);
 
         // Disabling gradient calculation for the current thread
     torch::NoGradGuard no_grad;
@@ -301,7 +301,7 @@ Forecasts::featureTransform_2D_(at::Tensor & output, torch::jit::script::Module 
         long int window_size = flt_right - flt_left;
 
         auto x = at::full({num_samples, num_parameters, num_allowed_stations, window_size}, NAN, at::kFloat);
-        auto normalization_flag = at::full({1}, true, at::kBool);
+        auto add_cpp_routines = at::full({1}, true, at::kBool);
 
         for (long int station_i = 0; station_i < num_stations; ++station_i) {
             for (long int time_i = 0; time_i < num_times; ++time_i) {
@@ -321,7 +321,7 @@ Forecasts::featureTransform_2D_(at::Tensor & output, torch::jit::script::Module 
         std::vector<torch::jit::IValue> inputs;
 
         inputs.push_back(x);
-        inputs.push_back(normalization_flag);
+        inputs.push_back(add_cpp_routines);
 
         // Disabling gradient calculation for the current thread
         torch::NoGradGuard no_grad;
