@@ -885,15 +885,17 @@ AnEnIS::computeSimMetricAI_(const Forecasts & forecasts,
         size_t flt_i, size_t time_test_i, size_t time_search_i) {
 
     long int num_features = forecasts.getParameters().size();
-    auto x1 = at::full({1, num_features}, NAN, at::kFloat);
-    auto x2 = at::full({1, num_features}, NAN, at::kFloat);
+    auto x1 = at::full({1, num_features, 1, 1}, NAN, at::kFloat);
+    auto x2 = at::full({1, num_features, 1, 1}, NAN, at::kFloat);
+    auto lead_time_code = at::full({1}, (long) flt_i, at::kLong);
+    auto normalization_flag = at::full({1}, true, at::kBool);
 
     for (long int feature_i = 0; feature_i < num_features; ++feature_i) {
-        x1[0][feature_i] = forecasts.getValue(feature_i, sta_test_i, time_test_i, flt_i);
-        x2[0][feature_i] = forecasts.getValue(feature_i, sta_search_i, time_search_i, flt_i);
+        x1[0][feature_i][0][0] = forecasts.getValue(feature_i, sta_test_i, time_test_i, flt_i);
+        x2[0][feature_i][0][0] = forecasts.getValue(feature_i, sta_search_i, time_search_i, flt_i);
     }
 
-    std::vector<torch::jit::IValue> inputs = {x1, x2};
+    std::vector<torch::jit::IValue> inputs = {x1, x2, lead_time_code, normalization_flag};
     at::Tensor output = similarity_model_.forward(inputs).toTensor();
 
     return output[0].item<double>();
