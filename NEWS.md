@@ -1,6 +1,7 @@
 # PAnEn 4.2.3
 
 - Added reading root attributes to `RAnEn::readNc`
+- Added `RAnEn::formatForecasts` and `RAnEn::sortStations`
 
 # PAnEn 4.2.2
 

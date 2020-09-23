@@ -14,6 +14,14 @@
 #' 
 #' RAnEn::sortStations sorts the data based on either 'Xs', 'Ys', or 'StationNames'.
 #' 
+#' @param obj A Forecasts or Observations
+#' @param sort.stations Either one of `Xs`, `Ys`, or `StationNames`, or a numeric
+#' vector for the order. For example, if a numeric vector is passed, like `c(1, 4, 2, 3)`,
+#' the stations and the data will be ordered in such a way that: the first station is not
+#' moved, the second station is moved to the third position, the third station is moved
+#' to the forth position, and the forth station is moved to the second position. And
+#' there are only four stations!
+#' 
 #' @md
 #' @export
 sortStations <- function(obj, sort.stations=NULL, verbose=F) {
@@ -56,6 +64,16 @@ sortStations <- function(obj, sort.stations=NULL, verbose=F) {
         
         index <- order(obj$StationNames)
       }
+      
+    } else if (is.numeric(sort.stations)) {
+      
+      # Make sure the correct number of indices are provided
+      stopifnot(length(sort.stations) == dim(obj$Data)[2])
+      stopifnot(max(sort.stations) <= dim(obj$Data)[2])
+      stopifnot(min(sort.stations) >= 1)
+      stopifnot(length(unique(sort.stations)) == length(sort.stations))
+      
+      index <- sort.stations
       
     } else {
       warning("Sorting tag unsupported. Data are not sorted.")
