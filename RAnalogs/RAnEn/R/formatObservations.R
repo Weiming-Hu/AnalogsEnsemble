@@ -166,66 +166,24 @@ formatObservations <- function(
   # Initialize an empty Observations object
   observations <- RAnEn::generateObservationsTemplate()
   
-  # Assign unique parameters
-  observations$ParameterNames <- unique(df[[col.par]])
+  # Format the basic elements
+  ret <- formatBasic(observations, df, col.par, circular.pars, col.x, col.y,
+                     col.station.name, time.series)
+  
+  unique.pts <- ret$unique.pts
+  observations <- ret$obj
+  df <- ret$df
+  
   num.pars <- length(observations$ParameterNames)
+  num.times <- length(time.series)
+  num.stations <- nrow(unique.pts)
   
   if (verbose) {
     cat(num.pars, 'unique parameters extracted:',
         head(observations$ParameterNames, n = preview),
-        ifelse(num.pars <= preview, '', '...'), '\n')
-  }
-  
-  if (!is.null(circular.pars)) {
-    stopifnot(is.vector(circular.pars, mode = 'character'))
-    
-    for (name in circular.pars) {
-      if (!name %in% observations$ParameterNames) {
-        stop(paste(name, 'is not a parameter in the data frame.'))
-      }
-    }
-    
-    # Assign circular parameters
-    observations$ParameterCirculars <- circular.pars
-  }
-  
-  # Create unique id for stations based on coordinates
-  df$..Station.ID.. <-  dplyr::group_indices(
-    dplyr::group_by_at(df, .vars = dplyr::vars(col.x, col.y)))
-  
-  # These are the columns to keep in the unique station data frame
-  station.cols <- c(col.x, col.y, "..Station.ID..")
-  
-  # Add the station name column is it is present
-  if (!is.null(col.station.name)) {
-    stopifnot(col.station.name %in% names(df))
-    station.cols <- c(station.cols, col.station.name)
-  }
-  
-  # Create a data frame with unique station ID
-  unique.pts <- dplyr::distinct(
-    dplyr::select(df, !!! rlang::syms(station.cols)),
-    ..Station.ID.., .keep_all = T)
-  
-  # Assign station information to Observations object
-  if (!is.null(col.station.name)) {
-    observations$StationNames <- unique.pts[[col.station.name]]
-  }
-  
-  observations$Xs <- unique.pts[[col.x]]
-  observations$Ys <- unique.pts[[col.y]]
-  num.stations <- nrow(unique.pts)
-  
-  if (verbose) {
-    cat(num.stations, 'unique points extracted\n')
-  }
-  
-  # Define observation times
-  num.times <- length(time.series)
-  observations$Times <- time.series
-  
-  if (verbose) {
-    cat(num.times, 'unique times defined:',
+        ifelse(num.pars <= preview, '', '...'), '\n',
+        num.stations, 'unique points extracted\n',
+        num.times, 'unique times defined:',
         as.character(head(observations$Times, n = preview)),
         ifelse(num.times <= preview, '', '...'), '\n')
   }
