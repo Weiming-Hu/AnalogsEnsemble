@@ -24,7 +24,7 @@ formatBasic <- function(obj, df, col.par, circular.pars, col.x, col.y,
   stopifnot(inherits(obj, 'Forecasts') | inherits(obj, 'Observations'))
   
   # Assign unique parameters
-  obj$ParameterNames <- unique(df[[col.par]])
+  obj$ParameterNames <- as.character(unique(df[[col.par]]))
   
   if (!is.null(circular.pars)) {
     stopifnot(is.vector(circular.pars, mode = 'character'))
@@ -36,7 +36,7 @@ formatBasic <- function(obj, df, col.par, circular.pars, col.x, col.y,
     }
     
     # Assign circular parameters
-    obj$ParameterCirculars <- circular.pars
+    obj$ParameterCirculars <- as.character(circular.pars)
   }
   
   # Create unique id for stations based on coordinates

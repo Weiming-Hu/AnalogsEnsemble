@@ -173,19 +173,20 @@ formatObservations <- function(
   unique.pts <- ret$unique.pts
   observations <- ret$obj
   df <- ret$df
+  rm(ret)
   
   num.pars <- length(observations$ParameterNames)
   num.times <- length(time.series)
   num.stations <- nrow(unique.pts)
   
   if (verbose) {
-    cat(num.pars, 'unique parameters extracted:',
-        head(observations$ParameterNames, n = preview),
-        ifelse(num.pars <= preview, '', '...'), '\n',
-        num.stations, 'unique points extracted\n',
-        num.times, 'unique times defined:',
-        as.character(head(observations$Times, n = preview)),
-        ifelse(num.times <= preview, '', '...'), '\n')
+    cat(num.pars, ' unique parameters extracted: ',
+        paste(head(observations$ParameterNames, n = preview), collapse = ', '),
+        ifelse(num.pars <= preview, '', ' ...'), '\n',
+        num.stations, ' unique stations extracted\n',
+        num.times, ' unique times defined: ',
+        paste(as.character(head(observations$Times, n = preview)), collapse = ', '),
+        ifelse(num.times <= preview, '', ' ...'), '\n', sep = '')
   }
   
   # Preallocate array data
@@ -280,56 +281,7 @@ formatObservations <- function(
     close(pb)
   }
   
-  # Sort observations if needed
-  if (identical(sort.stations, NULL)) {
-    if (verbose) {
-      cat("Observation stations are not sorted. Use sort.stations to sort them.\n")
-      cat("Make sure station orders are consistent between forecasts and observations.\n")
-    }
-    
-  } else {
-    
-    if (identical(sort.stations, 'Xs')) {
-      if (verbose) {
-        cat("Sort observations by Xs ...\n")
-      }
-      
-      index <- order(observations$Xs)
-      
-    } else if (identical(sort.stations, 'Ys')) {
-      if (verbose) {
-        cat("Sort observations by Ys ...\n")
-      }
-      
-      index <- order(observations$Ys)
-      
-    } else if (identical(sort.stations, 'StationNames')) {
-      
-      if (is.null(observations$StationNames)) {
-        warning("Station names are missing. Observations are not sorted.")
-        index <- NULL
-        
-      } else {
-        if (verbose) {
-          cat("Sort observations by station names ...\n")
-        }
-        
-        index <- order(observations$StationNames)
-      }
-      
-    } else {
-      warning("Sorting tag unsupported. Observations are not sorted.")
-      index <- NULL
-    }
-    
-    if (!identical(index, NULL)) {
-      observations$Xs <- observations$Xs[index]
-      observations$Ys <- observations$Ys[index]
-      observations$StationNames <- observations$StationNames[index]
-      observations$Data <- observations$Data[, index, , drop = F]
-    }
-    
-  }
+  observations <- sortStations(observations, sort.stations, verbose)
   
   if (verbose) {
     cat('Done (formatObservations)!\n')
@@ -344,4 +296,3 @@ formatObservations <- function(
 # https://cran.r-project.org/web/packages/data.table/vignettes/datatable-importing.html
 #
 .datatable.aware = TRUE
-
