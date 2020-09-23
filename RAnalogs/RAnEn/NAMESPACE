@@ -19,6 +19,8 @@ export(generateAnalogs.list)
 
 # Helper functions
 export(formatObservations)
+export(formatForecasts)
+export(sortStations)
 export(alignObservations)
 export(toMemberForecasts)
 export(toForecastTime)
