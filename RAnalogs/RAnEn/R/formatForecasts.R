@@ -178,7 +178,7 @@ formatForecasts <- function(
   }
   
   if (show.progress) {
-    pb <- txtProgressBar(max = num.pars * num.stations * num.times, style = 3)
+    pb <- txtProgressBar(max = num.pars * num.times, style = 3)
     count <- 0
   }
   
@@ -242,11 +242,11 @@ formatForecasts <- function(
         }
         
         forecasts$Data[i.par, i.station, i.time, ] <- df.sub[[col.value]]
-        
-        if (show.progress) {
-          count <- count + 1
-          setTxtProgressBar(pb, count)
-        }
+      }
+      
+      if (show.progress) {
+        count <- count + 1
+        setTxtProgressBar(pb, count)
       }
     }
   }
