@@ -105,8 +105,7 @@ int main(int argc, char** argv) {
     vector<bool> parameters_circular;
     vector<int> stations_index;
 
-    string forecast_folder, regex_str;
-    string fileout, time_start_str, time_end_str, u_name, v_name, spd_name, dir_name; 
+    string forecast_folder, regex_str, fileout, u_name, v_name, spd_name, dir_name; 
     bool delimited, overwrite, collapse_lead_times, convert_wind;
     size_t unit_in_seconds;
     Verbose verbose;
@@ -129,8 +128,6 @@ int main(int argc, char** argv) {
             ("level-types", value< vector<string> >(&parameters_level_type)->multitoken()->required(), "Level type for parameter ID.")
             ("out", value<string>(&fileout)->required(), "Output file path.")
             ("stations-index", value< vector<int> >(&stations_index)->multitoken(), "[Optional] Stations index to be read from files.")
-            ("time-start", value<string>(&time_start_str), "[Optional] Start date time for reading.")
-            ("time-end", value<string>(&time_end_str), "[Optional] End date time for reading.")
             ("delimited", bool_switch(&delimited)->default_value(false), "[Optional] Date strings in forecasts and analysis have separators.")
             ("overwrite", bool_switch(&overwrite)->default_value(false), "[Optional] Overwrite files and variables.")
             ("collapse-lead-times", bool_switch(&collapse_lead_times)->default_value(false), "[Optional] Collapse forecast lead times. This is helpful when you are reading and converting model analysis files to observation NetCDF files.")
