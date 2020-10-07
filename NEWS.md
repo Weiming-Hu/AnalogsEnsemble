@@ -1,5 +1,6 @@
 # PAnEn 4.2.3
 
+- Moved 'RAnEn::schaakeShuffle' to `RAnEnExtra::schaakeShuffle`
 - Added reading root attributes to `RAnEn::readNc`
 - Added `RAnEn::formatForecasts` and `RAnEn::sortStations`
 

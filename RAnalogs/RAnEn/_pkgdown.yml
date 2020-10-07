@@ -18,7 +18,6 @@ reference:
       desc: Functions to generate ensemble forecasts.
       contents:
           - starts_with("generate")
-          - schaakeShuffle
 
     - title: File I/O
       desc: Functions for reading and writing.

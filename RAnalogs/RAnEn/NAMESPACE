@@ -36,7 +36,6 @@ export(generateTimeMapping)
 export(generateSearchStations)
 export(generateForecastsTemplate)
 export(generateObservationsTemplate)
-export(schaakeShuffle)
 
 # I/O functions
 export(readNc)
