@@ -1,6 +1,10 @@
-# PAnEn 4.2.3
+# PAnEn 4.2.4
 
 - Moved 'RAnEn::schaakeShuffle' to `RAnEnExtra::schaakeShuffle`
+- Improve efficiency of AI inference
+
+# PAnEn 4.2.3
+
 - Added reading root attributes to `RAnEn::readNc`
 - Added `RAnEn::formatForecasts` and `RAnEn::sortStations`
 

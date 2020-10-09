@@ -93,6 +93,16 @@ public:
     std::size_t getFltTimeIndex(const Time &) const;
 
 #if defined(_ENABLE_AI)
+    /**
+     * This function is available when ENABLE_AI is turned on during the program compilation. This
+     * function converts the original forecast variables into latent features by using a pretrained
+     * AI representation model. 
+     *
+     * @param embedding_model_path The PyTorch model
+     * @param verbose Verbose level
+     * @param lead_time_radius The number of nearby lead times to use. This is only used when your AI
+     * model allows for temporal representation.
+     */
     virtual void featureTransform(const std::string & embedding_model_path, Verbose verbose = Verbose::Warning, long int lead_time_radius = 1);
 #endif
 
@@ -106,11 +116,9 @@ protected:
 
 #if defined(_ENABLE_AI)
     virtual void featureTransform_1D_(at::Tensor & output, torch::jit::script::Module & module,
-            long int num_parameters, long int num_stations, long int num_times, long int num_lead_times,
-            long int multiplier_1, long int multiplier_2, Verbose verbose);
+            long int num_parameters, long int num_stations, long int num_times, long int num_lead_times, Verbose verbose);
     virtual void featureTransform_2D_(at::Tensor & output, torch::jit::script::Module & module, long int flt_radius,
-            long int num_parameters, long int num_stations, long int num_times, long int num_lead_times,
-            long int multiplier_1, long int multiplier_2, Verbose verbose);
+            long int num_parameters, long int num_stations, long int num_times, long int num_lead_times, Verbose verbose);
 #endif
 
 };

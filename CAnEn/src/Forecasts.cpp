@@ -102,16 +102,14 @@ Forecasts::featureTransform(const string & embedding_model_path, Verbose verbose
     long int num_times = getTimes().size();
     long int num_lead_times = getFLTs().size();
 
-    // These are the multiplier for indices during nested for loops.
-    // Make sure the nest for loops are in the order of
-    //
-    // [lead times] -> [stations] -> [forecast times]
-    //
-    // This is because these dimensions will be flattened into a single dimension [sample] and
-    // later on reconstructed. I need to absolutely make sure that I do confuse the indices.
-    //
-    long int multiplier_1 = num_stations * num_times;
-    long int multiplier_2 = num_times;
+    /*
+     * Make sure the nest for loops are in the order of
+     *
+     * [lead times] -> [stations] -> [forecast times]
+     *
+     * This is because these dimensions will be flattened into a single dimension [sample] and
+     * later on reconstructed. I need to absolutely make sure that I do not confuse the indices.
+     */
 
     // Initialize a variable for the transformed output
     at::Tensor output;
@@ -145,14 +143,14 @@ Forecasts::featureTransform(const string & embedding_model_path, Verbose verbose
 
     // Determine the embedding type
     if (embedding_type == 0) {
-        featureTransform_1D_(output, module, num_parameters, num_stations, num_times, num_lead_times, multiplier_1, multiplier_2, verbose);
+        featureTransform_1D_(output, module, num_parameters, num_stations, num_times, num_lead_times, verbose);
 
     } else if  (embedding_type == 1 || embedding_type == 2) {
 
         if (flt_radius <= 0) throw runtime_error("Embedding lead time radius must be positive");
         if (verbose >= Verbose::Detail) cout << "Lead time radius for embedding: " << flt_radius << endl;
 
-        featureTransform_2D_(output, module, flt_radius, num_parameters, num_stations, num_times, num_lead_times, multiplier_1, multiplier_2, verbose);
+        featureTransform_2D_(output, module, flt_radius, num_parameters, num_stations, num_times, num_lead_times, verbose);
 
     } else {
         throw runtime_error("Unknown embedding type from the embedding model (check attribute : embedding_type)");
@@ -195,19 +193,18 @@ Forecasts::featureTransform(const string & embedding_model_path, Verbose verbose
 
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(static) collapse(3) \
-shared(num_stations, num_times, num_lead_times, num_latent_features, output, multiplier_1, multiplier_2)
+shared(num_stations, num_times, num_lead_times, num_latent_features, output)
 #endif
     for (long int lead_time_i = 0; lead_time_i < num_lead_times; ++lead_time_i) {
         for (long int station_i = 0; station_i < num_stations; ++station_i) {
             for (long int time_i = 0; time_i < num_times; ++time_i) {
 
-                long int sample_i = lead_time_i * multiplier_1 + station_i* multiplier_2 + time_i;
+                long int sample_i = (lead_time_i * num_stations + station_i) * num_times + time_i;
 
                 for (long int feature_i = 0; feature_i < num_latent_features; ++feature_i) {
                     double value = output[sample_i][feature_i].item<double>();
                     setValue(value, feature_i, station_i, time_i, lead_time_i);
                 }
-
             }
         }
     }
@@ -218,8 +215,7 @@ shared(num_stations, num_times, num_lead_times, num_latent_features, output, mul
 
 void
 Forecasts::featureTransform_1D_(at::Tensor & output, torch::jit::script::Module & module,
-        long int num_parameters, long int num_stations, long int num_times, long int num_lead_times,
-        long int multiplier_1, long int multiplier_2, Verbose verbose) {
+        long int num_parameters, long int num_stations, long int num_times, long int num_lead_times, Verbose verbose) {
 
     // For embedding 0, 1-dimensional embedding with parameters only, the model only accpets features at a 
     // single station and a single lead time. This is dictated by the structure of the Torch model.
@@ -232,30 +228,27 @@ Forecasts::featureTransform_1D_(at::Tensor & output, torch::jit::script::Module 
     // Initialize an empty tensor
     std::vector<torch::jit::IValue> inputs;
 
-    auto x = at::full({num_samples, num_parameters, num_allowed_stations, num_allowed_lead_times}, NAN, at::kFloat);
-    auto add_cpp_routines = at::full({1}, true, at::kBool);
-
     // Populate this tensor with the original features from forecasts
     if (verbose >= Verbose::Progress) cout << "Populating the tensor with 1-dimensional embeddings (parameters only) ..." << endl;
+    vector<float> torch_data(num_samples * num_parameters * num_allowed_stations * num_allowed_lead_times);
 
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(static) collapse(3) \
-shared(num_stations, num_times, num_lead_times, num_parameters, x, multiplier_1, multiplier_2)
+shared(num_stations, num_times, num_lead_times, num_parameters, torch_data)
 #endif
     for (long int lead_time_i = 0; lead_time_i < num_lead_times; ++lead_time_i) {
         for (long int station_i = 0; station_i < num_stations; ++station_i) {
             for (long int time_i = 0; time_i < num_times; ++time_i) {
-
-                // Calculate the sample index
-                long int sample_i = lead_time_i * multiplier_1 + station_i* multiplier_2 + time_i;
-
                 for (long int parameter_i = 0; parameter_i < num_parameters; ++parameter_i) {
-                    x[sample_i][parameter_i][0][0] = getValue(parameter_i, station_i, time_i, lead_time_i);
+                    long int pos = ((lead_time_i * num_stations + station_i) * num_times + time_i) * num_parameters + parameter_i;
+                    torch_data[pos] = getValue(parameter_i, station_i, time_i, lead_time_i);
                 }
-
             }
         }
     }
+
+    auto x = torch::from_blob(torch_data.data(), {num_samples, num_parameters, num_allowed_stations, num_allowed_lead_times}, torch::TensorOptions());
+    auto add_cpp_routines = at::full({1}, true, at::kBool);
 
     // Execute the model
     if (verbose >= Verbose::Progress) cout << "Converting features ..." << endl;
@@ -270,8 +263,7 @@ shared(num_stations, num_times, num_lead_times, num_parameters, x, multiplier_1,
 
 void
 Forecasts::featureTransform_2D_(at::Tensor & output, torch::jit::script::Module & module, long int flt_radius,
-        long int num_parameters, long int num_stations, long int num_times, long int num_lead_times,
-        long int multiplier_1, long int multiplier_2, Verbose verbose) {
+        long int num_parameters, long int num_stations, long int num_times, long int num_lead_times, Verbose verbose) {
 
     // For embedding 1, 2-dimensional embedding with parameters and lead times, the model accepts features 
     // at a single station but continuous lead times. This is dictated by the structure of the Torch model.
@@ -300,22 +292,22 @@ Forecasts::featureTransform_2D_(at::Tensor & output, torch::jit::script::Module 
 
         long int window_size = flt_right - flt_left;
 
-        auto x = at::full({num_samples, num_parameters, num_allowed_stations, window_size}, NAN, at::kFloat);
-        auto add_cpp_routines = at::full({1}, true, at::kBool);
+        // Flatten the array data into a long vector
+        vector<float> torch_data(num_samples * num_parameters * num_allowed_stations * window_size);
+        long int pos = 0;
 
         for (long int station_i = 0; station_i < num_stations; ++station_i) {
             for (long int time_i = 0; time_i < num_times; ++time_i) {
-
-                // Calculate the sample index
-                long int sample_i = station_i * multiplier_2 + time_i;
-
-                for (long int window_i = 0; window_i < window_size; ++window_i) {
-                    for (long int parameter_i = 0; parameter_i < num_parameters; ++parameter_i) {
-                        x[sample_i][parameter_i][0][window_i] = getValue(parameter_i, station_i, time_i, flt_left + window_i);
+                for (long int parameter_i = 0; parameter_i < num_parameters; ++parameter_i) {
+                    for (long int window_i = 0; window_i < window_size; ++window_i, ++pos) {
+                        torch_data[pos] = getValue(parameter_i, station_i, time_i, flt_left + window_i);
                     }
                 }
             }
         }
+
+        auto x = torch::from_blob(torch_data.data(), {num_samples, num_parameters, num_allowed_stations, window_size}, torch::TensorOptions());
+        auto add_cpp_routines = at::full({1}, true, at::kBool);
 
         // Initialize an empty vector
         std::vector<torch::jit::IValue> inputs;
