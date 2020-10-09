@@ -191,9 +191,10 @@ Forecasts::featureTransform(const string & embedding_model_path, Verbose verbose
     resize(num_latent_features, num_stations, num_times, num_lead_times);
     initialize(NAN);
 
+    const auto torch_data = output.data_ptr<float>();
+
 #if defined(_OPENMP)
-#pragma omp parallel for default(none) schedule(static) collapse(3) \
-shared(num_stations, num_times, num_lead_times, num_latent_features, output)
+#pragma omp parallel for schedule(static) collapse(3)
 #endif
     for (long int lead_time_i = 0; lead_time_i < num_lead_times; ++lead_time_i) {
         for (long int station_i = 0; station_i < num_stations; ++station_i) {
@@ -202,7 +203,7 @@ shared(num_stations, num_times, num_lead_times, num_latent_features, output)
                 long int sample_i = (lead_time_i * num_stations + station_i) * num_times + time_i;
 
                 for (long int feature_i = 0; feature_i < num_latent_features; ++feature_i) {
-                    double value = output[sample_i][feature_i].item<double>();
+                    double value = torch_data[sample_i * num_latent_features + feature_i];
                     setValue(value, feature_i, station_i, time_i, lead_time_i);
                 }
             }
