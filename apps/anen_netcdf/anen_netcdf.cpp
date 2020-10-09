@@ -507,7 +507,7 @@ int main(int argc, char** argv) {
     fileout = boost::filesystem::change_extension(fileout, "").string() + padded_rank.str() + string(".nc");
 
     if (config.verbose >= Verbose::Detail) cout << "Rank " << world_rank << "/" << world_size <<
-            " processes " << station_count << " stations from #" << station_start << " writing into " << fileout << endl;
+            " processes " << station_count << " stations from #" << station_start << " will be writing to " << fileout << endl;
 #endif
 
     runAnEnNcdf(forecast_file, observation_file, station_start, station_count,
