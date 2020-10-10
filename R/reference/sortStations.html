@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>RAnEn::generateForecastsTemplate — generateForecastsTemplate • RAnEn</title>
+<title>RAnEn::sortStations — sortStations • RAnEn</title>
 
 
 <!-- jquery -->
@@ -35,10 +35,8 @@
 
 
 
-<meta property="og:title" content="RAnEn::generateForecastsTemplate — generateForecastsTemplate" />
-<meta property="og:description" content="RAnEn::generateForecastsTemplate generates an empty forecasts.
-This will guide you to create the correct forecasts that can
-then be used in RAnEn::generateAnalogs." />
+<meta property="og:title" content="RAnEn::sortStations — sortStations" />
+<meta property="og:description" content="RAnEn::sortStations sorts the data based on either 'Xs', 'Ys', or 'StationNames'." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -110,29 +108,41 @@ then be used in RAnEn::generateAnalogs." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>RAnEn::generateForecastsTemplate</h1>
-    <small class="dont-index">Source: <a href='https://github.com/Weiming-Hu/AnalogsEnsemble/blob/master/R/generateTemplates.R'><code>R/generateTemplates.R</code></a></small>
-    <div class="hidden name"><code>generateForecastsTemplate.Rd</code></div>
+    <h1>RAnEn::sortStations</h1>
+    <small class="dont-index">Source: <a href='https://github.com/Weiming-Hu/AnalogsEnsemble/blob/master/R/sortStations.R'><code>R/sortStations.R</code></a></small>
+    <div class="hidden name"><code>sortStations.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>RAnEn::generateForecastsTemplate generates an empty forecasts.
-This will guide you to create the correct forecasts that can
-then be used in RAnEn::generateAnalogs.</p>
+    <p>RAnEn::sortStations sorts the data based on either 'Xs', 'Ys', or 'StationNames'.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>generateForecastsTemplate</span>()</pre>
+    <pre class="usage"><span class='fu'>sortStations</span>(<span class='no'>obj</span>, <span class='kw'>sort.stations</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='no'>F</span>)</pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>obj</th>
+      <td><p>A Forecasts or Observations</p></td>
+    </tr>
+    <tr>
+      <th>sort.stations</th>
+      <td><p>Either one of <code>Xs</code>, <code>Ys</code>, or <code>StationNames</code>, or a numeric
+vector for the order. For example, if a numeric vector is passed, like <code><a href='https://rdrr.io/r/base/c.html'>c(1, 4, 2, 3)</a></code>,
+the stations and the data will be ordered in such a way that: the first station is not
+moved, the second station is moved to the third position, the third station is moved
+to the forth position, and the forth station is moved to the second position. And
+there are only four stations!</p></td>
+    </tr>
+    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>An empty list with members</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#value">Value</a></li>
+      <li><a href="#arguments">Arguments</a></li>
     </ul>
 
   </div>

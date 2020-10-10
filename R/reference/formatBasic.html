@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>RAnEn::schaakeShuffle — schaakeShuffle • RAnEn</title>
+<title>RAnEn::formatBasic — formatBasic • RAnEn</title>
 
 
 <!-- jquery -->
@@ -35,9 +35,10 @@
 
 
 
-<meta property="og:title" content="RAnEn::schaakeShuffle — schaakeShuffle" />
-<meta property="og:description" content="RAnEn::schaakeShuffle is a method to improve autocorrelation within ensemble
-members in the spatial and temporal constructions by reordering the memebers." />
+<meta property="og:title" content="RAnEn::formatBasic — formatBasic" />
+<meta property="og:description" content="RAnEn::formatBasic is an internal function called by RAnEn::formatObservations
+and RAnEn::formatForecasts to convert a data frame to AnEn Observations or
+Forecasts." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -70,7 +71,7 @@ members in the spatial and temporal constructions by reordering the memebers." /
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAnEn</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">4.2.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">4.2.4</span>
       </span>
     </div>
 
@@ -109,85 +110,36 @@ members in the spatial and temporal constructions by reordering the memebers." /
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>RAnEn::schaakeShuffle</h1>
-    <small class="dont-index">Source: <a href='https://github.com/Weiming-Hu/AnalogsEnsemble/blob/master/R/schaakeShuffle.R'><code>R/schaakeShuffle.R</code></a></small>
-    <div class="hidden name"><code>schaakeShuffle.Rd</code></div>
+    <h1>RAnEn::formatBasic</h1>
+    <small class="dont-index">Source: <a href='https://github.com/Weiming-Hu/AnalogsEnsemble/blob/master/R/formatBasic.R'><code>R/formatBasic.R</code></a></small>
+    <div class="hidden name"><code>formatBasic.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>RAnEn::schaakeShuffle is a method to improve autocorrelation within ensemble
-members in the spatial and temporal constructions by reordering the memebers.</p>
+    <p>RAnEn::formatBasic is an internal function called by RAnEn::formatObservations
+and RAnEn::formatForecasts to convert a data frame to AnEn Observations or
+Forecasts.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>schaakeShuffle</span>(<span class='no'>anen</span>, <span class='no'>obs.search</span>, <span class='kw'>show.progress</span> <span class='kw'>=</span> <span class='no'>F</span>, <span class='kw'>allow.na</span> <span class='kw'>=</span> <span class='no'>F</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>42</span>)</pre>
+    <pre class="usage"><span class='fu'>formatBasic</span>(
+  <span class='no'>obj</span>,
+  <span class='no'>df</span>,
+  <span class='no'>col.par</span>,
+  <span class='no'>circular.pars</span>,
+  <span class='no'>col.x</span>,
+  <span class='no'>col.y</span>,
+  <span class='no'>col.station.name</span>,
+  <span class='no'>time.series</span>
+)</pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>anen</th>
-      <td><p>Analogs from <code>generateAnalogs.default</code>.
-The dimensions should be (stations, test times, FLTs, members).</p></td>
-    </tr>
-    <tr>
-      <th>obs.search</th>
-      <td><p>The aligned observations with 4 dimensions (parameters, stations,
-search times, FLTs). However, please make sure there is only 1 parameter. Observations
-can be created from <code><a href='alignObservations.html'>alignObservations</a></code>.</p></td>
-    </tr>
-    <tr>
-      <th>allow.na</th>
-      <td><p>Whether to allow NA values to exist in selected days. Since the the N
-search days are randomly chosen and there might be NA in the values. Typically, this
-function will try to find a station index and a lead time index that does not have NA
-values. But if it fails to do so, you have to consider what you need to do next: 1)
-You can check why you have so many NA values in the observations, or 2) you can simply
-allow sorting with NA, and then all the NA values be placed to the end.</p></td>
-    </tr>
-    <tr>
-      <th>seed</th>
-      <td><p>A random seed for reproducibility.</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>Although the absolute verification statistics of a particular ensemble (e.g.
-RMSE, bias, and etc.) are not affected by reordering the members, the reordered
-ensemble members preserve a better autocorrelation structure when inspected
-one by one, for example, plotting the first member of all ensembles.</p>
-<p>The algorithm is as follows:</p><pre>
--- For each test day
-      Randomly choose N search days (N is the number of ensemble members)
-      Establish the linking function B
-      -- For each FLT
-         -- For each station
-            Reorder enmseble members using the linking function B
-         -- End of stations
-      -- End of FLTs
--- End of test days
-
-</pre>
-
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
-
-    <p>Sperati, Simone, Stefano Alessandrini, and Luca Delle Monache.
-"Gridded probabilistic weather forecasts with an analog ensemble."
-Quarterly Journal of the Royal Meteorological Society 143.708 (2017): 2874-2885.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#references">References</a></li>
     </ul>
 
-    <h2>Author</h2>
-    <p>Guido Cervone <a href='mailto:cervone@psu.edu'>cervone@psu.edu</a></p>
-<p>Martina Calovi <a href='mailto:mxc895@psu.edu'>mxc895@psu.edu</a></p>
-<p>Weiming Hu <a href='mailto:weiming@psu.edu'>weiming@psu.edu</a></p>
   </div>
 </div>
 

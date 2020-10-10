@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>RAnEn::print.Forecasts — print.Forecasts • RAnEn</title>
+<title>RAnEn::formatForecasts — formatForecasts • RAnEn</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,9 @@
 
 
 
-<meta property="og:title" content="RAnEn::print.Forecasts — print.Forecasts" />
-<meta property="og:description" content="RAnEn::print.Forecasts print a Forecasts object." />
+<meta property="og:title" content="RAnEn::formatForecasts — formatForecasts" />
+<meta property="og:description" content="RAnEn::formatForecasts generates the AnEn Forecasts list required
+by analog computation." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -108,33 +109,130 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>RAnEn::print.Forecasts</h1>
-    <small class="dont-index">Source: <a href='https://github.com/Weiming-Hu/AnalogsEnsemble/blob/master/R/print.Templates.R'><code>R/print.Templates.R</code></a></small>
-    <div class="hidden name"><code>print.Forecasts.Rd</code></div>
+    <h1>RAnEn::formatForecasts</h1>
+    <small class="dont-index">Source: <a href='https://github.com/Weiming-Hu/AnalogsEnsemble/blob/master/R/formatForecasts.R'><code>R/formatForecasts.R</code></a></small>
+    <div class="hidden name"><code>formatForecasts.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>RAnEn::print.Forecasts print a Forecasts object.</p>
+    <p>RAnEn::formatForecasts generates the AnEn Forecasts list required
+by analog computation.</p>
     </div>
 
-    <pre class="usage"><span class='co'># S3 method for Forecasts</span>
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>x</span>)</pre>
+    <pre class="usage"><span class='fu'>formatForecasts</span>(
+  <span class='no'>df</span>,
+  <span class='no'>col.par</span>,
+  <span class='no'>col.x</span>,
+  <span class='no'>col.y</span>,
+  <span class='no'>col.time</span>,
+  <span class='no'>col.lead.time</span>,
+  <span class='no'>time.series</span>,
+  <span class='no'>col.value</span>,
+  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='no'>T</span>,
+  <span class='kw'>preview</span> <span class='kw'>=</span> <span class='fl'>2</span>,
+  <span class='kw'>remove.duplicates</span> <span class='kw'>=</span> <span class='no'>T</span>,
+  <span class='kw'>circular.pars</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>col.station.name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>show.progress</span> <span class='kw'>=</span> <span class='no'>F</span>,
+  <span class='kw'>sort.stations</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>A Forecasts object</p></td>
+      <th>df</th>
+      <td><p>A data frame to be converted to an R list.</p></td>
+    </tr>
+    <tr>
+      <th>col.par</th>
+      <td><p>The column name for parameter names.</p></td>
+    </tr>
+    <tr>
+      <th>col.x</th>
+      <td><p>The column name for station x coordinates.</p></td>
+    </tr>
+    <tr>
+      <th>col.y</th>
+      <td><p>The column name for station y coordinates.</p></td>
+    </tr>
+    <tr>
+      <th>col.time</th>
+      <td><p>The column name for forecast cycle time. The column should be POSIXct.</p></td>
+    </tr>
+    <tr>
+      <th>col.lead.time</th>
+      <td><p>The column name for forecast lead time. The column should be numeric
+for the number of seconds from the forecast cycle time.</p></td>
+    </tr>
+    <tr>
+      <th>time.series</th>
+      <td><p>The forecast cycle times to be extract into AnEn Forecasts. This should
+be a POSIXct vector.</p></td>
+    </tr>
+    <tr>
+      <th>col.value</th>
+      <td><p>The column name for data values.</p></td>
+    </tr>
+    <tr>
+      <th>verbose</th>
+      <td><p>Whether to print progress messages.</p></td>
+    </tr>
+    <tr>
+      <th>preview</th>
+      <td><p>How many entries to preview in progress messages.</p></td>
+    </tr>
+    <tr>
+      <th>remove.duplicates</th>
+      <td><p>Whether to remove redundant values associated
+with the same time. Sometimes, it is possible that, due to equipment mulfunctions,
+there are multiple measurements at the same time. Idealy this should cleaned prior
+to this function, but this function is able to keep the first appearance and remove
+the rest.</p></td>
+    </tr>
+    <tr>
+      <th>circular.pars</th>
+      <td><p>A character vector for the circular parameter names.</p></td>
+    </tr>
+    <tr>
+      <th>col.station.name</th>
+      <td><p>The column name for station names.</p></td>
+    </tr>
+    <tr>
+      <th>show.progress</th>
+      <td><p>Whether to show a progress bar.</p></td>
+    </tr>
+    <tr>
+      <th>sort.stations</th>
+      <td><p>Sort station. It can be <code>Xs</code>, <code>Ys</code>, or <code>StationNames</code> if it is set.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>An R list for AnEn Forecasts.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The AnEn Forecasts is an R list with members including <code>ParameterNames</code>,
+<code>Xs</code>, <code>Ys</code>, <code>Data</code>, and etc., with a full list accessible
+<a href='https://weiming-hu.github.io/AnalogsEnsemble/2019/01/16/NetCDF-File-Types.html#forecasts'>here</a>.
+RAnEn::formatForecasts make it easier to convert a data frame into
+a such list data structure.</p>
+<p>I read <a href='https://cran.r-project.org/web/packages/dplyr/vignettes/programming.html'>this tutorial</a>
+when developing functions with <code>dplyr</code>. It is very informative of using variables
+with <code>dplyr</code> functions.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>RAnEn::formatObservations</p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#value">Value</a></li>
+      <li><a href="#details">Details</a></li>
+      <li><a href="#see-also">See also</a></li>
     </ul>
 
   </div>

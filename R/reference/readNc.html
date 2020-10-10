@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAnEn</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">4.2.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">4.2.4</span>
       </span>
     </div>
 
@@ -117,7 +117,13 @@
     <p>RAnEn::readNc reads an NetCDF file as a list</p>
     </div>
 
-    <pre class="usage"><span class='fu'>readNc</span>(<span class='no'>file</span>, <span class='kw'>root_group_only</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='kw'>var_names</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>return_class</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>readNc</span>(
+  <span class='no'>file</span>,
+  <span class='kw'>root_group_only</span> <span class='kw'>=</span> <span class='no'>T</span>,
+  <span class='kw'>var_names</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>include_root_attrs</span> <span class='kw'>=</span> <span class='no'>F</span>,
+  <span class='kw'>return_class</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -139,6 +145,10 @@ read a subset of variables from the NetCDF file. If this argument is set,
 you need to also include the group name as if it was a folder,
 for exmple, <code>group_name/variable_name</code>. If <code>var_names</code> is a named vector,
 the names will be used in the list.</p></td>
+    </tr>
+    <tr>
+      <th>include_root_attrs</th>
+      <td><p>Whether to read the root group attributes.</p></td>
     </tr>
     <tr>
       <th>return_class</th>
