@@ -359,17 +359,17 @@ AnEnReadNcdf::read(const NcGroup & nc, Parameters & parameters,
     if (!entire) checkIndex(start, count, dim_len);
 
     // Read the NetCDF variables as several vectors
-    readStringVector(nc, Config::_PAR_NAMES, names, start, count);
-
     if (varExists(nc, Config::_CIRCULARS)) {
         readStringVector(nc, Config::_CIRCULARS, circulars, start, count);
+    }
 
-        if (names.size() < circulars.size()) {
-            ostringstream msg;
-            msg << "#" << Config::_CIRCULARS << " (" << circulars.size()
-                    << ") should be no more than " << names.size();
-            throw runtime_error(msg.str());
-        }
+    readStringVector(nc, Config::_PAR_NAMES, names, start, count);
+
+    if (names.size() < circulars.size()) {
+        ostringstream msg;
+        msg << "#" << Config::_CIRCULARS << " (" << circulars.size()
+                << ") should be no more than " << names.size();
+        throw runtime_error(msg.str());
     }
 
     // Convert vectors to the dimension class
