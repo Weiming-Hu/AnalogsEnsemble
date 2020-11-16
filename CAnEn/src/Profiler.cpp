@@ -150,9 +150,14 @@ Profiler::summary(ostream& os) const {
 
 #ifndef _UNKNOWN_OS_
 
-/* The following code has been adopted from David Robert Nadeau. While the original website no longer works for me,
+/* The following code has been adopted from David Robert Nadeau.
+ *
+ * While the original website no longer works for me,
  * I included the link to the StackOverflow question where I came cross this idea.
+ *
  * https://stackoverflow.com/a/14927379/7072129
+ *
+ * I made changes to the code snippet to work with my APIs.
  */
 
 size_t
