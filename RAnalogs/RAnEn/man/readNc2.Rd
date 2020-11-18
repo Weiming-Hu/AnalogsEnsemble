@@ -4,12 +4,17 @@
 \alias{readNc2}
 \title{RAnEn::readNc}
 \usage{
-readNc2(file, recursive = F)
+readNc2(file, recursive = F, read_attrs = F)
 }
 \arguments{
 \item{file}{The file to read}
 
 \item{recursive}{Whether to read variables recursively}
+
+\item{read_attrs}{Whether to read attributes. Make sure there are no
+name conflicts between attributes and variables. Only attributes under
+groups or in the root group are read. Attributes associated with variables
+are not read.}
 }
 \description{
 RAnEn::readNc reads an NetCDF file as a list with \code{RNetCDF} interface.
