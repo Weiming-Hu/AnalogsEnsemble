@@ -18,20 +18,21 @@
 #' 
 #' @param file The file to read
 #' @param recursive Whether to read variables recursively
-#' @param read_attrs Whether to read attributes. Make sure there are no
+#' @param read_attrs_vars Whether to read attributes. Make sure there are no
 #' name conflicts between attributes and variables. Only attributes under
 #' groups or in the root group are read. Attributes associated with variables
 #' are not read.
+#' @param ... Optional arguments passed to `RNetCDF::var.get.nc`
 #' 
 #' @md
 #' @export
-readNc2 <- function(file, recursive = F, read_attrs = F) {
+readNc2 <- function(file, recursive = F, read_attrs_as_vars = F, ...) {
 	
 	nc <- RNetCDF::open.nc(file)
-	results <- RNetCDF::read.nc(nc, recursive = recursive)
+	results <- RNetCDF::read.nc(nc, recursive = recursive, ...)
 	RNetCDF::close.nc(nc)
 	
-	if (read_attrs) {
+	if (read_attrs_as_vars) {
 		attrs <- readNcAttrs(file, recursive = recursive)
 		results <- mergeList(results, attrs, names(results))
 	}

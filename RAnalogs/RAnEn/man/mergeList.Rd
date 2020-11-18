@@ -19,7 +19,6 @@ unless the name is further a list. This is similar to a depth-first copy
 for list variables.
 }
 \examples{
-{
 library(RAnEn)
 from <- list(C = list(C = 3, D = list(A = 1)), D = 3)
 to <- list(A = 1, B = 2, C = list(A = 1, B = 2))
@@ -28,7 +27,6 @@ merged <- mergeList(from, to, names(from))
 print(from, recursive = T)
 print(to, recursive = T)
 print(merged, recursive = T)
-}
 
 }
 \author{

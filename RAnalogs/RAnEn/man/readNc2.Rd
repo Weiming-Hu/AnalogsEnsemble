@@ -4,14 +4,16 @@
 \alias{readNc2}
 \title{RAnEn::readNc}
 \usage{
-readNc2(file, recursive = F, read_attrs = F)
+readNc2(file, recursive = F, read_attrs_as_vars = F, ...)
 }
 \arguments{
 \item{file}{The file to read}
 
 \item{recursive}{Whether to read variables recursively}
 
-\item{read_attrs}{Whether to read attributes. Make sure there are no
+\item{...}{Optional arguments passed to \code{RNetCDF::var.get.nc}}
+
+\item{read_attrs_vars}{Whether to read attributes. Make sure there are no
 name conflicts between attributes and variables. Only attributes under
 groups or in the root group are read. Attributes associated with variables
 are not read.}
