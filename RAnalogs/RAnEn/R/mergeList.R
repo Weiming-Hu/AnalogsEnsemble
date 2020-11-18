@@ -23,7 +23,6 @@
 #' @param names the names to copy, usually `names(from)`
 #' 
 #' @examples 
-#' {
 #' library(RAnEn)
 #' from <- list(C = list(C = 3, D = list(A = 1)), D = 3)
 #' to <- list(A = 1, B = 2, C = list(A = 1, B = 2))
@@ -32,7 +31,6 @@
 #' print(from, recursive = T)
 #' print(to, recursive = T)
 #' print(merged, recursive = T)
-#' }
 #' 
 #' @md
 #' @export

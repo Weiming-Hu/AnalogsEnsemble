@@ -33,7 +33,7 @@ readNc2 <- function(file, recursive = F, read_attrs = F) {
 	
 	if (read_attrs) {
 		attrs <- readNcAttrs(file, recursive = recursive)
-		results <- mergeList(results, attrs)
+		results <- mergeList(results, attrs, names(results))
 	}
 	
 	return(results)
