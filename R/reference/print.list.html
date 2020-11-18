@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAnEn</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">4.2.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">4.2.5</span>
       </span>
     </div>
 
@@ -118,7 +118,7 @@
     </div>
 
     <pre class="usage"><span class='co'># S3 method for list</span>
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>x</span>)</pre>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>x</span>, <span class='kw'>recursive</span> <span class='kw'>=</span> <span class='no'>F</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -128,8 +128,13 @@
       <td><p>The object to print</p></td>
     </tr>
     <tr>
+      <th>recursive</th>
+      <td><p>Whether to print all variables from nest-groups</p></td>
+    </tr>
+    <tr>
       <th>names_to_print</th>
-      <td><p>The names to print. Default to all names.</p></td>
+      <td><p>The names to print. Default to all names. Only
+support including names in the root group.</p></td>
     </tr>
     </table>
 

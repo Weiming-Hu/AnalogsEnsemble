@@ -5,6 +5,11 @@ sidebar_link: true
 ---
 
 
+# PAnEn 4.2.5
+
+- Added `RAnEn::readNc2`
+- Added `recursive` to `RAnEn::print.list`
+
 # PAnEn 4.2.4
 
 - Moved 'RAnEn::schaakeShuffle' to `RAnEnExtra::schaakeShuffle`
