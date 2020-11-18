@@ -17,37 +17,43 @@
 #' @author Weiming Hu \email{weiming@@psu.edu}
 #' 
 #' @param x The object to print
-#' @param names_to_print The names to print. Default to all names.
+#' @param names_to_print The names to print. Default to all names. Only
+#' support including names in the root group.
+#' @param recursive Whether to print all variables from nest-groups
 #' 
 #' @md
 #' @export
-print.list <- function(x) {
-  printExtra(x, names(x))
+print.list <- function(x, recursive = F) {
+  printExtra(x, names(x), recursive = recursive)
 }
 
-printExtra <- function(x, names_to_print) {
+printExtra <- function(x, names_to_print, recursive, indent = '') {
   
   for (name in names_to_print) {
     
     if (!(name %in% names(x))) {
-      stop(paste(name, "does not exists (Internal from RAnEn::print.list)"))
+      stop(paste(name, "does not exists (Internal from RAnEn::printExtra)"))
     }
     
-    cat("$", name, ":\t", sep = '')
+    cat(indent, "$", name, ":\t", sep = '')
     
     if (length(x[[name]]) == 1 & !is.list(x[[name]])) {
       # Print the value
       cat('value:', paste(x[[name]]))
-      
     } else if (!is.null(dim(x[[name]]))) {
       # Print the dimensions
       cat("dimensions: [", paste0(dim(x[[name]]), collapse = ','), ']', sep = '')
-      
+    } else if (is.list(x[[name]])) {
+      cat("list: [", length(x[[name]]), ']', sep = '')
     } else {
       # Print the length
       cat("length: [", length(x[[name]]), ']', sep = '')
     }
     
     cat("\n")
+    
+    if (recursive & is.list(x[[name]])) {
+      printExtra(x[[name]], names(x[[name]]), recursive, paste0('   ', indent))
+    }
   }
 }

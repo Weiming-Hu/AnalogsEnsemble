@@ -12,7 +12,7 @@
 
 #' RAnEn::readNc
 #' 
-#' RAnEn::readNc reads an NetCDF file as a list
+#' RAnEn::readNc reads an NetCDF file as a list with `ncdf4` interface.
 #' 
 #' @author Weiming Hu \email{weiming@@psu.edu}
 #' 
