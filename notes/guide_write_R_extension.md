@@ -24,6 +24,7 @@ This will generate both the MAN documents and the NAMESPACE file.
 ### All Together
 
 ```
+cat('Add new function names to NAMESPACE if you have any!\n')
 # set working directory at 'RAnEn/'
 Rcpp::compileAttributes()
 devtools::load_all()

@@ -39,6 +39,7 @@ export(generateObservationsTemplate)
 
 # I/O functions
 export(readNc)
+export(readNc2)
 export(readConfig)
 export(readForecasts)
 export(readObservations)
