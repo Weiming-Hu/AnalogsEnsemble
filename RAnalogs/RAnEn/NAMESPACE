@@ -40,12 +40,16 @@ export(generateObservationsTemplate)
 # I/O functions
 export(readNc)
 export(readNc2)
+export(readNcAttrs)
 export(readConfig)
 export(readForecasts)
 export(readObservations)
 export(writeConfig)
 export(writeNcVar)
 export(writeNetCDF)
+
+# Helper functions
+export(mergeList)
 
 import(BH)
 import(Rcpp)
