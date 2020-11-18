@@ -117,7 +117,7 @@
     <p>RAnEn::readNc reads an NetCDF file as a list with <code>RNetCDF</code> interface.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>readNc2</span>(<span class='no'>file</span>, <span class='kw'>recursive</span> <span class='kw'>=</span> <span class='no'>F</span>)</pre>
+    <pre class="usage"><span class='fu'>readNc2</span>(<span class='no'>file</span>, <span class='kw'>recursive</span> <span class='kw'>=</span> <span class='no'>F</span>, <span class='kw'>read_attrs_as_vars</span> <span class='kw'>=</span> <span class='no'>F</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -129,6 +129,17 @@
     <tr>
       <th>recursive</th>
       <td><p>Whether to read variables recursively</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Optional arguments passed to <code>RNetCDF::var.get.nc</code></p></td>
+    </tr>
+    <tr>
+      <th>read_attrs_vars</th>
+      <td><p>Whether to read attributes. Make sure there are no
+name conflicts between attributes and variables. Only attributes under
+groups or in the root group are read. Attributes associated with variables
+are not read.</p></td>
     </tr>
     </table>
 

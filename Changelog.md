@@ -7,7 +7,7 @@ sidebar_link: true
 
 # PAnEn 4.2.5
 
-- Added `RAnEn::readNc2`
+- Added `RAnEn::readNc2`, `RAnEn::readNcAttrs`, `RAnEn::mergeList`
 - Added `recursive` to `RAnEn::print.list`
 
 # PAnEn 4.2.4
