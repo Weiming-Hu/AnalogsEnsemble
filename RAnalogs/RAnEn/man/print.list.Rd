@@ -4,12 +4,15 @@
 \alias{print.list}
 \title{RAnEn::print.list}
 \usage{
-\method{print}{list}(x)
+\method{print}{list}(x, recursive = F)
 }
 \arguments{
 \item{x}{The object to print}
 
-\item{names_to_print}{The names to print. Default to all names.}
+\item{recursive}{Whether to print all variables from nest-groups}
+
+\item{names_to_print}{The names to print. Default to all names. Only
+support including names in the root group.}
 }
 \description{
 RAnEn::print.list prints a list in pretty format

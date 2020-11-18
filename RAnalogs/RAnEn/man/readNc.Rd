@@ -31,7 +31,7 @@ the names will be used in the list.}
 of the returned list to support formatted output, e.g. \code{AnEn}.}
 }
 \description{
-RAnEn::readNc reads an NetCDF file as a list
+RAnEn::readNc reads an NetCDF file as a list with \code{ncdf4} interface.
 }
 \author{
 Weiming Hu \email{weiming@psu.edu}
