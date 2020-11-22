@@ -52,6 +52,7 @@ void runAnEnGrib(
         bool overwrite,
         bool profile,
         bool save_tests,
+        bool unwrap_obs,
         bool convert_wind,
         const string & u_name,
         const string & v_name,
@@ -336,11 +337,26 @@ void runAnEnGrib(
             // Create test observations
             ObservationsPointer test_observations(observations.getParameters(), observations.getStations(), test_obs_times);
 
-            // Copy subset values from original observations
-            observations.subset(test_observations);
+            if (unwrap_obs) {
+                if (config.verbose >= Verbose::Progress) {
+                    cout << "Saving the unwrapped observations as forecasts ..." << endl;
+                }
 
-            // Save subset observations
-            anen_write.writeObservations(fileout, test_observations, false, true);
+                ForecastsPointer unwrapped_observations;
+                Functions::unwrapTimeSeries(unwrapped_observations, test_times, forecasts.getFLTs(), test_observations, true);
+
+                // I'm writing the unwrapped version of observations as forecasts because it indeed has the dimension
+                // of forecasts. The unwrapped observations will have forecast times and lead times.
+                //
+                anen_write.writeForecasts(fileout, unwrapped_observations, false, true, "AlignedObservations");
+                
+            } else {
+                // Copy subset values from original observations
+                observations.subset(test_observations);
+
+                // Save subset observations
+                anen_write.writeObservations(fileout, test_observations, false, true);
+            }
         }
 
         profiler.log_time_session("Writing forecasts and observations");
@@ -372,7 +388,7 @@ int main(int argc, char** argv) {
 
     string forecast_folder, analysis_folder, test_start, test_end, search_start, search_end, embedding_model, similarity_model;
     string forecast_regex, analysis_regex, fileout, algorithm, u_name, v_name, spd_name, dir_name;
-    bool delimited, overwrite, profile, save_tests, convert_wind;
+    bool delimited, overwrite, profile, save_tests, unwrap_obs, convert_wind;
     size_t unit_in_seconds;
     int verbose;
     long int ai_flt_radius;
@@ -438,6 +454,7 @@ int main(int argc, char** argv) {
             ("save-sims-time-index", bool_switch(&(config.save_sims_time_index))->default_value(config.save_sims_time_index), "[Optional] Save time indices of similarity.")
             ("save-sims-station-index", bool_switch(&(config.save_sims_station_index))->default_value(config.save_sims_station_index), "[Optional] Save station indices of similarity.")
             ("save-tests", bool_switch(&save_tests)->default_value(false), "[Optional] Save test forecasts and observations if available")
+            ("unwrap-test-obs", bool_switch(&unwrap_obs)->default_value(false), "[Optional] When saving test observations (--save-tests), unwrap observation time series to align it with forecasts")
             ("quick-sort", bool_switch(&(config.quick_sort))->default_value(config.quick_sort), "[Optional] Use nth_element sort. Change this in *.cfg")
             ("convert-wind", bool_switch(&(convert_wind))->default_value(false), "[Optional] Use this option if your forecasts have only wind U and V components and you need to convert them to wind speed and direction. Please also specify --name-u --name-v --name-spd --name-dir. Wind speed and direction values will be calculated internally and replacing U and V components respectively.")
             ("name-u", value<string>(&u_name)->default_value("U"), "[Optional] Parameter name for U component of wind")
@@ -554,7 +571,7 @@ int main(int argc, char** argv) {
     runAnEnGrib(forecast_files, analysis_files,
             forecast_regex, analysis_regex,
             obs_id, grib_parameters, stations_index, test_start, test_end, search_start, search_end,
-            fileout, algorithm, config, unit_in_seconds, delimited, overwrite, profile, save_tests,
+            fileout, algorithm, config, unit_in_seconds, delimited, overwrite, profile, save_tests, unwrap_obs, 
             convert_wind, u_name, v_name, spd_name, dir_name, embedding_model, similarity_model, ai_flt_radius);
 
 #if defined(_USE_MPI_EXTENSION)

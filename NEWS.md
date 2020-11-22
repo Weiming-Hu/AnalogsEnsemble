@@ -2,6 +2,7 @@
 
 - Added `RAnEn::readNc2`, `RAnEn::readNcAttrs`, `RAnEn::mergeList`
 - Added `recursive` to `RAnEn::print.list`
+- Added functions to unwrap observations when saving test observations (C++)
 
 # PAnEn 4.2.4
 

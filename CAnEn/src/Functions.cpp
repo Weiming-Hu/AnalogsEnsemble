@@ -650,6 +650,53 @@ num_parameters, num_stations, forecasts, observations) firstprivate(time_i)
     return;
 }
 
+void
+Functions::unwrapTimeSeries(Forecasts & forecasts, const Times & times, const Times & flts,
+        const Observations & observations, bool permissive) {
+
+    /****************************
+     * Initialize forecast data *
+     * **************************/
+
+    const auto & parameters = observations.getParameters();
+    const auto & stations = observations.getStations();
+
+    forecasts.setDimensions(parameters, stations, times, flts);
+    forecasts.initialize(NAN);
+
+    /*************
+     * Copy data *
+     * ***********/
+
+    const auto & time_series = observations.getTimes();
+    size_t ts_index;
+
+    for (size_t time_i = 0; time_i < times.size(); ++time_i) {
+        for (size_t flt_i = 0; flt_i < flts.size(); ++flt_i) {
+
+            // Calculate the time series index for this combination of forecast time and lead time
+            auto ts_time = times.getTime(time_i).timestamp + flts.getTime(flt_i).timestamp;
+
+            try {
+                ts_index = time_series.getIndex(ts_time);
+            } catch (range_error & e) {
+                if (permissive) continue;
+                else throw e;
+            }
+
+            // Copy value for all stations and parameters
+            for (size_t parameter_i = 0; parameter_i < parameters.size(); ++parameter_i) {
+                for (size_t station_i = 0; station_i < stations.size(); ++station_i) {
+                    forecasts.setValue(observations.getValue(parameter_i, station_i, ts_index),
+                            parameter_i, station_i, time_i, flt_i);
+                }
+            }
+        }
+    }
+
+    return;
+}
+
 int
 Functions::getStartIndex(int total, int num_procs, int rank) {
     // Rank 0 is the master. Start with rank 1.
