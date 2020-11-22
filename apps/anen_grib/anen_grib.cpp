@@ -346,7 +346,7 @@ void runAnEnGrib(
                 }
 
                 ForecastsPointer unwrapped_observations;
-                Functions::unwrapTimeSeries(unwrapped_observations, test_times, forecasts.getFLTs(), test_observations, true);
+                Functions::unwrapTimeSeries(unwrapped_observations, test_times, forecasts.getFLTs(), test_observations);
 
                 // I'm writing the unwrapped version of observations as forecasts because it indeed has the dimension
                 // of forecasts. The unwrapped observations will have forecast times and lead times.

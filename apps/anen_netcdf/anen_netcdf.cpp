@@ -309,7 +309,7 @@ void runAnEnNcdf(
                 }
 
                 ForecastsPointer unwrapped_observations;
-                Functions::unwrapTimeSeries(unwrapped_observations, test_times, forecasts.getFLTs(), test_observations, true);
+                Functions::unwrapTimeSeries(unwrapped_observations, test_times, forecasts.getFLTs(), test_observations);
 
                 anen_write.writeForecasts(fileout, unwrapped_observations, false, true, "AlignedObservations");
 

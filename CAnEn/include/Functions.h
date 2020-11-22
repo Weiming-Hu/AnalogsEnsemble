@@ -232,10 +232,9 @@ namespace Functions {
      * @param times Forecast times to reconstruct
      * @param flts Forecast lead times to reconstruct
      * @param Observations Observations to be unwrapped
-     * @param permissive Whether to allow not-found
      */
     void unwrapTimeSeries(Forecasts &, const Times &, const Times &,
-            const Observations &, bool permissive = false);
+            const Observations &);
 
     /**
      * Functions to calculate indices to split a consecutive vector.

@@ -652,7 +652,7 @@ num_parameters, num_stations, forecasts, observations) firstprivate(time_i)
 
 void
 Functions::unwrapTimeSeries(Forecasts & forecasts, const Times & times, const Times & flts,
-        const Observations & observations, bool permissive) {
+        const Observations & observations) {
 
     /****************************
      * Initialize forecast data *
@@ -673,7 +673,7 @@ Functions::unwrapTimeSeries(Forecasts & forecasts, const Times & times, const Ti
 
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(static) collapse(2) \
-shared(times, flts, time_series, permissive, parameters, stations, observations, forecasts) firstprivate(ts_index)
+shared(times, flts, time_series, parameters, stations, observations, forecasts) firstprivate(ts_index)
 #endif
     for (size_t time_i = 0; time_i < times.size(); ++time_i) {
         for (size_t flt_i = 0; flt_i < flts.size(); ++flt_i) {
@@ -684,8 +684,8 @@ shared(times, flts, time_series, permissive, parameters, stations, observations,
             try {
                 ts_index = time_series.getIndex(ts_time);
             } catch (range_error & e) {
-                if (permissive) continue;
-                else throw e;
+                // Skip writing if the index cannot be found
+                continue;
             }
 
             // Copy value for all stations and parameters

@@ -316,13 +316,13 @@ testFunctions::testUnwrapTimeSeries_() {
 
     // Call the method
     ForecastsPointer forecasts;
-    Functions::unwrapTimeSeries(forecasts, times, flts1, observations, false);
+    Functions::unwrapTimeSeries(forecasts, times, flts1, observations);
     CPPUNIT_ASSERT(forecasts.getValue(0, 0, 0, 0) == observations.getValue(0, 0, 0));
     CPPUNIT_ASSERT(forecasts.getValue(0, 0, 0, 1) == observations.getValue(0, 0, 2));
     CPPUNIT_ASSERT(forecasts.getValue(0, 0, 1, 0) == observations.getValue(0, 0, 4));
     CPPUNIT_ASSERT(forecasts.getValue(0, 0, 1, 1) == observations.getValue(0, 0, 6));
 
-    Functions::unwrapTimeSeries(forecasts, times, flts2, observations, true);
+    Functions::unwrapTimeSeries(forecasts, times, flts2, observations);
     CPPUNIT_ASSERT(forecasts.getValue(0, 0, 0, 0) == observations.getValue(0, 0, 0));
     CPPUNIT_ASSERT(forecasts.getValue(0, 0, 0, 1) == observations.getValue(0, 0, 4));
     CPPUNIT_ASSERT(forecasts.getValue(0, 0, 1, 0) == observations.getValue(0, 0, 4));
