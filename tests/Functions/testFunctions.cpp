@@ -230,8 +230,8 @@ testFunctions::testCollapseLeadTimes_() {
 
     // Times and FLTs
     Times times, flts;
-    assign::push_back(times.left)(0, 0)(0, 6)(0, 12);
-    assign::push_back(flts.left)(0, 0)(0, 3)(0, 6)(0, 9)(0, 12);
+    assign::push_back(times.left)(0, 0)(1, 6)(2, 12);
+    assign::push_back(flts.left)(0, 0)(1, 3)(2, 6)(3, 9)(4, 12);
 
     // Forecasts
     ForecastsPointer forecasts(parameters, stations, times, flts);
@@ -278,6 +278,55 @@ testFunctions::testCollapseLeadTimes_() {
             }
         }
     }
+}
+
+void
+testFunctions::testUnwrapTimeSeries_() {
+    /**
+     * This function tests unwrapping a time series
+     */
+    // Parameters
+    Parameters parameters;
+    Parameter p1;
+    assign::push_back(parameters.left)(0, p1);
+
+    // Stations
+    Stations stations;
+    Station s0;
+    assign::push_back(stations.left)(0, s0);
+
+    // Times and FLTs
+    Times times, flts1, flts2, ts;
+    assign::push_back(times.left)(0, 0)(1, 4);
+
+    assign::push_back(flts1.left)(0, 0)(1, 2);
+    assign::push_back(flts2.left)(0, 0)(1, 4);
+
+    assign::push_back(ts.left)(0, 0)(1, 1)(2, 2)(3, 3)(4, 4)(5, 5)(6, 6)(7, 7);
+
+    // Observations
+    ObservationsPointer observations(parameters, stations, ts);
+
+    double* p_data = observations.getValuesPtr();
+    for (size_t value_i = 0; value_i < observations.num_elements(); ++value_i) {
+        p_data[value_i] = value_i;
+    }
+
+    cout << "observations initialized" << endl;
+
+    // Call the method
+    ForecastsPointer forecasts;
+    Functions::unwrapTimeSeries(forecasts, times, flts1, observations, false);
+    CPPUNIT_ASSERT(forecasts.getValue(0, 0, 0, 0) == observations.getValue(0, 0, 0));
+    CPPUNIT_ASSERT(forecasts.getValue(0, 0, 0, 1) == observations.getValue(0, 0, 2));
+    CPPUNIT_ASSERT(forecasts.getValue(0, 0, 1, 0) == observations.getValue(0, 0, 4));
+    CPPUNIT_ASSERT(forecasts.getValue(0, 0, 1, 1) == observations.getValue(0, 0, 6));
+
+    Functions::unwrapTimeSeries(forecasts, times, flts2, observations, true);
+    CPPUNIT_ASSERT(forecasts.getValue(0, 0, 0, 0) == observations.getValue(0, 0, 0));
+    CPPUNIT_ASSERT(forecasts.getValue(0, 0, 0, 1) == observations.getValue(0, 0, 4));
+    CPPUNIT_ASSERT(forecasts.getValue(0, 0, 1, 0) == observations.getValue(0, 0, 4));
+    CPPUNIT_ASSERT(std::isnan(forecasts.getValue(0, 0, 1, 1)));
 }
 
 void

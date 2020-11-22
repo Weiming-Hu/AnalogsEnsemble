@@ -671,6 +671,10 @@ Functions::unwrapTimeSeries(Forecasts & forecasts, const Times & times, const Ti
     const auto & time_series = observations.getTimes();
     size_t ts_index;
 
+#if defined(_OPENMP)
+#pragma omp parallel for default(none) schedule(static) collapse(2) \
+shared(times, flts, time_series, permissive, parameters, stations, observations, forecasts) firstprivate(ts_index)
+#endif
     for (size_t time_i = 0; time_i < times.size(); ++time_i) {
         for (size_t flt_i = 0; flt_i < flts.size(); ++flt_i) {
 
@@ -687,8 +691,8 @@ Functions::unwrapTimeSeries(Forecasts & forecasts, const Times & times, const Ti
             // Copy value for all stations and parameters
             for (size_t parameter_i = 0; parameter_i < parameters.size(); ++parameter_i) {
                 for (size_t station_i = 0; station_i < stations.size(); ++station_i) {
-                    forecasts.setValue(observations.getValue(parameter_i, station_i, ts_index),
-                            parameter_i, station_i, time_i, flt_i);
+                    double val = observations.getValue(parameter_i, station_i, ts_index);
+                    forecasts.setValue(val, parameter_i, station_i, time_i, flt_i);
                 }
             }
         }

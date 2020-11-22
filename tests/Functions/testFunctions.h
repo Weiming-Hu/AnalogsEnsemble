@@ -18,6 +18,7 @@ class testFunctions : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST(testComputeObservationTimeIndices1_);
     CPPUNIT_TEST(testComputeObservationTimeIndices2_);
     CPPUNIT_TEST(testCollapseLeadTimes_);
+    CPPUNIT_TEST(testUnwrapTimeSeries_);
     CPPUNIT_TEST(testConvertToIndex_);
     CPPUNIT_TEST(testSdCircular_);
     CPPUNIT_TEST(testSdLinear_);
@@ -40,6 +41,7 @@ private:
     void testComputeObservationTimeIndices1_();
     void testComputeObservationTimeIndices2_();
     void testCollapseLeadTimes_();
+    void testUnwrapTimeSeries_();
     void testConvertToIndex_();
     void testSdCircular_();
     void testSdLinear_();

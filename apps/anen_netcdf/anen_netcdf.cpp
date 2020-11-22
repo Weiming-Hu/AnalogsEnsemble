@@ -300,6 +300,9 @@ void runAnEnNcdf(
             // Create test observations
             ObservationsPointer test_observations(observations.getParameters(), observations.getStations(), test_obs_times);
 
+            // Copy subset values from original observations
+            observations.subset(test_observations);
+
             if (unwrap_obs) {
                 if (config.verbose >= Verbose::Progress) {
                     cout << "Saving the unwrapped observations as forecasts ..." << endl;
@@ -311,9 +314,6 @@ void runAnEnNcdf(
                 anen_write.writeForecasts(fileout, unwrapped_observations, false, true, "AlignedObservations");
 
             } else {
-                // Copy subset values from original observations
-                observations.subset(test_observations);
-
                 // Save subset observations
                 anen_write.writeObservations(fileout, test_observations, false, true);
             }
