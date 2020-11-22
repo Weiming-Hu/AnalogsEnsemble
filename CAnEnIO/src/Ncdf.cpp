@@ -13,7 +13,7 @@
 #include "Config.h"
 
 // This is maximum count of characters allowed in a single name
-static int _MAX_LENGTH = 100;
+static int _MAX_LENGTH = 200;
 
 namespace filesys = boost::filesystem;
 using namespace netCDF;
@@ -240,19 +240,6 @@ Ncdf::readStringVector(
 
         for (size_t i = 0; i < count; ++i) {
             var.getVar({i}, &p_str);
-
-            // Make sure the ending is found
-            bool found = false;
-            for (int j = 0; j < _MAX_LENGTH; ++j) {
-                if ((*p_str)[j] == '\0') found = true;
-            }
-
-            if (!found) {
-                ostringstream msg;
-                msg << "The maximum count of characters in a single name is "
-                    << _MAX_LENGTH << ". Check parameter #" << i;
-                throw runtime_error(msg.str());
-            }
 
             // Create a string from the buffer
             string str(*p_str);
