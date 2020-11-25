@@ -27,7 +27,7 @@ print.list <- function(x, recursive = F) {
   printExtra(x, names(x), recursive = recursive)
 }
 
-printExtra <- function(x, names_to_print, recursive, indent = '') {
+printExtra <- function(x, names_to_print, recursive = F, indent = '') {
   
   for (name in names_to_print) {
     
