@@ -144,7 +144,7 @@ Config::reset() {
     num_analogs = 1;
     num_sims = 1;
     obs_var_index = 0;
-    quick_sort = true;
+    quick_sort = false;
     max_par_nan = 0;
     max_flt_nan = 0;
     flt_radius = 1;
