@@ -100,7 +100,7 @@ Functions::toValues(Array4D& analogs, size_t obs_id,
 
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(static) collapse(4) \
-shared(std::NAN, num_stations, num_times, num_flts, num_members, analogs_time_index, obs_id, analogs, observations)
+shared(num_stations, num_times, num_flts, num_members, analogs_time_index, obs_id, analogs, observations)
 #endif
     for (size_t station_i = 0; station_i < num_stations; station_i++) {
         for (size_t time_i = 0; time_i < num_times; time_i++) {
@@ -108,7 +108,7 @@ shared(std::NAN, num_stations, num_times, num_flts, num_members, analogs_time_in
                 for (size_t member_i = 0; member_i < num_members; member_i++) {
 
                     double time_index = analogs_time_index.getValue(station_i, time_i, flt_i, member_i);
-                    double value = std::NAN;
+                    double value = NAN;
 
                     if (std::isnan(time_index)) {
                         // Skip if the time index is NAN
@@ -156,7 +156,7 @@ Functions::toValues(Array4D& analogs, size_t obs_id,
 
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(static) collapse(4) \
-shared(std::NAN, num_stations, num_times, num_flts, num_members, analogs_time_index, \
+shared(num_stations, num_times, num_flts, num_members, analogs_time_index, \
 obs_id, analogs, observations, analogs_station_index)
 #endif
     for (size_t station_i = 0; station_i < num_stations; station_i++) {
@@ -166,7 +166,7 @@ obs_id, analogs, observations, analogs_station_index)
 
                     double time_index = analogs_time_index.getValue(station_i, time_i, flt_i, member_i);
                     double station_index = analogs_station_index.getValue(station_i, time_i, flt_i, member_i);
-                    double value = std::NAN;
+                    double value = NAN;
 
                     if (std::isnan(time_index) || std::isnan(station_index)) {
                         // Skip if any of the index is NAN
