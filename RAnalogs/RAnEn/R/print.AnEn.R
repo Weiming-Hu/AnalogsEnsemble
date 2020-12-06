@@ -16,6 +16,7 @@
 #' @author Weiming Hu \email{weiming@@psu.edu}
 #' 
 #' @param x an AnEn object
+#' @param recursive Whether to print all variables from nest-groups
 #' 
 #' @examples 
 #' AnEn <- list()
@@ -23,7 +24,7 @@
 #' print(AnEn)
 #' 
 #' @export
-print.AnEn <- function (x) {
+print.AnEn <- function (x, recursive = F) {
   cat("Result list with the following members:\n\n")
   empty <- T
   
@@ -82,7 +83,7 @@ print.AnEn <- function (x) {
   if (length(existed.names) != 0) {
     empty <- F
     cat("\nExtra members:\n")
-    printExtra(x, existed.names)
+    printExtra(x, existed.names, recursive)
   }
   
   if (empty) {

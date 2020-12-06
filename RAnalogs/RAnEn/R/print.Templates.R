@@ -14,24 +14,26 @@
 #' 
 #' RAnEn::print.Forecasts print a Forecasts object.
 #' @param x A Forecasts object
+#' @param recursive Whether to print all variables from nest-groups
 #' @md
 #' @export
-print.Forecasts <- function(x) {
-  printTemplates(x)
+print.Forecasts <- function(x, recursive = F) {
+  printTemplates(x, recursive = recursive)
 }
 
 #' RAnEn::print.Observations
 #' 
 #' RAnEn::print.Observations print a Forecasts object.
 #' @param x A Forecasts object
+#' @param recursive Whether to print all variables from nest-groups
 #' @md
 #' @export
-print.Observations <- function(x) {
-  printTemplates(x)
+print.Observations <- function(x, recursive = F) {
+  printTemplates(x, recursive = recursive)
 }
 
 # Internal function for printing
-printTemplates <- function(x) {
+printTemplates <- function(x, recursive = F) {
   
   # Determine the type
   type <- ifelse(
@@ -93,6 +95,6 @@ printTemplates <- function(x) {
   
   if (length(extra.names) != 0) {
     cat("\nExtra members:\n")
-    printExtra(x, extra.names)
+    printExtra(x, extra.names, recursive = recursive)
   }
 }
