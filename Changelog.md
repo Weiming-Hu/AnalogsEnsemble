@@ -5,10 +5,16 @@ sidebar_link: true
 ---
 
 
+# PAnEn 4.2.6
+
+- Fixed a bug when reading doubles with no decimal from an NetCDF file into R. The small error will be removed when reading.
+
 # PAnEn 4.2.5
 
 - Added `RAnEn::readNc2`, `RAnEn::readNcAttrs`, `RAnEn::mergeList`
 - Added `recursive` to `RAnEn::print.list`
+- Added functions to unwrap observations when saving test observations (C++)
+- Fixed a bug for multi-variate analogs when NAN indices are present
 
 # PAnEn 4.2.4
 

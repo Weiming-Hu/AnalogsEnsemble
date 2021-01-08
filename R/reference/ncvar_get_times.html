@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>RAnEn::sortStations — sortStations • RAnEn</title>
+<title>RAnEn::ncvar_get_times — ncvar_get_times • RAnEn</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,11 @@
 
 
 
-<meta property="og:title" content="RAnEn::sortStations — sortStations" />
-<meta property="og:description" content="RAnEn::sortStations sorts the data based on either 'Xs', 'Ys', or 'StationNames'." />
+<meta property="og:title" content="RAnEn::ncvar_get_times — ncvar_get_times" />
+<meta property="og:description" content="RAnEn::ncvar_get_times is a convenient function to read Times from
+a already open NetCDF file connection. It echos the API of ncdf4:ncvar_get
+but it differs in that it checks for any reading imprecision and corrects
+for small errors." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -108,43 +111,70 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>RAnEn::sortStations</h1>
-    <small class="dont-index">Source: <a href='https://github.com/Weiming-Hu/AnalogsEnsemble/blob/master/R/sortStations.R'><code>R/sortStations.R</code></a></small>
-    <div class="hidden name"><code>sortStations.Rd</code></div>
+    <h1>RAnEn::ncvar_get_times</h1>
+    <small class="dont-index">Source: <a href='https://github.com/Weiming-Hu/AnalogsEnsemble/blob/master/R/ncvar_get_times.R'><code>R/ncvar_get_times.R</code></a></small>
+    <div class="hidden name"><code>ncvar_get_times.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>RAnEn::sortStations sorts the data based on either 'Xs', 'Ys', or 'StationNames'.</p>
+    <p>RAnEn::ncvar_get_times is a convenient function to read Times from
+a already open NetCDF file connection. It echos the API of <code>ncdf4:ncvar_get</code>
+but it differs in that it checks for any reading imprecision and corrects
+for small errors.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sortStations</span>(<span class='no'>obj</span>, <span class='kw'>sort.stations</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='no'>F</span>)</pre>
+    <pre class="usage"><span class='fu'>ncvar_get_times</span>(
+  <span class='no'>nc</span>,
+  <span class='no'>var_name</span>,
+  <span class='kw'>origin</span> <span class='kw'>=</span> <span class='st'>"1970-01-01"</span>,
+  <span class='kw'>tz</span> <span class='kw'>=</span> <span class='st'>"UTC"</span>,
+  <span class='kw'>to_posix</span> <span class='kw'>=</span> <span class='no'>T</span>,
+  <span class='kw'>epsilon</span> <span class='kw'>=</span> <span class='fl'>1e-05</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>obj</th>
-      <td><p>A Forecasts or Observations</p></td>
+      <th>nc</th>
+      <td><p>An object of class ncdf4 (as returned by either function nc_open or function nc_create), indicating what file to read from.</p></td>
     </tr>
     <tr>
-      <th>sort.stations</th>
-      <td><p>Either one of <code>Xs</code>, <code>Ys</code>, or <code>StationNames</code>, or a numeric
-vector for the order. For example, if a numeric vector is passed, like <code><a href='https://rdrr.io/r/base/c.html'>c(1, 4, 2, 3)</a></code>,
-the stations and the data will be ordered in such a way that: the first station is not
-moved, the second station is moved to the third position, the third station is moved
-to the forth position, and the forth station is moved to the second position. And
-there are only four stations!</p></td>
+      <th>var_name</th>
+      <td><p>The variable name for <code>Times</code></p></td>
+    </tr>
+    <tr>
+      <th>origin</th>
+      <td><p>The origin used for converting to POSIX time</p></td>
+    </tr>
+    <tr>
+      <th>tz</th>
+      <td><p>The time zone</p></td>
+    </tr>
+    <tr>
+      <th>to_posix</th>
+      <td><p>Whether to convert times to POSIX</p></td>
+    </tr>
+    <tr>
+      <th>epsilon</th>
+      <td><p>The maximum reading error to correct. Otherwise, an error is thrown.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A vector of times</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#value">Value</a></li>
     </ul>
 
+    <h2>Author</h2>
+    <p>Weiming Hu <a href='mailto:weiming@psu.edu'>weiming@psu.edu</a></p>
   </div>
 </div>
 

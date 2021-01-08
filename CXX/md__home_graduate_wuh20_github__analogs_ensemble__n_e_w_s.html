@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>ParallelAnalogEnsemble: PAnEn 4.2.5</title>
+<title>ParallelAnalogEnsemble: PAnEn 4.2.6</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -59,12 +59,18 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">PAnEn 4.2.5 </div>  </div>
+<div class="title">PAnEn 4.2.6 </div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><ul>
+<li>Fixed a bug when reading doubles with no decimal from an NetCDF file into R. The small error will be removed when reading.</li>
+</ul>
+<h1>PAnEn 4.2.5</h1>
+<ul>
 <li>Added <code>RAnEn::readNc2</code>, <code>RAnEn::readNcAttrs</code>, <code>RAnEn::mergeList</code></li>
 <li>Added <code>recursive</code> to <code>RAnEn::print.list</code></li>
+<li>Added functions to unwrap observations when saving test observations (C++)</li>
+<li>Fixed a bug for multi-variate analogs when NAN indices are present</li>
 </ul>
 <h1>PAnEn 4.2.4</h1>
 <ul>

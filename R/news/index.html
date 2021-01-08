@@ -67,7 +67,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAnEn</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">4.2.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">4.2.6</span>
       </span>
     </div>
 
@@ -110,6 +110,13 @@
       <small>Source: <a href='https://github.com/Weiming-Hu/AnalogsEnsemble/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="panen-4-2-6" class="section level1">
+<h1 class="page-header">
+<a href="#panen-4-2-6" class="anchor"></a>PAnEn 4.2.6</h1>
+<ul>
+<li>Fixed a bug when reading doubles with no decimal from an NetCDF file into R. The small error will be removed when reading.</li>
+</ul>
+</div>
     <div id="panen-4-2-5" class="section level1">
 <h1 class="page-header">
 <a href="#panen-4-2-5" class="anchor"></a>PAnEn 4.2.5</h1>
@@ -118,6 +125,8 @@
 </li>
 <li>Added <code>recursive</code> to <code><a href="../reference/print.list.html">RAnEn::print.list</a></code>
 </li>
+<li>Added functions to unwrap observations when saving test observations (C++)</li>
+<li>Fixed a bug for multi-variate analogs when NAN indices are present</li>
 </ul>
 </div>
     <div id="panen-4-2-4" class="section level1">
@@ -663,6 +672,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#panen-4-2-6">4.2.6</a></li>
         <li><a href="#panen-4-2-5">4.2.5</a></li>
         <li><a href="#panen-4-2-4">4.2.4</a></li>
         <li><a href="#panen-4-2-3">4.2.3</a></li>

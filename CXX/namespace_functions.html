@@ -113,6 +113,8 @@ Functions</h2></td></tr>
 <tr class="separator:ab01b5fb932ba5fd5218fbb207e9edd78"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abbdb18407c68ff2b1029eb3a2a6a868d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions.html#abbdb18407c68ff2b1029eb3a2a6a868d">collapseLeadTimes</a> (<a class="el" href="class_observations.html">Observations</a> &amp;, const <a class="el" href="class_forecasts.html">Forecasts</a> &amp;)</td></tr>
 <tr class="separator:abbdb18407c68ff2b1029eb3a2a6a868d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab68645938b9a74651ec9ad2cefe5c2be"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions.html#ab68645938b9a74651ec9ad2cefe5c2be">unwrapTimeSeries</a> (<a class="el" href="class_forecasts.html">Forecasts</a> &amp;, const <a class="el" href="class_times.html">Times</a> &amp;, const <a class="el" href="class_times.html">Times</a> &amp;, const <a class="el" href="class_observations.html">Observations</a> &amp;)</td></tr>
+<tr class="separator:ab68645938b9a74651ec9ad2cefe5c2be"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a79f73a965fe4074516232de0e85b657c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions.html#a79f73a965fe4074516232de0e85b657c">getStartIndex</a> (int total, int num_procs, int rank)</td></tr>
 <tr class="separator:a79f73a965fe4074516232de0e85b657c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7610a3ca47370ffe5104bba97bea732f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions.html#a7610a3ca47370ffe5104bba97bea732f">getEndIndex</a> (int total, int num_procs, int rank)</td></tr>
@@ -179,8 +181,8 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Collapse the time and lead time dimensions of a forecasts and convert them to observations; </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname"><a class="el" href="class_observations.html" title="Observations is an abstract class that extends BasicData. It defines the interface of how to interact...">Observations</a></td><td></td></tr>
-    <tr><td class="paramname"><a class="el" href="class_forecasts.html" title="Forecasts is an abstract class that extends BasicData and the abstract class Array4D. It defines the interface of how to interact with the underlying data storage through the abstract class Array4D. This interface is accepted by the Analog Ensemble algorithm. ">Forecasts</a></td><td></td></tr>
+    <tr><td class="paramname"><a class="el" href="class_observations.html" title="Observations is an abstract class that extends BasicData. It defines the interface of how to interact...">Observations</a></td><td><a class="el" href="class_observations.html" title="Observations is an abstract class that extends BasicData. It defines the interface of how to interact...">Observations</a> to store results </td></tr>
+    <tr><td class="paramname"><a class="el" href="class_forecasts.html" title="Forecasts is an abstract class that extends BasicData and the abstract class Array4D. It defines the interface of how to interact with the underlying data storage through the abstract class Array4D. This interface is accepted by the Analog Ensemble algorithm. ">Forecasts</a></td><td><a class="el" href="class_forecasts.html" title="Forecasts is an abstract class that extends BasicData and the abstract class Array4D. It defines the interface of how to interact with the underlying data storage through the abstract class Array4D. This interface is accepted by the Analog Ensemble algorithm. ">Forecasts</a> to be collapsed </td></tr>
   </table>
   </dd>
 </dl>
@@ -969,6 +971,55 @@ template&lt;class T &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab68645938b9a74651ec9ad2cefe5c2be"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab68645938b9a74651ec9ad2cefe5c2be">&#9670;&nbsp;</a></span>unwrapTimeSeries()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Functions::unwrapTimeSeries </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_forecasts.html">Forecasts</a> &amp;&#160;</td>
+          <td class="paramname"><em>forecasts</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="class_times.html">Times</a> &amp;&#160;</td>
+          <td class="paramname"><em>times</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="class_times.html">Times</a> &amp;&#160;</td>
+          <td class="paramname"><em>flts</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="class_observations.html">Observations</a> &amp;&#160;</td>
+          <td class="paramname"><em>observations</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Unwrap the times series of observations to reconstruct forecast times and lead times. This is the reverse process of <code>collapseLeadTimes</code>. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname"><a class="el" href="class_forecasts.html" title="Forecasts is an abstract class that extends BasicData and the abstract class Array4D. It defines the interface of how to interact with the underlying data storage through the abstract class Array4D. This interface is accepted by the Analog Ensemble algorithm. ">Forecasts</a></td><td><a class="el" href="class_forecasts.html" title="Forecasts is an abstract class that extends BasicData and the abstract class Array4D. It defines the interface of how to interact with the underlying data storage through the abstract class Array4D. This interface is accepted by the Analog Ensemble algorithm. ">Forecasts</a> to store results </td></tr>
+    <tr><td class="paramname">times</td><td>Forecast times to reconstruct </td></tr>
+    <tr><td class="paramname">flts</td><td>Forecast lead times to reconstruct </td></tr>
+    <tr><td class="paramname"><a class="el" href="class_observations.html" title="Observations is an abstract class that extends BasicData. It defines the interface of how to interact...">Observations</a></td><td><a class="el" href="class_observations.html" title="Observations is an abstract class that extends BasicData. It defines the interface of how to interact...">Observations</a> to be unwrapped </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
