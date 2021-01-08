@@ -4,10 +4,12 @@
 \alias{print.AnEn}
 \title{RAnEn::print.AnEn}
 \usage{
-\method{print}{AnEn}(x)
+\method{print}{AnEn}(x, recursive = F)
 }
 \arguments{
 \item{x}{an AnEn object}
+
+\item{recursive}{Whether to print all variables from nest-groups}
 }
 \description{
 Overload print function for class AnEn

@@ -56,7 +56,7 @@ readObservations <- function(file, origin = '1970-01-01', tz = 'UTC') {
   
   # Read required variables
   observations[[pairs$`_DATA`]] <- ncdf4::ncvar_get(nc, var_data, collapse_degen = F)
-  observations[[pairs$`_TIMES`]] <- as.POSIXct(ncdf4::ncvar_get(nc, var_times), origin = origin, tz = tz)
+  observations[[pairs$`_TIMES`]] <- ncvar_get_times(nc, var_times, origin, tz)
   
   # Read optional variables
   optional_names <- c(pairs$`_PAR_NAMES`, pairs$`_CIRCULARS`,

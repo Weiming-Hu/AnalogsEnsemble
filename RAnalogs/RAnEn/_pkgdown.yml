@@ -37,3 +37,4 @@ reference:
           - checkOpenMP
           - setNumThreads
           - getNumThreads
+          - ncvar_get_times

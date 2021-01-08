@@ -60,7 +60,7 @@ readForecasts <- function(file, origin = '1970-01-01', tz = 'UTC') {
   
   # Take care of reading the required variables
   forecasts[[pairs$`_DATA`]] <- ncdf4::ncvar_get(nc, var_data, collapse_degen = F)
-  forecasts[[pairs$`_TIMES`]] <- as.POSIXct(ncdf4::ncvar_get(nc, var_times), origin = origin, tz = tz)
+  forecasts[[pairs$`_TIMES`]] <- ncvar_get_times(nc, var_times, origin, tz)
   forecasts[[pairs$`_FLTS`]] <- ncdf4::ncvar_get(nc, var_flts)
   
   # Read optional variables

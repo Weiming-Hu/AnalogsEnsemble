@@ -28,6 +28,7 @@ export(check.package)
 export(checkOpenMP)
 export(getNumThreads)
 export(setNumThreads)
+export(ncvar_get_times)
 
 # Generation functions
 export(generateAnalogs)

@@ -4,10 +4,12 @@
 \alias{print.Forecasts}
 \title{RAnEn::print.Forecasts}
 \usage{
-\method{print}{Forecasts}(x)
+\method{print}{Forecasts}(x, recursive = F)
 }
 \arguments{
 \item{x}{A Forecasts object}
+
+\item{recursive}{Whether to print all variables from nest-groups}
 }
 \description{
 RAnEn::print.Forecasts print a Forecasts object.
