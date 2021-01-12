@@ -54,10 +54,10 @@ void runAnEnGrib(
         bool save_tests,
         bool unwrap_obs,
         bool convert_wind,
-        const string & u_name,
-        const string & v_name,
-        const string & spd_name,
-        const string & dir_name,
+        const vector<string> & u_names,
+        const vector<string> & v_names,
+        const vector<string> & spd_names,
+        const vector<string> & dir_names,
         const string & embedding_model,
         const string & similarity_model,
         long int ai_flt_radius) {
@@ -159,8 +159,10 @@ void runAnEnGrib(
 
         if (config.verbose >= Verbose::Progress) cout << "Converting wind U/V to wind speed/direction ..." << endl;
 
-        forecasts.windTransform(u_name, v_name, spd_name, dir_name);
-        analysis.windTransform(u_name, v_name, spd_name, dir_name);
+        for (size_t name_index = 0; name_index < u_names.size(); name_index++) {
+            forecasts.windTransform(u_names[name_index], v_names[name_index], spd_names[name_index], dir_names[name_index]);
+            analysis.windTransform(u_names[name_index], v_names[name_index], spd_names[name_index], dir_names[name_index]);
+        }
 
         profiler.log_time_session("Calculating wind speed/direction");
     }
@@ -380,14 +382,14 @@ int main(int argc, char** argv) {
      **************************************************************************/
 
     // Define variables to be parsed and extracted
-    vector<string> config_files, parameters_level_type, parameters_name;
+    vector<string> config_files, parameters_level_type, parameters_name, u_names, v_names, spd_names, dir_names;
     vector<long> parameters_id, parameters_level;
     vector<bool> parameters_circular;
     vector<int> stations_index;
     vector<size_t> obs_id;
 
     string forecast_folder, analysis_folder, test_start, test_end, search_start, search_end, embedding_model, similarity_model;
-    string forecast_regex, analysis_regex, fileout, algorithm, u_name, v_name, spd_name, dir_name;
+    string forecast_regex, analysis_regex, fileout, algorithm;
     bool delimited, overwrite, profile, save_tests, unwrap_obs, convert_wind;
     size_t unit_in_seconds;
     int verbose;
@@ -457,10 +459,10 @@ int main(int argc, char** argv) {
             ("unwrap-test-obs", bool_switch(&unwrap_obs)->default_value(false), "[Optional] When saving test observations (--save-tests), unwrap observation time series to align it with forecasts")
             ("quick-sort", bool_switch(&(config.quick_sort))->default_value(config.quick_sort), "[Optional] Use nth_element sort. Change this in *.cfg")
             ("convert-wind", bool_switch(&(convert_wind))->default_value(false), "[Optional] Use this option if your forecasts have only wind U and V components and you need to convert them to wind speed and direction. Please also specify --name-u --name-v --name-spd --name-dir. Wind speed and direction values will be calculated internally and replacing U and V components respectively.")
-            ("name-u", value<string>(&u_name)->default_value("U"), "[Optional] Parameter name for U component of wind")
-            ("name-v", value<string>(&v_name)->default_value("V"), "[Optional] Parameter name for V component of wind")
-            ("name-spd", value<string>(&spd_name)->default_value("windSpeed"), "[Optional] Parameter name for wind speed")
-            ("name-dir", value<string>(&dir_name)->default_value("windDirection"), "[Optional] Parameter name for wind direction");
+            ("name-u", value< vector<string> >(&u_names)->multitoken(), "[Optional] Parameter name(s) for U component of wind")
+            ("name-v", value< vector<string> >(&v_names)->multitoken(), "[Optional] Parameter name(s) for V component of wind")
+            ("name-spd", value< vector<string> >(&spd_names)->multitoken(), "[Optional] Parameter name(s) for wind speed")
+            ("name-dir", value< vector<string> >(&dir_names)->multitoken(), "[Optional] Parameter name(s) for wind direction");
 
 
     // Get all the available options
@@ -539,6 +541,21 @@ int main(int argc, char** argv) {
     }
 #endif
 
+    // Check whether wind names are consistent
+    if (convert_wind) {
+        if (!(u_names.size() == v_names.size() && u_names.size() == spd_names.size() && u_names.size() == dir_names.size())) {
+            ostringstream msg;
+            msg << "There should be the same number of U, V, wind speed, and wind direction names!\n"
+                << "Got " << u_names.size() << " u names, " << v_names.size() << " v names; "
+                << spd_names.size() << " speed names; and " << dir_names.size() << " direction names!" << endl;
+            throw runtime_error(msg.str());
+        }
+
+        if (u_names.size() == 0 ) {
+            throw runtime_error("Specify --name-u, --name-v, --name-spd, and --name-dir!");
+        }
+    }
+
 
     /**************************************************************************
      *                   Run analog generation with grib files                *
@@ -572,7 +589,7 @@ int main(int argc, char** argv) {
             forecast_regex, analysis_regex,
             obs_id, grib_parameters, stations_index, test_start, test_end, search_start, search_end,
             fileout, algorithm, config, unit_in_seconds, delimited, overwrite, profile, save_tests, unwrap_obs, 
-            convert_wind, u_name, v_name, spd_name, dir_name, embedding_model, similarity_model, ai_flt_radius);
+            convert_wind, u_names, v_names, spd_names, dir_names, embedding_model, similarity_model, ai_flt_radius);
 
 #if defined(_USE_MPI_EXTENSION)
     MPI_Finalize();

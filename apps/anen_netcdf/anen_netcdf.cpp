@@ -55,10 +55,10 @@ void runAnEnNcdf(
         bool save_tests,
         bool unwrap_obs,
         bool convert_wind,
-        const string & u_name,
-        const string & v_name,
-        const string & spd_name,
-        const string & dir_name,
+        const vector<string> & u_names,
+        const vector<string> & v_names,
+        const vector<string> & spd_names,
+        const vector<string> & dir_names,
         const string & embedding_model,
         const string & similarity_model,
         long int ai_flt_radius) {
@@ -159,7 +159,9 @@ void runAnEnNcdf(
         if (!embedding_model.empty()) throw runtime_error("AI transformation and wind transformation cannot be used together!");
 
         if (config.verbose >= Verbose::Progress) cout << "Converting wind U/V to wind speed/direction ..." << endl;
-        forecasts.windTransform(u_name, v_name, spd_name, dir_name);
+        for (size_t name_index = 0; name_index < u_names.size(); name_index++) {
+            forecasts.windTransform(u_names[name_index], v_names[name_index], spd_names[name_index], dir_names[name_index]);
+        }
         profiler.log_time_session("Calculating wind speed/direction");
     }
 
@@ -352,10 +354,9 @@ int main(int argc, char** argv) {
     int verbose;
     string algorithm;
     vector<size_t> obs_id;
-    vector<string> config_files;
+    vector<string> config_files, u_names, v_names, spd_names, dir_names;
     int station_start, station_count;
     bool overwrite, profile, save_tests, unwrap_obs, convert_wind;
-    string u_name, v_name, spd_name, dir_name;
     long int ai_flt_radius;
 
     Config config;
@@ -409,10 +410,10 @@ int main(int argc, char** argv) {
             ("unwrap-test-obs", bool_switch(&unwrap_obs)->default_value(false), "[Optional] When saving test observations (--save-tests), unwrap observation time series to align it with forecasts")
             ("quick-sort", bool_switch(&(config.quick_sort))->default_value(config.quick_sort), "[Optional] Use nth_element sort. Change this in *.cfg ")
             ("convert-wind", bool_switch(&(convert_wind))->default_value(false), "[Optional] Use this option if your forecasts have only wind U and V components and you need to convert them to wind speed and direction. Please also specify --name-u --name-v --name-spd --name-dir. Wind speed and direction values will be calculated internally and replacing U and V components respectively.")
-            ("name-u", value<string>(&u_name)->default_value("U"), "[Optional] Parameter name for U component of wind")
-            ("name-v", value<string>(&v_name)->default_value("V"), "[Optional] Parameter name for V component of wind")
-            ("name-spd", value<string>(&spd_name)->default_value("windSpeed"), "[Optional] Parameter name for wind speed")
-            ("name-dir", value<string>(&dir_name)->default_value("windDirection"), "[Optional] Parameter name for wind direction");
+            ("name-u", value< vector<string> >(&u_names)->multitoken(), "[Optional] Parameter name(s) for U component of wind")
+            ("name-v", value< vector<string> >(&v_names)->multitoken(), "[Optional] Parameter name(s) for V component of wind")
+            ("name-spd", value< vector<string> >(&spd_names)->multitoken(), "[Optional] Parameter name(s) for wind speed")
+            ("name-dir", value< vector<string> >(&dir_names)->multitoken(), "[Optional] Parameter name(s) for wind direction");
 
     // Get all the available options
     vector<string> available_options;
@@ -484,6 +485,21 @@ int main(int argc, char** argv) {
         config.setVerbose(verbose);
     }
 
+    // Check whether wind names are consistent
+    if (convert_wind) {
+        if (!(u_names.size() == v_names.size() && u_names.size() == spd_names.size() && u_names.size() == dir_names.size())) {
+            ostringstream msg;
+            msg << "There should be the same number of U, V, wind speed, and wind direction names!\n"
+                << "Got " << u_names.size() << " u names, " << v_names.size() << " v names; "
+                << spd_names.size() << " speed names; and " << dir_names.size() << " direction names!" << endl;
+            throw runtime_error(msg.str());
+        }
+
+        if (u_names.size() == 0 ) {
+            throw runtime_error("Specify --name-u, --name-v, --name-spd, and --name-dir!");
+        }
+    }
+
 
     /**************************************************************************
      *                     Run analog generation with NC files                *
@@ -527,7 +543,7 @@ int main(int argc, char** argv) {
     runAnEnNcdf(forecast_file, observation_file, station_start, station_count,
             obs_id, test_start, test_end, search_start, search_end, fileout, 
             algorithm, config, overwrite, profile, save_tests, unwrap_obs, convert_wind,
-            u_name, v_name, spd_name, dir_name, embedding_model, similarity_model, ai_flt_radius);
+            u_names, v_names, spd_names, dir_names, embedding_model, similarity_model, ai_flt_radius);
 
 #if defined(_USE_MPI_EXTENSION)
     MPI_Finalize();
