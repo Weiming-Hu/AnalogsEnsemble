@@ -672,13 +672,15 @@ Functions::unwrapTimeSeries(Forecasts & forecasts, const Times & times, const Ti
 
     const auto & time_series = observations.getTimes();
     size_t ts_index;
+    auto num_times = times.size();
+    auto num_flts = flts.size();
 
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(static) collapse(2) \
-shared(times, flts, time_series, parameters, stations, observations, forecasts) firstprivate(ts_index)
+shared(times, flts, num_times, num_flts, time_series, parameters, stations, observations, forecasts) firstprivate(ts_index)
 #endif
-    for (size_t time_i = 0; time_i < times.size(); ++time_i) {
-        for (size_t flt_i = 0; flt_i < flts.size(); ++flt_i) {
+    for (size_t time_i = 0; time_i < num_times; ++time_i) {
+        for (size_t flt_i = 0; flt_i < num_flts; ++flt_i) {
 
             // Calculate the time series index for this combination of forecast time and lead time
             auto ts_time = times.getTime(time_i).timestamp + flts.getTime(flt_i).timestamp;
