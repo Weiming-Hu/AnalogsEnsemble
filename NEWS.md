@@ -1,3 +1,7 @@
+# PAnEn 4.2.7
+
+- Added test time specification to C++ utility tools
+
 # PAnEn 4.2.6
 
 - Added multi-tokens to wind speed name conversion
