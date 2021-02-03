@@ -1,0 +1,57 @@
+name: Build PAnEn
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        BUILD_BOOST: [ON, OFF]
+        ENABLE_MPI: [ON, OFF]
+
+    steps:
+    - uses: actions/checkout@v2
+      
+    - name: Install NetCDF and Unit test
+      run: sudo apt-get install libnetcdf-dev libnetcdf-c++-dev libcppunit-dev
+      
+    - name: Install Eccodes
+      run: ${{github.workspace}}/CAnEnIO/cmake/install_eccodes.sh
+    
+    - name: Install Boost
+      run: sudo apt-get install libboost-all-dev
+      if: BUILD_BOOST == OFF
+    
+    - name: Install MPI
+      run: sudo apt-get install libopenmpi-dev
+      if: ENABLE_MPI == ON
+
+    - name: Create Build Environment
+      # Some projects don't allow in-source building, so create a separate build directory
+      # We'll use this as our working directory for all subsequent commands
+      run: cmake -E make_directory ${{github.workspace}}/build
+
+    - name: Configure CMake
+      shell: bash
+      working-directory: ${{github.workspace}}/build
+      run: cmake $GITHUB_WORKSPACE -DBUILD_BOOST=$BUILD_BOOST -DENABLE_MPI=$ENABLE_MPI
+
+    - name: Build
+      working-directory: ${{github.workspace}}/build
+      shell: bash
+      run: cmake --build .
+
+    - name: Test (without MPI)
+      working-directory: ${{github.workspace}}/build
+      shell: bash
+      run: ctest
+      if: ENABLE_MPI == OFF
+    
+    - name: Test (with MPI)
+      working-directory: ${{github.workspace}}/build
+      shell: bash
+      run: mpirun -np 4 ctest
+      if: ENABLE_MPI == ON
+     
