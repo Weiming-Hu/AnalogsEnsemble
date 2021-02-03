@@ -14,8 +14,9 @@
 library(RAnEn)
 
 functions.to.test <- c(
-  'readForecasts', 'readObservations', 'readConfiguration',
-  'writeNetCDF', 'writeConfig', 'readNc')
+  'readForecasts', 'readObservations', 'readConfig',
+  'writeNetCDF', 'writeConfig', 'readNc', 'readNc2',
+  'readNcAttrs', 'writeNcVar')
 
 # Check whether there are any functions that I have not included
 # here in the list. If any, I need to update this test script to
@@ -94,22 +95,5 @@ stopifnot(all.equal(forecasts.read$ParameterNames,
 stopifnot(all.equal(forecasts.read$StationNames,
                     forecasts$StationNames))
 unlink(file.forecasts)
-
-
-###########################################
-# Test reading and writting configuration #
-###########################################
-file.config <- 'config.cfg'
-
-config <- new(Config)
-config$save_analogs <- FALSE
-config$save_obs_time_index_table <- TRUE
-config$verbose <- 3
-config$observation_id <- 5
-
-writeConfig(config, file.config, overwrite = T)
-config.read <- readConfig(file.config)
-stopifnot(all.equal(config, config.read))
-file.remove(file.config)
 
 cat("You survived the tests for R file I/O!\n")
