@@ -59,7 +59,7 @@ To install `RAnEn`, please install the following packages first:
 
 The following R command install the latest `RAnEn`.
 
-```
+```r
 install.packages("https://github.com/Weiming-Hu/AnalogsEnsemble/raw/master/RAnalogs/releases/RAnEn_latest.tar.gz", repos = NULL)
 ```
 
@@ -69,7 +69,7 @@ That's it. You are good to go. Please refer to [tutorials](#tutorials) or the [R
 
 1. Avoid using Clang compilers and convert to GNU compilers. To change the compilers used by R, create a file `~/.R/Makevars` if you do not have it already and add the following content to it. Of course, change the compilers to what you have. If you do not have any alternative compilers other than Clang, [HomeBrew](https://brew.sh/) is your friend.
 
-```
+```bash
 CC=gcc-8
 CXX=g++-8
 CXX1X=g++-8
@@ -92,7 +92,7 @@ To install the C++ libraries, please check the following dependencies:
 
 Please use the following scripts to install the libraries:
 
-```
+```bash
 # Download the source files (~10 Mb)
 wget https://github.com/Weiming-Hu/AnalogsEnsemble/archive/master.zip
 
