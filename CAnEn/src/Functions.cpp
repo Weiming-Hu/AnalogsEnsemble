@@ -5,7 +5,6 @@
  * Created on February 6, 2019, 2:58 PM
  */
 
-using namespace std;
 
 #include "Functions.h"
 
@@ -28,6 +27,7 @@ using namespace std;
 #include <omp.h>
 #endif
 
+using namespace std;
 namespace bg = boost::geometry;
 namespace bgi = boost::geometry::index;
 
