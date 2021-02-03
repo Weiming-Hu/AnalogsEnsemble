@@ -4,27 +4,36 @@ on: [push]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-    
+    runs-on: ${{ matrix.os }}
+
     strategy:
       matrix:
+        os: ['ubuntu-latest', 'macos-latest']
         BUILD_BOOST: ['ON', 'OFF']
         ENABLE_MPI: ['ON', 'OFF']
-
+    
     steps:
     - uses: actions/checkout@v2
       
     - name: Install NetCDF and Unit test
-      run: sudo apt-get install libnetcdf-dev libnetcdf-c++4-dev libcppunit-dev
+      run: |
+        if [ '${{ matrix.os }}' == 'ubuntu-latest' ]; then sudo apt-get install libnetcdf-dev libnetcdf-c++4-dev libcppunit-dev;
+        else brew install netcdf cppunit; fi
       
     - name: Install Eccodes
-      run: ${{github.workspace}}/CAnEnIO/cmake/install_eccodes.sh
+      run: |
+        if [ '${{ matrix.os }}' == 'ubuntu-latest' ]; then ${{github.workspace}}/CAnEnIO/cmake/install_eccodes.sh;
+        else brew install eccodes; fi
     
     - name: Install Boost If Not Building
-      run: if [ '${{ matrix.BUILD_BOOST }}' == 'OFF' ]; then sudo apt-get install libboost-all-dev; else echo Nothing done; fi
+      run: |
+        if [ '${{ matrix.os }}' == 'ubuntu-latest' ]; then if [ '${{ matrix.BUILD_BOOST }}' == 'OFF' ]; then sudo apt-get install libboost-all-dev; else echo Nothing done; fi;
+        else if [ '${{ matrix.BUILD_BOOST }}' == 'OFF' ]; then brew install boost; else echo Nothing done; fi; fi
     
     - name: Install MPI If Turned On
-      run: if [ '${{ matrix.ENABLE_MPI }}' == 'ON' ]; then sudo apt-get install libopenmpi-dev; else echo Nothing done; fi
+      run: |
+        if [ '${{ matrix.os }}' == 'ubuntu-latest' ]; then if [ '${{ matrix.ENABLE_MPI }}' == 'ON' ]; then sudo apt-get install libopenmpi-dev; else echo Nothing done; fi;
+        else if [ '${{ matrix.ENABLE_MPI }}' == 'ON' ]; then brew install open-mpi; else echo Nothing done; fi; fi
 
     - name: Create Build Environment
       # Some projects don't allow in-source building, so create a separate build directory
@@ -34,7 +43,9 @@ jobs:
     - name: Configure CMake
       shell: bash
       working-directory: ${{github.workspace}}/build
-      run: cmake -DBUILD_BOOST=${{ matrix.BUILD_BOOST }} -DENABLE_MPI=${{ matrix.ENABLE_MPI }} -DCMAKE_PREFIX_PATH=$HOME/eccodes $GITHUB_WORKSPACE
+      run: |
+        if [ '${{ matrix.os }}' == 'ubuntu-latest' ]; then cmake -DBUILD_BOOST=${{ matrix.BUILD_BOOST }} -DENABLE_MPI=${{ matrix.ENABLE_MPI }} -DCMAKE_PREFIX_PATH=$HOME/eccodes $GITHUB_WORKSPACE;
+        else cmake -DBUILD_BOOST=${{ matrix.BUILD_BOOST }} -DENABLE_MPI=${{ matrix.ENABLE_MPI }} $GITHUB_WORKSPACE; fi
 
     - name: Build
       working-directory: ${{github.workspace}}/build
@@ -44,5 +55,5 @@ jobs:
     - name: Test
       working-directory: ${{github.workspace}}/build
       shell: bash
-      run: if [ '${{ matrix.ENABLE_MPI }}' == 'ON' ]; then mpirun -np 4 ctest; else ctest; fi
-        
+      run: if [ '${{ matrix.ENABLE_MPI }}' == 'OFF' ]; then ctest; else echo Skip testing with MPI; fi
+            
