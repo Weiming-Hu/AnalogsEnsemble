@@ -15,6 +15,7 @@ jobs:
         
       - name: Install dependencies
         run: |
+          Sys.unsetenv(“PKG_CXXFLAGS”)
           install.packages(c('Rcpp', 'BH'))
           install.packages("https://github.com/Weiming-Hu/AnalogsEnsemble/raw/master/RAnalogs/releases/RAnEn_latest.tar.gz", repos = NULL)
         shell: Rscript {0}
