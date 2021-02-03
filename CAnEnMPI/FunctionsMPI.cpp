@@ -375,7 +375,6 @@ FunctionsMPI::gatherArray(Array4D & arr, int station_dim_index, int num_procs, i
     } else {
 
         // I'm the worker process. I send data to the master.
-        char err_buffer[MPI_MAX_ERROR_STRING];
         int err_len;
 
         double * data_ptr = arr.getValuesPtr();
@@ -387,6 +386,7 @@ FunctionsMPI::gatherArray(Array4D & arr, int station_dim_index, int num_procs, i
         int err = MPI_Send(data_ptr, count, MPI_DOUBLE, 0, MPI_TAG_ARR, MPI_COMM_WORLD);
 
         if (err != MPI_SUCCESS) {
+            char err_buffer[MPI_MAX_ERROR_STRING];
             MPI_Error_string(err, err_buffer, &err_len);
             throw runtime_error(string("Failed to send data to master from worker #") + to_string(rank) + string(". MPI error: ") + string(err_buffer));
         }
