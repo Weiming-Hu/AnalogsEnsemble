@@ -20,11 +20,13 @@ jobs:
     - name: Install Eccodes
       run: ${{github.workspace}}/CAnEnIO/cmake/install_eccodes.sh
     
-    - name: Install Boost if CMake is not installing
-      run: if ${BUILD_BOOST} == 'OFF'; then sudo apt-get install libboost-all-dev; fi
+    - name: Install Boost If Not Building
+      run: sudo apt-get install libboost-all-dev
+      if: ${{ matrix.BUILD_BOOST }} == 'OFF'
     
-    - name: Install MPI
-      run: if ${ENABLE_MPI} == 'ON'; then sudo apt-get install libopenmpi-dev; fi
+    - name: Install MPI If Turned On
+      run: sudo apt-get install libopenmpi-dev
+      if: ${{ matrix.ENABLE_MPI }} == 'ON'
 
     - name: Create Build Environment
       # Some projects don't allow in-source building, so create a separate build directory
@@ -34,7 +36,7 @@ jobs:
     - name: Configure CMake
       shell: bash
       working-directory: ${{github.workspace}}/build
-      run: cmake -DBUILD_BOOST=$BUILD_BOOST -DENABLE_MPI=$ENABLE_MPI $GITHUB_WORKSPACE
+      run: cmake -DBUILD_BOOST=${{ matrix.BUILD_BOOST }} -DENABLE_MPI=${{ matrix.ENABLE_MPI }} $GITHUB_WORKSPACE
 
     - name: Build
       working-directory: ${{github.workspace}}/build
@@ -44,5 +46,5 @@ jobs:
     - name: Test
       working-directory: ${{github.workspace}}/build
       shell: bash
-      run: if ${ENABLE_MPI} ==  'ON'; then mpirun -np 4 ctest; else ctest; fi
+      run: if ${{ matrix.ENABLE_MPI }} == 'ON'; then mpirun -np 4 ctest; else ctest; fi
         
