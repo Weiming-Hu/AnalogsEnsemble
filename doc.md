@@ -7,8 +7,8 @@ layout: default
 
 [![DOI](https://zenodo.org/badge/130093968.svg)](https://zenodo.org/badge/latestdoi/130093968)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/f4cf23c626034d92a3bef0ba169a218a)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Weiming-Hu/AnalogsEnsemble&amp;utm_campaign=Badge_Grade)
-[![Build Status](https://travis-ci.com/Weiming-Hu/AnalogsEnsemble.svg?token=yTGL4zEDtXKy9xWq1dsP&branch=master)](https://travis-ci.com/Weiming-Hu/AnalogsEnsemble)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/e4b8f97d5f3a41029741579f648c8e38)](https://www.codacy.com/gh/Weiming-Hu/AnalogsEnsemble/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Weiming-Hu/AnalogsEnsemble&amp;utm_campaign=Badge_Grade)
+[![Build C++](https://github.com/Weiming-Hu/AnalogsEnsemble/workflows/Build%20C++/badge.svg)](https://github.com/Weiming-Hu/AnalogsEnsemble/actions?query=workflow%3A%22Build+C%2B%2B%22)
 [![codecov](https://codecov.io/gh/Weiming-Hu/AnalogsEnsemble/branch/master/graph/badge.svg?token=tcGGOTyHHk)](https://codecov.io/gh/Weiming-Hu/AnalogsEnsemble)
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/Weiming-Hu/AnalogsEnsemble/master?urlpath=rstudio)
@@ -64,7 +64,7 @@ To install `RAnEn`, please install the following packages first:
 
 The following R command install the latest `RAnEn`.
 
-```
+```r
 install.packages("https://github.com/Weiming-Hu/AnalogsEnsemble/raw/master/RAnalogs/releases/RAnEn_latest.tar.gz", repos = NULL)
 ```
 
@@ -74,7 +74,7 @@ That's it. You are good to go. Please refer to [tutorials](#tutorials) or the [R
 
 1. Avoid using Clang compilers and convert to GNU compilers. To change the compilers used by R, create a file `~/.R/Makevars` if you do not have it already and add the following content to it. Of course, change the compilers to what you have. If you do not have any alternative compilers other than Clang, [HomeBrew](https://brew.sh/) is your friend.
 
-```
+```bash
 CC=gcc-8
 CXX=g++-8
 CXX1X=g++-8
@@ -97,7 +97,7 @@ To install the C++ libraries, please check the following dependencies:
 
 Please use the following scripts to install the libraries:
 
-```
+```bash
 # Download the source files (~10 Mb)
 wget https://github.com/Weiming-Hu/AnalogsEnsemble/archive/master.zip
 

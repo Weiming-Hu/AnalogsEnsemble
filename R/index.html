@@ -37,7 +37,7 @@ title: R Documentation
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">RAnEn</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">4.2.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">4.2.7</span>
       </span>
     </div>
 
@@ -134,16 +134,16 @@ title: R Documentation
 <li>If you are using <code>Windows</code>, please also install the latest version of <a href="https://cran.r-project.org/bin/windows/Rtools/">Rtools</a>.</li>
 </ul>
 <p>The following R command install the latest <code>RAnEn</code>.</p>
-<pre><code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages("https://github.com/Weiming-Hu/AnalogsEnsemble/raw/master/RAnalogs/releases/RAnEn_latest.tar.gz", repos = NULL)</a></code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"https://github.com/Weiming-Hu/AnalogsEnsemble/raw/master/RAnalogs/releases/RAnEn_latest.tar.gz"</span>, <span class="dt">repos =</span> <span class="ot">NULL</span>)</code></pre></div>
 <p>That’s it. You are good to go. Please refer to <a href="#tutorials">tutorials</a> or the <a href="https://weiming-hu.github.io/AnalogsEnsemble/R/">R documentation</a> to learn more about using <code>RAnEn</code>. You might also want to install <a href="https://github.com/Weiming-Hu/RAnEnExtra">RAnEnExtra</a> package with functions for visualization and verification. After <code>RAnEn</code> installation, you can simply run <code><a href="https://rdrr.io/pkg/devtools/man/remote-reexports.html">devtools::install_github("Weiming-Hu/RAnEnExtra")</a></code>.</p>
 <p><strong>Mac users</strong>: if the package shows that <code>OpenMP</code> is not supported. You can do one of the followings:</p>
 <ol>
 <li>Avoid using Clang compilers and convert to GNU compilers. To change the compilers used by R, create a file <code>~/.R/Makevars</code> if you do not have it already and add the following content to it. Of course, change the compilers to what you have. If you do not have any alternative compilers other than Clang, <a href="https://brew.sh/">HomeBrew</a> is your friend.</li>
 </ol>
-<pre><code>CC=gcc-8
-CXX=g++-8
-CXX1X=g++-8
-CXX11=g++-8</code></pre>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="va">CC=</span>gcc-8
+<span class="va">CXX=</span>g++-8
+<span class="va">CXX1X=</span>g++-8
+<span class="va">CXX11=</span>g++-8</code></pre></div>
 <ol>
 <li>You can also follow the instructions <a href="https://github.com/Rdatatable/data.table/wiki/Installation#openmp-enabled-compiler-for-mac">here</a> provided by <code>data.table</code>. They provide similar solutions but stick with Clang compilers.</li>
 </ol>
@@ -166,23 +166,23 @@ CXX11=g++-8</code></pre>
 <em>Optional</em> <code>CppUnit</code> provides test frameworks. If <code>CppUnit</code> is found in the system, test programs will be compiled.</li>
 </ul>
 <p>Please use the following scripts to install the libraries:</p>
-<pre><code># Download the source files (~10 Mb)
-wget https://github.com/Weiming-Hu/AnalogsEnsemble/archive/master.zip
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="co"># Download the source files (~10 Mb)</span>
+<span class="fu">wget</span> https://github.com/Weiming-Hu/AnalogsEnsemble/archive/master.zip
 
-# Unzip
-unzip master.zip
+<span class="co"># Unzip</span>
+<span class="fu">unzip</span> master.zip
 
-# Create a separate folder to store all intermediate files during the installation process
-cd AnalogsEnsemble-master/
-mkdir build
-cd build
-cmake -DCMAKE_INSTALL_PREFIX=~/AnalogEnsemble ..
+<span class="co"># Create a separate folder to store all intermediate files during the installation process</span>
+<span class="bu">cd</span> AnalogsEnsemble-master/
+<span class="fu">mkdir</span> build
+<span class="bu">cd</span> build
+<span class="fu">cmake</span> -DCMAKE_INSTALL_PREFIX=~/AnalogEnsemble ..
 
-# Compile
-make -j 4
+<span class="co"># Compile</span>
+<span class="fu">make</span> -j 4
 
-# Install
-make install</code></pre>
+<span class="co"># Install</span>
+<span class="fu">make</span> install</code></pre></div>
 </div>
 <div id="cmake-parameters" class="section level3">
 <h3 class="hasAnchor">
@@ -374,8 +374,8 @@ make sure you have the proper setup.</code></pre>
 <ul class="list-unstyled">
 <li><a href="https://zenodo.org/badge/latestdoi/130093968"><img src="https://zenodo.org/badge/130093968.svg" alt="DOI"></a></li>
 <li><a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a></li>
-<li><a href="https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Weiming-Hu/AnalogsEnsemble&amp;utm_campaign=Badge_Grade"><img src="https://api.codacy.com/project/badge/Grade/f4cf23c626034d92a3bef0ba169a218a" alt="Codacy Badge"></a></li>
-<li><a href="https://travis-ci.com/Weiming-Hu/AnalogsEnsemble"><img src="https://travis-ci.com/Weiming-Hu/AnalogsEnsemble.svg?token=yTGL4zEDtXKy9xWq1dsP&amp;branch=master" alt="Build Status"></a></li>
+<li><a href="https://www.codacy.com/gh/Weiming-Hu/AnalogsEnsemble/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Weiming-Hu/AnalogsEnsemble&amp;utm_campaign=Badge_Grade"><img src="https://app.codacy.com/project/badge/Grade/e4b8f97d5f3a41029741579f648c8e38" alt="Codacy Badge"></a></li>
+<li><a href="https://github.com/Weiming-Hu/AnalogsEnsemble/actions?query=workflow%3A%22Build+C%2B%2B%22"><img src="https://github.com/Weiming-Hu/AnalogsEnsemble/workflows/Build%20C++/badge.svg" alt="Build C++"></a></li>
 <li><a href="https://codecov.io/gh/Weiming-Hu/AnalogsEnsemble"><img src="https://codecov.io/gh/Weiming-Hu/AnalogsEnsemble/branch/master/graph/badge.svg?token=tcGGOTyHHk" alt="codecov"></a></li>
 <li><a href="https://www.tidyverse.org/lifecycle/#experimental"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="lifecycle"></a></li>
 <li><a href="https://mybinder.org/v2/gh/Weiming-Hu/AnalogsEnsemble/master?urlpath=rstudio"><img src="https://mybinder.org/badge.svg" alt="Binder"></a></li>
