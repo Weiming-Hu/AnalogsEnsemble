@@ -53,7 +53,6 @@ AnEnReadGrib::readForecasts(Forecasts & forecasts,
      * Read forecast data values
      */
     if (verbose_ >= Verbose::Progress) cout << "Reading forecast ..." << endl;
-    bool ret;
     int err = 0;
     double* p_data = nullptr;
     Time file_time, file_flt;
@@ -93,7 +92,7 @@ AnEnReadGrib::readForecasts(Forecasts & forecasts,
         ++counter;
 
         // Determine the time and flt index for this file
-        ret = FunctionsIO::parseFilename(file_time, file_flt, file, start_day,
+        bool ret = FunctionsIO::parseFilename(file_time, file_flt, file, start_day,
                 rex, flt_unit_in_seconds, delimited);
 
         // Skip this file if the file is not recognized
@@ -238,7 +237,7 @@ AnEnReadGrib::readForecasts(Forecasts & forecasts,
 
     if (failed_files != 0) {
         if (verbose_ >= Verbose::Warning) {
-            cerr << failed_files << " out of " << read_files
+            cerr << "Warning: " << failed_files << " out of " << read_files
                     << " files failed during the reading process" << endl;
         }
 

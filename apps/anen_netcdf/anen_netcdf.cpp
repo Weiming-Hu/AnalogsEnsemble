@@ -45,6 +45,7 @@ void runAnEnNcdf(
         const vector<size_t> & obs_id,
         const string & test_start_str,
         const string & test_end_str,
+        const vector<string> & test_times_str,
         const string & search_start_str,
         const string & search_end_str,
         const string & fileout,
@@ -73,23 +74,34 @@ void runAnEnNcdf(
 
     // Create times
     Time test_start, test_end, search_start, search_end;
+    Times test_times, search_times;
 
     try {
-        test_start = Time(test_start_str);
-        test_end = Time(test_end_str);
+
+        if (test_times_str.empty()) {
+            test_start = Time(test_start_str);
+            test_end = Time(test_end_str);
+        } else {
+            test_start = Time(test_times_str.front());
+            test_end = Time(test_times_str.back());
+            for (const auto & test_time_str : test_times_str) test_times.push_back(Time(test_time_str));
+        }
+
         search_start = Time(search_start_str);
         search_end = Time(search_end_str);
+
     } catch (exception & e) {
         ostringstream msg;
         msg << "Failed during extracting test/search times." << endl << endl
                 << "Did you follow the format YYYY-mm-dd HH:MM:SS ?" << endl
                 << "Do you have extra quotes?" << endl << endl
-                << "I got test_start: " << test_start_str
-                << ", test_end: " << test_end_str << endl
-                << "search_start: " << search_start_str <<
-                ", search_end: " << search_end_str << endl << endl
-                << "A common mistake is using surrounding double quotes. You don't need them if you are using them."
-                << endl << endl << "The messages below come from the original error message:"
+                << "I got test_start: " << test_start_str << endl
+                << "test_end: " << test_end_str << endl
+                << "test_times: " << Functions::format(test_times_str) << endl
+                << "search_start: " << search_start_str << endl
+                << "search_end: " << search_end_str << endl << endl
+                << "A common mistake is using surrounding double quotes. You don't need them if you are using config files."
+                << endl << endl << "The messages below come from the original error:"
                 << endl << e.what();
         throw runtime_error(msg.str());
     }
@@ -98,6 +110,10 @@ void runAnEnNcdf(
     if (config.operation && test_start <= search_end) throw runtime_error("Search end must be prior to test start in operation");
     if (test_start > test_end) throw runtime_error("Test start cannot be later than test end");
     if (search_start > search_end) throw runtime_error("Search start cannot be later than search end");
+
+    if (!test_times_str.empty())
+        if (test_times.size() != test_times_str.size())
+            throw runtime_error("Duplicates found in test times");
 
 
     /*
@@ -123,10 +139,15 @@ void runAnEnNcdf(
     /*
      * Extract test and search times
      */
-    Times test_times, search_times;
     const Times & forecast_times = forecasts.getTimes();
 
-    forecast_times(test_start, test_end, test_times);
+    // Only subset test times when test times str is empty.
+    // Otherwise, test times have already been assigned.
+    //
+    if (test_times_str.empty()) {
+        forecast_times(test_start, test_end, test_times);
+    }
+
     forecast_times(search_start, search_end, search_times);
 
     profiler.log_time_session("Extracting test/search times");
@@ -293,7 +314,7 @@ void runAnEnNcdf(
 
         if (test_obs_times.size() == 0) {
 
-            if (config.verbose >= Verbose::Progress)
+            if (config.verbose >= Verbose::Warning)
                 cerr << "Warning: Observations do not cover the test time period."
                     << " No test observations are saved." << endl;
 
@@ -354,7 +375,7 @@ int main(int argc, char** argv) {
     int verbose;
     string algorithm;
     vector<size_t> obs_id;
-    vector<string> config_files, u_names, v_names, spd_names, dir_names;
+    vector<string> config_files, u_names, v_names, spd_names, dir_names, test_times_str;
     int station_start, station_count;
     bool overwrite, profile, save_tests, unwrap_obs, convert_wind;
     long int ai_flt_radius;
@@ -371,8 +392,9 @@ int main(int argc, char** argv) {
             ("forecast-file", value<string>(&forecast_file)->required(), "An NetCDF file for forecasts")
             ("observation-file", value<string>(&observation_file)->required(), "An NetCDF file for observations")
             ("out", value<string>(&fileout)->required(), "Output file path.")
-            ("test-start", value<string>(&test_start)->required(), "Start date time for test with the format YYYY-mm-dd HH:MM:SS")
-            ("test-end", value<string>(&test_end)->required(), "End date time for test.")
+            ("test-start", value<string>(&test_start), "[Optional] Start date time for test with the format YYYY-mm-dd HH:MM:SS")
+            ("test-end", value<string>(&test_end), "[Optional] End date time for test.")
+            ("test-times", value< vector<string> >(&test_times_str)->multitoken(), "[Optional] The date times for test with the format YYYY-mm-dd HH:MM:SS. This will overwrite '--test-start' and '--test-end'")
             ("search-start", value<string>(&search_start)->required(), "Start date time for search.")
             ("search-end", value<string>(&search_end)->required(), "End date time for search.")
 
@@ -485,6 +507,26 @@ int main(int argc, char** argv) {
         config.setVerbose(verbose);
     }
 
+    if (vm.count("test-times")) {
+        // Test times are specified. This overwrites test start and end
+
+        if (config.verbose >= Verbose::Warning) {
+            if (!test_start.empty()) cerr << "Warning: Both --test-times and --test-start are specified. --test-times take priority!" << endl;
+            if (!test_end.empty()) cerr << "Warning: Both --test-times and --test-end are specified. --test-times take priority!" << endl;
+        }
+
+        test_start.clear();
+        test_end.clear();
+        
+        sort(test_times_str.begin(), test_times_str.end());
+
+    } else {
+        // Must specify start and end for tests
+        if ( (!vm.count("test-start")) | (!vm.count("test-end")) ) {
+            throw runtime_error("You must specify either (--test-times) or (--test-start and --test-end)");
+        }
+    }
+
     // Check whether wind names are consistent
     if (convert_wind) {
         if (!(u_names.size() == v_names.size() && u_names.size() == spd_names.size() && u_names.size() == dir_names.size())) {
@@ -541,7 +583,7 @@ int main(int argc, char** argv) {
 #endif
 
     runAnEnNcdf(forecast_file, observation_file, station_start, station_count,
-            obs_id, test_start, test_end, search_start, search_end, fileout, 
+            obs_id, test_start, test_end, test_times_str, search_start, search_end, fileout, 
             algorithm, config, overwrite, profile, save_tests, unwrap_obs, convert_wind,
             u_names, v_names, spd_names, dir_names, embedding_model, similarity_model, ai_flt_radius);
 

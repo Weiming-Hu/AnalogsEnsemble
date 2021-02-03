@@ -120,7 +120,6 @@ FunctionsIO::parseFilenames(Times & times, Times & flts,
     times.clear();
     flts.clear();
 
-    bool ret;
     Time time, flt;
 
     // Determine our start day
@@ -131,7 +130,7 @@ FunctionsIO::parseFilenames(Times & times, Times & flts,
     for (auto it = files.begin(); it != it_end; ++it) {
 
         // Try to parse time information from the file name
-        ret = parseFilename(time, flt, *it, start_day, rex, unit_in_seconds, delimited);
+        bool ret = parseFilename(time, flt, *it, start_day, rex, unit_in_seconds, delimited);
 
         // If information is successfully parsed, record the information;
         // otherwise, this file is removed from further process.

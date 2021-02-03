@@ -134,7 +134,7 @@ Forecasts::featureTransform(const string & embedding_model_path, Verbose verbose
     if (it != list_end) {
         // Good! The embedding type is found.
     } else {
-        if (verbose >= Verbose::Warning) cerr << "Can't find the embedding type from the module. Default to " << embedding_type << endl;
+        if (verbose >= Verbose::Warning) cerr << "Warning: can't find the embedding type from the module. Default to " << embedding_type << endl;
     }
 
     if (embedding_type < 0 || embedding_type > _EMBEDDING_TYPE_DESC.size() - 1) throw runtime_error("Invalid embedding type");
