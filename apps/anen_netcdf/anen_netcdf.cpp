@@ -110,7 +110,10 @@ void runAnEnNcdf(
     if (config.operation && test_start <= search_end) throw runtime_error("Search end must be prior to test start in operation");
     if (test_start > test_end) throw runtime_error("Test start cannot be later than test end");
     if (search_start > search_end) throw runtime_error("Search start cannot be later than search end");
-    if (!test_times_str.empty() & test_times.size() != test_times_str.size()) throw runtime_error("Duplicates found in test times");
+
+    if (!test_times_str.empty())
+        if (test_times.size() != test_times_str.size())
+            throw runtime_error("Duplicates found in test times");
 
 
     /*
@@ -311,7 +314,7 @@ void runAnEnNcdf(
 
         if (test_obs_times.size() == 0) {
 
-            if (config.verbose >= Verbose::Progress)
+            if (config.verbose >= Verbose::Warning)
                 cerr << "Warning: Observations do not cover the test time period."
                     << " No test observations are saved." << endl;
 
@@ -506,13 +509,20 @@ int main(int argc, char** argv) {
 
     if (vm.count("test-times")) {
         // Test times are specified. This overwrites test start and end
+
+        if (config.verbose >= Verbose::Warning) {
+            if (!test_start.empty()) cerr << "Warning: Both --test-times and --test-start are specified. --test-times take priority!" << endl;
+            if (!test_end.empty()) cerr << "Warning: Both --test-times and --test-end are specified. --test-times take priority!" << endl;
+        }
+
         test_start.clear();
         test_end.clear();
+        
         sort(test_times_str.begin(), test_times_str.end());
 
     } else {
         // Must specify start and end for tests
-        if (!vm.count("test-start") | !vm.count("test-end")) {
+        if ( (!vm.count("test-start")) | (!vm.count("test-end")) ) {
             throw runtime_error("You must specify either (--test-times) or (--test-start and --test-end)");
         }
     }
