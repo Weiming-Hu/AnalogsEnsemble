@@ -15,7 +15,7 @@ jobs:
     - uses: actions/checkout@v2
       
     - name: Install NetCDF and Unit test
-      run: sudo apt-get install libnetcdf-dev libnetcdf-c++-dev libcppunit-dev
+      run: sudo apt-get install libnetcdf-dev libnetcdf-c++4-dev libcppunit-dev
       
     - name: Install Eccodes
       run: ${{github.workspace}}/CAnEnIO/cmake/install_eccodes.sh
