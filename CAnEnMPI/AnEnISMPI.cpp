@@ -39,6 +39,17 @@ AnEnISMPI::compute(const Forecasts & forecasts, const Observations & observation
     MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
     MPI_Comm_size(MPI_COMM_WORLD, &num_procs);
 
+    // Deal with the situation when the number of processes is greater than the number of stations plus 1
+    auto num_stations = forecasts.getStations().size();
+    if (num_procs > num_stations + 1) {
+        if (world_rank == 0 && verbose_ >= Verbose::Warning) {
+            cerr << "Warning: There are only " << num_stations << " stations but " << num_procs << " processes are created."
+                << "Only " << num_stations + 1 << " processes will be actually working!" << endl;
+        }
+
+        num_procs = num_stations + 1;
+    }
+
     // The number of workers is the number of processes minus 1 because process #0 is the master
     num_workers = num_procs - 1;
 
