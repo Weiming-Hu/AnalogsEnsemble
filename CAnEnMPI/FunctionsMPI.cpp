@@ -13,13 +13,36 @@
 #include <cmath>
 #include <numeric>
 #include <string>
-#include <mpi.h>
 #include <boost/numeric/conversion/cast.hpp>
 
 using namespace std;
 
 static const int MPI_TAG_OBS = 4;
 static const int MPI_TAG_ARR = 5;
+
+void
+FunctionsMPI::effective_num_procs(MPI_Comm comm, int *num_procs, int world_rank, const Forecasts & forecasts, Verbose verbose) {
+
+    // Deal with the situation when the number of processes is greater than the number of stations plus 1
+    if (world_rank == 0) {
+        MPI_Comm_size(MPI_COMM_WORLD, num_procs);
+
+        size_t num_stations = forecasts.getStations().size();
+
+        if (*num_procs > num_stations + 1) {
+            if (world_rank == 0 && verbose >= Verbose::Warning) {
+                cerr << "Warning: There are only " << num_stations << " stations but " << *num_procs << " processes are created."
+                    << "Only " << num_stations + 1 << " processes will be effectively working" << endl;
+            }
+
+            *num_procs = num_stations + 1;
+        }
+    }
+
+    // Reflect the change of the size in worker processes
+    MPI_Bcast(num_procs, 1, MPI_INT, 0, MPI_COMM_WORLD);
+    return;
+}
 
 void
 FunctionsMPI::scatterObservations(const Observations & send, Observations & recv, int num_procs, int rank, Verbose verbose) {

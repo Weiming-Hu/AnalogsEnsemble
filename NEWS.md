@@ -1,6 +1,7 @@
 # PAnEn 4.2.7
 
 - Added test time specification to C++ utility tools
+- Added functionality to `CAnEnMPI` to deal with excessive processes
 
 # PAnEn 4.2.6
 
