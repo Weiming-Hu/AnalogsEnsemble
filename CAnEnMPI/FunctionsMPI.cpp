@@ -30,7 +30,7 @@ FunctionsMPI::effective_num_procs(MPI_Comm comm, int *num_procs, int world_rank,
         size_t num_stations = forecasts.getStations().size();
 
         if (*num_procs > num_stations + 1) {
-            if (world_rank == 0 && verbose >= Verbose::Warning) {
+            if (verbose >= Verbose::Warning) {
                 cerr << "Warning: There are only " << num_stations << " stations but " << *num_procs << " processes are created."
                     << "Only " << num_stations + 1 << " processes will be effectively working" << endl;
             }
