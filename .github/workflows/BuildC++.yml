@@ -55,8 +55,7 @@ jobs:
       shell: bash
       run: cmake --build .
 
-    - name: Test
-      working-directory: ${{github.workspace}}/build
-      shell: bash
-      run: if [ '${{ matrix.ENABLE_MPI }}' == 'OFF' ] && [ '${{ matrix.BUILD_BOOST }}' == 'OFF' ]; then ctest; else echo Skip testing with MPI; fi
-            
+    #- name: Test
+    #  working-directory: ${{github.workspace}}/build
+    #  shell: bash
+    #  run: if [ '${{ matrix.ENABLE_MPI }}' == 'OFF' ] && [ '${{ matrix.BUILD_BOOST }}' == 'OFF' ]; then ctest; else echo Skip testing with MPI; fi
