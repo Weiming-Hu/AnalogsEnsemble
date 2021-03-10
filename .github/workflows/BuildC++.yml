@@ -16,7 +16,7 @@ jobs:
     - uses: actions/checkout@v2
     
     - name: Update
-      run: sudo apt-get update && sudo apt-get upgrade
+      run: sudo apt-get update
       
     - name: Install NetCDF and Unit test
       run: |
