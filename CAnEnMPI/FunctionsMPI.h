@@ -10,6 +10,7 @@
 #define FUNCTIONSMPI_H
 
 #include <vector>
+#include <mpi.h>
 
 #include "AnEnIS.h"
 #include "Forecasts.h"
@@ -17,6 +18,7 @@
 
 namespace FunctionsMPI {
 
+    void effective_num_procs(MPI_Comm comm, int *num_procs, int world_rank, const Forecasts & forecasts, Verbose verbose);
     void scatterObservations(const Observations & send, Observations & recv, int num_procs, int rank, Verbose verbose);
     void scatterForecasts(const Forecasts & send, Forecasts & recv, int num_procs, int rank, Verbose verbose);
     void scatterBasicData(const BasicData & send, BasicData & recv, int num_procs, int rank, Verbose verbose);

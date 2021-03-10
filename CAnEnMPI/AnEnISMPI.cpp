@@ -37,7 +37,7 @@ AnEnISMPI::compute(const Forecasts & forecasts, const Observations & observation
     // Get the process ID and the number of worker processes
     int world_rank, num_procs, num_workers;
     MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
-    MPI_Comm_size(MPI_COMM_WORLD, &num_procs);
+    FunctionsMPI::effective_num_procs(MPI_COMM_WORLD, &num_procs, world_rank, forecasts, verbose_);
 
     // The number of workers is the number of processes minus 1 because process #0 is the master
     num_workers = num_procs - 1;
@@ -98,7 +98,7 @@ AnEnISMPI::compute(const Forecasts & forecasts, const Observations & observation
 
         profiler_.log_time_session("Master preprocessing (AnEnISMPI)");
 
-    } else {
+    } else if (world_rank < num_procs) {
         // This is a worker
 
 #if defined(_OPENMP)
@@ -127,6 +127,8 @@ AnEnISMPI::compute(const Forecasts & forecasts, const Observations & observation
         omp_set_dynamic(max_dynamic);
         omp_set_num_threads(max_threads);
 #endif
+    } else {
+        if (verbose_ >= Verbose::Debug) cout << "Worker #" << world_rank << " is doing nothing because too many process have been created!" << endl;
     }
 
     MPI_Barrier(MPI_COMM_WORLD);
@@ -164,14 +166,19 @@ void
 AnEnISMPI::computeSds_(const Forecasts & forecasts, const vector<size_t> & times_fixed_index, const vector<size_t> & times_accum_index) {
 
     // Get the process ID and the number of worker processes
-    int world_rank;
+    int world_rank, num_procs;
     MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
+    FunctionsMPI::effective_num_procs(MPI_COMM_WORLD, &num_procs, world_rank, forecasts, verbose_);
 
     if (world_rank == 0) {
         if (verbose_ >= Verbose::Detail) cout << "Master process only allocate memory for standard deviation ..." << endl;
         AnEnIS::allocateSds_(forecasts, times_fixed_index, times_accum_index);
-    } else {
+
+    } else if (world_rank < num_procs) {
         AnEnIS::computeSds_(forecasts, times_fixed_index, times_accum_index);
+
+    } else {
+        if (verbose_ >= Verbose::Debug) cout << "Worker #" << world_rank << " is doing nothing because too many process have been created!" << endl;
     }
 
     return;

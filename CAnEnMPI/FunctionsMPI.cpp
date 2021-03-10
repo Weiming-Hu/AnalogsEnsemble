@@ -13,13 +13,36 @@
 #include <cmath>
 #include <numeric>
 #include <string>
-#include <mpi.h>
 #include <boost/numeric/conversion/cast.hpp>
 
 using namespace std;
 
 static const int MPI_TAG_OBS = 4;
 static const int MPI_TAG_ARR = 5;
+
+void
+FunctionsMPI::effective_num_procs(MPI_Comm comm, int *num_procs, int world_rank, const Forecasts & forecasts, Verbose verbose) {
+
+    // Deal with the situation when the number of processes is greater than the number of stations plus 1
+    if (world_rank == 0) {
+        MPI_Comm_size(MPI_COMM_WORLD, num_procs);
+
+        size_t num_stations = forecasts.getStations().size();
+
+        if (*num_procs > num_stations + 1) {
+            if (verbose >= Verbose::Warning) {
+                cerr << "Warning: There are only " << num_stations << " stations but " << *num_procs << " processes are created."
+                    << "Only " << num_stations + 1 << " processes will be effectively working" << endl;
+            }
+
+            *num_procs = num_stations + 1;
+        }
+    }
+
+    // Reflect the change of the size in worker processes
+    MPI_Bcast(num_procs, 1, MPI_INT, 0, MPI_COMM_WORLD);
+    return;
+}
 
 void
 FunctionsMPI::scatterObservations(const Observations & send, Observations & recv, int num_procs, int rank, Verbose verbose) {
@@ -69,7 +92,7 @@ FunctionsMPI::scatterObservations(const Observations & send, Observations & recv
                 throw runtime_error(string("Master failed to send observation data to worker #") + to_string(worker_rank) + string(". MPI error: ") + string(err_buffer));
             }
         }
-    } else {
+    } else if (rank < num_procs) {
 
         recv.setDimensions(recv.getParameters(), recv.getStations(), recv.getTimes());
 
@@ -88,6 +111,8 @@ FunctionsMPI::scatterObservations(const Observations & send, Observations & recv
 
         double *data_ptr = recv.getValuesPtr();
         MPI_Recv(data_ptr, count, MPI_DOUBLE, 0, MPI_TAG_OBS, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+    } else {
+        if (verbose >= Verbose::Debug) cout << "Worker #" << rank << " is doing nothing because too many process have been created!" << endl;
     }
 
     return;
@@ -112,7 +137,7 @@ FunctionsMPI::scatterForecasts(const Forecasts & send, Forecasts & recv, int num
     // Broadcast information (flts)
     broadcastVector(master_flts, worker_flts, rank, verbose);
 
-    if (rank != 0) {
+    if (rank < num_procs) {
         // I'm the worker
 
         // Receive flts
@@ -130,6 +155,9 @@ FunctionsMPI::scatterForecasts(const Forecasts & send, Forecasts & recv, int num
         if (verbose >= Verbose::Debug) cout << "Worker #" << rank << " is allocating memory for forecasts ["
                 << num_parameters << " parameters, " << num_stations << " stations, "
                 << num_times << " times, " << num_flts << " lead times]" << "..." << endl;
+
+    } else {
+        if (verbose >= Verbose::Debug) cout << "Worker #" << rank << " is doing nothing because too many process have been created!" << endl;
     }
 
     // Scatter array
@@ -180,7 +208,7 @@ FunctionsMPI::scatterBasicData(const BasicData & send, BasicData & recv, int num
     // Broadcast all times
     broadcastVector(master_times, worker_times, rank, verbose);
 
-    if (rank != 0) {
+    if (rank < num_procs) {
         // I'm the worker
 
         // Create parameters
@@ -204,6 +232,9 @@ FunctionsMPI::scatterBasicData(const BasicData & send, BasicData & recv, int num
         if (verbose >= Verbose::Debug) cout << "Worker #" << rank << " set BasicData members with "
                 << recv.getParameters().size() << " parameters, " << recv.getStations().size() << " stations, and "
                 << recv.getTimes().size() << " times" << endl;
+
+    } else {
+        if (verbose >= Verbose::Debug) cout << "Worker #" << rank << " is doing nothing because too many process have been created!" << endl;
     }
 
     return;
@@ -259,7 +290,7 @@ FunctionsMPI::scatterArray(const Array4D & send, Array4D & recv, int num_procs, 
                 throw runtime_error(string("Master failed to send array data to worker #") + to_string(worker_rank) + string(". MPI error: ") + string(err_buffer));
             }
         }
-    } else {
+    } else if (rank < num_procs) {
 
         // I need to make sure no numeric overflow when narrowing a size_t to an int
         int count = boost::numeric_cast<int>(recv.num_elements());
@@ -269,6 +300,9 @@ FunctionsMPI::scatterArray(const Array4D & send, Array4D & recv, int num_procs, 
         if (verbose >= Verbose::Debug) cout << "Worker #" << rank << " waiting for array data from master ..." << endl;
         MPI_Recv(data_ptr, count, MPI_DOUBLE, 0, MPI_TAG_ARR, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
         if (verbose >= Verbose::Debug) cout << "Worker #" << rank << " received array data from master: " << Functions::format(data_ptr, count) << endl;
+    
+    } else {
+        if (verbose >= Verbose::Debug) cout << "Worker #" << rank << " is doing nothing because too many process have been created!" << endl;
     }
 
     return;
@@ -372,7 +406,7 @@ FunctionsMPI::gatherArray(Array4D & arr, int station_dim_index, int num_procs, i
             delete [] data_ptr;
         }
 
-    } else {
+    } else if (rank < num_procs) {
 
         // I'm the worker process. I send data to the master.
         int err_len;
@@ -390,6 +424,9 @@ FunctionsMPI::gatherArray(Array4D & arr, int station_dim_index, int num_procs, i
             MPI_Error_string(err, err_buffer, &err_len);
             throw runtime_error(string("Failed to send data to master from worker #") + to_string(rank) + string(". MPI error: ") + string(err_buffer));
         }
+    
+    } else {
+        if (verbose >= Verbose::Debug) cout << "Worker #" << rank << " is doing nothing because too many process have been created!" << endl;
     }
 
     return;
