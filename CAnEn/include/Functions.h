@@ -92,6 +92,14 @@ namespace Functions {
     void setSearchStations(const Stations &, Matrix & table, double);
 
     /**
+     * Find the index of the closest station.
+     * @param station The target station
+     * @param stations The pool of stations to search from
+     * @return An index of the closest station from the pool
+     */
+    size_t findClosest(const Station & station, const Stations & stations);
+
+    /**
      * Convert an integer to Verbose and vice versa
      * 
      * @param An integer

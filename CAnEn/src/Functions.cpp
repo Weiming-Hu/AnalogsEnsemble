@@ -242,6 +242,38 @@ Functions::setSearchStations(const Stations & stations, Matrix & table, double d
     return;
 }
 
+size_t
+Functions::findClosest(const Station & station, const Stations & stations) {
+
+    double station_x = station.getX();
+    double station_y = station.getY();
+
+    if (std::isnan(station_x) || std::isnan(station_y)) throw runtime_error("Target station must have valid coordinates!");
+
+    double distance = NAN;
+    size_t closest_i = 0;
+
+    for (size_t station_i = 0; station_i < stations.size(); ++station_i) {
+
+        const Station & candidate = stations.getStation(station_i);
+        double candidate_distance =
+            pow(candidate.getX() - station_x, 2) +
+            pow(candidate.getY() - station_y, 2);
+
+        // Skip invalid coordinates
+        if (std::isnan(candidate_distance)) continue;
+
+        if (distance < candidate_distance) {
+            // Do nothing when the candidate distance is larger
+        } else {
+            closest_i = station_i;
+            distance = candidate_distance;
+        }
+    }
+
+    return closest_i;
+}
+
 Verbose
 Functions::itov(int flag) {
     switch (flag) {

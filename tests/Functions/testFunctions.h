@@ -23,6 +23,7 @@ class testFunctions : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST(testSdCircular_);
     CPPUNIT_TEST(testSdLinear_);
     CPPUNIT_TEST(testMean_);
+    CPPUNIT_TEST(testFindClosest_);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -46,6 +47,7 @@ private:
     void testSdCircular_();
     void testSdLinear_();
     void testMean_();
+    void testFindClosest_();
     
     bool neighborExists_(const Functions::Matrix & table,
             size_t test_index, size_t neighbor_index) const;
