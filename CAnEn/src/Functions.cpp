@@ -252,6 +252,7 @@ Functions::findClosest(const Station & station, const Stations & stations) {
 
     double distance = NAN;
     size_t closest_i = 0;
+    bool valid_result = false;
 
     for (size_t station_i = 0; station_i < stations.size(); ++station_i) {
 
@@ -262,6 +263,7 @@ Functions::findClosest(const Station & station, const Stations & stations) {
 
         // Skip invalid coordinates
         if (std::isnan(candidate_distance)) continue;
+        valid_result = true;
 
         if (distance < candidate_distance) {
             // Do nothing when the candidate distance is larger
@@ -270,6 +272,8 @@ Functions::findClosest(const Station & station, const Stations & stations) {
             distance = candidate_distance;
         }
     }
+
+    if (valid_result) throw runtime_error("All candidate coordinates are invalid (NAN)!");
 
     return closest_i;
 }
