@@ -278,6 +278,26 @@ Functions::findClosest(const Station & station, const Stations & stations) {
     return closest_i;
 }
 
+vector<size_t>
+Functions::findClosest(const Stations & targets, const Stations & pool, Verbose verbose) {
+
+    if (verbose >= Verbose::Progress) cout << "Match stations based on distances ..." << endl;
+
+    // Initialize the vector
+    size_t num_target_stations = targets.size();
+    vector<size_t> match_target_stations_with(num_target_stations, 0);
+
+#if defined(_OPENMP)
+#pragma omp parallel for default(none) schedule(static) \
+shared(num_target_stations, targets, pool, match_target_stations_with)
+#endif
+    for (size_t target_i = 0; target_i < num_target_stations; ++target_i) {
+        match_target_stations_with[target_i] = Functions::findClosest(targets.getStation(target_i), pool);
+    }
+
+    return match_target_stations_with;
+}
+
 Verbose
 Functions::itov(int flag) {
     switch (flag) {
@@ -739,6 +759,57 @@ shared(times, flts, num_times, num_flts, time_series, parameters, stations, obse
         }
     }
 
+    return;
+}
+
+void
+Functions::randomizeForecasts(Forecasts & fcsts,
+        double nan_prob, size_t min_valid_count) {
+
+    for (size_t par_i = 0; par_i < fcsts.getParameters().size(); ++par_i) {
+        for (size_t sta_i = 0; sta_i < fcsts.getStations().size(); ++sta_i) {
+            for (size_t flt_i = 0; flt_i < fcsts.getFLTs().size(); ++flt_i) {
+
+                for (size_t time_i = 0; time_i < 2; ++time_i) {
+                    fcsts.setValue((rand() % 10000) / 100.0,
+                            par_i, sta_i, time_i, flt_i);
+                }
+
+                for (size_t time_i = min_valid_count;
+                        time_i < fcsts.getTimes().size(); ++time_i) {
+
+                    double prob = rand() / double(RAND_MAX);
+                    if (prob < nan_prob) {
+                        fcsts.setValue(NAN, par_i, sta_i, time_i, flt_i);
+                    } else {
+
+                        fcsts.setValue((rand() % 10000) / 100.0,
+                                par_i, sta_i, time_i, flt_i);
+                    }
+                }
+            }
+        }
+    }
+    return;
+}
+
+void
+Functions::randomizeObservations(Observations & obs, double nan_prob) {
+
+    for (size_t par_i = 0; par_i < obs.getParameters().size(); ++par_i) {
+        for (size_t sta_i = 0; sta_i < obs.getStations().size(); ++sta_i) {
+            for (size_t time_i = 0; time_i < obs.getTimes().size(); ++time_i) {
+
+                double prob = rand() / double(RAND_MAX);
+                if (prob < nan_prob) {
+                    obs.setValue(NAN, par_i, sta_i, time_i);
+                } else {
+                    obs.setValue((rand() % 10000) / 100.0,
+                            par_i, sta_i, time_i);
+                }
+            }
+        }
+    }
     return;
 }
 

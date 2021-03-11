@@ -95,9 +95,11 @@ namespace Functions {
      * Find the index of the closest station.
      * @param station The target station
      * @param stations The pool of stations to search from
+     * @Param verbose Verbose level
      * @return An index of the closest station from the pool
      */
-    size_t findClosest(const Station & station, const Stations & stations);
+    std::size_t findClosest(const Station & station, const Stations & stations);
+    std::vector<std::size_t> findClosest(const Stations & targets, const Stations & pool, Verbose verbose);
 
     /**
      * Convert an integer to Verbose and vice versa
@@ -243,6 +245,17 @@ namespace Functions {
      */
     void unwrapTimeSeries(Forecasts &, const Times &, const Times &,
             const Observations &);
+
+    /**
+     * Initialize forecasts or observations with random values. These functions are used for testing.
+     * @param fcsts Forecasts
+     * @param nan_prob The portion of NAN values
+     * @param min_valid_count the minimum number of valid values in times
+     * @param obs Observations
+     */
+    void randomizeForecasts(Forecasts & fcsts,
+            double nan_prob, size_t min_valid_count = 0);
+    void randomizeObservations(Observations & obs, double nan_prob);
 
     /**
      * Functions to calculate indices to split a consecutive vector.

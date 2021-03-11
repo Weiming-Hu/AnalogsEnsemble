@@ -464,6 +464,30 @@ testFunctions::testFindClosest_() {
     CPPUNIT_ASSERT(caught_error);
 }
 
+void
+testFunctions::testFindClosest2_() {
+
+    /*
+     * Test finding the closest stations
+     */
+    Stations obs_stations;
+    {
+        Station s0(1, 0), s1(0, 0.2), s2(0.6, 0.9);
+        assign::push_back(obs_stations.left)(0, s0)(1, s1)(2, s2);
+    }
+
+    Stations fcst_stations;
+    {
+        Station s0(0, 0), s1(1, 0), s2(0.5, NAN), s3(0, 1), s4(1, 1);
+        assign::push_back(fcst_stations.left)(0, s0)(1, s1)(2, s2)(3, s3)(4, s4);
+    }
+
+    auto match_obs_stations_with = Functions::findClosest(obs_stations, fcst_stations, Verbose::Warning);
+    vector<size_t> results = {1, 0, 4};
+
+    CPPUNIT_ASSERT(equal(results.begin(), results.end(), match_obs_stations_with.begin()));
+}
+
 bool
 testFunctions::neighborExists_(const Functions::Matrix & table,
         size_t test_index, size_t neighbor_index) const {

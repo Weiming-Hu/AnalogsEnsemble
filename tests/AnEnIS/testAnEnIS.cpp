@@ -185,10 +185,10 @@ testAnEnIS::testMultiAnEn_() {
     ObservationsPointer obs(parameters_, stations_, obs_times_);
 
     // Assign random forecast values
-    randomizeForecasts_(fcsts, 0.4);
+    Functions::randomizeForecasts(fcsts, 0.4);
 
     // Assign random observation values
-    randomizeObservations_(obs, 0.2);
+    Functions::randomizeObservations(obs, 0.2);
 
     /*
      * Carry out leave one out tests for 3 days
@@ -314,7 +314,7 @@ testAnEnIS::compareOperationalSds_() {
         cout << "Test with an NAN probability of " << nan_prob << " ..." << endl;
 
         ForecastsPointer forecasts(parameters_, stations_, fcst_times_, flts_);
-        randomizeForecasts_(forecasts, nan_prob, 2);
+        Functions::randomizeForecasts(forecasts, nan_prob, 2);
 
         /*
          * Calculate the running standard deviation for different fixed length
@@ -401,10 +401,10 @@ testAnEnIS::compareComputeLeaveOneOut_() {
         ObservationsPointer obs(parameters_, stations_, obs_times_);
 
         // Assign random forecast values
-        randomizeForecasts_(fcsts, nan_prob);
+        Functions::randomizeForecasts(fcsts, nan_prob);
 
         // Assign random observation values
-        randomizeObservations_(obs, nan_prob);
+        Functions::randomizeObservations(obs, nan_prob);
 
         /*
          * Carry out leave one out tests for 3 days
@@ -512,10 +512,10 @@ testAnEnIS::compareComputeOperational_() {
     ObservationsPointer obs(parameters_, stations_, obs_times_);
 
     // Assign random forecast values
-    randomizeForecasts_(fcsts, 0);
+    Functions::randomizeForecasts(fcsts, 0);
 
     // Assign random observation values
-    randomizeObservations_(obs, 0);
+    Functions::randomizeObservations(obs, 0);
 
     /*
      * Run the AnEnIS generation in operation
@@ -620,53 +620,3 @@ testAnEnIS::compareComputeOperational_() {
     return;
 }
 
-void
-testAnEnIS::randomizeForecasts_(Forecasts & fcsts,
-        double nan_prob, size_t min_valid_count) const {
-
-    for (size_t par_i = 0; par_i < fcsts.getParameters().size(); ++par_i) {
-        for (size_t sta_i = 0; sta_i < fcsts.getStations().size(); ++sta_i) {
-            for (size_t flt_i = 0; flt_i < fcsts.getFLTs().size(); ++flt_i) {
-
-                for (size_t time_i = 0; time_i < 2; ++time_i) {
-                    fcsts.setValue((rand() % 10000) / 100.0,
-                            par_i, sta_i, time_i, flt_i);
-                }
-
-                for (size_t time_i = min_valid_count;
-                        time_i < fcsts.getTimes().size(); ++time_i) {
-
-                    double prob = rand() / double(RAND_MAX);
-                    if (prob < nan_prob) {
-                        fcsts.setValue(NAN, par_i, sta_i, time_i, flt_i);
-                    } else {
-
-                        fcsts.setValue((rand() % 10000) / 100.0,
-                                par_i, sta_i, time_i, flt_i);
-                    }
-                }
-            }
-        }
-    }
-    return;
-}
-
-void
-testAnEnIS::randomizeObservations_(Observations & obs, double nan_prob) const {
-
-    for (size_t par_i = 0; par_i < obs.getParameters().size(); ++par_i) {
-        for (size_t sta_i = 0; sta_i < obs.getStations().size(); ++sta_i) {
-            for (size_t time_i = 0; time_i < obs.getTimes().size(); ++time_i) {
-
-                double prob = rand() / double(RAND_MAX);
-                if (prob < nan_prob) {
-                    obs.setValue(NAN, par_i, sta_i, time_i);
-                } else {
-                    obs.setValue((rand() % 10000) / 100.0,
-                            par_i, sta_i, time_i);
-                }
-            }
-        }
-    }
-    return;
-}

@@ -48,11 +48,12 @@ public:
 protected:
     std::vector<std::size_t> match_obs_stations_with_;
 
-    virtual void matchStations_(const Stations & obs_stations,
-            const Stations & fcst_stations);
-
     virtual void checkConsistency_(const Forecasts & forecasts,
             const Observations & observations) const override;
+
+    virtual void allocateMemory_(const Forecasts & forecasts,
+            const std::vector<std::size_t> & fcsts_test_index,
+            const std::vector<std::size_t> & fcsts_search_index) override;
 };
 
 #endif /* ANENSSEMS_H */
