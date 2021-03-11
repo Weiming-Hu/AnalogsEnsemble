@@ -437,6 +437,56 @@ testFunctions::testMean_() {
     CPPUNIT_ASSERT(Functions::mean(v3, 2) == 1);
 }
 
+void
+testFunctions::testFindClosest_() {
+    
+    /*
+     * Test the behavior of finding the cloest station
+     */
+    Station s0(1, 1), s1(2, 1), s2(1.3, NAN), s3(2, 2), s4(100, NAN);
+
+    Stations stations;
+    assign::push_back(stations.left)(0, s0)(1, s1)(2, s2)(3, s3)(4, s4);
+
+    CPPUNIT_ASSERT(0 == Functions::findClosest(Station(1.1, 1.1), stations));
+    CPPUNIT_ASSERT(1 == Functions::findClosest(Station(2, 0.9), stations));
+    CPPUNIT_ASSERT(3 == Functions::findClosest(Station(2, 2), stations));
+
+    bool caught_error = false;
+
+    try {
+        Functions::findClosest(Station(0, NAN), stations);
+    } catch (runtime_error & e) {
+        CPPUNIT_ASSERT(e.what() == string("Target station must have valid coordinates!"));
+        caught_error = true;
+    }
+
+    CPPUNIT_ASSERT(caught_error);
+}
+
+void
+testFunctions::testFindClosest2_() {
+
+    /*
+     * Test finding the closest stations
+     */
+    Stations obs_stations;
+    {
+        Station s0(1, 0), s1(0, 0.2), s2(0.6, 0.9);
+        assign::push_back(obs_stations.left)(0, s0)(1, s1)(2, s2);
+    }
+
+    Stations fcst_stations;
+    {
+        Station s0(0, 0), s1(1, 0), s2(0.5, NAN), s3(0, 1), s4(1, 1);
+        assign::push_back(fcst_stations.left)(0, s0)(1, s1)(2, s2)(3, s3)(4, s4);
+    }
+
+    auto match_obs_stations_with = Functions::findClosest(obs_stations, fcst_stations, Verbose::Warning);
+    vector<size_t> results = {1, 0, 4};
+
+    CPPUNIT_ASSERT(equal(results.begin(), results.end(), match_obs_stations_with.begin()));
+}
 
 bool
 testFunctions::neighborExists_(const Functions::Matrix & table,

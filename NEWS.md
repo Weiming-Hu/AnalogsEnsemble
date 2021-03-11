@@ -1,3 +1,7 @@
+# PAnEn 4.3.0
+
+- Added `AnEnSSEMS` for matching stations. This addition has also been ported to `RAnEn`.
+
 # PAnEn 4.2.7
 
 - Added test time specification to C++ utility tools

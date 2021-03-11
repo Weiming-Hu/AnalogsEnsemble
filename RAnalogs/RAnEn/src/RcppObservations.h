@@ -16,7 +16,8 @@ public:
     ObservationsR() = delete;
     ObservationsR(const ObservationsR &) = delete;
     
-    ObservationsR(SEXP sx_data, SEXP sx_names, SEXP sx_times);
+    ObservationsR(SEXP sx_data, SEXP sx_names, SEXP sx_xs, SEXP sx_ys,
+            SEXP sx_stations_name, SEXP sx_times);
 
     virtual ~ObservationsR();
 

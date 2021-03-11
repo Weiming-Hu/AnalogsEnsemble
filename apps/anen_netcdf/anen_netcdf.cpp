@@ -19,6 +19,7 @@
 #include "Config.h"
 #include "AnEnIS.h"
 #include "AnEnSSE.h"
+#include "AnEnSSEMS.h"
 #include "Profiler.h"
 #include "AnEnReadNcdf.h"
 #include "AnEnWriteNcdf.h"
@@ -218,7 +219,10 @@ void runAnEnNcdf(
     if (algorithm == "IS") {
         anen = new AnEnIS(config);
     } else if (algorithm == "SSE") {
-        anen = new AnEnSSE(config);
+
+        if (forecasts.getStations().size() == observations.getStations().size()) anen = new AnEnSSE(config);
+        else anen = new AnEnSSEMS(config);
+
     } else {
         throw runtime_error("The algorithm is not recognized");
     }
@@ -551,6 +555,10 @@ int main(int argc, char** argv) {
     observation_file = fs::absolute(fs::path(observation_file.c_str())).string();
 
 #if defined(_USE_MPI_EXTENSION)
+    if (algorithm == "SSE") {
+        throw runtime_error("The MPI implementation for SSE is not provided yet.");
+    }
+
     int provided;
     MPI_Init_thread(&argc, &argv, MPI_THREAD_FUNNELED, &provided);
     if (provided != MPI_THREAD_FUNNELED) throw runtime_error("The MPI implementation does not provide MPI_THREAD_FUNNELED");

@@ -242,6 +242,62 @@ Functions::setSearchStations(const Stations & stations, Matrix & table, double d
     return;
 }
 
+size_t
+Functions::findClosest(const Station & station, const Stations & stations) {
+
+    double station_x = station.getX();
+    double station_y = station.getY();
+
+    if (std::isnan(station_x) || std::isnan(station_y)) throw runtime_error("Target station must have valid coordinates!");
+
+    double distance = NAN;
+    size_t closest_i = 0;
+    bool valid_result = false;
+
+    for (size_t station_i = 0; station_i < stations.size(); ++station_i) {
+
+        const Station & candidate = stations.getStation(station_i);
+        double candidate_distance =
+            pow(candidate.getX() - station_x, 2) +
+            pow(candidate.getY() - station_y, 2);
+
+        // Skip invalid coordinates
+        if (std::isnan(candidate_distance)) continue;
+        valid_result = true;
+
+        if (distance < candidate_distance) {
+            // Do nothing when the candidate distance is larger
+        } else {
+            closest_i = station_i;
+            distance = candidate_distance;
+        }
+    }
+
+    if (!valid_result) throw runtime_error("All candidate coordinates are invalid (NAN)!");
+
+    return closest_i;
+}
+
+vector<size_t>
+Functions::findClosest(const Stations & targets, const Stations & pool, Verbose verbose) {
+
+    if (verbose >= Verbose::Progress) cout << "Match stations based on distances ..." << endl;
+
+    // Initialize the vector
+    size_t num_target_stations = targets.size();
+    vector<size_t> match_target_stations_with(num_target_stations);
+
+#if defined(_OPENMP)
+#pragma omp parallel for default(none) schedule(static) \
+shared(num_target_stations, targets, pool, match_target_stations_with)
+#endif
+    for (size_t target_i = 0; target_i < num_target_stations; ++target_i) {
+        match_target_stations_with[target_i] = Functions::findClosest(targets.getStation(target_i), pool);
+    }
+
+    return match_target_stations_with;
+}
+
 Verbose
 Functions::itov(int flag) {
     switch (flag) {
@@ -703,6 +759,57 @@ shared(times, flts, num_times, num_flts, time_series, parameters, stations, obse
         }
     }
 
+    return;
+}
+
+void
+Functions::randomizeForecasts(Forecasts & fcsts,
+        double nan_prob, size_t min_valid_count) {
+
+    for (size_t par_i = 0; par_i < fcsts.getParameters().size(); ++par_i) {
+        for (size_t sta_i = 0; sta_i < fcsts.getStations().size(); ++sta_i) {
+            for (size_t flt_i = 0; flt_i < fcsts.getFLTs().size(); ++flt_i) {
+
+                for (size_t time_i = 0; time_i < 2; ++time_i) {
+                    fcsts.setValue((rand() % 10000) / 100.0,
+                            par_i, sta_i, time_i, flt_i);
+                }
+
+                for (size_t time_i = min_valid_count;
+                        time_i < fcsts.getTimes().size(); ++time_i) {
+
+                    double prob = rand() / double(RAND_MAX);
+                    if (prob < nan_prob) {
+                        fcsts.setValue(NAN, par_i, sta_i, time_i, flt_i);
+                    } else {
+
+                        fcsts.setValue((rand() % 10000) / 100.0,
+                                par_i, sta_i, time_i, flt_i);
+                    }
+                }
+            }
+        }
+    }
+    return;
+}
+
+void
+Functions::randomizeObservations(Observations & obs, double nan_prob) {
+
+    for (size_t par_i = 0; par_i < obs.getParameters().size(); ++par_i) {
+        for (size_t sta_i = 0; sta_i < obs.getStations().size(); ++sta_i) {
+            for (size_t time_i = 0; time_i < obs.getTimes().size(); ++time_i) {
+
+                double prob = rand() / double(RAND_MAX);
+                if (prob < nan_prob) {
+                    obs.setValue(NAN, par_i, sta_i, time_i);
+                } else {
+                    obs.setValue((rand() % 10000) / 100.0,
+                            par_i, sta_i, time_i);
+                }
+            }
+        }
+    }
     return;
 }
 

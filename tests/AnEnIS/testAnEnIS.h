@@ -52,10 +52,6 @@ private:
     void compareOperationalSds_();
     void compareComputeOperational_();
     void compareComputeLeaveOneOut_();
-    
-    void randomizeForecasts_(Forecasts & fcsts,
-            double nan_prob, size_t min_valid_count = 0) const;
-    void randomizeObservations_(Observations & obs, double nan_prob) const;
 };
 
 #endif /* TESTANEN_H */

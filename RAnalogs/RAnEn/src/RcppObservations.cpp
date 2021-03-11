@@ -15,7 +15,8 @@
 using namespace Rcpp;
 using namespace boost;
 
-ObservationsR::ObservationsR(SEXP sx_data, SEXP sx_names, SEXP sx_times) {
+ObservationsR::ObservationsR(SEXP sx_data, SEXP sx_names,
+        SEXP sx_xs, SEXP sx_ys, SEXP sx_stations_name, SEXP sx_times) {
 
     // Type checks
     if (!Rf_isNumeric(sx_data)) throw std::runtime_error("Observation data should be numeric");
@@ -41,7 +42,11 @@ ObservationsR::ObservationsR(SEXP sx_data, SEXP sx_names, SEXP sx_times) {
         }
 
         // Create stations
-        FunctionsR::createStations(R_NilValue, stations_, data_dims[1]);
+        if (Rf_isNull(sx_xs) || Rf_isNull(sx_ys)) {
+            FunctionsR::createStations(R_NilValue, stations_, data_dims[1]);
+        } else {
+            FunctionsR::toStations(sx_xs, sx_ys, sx_stations_name, stations_);
+        }
 
         // Create times
         FunctionsR::toTimes(sx_times, times_);
