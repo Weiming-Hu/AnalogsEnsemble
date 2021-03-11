@@ -56,7 +56,7 @@ string(TIMESTAMP LIBRARY_CONFIGURE_TIMESTAMP "%Y-%m-%d_%H:%M")
 configure_file("${RAnEn_PACKAGE_DIR}/DESCRIPTION.in" "${RAnEn_PACKAGE_DIR}/DESCRIPTION")
 
 # These are the files with different types that will be copied
-set(REQUIRED_SOURCE_FILES "AnEn;Array4DPointer;BasicData;Calculator;Config;Forecasts;ForecastsPointer;Profiler")
+set(REQUIRED_SOURCE_FILES "AnEn;AnEnSSEMS;Array4DPointer;BasicData;Calculator;Config;Forecasts;ForecastsPointer;Profiler")
 list(APPEND REQUIRED_SOURCE_FILES "Observations;ObservationsPointer;Parameters;Stations;Times")
 set(REQUIRED_TEMPLATE_FILES "AnEnIS;AnEnSSE;Functions")
 set(REQUIRED_HEADER_ONLY_FILES "BmDim;Array4D")

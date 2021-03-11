@@ -285,7 +285,7 @@ Functions::findClosest(const Stations & targets, const Stations & pool, Verbose 
 
     // Initialize the vector
     size_t num_target_stations = targets.size();
-    vector<size_t> match_target_stations_with(num_target_stations, 0);
+    vector<size_t> match_target_stations_with(num_target_stations);
 
 #if defined(_OPENMP)
 #pragma omp parallel for default(none) schedule(static) \

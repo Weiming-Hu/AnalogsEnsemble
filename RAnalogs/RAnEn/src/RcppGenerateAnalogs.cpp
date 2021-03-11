@@ -78,6 +78,9 @@ List generateAnalogs(SEXP sx_forecasts, SEXP sx_observations,
     ObservationsR observations(
             list_observations[Config::_DATA],
             list_observations[Config::_PAR_NAMES],
+            list_observations[Config::_XS],
+            list_observations[Config::_YS],
+            list_observations[Config::_STATION_NAMES],
             list_observations[Config::_TIMES]);
 
     // Convert test and search times

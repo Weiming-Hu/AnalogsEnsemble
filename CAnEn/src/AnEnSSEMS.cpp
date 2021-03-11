@@ -45,7 +45,7 @@ AnEnSSEMS::compute(const Forecasts & forecasts,
             << "<observation station index> --> <forecast station index>" << endl;
 
         for (size_t i = 0; i < match_with.size(); ++i) {
-            cout << i << "-->" << match_with[i] << endl;
+            cout << i << " --> " << match_with[i] << endl;
 
             if (i > 100) {
                 cout << "[... skipped ...]" << endl;
