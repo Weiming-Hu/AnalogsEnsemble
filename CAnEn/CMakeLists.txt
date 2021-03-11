@@ -17,6 +17,7 @@ set(AnEn_source_files
     ${CMAKE_CURRENT_SOURCE_DIR}/src/AnEn.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/AnEnIS.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/AnEnSSE.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/AnEnSSEMS.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Array4DPointer.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/BasicData.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Calculator.cpp
@@ -38,6 +39,7 @@ set(AnEn_headers
     ${CMAKE_CURRENT_SOURCE_DIR}/include/AnEnIS.tpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/AnEnSSE.h
     ${CMAKE_CURRENT_SOURCE_DIR}/include/AnEnSSE.tpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/AnEnSSEMS.h
     ${CMAKE_CURRENT_SOURCE_DIR}/include/Array4D.h
     ${CMAKE_CURRENT_SOURCE_DIR}/include/Array4DPointer.h
     ${CMAKE_CURRENT_SOURCE_DIR}/include/BasicData.h

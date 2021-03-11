@@ -273,7 +273,7 @@ Functions::findClosest(const Station & station, const Stations & stations) {
         }
     }
 
-    if (valid_result) throw runtime_error("All candidate coordinates are invalid (NAN)!");
+    if (!valid_result) throw runtime_error("All candidate coordinates are invalid (NAN)!");
 
     return closest_i;
 }

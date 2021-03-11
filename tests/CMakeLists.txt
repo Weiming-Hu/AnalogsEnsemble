@@ -23,6 +23,7 @@ PAnEn_test_this("Station")
 PAnEn_test_this("Times")
 PAnEn_test_this("AnEnIS")
 PAnEn_test_this("AnEnSSE")
+PAnEn_test_this("AnEnSSEMS")
 
 if(ENABLE_MPI)
     find_package(AnEnIOMPI)
