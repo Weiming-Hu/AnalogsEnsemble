@@ -41,8 +41,8 @@ namespace fs = boost::filesystem;
 void runAnEnNcdf(
         const string & forecast_file,
         const string & observation_file,
-        int station_start,
-        int station_count,
+        int fcst_station_start, int fcst_station_count,
+        int obs_station_start, int obs_station_count,
         const vector<size_t> & obs_id,
         const string & test_start_str,
         const string & test_end_str,
@@ -126,13 +126,13 @@ void runAnEnNcdf(
 
     // Read forecasts
     ForecastsPointer forecasts, forecasts_backup;
-    anen_read.readForecasts(forecast_file, forecasts, station_start, station_count);
+    anen_read.readForecasts(forecast_file, forecasts, fcst_station_start, fcst_station_count);
 
     profiler.log_time_session("Reading forecasts");
 
     // Read observations
     ObservationsPointer observations;
-    anen_read.readObservations(observation_file, observations, station_start, station_count);
+    anen_read.readObservations(observation_file, observations, obs_station_start, obs_station_count);
 
     profiler.log_time_session("Reading observations");
 
@@ -380,7 +380,7 @@ int main(int argc, char** argv) {
     string algorithm;
     vector<size_t> obs_id;
     vector<string> config_files, u_names, v_names, spd_names, dir_names, test_times_str;
-    int station_start, station_count;
+    int fcst_station_start, fcst_station_count, obs_station_start, obs_station_count;
     bool overwrite, profile, save_tests, unwrap_obs, convert_wind;
     long int ai_flt_radius;
 
@@ -410,8 +410,10 @@ int main(int argc, char** argv) {
             ("ai-similarity", value<string>(&similarity_model)->default_value(""), "[Optional] The pretrained AI model serialized from PyTorch for similarity. This is usually a *.pt file.")
             ("ai-flt-radius", value<long int>(&ai_flt_radius)->default_value(1), "[Optional] The number of surrounding lead times used for AI embedding.")
 #endif
-            ("station-start", value<int>(&station_start)->default_value(-1), "[Optional] Start index of stations to process")
-            ("station-count", value<int>(&station_count)->default_value(-1), "[Optional] The number of stations to process from the start")
+            ("fcst-station-start", value<int>(&fcst_station_start)->default_value(-1), "[Optional] Start index of forecast stations to process")
+            ("fcst-station-count", value<int>(&fcst_station_count)->default_value(-1), "[Optional] The number of forecast stations to process from the start")
+            ("obs-station-start", value<int>(&obs_station_start)->default_value(-1), "[Optional] Start index of observation stations to process")
+            ("obs-station-count", value<int>(&obs_station_count)->default_value(-1), "[Optional] The number of observation stations to process from the start")
             ("algorithm", value<string>(&algorithm)->default_value("IS"), "[Optional] IS for Independent Search or SSE for Search Space Extension")
             ("obs-id", value< vector<size_t> >(&obs_id)->multitoken(), "[Optional] Observation variable index. If multiple indices are provided, multivariate analogs will be generated.")
             ("overwrite", bool_switch(&overwrite)->default_value(false), "[Optional] Overwrite files and variables.")
@@ -559,6 +561,14 @@ int main(int argc, char** argv) {
         throw runtime_error("The MPI implementation for SSE is not provided yet.");
     }
 
+    if (fcst_station_start != obs_station_start || fcst_station_count != obs_station_count) {
+        throw runtime_error("Reading different subsets of forecast and observation stations are not allowed with MPI!");
+    }
+
+    if (fcst_station_start != -1) {
+        throw runtime_error("Currently, MPI must read from the beginning of the stations");
+    }
+
     int provided;
     MPI_Init_thread(&argc, &argv, MPI_THREAD_FUNNELED, &provided);
     if (provided != MPI_THREAD_FUNNELED) throw runtime_error("The MPI implementation does not provide MPI_THREAD_FUNNELED");
@@ -568,9 +578,12 @@ int main(int argc, char** argv) {
     MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
     MPI_Comm_size(MPI_COMM_WORLD, &world_size);
 
-    if (station_count == -1) {
-        station_start = 0;
-        station_count = Ncdf::readDimLength(forecast_file, Config::_DIM_STATIONS);
+    if (fcst_station_count == -1) {
+        fcst_station_start = 0;
+        obs_station_start = 0;
+
+        fcst_station_count = Ncdf::readDimLength(forecast_file, Config::_DIM_STATIONS);
+        obs_station_count = fcst_station_count;
     }
 
     // Determine what stations to process for this rank. In this case, our master can
@@ -578,8 +591,11 @@ int main(int argc, char** argv) {
     // Functions to take into consideration the fact that These functions assume that master 
     // process does not do any work.
     //
-    station_start += Functions::getStartIndex(station_count, world_size + 1, world_rank + 1);
-    station_count = Functions::getSubTotal(station_count, world_size + 1, world_rank + 1);
+    fcst_station_start += Functions::getStartIndex(fcst_station_count, world_size + 1, world_rank + 1);
+    fcst_station_count = Functions::getSubTotal(fcst_station_count, world_size + 1, world_rank + 1);
+
+    obs_station_start = fcst_station_start;
+    obs_station_count = fcst_station_count;
 
     // Determine the new output file name
     stringstream padded_rank;
@@ -587,10 +603,10 @@ int main(int argc, char** argv) {
     fileout = boost::filesystem::change_extension(fileout, "").string() + padded_rank.str() + string(".nc");
 
     if (config.verbose >= Verbose::Detail) cout << "Rank " << world_rank << "/" << world_size <<
-            " processes " << station_count << " stations from #" << station_start << " will be writing to " << fileout << endl;
+            " processes " << fcst_station_count << " stations [:] from #" << fcst_station_start << " will be writing to " << fileout << endl;
 #endif
 
-    runAnEnNcdf(forecast_file, observation_file, station_start, station_count,
+    runAnEnNcdf(forecast_file, observation_file, fcst_station_start, fcst_station_count, obs_station_start, obs_station_count,
             obs_id, test_start, test_end, test_times_str, search_start, search_end, fileout, 
             algorithm, config, overwrite, profile, save_tests, unwrap_obs, convert_wind,
             u_names, v_names, spd_names, dir_names, embedding_model, similarity_model, ai_flt_radius);

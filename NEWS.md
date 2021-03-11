@@ -1,3 +1,7 @@
+# PAnEn 4.3.1
+
+- `anen_netcdf` can now accept reading from different subsets of observation and forecast stations.
+
 # PAnEn 4.3.0
 
 - Added `AnEnSSEMS` for matching stations. This addition has also been ported to `RAnEn`.
