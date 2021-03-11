@@ -67,6 +67,8 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a3703cde574d4a5cf04735b18abc90ad5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions_m_p_i.html#a3703cde574d4a5cf04735b18abc90ad5">effective_num_procs</a> (MPI_Comm comm, int *num_procs, int world_rank, const <a class="el" href="class_forecasts.html">Forecasts</a> &amp;forecasts, <a class="el" href="_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9">Verbose</a> verbose)</td></tr>
+<tr class="separator:a3703cde574d4a5cf04735b18abc90ad5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a230b0172ba9685ad17eb0c8ac39c75ad"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions_m_p_i.html#a230b0172ba9685ad17eb0c8ac39c75ad">scatterObservations</a> (const <a class="el" href="class_observations.html">Observations</a> &amp;send, <a class="el" href="class_observations.html">Observations</a> &amp;recv, int num_procs, int rank, <a class="el" href="_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9">Verbose</a> verbose)</td></tr>
 <tr class="separator:a230b0172ba9685ad17eb0c8ac39c75ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a35c55cb547f05832f52939f0f9fa6fcf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions_m_p_i.html#a35c55cb547f05832f52939f0f9fa6fcf">scatterForecasts</a> (const <a class="el" href="class_forecasts.html">Forecasts</a> &amp;send, <a class="el" href="class_forecasts.html">Forecasts</a> &amp;recv, int num_procs, int rank, <a class="el" href="_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9">Verbose</a> verbose)</td></tr>
@@ -146,6 +148,52 @@ Functions</h2></td></tr>
           <td></td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>rank</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9">Verbose</a>&#160;</td>
+          <td class="paramname"><em>verbose</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3703cde574d4a5cf04735b18abc90ad5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3703cde574d4a5cf04735b18abc90ad5">&#9670;&nbsp;</a></span>effective_num_procs()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void FunctionsMPI::effective_num_procs </td>
+          <td>(</td>
+          <td class="paramtype">MPI_Comm&#160;</td>
+          <td class="paramname"><em>comm</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int *&#160;</td>
+          <td class="paramname"><em>num_procs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>world_rank</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="class_forecasts.html">Forecasts</a> &amp;&#160;</td>
+          <td class="paramname"><em>forecasts</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>

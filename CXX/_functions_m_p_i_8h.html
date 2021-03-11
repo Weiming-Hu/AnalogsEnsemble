@@ -70,6 +70,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &lt;vector&gt;</code><br />
+<code>#include &lt;mpi.h&gt;</code><br />
 <code>#include &quot;<a class="el" href="_an_en_i_s_8h_source.html">AnEnIS.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_forecasts_8h_source.html">Forecasts.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_observations_8h_source.html">Observations.h</a>&quot;</code><br />
@@ -78,20 +79,20 @@ Include dependency graph for FunctionsMPI.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="_functions_m_p_i_8h__incl.png" border="0" usemap="#_2home_2graduate_2wuh20_2github_2_analogs_ensemble_2_c_an_en_m_p_i_2_functions_m_p_i_8h" alt=""/></div>
 <map name="_2home_2graduate_2wuh20_2github_2_analogs_ensemble_2_c_an_en_m_p_i_2_functions_m_p_i_8h" id="_2home_2graduate_2wuh20_2github_2_analogs_ensemble_2_c_an_en_m_p_i_2_functions_m_p_i_8h">
-<area shape="rect" id="node3" href="_an_en_i_s_8h.html" title="AnEnIS.h" alt="" coords="297,109,375,136"/>
-<area shape="rect" id="node5" href="_observations_8h.html" title="Observations.h" alt="" coords="310,266,421,293"/>
-<area shape="rect" id="node17" href="_forecasts_8h.html" title="Forecasts.h" alt="" coords="195,266,285,293"/>
-<area shape="rect" id="node4" href="_an_en_8h.html" title="AnEn.h" alt="" coords="191,184,257,211"/>
-<area shape="rect" id="node21" href="_functions_8h.html" title="Functions.h" alt="" coords="671,184,761,211"/>
-<area shape="rect" id="node28" href="_array4_d_pointer_8h.html" title="Array4DPointer.h" alt="" coords="44,184,167,211"/>
-<area shape="rect" id="node13" href="_config_8h.html" title="Config.h" alt="" coords="458,497,529,524"/>
-<area shape="rect" id="node19" href="_profiler_8h.html" title="Profiler.h" alt="" coords="125,497,200,524"/>
-<area shape="rect" id="node6" href="_basic_data_8h.html" title="BasicData.h" alt="" coords="531,348,626,375"/>
-<area shape="rect" id="node7" href="_parameters_8h.html" title="Parameters.h" alt="" coords="637,423,737,449"/>
-<area shape="rect" id="node15" href="_stations_8h.html" title="Stations.h" alt="" coords="531,423,613,449"/>
-<area shape="rect" id="node16" href="_times_8h.html" title="Times.h" alt="" coords="812,423,881,449"/>
-<area shape="rect" id="node9" href="_bm_dim_8h.html" title="BmDim.h" alt="" coords="799,497,876,524"/>
-<area shape="rect" id="node18" href="_array4_d_8h.html" title="Array4D.h" alt="" coords="199,348,281,375"/>
+<area shape="rect" id="node4" href="_an_en_i_s_8h.html" title="AnEnIS.h" alt="" coords="297,109,375,136"/>
+<area shape="rect" id="node6" href="_observations_8h.html" title="Observations.h" alt="" coords="310,266,421,293"/>
+<area shape="rect" id="node18" href="_forecasts_8h.html" title="Forecasts.h" alt="" coords="195,266,285,293"/>
+<area shape="rect" id="node5" href="_an_en_8h.html" title="AnEn.h" alt="" coords="191,184,257,211"/>
+<area shape="rect" id="node22" href="_functions_8h.html" title="Functions.h" alt="" coords="671,184,761,211"/>
+<area shape="rect" id="node29" href="_array4_d_pointer_8h.html" title="Array4DPointer.h" alt="" coords="44,184,167,211"/>
+<area shape="rect" id="node14" href="_config_8h.html" title="Config.h" alt="" coords="458,497,529,524"/>
+<area shape="rect" id="node20" href="_profiler_8h.html" title="Profiler.h" alt="" coords="125,497,200,524"/>
+<area shape="rect" id="node7" href="_basic_data_8h.html" title="BasicData.h" alt="" coords="531,348,626,375"/>
+<area shape="rect" id="node8" href="_parameters_8h.html" title="Parameters.h" alt="" coords="637,423,737,449"/>
+<area shape="rect" id="node16" href="_stations_8h.html" title="Stations.h" alt="" coords="531,423,613,449"/>
+<area shape="rect" id="node17" href="_times_8h.html" title="Times.h" alt="" coords="812,423,881,449"/>
+<area shape="rect" id="node10" href="_bm_dim_8h.html" title="BmDim.h" alt="" coords="799,497,876,524"/>
+<area shape="rect" id="node19" href="_array4_d_8h.html" title="Array4D.h" alt="" coords="199,348,281,375"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -113,6 +114,8 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a3703cde574d4a5cf04735b18abc90ad5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions_m_p_i.html#a3703cde574d4a5cf04735b18abc90ad5">FunctionsMPI::effective_num_procs</a> (MPI_Comm comm, int *num_procs, int world_rank, const <a class="el" href="class_forecasts.html">Forecasts</a> &amp;forecasts, <a class="el" href="_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9">Verbose</a> verbose)</td></tr>
+<tr class="separator:a3703cde574d4a5cf04735b18abc90ad5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a230b0172ba9685ad17eb0c8ac39c75ad"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions_m_p_i.html#a230b0172ba9685ad17eb0c8ac39c75ad">FunctionsMPI::scatterObservations</a> (const <a class="el" href="class_observations.html">Observations</a> &amp;send, <a class="el" href="class_observations.html">Observations</a> &amp;recv, int num_procs, int rank, <a class="el" href="_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9">Verbose</a> verbose)</td></tr>
 <tr class="separator:a230b0172ba9685ad17eb0c8ac39c75ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a35c55cb547f05832f52939f0f9fa6fcf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions_m_p_i.html#a35c55cb547f05832f52939f0f9fa6fcf">FunctionsMPI::scatterForecasts</a> (const <a class="el" href="class_forecasts.html">Forecasts</a> &amp;send, <a class="el" href="class_forecasts.html">Forecasts</a> &amp;recv, int num_procs, int rank, <a class="el" href="_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9">Verbose</a> verbose)</td></tr>

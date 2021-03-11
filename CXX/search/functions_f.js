@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['randomizeforecasts_5f',['randomizeForecasts_',['../classtest_an_en_i_s.html#a907836603253dd7b4fb5ec82fb5616d2',1,'testAnEnIS']]],
-  ['randomizeobservations_5f',['randomizeObservations_',['../classtest_an_en_i_s.html#a12b42cc804123f409aeb94b98081d0fe',1,'testAnEnIS']]],
+  ['randomizeforecasts',['randomizeForecasts',['../namespace_functions.html#aefa836cecd645caec313c880481db5e5',1,'Functions']]],
+  ['randomizeobservations',['randomizeObservations',['../namespace_functions.html#aa64c4a81e0a15667232be924b2899f51',1,'Functions']]],
   ['read',['read',['../class_an_en_read_ncdf.html#ab0c64a42ae96199b2376de23a6df7240',1,'AnEnReadNcdf::read(const netCDF::NcGroup &amp;nc, Parameters &amp;parameters, size_t start=0, size_t count=0) const'],['../class_an_en_read_ncdf.html#a6f38f0e2e91edfc6294d3247cb667815',1,'AnEnReadNcdf::read(const netCDF::NcGroup &amp;nc, Stations &amp;stations, size_t start=0, size_t count=0, const std::string &amp;dim_name_prefix=&quot;&quot;, const std::string &amp;var_name_prefix=&quot;&quot;) const'],['../class_an_en_read_ncdf.html#a4e16a1cd4c1d6ed5e4d0c660cbd7fcc9',1,'AnEnReadNcdf::read(const netCDF::NcGroup &amp;nc, Times &amp;times, const std::string &amp;var_name, size_t start=0, size_t count=0) const'],['../class_an_en_read_ncdf.html#aec40aaa6dc282f6cdc642070655ba091',1,'AnEnReadNcdf::read(const netCDF::NcGroup &amp;nc, T *p_vals, const std::string &amp;var_name=Config::_DATA, std::vector&lt; size_t &gt; start={}, std::vector&lt; size_t &gt; count={}) const']]],
   ['readanalogs',['readAnalogs',['../class_an_en_read_ncdf.html#a507a27f542a3c38c256acc50729d1269',1,'AnEnReadNcdf']]],
   ['readdimlength',['readDimLength',['../namespace_ncdf.html#af27d49658b3b73efadbf780aa2bf2830',1,'Ncdf']]],

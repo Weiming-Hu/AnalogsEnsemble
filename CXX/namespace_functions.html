@@ -81,6 +81,10 @@ Functions</h2></td></tr>
 <tr class="separator:a5fc4891dcb71bc023e1100a5ccafabce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:add93c68e401b4626f1169dd5be9fe5bf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions.html#add93c68e401b4626f1169dd5be9fe5bf">setSearchStations</a> (const <a class="el" href="class_stations.html">Stations</a> &amp;, <a class="el" href="namespace_functions.html#a1a53efc30f777b3253fe8f0e7a54f30f">Matrix</a> &amp;table, double)</td></tr>
 <tr class="separator:add93c68e401b4626f1169dd5be9fe5bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adef74dd68e2c24bc7ce2d6f81cfc0c10"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions.html#adef74dd68e2c24bc7ce2d6f81cfc0c10">findClosest</a> (const <a class="el" href="class_station.html">Station</a> &amp;station, const <a class="el" href="class_stations.html">Stations</a> &amp;stations)</td></tr>
+<tr class="separator:adef74dd68e2c24bc7ce2d6f81cfc0c10"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a563398889c51cb5325e0211eb47b42b3"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::size_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions.html#a563398889c51cb5325e0211eb47b42b3">findClosest</a> (const <a class="el" href="class_stations.html">Stations</a> &amp;targets, const <a class="el" href="class_stations.html">Stations</a> &amp;pool, <a class="el" href="_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9">Verbose</a> verbose)</td></tr>
+<tr class="separator:a563398889c51cb5325e0211eb47b42b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9604a2b84f3af91add3e2ad677503af3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9">Verbose</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions.html#a9604a2b84f3af91add3e2ad677503af3">itov</a> (int)</td></tr>
 <tr class="separator:a9604a2b84f3af91add3e2ad677503af3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a28cf199876092c0cead2a25773e53504"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions.html#a28cf199876092c0cead2a25773e53504">vtoi</a> (<a class="el" href="_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9">Verbose</a>)</td></tr>
@@ -115,6 +119,10 @@ Functions</h2></td></tr>
 <tr class="separator:abbdb18407c68ff2b1029eb3a2a6a868d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab68645938b9a74651ec9ad2cefe5c2be"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions.html#ab68645938b9a74651ec9ad2cefe5c2be">unwrapTimeSeries</a> (<a class="el" href="class_forecasts.html">Forecasts</a> &amp;, const <a class="el" href="class_times.html">Times</a> &amp;, const <a class="el" href="class_times.html">Times</a> &amp;, const <a class="el" href="class_observations.html">Observations</a> &amp;)</td></tr>
 <tr class="separator:ab68645938b9a74651ec9ad2cefe5c2be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aefa836cecd645caec313c880481db5e5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions.html#aefa836cecd645caec313c880481db5e5">randomizeForecasts</a> (<a class="el" href="class_forecasts.html">Forecasts</a> &amp;fcsts, double nan_prob, size_t min_valid_count=0)</td></tr>
+<tr class="separator:aefa836cecd645caec313c880481db5e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa64c4a81e0a15667232be924b2899f51"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions.html#aa64c4a81e0a15667232be924b2899f51">randomizeObservations</a> (<a class="el" href="class_observations.html">Observations</a> &amp;obs, double nan_prob)</td></tr>
+<tr class="separator:aa64c4a81e0a15667232be924b2899f51"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a79f73a965fe4074516232de0e85b657c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions.html#a79f73a965fe4074516232de0e85b657c">getStartIndex</a> (int total, int num_procs, int rank)</td></tr>
 <tr class="separator:a79f73a965fe4074516232de0e85b657c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7610a3ca47370ffe5104bba97bea732f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions.html#a7610a3ca47370ffe5104bba97bea732f">getEndIndex</a> (int total, int num_procs, int rank)</td></tr>
@@ -265,6 +273,76 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A double. </dd></dl>
+
+</div>
+</div>
+<a id="adef74dd68e2c24bc7ce2d6f81cfc0c10"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adef74dd68e2c24bc7ce2d6f81cfc0c10">&#9670;&nbsp;</a></span>findClosest() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t Functions::findClosest </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_station.html">Station</a> &amp;&#160;</td>
+          <td class="paramname"><em>station</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="class_stations.html">Stations</a> &amp;&#160;</td>
+          <td class="paramname"><em>stations</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Find the index of the closest station. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">station</td><td>The target station </td></tr>
+    <tr><td class="paramname">stations</td><td>The pool of stations to search from  verbose Verbose level </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>An index of the closest station from the pool </dd></dl>
+
+</div>
+</div>
+<a id="a563398889c51cb5325e0211eb47b42b3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a563398889c51cb5325e0211eb47b42b3">&#9670;&nbsp;</a></span>findClosest() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">vector&lt; size_t &gt; Functions::findClosest </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_stations.html">Stations</a> &amp;&#160;</td>
+          <td class="paramname"><em>targets</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="class_stations.html">Stations</a> &amp;&#160;</td>
+          <td class="paramname"><em>pool</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9">Verbose</a>&#160;</td>
+          <td class="paramname"><em>verbose</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -630,6 +708,77 @@ template&lt;class T &gt; </div>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="aefa836cecd645caec313c880481db5e5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aefa836cecd645caec313c880481db5e5">&#9670;&nbsp;</a></span>randomizeForecasts()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Functions::randomizeForecasts </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_forecasts.html">Forecasts</a> &amp;&#160;</td>
+          <td class="paramname"><em>fcsts</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>nan_prob</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>min_valid_count</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Initialize forecasts or observations with random values. These functions are used for testing. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fcsts</td><td><a class="el" href="class_forecasts.html" title="Forecasts is an abstract class that extends BasicData and the abstract class Array4D. It defines the interface of how to interact with the underlying data storage through the abstract class Array4D. This interface is accepted by the Analog Ensemble algorithm. ">Forecasts</a> </td></tr>
+    <tr><td class="paramname">nan_prob</td><td>The portion of NAN values </td></tr>
+    <tr><td class="paramname">min_valid_count</td><td>the minimum number of valid values in times </td></tr>
+    <tr><td class="paramname">obs</td><td><a class="el" href="class_observations.html" title="Observations is an abstract class that extends BasicData. It defines the interface of how to interact...">Observations</a> </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aa64c4a81e0a15667232be924b2899f51"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa64c4a81e0a15667232be924b2899f51">&#9670;&nbsp;</a></span>randomizeObservations()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Functions::randomizeObservations </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_observations.html">Observations</a> &amp;&#160;</td>
+          <td class="paramname"><em>obs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>nan_prob</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
