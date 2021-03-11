@@ -19,6 +19,8 @@
  * input files. This requirement is relaxed in the derived implementation where
  * users can manually specify how forecast and observation stations should be
  * linked.
+ *
+ * AnEnSSEMS stands for AnEn Search Space Extension with Matching Stations.
  */
 class AnEnSSEMS : public AnEnSSE {
 public:
