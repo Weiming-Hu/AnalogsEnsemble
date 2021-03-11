@@ -16,6 +16,7 @@
 
 #include "AnEnIS.h"
 #include "AnEnSSE.h"
+#include "AnEnSSEMS.h"
 #include "RcppForecasts.h"
 #include "RcppObservations.h"
 #include "RcppFunctions.h"
@@ -129,7 +130,10 @@ List generateAnalogs(SEXP sx_forecasts, SEXP sx_observations,
     if (algorithm == "IS") {
         anen = new AnEnIS(config);
     } else if (algorithm == "SSE") {
-        anen = new AnEnSSE(config);
+
+        if (forecasts.getStations().size() == observations.getStations().size()) anen = new AnEnSSE(config);
+        else anen = new AnEnSSEMS(config);
+
     } else {
         throw std::runtime_error("algorithm not supported");
     }

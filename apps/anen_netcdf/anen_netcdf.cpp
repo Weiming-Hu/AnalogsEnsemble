@@ -19,6 +19,7 @@
 #include "Config.h"
 #include "AnEnIS.h"
 #include "AnEnSSE.h"
+#include "AnEnSSEMS.h"
 #include "Profiler.h"
 #include "AnEnReadNcdf.h"
 #include "AnEnWriteNcdf.h"
@@ -218,7 +219,10 @@ void runAnEnNcdf(
     if (algorithm == "IS") {
         anen = new AnEnIS(config);
     } else if (algorithm == "SSE") {
-        anen = new AnEnSSE(config);
+
+        if (forecasts.getStations().size() == observations.getStations().size()) anen = new AnEnSSE(config);
+        else anen = new AnEnSSEMS(config);
+
     } else {
         throw runtime_error("The algorithm is not recognized");
     }

@@ -38,6 +38,22 @@ AnEnSSEMS::compute(const Forecasts & forecasts,
     auto match_with = Functions::findClosest(observations.getStations(), forecasts.getStations(), verbose_);
     profiler_.log_time_session("Matching stations (AnEnSSEMS)");
 
+    if (verbose_ >= Verbose::Detail) {
+        cout << "[AnEnSSEMS] Station match summary" << endl
+            << "# observation stations: " << observations.getStations().size() << endl
+            << "# forecast stations: " << forecasts.getStations().size() << endl
+            << "<observation station index> --> <forecast station index>" << endl;
+
+        for (size_t i = 0; i < match_with.size(); ++i) {
+            cout << i << "-->" << match_with[i] << endl;
+
+            if (i > 100) {
+                cout << "[... skipped ...]" << endl;
+                break;
+            }
+        }
+    }
+
     // Call the class method
     compute(forecasts, observations, fcsts_test_index, fcsts_search_index, match_with);
 
