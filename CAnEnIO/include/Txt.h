@@ -42,17 +42,19 @@ namespace Txt {
     void checkPath(const std::string & file_path, Mode mode,
             const std::string & extension = ".txt");
 
+    bool readLines(const std::string & file_path, std::vector<std::string> & vec);
+
     /************************************************************************
      *                         Template Functions                           *
      ************************************************************************/
 
     template <typename T>
-    void
+    bool
     readMatrix(const std::string & file_path,
             boost::numeric::ublas::matrix<T> & mat);
 
     template <typename T>
-    void
+    bool
     writeMatrix(const std::string & file_path,
             const boost::numeric::ublas::matrix<T> & mat);
 }
