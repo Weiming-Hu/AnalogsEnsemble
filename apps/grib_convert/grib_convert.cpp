@@ -123,7 +123,7 @@ int main(int argc, char** argv) {
     desc.add_options()
             ("help,h", "Print help information for options.")
             ("config,c", value< vector<string> >(&config_files)->multitoken(), "Config files (.cfg). Command line options overwrite config files.")
-            ("forecasts-folder", value<string>(&forecast_folder)->multitoken()->required(), "Folder for forecast GRIB files.")
+            ("forecasts-folder", value<string>(&forecast_folder)->required(), "Folder for forecast GRIB files.  Or it can be a single txt file and each line is a file path.")
             ("regex", value<string>(&regex_str), "Regular expression for file names. The expression should have named groups for 'day', 'flt', and 'cycle'. An example is '.*nam_218_(?P<day>\\d{8})_(?P<cycle>\\d{2})\\d{2}_(?P<flt>\\d{3})\\.grb2$'")
             ("pars-name", value< vector<string> >(&parameters_name)->multitoken()->required(), "Parameters name.")
             ("pars-circular", value < vector<bool> >(&parameters_circular)->multitoken(), "[Optional] 1 for circular parameters and 0 for linear circulars.")

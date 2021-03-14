@@ -15,6 +15,7 @@
 #include <algorithm>
 
 #include "FunctionsIO.h"
+#include "Txt.h"
 
 #include "boost/filesystem.hpp"
 #include "boost/filesystem/path.hpp"
@@ -148,42 +149,59 @@ void
 FunctionsIO::listFiles(vector<string> & files,
         const string & folder, const string & regex_str) {
 
-    // Get the total number of files in this folder
-    size_t total_files = totalFiles(folder);
-
-    // Allocate memory
-    files.resize(total_files);
-
-    // Compile the regular expression to make sure it is valid
-    sregex rex = sregex::compile(regex_str);
-
     // Convert string to boost filesystem path
     fs::path folder_path(fs::system_complete(fs::path(folder.c_str())));
 
-    // Extract filenames that matches the regular expression
-    fs::directory_iterator it(folder), endit;
+    if (fs::is_regular_file(folder_path)) {
+        // A file containing file paths is passed
 
-    size_t pos = 0;
-    fs::path filepath;
+        files.resize(0);
+        Txt::readLines(folder, files);
 
-    while (it != endit) {
-
-        // If this is a regular file
-        if (fs::is_regular_file(it->status())) {
-            filepath = it->path().filename();
-
-            // Check regular expression
-            if (regex_match(filepath.string(), rex)) {
-                files[pos] = (folder_path/filepath).string();
-                pos++;
+        for (const auto & file : files) {
+            fs::path filepath(file.c_str());
+            if (!fs::is_regular_file(filepath)) {
+                throw runtime_error(string("File does not exists: ") + file);
             }
         }
 
-        it++;
-    }
+    } else {
+        // A folder containing files is passed
+        
+        // Get the total number of files in this folder
+        size_t total_files = totalFiles(folder);
 
-    // Erase the empty slots if not all files are included
-    if (pos != total_files) files.erase(files.begin() + pos, files.end());
+        // Allocate memory
+        files.resize(total_files);
+
+        // Compile the regular expression to make sure it is valid
+        sregex rex = sregex::compile(regex_str);
+
+        // Extract filenames that matches the regular expression
+        fs::directory_iterator it(folder), endit;
+
+        size_t pos = 0;
+        fs::path filepath;
+
+        while (it != endit) {
+
+            // If this is a regular file
+            if (fs::is_regular_file(it->status())) {
+                filepath = it->path().filename();
+
+                // Check regular expression
+                if (regex_match(filepath.string(), rex)) {
+                    files[pos] = (folder_path/filepath).string();
+                    pos++;
+                }
+            }
+
+            it++;
+        }
+
+        // Erase the empty slots if not all files are included
+        if (pos != total_files) files.erase(files.begin() + pos, files.end());
+    }
 
     // Sort file names
     sort(files.begin(), files.end());
