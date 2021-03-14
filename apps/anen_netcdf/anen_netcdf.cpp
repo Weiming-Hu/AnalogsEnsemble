@@ -247,7 +247,7 @@ void runAnEnNcdf(
 
     const auto & forecast_flts = forecasts.getFLTs();
     const auto & forecast_parameters = forecasts.getParameters();
-    const auto & forecast_stations = forecasts.getStations();
+    const auto & observation_stations = observations.getStations();
 
     if (obs_id.size() > 1) {
         
@@ -259,7 +259,7 @@ void runAnEnNcdf(
         Functions::createObsMap(obs_map, obs_id, observations.getParameters());
 
         anen_write.writeMultiAnEn(fileout, obs_map, anen, algorithm, test_times, search_times,
-                forecast_flts, forecast_parameters, forecast_stations, observations, overwrite);
+                forecast_flts, forecast_parameters, observation_stations, observations, overwrite);
 
         profiler.log_time_session("Writing multivariate analogs");
         
@@ -270,7 +270,7 @@ void runAnEnNcdf(
          */
 
         anen_write.writeAnEn(fileout, anen, algorithm, test_times, search_times,
-                forecast_flts, forecast_parameters, forecast_stations, overwrite);
+                forecast_flts, forecast_parameters, observation_stations, overwrite);
 
         profiler.log_time_session("Writing univariate analogs");
     }

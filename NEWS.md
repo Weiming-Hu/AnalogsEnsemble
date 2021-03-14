@@ -1,6 +1,7 @@
 # PAnEn 4.3.1
 
 - `anen_netcdf` can now accept reading from different subsets of observation and forecast stations.
+- Fixed the inconsistency when writing AnEn results generated from `AnEnSSEMS`
 
 # PAnEn 4.3.0
 
