@@ -2,6 +2,7 @@
 
 - `anen_netcdf` can now accept reading from different subsets of observation and forecast stations.
 - Fixed the inconsistency when writing AnEn results generated from `AnEnSSEMS`
+- Added functionality for `anen_grib` and `grib_convert` so that input files can now be specified within a text file
 
 # PAnEn 4.3.0
 

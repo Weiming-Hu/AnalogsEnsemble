@@ -104,11 +104,13 @@ namespace boost {
 }
 
 template <typename T>
-void
+bool
 Txt::readMatrix(const std::string & file_path, 
         boost::numeric::ublas::matrix<T> & mat) {
 
     using namespace std;
+
+    Txt::checkPath(file_path, Mode::Read, "");
     
     ifstream in;
 
@@ -122,16 +124,18 @@ Txt::readMatrix(const std::string & file_path,
         throw runtime_error(msg.str());
     }
 
-    return;
+    return true;
 }
 
 template <typename T>
-void
+bool
 Txt::writeMatrix(
         const std::string & file_path,
         const boost::numeric::ublas::matrix<T> & mat) {
 
     using namespace std;
+
+    Txt::checkPath(file_path, Mode::Write, "");
 
     ofstream out;
     out.open(file_path);
@@ -144,5 +148,5 @@ Txt::writeMatrix(
         throw runtime_error(msg.str());
     }
 
-    return;
+    return true;
 }

@@ -5,6 +5,10 @@
  * Created on January 1, 2020, 6:06 PM
  */
 
+#include <iostream>
+#include <fstream>
+#include <string>
+
 #include "Txt.h"
 #include "boost/filesystem.hpp"
 
@@ -29,6 +33,9 @@ Txt::checkPath(const string & file_path, Mode mode, const std::string & extensio
         throw invalid_argument(msg.str());
     }
 
+    // No extension check if not provided
+    if (extension.empty()) return;
+
     filesys::path boost_path(file_path);
 
     // Succeed if the file path has right extension (Default is .txt)
@@ -36,8 +43,32 @@ Txt::checkPath(const string & file_path, Mode mode, const std::string & extensio
         if (boost_path.extension().string() == extension) return;
     }
 
-    // Fail if the file path does not have a different extension
+    // Fail if the file path has a different extension
     ostringstream msg;
     msg << "Unknown extension: " << file_path;
     throw invalid_argument(msg.str());
 }
+
+bool
+Txt::readLines(const string & file_path, vector<string> & vec) {
+
+    using namespace std;
+
+    Txt::checkPath(file_path, Mode::Read, "");
+
+    ifstream in(file_path.c_str());
+    string str;
+
+    vec.clear();
+
+    while (getline(in, str)) {
+        if (str.size() > 0 && str.at(0) != '#') {
+            vec.push_back(str);
+        }
+    }
+
+    in.close();
+
+    return true;
+}
+
