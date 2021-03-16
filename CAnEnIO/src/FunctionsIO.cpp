@@ -150,7 +150,7 @@ FunctionsIO::listFiles(vector<string> & files,
         const string & folder, const string & regex_str) {
 
     // Convert string to boost filesystem path
-    fs::path folder_path(fs::system_complete(fs::path(folder.c_str())));
+    fs::path folder_path(folder.c_str());
 
     if (fs::is_regular_file(folder_path)) {
         // A file containing file paths is passed
@@ -214,7 +214,7 @@ FunctionsIO::totalFiles(const string & folder) {
 
     // Expand the input path using the system rules
     if (folder.empty()) throw runtime_error("Specify folder");
-    fs::path full_path(fs::system_complete(fs::path(folder.c_str())));
+    fs::path full_path(folder.c_str());
 
     // Sanity checks
     if (!fs::exists(full_path)) throw runtime_error("Input path does not exists");
