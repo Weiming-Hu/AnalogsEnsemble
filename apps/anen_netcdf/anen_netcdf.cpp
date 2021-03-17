@@ -42,6 +42,7 @@ void runAnEnNcdf(
         const string & forecast_file,
         const string & observation_file,
         int fcst_station_start, int fcst_station_count,
+        const vector<size_t> fcst_stations_subset,
         int obs_station_start, int obs_station_count,
         const vector<size_t> & obs_id,
         const string & test_start_str,
@@ -129,6 +130,19 @@ void runAnEnNcdf(
     anen_read.readForecasts(forecast_file, forecasts, fcst_station_start, fcst_station_count);
 
     profiler.log_time_session("Reading forecasts");
+
+    if (fcst_stations_subset.size() != 0) {
+
+        Stations stations_subset;
+        const Stations & stations = forecasts.getStations();
+        for (const auto & i : fcst_stations_subset) stations_subset.push_back(stations.getStation(i));
+
+        ForecastsPointer forecasts_subset;
+        forecasts.subset(forecasts.getParameters(), stations_subset, forecasts.getTimes(), forecasts.getFLTs(), forecasts_subset);
+
+        forecasts = forecasts_subset;
+        profiler.log_time_session("Subsetting forecasts");
+    }
 
     // Read observations
     ObservationsPointer observations;
@@ -378,7 +392,7 @@ int main(int argc, char** argv) {
     // Optional variables
     int verbose;
     string algorithm;
-    vector<size_t> obs_id;
+    vector<size_t> obs_id, fcst_stations_subset;
     vector<string> config_files, u_names, v_names, spd_names, dir_names, test_times_str;
     int fcst_station_start, fcst_station_count, obs_station_start, obs_station_count;
     bool overwrite, profile, save_tests, unwrap_obs, convert_wind;
@@ -412,6 +426,7 @@ int main(int argc, char** argv) {
 #endif
             ("fcst-station-start", value<int>(&fcst_station_start)->default_value(-1), "[Optional] Start index of forecast stations to process")
             ("fcst-station-count", value<int>(&fcst_station_count)->default_value(-1), "[Optional] The number of forecast stations to process from the start")
+            ("fcst-stations-subset", value< vector<size_t> >(&fcst_stations_subset)->multitoken(), "[Optional] AFTER THE FORECASTS HAVE BEEN READ INTO MEMORY, use these indices to subset the stations.")
             ("obs-station-start", value<int>(&obs_station_start)->default_value(-1), "[Optional] Start index of observation stations to process")
             ("obs-station-count", value<int>(&obs_station_count)->default_value(-1), "[Optional] The number of observation stations to process from the start")
             ("algorithm", value<string>(&algorithm)->default_value("IS"), "[Optional] IS for Independent Search or SSE for Search Space Extension")
@@ -562,6 +577,10 @@ int main(int argc, char** argv) {
         throw runtime_error("The MPI implementation for SSE is not provided yet.");
     }
 
+    if (fcst_stations_subset.size() != 0) {
+        throw runtime_error("The MPI implementation for subsetting stations is not provided yet.");
+    }
+
     if (fcst_station_start != obs_station_start || fcst_station_count != obs_station_count) {
         throw runtime_error("Reading different subsets of forecast and observation stations are not allowed with MPI!");
     }
@@ -607,7 +626,7 @@ int main(int argc, char** argv) {
             " processes " << fcst_station_count << " stations [:] from #" << fcst_station_start << " will be writing to " << fileout << endl;
 #endif
 
-    runAnEnNcdf(forecast_file, observation_file, fcst_station_start, fcst_station_count, obs_station_start, obs_station_count,
+    runAnEnNcdf(forecast_file, observation_file, fcst_station_start, fcst_station_count, fcst_stations_subset, obs_station_start, obs_station_count,
             obs_id, test_start, test_end, test_times_str, search_start, search_end, fileout, 
             algorithm, config, overwrite, profile, save_tests, unwrap_obs, convert_wind,
             u_names, v_names, spd_names, dir_names, embedding_model, similarity_model, ai_flt_radius);

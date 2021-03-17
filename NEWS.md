@@ -4,6 +4,7 @@
 - Fixed the inconsistency when writing AnEn results generated from `AnEnSSEMS`
 - Added functionality for `anen_grib` and `grib_convert` so that input files can now be specified within a text file
 - Added new argument `--exclude-closest-location` for SSE
+- Added station subset by indices for `anen_netcdf`
 
 # PAnEn 4.3.0
 
