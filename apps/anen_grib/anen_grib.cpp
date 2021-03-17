@@ -469,6 +469,7 @@ int main(int argc, char** argv) {
             ("num-nearest", value<size_t>(&(config.num_nearest)), "[Optional] Number of neighbor stations to search.")
             ("distance", value<double>(&(config.distance)), "[Optional] Distance threshold when searching for neighbors.")
             ("extend-obs", bool_switch(&(config.extend_obs))->default_value(config.extend_obs), "[Optional] Use observations from search stations. Change this in *.cfg")
+            ("exclude-closest-location", bool_switch(&(config.exclude_closest_location))->default_value(config.exclude_closest_location), "[Optional] Whether to exclude the closest station in the search stations. Only valid for SSE.")
             ("operation", bool_switch(&(config.operation))->default_value(config.operation), "[Optional] Use operational mode.")
             ("prevent-search-future", bool_switch(&(config.prevent_search_future))->default_value(config.prevent_search_future), "[Optional] Prevent using observations that are later than the current test forecast. Change this in *.cfg")
             ("save-analogs", bool_switch(&(config.save_analogs))->default_value(config.save_analogs), "[Optional] Save analogs. Change this in *.cfg")

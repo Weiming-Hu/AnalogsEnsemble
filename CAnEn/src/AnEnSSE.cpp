@@ -294,7 +294,7 @@ AnEnSSE::preprocess_(const Forecasts & forecasts,
     fill_n(storage.begin(), storage.size(), NAN);
 
     // Set search stations for each test stations
-    Functions::setSearchStations(stations, search_stations_index_, distance_);
+    Functions::setSearchStations(stations, search_stations_index_, distance_, exclude_closest_location_);
 
     return;
 }
@@ -332,6 +332,7 @@ AnEnSSE::setMembers_(const Config & config) {
     distance_ = config.distance;
     extend_obs_ = config.extend_obs;
     save_sims_station_index_ = config.save_sims_station_index;
+    exclude_closest_location_ = config.exclude_closest_location;
 
     return;
 }

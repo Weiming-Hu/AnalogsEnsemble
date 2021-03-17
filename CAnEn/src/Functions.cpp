@@ -186,14 +186,18 @@ obs_id, analogs, observations, analogs_station_index)
 }
 
 void
-Functions::setSearchStations(const Stations & stations, Matrix & table, double distance) {
+Functions::setSearchStations(const Stations & stations, Matrix & table, double distance, bool exclude_closest_location) {
 
     // Determine the number of neighbors
     size_t num_neighbors = table.size2();
     size_t num_stations = stations.size();
 
+    if (exclude_closest_location) {
+        num_neighbors += 1;
+    }
+
     if (num_neighbors > num_stations)
-        throw runtime_error("Number of neighbors should not be larger than the number of stations");
+        throw runtime_error("Number of neighbors should not be larger than the number of stations. Not enough stations to search from.");
 
     // Convert distance to squred distance
     distance *= distance;
@@ -224,15 +228,22 @@ Functions::setSearchStations(const Stations & stations, Matrix & table, double d
         }
 
         // Sort based on distances
-        nth_element(distances_sq.begin(), distances_sq.begin() + num_neighbors, distances_sq.end(),
+        partial_sort(distances_sq.begin(), distances_sq.begin() + num_neighbors, distances_sq.end(),
                 [](const pair<double, size_t> & lhs, const pair<double, size_t> & rhs) {
                     return lhs.first < rhs.first;
                 });
 
         // Copy neighbor stations index to the output table
         size_t current_pos = 0;
+        size_t neighbor_i;
 
-        for (size_t neighbor_i = 0; neighbor_i < num_neighbors; ++neighbor_i) {
+        if (exclude_closest_location) {
+            neighbor_i = 1;
+        } else {
+            neighbor_i = 0;
+        }
+
+        for (; neighbor_i < num_neighbors; ++neighbor_i) {
             if (distances_sq[neighbor_i].first > distance) continue;
             table(test_i, current_pos) = distances_sq[neighbor_i].second;
             ++current_pos;

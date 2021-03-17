@@ -88,8 +88,10 @@ namespace Functions {
      * @param table An index table. Each row shows the indices for neighbor stations of
      * a particular station in Stations.
      * @param distance Distance threshold.
+     * @param exclude_closest_location Whether to exclude search from the closest station.
+     * This station is usually the current station itself.
      */
-    void setSearchStations(const Stations &, Matrix & table, double);
+    void setSearchStations(const Stations & stations, Matrix & table, double distance, bool exclude_closest_location = false);
 
     /**
      * Find the index of the closest station.

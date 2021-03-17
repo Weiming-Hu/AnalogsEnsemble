@@ -41,6 +41,7 @@ const string Config::_SAVE_SDS = "save_sds";
 const string Config::_SAVE_OBS_TIME_IND_TABLE = "save_obs_time_index_table";
 const string Config::_SAVE_SEARCH_STATIONS_IND = "save_search_stations_index";
 const string Config::_QUICK = "quick";
+const string Config::_EXCLUDE_CLOSEST_STATION = "exclude_closest_location";
 const string Config::_VERBOSE = "verbose";
 
 const string Config::_DATA = "Data";
@@ -91,6 +92,7 @@ Config::print(ostream & os) {
             << "num_sims: " << num_sims << endl
             << "obs_var_index: " << obs_var_index << endl
             << "quick_sort: " << (quick_sort ? "true" : "false") << endl
+            << "exclude_closest_location: " << (exclude_closest_location ? "true" : "false") << endl
             << "max_par_nan: " << max_par_nan << endl
             << "max_flt_nan: " << max_flt_nan << endl
             << "flt_radius: " << flt_radius << endl
@@ -145,6 +147,7 @@ Config::reset() {
     num_sims = 1;
     obs_var_index = 0;
     quick_sort = false;
+    exclude_closest_location = false;
     max_par_nan = 0;
     max_flt_nan = 0;
     flt_radius = 1;

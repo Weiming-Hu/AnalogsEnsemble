@@ -77,6 +77,7 @@ public:
     bool save_obs_time_index_table;
     bool save_search_stations_index;
     bool quick_sort;
+    bool exclude_closest_location;
 
     Verbose verbose;
     Verbose worker_verbose;
@@ -122,6 +123,7 @@ public:
     static const std::string _SAVE_OBS_TIME_IND_TABLE;
     static const std::string _SAVE_SEARCH_STATIONS_IND;
     static const std::string _QUICK;
+    static const std::string _EXCLUDE_CLOSEST_STATION;
     static const std::string _VERBOSE;
 
     static const std::string _DATA;

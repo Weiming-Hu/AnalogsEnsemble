@@ -50,6 +50,7 @@ public:
     double distance() const;
     bool extend_obs() const;
     bool save_sims_station_index() const;
+    bool exclude_closest_location() const;
     const Array4DPointer & sims_station_index() const;
     const Functions::Matrix & search_stations_index() const;
     
@@ -86,6 +87,13 @@ protected:
      * Whether to save the search station indices for each similarity
      */
     bool save_sims_station_index_;
+
+    /**
+     * Whether to exclude the current station from the search stations.
+     * This is helpful if users want to search through every other
+     * nearby stations rather than itself (e.g. the closest station).
+     */
+    bool exclude_closest_location_;
 
     /**
      * The array to store search station indices.

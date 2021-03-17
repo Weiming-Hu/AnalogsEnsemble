@@ -90,7 +90,7 @@ testFunctions::testSearchStations_() {
 
     // Results should have the station itself as search
     for (size_t station_i = 0; station_i < stations.size(); ++station_i) {
-        neighborExists_(table_nn, station_i, station_i);
+        CPPUNIT_ASSERT(neighborExists_(table_nn, station_i, station_i));
     }
 
     CPPUNIT_ASSERT(neighborExists_(table_nn, 0, 2));
@@ -100,6 +100,37 @@ testFunctions::testSearchStations_() {
     CPPUNIT_ASSERT(neighborExists_(table_nn, 4, 6));
     
     cout << "Search stations are expected without a distance threshold." << endl;
+
+    /***************************************************************************
+     *          Test the search station with the closest excluded              *
+     **************************************************************************/
+
+    // Define how many neighbors to find
+    num_nearest = 2;
+
+    // Define the search stations index table
+    Functions::Matrix table_ce(stations.size(), num_nearest);
+
+    // Compute search stations without distance threshold
+    Functions::setSearchStations(stations, table_ce, NAN, true);
+
+    // Results should not have the station itself as search
+    for (size_t station_i = 0; station_i < stations.size(); ++station_i) {
+        CPPUNIT_ASSERT(!neighborExists_(table_ce, station_i, station_i));
+    }
+
+    CPPUNIT_ASSERT(neighborExists_(table_ce, 0, 2));
+    CPPUNIT_ASSERT(neighborExists_(table_ce, 0, 3));
+    CPPUNIT_ASSERT(neighborExists_(table_ce, 5, 8));
+    CPPUNIT_ASSERT(neighborExists_(table_ce, 5, 7));
+    CPPUNIT_ASSERT(neighborExists_(table_ce, 11, 10));
+    CPPUNIT_ASSERT(neighborExists_(table_ce, 11, 8));
+    CPPUNIT_ASSERT(neighborExists_(table_ce, 2, 0));
+    CPPUNIT_ASSERT(neighborExists_(table_ce, 2, 5));
+    CPPUNIT_ASSERT(neighborExists_(table_ce, 4, 6));
+    CPPUNIT_ASSERT(neighborExists_(table_ce, 4, 1));
+    
+    cout << "Search stations are expected with the closest location excluded." << endl;
 
     /***************************************************************************
      *            Test the search station with a distance threshold            *

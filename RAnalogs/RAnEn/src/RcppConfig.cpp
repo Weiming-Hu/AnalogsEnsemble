@@ -103,6 +103,7 @@ RCPP_MODULE(Config) {
             .field(Config::_SAVE_OBS_TIME_IND_TABLE.c_str(), &Config::save_obs_time_index_table, "Whether to save the index mapping from forecast times to observation times")
             .field(Config::_SAVE_SEARCH_STATIONS_IND.c_str(), &Config::save_search_stations_index, "Whether to save search stations index")
             .field(Config::_QUICK.c_str(), &Config::quick_sort, "Whether to use quick sort algorithm. If FALSE, selected analogs members are sorted based on the ascending order of similarity metrics.")
+            .field(Config::_EXCLUDE_CLOSEST_STATION.c_str(), &Config::exclude_closest_location, "Whether to exclude the closest station in SSE.")
             .method("reset", &Config::reset, "Reset the configuration to its default values")
             .method("show", &show, "Print the detailed configuration")
             .method("getNames", &getNames, "Get name pairs. This is designed for name consistency between C++ and R.")
