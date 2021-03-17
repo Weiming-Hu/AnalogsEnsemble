@@ -64,6 +64,14 @@ $(function() {
 <div class="contents">
 <div class="textblock"><hr/>
 <p> layout: page title: Changelog </p><h2>sidebar_link: true </h2>
+<h1>PAnEn 4.3.1</h1>
+<ul>
+<li><code>anen_netcdf</code> can now accept reading from different subsets of observation and forecast stations.</li>
+<li>Fixed the inconsistency when writing <a class="el" href="class_an_en.html" title="AnEn is an abstract class that defines the interface for implement analog ensemble generation...">AnEn</a> results generated from <code><a class="el" href="class_an_en_s_s_e_m_s.html" title="AnEnSSEMS is derived from the class AnEnSSE. It is different from the base class in how forecast and ...">AnEnSSEMS</a></code></li>
+<li>Added functionality for <code>anen_grib</code> and <code>grib_convert</code> so that input files can now be specified within a text file</li>
+<li>Added new argument <code>--exclude-closest-location</code> for SSE</li>
+<li>Added station subset by indices for <code>anen_netcdf</code></li>
+</ul>
 <h1>PAnEn 4.3.0</h1>
 <ul>
 <li>Added <code><a class="el" href="class_an_en_s_s_e_m_s.html" title="AnEnSSEMS is derived from the class AnEnSSE. It is different from the base class in how forecast and ...">AnEnSSEMS</a></code> for matching stations. This addition has also been ported to <code>RAnEn</code>.</li>

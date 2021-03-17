@@ -21,6 +21,7 @@ var searchData=
   ['_5fdim_5ftime',['_DIM_TIME',['../class_forecasts_pointer.html#ac759d7d3935ee4284773470a7894145c',1,'ForecastsPointer::_DIM_TIME()'],['../class_observations_pointer.html#aedc1473be2d388f22e645374e8a571d8',1,'ObservationsPointer::_DIM_TIME()']]],
   ['_5fdim_5ftimes',['_DIM_TIMES',['../class_config.html#aa32528d184a6598832d1c950074bc9e9',1,'Config']]],
   ['_5fdistance',['_DISTANCE',['../class_config.html#a2474aacd0e2d4440f7db52509f067300',1,'Config']]],
+  ['_5fexclude_5fclosest_5fstation',['_EXCLUDE_CLOSEST_STATION',['../class_config.html#ac1e85345166081054efa60fd2475c388',1,'Config']]],
   ['_5fextend_5fobs',['_EXTEND_OBS',['../class_config.html#afce6497433817ba2da43506c31e524d3',1,'Config']]],
   ['_5fflt_5fradius',['_FLT_RADIUS',['../class_config.html#ac3a8798761d5efec8ea119f357a34325',1,'Config']]],
   ['_5fflts',['_FLTS',['../class_config.html#a89edd2539dfc3fb830d56afe085a20b8',1,'Config']]],

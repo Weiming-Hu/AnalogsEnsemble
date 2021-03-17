@@ -113,8 +113,8 @@ Include dependency graph for anen_netcdf.cpp:</div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:af42880973fefe26773fb54a9739cc10e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="anen__netcdf_8cpp.html#af42880973fefe26773fb54a9739cc10e">runAnEnNcdf</a> (const string &amp;forecast_file, const string &amp;observation_file, int station_start, int station_count, const vector&lt; size_t &gt; &amp;obs_id, const string &amp;test_start_str, const string &amp;test_end_str, const vector&lt; string &gt; &amp;test_times_str, const string &amp;search_start_str, const string &amp;search_end_str, const string &amp;fileout, const string &amp;algorithm, <a class="el" href="class_config.html">Config</a> &amp;config, bool overwrite, bool profile, bool save_tests, bool unwrap_obs, bool convert_wind, const vector&lt; string &gt; &amp;u_names, const vector&lt; string &gt; &amp;v_names, const vector&lt; string &gt; &amp;spd_names, const vector&lt; string &gt; &amp;dir_names, const string &amp;embedding_model, const string &amp;similarity_model, long int ai_flt_radius)</td></tr>
-<tr class="separator:af42880973fefe26773fb54a9739cc10e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6232db149b4cd32742e77db886277f1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="anen__netcdf_8cpp.html#af6232db149b4cd32742e77db886277f1">runAnEnNcdf</a> (const string &amp;forecast_file, const string &amp;observation_file, int fcst_station_start, int fcst_station_count, const vector&lt; size_t &gt; fcst_stations_subset, int obs_station_start, int obs_station_count, const vector&lt; size_t &gt; &amp;obs_id, const string &amp;test_start_str, const string &amp;test_end_str, const vector&lt; string &gt; &amp;test_times_str, const string &amp;search_start_str, const string &amp;search_end_str, const string &amp;fileout, const string &amp;algorithm, <a class="el" href="class_config.html">Config</a> &amp;config, bool overwrite, bool profile, bool save_tests, bool unwrap_obs, bool convert_wind, const vector&lt; string &gt; &amp;u_names, const vector&lt; string &gt; &amp;v_names, const vector&lt; string &gt; &amp;spd_names, const vector&lt; string &gt; &amp;dir_names, const string &amp;embedding_model, const string &amp;similarity_model, long int ai_flt_radius)</td></tr>
+<tr class="separator:af6232db149b4cd32742e77db886277f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3c04138a5bfe5d72780bb7e82a18e627"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="anen__netcdf_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a> (int argc, char **argv)</td></tr>
 <tr class="separator:a3c04138a5bfe5d72780bb7e82a18e627"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -147,8 +147,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="af42880973fefe26773fb54a9739cc10e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af42880973fefe26773fb54a9739cc10e">&#9670;&nbsp;</a></span>runAnEnNcdf()</h2>
+<a id="af6232db149b4cd32742e77db886277f1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af6232db149b4cd32742e77db886277f1">&#9670;&nbsp;</a></span>runAnEnNcdf()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -169,13 +169,31 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>station_start</em>, </td>
+          <td class="paramname"><em>fcst_station_start</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>station_count</em>, </td>
+          <td class="paramname"><em>fcst_station_count</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const vector&lt; size_t &gt;&#160;</td>
+          <td class="paramname"><em>fcst_stations_subset</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>obs_station_start</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>obs_station_count</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>

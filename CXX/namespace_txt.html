@@ -77,12 +77,14 @@ Enumerations</h2></td></tr>
 Functions</h2></td></tr>
 <tr class="memitem:ac12d3a7ea62012e8a64578e8bba965ef"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_txt.html#ac12d3a7ea62012e8a64578e8bba965ef">checkPath</a> (const std::string &amp;file_path, <a class="el" href="namespace_txt.html#ae46a1b2e882957b3e249bd56fbc5a152">Mode</a> mode, const std::string &amp;extension=&quot;.txt&quot;)</td></tr>
 <tr class="separator:ac12d3a7ea62012e8a64578e8bba965ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab851cf9368aab24625e8c0eacf73884a"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:ab851cf9368aab24625e8c0eacf73884a"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_txt.html#ab851cf9368aab24625e8c0eacf73884a">readMatrix</a> (const std::string &amp;file_path, boost::numeric::ublas::matrix&lt; T &gt; &amp;mat)</td></tr>
-<tr class="separator:ab851cf9368aab24625e8c0eacf73884a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6c0f0c5880ab07c121b27fea4a993175"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a6c0f0c5880ab07c121b27fea4a993175"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_txt.html#a6c0f0c5880ab07c121b27fea4a993175">writeMatrix</a> (const std::string &amp;file_path, const boost::numeric::ublas::matrix&lt; T &gt; &amp;mat)</td></tr>
-<tr class="separator:a6c0f0c5880ab07c121b27fea4a993175"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab5fcac11a2b7f443b4508a43de9396ba"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_txt.html#ab5fcac11a2b7f443b4508a43de9396ba">readLines</a> (const std::string &amp;file_path, std::vector&lt; std::string &gt; &amp;vec)</td></tr>
+<tr class="separator:ab5fcac11a2b7f443b4508a43de9396ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a082efd1af63a04cf585ca1c6248c7cae"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a082efd1af63a04cf585ca1c6248c7cae"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_txt.html#a082efd1af63a04cf585ca1c6248c7cae">readMatrix</a> (const std::string &amp;file_path, boost::numeric::ublas::matrix&lt; T &gt; &amp;mat)</td></tr>
+<tr class="separator:a082efd1af63a04cf585ca1c6248c7cae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5790977aa9143939ceaeb0c62eec9467"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a5790977aa9143939ceaeb0c62eec9467"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_txt.html#a5790977aa9143939ceaeb0c62eec9467">writeMatrix</a> (const std::string &amp;file_path, const boost::numeric::ublas::matrix&lt; T &gt; &amp;mat)</td></tr>
+<tr class="separator:a5790977aa9143939ceaeb0c62eec9467"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Namespace ReadTxt provides functionality for txt file I/O. </p>
@@ -148,8 +150,36 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ab851cf9368aab24625e8c0eacf73884a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab851cf9368aab24625e8c0eacf73884a">&#9670;&nbsp;</a></span>readMatrix()</h2>
+<a id="ab5fcac11a2b7f443b4508a43de9396ba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab5fcac11a2b7f443b4508a43de9396ba">&#9670;&nbsp;</a></span>readLines()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Txt::readLines </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>file_path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>vec</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a082efd1af63a04cf585ca1c6248c7cae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a082efd1af63a04cf585ca1c6248c7cae">&#9670;&nbsp;</a></span>readMatrix()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -157,7 +187,7 @@ Functions</h2></td></tr>
 template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">void Txt::readMatrix </td>
+          <td class="memname">bool Txt::readMatrix </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>file_path</em>, </td>
@@ -178,8 +208,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="a6c0f0c5880ab07c121b27fea4a993175"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6c0f0c5880ab07c121b27fea4a993175">&#9670;&nbsp;</a></span>writeMatrix()</h2>
+<a id="a5790977aa9143939ceaeb0c62eec9467"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5790977aa9143939ceaeb0c62eec9467">&#9670;&nbsp;</a></span>writeMatrix()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -187,7 +217,7 @@ template&lt;typename T &gt; </div>
 template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">void Txt::writeMatrix </td>
+          <td class="memname">bool Txt::writeMatrix </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>file_path</em>, </td>

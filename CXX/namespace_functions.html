@@ -79,8 +79,8 @@ Functions</h2></td></tr>
 <tr class="separator:a0ccd3943539737c2cf0a3a98577cbf61"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5fc4891dcb71bc023e1100a5ccafabce"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions.html#a5fc4891dcb71bc023e1100a5ccafabce">toValues</a> (<a class="el" href="class_array4_d.html">Array4D</a> &amp;, std::size_t, const <a class="el" href="class_array4_d.html">Array4D</a> &amp;, const <a class="el" href="class_array4_d.html">Array4D</a> &amp;, const <a class="el" href="class_observations.html">Observations</a> &amp;)</td></tr>
 <tr class="separator:a5fc4891dcb71bc023e1100a5ccafabce"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:add93c68e401b4626f1169dd5be9fe5bf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions.html#add93c68e401b4626f1169dd5be9fe5bf">setSearchStations</a> (const <a class="el" href="class_stations.html">Stations</a> &amp;, <a class="el" href="namespace_functions.html#a1a53efc30f777b3253fe8f0e7a54f30f">Matrix</a> &amp;table, double)</td></tr>
-<tr class="separator:add93c68e401b4626f1169dd5be9fe5bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaf420dda158eacacc96a00c99fd0f46d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions.html#aaf420dda158eacacc96a00c99fd0f46d">setSearchStations</a> (const <a class="el" href="class_stations.html">Stations</a> &amp;stations, <a class="el" href="namespace_functions.html#a1a53efc30f777b3253fe8f0e7a54f30f">Matrix</a> &amp;table, double distance, bool exclude_closest_location=false)</td></tr>
+<tr class="separator:aaf420dda158eacacc96a00c99fd0f46d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adef74dd68e2c24bc7ce2d6f81cfc0c10"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions.html#adef74dd68e2c24bc7ce2d6f81cfc0c10">findClosest</a> (const <a class="el" href="class_station.html">Station</a> &amp;station, const <a class="el" href="class_stations.html">Stations</a> &amp;stations)</td></tr>
 <tr class="separator:adef74dd68e2c24bc7ce2d6f81cfc0c10"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a563398889c51cb5325e0211eb47b42b3"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::size_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions.html#a563398889c51cb5325e0211eb47b42b3">findClosest</a> (const <a class="el" href="class_stations.html">Stations</a> &amp;targets, const <a class="el" href="class_stations.html">Stations</a> &amp;pool, <a class="el" href="_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9">Verbose</a> verbose)</td></tr>
@@ -832,8 +832,8 @@ template&lt;class T &gt; </div>
 
 </div>
 </div>
-<a id="add93c68e401b4626f1169dd5be9fe5bf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#add93c68e401b4626f1169dd5be9fe5bf">&#9670;&nbsp;</a></span>setSearchStations()</h2>
+<a id="aaf420dda158eacacc96a00c99fd0f46d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaf420dda158eacacc96a00c99fd0f46d">&#9670;&nbsp;</a></span>setSearchStations()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -854,7 +854,13 @@ template&lt;class T &gt; </div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>distance</em>&#160;</td>
+          <td class="paramname"><em>distance</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>exclude_closest_location</em> = <code>false</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -868,6 +874,7 @@ template&lt;class T &gt; </div>
     <tr><td class="paramname">stations</td><td><a class="el" href="class_stations.html" title="Stations class stores Station objects. It is a bidirectional map implemented from Boost so that it pr...">Stations</a> to find neighbors </td></tr>
     <tr><td class="paramname">table</td><td>An index table. Each row shows the indices for neighbor stations of a particular station in <a class="el" href="class_stations.html" title="Stations class stores Station objects. It is a bidirectional map implemented from Boost so that it pr...">Stations</a>. </td></tr>
     <tr><td class="paramname">distance</td><td>Distance threshold. </td></tr>
+    <tr><td class="paramname">exclude_closest_location</td><td>Whether to exclude search from the closest station. This station is usually the current station itself. </td></tr>
   </table>
   </dd>
 </dl>

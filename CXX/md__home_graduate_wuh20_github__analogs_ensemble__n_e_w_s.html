@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>ParallelAnalogEnsemble: PAnEn 4.3.0</title>
+<title>ParallelAnalogEnsemble: PAnEn 4.3.1</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -59,10 +59,18 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">PAnEn 4.3.0 </div>  </div>
+<div class="title">PAnEn 4.3.1 </div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><ul>
+<li><code>anen_netcdf</code> can now accept reading from different subsets of observation and forecast stations.</li>
+<li>Fixed the inconsistency when writing <a class="el" href="class_an_en.html" title="AnEn is an abstract class that defines the interface for implement analog ensemble generation...">AnEn</a> results generated from <code><a class="el" href="class_an_en_s_s_e_m_s.html" title="AnEnSSEMS is derived from the class AnEnSSE. It is different from the base class in how forecast and ...">AnEnSSEMS</a></code></li>
+<li>Added functionality for <code>anen_grib</code> and <code>grib_convert</code> so that input files can now be specified within a text file</li>
+<li>Added new argument <code>--exclude-closest-location</code> for SSE</li>
+<li>Added station subset by indices for <code>anen_netcdf</code></li>
+</ul>
+<h1>PAnEn 4.3.0</h1>
+<ul>
 <li>Added <code><a class="el" href="class_an_en_s_s_e_m_s.html" title="AnEnSSEMS is derived from the class AnEnSSE. It is different from the base class in how forecast and ...">AnEnSSEMS</a></code> for matching stations. This addition has also been ported to <code>RAnEn</code>.</li>
 </ul>
 <h1>PAnEn 4.2.7</h1>
