@@ -183,6 +183,12 @@ void runAnEnNcdf(
         config.weights = vector<double>(forecasts.getParameters().size(), 1);
 
         profiler.log_time_session("Transforming features");
+
+        if (convert_wind) {
+            convert_wind = false;
+            if (config.verbose >= Verbose::Warning)
+                cerr << "Warning: AI transformation and wind transformation cannot be used together! Wind transformation is turned off!" << endl;
+        }
     }
 
 #endif    
@@ -192,8 +198,6 @@ void runAnEnNcdf(
      * Convert wind parameters if specified
      */
     if (convert_wind) {
-        if (!embedding_model.empty()) throw runtime_error("AI transformation and wind transformation cannot be used together!");
-
         if (config.verbose >= Verbose::Progress) cout << "Converting wind U/V to wind speed/direction ..." << endl;
         for (size_t name_index = 0; name_index < u_names.size(); name_index++) {
             forecasts.windTransform(u_names[name_index], v_names[name_index], spd_names[name_index], dir_names[name_index]);
