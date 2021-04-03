@@ -1,7 +1,7 @@
 /* 
  * File:   Forecasts.h
  * Author: Guido Cervone <cervone@psu.edu>
- *         Weiming Hu <cervone@psu.edu>
+ *         Weiming Hu <weiming@psu.edu>
  *
  * Created on April 18, 2018, 12:40 AM
  */

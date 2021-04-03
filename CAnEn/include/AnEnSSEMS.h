@@ -1,6 +1,6 @@
 /* 
  * File:   AnEnSSEMS.h
- * Author: Weiming Hu <cervone@psu.edu>
+ * Author: Weiming Hu <weiming@psu.edu>
  *
  * Created on Mar. 10, 2021, 17:13
  */

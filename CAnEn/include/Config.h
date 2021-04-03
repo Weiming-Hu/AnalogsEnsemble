@@ -1,7 +1,7 @@
 /* 
  * File:   Config.h
  * Author: Guido Cervone <cervone@psu.edu>
- *         Weiming Hu <cervone@psu.edu>
+ *         Weiming Hu <weiming@psu.edu>
  *
  * Created on January 31, 2020, 2:05 PM
  */

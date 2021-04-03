@@ -1,7 +1,7 @@
 /* 
  * File:   AnEn.h
  * Author: Guido Cervone <cervone@psu.edu>
- *         Weiming Hu <cervone@psu.edu>
+ *         Weiming Hu <weiming@psu.edu>
  * 
  * Created on January 7, 2020, 2:07 PM
  */
