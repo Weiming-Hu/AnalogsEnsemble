@@ -1,3 +1,7 @@
+# PAnEn 4.4.0
+
+- Introduced spatial analogs with `PyTorch` and deep learning
+
 # PAnEn 4.3.1
 
 - `anen_netcdf` can now accept reading from different subsets of observation and forecast stations.

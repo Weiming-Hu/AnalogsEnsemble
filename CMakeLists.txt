@@ -24,7 +24,7 @@ option(ENABLE_MPI "Use MPI" OFF)
 option(ENABLE_AI "Use AI for analog search" OFF)
 
 # Set variables
-set(GRAND_VERSION "4.3.1")
+set(GRAND_VERSION "4.4.0")
 set(GRAND_VERSION_NICKNAME "Pandora")
 set(WE_ARE "GEOlab @ Penn State")
 set(SUBPROJECT_TARGETS "AnEn;AnEnIO")
@@ -64,8 +64,9 @@ if(ENABLE_AI)
             "-- download LibTorch for C++/Java with cxx11 ABI from https://pytorch.org/\n"
             "-- unzip it\n"
             "-- include the directory of the folder in CMAKE_PREFIX_PATH.\n"
+            "-- include the directory of the folder in CMAKE_INSTALL_RPATH if you plan to run `make install` after `make`.\n"
             "If you still have problems, please open a ticket or check https://github.com/Weiming-Hu/AnalogsEnsemble/issues/110.\n"
-            "If you have multiple paths in CMAKE_PREFIX_PATH, use double quotes and ; as the separator.\n"
+            "If you have multiple paths in CMAKE_PREFIX_PATH or CMAKE_INSTALL_RPATH, use double quotes and ; as the separator.\n"
             "An example for cmake would be: cmake -DENABLE_AI=ON -DCMAKE_INSTALL_RPATH=[lib folder] -DCMAKE_PREFIX_PATH=[libtorch root] -DCMAKE_INSTALL_PREFIX=[install path] ..")
     endif(Torch_FOUND)
 
@@ -121,6 +122,9 @@ endif(Boost_MAJOR_VERSION STREQUAL "1")
 # Add libraries as subprojects
 add_subdirectory(CAnEn)
 add_subdirectory(CAnEnIO)
+if(ENABLE_AI)
+    add_subdirectory(Gridding)
+endif(ENABLE_AI)
 
 if(ENABLE_MPI)
     if(ENABLE_OPENMP)
