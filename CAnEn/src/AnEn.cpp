@@ -35,7 +35,8 @@ AnEn::getProfile() const {
     return profiler_;
 }
 
-void AnEn::print(ostream & os) const {
+void
+AnEn::print(ostream & os) const {
     os << Config::_VERBOSE << ": " << Functions::vtoi(verbose_) << endl;
     return;
 }
@@ -56,7 +57,8 @@ AnEn::operator=(const AnEn& rhs) {
     return *this;
 }
 
-void AnEn::setMembers_(const Config & config) {
+void
+AnEn::setMembers_(const Config & config) {
     // Copy the needed by this class from the configuration
     verbose_ = config.verbose;
     return;
