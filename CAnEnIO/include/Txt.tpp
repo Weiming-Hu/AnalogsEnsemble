@@ -7,12 +7,36 @@
 
 #include <fstream>
 
-// Boost does not provide the correct functions to read nan values 
+// Boost does not provide the correct functions to read/write nan values 
 // for double, the operator is overloaded.
 //
 namespace boost {
     namespace numeric {
         namespace ublas {
+
+            template<class E, class T, class MF, class MA>
+            std::basic_ostream<E, T> &operator << (std::basic_ostream<E, T> &os,
+                    const matrix_expression<matrix<double, MF, MA>> &m){
+                typedef typename matrix<double, MF, MA>::size_type size_type;
+                size_type size1 = m().size1();
+                size_type size2 = m().size2();
+                std::basic_ostringstream<E, T, std::allocator<E> > s;
+                s.flags (os.flags ());
+                s.imbue (os.getloc ());
+                s.precision (os.precision ());
+
+                for (size_t r = 0; r < size1; ++r) {
+                    for (size_t c = 0; c < size2; ++c) {
+                        double v = m()(r, c);
+                        if (std::isnan(v)) s << "nan";
+                        else s << v;
+
+                        if (c != size2 - 1) s << ",\t";
+                    }
+                    s << "\n";
+                }
+                return os << s.str ().c_str ();
+            }
 
             template<class E, class T, class MF, class MA>
             std::basic_istream<E, T> &operator>>(std::basic_istream<E, T> &is,
