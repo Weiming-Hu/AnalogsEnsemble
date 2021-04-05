@@ -66,7 +66,7 @@ if(ENABLE_AI)
             "-- include the directory of the folder in CMAKE_PREFIX_PATH.\n"
             "-- include the directory of the folder in CMAKE_INSTALL_RPATH if you plan to run `make install` after `make`.\n"
             "-- specify the python executable if not default in PYTHON_EXECUTABLE.\n"
-            "-- build shared libraries with -DBUILD_SHARED_LIBS=ON"
+            "-- build shared libraries with -DBUILD_SHARED_LIBS=ON.\n"
             "If you still have problems, please open a ticket or check https://github.com/Weiming-Hu/AnalogsEnsemble/issues/110.\n"
             "If you have multiple paths in CMAKE_PREFIX_PATH or CMAKE_INSTALL_RPATH, use double quotes and ; as the separator.\n"
             "An example for cmake would be: cmake -DPYTHON_EXECUTABLE=[python executable] -DBUILD_SHARED_LIBS=ON -DENABLE_AI=ON"
