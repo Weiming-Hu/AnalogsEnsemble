@@ -18,8 +18,6 @@
 namespace py = pybind11;
 using namespace pybind11::literals;
 
-py::module_ np = py::module_::import("numpy");
-
 PYBIND11_MODULE(AnEnGrid, m) {
     py::class_<Grid>(m, "AnEnGrid")
         .def(py::init<>())
@@ -40,17 +38,14 @@ PYBIND11_MODULE(AnEnGrid, m) {
                 Matrix mask;
                 self.getRectangle(station_key, mask, width, height, same_padding);
 
-                // Convert Boost Matrix to Numpy
-                py::array_t<double> arr = np.attr("full")(
-                        std::vector<ptrdiff_t>{mask.size1(), mask.size2()},
-                        NAN, "dtype"_a = "double");
+                // Convert Boost Matrix to a vector of vectors
+                std::vector< std::vector<double> > vv;
+                for (Matrix::iterator1 it1 = mask.begin1(); it1 != mask.end1(); ++it1) {
+                    std::vector<double> v(it1.begin(), it1.end());
+                    vv.push_back(v);
+                }
 
-                auto data = arr.mutable_unchecked<2>();
-                for (size_t i = 0; i < mask.size1(); ++i)
-                    for (size_t j = 0; j < mask.size2(); ++j)
-                        data(i, j) = mask(i, j);
-
-                return arr;
+                return vv;
 
                 }, "Get a rectangular mask");
 }
