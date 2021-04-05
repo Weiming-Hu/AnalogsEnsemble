@@ -2,7 +2,7 @@
  * File:   Grid.cpp
  * Author: Weiming Hu <weiming@psu.edu>
  *
- * Created on April 3, 20201, 11:15 AM
+ * Created on April 3, 2021, 11:15 AM
  */
 
 #include <cmath>
