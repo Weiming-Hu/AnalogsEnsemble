@@ -101,7 +101,7 @@ public:
     /**
      * Load a similarity model for AI inference.
      */
-    virtual void load_similarity_model(const std::string &);
+    virtual void load_similarity_model(const std::string &) override;
 #endif
 
 protected:
