@@ -54,6 +54,7 @@ public:
     virtual std::size_t ncols() const;
     virtual std::size_t nkeys() const;
     virtual std::string summary() const;
+    virtual std::string detail() const;
 
     friend std::ostream & operator<<(std::ostream &, const Grid &);
 

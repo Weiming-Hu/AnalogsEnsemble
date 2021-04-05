@@ -158,7 +158,14 @@ string
 Grid::summary() const {
     stringstream ss;
     ss << nrows() << " rows, " << ncols() << " columns, " << nkeys()
-        << " station keys, and " << nan_count_ << " grids with no station assigned";
+        << " station keys, and " << nan_count_ << " unassigned grids (nan)";
+    return ss.str();
+}
+
+string
+Grid::detail() const {
+    stringstream ss;
+    ss << grid_;
     return ss.str();
 }
 

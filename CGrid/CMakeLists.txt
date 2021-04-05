@@ -67,3 +67,22 @@ install(EXPORT GridConfig
     DESTINATION lib/cmake)
 
 install(FILES ${Grid_headers} DESTINATION include)
+
+# Build Python API
+message(STATUS "Configuring the library AnEnGrid")
+message(STATUS "Python exec: ${PYTHON_EXECUTABLE}")
+
+if (NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pybind11")
+    message(STATUS "Downloading pybind11 source with git ...")
+    find_package(Git REQUIRED QUIET)
+    execute_process(COMMAND ${GIT_EXECUTABLE} "clone"
+        "https://github.com/pybind/pybind11.git"
+        "${CMAKE_CURRENT_SOURCE_DIR}/pybind11")
+else ()
+    message(STATUS "pybind11 already exists at ${CMAKE_CURRENT_SOURCE_DIR}/pybind11")
+endif(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pybind11")
+
+add_subdirectory(pybind11)
+pybind11_add_module(AnEnGrid ${CMAKE_CURRENT_SOURCE_DIR}/src/GridPy.cpp)
+target_link_libraries(AnEnGrid PUBLIC Grid)
+
