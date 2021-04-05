@@ -1,6 +1,7 @@
 # PAnEn 4.4.0
 
 - Introduced spatial analogs with `PyTorch` and deep learning
+- Added new class `Grid` and the Python API `AnEnGrid`
 
 # PAnEn 4.3.1
 
