@@ -134,7 +134,7 @@ Txt::readMatrix(const std::string & file_path,
 
     using namespace std;
 
-    Txt::checkPath(file_path, Mode::Read, "");
+    Txt::checkPath(file_path, Mode::Read, ".txt");
     
     ifstream in;
 
@@ -159,7 +159,7 @@ Txt::writeMatrix(
 
     using namespace std;
 
-    Txt::checkPath(file_path, Mode::Write, "");
+    Txt::checkPath(file_path, Mode::Write, ".txt");
 
     ofstream out;
     out.open(file_path);
