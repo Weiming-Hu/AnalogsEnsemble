@@ -33,7 +33,8 @@ namespace boost {
 
                         if (c != size2 - 1) s << ",\t";
                     }
-                    s << "\n";
+
+                    if (r != size1 - 1) s << "\n";
                 }
                 return os << s.str ().c_str ();
             }
