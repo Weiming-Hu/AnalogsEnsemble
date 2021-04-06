@@ -887,7 +887,7 @@ AnEnIS::computeSimMetricAI_(const Forecasts & forecasts,
     long int num_features = forecasts.getParameters().size();
     auto x1 = at::full({1, num_features, 1, 1}, NAN, at::kFloat);
     auto x2 = at::full({1, num_features, 1, 1}, NAN, at::kFloat);
-    auto lead_time_code = at::full({1}, (long) flt_i, at::kLong);
+    auto lead_time_code = at::full({1}, (int) flt_i, at::kInt);
     auto normalization_flag = at::full({1}, true, at::kBool);
 
     for (long int feature_i = 0; feature_i < num_features; ++feature_i) {
