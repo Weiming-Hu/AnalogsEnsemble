@@ -20,9 +20,6 @@
 
 #include <boost/numeric/ublas/matrix.hpp>
 
-#include "Txt.h"
-#include "Forecasts.h"
-
 // The data structure to store grid locations
 //
 //          IMPORTANT NOTE
@@ -67,11 +64,5 @@ protected:
     Matrix grid_;
     RowCols row_cols_;
 };
-
-namespace GridQuery {
-    void rectangle(const Matrix & mask, std::size_t time_index,
-            long lead_time_index, long lead_time_radius,
-            const Forecasts & forecasts, Array4D & arr_to);
-}
 
 #endif /* GRID_H */

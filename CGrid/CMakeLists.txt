@@ -14,14 +14,13 @@ message(STATUS "Configuring the library Grid")
 
 # Define the source files
 set(Grid_source_files 
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/GridQuery.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Grid.cpp)
 
 # Define header files
 set(Grid_headers
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/GridQuery.h
     ${CMAKE_CURRENT_SOURCE_DIR}/include/Grid.h)
-
-# Find the dependent library and components
-#find_package(Boost 1.58.0 REQUIRED COMPONENTS date_time serialization)
 
 # Create target by explicitly listing all source files
 add_library(Grid ${Grid_source_files})
@@ -34,26 +33,7 @@ target_include_directories(Grid PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>)
 
-target_link_libraries(Grid 
-    PUBLIC AnEnIO::AnEnIO)
-
-#if(ENABLE_AI)
-#    target_compile_features(AnEn PUBLIC cxx_std_14)
-#    target_link_libraries(AnEn PUBLIC torch)
-#else(ENABLE_AI)
-#    target_compile_features(AnEn PUBLIC cxx_std_11)
-#endif(ENABLE_AI)
-
-#if(ENABLE_OPENMP)
-#    find_package(OpenMP)
-#
-#    if(OpenMP_CXX_FOUND)
-#        target_link_libraries(AnEn PUBLIC OpenMP::OpenMP_CXX)
-#    else(OpenMP_CXX_FOUND)
-#        message(WARNING "OpenMP (multi-threading) is not found")
-#    endif(OpenMP_CXX_FOUND)
-#
-#endif(ENABLE_OPENMP)
+target_link_libraries(Grid PUBLIC AnEnIO::AnEnIO)
 
 install(TARGETS Grid
     EXPORT GridConfig
@@ -68,9 +48,50 @@ install(EXPORT GridConfig
 
 install(FILES ${Grid_headers} DESTINATION include)
 
-# Build Python API
+###################################
+# Build Python API for Grid class #
+###################################
+
+# To build the API for the Grid class, I did not directly use the 
+# target Grid. Instead, I will create a second target, called GridOnly.
+#
+# The reason is to avoid shared library conflict. Grid has several
+# components, of which one (GridQuery) depends on AnEn. AnEn depends
+# on Torch. However, this Torch will conflict with the PyTorch built
+# by pip. There, in python, `import torch` will conflict with
+# `import AnEnGrid` because they each depend on a different libTorch
+# library.
+#
+# Therefore, since GridQuery is not needed in the API. Luckily, I 
+# can take that off the API and build GridOnly that does not depend
+# on AnEn. If you check the linked libraries to GridOnly, there is
+# nothing related to either AnEn or libTorch. As a result, importing
+# both torch and AnEnGrid in python won't conflict.
+
 message(STATUS "Configuring the library AnEnGrid")
 message(STATUS "Python exec: ${PYTHON_EXECUTABLE}")
+
+# Define the source files
+set(GridOnly_source_files 
+    ${CMAKE_CURRENT_SOURCE_DIR}/../CAnEnIO/src/Txt.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Grid.cpp)
+
+# Create target by explicitly listing all source files
+add_library(GridOnly ${GridOnly_source_files})
+
+# Create an alias target so that this works in sub directories
+add_library(GridOnly::GridOnly ALIAS GridOnly)
+
+target_include_directories(GridOnly PUBLIC 
+    ${CMAKE_CURRENT_SOURCE_DIR}/../CAnEnIO/include)
+
+# Configure the properties of this target
+target_include_directories(GridOnly PUBLIC 
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include>)
+
+find_package(Boost 1.58.0 REQUIRED COMPONENTS filesystem)
+target_link_libraries(GridOnly PUBLIC Boost::boost Boost::filesystem)
 
 if (NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pybind11")
     message(STATUS "Downloading pybind11 source with git ...")
@@ -84,5 +105,5 @@ endif(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pybind11")
 
 add_subdirectory(pybind11)
 pybind11_add_module(AnEnGrid ${CMAKE_CURRENT_SOURCE_DIR}/src/GridPy.cpp)
-target_link_libraries(AnEnGrid PUBLIC Grid)
+target_link_libraries(AnEnGrid PUBLIC GridOnly)
 

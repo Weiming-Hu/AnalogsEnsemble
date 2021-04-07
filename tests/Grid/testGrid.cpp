@@ -9,6 +9,7 @@
 #include <boost/numeric/ublas/io.hpp>
 
 #include "testGrid.h"
+#include "GridQuery.h"
 #include "AnEnReadNcdf.h"
 #include "ForecastsPointer.h"
 
