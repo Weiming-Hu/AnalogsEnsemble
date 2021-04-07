@@ -52,6 +52,10 @@ public:
     virtual std::size_t nkeys() const;
     virtual std::string summary() const;
     virtual std::string detail() const;
+    virtual double getMaxKey() const;
+
+    auto begin() const {return row_cols_.begin();};
+    auto end() const {return row_cols_.end();};
 
     friend std::ostream & operator<<(std::ostream &, const Grid &);
 

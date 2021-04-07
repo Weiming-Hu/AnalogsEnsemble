@@ -169,6 +169,19 @@ Grid::detail() const {
     return ss.str();
 }
 
+double
+Grid::getMaxKey() const {
+    if (row_cols_.size() == 0) throw runtime_error("Grid empty! No max to find.");
+
+    double max_val = 0;
+
+    for (auto & it:row_cols_) {
+        if (it.first > max_val) max_val = it.first;
+    }
+
+    return max_val;
+}
+
 ostream &
 operator<<(ostream & os, const Grid & obj) {
     return os << obj.grid_;
