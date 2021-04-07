@@ -9,7 +9,7 @@
 #include <boost/numeric/ublas/io.hpp>
 
 #include "testGrid.h"
-#include "GridQuery.h"
+//#include "GridQuery.h"
 #include "AnEnReadNcdf.h"
 #include "ForecastsPointer.h"
 
@@ -212,39 +212,40 @@ testGrid::testRectangleMask_() {
     CPPUNIT_ASSERT(false);
 }
 
-void
-testGrid::testQuery_() {
+// void
+// testGrid::testQuery_() {
+// 
+//     /*
+//      * Test querying a forecasts with a mask
+//      */
+// 
+//     Grid grid(file_grid2);
+//     cout << "Grid: " << endl << grid << endl;
+// 
+//     AnEnReadNcdf anen_read;
+//     ForecastsPointer forecasts;
+//     anen_read.readForecasts(file_forecasts, forecasts);
+// 
+//     Matrix mask;
+//     grid.getRectangle(7, mask, 3, 3);
+//     cout << mask << endl;
+// 
+//     Array4DPointer arr;
+//     GridQuery::rectangle(mask, 3, 0, 1, forecasts, arr);
+//     cout << arr << endl;
+// 
+//     vector<size_t> lead_times {0, 1};
+// 
+//     for (size_t i = 0; i < lead_times.size(); ++i) {
+//         for (size_t j = 0; j < forecasts.getParameters().size(); ++j) {
+//             for (size_t k = 0; k < 3; ++k) {
+//                 for (size_t m = 0; m < 3; ++m) {
+//                     double lhs = arr.getValue(i, j, k, m);
+//                     double rhs = forecasts.getValue(j, mask(k, m), 3, lead_times.at(i));
+//                     CPPUNIT_ASSERT(lhs == rhs);
+//                 }
+//             }
+//         }
+//     }
+// }
 
-    /*
-     * Test querying a forecasts with a mask
-     */
-
-    Grid grid(file_grid2);
-    cout << "Grid: " << endl << grid << endl;
-
-    AnEnReadNcdf anen_read;
-    ForecastsPointer forecasts;
-    anen_read.readForecasts(file_forecasts, forecasts);
-
-    Matrix mask;
-    grid.getRectangle(7, mask, 3, 3);
-    cout << mask << endl;
-
-    Array4DPointer arr;
-    GridQuery::rectangle(mask, 3, 0, 1, forecasts, arr);
-    cout << arr << endl;
-
-    vector<size_t> lead_times {0, 1};
-
-    for (size_t i = 0; i < lead_times.size(); ++i) {
-        for (size_t j = 0; j < forecasts.getParameters().size(); ++j) {
-            for (size_t k = 0; k < 3; ++k) {
-                for (size_t m = 0; m < 3; ++m) {
-                    double lhs = arr.getValue(i, j, k, m);
-                    double rhs = forecasts.getValue(j, mask(k, m), 3, lead_times.at(i));
-                    CPPUNIT_ASSERT(lhs == rhs);
-                }
-            }
-        }
-    }
-}

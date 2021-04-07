@@ -16,7 +16,7 @@ class testGrid : public CPPUNIT_NS::TestFixture {
 
     CPPUNIT_TEST(testReadPrint_);
     CPPUNIT_TEST(testRectangleMask_);
-    CPPUNIT_TEST(testQuery_);
+    //CPPUNIT_TEST(testQuery_);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -31,7 +31,7 @@ public:
 private:
     void testReadPrint_();
     void testRectangleMask_();
-    void testQuery_();
+    //void testQuery_();
 };
 
 #endif /* TESTGRID_H */
