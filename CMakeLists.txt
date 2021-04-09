@@ -22,6 +22,7 @@ option(BUILD_BOOST "Build Boost" OFF)
 option(ENABLE_OPENMP "Use OpenMP" ON)
 option(ENABLE_MPI "Use MPI" OFF)
 option(ENABLE_AI "Use AI for analog search" OFF)
+option(BUILD_PYGRID "Build the Python API for Grid library" OFF)
 
 # Set variables
 set(GRAND_VERSION "4.4.2")
@@ -60,17 +61,23 @@ if(ENABLE_AI)
     else(Torch_FOUND)
         message(FATAL_ERROR  "\n"
             "I couldn't find LibTorch. There are probably some more setting to do.\n"
+
             "You need to:\n"
             "-- download LibTorch for C++/Java with cxx11 ABI from https://pytorch.org/\n"
             "-- unzip it\n"
             "-- include the directory of the folder in CMAKE_PREFIX_PATH.\n"
             "-- include the directory of the folder in CMAKE_INSTALL_RPATH if you plan to run `make install` after `make`.\n"
-            "-- specify the python executable if not default in PYTHON_EXECUTABLE.\n"
-            "-- build shared libraries with -DBUILD_SHARED_LIBS=ON.\n"
-            "If you still have problems, please open a ticket or check https://github.com/Weiming-Hu/AnalogsEnsemble/issues/110.\n"
+
+            "If you want to use the spatial metric, you also need to include -DBUILD_PYGRID=ON -DBUILD_SHARED_LIBS=ON "
+            "-DPYTHON_EXECUTABLE=<python exec>. DO NOT run `make install` after `make`."
+            " Reasons here https://github.com/Weiming-Hu/AnalogsEnsemble/issues/81#issuecomment-816703664\n"
+
             "If you have multiple paths in CMAKE_PREFIX_PATH or CMAKE_INSTALL_RPATH, use double quotes and ; as the separator.\n"
-            "An example for cmake would be: cmake -DPYTHON_EXECUTABLE=[python executable] -DBUILD_SHARED_LIBS=ON -DENABLE_AI=ON"
-            " -DCMAKE_INSTALL_RPATH=[lib folder] -DCMAKE_PREFIX_PATH=[libtorch root] -DCMAKE_INSTALL_PREFIX=[install path] ..")
+
+            "If you still have problems, please open a ticket or check https://github.com/Weiming-Hu/AnalogsEnsemble/issues/110.\n"
+
+            "An example for cmake would be: cmake -DPYTHON_EXECUTABLE=[python executable] -DBUILD_PYGRID=ON -DBUILD_SHARED_LIBS=ON -DENABLE_AI=ON"
+            " -DCMAKE_INSTALL_RPATH=[libtorch lib] -DCMAKE_PREFIX_PATH=[libtorch root] -DCMAKE_INSTALL_PREFIX=[install path] ..")
     endif(Torch_FOUND)
 
     add_definitions(-D_ENABLE_AI)
