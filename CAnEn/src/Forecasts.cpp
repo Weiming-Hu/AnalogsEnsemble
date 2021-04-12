@@ -29,6 +29,8 @@
 
 using namespace std;
 
+// static const vector<size_t> _TEST_GRIDS = {275};  // Transform some grids [for test only]
+
 static const vector<string> _EMBEDDING_TYPE_DESC = {
     "1-dimensional embedding [parameters]",
     "2-dimensional embedding [parameters, lead times]",
@@ -228,7 +230,8 @@ Forecasts::featureTransform(const string & embedding_model_path, Verbose verbose
     // Embedding type 2 has a different station order
     vector<size_t> stations_index;
     if (embedding_type == 2) {
-        for (auto & it : grid_) stations_index.push_back(it.first);
+        for (auto & it : grid_) stations_index.push_back(it.first);  // Transform all available grids [for production]
+        // stations_index = _TEST_GRIDS;                             // Transform only some grids [for test only]
         num_stations = stations_index.size();
     }
 
@@ -388,12 +391,12 @@ Forecasts::featureTransform_3D_(at::Tensor & output, torch::jit::script::Module 
 
     if (verbose >= Verbose::Progress) cout << "Populating the tensor with 3-dimensional embeddings ([parameters, stations, lead times]) ..." << endl;
 
-    long int num_stations = grid_.nkeys();
-    if (num_stations  == 0) throw runtime_error("3D transformation requires a Grid. Call setGrid first!");
-
     // Get the station indices from the grid
-    vector<size_t> stations_index;
-    for (auto & it : grid_) stations_index.push_back(it.first);
+    // vector<size_t> stations_index = _TEST_GRIDS;              // Transform some grids [for test only]
+    for (auto & it : grid_) stations_index.push_back(it.first);  // Transform all grids [for production]
+    long int num_stations = stations_index.size();
+
+    if (num_stations  == 0) throw runtime_error("3D transformation requires a Grid. Call setGrid first!");
 
     // Read the spatial mask size from model
     int metric_height = -1;
