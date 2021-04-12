@@ -157,7 +157,7 @@ void runAnEnGrib(
     if (!embedding_model.empty()) {
 
         // Set up the grid
-        forecasts.setGrid(fcst_grid_file, config.verbose);
+        if (!fcst_grid_file.empty()) forecasts.setGrid(fcst_grid_file, config.verbose);
 
         if (save_tests) forecasts_backup = forecasts;
         profiler.log_time_session("Backing up original forecasts");

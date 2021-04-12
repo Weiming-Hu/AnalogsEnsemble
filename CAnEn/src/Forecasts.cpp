@@ -29,7 +29,7 @@
 
 using namespace std;
 
-// static const vector<size_t> _TEST_GRIDS = {275};  // Transform some grids [for test only]
+// static const vector<size_t> _TEST_GRIDS = {65};  // Transform some grids [for test only]
 
 static const vector<string> _EMBEDDING_TYPE_DESC = {
     "1-dimensional embedding [parameters]",
@@ -392,8 +392,9 @@ Forecasts::featureTransform_3D_(at::Tensor & output, torch::jit::script::Module 
     if (verbose >= Verbose::Progress) cout << "Populating the tensor with 3-dimensional embeddings ([parameters, stations, lead times]) ..." << endl;
 
     // Get the station indices from the grid
-    // vector<size_t> stations_index = _TEST_GRIDS;              // Transform some grids [for test only]
+    vector<size_t> stations_index;
     for (auto & it : grid_) stations_index.push_back(it.first);  // Transform all grids [for production]
+    // stations_index = _TEST_GRIDS;                             // Transform some grids [for test only]
     long int num_stations = stations_index.size();
 
     if (num_stations  == 0) throw runtime_error("3D transformation requires a Grid. Call setGrid first!");
