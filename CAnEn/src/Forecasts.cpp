@@ -29,7 +29,7 @@
 
 using namespace std;
 
-// static const vector<size_t> _TEST_GRIDS = {65};  // Transform some grids [for test only]
+// static const vector<size_t> _TEST_GRIDS = {1221};  // Transform some grids [for test only]
 
 static const vector<string> _EMBEDDING_TYPE_DESC = {
     "1-dimensional embedding [parameters]",
@@ -319,30 +319,28 @@ Forecasts::featureTransform_2D_(at::Tensor & output, torch::jit::script::Module 
     // Populate this tensor with the original features from forecasts
     if (verbose >= Verbose::Progress) cout << "Populating the tensor with 2-dimensional embeddings (parameters with lead times) ..." << endl;
 
-    vector<at::Tensor> tensor_outputs(num_lead_times);
+    vector<at::Tensor> tensor_outputs(num_lead_times * num_stations);
     size_t counter = 0;
 
 #if defined(_OPENMP)
-#pragma omp parallel for schedule(static)
+#pragma omp parallel for schedule(static) collapse(2)
 #endif
     for (long int lead_time_i = 0; lead_time_i < num_lead_times; ++lead_time_i) {
-
-        long int num_samples = num_stations * num_times;
-
-        // Calculate the window size
-        long int flt_left = lead_time_i - flt_radius;
-        long int flt_right = lead_time_i + flt_radius + 1;
-
-        if (flt_left < 0) flt_left = 0;
-        if (flt_right >= num_lead_times) flt_right = num_lead_times;
-
-        long int window_size = flt_right - flt_left;
-
-        // Flatten the array data into a long vector
-        vector<float> torch_data(num_samples * num_parameters * num_allowed_stations * window_size);
-        long int pos = 0;
-
         for (long int station_i = 0; station_i < num_stations; ++station_i) {
+
+            // Calculate the window size
+            long int flt_left = lead_time_i - flt_radius;
+            long int flt_right = lead_time_i + flt_radius + 1;
+
+            if (flt_left < 0) flt_left = 0;
+            if (flt_right >= num_lead_times) flt_right = num_lead_times;
+
+            long int window_size = flt_right - flt_left;
+
+            // Flatten the array data into a long vector
+            vector<float> torch_data(num_times * num_parameters * num_allowed_stations * window_size);
+            long int pos = 0;
+
             for (long int time_i = 0; time_i < num_times; ++time_i) {
                 for (long int parameter_i = 0; parameter_i < num_parameters; ++parameter_i) {
                     for (long int window_i = 0; window_i < window_size; ++window_i, ++pos) {
@@ -350,32 +348,32 @@ Forecasts::featureTransform_2D_(at::Tensor & output, torch::jit::script::Module 
                     }
                 }
             }
-        }
 
-        auto x = torch::from_blob(torch_data.data(), {num_samples, num_parameters, num_allowed_stations, window_size}, torch::TensorOptions());
-        auto add_cpp_routines = at::full({1}, true, at::kBool);
+            auto x = torch::from_blob(torch_data.data(), {num_times, num_parameters, num_allowed_stations, window_size}, torch::TensorOptions());
+            auto add_cpp_routines = at::full({1}, true, at::kBool);
 
-        // Initialize an empty vector
-        std::vector<torch::jit::IValue> inputs;
+            // Initialize an empty vector
+            std::vector<torch::jit::IValue> inputs;
 
-        inputs.push_back(x);
-        inputs.push_back(add_cpp_routines);
+            inputs.push_back(x);
+            inputs.push_back(add_cpp_routines);
 
-        // Disabling gradient calculation for the current thread
-        torch::NoGradGuard no_grad;
+            // Disabling gradient calculation for the current thread
+            torch::NoGradGuard no_grad;
 
-        // Execute the model
-        tensor_outputs[lead_time_i] = module.forward(inputs).toTensor();
+            // Execute the model
+            tensor_outputs[lead_time_i * num_stations + station_i] = module.forward(inputs).toTensor();
 
 #pragma omp critical
-        if (verbose >= Verbose::Detail) {
-            counter++;
-            cout << '\r' << "Features transformed for " << counter << "/" << num_lead_times << " lead times";
-            cout.flush();
+            if (verbose >= Verbose::Detail) {
+                counter++;
+                cout << '\r' << "Features transformed for " << counter << "/" << num_lead_times * num_stations;
+                cout.flush();
+            }
         }
     }
 
-    if (verbose >= Verbose::Detail) cout << '\r' << "Features transformed for all " << num_lead_times << " lead times"<< endl;
+    if (verbose >= Verbose::Detail) cout << '\r' << "Feature transformation complete!"<< endl;
 
     output = at::cat(tensor_outputs, 0);
     return;
@@ -415,7 +413,6 @@ Forecasts::featureTransform_3D_(at::Tensor & output, torch::jit::script::Module 
     // Copy values and call Torch routines
     vector<at::Tensor> tensor_outputs(num_lead_times * num_stations);
     size_t counter = 0;
-
 
 #if defined(_OPENMP)
 #pragma omp parallel for schedule(static) collapse(2)
