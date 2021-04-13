@@ -1,8 +1,9 @@
-# PAnEn 4.4.2
+# PAnEn 4.4.3
 
 - From this version, only keeping notes for major and minor version. Notes for patches are dismissed.
 - Introduced spatial analogs with `PyTorch` and deep learning
-- Added new class `Grid` and the Python API `AnEnGrid`
+- Added a new class `Grid` and the Python API `AnEnGrid`
+- Added a new command line tool, `anen_transform`
 - Moved `Txt` class from `AnEnIO` to the lower level class `Grid`
 
 # PAnEn 4.3.1

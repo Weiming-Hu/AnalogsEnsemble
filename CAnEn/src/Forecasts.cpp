@@ -365,7 +365,7 @@ Forecasts::featureTransform_2D_(at::Tensor & output, torch::jit::script::Module 
             tensor_outputs[lead_time_i * num_stations + station_i] = module.forward(inputs).toTensor();
 
 #pragma omp critical
-            if (verbose >= Verbose::Detail) {
+            if (verbose >= Verbose::Progress) {
                 counter++;
                 cout << '\r' << "Features transformed for " << counter << "/" << num_lead_times * num_stations;
                 cout.flush();
@@ -373,7 +373,7 @@ Forecasts::featureTransform_2D_(at::Tensor & output, torch::jit::script::Module 
         }
     }
 
-    if (verbose >= Verbose::Detail) cout << '\r' << "Feature transformation complete!"<< endl;
+    if (verbose >= Verbose::Progress) cout << '\r' << "Feature transformation complete!"<< endl;
 
     output = at::cat(tensor_outputs, 0);
     return;

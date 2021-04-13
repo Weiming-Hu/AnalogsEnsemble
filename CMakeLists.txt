@@ -25,7 +25,7 @@ option(ENABLE_AI "Use AI for analog search" OFF)
 option(BUILD_PYGRID "Build the Python API for Grid library" OFF)
 
 # Set variables
-set(GRAND_VERSION "4.4.2")
+set(GRAND_VERSION "4.4.3")
 set(GRAND_VERSION_NICKNAME "Pandora")
 set(WE_ARE "GEOlab @ Penn State")
 set(SUBPROJECT_TARGETS "AnEn;AnEnIO")
@@ -170,6 +170,10 @@ endif(ENABLE_MPI)
 add_subdirectory(apps/anen_grib)
 add_subdirectory(apps/anen_netcdf)
 add_subdirectory(apps/grib_convert)
+
+if(ENABLE_AI)
+    add_subdirectory(apps/anen_transform)
+endif(ENABLE_AI)
 
 find_package(CppUnit)
 if(CPPUNIT_FOUND)
