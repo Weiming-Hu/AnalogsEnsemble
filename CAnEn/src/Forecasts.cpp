@@ -440,8 +440,10 @@ Forecasts::featureTransform_3D_(at::Tensor & output, torch::jit::script::Module 
                 for (long int parameter_i = 0; parameter_i < num_parameters; ++parameter_i) {
                     for (long int height_i = 0; height_i < metric_height; ++height_i) {
                         for (long int width_i = 0; width_i < metric_width; ++width_i) {
+                            size_t grid_i = mask(height_i, width_i);
+
                             for (long int window_i = 0; window_i < window_size; ++window_i, ++pos) {
-                                torch_data[pos] = getValue(parameter_i, mask(height_i, width_i), time_i, flt_left + window_i);
+                                torch_data[pos] = getValue(parameter_i, grid_i, time_i, flt_left + window_i);
                             }
                         }
                     }
