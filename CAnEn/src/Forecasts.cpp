@@ -29,7 +29,7 @@
 
 using namespace std;
 
-// static const vector<size_t> _TEST_GRIDS = {1221};  // Transform some grids [for test only]
+// static const vector<size_t> _TEST_GRIDS = {275};  // Transform some grids [for test only]
 
 static const vector<string> _EMBEDDING_TYPE_DESC = {
     "1-dimensional embedding [parameters]",
@@ -199,7 +199,7 @@ Forecasts::featureTransform(const string & embedding_model_path, Verbose verbose
     // - Parameters
     // - Data
     //
-    if (verbose >= Verbose::Progress) cout << "Saving latent features ..." << endl;
+    if (verbose >= Verbose::Progress) cout << "Saving [" << num_latent_features << "] latent features ..." << endl;
     Parameters latent_features;
 
     for (long int feature_i = 0; feature_i < num_latent_features; ++feature_i) {
