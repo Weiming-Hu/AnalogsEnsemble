@@ -4,6 +4,7 @@
 - Introduced spatial analogs with `PyTorch` and deep learning
 - Added a new class `Grid` and the Python API `AnEnGrid`
 - Added a new command line tool, `anen_transform`
+- Added a new option `--no-norm` for AI embeddings
 - Moved `Txt` class from `AnEnIO` to the lower level class `Grid`
 
 # PAnEn 4.3.1

@@ -43,6 +43,7 @@ const string Config::_SAVE_SEARCH_STATIONS_IND = "save_search_stations_index";
 const string Config::_QUICK = "quick";
 const string Config::_EXCLUDE_CLOSEST_STATION = "exclude_closest_location";
 const string Config::_VERBOSE = "verbose";
+const string Config::_NO_NORM = "no_norm";
 
 const string Config::_DATA = "Data";
 const string Config::_PAR_NAMES = "ParameterNames";
@@ -109,6 +110,7 @@ Config::print(ostream & os) {
             << "save_sds: " << (save_sds ? "true" : "false") << endl
             << "save_obs_time_index_table: " << (save_obs_time_index_table ? "true" : "false") << endl
             << "save_search_stations_index: " << (save_search_stations_index ? "true" : "false") << endl
+            << "no_norm: " << (no_norm ? "true" : "false") << endl
             << "weights: " << (weights.size() > 0 ? Functions::format(weights) : "[equally weighted with 1s]") << endl
             << "verbose: " << Functions::vtoi(verbose) << " (" << Functions::vtos(verbose) << ")" << endl;
     return;
@@ -164,6 +166,7 @@ Config::reset() {
     save_sds = false;
     save_obs_time_index_table = false;
     save_search_stations_index = false;
+    no_norm = false;
     verbose = Verbose::Warning;
     worker_verbose = Verbose::Warning;
 

@@ -297,6 +297,7 @@ AnEnIS::print(ostream & os) const {
             << Config::_OPERATION << ": " << operation_ << endl
             << Config::_QUICK << ": " << quick_sort_ << endl
             << Config::_PREVENT_SEARCH_FUTURE << ": " << prevent_search_future_ << endl
+            << Config::_NO_NORM << ": " << no_norm_ << endl
 #if defined(_ENABLE_AI)
             << "Use AI similarity: " << use_AI_ << endl
 #endif
@@ -348,6 +349,7 @@ AnEnIS::operator=(const AnEnIS& rhs) {
         operation_ = rhs.operation_;
         quick_sort_ = rhs.quick_sort_;
         prevent_search_future_ = rhs.prevent_search_future_;
+        no_norm_ = rhs.no_norm_;
         sds_ = rhs.sds_;
         sds_time_index_map_ = rhs.sds_time_index_map_;
         sims_metric_ = rhs.sims_metric_;
@@ -409,6 +411,10 @@ bool AnEnIS::quick_sort() const {
 
 bool AnEnIS::prevent_search_future() const {
     return prevent_search_future_;
+}
+
+bool AnEnIS::no_norm() const {
+    return no_norm_;
 }
 
 const vector<double>& AnEnIS::weights() const {
@@ -578,6 +584,7 @@ AnEnIS::setMembers_(const Config & config) {
     operation_ = config.operation;
     quick_sort_ = config.quick_sort;
     prevent_search_future_ = config.prevent_search_future;
+    no_norm_ = config.no_norm;
     weights_ = config.weights;
 
     use_AI_ = false;
@@ -631,7 +638,9 @@ AnEnIS::computeSimMetric_(const Forecasts & forecasts,
         if (weights_[parameter_i] == 0) continue;
 
         // Get standard deviation for this parameter
-        if (operation_) {
+        if (no_norm_) {
+            sd = 1;
+        } else if (operation_) {
             sd = sds_.getValue(parameter_i, sta_search_i, flt_i, sds_time_index_map_[time_test_i]);
         } else {
             sd = sds_.getValue(parameter_i, sta_search_i, flt_i, 0);
