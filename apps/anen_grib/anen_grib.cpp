@@ -477,7 +477,7 @@ int main(int argc, char** argv) {
             ("exclude-closest-location", bool_switch(&(config.exclude_closest_location))->default_value(config.exclude_closest_location), "[Optional] Whether to exclude the closest station in the search stations. Only valid for SSE.")
             ("operation", bool_switch(&(config.operation))->default_value(config.operation), "[Optional] Use operational mode.")
             ("prevent-search-future", bool_switch(&(config.prevent_search_future))->default_value(config.prevent_search_future), "[Optional] Prevent using observations that are later than the current test forecast. Change this in *.cfg")
-            ("no-norm", bool_switch(&(config.no_norm))->default_value(config.no_norm), "[Optional] Whether to skip standard deviation normalization. This is useful when an AI embedding model has been applied.")
+            ("no-norm", bool_switch(&(config.no_norm))->default_value(config.no_norm), "[Optional] Whether to skip standard deviation normalization")
             ("save-analogs", bool_switch(&(config.save_analogs))->default_value(config.save_analogs), "[Optional] Save analogs. Change this in *.cfg")
             ("save-analogs-time-index", bool_switch(&(config.save_analogs_time_index))->default_value(config.save_analogs_time_index), "[Optional] Save time indices of analogs.")
             ("save-sims", bool_switch(&(config.save_sims))->default_value(config.save_sims), "[Optional] Save similarity.")

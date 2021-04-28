@@ -29,7 +29,7 @@
 
 using namespace std;
 
-// static const vector<size_t> _TEST_GRIDS = {275};  // Transform some grids [for test only]
+// static const vector<size_t> _TEST_GRIDS = {1221};  // Transform some grids [for test only]
 
 static const vector<string> _EMBEDDING_TYPE_DESC = {
     "1-dimensional embedding [parameters]",
