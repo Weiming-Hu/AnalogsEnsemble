@@ -54,7 +54,7 @@ add_library(AnEnIO::AnEnIO ALIAS AnEnIO)
 
 # Configure the properties of this target
 target_link_libraries(AnEnIO PUBLIC
-    AnEn::AnEn Grid::Grid Boost::date_time ${NETCDF_LIBRARIES}
+    AnEn::AnEn Boost::date_time ${NETCDF_LIBRARIES}
     Boost::filesystem ${ECCODES_LIBRARIES})
 
 target_include_directories(AnEnIO SYSTEM PUBLIC 
