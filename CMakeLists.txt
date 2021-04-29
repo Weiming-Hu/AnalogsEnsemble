@@ -24,6 +24,9 @@ option(ENABLE_MPI "Use MPI" OFF)
 option(ENABLE_AI "Use AI for analog search" OFF)
 option(BUILD_PYGRID "Build the Python API for Grid library" OFF)
 
+# Compatibility
+cmake_policy(SET CMP0074 NEW)
+
 # Set variables
 set(GRAND_VERSION "4.4.3")
 set(GRAND_VERSION_NICKNAME "Pandora")
@@ -132,10 +135,8 @@ endif(Boost_MAJOR_VERSION STREQUAL "1")
 # Add libraries as subprojects
 add_subdirectory(CAnEn)
 add_subdirectory(CAnEnIO)
-if(ENABLE_AI)
-    add_subdirectory(CGrid)
-    list(APPEND SUBPROJECT_TARGETS "Grid")
-endif(ENABLE_AI)
+add_subdirectory(CGrid)
+list(APPEND SUBPROJECT_TARGETS "Grid")
 
 if(ENABLE_MPI)
     if(ENABLE_OPENMP)

@@ -34,6 +34,7 @@ target_include_directories(Grid PUBLIC
 
 find_package(Boost 1.58.0 REQUIRED COMPONENTS filesystem)
 target_link_libraries(Grid PUBLIC Boost::boost Boost::filesystem)
+target_compile_features(Grid PUBLIC cxx_std_14)
 
 install(TARGETS Grid
     EXPORT GridConfig
