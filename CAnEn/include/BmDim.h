@@ -1,6 +1,6 @@
 /* 
  * File:   BmDim.h
- * Author: Weiming Hu <cervone@psu.edu>
+ * Author: Weiming Hu <weiming@psu.edu>
  *
  * Created on January 8, 2020, 12:38 PM
  */

@@ -88,6 +88,7 @@ AnEnWriteNcdf::writeAnEn(const string & file, const AnEnIS & anen,
     Ncdf::writeAttribute(nc, Config::_OPERATION, (int) anen.operation(), NcType::nc_INT, overwrite);
     Ncdf::writeAttribute(nc, Config::_QUICK, (int) anen.quick_sort(), NcType::nc_INT, overwrite);
     Ncdf::writeAttribute(nc, Config::_PREVENT_SEARCH_FUTURE, (int) anen.prevent_search_future(), NcType::nc_INT, overwrite);
+    Ncdf::writeAttribute(nc, Config::_NO_NORM, (int) anen.no_norm(), NcType::nc_INT, overwrite);
 
     // Save weights with fixed length dimension of num_parameters
     Ncdf::writeVector(nc, Config::_WEIGHTS, Config::_DIM_PARS, anen.weights(), NcType::nc_DOUBLE, false);

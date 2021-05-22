@@ -1,7 +1,7 @@
 /* 
  * File:   ObservationsPointer.cpp
  * Author: Guido Cervone <cervone@psu.edu>
- *         Weiming Hu <cervone@psu.edu>
+ *         Weiming Hu <weiming@psu.edu>
  * 
  * Created on January 27, 2020, 5:39 PM
  */

@@ -1,7 +1,7 @@
 /* 
  * File:   Array4D.cpp
  * Author: Guido Cervone <cervone@psu.edu>
- *         Weiming Hu <cervone@psu.edu>
+ *         Weiming Hu <weiming@psu.edu>
  * 
  * Created on January 29, 2020, 12:36 PM
  */

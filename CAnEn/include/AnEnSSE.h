@@ -1,7 +1,7 @@
 /* 
  * File:   AnEnSSE.h
  * Author: Guido Cervone <cervone@psu.edu>
- *         Weiming Hu <cervone@psu.edu>
+ *         Weiming Hu <weiming@psu.edu>
  *
  * Created on January 29, 2020, 5:08 PM
  */

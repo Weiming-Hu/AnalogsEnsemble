@@ -38,3 +38,13 @@ if(ENABLE_MPI)
     target_link_libraries(testAnEnMPI PUBLIC AnEnMPI::AnEnMPI)
 endif(ENABLE_MPI)
 
+if(ENABLE_AI)
+    find_package(Grid REQUIRED)
+
+    add_definitions(-D_PATH_GRID1="${CMAKE_CURRENT_SOURCE_DIR}/Data/example_grid1.txt")
+    add_definitions(-D_PATH_GRID2="${CMAKE_CURRENT_SOURCE_DIR}/Data/example_grid2.txt")
+
+    PAnEn_test_this("Grid")
+    target_link_libraries(testGrid PUBLIC Grid)
+endif(ENABLE_AI)
+

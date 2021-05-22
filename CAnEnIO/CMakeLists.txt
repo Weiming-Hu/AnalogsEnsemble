@@ -23,8 +23,7 @@ set(AnEnIO_source_files
     ${CMAKE_CURRENT_SOURCE_DIR}/src/AnEnWriteNcdf.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/FunctionsIO.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Ncdf.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/ParameterGrib.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Txt.cpp)
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/ParameterGrib.cpp)
 
 # Define AnEnIO headers
 set(AnEnIO_headers
@@ -35,9 +34,7 @@ set(AnEnIO_headers
     ${CMAKE_CURRENT_SOURCE_DIR}/include/FunctionsIO.h
     ${CMAKE_CURRENT_SOURCE_DIR}/include/Ncdf.h
     ${CMAKE_CURRENT_SOURCE_DIR}/include/Ncdf.tpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/include/ParameterGrib.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/include/Txt.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/include/Txt.tpp)
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/ParameterGrib.h)
 
 # We have provided some cmake modules to find libraries
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
@@ -56,9 +53,9 @@ add_library(AnEnIO ${AnEnIO_source_files})
 add_library(AnEnIO::AnEnIO ALIAS AnEnIO)
 
 # Configure the properties of this target
-target_link_libraries(AnEnIO
-    PUBLIC AnEn::AnEn Boost::date_time ${NETCDF_LIBRARIES}
-    PRIVATE Boost::filesystem ${ECCODES_LIBRARIES})
+target_link_libraries(AnEnIO PUBLIC
+    AnEn::AnEn Boost::date_time ${NETCDF_LIBRARIES}
+    Boost::filesystem ${ECCODES_LIBRARIES})
 
 target_include_directories(AnEnIO SYSTEM PUBLIC 
     ${ECCODES_INCLUDES} ${NETCDF_INCLUDES})

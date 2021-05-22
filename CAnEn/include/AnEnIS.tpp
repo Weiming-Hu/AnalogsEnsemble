@@ -1,7 +1,7 @@
 /* 
  * File:   AnEnIS.tpp
  * Author: Guido Cervone <cervone@psu.edu>
- *         Weiming Hu <cervone@psu.edu>
+ *         Weiming Hu <weiming@psu.edu>
  *
  * Created on February 1, 2020, 12:31 PM
  */

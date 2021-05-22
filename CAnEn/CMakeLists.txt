@@ -71,7 +71,7 @@ target_include_directories(AnEn PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>)
 
-target_link_libraries(AnEn PUBLIC Boost::boost Boost::serialization Boost::date_time)
+target_link_libraries(AnEn PUBLIC Grid::Grid Boost::boost Boost::serialization Boost::date_time)
 
 if(ENABLE_AI)
     target_compile_features(AnEn PUBLIC cxx_std_14)

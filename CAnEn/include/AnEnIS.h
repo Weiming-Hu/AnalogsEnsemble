@@ -1,7 +1,7 @@
 /* 
  * File:   AnEnIS.h
  * Author: Guido Cervone <cervone@psu.edu>
- *         Weiming Hu <cervone@psu.edu>
+ *         Weiming Hu <weiming@psu.edu>
  *
  * Created on January 8, 2020, 11:40 AM
  */
@@ -76,6 +76,7 @@ public:
     bool operation() const;
     bool quick_sort() const;
     bool prevent_search_future() const;
+    bool no_norm() const;
     const std::vector<double> & weights() const;
     const Array4DPointer & sds() const;
     const Array4DPointer & sims_metric() const;
@@ -101,7 +102,7 @@ public:
     /**
      * Load a similarity model for AI inference.
      */
-    virtual void load_similarity_model(const std::string &);
+    virtual void load_similarity_model(const std::string &) override;
 #endif
 
 protected:
@@ -119,6 +120,7 @@ protected:
     bool operation_;
     bool quick_sort_;
     bool prevent_search_future_;
+    bool no_norm_;
     
     std::vector<double> weights_;
 

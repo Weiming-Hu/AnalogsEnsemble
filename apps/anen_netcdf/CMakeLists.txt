@@ -20,7 +20,7 @@ find_package(Boost 1.58.0 REQUIRED COMPONENTS program_options)
 add_executable(${PROJECT_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/anen_netcdf.cpp)
 
 # Configure the properties of this target
-target_link_libraries(${PROJECT_NAME} PRIVATE AnEnIO::AnEnIO Boost::program_options)
+target_link_libraries(${PROJECT_NAME} PUBLIC AnEnIO::AnEnIO Boost::program_options)
 
 # Export the executable
 install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}Targets RUNTIME DESTINATION bin)
@@ -36,9 +36,9 @@ if(ENABLE_MPI)
 
     # Add executable
     add_executable(${PROJECT_NAME}_mpi ${CMAKE_CURRENT_SOURCE_DIR}/anen_netcdf.cpp)
-    target_compile_definitions(${PROJECT_NAME}_mpi PRIVATE -D_USE_MPI_EXTENSION)
+    target_compile_definitions(${PROJECT_NAME}_mpi PUBLIC -D_USE_MPI_EXTENSION)
 
-    target_link_libraries(${PROJECT_NAME}_mpi PRIVATE
+    target_link_libraries(${PROJECT_NAME}_mpi PUBLIC
         AnEnMPI::AnEnMPI AnEnIOMPI::AnEnIOMPI Boost::program_options)
 
     install(TARGETS ${PROJECT_NAME}_mpi EXPORT

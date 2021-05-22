@@ -64,7 +64,8 @@ void runAnEnNcdf(
         const vector<string> & dir_names,
         const string & embedding_model,
         const string & similarity_model,
-        long int ai_flt_radius) {
+        long int ai_flt_radius,
+        const string & fcst_grid_file) {
 
 
     /**************************************************************************
@@ -173,6 +174,10 @@ void runAnEnNcdf(
      * Convert forecast variables with AI
      */
     if (!embedding_model.empty()) {
+
+        // Set up the grid
+        if (!fcst_grid_file.empty()) forecasts.setGrid(fcst_grid_file, config.verbose);
+
         if (save_tests) forecasts_backup = forecasts;
         profiler.log_time_session("Backing up original forecasts");
 
@@ -395,7 +400,7 @@ int main(int argc, char** argv) {
 
     // Optional variables
     int verbose;
-    string algorithm;
+    string algorithm, fcst_grid_file;
     vector<size_t> obs_id, fcst_stations_subset;
     vector<string> config_files, u_names, v_names, spd_names, dir_names, test_times_str;
     int fcst_station_start, fcst_station_count, obs_station_start, obs_station_count;
@@ -449,6 +454,7 @@ int main(int argc, char** argv) {
             ("exclude-closest-location", bool_switch(&(config.exclude_closest_location))->default_value(config.exclude_closest_location), "[Optional] Whether to exclude the closest station in the search stations. Only valid for SSE.")
             ("operation", bool_switch(&(config.operation))->default_value(config.operation), "[Optional] Use operational mode.")
             ("prevent-search-future", bool_switch(&(config.prevent_search_future))->default_value(config.prevent_search_future), "[Optional] Prevent using observations that are later than the current test forecast. Change this in *.cfg")
+            ("no-norm", bool_switch(&(config.no_norm))->default_value(config.no_norm), "[Optional] Whether to skip standard deviation normalization")
             ("save-analogs", bool_switch(&(config.save_analogs))->default_value(config.save_analogs), "[Optional] Save analogs. Change this in *.cfg")
             ("save-analogs-time-index", bool_switch(&(config.save_analogs_time_index))->default_value(config.save_analogs_time_index), "[Optional] Save time indices of analogs.")
             ("save-sims", bool_switch(&(config.save_sims))->default_value(config.save_sims), "[Optional] Save similarity.")
@@ -461,7 +467,8 @@ int main(int argc, char** argv) {
             ("name-u", value< vector<string> >(&u_names)->multitoken(), "[Optional] Parameter name(s) for U component of wind")
             ("name-v", value< vector<string> >(&v_names)->multitoken(), "[Optional] Parameter name(s) for V component of wind")
             ("name-spd", value< vector<string> >(&spd_names)->multitoken(), "[Optional] Parameter name(s) for wind speed")
-            ("name-dir", value< vector<string> >(&dir_names)->multitoken(), "[Optional] Parameter name(s) for wind direction");
+            ("name-dir", value< vector<string> >(&dir_names)->multitoken(), "[Optional] Parameter name(s) for wind direction")
+            ("fcst-grid", value<string>(&fcst_grid_file), "[Optional] A grid file to be associated with forecasts. Currently only used within the spatial metric with AI.");
 
     // Get all the available options
     vector<string> available_options;
@@ -633,7 +640,7 @@ int main(int argc, char** argv) {
     runAnEnNcdf(forecast_file, observation_file, fcst_station_start, fcst_station_count, fcst_stations_subset, obs_station_start, obs_station_count,
             obs_id, test_start, test_end, test_times_str, search_start, search_end, fileout, 
             algorithm, config, overwrite, profile, save_tests, unwrap_obs, convert_wind,
-            u_names, v_names, spd_names, dir_names, embedding_model, similarity_model, ai_flt_radius);
+            u_names, v_names, spd_names, dir_names, embedding_model, similarity_model, ai_flt_radius, fcst_grid_file);
 
 #if defined(_USE_MPI_EXTENSION)
     MPI_Finalize();
