@@ -69,13 +69,13 @@ $(function() {
 Functions</h2></td></tr>
 <tr class="memitem:a9bc197b0276ad65d1aa37634c991fd91"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions_i_o.html#a9bc197b0276ad65d1aa37634c991fd91">toParameterVector</a> (std::vector&lt; <a class="el" href="class_parameter_grib.html">ParameterGrib</a> &gt; &amp;, const std::vector&lt; std::string &gt; &amp;parameters_name, const std::vector&lt; long &gt; &amp;parameters_id, const std::vector&lt; long &gt; &amp;parameters_level, const std::vector&lt; std::string &gt; &amp;parameters_level_type, const std::vector&lt; bool &gt; &amp;parameters_circular={}, <a class="el" href="_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9">Verbose</a> verbose=<a class="el" href="_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9a0eaadb4fcb48a0a0ed7bc9868be9fbaa">Verbose::Warning</a>)</td></tr>
 <tr class="separator:a9bc197b0276ad65d1aa37634c991fd91"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6024a51c786592e14234754fa74a09dc"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions_i_o.html#a6024a51c786592e14234754fa74a09dc">parseFilename</a> (<a class="el" href="class_time.html">Time</a> &amp;time, <a class="el" href="class_time.html">Time</a> &amp;flt, const std::string &amp;file, const boost::gregorian::date &amp;start_day, const boost::xpressive::sregex &amp;rex, size_t unit_in_seconds, bool delimited)</td></tr>
+<tr class="memitem:a6024a51c786592e14234754fa74a09dc"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions_i_o.html#a6024a51c786592e14234754fa74a09dc">parseFilename</a> (<a class="el" href="class_time.html">Time</a> &amp;time, <a class="el" href="class_time.html">Time</a> &amp;flt, const std::string &amp;file, const boost::gregorian::date &amp;start_day, const boost::xpressive::sregex &amp;rex, <a class="el" href="detail_2common_8h.html#a801d6a451a01953ef8cbae6feb6a3638">size_t</a> unit_in_seconds, bool delimited)</td></tr>
 <tr class="separator:a6024a51c786592e14234754fa74a09dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a27e5e5d33b85b14b1302e86dd064a3b3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions_i_o.html#a27e5e5d33b85b14b1302e86dd064a3b3">parseFilenames</a> (<a class="el" href="class_times.html">Times</a> &amp;, <a class="el" href="class_times.html">Times</a> &amp;, const std::vector&lt; std::string &gt; &amp;files, const std::string &amp;regex_str, size_t unit_in_seconds, bool delimited)</td></tr>
+<tr class="memitem:a27e5e5d33b85b14b1302e86dd064a3b3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions_i_o.html#a27e5e5d33b85b14b1302e86dd064a3b3">parseFilenames</a> (<a class="el" href="class_times.html">Times</a> &amp;, <a class="el" href="class_times.html">Times</a> &amp;, const std::vector&lt; std::string &gt; &amp;files, const std::string &amp;regex_str, <a class="el" href="detail_2common_8h.html#a801d6a451a01953ef8cbae6feb6a3638">size_t</a> unit_in_seconds, bool delimited)</td></tr>
 <tr class="separator:a27e5e5d33b85b14b1302e86dd064a3b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaafbb3a1597e0dd129a3b82924542a32"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions_i_o.html#aaafbb3a1597e0dd129a3b82924542a32">listFiles</a> (std::vector&lt; std::string &gt; &amp;files, const std::string &amp;folder, const std::string &amp;regex_str)</td></tr>
 <tr class="separator:aaafbb3a1597e0dd129a3b82924542a32"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a14183471a94f9acf34e35bbf2ed552c7"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions_i_o.html#a14183471a94f9acf34e35bbf2ed552c7">totalFiles</a> (const std::string &amp;folder)</td></tr>
+<tr class="memitem:a14183471a94f9acf34e35bbf2ed552c7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="detail_2common_8h.html#a801d6a451a01953ef8cbae6feb6a3638">size_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions_i_o.html#a14183471a94f9acf34e35bbf2ed552c7">totalFiles</a> (const std::string &amp;folder)</td></tr>
 <tr class="separator:a14183471a94f9acf34e35bbf2ed552c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
@@ -152,7 +152,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">size_t&#160;</td>
+          <td class="paramtype"><a class="el" href="detail_2common_8h.html#a801d6a451a01953ef8cbae6feb6a3638">size_t</a>&#160;</td>
           <td class="paramname"><em>unit_in_seconds</em>, </td>
         </tr>
         <tr>
@@ -204,7 +204,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">size_t&#160;</td>
+          <td class="paramtype"><a class="el" href="detail_2common_8h.html#a801d6a451a01953ef8cbae6feb6a3638">size_t</a>&#160;</td>
           <td class="paramname"><em>unit_in_seconds</em>, </td>
         </tr>
         <tr>
@@ -288,7 +288,7 @@ Functions</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">size_t FunctionsIO::totalFiles </td>
+          <td class="memname"><a class="el" href="detail_2common_8h.html#a801d6a451a01953ef8cbae6feb6a3638">size_t</a> FunctionsIO::totalFiles </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>folder</em></td><td>)</td>

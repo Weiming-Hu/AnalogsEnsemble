@@ -1,0 +1,4 @@
+<map id="move_only_holder_caster&lt; type, holder_type, SFINAE &gt;" name="move_only_holder_caster&lt; type, holder_type, SFINAE &gt;">
+<area shape="rect" id="node2" href="$structmove__only__holder__caster.html" title="{move_only_holder_caster\l\&lt; type, std::unique_ptr\l\&lt; type, deleter \&gt; \&gt;\n|+ name\l|+ cast()\l}" alt="" coords="21,175,192,281"/>
+<area shape="rect" id="node3" href="$classtype__caster_3_01std_1_1unique__ptr_3_01type_00_01deleter_01_4_01_4.html" title="{type_caster\&lt; std::unique\l_ptr\&lt; type, deleter \&gt; \&gt;\n||}" alt="" coords="23,331,190,423"/>
+</map>

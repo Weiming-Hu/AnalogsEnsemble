@@ -1,8 +1,7 @@
 var searchData=
 [
-  ['neighborexists_5f',['neighborExists_',['../classtest_functions.html#a241be31d80ef286b3ae0fa6c5fdbd069',1,'testFunctions']]],
-  ['num_5fanalogs',['num_analogs',['../class_an_en_i_s.html#aefc0dd84ac0143790e6cc07a5747e4a8',1,'AnEnIS']]],
-  ['num_5felements',['num_elements',['../class_array4_d.html#a3827e96fb1adea99f1a5317791639d3e',1,'Array4D::num_elements()'],['../class_array4_d_pointer.html#ae49af77f9069a8952985b6406350e3c9',1,'Array4DPointer::num_elements()'],['../class_observations.html#abf3d645db2d29a6033554f094cf580fe',1,'Observations::num_elements()'],['../class_observations_pointer.html#ab33f1b7acffa2c95d058c6cbca1bb5c6',1,'ObservationsPointer::num_elements()']]],
-  ['num_5fnearest',['num_nearest',['../class_an_en_s_s_e.html#a918050232c81c34268e283b4c84ca7a9',1,'AnEnSSE']]],
-  ['num_5fsims',['num_sims',['../class_an_en_i_s.html#ad2e3212455e9d7298ad34336889eea33',1,'AnEnIS']]]
+  ['keep_5falive_5fimpl',['keep_alive_impl',['../attr_8h.html#a330db1e9b00eb07891225cb140113da2',1,'keep_alive_impl(size_t Nurse, size_t Patient, function_call &amp;call, handle ret):&#160;pybind11.h'],['../type__caster__base_8h.html#a8930f52c7348c6cf3c2c9195abbb3964',1,'keep_alive_impl(handle nurse, handle patient):&#160;pybind11.h'],['../pybind11_8h.html#a8930f52c7348c6cf3c2c9195abbb3964',1,'keep_alive_impl(handle nurse, handle patient):&#160;pybind11.h'],['../pybind11_8h.html#aa1bda75120c8e859c75dfd2f5a266c7b',1,'keep_alive_impl(size_t Nurse, size_t Patient, function_call &amp;call, handle ret):&#160;pybind11.h']]],
+  ['kind',['kind',['../classdtype.html#a18ed8c10011953681620744776e2c984',1,'dtype']]],
+  ['kwargs',['kwargs',['../classsimple__collector.html#a41400f1ddfad6849df25ef53f084762b',1,'simple_collector::kwargs()'],['../classunpacking__collector.html#a14ceb5d3912c58d37b244dd5b7824aad',1,'unpacking_collector::kwargs() const &amp;'],['../classunpacking__collector.html#ad623100e5a5b6ce8adb01dc8d86e5655',1,'unpacking_collector::kwargs() &amp;&amp;']]],
+  ['kwargs_5fproxy',['kwargs_proxy',['../classkwargs__proxy.html#a365362a83bba30bd75f8bc610dd93563',1,'kwargs_proxy']]]
 ];

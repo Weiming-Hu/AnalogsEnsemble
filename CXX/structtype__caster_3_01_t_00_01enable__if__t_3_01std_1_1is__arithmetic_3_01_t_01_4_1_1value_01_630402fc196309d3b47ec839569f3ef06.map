@@ -1,0 +1,2 @@
+<map id="type_caster&lt; T, enable_if_t&lt; std::is_arithmetic&lt; T &gt;::value &amp;&amp;!is_std_char_type&lt; T &gt;::value &gt; &gt;" name="type_caster&lt; T, enable_if_t&lt; std::is_arithmetic&lt; T &gt;::value &amp;&amp;!is_std_char_type&lt; T &gt;::value &gt; &gt;">
+</map>

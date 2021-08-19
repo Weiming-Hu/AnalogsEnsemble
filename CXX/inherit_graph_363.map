@@ -1,0 +1,12 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classtype__caster__generic.html" title="type_caster_generic" alt="" coords="5,187,144,214"/>
+<area shape="rect" id="node2" href="$classtype__caster__base.html" title="Generic type caster for objects stored on the heap. " alt="" coords="192,103,367,130"/>
+<area shape="rect" id="node6" href="$classtype__caster__base.html" title="type_caster_base\&lt; String\lType \&gt;" alt="" coords="194,180,365,221"/>
+<area shape="rect" id="node8" href="$classtype__caster__base.html" title="type_caster_base\&lt; T \&gt;" alt="" coords="201,246,358,273"/>
+<area shape="rect" id="node3" href="$structcopyable__holder__caster.html" title="copyable_holder_caster\l\&lt; type, holder_type, SFINAE \&gt;" alt="" coords="415,5,617,47"/>
+<area shape="rect" id="node4" href="$classtype__caster.html" title="type_caster\&lt; type,\l SFINAE \&gt;" alt="" coords="451,71,581,112"/>
+<area shape="rect" id="node5" href="$classtype__caster.html" title="type_caster\&lt; type \&gt;" alt="" coords="447,137,585,163"/>
+<area shape="rect" id="node7" href="$classtype__caster.html" title="type_caster\&lt; StringType \&gt;" alt="" coords="427,187,605,214"/>
+<area shape="rect" id="node9" href="$structcopyable__holder__caster.html" title="copyable_holder_caster\l\&lt; T, std::shared_ptr\&lt; T \&gt; \&gt;" alt="" coords="425,239,607,280"/>
+<area shape="rect" id="node10" href="$classtype__caster_3_01std_1_1shared__ptr_3_01_t_01_4_01_4.html" title="Specialize for the common std::shared_ptr, so users don&#39;t need to. " alt="" coords="665,239,832,280"/>
+</map>

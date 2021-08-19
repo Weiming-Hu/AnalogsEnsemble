@@ -1,0 +1,4 @@
+<map id="type_caster&lt; Type, enable_if_t&lt; is_eigen_dense_map&lt; Type &gt;::value &gt; &gt;" name="type_caster&lt; Type, enable_if_t&lt; is_eigen_dense_map&lt; Type &gt;::value &gt; &gt;">
+<area shape="rect" id="node2" href="$structeigen__map__caster.html" title="{eigen_map_caster\&lt; Type \&gt;\n|+ name\l|+ load()\l+ operator Type()\l+ cast()\l}" alt="" coords="21,175,202,281"/>
+<area shape="rect" id="node3" href="$structeigen__map__caster.html" title="{eigen_map_caster\&lt; MapType \&gt;\n|+ name\l|+ load()\l+ operator MapType()\l+ cast()\l}" alt="" coords="8,5,215,112"/>
+</map>

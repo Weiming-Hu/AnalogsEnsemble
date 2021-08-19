@@ -1,0 +1,7 @@
+<map id="Animal" name="Animal">
+<area shape="rect" id="node2" href="$struct_cat.html" title="{Cat\n||+ Cat()\l+ purr()\l}" alt="" coords="31,189,95,281"/>
+<area shape="rect" id="node4" href="$struct_dog.html" title="{Dog\n|+ sound\l|+ Dog()\l+ bark()\l}" alt="" coords="134,189,203,281"/>
+<area shape="rect" id="node3" href="$struct_panther.html" title="{Panther\n||+ Panther()\l+ purr()\l}" alt="" coords="5,329,92,421"/>
+<area shape="rect" id="node5" href="$struct_chihuahua.html" title="{Chihuahua\n||+ Chihuahua()\l+ bark()\l}" alt="" coords="117,329,221,421"/>
+<area shape="rect" id="node6" href="$struct_labrador.html" title="{Labrador\n|+ excitement\l|+ Labrador()\l}" alt="" coords="245,337,343,414"/>
+</map>

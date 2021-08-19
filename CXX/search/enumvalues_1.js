@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['debug',['Debug',['../_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9aa603905470e2a5b8c13e96b579ef0dba',1,'Config.h']]],
-  ['detail',['Detail',['../_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9aa254c25adc7d10d7e9c4889484f875a5',1,'Config.h']]]
+  ['b',['B',['../test__numpy__dtypes_8cpp.html#ac848181148f36d4a46a0fb4d15d17528a9d5ed678fe57bcca610140957afab571',1,'test_numpy_dtypes.cpp']]]
 ];

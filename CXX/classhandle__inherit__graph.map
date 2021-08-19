@@ -1,0 +1,43 @@
+<map id="handle" name="handle">
+<area shape="rect" id="node3" href="$classargs__proxy.html" title="{args_proxy\n||+ args_proxy()\l+ operator*()\l}" alt="" coords="2127,501,2233,593"/>
+<area shape="rect" id="node4" href="$classkwargs__proxy.html" title="{kwargs_proxy\n||+ kwargs_proxy()\l}" alt="" coords="2257,508,2380,585"/>
+<area shape="rect" id="node5" href="$classobject.html" title="{object\n|+ is_borrowed\l|+ object()\l+ PYBIND11_DEPRECATED()\l+ object()\l+ object()\l+ ~object()\l+ release()\l+ operator=()\l+ operator=()\l+ cast()\l+ cast()\land 6 more...\l}" alt="" coords="2405,435,2611,659"/>
+<area shape="rect" id="node6" href="$classbool__.html" title="{bool_\n||+ bool_()\l+ bool_()\l+ operator bool()\l&#45; raw_bool()\l}" alt="" coords="8,774,125,895"/>
+<area shape="rect" id="node7" href="$classbuffer.html" title="{buffer\n||+ request()\l}" alt="" coords="149,796,235,873"/>
+<area shape="rect" id="node11" href="$classbytearray.html" title="{bytearray\n||+ bytearray()\l+ bytearray()\l+ bytearray()\l+ size()\l+ operator std::string()\l}" alt="" coords="259,767,410,903"/>
+<area shape="rect" id="node12" href="$classbytes.html" title="{bytes\n||+ bytes()\l+ bytes()\l+ bytes()\l+ bytes()\l+ operator std::string()\l}" alt="" coords="434,767,585,903"/>
+<area shape="rect" id="node13" href="$classcapsule.html" title="{capsule\n|+ is_borrowed\l|+ PYBIND11_DEPRECATED()\l}" alt="" coords="609,796,815,873"/>
+<area shape="rect" id="node14" href="$classconftest_1_1_capture.html" title="{conftest.Capture\n|+ capfd\l+ out\l+ err\l+ explanation\l|+ __init__()\l+ __enter__()\l+ __exit__()\l+ __eq__()\l+ __str__()\l+ __contains__()\l+ unordered()\l+ stderr()\l}" alt="" coords="839,723,958,947"/>
+<area shape="rect" id="node15" href="$classconftest_1_1_output.html" title="{conftest.Output\n|+ string\l+ explanation\l|+ __init__()\l+ __str__()\l+ __eq__()\l}" alt="" coords="981,774,1093,895"/>
+<area shape="rect" id="node17" href="$classconftest_1_1_sanitized_string.html" title="{conftest.SanitizedString\n|+ sanitizer\l+ string\l+ explanation\l|+ __init__()\l+ __call__()\l+ __eq__()\l}" alt="" coords="1117,767,1278,903"/>
+<area shape="rect" id="node18" href="$classdict.html" title="{dict\n||+ dict()\l+ dict()\l+ size()\l+ empty()\l+ begin()\l+ end()\l+ clear()\l+ contains()\l&#45; raw_dict()\l}" alt="" coords="1303,737,1393,932"/>
+<area shape="rect" id="node20" href="$classdtype.html" title="{dtype\n||+ PYBIND11_OBJECT_DEFAULT()\l+ dtype()\l+ dtype()\l+ dtype()\l+ dtype()\l+ itemsize()\l+ has_fields()\l+ kind()\l+ char_()\l+ from_args()\l+ of()\l&#45; strip_padding()\l&#45; _dtype_from_pep3118()\l}" alt="" coords="1417,708,1652,961"/>
+<area shape="rect" id="node21" href="$classellipsis.html" title="{ellipsis\n||+ ellipsis()\l}" alt="" coords="1676,796,1759,873"/>
+<area shape="rect" id="node22" href="$classexception.html" title="{exception\&lt; type \&gt;\n||+ exception()\l+ exception()\l+ operator()()\l}" alt="" coords="1783,781,1910,888"/>
+<area shape="rect" id="node23" href="$classfloat__.html" title="{float_\n||+ float_()\l+ float_()\l+ operator float()\l+ operator double()\l}" alt="" coords="1935,774,2065,895"/>
+<area shape="rect" id="node24" href="$classfunction.html" title="{function\n||+ cpp_function()\l+ is_cpp_function()\l}" alt="" coords="2089,789,2223,881"/>
+<area shape="rect" id="node26" href="$classgeneric__type.html" title="Generic support for creating new Python heap types. " alt="" coords="2247,774,2433,895"/>
+<area shape="rect" id="node27" href="$classint__.html" title="{int_\n||+ int_()\l+ int_()\l+ operator T()\l}" alt="" coords="2457,781,2559,888"/>
+<area shape="rect" id="node28" href="$classiterable.html" title="{iterable\n||}" alt="" coords="2583,796,2647,873"/>
+<area shape="rect" id="node29" href="$classiterator.html" title="{iterator\n|&#45; value\l|+ operator++()\l+ operator++()\l+ operator*()\l+ operator&#45;\&gt;()\l+ sentinel()\l&#45; advance()\l}" alt="" coords="2671,759,2777,910"/>
+<area shape="rect" id="node30" href="$classlist.html" title="{list\n||+ list()\l+ size()\l+ empty()\l+ operator[]()\l+ operator[]()\l+ begin()\l+ end()\l+ append()\l+ insert()\l}" alt="" coords="2801,737,2898,932"/>
+<area shape="rect" id="node31" href="$classmemoryview.html" title="{memoryview\n||+ memoryview()\l+ from_buffer()\l+ from_buffer()\l+ from_buffer()\l+ from_buffer()\l}" alt="" coords="2922,767,3038,903"/>
+<area shape="rect" id="node32" href="$classmodule__.html" title="Wrapper for Python extension modules. " alt="" coords="3062,752,3253,917"/>
+<area shape="rect" id="node33" href="$classnone.html" title="{none\n||+ none()\l}" alt="" coords="3277,796,3347,873"/>
+<area shape="rect" id="node34" href="$classpybind11_1_1setup__helpers_1_1_parallel_compile.html" title="{pybind11.setup_helpers.Parallel\lCompile\n|+ envvar\l+ default\l+ max\l+ needs_recompile\l&#45; _old\l&#45; __slots__\l|+ __init__()\l+ function()\l+ install()\l+ __enter__()\l+ __exit__()\l}" alt="" coords="3371,723,3578,947"/>
+<area shape="rect" id="node35" href="$classsequence.html" title="{sequence\n||+ size()\l+ empty()\l+ operator[]()\l+ operator[]()\l+ begin()\l+ end()\l}" alt="" coords="3602,759,3699,910"/>
+<area shape="rect" id="node36" href="$classset.html" title="{set\n||+ set()\l+ size()\l+ empty()\l+ add()\l+ clear()\l+ contains()\l}" alt="" coords="3724,759,3815,910"/>
+<area shape="rect" id="node37" href="$classslice.html" title="{slice\n||+ slice()\l+ compute()\l+ compute()\l}" alt="" coords="3839,781,3931,888"/>
+<area shape="rect" id="node38" href="$classstaticmethod.html" title="{staticmethod\n||}" alt="" coords="3955,796,4053,873"/>
+<area shape="rect" id="node39" href="$classstr.html" title="{str\n||+ str()\l+ str()\l+ str()\l+ str()\l+ str()\l+ operator std::string()\l+ format()\l&#45; raw_str()\l}" alt="" coords="4077,745,4227,925"/>
+<area shape="rect" id="node40" href="$classtuple.html" title="{tuple\n||+ tuple()\l+ size()\l+ empty()\l+ operator[]()\l+ operator[]()\l+ begin()\l+ end()\l}" alt="" coords="4251,752,4349,917"/>
+<area shape="rect" id="node42" href="$classtype.html" title="{type\n||+ handle_of()\l+ of()\l+ handle_of()\l+ of()\l}" alt="" coords="4373,774,4472,895"/>
+<area shape="rect" id="node43" href="$classweakref.html" title="{weakref\n||+ weakref()\l&#45; raw_weakref()\l}" alt="" coords="4496,789,4608,881"/>
+<area shape="rect" id="node8" href="$classarray.html" title="{array\n||+ array()\l+ array()\l+ array()\l+ array()\l+ array()\l+ array()\l+ array()\l+ array()\l+ dtype()\l+ size()\land 20 more...\l+ ensure()\l# fail_dim_check()\l# byte_offset()\l# check_writeable()\l# check_dimensions()\l# check_dimensions_impl()\l# check_dimensions_impl()\l# raw_array()\l}" alt="" coords="102,1011,282,1352"/>
+<area shape="rect" id="node9" href="$classarray__t.html" title="{array_t\&lt; T, ExtraFlags \&gt;\n||+ array_t()\l+ array_t()\l+ array_t()\l+ array_t()\l+ array_t()\l+ array_t()\l+ array_t()\l+ array_t()\l+ array_t()\l+ itemsize()\land 7 more...\l+ ensure()\l+ check_()\l# raw_array_t()\l&#45; array_t()\l}" alt="" coords="5,1401,171,1684"/>
+<area shape="rect" id="node10" href="$classarray__t.html" title="{array_t\&lt; Scalar, array\l::forcecast\|((props::row\l_major ? props::inner_stride\l :props::outer_stride)==1 \l? array::c_style :(props::row\l_major ? props::outer_stride \l:props::inner_stride)==1 ? array\l::f_style :0)\&gt;\n||+ array_t()\l+ array_t()\l+ array_t()\l+ array_t()\l+ array_t()\l+ array_t()\l+ array_t()\l+ array_t()\l+ array_t()\l+ itemsize()\land 7 more...\l+ ensure()\l+ check_()\l# raw_array_t()\l&#45; array_t()\l}" alt="" coords="46,1835,250,2220"/>
+<area shape="rect" id="node16" href="$classconftest_1_1_unordered.html" title="{conftest.Unordered\n|+ explanation\l|+ __eq__()\l}" alt="" coords="971,1143,1104,1220"/>
+<area shape="rect" id="node19" href="$classkwargs.html" title="{kwargs\n||}" alt="" coords="1316,1143,1380,1220"/>
+<area shape="rect" id="node25" href="$classcpp__function.html" title="Wraps an arbitrary C++ function/method/lambda function/.. into a callable Python object. " alt="" coords="2071,1047,2241,1315"/>
+<area shape="rect" id="node41" href="$classargs.html" title="{args\n||}" alt="" coords="4277,1143,4323,1220"/>
+</map>

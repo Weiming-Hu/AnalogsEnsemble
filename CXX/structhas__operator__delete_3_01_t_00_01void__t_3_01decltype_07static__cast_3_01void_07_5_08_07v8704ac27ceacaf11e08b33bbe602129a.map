@@ -1,0 +1,2 @@
+<map id="has_operator_delete&lt; T, void_t&lt; decltype(static_cast&lt; void(*)(void *)&gt;(T::operator delete))&gt; &gt;" name="has_operator_delete&lt; T, void_t&lt; decltype(static_cast&lt; void(*)(void *)&gt;(T::operator delete))&gt; &gt;">
+</map>

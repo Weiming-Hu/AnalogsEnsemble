@@ -1,0 +1,5 @@
+<map id="type_caster&lt; void_type &gt;" name="type_caster&lt; void_type &gt;">
+<area shape="rect" id="node4" href="$classtype__caster_3_01void_01_4.html" title="{type_caster\&lt; void \&gt;\n|+ name\l&#45; value\l|+ load()\l+ operator void *&amp;()\l+ cast()\l}" alt="" coords="41,457,180,579"/>
+<area shape="rect" id="node2" href="$structvoid__caster.html" title="{void_caster\&lt; void_type \&gt;\n||+ load()\l+ PYBIND11_TYPE_CASTER()\l+ cast()\l}" alt="" coords="5,175,216,281"/>
+<area shape="rect" id="node3" href="$structvoid__caster.html" title="{void_caster\&lt; T \&gt;\n||+ load()\l+ PYBIND11_TYPE_CASTER()\l+ cast()\l}" alt="" coords="5,5,216,112"/>
+</map>

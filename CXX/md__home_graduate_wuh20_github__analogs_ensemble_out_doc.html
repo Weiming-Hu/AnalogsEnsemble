@@ -107,7 +107,7 @@ $(function() {
 <ol type="1">
 <li>Avoid using Clang compilers and convert to GNU compilers. To change the compilers used by R, create a file <code>~/.R/Makevars</code> if you do not have it already and add the following content to it. Of course, change the compilers to what you have. If you do not have any alternative compilers other than Clang, <a href="https://brew.sh/">HomeBrew</a> is your friend.</li>
 </ol>
-<div class="fragment"><div class="line">CC=gcc-8</div><div class="line">CXX=g++-8</div><div class="line">CXX1X=g++-8</div><div class="line">CXX11=g++-8</div></div><!-- fragment --><ol type="1">
+<div class="fragment"><div class="line">CC=gcc-8</div><div class="line">CXX=g++-8</div><div class="line">CXX1X=g++-8</div><div class="line">CXX14=g++-8</div></div><!-- fragment --><ol type="1">
 <li>You can also follow the instructions <a href="https://github.com/Rdatatable/data.table/wiki/Installation#openmp-enabled-compiler-for-mac">here</a> provided by <code>data.table</code>. They provide similar solutions but stick with Clang compilers.</li>
 </ol>
 <p>After the installation, you can always revert back to your original setup and <code>RAnEn</code> will stay supported by <code>OpenMP</code>.</p>
@@ -148,6 +148,8 @@ $(function() {
 <td align="center">ENABLE_MPI </td><td align="center">Build the MPI supported libraries and executables. This requires the MPI dependency. </td><td align="center">OFF </td></tr>
 <tr>
 <td align="center">ENABLE_OPENMP </td><td align="center">Enable multi-threading with OpenMP </td><td align="center">ON </td></tr>
+<tr>
+<td align="center">ENABLE_AI </td><td align="center">Enable PyTorch integration and the power of AI. </td><td align="center">OFF </td></tr>
 </table>
 <p>You can change the default of the parameters, for example, <code>cmake -DCMAKE_INSTALL_PREFIX=~/AnalogEnsemble ..</code>. Don't forget the extra letter <code>D</code> when specifying argument names.</p>
 <h3>High-Performance Computing and Supercomputers</h3>

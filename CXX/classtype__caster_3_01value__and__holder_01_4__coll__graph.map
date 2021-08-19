@@ -1,0 +1,5 @@
+<map id="type_caster&lt; value_and_holder &gt;" name="type_caster&lt; value_and_holder &gt;">
+<area shape="rect" id="node2" href="$structvalue__and__holder.html" title="{value_and_holder\n|+ index\l+ type\l+ vh\l|+ value_and_holder()\l+ value_and_holder()\l+ value_and_holder()\l+ value_ptr()\l+ operator bool()\l+ holder()\l+ holder_constructed()\l+ set_holder_constructed()\l+ instance_registered()\l+ set_instance_registered()\l}" alt="" coords="11,476,191,715"/>
+<area shape="rect" id="node3" href="$structinstance.html" title="The &#39;instance&#39; type which needs to be standard layout (need to be able to use &#39;offsetof&#39;) ..." alt="" coords="5,175,197,413"/>
+<area shape="rect" id="node4" href="$structnonsimple__values__and__holders.html" title="{nonsimple_values_and\l_holders\n|+ values_and_holders\l+ status\l|}" alt="" coords="24,5,179,112"/>
+</map>

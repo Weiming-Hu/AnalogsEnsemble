@@ -1,0 +1,5 @@
+<map id="Base" name="Base">
+<area shape="rect" id="node2" href="$struct_dispatch_issue.html" title="{DispatchIssue\n||+ dispatch()\l}" alt="" coords="5,182,112,259"/>
+<area shape="rect" id="node3" href="$class_py_a___tpl.html" title="{PyA_Tpl\&lt; Base \&gt;\n||+ unlucky_number()\l+ say_something()\l}" alt="" coords="137,175,274,267"/>
+<area shape="rect" id="node4" href="$class_py_b___tpl.html" title="{PyB_Tpl\&lt; Base \&gt;\n||+ unlucky_number()\l+ lucky_number()\l}" alt="" coords="137,315,274,407"/>
+</map>

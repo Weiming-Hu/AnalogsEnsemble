@@ -1,0 +1,5 @@
+<map id="simple_collector&lt; policy &gt;" name="simple_collector&lt; policy &gt;">
+<area shape="rect" id="node2" href="$classtuple.html" title="{tuple\n||+ tuple()\l+ size()\l+ empty()\l+ operator[]()\l+ operator[]()\l+ begin()\l+ end()\l}" alt="" coords="60,708,157,873"/>
+<area shape="rect" id="node3" href="$classobject.html" title="{object\n|+ is_borrowed\l|+ object()\l+ PYBIND11_DEPRECATED()\l+ object()\l+ object()\l+ ~object()\l+ release()\l+ operator=()\l+ operator=()\l+ cast()\l+ cast()\land 6 more...\l}" alt="" coords="5,435,212,659"/>
+<area shape="rect" id="node4" href="$classhandle.html" title="{handle\n|# m_ptr\l|+ handle()\l+ handle()\l+ ptr()\l+ ptr()\l+ inc_ref()\l+ dec_ref()\l+ cast()\l+ operator bool()\l+ operator==()\l+ operator!=()\l+ check()\l+ cast()\l}" alt="" coords="50,147,167,385"/>
+</map>

@@ -1,0 +1,4 @@
+<map id="type_caster&lt; std::basic_string&lt; CharT, Traits, Allocator &gt;, enable_if_t&lt; is_std_char_type&lt; CharT &gt;::value &gt; &gt;" name="type_caster&lt; std::basic_string&lt; CharT, Traits, Allocator &gt;, enable_if_t&lt; is_std_char_type&lt; CharT &gt;::value &gt; &gt;">
+<area shape="rect" id="node2" href="$structstring__caster.html" title="{string_caster\&lt; std\l::basic_string\&lt; CharT,\l Traits, Allocator \&gt; \&gt;\n|+ UTF_N\l|+ load()\l+ PYBIND11_TYPE_CASTER()\l+ cast()\l&#45; load_bytes()\l&#45; load_bytes()\l&#45; decode_utfN()\l}" alt="" coords="5,248,216,428"/>
+<area shape="rect" id="node3" href="$structstring__caster.html" title="{string_caster\&lt; StringType,\l IsView \&gt;\n|+ UTF_N\l|+ load()\l+ PYBIND11_TYPE_CASTER()\l+ cast()\l&#45; load_bytes()\l&#45; load_bytes()\l&#45; decode_utfN()\l}" alt="" coords="5,5,216,171"/>
+</map>

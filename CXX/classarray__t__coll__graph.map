@@ -1,0 +1,6 @@
+<map id="array_t&lt; T, ExtraFlags &gt;" name="array_t&lt; T, ExtraFlags &gt;">
+<area shape="rect" id="node2" href="$classarray.html" title="{array\n||+ array()\l+ array()\l+ array()\l+ array()\l+ array()\l+ array()\l+ array()\l+ array()\l+ dtype()\l+ size()\land 20 more...\l+ ensure()\l# fail_dim_check()\l# byte_offset()\l# check_writeable()\l# check_dimensions()\l# check_dimensions_impl()\l# check_dimensions_impl()\l# raw_array()\l}" alt="" coords="19,829,199,1171"/>
+<area shape="rect" id="node3" href="$classbuffer.html" title="{buffer\n||+ request()\l}" alt="" coords="66,704,151,781"/>
+<area shape="rect" id="node4" href="$classobject.html" title="{object\n|+ is_borrowed\l|+ object()\l+ PYBIND11_DEPRECATED()\l+ object()\l+ object()\l+ ~object()\l+ release()\l+ operator=()\l+ operator=()\l+ cast()\l+ cast()\land 6 more...\l}" alt="" coords="5,432,212,656"/>
+<area shape="rect" id="node5" href="$classhandle.html" title="{handle\n|# m_ptr\l|+ handle()\l+ handle()\l+ ptr()\l+ ptr()\l+ inc_ref()\l+ dec_ref()\l+ cast()\l+ operator bool()\l+ operator==()\l+ operator!=()\l+ check()\l+ cast()\l}" alt="" coords="50,145,167,384"/>
+</map>

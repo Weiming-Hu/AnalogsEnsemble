@@ -1,0 +1,2 @@
+<map id="vector_has_data_and_format&lt; Vector, enable_if_t&lt; std::is_same&lt; decltype(format_descriptor&lt; typename Vector::value_type &gt;::format(), std::declval&lt; Vector &gt;().data()), typename Vector::value_type * &gt;::value &gt; &gt;" name="vector_has_data_and_format&lt; Vector, enable_if_t&lt; std::is_same&lt; decltype(format_descriptor&lt; typename Vector::value_type &gt;::format(), std::declval&lt; Vector &gt;().data()), typename Vector::value_type * &gt;::value &gt; &gt;">
+</map>

@@ -1,0 +1,2 @@
+<map id="pybind11::polymorphic_type_hook&lt; itype, detail::enable_if_t&lt; std::is_base_of&lt; Animal, itype &gt;::value &gt; &gt;" name="pybind11::polymorphic_type_hook&lt; itype, detail::enable_if_t&lt; std::is_base_of&lt; Animal, itype &gt;::value &gt; &gt;">
+</map>

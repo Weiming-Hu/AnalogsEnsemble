@@ -87,7 +87,7 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:adf568b2e0dacc9adf5b7d740622beb92"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aab8e80dead9dc777c2151550c20812a6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_calculator.html#aab8e80dead9dc777c2151550c20812a6">Calculator</a> (bool)</td></tr>
 <tr class="separator:aab8e80dead9dc777c2151550c20812a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a86c546dbf7a065a514f311411e565782"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_calculator.html#a86c546dbf7a065a514f311411e565782">Calculator</a> (bool, std::size_t)</td></tr>
+<tr class="memitem:a86c546dbf7a065a514f311411e565782"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_calculator.html#a86c546dbf7a065a514f311411e565782">Calculator</a> (bool, <a class="el" href="detail_2common_8h.html#a801d6a451a01953ef8cbae6feb6a3638">std::size_t</a>)</td></tr>
 <tr class="separator:a86c546dbf7a065a514f311411e565782"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a62b1218a8fc44d95740c382a7119df01"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_calculator.html#a62b1218a8fc44d95740c382a7119df01">Calculator</a> (const <a class="el" href="class_calculator.html">Calculator</a> &amp;orig)</td></tr>
 <tr class="separator:a62b1218a8fc44d95740c382a7119df01"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -97,7 +97,7 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ae3e0fd130b448b7a95263ded5301a033"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a327d77ddd19a62998af6b5ea11c685e2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_calculator.html#a327d77ddd19a62998af6b5ea11c685e2">isCircular</a> () const</td></tr>
 <tr class="separator:a327d77ddd19a62998af6b5ea11c685e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae24e6a853bb4508e7f6f6b93d47ed850"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_calculator.html#ae24e6a853bb4508e7f6f6b93d47ed850">reserve</a> (std::size_t)</td></tr>
+<tr class="memitem:ae24e6a853bb4508e7f6f6b93d47ed850"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_calculator.html#ae24e6a853bb4508e7f6f6b93d47ed850">reserve</a> (<a class="el" href="detail_2common_8h.html#a801d6a451a01953ef8cbae6feb6a3638">std::size_t</a>)</td></tr>
 <tr class="separator:ae24e6a853bb4508e7f6f6b93d47ed850"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a47abe4c9d6957cd61693c0fc8e3967ca"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_calculator.html#a47abe4c9d6957cd61693c0fc8e3967ca">pushValue</a> (double)</td></tr>
 <tr class="separator:a47abe4c9d6957cd61693c0fc8e3967ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -187,13 +187,13 @@ Protected Attributes</h2></td></tr>
           <td class="memname">Calculator::Calculator </td>
           <td>(</td>
           <td class="paramtype">bool&#160;</td>
-          <td class="paramname">, </td>
+          <td class="paramname"><em>circular</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::size_t&#160;</td>
-          <td class="paramname">&#160;</td>
+          <td class="paramtype"><a class="el" href="detail_2common_8h.html#a801d6a451a01953ef8cbae6feb6a3638">std::size_t</a>&#160;</td>
+          <td class="paramname"><em>size</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -344,7 +344,7 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Add a value into the calculation queue </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">A</td><td>double value </td></tr>
+    <tr><td class="paramname"><a class="el" href="struct_a.html">A</a></td><td>double value </td></tr>
   </table>
   </dd>
 </dl>
@@ -360,8 +360,8 @@ Protected Attributes</h2></td></tr>
         <tr>
           <td class="memname">void Calculator::reserve </td>
           <td>(</td>
-          <td class="paramtype">std::size_t&#160;</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype"><a class="el" href="detail_2common_8h.html#a801d6a451a01953ef8cbae6feb6a3638">std::size_t</a>&#160;</td>
+          <td class="paramname"><em>size</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -407,7 +407,7 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Get the running standard deviation of all pushed values </p><dl class="section return"><dt>Returns</dt><dd>A standard deviation </dd></dl>
+<p>Get the running standard deviation of all pushed values </p><dl class="section return"><dt>Returns</dt><dd><a class="el" href="struct_a.html">A</a> standard deviation </dd></dl>
 
 </div>
 </div>
@@ -428,7 +428,7 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Change the circular status of the variable we are calculating. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">A</td><td>boolean. </td></tr>
+    <tr><td class="paramname"><a class="el" href="struct_a.html">A</a></td><td>boolean. </td></tr>
   </table>
   </dd>
 </dl>
@@ -449,7 +449,7 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Get the running variance of all pushed values. </p><dl class="section return"><dt>Returns</dt><dd>A variance </dd></dl>
+<p>Get the running variance of all pushed values. </p><dl class="section return"><dt>Returns</dt><dd><a class="el" href="struct_a.html">A</a> variance </dd></dl>
 
 </div>
 </div>

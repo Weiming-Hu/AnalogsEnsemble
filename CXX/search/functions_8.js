@@ -1,7 +1,14 @@
 var searchData=
 [
-  ['initialize',['initialize',['../class_array4_d.html#a0c8c636de5d652a051820910efcf51ce',1,'Array4D::initialize()'],['../class_array4_d_pointer.html#aa728a144c17d1da8515b74488d03e4c5',1,'Array4DPointer::initialize()'],['../class_observations.html#a051604b4a02a837716237e5f14854c57',1,'Observations::initialize()'],['../class_observations_pointer.html#a3e466dc9856ff769894ed9442e15ad62',1,'ObservationsPointer::initialize()']]],
-  ['iscircular',['isCircular',['../class_calculator.html#a327d77ddd19a62998af6b5ea11c685e2',1,'Calculator']]],
-  ['isheaderfile',['IsHeaderFile',['../_8ycm__extra__conf_8py.html#a6bb59f541be0dcbde53eba606d48ddf8',1,'.ycm_extra_conf.py']]],
-  ['itov',['itov',['../namespace_functions.html#a9604a2b84f3af91add3e2ad677503af3',1,'Functions']]]
+  ['handle',['handle',['../classhandle.html#a53ba30cccfb1cabee421fd4ea555cf44',1,'handle::handle()=default'],['../classhandle.html#a99eb912e1b9b823bc447980a16772584',1,'handle::handle(PyObject *ptr)']]],
+  ['handle_5fof',['handle_of',['../classtype.html#a12ec0abcdc66ef2039fad4e51f6230f5',1,'type::handle_of(handle h)'],['../classtype.html#a9c98c2c9a6ae453a7c4da3b9f0e5bee6',1,'type::handle_of()']]],
+  ['has_5falias',['has_alias',['../class_test_factory6.html#afb8d38ad2654433a76942071b035c934',1,'TestFactory6::has_alias()'],['../class_test_factory7.html#ab388702c5c8eb5ac9adccd24349119fc',1,'TestFactory7::has_alias()']]],
+  ['has_5ffields',['has_fields',['../classdtype.html#ac5eef3474b98106df8be32c6aaa3106b',1,'dtype']]],
+  ['has_5fflag',['has_flag',['../namespacepybind11_1_1setup__helpers.html#ad3882bec89ff93cceeb88ca0930db26c',1,'pybind11::setup_helpers']]],
+  ['has_5fpybind11_5finternals_5fbuiltin',['has_pybind11_internals_builtin',['../test__interpreter_8cpp.html#ad82b8785e8beb59027fce535101e11a9',1,'test_interpreter.cpp']]],
+  ['has_5fpybind11_5finternals_5fstatic',['has_pybind11_internals_static',['../test__interpreter_8cpp.html#a1eb3f99b33a9fa06a3ccbe804c88f48b',1,'test_interpreter.cpp']]],
+  ['hasattr',['hasattr',['../group__python__builtins.html#gacc0a69f008d341c07ff939e0580c5985',1,'hasattr(handle obj, handle name):&#160;pytypes.h'],['../group__python__builtins.html#gaec38f84a4416ddc3b311ecdbff659ed7',1,'hasattr(handle obj, const char *name):&#160;pytypes.h']]],
+  ['hash',['hash',['../group__python__builtins.html#ga117a7eab72791313448c40a2f25f3582',1,'pytypes.h']]],
+  ['holder',['holder',['../structvalue__and__holder.html#ad375bce60ea6528d046069d0fefa6d5b',1,'value_and_holder']]],
+  ['holder_5fconstructed',['holder_constructed',['../structvalue__and__holder.html#ad4cae8c2fae04fcc54135883a509230f',1,'value_and_holder']]]
 ];

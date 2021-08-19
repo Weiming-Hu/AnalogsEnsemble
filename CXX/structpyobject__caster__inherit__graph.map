@@ -1,0 +1,4 @@
+<map id="pyobject_caster&lt; type &gt;" name="pyobject_caster&lt; type &gt;">
+<area shape="rect" id="node2" href="$structpyobject__caster.html" title="{pyobject_caster\&lt; T \&gt;\n||+ load()\l+ load()\l+ PYBIND11_TYPE_CASTER()\l+ cast()\l}" alt="" coords="5,189,216,311"/>
+<area shape="rect" id="node3" href="$classtype__caster_3_01_t_00_01enable__if__t_3_01is__pyobject_3_01_t_01_4_1_1value_01_4_01_4.html" title="{type_caster\&lt; T, enable\l_if_t\&lt; is_pyobject\&lt; T\l \&gt;::value \&gt; \&gt;\n||}" alt="" coords="33,360,189,467"/>
+</map>

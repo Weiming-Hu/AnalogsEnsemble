@@ -77,11 +77,11 @@ Functions</h2></td></tr>
 <tr class="separator:af930656a8e533b0a538be8cd6b4bb8b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a827e30dcbe01f89f00107b89588c8919"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions_m_p_i.html#a827e30dcbe01f89f00107b89588c8919">scatterArray</a> (const <a class="el" href="class_array4_d.html">Array4D</a> &amp;send, <a class="el" href="class_array4_d.html">Array4D</a> &amp;recv, int num_procs, int rank, <a class="el" href="_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9">Verbose</a> verbose)</td></tr>
 <tr class="separator:a827e30dcbe01f89f00107b89588c8919"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a382eb9ef845a391e416a56d077fde9fb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions_m_p_i.html#a382eb9ef845a391e416a56d077fde9fb">broadcastVector</a> (const std::vector&lt; std::size_t &gt; &amp;send, std::vector&lt; std::size_t &gt; &amp;recv, int rank, <a class="el" href="_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9">Verbose</a> verbose)</td></tr>
+<tr class="memitem:a382eb9ef845a391e416a56d077fde9fb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions_m_p_i.html#a382eb9ef845a391e416a56d077fde9fb">broadcastVector</a> (const std::vector&lt; <a class="el" href="detail_2common_8h.html#a801d6a451a01953ef8cbae6feb6a3638">std::size_t</a> &gt; &amp;send, std::vector&lt; <a class="el" href="detail_2common_8h.html#a801d6a451a01953ef8cbae6feb6a3638">std::size_t</a> &gt; &amp;recv, int rank, <a class="el" href="_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9">Verbose</a> verbose)</td></tr>
 <tr class="separator:a382eb9ef845a391e416a56d077fde9fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adf82e29c245edd4ee0325ea8c55c5007"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions_m_p_i.html#adf82e29c245edd4ee0325ea8c55c5007">broadcastVector</a> (const std::vector&lt; bool &gt; &amp;send, std::vector&lt; bool &gt; &amp;recv, int rank, <a class="el" href="_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9">Verbose</a> verbose)</td></tr>
 <tr class="separator:adf82e29c245edd4ee0325ea8c55c5007"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3e45350600539dfcf53b521d56644db1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions_m_p_i.html#a3e45350600539dfcf53b521d56644db1">gatherArray</a> (<a class="el" href="class_array4_d.html">Array4D</a> &amp;arr, int station_dim_index, int num_procs, int rank, <a class="el" href="_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9">Verbose</a> verbose)</td></tr>
+<tr class="memitem:a3e45350600539dfcf53b521d56644db1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_functions_m_p_i.html#a3e45350600539dfcf53b521d56644db1">gatherArray</a> (<a class="el" href="class_array4_d.html">Array4D</a> &amp;<a class="el" href="test__numpy__array_8cpp.html#a42c56bc9bb4c61baf74b3b581765cbd9">arr</a>, int station_dim_index, int num_procs, int rank, <a class="el" href="_config_8h.html#ab95b2bf068cfe461f5b13a95191219a9">Verbose</a> verbose)</td></tr>
 <tr class="separator:a3e45350600539dfcf53b521d56644db1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
@@ -94,13 +94,13 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">void FunctionsMPI::broadcastVector </td>
           <td>(</td>
-          <td class="paramtype">const std::vector&lt; std::size_t &gt; &amp;&#160;</td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="detail_2common_8h.html#a801d6a451a01953ef8cbae6feb6a3638">std::size_t</a> &gt; &amp;&#160;</td>
           <td class="paramname"><em>send</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::vector&lt; std::size_t &gt; &amp;&#160;</td>
+          <td class="paramtype">std::vector&lt; <a class="el" href="detail_2common_8h.html#a801d6a451a01953ef8cbae6feb6a3638">std::size_t</a> &gt; &amp;&#160;</td>
           <td class="paramname"><em>recv</em>, </td>
         </tr>
         <tr>

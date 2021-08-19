@@ -73,7 +73,7 @@ That's it. You are good to go. Please refer to [tutorials](#tutorials) or the [R
 CC=gcc-8
 CXX=g++-8
 CXX1X=g++-8
-CXX11=g++-8
+CXX14=g++-8
 ```
 
 2. You can also follow the instructions [here](https://github.com/Rdatatable/data.table/wiki/Installation#openmp-enabled-compiler-for-mac) provided by `data.table`. They provide similar solutions but stick with Clang compilers.
@@ -129,6 +129,7 @@ Below is a list of parameters you can change and customize.
 |     BOOST\_URL       |                        The URL for downloading Boost. This is only used when `BUILD_BOOST` is `ON`.                                          | [From SourceForge] |
 |     ENABLE\_MPI      |                        Build the MPI supported libraries and executables. This requires the MPI dependency.                                  |         OFF        |
 |    ENABLE\_OPENMP    |                                       Enable multi-threading with OpenMP                                                                     |         ON         |
+|     ENABLE\_AI       |                               Enable PyTorch integration and the power of AI.                                                                |         OFF         |
 
 You can change the default of the parameters, for example, `cmake -DCMAKE_INSTALL_PREFIX=~/AnalogEnsemble ..`. Don't forget the extra letter `D` when specifying argument names.
 

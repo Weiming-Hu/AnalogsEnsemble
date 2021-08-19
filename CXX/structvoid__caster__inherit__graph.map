@@ -1,0 +1,7 @@
+<map id="void_caster&lt; T &gt;" name="void_caster&lt; T &gt;">
+<area shape="rect" id="node2" href="$structvoid__caster.html" title="{void_caster\&lt; void_type \&gt;\n||+ load()\l+ PYBIND11_TYPE_CASTER()\l+ cast()\l}" alt="" coords="5,175,216,281"/>
+<area shape="rect" id="node5" href="$structvoid__caster.html" title="{void_caster\&lt; std::nullptr_t \&gt;\n||+ load()\l+ PYBIND11_TYPE_CASTER()\l+ cast()\l}" alt="" coords="240,175,451,281"/>
+<area shape="rect" id="node3" href="$classtype__caster_3_01void__type_01_4.html" title="{type_caster\&lt; void_type \&gt;\n||}" alt="" coords="25,331,196,408"/>
+<area shape="rect" id="node4" href="$classtype__caster_3_01void_01_4.html" title="{type_caster\&lt; void \&gt;\n|+ name\l&#45; value\l|+ load()\l+ operator void *&amp;()\l+ cast()\l}" alt="" coords="41,457,180,579"/>
+<area shape="rect" id="node6" href="$classtype__caster_3_01std_1_1nullptr__t_01_4.html" title="{type_caster\&lt; std::nullptr_t \&gt;\n||}" alt="" coords="252,331,439,408"/>
+</map>

@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['txt',['Txt',['../namespace_txt.html',1,'']]]
+  ['conf',['conf',['../namespaceconf.html',1,'']]],
+  ['conftest',['conftest',['../namespaceconftest.html',1,'']]]
 ];

@@ -1,0 +1,4 @@
+<map id="Labrador" name="Labrador">
+<area shape="rect" id="node2" href="$struct_dog.html" title="{Dog\n|+ sound\l|+ Dog()\l+ bark()\l}" alt="" coords="32,189,101,281"/>
+<area shape="rect" id="node3" href="$struct_animal.html" title="{Animal\n|+ kind\l+ name\l|+ ~Animal()\l+ type_of_kind()\l+ name_of_kind()\l# Animal()\l}" alt="" coords="5,5,128,141"/>
+</map>

@@ -1,0 +1,4 @@
+<map id="type_caster&lt; std::vector&lt; Type, Alloc &gt; &gt;" name="type_caster&lt; std::vector&lt; Type, Alloc &gt; &gt;">
+<area shape="rect" id="node2" href="$structlist__caster.html" title="{list_caster\&lt; std::vector\l\&lt; Type, Alloc \&gt;, Type \&gt;\n||+ load()\l+ PYBIND11_TYPE_CASTER()\l+ cast()\l&#45; reserve_maybe()\l&#45; reserve_maybe()\l}" alt="" coords="5,233,216,384"/>
+<area shape="rect" id="node3" href="$structlist__caster.html" title="{list_caster\&lt; Type,\l Value \&gt;\n||+ load()\l+ PYBIND11_TYPE_CASTER()\l+ cast()\l&#45; reserve_maybe()\l&#45; reserve_maybe()\l}" alt="" coords="5,5,216,156"/>
+</map>

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['mode',['Mode',['../namespace_txt.html#ae46a1b2e882957b3e249bd56fbc5a152',1,'Txt']]]
+  ['constants',['constants',['../structnpy__api.html#a788409fb003cbdfdb9adee0cfb6573f9',1,'npy_api']]]
 ];
