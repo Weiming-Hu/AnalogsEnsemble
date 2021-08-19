@@ -11,6 +11,7 @@ jobs:
         os: ['ubuntu-latest']
         BUILD_BOOST: ['ON', 'OFF']
         ENABLE_MPI: ['ON', 'OFF']
+        DISABLE_GRID: ['ON', 'OFF']
     
     steps:
     - uses: actions/checkout@v2
@@ -47,8 +48,9 @@ jobs:
       shell: bash
       working-directory: ${{github.workspace}}/build
       run: |
-        if [ '${{ matrix.os }}' == 'ubuntu-latest' ]; then cmake -DBUILD_BOOST=${{ matrix.BUILD_BOOST }} -DENABLE_MPI=${{ matrix.ENABLE_MPI }} -DCMAKE_PREFIX_PATH=$HOME/eccodes $GITHUB_WORKSPACE;
-        else cmake -DBUILD_BOOST=${{ matrix.BUILD_BOOST }} -DENABLE_MPI=${{ matrix.ENABLE_MPI }} $GITHUB_WORKSPACE; fi
+        if [ '${{ matrix.os }}' == 'ubuntu-latest' ];
+        then cmake -DBUILD_BOOST=${{ matrix.BUILD_BOOST }} -DENABLE_MPI=${{ matrix.ENABLE_MPI }} -DDISABLE_GRID=${{ matrix.DISABLE_GRID }} -DCMAKE_PREFIX_PATH=$HOME/eccodes $GITHUB_WORKSPACE;
+        else cmake -DBUILD_BOOST=${{ matrix.BUILD_BOOST }} -DENABLE_MPI=${{ matrix.ENABLE_MPI }} -DDISABLE_GRID=${{ matrix.DISABLE_GRID }} $GITHUB_WORKSPACE; fi
 
     - name: Build
       working-directory: ${{github.workspace}}/build
