@@ -61,12 +61,12 @@ config$num_analogs <- num_analogs_2
 AnEn.quick <- generateAnalogs(forecasts, observations, 41:50, 1:40, sx_config = config)
 
 if (!is.unsorted(AnEn.quick$similarity[1, 1, 1, 1:config$num_analogs])) {
-  stop("Wierd. I don't want analog similarity to be sorted but they appear to be so somehow.")
+  stop("Weird. I don't want analog similarity to be sorted but they appear to be so somehow.")
 }
 
 if (!identical(sort(AnEn.quick$similarity[1, 1, 1, 1:config$num_analogs]),
                AnEn$similarity[1, 1, 1, 1:config$num_analogs])) {
-  stop("Wierd. Looks like the analog similarity is not the global minimal.")
+  stop("Weird. Looks like the analog similarity is not the global minimal.")
 }
 
 if (interactive()) {
