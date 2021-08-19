@@ -19,6 +19,9 @@ jobs:
       - name: Install R dependencies
         run: install.packages(c('Rcpp', 'BH', 'ncdf4', 'abind'))
         shell: Rscript {0}
+
+      - name: Install NetCDF when necessary 
+        run: if [ '${{ matrix.os }}' == 'ubuntu-latest' ]; then sudo apt-get install libnetcdf-dev libnetcdf-c++4-dev; fi
       
       - name: Install RAnEn
         run: install.packages("https://github.com/Weiming-Hu/AnalogsEnsemble/raw/master/RAnalogs/releases/RAnEn_latest.tar.gz", repos = NULL)
