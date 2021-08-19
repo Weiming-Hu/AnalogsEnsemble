@@ -36,7 +36,7 @@ library(RAnEn)
 
 # save(forecasts, observations, file = '~/github/AnalogsEnsemble/RAnalogs/tests/test-AnEnSSEMS.RData')
 
-load('~/github/AnalogsEnsemble/RAnalogs/tests/test-AnEnSSEMS.RData')
+load('test-AnEnSSEMS.RData')
 
 observations_dup <- observations
 observations_dup$StationNames <- forecasts$StationNames
