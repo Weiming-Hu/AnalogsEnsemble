@@ -129,6 +129,7 @@ Below is a list of parameters you can change and customize.
 |     BOOST\_URL       |                        The URL for downloading Boost. This is only used when `BUILD_BOOST` is `ON`.                                          | [From SourceForge] |
 |     ENABLE\_MPI      |                        Build the MPI supported libraries and executables. This requires the MPI dependency.                                  |         OFF        |
 |    ENABLE\_OPENMP    |                                       Enable multi-threading with OpenMP                                                                     |         ON         |
+|     ENABLE\_AI       |                               Enable PyTorch integration and the power of AI.                                                                |         OFF         |
 
 You can change the default of the parameters, for example, `cmake -DCMAKE_INSTALL_PREFIX=~/AnalogEnsemble ..`. Don't forget the extra letter `D` when specifying argument names.
 

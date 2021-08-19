@@ -1,3 +1,12 @@
+# PAnEn 4.4.3
+
+- From this version, only keeping notes for major and minor version. Notes for patches are dismissed.
+- Introduced spatial analogs with `PyTorch` and deep learning
+- Added a new class `Grid` and the Python API `AnEnGrid`
+- Added a new command line tool, `anen_transform`
+- Added a new option `--no-norm` for AI embeddings
+- Moved `Txt` class from `AnEnIO` to the lower level class `Grid`
+
 # PAnEn 4.3.1
 
 - `anen_netcdf` can now accept reading from different subsets of observation and forecast stations.

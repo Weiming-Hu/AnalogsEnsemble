@@ -1,6 +1,6 @@
 /* 
  * File:   Observations.cpp
- * Author: Weiming Hu (weiming@psu.edu)
+ * Author: Weiming Hu <weiming@psu.edu>
  * 
  * Created on May 4, 2018, 11:27 AM
  */

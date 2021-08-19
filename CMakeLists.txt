@@ -22,9 +22,13 @@ option(BUILD_BOOST "Build Boost" OFF)
 option(ENABLE_OPENMP "Use OpenMP" ON)
 option(ENABLE_MPI "Use MPI" OFF)
 option(ENABLE_AI "Use AI for analog search" OFF)
+option(BUILD_PYGRID "Build the Python API for Grid library" OFF)
+
+# Compatibility
+cmake_policy(SET CMP0074 NEW)
 
 # Set variables
-set(GRAND_VERSION "4.3.1")
+set(GRAND_VERSION "4.4.3")
 set(GRAND_VERSION_NICKNAME "Pandora")
 set(WE_ARE "GEOlab @ Penn State")
 set(SUBPROJECT_TARGETS "AnEn;AnEnIO")
@@ -59,14 +63,24 @@ if(ENABLE_AI)
             "*************************************")
     else(Torch_FOUND)
         message(FATAL_ERROR  "\n"
-            "I couldn't find LibTorch."
+            "I couldn't find LibTorch. There are probably some more setting to do.\n"
+
             "You need to:\n"
             "-- download LibTorch for C++/Java with cxx11 ABI from https://pytorch.org/\n"
             "-- unzip it\n"
             "-- include the directory of the folder in CMAKE_PREFIX_PATH.\n"
+            "-- include the directory of the folder in CMAKE_INSTALL_RPATH if you plan to run `make install` after `make`.\n"
+
+            "If you want to use the spatial metric, you also need to include -DBUILD_PYGRID=ON -DBUILD_SHARED_LIBS=ON "
+            "-DPYTHON_EXECUTABLE=<python exec>. DO NOT run `make install` after `make`."
+            " Reasons here https://github.com/Weiming-Hu/AnalogsEnsemble/issues/81#issuecomment-816703664\n"
+
+            "If you have multiple paths in CMAKE_PREFIX_PATH or CMAKE_INSTALL_RPATH, use double quotes and ; as the separator.\n"
+
             "If you still have problems, please open a ticket or check https://github.com/Weiming-Hu/AnalogsEnsemble/issues/110.\n"
-            "If you have multiple paths in CMAKE_PREFIX_PATH, use double quotes and ; as the separator.\n"
-            "An example for cmake would be: cmake -DENABLE_AI=ON -DCMAKE_INSTALL_RPATH=[lib folder] -DCMAKE_PREFIX_PATH=[libtorch root] -DCMAKE_INSTALL_PREFIX=[install path] ..")
+
+            "An example for cmake would be: cmake -DPYTHON_EXECUTABLE=[python executable] -DBUILD_PYGRID=ON -DBUILD_SHARED_LIBS=ON -DENABLE_AI=ON"
+            " -DCMAKE_INSTALL_RPATH=[libtorch lib] -DCMAKE_PREFIX_PATH=[libtorch root] -DCMAKE_INSTALL_PREFIX=[install path] ..")
     endif(Torch_FOUND)
 
     add_definitions(-D_ENABLE_AI)
@@ -121,6 +135,8 @@ endif(Boost_MAJOR_VERSION STREQUAL "1")
 # Add libraries as subprojects
 add_subdirectory(CAnEn)
 add_subdirectory(CAnEnIO)
+add_subdirectory(CGrid)
+list(APPEND SUBPROJECT_TARGETS "Grid")
 
 if(ENABLE_MPI)
     if(ENABLE_OPENMP)
@@ -155,6 +171,10 @@ endif(ENABLE_MPI)
 add_subdirectory(apps/anen_grib)
 add_subdirectory(apps/anen_netcdf)
 add_subdirectory(apps/grib_convert)
+
+if(ENABLE_AI)
+    add_subdirectory(apps/anen_transform)
+endif(ENABLE_AI)
 
 find_package(CppUnit)
 if(CPPUNIT_FOUND)

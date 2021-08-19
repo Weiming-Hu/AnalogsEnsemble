@@ -1,7 +1,7 @@
 /* 
  * File:   Forecasts.h
  * Author: Guido Cervone <cervone@psu.edu>
- *         Weiming Hu <cervone@psu.edu>
+ *         Weiming Hu <weiming@psu.edu>
  *
  * Created on April 18, 2018, 12:40 AM
  */
@@ -12,6 +12,7 @@
 #include "Config.h"
 #include "BasicData.h"
 #include "Array4D.h"
+#include "Grid.h"
 
 #if defined(_ENABLE_AI)
 #include <ATen/ATen.h>
@@ -92,6 +93,9 @@ public:
     std::size_t getFltTimeIndex(std::size_t timestamp) const;
     std::size_t getFltTimeIndex(const Time &) const;
 
+    const Grid & getGrid() const;
+    void setGrid(const std::string & grid_file, Verbose verbose = Verbose::Warning);
+
 #if defined(_ENABLE_AI)
     /**
      * This function is available when ENABLE_AI is turned on during the program compilation. This
@@ -113,12 +117,27 @@ public:
 
 protected:
     Times flts_;
+    Grid grid_;
 
 #if defined(_ENABLE_AI)
+
+    /**
+     * Run the AI transformation with 1-dimensional input, `[# parameters]`
+     */
     virtual void featureTransform_1D_(at::Tensor & output, torch::jit::script::Module & module,
             long int num_parameters, long int num_stations, long int num_times, long int num_lead_times, Verbose verbose);
+
+    /**
+     * Run the AI transformation with 2-dimensional input, `[# parameters, # lead times]`
+     */
     virtual void featureTransform_2D_(at::Tensor & output, torch::jit::script::Module & module, long int flt_radius,
             long int num_parameters, long int num_stations, long int num_times, long int num_lead_times, Verbose verbose);
+
+    /**
+     * Run the AI transformation with 3-dimensional input, `[# parameters, # stations, # lead times]`
+     */
+    virtual void featureTransform_3D_(at::Tensor & output, torch::jit::script::Module & module, long int flt_radius,
+            long int num_parameters, long int num_times, long int num_lead_times, Verbose verbose);
 #endif
 
 };
