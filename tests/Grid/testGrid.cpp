@@ -37,7 +37,7 @@ testGrid::testReadPrint_() {
         << "Details: " << endl << grid << endl;
 
     cout << "Location (2, 3): " << grid(2, 3) << endl;
-    cout << "Key 5: " << grid[5] << endl;
+    cout << "Key 5: " << grid[5].first << grid[5].second  << endl;
 
     CPPUNIT_ASSERT(grid(2, 3) == 9);
 
@@ -45,7 +45,7 @@ testGrid::testReadPrint_() {
     CPPUNIT_ASSERT(grid[5] == row_col);
 
     try {
-        cout << "key 12: " << grid[12] << endl;
+        cout << "key 12: " << grid[12].first << grid[12].second << endl;
     } catch (exception & e) {
         cout << "Caught the following error: " << e.what() << endl;
         return;

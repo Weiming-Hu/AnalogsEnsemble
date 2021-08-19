@@ -204,7 +204,7 @@ Profiler::max_name_width_() const {
     if (session_names_.size() == 0) throw runtime_error("No session names added. Please add session names with log_time_session");
 
     // Initialize the width to the size of "Total"
-    int max_name_width = 5;
+    size_t max_name_width = 5;
     for (const auto & name : session_names_) {
         if (name.size() > max_name_width) max_name_width = name.size();
     }

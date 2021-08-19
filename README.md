@@ -73,7 +73,7 @@ That's it. You are good to go. Please refer to [tutorials](#tutorials) or the [R
 CC=gcc-8
 CXX=g++-8
 CXX1X=g++-8
-CXX11=g++-8
+CXX14=g++-8
 ```
 
 2. You can also follow the instructions [here](https://github.com/Rdatatable/data.table/wiki/Installation#openmp-enabled-compiler-for-mac) provided by `data.table`. They provide similar solutions but stick with Clang compilers.

@@ -739,7 +739,7 @@ Functions::unwrapTimeSeries(Forecasts & forecasts, const Times & times, const Ti
      * ***********/
 
     const auto & time_series = observations.getTimes();
-    size_t ts_index;
+    size_t ts_index = 0;
     auto num_times = times.size();
     auto num_flts = flts.size();
 

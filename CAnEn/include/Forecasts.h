@@ -12,7 +12,10 @@
 #include "Config.h"
 #include "BasicData.h"
 #include "Array4D.h"
+
+#if !defined(_DISABLE_GRID)
 #include "Grid.h"
+#endif
 
 #if defined(_ENABLE_AI)
 #include <ATen/ATen.h>
@@ -93,8 +96,10 @@ public:
     std::size_t getFltTimeIndex(std::size_t timestamp) const;
     std::size_t getFltTimeIndex(const Time &) const;
 
+#if !defined(_DISABLE_GRID)
     const Grid & getGrid() const;
     void setGrid(const std::string & grid_file, Verbose verbose = Verbose::Warning);
+#endif
 
 #if defined(_ENABLE_AI)
     /**
@@ -117,7 +122,10 @@ public:
 
 protected:
     Times flts_;
+
+#if !defined(_DISABLE_GRID)
     Grid grid_;
+#endif
 
 #if defined(_ENABLE_AI)
 

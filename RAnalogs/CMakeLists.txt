@@ -32,6 +32,13 @@ message(STATUS "Preparing RAnEn version ${LIBRARY_VERSION}")
 #
 add_definitions(-D_DISABLE_NON_HEADER_BOOST)
 
+# RAnEn does not support Grid functionality currently,
+# so I need to force disabling it if not already.
+#
+if(NOT DISABLE_GRID)
+    add_definitions(-D_DISABLE_GRID)
+endif(NOT DISABLE_GRID)
+
 ##########################
 # complete src directory #
 ##########################
@@ -76,6 +83,7 @@ foreach(file_name ${REQUIRED_HEADER_ONLY_FILES})
     file(COPY "${RAnEn_EXTRA_INCLUDE_DIR}/${file_name}.h" DESTINATION ${RAnEn_SOURCE_DIR})
 endforeach(file_name ${REQUIRED_HEADER_ONLY_FILES})
 
+# Add project files
 file(COPY "${CMAKE_SOURCE_DIR}/NEWS.md" DESTINATION ${RAnEn_PACKAGE_DIR})
 file(COPY "${EXTRA_MODULE_PATH}/configure" DESTINATION ${RAnEn_PACKAGE_DIR})
 file(COPY "${EXTRA_MODULE_PATH}/Makevars.in" DESTINATION ${RAnEn_SOURCE_DIR})

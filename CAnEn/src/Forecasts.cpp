@@ -79,6 +79,7 @@ Forecasts::getFltTimeIndex(Time const & time) const {
     return flts_.getIndex(time);
 }
 
+#if !defined(_DISABLE_GRID)
 const Grid &
 Forecasts::getGrid() const {
     return grid_;
@@ -104,6 +105,7 @@ Forecasts::setGrid(const string & grid_file, Verbose verbose) {
     double max_key = grid_.getMaxKey();
     if (max_key >= stations_.size()) throw runtime_error("Station index overflow in Grid!");
 }
+#endif
 
 #if defined(_ENABLE_AI)
 void
@@ -488,7 +490,9 @@ Forecasts::operator=(const Forecasts & rhs) {
     if (this != &rhs) {
         BasicData::operator=(rhs);
         flts_ = rhs.flts_;
+#if !defined(_DISABLE_GRID)
         grid_ = rhs.grid_;
+#endif
     }
 
     return *this;

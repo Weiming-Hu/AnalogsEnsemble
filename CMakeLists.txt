@@ -22,6 +22,7 @@ option(BUILD_BOOST "Build Boost" OFF)
 option(ENABLE_OPENMP "Use OpenMP" ON)
 option(ENABLE_MPI "Use MPI" OFF)
 option(ENABLE_AI "Use AI for analog search" OFF)
+option(DISABLE_GRID "Disable the Grid class (usually for RAnEn)" OFF)
 option(BUILD_PYGRID "Build the Python API for Grid library" OFF)
 
 # Compatibility
@@ -44,6 +45,10 @@ include("${EXTRA_MODULE_PATH}/macros.cmake")
 
 message(STATUS "You are building PAnEn version " ${GRAND_VERSION} " "
     ${GRAND_VERSION_NICKNAME} " from " ${WE_ARE})
+
+if(DISABLE_GRID)
+    add_definitions(-D_DISABLE_GRID)
+endif(DISABLE_GRID)
 
 # Go to RAnEn build procedures if it is requested
 if(INSTALL_RAnEn)
