@@ -99,21 +99,15 @@ if (R_BH_INCLUDE_DIR)
     include_directories (SYSTEM ${R_BH_INCLUDE_DIR})
 endif (R_BH_INCLUDE_DIR)
 
-# Enable C++11
-if (NOT COMPILER_SUPPORTS_CXX11)
-    # COMPILER_SUPPORTS_CXX11 is defined in the upper most CMakeList file
-    # by checking whether the compiler supports c++11. 
-    # 
-    # If it is not defined, for example, when this script is used individually,
-    # the following lines will forcefully set the options.
-    #
-    set_property(TARGET RAnEn PROPERTY CXX_STANDARD 11)
+# Enable C++14: For later R versions, C++14 is preferred than C++11 to avoid compilation errors.
+if (NOT COMPILER_SUPPORTS_CXX14)
+    set_property(TARGET RAnEn PROPERTY CXX_STANDARD 14)
     set_property(TARGET RAnEn PROPERTY CXX_STANDARD_REQUIRED ON)
 
     if (CMAKE_CXX_COMPILER_ID MATCHES "Intel")
-        target_compile_options(RAnEn PUBLIC "-std=c++11")
+        target_compile_options(RAnEn PUBLIC "-std=c++14")
 	endif (CMAKE_CXX_COMPILER_ID MATCHES "Intel")
-endif (NOT COMPILER_SUPPORTS_CXX11)
+endif (NOT COMPILER_SUPPORTS_CXX14)
 
 # Add target to copy files
 add_custom_target(copyPackage ALL)	
