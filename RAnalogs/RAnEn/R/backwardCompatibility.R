@@ -37,7 +37,10 @@ generateConfiguration <- function(mode, advanced = F) {
 		max_num_search_stations = 0))
 }
 
-generateAnalogs <- function(arg, ...) UseMethod("generateAnalogs")
+generateAnalogs <- function(arg, ...) {
+        if (class(arg)[1] == 'Forecasts') return(generateAnalogs.Forecasts(arg, ...))
+	else if (class(arg)[1] == 'list') return(generateAnalogs.list(arg, ...))
+	else stop('Invalid class. The first argument has to be either Forecasts or list')}
 
 generateAnalogs.list <- function(config, ...) {
 	
