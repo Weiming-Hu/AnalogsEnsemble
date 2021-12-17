@@ -1,6 +1,7 @@
 <map id="AnEnSSE" name="AnEnSSE">
-<area shape="rect" id="node4" href="$class_an_en_s_s_e_m_s.html" title="AnEnSSEMS is derived from the class AnEnSSE. It is different from the base class in how forecast and ..." alt="" coords="39,1540,195,1735"/>
-<area shape="rect" id="node2" href="$class_an_en_i_s.html" title="AnEnIS is an implementation of the class AnEn for the independent search algorithm. " alt="" coords="18,277,215,941"/>
-<area shape="rect" id="node3" href="$class_an_en.html" title="AnEn is an abstract class that defines the interface for implement analog ensemble generation..." alt="" coords="57,5,177,229"/>
-<area shape="rect" id="node5" href="$classtest_an_en_s_s_e_m_s.html" title="{testAnEnSSEMS\n|&#45; parameters_\l&#45; obs_stations_\l&#45; fcst_stations_\l&#45; fcst_times_\l&#45; obs_times_\l&#45; flts_\l&#45; config_\l|+ testAnEnSSEMS()\l+ ~testAnEnSSEMS()\l+ setUp()\l+ tearDown()\l+ setUpAnEn()\l&#45; CPPUNIT_TEST_SUITE()\l&#45; CPPUNIT_TEST()\l&#45; CPPUNIT_TEST()\l&#45; CPPUNIT_TEST()\l&#45; CPPUNIT_TEST()\l&#45; CPPUNIT_TEST_SUITE_END()\l&#45; testAnEn_()\l&#45; testOperation_()\l&#45; testFutureSearch_()\l&#45; testManualMatch_()\l&#45; coreProcedures_()\l}" alt="" coords="5,1783,228,2168"/>
+<area shape="rect" id="node1" title="AnEnSSE is an implementation of the abstrct class AnEn for the search space extension algorithm." alt="" coords="18,989,215,1448"/>
+<area shape="rect" id="node4" href="$class_an_en_s_s_e_m_s.html" title="AnEnSSEMS is derived from the class AnEnSSE. It is different from the base class in how forecast and ..." alt="" coords="39,1496,195,1735"/>
+<area shape="rect" id="node2" href="$class_an_en_i_s.html" title="AnEnIS is an implementation of the class AnEn for the independent search algorithm." alt="" coords="18,277,215,941"/>
+<area shape="rect" id="node3" href="$class_an_en.html" title="AnEn is an abstract class that defines the interface for implement analog ensemble generation." alt="" coords="57,5,177,229"/>
+<area shape="rect" id="node5" href="$classtest_an_en_s_s_e_m_s.html" title=" " alt="" coords="5,1783,228,2168"/>
 </map>

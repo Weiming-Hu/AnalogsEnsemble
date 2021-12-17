@@ -1,7 +1,9 @@
 <map id="array" name="array">
-<area shape="rect" id="node6" href="$classarray__t.html" title="{array_t\&lt; T, ExtraFlags \&gt;\n||+ array_t()\l+ array_t()\l+ array_t()\l+ array_t()\l+ array_t()\l+ array_t()\l+ array_t()\l+ array_t()\l+ array_t()\l+ itemsize()\land 7 more...\l+ ensure()\l+ check_()\l# raw_array_t()\l&#45; array_t()\l}" alt="" coords="5,1225,171,1508"/>
-<area shape="rect" id="node7" href="$classarray__t.html" title="{array_t\&lt; Scalar, array\l::forcecast\|((props::row\l_major ? props::inner_stride\l :props::outer_stride)==1 \l? array::c_style :(props::row\l_major ? props::outer_stride \l:props::inner_stride)==1 ? array\l::f_style :0)\&gt;\n||+ array_t()\l+ array_t()\l+ array_t()\l+ array_t()\l+ array_t()\l+ array_t()\l+ array_t()\l+ array_t()\l+ array_t()\l+ itemsize()\land 7 more...\l+ ensure()\l+ check_()\l# raw_array_t()\l&#45; array_t()\l}" alt="" coords="46,1659,250,2044"/>
-<area shape="rect" id="node2" href="$classbuffer.html" title="{buffer\n||+ request()\l}" alt="" coords="127,708,212,785"/>
-<area shape="rect" id="node3" href="$classobject.html" title="{object\n|+ is_borrowed\l|+ object()\l+ PYBIND11_DEPRECATED()\l+ object()\l+ object()\l+ ~object()\l+ release()\l+ operator=()\l+ operator=()\l+ cast()\l+ cast()\land 6 more...\l}" alt="" coords="66,435,273,659"/>
-<area shape="rect" id="node4" href="$classhandle.html" title="{handle\n|# m_ptr\l|+ handle()\l+ handle()\l+ ptr()\l+ ptr()\l+ inc_ref()\l+ dec_ref()\l+ cast()\l+ operator bool()\l+ operator==()\l+ operator!=()\l+ check()\l+ cast()\l}" alt="" coords="111,147,228,385"/>
+<area shape="rect" id="node1" title=" " alt="" coords="78,864,258,1205"/>
+<area shape="rect" id="node6" href="$classarray__t.html" title=" " alt="" coords="5,1255,168,1537"/>
+<area shape="rect" id="node7" href="$classarray__t.html" title=" " alt="" coords="43,1688,247,2073"/>
+<area shape="rect" id="node2" href="$classbuffer.html" title=" " alt="" coords="125,737,211,815"/>
+<area shape="rect" id="node3" href="$classobject.html" title=" " alt="" coords="65,435,271,688"/>
+<area shape="rect" id="node4" href="$classhandle.html" title=" " alt="" coords="109,147,227,385"/>
+<area shape="rect" id="node5" title=" " alt="" coords="108,5,228,97"/>
 </map>

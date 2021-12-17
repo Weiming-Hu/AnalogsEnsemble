@@ -1,4 +1,5 @@
 <map id="process_attribute&lt; return_value_policy &gt;" name="process_attribute&lt; return_value_policy &gt;">
-<area shape="rect" id="node2" href="$structprocess__attribute__default.html" title="{process_attribute_default\l\&lt; return_value_policy \&gt;\n||+ init()\l+ init()\l+ precall()\l+ postcall()\l}" alt="" coords="21,189,189,325"/>
-<area shape="rect" id="node3" href="$structprocess__attribute__default.html" title="{process_attribute_default\&lt; T \&gt;\n||+ init()\l+ init()\l+ precall()\l+ postcall()\l}" alt="" coords="5,5,205,127"/>
+<area shape="rect" id="node1" title="Process an attribute indicating the function&#39;s return value policy." alt="" coords="30,375,181,467"/>
+<area shape="rect" id="node2" href="$structprocess__attribute__default.html" title=" " alt="" coords="21,189,189,325"/>
+<area shape="rect" id="node3" href="$structprocess__attribute__default.html" title=" " alt="" coords="5,5,205,127"/>
 </map>

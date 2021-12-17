@@ -1,4 +1,5 @@
 <map id="string_caster&lt; StringType, IsView &gt;" name="string_caster&lt; StringType, IsView &gt;">
-<area shape="rect" id="node2" href="$structstring__caster.html" title="{string_caster\&lt; std\l::basic_string\&lt; CharT,\l Traits, Allocator \&gt; \&gt;\n|+ UTF_N\l|+ load()\l+ PYBIND11_TYPE_CASTER()\l+ cast()\l&#45; load_bytes()\l&#45; load_bytes()\l&#45; decode_utfN()\l}" alt="" coords="5,248,216,428"/>
-<area shape="rect" id="node3" href="$structtype__caster_3_01std_1_1basic__string_3_01_char_t_00_01_traits_00_01_allocator_01_4_00_01ece498b5200b790571970efc6b6c56da1.html" title="{type_caster\&lt; std::basic\l_string\&lt; CharT, Traits,\l Allocator \&gt;, enable_if\l_t\&lt; is_std_char_type\&lt; CharT\l \&gt;::value \&gt; \&gt;\n||}" alt="" coords="15,477,207,613"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,5,216,171"/>
+<area shape="rect" id="node2" href="$structstring__caster.html" title=" " alt="" coords="5,248,216,428"/>
+<area shape="rect" id="node3" href="$structtype__caster_3_01std_1_1basic__string_3_01_char_t_00_01_traits_00_01_allocator_01_4_00_01ece498b5200b790571970efc6b6c56da1.html" title=" " alt="" coords="15,477,207,613"/>
 </map>

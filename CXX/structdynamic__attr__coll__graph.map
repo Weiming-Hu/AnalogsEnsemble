@@ -1,2 +1,3 @@
 <map id="dynamic_attr" name="dynamic_attr">
+<area shape="rect" id="node1" title="Annotation which enables dynamic attributes, i.e. adds __dict__ to a class." alt="" coords="5,5,103,83"/>
 </map>

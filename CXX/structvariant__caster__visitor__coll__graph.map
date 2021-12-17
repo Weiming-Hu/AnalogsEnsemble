@@ -1,3 +1,5 @@
 <map id="variant_caster_visitor" name="variant_caster_visitor">
-<area shape="rect" id="node2" href="$classhandle.html" title="{handle\n|# m_ptr\l|+ handle()\l+ handle()\l+ ptr()\l+ ptr()\l+ inc_ref()\l+ dec_ref()\l+ cast()\l+ operator bool()\l+ operator==()\l+ operator!=()\l+ check()\l+ cast()\l}" alt="" coords="20,147,137,385"/>
+<area shape="rect" id="node1" title="Visit a variant and cast any found type to Python." alt="" coords="5,448,152,525"/>
+<area shape="rect" id="node2" href="$classhandle.html" title=" " alt="" coords="20,147,137,385"/>
+<area shape="rect" id="node3" title=" " alt="" coords="19,5,139,97"/>
 </map>

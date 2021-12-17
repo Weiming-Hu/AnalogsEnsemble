@@ -1,4 +1,5 @@
 <map id="value &gt;&gt;&lt; PlainObjectType, StrideType &gt;" name="value &gt;&gt;&lt; PlainObjectType, StrideType &gt;">
-<area shape="rect" id="node2" href="$structeigen__map__caster.html" title="{eigen_map_caster\&lt; Eigen\l::Ref\&lt; PlainObjectType,\l 0, StrideType \&gt; \&gt;\n|+ name\l|+ load()\l+ operator Eigen::Ref\l\&lt; PlainObjectType, 0,\l StrideType \&gt;()\l+ cast()\l}" alt="" coords="22,189,195,355"/>
-<area shape="rect" id="node3" href="$structeigen__map__caster.html" title="{eigen_map_caster\&lt; MapType \&gt;\n|+ name\l|+ load()\l+ operator MapType()\l+ cast()\l}" alt="" coords="5,5,212,112"/>
+<area shape="rect" id="node1" title=" " alt="" coords="16,404,200,657"/>
+<area shape="rect" id="node2" href="$structeigen__map__caster.html" title=" " alt="" coords="21,189,195,355"/>
+<area shape="rect" id="node3" href="$structeigen__map__caster.html" title=" " alt="" coords="5,5,211,112"/>
 </map>

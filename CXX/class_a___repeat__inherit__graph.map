@@ -1,9 +1,10 @@
 <map id="A_Repeat" name="A_Repeat">
-<area shape="rect" id="node2" href="$class_b___repeat.html" title="{B_Repeat\n||}" alt="" coords="167,167,247,245"/>
-<area shape="rect" id="node8" href="$class_py_a___repeat.html" title="{PyA_Repeat\n||+ unlucky_number()\l+ say_something()\l}" alt="" coords="272,160,409,252"/>
-<area shape="rect" id="node3" href="$class_c___repeat.html" title="{C_Repeat\n||}" alt="" coords="100,315,181,392"/>
-<area shape="rect" id="node7" href="$class_py_b___repeat.html" title="{PyB_Repeat\n||+ unlucky_number()\l+ say_something()\l+ lucky_number()\l}" alt="" coords="205,300,343,407"/>
-<area shape="rect" id="node4" href="$class_d___repeat.html" title="{D_Repeat\n||}" alt="" coords="33,469,115,547"/>
-<area shape="rect" id="node6" href="$class_py_c___repeat.html" title="{PyC_Repeat\n||+ unlucky_number()\l+ say_something()\l+ lucky_number()\l}" alt="" coords="139,455,276,561"/>
-<area shape="rect" id="node5" href="$class_py_d___repeat.html" title="{PyD_Repeat\n||+ unlucky_number()\l+ say_something()\l+ lucky_number()\l}" alt="" coords="5,609,143,716"/>
+<area shape="rect" id="node1" title=" " alt="" coords="222,5,326,112"/>
+<area shape="rect" id="node2" href="$class_b___repeat.html" title=" " alt="" coords="167,167,247,245"/>
+<area shape="rect" id="node8" href="$class_py_a___repeat.html" title=" " alt="" coords="272,160,409,252"/>
+<area shape="rect" id="node3" href="$class_c___repeat.html" title=" " alt="" coords="100,315,181,392"/>
+<area shape="rect" id="node7" href="$class_py_b___repeat.html" title=" " alt="" coords="205,300,343,407"/>
+<area shape="rect" id="node4" href="$class_d___repeat.html" title=" " alt="" coords="33,469,115,547"/>
+<area shape="rect" id="node6" href="$class_py_c___repeat.html" title=" " alt="" coords="139,455,276,561"/>
+<area shape="rect" id="node5" href="$class_py_d___repeat.html" title=" " alt="" coords="5,609,143,716"/>
 </map>

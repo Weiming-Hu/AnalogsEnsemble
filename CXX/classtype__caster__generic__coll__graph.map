@@ -1,4 +1,5 @@
 <map id="type_caster_generic" name="type_caster_generic">
-<area shape="rect" id="node2" href="$structtype__info.html" title="{type_info\n|+ type\l+ cpptype\l+ type_size\l+ type_align\l+ holder_size_in_ptrs\l+ operator_new\l+ init_instance\l+ dealloc\l+ implicit_conversions\l+ implicit_casts\land 7 more...\l|}" alt="" coords="17,483,169,707"/>
-<area shape="rect" id="node3" href="$structbuffer__info.html" title="Information record describing a Python buffer object. " alt="" coords="37,5,148,420"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,769,180,1037"/>
+<area shape="rect" id="node2" href="$structtype__info.html" title=" " alt="" coords="17,483,169,707"/>
+<area shape="rect" id="node3" href="$structbuffer__info.html" title="Information record describing a Python buffer object." alt="" coords="37,5,148,420"/>
 </map>

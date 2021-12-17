@@ -110,9 +110,9 @@
       <small>Source: <a href='https://github.com/Weiming-Hu/AnalogsEnsemble/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="panen-4-4-3" class="section level1">
+    <div id="panen-443" class="section level1">
 <h1 class="page-header">
-<a href="#panen-4-4-3" class="anchor"></a>PAnEn 4.4.3</h1>
+<a href="#panen-443" class="anchor"></a>PAnEn 4.4.3</h1>
 <ul>
 <li>From this version, only keeping notes for major and minor version. Notes for patches are dismissed.</li>
 <li>Introduced spatial analogs with <code>PyTorch</code> and deep learning</li>
@@ -123,11 +123,13 @@
 <li>Added a new option <code>--no-norm</code> for AI embeddings</li>
 <li>Moved <code>Txt</code> class from <code>AnEnIO</code> to the lower level class <code>Grid</code>
 </li>
+<li>Migrated from C++11 to C++14 for <code>RAnEn</code> to avoid compilation error from <code>BH</code>
+</li>
 </ul>
 </div>
-    <div id="panen-4-3-1" class="section level1">
+    <div id="panen-431" class="section level1">
 <h1 class="page-header">
-<a href="#panen-4-3-1" class="anchor"></a>PAnEn 4.3.1</h1>
+<a href="#panen-431" class="anchor"></a>PAnEn 4.3.1</h1>
 <ul>
 <li>
 <code>anen_netcdf</code> can now accept reading from different subsets of observation and forecast stations.</li>
@@ -139,32 +141,32 @@
 </li>
 </ul>
 </div>
-    <div id="panen-4-3-0" class="section level1">
+    <div id="panen-430" class="section level1">
 <h1 class="page-header">
-<a href="#panen-4-3-0" class="anchor"></a>PAnEn 4.3.0</h1>
+<a href="#panen-430" class="anchor"></a>PAnEn 4.3.0</h1>
 <ul>
 <li>Added <code>AnEnSSEMS</code> for matching stations. This addition has also been ported to <code>RAnEn</code>.</li>
 </ul>
 </div>
-    <div id="panen-4-2-7" class="section level1">
+    <div id="panen-427" class="section level1">
 <h1 class="page-header">
-<a href="#panen-4-2-7" class="anchor"></a>PAnEn 4.2.7</h1>
+<a href="#panen-427" class="anchor"></a>PAnEn 4.2.7</h1>
 <ul>
 <li>Added test time specification to C++ utility tools</li>
 <li>Added functionality to <code>CAnEnMPI</code> to deal with excessive processes</li>
 </ul>
 </div>
-    <div id="panen-4-2-6" class="section level1">
+    <div id="panen-426" class="section level1">
 <h1 class="page-header">
-<a href="#panen-4-2-6" class="anchor"></a>PAnEn 4.2.6</h1>
+<a href="#panen-426" class="anchor"></a>PAnEn 4.2.6</h1>
 <ul>
 <li>Added multi-tokens to wind speed name conversion</li>
 <li>Fixed a bug when reading doubles with no decimal from an NetCDF file into R. The small error will be removed when reading.</li>
 </ul>
 </div>
-    <div id="panen-4-2-5" class="section level1">
+    <div id="panen-425" class="section level1">
 <h1 class="page-header">
-<a href="#panen-4-2-5" class="anchor"></a>PAnEn 4.2.5</h1>
+<a href="#panen-425" class="anchor"></a>PAnEn 4.2.5</h1>
 <ul>
 <li>Added <code><a href="../reference/readNc2.html">RAnEn::readNc2</a></code>, <code><a href="../reference/readNcAttrs.html">RAnEn::readNcAttrs</a></code>, <code><a href="../reference/mergeList.html">RAnEn::mergeList</a></code>
 </li>
@@ -174,18 +176,18 @@
 <li>Fixed a bug for multi-variate analogs when NAN indices are present</li>
 </ul>
 </div>
-    <div id="panen-4-2-4" class="section level1">
+    <div id="panen-424" class="section level1">
 <h1 class="page-header">
-<a href="#panen-4-2-4" class="anchor"></a>PAnEn 4.2.4</h1>
+<a href="#panen-424" class="anchor"></a>PAnEn 4.2.4</h1>
 <ul>
 <li>Moved ‘RAnEn::schaakeShuffle’ to <code><a href="https://rdrr.io/pkg/RAnEnExtra/man/schaakeShuffle.html">RAnEnExtra::schaakeShuffle</a></code>
 </li>
 <li>Improve efficiency of AI inference</li>
 </ul>
 </div>
-    <div id="panen-4-2-3" class="section level1">
+    <div id="panen-423" class="section level1">
 <h1 class="page-header">
-<a href="#panen-4-2-3" class="anchor"></a>PAnEn 4.2.3</h1>
+<a href="#panen-423" class="anchor"></a>PAnEn 4.2.3</h1>
 <ul>
 <li>Added reading root attributes to <code><a href="../reference/readNc.html">RAnEn::readNc</a></code>
 </li>
@@ -193,9 +195,9 @@
 </li>
 </ul>
 </div>
-    <div id="panen-4-2-2" class="section level1">
+    <div id="panen-422" class="section level1">
 <h1 class="page-header">
-<a href="#panen-4-2-2" class="anchor"></a>PAnEn 4.2.2</h1>
+<a href="#panen-422" class="anchor"></a>PAnEn 4.2.2</h1>
 <ul>
 <li>Added debug printing when parameters are missing</li>
 <li>Added functionality to read <code>nc_STRING</code>
@@ -206,9 +208,9 @@
 <li>Fixed a bug when reading configuration arguments with multiple tokens</li>
 </ul>
 </div>
-    <div id="panen-4-2-1" class="section level1">
+    <div id="panen-421" class="section level1">
 <h1 class="page-header">
-<a href="#panen-4-2-1" class="anchor"></a>PAnEn 4.2.1</h1>
+<a href="#panen-421" class="anchor"></a>PAnEn 4.2.1</h1>
 <ul>
 <li>Separated AI models into an embedding model and a similarity model.</li>
 <li>Added OpenMP parallelization to embeddings</li>
@@ -216,32 +218,32 @@
 <code><a href="../reference/readConfig.html">RAnEn::readConfig</a></code> now reads any <code>*.cfg</code> file into a list.</li>
 </ul>
 </div>
-    <div id="panen-4-2-0" class="section level1">
+    <div id="panen-420" class="section level1">
 <h1 class="page-header">
-<a href="#panen-4-2-0" class="anchor"></a>PAnEn 4.2.0</h1>
+<a href="#panen-420" class="anchor"></a>PAnEn 4.2.0</h1>
 <ul>
 <li>Added AI functionality to C++ utilities</li>
 <li>Add copy operators to classes</li>
 </ul>
 </div>
-    <div id="panen-4-1-3" class="section level1">
+    <div id="panen-413" class="section level1">
 <h1 class="page-header">
-<a href="#panen-4-1-3" class="anchor"></a>PAnEn 4.1.3</h1>
+<a href="#panen-413" class="anchor"></a>PAnEn 4.1.3</h1>
 <ul>
 <li>‘RAnEn::alignObservations’ has been changed to be silent by default.</li>
 <li>‘RAnEn::schaakeShuffle’ can find proper index for shuffling and added parameters.</li>
 </ul>
 </div>
-    <div id="panen-4-1-2" class="section level1">
+    <div id="panen-412" class="section level1">
 <h1 class="page-header">
-<a href="#panen-4-1-2" class="anchor"></a>PAnEn 4.1.2</h1>
+<a href="#panen-412" class="anchor"></a>PAnEn 4.1.2</h1>
 <ul>
 <li>Minor fix. When similarity value is NAN, do not copy any results to output.</li>
 </ul>
 </div>
-    <div id="panen-4-1-1" class="section level1">
+    <div id="panen-411" class="section level1">
 <h1 class="page-header">
-<a href="#panen-4-1-1" class="anchor"></a>PAnEn 4.1.1</h1>
+<a href="#panen-411" class="anchor"></a>PAnEn 4.1.1</h1>
 <ul>
 <li>Added <code><a href="../reference/writeNcVar.html">RAnEn::writeNcVar</a></code>
 </li>
@@ -249,9 +251,9 @@
 <li>Improve column-wise check</li>
 </ul>
 </div>
-    <div id="panen-4-1-0" class="section level1">
+    <div id="panen-410" class="section level1">
 <h1 class="page-header">
-<a href="#panen-4-1-0" class="anchor"></a>PAnEn 4.1.0</h1>
+<a href="#panen-410" class="anchor"></a>PAnEn 4.1.0</h1>
 <ul>
 <li>Added <code>anen_netcdf</code>
 </li>
@@ -259,31 +261,31 @@
 </li>
 </ul>
 </div>
-    <div id="panen-4-0-10" class="section level1">
+    <div id="panen-4010" class="section level1">
 <h1 class="page-header">
-<a href="#panen-4-0-10" class="anchor"></a>PAnEn 4.0.10</h1>
+<a href="#panen-4010" class="anchor"></a>PAnEn 4.0.10</h1>
 <ul>
 <li>Fixed missing variable in <code><a href="../reference/writeNetCDF.html">RAnEn::writeNetCDF</a></code>
 </li>
 </ul>
 </div>
-    <div id="panen-4-0-9" class="section level1">
+    <div id="panen-409" class="section level1">
 <h1 class="page-header">
-<a href="#panen-4-0-9" class="anchor"></a>PAnEn 4.0.9</h1>
+<a href="#panen-409" class="anchor"></a>PAnEn 4.0.9</h1>
 <ul>
 <li>Avoid printing too much information for length-of-1 list in <code>RAnEn::AnEn</code>.</li>
 </ul>
 </div>
-    <div id="panen-4-0-8" class="section level1">
+    <div id="panen-408" class="section level1">
 <h1 class="page-header">
-<a href="#panen-4-0-8" class="anchor"></a>PAnEn 4.0.8</h1>
+<a href="#panen-408" class="anchor"></a>PAnEn 4.0.8</h1>
 <ul>
 <li>Added thread control</li>
 </ul>
 </div>
-    <div id="panen-4-0-7" class="section level1">
+    <div id="panen-407" class="section level1">
 <h1 class="page-header">
-<a href="#panen-4-0-7" class="anchor"></a>PAnEn 4.0.7</h1>
+<a href="#panen-407" class="anchor"></a>PAnEn 4.0.7</h1>
 <ul>
 <li>Removed profiling current memory</li>
 <li>Added sorting capability to <code><a href="../reference/formatObservations.html">RAnEn::formatObservations</a></code>
@@ -294,16 +296,16 @@
 <li>Bug fixed in <code><a href="../reference/writeNetCDF.html">RAnEn::writeNetCDF</a></code> when <code>StationNames</code> is empty</li>
 </ul>
 </div>
-    <div id="panen-4-0-6" class="section level1">
+    <div id="panen-406" class="section level1">
 <h1 class="page-header">
-<a href="#panen-4-0-6" class="anchor"></a>PAnEn 4.0.6</h1>
+<a href="#panen-406" class="anchor"></a>PAnEn 4.0.6</h1>
 <ul>
 <li>Bug fixed. Analog values should not be saved when the similarity value is NAN. All other information (time and station index) will still be saved</li>
 </ul>
 </div>
-    <div id="panen-4-0-5" class="section level1">
+    <div id="panen-405" class="section level1">
 <h1 class="page-header">
-<a href="#panen-4-0-5" class="anchor"></a>PAnEn 4.0.5</h1>
+<a href="#panen-405" class="anchor"></a>PAnEn 4.0.5</h1>
 <ul>
 <li>Added <code>AnEnMPI</code>
 </li>
@@ -312,18 +314,18 @@
 <li>Improved documentation</li>
 </ul>
 </div>
-    <div id="panen-4-0-4" class="section level1">
+    <div id="panen-404" class="section level1">
 <h1 class="page-header">
-<a href="#panen-4-0-4" class="anchor"></a>PAnEn 4.0.4</h1>
+<a href="#panen-404" class="anchor"></a>PAnEn 4.0.4</h1>
 <ul>
 <li>Changed <code>MPI_Init</code> to <code>MPI_Init_thread</code> for OpenMP programs</li>
 <li>Add progress information to AnEn computation</li>
 <li>Improved the distribution of files across nodes</li>
 </ul>
 </div>
-    <div id="panen-4-0-3" class="section level1">
+    <div id="panen-403" class="section level1">
 <h1 class="page-header">
-<a href="#panen-4-0-3" class="anchor"></a>PAnEn 4.0.3</h1>
+<a href="#panen-403" class="anchor"></a>PAnEn 4.0.3</h1>
 <ul>
 <li>Added the regular expressions for forecast and analysis filenames separately</li>
 <li>Changed from <code>boost::regex</code> to <code>boost::xpressive</code>
@@ -336,27 +338,27 @@
 </li>
 </ul>
 </div>
-    <div id="panen-4-0-2" class="section level1">
+    <div id="panen-402" class="section level1">
 <h1 class="page-header">
-<a href="#panen-4-0-2" class="anchor"></a>PAnEn 4.0.2</h1>
+<a href="#panen-402" class="anchor"></a>PAnEn 4.0.2</h1>
 <ul>
 <li>Added test and search period checks to avoid calculating analogs over empty time periods</li>
 <li>Changed the tutorial on generating operational analogs</li>
 <li>Improve the performance of <code>AnEnReadGrib</code> by avoiding reading entire files</li>
 </ul>
 </div>
-    <div id="panen-4-0-1" class="section level1">
+    <div id="panen-401" class="section level1">
 <h1 class="page-header">
-<a href="#panen-4-0-1" class="anchor"></a>PAnEn 4.0.1</h1>
+<a href="#panen-401" class="anchor"></a>PAnEn 4.0.1</h1>
 <ul>
 <li>Added <code><a href="../reference/generateSearchStations.html">RAnEn::generateSearchStations</a></code>
 </li>
 <li>Updated document links</li>
 </ul>
 </div>
-    <div id="panen-4-0-0-pandora" class="section level1">
+    <div id="panen-400-pandora" class="section level1">
 <h1 class="page-header">
-<a href="#panen-4-0-0-pandora" class="anchor"></a>PAnEn 4.0.0 Pandora</h1>
+<a href="#panen-400-pandora" class="anchor"></a>PAnEn 4.0.0 Pandora</h1>
 <ul>
 <li>Changed Underlying data structure from boost to pointer for better performance</li>
 <li>Introduced functionalities like checks of searching into future</li>
@@ -366,9 +368,9 @@
 <li>R API changed</li>
 </ul>
 </div>
-    <div id="panen-3-7-1" class="section level1">
+    <div id="panen-371" class="section level1">
 <h1 class="page-header">
-<a href="#panen-3-7-1" class="anchor"></a>PAnEn 3.7.1</h1>
+<a href="#panen-371" class="anchor"></a>PAnEn 3.7.1</h1>
 <ul>
 <li>Introduced auto generation of HPC work flows using <code>RAnEn::generateHPCWorkflow</code>
 </li>
@@ -382,9 +384,9 @@
 </li>
 </ul>
 </div>
-    <div id="panen-3-7-0" class="section level1">
+    <div id="panen-370" class="section level1">
 <h1 class="page-header">
-<a href="#panen-3-7-0" class="anchor"></a>PAnEn 3.7.0</h1>
+<a href="#panen-370" class="anchor"></a>PAnEn 3.7.0</h1>
 <ul>
 <li>Negative values in indices were removed by default. Added a parameter <code>debug</code> for backward compatibility.</li>
 <li>Added function <code><a href="../reference/formatObservations.html">RAnEn::formatObservations</a></code>
@@ -399,9 +401,9 @@
 <li>Changed default values for <code>Configuration</code> from <code>NA</code> to <code>NULL</code> when it is necessary</li>
 </ul>
 </div>
-    <div id="panen-3-6-5" class="section level1">
+    <div id="panen-365" class="section level1">
 <h1 class="page-header">
-<a href="#panen-3-6-5" class="anchor"></a>PAnEn 3.6.5</h1>
+<a href="#panen-365" class="anchor"></a>PAnEn 3.6.5</h1>
 <ul>
 <li>Added reading forecast circular parameters in `RAnEn::readForecasts</li>
 <li>Added station subset function <code>RAnEn::subsetCoordinates</code>
@@ -411,9 +413,9 @@
 <li>Set up binder with RStudio and removed python notebooks</li>
 </ul>
 </div>
-    <div id="panen-3-6-4" class="section level1">
+    <div id="panen-364" class="section level1">
 <h1 class="page-header">
-<a href="#panen-3-6-4" class="anchor"></a>PAnEn 3.6.4</h1>
+<a href="#panen-364" class="anchor"></a>PAnEn 3.6.4</h1>
 <ul>
 <li>Fixed environment issue for <code>RAnEn::verify</code>
 </li>
@@ -423,17 +425,17 @@
 <li>Changed the spread skill verification function to slicing by FLTs.</li>
 </ul>
 </div>
-    <div id="panen-3-6-3" class="section level1">
+    <div id="panen-363" class="section level1">
 <h1 class="page-header">
-<a href="#panen-3-6-3" class="anchor"></a>PAnEn 3.6.3</h1>
+<a href="#panen-363" class="anchor"></a>PAnEn 3.6.3</h1>
 <ul>
 <li>Fixed a bug in checking the configuration object in R</li>
 <li>Added instructions for package citation</li>
 </ul>
 </div>
-    <div id="panen-3-6-2" class="section level1">
+    <div id="panen-362" class="section level1">
 <h1 class="page-header">
-<a href="#panen-3-6-2" class="anchor"></a>PAnEn 3.6.2</h1>
+<a href="#panen-362" class="anchor"></a>PAnEn 3.6.2</h1>
 <ul>
 <li>Changed the implementation of <code>RAnEn::verifySpreadSkill</code>
 </li>
@@ -447,18 +449,18 @@
 <li>Added the printing method for R class ‘Configuration’</li>
 </ul>
 </div>
-    <div id="panen-3-6-1" class="section level1">
+    <div id="panen-361" class="section level1">
 <h1 class="page-header">
-<a href="#panen-3-6-1" class="anchor"></a>PAnEn 3.6.1</h1>
+<a href="#panen-361" class="anchor"></a>PAnEn 3.6.1</h1>
 <ul>
 <li>Added <code>RAnEn::generatePersistent</code>
 </li>
 <li>Added function names when <code>Done</code> is printed</li>
 </ul>
 </div>
-    <div id="panen-3-6-0" class="section level1">
+    <div id="panen-360" class="section level1">
 <h1 class="page-header">
-<a href="#panen-3-6-0" class="anchor"></a>PAnEn 3.6.0</h1>
+<a href="#panen-360" class="anchor"></a>PAnEn 3.6.0</h1>
 <ul>
 <li>Verification just became simpler. Added a caller function <code>RAnEn::verify</code> and helper function <code>RAnEn::showVerificationMethods</code>
 </li>
@@ -466,9 +468,9 @@
 </li>
 </ul>
 </div>
-    <div id="panen-3-5-4" class="section level1">
+    <div id="panen-354" class="section level1">
 <h1 class="page-header">
-<a href="#panen-3-5-4" class="anchor"></a>PAnEn 3.5.4</h1>
+<a href="#panen-354" class="anchor"></a>PAnEn 3.5.4</h1>
 <ul>
 <li>Changed warnings of <code>CAnEnIO</code> from <code>cout</code> to <code>cerr</code>
 </li>
@@ -477,9 +479,9 @@
 <li>Added garbage collection mechanism to R file I/O functions</li>
 </ul>
 </div>
-    <div id="panen-3-5-3" class="section level1">
+    <div id="panen-353" class="section level1">
 <h1 class="page-header">
-<a href="#panen-3-5-3" class="anchor"></a>PAnEn 3.5.3</h1>
+<a href="#panen-353" class="anchor"></a>PAnEn 3.5.3</h1>
 <ul>
 <li>Resolved a naming bug in <code>RAnEn::schaakeShuffle</code>
 </li>
@@ -492,27 +494,27 @@
 <li>Changed C++ test verbose levels</li>
 </ul>
 </div>
-    <div id="panen-3-5-2" class="section level1">
+    <div id="panen-352" class="section level1">
 <h1 class="page-header">
-<a href="#panen-3-5-2" class="anchor"></a>PAnEn 3.5.2</h1>
+<a href="#panen-352" class="anchor"></a>PAnEn 3.5.2</h1>
 <ul>
 <li>Improved documentation for <code>RAnEn::verifyBrier</code> and <code>RAnEn::verifyThreatScore</code>
 </li>
 <li>Improved the printing information for ‘class: AnEn list’</li>
 </ul>
 </div>
-    <div id="panen-3-5-1" class="section level1">
+    <div id="panen-351" class="section level1">
 <h1 class="page-header">
-<a href="#panen-3-5-1" class="anchor"></a>PAnEn 3.5.1</h1>
+<a href="#panen-351" class="anchor"></a>PAnEn 3.5.1</h1>
 <ul>
 <li>Added the beta function <code>RAnEn::schaakeShuffle</code>.</li>
 <li>Added multiple variable support for <code>windFieldCalculator</code>.</li>
 <li>Added support for <code>Forecasts</code> in <code><a href="../reference/writeNetCDF.html">RAnEn::writeNetCDF</a></code>.</li>
 </ul>
 </div>
-    <div id="panen-3-5-0" class="section level1">
+    <div id="panen-350" class="section level1">
 <h1 class="page-header">
-<a href="#panen-3-5-0" class="anchor"></a>PAnEn 3.5.0</h1>
+<a href="#panen-350" class="anchor"></a>PAnEn 3.5.0</h1>
 <ul>
 <li>Added functions <code>toDateTime</code>, <code>toForecastTime</code>, <code>val2Col</code>, <code>makeTransparent</code>, and <code>plotBackground</code>.</li>
 <li>Improved <code>verifyCRPS</code>.</li>
@@ -524,9 +526,9 @@
 <li>Improved website and tutorials/posts.</li>
 </ul>
 </div>
-    <div id="panen-3-4-2" class="section level1">
+    <div id="panen-342" class="section level1">
 <h1 class="page-header">
-<a href="#panen-3-4-2" class="anchor"></a>PAnEn 3.4.2</h1>
+<a href="#panen-342" class="anchor"></a>PAnEn 3.4.2</h1>
 <ul>
 <li>Added slicing tool <code>fileSlice</code>.</li>
 <li>Added R functions <code>writeNetCDF</code>, <code>readForecasts</code>, <code>readObservations</code>, <code>readAnEn</code>, <code>AnEnC2R</code>, <code>verifyThreatScore</code>, <code>verifyBrier</code>, and <code>readConfig</code>.</li>
@@ -534,27 +536,27 @@
 <li>Changed <code>analogGenerator</code> code. Similarity output is sorted now.</li>
 </ul>
 </div>
-    <div id="panen-3-4-1" class="section level1">
+    <div id="panen-341" class="section level1">
 <h1 class="page-header">
-<a href="#panen-3-4-1" class="anchor"></a>PAnEn 3.4.1</h1>
+<a href="#panen-341" class="anchor"></a>PAnEn 3.4.1</h1>
 <ul>
 <li>Added grid subset functionality to <code>gribConverter</code> for type <code>Forecasts</code>. This function has been tested.</li>
 <li>Fixed <code>RAnEn</code> installation script for C/C++ compilers.</li>
 <li>Fixed <code>OpenMP</code> shared object issue for <code>runtime_error</code>.</li>
 </ul>
 </div>
-    <div id="panen-3-4-0" class="section level1">
+    <div id="panen-340" class="section level1">
 <h1 class="page-header">
-<a href="#panen-3-4-0" class="anchor"></a>PAnEn 3.4.0</h1>
+<a href="#panen-340" class="anchor"></a>PAnEn 3.4.0</h1>
 <ul>
 <li>Introducing SSE functionality based on classifiers. Search space can now be computed based on a classification map that only stations that belong to the same class will be considered when computing search space.</li>
 <li>SSE based on classification has been ported to R interfaces.</li>
 <li>Minor bugs fixed.</li>
 </ul>
 </div>
-    <div id="panen-3-3-1" class="section level1">
+    <div id="panen-331" class="section level1">
 <h1 class="page-header">
-<a href="#panen-3-3-1" class="anchor"></a>PAnEn 3.3.1</h1>
+<a href="#panen-331" class="anchor"></a>PAnEn 3.3.1</h1>
 <ul>
 <li>Fix an indexing bug in <code>RAnEn</code> operational mode.</li>
 <li>Fix a parallelization bug in the internal verification function <code>anen.mean</code>.</li>
@@ -565,9 +567,9 @@
 </li>
 </ul>
 </div>
-    <div id="panen-3-3-0" class="section level1">
+    <div id="panen-330" class="section level1">
 <h1 class="page-header">
-<a href="#panen-3-3-0" class="anchor"></a>PAnEn 3.3.0</h1>
+<a href="#panen-330" class="anchor"></a>PAnEn 3.3.0</h1>
 <ul>
 <li>Add parameters to restrict the number of similarities to keep. This can be very helpful to reduce the memory required. The C++ parameter is <code>max-num-sims</code> and the R parameter is <code>max_num_sims</code>.</li>
 <li>Change package name from <code>Parallel Ensemble Forecast</code> to <code>Parallel Analog Ensemble</code>.</li>
@@ -578,18 +580,18 @@
 <li>Add parallelization to verification functions.</li>
 </ul>
 </div>
-    <div id="panen-3-2-6" class="section level1">
+    <div id="panen-326" class="section level1">
 <h1 class="page-header">
-<a href="#panen-3-2-6" class="anchor"></a>PAnEn 3.2.6</h1>
+<a href="#panen-326" class="anchor"></a>PAnEn 3.2.6</h1>
 <ul>
 <li>Add features to C++ tools that <code>similarityCalculator</code> and <code>analogSelector</code> now accept multiple file input.</li>
 <li>Add proper wall time profiling in C++ tools <code>similarityCalculator</code> and <code>analogSelector</code>.</li>
 <li>Change the profiling output messages.</li>
 </ul>
 </div>
-    <div id="panen-3-2-5" class="section level1">
+    <div id="panen-325" class="section level1">
 <h1 class="page-header">
-<a href="#panen-3-2-5" class="anchor"></a>PAnEn 3.2.5</h1>
+<a href="#panen-325" class="anchor"></a>PAnEn 3.2.5</h1>
 <ul>
 <li>Add function <code>RAnEn::plotAnalogSample</code> and <code>RAnEn::plotAnalogSelection</code>.</li>
 <li>Add the feature for <code>RAnEn</code> to preserve standard deviations.</li>
@@ -601,9 +603,9 @@
 <li>Add mapping calculation feature to analog selector.</li>
 </ul>
 </div>
-    <div id="panen-3-2-4" class="section level1">
+    <div id="panen-324" class="section level1">
 <h1 class="page-header">
-<a href="#panen-3-2-4" class="anchor"></a>PAnEn 3.2.4</h1>
+<a href="#panen-324" class="anchor"></a>PAnEn 3.2.4</h1>
 <ul>
 <li>Bug fixed for using weights.</li>
 <li>Bug fixed for using partial compare times from test and search. This was causing stack overflow.</li>
@@ -611,9 +613,9 @@
 <li>Add density limit parameter for <code>RAnEn::biasCorrectionInsitu</code>.</li>
 </ul>
 </div>
-    <div id="panen-3-2-3" class="section level1">
+    <div id="panen-323" class="section level1">
 <h1 class="page-header">
-<a href="#panen-3-2-3" class="anchor"></a>PAnEn 3.2.3</h1>
+<a href="#panen-323" class="anchor"></a>PAnEn 3.2.3</h1>
 <ul>
 <li>Port <code>max_flt_nan</code> and <code>max_par_nan</code> parameters to R function <code>compute_analogs</code>.</li>
 <li>Update R and C++ document.</li>
@@ -622,9 +624,9 @@
 </li>
 </ul>
 </div>
-    <div id="panen-3-2-2" class="section level1">
+    <div id="panen-322" class="section level1">
 <h1 class="page-header">
-<a href="#panen-3-2-2" class="anchor"></a>PAnEn 3.2.2</h1>
+<a href="#panen-322" class="anchor"></a>PAnEn 3.2.2</h1>
 <ul>
 <li>Improve backward compatibility of R function <code>compute_analogs</code>. This function now returns the analog member index in the 4D observations, rather than in the 3D observations.</li>
 <li>Add a cleaner version of configuration. Configuration now, by default, is the cleaner version. The old version can be accessed by using <code>advanced</code> parameter when generating a configuration.</li>
@@ -633,9 +635,9 @@
 <li>Add unique identifier in <code>SimilarityMatrices</code> and <code>Analogs</code> to distinguish the reason for the NAN value.</li>
 </ul>
 </div>
-    <div id="panen-3-2-1" class="section level1">
+    <div id="panen-321" class="section level1">
 <h1 class="page-header">
-<a href="#panen-3-2-1" class="anchor"></a>PAnEn 3.2.1</h1>
+<a href="#panen-321" class="anchor"></a>PAnEn 3.2.1</h1>
 <ul>
 <li>Remove computing sds outside the loops when operational search is used.</li>
 <li>Add demo for using operational search.</li>
@@ -645,9 +647,9 @@
 <li>When MPI is used, the reading function should automatically detect whether the file can be accessed with parallel processes.</li>
 </ul>
 </div>
-    <div id="panen-3-2-0" class="section level1">
+    <div id="panen-320" class="section level1">
 <h1 class="page-header">
-<a href="#panen-3-2-0" class="anchor"></a>PAnEn 3.2.0</h1>
+<a href="#panen-320" class="anchor"></a>PAnEn 3.2.0</h1>
 <ul>
 <li>Synchronize versions of all components.</li>
 <li>Add similarity computing methods including SeparateTestSearch, LeaveOneOut, and OperationalSearch. This has brought an significant addition to similarity calculation function features.</li>
@@ -655,9 +657,9 @@
 <li>Add R function <code>generateTimeMapping</code>.</li>
 </ul>
 </div>
-    <div id="panen-3-1-1" class="section level1">
+    <div id="panen-311" class="section level1">
 <h1 class="page-header">
-<a href="#panen-3-1-1" class="anchor"></a>PAnEn 3.1.1</h1>
+<a href="#panen-311" class="anchor"></a>PAnEn 3.1.1</h1>
 <div id="ranen" class="section level2">
 <h2 class="hasAnchor">
 <a href="#ranen" class="anchor"></a>RAnEn</h2>
@@ -671,9 +673,9 @@
 </ul>
 </div>
 </div>
-    <div id="panen-3-1-0" class="section level1">
+    <div id="panen-310" class="section level1">
 <h1 class="page-header">
-<a href="#panen-3-1-0" class="anchor"></a>PAnEn 3.1.0</h1>
+<a href="#panen-310" class="anchor"></a>PAnEn 3.1.0</h1>
 <div id="canenio" class="section level2">
 <h2 class="hasAnchor">
 <a href="#canenio" class="anchor"></a>CAnEnIO</h2>
@@ -700,9 +702,9 @@
 </ul>
 </div>
 </div>
-    <div id="panen-3-0-0" class="section level1">
+    <div id="panen-300" class="section level1">
 <h1 class="page-header">
-<a href="#panen-3-0-0" class="anchor"></a>PAnEn 3.0.0</h1>
+<a href="#panen-300" class="anchor"></a>PAnEn 3.0.0</h1>
 <div id="canenio-1" class="section level2">
 <h2 class="hasAnchor">
 <a href="#canenio-1" class="anchor"></a>CAnEnIO</h2>
@@ -717,60 +719,60 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-        <li><a href="#panen-4-4-3">4.4.3</a></li>
-        <li><a href="#panen-4-3-1">4.3.1</a></li>
-        <li><a href="#panen-4-3-0">4.3.0</a></li>
-        <li><a href="#panen-4-2-7">4.2.7</a></li>
-        <li><a href="#panen-4-2-6">4.2.6</a></li>
-        <li><a href="#panen-4-2-5">4.2.5</a></li>
-        <li><a href="#panen-4-2-4">4.2.4</a></li>
-        <li><a href="#panen-4-2-3">4.2.3</a></li>
-        <li><a href="#panen-4-2-2">4.2.2</a></li>
-        <li><a href="#panen-4-2-1">4.2.1</a></li>
-        <li><a href="#panen-4-2-0">4.2.0</a></li>
-        <li><a href="#panen-4-1-3">4.1.3</a></li>
-        <li><a href="#panen-4-1-2">4.1.2</a></li>
-        <li><a href="#panen-4-1-1">4.1.1</a></li>
-        <li><a href="#panen-4-1-0">4.1.0</a></li>
-        <li><a href="#panen-4-0-10">4.0.10</a></li>
-        <li><a href="#panen-4-0-9">4.0.9</a></li>
-        <li><a href="#panen-4-0-8">4.0.8</a></li>
-        <li><a href="#panen-4-0-7">4.0.7</a></li>
-        <li><a href="#panen-4-0-6">4.0.6</a></li>
-        <li><a href="#panen-4-0-5">4.0.5</a></li>
-        <li><a href="#panen-4-0-4">4.0.4</a></li>
-        <li><a href="#panen-4-0-3">4.0.3</a></li>
-        <li><a href="#panen-4-0-2">4.0.2</a></li>
-        <li><a href="#panen-4-0-1">4.0.1</a></li>
-        <li><a href="#panen-4-0-0-pandora">4.0.0</a></li>
-        <li><a href="#panen-3-7-1">3.7.1</a></li>
-        <li><a href="#panen-3-7-0">3.7.0</a></li>
-        <li><a href="#panen-3-6-5">3.6.5</a></li>
-        <li><a href="#panen-3-6-4">3.6.4</a></li>
-        <li><a href="#panen-3-6-3">3.6.3</a></li>
-        <li><a href="#panen-3-6-2">3.6.2</a></li>
-        <li><a href="#panen-3-6-1">3.6.1</a></li>
-        <li><a href="#panen-3-6-0">3.6.0</a></li>
-        <li><a href="#panen-3-5-4">3.5.4</a></li>
-        <li><a href="#panen-3-5-3">3.5.3</a></li>
-        <li><a href="#panen-3-5-2">3.5.2</a></li>
-        <li><a href="#panen-3-5-1">3.5.1</a></li>
-        <li><a href="#panen-3-5-0">3.5.0</a></li>
-        <li><a href="#panen-3-4-2">3.4.2</a></li>
-        <li><a href="#panen-3-4-1">3.4.1</a></li>
-        <li><a href="#panen-3-4-0">3.4.0</a></li>
-        <li><a href="#panen-3-3-1">3.3.1</a></li>
-        <li><a href="#panen-3-3-0">3.3.0</a></li>
-        <li><a href="#panen-3-2-6">3.2.6</a></li>
-        <li><a href="#panen-3-2-5">3.2.5</a></li>
-        <li><a href="#panen-3-2-4">3.2.4</a></li>
-        <li><a href="#panen-3-2-3">3.2.3</a></li>
-        <li><a href="#panen-3-2-2">3.2.2</a></li>
-        <li><a href="#panen-3-2-1">3.2.1</a></li>
-        <li><a href="#panen-3-2-0">3.2.0</a></li>
-        <li><a href="#panen-3-1-1">3.1.1</a></li>
-        <li><a href="#panen-3-1-0">3.1.0</a></li>
-        <li><a href="#panen-3-0-0">3.0.0</a></li>
+        <li><a href="#panen-443">4.4.3</a></li>
+        <li><a href="#panen-431">4.3.1</a></li>
+        <li><a href="#panen-430">4.3.0</a></li>
+        <li><a href="#panen-427">4.2.7</a></li>
+        <li><a href="#panen-426">4.2.6</a></li>
+        <li><a href="#panen-425">4.2.5</a></li>
+        <li><a href="#panen-424">4.2.4</a></li>
+        <li><a href="#panen-423">4.2.3</a></li>
+        <li><a href="#panen-422">4.2.2</a></li>
+        <li><a href="#panen-421">4.2.1</a></li>
+        <li><a href="#panen-420">4.2.0</a></li>
+        <li><a href="#panen-413">4.1.3</a></li>
+        <li><a href="#panen-412">4.1.2</a></li>
+        <li><a href="#panen-411">4.1.1</a></li>
+        <li><a href="#panen-410">4.1.0</a></li>
+        <li><a href="#panen-4010">4.0.10</a></li>
+        <li><a href="#panen-409">4.0.9</a></li>
+        <li><a href="#panen-408">4.0.8</a></li>
+        <li><a href="#panen-407">4.0.7</a></li>
+        <li><a href="#panen-406">4.0.6</a></li>
+        <li><a href="#panen-405">4.0.5</a></li>
+        <li><a href="#panen-404">4.0.4</a></li>
+        <li><a href="#panen-403">4.0.3</a></li>
+        <li><a href="#panen-402">4.0.2</a></li>
+        <li><a href="#panen-401">4.0.1</a></li>
+        <li><a href="#panen-400-pandora">4.0.0</a></li>
+        <li><a href="#panen-371">3.7.1</a></li>
+        <li><a href="#panen-370">3.7.0</a></li>
+        <li><a href="#panen-365">3.6.5</a></li>
+        <li><a href="#panen-364">3.6.4</a></li>
+        <li><a href="#panen-363">3.6.3</a></li>
+        <li><a href="#panen-362">3.6.2</a></li>
+        <li><a href="#panen-361">3.6.1</a></li>
+        <li><a href="#panen-360">3.6.0</a></li>
+        <li><a href="#panen-354">3.5.4</a></li>
+        <li><a href="#panen-353">3.5.3</a></li>
+        <li><a href="#panen-352">3.5.2</a></li>
+        <li><a href="#panen-351">3.5.1</a></li>
+        <li><a href="#panen-350">3.5.0</a></li>
+        <li><a href="#panen-342">3.4.2</a></li>
+        <li><a href="#panen-341">3.4.1</a></li>
+        <li><a href="#panen-340">3.4.0</a></li>
+        <li><a href="#panen-331">3.3.1</a></li>
+        <li><a href="#panen-330">3.3.0</a></li>
+        <li><a href="#panen-326">3.2.6</a></li>
+        <li><a href="#panen-325">3.2.5</a></li>
+        <li><a href="#panen-324">3.2.4</a></li>
+        <li><a href="#panen-323">3.2.3</a></li>
+        <li><a href="#panen-322">3.2.2</a></li>
+        <li><a href="#panen-321">3.2.1</a></li>
+        <li><a href="#panen-320">3.2.0</a></li>
+        <li><a href="#panen-311">3.1.1</a></li>
+        <li><a href="#panen-310">3.1.0</a></li>
+        <li><a href="#panen-300">3.0.0</a></li>
       </ul>
     </div>
   </div>

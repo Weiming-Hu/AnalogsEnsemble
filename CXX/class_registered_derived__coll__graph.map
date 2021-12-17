@@ -1,3 +1,4 @@
 <map id="RegisteredDerived" name="RegisteredDerived">
-<area shape="rect" id="node2" href="$class_unregistered_base.html" title="{UnregisteredBase\n|+ rw_value\l+ ro_value\l|+ do_nothing()\l+ increase_value()\l+ set_int()\l+ get_int()\l+ get_double()\l}" alt="" coords="6,5,135,156"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,204,136,281"/>
+<area shape="rect" id="node2" href="$class_unregistered_base.html" title=" " alt="" coords="6,5,135,156"/>
 </map>

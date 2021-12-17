@@ -1,5 +1,6 @@
 <map id="D_Tpl" name="D_Tpl">
-<area shape="rect" id="node2" href="$class_c___tpl.html" title="{C_Tpl\n||}" alt="" coords="33,285,91,363"/>
-<area shape="rect" id="node3" href="$class_b___tpl.html" title="{B_Tpl\n||}" alt="" coords="34,160,90,237"/>
-<area shape="rect" id="node4" href="$class_a___tpl.html" title="{A_Tpl\n|&#45; A_METHODS\l|&#45; A_Tpl()\l&#45; A_Tpl()\l&#45; ~A_Tpl()\l}" alt="" coords="5,5,119,112"/>
+<area shape="rect" id="node1" title=" " alt="" coords="33,411,90,488"/>
+<area shape="rect" id="node2" href="$class_c___tpl.html" title=" " alt="" coords="33,285,90,363"/>
+<area shape="rect" id="node3" href="$class_b___tpl.html" title=" " alt="" coords="33,160,89,237"/>
+<area shape="rect" id="node4" href="$class_a___tpl.html" title=" " alt="" coords="5,5,117,112"/>
 </map>

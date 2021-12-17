@@ -1,3 +1,5 @@
 <map id="sequence_slow_readwrite" name="sequence_slow_readwrite">
-<area shape="rect" id="node2" href="$classhandle.html" title="{handle\n|# m_ptr\l|+ handle()\l+ handle()\l+ ptr()\l+ ptr()\l+ inc_ref()\l+ dec_ref()\l+ cast()\l+ operator bool()\l+ operator==()\l+ operator!=()\l+ check()\l+ cast()\l}" alt="" coords="42,147,159,385"/>
+<area shape="rect" id="node1" title="Full read and write access using the sequence protocol: see detail::sequence_accessor" alt="" coords="5,448,196,613"/>
+<area shape="rect" id="node2" href="$classhandle.html" title=" " alt="" coords="42,147,159,385"/>
+<area shape="rect" id="node3" title=" " alt="" coords="41,5,161,97"/>
 </map>

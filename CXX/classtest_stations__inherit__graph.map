@@ -1,2 +1,4 @@
 <map id="testStations" name="testStations">
+<area shape="rect" id="node1" title=" " alt="" coords="5,131,228,340"/>
+<area shape="rect" id="node2" title=" " alt="" coords="73,5,160,83"/>
 </map>

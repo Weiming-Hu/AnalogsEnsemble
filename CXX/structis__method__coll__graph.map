@@ -1,3 +1,5 @@
 <map id="is_method" name="is_method">
-<area shape="rect" id="node2" href="$classhandle.html" title="{handle\n|# m_ptr\l|+ handle()\l+ handle()\l+ ptr()\l+ ptr()\l+ inc_ref()\l+ dec_ref()\l+ cast()\l+ operator bool()\l+ operator==()\l+ operator!=()\l+ check()\l+ cast()\l}" alt="" coords="7,147,124,385"/>
+<area shape="rect" id="node1" title="Annotation for methods." alt="" coords="14,448,117,525"/>
+<area shape="rect" id="node2" href="$classhandle.html" title=" " alt="" coords="7,147,124,385"/>
+<area shape="rect" id="node3" title=" " alt="" coords="5,5,125,97"/>
 </map>

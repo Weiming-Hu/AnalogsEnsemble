@@ -1,3 +1,4 @@
 <map id="AnEnReadGribMPI" name="AnEnReadGribMPI">
-<area shape="rect" id="node2" href="$class_an_en_read_grib.html" title="AnEnReadGrib provides the functionality to read the Grib2 format. " alt="" coords="6,5,166,171"/>
+<area shape="rect" id="node1" title="AnEnReadGribMPI provides the functionality to read the Grib2 format in parallel with MPI." alt="" coords="5,219,167,369"/>
+<area shape="rect" id="node2" href="$class_an_en_read_grib.html" title="AnEnReadGrib provides the functionality to read the Grib2 format." alt="" coords="6,5,166,171"/>
 </map>

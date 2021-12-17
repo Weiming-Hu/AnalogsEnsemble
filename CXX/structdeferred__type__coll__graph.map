@@ -1,2 +1,3 @@
 <map id="deferred_type&lt; T,... &gt;" name="deferred_type&lt; T,... &gt;">
+<area shape="rect" id="node1" title="Defer the evaluation of type T until types Us are instantiated." alt="" coords="5,5,152,83"/>
 </map>

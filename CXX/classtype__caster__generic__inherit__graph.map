@@ -1,10 +1,11 @@
 <map id="type_caster_generic" name="type_caster_generic">
-<area shape="rect" id="node2" href="$classtype__caster__base.html" title="Generic type caster for objects stored on the heap. " alt="" coords="388,337,572,591"/>
-<area shape="rect" id="node8" href="$classtype__caster__base.html" title="{type_caster_base\&lt; String\lType \&gt;\n|+ name\l|+ type_caster_base()\l+ type_caster_base()\l+ operator itype *()\l+ operator itype &amp;()\l+ cast()\l+ cast()\l+ cast()\l+ src_and_type()\l+ cast_holder()\l# make_copy_constructor()\l# make_copy_constructor()\l# make_move_constructor()\l# make_move_constructor()\l}" alt="" coords="651,653,835,921"/>
-<area shape="rect" id="node9" href="$classtype__caster__base.html" title="{type_caster_base\&lt; T \&gt;\n|+ name\l|+ type_caster_base()\l+ type_caster_base()\l+ operator itype *()\l+ operator itype &amp;()\l+ cast()\l+ cast()\l+ cast()\l+ src_and_type()\l+ cast_holder()\l# make_copy_constructor()\l# make_copy_constructor()\l# make_move_constructor()\l# make_move_constructor()\l}" alt="" coords="203,661,387,914"/>
-<area shape="rect" id="node3" href="$structcopyable__holder__caster.html" title="{copyable_holder_caster\l\&lt; type \&gt;\n|# holder\l|+ load()\l+ operator type *()\l+ operator type &amp;()\l+ operator holder_type *()\l+ operator holder_type &amp;()\l+ cast()\l# check_holder_compat()\l# load_value()\l# try_implicit_casts()\l# try_implicit_casts()\l# try_direct_conversions()\l}" alt="" coords="5,668,179,907"/>
-<area shape="rect" id="node6" href="$classtype__caster.html" title="{type_caster\&lt; type \&gt;\n||}" alt="" coords="411,749,549,826"/>
-<area shape="rect" id="node4" href="$structcopyable__holder__caster.html" title="{copyable_holder_caster\l\&lt; T, std::shared_ptr\&lt; T \&gt; \&gt;\n|# holder\l|+ load()\l+ operator T *()\l+ operator T &amp;()\l+ operator std::shared\l_ptr\&lt; T \&gt; *()\l+ operator std::shared\l_ptr\&lt; T \&gt; &amp;()\l+ cast()\l# check_holder_compat()\l# load_value()\l# try_implicit_casts()\l# try_implicit_casts()\l# try_direct_conversions()\l}" alt="" coords="147,999,328,1267"/>
-<area shape="rect" id="node5" href="$classtype__caster_3_01std_1_1shared__ptr_3_01_t_01_4_01_4.html" title="Specialize for the common std::shared_ptr, so users don&#39;t need to. " alt="" coords="154,1316,321,1408"/>
-<area shape="rect" id="node7" href="$classtype__caster.html" title="{type_caster\&lt; StringType \&gt;\n||}" alt="" coords="433,1094,610,1171"/>
+<area shape="rect" id="node1" title=" " alt="" coords="393,5,567,288"/>
+<area shape="rect" id="node2" href="$classtype__caster__base.html" title="Generic type caster for objects stored on the heap." alt="" coords="388,337,572,591"/>
+<area shape="rect" id="node8" href="$classtype__caster__base.html" title=" " alt="" coords="651,661,835,929"/>
+<area shape="rect" id="node9" href="$classtype__caster__base.html" title=" " alt="" coords="203,668,387,921"/>
+<area shape="rect" id="node3" href="$structcopyable__holder__caster.html" title=" " alt="" coords="5,653,179,936"/>
+<area shape="rect" id="node6" href="$classtype__caster.html" title=" " alt="" coords="411,756,549,833"/>
+<area shape="rect" id="node4" href="$structcopyable__holder__caster.html" title=" " alt="" coords="179,1013,357,1325"/>
+<area shape="rect" id="node5" href="$classtype__caster_3_01std_1_1shared__ptr_3_01_t_01_4_01_4.html" title="Specialize for the common std::shared_ptr, so users don&#39;t need to." alt="" coords="185,1375,351,1467"/>
+<area shape="rect" id="node7" href="$classtype__caster.html" title=" " alt="" coords="445,1131,621,1208"/>
 </map>

@@ -1,5 +1,0 @@
-<map id="accessor&lt; Policy &gt;" name="accessor&lt; Policy &gt;">
-<area shape="rect" id="node2" href="$classobject__api.html" title="{object_api\&lt; accessor\l\&lt; Policy \&gt; \&gt;\n||+ begin()\l+ end()\l+ operator[]()\l+ operator[]()\l+ attr()\l+ attr()\l+ operator*()\l+ operator*()\l+ contains()\l+ operator()()\land 32 more...\l&#45; derived()\l&#45; rich_compare()\l}" alt="" coords="5,448,152,716"/>
-<area shape="rect" id="node3" href="$classpyobject__tag.html" title="Tag and check to identify a class which implements the Python object API. " alt="" coords="25,5,121,83"/>
-<area shape="rect" id="node4" href="$classobject__api.html" title="{object_api\&lt; Derived \&gt;\n||+ begin()\l+ end()\l+ operator[]()\l+ operator[]()\l+ attr()\l+ attr()\l+ operator*()\l+ contains()\l+ operator()()\l+ PYBIND11_DEPRECATED()\land 32 more...\l&#45; derived()\l&#45; rich_compare()\l}" alt="" coords="95,132,302,385"/>
-</map>

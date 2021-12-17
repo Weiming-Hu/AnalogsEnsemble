@@ -1,4 +1,5 @@
 <map id="Panther" name="Panther">
-<area shape="rect" id="node2" href="$struct_cat.html" title="{Cat\n||+ Cat()\l+ purr()\l}" alt="" coords="35,189,99,281"/>
-<area shape="rect" id="node3" href="$struct_animal.html" title="{Animal\n|+ kind\l+ name\l|+ ~Animal()\l+ type_of_kind()\l+ name_of_kind()\l# Animal()\l}" alt="" coords="5,5,128,141"/>
+<area shape="rect" id="node1" title=" " alt="" coords="23,329,110,421"/>
+<area shape="rect" id="node2" href="$struct_cat.html" title=" " alt="" coords="35,189,99,281"/>
+<area shape="rect" id="node3" href="$struct_animal.html" title=" " alt="" coords="5,5,128,141"/>
 </map>

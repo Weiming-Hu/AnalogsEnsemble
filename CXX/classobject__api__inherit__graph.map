@@ -1,5 +1,4 @@
 <map id="object_api&lt; Derived &gt;" name="object_api&lt; Derived &gt;">
-<area shape="rect" id="node3" href="$classobject__api.html" title="{object_api\&lt; accessor\l\&lt; Policy \&gt; \&gt;\n||+ begin()\l+ end()\l+ operator[]()\l+ operator[]()\l+ attr()\l+ attr()\l+ operator*()\l+ operator*()\l+ contains()\l+ operator()()\land 32 more...\l&#45; derived()\l&#45; rich_compare()\l}" alt="" coords="35,448,182,716"/>
-<area shape="rect" id="node2" href="$classpyobject__tag.html" title="Tag and check to identify a class which implements the Python object API. " alt="" coords="61,5,157,83"/>
-<area shape="rect" id="node4" href="$classaccessor.html" title="{accessor\&lt; Policy \&gt;\n|+ key\l+ cache\l|+ accessor()\l+ accessor()\l+ accessor()\l+ operator=()\l+ operator=()\l+ operator=()\l+ operator=()\l}" alt="" coords="41,765,176,945"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,131,212,384"/>
+<area shape="rect" id="node2" href="$classpyobject__tag.html" title="Tag and check to identify a class which implements the Python object API." alt="" coords="61,5,157,83"/>
 </map>

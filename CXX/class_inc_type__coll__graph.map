@@ -1,2 +1,4 @@
 <map id="IncType" name="IncType">
+<area shape="rect" id="node1" title="Like UserType, but increments value on copy for quick reference vs. copy tests." alt="" coords="5,131,104,296"/>
+<area shape="rect" id="node2" title=" " alt="" coords="15,5,94,83"/>
 </map>

@@ -1,6 +1,7 @@
 <map id="array_caster&lt; ArrayType, Value, Resizable, Size &gt;" name="array_caster&lt; ArrayType, Value, Resizable, Size &gt;">
-<area shape="rect" id="node2" href="$structarray__caster.html" title="{array_caster\&lt; std::\larray\&lt; Type, Size \&gt;,\l Type, false, Size \&gt;\n||+ load()\l+ PYBIND11_TYPE_CASTER()\l+ cast()\l&#45; require_size()\l&#45; require_size()\l}" alt="" coords="5,248,216,413"/>
-<area shape="rect" id="node4" href="$structarray__caster.html" title="{array_caster\&lt; std::\lvalarray\&lt; Type \&gt;, Type,\l true \&gt;\n||+ load()\l+ PYBIND11_TYPE_CASTER()\l+ cast()\l&#45; require_size()\l&#45; require_size()\l}" alt="" coords="240,248,451,413"/>
-<area shape="rect" id="node3" href="$structtype__caster_3_01std_1_1array_3_01_type_00_01_size_01_4_01_4.html" title="{type_caster\&lt; std::array\l\&lt; Type, Size \&gt; \&gt;\n||}" alt="" coords="32,463,189,555"/>
-<area shape="rect" id="node5" href="$structtype__caster_3_01std_1_1valarray_3_01_type_01_4_01_4.html" title="{type_caster\&lt; std::valarray\l\&lt; Type \&gt; \&gt;\n||}" alt="" coords="258,463,433,555"/>
+<area shape="rect" id="node1" title=" " alt="" coords="123,5,333,156"/>
+<area shape="rect" id="node2" href="$structarray__caster.html" title=" " alt="" coords="5,248,216,413"/>
+<area shape="rect" id="node4" href="$structarray__caster.html" title=" " alt="" coords="240,248,451,413"/>
+<area shape="rect" id="node3" href="$structtype__caster_3_01std_1_1array_3_01_type_00_01_size_01_4_01_4.html" title=" " alt="" coords="32,463,189,555"/>
+<area shape="rect" id="node5" href="$structtype__caster_3_01std_1_1valarray_3_01_type_01_4_01_4.html" title=" " alt="" coords="258,463,433,555"/>
 </map>

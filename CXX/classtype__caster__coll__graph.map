@@ -1,6 +1,7 @@
 <map id="type_caster&lt; type, SFINAE &gt;" name="type_caster&lt; type, SFINAE &gt;">
-<area shape="rect" id="node2" href="$classtype__caster__base.html" title="Generic type caster for objects stored on the heap. " alt="" coords="5,1087,189,1340"/>
-<area shape="rect" id="node3" href="$classtype__caster__generic.html" title="{type_caster_generic\n|+ cpptype\l+ value\l|+ type_caster_generic()\l+ type_caster_generic()\l+ load()\l+ load_value()\l+ try_implicit_casts()\l+ try_direct_conversions()\l+ check_holder_compat()\l+ try_load_foreign_module\l_local()\l+ load_impl()\l+ cast()\l+ local_load()\l+ src_and_type()\l}" alt="" coords="10,769,185,1037"/>
-<area shape="rect" id="node4" href="$structtype__info.html" title="{type_info\n|+ type\l+ cpptype\l+ type_size\l+ type_align\l+ holder_size_in_ptrs\l+ operator_new\l+ init_instance\l+ dealloc\l+ implicit_conversions\l+ implicit_casts\land 7 more...\l|}" alt="" coords="21,483,173,707"/>
-<area shape="rect" id="node5" href="$structbuffer__info.html" title="Information record describing a Python buffer object. " alt="" coords="42,5,153,420"/>
+<area shape="rect" id="node1" title=" " alt="" coords="32,1389,163,1481"/>
+<area shape="rect" id="node2" href="$classtype__caster__base.html" title="Generic type caster for objects stored on the heap." alt="" coords="5,1087,189,1340"/>
+<area shape="rect" id="node3" href="$classtype__caster__generic.html" title=" " alt="" coords="10,769,185,1037"/>
+<area shape="rect" id="node4" href="$structtype__info.html" title=" " alt="" coords="21,483,173,707"/>
+<area shape="rect" id="node5" href="$structbuffer__info.html" title="Information record describing a Python buffer object." alt="" coords="42,5,153,420"/>
 </map>

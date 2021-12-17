@@ -1,4 +1,5 @@
 <map id="ObservationsPointer" name="ObservationsPointer">
+<area shape="rect" id="node1" title="ObservationsPointer is an implementation of the abstract class Observations. The underlying storage u..." alt="" coords="5,623,173,1023"/>
 <area shape="rect" id="node2" href="$class_observations.html" title="Observations is an abstract class that extends BasicData. It defines the interface of how to interact..." alt="" coords="25,307,154,575"/>
-<area shape="rect" id="node3" href="$class_basic_data.html" title="BasicData is an implementation of the data structure used by Analog Ensemble. It includes parameters..." alt="" coords="26,5,153,259"/>
+<area shape="rect" id="node3" href="$class_basic_data.html" title="BasicData is an implementation of the data structure used by Analog Ensemble. It includes parameters,..." alt="" coords="26,5,153,259"/>
 </map>

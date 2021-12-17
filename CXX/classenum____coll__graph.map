@@ -1,4 +1,7 @@
 <map id="enum_&lt; Type &gt;" name="enum_&lt; Type &gt;">
-<area shape="rect" id="node2" href="$classclass__.html" title="{class_\&lt; Type \&gt;\n|+ has_alias\l|+ class_()\l+ def()\l+ def()\l+ def()\l+ def()\l+ def()\l+ def()\l+ def_static()\l+ def_cast()\l+ def_buffer()\land 15 more...\l+ add_base()\l+ add_base()\l&#45; init_holder()\l&#45; init_holder()\l&#45; init_holder_from_existing()\l&#45; init_holder_from_existing()\l&#45; init_instance()\l&#45; dealloc()\l&#45; get_function_record()\l}" alt="" coords="37,551,220,907"/>
-<area shape="rect" id="node4" href="$classclass__.html" title="{class_\&lt; type_, options \&gt;\n|+ has_alias\l|+ class_()\l+ def()\l+ def_static()\l+ def()\l+ def_cast()\l+ def()\l+ def()\l+ def()\l+ def()\l+ def_buffer()\land 15 more...\l+ add_base()\l+ add_base()\l&#45; init_holder()\l&#45; init_holder_from_existing()\l&#45; init_holder_from_existing()\l&#45; init_holder()\l&#45; init_instance()\l&#45; dealloc()\l&#45; get_function_record()\l}" alt="" coords="164,132,347,488"/>
+<area shape="rect" id="node1" title="Binds C++ enumerations and enumeration classes to Python." alt="" coords="67,956,190,1063"/>
+<area shape="rect" id="node2" href="$classclass__.html" title=" " alt="" coords="37,551,220,907"/>
+<area shape="rect" id="node3" title=" " alt="" coords="5,271,140,349"/>
+<area shape="rect" id="node4" href="$classclass__.html" title=" " alt="" coords="164,132,347,488"/>
+<area shape="rect" id="node5" title=" " alt="" coords="207,5,303,83"/>
 </map>

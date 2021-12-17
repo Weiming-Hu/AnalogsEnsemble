@@ -1,3 +1,4 @@
 <map id="Parameter" name="Parameter">
-<area shape="rect" id="node2" href="$class_parameter_grib.html" title="ParameterGrib stores parameter information including the extra information, e.g. ID, variable level, and the type of variable level. These information is very helpful when locating a specific variable in a Grib2 format file. " alt="" coords="5,307,140,604"/>
+<area shape="rect" id="node1" title="Parameter stores parameter information including name and circular." alt="" coords="17,5,128,259"/>
+<area shape="rect" id="node2" href="$class_parameter_grib.html" title="ParameterGrib stores parameter information including the extra information, e.g. ID,..." alt="" coords="5,307,140,604"/>
 </map>

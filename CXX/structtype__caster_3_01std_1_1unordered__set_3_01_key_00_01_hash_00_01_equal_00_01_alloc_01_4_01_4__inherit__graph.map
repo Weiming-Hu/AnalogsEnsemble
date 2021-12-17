@@ -1,4 +1,5 @@
 <map id="type_caster&lt; std::unordered_set&lt; Key, Hash, Equal, Alloc &gt; &gt;" name="type_caster&lt; std::unordered_set&lt; Key, Hash, Equal, Alloc &gt; &gt;">
-<area shape="rect" id="node2" href="$structset__caster.html" title="{set_caster\&lt; std::unordered\l_set\&lt; Key, Hash, Equal,\l Alloc \&gt;, Key \&gt;\n||+ load()\l+ PYBIND11_TYPE_CASTER()\l+ cast()\l}" alt="" coords="5,204,216,340"/>
-<area shape="rect" id="node3" href="$structset__caster.html" title="{set_caster\&lt; Type, Key \&gt;\n||+ load()\l+ PYBIND11_TYPE_CASTER()\l+ cast()\l}" alt="" coords="5,5,216,112"/>
+<area shape="rect" id="node1" title=" " alt="" coords="18,389,203,496"/>
+<area shape="rect" id="node2" href="$structset__caster.html" title=" " alt="" coords="5,204,216,340"/>
+<area shape="rect" id="node3" href="$structset__caster.html" title=" " alt="" coords="5,5,216,112"/>
 </map>

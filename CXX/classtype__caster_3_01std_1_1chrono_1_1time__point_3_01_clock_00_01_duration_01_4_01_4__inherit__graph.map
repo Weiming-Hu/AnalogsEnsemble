@@ -1,4 +1,5 @@
 <map id="type_caster&lt; std::chrono::time_point&lt; Clock, Duration &gt; &gt;" name="type_caster&lt; std::chrono::time_point&lt; Clock, Duration &gt; &gt;">
-<area shape="rect" id="node2" href="$classduration__caster.html" title="{duration_caster\&lt; std\l::chrono::time_point\l\&lt; Clock, Duration \&gt; \&gt;\n||+ load()\l+ PYBIND11_TYPE_CASTER()\l+ get_duration()\l+ get_duration()\l+ cast()\l}" alt="" coords="9,219,219,384"/>
-<area shape="rect" id="node3" href="$classduration__caster.html" title="{duration_caster\&lt; type \&gt;\n||+ load()\l+ PYBIND11_TYPE_CASTER()\l+ get_duration()\l+ get_duration()\l+ cast()\l}" alt="" coords="9,5,219,141"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,433,223,525"/>
+<area shape="rect" id="node2" href="$classduration__caster.html" title=" " alt="" coords="9,219,219,384"/>
+<area shape="rect" id="node3" href="$classduration__caster.html" title=" " alt="" coords="9,5,219,141"/>
 </map>

@@ -1,10 +1,15 @@
 <map id="testAnEnIS" name="testAnEnIS">
-<area shape="rect" id="node3" href="$class_an_en_i_s.html" title="AnEnIS is an implementation of the class AnEn for the independent search algorithm. " alt="" coords="128,799,325,1463"/>
-<area shape="rect" id="node4" href="$class_an_en.html" title="AnEn is an abstract class that defines the interface for implement analog ensemble generation..." alt="" coords="19,380,139,589"/>
-<area shape="rect" id="node5" href="$class_profiler.html" title="{Profiler\n|&#45; session_names_\l&#45; ptimes_\l|+ Profiler()\l+ ~Profiler()\l+ start()\l+ log_time_session()\l+ append_sessions()\l+ operator+=()\l+ summary()\l&#45; max_name_width_()\l}" alt="" coords="5,42,152,237"/>
-<area shape="rect" id="node6" href="$class_array4_d_pointer.html" title="Array4DPointer is an implementation of the abstract class Array4D. " alt="" coords="163,336,317,633"/>
-<area shape="rect" id="node7" href="$class_array4_d.html" title="Array4D is an abstract class for 4&#45;dimensional array. " alt="" coords="177,5,303,273"/>
-<area shape="rect" id="node8" href="$class_times.html" title="Times class is used to store Time. It is a bidirectional map implemented from Boost so that it provid..." alt="" coords="350,1011,482,1250"/>
-<area shape="rect" id="node10" href="$class_stations.html" title="Stations class stores Station objects. It is a bidirectional map implemented from Boost so that it pr..." alt="" coords="507,1026,637,1235"/>
-<area shape="rect" id="node12" href="$class_parameters.html" title="Parameters class stores Parameter objects. It is a bidirectional map implemented from Boost so that i..." alt="" coords="671,1033,791,1228"/>
+<area shape="rect" id="node1" title=" " alt="" coords="301,1555,529,1940"/>
+<area shape="rect" id="node2" title=" " alt="" coords="15,1092,102,1169"/>
+<area shape="rect" id="node3" href="$class_an_en_i_s.html" title="AnEnIS is an implementation of the class AnEn for the independent search algorithm." alt="" coords="127,799,324,1463"/>
+<area shape="rect" id="node4" href="$class_an_en.html" title="AnEn is an abstract class that defines the interface for implement analog ensemble generation." alt="" coords="20,380,140,589"/>
+<area shape="rect" id="node5" href="$class_profiler.html" title=" " alt="" coords="5,42,152,237"/>
+<area shape="rect" id="node6" href="$class_array4_d_pointer.html" title="Array4DPointer is an implementation of the abstract class Array4D." alt="" coords="165,336,315,633"/>
+<area shape="rect" id="node7" href="$class_array4_d.html" title="Array4D is an abstract class for 4&#45;dimensional array." alt="" coords="177,5,303,273"/>
+<area shape="rect" id="node8" href="$class_times.html" title="Times class is used to store Time. It is a bidirectional map implemented from Boost so that it provid..." alt="" coords="349,1011,481,1250"/>
+<area shape="rect" id="node9" title=" " alt="" coords="353,446,476,523"/>
+<area shape="rect" id="node10" href="$class_stations.html" title="Stations class stores Station objects. It is a bidirectional map implemented from Boost so that it pr..." alt="" coords="505,1026,636,1235"/>
+<area shape="rect" id="node11" title=" " alt="" coords="502,446,637,523"/>
+<area shape="rect" id="node12" href="$class_parameters.html" title="Parameters class stores Parameter objects. It is a bidirectional map implemented from Boost so that i..." alt="" coords="669,1033,789,1228"/>
+<area shape="rect" id="node13" title=" " alt="" coords="661,446,816,523"/>
 </map>

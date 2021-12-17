@@ -1,6 +1,7 @@
 <map id="set_caster&lt; Type, Key &gt;" name="set_caster&lt; Type, Key &gt;">
-<area shape="rect" id="node2" href="$structset__caster.html" title="{set_caster\&lt; std::unordered\l_set\&lt; Key, Hash, Equal,\l Alloc \&gt;, Key \&gt;\n||+ load()\l+ PYBIND11_TYPE_CASTER()\l+ cast()\l}" alt="" coords="5,204,216,340"/>
-<area shape="rect" id="node4" href="$structset__caster.html" title="{set_caster\&lt; std::set\l\&lt; Key, Compare, Alloc\l \&gt;, Key \&gt;\n||+ load()\l+ PYBIND11_TYPE_CASTER()\l+ cast()\l}" alt="" coords="240,204,451,340"/>
-<area shape="rect" id="node3" href="$structtype__caster_3_01std_1_1unordered__set_3_01_key_00_01_hash_00_01_equal_00_01_alloc_01_4_01_4.html" title="{type_caster\&lt; std::unordered\l_set\&lt; Key, Hash, Equal,\l Alloc \&gt; \&gt;\n||}" alt="" coords="18,389,203,496"/>
-<area shape="rect" id="node5" href="$structtype__caster_3_01std_1_1set_3_01_key_00_01_compare_00_01_alloc_01_4_01_4.html" title="{type_caster\&lt; std::set\l\&lt; Key, Compare, Alloc \&gt; \&gt;\n||}" alt="" coords="256,397,435,489"/>
+<area shape="rect" id="node1" title=" " alt="" coords="121,5,332,112"/>
+<area shape="rect" id="node2" href="$structset__caster.html" title=" " alt="" coords="5,204,216,340"/>
+<area shape="rect" id="node4" href="$structset__caster.html" title=" " alt="" coords="240,204,451,340"/>
+<area shape="rect" id="node3" href="$structtype__caster_3_01std_1_1unordered__set_3_01_key_00_01_hash_00_01_equal_00_01_alloc_01_4_01_4.html" title=" " alt="" coords="18,389,203,496"/>
+<area shape="rect" id="node5" href="$structtype__caster_3_01std_1_1set_3_01_key_00_01_compare_00_01_alloc_01_4_01_4.html" title=" " alt="" coords="257,397,433,489"/>
 </map>

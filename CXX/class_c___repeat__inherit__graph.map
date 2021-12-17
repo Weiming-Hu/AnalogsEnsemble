@@ -1,7 +1,8 @@
 <map id="C_Repeat" name="C_Repeat">
-<area shape="rect" id="node4" href="$class_d___repeat.html" title="{D_Repeat\n||}" alt="" coords="33,425,115,503"/>
-<area shape="rect" id="node6" href="$class_py_c___repeat.html" title="{PyC_Repeat\n||+ unlucky_number()\l+ say_something()\l+ lucky_number()\l}" alt="" coords="139,411,276,517"/>
-<area shape="rect" id="node2" href="$class_b___repeat.html" title="{B_Repeat\n||}" alt="" coords="101,160,181,237"/>
-<area shape="rect" id="node3" href="$class_a___repeat.html" title="{A_Repeat\n||&#45; A_Repeat()\l&#45; A_Repeat()\l&#45; ~A_Repeat()\l}" alt="" coords="89,5,193,112"/>
-<area shape="rect" id="node5" href="$class_py_d___repeat.html" title="{PyD_Repeat\n||+ unlucky_number()\l+ say_something()\l+ lucky_number()\l}" alt="" coords="5,565,143,672"/>
+<area shape="rect" id="node1" title=" " alt="" coords="100,285,181,363"/>
+<area shape="rect" id="node4" href="$class_d___repeat.html" title=" " alt="" coords="33,425,115,503"/>
+<area shape="rect" id="node6" href="$class_py_c___repeat.html" title=" " alt="" coords="139,411,276,517"/>
+<area shape="rect" id="node2" href="$class_b___repeat.html" title=" " alt="" coords="101,160,181,237"/>
+<area shape="rect" id="node3" href="$class_a___repeat.html" title=" " alt="" coords="89,5,193,112"/>
+<area shape="rect" id="node5" href="$class_py_d___repeat.html" title=" " alt="" coords="5,565,143,672"/>
 </map>

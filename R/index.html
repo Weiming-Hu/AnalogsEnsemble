@@ -101,7 +101,7 @@ title: R Documentation
 <!-- vim-markdown-toc --><div id="overview" class="section level2">
 <h2 class="hasAnchor">
 <a href="#overview" class="anchor"></a>Overview</h2>
-<p>Parallel Analog Ensemble (PAnEn) generates accurate forecast ensembles relying on a single deterministic model simulation and the historical observations. The technique was introduced by Luca Delle Monache et al. in the paper <a href="https://journals.ametsoc.org/doi/full/10.1175/MWR-D-12-00281.1">Probabilistic Weather Prediction with an Analog Ensemble</a>. Developed and maintained by <a href="http://geolab.psu.edu">GEOlab</a> at Penn State, PAnEn aims to provide an efficient implementation for this technique and user-friendly interfaces in R and C++ for researchers who want to use this technique in their own research.</p>
+<p>Parallel Analog Ensemble (PAnEn) generates accurate forecast ensembles relying on a single deterministic model simulation and the historical observations. The technique was introduced by Luca Delle Monache et al. in the paper <a href="https://journals.ametsoc.org/doi/full/10.1175/MWR-D-12-00281.1">Probabilistic Weather Prediction with an Analog Ensemble</a>. Developed and maintained by <a href="http://geolab.psu.edu">GEOlab</a> at Penn State, PAnEn aims to provide an efficient implementation for this technique and user-friendly interfaces in R and C++ for researchers who want to use this technique in their own research.</p>
 <p>The easiest way to use this package is to install the R package, ‘RAnEn’. C++ libraries are also available but they are designed for intermediate users with requirement for performance. For installation guidance, please refer to the <a href="#installation">installation section</a>.</p>
 </div>
 <div id="citation" class="section level2">
@@ -134,16 +134,16 @@ title: R Documentation
 <li>If you are using <code>Windows</code>, please also install the latest version of <a href="https://cran.r-project.org/bin/windows/Rtools/">Rtools</a>.</li>
 </ul>
 <p>The following R command install the latest <code>RAnEn</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"https://github.com/Weiming-Hu/AnalogsEnsemble/raw/master/RAnalogs/releases/RAnEn_latest.tar.gz"</span>, <span class="dt">repos =</span> <span class="ot">NULL</span>)</code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"https://github.com/Weiming-Hu/AnalogsEnsemble/raw/master/RAnalogs/releases/RAnEn_latest.tar.gz"</span>, <span class="dt">repos =</span> <span class="ot">NULL</span>)</a></code></pre></div>
 <p>That’s it. You are good to go. Please refer to <a href="#tutorials">tutorials</a> or the <a href="https://weiming-hu.github.io/AnalogsEnsemble/R/">R documentation</a> to learn more about using <code>RAnEn</code>. You might also want to install <a href="https://github.com/Weiming-Hu/RAnEnExtra">RAnEnExtra</a> package with functions for visualization and verification. After <code>RAnEn</code> installation, you can simply run <code><a href="https://rdrr.io/pkg/devtools/man/remote-reexports.html">devtools::install_github("Weiming-Hu/RAnEnExtra")</a></code>.</p>
 <p><strong>Mac users</strong>: if the package shows that <code>OpenMP</code> is not supported. You can do one of the followings:</p>
 <ol>
 <li>Avoid using Clang compilers and convert to GNU compilers. To change the compilers used by R, create a file <code>~/.R/Makevars</code> if you do not have it already and add the following content to it. Of course, change the compilers to what you have. If you do not have any alternative compilers other than Clang, <a href="https://brew.sh/">HomeBrew</a> is your friend.</li>
 </ol>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="va">CC=</span>gcc-8
-<span class="va">CXX=</span>g++-8
-<span class="va">CXX1X=</span>g++-8
-<span class="va">CXX11=</span>g++-8</code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb3-1" title="1"><span class="va">CC=</span>gcc-8</a>
+<a class="sourceLine" id="cb3-2" title="2"><span class="va">CXX=</span>g++-8</a>
+<a class="sourceLine" id="cb3-3" title="3"><span class="va">CXX1X=</span>g++-8</a>
+<a class="sourceLine" id="cb3-4" title="4"><span class="va">CXX14=</span>g++-8</a></code></pre></div>
 <ol>
 <li>You can also follow the instructions <a href="https://github.com/Rdatatable/data.table/wiki/Installation#openmp-enabled-compiler-for-mac">here</a> provided by <code>data.table</code>. They provide similar solutions but stick with Clang compilers.</li>
 </ol>
@@ -166,23 +166,23 @@ title: R Documentation
 <em>Optional</em> <code>CppUnit</code> provides test frameworks. If <code>CppUnit</code> is found in the system, test programs will be compiled.</li>
 </ul>
 <p>Please use the following scripts to install the libraries:</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="co"># Download the source files (~10 Mb)</span>
-<span class="fu">wget</span> https://github.com/Weiming-Hu/AnalogsEnsemble/archive/master.zip
-
-<span class="co"># Unzip</span>
-<span class="fu">unzip</span> master.zip
-
-<span class="co"># Create a separate folder to store all intermediate files during the installation process</span>
-<span class="bu">cd</span> AnalogsEnsemble-master/
-<span class="fu">mkdir</span> build
-<span class="bu">cd</span> build
-<span class="fu">cmake</span> -DCMAKE_INSTALL_PREFIX=~/AnalogEnsemble ..
-
-<span class="co"># Compile</span>
-<span class="fu">make</span> -j 4
-
-<span class="co"># Install</span>
-<span class="fu">make</span> install</code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb4-1" title="1"><span class="co"># Download the source files (~10 Mb)</span></a>
+<a class="sourceLine" id="cb4-2" title="2"><span class="fu">wget</span> https://github.com/Weiming-Hu/AnalogsEnsemble/archive/master.zip</a>
+<a class="sourceLine" id="cb4-3" title="3"></a>
+<a class="sourceLine" id="cb4-4" title="4"><span class="co"># Unzip</span></a>
+<a class="sourceLine" id="cb4-5" title="5"><span class="fu">unzip</span> master.zip</a>
+<a class="sourceLine" id="cb4-6" title="6"></a>
+<a class="sourceLine" id="cb4-7" title="7"><span class="co"># Create a separate folder to store all intermediate files during the installation process</span></a>
+<a class="sourceLine" id="cb4-8" title="8"><span class="bu">cd</span> AnalogsEnsemble-master/</a>
+<a class="sourceLine" id="cb4-9" title="9"><span class="fu">mkdir</span> build</a>
+<a class="sourceLine" id="cb4-10" title="10"><span class="bu">cd</span> build</a>
+<a class="sourceLine" id="cb4-11" title="11"><span class="fu">cmake</span> -DCMAKE_INSTALL_PREFIX=~/AnalogEnsemble ..</a>
+<a class="sourceLine" id="cb4-12" title="12"></a>
+<a class="sourceLine" id="cb4-13" title="13"><span class="co"># Compile</span></a>
+<a class="sourceLine" id="cb4-14" title="14"><span class="fu">make</span> -j 4</a>
+<a class="sourceLine" id="cb4-15" title="15"></a>
+<a class="sourceLine" id="cb4-16" title="16"><span class="co"># Install</span></a>
+<a class="sourceLine" id="cb4-17" title="17"><span class="fu">make</span> install</a></code></pre></div>
 </div>
 <div id="cmake-parameters" class="section level3">
 <h3 class="hasAnchor">
@@ -190,9 +190,9 @@ title: R Documentation
 <p>Below is a list of parameters you can change and customize.</p>
 <table class="table">
 <colgroup>
-<col width="12%">
-<col width="76%">
 <col width="11%">
+<col width="77%">
+<col width="10%">
 </colgroup>
 <thead><tr class="header">
 <th align="center">Parameter</th>
@@ -301,18 +301,18 @@ make sure you have the proper setup.</code></pre>
 <h2 class="hasAnchor">
 <a href="#references" class="anchor"></a>References</h2>
 <ul>
-<li><a href="https://journals.ametsoc.org/doi/full/10.1175/MWR-D-12-00281.1">Delle Monache, Luca, et al. “Probabilistic weather prediction with an analog ensemble.” Monthly Weather Review 141.10 (2013): 3498-3516.</a></li>
+<li><a href="https://journals.ametsoc.org/doi/full/10.1175/MWR-D-12-00281.1">Delle Monache, Luca, et al. “Probabilistic weather prediction with an analog ensemble.” Monthly Weather Review 141.10 (2013): 3498-3516.</a></li>
 <li><a href="https://ral.ucar.edu/sites/default/files/public/images/events/WISE_documentation_20170725_Final.pdf">Clemente-Harding, L. A Beginners Introduction to the Analog Ensemble Technique</a></li>
-<li><a href="https://www.sciencedirect.com/science/article/pii/S0960148117301386">Cervone, Guido, et al. “Short-term photovoltaic power forecasting using Artificial Neural Networks and an Analog Ensemble.” Renewable energy 108 (2017): 274-286.</a></li>
-<li><a href="https://www.researchgate.net/profile/Constantin_Junk/publication/274951815_Predictor-weighting_strategies_for_probabilistic_wind_power_forecasting_with_an_analog_ensemble/links/552cd5710cf29b22c9c47260.pdf">Junk, Constantin, et al. “Predictor-weighting strategies for probabilistic wind power forecasting with an analog ensemble.” Meteorol. Z 24.4 (2015): 361-379.</a></li>
-<li><a href="https://ieeexplore.ieee.org/abstract/document/8425207">Balasubramanian, Vivek, et al. “Harnessing the power of many: Extensible toolkit for scalable ensemble applications.” 2018 IEEE International Parallel and Distributed Processing Symposium (IPDPS). IEEE, 2018.</a></li>
+<li><a href="https://www.sciencedirect.com/science/article/pii/S0960148117301386">Cervone, Guido, et al. “Short-term photovoltaic power forecasting using Artificial Neural Networks and an Analog Ensemble.” Renewable energy 108 (2017): 274-286.</a></li>
+<li><a href="https://www.researchgate.net/profile/Constantin_Junk/publication/274951815_Predictor-weighting_strategies_for_probabilistic_wind_power_forecasting_with_an_analog_ensemble/links/552cd5710cf29b22c9c47260.pdf">Junk, Constantin, et al. “Predictor-weighting strategies for probabilistic wind power forecasting with an analog ensemble.” Meteorol. Z 24.4 (2015): 361-379.</a></li>
+<li><a href="https://ieeexplore.ieee.org/abstract/document/8425207">Balasubramanian, Vivek, et al. “Harnessing the power of many: Extensible toolkit for scalable ensemble applications.” 2018 IEEE International Parallel and Distributed Processing Symposium (IPDPS). IEEE, 2018.</a></li>
 <li><a href="https://www.sciencedirect.com/science/article/pii/S0098300418306678">Hu, Weiming, and Guido Cervone. “Dynamically Optimized Unstructured Grid (DOUG) for Analog Ensemble of numerical weather predictions using evolutionary algorithms.” Computers &amp; Geosciences 133 (2019): 104299.</a></li>
 </ul>
 </div>
 <div id="feedbacks" class="section level2">
 <h2 class="hasAnchor">
 <a href="#feedbacks" class="anchor"></a>Feedbacks</h2>
-<p>We appreciate collaborations and feedbacks from users. Please contact the maintainer <a href="https://weiming-hu.github.io">Weiming Hu</a> through <a href="weiming@psu.edu" class="uri">weiming@psu.edu</a> or submit tickets if you have any problems.</p>
+<p>We appreciate collaborations and feedbacks from users. Please contact the maintainer <a href="https://weiming-hu.github.io">Weiming Hu</a> through <a href="weiming@psu.edu">weiming@psu.edu</a> or submit tickets if you have any problems.</p>
 <p>Thank you!</p>
 <pre><code># "`-''-/").___..--''"`-._
 #  (`6_ 6  )   `-.  (     ).`-.__.`)   WE ARE ...

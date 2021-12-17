@@ -1,10 +1,14 @@
 <map id="ForecastsPointer" name="ForecastsPointer">
-<area shape="rect" id="node2" href="$class_forecasts.html" title="Forecasts is an abstract class that extends BasicData and the abstract class Array4D. It defines the interface of how to interact with the underlying data storage through the abstract class Array4D. This interface is accepted by the Analog Ensemble algorithm. " alt="" coords="183,801,312,1025"/>
-<area shape="rect" id="node3" href="$class_array4_d.html" title="Array4D is an abstract class for 4&#45;dimensional array. " alt="" coords="19,433,145,701"/>
-<area shape="rect" id="node12" href="$class_array4_d_pointer.html" title="Array4DPointer is an implementation of the abstract class Array4D. " alt="" coords="5,764,159,1061"/>
-<area shape="rect" id="node4" href="$class_basic_data.html" title="BasicData is an implementation of the data structure used by Analog Ensemble. It includes parameters..." alt="" coords="256,455,383,679"/>
-<area shape="rect" id="node5" href="$class_times.html" title="Times class is used to store Time. It is a bidirectional map implemented from Boost so that it provid..." alt="" coords="113,132,245,371"/>
-<area shape="rect" id="node7" href="$class_stations.html" title="Stations class stores Station objects. It is a bidirectional map implemented from Boost so that it pr..." alt="" coords="270,147,401,356"/>
-<area shape="rect" id="node9" href="$class_parameters.html" title="Parameters class stores Parameter objects. It is a bidirectional map implemented from Boost so that i..." alt="" coords="434,154,554,349"/>
-<area shape="rect" id="node11" href="$class_grid.html" title="{Grid\n|# nan_count_\l# grid_\l# row_cols_\l|+ Grid()\l+ Grid()\l+ Grid()\l+ ~Grid()\l+ setup()\l+ getRectangle()\l+ nrows()\l+ ncols()\l+ nkeys()\l+ summary()\land 7 more...\l}" alt="" coords="407,441,525,694"/>
+<area shape="rect" id="node1" title="ForecastsPointer is an implementation of the abstract class Forecasts. It also inherits from Array4DP..." alt="" coords="101,1111,255,1364"/>
+<area shape="rect" id="node2" href="$class_forecasts.html" title="Forecasts is an abstract class that extends BasicData and the abstract class Array4D...." alt="" coords="180,801,309,1025"/>
+<area shape="rect" id="node3" href="$class_array4_d.html" title="Array4D is an abstract class for 4&#45;dimensional array." alt="" coords="17,433,144,701"/>
+<area shape="rect" id="node12" href="$class_array4_d_pointer.html" title="Array4DPointer is an implementation of the abstract class Array4D." alt="" coords="5,764,156,1061"/>
+<area shape="rect" id="node4" href="$class_basic_data.html" title="BasicData is an implementation of the data structure used by Analog Ensemble. It includes parameters,..." alt="" coords="255,455,381,679"/>
+<area shape="rect" id="node5" href="$class_times.html" title="Times class is used to store Time. It is a bidirectional map implemented from Boost so that it provid..." alt="" coords="112,132,244,371"/>
+<area shape="rect" id="node6" title=" " alt="" coords="117,5,239,83"/>
+<area shape="rect" id="node7" href="$class_stations.html" title="Stations class stores Station objects. It is a bidirectional map implemented from Boost so that it pr..." alt="" coords="269,147,399,356"/>
+<area shape="rect" id="node8" title=" " alt="" coords="265,5,400,83"/>
+<area shape="rect" id="node9" href="$class_parameters.html" title="Parameters class stores Parameter objects. It is a bidirectional map implemented from Boost so that i..." alt="" coords="433,154,553,349"/>
+<area shape="rect" id="node10" title=" " alt="" coords="425,5,579,83"/>
+<area shape="rect" id="node11" href="$class_grid.html" title=" " alt="" coords="405,441,524,694"/>
 </map>

@@ -1,4 +1,6 @@
 <map id="testAnEnIS" name="testAnEnIS">
-<area shape="rect" id="node3" href="$class_an_en_i_s.html" title="AnEnIS is an implementation of the class AnEn for the independent search algorithm. " alt="" coords="117,277,315,941"/>
-<area shape="rect" id="node4" href="$class_an_en.html" title="AnEn is an abstract class that defines the interface for implement analog ensemble generation..." alt="" coords="156,5,276,229"/>
+<area shape="rect" id="node1" title=" " alt="" coords="17,989,245,1433"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,571,92,648"/>
+<area shape="rect" id="node3" href="$class_an_en_i_s.html" title="AnEnIS is an implementation of the class AnEn for the independent search algorithm." alt="" coords="117,277,314,941"/>
+<area shape="rect" id="node4" href="$class_an_en.html" title="AnEn is an abstract class that defines the interface for implement analog ensemble generation." alt="" coords="155,5,275,229"/>
 </map>

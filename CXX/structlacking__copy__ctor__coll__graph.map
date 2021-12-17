@@ -1,4 +1,5 @@
 <map id="lacking_copy_ctor" name="lacking_copy_ctor">
-<area shape="rect" id="node2" href="$structempty.html" title="{empty\&lt; lacking_copy\l_ctor \&gt;\n||+ get_one()\l}" alt="" coords="95,300,241,392"/>
-<area shape="rect" id="node3" href="$structempty.html" title="{empty\&lt; derived \&gt;\n||+ get_one()\l}" alt="" coords="177,153,301,230"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,5,152,97"/>
+<area shape="rect" id="node2" href="$structempty.html" title=" " alt="" coords="95,160,241,252"/>
+<area shape="rect" id="node3" href="$structempty.html" title=" " alt="" coords="177,13,301,90"/>
 </map>

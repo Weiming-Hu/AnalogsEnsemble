@@ -1,2 +1,3 @@
 <map id="Station" name="Station">
+<area shape="rect" id="node1" title="Class Station stores station information including name, X, and Y. Each Station Object is assigned wi..." alt="" coords="5,5,111,273"/>
 </map>

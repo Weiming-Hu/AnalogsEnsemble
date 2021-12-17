@@ -1,5 +1,7 @@
 <map id="kwargs" name="kwargs">
-<area shape="rect" id="node2" href="$classdict.html" title="{dict\n||+ dict()\l+ dict()\l+ size()\l+ empty()\l+ begin()\l+ end()\l+ clear()\l+ contains()\l&#45; raw_dict()\l}" alt="" coords="63,704,154,899"/>
-<area shape="rect" id="node3" href="$classobject.html" title="{object\n|+ is_borrowed\l|+ object()\l+ PYBIND11_DEPRECATED()\l+ object()\l+ object()\l+ ~object()\l+ release()\l+ operator=()\l+ operator=()\l+ cast()\l+ cast()\land 6 more...\l}" alt="" coords="5,432,212,656"/>
-<area shape="rect" id="node4" href="$classhandle.html" title="{handle\n|# m_ptr\l|+ handle()\l+ handle()\l+ ptr()\l+ ptr()\l+ inc_ref()\l+ dec_ref()\l+ cast()\l+ operator bool()\l+ operator==()\l+ operator!=()\l+ check()\l+ cast()\l}" alt="" coords="50,145,167,384"/>
+<area shape="rect" id="node1" title=" " alt="" coords="77,976,141,1053"/>
+<area shape="rect" id="node2" href="$classdict.html" title=" " alt="" coords="63,733,154,928"/>
+<area shape="rect" id="node3" href="$classobject.html" title=" " alt="" coords="5,432,212,685"/>
+<area shape="rect" id="node4" href="$classhandle.html" title=" " alt="" coords="50,145,167,384"/>
+<area shape="rect" id="node5" title=" " alt="" coords="49,5,169,97"/>
 </map>

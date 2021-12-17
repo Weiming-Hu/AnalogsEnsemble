@@ -1,3 +1,5 @@
 <map id="object" name="object">
-<area shape="rect" id="node2" href="$classhandle.html" title="{handle\n|# m_ptr\l|+ handle()\l+ handle()\l+ ptr()\l+ ptr()\l+ inc_ref()\l+ dec_ref()\l+ cast()\l+ operator bool()\l+ operator==()\l+ operator!=()\l+ check()\l+ cast()\l}" alt="" coords="50,145,167,384"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,432,212,685"/>
+<area shape="rect" id="node2" href="$classhandle.html" title=" " alt="" coords="50,145,167,384"/>
+<area shape="rect" id="node3" title=" " alt="" coords="49,5,169,97"/>
 </map>

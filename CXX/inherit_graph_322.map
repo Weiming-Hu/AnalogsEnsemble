@@ -1,4 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$structstring__caster.html" title="string_caster\&lt; std\l::basic_string\&lt; CharT,\l Traits, Allocator \&gt; \&gt;" alt="" coords="5,20,157,76"/>
-<area shape="rect" id="node2" href="$structtype__caster_3_01std_1_1basic__string_3_01_char_t_00_01_traits_00_01_allocator_01_4_00_01ece498b5200b790571970efc6b6c56da1.html" title="type_caster\&lt; std::basic\l_string\&lt; CharT, Traits,\l Allocator \&gt;, enable_if\l_t\&lt; is_std_char_type\&lt; CharT\l \&gt;::value \&gt; \&gt;" alt="" coords="205,5,397,91"/>
+<area shape="rect" id="node1" href="$structstring__caster.html" title=" " alt="" coords="5,20,156,76"/>
+<area shape="rect" id="node2" href="$structtype__caster_3_01std_1_1basic__string_3_01_char_t_00_01_traits_00_01_allocator_01_4_00_01ece498b5200b790571970efc6b6c56da1.html" title=" " alt="" coords="204,5,396,91"/>
 </map>

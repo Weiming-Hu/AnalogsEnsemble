@@ -1,6 +1,7 @@
 <map id="map_caster&lt; Type, Key, Value &gt;" name="map_caster&lt; Type, Key, Value &gt;">
-<area shape="rect" id="node2" href="$structmap__caster.html" title="{map_caster\&lt; std::unordered\l_map\&lt; Key, Value, Hash,\l Equal, Alloc \&gt;, Key, Value \&gt;\n||+ load()\l+ PYBIND11_TYPE_CASTER()\l+ cast()\l}" alt="" coords="5,219,216,355"/>
-<area shape="rect" id="node4" href="$structmap__caster.html" title="{map_caster\&lt; std::map\l\&lt; Key, Value, Compare,\l Alloc \&gt;, Key, Value \&gt;\n||+ load()\l+ PYBIND11_TYPE_CASTER()\l+ cast()\l}" alt="" coords="240,219,451,355"/>
-<area shape="rect" id="node3" href="$structtype__caster_3_01std_1_1unordered__map_3_01_key_00_01_value_00_01_hash_00_01_equal_00_01_alloc_01_4_01_4.html" title="{type_caster\&lt; std::unordered\l_map\&lt; Key, Value, Hash,\l Equal, Alloc \&gt; \&gt;\n||}" alt="" coords="18,404,203,511"/>
-<area shape="rect" id="node5" href="$structtype__caster_3_01std_1_1map_3_01_key_00_01_value_00_01_compare_00_01_alloc_01_4_01_4.html" title="{type_caster\&lt; std::map\l\&lt; Key, Value, Compare,\l Alloc \&gt; \&gt;\n||}" alt="" coords="264,404,427,511"/>
+<area shape="rect" id="node1" title=" " alt="" coords="121,5,332,127"/>
+<area shape="rect" id="node2" href="$structmap__caster.html" title=" " alt="" coords="5,219,216,355"/>
+<area shape="rect" id="node4" href="$structmap__caster.html" title=" " alt="" coords="240,219,451,355"/>
+<area shape="rect" id="node3" href="$structtype__caster_3_01std_1_1unordered__map_3_01_key_00_01_value_00_01_hash_00_01_equal_00_01_alloc_01_4_01_4.html" title=" " alt="" coords="18,404,203,511"/>
+<area shape="rect" id="node5" href="$structtype__caster_3_01std_1_1map_3_01_key_00_01_value_00_01_compare_00_01_alloc_01_4_01_4.html" title=" " alt="" coords="265,404,425,511"/>
 </map>

@@ -1,6 +1,7 @@
 <map id="duration_caster&lt; type &gt;" name="duration_caster&lt; type &gt;">
-<area shape="rect" id="node2" href="$classduration__caster.html" title="{duration_caster\&lt; std\l::chrono::time_point\l\&lt; Clock, Duration \&gt; \&gt;\n||+ load()\l+ PYBIND11_TYPE_CASTER()\l+ get_duration()\l+ get_duration()\l+ cast()\l}" alt="" coords="9,219,219,384"/>
-<area shape="rect" id="node4" href="$classduration__caster.html" title="{duration_caster\&lt; std\l::chrono::duration\&lt; Rep,\l Period \&gt; \&gt;\n||+ load()\l+ PYBIND11_TYPE_CASTER()\l+ get_duration()\l+ get_duration()\l+ cast()\l}" alt="" coords="243,219,454,384"/>
-<area shape="rect" id="node3" href="$classtype__caster_3_01std_1_1chrono_1_1time__point_3_01_clock_00_01_duration_01_4_01_4.html" title="{type_caster\&lt; std::chrono\l::time_point\&lt; Clock, Duration \&gt; \&gt;\n||}" alt="" coords="5,433,223,525"/>
-<area shape="rect" id="node5" href="$classtype__caster_3_01std_1_1chrono_1_1duration_3_01_rep_00_01_period_01_4_01_4.html" title="{type_caster\&lt; std::chrono\l::duration\&lt; Rep, Period \&gt; \&gt;\n||}" alt="" coords="258,433,439,525"/>
+<area shape="rect" id="node1" title=" " alt="" coords="125,5,335,141"/>
+<area shape="rect" id="node2" href="$classduration__caster.html" title=" " alt="" coords="9,219,219,384"/>
+<area shape="rect" id="node4" href="$classduration__caster.html" title=" " alt="" coords="243,219,454,384"/>
+<area shape="rect" id="node3" href="$classtype__caster_3_01std_1_1chrono_1_1time__point_3_01_clock_00_01_duration_01_4_01_4.html" title=" " alt="" coords="5,433,223,525"/>
+<area shape="rect" id="node5" href="$classtype__caster_3_01std_1_1chrono_1_1duration_3_01_rep_00_01_period_01_4_01_4.html" title=" " alt="" coords="258,433,439,525"/>
 </map>

@@ -1,6 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classpyobject__tag.html" title="Tag and check to identify a class which implements the Python object API. " alt="" coords="5,35,101,61"/>
-<area shape="rect" id="node2" href="$classobject__api.html" title="object_api\&lt; Derived \&gt;" alt="" coords="149,5,300,32"/>
-<area shape="rect" id="node3" href="$classobject__api.html" title="object_api\&lt; accessor\l\&lt; Policy \&gt; \&gt;" alt="" coords="151,57,298,98"/>
-<area shape="rect" id="node4" href="$classaccessor.html" title="accessor\&lt; Policy \&gt;" alt="" coords="348,64,483,91"/>
+<area shape="rect" id="node1" href="$classpyobject__tag.html" title="Tag and check to identify a class which implements the Python object API." alt="" coords="5,5,101,32"/>
+<area shape="rect" id="node2" href="$classobject__api.html" title=" " alt="" coords="149,5,300,32"/>
 </map>

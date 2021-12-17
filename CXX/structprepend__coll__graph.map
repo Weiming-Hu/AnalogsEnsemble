@@ -1,2 +1,3 @@
 <map id="prepend" name="prepend">
+<area shape="rect" id="node1" title="Mark a function for addition at the beginning of the existing overload chain instead of the end." alt="" coords="5,5,73,83"/>
 </map>
