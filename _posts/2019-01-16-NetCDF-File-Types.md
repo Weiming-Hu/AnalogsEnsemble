@@ -5,6 +5,17 @@ tags:
   - document
 ---
 
+---
+
+_Updates on 2021/12/16_
+
+1. I used `R` to generate the file format messages below. If you are using `ncdump` or `python`, you should reverse the dimension orders. For example, `Data` would be `[num_flts, num_times, num_stations, num_parameters]`.
+2. For character-related variables, like `ParameterNames` and `StationNames`, there are two storing options. They can be stored as a character matrix shown below, or they can be store as a string vector. In that case, the format would be `string StationNames(num_stations)`.
+
+---
+
+## Introduction
+
 
 <!-- vim-markdown-toc GitLab -->
 
@@ -19,8 +30,6 @@ tags:
 * [References](#references)
 
 <!-- vim-markdown-toc -->
-
-## Introduction
 
 Under the [apps](https://github.com/Weiming-Hu/AnalogsEnsemble/tree/master/apps) directory, there are several C++ programs that implements different phases of generating analog ensembles, including calculating standard deviations, calculating similarity metrics, and selecting analog forecasts, and some other programs for data pre-processing. Currently, all input and output files are in NetCDF format. This articles documents variables and dimensions expected in each file type based on the file type, for example, Forecasts, Observations, Similarity, and so on.
 
