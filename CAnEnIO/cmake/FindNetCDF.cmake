@@ -37,7 +37,7 @@ if (NETCDF_INCLUDES AND NETCDF_LIBRARIES)
   set (NETCDF_FIND_QUIETLY TRUE)
 endif (NETCDF_INCLUDES AND NETCDF_LIBRARIES)
 
-find_path (NETCDF_INCLUDES netcdf.h
+find_path (NetCDF_includes netcdf.h
   HINTS NETCDF_DIR ENV NETCDF_DIR)
 
 if (USE_NCCONFIG)
@@ -80,6 +80,7 @@ macro (NetCDF_check_interface lang header libs)
     mark_as_advanced (NETCDF_INCLUDES_${lang} NETCDF_LIBRARIES_${lang})
     if (NETCDF_INCLUDES_${lang} AND NETCDF_LIBRARIES_${lang})
       list (INSERT NetCDF_libs 0 ${NETCDF_LIBRARIES_${lang}}) # prepend so that -lnetcdf is last
+      list (INSERT NetCDF_includes 0 ${NETCDF_INCLUDES_${lang}}) # prepend include paths; do not worry about duplicates; remove them later on.
       set (NetCDF_has_interfaces "Yes")
       # else (NETCDF_INCLUDES_${lang} AND NETCDF_LIBRARIES_${lang})
       # message (STATUS "Failed to find NetCDF interface for ${lang}")
@@ -115,6 +116,10 @@ endif (NETCDF_CXX STREQUAL "YES")
 # NetCDF_check_interface (F90 netcdf.mod  netcdff)
 
 set (NETCDF_LIBRARIES "${NetCDF_libs}" CACHE STRING "All NetCDF libraries required for interface level")
+
+# Remove duplicates
+list(REMOVE_DUPLICATES NetCDF_includes)
+set (NETCDF_INCLUDES "${NetCDF_includes}" CACHE STRING "All NetCDF include paths required for interface level")
 
 # handle the QUIETLY and REQUIRED arguments and set NETCDF_FOUND to TRUE if
 # all listed variables are TRUE
