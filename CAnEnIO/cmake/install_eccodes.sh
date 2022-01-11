@@ -18,7 +18,13 @@
 set -e
 
 # This is the version to download
-export ECCODES_VERSION=2.16.0
+# There could be later versions available. Feel free to change this.
+# Check for later versions at https://confluence.ecmwf.int/display/ECC/Releases
+#
+# Submit a ticket if you see this is no longer the latest version :D
+# https://github.com/Weiming-Hu/AnalogsEnsemble/issues
+#
+export ECCODES_VERSION=2.24.1
 
 # Create a folder for eccodes. This will be the folder for both the source files and
 # the compiled libraries.
