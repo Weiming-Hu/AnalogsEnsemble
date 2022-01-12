@@ -42,7 +42,7 @@ tar -xzf eccodes.tar.gz
 cd eccodes-$ECCODES_VERSION-Source
 mkdir build
 cd build
-cmake -DCMAKE_INSTALL_PREFIX=~/eccodes -DENABLE_PYTHON=OFF -DENABLE_FORTRAN=OFF ..
+cmake -DCMAKE_INSTALL_PREFIX=~/eccodes -DENABLE_FORTRAN=OFF ..
 
 # Build the project in parallel with the -j 16 option. 16 is the number of cores.
 make -j 16
