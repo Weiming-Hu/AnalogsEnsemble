@@ -1,4 +1,9 @@
-URL: https://weiming-hu.github.io/AnalogsEnsemble/
+repo:
+    url:
+        home: https://weiming-hu.github.io/AnalogsEnsemble/
+        source: https://github.com/Weiming-Hu/AnalogsEnsemble/blob/master/RAnalogs/RAnEn/
+        issue: https://github.com/Weiming-Hu/AnalogsEnsemble/issues/
+        user: https://github.com/Weiming-Hu/
 
 authors:
     Weiming Hu:
