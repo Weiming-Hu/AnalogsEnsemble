@@ -41,6 +41,17 @@ if (!file.exists(file.name)) {
 }
 
 load(file.name)
+
+# The x and y coordinates are duplicated for each day. 
+# You can check by printing out the x coordinates for the first station and all days, etc. forecasts$Xs[1, ].
+# Since these are stationary stations, the coordinates do not change over time. They are all the same
+# Let's clean this up
+#
+forecasts$Xs <- forecasts$Xs[, 1]
+forecasts$Ys <- forecasts$Ys[, 1]
+observations$Xs <- observations$Xs[, 1]
+observations$Ys <- observations$Ys[, 1]
+
 rm(file.name)
 ```
 
@@ -58,35 +69,30 @@ selected.stations <- 1:10
 
 ## How to Generate a Configuration File
 
-In this section, we will learn how to generate a configuration file. The configuration file defines all the parameters needed to generate your ensemble of analogs and will be passed to the 'generateAnalogs' function. We will walk through the meaning of each of the parameters.
+In this section, we will learn how to generate a configuration. The configuration file defines all the parameters needed to generate your ensemble of analogs and will be passed to the 'generateAnalogs' function. We will walk through the meaning of each of the parameters.
 
 ```{r}
-# For this experiment, we set the configuration mode to
-# 'Independent Search' which indicates we are searching
+# For this experiment, we are searching
 # for analogs at the same point in space, over a small
 # time window. This is the original implementation utilized
 # by DelleMonache et al. (2013).  
 #
-config <- generateConfiguration('independentSearch')
+config <- new(Config)
 
-# Define the forecasts, forecast lead times (FLT), and time of the forecast
-config$forecasts <- forecasts$Data[,selected.stations , , , drop = F]
-config$forecast_times <- forecasts$Times
-config$flts <- forecasts$FLTs
+# Subset the forecast and observation stations to speed up the generation
+forecasts <- subsetStations(selected.stations, forecasts)
+observations <- subsetStations(selected.stations, observations)
 
 # Set preserve similarity to TRUE so we can generate some figures that aid analysis 
-config$preserve_similarity <- T
-
-# Define our observations and the valid time of those observations 
-config$search_observations <- observations$Data[, selected.stations, , drop = F]
-config$observation_times <- observations$Times
+config$save_similarity <- T
+config$save_similarity_time_index <- T
 
 # Define the test and search times
-config$test_times_compare <- config$forecast_times[test.start:test.end]
-config$search_times_compare <- config$forecast_times[search.start:search.end]
+test.times <- forecasts$Times[test.start:test.end]
+search.times <- forecasts$Times[search.start:search.end]
 
 # Number of ensemble members and similarity records we want to keep 
-config$num_members <- 11
+config$num_analogs <- 11
 
 # How much information you want printed to the screen in the
 # process of generating analogs. 1 is the least and 5 is the most.
@@ -94,18 +100,16 @@ config$num_members <- 11
 #
 config$verbose <- 3
 
-# Set circular variable if there is any
-if ('ParameterCirculars' %in% names(forecasts)) {
-  config$circulars <- unlist(lapply(forecasts$ParameterCirculars, function(x) {
-    return(which(x == forecasts$ParameterNames))}))
-}
+# There is only one variable in the observations. Use it as the predictand
+obs.id <- 1
+config$observation_id <- obs.id
 ```
 
 ## Generate an Analog Ensemble 
 Next, let's generate our ensemble of analogs! 
 
 ```{r}
-AnEn <- generateAnalogs(config)
+AnEn <- generateAnalogs(forecasts, observations, test.times, search.times, config)
 ```
 
 Remember what we said about the parameter `config$verbose`. You control the level of description coming out of the AnEn generation process. Increase the verbose setting to receive more information printed to screen (max verbose value is 5) or decrease the number to see less (minimum verbose value is 1). 
@@ -121,7 +125,22 @@ AnEn
 The dimensions indicate the number of stations, number of days, forecast lead times, number of ensemble members, and the third variable stores the value of the analog chosen [1], the station index [2] and the time index [3]. More information can be found in the documentation of `RAnEn::generateAnalogs`. This is how you view the values of your analog ensemble members: 
 
 ```{r}
-AnEn$analogs[1,1,1,,1]
+AnEn$analogs[1,1,1,]
+```
+
+## RMSE
+
+Let's calculate a quick RMSE to see the performance.
+
+```{r}
+# Align observations with forecasts regarding the lead times
+# Essentially this is repeating observations at a certain valid time for various initialization times and lead times.
+#
+obs_aligned <- alignObservations(observations$Data, observations$Times, test.times, forecasts$FLTs)
+obs_aligned <- obs_aligned[obs.id, , ,]
+
+rmse <- verifyRMSE(AnEn$analogs, obs_aligned)
+print(rmse$mean)
 ```
 
 ## Visualize Our Results 
@@ -133,32 +152,46 @@ The `RAnEn` package comes with a number of visualization tools. Let's use some o
 First, let's take a look at a sample prediction from the AnEn using `RAnEn::plotAnalogSample`.
 
 ```{r}
-fcst.id <- which(forecasts$ParameterNames == observations$ParameterNames[config$observation_id])
-plotAnalogSample(AnEn, config, i.station = 1, i.test.day = 1,
-                 obs.id = config$observation_id, fcst.id = fcst.id, 
+fcst.id <- which(forecasts$ParameterNames == observations$ParameterNames[obs.id])
+
+plotAnalogSample(forecasts$Data, fcst.id, forecasts$Times, forecasts$FLTs,
+                 observations$Data, obs.id, observations$Times,
+                 AnEn$analogs, AnEn$similarity, AnEn$similarity_time_index,
+                 test.times, i.station = 1, i.test.day = 1,
+                 num.analogs = config$num_analogs, weights = config$weights,
                  parameter.names = forecasts$ParameterNames,
                  flts.fraction = 3600, legend.texts = c("Obs","Fcst"))
 
 ```
 
-Let's disuss this figure. 
+Let's discuss this figure. 
 
 ### Understanding Analog Selection
 
 Recall how the AnEn technique works. Let's take a look at the current deterministic prediction, historical repository of deterministic predictions, corresponding observations, and how the AnEn selection is performed in further depth. 
 
 ```{r}
-plotAnalogSelection(AnEn, config, i.station = 1, i.test.day = 4, i.flt = 1,
-                    parameter.names = forecasts$ParameterNames)
+plotAnalogSelection(forecasts$Data, forecasts$Times,
+                    AnEn$similarity, AnEn$similarity_time_index,
+                    test.times, search.times,
+                    i.station = 1, i.test.day = 4, i.flt = 1,
+                    parameter.names = forecasts$ParameterNames,
+                    num.analogs = config$num_analogs,
+                    weights = config$weights)
 ```
 
 Now that we have seen analog selection, what factors could influence this? 
 
 ## Optimal Predictor Weighting 
 
-Next, let's explore optimal predictor weighting. The `RAnEn` package has a simple way to define the weights that the user would like to implement within the configuration file. Let's add one more parameter to our configuration file that will influence the weight placed on the predictors. 
+Next, let's explore optimal predictor weighting. The `RAnEn` package has a simple way to define the weight for each predictor. Let's add one more parameter to our configuration that will influence the weight placed on the predictors. 
 
 ```{r}
+print('Predictand:')
+print(observations$ParameterNames)
+
+print('Predictor:')
+print(forecasts$ParameterNames)
 
 weights <- c(0.7, 0.1, 0.1, 0.1)
 
@@ -171,24 +204,32 @@ config$weights <- weights
 Generate new analogs using our weights: 
 
 ```{r}
-AnEn.weights <- generateAnalogs(config)
+AnEn.weights <- generateAnalogs(forecasts, observations, test.times, search.times, config)
 ```
 
 ### How have the predictions and analog selection changed? 
 
 ```{r}
-plotAnalogSample(AnEn.weights, config, i.station = 1, i.test.day = 4,
-                 obs.id = config$observation_id, fcst.id = fcst.id, 
-                 forecasts$ParameterNames, flts.fraction = 3600,
-                 legend.texts = c("Obs","Fcst"))
+plotAnalogSample(forecasts$Data, fcst.id, forecasts$Times, forecasts$FLTs,
+                 observations$Data, obs.id, observations$Times,
+                 AnEn.weights$analogs, AnEn.weights$similarity, AnEn.weights$similarity_time_index,
+                 test.times, i.station = 1, i.test.day = 1,
+                 num.analogs = config$num_analogs, weights = config$weights,
+                 parameter.names = forecasts$ParameterNames,
+                 flts.fraction = 3600, legend.texts = c("Obs","Fcst"))
 ```
 
 ```{r}
-plotAnalogSelection(AnEn.weights, config, i.station = 1, i.test.day = 4,
-                    i.flt = 1, forecasts$ParameterNames)
+plotAnalogSelection(forecasts$Data, forecasts$Times,
+                    AnEn.weights$similarity, AnEn.weights$similarity_time_index,
+                    test.times, search.times,
+                    i.station = 1, i.test.day = 4, i.flt = 1,
+                    parameter.names = forecasts$ParameterNames,
+                    num.analogs = config$num_analogs,
+                    weights = config$weights)
 ```
 
-Your turn! Repeat this section of code on weighting on your own with different weights of your choosing. What do you observe? 
+Your turn! Are those weights optimal? How do you find better weight combinations? Repeat this section of code on weighting on your own with different weights of your choosing. What do you observe? How does it change the performance?
 
 ## Operational Search
 
@@ -199,8 +240,8 @@ Up until this point, we have been defining the historical repository, the search
 ### Generate analogs using the operational search functionality
 
 ```{r}
-config$operational <- TRUE
-AnEn.opr <- generateAnalogs(config)
+config$operation <- TRUE
+AnEn.opr <- generateAnalogs(forecasts, observations, test.times, search.times, config)
 ```
 
 This concludes our exercise covering the `RAnEn` fundamentals including: 
@@ -217,4 +258,4 @@ Take an opportunity to explore the behavior of the AnEn technique using this sam
 - What do you notice when you increase/decrease the number of ensemble members? 
 - Vary the size of the historical search repository (also often referred to as the training). What do you observe? 
 - What happens when you change the predictor weights? 
-- What happens when you utilzie the operational case option? 
+- What happens when you utilize the operational case option? 
