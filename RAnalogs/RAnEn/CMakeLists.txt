@@ -46,8 +46,11 @@ message(STATUS "Rcpp CxxFlags: ${RCPP_CXXFLAGS}.")
 #
 string (FIND ${RCPP_CXXFLAGS} "\/" PATH_START_INDEX)
 string (SUBSTRING ${RCPP_CXXFLAGS} ${PATH_START_INDEX} -1 RCPP_DIR)
-string(REGEX REPLACE "^(.+)\/include$" "\\1" RCPP_DIR ${RCPP_DIR})
-string(REGEX REPLACE "^(.+)\/Rcpp$" "\\1" R_LIBS_DIR ${RCPP_DIR})
+string(REGEX REPLACE "^(.+)\/include.*" \\1 RCPP_DIR ${RCPP_DIR})
+string(REGEX REPLACE "^(.+)\/Rcpp.*" \\1 R_LIBS_DIR ${RCPP_DIR})
+
+message(STATUS RCPP_DIR: ${RCPP_DIR})
+message(STATUS R_LIBS_DIR: ${R_LIBS_DIR})
 
 if (NOT EXISTS ${RCPP_DIR})
     # Although RCPP_DIR should exist intuitively, this check is designed for unexpected 
