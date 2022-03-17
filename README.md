@@ -91,7 +91,9 @@ To install the C++ libraries, please check the following dependencies.
 - _Optional_ [Boost](https://www.boost.org/) provides high-performance data structures.  `Boost` is a very large library. If you don't want to install the entire package, `PAnEn` is able to build the required ones automatically.
 - _Optional_ `CppUnit` provides test frameworks. If `CppUnit` is found in the system, test programs will be compiled.
 
-To set up the dependency, it is recommended to use [conda](). For example,
+To set up the dependency, it is recommended to use [conda](https://docs.conda.io/en/latest/miniconda.html). I chose `minicoda` instead of `anaconda` simply beacause `miniconda` is the light-weight version. If you already have `anaconda`, you are fine as well.
+
+The following code sets up the environment from stratch:
 
 ```bash
 # Python version is required because of boost compatibility issues
