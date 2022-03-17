@@ -1,8 +1,0 @@
-<map id="AnEnSSE" name="AnEnSSE">
-<area shape="rect" id="node1" title="AnEnSSE is an implementation of the abstrct class AnEn for the search space extension algorithm." alt="" coords="79,1512,276,1956"/>
-<area shape="rect" id="node2" href="$class_an_en_i_s.html" title="AnEnIS is an implementation of the class AnEn for the independent search algorithm." alt="" coords="5,799,203,1463"/>
-<area shape="rect" id="node3" href="$class_an_en.html" title="AnEn is an abstract class that defines the interface for implement analog ensemble generation." alt="" coords="21,380,141,589"/>
-<area shape="rect" id="node4" href="$class_profiler.html" title=" " alt="" coords="8,42,155,237"/>
-<area shape="rect" id="node5" href="$class_array4_d_pointer.html" title="Array4DPointer is an implementation of the abstract class Array4D." alt="" coords="171,336,322,633"/>
-<area shape="rect" id="node6" href="$class_array4_d.html" title="Array4D is an abstract class for 4&#45;dimensional array." alt="" coords="183,5,310,273"/>
-</map>

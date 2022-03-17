@@ -1,8 +1,0 @@
-<map id="type_caster&lt; std::shared_ptr&lt; T &gt; &gt;" name="type_caster&lt; std::shared_ptr&lt; T &gt; &gt;">
-<area shape="rect" id="node1" title="Specialize for the common std::shared_ptr, so users don&#39;t need to." alt="" coords="122,1375,289,1467"/>
-<area shape="rect" id="node2" href="$structcopyable__holder__caster.html" title=" " alt="" coords="116,1013,295,1325"/>
-<area shape="rect" id="node3" href="$classtype__caster__base.html" title=" " alt="" coords="5,668,189,921"/>
-<area shape="rect" id="node4" href="$classtype__caster__generic.html" title=" " alt="" coords="26,5,201,288"/>
-<area shape="rect" id="node5" href="$classtype__caster__base.html" title="Generic type caster for objects stored on the heap." alt="" coords="135,337,319,591"/>
-<area shape="rect" id="node6" href="$structcopyable__holder__caster.html" title=" " alt="" coords="213,653,416,936"/>
-</map>

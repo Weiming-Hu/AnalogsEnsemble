@@ -1,3 +1,0 @@
-<map id="UnregisteredType" name="UnregisteredType">
-<area shape="rect" id="node1" title="Dummy type which is not exported anywhere – something to trigger a conversion error." alt="" coords="5,5,129,83"/>
-</map>

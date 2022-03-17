@@ -1,6 +1,0 @@
-<map id="Dog" name="Dog">
-<area shape="rect" id="node1" title=" " alt="" coords="85,189,155,281"/>
-<area shape="rect" id="node3" href="$struct_chihuahua.html" title=" " alt="" coords="5,329,109,421"/>
-<area shape="rect" id="node4" href="$struct_labrador.html" title=" " alt="" coords="133,337,232,414"/>
-<area shape="rect" id="node2" href="$struct_animal.html" title=" " alt="" coords="59,5,181,141"/>
-</map>

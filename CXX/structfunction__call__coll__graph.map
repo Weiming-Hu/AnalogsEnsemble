@@ -1,7 +1,0 @@
-<map id="function_call" name="function_call">
-<area shape="rect" id="node1" title="Internal data associated with a single function call." alt="" coords="138,808,252,900"/>
-<area shape="rect" id="node2" href="$structfunction__record.html" title="Internal data structure which holds metadata about a bound function (signature, overloads,..." alt="" coords="104,492,286,716"/>
-<area shape="rect" id="node3" href="$classhandle.html" title=" " alt="" coords="136,147,254,385"/>
-<area shape="rect" id="node5" href="$classobject.html" title=" " alt="" coords="372,477,578,731"/>
-<area shape="rect" id="node4" title=" " alt="" coords="135,5,255,97"/>
-</map>

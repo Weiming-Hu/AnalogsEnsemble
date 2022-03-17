@@ -1,7 +1,0 @@
-<map id="copyable_holder_caster&lt; type, holder_type, SFINAE &gt;" name="copyable_holder_caster&lt; type, holder_type, SFINAE &gt;">
-<area shape="rect" id="node1" title=" " alt="" coords="5,640,208,923"/>
-<area shape="rect" id="node4" href="$structcopyable__holder__caster.html" title=" " alt="" coords="17,1000,196,1312"/>
-<area shape="rect" id="node2" href="$classtype__caster__base.html" title="Generic type caster for objects stored on the heap." alt="" coords="15,337,199,591"/>
-<area shape="rect" id="node3" href="$classtype__caster__generic.html" title=" " alt="" coords="19,5,194,288"/>
-<area shape="rect" id="node5" href="$classtype__caster_3_01std_1_1shared__ptr_3_01_t_01_4_01_4.html" title="Specialize for the common std::shared_ptr, so users don&#39;t need to." alt="" coords="23,1361,190,1453"/>
-</map>

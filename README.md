@@ -83,7 +83,7 @@ After the installation, you can always revert back to your original setup and `R
 
 ### CAnEn
 
-To install the C++ libraries, please check the following dependencies:
+To install the C++ libraries, please check the following dependencies.
 
 - _Required_ [CMake](https://cmake.org/) is the required build system generator.
 - _Required_ [NetCDF](https://www.unidata.ucar.edu/downloads/netcdf/) provides the file I/O with NetCDF files.
@@ -91,7 +91,33 @@ To install the C++ libraries, please check the following dependencies:
 - _Optional_ [Boost](https://www.boost.org/) provides high-performance data structures.  `Boost` is a very large library. If you don't want to install the entire package, `PAnEn` is able to build the required ones automatically.
 - _Optional_ `CppUnit` provides test frameworks. If `CppUnit` is found in the system, test programs will be compiled.
 
-Please use the following scripts to install the libraries:
+To set up the dependency, it is recommended to use [conda](https://docs.conda.io/en/latest/miniconda.html). I chose `minicoda` instead of `anaconda` simply beacause `miniconda` is the light-weight version. If you already have `anaconda`, you are fine as well.
+
+The following code sets up the environment from stratch:
+
+```bash
+# Python version is required because of boost compatibility issues
+conda create -n venv_anen python==3.8 -y
+
+# Keep your environment activate during the entire installation process, including CAnEn
+conda activate venv_anen
+
+# Required dependency
+conda install -c anaconda cmake boost -y
+conda install -c conda-forge netcdf-cxx4 eccodes doxygen  -y
+
+# Optional dependency: LibTorch
+# If you need libTorch, please go ahead to https://pytorch.org/get-started/locally/ and select
+# Stable -> [Your OS] -> LibTorch -> C++/Java -> [Compute Platform] -> cxx11 ABI version
+# 
+# Please see https://github.com/Weiming-Hu/AnalogsEnsemble/issues/86#issuecomment-1047442579 for instructions
+# on how to inlcude libTorch during the cmake process.
+
+# Optional dependency: MPI
+conda install -c conda-forge openmpi -y
+```
+
+After the dependencies are installed, let's build `CAnEn`:
 
 ```bash
 # Download the source files (~10 Mb)

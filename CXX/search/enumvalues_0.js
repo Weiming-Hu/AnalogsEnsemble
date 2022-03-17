@@ -1,24 +1,4 @@
 var searchData=
 [
-  ['a_6565',['A',['../test__numpy__dtypes_8cpp.html#ac848181148f36d4a46a0fb4d15d17528a7fc56270e7a70fa81a5935b72eacbe29',1,'test_numpy_dtypes.cpp']]],
-  ['analogs_6566',['Analogs',['../class_an_en_read_ncdf.html#ac46a6614ed62aee709bb3431739ab652a4cab9a759d70032437147e37bc4b20be',1,'AnEnReadNcdf']]],
-  ['api_5fpyarray_5fcopyinto_6567',['API_PyArray_CopyInto',['../structnpy__api.html#a7b2811e735f015552608f0396c3dd43ca8852d543d491293088ec58f0d965efcc',1,'npy_api']]],
-  ['api_5fpyarray_5fdescrconverter_6568',['API_PyArray_DescrConverter',['../structnpy__api.html#a7b2811e735f015552608f0396c3dd43ca59c36069d94ec607087f7e221dbbcaa1',1,'npy_api']]],
-  ['api_5fpyarray_5fdescrfromscalar_6569',['API_PyArray_DescrFromScalar',['../structnpy__api.html#a7b2811e735f015552608f0396c3dd43ca0b58b43f1b979feec939411475f6325b',1,'npy_api']]],
-  ['api_5fpyarray_5fdescrfromtype_6570',['API_PyArray_DescrFromType',['../structnpy__api.html#a7b2811e735f015552608f0396c3dd43ca825cd2fbf2f1446ac2f73e85eb4af454',1,'npy_api']]],
-  ['api_5fpyarray_5fdescrnewfromtype_6571',['API_PyArray_DescrNewFromType',['../structnpy__api.html#a7b2811e735f015552608f0396c3dd43cacddc3731ce991bc4cab97cd2dffdca35',1,'npy_api']]],
-  ['api_5fpyarray_5fequivtypes_6572',['API_PyArray_EquivTypes',['../structnpy__api.html#a7b2811e735f015552608f0396c3dd43ca4b92b52b7afb3768a18f1a5b9253e315',1,'npy_api']]],
-  ['api_5fpyarray_5ffromany_6573',['API_PyArray_FromAny',['../structnpy__api.html#a7b2811e735f015552608f0396c3dd43cac7f441d1f541f5c24f1987edcacdc0ca',1,'npy_api']]],
-  ['api_5fpyarray_5fgetarrayparamsfromobject_6574',['API_PyArray_GetArrayParamsFromObject',['../structnpy__api.html#a7b2811e735f015552608f0396c3dd43ca96291a1aae3b3bafd78cbe932bdf5f58',1,'npy_api']]],
-  ['api_5fpyarray_5fgetndarraycfeatureversion_6575',['API_PyArray_GetNDArrayCFeatureVersion',['../structnpy__api.html#a7b2811e735f015552608f0396c3dd43ca3f3b2e84f042643513860c8308df5d94',1,'npy_api']]],
-  ['api_5fpyarray_5fnewcopy_6576',['API_PyArray_NewCopy',['../structnpy__api.html#a7b2811e735f015552608f0396c3dd43ca62da783a1b0c22b2103740d2330c0f63',1,'npy_api']]],
-  ['api_5fpyarray_5fnewfromdescr_6577',['API_PyArray_NewFromDescr',['../structnpy__api.html#a7b2811e735f015552608f0396c3dd43cab5772e2ed9ba7fbd73f4fbad0368c975',1,'npy_api']]],
-  ['api_5fpyarray_5fresize_6578',['API_PyArray_Resize',['../structnpy__api.html#a7b2811e735f015552608f0396c3dd43ca11ef93918a356d2cc9f26bed0d58b5b3',1,'npy_api']]],
-  ['api_5fpyarray_5fsetbaseobject_6579',['API_PyArray_SetBaseObject',['../structnpy__api.html#a7b2811e735f015552608f0396c3dd43caa00ae98d6f1385e76da29ba8c23795b2',1,'npy_api']]],
-  ['api_5fpyarray_5fsqueeze_6580',['API_PyArray_Squeeze',['../structnpy__api.html#a7b2811e735f015552608f0396c3dd43caaf2a4e5cc11448e4b6e8c16014a67045',1,'npy_api']]],
-  ['api_5fpyarray_5ftype_6581',['API_PyArray_Type',['../structnpy__api.html#a7b2811e735f015552608f0396c3dd43ca068e620867fe199b98a6f72bc1c9fcf2',1,'npy_api']]],
-  ['api_5fpyarraydescr_5ftype_6582',['API_PyArrayDescr_Type',['../structnpy__api.html#a7b2811e735f015552608f0396c3dd43ca3b0d8f6a20f09cdcc7803dbd4c4cc8ad',1,'npy_api']]],
-  ['api_5fpyvoidarrtype_5ftype_6583',['API_PyVoidArrType_Type',['../structnpy__api.html#a7b2811e735f015552608f0396c3dd43caea54e61565c5669fec0da724e73ca5a1',1,'npy_api']]],
-  ['automatic_6584',['automatic',['../detail_2common_8h.html#adde72ab1fb0dd4b48a5232c349a53841a2bd9c0ed00116be1258e0cc66617d7c8',1,'common.h']]],
-  ['automatic_5freference_6585',['automatic_reference',['../detail_2common_8h.html#adde72ab1fb0dd4b48a5232c349a53841a1c1628c22d69b3b9bac4b5c3674852e3',1,'common.h']]]
+  ['analogs_0',['Analogs',['../class_an_en_read_ncdf.html#ac46a6614ed62aee709bb3431739ab652a4cab9a759d70032437147e37bc4b20be',1,'AnEnReadNcdf']]]
 ];

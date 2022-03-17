@@ -1,4 +1,0 @@
-<map id="Stations" name="Stations">
-<area shape="rect" id="node1" title="Stations class stores Station objects. It is a bidirectional map implemented from Boost so that it pr..." alt="" coords="7,131,138,340"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,5,140,83"/>
-</map>

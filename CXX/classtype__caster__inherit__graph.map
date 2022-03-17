@@ -1,7 +1,0 @@
-<map id="type_caster&lt; type, SFINAE &gt;" name="type_caster&lt; type, SFINAE &gt;">
-<area shape="rect" id="node1" title=" " alt="" coords="119,640,249,732"/>
-<area shape="rect" id="node4" href="$classtype__caster.html" title=" " alt="" coords="5,795,181,872"/>
-<area shape="rect" id="node5" href="$classtype__caster.html" title=" " alt="" coords="205,795,344,872"/>
-<area shape="rect" id="node2" href="$classtype__caster__base.html" title="Generic type caster for objects stored on the heap." alt="" coords="92,337,276,591"/>
-<area shape="rect" id="node3" href="$classtype__caster__generic.html" title=" " alt="" coords="97,5,271,288"/>
-</map>

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['a_5fmethods_6724',['A_METHODS',['../test__virtual__functions_8cpp.html#a4126fe74ab69ce25d84c37843b37a239',1,'test_virtual_functions.cpp']]]
+  ['boost_5fno_5fauto_5fptr_0',['BOOST_NO_AUTO_PTR',['../_bm_dim_8h.html#a8f5c030105c10fbe6953ed183115511a',1,'BmDim.h']]]
 ];

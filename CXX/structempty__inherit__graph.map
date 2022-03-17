@@ -1,7 +1,0 @@
-<map id="empty&lt; derived &gt;" name="empty&lt; derived &gt;">
-<area shape="rect" id="node1" title=" " alt="" coords="102,5,226,83"/>
-<area shape="rect" id="node2" href="$structempty.html" title=" " alt="" coords="5,145,152,237"/>
-<area shape="rect" id="node4" href="$structempty.html" title=" " alt="" coords="177,145,327,237"/>
-<area shape="rect" id="node3" href="$structlacking__copy__ctor.html" title=" " alt="" coords="5,294,152,386"/>
-<area shape="rect" id="node5" href="$structlacking__move__ctor.html" title=" " alt="" coords="177,287,327,393"/>
-</map>

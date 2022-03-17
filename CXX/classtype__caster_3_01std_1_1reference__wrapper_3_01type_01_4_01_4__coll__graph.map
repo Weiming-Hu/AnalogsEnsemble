@@ -1,9 +1,0 @@
-<map id="type_caster&lt; std::reference_wrapper&lt; type &gt; &gt;" name="type_caster&lt; std::reference_wrapper&lt; type &gt; &gt;">
-<area shape="rect" id="node1" title=" " alt="" coords="11,1684,194,1820"/>
-<area shape="rect" id="node2" href="$classtype__caster.html" title=" " alt="" coords="33,1544,172,1621"/>
-<area shape="rect" id="node3" href="$classtype__caster__base.html" title="Generic type caster for objects stored on the heap." alt="" coords="5,1087,189,1340"/>
-<area shape="rect" id="node7" href="$classtype__caster.html" title=" " alt="" coords="119,1389,249,1481"/>
-<area shape="rect" id="node4" href="$classtype__caster__generic.html" title=" " alt="" coords="10,769,185,1037"/>
-<area shape="rect" id="node5" href="$structtype__info.html" title=" " alt="" coords="21,483,173,707"/>
-<area shape="rect" id="node6" href="$structbuffer__info.html" title="Information record describing a Python buffer object." alt="" coords="42,5,153,420"/>
-</map>

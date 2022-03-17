@@ -1,4 +1,0 @@
-<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$class_an_en_read_grib.html" title="AnEnReadGrib provides the functionality to read the Grib2 format." alt="" coords="5,5,115,32"/>
-<area shape="rect" id="node2" href="$class_an_en_read_grib_m_p_i.html" title="AnEnReadGribMPI provides the functionality to read the Grib2 format in parallel with MPI." alt="" coords="163,5,296,32"/>
-</map>

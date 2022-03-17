@@ -1,4 +1,0 @@
-<map id="ParameterGrib" name="ParameterGrib">
-<area shape="rect" id="node1" title="ParameterGrib stores parameter information including the extra information, e.g. ID,..." alt="" coords="5,307,140,604"/>
-<area shape="rect" id="node2" href="$class_parameter.html" title="Parameter stores parameter information including name and circular." alt="" coords="17,5,128,259"/>
-</map>

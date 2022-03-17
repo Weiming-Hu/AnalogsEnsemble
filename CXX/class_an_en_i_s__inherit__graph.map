@@ -1,9 +1,0 @@
-<map id="AnEnIS" name="AnEnIS">
-<area shape="rect" id="node1" title="AnEnIS is an implementation of the class AnEn for the independent search algorithm." alt="" coords="149,277,346,941"/>
-<area shape="rect" id="node3" href="$class_an_en_i_s_m_p_i.html" title="AnEnISMPI provides the functionality to perform AnEnIS with MPI." alt="" coords="5,1121,124,1316"/>
-<area shape="rect" id="node4" href="$class_an_en_s_s_e.html" title="AnEnSSE is an implementation of the abstrct class AnEn for the search space extension algorithm." alt="" coords="149,989,346,1448"/>
-<area shape="rect" id="node7" href="$classtest_an_en_i_s.html" title=" " alt="" coords="371,997,599,1441"/>
-<area shape="rect" id="node2" href="$class_an_en.html" title="AnEn is an abstract class that defines the interface for implement analog ensemble generation." alt="" coords="187,5,307,229"/>
-<area shape="rect" id="node5" href="$class_an_en_s_s_e_m_s.html" title="AnEnSSEMS is derived from the class AnEnSSE. It is different from the base class in how forecast and ..." alt="" coords="169,1496,325,1735"/>
-<area shape="rect" id="node6" href="$classtest_an_en_s_s_e_m_s.html" title=" " alt="" coords="136,1783,359,2168"/>
-</map>

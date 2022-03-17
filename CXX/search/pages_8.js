@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['released_20under_20mit_20license_6888',['Released under MIT License',['../md__home_graduate_wuh20_github__analogs_ensemble_out__l_i_c_e_n_s_e.html',1,'']]]
+  ['panen_204_2e4_2e3_0',['PAnEn 4.4.3',['../md___users_weiming_github__analogs_ensemble__n_e_w_s.html',1,'']]]
 ];

@@ -1,8 +1,0 @@
-<map id="testAnEnSSEMS" name="testAnEnSSEMS">
-<area shape="rect" id="node1" title=" " alt="" coords="9,1783,232,2168"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,1577,92,1654"/>
-<area shape="rect" id="node3" href="$class_an_en_s_s_e_m_s.html" title="AnEnSSEMS is derived from the class AnEnSSE. It is different from the base class in how forecast and ..." alt="" coords="116,1496,272,1735"/>
-<area shape="rect" id="node4" href="$class_an_en_s_s_e.html" title="AnEnSSE is an implementation of the abstrct class AnEn for the search space extension algorithm." alt="" coords="95,989,293,1448"/>
-<area shape="rect" id="node5" href="$class_an_en_i_s.html" title="AnEnIS is an implementation of the class AnEn for the independent search algorithm." alt="" coords="95,277,293,941"/>
-<area shape="rect" id="node6" href="$class_an_en.html" title="AnEn is an abstract class that defines the interface for implement analog ensemble generation." alt="" coords="134,5,254,229"/>
-</map>

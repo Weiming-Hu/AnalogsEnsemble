@@ -1,7 +1,0 @@
-<map id="is_copy_constructible&lt; Container, enable_if_t&lt; all_of&lt; std::is_copy_constructible&lt; Container &gt;, std::is_same&lt; typename Container::value_type &amp;, typename Container::reference &gt;, negation&lt; std::is_same&lt; Container, typename Container::value_type &gt; &gt; &gt;::value &gt; &gt;" name="is_copy_constructible&lt; Container, enable_if_t&lt; all_of&lt; std::is_copy_constructible&lt; Container &gt;, std::is_same&lt; typename Container::value_type &amp;, typename Container::reference &gt;, negation&lt; std::is_same&lt; Container, typename Container::value_type &gt; &gt; &gt;::value &gt; &gt;">
-<area shape="rect" id="node1" title=" " alt="" coords="24,443,276,637"/>
-<area shape="rect" id="node2" href="$structis__copy__constructible.html" title=" " alt="" coords="63,301,237,393"/>
-<area shape="rect" id="node3" title=" " alt="" coords="5,132,180,224"/>
-<area shape="rect" id="node4" href="$structis__copy__constructible.html" title=" " alt="" coords="204,132,352,224"/>
-<area shape="rect" id="node5" title=" " alt="" coords="175,5,381,83"/>
-</map>

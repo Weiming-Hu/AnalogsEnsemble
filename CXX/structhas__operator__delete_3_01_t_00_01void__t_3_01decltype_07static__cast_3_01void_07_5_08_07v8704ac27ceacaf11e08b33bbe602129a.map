@@ -1,4 +1,0 @@
-<map id="has_operator_delete&lt; T, void_t&lt; decltype(static_cast&lt; void(*)(void *)&gt;(T::operator delete))&gt; &gt;" name="has_operator_delete&lt; T, void_t&lt; decltype(static_cast&lt; void(*)(void *)&gt;(T::operator delete))&gt; &gt;">
-<area shape="rect" id="node1" title=" " alt="" coords="5,131,208,252"/>
-<area shape="rect" id="node2" title=" " alt="" coords="69,5,145,83"/>
-</map>

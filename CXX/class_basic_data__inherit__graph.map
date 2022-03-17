@@ -1,7 +1,0 @@
-<map id="BasicData" name="BasicData">
-<area shape="rect" id="node1" title="BasicData is an implementation of the data structure used by Analog Ensemble. It includes parameters,..." alt="" coords="111,5,238,259"/>
-<area shape="rect" id="node2" href="$class_forecasts.html" title="Forecasts is an abstract class that extends BasicData and the abstract class Array4D...." alt="" coords="26,321,155,560"/>
-<area shape="rect" id="node4" href="$class_observations.html" title="Observations is an abstract class that extends BasicData. It defines the interface of how to interact..." alt="" coords="195,307,325,575"/>
-<area shape="rect" id="node3" href="$class_forecasts_pointer.html" title="ForecastsPointer is an implementation of the abstract class Forecasts. It also inherits from Array4DP..." alt="" coords="5,696,160,949"/>
-<area shape="rect" id="node5" href="$class_observations_pointer.html" title="ObservationsPointer is an implementation of the abstract class Observations. The underlying storage u..." alt="" coords="184,623,352,1023"/>
-</map>

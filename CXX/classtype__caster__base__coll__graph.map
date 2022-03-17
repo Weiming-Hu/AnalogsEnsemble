@@ -1,6 +1,0 @@
-<map id="type_caster_base&lt; type &gt;" name="type_caster_base&lt; type &gt;">
-<area shape="rect" id="node1" title="Generic type caster for objects stored on the heap." alt="" coords="5,1087,189,1340"/>
-<area shape="rect" id="node2" href="$classtype__caster__generic.html" title=" " alt="" coords="10,769,185,1037"/>
-<area shape="rect" id="node3" href="$structtype__info.html" title=" " alt="" coords="21,483,173,707"/>
-<area shape="rect" id="node4" href="$structbuffer__info.html" title="Information record describing a Python buffer object." alt="" coords="42,5,153,420"/>
-</map>

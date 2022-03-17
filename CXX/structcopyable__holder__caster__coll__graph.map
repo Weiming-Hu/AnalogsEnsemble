@@ -1,7 +1,0 @@
-<map id="copyable_holder_caster&lt; type, holder_type, SFINAE &gt;" name="copyable_holder_caster&lt; type, holder_type, SFINAE &gt;">
-<area shape="rect" id="node1" title=" " alt="" coords="5,1389,208,1672"/>
-<area shape="rect" id="node2" href="$classtype__caster__base.html" title="Generic type caster for objects stored on the heap." alt="" coords="15,1087,199,1340"/>
-<area shape="rect" id="node3" href="$classtype__caster__generic.html" title=" " alt="" coords="19,769,194,1037"/>
-<area shape="rect" id="node4" href="$structtype__info.html" title=" " alt="" coords="31,483,183,707"/>
-<area shape="rect" id="node5" href="$structbuffer__info.html" title="Information record describing a Python buffer object." alt="" coords="51,5,162,420"/>
-</map>

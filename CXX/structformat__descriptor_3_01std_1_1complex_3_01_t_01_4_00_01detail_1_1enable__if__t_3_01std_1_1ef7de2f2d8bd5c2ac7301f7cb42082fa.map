@@ -1,3 +1,0 @@
-<map id="format_descriptor&lt; std::complex&lt; T &gt;, detail::enable_if_t&lt; std::is_floating_point&lt; T &gt;::value &gt; &gt;" name="format_descriptor&lt; std::complex&lt; T &gt;, detail::enable_if_t&lt; std::is_floating_point&lt; T &gt;::value &gt; &gt;">
-<area shape="rect" id="node1" title="glibc defines I as a macro which breaks things, e.g., boost template names" alt="" coords="5,5,160,156"/>
-</map>

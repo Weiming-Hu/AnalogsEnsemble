@@ -12,19 +12,21 @@ title: R Documentation
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Analog Ensemble Package • RAnEn</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
+<script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><meta property="og:title" content="Analog Ensemble Package">
 <meta property="og:description" content="The Analog Ensemble Package computes analog ensembles. It is implemented in C++ and exported to R interface.">
-<meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
-<body>
+<body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -37,18 +39,12 @@ title: R Documentation
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">RAnEn</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">4.4.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">4.4.3</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
@@ -56,14 +52,7 @@ title: R Documentation
   <a href="news/index.html">Changelog</a>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right">
-<li>
-  <a href="https://github.com/Weiming-Hu/AnalogsEnsemble">
-    <span class="fab fa fab fa-github fa-lg"></span>
-     
-  </a>
-</li>
-      </ul>
+<ul class="nav navbar-nav navbar-right"></ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -75,9 +64,9 @@ title: R Documentation
 
       </header><div class="row">
   <div class="contents col-md-9">
-<div id="panen-parallel-analog-ensemble" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#panen-parallel-analog-ensemble" class="anchor"></a><a href="https://weiming-hu.github.io/AnalogsEnsemble/">PAnEn: Parallel Analog Ensemble</a>
+<div class="section level1">
+<div class="page-header"><h1 id="panen-parallel-analog-ensemble">
+<a href="https://weiming-hu.github.io/AnalogsEnsemble/" class="external-link">PAnEn: Parallel Analog Ensemble</a><a class="anchor" aria-label="anchor" href="#panen-parallel-analog-ensemble"></a>
 </h1></div>
 
 <!-- vim-markdown-toc GitLab -->
@@ -98,95 +87,96 @@ title: R Documentation
 <li><a href="#references">References</a></li>
 <li><a href="#feedbacks">Feedbacks</a></li>
 </ul>
-<!-- vim-markdown-toc --><div id="overview" class="section level2">
-<h2 class="hasAnchor">
-<a href="#overview" class="anchor"></a>Overview</h2>
-<p>Parallel Analog Ensemble (PAnEn) generates accurate forecast ensembles relying on a single deterministic model simulation and the historical observations. The technique was introduced by Luca Delle Monache et al. in the paper <a href="https://journals.ametsoc.org/doi/full/10.1175/MWR-D-12-00281.1">Probabilistic Weather Prediction with an Analog Ensemble</a>. Developed and maintained by <a href="http://geolab.psu.edu">GEOlab</a> at Penn State, PAnEn aims to provide an efficient implementation for this technique and user-friendly interfaces in R and C++ for researchers who want to use this technique in their own research.</p>
+<!-- vim-markdown-toc --><div class="section level2">
+<h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
+</h2>
+<p>Parallel Analog Ensemble (PAnEn) generates accurate forecast ensembles relying on a single deterministic model simulation and the historical observations. The technique was introduced by Luca Delle Monache et al. in the paper <a href="https://journals.ametsoc.org/doi/full/10.1175/MWR-D-12-00281.1" class="external-link">Probabilistic Weather Prediction with an Analog Ensemble</a>. Developed and maintained by <a href="http://geolab.psu.edu" class="external-link">GEOlab</a> at Penn State, PAnEn aims to provide an efficient implementation for this technique and user-friendly interfaces in R and C++ for researchers who want to use this technique in their own research.</p>
 <p>The easiest way to use this package is to install the R package, ‘RAnEn’. C++ libraries are also available but they are designed for intermediate users with requirement for performance. For installation guidance, please refer to the <a href="#installation">installation section</a>.</p>
 </div>
-<div id="citation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#citation" class="anchor"></a>Citation</h2>
+<div class="section level2">
+<h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
+</h2>
 <p>To cite this package, you have several options:</p>
 <ul>
-<li>Using <code>LaTex</code>: Please use <a href="https://github.com/Weiming-Hu/AnalogsEnsemble/blob/master/RAnalogs/RAnEn/inst/CITATION">this file</a> for citation.</li>
-<li>Using <code>R</code>: Simply type <code><a href="https://rdrr.io/r/utils/citation.html">citation('RAnEn')</a></code> and the citation message will be printed.</li>
+<li>Using <code>LaTex</code>: Please use <a href="https://github.com/Weiming-Hu/AnalogsEnsemble/blob/master/RAnalogs/RAnEn/inst/CITATION" class="external-link">this file</a> for citation.</li>
+<li>Using <code>R</code>: Simply type <code>citation('RAnEn')</code> and the citation message will be printed.</li>
 <li>Using plain text: Please use the following citation format:</li>
 </ul>
 <pre><code>Weiming Hu, Guido Cervone, Laura Clemente-Harding, and Martina Calovi. (2019). Parallel Analog Ensemble. Zenodo. http://doi.org/10.5281/zenodo.3384321</code></pre>
 </div>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
-<p><code>RAnEn</code> is very easy to install if you are already using <a href="https://www.r-project.org/">R</a>. This is the recommended way to start.</p>
-<div id="ranen" class="section level3">
-<h3 class="hasAnchor">
-<a href="#ranen" class="anchor"></a>RAnEn</h3>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<p><code>RAnEn</code> is very easy to install if you are already using <a href="https://www.r-project.org/" class="external-link">R</a>. This is the recommended way to start.</p>
+<div class="section level3">
+<h3 id="ranen">RAnEn<a class="anchor" aria-label="anchor" href="#ranen"></a>
+</h3>
 <p><em>The command is the same for <code>RAnEn</code> installation and update.</em></p>
 <p>To install <code>RAnEn</code>, please install the following packages first:</p>
 <ul>
 <li>
-<a href="https://cran.r-project.org/web/packages/BH/index.html">BH</a>: <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages('BH')</a></code>
+<a href="https://cran.r-project.org/web/packages/BH/index.html" class="external-link">BH</a>: <code>install.packages('BH')</code>
 </li>
 <li>
-<a href="https://cran.r-project.org/web/packages/Rcpp/index.html">Rcpp</a>: <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages('Rcpp')</a></code>
+<a href="https://cran.r-project.org/web/packages/Rcpp/index.html" class="external-link">Rcpp</a>: <code>install.packages('Rcpp')</code>
 </li>
-<li>If you are using <code>Windows</code>, please also install the latest version of <a href="https://cran.r-project.org/bin/windows/Rtools/">Rtools</a>.</li>
+<li>If you are using <code>Windows</code>, please also install the latest version of <a href="https://cran.r-project.org/bin/windows/Rtools/" class="external-link">Rtools</a>.</li>
 </ul>
 <p>The following R command install the latest <code>RAnEn</code>.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"https://github.com/Weiming-Hu/AnalogsEnsemble/raw/master/RAnalogs/releases/RAnEn_latest.tar.gz"</span>, <span class="dt">repos =</span> <span class="ot">NULL</span>)</a></code></pre></div>
-<p>That’s it. You are good to go. Please refer to <a href="#tutorials">tutorials</a> or the <a href="https://weiming-hu.github.io/AnalogsEnsemble/R/">R documentation</a> to learn more about using <code>RAnEn</code>. You might also want to install <a href="https://github.com/Weiming-Hu/RAnEnExtra">RAnEnExtra</a> package with functions for visualization and verification. After <code>RAnEn</code> installation, you can simply run <code><a href="https://rdrr.io/pkg/devtools/man/remote-reexports.html">devtools::install_github("Weiming-Hu/RAnEnExtra")</a></code>.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"https://github.com/Weiming-Hu/AnalogsEnsemble/raw/master/RAnalogs/releases/RAnEn_latest.tar.gz"</span>, repos <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+<p>That’s it. You are good to go. Please refer to <a href="#tutorials">tutorials</a> or the <a href="https://weiming-hu.github.io/AnalogsEnsemble/R/" class="external-link">R documentation</a> to learn more about using <code>RAnEn</code>. You might also want to install <a href="https://github.com/Weiming-Hu/RAnEnExtra" class="external-link">RAnEnExtra</a> package with functions for visualization and verification. After <code>RAnEn</code> installation, you can simply run <code>devtools::install_github("Weiming-Hu/RAnEnExtra")</code>.</p>
 <p><strong>Mac users</strong>: if the package shows that <code>OpenMP</code> is not supported. You can do one of the followings:</p>
-<ol>
-<li>Avoid using Clang compilers and convert to GNU compilers. To change the compilers used by R, create a file <code>~/.R/Makevars</code> if you do not have it already and add the following content to it. Of course, change the compilers to what you have. If you do not have any alternative compilers other than Clang, <a href="https://brew.sh/">HomeBrew</a> is your friend.</li>
+<ol style="list-style-type: decimal">
+<li>Avoid using Clang compilers and convert to GNU compilers. To change the compilers used by R, create a file <code>~/.R/Makevars</code> if you do not have it already and add the following content to it. Of course, change the compilers to what you have. If you do not have any alternative compilers other than Clang, <a href="https://brew.sh/" class="external-link">HomeBrew</a> is your friend.</li>
 </ol>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb3-1" title="1"><span class="va">CC=</span>gcc-8</a>
-<a class="sourceLine" id="cb3-2" title="2"><span class="va">CXX=</span>g++-8</a>
-<a class="sourceLine" id="cb3-3" title="3"><span class="va">CXX1X=</span>g++-8</a>
-<a class="sourceLine" id="cb3-4" title="4"><span class="va">CXX14=</span>g++-8</a></code></pre></div>
-<ol>
-<li>You can also follow the instructions <a href="https://github.com/Rdatatable/data.table/wiki/Installation#openmp-enabled-compiler-for-mac">here</a> provided by <code>data.table</code>. They provide similar solutions but stick with Clang compilers.</li>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="va">CC</span><span class="op">=</span>gcc-8</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="va">CXX</span><span class="op">=</span>g++-8</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="va">CXX1X</span><span class="op">=</span>g++-8</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="va">CXX14</span><span class="op">=</span>g++-8</span></code></pre></div>
+<ol start="2" style="list-style-type: decimal">
+<li>You can also follow the instructions <a href="https://github.com/Rdatatable/data.table/wiki/Installation#openmp-enabled-compiler-for-mac" class="external-link">here</a> provided by <code>data.table</code>. They provide similar solutions but stick with Clang compilers.</li>
 </ol>
 <p>After the installation, you can always revert back to your original setup and <code>RAnEn</code> will stay supported by <code>OpenMP</code>.</p>
 </div>
-<div id="canen" class="section level3">
-<h3 class="hasAnchor">
-<a href="#canen" class="anchor"></a>CAnEn</h3>
+<div class="section level3">
+<h3 id="canen">CAnEn<a class="anchor" aria-label="anchor" href="#canen"></a>
+</h3>
 <p>To install the C++ libraries, please check the following dependencies:</p>
 <ul>
 <li>
-<em>Required</em> <a href="https://cmake.org/">CMake</a> is the required build system generator.</li>
+<em>Required</em> <a href="https://cmake.org/" class="external-link">CMake</a> is the required build system generator.</li>
 <li>
-<em>Required</em> <a href="https://www.unidata.ucar.edu/downloads/netcdf/">NetCDF</a> provides the file I/O with NetCDF files.</li>
+<em>Required</em> <a href="https://www.unidata.ucar.edu/downloads/netcdf/" class="external-link">NetCDF</a> provides the file I/O with NetCDF files.</li>
 <li>
-<em>Required</em> <a href="https://confluence.ecmwf.int/display/ECC/ecCodes+installation">Eccodes</a> provides the file I/O with Grib2 files.</li>
+<em>Required</em> <a href="https://confluence.ecmwf.int/display/ECC/ecCodes+installation" class="external-link">Eccodes</a> provides the file I/O with Grib2 files.</li>
 <li>
-<em>Optional</em> <a href="https://www.boost.org/">Boost</a> provides high-performance data structures. <code>Boost</code> is a very large library. If you don’t want to install the entire package, <code>PAnEn</code> is able to build the required ones automatically.</li>
+<em>Optional</em> <a href="https://www.boost.org/" class="external-link">Boost</a> provides high-performance data structures. <code>Boost</code> is a very large library. If you don’t want to install the entire package, <code>PAnEn</code> is able to build the required ones automatically.</li>
 <li>
 <em>Optional</em> <code>CppUnit</code> provides test frameworks. If <code>CppUnit</code> is found in the system, test programs will be compiled.</li>
 </ul>
 <p>Please use the following scripts to install the libraries:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb4-1" title="1"><span class="co"># Download the source files (~10 Mb)</span></a>
-<a class="sourceLine" id="cb4-2" title="2"><span class="fu">wget</span> https://github.com/Weiming-Hu/AnalogsEnsemble/archive/master.zip</a>
-<a class="sourceLine" id="cb4-3" title="3"></a>
-<a class="sourceLine" id="cb4-4" title="4"><span class="co"># Unzip</span></a>
-<a class="sourceLine" id="cb4-5" title="5"><span class="fu">unzip</span> master.zip</a>
-<a class="sourceLine" id="cb4-6" title="6"></a>
-<a class="sourceLine" id="cb4-7" title="7"><span class="co"># Create a separate folder to store all intermediate files during the installation process</span></a>
-<a class="sourceLine" id="cb4-8" title="8"><span class="bu">cd</span> AnalogsEnsemble-master/</a>
-<a class="sourceLine" id="cb4-9" title="9"><span class="fu">mkdir</span> build</a>
-<a class="sourceLine" id="cb4-10" title="10"><span class="bu">cd</span> build</a>
-<a class="sourceLine" id="cb4-11" title="11"><span class="fu">cmake</span> -DCMAKE_INSTALL_PREFIX=~/AnalogEnsemble ..</a>
-<a class="sourceLine" id="cb4-12" title="12"></a>
-<a class="sourceLine" id="cb4-13" title="13"><span class="co"># Compile</span></a>
-<a class="sourceLine" id="cb4-14" title="14"><span class="fu">make</span> -j 4</a>
-<a class="sourceLine" id="cb4-15" title="15"></a>
-<a class="sourceLine" id="cb4-16" title="16"><span class="co"># Install</span></a>
-<a class="sourceLine" id="cb4-17" title="17"><span class="fu">make</span> install</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Download the source files (~10 Mb)</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> https://github.com/Weiming-Hu/AnalogsEnsemble/archive/master.zip</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Unzip</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">unzip</span> master.zip</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a separate folder to store all intermediate files during the installation process</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> AnalogsEnsemble-master/</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> build</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> build</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="fu">cmake</span> <span class="at">-DCMAKE_INSTALL_PREFIX</span><span class="op">=</span>~/AnalogEnsemble ..</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Compile</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> <span class="at">-j</span> 4</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Install</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> install</span></code></pre></div>
 </div>
-<div id="cmake-parameters" class="section level3">
-<h3 class="hasAnchor">
-<a href="#cmake-parameters" class="anchor"></a>CMake Parameters</h3>
+<div class="section level3">
+<h3 id="cmake-parameters">CMake Parameters<a class="anchor" aria-label="anchor" href="#cmake-parameters"></a>
+</h3>
 <p>Below is a list of parameters you can change and customize.</p>
 <table class="table">
 <colgroup>
@@ -265,14 +255,14 @@ title: R Documentation
 </table>
 <p>You can change the default of the parameters, for example, <code>cmake -DCMAKE_INSTALL_PREFIX=~/AnalogEnsemble ..</code>. Don’t forget the extra letter <code>D</code> when specifying argument names.</p>
 </div>
-<div id="high-performance-computing-and-supercomputers" class="section level3">
-<h3 class="hasAnchor">
-<a href="#high-performance-computing-and-supercomputers" class="anchor"></a>High-Performance Computing and Supercomputers</h3>
-<p><a href="https://github.com/Weiming-Hu/AnalogsEnsemble/issues/86">Here</a> is a list of instructions to build and install <code>AnEn</code> on supercomputers.</p>
+<div class="section level3">
+<h3 id="high-performance-computing-and-supercomputers">High-Performance Computing and Supercomputers<a class="anchor" aria-label="anchor" href="#high-performance-computing-and-supercomputers"></a>
+</h3>
+<p><a href="https://github.com/Weiming-Hu/AnalogsEnsemble/issues/86" class="external-link">Here</a> is a list of instructions to build and install <code>AnEn</code> on supercomputers.</p>
 </div>
-<div id="mpi-and-openmp" class="section level3">
-<h3 class="hasAnchor">
-<a href="#mpi-and-openmp" class="anchor"></a>MPI and OpenMP</h3>
+<div class="section level3">
+<h3 id="mpi-and-openmp">MPI and OpenMP<a class="anchor" aria-label="anchor" href="#mpi-and-openmp"></a>
+</h3>
 <pre><code>TL;DR
 
 Launching an MPI-OpenMP hybrid program can be tricky.
@@ -282,8 +272,8 @@ disable OpenMP (`cmake -DENABLE_OPENMP=OFF ..`).
 
 If the hybrid solution is desired,
 make sure you have the proper setup.</code></pre>
-<p>When <code>ENABLE_MPI</code> is turned on, MPI programs will be built. These MPI programs are hybrid programs (unless you set <code>-DENABLE_OPENMP=OFF</code> for <code>cmake</code>) that use both MPI and OpenMP. Please check with your individual supercomputer platform to find out <strong>what the proper configuration for launching an MPI + OpenMP hybrid program is</strong>. Users are responsible not to launch too many process and threads at the same time which would overtask the machine and might lead to hanging problems (as what I have seen on <a href="https://portal.tacc.utexas.edu/user-guides/stampede2">XSEDE Stampede2</a>).</p>
-<p>On <a href="https://www2.cisl.ucar.edu/resources/computational-systems/cheyenne">NCAR Cheyenne</a>, the proper way to launch a hybrid program can be found <a href="https://www2.cisl.ucar.edu/resources/computational-systems/cheyenne/running-jobs/pbs-pro-job-script-examples">here</a>. If you use <code>mpirun</code>, instead of <code>mpiexec_mpt</code>, you will loose the multi-threading performance improvement.</p>
+<p>When <code>ENABLE_MPI</code> is turned on, MPI programs will be built. These MPI programs are hybrid programs (unless you set <code>-DENABLE_OPENMP=OFF</code> for <code>cmake</code>) that use both MPI and OpenMP. Please check with your individual supercomputer platform to find out <strong>what the proper configuration for launching an MPI + OpenMP hybrid program is</strong>. Users are responsible not to launch too many process and threads at the same time which would overtask the machine and might lead to hanging problems (as what I have seen on <a href="https://portal.tacc.utexas.edu/user-guides/stampede2" class="external-link">XSEDE Stampede2</a>).</p>
+<p>On <a href="https://www2.cisl.ucar.edu/resources/computational-systems/cheyenne" class="external-link">NCAR Cheyenne</a>, the proper way to launch a hybrid program can be found <a href="https://www2.cisl.ucar.edu/resources/computational-systems/cheyenne/running-jobs/pbs-pro-job-script-examples" class="external-link">here</a>. If you use <code>mpirun</code>, instead of <code>mpiexec_mpt</code>, you will loose the multi-threading performance improvement.</p>
 <p>To dive deeper into the hybrid parallelization design, MPI is used for computationally expensive portions of the code, e.g. file I/O and analog generation while OpenMP is used by the master process during bottleneck portion of the code, e.g. data reshaping and information queries.</p>
 <p>When analogs with a long search and test periods are desired, MPI is used to distribute forecast files across processes. Each process reads a subset of the forecast files. This solves the problem where serial I/O can be very slow.</p>
 <p>When a large number of stations/grids present, MPI is used to distribute analog generation for different stations across processes. Each process takes charge of generating analogs for a subset of stations.</p>
@@ -291,112 +281,118 @@ make sure you have the proper setup.</code></pre>
 <p>So if the platform support heterogeneous task layout, users can theoretically allocate one core per worker process and more cores for the master process to facilitate its multi-threading scope. But again, only do this when you find the bottleneck is taking much longer time than file I/O and analog generation. Use <code>--profile</code> to have profiling information in standard message output.</p>
 </div>
 </div>
-<div id="tutorials" class="section level2">
-<h2 class="hasAnchor">
-<a href="#tutorials" class="anchor"></a>Tutorials</h2>
-<p>Tutorials can be accessed on <a href="https://mybinder.org/v2/gh/Weiming-Hu/AnalogsEnsemble/master?urlpath=rstudio">binder</a> or be found in <a href="https://github.com/Weiming-Hu/AnalogsEnsemble/tree/master/RAnalogs/examples">this directory</a></p>
-<p>Here are also some tips and caveats in <a href="https://github.com/Weiming-Hu/AnalogsEnsemble/issues/81">this ticket</a>.</p>
+<div class="section level2">
+<h2 id="tutorials">Tutorials<a class="anchor" aria-label="anchor" href="#tutorials"></a>
+</h2>
+<p>Tutorials can be accessed on <a href="https://mybinder.org/v2/gh/Weiming-Hu/AnalogsEnsemble/master?urlpath=rstudio" class="external-link">binder</a> or be found in <a href="https://github.com/Weiming-Hu/AnalogsEnsemble/tree/master/RAnalogs/examples" class="external-link">this directory</a></p>
+<p>Here are also some tips and caveats in <a href="https://github.com/Weiming-Hu/AnalogsEnsemble/issues/81" class="external-link">this ticket</a>.</p>
 </div>
-<div id="references" class="section level2">
-<h2 class="hasAnchor">
-<a href="#references" class="anchor"></a>References</h2>
+<div class="section level2">
+<h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h2>
 <ul>
-<li><a href="https://journals.ametsoc.org/doi/full/10.1175/MWR-D-12-00281.1">Delle Monache, Luca, et al. “Probabilistic weather prediction with an analog ensemble.” Monthly Weather Review 141.10 (2013): 3498-3516.</a></li>
-<li><a href="https://ral.ucar.edu/sites/default/files/public/images/events/WISE_documentation_20170725_Final.pdf">Clemente-Harding, L. A Beginners Introduction to the Analog Ensemble Technique</a></li>
-<li><a href="https://www.sciencedirect.com/science/article/pii/S0960148117301386">Cervone, Guido, et al. “Short-term photovoltaic power forecasting using Artificial Neural Networks and an Analog Ensemble.” Renewable energy 108 (2017): 274-286.</a></li>
-<li><a href="https://www.researchgate.net/profile/Constantin_Junk/publication/274951815_Predictor-weighting_strategies_for_probabilistic_wind_power_forecasting_with_an_analog_ensemble/links/552cd5710cf29b22c9c47260.pdf">Junk, Constantin, et al. “Predictor-weighting strategies for probabilistic wind power forecasting with an analog ensemble.” Meteorol. Z 24.4 (2015): 361-379.</a></li>
-<li><a href="https://ieeexplore.ieee.org/abstract/document/8425207">Balasubramanian, Vivek, et al. “Harnessing the power of many: Extensible toolkit for scalable ensemble applications.” 2018 IEEE International Parallel and Distributed Processing Symposium (IPDPS). IEEE, 2018.</a></li>
-<li><a href="https://www.sciencedirect.com/science/article/pii/S0098300418306678">Hu, Weiming, and Guido Cervone. “Dynamically Optimized Unstructured Grid (DOUG) for Analog Ensemble of numerical weather predictions using evolutionary algorithms.” Computers &amp; Geosciences 133 (2019): 104299.</a></li>
+<li><a href="https://journals.ametsoc.org/doi/full/10.1175/MWR-D-12-00281.1" class="external-link">Delle Monache, Luca, et al. “Probabilistic weather prediction with an analog ensemble.” Monthly Weather Review 141.10 (2013): 3498-3516.</a></li>
+<li><a href="https://ral.ucar.edu/sites/default/files/public/images/events/WISE_documentation_20170725_Final.pdf" class="external-link">Clemente-Harding, L. A Beginners Introduction to the Analog Ensemble Technique</a></li>
+<li><a href="https://www.sciencedirect.com/science/article/pii/S0960148117301386" class="external-link">Cervone, Guido, et al. “Short-term photovoltaic power forecasting using Artificial Neural Networks and an Analog Ensemble.” Renewable energy 108 (2017): 274-286.</a></li>
+<li><a href="https://www.researchgate.net/profile/Constantin_Junk/publication/274951815_Predictor-weighting_strategies_for_probabilistic_wind_power_forecasting_with_an_analog_ensemble/links/552cd5710cf29b22c9c47260.pdf" class="external-link">Junk, Constantin, et al. “Predictor-weighting strategies for probabilistic wind power forecasting with an analog ensemble.” Meteorol. Z 24.4 (2015): 361-379.</a></li>
+<li><a href="https://ieeexplore.ieee.org/abstract/document/8425207" class="external-link">Balasubramanian, Vivek, et al. “Harnessing the power of many: Extensible toolkit for scalable ensemble applications.” 2018 IEEE International Parallel and Distributed Processing Symposium (IPDPS). IEEE, 2018.</a></li>
+<li><a href="https://www.sciencedirect.com/science/article/pii/S0098300418306678" class="external-link">Hu, Weiming, and Guido Cervone. “Dynamically Optimized Unstructured Grid (DOUG) for Analog Ensemble of numerical weather predictions using evolutionary algorithms.” Computers &amp; Geosciences 133 (2019): 104299.</a></li>
 </ul>
 </div>
-<div id="feedbacks" class="section level2">
-<h2 class="hasAnchor">
-<a href="#feedbacks" class="anchor"></a>Feedbacks</h2>
-<p>We appreciate collaborations and feedbacks from users. Please contact the maintainer <a href="https://weiming-hu.github.io">Weiming Hu</a> through <a href="weiming@psu.edu">weiming@psu.edu</a> or submit tickets if you have any problems.</p>
+<div class="section level2">
+<h2 id="feedbacks">Feedbacks<a class="anchor" aria-label="anchor" href="#feedbacks"></a>
+</h2>
+<p>We appreciate collaborations and feedbacks from users. Please contact the maintainer <a href="https://weiming-hu.github.io" class="external-link">Weiming Hu</a> through <a href="weiming@psu.edu">weiming@psu.edu</a> or submit tickets if you have any problems.</p>
 <p>Thank you!</p>
-<pre><code># "`-''-/").___..--''"`-._
-#  (`6_ 6  )   `-.  (     ).`-.__.`)   WE ARE ...
-#  (_Y_.)'  ._   )  `._ `. ``-..-'    PENN STATE!
-#    _ ..`--'_..-_/  /--'_.' ,'
-#  (il),-''  (li),'  ((!.-'
-# 
-# Authors: 
-#     Weiming Hu &lt;weiming@psu.edu&gt;
-#     Guido Cervone &lt;cervone@psu.edu&gt;
-#     Laura Clemente-Harding &lt;lec170@psu.edu&gt;
-#     Martina Calovi &lt;mcalovi@psu.edu&gt;
-#
-# Contributors: 
-#     Luca Delle Monache
-#         
-# Geoinformatics and Earth Observation Laboratory (http://geolab.psu.edu)
-# Department of Geography and Institute for CyberScience
-# The Pennsylvania State University</code></pre>
+<pre><code><span class="co"># "`-''-/").___..--''"`-._</span>
+<span class="co">#  (`6_ 6  )   `-.  (     ).`-.__.`)   WE ARE ...</span>
+<span class="co">#  (_Y_.)'  ._   )  `._ `. ``-..-'    PENN STATE!</span>
+<span class="co">#    _ ..`--'_..-_/  /--'_.' ,'</span>
+<span class="co">#  (il),-''  (li),'  ((!.-'</span>
+<span class="co"># </span>
+<span class="co"># Authors: </span>
+<span class="co">#     Weiming Hu &lt;weiming@psu.edu&gt;</span>
+<span class="co">#     Guido Cervone &lt;cervone@psu.edu&gt;</span>
+<span class="co">#     Laura Clemente-Harding &lt;lec170@psu.edu&gt;</span>
+<span class="co">#     Martina Calovi &lt;mcalovi@psu.edu&gt;</span>
+<span class="co">#</span>
+<span class="co"># Contributors: </span>
+<span class="co">#     Luca Delle Monache</span>
+<span class="co">#         </span>
+<span class="co"># Geoinformatics and Earth Observation Laboratory (http://geolab.psu.edu)</span>
+<span class="co"># Department of Geography and Institute for CyberScience</span>
+<span class="co"># The Pennsylvania State University</span></code></pre>
 </div>
 </div>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Browse source code at <br><a href="https://github.com/Weiming-Hu/AnalogsEnsemble">https://​github.com/​Weiming-Hu/​AnalogsEnsemble</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/Weiming-Hu/AnalogsEnsemble/issues">https://​github.com/​Weiming-Hu/​AnalogsEnsemble/​issues</a>
-</li>
-</ul>
-</div>
-<div class="license">
-<h2>License</h2>
-<ul class="list-unstyled">
-<li>
-<a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a>
-</li>
-</ul>
-</div>
-<div class="citation">
-<h2>Citation</h2>
-<ul class="list-unstyled">
-<li><a href="authors.html">Citing RAnEn</a></li>
-</ul>
-</div>
-<div class="developers">
-<h2>Developers</h2>
-<ul class="list-unstyled">
-<li>
-<a href="https://weiming.ddns.net">Weiming Hu</a> <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0003-4501-1435" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" alt="ORCID"></a> </li>
-<li>
-<a href="http://geoinf.psu.edu/">Guido Cervone</a> <br><small class="roles"> Author </small>  </li>
-<li>
-<a href="http://geoinf.psu.edu/">Laura Clemente-Harding</a> <br><small class="roles"> Author </small>  </li>
-<li>
-<a href="http://geoinf.psu.edu/">Martina Calovi</a> <br><small class="roles"> Author </small>  </li>
+<li><a href="https://weiming-hu.github.io/AnalogsEnsemble/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/Weiming-Hu/AnalogsEnsemble/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+<div class="license">
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
-<li><a href="https://zenodo.org/badge/latestdoi/130093968"><img src="https://zenodo.org/badge/130093968.svg" alt="DOI"></a></li>
-<li><a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a></li>
-<li><a href="https://www.codacy.com/gh/Weiming-Hu/AnalogsEnsemble/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Weiming-Hu/AnalogsEnsemble&amp;utm_campaign=Badge_Grade"><img src="https://app.codacy.com/project/badge/Grade/e4b8f97d5f3a41029741579f648c8e38" alt="Codacy Badge"></a></li>
-<li><a href="https://github.com/Weiming-Hu/AnalogsEnsemble/actions?query=workflow%3A%22Build+C%2B%2B%22"><img src="https://github.com/Weiming-Hu/AnalogsEnsemble/workflows/Build%20C++/badge.svg" alt="Build C++"></a></li>
-<li><a href="https://codecov.io/gh/Weiming-Hu/AnalogsEnsemble"><img src="https://codecov.io/gh/Weiming-Hu/AnalogsEnsemble/branch/master/graph/badge.svg?token=tcGGOTyHHk" alt="codecov"></a></li>
-<li><a href="https://www.tidyverse.org/lifecycle/#experimental"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="lifecycle"></a></li>
-<li><a href="https://mybinder.org/v2/gh/Weiming-Hu/AnalogsEnsemble/master?urlpath=rstudio"><img src="https://mybinder.org/badge.svg" alt="Binder"></a></li>
-<li><a href="https://hub.docker.com/r/weiminghu123/panen"><img src="https://dockeri.co/image/weiminghu123/panen" alt="dockeri.co"></a></li>
+<li>
+<a href="https://opensource.org/licenses/mit-license.php" class="external-link">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a>
+</li>
 </ul>
 </div>
+
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
+<ul class="list-unstyled">
+<li><a href="authors.html#citation">Citing RAnEn</a></li>
+</ul>
 </div>
+
+<div class="developers">
+<h2 data-toc-skip>Developers</h2>
+<ul class="list-unstyled">
+<li>
+<a href="https://weiming.ddns.net" class="external-link">Weiming Hu</a> <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0003-4501-1435" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>
+<a href="http://geoinf.psu.edu/" class="external-link">Guido Cervone</a> <br><small class="roles"> Author </small>  </li>
+<li>
+<a href="http://geoinf.psu.edu/" class="external-link">Laura Clemente-Harding</a> <br><small class="roles"> Author </small>  </li>
+<li>
+<a href="http://geoinf.psu.edu/" class="external-link">Martina Calovi</a> <br><small class="roles"> Author </small>  </li>
+</ul>
+</div>
+
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://zenodo.org/badge/latestdoi/130093968" class="external-link"><img src="https://zenodo.org/badge/130093968.svg" alt="DOI"></a></li>
+<li><a href="https://opensource.org/licenses/MIT" class="external-link"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a></li>
+<li><a href="https://www.codacy.com/gh/Weiming-Hu/AnalogsEnsemble/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Weiming-Hu/AnalogsEnsemble&amp;utm_campaign=Badge_Grade" class="external-link"><img src="https://app.codacy.com/project/badge/Grade/e4b8f97d5f3a41029741579f648c8e38" alt="Codacy Badge"></a></li>
+<li><a href="https://github.com/Weiming-Hu/AnalogsEnsemble/actions?query=workflow%3A%22Build+C%2B%2B%22" class="external-link"><img src="https://github.com/Weiming-Hu/AnalogsEnsemble/workflows/Build%20C++/badge.svg" alt="Build C++"></a></li>
+<li><a href="https://github.com/Weiming-Hu/AnalogsEnsemble/actions/workflows/BuildR.yml" class="external-link"><img src="https://github.com/Weiming-Hu/AnalogsEnsemble/actions/workflows/BuildR.yml/badge.svg" alt="Build R"></a></li>
+<li><a href="https://codecov.io/gh/Weiming-Hu/AnalogsEnsemble" class="external-link"><img src="https://codecov.io/gh/Weiming-Hu/AnalogsEnsemble/branch/master/graph/badge.svg?token=tcGGOTyHHk" alt="codecov"></a></li>
+<li><a href="https://www.tidyverse.org/lifecycle/#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="lifecycle"></a></li>
+<li><a href="https://mybinder.org/v2/gh/Weiming-Hu/AnalogsEnsemble/master?urlpath=rstudio" class="external-link"><img src="https://mybinder.org/badge.svg" alt="Binder"></a></li>
+<li><a href="https://hub.docker.com/r/weiminghu123/panen" class="external-link"><img src="https://dockeri.co/image/weiminghu123/panen" alt="dockeri.co"></a></li>
+</ul>
+</div>
+
+  </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by <a href="https://weiming.ddns.net">Weiming Hu</a>, <a href="http://geoinf.psu.edu/">Guido Cervone</a>, <a href="http://geoinf.psu.edu/">Laura Clemente-Harding</a>, <a href="http://geoinf.psu.edu/">Martina Calovi</a>.</p>
+  <p></p>
+<p>Developed by <a href="https://weiming.ddns.net" class="external-link">Weiming Hu</a>, <a href="http://geoinf.psu.edu/" class="external-link">Guido Cervone</a>, <a href="http://geoinf.psu.edu/" class="external-link">Laura Clemente-Harding</a>, <a href="http://geoinf.psu.edu/" class="external-link">Martina Calovi</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer>
@@ -404,6 +400,8 @@ make sure you have the proper setup.</code></pre>
 
   
 
+
+  
 
   </body>
 </html>
