@@ -29,7 +29,7 @@ option(BUILD_PYGRID "Build the Python API for Grid library" OFF)
 cmake_policy(SET CMP0074 NEW)
 
 # Set variables
-set(GRAND_VERSION "4.4.3")
+set(GRAND_VERSION "4.4.4")
 set(GRAND_VERSION_NICKNAME "Pandora")
 set(WE_ARE "GEOlab @ Penn State")
 set(SUBPROJECT_TARGETS "AnEn;AnEnIO")

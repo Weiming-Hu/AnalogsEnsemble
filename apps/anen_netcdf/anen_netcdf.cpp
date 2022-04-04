@@ -50,6 +50,7 @@ void runAnEnNcdf(
         const vector<string> & test_times_str,
         const string & search_start_str,
         const string & search_end_str,
+        const vector<string> & search_times_str,
         const string & fileout,
         const string & algorithm,
         Config & config,
@@ -90,8 +91,14 @@ void runAnEnNcdf(
             for (const auto & test_time_str : test_times_str) test_times.push_back(Time(test_time_str));
         }
 
-        search_start = Time(search_start_str);
-        search_end = Time(search_end_str);
+        if (search_times_str.empty()) {
+            search_start = Time(search_start_str);
+            search_end = Time(search_end_str);
+        } else {
+            search_start = Time(search_times_str.front());
+            search_end = Time(search_times_str.back());
+            for (const auto & search_time_str : search_times_str) search_times.push_back(Time(search_time_str));
+        }
 
     } catch (exception & e) {
         ostringstream msg;
@@ -103,6 +110,7 @@ void runAnEnNcdf(
                 << "test_times: " << Functions::format(test_times_str) << endl
                 << "search_start: " << search_start_str << endl
                 << "search_end: " << search_end_str << endl << endl
+                << "search_times: " << Functions::format(search_times_str) << endl
                 << "A common mistake is using surrounding double quotes. You don't need them if you are using config files."
                 << endl << endl << "The messages below come from the original error:"
                 << endl << e.what();
@@ -117,6 +125,10 @@ void runAnEnNcdf(
     if (!test_times_str.empty())
         if (test_times.size() != test_times_str.size())
             throw runtime_error("Duplicates found in test times");
+    
+    if (!search_times_str.empty())
+        if (search_times.size() != search_times_str.size())
+            throw runtime_error("Duplicates found in search times");
 
 
     /*
@@ -160,11 +172,8 @@ void runAnEnNcdf(
     // Only subset test times when test times str is empty.
     // Otherwise, test times have already been assigned.
     //
-    if (test_times_str.empty()) {
-        forecast_times(test_start, test_end, test_times);
-    }
-
-    forecast_times(search_start, search_end, search_times);
+    if (test_times_str.empty()) forecast_times(test_start, test_end, test_times);
+    if (search_times_str.empty()) forecast_times(search_start, search_end, search_times);
 
     profiler.log_time_session("Extracting test/search times");
 
@@ -402,7 +411,7 @@ int main(int argc, char** argv) {
     int verbose;
     string algorithm, fcst_grid_file;
     vector<size_t> obs_id, fcst_stations_subset;
-    vector<string> config_files, u_names, v_names, spd_names, dir_names, test_times_str;
+    vector<string> config_files, u_names, v_names, spd_names, dir_names, test_times_str, search_times_str;
     int fcst_station_start, fcst_station_count, obs_station_start, obs_station_count;
     bool overwrite, profile, save_tests, unwrap_obs, convert_wind;
     long int ai_flt_radius;
@@ -424,6 +433,7 @@ int main(int argc, char** argv) {
             ("test-times", value< vector<string> >(&test_times_str)->multitoken(), "[Optional] The date times for test with the format YYYY-mm-dd HH:MM:SS. This will overwrite '--test-start' and '--test-end'")
             ("search-start", value<string>(&search_start)->required(), "Start date time for search.")
             ("search-end", value<string>(&search_end)->required(), "End date time for search.")
+            ("search-times", value< vector<string> >(&search_times_str)->multitoken(), "[Optional] The date times for search with the format YYYY-mm-dd HH:MM:SS. This will overwrite '--search-start' and '--search-end'")
 
             // Optional arguments
             ("verbose,v", value<int>(&verbose), "[Optional] Verbose level (0 - 4).")
@@ -560,6 +570,20 @@ int main(int argc, char** argv) {
         }
     }
 
+    if (vm.count("search-times")) {
+        // Search times are specified. This overwrites search start and end
+
+        if (config.verbose >= Verbose::Warning) {
+            if (!search_start.empty()) cerr << "Warning: Both --search-times and --search-start are specified. --search-times take priority!" << endl;
+            if (!search_end.empty()) cerr << "Warning: Both --search-times and --search-end are specified. --search-times take priority!" << endl;
+        }
+
+        search_start.clear();
+        search_end.clear();
+        
+        sort(search_times_str.begin(), search_times_str.end());
+    }
+
     // Check whether wind names are consistent
     if (convert_wind) {
         if (!(u_names.size() == v_names.size() && u_names.size() == spd_names.size() && u_names.size() == dir_names.size())) {
@@ -638,7 +662,7 @@ int main(int argc, char** argv) {
 #endif
 
     runAnEnNcdf(forecast_file, observation_file, fcst_station_start, fcst_station_count, fcst_stations_subset, obs_station_start, obs_station_count,
-            obs_id, test_start, test_end, test_times_str, search_start, search_end, fileout, 
+            obs_id, test_start, test_end, test_times_str, search_start, search_end, search_times_str, fileout, 
             algorithm, config, overwrite, profile, save_tests, unwrap_obs, convert_wind,
             u_names, v_names, spd_names, dir_names, embedding_model, similarity_model, ai_flt_radius, fcst_grid_file);
 
