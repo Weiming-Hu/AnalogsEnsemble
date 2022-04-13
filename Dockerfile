@@ -6,7 +6,8 @@ COPY . /PAnEn_source
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
-    gcc g++ cmake libnetcdf-c++4-dev libnetcdf-dev libeccodes-dev openmpi-bin libopenmpi-dev git \
+    gcc g++ cmake libcppunit-dev doxygen libnetcdf-c++4-dev libnetcdf-dev \
+    libeccodes-dev openmpi-bin libopenmpi-dev git \
     libboost-all-dev make r-base && rm -rf /var/lib/apt/lists/*
 RUN DEBIAN_FRONTEND=noninteractive && apt-get autoremove && apt-get autoclean
 
@@ -21,6 +22,10 @@ WORKDIR /PAnEn_source/buildR
 RUN Rscript -e "install.packages(c('Rcpp', 'BH'))"
 RUN CC=gcc CXX=g++ cmake -DINSTALL_RAnEn=ON ..
 RUN make install
+
+WORKDIR /torch
+RUN wget -O libtorch.zip https://download.pytorch.org/libtorch/cpu/libtorch-cxx11-abi-shared-with-deps-1.11.0%2Bcpu.zip
+RUN unzip libtorch.zip
 
 WORKDIR /root
 
