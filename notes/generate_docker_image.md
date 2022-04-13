@@ -42,3 +42,11 @@ The option `--rm` tells docker to remove the container file once you exit from t
 docker container ls -all
 docker container rm [containerID]
 ```
+
+To publish updates to Docker Hub
+
+```
+docker tag panen weiminghu123/panen
+docker push weiminghu123/panen:latest
+```
+

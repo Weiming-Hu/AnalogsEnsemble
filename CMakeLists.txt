@@ -26,7 +26,9 @@ option(DISABLE_GRID "Disable the Grid class (usually for RAnEn)" OFF)
 option(BUILD_PYGRID "Build the Python API for Grid library" OFF)
 
 # Compatibility
-cmake_policy(SET CMP0074 NEW)
+if(${CMAKE_VERSION} VERSION_GREATER_EQUAL "3.12")
+    cmake_policy(SET CMP0074 NEW)
+endif(${CMAKE_VERSION} VERSION_GREATER_EQUAL "3.12")
 
 # Set variables
 set(GRAND_VERSION "4.4.4")
