@@ -16,33 +16,33 @@ layout: default
 [![dockeri.co](https://dockeri.co/image/weiminghu123/panen)](https://hub.docker.com/r/weiminghu123/panen)
 
 <!-- vscode-markdown-toc -->
-* 1. [Overview](#Overview)
-* 2. [Citation](#Citation)
-* 3. [Installation](#Installation)
-	* 3.1. [RAnEn](#RAnEn)
-	* 3.2. [CAnEn](#CAnEn)
-		* 3.2.1. [Docker/Singularity](#DockerSingularity)
-		* 3.2.2. [From Source](#FromSource)
-	* 3.3. [CMake Parameters](#CMakeParameters)
-	* 3.4. [High-Performance Computing and Supercomputers](#High-PerformanceComputingandSupercomputers)
-	* 3.5. [MPI and OpenMP](#MPIandOpenMP)
-* 4. [Tutorials](#Tutorials)
-* 5. [References](#References)
-* 6. [Feedbacks](#Feedbacks)
+* [Overview](#Overview)
+* [Citation](#Citation)
+* [Installation](#Installation)
+	* [RAnEn](#RAnEn)
+	* [CAnEn](#CAnEn)
+		* [Docker/Singularity](#DockerSingularity)
+		* [From Source](#FromSource)
+	* [CMake Parameters](#CMakeParameters)
+	* [High-Performance Computing and Supercomputers](#High-PerformanceComputingandSupercomputers)
+	* [MPI and OpenMP](#MPIandOpenMP)
+* [Tutorials](#Tutorials)
+* [References](#References)
+* [Feedbacks](#Feedbacks)
 
 <!-- vscode-markdown-toc-config
-	numbering=true
+	numbering=false
 	autoSave=true
 	/vscode-markdown-toc-config -->
 <!-- /vscode-markdown-toc -->
 
-##  1. <a name='Overview'></a>Overview
+## <a name='Overview'></a>Overview
 
 Parallel Analog Ensemble (PAnEn) generates accurate forecast ensembles relying on a single deterministic model simulation and the historical observations. The technique was introduced by Luca Delle Monache et al. in the paper [Probabilistic Weather Prediction with an Analog Ensemble](https://journals.ametsoc.org/doi/full/10.1175/MWR-D-12-00281.1). Developed and maintained by [GEOlab](http://geolab.psu.edu) at Penn State, PAnEn aims to provide an efficient implementation for this technique and user-friendly interfaces in R and C++ for researchers who want to use this technique in their own research.
 
 The easiest way to use this package is to install the R package, 'RAnEn'. C++ libraries are also available but they are designed for intermediate users with requirement for performance. For installation guidance, please refer to the [installation section](#installation). 
 
-##  2. <a name='Citation'></a>Citation
+## <a name='Citation'></a>Citation
 
 To cite this package, you have several options:
 
@@ -54,11 +54,11 @@ To cite this package, you have several options:
 Weiming Hu, Guido Cervone, Laura Clemente-Harding, and Martina Calovi. (2019). Parallel Analog Ensemble. Zenodo. http://doi.org/10.5281/zenodo.3384321
 ```
 
-##  3. <a name='Installation'></a>Installation
+## <a name='Installation'></a>Installation
 
 `RAnEn` is very easy to install if you are already using [R](https://www.r-project.org/). This is the recommended way to start.
 
-###  3.1. <a name='RAnEn'></a>RAnEn
+### <a name='RAnEn'></a>RAnEn
 
 _The command is the same for `RAnEn` installation and update._
 
@@ -91,9 +91,9 @@ CXX14=g++-8
 
 After the installation, you can always revert back to your original setup and `RAnEn` will stay supported by `OpenMP`.
 
-###  3.2. <a name='CAnEn'></a>CAnEn
+### <a name='CAnEn'></a>CAnEn
 
-####  3.2.1. <a name='DockerSingularity'></a>Docker/Singularity
+#### <a name='DockerSingularity'></a>Docker/Singularity
 
 No installation is needed if you are already using [docker](https://www.docker.com/) or [singularity](https://sylabs.io/guides/2.6/user-guide/index.html#). Docker images available [here](https://hub.docker.com/r/weiminghu123/panen/tags) can be directly downloaded and used.
 
@@ -108,7 +108,7 @@ docker container run -it -v ~/Desktop:/Desktop weiminghu123/panen:default
 singularity run docker://weiminghu123/panen:default
 ```
 
-####  3.2.2. <a name='FromSource'></a>From Source
+#### <a name='FromSource'></a>From Source
 
 To install the C++ libraries, please check the following dependencies.
 
@@ -166,7 +166,7 @@ make -j 4
 make install
 ```
 
-###  3.3. <a name='CMakeParameters'></a>CMake Parameters
+### <a name='CMakeParameters'></a>CMake Parameters
 
 Below is a list of parameters you can change and customize.
 
@@ -187,12 +187,12 @@ Below is a list of parameters you can change and customize.
 
 You can change the default of the parameters, for example, `cmake -DCMAKE_INSTALL_PREFIX=~/AnalogEnsemble ..`. Don't forget the extra letter `D` when specifying argument names.
 
-###  3.4. <a name='High-PerformanceComputingandSupercomputers'></a>High-Performance Computing and Supercomputers
+### <a name='High-PerformanceComputingandSupercomputers'></a>High-Performance Computing and Supercomputers
 
 [Here](https://github.com/Weiming-Hu/AnalogsEnsemble/issues/86) is a list of instructions to build and install `AnEn` on supercomputers. 
 
 
-###  3.5. <a name='MPIandOpenMP'></a>MPI and OpenMP 
+### <a name='MPIandOpenMP'></a>MPI and OpenMP 
 
 ```
 TL;DR
@@ -220,13 +220,13 @@ Sitting between the file I/O and the analog generation is the bottleneck which i
 
 So if the platform support heterogeneous task layout, users can theoretically allocate one core per worker process and more cores for the master process to facilitate its multi-threading scope. But again, only do this when you find the bottleneck is taking much longer time than file I/O and analog generation. Use `--profile` to have profiling information in standard message output.
 
-##  4. <a name='Tutorials'></a>Tutorials
+## <a name='Tutorials'></a>Tutorials
 
 Tutorials can be accessed on [binder](https://mybinder.org/v2/gh/Weiming-Hu/AnalogsEnsemble/master?urlpath=rstudio) or be found in [this directory](https://github.com/Weiming-Hu/AnalogsEnsemble/tree/master/RAnalogs/examples)
 
 Here are also some tips and caveats in [this ticket](https://github.com/Weiming-Hu/AnalogsEnsemble/issues/81).
 
-##  5. <a name='References'></a>References
+## <a name='References'></a>References
 
 - [Delle Monache, Luca, et al. "Probabilistic weather prediction with an analog ensemble." Monthly Weather Review 141.10 (2013): 3498-3516.](https://journals.ametsoc.org/doi/full/10.1175/MWR-D-12-00281.1)
 - [Clemente-Harding, L. A Beginners Introduction to the Analog Ensemble Technique](https://ral.ucar.edu/sites/default/files/public/images/events/WISE_documentation_20170725_Final.pdf)
@@ -235,7 +235,7 @@ Here are also some tips and caveats in [this ticket](https://github.com/Weiming-
 - [Balasubramanian, Vivek, et al. "Harnessing the power of many: Extensible toolkit for scalable ensemble applications." 2018 IEEE International Parallel and Distributed Processing Symposium (IPDPS). IEEE, 2018.](https://ieeexplore.ieee.org/abstract/document/8425207)
 - [Hu, Weiming, and Guido Cervone. "Dynamically Optimized Unstructured Grid (DOUG) for Analog Ensemble of numerical weather predictions using evolutionary algorithms." Computers & Geosciences 133 (2019): 104299.](https://www.sciencedirect.com/science/article/pii/S0098300418306678)
 
-##  6. <a name='Feedbacks'></a>Feedbacks
+## <a name='Feedbacks'></a>Feedbacks
 
 We appreciate collaborations and feedbacks from users. Please contact the maintainer [Weiming Hu](https://weiming-hu.github.io) through [weiming@psu.edu](weiming@psu.edu) or submit tickets if you have any problems.
 
