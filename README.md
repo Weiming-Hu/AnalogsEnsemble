@@ -83,6 +83,23 @@ After the installation, you can always revert back to your original setup and `R
 
 ### CAnEn
 
+#### Docker/Singularity
+
+No installation is needed if you are already using [docker](https://www.docker.com/) or [singularity](https://sylabs.io/guides/2.6/user-guide/index.html#). Docker images available [here](https://hub.docker.com/r/weiminghu123/panen/tags) can be directly downloaded and used.
+
+```bash
+# Download and run the docker image within docker
+docker container run -it weiminghu123/panen:default
+
+# Run the dokcer image with a local folder mounted inside the image
+docker container run -it -v ~/Desktop:/Desktop weiminghu123/panen:default
+
+# Download and run the docker image within singularity
+singularity run docker://weiminghu123/panen:default
+```
+
+#### From Source
+
 To install the C++ libraries, please check the following dependencies.
 
 - _Required_ [CMake](https://cmake.org/) is the required build system generator.

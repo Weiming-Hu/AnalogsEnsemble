@@ -35,7 +35,7 @@ testFunctionsIO::testParseFilename() {
      * extract time and lead time information
      */
     string file;
-    bool delimited;
+    bool delimited = false;
     Time time, flt;
     double unit_in_seconds = 60 * 60;
     boost::gregorian::date start_day = boost::gregorian::from_string("1970/01/01");

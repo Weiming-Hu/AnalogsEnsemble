@@ -1,0 +1,26 @@
+FROM ubuntu:18.04
+LABEL maintainer="weiminghu@ucsd.edu"
+LABEL description="A Linux Distribution of Parallel Analog Ensemble"
+
+COPY . /AnalogEnsemble
+
+RUN DEBIAN_FRONTEND=noninteractive apt-get update
+RUN DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
+    gcc g++ cmake libcppunit-dev doxygen graphviz \
+    libnetcdf-c++4-dev libnetcdf-dev libeccodes-dev git wget \
+    libboost-all-dev make r-base && rm -rf /var/lib/apt/lists/*
+RUN DEBIAN_FRONTEND=noninteractive && apt-get autoremove && apt-get autoclean
+
+WORKDIR /torch
+RUN wget -O libtorch.zip https://download.pytorch.org/libtorch/cpu/libtorch-cxx11-abi-shared-with-deps-1.11.0%2Bcpu.zip
+RUN unzip libtorch.zip
+
+WORKDIR /AnalogEnsemble/build_torch
+RUN cmake -DCMAKE_PREFIX_PATH=/torch/libtorch \
+    -DCMAKE_INSTALL_RPATH="/usr/local/lib;/torch/libtorch/lib" \
+    -DENABLE_AI=ON -DBUILD_SHARED_LIBS=ON ..
+RUN make install -j 8
+
+RUN chmod -R 777 /AnalogEnsemble
+RUN chmod -R 777 /torch
+

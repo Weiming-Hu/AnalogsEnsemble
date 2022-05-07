@@ -73,6 +73,10 @@ void runTransformation(
 
 int main(int argc, char** argv) {
 
+#ifdef NDEBUG
+    try {
+#endif
+
     // Initialization
     string forecast_file, forecast_grid_file, embedding_model, out_file;
     vector<string> config_files;
@@ -153,6 +157,13 @@ int main(int argc, char** argv) {
     notify(vm);
 
     runTransformation(forecast_file, forecast_grid_file, embedding_model, out_file, flt_radius, Functions::itov(verbose), overwrite);
+
+#ifdef NDEBUG
+    } catch (exception & e) {
+        cerr << "Caught error: " << e.what() << endl << "Program is terminated!" << endl;
+        return 1;
+    }
+#endif
 
     return 0;
 }

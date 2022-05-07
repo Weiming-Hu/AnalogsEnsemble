@@ -99,6 +99,10 @@ void runGribConvert(
 
 int main(int argc, char** argv) {
 
+#ifdef NDEBUG
+    try {
+#endif
+
     /**************************************************************************
      *                               Parse arguments                          *
      **************************************************************************/
@@ -280,6 +284,14 @@ int main(int argc, char** argv) {
 #if defined(_USE_MPI_EXTENSION)
     MPI_Finalize();
 #endif
+
+#ifdef NDEBUG
+    } catch (exception & e) {
+        cerr << "Caught error: " << e.what() << endl << "Program is terminated!" << endl;
+        return 1;
+    }
+#endif
+
     return 0;
 }
 

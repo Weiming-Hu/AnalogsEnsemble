@@ -6,47 +6,25 @@
 
 ### Commands
 
-To generate a new docker image:
-
 ```
-cd AnalogsEnsemble
+# Build docker image
 docker image build -t panen .
 
-# If you want to force docker to do a clean build
-docker image build --no-cache -t panen .
-``` 
+# Build docerk image with tag
+docker image build --no-cache -t panen:default -f dockerfile_default .
 
-After the image is ready, check if it shows up in the list:
-
-```
+# List available docker images
 docker image ls
-```
 
-To use this docker image:
+# Run docker image
+docker container run -i -t panen:default
 
-```
-docker container run -i -t panen
-```
-
-You should see a change in the command line prompt which signifies that you have been successfully using the docker image.
-
-```
-# Or you can do this
+# Run docker image and remove the image at exit
 docker container run -i -t --rm panen
-```
 
-The option `--rm` tells docker to remove the container file once you exit from the container. You can also remove the option, and do it manually:
+# Assign a tag in the repository to the image
+docker tag panen:default weiminghu123/panen:default
 
+# Publish changes to docker hub
+docker push weiminghu123/panen:default
 ```
-# in a new terminal
-docker container ls -all
-docker container rm [containerID]
-```
-
-To publish updates to Docker Hub
-
-```
-docker tag panen weiminghu123/panen
-docker push weiminghu123/panen:latest
-```
-

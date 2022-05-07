@@ -25,13 +25,21 @@ option(ENABLE_AI "Use AI for analog search" OFF)
 option(DISABLE_GRID "Disable the Grid class (usually for RAnEn)" OFF)
 option(BUILD_PYGRID "Build the Python API for Grid library" OFF)
 
+# Set a default build type if none was specified
+if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+    message(STATUS "Setting build type to 'Release' as none was specified.")
+    set(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build." FORCE)
+    # Set the possible values of build type for cmake-gui
+    set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release")
+endif()
+
 # Compatibility
 if(${CMAKE_VERSION} VERSION_GREATER_EQUAL "3.12")
     cmake_policy(SET CMP0074 NEW)
 endif(${CMAKE_VERSION} VERSION_GREATER_EQUAL "3.12")
 
 # Set variables
-set(GRAND_VERSION "4.4.4")
+set(GRAND_VERSION "4.4.5")
 set(GRAND_VERSION_NICKNAME "Pandora")
 set(WE_ARE "GEOlab @ Penn State")
 set(SUBPROJECT_TARGETS "AnEn;AnEnIO")
@@ -223,6 +231,7 @@ if (DOXYGEN_FOUND)
         COMMENT "Generate help page using doxygen")
 endif (DOXYGEN_FOUND)
 
+message(STATUS "CMAKE_BUILD_TYPE: ${CMAKE_BUILD_TYPE}")
 
 message(STATUS "\n"
     "**********************************************************************\n\n"
@@ -231,4 +240,3 @@ message(STATUS "\n"
     "If you have set -DCMAKE_INSTALL_PREFIX=[path],\n"
     "you can also type 'make install' to build and install projects\n\n"
     "**********************************************************************")
-
