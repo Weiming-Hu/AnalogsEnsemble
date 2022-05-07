@@ -6,7 +6,25 @@
 
 ### Commands
 
+Build the default image
+
+```bash
+docker image build --no-cache -t panen:default -f dockerfile_default .
+docker tag panen:default weiminghu123/panen:default
+docker push weiminghu123/panen:default
 ```
+
+Build the torch image
+
+```bash
+docker image build --no-cache -t panen:torch -f dockerfile_torch .
+docker tag panen:torch weiminghu123/panen:torch
+docker push weiminghu123/panen:torch
+```
+
+Other commands with comments
+
+```bash
 # Build docker image
 docker image build -t panen .
 
