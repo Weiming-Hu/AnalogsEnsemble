@@ -39,7 +39,7 @@ title: R Documentation
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">RAnEn</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">4.4.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">4.4.5</span>
       </span>
     </div>
 
@@ -142,6 +142,22 @@ title: R Documentation
 <div class="section level3">
 <h3 id="canen">CAnEn<a class="anchor" aria-label="anchor" href="#canen"></a>
 </h3>
+<div class="section level4">
+<h4 id="dockersingularity">Docker/Singularity<a class="anchor" aria-label="anchor" href="#dockersingularity"></a>
+</h4>
+<p>No installation is needed if you are already using <a href="https://www.docker.com/" class="external-link">docker</a> or <a href="https://sylabs.io/guides/2.6/user-guide/index.html#" class="external-link">singularity</a>. Docker images available <a href="https://hub.docker.com/r/weiminghu123/panen/tags" class="external-link">here</a> can be directly downloaded and used.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Download and run the docker image within docker</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> container run <span class="at">-it</span> weiminghu123/panen:default</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Run the dokcer image with a local folder mounted inside the image</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> container run <span class="at">-it</span> <span class="at">-v</span> ~/Desktop:/Desktop weiminghu123/panen:default</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Download and run the docker image within singularity</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="ex">singularity</span> run docker://weiminghu123/panen:default</span></code></pre></div>
+</div>
+<div class="section level4">
+<h4 id="from-source">From Source<a class="anchor" aria-label="anchor" href="#from-source"></a>
+</h4>
 <p>To install the C++ libraries, please check the following dependencies.</p>
 <ul>
 <li>
@@ -157,43 +173,44 @@ title: R Documentation
 </ul>
 <p>To set up the dependency, it is recommended to use <a href="https://docs.conda.io/en/latest/miniconda.html" class="external-link">conda</a>. I chose <code>minicoda</code> instead of <code>anaconda</code> simply beacause <code>miniconda</code> is the light-weight version. If you already have <code>anaconda</code>, you are fine as well.</p>
 <p>The following code sets up the environment from stratch:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Python version is required because of boost compatibility issues</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> create <span class="at">-n</span> venv_anen python==3.8 <span class="at">-y</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Keep your environment activate during the entire installation process, including CAnEn</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate venv_anen</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Required dependency</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> install <span class="at">-c</span> anaconda cmake boost <span class="at">-y</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> install <span class="at">-c</span> conda-forge netcdf-cxx4 eccodes doxygen  <span class="at">-y</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Optional dependency: LibTorch</span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co"># If you need libTorch, please go ahead to https://pytorch.org/get-started/locally/ and select</span></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Stable -&gt; [Your OS] -&gt; LibTorch -&gt; C++/Java -&gt; [Compute Platform] -&gt; cxx11 ABI version</span></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Please see https://github.com/Weiming-Hu/AnalogsEnsemble/issues/86#issuecomment-1047442579 for instructions</span></span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co"># on how to inlcude libTorch during the cmake process.</span></span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Optional dependency: MPI</span></span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> install <span class="at">-c</span> conda-forge openmpi <span class="at">-y</span></span></code></pre></div>
-<p>After the dependencies are installed, let’s build <code>CAnEn</code>:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Download the source files (~10 Mb)</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> https://github.com/Weiming-Hu/AnalogsEnsemble/archive/master.zip</span>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Python version is required because of boost compatibility issues</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> create <span class="at">-n</span> venv_anen python==3.8 <span class="at">-y</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Unzip</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">unzip</span> master.zip</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Keep your environment activate during the entire installation process, including CAnEn</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate venv_anen</span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a separate folder to store all intermediate files during the installation process</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> AnalogsEnsemble-master/</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> build</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> build</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="fu">cmake</span> <span class="at">-DCMAKE_INSTALL_PREFIX</span><span class="op">=</span>~/AnalogEnsemble ..</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Compile</span></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> <span class="at">-j</span> 4</span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Install</span></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> install</span></code></pre></div>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Required dependency</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> install <span class="at">-c</span> anaconda cmake boost <span class="at">-y</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> install <span class="at">-c</span> conda-forge netcdf-cxx4 eccodes doxygen  <span class="at">-y</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Optional dependency: LibTorch</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co"># If you need libTorch, please go ahead to https://pytorch.org/get-started/locally/ and select</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Stable -&gt; [Your OS] -&gt; LibTorch -&gt; C++/Java -&gt; [Compute Platform] -&gt; cxx11 ABI version</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Please see https://github.com/Weiming-Hu/AnalogsEnsemble/issues/86#issuecomment-1047442579 for instructions</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="co"># on how to inlcude libTorch during the cmake process.</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Optional dependency: MPI</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> install <span class="at">-c</span> conda-forge openmpi <span class="at">-y</span></span></code></pre></div>
+<p>After the dependencies are installed, let’s build <code>CAnEn</code>:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Download the source files (~10 Mb)</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> https://github.com/Weiming-Hu/AnalogsEnsemble/archive/master.zip</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Unzip</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">unzip</span> master.zip</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a separate folder to store all intermediate files during the installation process</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> AnalogsEnsemble-master/</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> build</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> build</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="fu">cmake</span> <span class="at">-DCMAKE_INSTALL_PREFIX</span><span class="op">=</span>~/AnalogEnsemble ..</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Compile</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> <span class="at">-j</span> 4</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Install</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> install</span></code></pre></div>
+</div>
 </div>
 <div class="section level3">
 <h3 id="cmake-parameters">CMake Parameters<a class="anchor" aria-label="anchor" href="#cmake-parameters"></a>

@@ -124,6 +124,17 @@ $(function() {
 </ol>
 <p >After the installation, you can always revert back to your original setup and <code>RAnEn</code> will stay supported by <code>OpenMP</code>.</p>
 <h2>CAnEn</h2>
+<h3>Docker/Singularity</h3>
+<p >No installation is needed if you are already using <a href="https://www.docker.com/">docker</a> or <a href="https://sylabs.io/guides/2.6/user-guide/index.html#">singularity</a>. Docker images available <a href="https://hub.docker.com/r/weiminghu123/panen/tags">here</a> can be directly downloaded and used.</p>
+<div class="fragment"><div class="line"># Download and run the docker image within docker</div>
+<div class="line">docker container run -it weiminghu123/panen:default</div>
+<div class="line"> </div>
+<div class="line"># Run the dokcer image with a local folder mounted inside the image</div>
+<div class="line">docker container run -it -v ~/Desktop:/Desktop weiminghu123/panen:default</div>
+<div class="line"> </div>
+<div class="line"># Download and run the docker image within singularity</div>
+<div class="line">singularity run docker://weiminghu123/panen:default</div>
+</div><!-- fragment --><h3>From Source</h3>
 <p >To install the C++ libraries, please check the following dependencies.</p>
 <ul>
 <li><em>Required</em> <a href="https://cmake.org/">CMake</a> is the required build system generator.</li>
