@@ -73,24 +73,28 @@ $(function() {
 <div class="contents">
 <div class="textblock"><p ><a class="anchor" id="md__Users_weiming_github_AnalogsEnsemble_README"></a> <a href="https://zenodo.org/badge/latestdoi/130093968"><img src="https://zenodo.org/badge/130093968.svg" alt="DOI" style="pointer-events: none;" class="inline"/></a> <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT" style="pointer-events: none;" class="inline"/></a> <a href="https://www.codacy.com/gh/Weiming-Hu/AnalogsEnsemble/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Weiming-Hu/AnalogsEnsemble&amp;utm_campaign=Badge_Grade"><img src="https://app.codacy.com/project/badge/Grade/e4b8f97d5f3a41029741579f648c8e38" alt="Codacy Badge" class="inline"/></a> <a href="https://github.com/Weiming-Hu/AnalogsEnsemble/actions?query=workflow%3A%22Build+C%2B%2B%22"><img src="https://github.com/Weiming-Hu/AnalogsEnsemble/workflows/Build%20C++/badge.svg" alt="Build C++" style="pointer-events: none;" class="inline"/></a> <a href="https://github.com/Weiming-Hu/AnalogsEnsemble/actions/workflows/BuildR.yml"><img src="https://github.com/Weiming-Hu/AnalogsEnsemble/actions/workflows/BuildR.yml/badge.svg" alt="Build R" style="pointer-events: none;" class="inline"/></a> <a href="https://codecov.io/gh/Weiming-Hu/AnalogsEnsemble"><img src="https://codecov.io/gh/Weiming-Hu/AnalogsEnsemble/branch/master/graph/badge.svg?token=tcGGOTyHHk" alt="codecov" style="pointer-events: none;" class="inline"/></a> <a href="https://www.tidyverse.org/lifecycle/#experimental"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="lifecycle" style="pointer-events: none;" class="inline"/></a> <a href="https://mybinder.org/v2/gh/Weiming-Hu/AnalogsEnsemble/master?urlpath=rstudio"><img src="https://mybinder.org/badge.svg" alt="Binder" style="pointer-events: none;" class="inline"/></a> <a href="https://hub.docker.com/r/weiminghu123/panen"><img src="https://dockeri.co/image/weiminghu123/panen" alt="dockeri.co" class="inline"/></a></p>
 <ul>
-<li><a href="#overview">Overview</a></li>
-<li><a href="#citation">Citation</a></li>
-<li><a href="#installation">Installation</a><ul>
-<li><a href="#ranen">RAnEn</a></li>
-<li><a href="#canen">CAnEn</a></li>
-<li><a href="#cmake-parameters">CMake Parameters</a></li>
-<li><a href="#high-performance-computing-and-supercomputers">High-Performance Computing and Supercomputers</a></li>
-<li><a href="#mpi-and-openmp">MPI and OpenMP</a></li>
+<li>1. <a href="#Overview">Overview</a></li>
+<li>2. <a href="#Citation">Citation</a></li>
+<li>3. <a href="#Installation">Installation</a><ul>
+<li>3.1. <a href="#RAnEn">RAnEn</a></li>
+<li>3.2. <a href="#CAnEn">CAnEn</a><ul>
+<li>3.2.1. <a href="#DockerSingularity">Docker/Singularity</a></li>
+<li>3.2.2. <a href="#FromSource">From Source</a></li>
 </ul>
 </li>
-<li><a href="#tutorials">Tutorials</a></li>
-<li><a href="#references">References</a></li>
-<li><a href="#feedbacks">Feedbacks</a></li>
+<li>3.3. <a href="#CMakeParameters">CMake Parameters</a></li>
+<li>3.4. <a href="#High-PerformanceComputingandSupercomputers">High-Performance Computing and Supercomputers</a></li>
+<li>3.5. <a href="#MPIandOpenMP">MPI and OpenMP</a></li>
 </ul>
-<h1>Overview</h1>
+</li>
+<li>4. <a href="#Tutorials">Tutorials</a></li>
+<li>5. <a href="#References">References</a></li>
+<li>6. <a href="#Feedbacks">Feedbacks</a></li>
+</ul>
+<h1>1. <a class="anchor" id="Overview"></a>Overview</h1>
 <p >Parallel Analog Ensemble (PAnEn) generates accurate forecast ensembles relying on a single deterministic model simulation and the historical observations. The technique was introduced by Luca Delle Monache et al. in the paper <a href="https://journals.ametsoc.org/doi/full/10.1175/MWR-D-12-00281.1">Probabilistic Weather Prediction with an Analog Ensemble</a>. Developed and maintained by <a href="http://geolab.psu.edu">GEOlab</a> at Penn State, PAnEn aims to provide an efficient implementation for this technique and user-friendly interfaces in R and C++ for researchers who want to use this technique in their own research.</p>
 <p >The easiest way to use this package is to install the R package, 'RAnEn'. C++ libraries are also available but they are designed for intermediate users with requirement for performance. For installation guidance, please refer to the <a href="#installation">installation section</a>.</p>
-<h1>Citation</h1>
+<h1>2. <a class="anchor" id="Citation"></a>Citation</h1>
 <p >To cite this package, you have several options:</p>
 <ul>
 <li>Using <code>LaTex</code>: Please use <a href="https://github.com/Weiming-Hu/AnalogsEnsemble/blob/master/RAnalogs/RAnEn/inst/CITATION">this file</a> for citation.</li>
@@ -98,9 +102,9 @@ $(function() {
 <li>Using plain text: Please use the following citation format:</li>
 </ul>
 <div class="fragment"><div class="line">Weiming Hu, Guido Cervone, Laura Clemente-Harding, and Martina Calovi. (2019). Parallel Analog Ensemble. Zenodo. http://doi.org/10.5281/zenodo.3384321</div>
-</div><!-- fragment --><h1>Installation</h1>
+</div><!-- fragment --><h1>3. <a class="anchor" id="Installation"></a>Installation</h1>
 <p ><code>RAnEn</code> is very easy to install if you are already using <a href="https://www.r-project.org/">R</a>. This is the recommended way to start.</p>
-<h2>RAnEn</h2>
+<h2>3.1. <a class="anchor" id="RAnEn"></a>RAnEn</h2>
 <p ><em>The command is the same for <code>RAnEn</code> installation and update.</em></p>
 <p >To install <code>RAnEn</code>, please install the following packages first:</p>
 <ul>
@@ -123,8 +127,8 @@ $(function() {
 <li>You can also follow the instructions <a href="https://github.com/Rdatatable/data.table/wiki/Installation#openmp-enabled-compiler-for-mac">here</a> provided by <code>data.table</code>. They provide similar solutions but stick with Clang compilers.</li>
 </ol>
 <p >After the installation, you can always revert back to your original setup and <code>RAnEn</code> will stay supported by <code>OpenMP</code>.</p>
-<h2>CAnEn</h2>
-<h3>Docker/Singularity</h3>
+<h2>3.2. <a class="anchor" id="CAnEn"></a>CAnEn</h2>
+<h3>3.2.1. <a class="anchor" id="DockerSingularity"></a>Docker/Singularity</h3>
 <p >No installation is needed if you are already using <a href="https://www.docker.com/">docker</a> or <a href="https://sylabs.io/guides/2.6/user-guide/index.html#">singularity</a>. Docker images available <a href="https://hub.docker.com/r/weiminghu123/panen/tags">here</a> can be directly downloaded and used.</p>
 <div class="fragment"><div class="line"># Download and run the docker image within docker</div>
 <div class="line">docker container run -it weiminghu123/panen:default</div>
@@ -134,7 +138,7 @@ $(function() {
 <div class="line"> </div>
 <div class="line"># Download and run the docker image within singularity</div>
 <div class="line">singularity run docker://weiminghu123/panen:default</div>
-</div><!-- fragment --><h3>From Source</h3>
+</div><!-- fragment --><h3>3.2.2. <a class="anchor" id="FromSource"></a>From Source</h3>
 <p >To install the C++ libraries, please check the following dependencies.</p>
 <ul>
 <li><em>Required</em> <a href="https://cmake.org/">CMake</a> is the required build system generator.</li>
@@ -182,7 +186,7 @@ $(function() {
 <div class="line"> </div>
 <div class="line"># Install</div>
 <div class="line">make install</div>
-</div><!-- fragment --><h2>CMake <a class="el" href="class_parameters.html" title="Parameters class stores Parameter objects. It is a bidirectional map implemented from Boost so that i...">Parameters</a></h2>
+</div><!-- fragment --><h2>3.3. <a class="anchor" id="CMakeParameters"></a>CMake <a class="el" href="class_parameters.html" title="Parameters class stores Parameter objects. It is a bidirectional map implemented from Boost so that i...">Parameters</a></h2>
 <p >Below is a list of parameters you can change and customize.</p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -213,9 +217,9 @@ $(function() {
 <td class="markdownTableBodyCenter">ENABLE_AI   </td><td class="markdownTableBodyCenter">Enable PyTorch integration and the power of AI.   </td><td class="markdownTableBodyCenter">OFF   </td></tr>
 </table>
 <p >You can change the default of the parameters, for example, <code>cmake -DCMAKE_INSTALL_PREFIX=~/AnalogEnsemble ..</code>. Don't forget the extra letter <code>D</code> when specifying argument names.</p>
-<h2>High-Performance Computing and Supercomputers</h2>
+<h2>3.4. <a class="anchor" id="High-PerformanceComputingandSupercomputers"></a>High-Performance Computing and Supercomputers</h2>
 <p ><a href="https://github.com/Weiming-Hu/AnalogsEnsemble/issues/86">Here</a> is a list of instructions to build and install <code><a class="el" href="class_an_en.html" title="AnEn is an abstract class that defines the interface for implement analog ensemble generation.">AnEn</a></code> on supercomputers.</p>
-<h2>MPI and OpenMP</h2>
+<h2>3.5. <a class="anchor" id="MPIandOpenMP"></a>MPI and OpenMP</h2>
 <div class="fragment"><div class="line">TL;DR</div>
 <div class="line"> </div>
 <div class="line">Launching an MPI-OpenMP hybrid program can be tricky.</div>
@@ -232,10 +236,10 @@ $(function() {
 <p >When a large number of stations/grids present, MPI is used to distribute analog generation for different stations across processes. Each process takes charge of generating analogs for a subset of stations.</p>
 <p >Sitting between the file I/O and the analog generation is the bottleneck which is hard to parallelize with MPI, e.g. reshaping the data and querying test/search times. Therefore, they are parallelized with OpenMP on master process only.</p>
 <p >So if the platform support heterogeneous task layout, users can theoretically allocate one core per worker process and more cores for the master process to facilitate its multi-threading scope. But again, only do this when you find the bottleneck is taking much longer time than file I/O and analog generation. Use <code>--profile</code> to have profiling information in standard message output.</p>
-<h1>Tutorials</h1>
+<h1>4. <a class="anchor" id="Tutorials"></a>Tutorials</h1>
 <p >Tutorials can be accessed on <a href="https://mybinder.org/v2/gh/Weiming-Hu/AnalogsEnsemble/master?urlpath=rstudio">binder</a> or be found in <a href="https://github.com/Weiming-Hu/AnalogsEnsemble/tree/master/RAnalogs/examples">this directory</a></p>
 <p >Here are also some tips and caveats in <a href="https://github.com/Weiming-Hu/AnalogsEnsemble/issues/81">this ticket</a>.</p>
-<h1>References</h1>
+<h1>5. <a class="anchor" id="References"></a>References</h1>
 <ul>
 <li><a href="https://journals.ametsoc.org/doi/full/10.1175/MWR-D-12-00281.1">Delle Monache, Luca, et al. "Probabilistic weather prediction with an analog ensemble." Monthly Weather Review 141.10 (2013): 3498-3516.</a></li>
 <li><a href="https://ral.ucar.edu/sites/default/files/public/images/events/WISE_documentation_20170725_Final.pdf">Clemente-Harding, L. A Beginners Introduction to the Analog Ensemble Technique</a></li>
@@ -244,7 +248,7 @@ $(function() {
 <li><a href="https://ieeexplore.ieee.org/abstract/document/8425207">Balasubramanian, Vivek, et al. "Harnessing the power of many: Extensible toolkit for scalable ensemble applications." 2018 IEEE International Parallel and Distributed Processing Symposium (IPDPS). IEEE, 2018.</a></li>
 <li><a href="https://www.sciencedirect.com/science/article/pii/S0098300418306678">Hu, Weiming, and Guido Cervone. "Dynamically Optimized Unstructured Grid (DOUG) for Analog Ensemble of numerical weather predictions using evolutionary algorithms." Computers &amp; Geosciences 133 (2019): 104299.</a></li>
 </ul>
-<h1>Feedbacks</h1>
+<h1>6. <a class="anchor" id="Feedbacks"></a>Feedbacks</h1>
 <p >We appreciate collaborations and feedbacks from users. Please contact the maintainer <a href="https://weiming-hu.github.io">Weiming Hu</a> through <a href="weiming@psu.edu">weiming@psu.edu</a> or submit tickets if you have any problems.</p>
 <p >Thank you!</p>
 <div class="fragment"><div class="line"># &quot;`-&#39;&#39;-/&quot;).___..--&#39;&#39;&quot;`-._</div>
