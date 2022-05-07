@@ -1,4 +1,4 @@
-# PAnEn 4.4.3
+# PAnEn 4.4.5
 
 - From this version, only keeping notes for major and minor version. Notes for patches are dismissed.
 - Introduced spatial analogs with `PyTorch` and deep learning
