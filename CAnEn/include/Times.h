@@ -9,6 +9,7 @@
 #ifndef TIME_H
 #define TIME_H
 
+#include <vector>
 #include <string>
 #include <iostream>
 
