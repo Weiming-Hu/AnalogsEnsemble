@@ -18,7 +18,7 @@ file can be used by C++ utilities."><!-- mathjax --><script src="https://cdnjs.c
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAnEn</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">4.4.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">4.4.6</span>
       </span>
     </div>
 
@@ -49,14 +49,14 @@ file can be used by C++ utilities.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">writeNetCDF</span><span class="op">(</span>
-  <span class="va">file.type</span>,
-  <span class="va">obj</span>,
-  <span class="va">file.out</span>,
-  global.attrs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>author <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"RAnEn"</span>, <span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion</a></span><span class="op">(</span><span class="st">"RAnEn"</span><span class="op">)</span>,
-    <span class="st">"from GEOlab, Penn State"</span><span class="op">)</span>, Time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/format.html" class="external-link">format</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,
-  nchars.max <span class="op">=</span> <span class="fl">50</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">writeNetCDF</span><span class="op">(</span></span>
+<span>  <span class="va">file.type</span>,</span>
+<span>  <span class="va">obj</span>,</span>
+<span>  <span class="va">file.out</span>,</span>
+<span>  global.attrs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>author <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"RAnEn"</span>, <span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion</a></span><span class="op">(</span><span class="st">"RAnEn"</span><span class="op">)</span>,</span>
+<span>    <span class="st">"from GEOlab, Penn State"</span><span class="op">)</span>, Time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/format.html" class="external-link">format</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  nchars.max <span class="op">=</span> <span class="fl">50</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -64,19 +64,30 @@ file can be used by C++ utilities.</p>
     <dl><dt>file.type</dt>
 <dd><p>The type of the object to be written to a file. It only supports
 Observations and Forecasts for now.</p></dd>
+
+
 <dt>obj</dt>
 <dd><p>A list object to write into the file.</p></dd>
+
+
 <dt>file.out</dt>
 <dd><p>The output file path.</p></dd>
+
+
 <dt>nchars.max</dt>
 <dd><p>The maximum length of string.</p></dd>
+
+
 <dt>global.attr</dt>
 <dd><p>A list with names and values for global attributes. The values
 will be written as strings. Please make sure list members have names.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A boolean for whether the writing is complete.</p>
+    
+
+<p>A boolean for whether the writing is complete.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -104,11 +115,11 @@ following members:</p><ul><li><p>ParameterNames</p></li>
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by <a href="https://weiming.ddns.net" class="external-link">Weiming Hu</a>, <a href="http://geoinf.psu.edu/" class="external-link">Guido Cervone</a>, <a href="http://geoinf.psu.edu/" class="external-link">Laura Clemente-Harding</a>, <a href="http://geoinf.psu.edu/" class="external-link">Martina Calovi</a>.</p>
+  <p></p><p>Developed by <a href="https://weiming.ddns.net" class="external-link">Weiming Hu</a>, <a href="http://geoinf.psu.edu/" class="external-link">Guido Cervone</a>, Laura Clemente-Harding, <a href="http://geoinf.psu.edu/" class="external-link">Martina Calovi</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

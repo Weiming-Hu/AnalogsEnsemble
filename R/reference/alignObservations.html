@@ -18,7 +18,7 @@ format of a forecast for convenience of statistical analysis."><!-- mathjax --><
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAnEn</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">4.4.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">4.4.6</span>
       </span>
     </div>
 
@@ -49,40 +49,55 @@ format of a forecast for convenience of statistical analysis.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">alignObservations</span><span class="op">(</span>
-  <span class="va">observations</span>,
-  <span class="va">observation.times</span>,
-  <span class="va">forecast.times</span>,
-  <span class="va">flts</span>,
-  return.na.index <span class="op">=</span> <span class="cn">F</span>,
-  show.progress <span class="op">=</span> <span class="cn">F</span>,
-  silent <span class="op">=</span> <span class="cn">T</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">alignObservations</span><span class="op">(</span></span>
+<span>  <span class="va">observations</span>,</span>
+<span>  <span class="va">observation.times</span>,</span>
+<span>  <span class="va">forecast.times</span>,</span>
+<span>  <span class="va">flts</span>,</span>
+<span>  return.na.index <span class="op">=</span> <span class="cn">F</span>,</span>
+<span>  show.progress <span class="op">=</span> <span class="cn">F</span>,</span>
+<span>  silent <span class="op">=</span> <span class="cn">T</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>observations</dt>
 <dd><p>A 3-dimensional array for observations.</p></dd>
+
+
 <dt>observation.times</dt>
 <dd><p>The time of each observation. The length of
 times should equal the thrid dimension of observations.</p></dd>
+
+
 <dt>forecast.times</dt>
 <dd><p>The initial time for forecasts that you want to align
 observations with.</p></dd>
+
+
 <dt>flts</dt>
 <dd><p>The offset time in seconds that you want to align
 observations with.</p></dd>
+
+
 <dt>return.na.index</dt>
 <dd><p>Whether to return the NA index.</p></dd>
+
+
 <dt>show.progress</dt>
 <dd><p>A logical for whether to show the progress bar.</p></dd>
+
+
 <dt>silent</dt>
 <dd><p>No printing warning messages.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>If return.na.index is false, by default, it retuns the aligned observations;
+    
+
+<p>If return.na.index is false, by default, it retuns the aligned observations;
 otherwise, it returns a list with the aligned observations and a index matrix for which
 pair of forecast time/FLT could not be found in observation times provided.</p>
     </div>
@@ -117,11 +132,11 @@ be avoided in this format.</p>
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by <a href="https://weiming.ddns.net" class="external-link">Weiming Hu</a>, <a href="http://geoinf.psu.edu/" class="external-link">Guido Cervone</a>, <a href="http://geoinf.psu.edu/" class="external-link">Laura Clemente-Harding</a>, <a href="http://geoinf.psu.edu/" class="external-link">Martina Calovi</a>.</p>
+  <p></p><p>Developed by <a href="https://weiming.ddns.net" class="external-link">Weiming Hu</a>, <a href="http://geoinf.psu.edu/" class="external-link">Guido Cervone</a>, Laura Clemente-Harding, <a href="http://geoinf.psu.edu/" class="external-link">Martina Calovi</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

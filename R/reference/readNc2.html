@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAnEn</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">4.4.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">4.4.6</span>
       </span>
     </div>
 
@@ -47,22 +47,29 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">readNc2</span><span class="op">(</span><span class="va">file</span>, recursive <span class="op">=</span> <span class="cn">F</span>, read_attrs_as_vars <span class="op">=</span> <span class="cn">F</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">readNc2</span><span class="op">(</span><span class="va">file</span>, recursive <span class="op">=</span> <span class="cn">F</span>, read_attrs_as_vars <span class="op">=</span> <span class="cn">F</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>file</dt>
 <dd><p>The file to read</p></dd>
+
+
 <dt>recursive</dt>
 <dd><p>Whether to read variables recursively</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Optional arguments passed to <code>RNetCDF::var.get.nc</code></p></dd>
+
+
 <dt>read_attrs_vars</dt>
 <dd><p>Whether to read attributes. Make sure there are no
 name conflicts between attributes and variables. Only attributes under
 groups or in the root group are read. Attributes associated with variables
 are not read.</p></dd>
+
 </dl></div>
     <div id="author">
     <h2>Author</h2>
@@ -77,11 +84,11 @@ are not read.</p></dd>
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by <a href="https://weiming.ddns.net" class="external-link">Weiming Hu</a>, <a href="http://geoinf.psu.edu/" class="external-link">Guido Cervone</a>, <a href="http://geoinf.psu.edu/" class="external-link">Laura Clemente-Harding</a>, <a href="http://geoinf.psu.edu/" class="external-link">Martina Calovi</a>.</p>
+  <p></p><p>Developed by <a href="https://weiming.ddns.net" class="external-link">Weiming Hu</a>, <a href="http://geoinf.psu.edu/" class="external-link">Guido Cervone</a>, Laura Clemente-Harding, <a href="http://geoinf.psu.edu/" class="external-link">Martina Calovi</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

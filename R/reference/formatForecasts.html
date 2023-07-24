@@ -18,7 +18,7 @@ by analog computation."><!-- mathjax --><script src="https://cdnjs.cloudflare.co
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAnEn</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">4.4.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">4.4.6</span>
       </span>
     </div>
 
@@ -49,67 +49,98 @@ by analog computation.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">formatForecasts</span><span class="op">(</span>
-  <span class="va">df</span>,
-  <span class="va">col.par</span>,
-  <span class="va">col.x</span>,
-  <span class="va">col.y</span>,
-  <span class="va">col.time</span>,
-  <span class="va">col.lead.time</span>,
-  <span class="va">time.series</span>,
-  <span class="va">col.value</span>,
-  verbose <span class="op">=</span> <span class="cn">T</span>,
-  preview <span class="op">=</span> <span class="fl">2</span>,
-  remove.duplicates <span class="op">=</span> <span class="cn">T</span>,
-  circular.pars <span class="op">=</span> <span class="cn">NULL</span>,
-  col.station.name <span class="op">=</span> <span class="cn">NULL</span>,
-  show.progress <span class="op">=</span> <span class="cn">F</span>,
-  sort.stations <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">formatForecasts</span><span class="op">(</span></span>
+<span>  <span class="va">df</span>,</span>
+<span>  <span class="va">col.par</span>,</span>
+<span>  <span class="va">col.x</span>,</span>
+<span>  <span class="va">col.y</span>,</span>
+<span>  <span class="va">col.time</span>,</span>
+<span>  <span class="va">col.lead.time</span>,</span>
+<span>  <span class="va">time.series</span>,</span>
+<span>  <span class="va">col.value</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">T</span>,</span>
+<span>  preview <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  remove.duplicates <span class="op">=</span> <span class="cn">T</span>,</span>
+<span>  circular.pars <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  col.station.name <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  show.progress <span class="op">=</span> <span class="cn">F</span>,</span>
+<span>  sort.stations <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>df</dt>
 <dd><p>A data frame to be converted to an R list.</p></dd>
+
+
 <dt>col.par</dt>
 <dd><p>The column name for parameter names.</p></dd>
+
+
 <dt>col.x</dt>
 <dd><p>The column name for station x coordinates.</p></dd>
+
+
 <dt>col.y</dt>
 <dd><p>The column name for station y coordinates.</p></dd>
+
+
 <dt>col.time</dt>
 <dd><p>The column name for forecast cycle time. The column should be POSIXct.</p></dd>
+
+
 <dt>col.lead.time</dt>
 <dd><p>The column name for forecast lead time. The column should be numeric
 for the number of seconds from the forecast cycle time.</p></dd>
+
+
 <dt>time.series</dt>
 <dd><p>The forecast cycle times to be extract into AnEn Forecasts. This should
 be a POSIXct vector.</p></dd>
+
+
 <dt>col.value</dt>
 <dd><p>The column name for data values.</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p>Whether to print progress messages.</p></dd>
+
+
 <dt>preview</dt>
 <dd><p>How many entries to preview in progress messages.</p></dd>
+
+
 <dt>remove.duplicates</dt>
 <dd><p>Whether to remove redundant values associated
 with the same time. Sometimes, it is possible that, due to equipment mulfunctions,
 there are multiple measurements at the same time. Idealy this should cleaned prior
 to this function, but this function is able to keep the first appearance and remove
 the rest.</p></dd>
+
+
 <dt>circular.pars</dt>
 <dd><p>A character vector for the circular parameter names.</p></dd>
+
+
 <dt>col.station.name</dt>
 <dd><p>The column name for station names.</p></dd>
+
+
 <dt>show.progress</dt>
 <dd><p>Whether to show a progress bar.</p></dd>
+
+
 <dt>sort.stations</dt>
 <dd><p>Sort station. It can be <code>Xs</code>, <code>Ys</code>, or <code>StationNames</code> if it is set.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>An R list for AnEn Forecasts.</p>
+    
+
+<p>An R list for AnEn Forecasts.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -135,11 +166,11 @@ with <code>dplyr</code> functions.</p>
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by <a href="https://weiming.ddns.net" class="external-link">Weiming Hu</a>, <a href="http://geoinf.psu.edu/" class="external-link">Guido Cervone</a>, <a href="http://geoinf.psu.edu/" class="external-link">Laura Clemente-Harding</a>, <a href="http://geoinf.psu.edu/" class="external-link">Martina Calovi</a>.</p>
+  <p></p><p>Developed by <a href="https://weiming.ddns.net" class="external-link">Weiming Hu</a>, <a href="http://geoinf.psu.edu/" class="external-link">Guido Cervone</a>, Laura Clemente-Harding, <a href="http://geoinf.psu.edu/" class="external-link">Martina Calovi</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

@@ -39,7 +39,7 @@ title: R Documentation
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">RAnEn</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">4.4.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">4.4.6</span>
       </span>
     </div>
 
@@ -68,33 +68,41 @@ title: R Documentation
 <div class="page-header"><h1 id="panen-parallel-analog-ensemble">
 <a href="https://weiming-hu.github.io/AnalogsEnsemble/" class="external-link">PAnEn: Parallel Analog Ensemble</a><a class="anchor" aria-label="anchor" href="#panen-parallel-analog-ensemble"></a>
 </h1></div>
-
-<!-- vim-markdown-toc GitLab -->
-<ul>
-<li><a href="#overview">Overview</a></li>
-<li><a href="#citation">Citation</a></li>
+<p><a href="https://zenodo.org/badge/latestdoi/130093968" class="external-link"><img src="https://zenodo.org/badge/130093968.svg" alt="DOI"></a> <a href="https://opensource.org/licenses/MIT" class="external-link"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a> <a href="https://www.codacy.com/gh/Weiming-Hu/AnalogsEnsemble/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Weiming-Hu/AnalogsEnsemble&amp;utm_campaign=Badge_Grade" class="external-link"><img src="https://app.codacy.com/project/badge/Grade/e4b8f97d5f3a41029741579f648c8e38" alt="Codacy Badge"></a> <a href="https://github.com/Weiming-Hu/AnalogsEnsemble/actions?query=workflow%3A%22Build+C%2B%2B%22" class="external-link"><img src="https://github.com/Weiming-Hu/AnalogsEnsemble/workflows/Build%20C++/badge.svg" alt="Build C++"></a> <a href="https://github.com/Weiming-Hu/AnalogsEnsemble/actions/workflows/BuildR.yml" class="external-link"><img src="https://github.com/Weiming-Hu/AnalogsEnsemble/actions/workflows/BuildR.yml/badge.svg" alt="Build R"></a> <a href="https://codecov.io/gh/Weiming-Hu/AnalogsEnsemble" class="external-link"><img src="https://codecov.io/gh/Weiming-Hu/AnalogsEnsemble/branch/master/graph/badge.svg?token=tcGGOTyHHk" alt="codecov"></a> <a href="https://www.tidyverse.org/lifecycle/#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="lifecycle"></a> <a href="https://mybinder.org/v2/gh/Weiming-Hu/AnalogsEnsemble/master?urlpath=rstudio" class="external-link"><img src="https://mybinder.org/badge.svg" alt="Binder"></a> <a href="https://hub.docker.com/r/weiminghu123/panen" class="external-link"><img src="https://dockeri.co/image/weiminghu123/panen" alt="dockeri.co"></a></p>
+<!-- vscode-markdown-toc --><ul>
+<li><a href="#Overview">Overview</a></li>
+<li><a href="#Citation">Citation</a></li>
 <li>
-<a href="#installation">Installation</a>
-<ul>
-<li><a href="#ranen">RAnEn</a></li>
-<li><a href="#canen">CAnEn</a></li>
-<li><a href="#cmake-parameters">CMake Parameters</a></li>
-<li><a href="#high-performance-computing-and-supercomputers">High-Performance Computing and Supercomputers</a></li>
-<li><a href="#mpi-and-openmp">MPI and OpenMP</a></li>
+<a href="#Installation">Installation</a><ul>
+<li><a href="#RAnEn">RAnEn</a></li>
+<li>
+<a href="#CAnEn">CAnEn</a><ul>
+<li><a href="#DockerSingularity">Docker/Singularity</a></li>
+<li><a href="#FromSource">From Source</a></li>
 </ul>
 </li>
-<li><a href="#tutorials">Tutorials</a></li>
-<li><a href="#references">References</a></li>
-<li><a href="#feedbacks">Feedbacks</a></li>
+<li><a href="#CMakeParameters">CMake Parameters</a></li>
+<li><a href="#High-PerformanceComputingandSupercomputers">High-Performance Computing and Supercomputers</a></li>
+<li><a href="#MPIandOpenMP">MPI and OpenMP</a></li>
 </ul>
-<!-- vim-markdown-toc --><div class="section level2">
-<h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
+</li>
+<li><a href="#Tutorials">Tutorials</a></li>
+<li><a href="#References">References</a></li>
+<li><a href="#Feedbacks">Feedbacks</a></li>
+</ul>
+<!-- vscode-markdown-toc-config
+    numbering=false
+    autoSave=true
+    /vscode-markdown-toc-config --><!-- /vscode-markdown-toc --><div class="section level2">
+<h2 id="overview">
+<a name="Overview"></a>Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
 <p>Parallel Analog Ensemble (PAnEn) generates accurate forecast ensembles relying on a single deterministic model simulation and the historical observations. The technique was introduced by Luca Delle Monache et al. in the paper <a href="https://journals.ametsoc.org/doi/full/10.1175/MWR-D-12-00281.1" class="external-link">Probabilistic Weather Prediction with an Analog Ensemble</a>. Developed and maintained by <a href="http://geolab.psu.edu" class="external-link">GEOlab</a> at Penn State, PAnEn aims to provide an efficient implementation for this technique and user-friendly interfaces in R and C++ for researchers who want to use this technique in their own research.</p>
 <p>The easiest way to use this package is to install the R package, ‘RAnEn’. C++ libraries are also available but they are designed for intermediate users with requirement for performance. For installation guidance, please refer to the <a href="#installation">installation section</a>.</p>
 </div>
 <div class="section level2">
-<h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
+<h2 id="citation">
+<a name="Citation"></a>Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
 </h2>
 <p>To cite this package, you have several options:</p>
 <ul>
@@ -105,11 +113,13 @@ title: R Documentation
 <pre><code>Weiming Hu, Guido Cervone, Laura Clemente-Harding, and Martina Calovi. (2019). Parallel Analog Ensemble. Zenodo. http://doi.org/10.5281/zenodo.3384321</code></pre>
 </div>
 <div class="section level2">
-<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+<h2 id="installation">
+<a name="Installation"></a>Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
 <p><code>RAnEn</code> is very easy to install if you are already using <a href="https://www.r-project.org/" class="external-link">R</a>. This is the recommended way to start.</p>
 <div class="section level3">
-<h3 id="ranen">RAnEn<a class="anchor" aria-label="anchor" href="#ranen"></a>
+<h3 id="ranen">
+<a name="RAnEn"></a>RAnEn<a class="anchor" aria-label="anchor" href="#ranen"></a>
 </h3>
 <p><em>The command is the same for <code>RAnEn</code> installation and update.</em></p>
 <p>To install <code>RAnEn</code>, please install the following packages first:</p>
@@ -124,26 +134,24 @@ title: R Documentation
 </ul>
 <p>The following R command install the latest <code>RAnEn</code>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"https://github.com/Weiming-Hu/AnalogsEnsemble/raw/master/RAnalogs/releases/RAnEn_latest.tar.gz"</span>, repos <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"https://github.com/Weiming-Hu/AnalogsEnsemble/raw/master/RAnalogs/releases/RAnEn_latest.tar.gz"</span>, repos <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
 <p>That’s it. You are good to go. Please refer to <a href="#tutorials">tutorials</a> or the <a href="https://weiming-hu.github.io/AnalogsEnsemble/R/" class="external-link">R documentation</a> to learn more about using <code>RAnEn</code>. You might also want to install <a href="https://github.com/Weiming-Hu/RAnEnExtra" class="external-link">RAnEnExtra</a> package with functions for visualization and verification. After <code>RAnEn</code> installation, you can simply run <code>devtools::install_github("Weiming-Hu/RAnEnExtra")</code>.</p>
 <p><strong>Mac users</strong>: if the package shows that <code>OpenMP</code> is not supported. You can do one of the followings:</p>
-<ol style="list-style-type: decimal">
-<li>Avoid using Clang compilers and convert to GNU compilers. To change the compilers used by R, create a file <code>~/.R/Makevars</code> if you do not have it already and add the following content to it. Of course, change the compilers to what you have. If you do not have any alternative compilers other than Clang, <a href="https://brew.sh/" class="external-link">HomeBrew</a> is your friend.</li>
-</ol>
+<ol style="list-style-type: decimal"><li>Avoid using Clang compilers and convert to GNU compilers. To change the compilers used by R, create a file <code>~/.R/Makevars</code> if you do not have it already and add the following content to it. Of course, change the compilers to what you have. If you do not have any alternative compilers other than Clang, <a href="https://brew.sh/" class="external-link">HomeBrew</a> is your friend.</li></ol>
 <div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="va">CC</span><span class="op">=</span>gcc-8</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="va">CXX</span><span class="op">=</span>g++-8</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="va">CXX1X</span><span class="op">=</span>g++-8</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="va">CXX14</span><span class="op">=</span>g++-8</span></code></pre></div>
-<ol start="2" style="list-style-type: decimal">
-<li>You can also follow the instructions <a href="https://github.com/Rdatatable/data.table/wiki/Installation#openmp-enabled-compiler-for-mac" class="external-link">here</a> provided by <code>data.table</code>. They provide similar solutions but stick with Clang compilers.</li>
-</ol>
+<ol start="2" style="list-style-type: decimal"><li>You can also follow the instructions <a href="https://github.com/Rdatatable/data.table/wiki/Installation#openmp-enabled-compiler-for-mac" class="external-link">here</a> provided by <code>data.table</code>. They provide similar solutions but stick with Clang compilers.</li></ol>
 <p>After the installation, you can always revert back to your original setup and <code>RAnEn</code> will stay supported by <code>OpenMP</code>.</p>
 </div>
 <div class="section level3">
-<h3 id="canen">CAnEn<a class="anchor" aria-label="anchor" href="#canen"></a>
+<h3 id="canen">
+<a name="CAnEn"></a>CAnEn<a class="anchor" aria-label="anchor" href="#canen"></a>
 </h3>
 <div class="section level4">
-<h4 id="dockersingularity">Docker/Singularity<a class="anchor" aria-label="anchor" href="#dockersingularity"></a>
+<h4 id="dockersingularity">
+<a name="DockerSingularity"></a>Docker/Singularity<a class="anchor" aria-label="anchor" href="#dockersingularity"></a>
 </h4>
 <p>No installation is needed if you are already using <a href="https://www.docker.com/" class="external-link">docker</a> or <a href="https://sylabs.io/guides/2.6/user-guide/index.html#" class="external-link">singularity</a>. Docker images available <a href="https://hub.docker.com/r/weiminghu123/panen/tags" class="external-link">here</a> can be directly downloaded and used.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Download and run the docker image within docker</span></span>
@@ -156,7 +164,8 @@ title: R Documentation
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="ex">singularity</span> run docker://weiminghu123/panen:default</span></code></pre></div>
 </div>
 <div class="section level4">
-<h4 id="from-source">From Source<a class="anchor" aria-label="anchor" href="#from-source"></a>
+<h4 id="from-source">
+<a name="FromSource"></a>From Source<a class="anchor" aria-label="anchor" href="#from-source"></a>
 </h4>
 <p>To install the C++ libraries, please check the following dependencies.</p>
 <ul>
@@ -213,7 +222,8 @@ title: R Documentation
 </div>
 </div>
 <div class="section level3">
-<h3 id="cmake-parameters">CMake Parameters<a class="anchor" aria-label="anchor" href="#cmake-parameters"></a>
+<h3 id="cmake-parameters">
+<a name="CMakeParameters"></a>CMake Parameters<a class="anchor" aria-label="anchor" href="#cmake-parameters"></a>
 </h3>
 <p>Below is a list of parameters you can change and customize.</p>
 <table class="table">
@@ -294,12 +304,14 @@ title: R Documentation
 <p>You can change the default of the parameters, for example, <code>cmake -DCMAKE_INSTALL_PREFIX=~/AnalogEnsemble ..</code>. Don’t forget the extra letter <code>D</code> when specifying argument names.</p>
 </div>
 <div class="section level3">
-<h3 id="high-performance-computing-and-supercomputers">High-Performance Computing and Supercomputers<a class="anchor" aria-label="anchor" href="#high-performance-computing-and-supercomputers"></a>
+<h3 id="high-performance-computing-and-supercomputers">
+<a name="High-PerformanceComputingandSupercomputers"></a>High-Performance Computing and Supercomputers<a class="anchor" aria-label="anchor" href="#high-performance-computing-and-supercomputers"></a>
 </h3>
 <p><a href="https://github.com/Weiming-Hu/AnalogsEnsemble/issues/86" class="external-link">Here</a> is a list of instructions to build and install <code>AnEn</code> on supercomputers.</p>
 </div>
 <div class="section level3">
-<h3 id="mpi-and-openmp">MPI and OpenMP<a class="anchor" aria-label="anchor" href="#mpi-and-openmp"></a>
+<h3 id="mpi-and-openmp">
+<a name="MPIandOpenMP"></a>MPI and OpenMP<a class="anchor" aria-label="anchor" href="#mpi-and-openmp"></a>
 </h3>
 <pre><code>TL;DR
 
@@ -320,13 +332,15 @@ make sure you have the proper setup.</code></pre>
 </div>
 </div>
 <div class="section level2">
-<h2 id="tutorials">Tutorials<a class="anchor" aria-label="anchor" href="#tutorials"></a>
+<h2 id="tutorials">
+<a name="Tutorials"></a>Tutorials<a class="anchor" aria-label="anchor" href="#tutorials"></a>
 </h2>
 <p>Tutorials can be accessed on <a href="https://mybinder.org/v2/gh/Weiming-Hu/AnalogsEnsemble/master?urlpath=rstudio" class="external-link">binder</a> or be found in <a href="https://github.com/Weiming-Hu/AnalogsEnsemble/tree/master/RAnalogs/examples" class="external-link">this directory</a></p>
 <p>Here are also some tips and caveats in <a href="https://github.com/Weiming-Hu/AnalogsEnsemble/issues/81" class="external-link">this ticket</a>.</p>
 </div>
 <div class="section level2">
-<h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+<h2 id="references">
+<a name="References"></a>References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
 <ul>
 <li><a href="https://journals.ametsoc.org/doi/full/10.1175/MWR-D-12-00281.1" class="external-link">Delle Monache, Luca, et al. “Probabilistic weather prediction with an analog ensemble.” Monthly Weather Review 141.10 (2013): 3498-3516.</a></li>
@@ -338,28 +352,29 @@ make sure you have the proper setup.</code></pre>
 </ul>
 </div>
 <div class="section level2">
-<h2 id="feedbacks">Feedbacks<a class="anchor" aria-label="anchor" href="#feedbacks"></a>
+<h2 id="feedbacks">
+<a name="Feedbacks"></a>Feedbacks<a class="anchor" aria-label="anchor" href="#feedbacks"></a>
 </h2>
 <p>We appreciate collaborations and feedbacks from users. Please contact the maintainer <a href="https://weiming-hu.github.io" class="external-link">Weiming Hu</a> through <a href="weiming@psu.edu">weiming@psu.edu</a> or submit tickets if you have any problems.</p>
 <p>Thank you!</p>
-<pre><code><span class="co"># "`-''-/").___..--''"`-._</span>
-<span class="co">#  (`6_ 6  )   `-.  (     ).`-.__.`)   WE ARE ...</span>
-<span class="co">#  (_Y_.)'  ._   )  `._ `. ``-..-'    PENN STATE!</span>
-<span class="co">#    _ ..`--'_..-_/  /--'_.' ,'</span>
-<span class="co">#  (il),-''  (li),'  ((!.-'</span>
-<span class="co"># </span>
-<span class="co"># Authors: </span>
-<span class="co">#     Weiming Hu &lt;weiming@psu.edu&gt;</span>
-<span class="co">#     Guido Cervone &lt;cervone@psu.edu&gt;</span>
-<span class="co">#     Laura Clemente-Harding &lt;lec170@psu.edu&gt;</span>
-<span class="co">#     Martina Calovi &lt;mcalovi@psu.edu&gt;</span>
-<span class="co">#</span>
-<span class="co"># Contributors: </span>
-<span class="co">#     Luca Delle Monache</span>
-<span class="co">#         </span>
-<span class="co"># Geoinformatics and Earth Observation Laboratory (http://geolab.psu.edu)</span>
-<span class="co"># Department of Geography and Institute for CyberScience</span>
-<span class="co"># The Pennsylvania State University</span></code></pre>
+<pre><code><span><span class="co"># "`-''-/").___..--''"`-._</span></span>
+<span><span class="co">#  (`6_ 6  )   `-.  (     ).`-.__.`)   WE ARE ...</span></span>
+<span><span class="co">#  (_Y_.)'  ._   )  `._ `. ``-..-'    PENN STATE!</span></span>
+<span><span class="co">#    _ ..`--'_..-_/  /--'_.' ,'</span></span>
+<span><span class="co">#  (il),-''  (li),'  ((!.-'</span></span>
+<span><span class="co"># </span></span>
+<span><span class="co"># Authors: </span></span>
+<span><span class="co">#     Weiming Hu &lt;weiming@psu.edu&gt;</span></span>
+<span><span class="co">#     Guido Cervone &lt;cervone@psu.edu&gt;</span></span>
+<span><span class="co">#     Laura Clemente-Harding &lt;lec170@psu.edu&gt;</span></span>
+<span><span class="co">#     Martina Calovi &lt;mcalovi@psu.edu&gt;</span></span>
+<span><span class="co">#</span></span>
+<span><span class="co"># Contributors: </span></span>
+<span><span class="co">#     Luca Delle Monache</span></span>
+<span><span class="co">#         </span></span>
+<span><span class="co"># Geoinformatics and Earth Observation Laboratory (http://geolab.psu.edu)</span></span>
+<span><span class="co"># Department of Geography and Institute for CyberScience</span></span>
+<span><span class="co"># The Pennsylvania State University</span></span></code></pre>
 </div>
 </div>
   </div>
@@ -397,27 +412,13 @@ make sure you have the proper setup.</code></pre>
 <a href="https://weiming.ddns.net" class="external-link">Weiming Hu</a> <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0003-4501-1435" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 <li>
 <a href="http://geoinf.psu.edu/" class="external-link">Guido Cervone</a> <br><small class="roles"> Author </small>  </li>
-<li>
-<a href="http://geoinf.psu.edu/" class="external-link">Laura Clemente-Harding</a> <br><small class="roles"> Author </small>  </li>
+<li>Laura Clemente-Harding <br><small class="roles"> Author </small>  </li>
 <li>
 <a href="http://geoinf.psu.edu/" class="external-link">Martina Calovi</a> <br><small class="roles"> Author </small>  </li>
 </ul>
 </div>
 
-<div class="dev-status">
-<h2 data-toc-skip>Dev status</h2>
-<ul class="list-unstyled">
-<li><a href="https://zenodo.org/badge/latestdoi/130093968" class="external-link"><img src="https://zenodo.org/badge/130093968.svg" alt="DOI"></a></li>
-<li><a href="https://opensource.org/licenses/MIT" class="external-link"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a></li>
-<li><a href="https://www.codacy.com/gh/Weiming-Hu/AnalogsEnsemble/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Weiming-Hu/AnalogsEnsemble&amp;utm_campaign=Badge_Grade" class="external-link"><img src="https://app.codacy.com/project/badge/Grade/e4b8f97d5f3a41029741579f648c8e38" alt="Codacy Badge"></a></li>
-<li><a href="https://github.com/Weiming-Hu/AnalogsEnsemble/actions?query=workflow%3A%22Build+C%2B%2B%22" class="external-link"><img src="https://github.com/Weiming-Hu/AnalogsEnsemble/workflows/Build%20C++/badge.svg" alt="Build C++"></a></li>
-<li><a href="https://github.com/Weiming-Hu/AnalogsEnsemble/actions/workflows/BuildR.yml" class="external-link"><img src="https://github.com/Weiming-Hu/AnalogsEnsemble/actions/workflows/BuildR.yml/badge.svg" alt="Build R"></a></li>
-<li><a href="https://codecov.io/gh/Weiming-Hu/AnalogsEnsemble" class="external-link"><img src="https://codecov.io/gh/Weiming-Hu/AnalogsEnsemble/branch/master/graph/badge.svg?token=tcGGOTyHHk" alt="codecov"></a></li>
-<li><a href="https://www.tidyverse.org/lifecycle/#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="lifecycle"></a></li>
-<li><a href="https://mybinder.org/v2/gh/Weiming-Hu/AnalogsEnsemble/master?urlpath=rstudio" class="external-link"><img src="https://mybinder.org/badge.svg" alt="Binder"></a></li>
-<li><a href="https://hub.docker.com/r/weiminghu123/panen" class="external-link"><img src="https://dockeri.co/image/weiminghu123/panen" alt="dockeri.co"></a></li>
-</ul>
-</div>
+
 
   </div>
 </div>
@@ -425,12 +426,12 @@ make sure you have the proper setup.</code></pre>
 
       <footer><div class="copyright">
   <p></p>
-<p>Developed by <a href="https://weiming.ddns.net" class="external-link">Weiming Hu</a>, <a href="http://geoinf.psu.edu/" class="external-link">Guido Cervone</a>, <a href="http://geoinf.psu.edu/" class="external-link">Laura Clemente-Harding</a>, <a href="http://geoinf.psu.edu/" class="external-link">Martina Calovi</a>.</p>
+<p>Developed by <a href="https://weiming.ddns.net" class="external-link">Weiming Hu</a>, <a href="http://geoinf.psu.edu/" class="external-link">Guido Cervone</a>, Laura Clemente-Harding, <a href="http://geoinf.psu.edu/" class="external-link">Martina Calovi</a>.</p>
 </div>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>

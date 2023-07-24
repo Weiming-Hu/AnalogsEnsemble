@@ -5,6 +5,10 @@ sidebar_link: true
 ---
 
 
+# PAnEn 4.4.6
+
+- Added missing packages when compiling on Windows
+
 # PAnEn 4.4.5
 
 - From this version, only keeping notes for major and minor version. Notes for patches are dismissed.

@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAnEn</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">4.4.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">4.4.6</span>
       </span>
     </div>
 
@@ -47,21 +47,25 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">readNc</span><span class="op">(</span>
-  <span class="va">file</span>,
-  root_group_only <span class="op">=</span> <span class="cn">T</span>,
-  var_names <span class="op">=</span> <span class="cn">NULL</span>,
-  include_root_attrs <span class="op">=</span> <span class="cn">F</span>,
-  return_class <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">readNc</span><span class="op">(</span></span>
+<span>  <span class="va">file</span>,</span>
+<span>  root_group_only <span class="op">=</span> <span class="cn">T</span>,</span>
+<span>  var_names <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  include_root_attrs <span class="op">=</span> <span class="cn">F</span>,</span>
+<span>  return_class <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>file</dt>
 <dd><p>The file to read</p></dd>
+
+
 <dt>root_group_only</dt>
 <dd><p>Whether to read only root group variables</p></dd>
+
+
 <dt>var_names</dt>
 <dd><p>By default, <code>var_names</code> are set to <code>NULL</code> and this function
 reads all variables from the file. Set this argument if you only want to
@@ -70,11 +74,16 @@ read a subset of variables from the NetCDF file. If this argument is set,
 you need to also include the group name as if it was a folder,
 for exmple, <code>group_name/variable_name</code>. If <code>var_names</code> is a named vector,
 the names will be used in the list.</p></dd>
+
+
 <dt>include_root_attrs</dt>
 <dd><p>Whether to read the root group attributes.</p></dd>
+
+
 <dt>return_class</dt>
 <dd><p>Setting this argument to simply change the class
 of the returned list to support formatted output, e.g. <code>AnEn</code>.</p></dd>
+
 </dl></div>
     <div id="author">
     <h2>Author</h2>
@@ -89,11 +98,11 @@ of the returned list to support formatted output, e.g. <code>AnEn</code>.</p></d
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by <a href="https://weiming.ddns.net" class="external-link">Weiming Hu</a>, <a href="http://geoinf.psu.edu/" class="external-link">Guido Cervone</a>, <a href="http://geoinf.psu.edu/" class="external-link">Laura Clemente-Harding</a>, <a href="http://geoinf.psu.edu/" class="external-link">Martina Calovi</a>.</p>
+  <p></p><p>Developed by <a href="https://weiming.ddns.net" class="external-link">Weiming Hu</a>, <a href="http://geoinf.psu.edu/" class="external-link">Guido Cervone</a>, Laura Clemente-Harding, <a href="http://geoinf.psu.edu/" class="external-link">Martina Calovi</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

@@ -20,7 +20,7 @@ for small errors."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/aja
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAnEn</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">4.4.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">4.4.6</span>
       </span>
     </div>
 
@@ -53,34 +53,47 @@ for small errors.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">ncvar_get_times</span><span class="op">(</span>
-  <span class="va">nc</span>,
-  <span class="va">var_name</span>,
-  origin <span class="op">=</span> <span class="st">"1970-01-01"</span>,
-  tz <span class="op">=</span> <span class="st">"UTC"</span>,
-  to_posix <span class="op">=</span> <span class="cn">T</span>,
-  epsilon <span class="op">=</span> <span class="fl">1e-05</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ncvar_get_times</span><span class="op">(</span></span>
+<span>  <span class="va">nc</span>,</span>
+<span>  <span class="va">var_name</span>,</span>
+<span>  origin <span class="op">=</span> <span class="st">"1970-01-01"</span>,</span>
+<span>  tz <span class="op">=</span> <span class="st">"UTC"</span>,</span>
+<span>  to_posix <span class="op">=</span> <span class="cn">T</span>,</span>
+<span>  epsilon <span class="op">=</span> <span class="fl">1e-05</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>nc</dt>
 <dd><p>An object of class ncdf4 (as returned by either function nc_open or function nc_create), indicating what file to read from.</p></dd>
+
+
 <dt>var_name</dt>
 <dd><p>The variable name for <code>Times</code></p></dd>
+
+
 <dt>origin</dt>
 <dd><p>The origin used for converting to POSIX time</p></dd>
+
+
 <dt>tz</dt>
 <dd><p>The time zone</p></dd>
+
+
 <dt>to_posix</dt>
 <dd><p>Whether to convert times to POSIX</p></dd>
+
+
 <dt>epsilon</dt>
 <dd><p>The maximum reading error to correct. Otherwise, an error is thrown.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A vector of times</p>
+    
+
+<p>A vector of times</p>
     </div>
     <div id="author">
     <h2>Author</h2>
@@ -95,11 +108,11 @@ for small errors.</p>
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by <a href="https://weiming.ddns.net" class="external-link">Weiming Hu</a>, <a href="http://geoinf.psu.edu/" class="external-link">Guido Cervone</a>, <a href="http://geoinf.psu.edu/" class="external-link">Laura Clemente-Harding</a>, <a href="http://geoinf.psu.edu/" class="external-link">Martina Calovi</a>.</p>
+  <p></p><p>Developed by <a href="https://weiming.ddns.net" class="external-link">Weiming Hu</a>, <a href="http://geoinf.psu.edu/" class="external-link">Guido Cervone</a>, Laura Clemente-Harding, <a href="http://geoinf.psu.edu/" class="external-link">Martina Calovi</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

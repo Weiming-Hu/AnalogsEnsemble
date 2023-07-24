@@ -18,7 +18,7 @@ by analog computation."><!-- mathjax --><script src="https://cdnjs.cloudflare.co
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAnEn</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">4.4.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">4.4.6</span>
       </span>
     </div>
 
@@ -49,63 +49,92 @@ by analog computation.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">formatObservations</span><span class="op">(</span>
-  <span class="va">df</span>,
-  <span class="va">col.par</span>,
-  <span class="va">col.x</span>,
-  <span class="va">col.y</span>,
-  <span class="va">col.time</span>,
-  <span class="va">time.series</span>,
-  <span class="va">col.value</span>,
-  verbose <span class="op">=</span> <span class="cn">T</span>,
-  preview <span class="op">=</span> <span class="fl">2</span>,
-  remove.duplicates <span class="op">=</span> <span class="cn">T</span>,
-  circular.pars <span class="op">=</span> <span class="cn">NULL</span>,
-  col.station.name <span class="op">=</span> <span class="cn">NULL</span>,
-  show.progress <span class="op">=</span> <span class="cn">F</span>,
-  sort.stations <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">formatObservations</span><span class="op">(</span></span>
+<span>  <span class="va">df</span>,</span>
+<span>  <span class="va">col.par</span>,</span>
+<span>  <span class="va">col.x</span>,</span>
+<span>  <span class="va">col.y</span>,</span>
+<span>  <span class="va">col.time</span>,</span>
+<span>  <span class="va">time.series</span>,</span>
+<span>  <span class="va">col.value</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">T</span>,</span>
+<span>  preview <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  remove.duplicates <span class="op">=</span> <span class="cn">T</span>,</span>
+<span>  circular.pars <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  col.station.name <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  show.progress <span class="op">=</span> <span class="cn">F</span>,</span>
+<span>  sort.stations <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>df</dt>
 <dd><p>A data frame to be converted to an R list.</p></dd>
+
+
 <dt>col.par</dt>
 <dd><p>The column name for parameter names.</p></dd>
+
+
 <dt>col.x</dt>
 <dd><p>The column name for station x coordinates.</p></dd>
+
+
 <dt>col.y</dt>
 <dd><p>The column name for station y coordinates.</p></dd>
+
+
 <dt>col.time</dt>
 <dd><p>The column name for times. The column should be POSIXct.</p></dd>
+
+
 <dt>time.series</dt>
 <dd><p>The times to be extract into observations. This should
 be a POSIXct vector.</p></dd>
+
+
 <dt>col.value</dt>
 <dd><p>The column name for data values.</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p>Whether to print progress messages.</p></dd>
+
+
 <dt>preview</dt>
 <dd><p>How many entries to preview in progress messages.</p></dd>
+
+
 <dt>remove.duplicates</dt>
 <dd><p>Whether to remove redundant values associated
 with the same time. Sometimes, it is possible that, due to equipment mulfunctions,
 there are multiple measurements at the same time. Idealy this should cleaned prior
 to this function, but this function is able to keep the first appearance and remove
 the rest.</p></dd>
+
+
 <dt>circular.pars</dt>
 <dd><p>A character vector for the circular parameter names.</p></dd>
+
+
 <dt>col.station.name</dt>
 <dd><p>The column name for station names.</p></dd>
+
+
 <dt>show.progress</dt>
 <dd><p>Whether to show a progress bar.</p></dd>
+
+
 <dt>sort.stations</dt>
 <dd><p>Sort station. It can be <code>Xs</code>, <code>Ys</code>, or <code>StationNames</code> if it is set.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>An R list for observation data.</p>
+    
+
+<p>An R list for observation data.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -121,57 +150,57 @@ with <code>dplyr</code> functions.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="co"># How to download this file? Please see the tutorial</span></span>
-<span class="r-in"><span class="co"># https://github.com/Weiming-Hu/AnalogsEnsemble/blob/master/RAnalogs/examples/demo-5_observation-conversion.Rmd</span></span>
-<span class="r-in"><span class="co">#</span></span>
-<span class="r-in"><span class="va">obs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.table</a></span><span class="op">(</span><span class="st">'~/Desktop/hourly_44201_2019.csv'</span>,</span>
-<span class="r-in">                  sep <span class="op">=</span> <span class="st">','</span>, quote <span class="op">=</span> <span class="st">'"'</span>, header <span class="op">=</span> <span class="cn">T</span>, stringsAsFactors <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Sample data</span></span>
-<span class="r-in"><span class="va">df</span> <span class="op">&lt;-</span> <span class="va">obs</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">obs</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">floor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">obs</span><span class="op">)</span> <span class="op">*</span> <span class="fl">0.01</span><span class="op">)</span><span class="op">)</span>, <span class="op">]</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Create a POSIXct time</span></span>
-<span class="r-in"><span class="va">df</span><span class="op">$</span><span class="va">POSIX</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.POSIXlt.html" class="external-link">as.POSIXct</a></span><span class="op">(</span></span>
-<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">Date.GMT</span>, <span class="va">df</span><span class="op">$</span><span class="va">Time.GMT</span><span class="op">)</span>,</span>
-<span class="r-in">  format <span class="op">=</span> <span class="st">'%Y-%m-%d %H:%M'</span>, tz <span class="op">=</span> <span class="st">'UTC'</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Create unique station names</span></span>
-<span class="r-in"><span class="va">df</span><span class="op">$</span><span class="va">StationName</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span></span>
-<span class="r-in">  <span class="va">df</span><span class="op">$</span><span class="va">State.Name</span>, <span class="va">df</span><span class="op">$</span><span class="va">County.Name</span>, <span class="va">df</span><span class="op">$</span><span class="va">Site.Num</span>, sep <span class="op">=</span> <span class="st">'-'</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Create a target time series</span></span>
-<span class="r-in"><span class="va">time.series</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span></span>
-<span class="r-in">  from <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.POSIXlt.html" class="external-link">as.POSIXct</a></span><span class="op">(</span><span class="st">'2019-03-03'</span>, tz <span class="op">=</span> <span class="st">'UTC'</span><span class="op">)</span>,</span>
-<span class="r-in">  to <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.POSIXlt.html" class="external-link">as.POSIXct</a></span><span class="op">(</span><span class="st">'2019-06-03'</span>, tz <span class="op">=</span> <span class="st">'UTC'</span><span class="op">)</span>,</span>
-<span class="r-in">  by <span class="op">=</span> <span class="st">'hour'</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Format observations</span></span>
-<span class="r-in"><span class="va">observations</span> <span class="op">&lt;-</span> <span class="fu">formatObservations</span><span class="op">(</span></span>
-<span class="r-in">  df <span class="op">=</span> <span class="va">df</span>, col.par <span class="op">=</span> <span class="st">'Parameter.Name'</span>,</span>
-<span class="r-in">  col.x <span class="op">=</span> <span class="st">'Longitude'</span>, col.y <span class="op">=</span> <span class="st">'Latitude'</span>,</span>
-<span class="r-in">  col.time <span class="op">=</span> <span class="st">'POSIX'</span>, time.series <span class="op">=</span> <span class="va">time.series</span>,</span>
-<span class="r-in">  col.value <span class="op">=</span> <span class="st">'Sample.Measurement'</span>,</span>
-<span class="r-in">  circular.pars <span class="op">=</span> <span class="st">'Ozone'</span>,</span>
-<span class="r-in">  col.station.name <span class="op">=</span> <span class="st">'StationName'</span>,</span>
-<span class="r-in">  show.progress <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Check data</span></span>
-<span class="r-in"><span class="va">i.station</span> <span class="op">=</span> <span class="fl">50</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">observations</span><span class="op">$</span><span class="va">Times</span>,</span>
-<span class="r-in">     <span class="va">observations</span><span class="op">$</span><span class="va">Data</span><span class="op">[</span><span class="fl">1</span>, <span class="va">i.station</span>, <span class="op">]</span>,</span>
-<span class="r-in">     col <span class="op">=</span> <span class="st">'red'</span>, pch <span class="op">=</span> <span class="fl">16</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">df.sub</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span></span>
-<span class="r-in">  <span class="va">df</span>, <span class="va">Latitude</span> <span class="op">==</span> <span class="va">observations</span><span class="op">$</span><span class="va">Ys</span><span class="op">[</span><span class="va">i.station</span><span class="op">]</span> <span class="op">&amp;</span></span>
-<span class="r-in">    <span class="va">Longitude</span> <span class="op">==</span> <span class="va">observations</span><span class="op">$</span><span class="va">Xs</span><span class="op">[</span><span class="va">i.station</span><span class="op">]</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">df.sub</span> <span class="op">&lt;-</span> <span class="va">df.sub</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">order</a></span><span class="op">(</span><span class="va">df.sub</span><span class="op">$</span><span class="va">POSIX</span><span class="op">)</span>,<span class="op">]</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html" class="external-link">lines</a></span><span class="op">(</span><span class="va">df.sub</span><span class="op">$</span><span class="va">POSIX</span>, <span class="va">df.sub</span><span class="op">$</span><span class="va">Sample.Measurement</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Write formatted observations to a file</span></span>
-<span class="r-in"><span class="fu"><a href="writeNetCDF.html">writeNetCDF</a></span><span class="op">(</span><span class="st">'Observations'</span>, <span class="va">observations</span>, <span class="st">'~/Desktop/obs.nc'</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="co"># How to download this file? Please see the tutorial</span></span></span>
+<span class="r-in"><span><span class="co"># https://github.com/Weiming-Hu/AnalogsEnsemble/blob/master/RAnalogs/examples/demo-5_observation-conversion.Rmd</span></span></span>
+<span class="r-in"><span><span class="co">#</span></span></span>
+<span class="r-in"><span><span class="va">obs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.table</a></span><span class="op">(</span><span class="st">'~/Desktop/hourly_44201_2019.csv'</span>,</span></span>
+<span class="r-in"><span>                  sep <span class="op">=</span> <span class="st">','</span>, quote <span class="op">=</span> <span class="st">'"'</span>, header <span class="op">=</span> <span class="cn">T</span>, stringsAsFactors <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Sample data</span></span></span>
+<span class="r-in"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="va">obs</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">obs</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">floor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">obs</span><span class="op">)</span> <span class="op">*</span> <span class="fl">0.01</span><span class="op">)</span><span class="op">)</span>, <span class="op">]</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Create a POSIXct time</span></span></span>
+<span class="r-in"><span><span class="va">df</span><span class="op">$</span><span class="va">POSIX</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.POSIXlt.html" class="external-link">as.POSIXct</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">Date.GMT</span>, <span class="va">df</span><span class="op">$</span><span class="va">Time.GMT</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  format <span class="op">=</span> <span class="st">'%Y-%m-%d %H:%M'</span>, tz <span class="op">=</span> <span class="st">'UTC'</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Create unique station names</span></span></span>
+<span class="r-in"><span><span class="va">df</span><span class="op">$</span><span class="va">StationName</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">df</span><span class="op">$</span><span class="va">State.Name</span>, <span class="va">df</span><span class="op">$</span><span class="va">County.Name</span>, <span class="va">df</span><span class="op">$</span><span class="va">Site.Num</span>, sep <span class="op">=</span> <span class="st">'-'</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Create a target time series</span></span></span>
+<span class="r-in"><span><span class="va">time.series</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  from <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.POSIXlt.html" class="external-link">as.POSIXct</a></span><span class="op">(</span><span class="st">'2019-03-03'</span>, tz <span class="op">=</span> <span class="st">'UTC'</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  to <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.POSIXlt.html" class="external-link">as.POSIXct</a></span><span class="op">(</span><span class="st">'2019-06-03'</span>, tz <span class="op">=</span> <span class="st">'UTC'</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  by <span class="op">=</span> <span class="st">'hour'</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Format observations</span></span></span>
+<span class="r-in"><span><span class="va">observations</span> <span class="op">&lt;-</span> <span class="fu">formatObservations</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  df <span class="op">=</span> <span class="va">df</span>, col.par <span class="op">=</span> <span class="st">'Parameter.Name'</span>,</span></span>
+<span class="r-in"><span>  col.x <span class="op">=</span> <span class="st">'Longitude'</span>, col.y <span class="op">=</span> <span class="st">'Latitude'</span>,</span></span>
+<span class="r-in"><span>  col.time <span class="op">=</span> <span class="st">'POSIX'</span>, time.series <span class="op">=</span> <span class="va">time.series</span>,</span></span>
+<span class="r-in"><span>  col.value <span class="op">=</span> <span class="st">'Sample.Measurement'</span>,</span></span>
+<span class="r-in"><span>  circular.pars <span class="op">=</span> <span class="st">'Ozone'</span>,</span></span>
+<span class="r-in"><span>  col.station.name <span class="op">=</span> <span class="st">'StationName'</span>,</span></span>
+<span class="r-in"><span>  show.progress <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Check data</span></span></span>
+<span class="r-in"><span><span class="va">i.station</span> <span class="op">=</span> <span class="fl">50</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">observations</span><span class="op">$</span><span class="va">Times</span>,</span></span>
+<span class="r-in"><span>     <span class="va">observations</span><span class="op">$</span><span class="va">Data</span><span class="op">[</span><span class="fl">1</span>, <span class="va">i.station</span>, <span class="op">]</span>,</span></span>
+<span class="r-in"><span>     col <span class="op">=</span> <span class="st">'red'</span>, pch <span class="op">=</span> <span class="fl">16</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">df.sub</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">df</span>, <span class="va">Latitude</span> <span class="op">==</span> <span class="va">observations</span><span class="op">$</span><span class="va">Ys</span><span class="op">[</span><span class="va">i.station</span><span class="op">]</span> <span class="op">&amp;</span></span></span>
+<span class="r-in"><span>    <span class="va">Longitude</span> <span class="op">==</span> <span class="va">observations</span><span class="op">$</span><span class="va">Xs</span><span class="op">[</span><span class="va">i.station</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">df.sub</span> <span class="op">&lt;-</span> <span class="va">df.sub</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">order</a></span><span class="op">(</span><span class="va">df.sub</span><span class="op">$</span><span class="va">POSIX</span><span class="op">)</span>,<span class="op">]</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html" class="external-link">lines</a></span><span class="op">(</span><span class="va">df.sub</span><span class="op">$</span><span class="va">POSIX</span>, <span class="va">df.sub</span><span class="op">$</span><span class="va">Sample.Measurement</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Write formatted observations to a file</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="writeNetCDF.html">writeNetCDF</a></span><span class="op">(</span><span class="st">'Observations'</span>, <span class="va">observations</span>, <span class="st">'~/Desktop/obs.nc'</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -182,11 +211,11 @@ with <code>dplyr</code> functions.</p>
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by <a href="https://weiming.ddns.net" class="external-link">Weiming Hu</a>, <a href="http://geoinf.psu.edu/" class="external-link">Guido Cervone</a>, <a href="http://geoinf.psu.edu/" class="external-link">Laura Clemente-Harding</a>, <a href="http://geoinf.psu.edu/" class="external-link">Martina Calovi</a>.</p>
+  <p></p><p>Developed by <a href="https://weiming.ddns.net" class="external-link">Weiming Hu</a>, <a href="http://geoinf.psu.edu/" class="external-link">Guido Cervone</a>, Laura Clemente-Harding, <a href="http://geoinf.psu.edu/" class="external-link">Martina Calovi</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

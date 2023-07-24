@@ -18,7 +18,7 @@ If the fist exists, RAnEn::writeNcVar tries to append the variable to the existi
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAnEn</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">4.4.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">4.4.6</span>
       </span>
     </div>
 
@@ -49,21 +49,30 @@ If the fist exists, RAnEn::writeNcVar tries to append the variable to the existi
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">writeNcVar</span><span class="op">(</span><span class="va">variable_name</span>, <span class="va">variable_data</span>, <span class="va">dim_names</span>, <span class="va">nc_file</span>, verbose <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">writeNcVar</span><span class="op">(</span><span class="va">variable_name</span>, <span class="va">variable_data</span>, <span class="va">dim_names</span>, <span class="va">nc_file</span>, verbose <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>variable_name</dt>
 <dd><p>The name of the variable</p></dd>
+
+
 <dt>variable_data</dt>
 <dd><p>The data for the variable. It can be a vector, a matrix, or an array.</p></dd>
+
+
 <dt>dim_names</dt>
 <dd><p>The dimension names associated with the variable.</p></dd>
+
+
 <dt>nc_file</dt>
 <dd><p>The complete NetCDF file path</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p>Whether to be verbose</p></dd>
+
 </dl></div>
     <div id="details">
     <h2>Details</h2>
@@ -81,11 +90,11 @@ can be helpful when you are saving <code>AnEn</code> results from <code>RAnEn::g
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by <a href="https://weiming.ddns.net" class="external-link">Weiming Hu</a>, <a href="http://geoinf.psu.edu/" class="external-link">Guido Cervone</a>, <a href="http://geoinf.psu.edu/" class="external-link">Laura Clemente-Harding</a>, <a href="http://geoinf.psu.edu/" class="external-link">Martina Calovi</a>.</p>
+  <p></p><p>Developed by <a href="https://weiming.ddns.net" class="external-link">Weiming Hu</a>, <a href="http://geoinf.psu.edu/" class="external-link">Guido Cervone</a>, Laura Clemente-Harding, <a href="http://geoinf.psu.edu/" class="external-link">Martina Calovi</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

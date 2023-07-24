@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAnEn</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">4.4.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">4.4.6</span>
       </span>
     </div>
 
@@ -47,15 +47,15 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="co"># S3 method for Forecasts</span>
-<span class="fu">generateAnalogs</span><span class="op">(</span>
-  <span class="va">sx_forecasts</span>,
-  <span class="va">sx_observations</span>,
-  <span class="va">sx_test_times</span>,
-  <span class="va">sx_search_times</span>,
-  sx_config <span class="op">=</span> <span class="cn">NULL</span>,
-  sx_algorithm <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># S3 method for Forecasts</span></span>
+<span><span class="fu">generateAnalogs</span><span class="op">(</span></span>
+<span>  <span class="va">sx_forecasts</span>,</span>
+<span>  <span class="va">sx_observations</span>,</span>
+<span>  <span class="va">sx_test_times</span>,</span>
+<span>  <span class="va">sx_search_times</span>,</span>
+<span>  sx_config <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  sx_algorithm <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -63,22 +63,38 @@
     <dl><dt>sx_forecasts</dt>
 <dd><p>Forecasts. You can generate this by typing
 <code>forecasts &lt;- generateForecastsTemplate()</code>.</p></dd>
+
+
 <dt>sx_observations</dt>
 <dd><p>Observations. You can generate this by typing
 <code>observations &lt;- generateObservationsTemplate()</code></p></dd>
+
+
 <dt>sx_test_times</dt>
 <dd><p>Test times</p></dd>
+
+
 <dt>sx_search_times</dt>
 <dd><p>Search times</p></dd>
+
+
 <dt>sx_config</dt>
 <dd><p>A Config. You can generate this by typing <code>config &lt;- new(Config)</code></p></dd>
+
+
 <dt>sx_algorithm</dt>
 <dd><p><code>IS</code> for independent search or <code>SSE</code> for search
 space extension</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A list of results with class AnEn. You can type <code>print(AnEn)</code>to see a summary.</p>
+    
+
+<p>A list of results with class AnEn. You can type <code>print(AnEn)</code></p>
+
+
+<p>to see a summary.</p>
     </div>
 
   </div>
@@ -89,11 +105,11 @@ space extension</p></dd>
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by <a href="https://weiming.ddns.net" class="external-link">Weiming Hu</a>, <a href="http://geoinf.psu.edu/" class="external-link">Guido Cervone</a>, <a href="http://geoinf.psu.edu/" class="external-link">Laura Clemente-Harding</a>, <a href="http://geoinf.psu.edu/" class="external-link">Martina Calovi</a>.</p>
+  <p></p><p>Developed by <a href="https://weiming.ddns.net" class="external-link">Weiming Hu</a>, <a href="http://geoinf.psu.edu/" class="external-link">Guido Cervone</a>, Laura Clemente-Harding, <a href="http://geoinf.psu.edu/" class="external-link">Martina Calovi</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

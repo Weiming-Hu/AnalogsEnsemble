@@ -18,7 +18,7 @@ that are associated with each analog members."><!-- mathjax --><script src="http
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAnEn</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">4.4.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">4.4.6</span>
       </span>
     </div>
 
@@ -49,43 +49,62 @@ that are associated with each analog members.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">toMemberForecasts</span><span class="op">(</span>
-  <span class="va">forecasts</span>,
-  <span class="va">sims.time.index</span>,
-  sims.stations.index <span class="op">=</span> <span class="cn">NULL</span>,
-  stations.index <span class="op">=</span> <span class="fl">1</span>,
-  test.times.index <span class="op">=</span> <span class="fl">1</span>,
-  flts.index <span class="op">=</span> <span class="fl">1</span>,
-  members.index <span class="op">=</span> <span class="cn">NULL</span>,
-  parameters.index <span class="op">=</span> <span class="cn">NULL</span>,
-  verbose <span class="op">=</span> <span class="cn">T</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">toMemberForecasts</span><span class="op">(</span></span>
+<span>  <span class="va">forecasts</span>,</span>
+<span>  <span class="va">sims.time.index</span>,</span>
+<span>  sims.stations.index <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  stations.index <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  test.times.index <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  flts.index <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  members.index <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  parameters.index <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">T</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>forecasts</dt>
 <dd><p>The Data from Forecasts. Usually it is a 4D array.</p></dd>
+
+
 <dt>sims.time.index</dt>
 <dd><p>The similarity time index array from AnEn.</p></dd>
+
+
 <dt>sims.stations.index</dt>
 <dd><p>The similarity station index array from AnEn.</p></dd>
+
+
 <dt>stations.index</dt>
 <dd><p>The station index of the analogs.</p></dd>
+
+
 <dt>test.times.index</dt>
 <dd><p>The test time index of the analogs.</p></dd>
+
+
 <dt>flts.index</dt>
 <dd><p>The forecast lead time index of the analogs.</p></dd>
+
+
 <dt>members.index</dt>
 <dd><p>The analog members index.</p></dd>
+
+
 <dt>parameters.index</dt>
 <dd><p>The forecast parameters index.</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p>Whether to show progress and summary information</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A 5 dimensional array with the shape <code>[parameters][stations][times][flts][members]</code>.</p>
+    
+
+<p>A 5 dimensional array with the shape <code>[parameters][stations][times][flts][members]</code>.</p>
     </div>
     <div id="author">
     <h2>Author</h2>
@@ -101,11 +120,11 @@ that are associated with each analog members.</p>
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by <a href="https://weiming.ddns.net" class="external-link">Weiming Hu</a>, <a href="http://geoinf.psu.edu/" class="external-link">Guido Cervone</a>, <a href="http://geoinf.psu.edu/" class="external-link">Laura Clemente-Harding</a>, <a href="http://geoinf.psu.edu/" class="external-link">Martina Calovi</a>.</p>
+  <p></p><p>Developed by <a href="https://weiming.ddns.net" class="external-link">Weiming Hu</a>, <a href="http://geoinf.psu.edu/" class="external-link">Guido Cervone</a>, Laura Clemente-Harding, <a href="http://geoinf.psu.edu/" class="external-link">Martina Calovi</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>
