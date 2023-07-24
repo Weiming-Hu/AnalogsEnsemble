@@ -1,45 +1,42 @@
 repo:
-    url:
-        home: https://weiming-hu.github.io/AnalogsEnsemble/
-        source: https://github.com/Weiming-Hu/AnalogsEnsemble/blob/master/RAnalogs/RAnEn/
-        issue: https://github.com/Weiming-Hu/AnalogsEnsemble/issues/
-        user: https://github.com/Weiming-Hu/
+  url:
+    home: https://weiming-hu.github.io/AnalogsEnsemble/
+    source: https://github.com/Weiming-Hu/AnalogsEnsemble/blob/master/RAnalogs/RAnEn/
+    issue: https://github.com/Weiming-Hu/AnalogsEnsemble/issues/
+    user: https://github.com/Weiming-Hu/
 
 authors:
-    Weiming Hu:
-        href: https://weiming.ddns.net
-
-    Guido Cervone:
-        href: http://geoinf.psu.edu/
-
-    Laura Clemente-Harding:
-        href: http://geoinf.psu.edu/
-
-    Martina Calovi:
-        href: http://geoinf.psu.edu/
+  Weiming Hu:
+    href: https://weiming.ddns.net
+  Guido Cervone:
+    href: http://geoinf.psu.edu/
+  Laura Clemente:
+    href: http://geoinf.psu.edu/
+  Martina Calovi:
+    href: http://geoinf.psu.edu/
 
 reference:
-    - title: Analog Ensemble Computation
-      desc: Functions to generate ensemble forecasts.
-      contents:
-          - starts_with("generate")
+- title: Analog Ensemble Computation
+  desc: Functions to generate ensemble forecasts.
+- contents:
+  - starts_with("generate")
 
-    - title: File I/O
-      desc: Functions for reading and writing.
-      contents:
-          - starts_with("read")
-          - starts_with("write")
+- title: File I/O
+  desc: Functions for reading and writing.
+- contents:
+  - starts_with("read")
+  - starts_with("write")
 
-    - title : Helpers
-      desc: Helper function
-      contents:
-          - alignObservations
-          - formatObservations
-          - formatForecasts
-          - sortStations
-          - toMemberForecasts
-          - toForecastTime
-          - checkOpenMP
-          - setNumThreads
-          - getNumThreads
-          - ncvar_get_times
+- title : Helpers
+  desc: Helper function
+- contents:
+  - alignObservations
+  - formatObservations
+  - formatForecasts
+  - sortStations
+  - toMemberForecasts
+  - toForecastTime
+  - checkOpenMP
+  - setNumThreads
+  - getNumThreads
+  - ncvar_get_times
