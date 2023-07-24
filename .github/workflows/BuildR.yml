@@ -14,7 +14,7 @@ jobs:
     
     steps:
       - uses: actions/checkout@v2
-      - uses: r-lib/actions/setup-r@v1
+      - uses: r-lib/actions/setup-r@v2
         
       - name: Install NetCDF when necessary 
         run: if [ '${{ matrix.os }}' == 'ubuntu-latest' ]; then sudo apt-get install libnetcdf-dev libnetcdf-c++4-dev; fi
